@@ -6,6 +6,7 @@ namespace CardGames
     {
         public static void Main(string[] args)
         {
+            var cGame = new CardGame();
             Console.WriteLine("Hello World");
             Console.ReadLine();
         }
