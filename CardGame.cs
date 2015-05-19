@@ -1,6 +1,6 @@
 using System;
 public class CardGame{
 	public CardGame(){
-		Console.Write("New Game");
+		Console.Write("New Game2");
 	}
 }
