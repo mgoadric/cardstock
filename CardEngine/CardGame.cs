@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace CardEngine
 {
 	public class CardGame{
-		List<Card> sourceDeck = new List<Card>();
+		public List<Card> sourceDeck = new List<Card>();
 		List<Card> remainingCards = new List<Card>();
 		public List<Player> players = new List<Player>();
 		RawStorage gameStorage = new RawStorage();
