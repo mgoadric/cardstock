@@ -8,6 +8,7 @@
         "dnx451": {},
         "dnxcore50": {
             "dependencies": {
+                "System.Runtime.Extensions": "4.0.10-beta-22816",
                 "System.Console": "4.0.0-beta-*",
                 "System.Collections": "4.0.10-beta-*"
                
