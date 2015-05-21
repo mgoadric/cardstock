@@ -1,15 +1,12 @@
 using System.Collections.Generic;
 namespace CardEngine{
 	public class Card{
-		Dictionary<string,string> attributes; 
-		public Card(Dictionary<string,string> atts){
+		public Node attributes;
+		public Card(Node atts){
 			attributes = atts;
 		}
 		public override string ToString(){
-			string ret = "";
-			foreach (var key in attributes.Keys){
-				ret += " " + attributes[key];
-			}
+			string ret = attributes.ToString();
 			return ret;
 		}
 	}
