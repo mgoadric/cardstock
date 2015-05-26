@@ -11,6 +11,12 @@ public class Spades{
 	public Spades(){
 		
 		// PREAMBLE: Define the DECK of cards based on a tree structure
+		//
+		// TODO: Push this code inside the CardGame class, to read a string like below
+		// 
+		// (tree (rank (2 3 4 5 6 7 8 9 10 J Q K)
+		// 		 (color (red (hearts diamonds)
+		//		  		(black (clubs spades))))
 		var red = new Node{
 			Value = "red",
 			children = new List<Node>{
@@ -107,7 +113,7 @@ public class Spades{
 			comboDict.Add(suit + rank,card);
 		}
 		
-		// STAGE 0: SETUP
+		// STAGE 0: SETUP STORAGE and DEAL
 		game.DealEvery(13);
 		
 		Dictionary<String, int> StoreNames = new Dictionary<String, int>{
@@ -128,16 +134,18 @@ public class Spades{
 			},"spades",false,"suit")
 		});
 				
-		// STAGE 1: PLAY ROUNDS UNTIL ALL CARDS USED
+		// STAGE 1: BIDDING
+				
+		// STAGE 2: PLAY ROUNDS UNTIL ALL CARDS USED
 		bool stage1Complete = false;
 		while (!stage1Complete){
 			
-			// STAGE 1 END CONDITION
+			// STAGE 2 END CONDITION
 			if (game.GetValue(StoreNames["CURRENTHAND"]) == 13) {
 				stage1Complete = true;
 			} else {
 				
-				// STAGE 1.1: EACH PLAYER PLAYS ONE CARD
+				// STAGE 2.1: EACH PLAYER PLAYS ONE CARD
 				if (game.GetValue(StoreNames["PLAYERTURN"]) == 0){
 					var played = game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),noSpades);
 					if (!played){
@@ -203,7 +211,7 @@ public class Spades{
 						//Console.WriteLine("Card:" + card.ToString());
 					}
 					
-					// Determine who won the trick
+					// STAGE 2.2: Determine who WON the trick
 					
 					var winningPlayer = 0;
 					var winningIdx = int.MaxValue;
