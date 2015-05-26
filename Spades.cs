@@ -112,8 +112,8 @@ public class Spades{
 		game.SetValue(2,0);//Current Players Turn
 		game.SetValue(3,0);//Current Hand
 		
-		var noSpades = new CardFilter(new List<TreeDirections>{
-			new TreeDirections(new List<int>{
+		var noSpades = new CardFilter(new List<TreeExpression>{
+			new TreeExpression(new List<int>{
 				0
 			},"spades",false,"suit")
 		});
@@ -122,7 +122,7 @@ public class Spades{
 		bool stage1Complete = false;
 		while (!stage1Complete){
 			
-			if (game.GetValue(3) != 13) {
+			if (game.GetValue(3) == 13) {
 				stage1Complete = true;
 			} else {
 			if (game.GetValue(1) == 0){
