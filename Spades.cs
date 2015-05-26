@@ -63,6 +63,12 @@ public class Spades{
 		var game = new CardGame(numPlayers);
 		game.SetDeck(t);
 		
+		//Instantiate Player Decks and Play Areas
+		foreach (var player in game.players){
+			player.cardBins.storage[0] = new CardListCollection();
+			player.cardBins.storage[1] = new CardStackCollection();
+		}
+		
 		// Establish PRECEDENCE for the cards.
 		List<CardFilter> precGen = new List<CardFilter>();
 		
@@ -147,20 +153,20 @@ public class Spades{
 				
 				// STAGE 2.1: EACH PLAYER PLAYS ONE CARD
 				if (game.GetValue(StoreNames["PLAYERTURN"]) == 0){
-					var played = game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),noSpades);
+					var played = game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),noSpades,0,1);
 					if (!played){
-						game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),new CardFilter(new List<TreeExpression>()));
+						game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),new CardFilter(new List<TreeExpression>()),0,1);
 					}			
 				}
 				else{
 					var followSuit = new CardFilter(new List<TreeExpression>{
 					new TreeExpression(new List<int>{
 					0
-					},game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].visibleCards[game.GetValue(StoreNames["CURRENTHAND"])].attributes.children[0].Value,true,"suit")
+					},game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].cardBins.storage[1].AllCards().Last().attributes.children[0].Value,true,"suit")
 			});
-					var played = game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),followSuit);
+					var played = game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),followSuit,0,1);
 					if (!played){
-						game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),new CardFilter(new List<TreeExpression>()));
+						game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),new CardFilter(new List<TreeExpression>()),0,1);
 					}
 				}
 				game.IncrValue(StoreNames["PLAYERTURN"], 1);
@@ -173,7 +179,7 @@ public class Spades{
 					foreach (var filter in precendence){
 						foreach (var treeDirection in filter.filters){
 							if (treeDirection.expectedValue == "LEAD"){
-								treeDirection.expectedValue = game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].visibleCards[game.GetValue(StoreNames["CURRENTHAND"])].attributes.children[0].Value;
+								treeDirection.expectedValue = game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].cardBins.storage[1].AllCards().Last().attributes.children[0].Value;
 								//Console.WriteLine("treeValue:" + treeDirection.expectedValue);
 							}
 						}
@@ -218,7 +224,7 @@ public class Spades{
 					for (int i = 0; i < numPlayers; ++i){
 						//Console.WriteLine("PrecIdx:" + );
 						var player = game.players[i];
-						var precedenceIdx = orderedCards.IndexOf(player.visibleCards[player.visibleCards.Count - 1]);
+						var precedenceIdx = orderedCards.IndexOf(player.cardBins.storage[1].AllCards().Last());
 						if (precedenceIdx >= 0 && precedenceIdx < winningIdx){
 							winningPlayer = i;
 							winningIdx = precedenceIdx;
@@ -226,7 +232,7 @@ public class Spades{
 					}
 					Console.WriteLine("Winner: Player " + (winningPlayer + 1));
 					foreach (var p in game.players){
-						Console.Write("Player:" + p.visibleCards[p.visibleCards.Count - 1].ToString() + "\n");
+						Console.Write("Player:" + p.cardBins.storage[1].AllCards().Last().ToString() + "\n");
 					}
 					game.SetValue(StoreNames["PLAYERTURN"], 0);//Runs 0->3 everytime
 					game.SetValue(StoreNames["CURRENTPLAYER"], winningPlayer);//Should be winner

@@ -3,22 +3,16 @@ using System;
 namespace CardEngine
 {
 	public class Player{
-		public List<Card> hand = new List<Card>();
-		public List<Card> visibleCards = new List<Card>();
 		public RawStorage storage = new RawStorage();
+		public CardStorage cardBins = new CardStorage();
 		public Player(){
 			
 		}
-		public void DealCard(Card c){
-			hand.Add(c);
+		public void AddCard(Card c,int idx){
+			cardBins.storage[idx].Add(c);
 		}
-		public Card CardForFilter(CardFilter description){
-			foreach (var c in hand){
-				if (description.CardConforms(c)){
-					return c;
-				}
-			}
-			return null;
+		public Card RemoveCard(int idx){
+			return cardBins.storage[idx].Remove();
 		}
 		public int MakeAction(List<GameAction> possibles){
 			var rand = new Random();
@@ -26,7 +20,7 @@ namespace CardEngine
 		}
 		public override string ToString(){
 			string ret = "Player:\n";
-			foreach (var card in hand){
+			foreach (var card in cardBins.storage[0].AllCards()){
 				ret += "Card:" + card.ToString() + "\n";
 			}
 			return ret;

@@ -15,9 +15,9 @@ namespace CardEngine{
 			}
 			return ret;
 		}
-		public List<Card> FilterMatchesAll(List<Card> cards){
-			var ret = new List<Card>();
-			foreach (var c in cards){
+		public CardCollection FilterMatchesAll(CardCollection cards){
+			var ret = new CardListCollection();
+			foreach (var c in cards.AllCards()){
 				if (CardConforms(c)){
 					ret.Add(c);
 				}

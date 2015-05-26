@@ -29,7 +29,7 @@ namespace CardEngine
 				for (int j = 0; j < players.Count; ++j){
 					
 					var randomIdx = rand.Next(0,remainingCards.Count);
-					players[j].DealCard(remainingCards[randomIdx]);
+					players[j].AddCard(remainingCards[randomIdx],0);
 					remainingCards.RemoveAt(randomIdx);
 				}
 			}
@@ -43,14 +43,14 @@ namespace CardEngine
 		public void IncrValue(int idx, int incr){
 			gameStorage.storage[idx] += incr;
 		}
-		public bool PlayerRevealCard(int player, CardFilter filter){
+		public bool PlayerRevealCard(int player, CardFilter filter, int startDeck, int endDeck){
 			var p = players[player];
 			
-			var poss = filter.FilterMatchesAll(p.hand);
-			if (poss.Count !=  0){
+			var poss = filter.FilterMatchesAll(p.cardBins.storage[startDeck]);
+			if ((new List<Card>(poss.AllCards())).Count !=  0){
 				var actions = new List<GameAction>();
-				foreach (var c in poss){
-					actions.Add(new CardMoveAction(c,p.hand,p.visibleCards));
+				foreach (var c in poss.AllCards()){
+					actions.Add(new CardMoveAction(c,p.cardBins.storage[startDeck],p.cardBins.storage[endDeck]));
 				}
 				var choice = p.MakeAction(actions);
 				actions[choice].Execute();
