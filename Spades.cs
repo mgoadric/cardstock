@@ -221,7 +221,7 @@ public class Spades{
 					for (int i = 0; i < numPlayers; ++i){
 						//Console.WriteLine("PrecIdx:" + );
 						var player = game.players[i];
-						var precedenceIdx = orderedCards.IndexOf(player.cardBins.storage[1].AllCards().Last());
+						var precedenceIdx = orderedCards.IndexOf(player.cardBins.storage[1].AllCards().First());
 						if (precedenceIdx >= 0 && precedenceIdx < winningIdx){
 							winningPlayer = i;
 							winningIdx = precedenceIdx;
@@ -229,7 +229,7 @@ public class Spades{
 					}
 					Console.WriteLine("Winner: Player " + (winningPlayer + 1));
 					foreach (var p in game.players){
-						Console.Write("Player:" + p.cardBins.storage[1].AllCards().Last().ToString() + "\n");
+						Console.Write("Player:" + p.cardBins.storage[1].AllCards().First().ToString() + "\n");
 					}
 					game.SetValue(StoreNames["PLAYERTURN"], 0);//Runs 0->3 everytime
 					game.SetValue(StoreNames["CURRENTPLAYER"], winningPlayer);//Should be winner
