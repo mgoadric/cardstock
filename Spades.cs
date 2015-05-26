@@ -54,11 +54,6 @@ public class Spades{
 		int numPlayers = 4;
 		var game = new CardGame(numPlayers);
 		game.SetDeck(t);
-		var noSpades = new CardFilter(new List<TreeExpression>{
-			new TreeExpression(new List<int>{
-				0
-			},"spades",false,"suit")
-		});
 		
 		// Establish PRECEDENCE for the cards.
 		List<CardFilter> precGen = new List<CardFilter>();
