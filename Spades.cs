@@ -7,6 +7,8 @@ using System.Diagnostics;
 
 public class Spades{
 	public Spades(){
+		
+		// PREAMBLE: Define the DECK of cards based on a tree structure
 		var red = new Node{
 			Value = "red",
 			children = new List<Node>{
@@ -43,23 +45,17 @@ public class Spades{
 				}
 			}
 		};
+		
+		// Here for timing estimates right now
 		Stopwatch time = new Stopwatch();
 		time.Start();
-		var game = new CardGame(4);
+		
+		// READ NUMBER OF PLAYERS and CREATE THE GAME
+		int numPlayers = 4;
+		var game = new CardGame(numPlayers);
 		game.SetDeck(t);
-		game.DealEvery(13);
-		game.SetValue(0,0);//SPADES BROKEN = FALSE
-		game.SetValue(1,0);//Play Turn within hand
-		game.SetValue(2,0);//Current Players Turn
-		game.SetValue(3,0);//Current Hand
 		
-		var noSpades = new CardFilter(new List<TreeDirections>{
-			new TreeDirections(new List<int>{
-				0
-			},"spades",false,"suit")
-		});
-		
-		//precedence
+		// Establish PRECEDENCE for the cards.
 		List<CardFilter> precGen = new List<CardFilter>();
 		
 		var suits = new List<string>{"spades","LEAD"};
@@ -109,8 +105,26 @@ public class Spades{
 			comboDict.Add(suit + rank,card);
 		}
 		
+		// STAGE 0: SETUP
+		game.DealEvery(13);
+		game.SetValue(0,0);//SPADES BROKEN = FALSE
+		game.SetValue(1,0);//Play Turn within hand
+		game.SetValue(2,0);//Current Players Turn
+		game.SetValue(3,0);//Current Hand
 		
-		while (game.GetValue(3) != 13){
+		var noSpades = new CardFilter(new List<TreeDirections>{
+			new TreeDirections(new List<int>{
+				0
+			},"spades",false,"suit")
+		});
+				
+		// STAGE 1: PLAY ROUNDS UNTIL ALL CARDS USED
+		bool stage1Complete = false;
+		while (!stage1Complete){
+			
+			if (game.GetValue(3) != 13) {
+				stage1Complete = true;
+			} else {
 			if (game.GetValue(1) == 0){
 				var played = game.PlayerRevealCard(game.GetValue(2),noSpades);
 				if (!played){
@@ -194,6 +208,7 @@ public class Spades{
 				game.SetValue(1,0);//Runs 0->3 everytime
 				game.SetValue(2,winningPlayer);//Should be winner
 				game.SetValue(3,game.GetValue(3) + 1);//Current Hand
+			}
 			}
 			
 		}
