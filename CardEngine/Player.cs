@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 namespace CardEngine
 {
 	public class Player{
@@ -17,6 +18,10 @@ namespace CardEngine
 				}
 			}
 			return null;
+		}
+		public int MakeAction(List<GameAction> possibles){
+			var rand = new Random();
+			return rand.Next(0,possibles.Count);
 		}
 		public override string ToString(){
 			string ret = "Player:\n";

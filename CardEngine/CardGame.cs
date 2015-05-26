@@ -42,10 +42,15 @@ namespace CardEngine
 		}
 		public bool PlayerRevealCard(int player, CardFilter filter){
 			var p = players[player];
-			var card = p.CardForFilter(filter);
-			if (card != null){
-				var cardAction = new CardMoveAction(card,p.hand,p.visibleCards);
-				cardAction.Execute();
+			
+			var poss = filter.FilterMatchesAll(p.hand);
+			if (poss.Count !=  0){
+				var actions = new List<GameAction>();
+				foreach (var c in poss){
+					actions.Add(new CardMoveAction(c,p.hand,p.visibleCards));
+				}
+				var choice = p.MakeAction(actions);
+				actions[choice].Execute();
 				return true;
 			}
 			return false;
