@@ -29,7 +29,7 @@ namespace CardEngine
 				for (int j = 0; j < players.Count; ++j){
 					
 					var randomIdx = rand.Next(0,remainingCards.Count);
-					players[j].DealCard(remainingCards[randomIdx]);
+					players[j].AddCard(remainingCards[randomIdx],0);
 					remainingCards.RemoveAt(randomIdx);
 				}
 			}

@@ -55,6 +55,12 @@ public class Spades{
 		var game = new CardGame(numPlayers);
 		game.SetDeck(t);
 		
+		//Instantiate Player Decks and Play Areas
+		foreach (var player in game.players){
+			player.cardBins.storage[0] = new CardListCollection();
+			player.cardBins.storage[1] = new CardStackCollection();
+		}
+		
 		// Establish PRECEDENCE for the cards.
 		List<CardFilter> precGen = new List<CardFilter>();
 		
