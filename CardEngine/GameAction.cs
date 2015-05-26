@@ -9,9 +9,9 @@ namespace CardEngine{
 	}
 	public class CardMoveAction : GameAction{
 		Card cardToMove;
-		List<Card> startLocation;
-		List<Card> endLocation;
-		public CardMoveAction(Card c, List<Card> start, List<Card> end){
+		CardCollection startLocation;
+		CardCollection endLocation;
+		public CardMoveAction(Card c,CardCollection start, CardCollection end){
 			cardToMove = c;
 			startLocation = start;
 			endLocation = end;
