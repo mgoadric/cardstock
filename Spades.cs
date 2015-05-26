@@ -149,11 +149,14 @@ public class Spades{
 		while (!stage2Complete){
 			
 			// STAGE 2 END CONDITION
-			if (game.GetValue(StoreNames["CURRENTHAND"]) == 13) {
+			if (game.GetValue(StoreNames["CURRENTHAND"]) == 14) {
 				stage2Complete = true;
 			} else {
 				
-				// STAGE 2.1: EACH PLAYER PLAYS ONE CARD
+				game.IncrValue(StoreNames["CURRENTHAND"], 1);//Current Hand
+				game.SetValue(StoreNames["PLAYERTURN"], 0);//Runs 0->3 everytime
+				
+				// STAGE 2_1: EACH PLAYER PLAYS ONE CARD
 				bool stage2_1Complete = false;
 				while (!stage2_1Complete) {
 					
@@ -171,7 +174,7 @@ public class Spades{
 							var followSuit = new CardFilter(new List<TreeExpression>{
 							new TreeExpression(new List<int>{
 							0
-							},game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].cardBins.storage[1].AllCards().Last().attributes.children[0].Value,true,"suit")
+							},game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].cardBins.storage[1].AllCards().First().attributes.children[0].Value,true,"suit")
 					});
 							var played = game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),followSuit,0,1);
 							if (!played){
@@ -183,7 +186,7 @@ public class Spades{
 					}
 				}					
 
-				// STAGE 2.2: Determine who WON the trick
+				// STAGE 2_2: Determine who WON the trick
 				bool stage2_2Complete = false;
 				while (!stage2_2Complete) {
 					
@@ -195,7 +198,7 @@ public class Spades{
 					foreach (var filter in precendence){
 						foreach (var treeDirection in filter.filters){
 							if (treeDirection.expectedValue == "LEAD"){
-								treeDirection.expectedValue = game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].cardBins.storage[1].AllCards().Last().attributes.children[0].Value;
+								treeDirection.expectedValue = game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].cardBins.storage[1].AllCards().First().attributes.children[0].Value;
 								//Console.WriteLine("treeValue:" + treeDirection.expectedValue);
 							}
 						}
@@ -231,15 +234,17 @@ public class Spades{
 					foreach (var p in game.players){
 						Console.Write("Player:" + p.cardBins.storage[1].AllCards().First().ToString() + "\n");
 					}
-					game.SetValue(StoreNames["PLAYERTURN"], 0);//Runs 0->3 everytime
+
 					game.SetValue(StoreNames["CURRENTPLAYER"], winningPlayer);//Should be winner
-					game.IncrValue(StoreNames["CURRENTHAND"], 1);//Current Hand
 					
 					stage2_2Complete = true;
 				}
 			}
 			
 		}
+		
+		// STAGE 3: DETERMINE SCORE FOR TEAMS OF PLAYERS
+		
 		time.Stop();
 		Console.WriteLine("Elapsed:" + time.Elapsed);
 	}
