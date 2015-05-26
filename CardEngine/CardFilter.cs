@@ -33,22 +33,34 @@ namespace CardEngine{
 	}
 	public class TreeDirections {
 		bool equal;
-		List<int> traversals;
+		TreeTraversal traversals;
 		public string expectedValue;
-		public TreeDirections(List<int> t, string s, bool e){
-			traversals = t;
+		public string indexLabel;
+		public TreeDirections(List<int> t, string s, bool e, string iLabel){
+			traversals = new TreeTraversal(t);
 			expectedValue = s;
 			equal = e;
+			indexLabel = iLabel;
 		}
 		public TreeDirections Copy(){
-			return new TreeDirections(this.traversals,this.expectedValue,this.equal);
+			return new TreeDirections(this.traversals.traversals,this.expectedValue,this.equal,this.indexLabel);
 		}
 		public bool CardConforms(Card c){
+			var desiredValue = traversals.ReadValue(c);
+			return equal? desiredValue == expectedValue : desiredValue != expectedValue;
+		}
+	}
+	public class TreeTraversal{
+		public List<int> traversals;
+		public TreeTraversal(List<int> t){
+			traversals = t;
+		}
+		public string ReadValue(Card c){
 			var desiredNode = c.attributes;
 			foreach (var childNum in traversals){
 				desiredNode = desiredNode.children[childNum];
 			}
-			return equal? desiredNode.Value == expectedValue : desiredNode.Value != expectedValue;
+			return desiredNode.Value;
 		}
 	}
 }

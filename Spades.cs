@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using System;
 using CardEngine;
+using System.Linq;
+using System.Collections;
+using System.Diagnostics;
+
 public class Spades{
 	public Spades(){
 		var red = new Node{
@@ -39,7 +43,8 @@ public class Spades{
 				}
 			}
 		};
-		
+		Stopwatch time = new Stopwatch();
+		time.Start();
 		var game = new CardGame(4);
 		game.SetDeck(t);
 		game.DealEvery(13);
@@ -51,7 +56,7 @@ public class Spades{
 		var noSpades = new CardFilter(new List<TreeDirections>{
 			new TreeDirections(new List<int>{
 				0
-			},"spades",false)
+			},"spades",false,"suit")
 		});
 		
 		//precedence
@@ -65,12 +70,43 @@ public class Spades{
 				precGen.Add(new CardFilter(new List<TreeDirections>{
 					new TreeDirections(new List<int>{
 						0
-					},suit,true),
+					},suit,true,"suit"),
 					new TreeDirections(new List<int>{
 						1
-					},rank,true)
+					},rank,true,"rank")
 				}));
 			}
+		}
+		
+		var suitTraversal = new TreeTraversal(new List<int>{
+			0
+		});
+		var rankTraversal = new TreeTraversal(new List<int>{
+			1
+		});
+		var suitDict = new Dictionary<string,HashSet<Card>>();
+		var rankDict = new Dictionary<string,HashSet<Card>>();
+		var comboDict = new Dictionary<string, Card>();
+		foreach (var card in game.sourceDeck){
+			var suit = suitTraversal.ReadValue(card);
+			
+			if (suitDict.ContainsKey(suit)){
+				suitDict[suit].Add(card);
+			}
+			else{
+				suitDict.Add(suit,new HashSet<Card>{card});
+			}
+			
+			var rank = rankTraversal.ReadValue(card);
+			
+			if (rankDict.ContainsKey(rank)){
+				rankDict[rank].Add(card);
+			}
+			else{
+				rankDict.Add(rank,new HashSet<Card>{card});
+			}
+			
+			comboDict.Add(suit + rank,card);
 		}
 		
 		
@@ -85,7 +121,7 @@ public class Spades{
 				var followSuit = new CardFilter(new List<TreeDirections>{
 				new TreeDirections(new List<int>{
 				0
-				},game.players[(game.GetValue(2) - game.GetValue(1) + 4) % 4].visibleCards[game.GetValue(3)].attributes.children[0].Value,true)
+				},game.players[(game.GetValue(2) - game.GetValue(1) + 4) % 4].visibleCards[game.GetValue(3)].attributes.children[0].Value,true,"suit")
 		});
 				var played = game.PlayerRevealCard(game.GetValue(2),followSuit);
 				if (!played){
@@ -110,11 +146,30 @@ public class Spades{
 				
 				var orderedCards = new List<Card>();
 				foreach (var filter in precendence){
-					foreach (var card in game.sourceDeck){
+					//Approaches N time
+					var suit = filter.filters.Where(obj => obj.indexLabel == "suit").FirstOrDefault().expectedValue;
+					var rank = filter.filters.Where(obj => obj.indexLabel == "rank").FirstOrDefault().expectedValue;
+					
+					//direct method
+					var card = comboDict[suit + rank];
+					orderedCards.Add(card);
+					
+					//Intersect method
+					
+					/*
+					var suitSet = suitDict[suit];
+					var rankSet = rankDict[rank];
+					
+					var inter = suitSet.Intersect(rankSet);
+					
+					orderedCards.Add(inter.First());
+					*/
+					
+					/*foreach (var card in game.sourceDeck){//N^2 Algorithm
 						if (filter.CardConforms(card)){
 							orderedCards.Add(card);
 						}
-					}
+					}*/
 				}
 				
 				foreach (var card in orderedCards){
@@ -140,11 +195,10 @@ public class Spades{
 				game.SetValue(2,winningPlayer);//Should be winner
 				game.SetValue(3,game.GetValue(3) + 1);//Current Hand
 			}
-		}
-		for (int i = 0; i < 13; ++i){
 			
 		}
-		//Console.Write(t.rootNode.ToString());
+		time.Stop();
+		Console.WriteLine("Elapsed:" + time.Elapsed);
 	}
 	
 }
