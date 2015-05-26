@@ -70,6 +70,8 @@ public class Spades{
 		}
 		
 		// Establish PRECEDENCE for the cards.
+		//
+		// TODO : Push this into game, have this description be flexible to again read from string
 		List<CardFilter> precGen = new List<CardFilter>();
 		
 		var suits = new List<string>{"spades","LEAD"};
@@ -143,35 +145,49 @@ public class Spades{
 		// STAGE 1: BIDDING
 				
 		// STAGE 2: PLAY ROUNDS UNTIL ALL CARDS USED
-		bool stage1Complete = false;
-		while (!stage1Complete){
+		bool stage2Complete = false;
+		while (!stage2Complete){
 			
 			// STAGE 2 END CONDITION
 			if (game.GetValue(StoreNames["CURRENTHAND"]) == 13) {
-				stage1Complete = true;
+				stage2Complete = true;
 			} else {
 				
 				// STAGE 2.1: EACH PLAYER PLAYS ONE CARD
-				if (game.GetValue(StoreNames["PLAYERTURN"]) == 0){
-					var played = game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),noSpades,0,1);
-					if (!played){
-						game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),new CardFilter(new List<TreeExpression>()),0,1);
-					}			
-				}
-				else{
-					var followSuit = new CardFilter(new List<TreeExpression>{
-					new TreeExpression(new List<int>{
-					0
-					},game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].cardBins.storage[1].AllCards().Last().attributes.children[0].Value,true,"suit")
-			});
-					var played = game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),followSuit,0,1);
-					if (!played){
-						game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),new CardFilter(new List<TreeExpression>()),0,1);
+				bool stage2_1Complete = false;
+				while (!stage2_1Complete) {
+					
+					if (game.GetValue(StoreNames["PLAYERTURN"]) == 4) {
+						stage2_1Complete = true;
+					} else {
+						
+						if (game.GetValue(StoreNames["PLAYERTURN"]) == 0){
+							var played = game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),noSpades,0,1);
+							if (!played){
+								game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),new CardFilter(new List<TreeExpression>()),0,1);
+							}			
+						}
+						else{
+							var followSuit = new CardFilter(new List<TreeExpression>{
+							new TreeExpression(new List<int>{
+							0
+							},game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].cardBins.storage[1].AllCards().Last().attributes.children[0].Value,true,"suit")
+					});
+							var played = game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),followSuit,0,1);
+							if (!played){
+								game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),new CardFilter(new List<TreeExpression>()),0,1);
+							}
+						}
+						game.IncrValue(StoreNames["PLAYERTURN"], 1);
+						game.SetValue(StoreNames["CURRENTPLAYER"],(game.GetValue(StoreNames["CURRENTPLAYER"]) + 1) % 4);
 					}
-				}
-				game.IncrValue(StoreNames["PLAYERTURN"], 1);
-				game.SetValue(StoreNames["CURRENTPLAYER"],(game.GetValue(StoreNames["CURRENTPLAYER"]) + 1) % 4);
-				if (game.GetValue(1) == 4){
+				}					
+
+				// STAGE 2.2: Determine who WON the trick
+				bool stage2_2Complete = false;
+				while (!stage2_2Complete) {
+					
+					// Solidify precedence rules based on LEAD
 					var precendence = new List<CardFilter>();
 					foreach (var filter in precGen){
 						precendence.Add(filter.Copy());
@@ -194,31 +210,12 @@ public class Spades{
 						//direct method
 						var card = comboDict[suit + rank];
 						orderedCards.Add(card);
-						
-						//Intersect method
-						
-						/*
-						var suitSet = suitDict[suit];
-						var rankSet = rankDict[rank];
-						
-						var inter = suitSet.Intersect(rankSet);
-						
-						orderedCards.Add(inter.First());
-						*/
-						
-						/*foreach (var card in game.sourceDeck){//N^2 Algorithm
-							if (filter.CardConforms(card)){
-								orderedCards.Add(card);
-							}
-						}*/
 					}
 					
 					foreach (var card in orderedCards){
 						//Console.WriteLine("Card:" + card.ToString());
 					}
-					
-					// STAGE 2.2: Determine who WON the trick
-					
+										
 					var winningPlayer = 0;
 					var winningIdx = int.MaxValue;
 					for (int i = 0; i < numPlayers; ++i){
@@ -237,6 +234,8 @@ public class Spades{
 					game.SetValue(StoreNames["PLAYERTURN"], 0);//Runs 0->3 everytime
 					game.SetValue(StoreNames["CURRENTPLAYER"], winningPlayer);//Should be winner
 					game.IncrValue(StoreNames["CURRENTHAND"], 1);//Current Hand
+					
+					stage2_2Complete = true;
 				}
 			}
 			
