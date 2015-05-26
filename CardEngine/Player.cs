@@ -3,10 +3,12 @@ using System;
 namespace CardEngine
 {
 	public class Player{
-		public RawStorage storage = new RawStorage();
-		public CardStorage cardBins = new CardStorage();
+		public RawStorage storage;
+		public CardStorage cardBins;
+		
 		public Player(){
-			
+			storage = new RawStorage();
+			cardBins = new CardStorage();
 		}
 		public void AddCard(Card c,int idx){
 			cardBins.storage[idx].Add(c);
@@ -14,8 +16,8 @@ namespace CardEngine
 		public Card RemoveCard(int idx){
 			return cardBins.storage[idx].Remove();
 		}
-		public int MakeAction(List<GameAction> possibles){
-			var rand = new Random();
+		public int MakeAction(List<GameAction> possibles,Random rand){
+			
 			return rand.Next(0,possibles.Count);
 		}
 		public override string ToString(){

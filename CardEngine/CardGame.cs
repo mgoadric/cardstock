@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace CardEngine
 {
 	public class CardGame{
+		public Random rand = new Random();
 		public List<Card> sourceDeck = new List<Card>();
 		List<Card> remainingCards = new List<Card>();
 		public List<Player> players = new List<Player>();
@@ -43,6 +44,17 @@ namespace CardEngine
 		public void IncrValue(int idx, int incr){
 			gameStorage.storage[idx] += incr;
 		}
+		public void PromptPlayer(Player p, int storageIdx, int minValue, int maxValue){
+			
+			var possibles = new List<GameAction>();
+			for (int i = minValue; i < maxValue; ++i){
+				possibles.Add(new IntAction(p.storage.storage,storageIdx,i));
+			}
+			var choice = p.MakeAction(possibles,rand);
+			Console.WriteLine("Choice:" + choice);
+			possibles[choice].Execute();
+			
+		}
 		public bool PlayerRevealCard(int player, CardFilter filter, int startDeck, int endDeck){
 			var p = players[player];
 			
@@ -52,7 +64,7 @@ namespace CardEngine
 				foreach (var c in poss.AllCards()){
 					actions.Add(new CardMoveAction(c,p.cardBins.storage[startDeck],p.cardBins.storage[endDeck]));
 				}
-				var choice = p.MakeAction(actions);
+				var choice = p.MakeAction(actions,rand);
 				actions[choice].Execute();
 				return true;
 			}

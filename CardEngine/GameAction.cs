@@ -21,4 +21,20 @@ namespace CardEngine{
 			endLocation.Add(cardToMove);
 		}
 	}
+	
+	public class IntAction : GameAction{
+		
+		int[] bucket;
+		int bucketIdx;
+		int value;
+		public IntAction(int[] b, int i, int v) {
+			bucket = b;
+			bucketIdx = i; 
+			value = v;
+		}
+		public override void Execute(){
+			bucket[bucketIdx] = value;
+		}
+	}
+	
 }

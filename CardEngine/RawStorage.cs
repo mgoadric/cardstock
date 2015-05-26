@@ -1,8 +1,8 @@
 namespace CardEngine{
 	public class RawStorage{
-		public int[] storage = new int[32];
+		public int[] storage;
 		public RawStorage(){
-			
+			storage = new int[32];
 		}
 	}
 }

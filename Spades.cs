@@ -141,7 +141,12 @@ public class Spades{
 		});
 				
 		// STAGE 1: BIDDING
-				
+		foreach (var player in game.players){
+			game.PromptPlayer(player,0,0,14);
+		}
+		foreach (var player in game.players){
+			Console.WriteLine("Bid: " + player.storage.storage[0]);
+		}
 		// STAGE 2: PLAY ROUNDS UNTIL ALL CARDS USED
 		bool stage1Complete = false;
 		while (!stage1Complete){
@@ -162,7 +167,7 @@ public class Spades{
 					var followSuit = new CardFilter(new List<TreeExpression>{
 					new TreeExpression(new List<int>{
 					0
-					},game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].cardBins.storage[1].AllCards().Last().attributes.children[0].Value,true,"suit")
+					},game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].cardBins.storage[1].AllCards().First().attributes.children[0].Value,true,"suit")
 			});
 					var played = game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),followSuit,0,1);
 					if (!played){
@@ -179,7 +184,7 @@ public class Spades{
 					foreach (var filter in precendence){
 						foreach (var treeDirection in filter.filters){
 							if (treeDirection.expectedValue == "LEAD"){
-								treeDirection.expectedValue = game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].cardBins.storage[1].AllCards().Last().attributes.children[0].Value;
+								treeDirection.expectedValue = game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].cardBins.storage[1].AllCards().First().attributes.children[0].Value;
 								//Console.WriteLine("treeValue:" + treeDirection.expectedValue);
 							}
 						}
@@ -224,7 +229,7 @@ public class Spades{
 					for (int i = 0; i < numPlayers; ++i){
 						//Console.WriteLine("PrecIdx:" + );
 						var player = game.players[i];
-						var precedenceIdx = orderedCards.IndexOf(player.cardBins.storage[1].AllCards().Last());
+						var precedenceIdx = orderedCards.IndexOf(player.cardBins.storage[1].AllCards().First());
 						if (precedenceIdx >= 0 && precedenceIdx < winningIdx){
 							winningPlayer = i;
 							winningIdx = precedenceIdx;
@@ -232,7 +237,7 @@ public class Spades{
 					}
 					Console.WriteLine("Winner: Player " + (winningPlayer + 1));
 					foreach (var p in game.players){
-						Console.Write("Player:" + p.cardBins.storage[1].AllCards().Last().ToString() + "\n");
+						Console.Write("Player:" + p.cardBins.storage[1].AllCards().First().ToString() + "\n");
 					}
 					game.SetValue(StoreNames["PLAYERTURN"], 0);//Runs 0->3 everytime
 					game.SetValue(StoreNames["CURRENTPLAYER"], winningPlayer);//Should be winner
