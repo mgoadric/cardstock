@@ -53,8 +53,8 @@ public class Spades{
 		game.SetValue(2,0);//Current Players Turn
 		game.SetValue(3,0);//Current Hand
 		
-		var noSpades = new CardFilter(new List<TreeDirections>{
-			new TreeDirections(new List<int>{
+		var noSpades = new CardFilter(new List<TreeExpression>{
+			new TreeExpression(new List<int>{
 				0
 			},"spades",false,"suit")
 		});
@@ -67,11 +67,11 @@ public class Spades{
 		
 		foreach (var suit in suits){
 			foreach (var rank in rankIter){
-				precGen.Add(new CardFilter(new List<TreeDirections>{
-					new TreeDirections(new List<int>{
+				precGen.Add(new CardFilter(new List<TreeExpression>{
+					new TreeExpression(new List<int>{
 						0
 					},suit,true,"suit"),
-					new TreeDirections(new List<int>{
+					new TreeExpression(new List<int>{
 						1
 					},rank,true,"rank")
 				}));
@@ -114,18 +114,18 @@ public class Spades{
 			if (game.GetValue(1) == 0){
 				var played = game.PlayerRevealCard(game.GetValue(2),noSpades);
 				if (!played){
-					game.PlayerRevealCard(game.GetValue(2),new CardFilter(new List<TreeDirections>()));
+					game.PlayerRevealCard(game.GetValue(2),new CardFilter(new List<TreeExpression>()));
 				}			
 			}
 			else{
-				var followSuit = new CardFilter(new List<TreeDirections>{
-				new TreeDirections(new List<int>{
+				var followSuit = new CardFilter(new List<TreeExpression>{
+				new TreeExpression(new List<int>{
 				0
 				},game.players[(game.GetValue(2) - game.GetValue(1) + 4) % 4].visibleCards[game.GetValue(3)].attributes.children[0].Value,true,"suit")
 		});
 				var played = game.PlayerRevealCard(game.GetValue(2),followSuit);
 				if (!played){
-					game.PlayerRevealCard(game.GetValue(2),new CardFilter(new List<TreeDirections>()));
+					game.PlayerRevealCard(game.GetValue(2),new CardFilter(new List<TreeExpression>()));
 				}
 			}
 			game.SetValue(1,game.GetValue(1) + 1);
