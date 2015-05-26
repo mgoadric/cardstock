@@ -2,13 +2,13 @@ using System.Collections.Generic;
 
 namespace CardEngine{
 	public class CardFilter{
-		public List<TreeDirections> filters;
-		public CardFilter(List<TreeDirections> f){
+		public List<TreeExpression> filters;
+		public CardFilter(List<TreeExpression> f){
 			filters = f;
 		}
 		public CardFilter Copy(){
 			var ret = new CardFilter(
-				new List<TreeDirections>()
+				new List<TreeExpression>()
 			);
 			foreach (var f in filters){
 				ret.filters.Add(f.Copy());
@@ -40,19 +40,19 @@ namespace CardEngine{
 			return ret;
 		}
 	}
-	public class TreeDirections {
+	public class TreeExpression {
 		bool equal;
 		TreeTraversal traversals;
 		public string expectedValue;
 		public string indexLabel;
-		public TreeDirections(List<int> t, string s, bool e, string iLabel){
+		public TreeExpression(List<int> t, string s, bool e, string iLabel){
 			traversals = new TreeTraversal(t);
 			expectedValue = s;
 			equal = e;
 			indexLabel = iLabel;
 		}
-		public TreeDirections Copy(){
-			return new TreeDirections(this.traversals.traversals,this.expectedValue,this.equal,this.indexLabel);
+		public TreeExpression Copy(){
+			return new TreeExpression(this.traversals.traversals,this.expectedValue,this.equal,this.indexLabel);
 		}
 		public bool CardConforms(Card c){
 			var desiredValue = traversals.ReadValue(c);

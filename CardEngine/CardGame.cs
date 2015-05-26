@@ -40,6 +40,9 @@ namespace CardEngine
 		public int GetValue(int idx){
 			return gameStorage.storage[idx];
 		}
+		public void IncrValue(int idx, int incr){
+			gameStorage.storage[idx] += incr;
+		}
 		public bool PlayerRevealCard(int player, CardFilter filter){
 			var p = players[player];
 			
