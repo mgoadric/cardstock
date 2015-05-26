@@ -149,11 +149,11 @@ public class Spades{
 		while (!stage2Complete){
 			
 			// STAGE 2 END CONDITION
-			if (game.GetValue(StoreNames["CURRENTHAND"]) == 14) {
+			if (game.GetValue(StoreNames["CURRENTHAND"]) == 13) {
 				stage2Complete = true;
 			} else {
 				
-				game.IncrValue(StoreNames["CURRENTHAND"], 1);//Current Hand
+				// STAGE 2 SETUP
 				game.SetValue(StoreNames["PLAYERTURN"], 0);//Runs 0->3 everytime
 				
 				// STAGE 2_1: EACH PLAYER PLAYS ONE CARD
@@ -181,6 +181,8 @@ public class Spades{
 								game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),new CardFilter(new List<TreeExpression>()),0,1);
 							}
 						}
+						
+						// STAGE 2_1 WRAPUP
 						game.IncrValue(StoreNames["PLAYERTURN"], 1);
 						game.SetValue(StoreNames["CURRENTPLAYER"],(game.GetValue(StoreNames["CURRENTPLAYER"]) + 1) % 4);
 					}
@@ -214,11 +216,9 @@ public class Spades{
 						var card = comboDict[suit + rank];
 						orderedCards.Add(card);
 					}
-					
-					foreach (var card in orderedCards){
-						//Console.WriteLine("Card:" + card.ToString());
-					}
-										
+						
+						
+					// Now, determine who won the trick									
 					var winningPlayer = 0;
 					var winningIdx = int.MaxValue;
 					for (int i = 0; i < numPlayers; ++i){
@@ -230,6 +230,8 @@ public class Spades{
 							winningIdx = precedenceIdx;
 						}
 					}
+					
+					// DEBUG for us to validate game works
 					Console.WriteLine("Winner: Player " + (winningPlayer + 1));
 					foreach (var p in game.players){
 						Console.Write("Player:" + p.cardBins.storage[1].AllCards().First().ToString() + "\n");
@@ -239,6 +241,10 @@ public class Spades{
 					
 					stage2_2Complete = true;
 				}
+
+				// STAGE 2 WRAPUP
+				game.IncrValue(StoreNames["CURRENTHAND"], 1);//Current Hand
+
 			}
 			
 		}
