@@ -5,6 +5,7 @@ namespace CardEngine
 	public class Player{
 		public List<Card> hand = new List<Card>();
 		public List<Card> visibleCards = new List<Card>();
+		public RawStorage storage = new RawStorage();
 		public Player(){
 			
 		}
