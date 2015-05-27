@@ -45,25 +45,25 @@ namespace CardEngine
 		public void IncrValue(int idx, int incr){
 			gameStorage.storage[idx] += incr;
 		}
-		public void PromptPlayer(Player p, int storageIdx, int minValue, int maxValue){
+		public void PromptPlayer(Player p, string storageName, int minValue, int maxValue){
 			
 			var possibles = new List<GameAction>();
 			for (int i = minValue; i < maxValue; ++i){
-				possibles.Add(new IntAction(p.storage.storage,storageIdx,i));
+				possibles.Add(new IntAction(p.storage,storageName,i));
 			}
 			var choice = p.MakeAction(possibles,rand);
 			Console.WriteLine("Choice:" + choice);
 			possibles[choice].Execute();
 			
 		}
-		public bool PlayerRevealCard(int player, CardFilter filter, int startDeck, int endDeck){
+		public bool PlayerRevealCard(int player, CardFilter filter, string startDeck, string endDeck){
 			var p = players[player];
 			
-			var poss = filter.FilterMatchesAll(p.cardBins.storage[startDeck]);
+			var poss = filter.FilterMatchesAll(p.cardBins[startDeck]);
 			if ((new List<Card>(poss.AllCards())).Count !=  0){
 				var actions = new List<GameAction>();
 				foreach (var c in poss.AllCards()){
-					actions.Add(new CardMoveAction(c,p.cardBins.storage[startDeck],p.cardBins.storage[endDeck]));
+					actions.Add(new CardMoveAction(c,p.cardBins[startDeck],p.cardBins[endDeck]));
 				}
 				var choice = p.MakeAction(actions,rand);
 				actions[choice].Execute();

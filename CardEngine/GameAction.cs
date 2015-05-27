@@ -24,16 +24,16 @@ namespace CardEngine{
 	
 	public class IntAction : GameAction{
 		
-		int[] bucket;
-		int bucketIdx;
+		RawStorage bucket;
+		string bucketKey;
 		int value;
-		public IntAction(int[] b, int i, int v) {
-			bucket = b;
-			bucketIdx = i; 
+		public IntAction(RawStorage storage, string bKey, int v) {
+			bucket = storage;
+			bucketKey = bKey; 
 			value = v;
 		}
 		public override void Execute(){
-			bucket[bucketIdx] = value;
+			bucket[bucketKey] = value;
 		}
 	}
 	

@@ -21,6 +21,10 @@ namespace CardEngine{
 		public CardStorage(){
 			
 		}
+		public void AddKey(string key){
+			binDict.Add(key,binCounter);
+			binCounter++;
+		}
 	}
 	public abstract class CardCollection{
 		public abstract IEnumerable<Card> AllCards();

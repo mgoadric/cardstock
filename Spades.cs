@@ -62,6 +62,16 @@ public class Spades{
 		int numPlayers = 4;
 		var game = new CardGame(numPlayers);
 		
+		// Set PLAYER card and int storage locations
+		foreach (var player in game.players){
+			player.storage.AddKey("BID");
+			player.storage.AddKey("CURRENTSTATE");
+			player.storage.AddKey("TRICKSWON");
+			
+			player.cardBins.AddKey("HAND");
+			player.cardBins.AddKey("TRICK");
+		}
+		
 		// Set TEAMS and Link to PLAYERS
 		
 		for (int i = 0; i < 2; ++i){
@@ -77,8 +87,8 @@ public class Spades{
 		
 		//Instantiate Player Decks and Play Areas
 		foreach (var player in game.players){
-			player.cardBins.storage[0] = new CardListCollection();
-			player.cardBins.storage[1] = new CardStackCollection();
+			player.cardBins["HAND"] = new CardListCollection();
+			player.cardBins["TRICK"] = new CardStackCollection();
 		}
 		
 		// Establish PRECEDENCE for the cards.
@@ -158,10 +168,10 @@ public class Spades{
 				
 		// STAGE 1: BIDDING
 		foreach (var player in game.players){
-			game.PromptPlayer(player,0,0,14);
+			game.PromptPlayer(player,"BID",0,14);
 		}
 		foreach (var player in game.players){
-			Console.WriteLine("Bid: " + player.storage.storage[0]);
+			Console.WriteLine("Bid: " + player.storage["BID"]);
 		}
 		// STAGE 2: PLAY ROUNDS UNTIL ALL CARDS USED
 		bool stage2Complete = false;
@@ -184,20 +194,20 @@ public class Spades{
 					} else {
 						
 						if (game.gameStorage["PLAYERTURN"] == 0){
-							var played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],noSpades,0,1);
+							var played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],noSpades,"HAND","TRICK");
 							if (!played){
-								game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),0,1);
+								game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),"HAND","TRICK");
 							}			
 						}
 						else{
 							var followSuit = new CardFilter(new List<TreeExpression>{
 							new TreeExpression(new List<int>{
 							0
-							},game.players[(game.gameStorage["CURRENTPLAYER"] - game.gameStorage["PLAYERTURN"] + 4) % 4].cardBins.storage[1].AllCards().First().attributes.children[0].Value,true,"suit")
+							},game.players[(game.gameStorage["CURRENTPLAYER"] - game.gameStorage["PLAYERTURN"] + 4) % 4].cardBins["TRICK"].AllCards().First().attributes.children[0].Value,true,"suit")
 					});
-							var played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],followSuit,0,1);
+							var played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],followSuit,"HAND","TRICK");
 							if (!played){
-								game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),0,1);
+								game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),"HAND","TRICK");
 							}
 						}
 						
@@ -219,7 +229,7 @@ public class Spades{
 					foreach (var filter in precendence){
 						foreach (var treeDirection in filter.filters){
 							if (treeDirection.expectedValue == "LEAD"){
-								treeDirection.expectedValue = game.players[(game.gameStorage["CURRENTPLAYER"] - game.gameStorage["PLAYERTURN"] + 4) % 4].cardBins.storage[1].AllCards().First().attributes.children[0].Value;
+								treeDirection.expectedValue = game.players[(game.gameStorage["CURRENTPLAYER"] - game.gameStorage["PLAYERTURN"] + 4) % 4].cardBins["TRICK"].AllCards().First().attributes.children[0].Value;
 								//Console.WriteLine("treeValue:" + treeDirection.expectedValue);
 							}
 						}
@@ -243,7 +253,7 @@ public class Spades{
 					for (int i = 0; i < numPlayers; ++i){
 						//Console.WriteLine("PrecIdx:" + );
 						var player = game.players[i];
-						var precedenceIdx = orderedCards.IndexOf(player.cardBins.storage[1].AllCards().First());
+						var precedenceIdx = orderedCards.IndexOf(player.cardBins["TRICK"].AllCards().First());
 						if (precedenceIdx >= 0 && precedenceIdx < winningIdx){
 							winningPlayer = i;
 							winningIdx = precedenceIdx;
@@ -253,11 +263,11 @@ public class Spades{
 					// DEBUG for us to validate game works
 					Console.WriteLine("Winner: Player " + (winningPlayer + 1));
 					foreach (var p in game.players){
-						Console.Write("Player:" + p.cardBins.storage[1].AllCards().First().ToString() + "\n");
+						Console.Write("Player:" + p.cardBins["TRICK"].AllCards().First().ToString() + "\n");
 					}
 					
 					// Reward winning player with 1 TRICK
-					game.players[winningPlayer].IncrValue(1,1);
+					game.players[winningPlayer].storage["TRICKSWON"] += 1;
 					
 					game.gameStorage["CURRENTPLAYER"] =  winningPlayer;//Should be winner
 					
@@ -276,7 +286,7 @@ public class Spades{
 		
 		// DEBUG tricks taken by each
 		foreach (var player in game.players){
-			Console.WriteLine("Tricks:" + player.storage.storage[1]);
+			Console.WriteLine("Tricks:" + player.storage["TRICKSWON"]);
 		}
 		
 		// DEBUG teams score
@@ -284,7 +294,7 @@ public class Spades{
 			Console.Write("Team " + (i + 1) + " Score: ");
 			var total = 0;
 			foreach (var player in game.teams[i].teamPlayers){
-				total += player.storage.storage[1];
+				total += player.storage["TRICKSWON"];
 			} 
 			Console.WriteLine(total);
 		}
