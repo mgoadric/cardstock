@@ -142,11 +142,13 @@ public class Spades{
 			{"CURRENTPLAYER", 2},
 			{"CURRENTHAND", 3}	
 		};
-		
-		game.SetValue(StoreNames["SPADESBROKEN"], 0);//SPADES BROKEN = FALSE
-		game.SetValue(StoreNames["PLAYERTURN"], 0);//Play Turn within hand
-		game.SetValue(StoreNames["CURRENTPLAYER"], 0);//Current Players Turn
-		game.SetValue(StoreNames["CURRENTHAND"], 0);//Current Hand
+		foreach (var key in StoreNames.Keys){
+			game.gameStorage.AddKey(key);
+		}
+		game.gameStorage["SPADESBROKEN"] = 0;//SPADES BROKEN = FALSE
+		game.gameStorage["PLAYERTURN"] = 0;//Play Turn within hand
+		game.gameStorage["CURRENTPLAYER"] = 0;//Current Players Turn
+		game.gameStorage["CURRENTHAND"] = 0;//Current Hand
 		
 		var noSpades = new CardFilter(new List<TreeExpression>{
 			new TreeExpression(new List<int>{
@@ -166,42 +168,42 @@ public class Spades{
 		while (!stage2Complete){
 			
 			// STAGE 2 END CONDITION
-			if (game.GetValue(StoreNames["CURRENTHAND"]) == 13) {
+			if (game.gameStorage["CURRENTHAND"] == 13) {
 				stage2Complete = true;
 			} else {
 
 				// STAGE 2 SETUP
-				game.SetValue(StoreNames["PLAYERTURN"], 0);//Runs 0->3 everytime
+				game.gameStorage["PLAYERTURN"] = 0;//Runs 0->3 everytime
 				
 				// STAGE 2_1: EACH PLAYER PLAYS ONE CARD
 				bool stage2_1Complete = false;
 				while (!stage2_1Complete) {
 					
-					if (game.GetValue(StoreNames["PLAYERTURN"]) == 4) {
+					if (game.gameStorage["PLAYERTURN"] == 4) {
 						stage2_1Complete = true;
 					} else {
 						
-						if (game.GetValue(StoreNames["PLAYERTURN"]) == 0){
-							var played = game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),noSpades,0,1);
+						if (game.gameStorage["PLAYERTURN"] == 0){
+							var played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],noSpades,0,1);
 							if (!played){
-								game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),new CardFilter(new List<TreeExpression>()),0,1);
+								game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),0,1);
 							}			
 						}
 						else{
 							var followSuit = new CardFilter(new List<TreeExpression>{
 							new TreeExpression(new List<int>{
 							0
-							},game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].cardBins.storage[1].AllCards().First().attributes.children[0].Value,true,"suit")
+							},game.players[(game.gameStorage["CURRENTPLAYER"] - game.gameStorage["PLAYERTURN"] + 4) % 4].cardBins.storage[1].AllCards().First().attributes.children[0].Value,true,"suit")
 					});
-							var played = game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),followSuit,0,1);
+							var played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],followSuit,0,1);
 							if (!played){
-								game.PlayerRevealCard(game.GetValue(StoreNames["CURRENTPLAYER"]),new CardFilter(new List<TreeExpression>()),0,1);
+								game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),0,1);
 							}
 						}
 						
 						// STAGE 2_1 WRAPUP
-						game.IncrValue(StoreNames["PLAYERTURN"], 1);
-						game.SetValue(StoreNames["CURRENTPLAYER"],(game.GetValue(StoreNames["CURRENTPLAYER"]) + 1) % 4);
+						game.gameStorage["PLAYERTURN"] += 1;
+						game.gameStorage["CURRENTPLAYER"] = (game.gameStorage["CURRENTPLAYER"] + 1) % 4;
 					}
 				}					
 
@@ -217,7 +219,7 @@ public class Spades{
 					foreach (var filter in precendence){
 						foreach (var treeDirection in filter.filters){
 							if (treeDirection.expectedValue == "LEAD"){
-								treeDirection.expectedValue = game.players[(game.GetValue(StoreNames["CURRENTPLAYER"]) - game.GetValue(StoreNames["PLAYERTURN"]) + 4) % 4].cardBins.storage[1].AllCards().First().attributes.children[0].Value;
+								treeDirection.expectedValue = game.players[(game.gameStorage["CURRENTPLAYER"] - game.gameStorage["PLAYERTURN"] + 4) % 4].cardBins.storage[1].AllCards().First().attributes.children[0].Value;
 								//Console.WriteLine("treeValue:" + treeDirection.expectedValue);
 							}
 						}
@@ -257,13 +259,13 @@ public class Spades{
 					// Reward winning player with 1 TRICK
 					game.players[winningPlayer].IncrValue(1,1);
 					
-					game.SetValue(StoreNames["CURRENTPLAYER"], winningPlayer);//Should be winner
+					game.gameStorage["CURRENTPLAYER"] =  winningPlayer;//Should be winner
 					
 					stage2_2Complete = true;
 				}
 
 				// STAGE 2 WRAPUP
-				game.IncrValue(StoreNames["CURRENTHAND"], 1);//Current Hand
+				game.gameStorage["CURRENTHAND"] += 1;//Current Hand
 
 			}
 			

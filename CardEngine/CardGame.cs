@@ -9,7 +9,7 @@ namespace CardEngine
 		List<Card> remainingCards = new List<Card>();
 		public List<Player> players = new List<Player>();
 		public List<Team> teams = new List<Team>();
-		RawStorage gameStorage = new RawStorage();
+		public RawStorage gameStorage = new RawStorage();
 		public CardGame(int numPlayers){
 			
 			for (int i = 0; i < numPlayers; ++i){
