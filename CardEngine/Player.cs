@@ -15,8 +15,8 @@ namespace CardEngine
 		public void IncrValue(int bin, int value){
 			storage.storage[bin] += value;
 		}
-		public void AddCard(Card c,int idx){
-			cardBins.storage[idx].Add(c);
+		public void AddCard(Card c,string cardLocation){
+			cardBins[cardLocation].Add(c);
 		}
 		public Card RemoveCard(int idx){
 			return cardBins.storage[idx].Remove();

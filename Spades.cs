@@ -61,7 +61,8 @@ public class Spades{
 		// READ NUMBER OF PLAYERS and CREATE THE GAME
 		int numPlayers = 4;
 		var game = new CardGame(numPlayers);
-		
+		game.tableCards.AddKey("STOCK");
+		game.tableCards["STOCK"] = new CardStackCollection();
 		// Set PLAYER card and int storage locations
 		foreach (var player in game.players){
 			player.storage.AddKey("BID");
@@ -159,8 +160,10 @@ public class Spades{
 				gameNotOver = false;
 			}
 			else{
+				game.PopulateLocation("STOCK");
+				game.tableCards["STOCK"].Shuffle();
 				// STAGE 0: SETUP STORAGE and DEAL
-				game.DealEvery(13);
+				game.DealEvery(13,"STOCK","HAND");
 				
 				foreach (var player in game.players){
 					player.storage["TRICKSWON"] = 0;//resets tricks won every game

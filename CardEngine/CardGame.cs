@@ -6,7 +6,7 @@ namespace CardEngine
 	public class CardGame{
 		public Random rand = new Random();
 		public List<Card> sourceDeck = new List<Card>();
-		List<Card> remainingCards = new List<Card>();
+		public CardStorage tableCards = new CardStorage();
 		public List<Player> players = new List<Player>();
 		public List<Team> teams = new List<Team>();
 		public RawStorage gameStorage = new RawStorage();
@@ -24,15 +24,17 @@ namespace CardEngine
 				sourceDeck.Add(new Card(combo));
 			}
 		}
-		public void DealEvery(int numCards){
-			remainingCards = new List<Card>(sourceDeck);
-			var rand = new Random();
-			for (int i = 0; i < numCards; ++i){
-				for (int j = 0; j < players.Count; ++j){
-					
-					var randomIdx = rand.Next(0,remainingCards.Count);
-					players[j].AddCard(remainingCards[randomIdx],0);
-					remainingCards.RemoveAt(randomIdx);
+		public void PopulateLocation(string cardLocation){
+			var location = tableCards[cardLocation];
+			foreach (var card in sourceDeck){
+				location.Add(card);
+			}
+		}
+		public void DealEvery(int numCards,string cardLocation,string destination){
+			var location = tableCards[cardLocation];
+			foreach (var player in players){
+				for (int i = 0; i < numCards; ++i){
+					player.AddCard(location.Remove(),destination);
 				}
 			}
 		}
@@ -73,7 +75,7 @@ namespace CardEngine
 		}
 		public override string ToString(){
 			var ret = "Table Deck:\n";
-			foreach (var card in remainingCards){
+			foreach (var card in tableCards["STOCK"].AllCards()){
 				ret += "Card:" + card.ToString() + "\n";
 			}
 			ret += "Players:\n";

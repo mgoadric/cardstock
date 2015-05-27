@@ -25,6 +25,7 @@ namespace CardEngine{
 			binDict.Add(key,binCounter);
 			binCounter++;
 		}
+		
 	}
 	public abstract class CardCollection{
 		public abstract IEnumerable<Card> AllCards();
@@ -33,7 +34,21 @@ namespace CardEngine{
 		public abstract Card RemoveAt(int idx);
 		public abstract void Remove(Card c);
 		public abstract int Count {get;}
+		public abstract void Shuffle();
+		public void Shuffle(List<Card> list)  
+		{  
+		    Random rng = new Random();  
+		    int n = list.Count;  
+		    while (n > 1) {  
+		        n--;  
+		        int k = rng.Next(n + 1);  
+		        Card value = list[k];  
+		        list[k] = list[n];  
+		        list[n] = value;  
+		    }  
+		}
 	}	
+	
 	public class CardListCollection : CardCollection{
 		public override int Count {get{
 			return cards.Count;
@@ -58,6 +73,9 @@ namespace CardEngine{
 		public override void Remove(Card c){
 			cards.Remove(c);
 		}
+		public override void Shuffle(){
+			Shuffle(cards);
+		}
 	}
 	public class CardStackCollection : CardCollection {
 		public override int Count {get{
@@ -78,6 +96,14 @@ namespace CardEngine{
 		}
 		public override void Remove(Card c){
 			throw new NotImplementedException();
+		}
+		public override void Shuffle(){
+			var all = new List<Card>(cards);
+			Shuffle(all);
+			cards.Clear();
+			foreach (var card in all){
+				cards.Push(card);
+			}
 		}
 	}
 	public class CardQueueCollection : CardCollection {
@@ -100,6 +126,14 @@ namespace CardEngine{
 		}
 		public override void Remove(Card c){
 			throw new NotImplementedException();
+		}
+		public override void Shuffle(){
+			var all = new List<Card>(cards);
+			Shuffle(all);
+			cards.Clear();
+			foreach (var card in all){
+				cards.Enqueue(card);
+			}
 		}
 	}
 }
