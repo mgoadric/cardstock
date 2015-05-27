@@ -144,10 +144,6 @@ public class Spades{
 			
 			comboDict.Add(suit + rank,card);
 		}
-		
-		// STAGE 0: SETUP STORAGE and DEAL
-		game.DealEvery(13);
-		
 		Dictionary<String, int> StoreNames = new Dictionary<String, int>{
 			{"SPADESBROKEN", 0},
 			{"PLAYERTURN", 1},
@@ -157,161 +153,193 @@ public class Spades{
 		foreach (var key in StoreNames.Keys){
 			game.gameStorage.AddKey(key);
 		}
-		game.gameStorage["SPADESBROKEN"] = 0;//SPADES BROKEN = FALSE
-		game.gameStorage["PLAYERTURN"] = 0;//Play Turn within hand
-		game.gameStorage["CURRENTPLAYER"] = 0;//Current Players Turn
-		game.gameStorage["CURRENTHAND"] = 0;//Current Hand
-		
-		var noSpades = new CardFilter(new List<TreeExpression>{
-			new TreeExpression(new List<int>{
-				0
-			},"spades",false,"suit")
-		});
-				
-		// STAGE 1: BIDDING
-		foreach (var player in game.players){
-			game.PromptPlayer(player,"BID",0,14);
-		}
-		foreach (var player in game.players){
-			Console.WriteLine("Bid: " + player.storage["BID"]);
-		}
-		// STAGE 2: PLAY ROUNDS UNTIL ALL CARDS USED
-		bool stage2Complete = false;
-		while (!stage2Complete){
-			
-			// STAGE 2 END CONDITION
-			if (game.gameStorage["CURRENTHAND"] == 13) {
-				stage2Complete = true;
-			} else {
-
-				// STAGE 2 SETUP
-				game.gameStorage["PLAYERTURN"] = 0;//Runs 0->3 everytime
-				
-				// STAGE 2_1: EACH PLAYER PLAYS ONE CARD
-				bool stage2_1Complete = false;
-				while (!stage2_1Complete) {
-					
-					if (game.gameStorage["PLAYERTURN"] == 4) {
-						stage2_1Complete = true;
-					} else {
-						
-						if (game.gameStorage["PLAYERTURN"] == 0){
-							var played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],noSpades,"HAND","TRICK");
-							if (!played){
-								game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),"HAND","TRICK");
-							}			
-						}
-						else{
-							var followSuit = new CardFilter(new List<TreeExpression>{
-							new TreeExpression(new List<int>{
-							0
-							},game.players[(game.gameStorage["CURRENTPLAYER"] - game.gameStorage["PLAYERTURN"] + 4) % 4].cardBins["TRICK"].AllCards().First().attributes.children[0].Value,true,"suit")
-					});
-							var played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],followSuit,"HAND","TRICK");
-							if (!played){
-								game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),"HAND","TRICK");
-							}
-						}
-						
-						// STAGE 2_1 WRAPUP
-						game.gameStorage["PLAYERTURN"] += 1;
-						game.gameStorage["CURRENTPLAYER"] = (game.gameStorage["CURRENTPLAYER"] + 1) % 4;
-					}
-				}					
-
-				// STAGE 2_2: Determine who WON the trick
-				bool stage2_2Complete = false;
-				while (!stage2_2Complete) {
-					
-					// Solidify precedence rules based on LEAD
-					var precendence = new List<CardFilter>();
-					foreach (var filter in precGen){
-						precendence.Add(filter.Copy());
-					}
-					foreach (var filter in precendence){
-						foreach (var treeDirection in filter.filters){
-							if (treeDirection.expectedValue == "LEAD"){
-								treeDirection.expectedValue = game.players[(game.gameStorage["CURRENTPLAYER"] - game.gameStorage["PLAYERTURN"] + 4) % 4].cardBins["TRICK"].AllCards().First().attributes.children[0].Value;
-								//Console.WriteLine("treeValue:" + treeDirection.expectedValue);
-							}
-						}
-					}
-					
-					var orderedCards = new List<Card>();
-					foreach (var filter in precendence){
-						//Approaches N time
-						var suit = filter.filters.Where(obj => obj.indexLabel == "suit").FirstOrDefault().expectedValue;
-						var rank = filter.filters.Where(obj => obj.indexLabel == "rank").FirstOrDefault().expectedValue;
-						
-						//direct method
-						var card = comboDict[suit + rank];
-						orderedCards.Add(card);
-					}
-						
-						
-					// Now, determine who won the trick									
-					var winningPlayer = 0;
-					var winningIdx = int.MaxValue;
-					for (int i = 0; i < numPlayers; ++i){
-						//Console.WriteLine("PrecIdx:" + );
-						var player = game.players[i];
-						var precedenceIdx = orderedCards.IndexOf(player.cardBins["TRICK"].AllCards().First());
-						if (precedenceIdx >= 0 && precedenceIdx < winningIdx){
-							winningPlayer = i;
-							winningIdx = precedenceIdx;
-						}
-					}
-					
-					// DEBUG for us to validate game works
-					Console.WriteLine("Winner: Player " + (winningPlayer + 1));
-					foreach (var p in game.players){
-						Console.Write("Player:" + p.cardBins["TRICK"].AllCards().First().ToString() + "\n");
-					}
-					
-					// Reward winning player with 1 TRICK
-					game.players[winningPlayer].storage["TRICKSWON"] += 1;
-					
-					game.gameStorage["CURRENTPLAYER"] =  winningPlayer;//Should be winner
-					
-					stage2_2Complete = true;
-				}
-
-				// STAGE 2 WRAPUP
-				game.gameStorage["CURRENTHAND"] += 1;//Current Hand
-
-			}
-			
-		}
-		
-		// STAGE 3: DETERMINE SCORE FOR TEAMS OF PLAYERS
-		
-		
-		// DEBUG tricks taken by each
-		foreach (var player in game.players){
-			Console.WriteLine("Tricks:" + player.storage["TRICKSWON"]);
-		}
-		
-		// DEBUG teams score
-		for (int i = 0; i < game.teams.Count; ++i){
-			Console.Write("Team " + (i + 1) + " Score: ");
-			var total = 0;
-			var totalBid = 0;
-			foreach (var player in game.teams[i].teamPlayers){
-				total += player.storage["TRICKSWON"];
-				totalBid += player.storage["BID"];
-			} 
-			var team = game.teams[i];
-			if (total > totalBid){
-				team.teamStorage["SCORE"] += totalBid * 10;
-				team.teamStorage["BAGS"] += total - totalBid;
+		bool gameNotOver = true;
+		while (gameNotOver){
+			if (game.teams.Exists(team => team.teamStorage["SCORE"] >= 500)){
+				gameNotOver = false;
 			}
 			else{
-				team.teamStorage["SCORE"] -= totalBid * 10;
-			}
-			Console.WriteLine(total);
-			Console.WriteLine(team.teamStorage["SCORE"] + " : " + team.teamStorage["BAGS"]);
-		}
+				// STAGE 0: SETUP STORAGE and DEAL
+				game.DealEvery(13);
+				
+				foreach (var player in game.players){
+					player.storage["TRICKSWON"] = 0;//resets tricks won every game
+				}
+				
+				game.gameStorage["SPADESBROKEN"] = 0;//SPADES BROKEN = FALSE
+				game.gameStorage["PLAYERTURN"] = 0;//Play Turn within hand
+				game.gameStorage["CURRENTPLAYER"] = 0;//Current Players Turn
+				game.gameStorage["CURRENTHAND"] = 0;//Current Hand
+				
+				var noSpades = new CardFilter(new List<TreeExpression>{
+					new TreeExpression(new List<int>{
+						0
+					},"spades",false,"suit")
+				});
+						
+				// STAGE 1: BIDDING
+				foreach (var player in game.players){
+					game.PromptPlayer(player,"BID",1,4); // Should be 0 - 13 Inclusive (14 exclusive), but AI isn't smart enough
+				}
+				foreach (var player in game.players){
+					Console.WriteLine("Bid: " + player.storage["BID"]);
+				}
+				// STAGE 2: PLAY ROUNDS UNTIL ALL CARDS USED
+				bool stage2Complete = false;
+				while (!stage2Complete){
+					
+					// STAGE 2 END CONDITION
+					if (game.gameStorage["CURRENTHAND"] == 13) {
+						stage2Complete = true;
+					} else {
 		
+						// STAGE 2 SETUP
+						game.gameStorage["PLAYERTURN"] = 0;//Runs 0->3 everytime
+						
+						// STAGE 2_1: EACH PLAYER PLAYS ONE CARD
+						bool stage2_1Complete = false;
+						while (!stage2_1Complete) {
+							
+							if (game.gameStorage["PLAYERTURN"] == 4) {
+								stage2_1Complete = true;
+							} else {
+								
+								if (game.gameStorage["PLAYERTURN"] == 0){
+									var played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],noSpades,"HAND","TRICK");
+									if (!played){
+										game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),"HAND","TRICK");
+									}			
+								}
+								else{
+									var followSuit = new CardFilter(new List<TreeExpression>{
+									new TreeExpression(new List<int>{
+									0
+									},game.players[(game.gameStorage["CURRENTPLAYER"] - game.gameStorage["PLAYERTURN"] + 4) % 4].cardBins["TRICK"].AllCards().First().attributes.children[0].Value,true,"suit")
+							});
+									var played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],followSuit,"HAND","TRICK");
+									if (!played){
+										game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),"HAND","TRICK");
+									}
+								}
+								
+								// STAGE 2_1 WRAPUP
+								game.gameStorage["PLAYERTURN"] += 1;
+								game.gameStorage["CURRENTPLAYER"] = (game.gameStorage["CURRENTPLAYER"] + 1) % 4;
+							}
+						}					
+		
+						// STAGE 2_2: Determine who WON the trick
+						bool stage2_2Complete = false;
+						while (!stage2_2Complete) {
+							
+							// Solidify precedence rules based on LEAD
+							var precendence = new List<CardFilter>();
+							foreach (var filter in precGen){
+								precendence.Add(filter.Copy());
+							}
+							foreach (var filter in precendence){
+								foreach (var treeDirection in filter.filters){
+									if (treeDirection.expectedValue == "LEAD"){
+										treeDirection.expectedValue = game.players[(game.gameStorage["CURRENTPLAYER"] - game.gameStorage["PLAYERTURN"] + 4) % 4].cardBins["TRICK"].AllCards().First().attributes.children[0].Value;
+										//Console.WriteLine("treeValue:" + treeDirection.expectedValue);
+									}
+								}
+							}
+							
+							var orderedCards = new List<Card>();
+							foreach (var filter in precendence){
+								//Approaches N time
+								var suit = filter.filters.Where(obj => obj.indexLabel == "suit").FirstOrDefault().expectedValue;
+								var rank = filter.filters.Where(obj => obj.indexLabel == "rank").FirstOrDefault().expectedValue;
+								
+								//direct method
+								var card = comboDict[suit + rank];
+								orderedCards.Add(card);
+							}
+								
+								
+							// Now, determine who won the trick									
+							var winningPlayer = 0;
+							var winningIdx = int.MaxValue;
+							for (int i = 0; i < numPlayers; ++i){
+								//Console.WriteLine("PrecIdx:" + );
+								var player = game.players[i];
+								var precedenceIdx = orderedCards.IndexOf(player.cardBins["TRICK"].AllCards().First());
+								player.cardBins["TRICK"].Remove();
+								if (precedenceIdx >= 0 && precedenceIdx < winningIdx){
+									winningPlayer = i;
+									winningIdx = precedenceIdx;
+								}
+							}
+							
+							// DEBUG for us to validate game works
+							Console.WriteLine("Winner: Player " + (winningPlayer + 1));
+							foreach (var p in game.players){
+								//Uncommenting will throw an exception, stack has been popped
+								//Console.Write("Player:" + p.cardBins["TRICK"].AllCards().First().ToString() + "\n");
+							}
+							
+							// Reward winning player with 1 TRICK
+							game.players[winningPlayer].storage["TRICKSWON"] += 1;
+							
+							game.gameStorage["CURRENTPLAYER"] =  winningPlayer;//Should be winner
+							
+							stage2_2Complete = true;
+						}
+		
+						// STAGE 2 WRAPUP
+						game.gameStorage["CURRENTHAND"] += 1;//Current Hand
+		
+					}
+					
+				}
+				
+				// STAGE 3: DETERMINE SCORE FOR TEAMS OF PLAYERS
+				
+				
+				// DEBUG tricks taken by each
+				foreach (var player in game.players){
+					Console.WriteLine("Tricks:" + player.storage["TRICKSWON"]);
+				}
+				
+				// DEBUG teams score
+				for (int i = 0; i < game.teams.Count; ++i){
+					Console.Write("Team " + (i + 1) + " Score: ");
+					var total = 0;
+					var totalBid = 0;
+					var team = game.teams[i];
+					foreach (var player in team.teamPlayers){
+						if (player.storage["BID"] != 0){
+							total += player.storage["TRICKSWON"];
+							totalBid += player.storage["BID"];
+						}
+						else{
+							team.teamStorage["BAGS"] += player.storage["TRICKSWON"];
+							if (player.storage["TRICKSWON"] == 0){
+								team.teamStorage["SCORE"] += 100;
+							}
+							else{
+								team.teamStorage["SCORE"] -= 100;
+							}
+						}
+					} 
+					
+					if (total >= totalBid){
+						team.teamStorage["SCORE"] += totalBid * 10;
+						team.teamStorage["BAGS"] += total - totalBid;
+					}
+					else{
+						team.teamStorage["SCORE"] -= totalBid * 10;
+					}
+					if (team.teamStorage["BAGS"] >= 10){
+						team.teamStorage["SCORE"] -= 100 * (team.teamStorage["BAGS"]/10);
+						team.teamStorage["BAGS"] %= 10;
+					}
+					Console.WriteLine(total);
+					Console.WriteLine(team.teamStorage["SCORE"] + " : " + team.teamStorage["BAGS"]);
+				}
+			}
+		}
 		time.Stop();
 		Console.WriteLine("Elapsed:" + time.Elapsed);
 	}
