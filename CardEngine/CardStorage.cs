@@ -4,6 +4,19 @@ using System;
 namespace CardEngine{
 	
 	public class CardStorage{
+		public CardCollection this[string key]
+		{
+		    get
+		    {
+		        return storage[binDict[key]];
+		    }
+		    set
+		    {
+	       		storage[binDict[key]] = value;
+	    	}
+		}
+		int binCounter = 0;
+		Dictionary<string,int> binDict = new Dictionary<string,int>();
 		public CardCollection[] storage = new CardCollection[32];
 		public CardStorage(){
 			
@@ -15,8 +28,12 @@ namespace CardEngine{
 		public abstract Card Remove();
 		public abstract Card RemoveAt(int idx);
 		public abstract void Remove(Card c);
+		public abstract int Count {get;}
 	}	
 	public class CardListCollection : CardCollection{
+		public override int Count {get{
+			return cards.Count;
+		}}
 		public List<Card> cards = new List<Card>();
 		public override IEnumerable<Card> AllCards(){
 			return cards;
@@ -39,6 +56,9 @@ namespace CardEngine{
 		}
 	}
 	public class CardStackCollection : CardCollection {
+		public override int Count {get{
+			return cards.Count;
+		}}
 		public Stack<Card> cards = new Stack<Card>();
 		public override IEnumerable<Card> AllCards(){
 			return cards;
@@ -57,6 +77,9 @@ namespace CardEngine{
 		}
 	}
 	public class CardQueueCollection : CardCollection {
+		public override int Count {get{
+			return cards.Count;
+		}}
 		public Queue<Card> cards = new Queue<Card>();
 		
 		public override IEnumerable<Card> AllCards(){
