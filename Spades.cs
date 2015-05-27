@@ -76,6 +76,8 @@ public class Spades{
 		
 		for (int i = 0; i < 2; ++i){
 			var team = new Team();
+			team.teamStorage.AddKey("SCORE");
+			team.teamStorage.AddKey("BAGS");
 			team.teamPlayers.Add(game.players[i]);
 			team.teamPlayers.Add(game.players[i + 2]);
 			game.players[i].team = team;
@@ -293,10 +295,21 @@ public class Spades{
 		for (int i = 0; i < game.teams.Count; ++i){
 			Console.Write("Team " + (i + 1) + " Score: ");
 			var total = 0;
+			var totalBid = 0;
 			foreach (var player in game.teams[i].teamPlayers){
 				total += player.storage["TRICKSWON"];
+				totalBid += player.storage["BID"];
 			} 
+			var team = game.teams[i];
+			if (total > totalBid){
+				team.teamStorage["SCORE"] += totalBid * 10;
+				team.teamStorage["BAGS"] += total - totalBid;
+			}
+			else{
+				team.teamStorage["SCORE"] -= totalBid * 10;
+			}
 			Console.WriteLine(total);
+			Console.WriteLine(team.teamStorage["SCORE"] + " : " + team.teamStorage["BAGS"]);
 		}
 		
 		time.Stop();
