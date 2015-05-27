@@ -61,6 +61,18 @@ public class Spades{
 		// READ NUMBER OF PLAYERS and CREATE THE GAME
 		int numPlayers = 4;
 		var game = new CardGame(numPlayers);
+		
+		// Set TEAMS and Link to PLAYERS
+		
+		for (int i = 0; i < 2; ++i){
+			var team = new Team();
+			team.teamPlayers.Add(game.players[i]);
+			team.teamPlayers.Add(game.players[i + 2]);
+			game.players[i].team = team;
+			game.players[i + 2].team = team;
+			game.teams.Add(team);
+		}
+		
 		game.SetDeck(t);
 		
 		//Instantiate Player Decks and Play Areas
@@ -241,7 +253,10 @@ public class Spades{
 					foreach (var p in game.players){
 						Console.Write("Player:" + p.cardBins.storage[1].AllCards().First().ToString() + "\n");
 					}
-
+					
+					// Reward winning player with 1 TRICK
+					game.players[winningPlayer].IncrValue(1,1);
+					
 					game.SetValue(StoreNames["CURRENTPLAYER"], winningPlayer);//Should be winner
 					
 					stage2_2Complete = true;
@@ -255,6 +270,22 @@ public class Spades{
 		}
 		
 		// STAGE 3: DETERMINE SCORE FOR TEAMS OF PLAYERS
+		
+		
+		// DEBUG tricks taken by each
+		foreach (var player in game.players){
+			Console.WriteLine("Tricks:" + player.storage.storage[1]);
+		}
+		
+		// DEBUG teams score
+		for (int i = 0; i < game.teams.Count; ++i){
+			Console.Write("Team " + (i + 1) + " Score: ");
+			var total = 0;
+			foreach (var player in game.teams[i].teamPlayers){
+				total += player.storage.storage[1];
+			} 
+			Console.WriteLine(total);
+		}
 		
 		time.Stop();
 		Console.WriteLine("Elapsed:" + time.Elapsed);

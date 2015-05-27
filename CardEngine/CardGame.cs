@@ -8,6 +8,7 @@ namespace CardEngine
 		public List<Card> sourceDeck = new List<Card>();
 		List<Card> remainingCards = new List<Card>();
 		public List<Player> players = new List<Player>();
+		public List<Team> teams = new List<Team>();
 		RawStorage gameStorage = new RawStorage();
 		public CardGame(int numPlayers){
 			

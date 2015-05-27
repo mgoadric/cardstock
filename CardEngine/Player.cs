@@ -5,10 +5,15 @@ namespace CardEngine
 	public class Player{
 		public RawStorage storage;
 		public CardStorage cardBins;
+		public Team team;
 		
 		public Player(){
 			storage = new RawStorage();
 			cardBins = new CardStorage();
+		}
+		
+		public void IncrValue(int bin, int value){
+			storage.storage[bin] += value;
 		}
 		public void AddCard(Card c,int idx){
 			cardBins.storage[idx].Add(c);
