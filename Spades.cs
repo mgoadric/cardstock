@@ -225,7 +225,7 @@ public class Spades{
 							} else {
 								var player = game.players[game.gameStorage["CURRENTPLAYER"]];
 								
-								bool played = false;
+								var choices = new List<Card>();
 								
 								if (player.storage["CURRENTSTATE"] == 0){//Normal Play, follow suit
 									var followSuit = new CardFilter(new List<TreeExpression>{
@@ -233,30 +233,44 @@ public class Spades{
 											0
 										},suitTraversal.ReadValue(game.tableCards["LEAD"].Peek()),true,"suit")
 									});
-									played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],followSuit,"HAND","TRICK");
+									choices = game.FilterCardsFromLocation(followSuit,"P",game.gameStorage["CURRENTPLAYER"],"HAND");
 									
 								}
 								else if (player.storage["CURRENTSTATE"] == 1){//Play anything, spades broken or unable to follow
-									played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),"HAND","TRICK");
+									choices = game.FilterCardsFromLocation(new CardFilter(new List<TreeExpression>()),"P",game.gameStorage["CURRENTPLAYER"],"HAND");
 								}
 								else if (player.storage["CURRENTSTATE"] == 2){//Spades not broken, leading with non spade
-									played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],noSpades,"HAND","TRICK");
+									choices = game.FilterCardsFromLocation(noSpades,"P",game.gameStorage["CURRENTPLAYER"],"HAND");
 								}
-								
-								if (game.gameStorage["PLAYERTURN"] == 0 && played){	
-									game.tableCards["LEAD"].Add(game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["TRICK"].Peek());			
+								if (choices.Count == 0){//No moves in current state
+									var changeStateAction = game.ChangePlayerState(game.gameStorage["CURRENTPLAYER"],"CURRENTSTATE",1);
+									game.PlayerMakeChoice(new List<GameActionCollection>{
+										new GameActionCollection{
+											changeStateAction
+										}
+									},game.gameStorage["CURRENTPLAYER"]);
 								}
-								
-								if (played){// STAGE 2_1 WRAPUP
-									game.gameStorage["PLAYERTURN"] += 1;
-									game.gameStorage["CURRENTPLAYER"] = (game.gameStorage["CURRENTPLAYER"] + 1) % 4;
+								else{
+									var ultimateChoices = new List<GameActionCollection>();
+									var changeTurnAction = game.ChangeGameState("PLAYERTURN", game.gameStorage["PLAYERTURN"] + 1);
+									var moduloChangeAction = game.ChangeGameState("CURRENTPLAYER",(game.gameStorage["CURRENTPLAYER"] + 1) % 4);
+									
+									foreach (var choice in choices){
+										var cardPlayAction = new CardMoveAction(choice,game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["HAND"],game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["TRICK"]);
+										ultimateChoices.Add(new GameActionCollection{
+											cardPlayAction,changeTurnAction,moduloChangeAction
+										});	
+										if (game.gameStorage["PLAYERTURN"] == 0){
+											ultimateChoices.Last().Add(new CardCopyAction(choice,game.tableCards["LEAD"]));
+										}
+										
+											
+									}
+									
+									game.PlayerMakeChoice(ultimateChoices,game.gameStorage["CURRENTPLAYER"]);
+									
 								}
-								else{// Unsuccessful play, play again with any card
-									player.storage["CURRENTSTATE"] = 1;
-								}
-								
-								
-								
+
 							}
 						}					
 		
@@ -310,7 +324,8 @@ public class Spades{
 									winningIdx = precedenceIdx;
 								}
 							}
-							if (suitTraversal.ReadValue(orderedCards[winningIdx]) == "spades"){
+							if (suitTraversal.ReadValue(orderedCards[winningIdx]) == suitTraversal.ReadValue(game.tableCards["TRUMP"].Peek())){
+								Console.WriteLine("***SPADESBROKEN***");
 								game.gameStorage["SPADESBROKEN"] = 1;
 							}
 							// DEBUG for us to validate game works

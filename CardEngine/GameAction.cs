@@ -1,5 +1,15 @@
 using System.Collections.Generic;
 namespace CardEngine{
+	public class GameActionCollection: List<GameAction>{
+		public GameActionCollection() : base(){
+			
+		}
+		public void ExecuteAll(){
+			foreach (var gameAction in this){
+				gameAction.Execute();
+			}
+		}
+	}
 	public abstract class GameAction{
 		
 		public GameAction(){
@@ -21,7 +31,19 @@ namespace CardEngine{
 			endLocation.Add(cardToMove);
 		}
 	}
-	
+	public class CardCopyAction : GameAction{
+		Card cardToMove;
+		
+		CardCollection endLocation;
+		public CardCopyAction(Card c, CardCollection end){
+			cardToMove = c;
+			
+			endLocation = end;
+		}
+		public override void Execute(){
+			endLocation.Add(cardToMove);
+		}
+	}
 	public class IntAction : GameAction{
 		
 		RawStorage bucket;

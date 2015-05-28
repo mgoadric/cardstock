@@ -58,20 +58,29 @@ namespace CardEngine
 			possibles[choice].Execute();
 			
 		}
-		public bool PlayerRevealCard(int player, CardFilter filter, string startDeck, string endDeck){
-			var p = players[player];
-			
-			var poss = filter.FilterMatchesAll(p.cardBins[startDeck]);
-			if ((new List<Card>(poss.AllCards())).Count !=  0){
-				var actions = new List<GameAction>();
-				foreach (var c in poss.AllCards()){
-					actions.Add(new CardMoveAction(c,p.cardBins[startDeck],p.cardBins[endDeck]));
-				}
-				var choice = p.MakeAction(actions,rand);
-				actions[choice].Execute();
-				return true;
+		public List<Card> FilterCardsFromLocation(CardFilter filter, string sourceLocation, int locationNumber,  string sourceBucket){
+			if (sourceLocation == "T"){//Table
+				var bin = tableCards[sourceBucket];
+				var possibilities = filter.FilterMatchesAll(bin);
+				return new List<Card>(possibilities.AllCards());
 			}
-			return false;
+			else if (sourceLocation == "P") {//Player
+				var p = players[locationNumber];
+				var bin = p.cardBins[sourceBucket];
+				var possibilities = filter.FilterMatchesAll(bin);
+				return new List<Card>(possibilities.AllCards());
+			}
+			return new List<Card>();//String didn't match a location
+		}
+		public GameAction ChangeGameState(string bucket, int value){
+			return new IntAction(this.gameStorage,bucket,value);
+		}
+		public GameAction ChangePlayerState(int playerIdx, string bucket, int value){
+			return new IntAction(players[playerIdx].storage,bucket,value);
+		}
+		public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
+			var choice = players[playerIdx].MakeAction(choices,rand);
+			choices[choice].ExecuteAll();
 		}
 		public override string ToString(){
 			var ret = "Table Deck:\n";
