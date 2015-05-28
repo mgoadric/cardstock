@@ -199,6 +199,11 @@ public class Spades{
 				foreach (var player in game.players){
 					Console.WriteLine("Bid: " + player.storage["BID"]);
 				}
+				
+				// STAGE 1.5: Give leading player right values
+				var leader = game.players[0];
+				leader.storage["CURRENTSTATE"] = 2;
+				
 				// STAGE 2: PLAY ROUNDS UNTIL ALL CARDS USED
 				bool stage2Complete = false;
 				while (!stage2Complete){
@@ -218,29 +223,40 @@ public class Spades{
 							if (game.gameStorage["PLAYERTURN"] == 4) {
 								stage2_1Complete = true;
 							} else {
+								var player = game.players[game.gameStorage["CURRENTPLAYER"]];
 								
-								if (game.gameStorage["PLAYERTURN"] == 0){
-									var played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],noSpades,"HAND","TRICK");
-									if (!played){
-										game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),"HAND","TRICK");
-									}
-									game.tableCards["LEAD"].Add(game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["TRICK"].Peek());			
-								}
-								else{
+								bool played = false;
+								
+								if (player.storage["CURRENTSTATE"] == 0){//Normal Play, follow suit
 									var followSuit = new CardFilter(new List<TreeExpression>{
 									new TreeExpression(new List<int>{
-									0
-									},suitTraversal.ReadValue(game.tableCards["LEAD"].Peek()),true,"suit")
-							});
-									var played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],followSuit,"HAND","TRICK");
-									if (!played){
-										game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),"HAND","TRICK");
-									}
+											0
+										},suitTraversal.ReadValue(game.tableCards["LEAD"].Peek()),true,"suit")
+									});
+									played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],followSuit,"HAND","TRICK");
+									
+								}
+								else if (player.storage["CURRENTSTATE"] == 1){//Play anything, spades broken or unable to follow
+									played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),"HAND","TRICK");
+								}
+								else if (player.storage["CURRENTSTATE"] == 2){//Spades not broken, leading with non spade
+									played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],noSpades,"HAND","TRICK");
 								}
 								
-								// STAGE 2_1 WRAPUP
-								game.gameStorage["PLAYERTURN"] += 1;
-								game.gameStorage["CURRENTPLAYER"] = (game.gameStorage["CURRENTPLAYER"] + 1) % 4;
+								if (game.gameStorage["PLAYERTURN"] == 0 && played){	
+									game.tableCards["LEAD"].Add(game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["TRICK"].Peek());			
+								}
+								
+								if (played){// STAGE 2_1 WRAPUP
+									game.gameStorage["PLAYERTURN"] += 1;
+									game.gameStorage["CURRENTPLAYER"] = (game.gameStorage["CURRENTPLAYER"] + 1) % 4;
+								}
+								else{// Unsuccessful play, play again with any card
+									player.storage["CURRENTSTATE"] = 1;
+								}
+								
+								
+								
 							}
 						}					
 		
@@ -294,7 +310,9 @@ public class Spades{
 									winningIdx = precedenceIdx;
 								}
 							}
-							
+							if (suitTraversal.ReadValue(orderedCards[winningIdx]) == "spades"){
+								game.gameStorage["SPADESBROKEN"] = 1;
+							}
 							// DEBUG for us to validate game works
 							Console.WriteLine("Winner: Player " + (winningPlayer + 1));
 							foreach (var p in game.players){
@@ -307,6 +325,19 @@ public class Spades{
 							game.players[winningPlayer].storage["TRICKSWON"] += 1;
 							
 							game.gameStorage["CURRENTPLAYER"] =  winningPlayer;//Should be winner
+							
+							foreach (var player in game.players){//Set default state to 0, follow suit
+								player.storage["CURRENTSTATE"] = 0;
+							}
+							
+							var winner = game.players[winningPlayer];
+							if (game.gameStorage["SPADESBROKEN"] == 1){
+								winner.storage["CURRENTSTATE"] = 1;
+							}
+							else{
+								winner.storage["CURRENTSTATE"] = 2;
+							}
+							
 							
 							stage2_2Complete = true;
 						}
