@@ -254,11 +254,11 @@ public class Spades{
 									var ultimateChoices = new List<GameActionCollection>();
 									var changeTurnAction = game.ChangeGameState("PLAYERTURN", game.gameStorage["PLAYERTURN"] + 1);
 									var moduloChangeAction = game.ChangeGameState("CURRENTPLAYER",(game.gameStorage["CURRENTPLAYER"] + 1) % 4);
-									
+									var resetStateAction = game.ChangePlayerState(game.gameStorage["CURRENTPLAYER"],"CURRENTSTATE",0);
 									foreach (var choice in choices){
 										var cardPlayAction = new CardMoveAction(choice,game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["HAND"],game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["TRICK"]);
 										ultimateChoices.Add(new GameActionCollection{
-											cardPlayAction,changeTurnAction,moduloChangeAction
+											cardPlayAction,changeTurnAction,moduloChangeAction,resetStateAction
 										});	
 										if (game.gameStorage["PLAYERTURN"] == 0){
 											ultimateChoices.Last().Add(new CardCopyAction(choice,game.tableCards["LEAD"]));
@@ -341,9 +341,6 @@ public class Spades{
 							
 							game.gameStorage["CURRENTPLAYER"] =  winningPlayer;//Should be winner
 							
-							foreach (var player in game.players){//Set default state to 0, follow suit
-								player.storage["CURRENTSTATE"] = 0;
-							}
 							
 							var winner = game.players[winningPlayer];
 							if (game.gameStorage["SPADESBROKEN"] == 1){
