@@ -61,8 +61,17 @@ public class Spades{
 		// READ NUMBER OF PLAYERS and CREATE THE GAME
 		int numPlayers = 4;
 		var game = new CardGame(numPlayers);
-		game.tableCards.AddKey("STOCK");
-		game.tableCards["STOCK"] = new CardStackCollection();
+		
+		List<string> locationsToCreate = new List<string>{
+			"STOCK",
+			"TRUMP",
+			"LEAD"//TODO TRUMP and LEAD are imaginary locations, should not be used for play
+		};
+		foreach (var key in locationsToCreate){
+			game.tableCards.AddKey(key);
+			game.tableCards[key] = new CardStackCollection();
+		}
+		
 		// Set PLAYER card and int storage locations
 		foreach (var player in game.players){
 			player.storage.AddKey("BID");
@@ -88,6 +97,9 @@ public class Spades{
 		
 		game.SetDeck(t);
 		
+		game.tableCards["TRUMP"].Add(game.sourceDeck.Last());
+		Console.WriteLine(game.tableCards["TRUMP"].Peek());
+		
 		//Instantiate Player Decks and Play Areas
 		foreach (var player in game.players){
 			player.cardBins["HAND"] = new CardListCollection();
@@ -99,7 +111,7 @@ public class Spades{
 		// TODO : Push this into game, have this description be flexible to again read from string
 		List<CardFilter> precGen = new List<CardFilter>();
 		
-		var suits = new List<string>{"spades","LEAD"};
+		var suits = new List<string>{"TRUMP","LEAD"};
 		var rankIter = new List<string>{"A","K","Q","J","10","9","8","7","6","5","4","3","2"};
 		
 		foreach (var suit in suits){
@@ -177,7 +189,7 @@ public class Spades{
 				var noSpades = new CardFilter(new List<TreeExpression>{
 					new TreeExpression(new List<int>{
 						0
-					},"spades",false,"suit")
+					},suitTraversal.ReadValue(game.tableCards["TRUMP"].Peek()),false,"suit")
 				});
 						
 				// STAGE 1: BIDDING
@@ -211,13 +223,14 @@ public class Spades{
 									var played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],noSpades,"HAND","TRICK");
 									if (!played){
 										game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],new CardFilter(new List<TreeExpression>()),"HAND","TRICK");
-									}			
+									}
+									game.tableCards["LEAD"].Add(game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["TRICK"].Peek());			
 								}
 								else{
 									var followSuit = new CardFilter(new List<TreeExpression>{
 									new TreeExpression(new List<int>{
 									0
-									},game.players[(game.gameStorage["CURRENTPLAYER"] - game.gameStorage["PLAYERTURN"] + 4) % 4].cardBins["TRICK"].AllCards().First().attributes.children[0].Value,true,"suit")
+									},suitTraversal.ReadValue(game.tableCards["LEAD"].Peek()),true,"suit")
 							});
 									var played = game.PlayerRevealCard(game.gameStorage["CURRENTPLAYER"],followSuit,"HAND","TRICK");
 									if (!played){
@@ -243,11 +256,18 @@ public class Spades{
 							foreach (var filter in precendence){
 								foreach (var treeDirection in filter.filters){
 									if (treeDirection.expectedValue == "LEAD"){
-										treeDirection.expectedValue = game.players[(game.gameStorage["CURRENTPLAYER"] - game.gameStorage["PLAYERTURN"] + 4) % 4].cardBins["TRICK"].AllCards().First().attributes.children[0].Value;
+										treeDirection.expectedValue = suitTraversal.ReadValue(game.tableCards["LEAD"].Peek());
 										//Console.WriteLine("treeValue:" + treeDirection.expectedValue);
+									}
+									if (treeDirection.expectedValue == "TRUMP"){
+										treeDirection.expectedValue = suitTraversal.ReadValue(game.tableCards["TRUMP"].Peek());
 									}
 								}
 							}
+							
+							//Precedence is known, pop the leading card from imaginary location
+							game.tableCards["LEAD"].Remove();
+							
 							
 							var orderedCards = new List<Card>();
 							foreach (var filter in precendence){
@@ -268,7 +288,7 @@ public class Spades{
 								//Console.WriteLine("PrecIdx:" + );
 								var player = game.players[i];
 								var precedenceIdx = orderedCards.IndexOf(player.cardBins["TRICK"].AllCards().First());
-								player.cardBins["TRICK"].Remove();
+								
 								if (precedenceIdx >= 0 && precedenceIdx < winningIdx){
 									winningPlayer = i;
 									winningIdx = precedenceIdx;
@@ -279,7 +299,8 @@ public class Spades{
 							Console.WriteLine("Winner: Player " + (winningPlayer + 1));
 							foreach (var p in game.players){
 								//Uncommenting will throw an exception, stack has been popped
-								//Console.Write("Player:" + p.cardBins["TRICK"].AllCards().First().ToString() + "\n");
+								Console.Write("Player:" + p.cardBins["TRICK"].AllCards().First().ToString() + "\n");
+								p.cardBins["TRICK"].Remove();
 							}
 							
 							// Reward winning player with 1 TRICK
