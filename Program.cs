@@ -7,7 +7,8 @@ namespace CardGames
     {
         public static void Main(string[] args)
         {
-            var spades = new Spades();
+            //var spades = new Spades();
+            var hearts = new Hearts();
         }
     }
 }

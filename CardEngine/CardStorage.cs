@@ -32,6 +32,7 @@ namespace CardEngine{
 		public abstract void Add(Card c);
 		public abstract Card Remove();
 		public abstract Card Peek();
+		public abstract void Clear();
 		public abstract Card RemoveAt(int idx);
 		public abstract void Remove(Card c);
 		public abstract int Count {get;}
@@ -60,6 +61,9 @@ namespace CardEngine{
 		}
 		public override void Add(Card c){
 			cards.Add(c);
+		}
+		public override void Clear(){
+			cards.Clear();
 		}
 		public override Card Remove(){
 			var ret = cards.Last();
@@ -96,6 +100,9 @@ namespace CardEngine{
 		public override Card Remove(){
 			return cards.Pop();
 		}
+		public override void Clear(){
+			cards.Clear();
+		}
 		public override Card Peek(){
 			return cards.Peek();
 			
@@ -123,6 +130,9 @@ namespace CardEngine{
 		
 		public override IEnumerable<Card> AllCards(){
 			return cards;
+		}
+		public override void Clear(){
+			cards.Clear();
 		}
 		public override void Add(Card c){
 			cards.Enqueue(c);

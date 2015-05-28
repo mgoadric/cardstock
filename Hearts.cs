@@ -65,6 +65,7 @@ public class Hearts{
 		List<string> locationsToCreate = new List<string>{
 			"STOCK",
 			"TRUMP",
+			"VERYBAD",
 			"LEAD"//TODO TRUMP and LEAD are imaginary locations, should not be used for play
 		};
 		foreach (var key in locationsToCreate){
@@ -74,44 +75,39 @@ public class Hearts{
 		
 		// Set PLAYER card and int storage locations
 		foreach (var player in game.players){
-			player.storage.AddKey("BID");
 			player.storage.AddKey("CURRENTSTATE");
-			player.storage.AddKey("TRICKSWON");
 			
 			player.cardBins.AddKey("HAND");
 			player.cardBins.AddKey("TRICK");
+			player.cardBins.AddKey("TRICKSWON");
+			player.cardBins["HAND"] = new CardListCollection();
+			player.cardBins["TRICK"] = new CardListCollection();
+			player.cardBins["TRICKSWON"] = new CardListCollection();
 		}
 		
 		// Set TEAMS and Link to PLAYERS
 		
-		for (int i = 0; i < 2; ++i){
+		for (int i = 0; i < 4; ++i){
 			var team = new Team();
 			team.teamStorage.AddKey("SCORE");
-			team.teamStorage.AddKey("BAGS");
 			team.teamPlayers.Add(game.players[i]);
-			team.teamPlayers.Add(game.players[i + 2]);
 			game.players[i].team = team;
-			game.players[i + 2].team = team;
 			game.teams.Add(team);
 		}
 		
 		game.SetDeck(t);
 		
-		game.tableCards["TRUMP"].Add(game.sourceDeck.Last());
+		game.tableCards["TRUMP"].Add(game.sourceDeck.First());
 		Console.WriteLine(game.tableCards["TRUMP"].Peek());
 		
-		//Instantiate Player Decks and Play Areas
-		foreach (var player in game.players){
-			player.cardBins["HAND"] = new CardListCollection();
-			player.cardBins["TRICK"] = new CardStackCollection();
-		}
-		
+		game.tableCards["VERYBAD"].Add(game.sourceDeck[49]);
+		Console.WriteLine(game.tableCards["VERYBAD"].Peek());
 		// Establish PRECEDENCE for the cards.
 		//
 		// TODO : Push this into game, have this description be flexible to again read from string
 		List<CardFilter> precGen = new List<CardFilter>();
 		
-		var suits = new List<string>{"TRUMP","LEAD"};
+		var suits = new List<string>{"LEAD"};
 		var rankIter = new List<string>{"A","K","Q","J","10","9","8","7","6","5","4","3","2"};
 		
 		foreach (var suit in suits){
@@ -158,7 +154,7 @@ public class Hearts{
 			comboDict.Add(suit + rank,card);
 		}
 		Dictionary<String, int> StoreNames = new Dictionary<String, int>{
-			{"SPADESBROKEN", 0},
+			{"HEARTSBROKEN", 0},
 			{"PLAYERTURN", 1},
 			{"CURRENTPLAYER", 2},
 			{"CURRENTHAND", 3}	
@@ -168,7 +164,7 @@ public class Hearts{
 		}
 		bool gameNotOver = true;
 		while (gameNotOver){
-			if (game.teams.Exists(team => team.teamStorage["SCORE"] >= 500)){
+			if (game.teams.Exists(team => team.teamStorage["SCORE"] >= 100)){
 				gameNotOver = false;
 			}
 			else{
@@ -178,27 +174,19 @@ public class Hearts{
 				game.DealEvery(13,"STOCK","HAND");
 				
 				foreach (var player in game.players){
-					player.storage["TRICKSWON"] = 0;//resets tricks won every game
+					player.cardBins["TRICKSWON"].Clear();
 				}
 				
-				game.gameStorage["SPADESBROKEN"] = 0;//SPADES BROKEN = FALSE
+				game.gameStorage["HEARTSBROKEN"] = 0;//HEARTS BROKEN = FALSE
 				game.gameStorage["PLAYERTURN"] = 0;//Play Turn within hand
 				game.gameStorage["CURRENTPLAYER"] = 0;//Current Players Turn
 				game.gameStorage["CURRENTHAND"] = 0;//Current Hand
 				
-				var noSpades = new CardFilter(new List<TreeExpression>{
+				var noHearts = new CardFilter(new List<TreeExpression>{
 					new TreeExpression(new List<int>{
 						0
 					},suitTraversal.ReadValue(game.tableCards["TRUMP"].Peek()),false,"suit")
 				});
-						
-				// STAGE 1: BIDDING
-				foreach (var player in game.players){
-					game.PromptPlayer(player,"BID",1,4); // Should be 0 - 13 Inclusive (14 exclusive), but AI isn't smart enough
-				}
-				foreach (var player in game.players){
-					Console.WriteLine("Bid: " + player.storage["BID"]);
-				}
 				
 				// STAGE 1.5: Give leading player right values
 				var leader = game.players[0];
@@ -240,7 +228,7 @@ public class Hearts{
 									choices = game.FilterCardsFromLocation(new CardFilter(new List<TreeExpression>()),"P",game.gameStorage["CURRENTPLAYER"],"HAND");
 								}
 								else if (player.storage["CURRENTSTATE"] == 2){//Spades not broken, leading with non spade
-									choices = game.FilterCardsFromLocation(noSpades,"P",game.gameStorage["CURRENTPLAYER"],"HAND");
+									choices = game.FilterCardsFromLocation(noHearts,"P",game.gameStorage["CURRENTPLAYER"],"HAND");
 								}
 								if (choices.Count == 0){//No moves in current state
 									var changeStateAction = game.ChangePlayerState(game.gameStorage["CURRENTPLAYER"],"CURRENTSTATE",1);
@@ -289,9 +277,6 @@ public class Hearts{
 										treeDirection.expectedValue = suitTraversal.ReadValue(game.tableCards["LEAD"].Peek());
 										//Console.WriteLine("treeValue:" + treeDirection.expectedValue);
 									}
-									if (treeDirection.expectedValue == "TRUMP"){
-										treeDirection.expectedValue = suitTraversal.ReadValue(game.tableCards["TRUMP"].Peek());
-									}
 								}
 							}
 							
@@ -324,26 +309,29 @@ public class Hearts{
 									winningIdx = precedenceIdx;
 								}
 							}
-							if (suitTraversal.ReadValue(orderedCards[winningIdx]) == suitTraversal.ReadValue(game.tableCards["TRUMP"].Peek())){
-								Console.WriteLine("***SPADESBROKEN***");
-								game.gameStorage["SPADESBROKEN"] = 1;
-							}
+							
 							// DEBUG for us to validate game works
 							Console.WriteLine("Winner: Player " + (winningPlayer + 1));
+							var transportAction = new GameActionCollection();
 							foreach (var p in game.players){
 								//Uncommenting will throw an exception, stack has been popped
 								Console.Write("Player:" + p.cardBins["TRICK"].AllCards().First().ToString() + "\n");
-								p.cardBins["TRICK"].Remove();
+								var queueCard = p.cardBins["TRICK"].Peek();
+								if (suitTraversal.ReadValue(queueCard) == suitTraversal.ReadValue(game.tableCards["TRUMP"].Peek())){
+									Console.WriteLine("***HEARTSBROKEN***");
+									game.gameStorage["HEARTSBROKEN"] = 1;
+								}
+								transportAction.Add(new CardMoveAction(queueCard,p.cardBins["TRICK"],game.players[winningPlayer].cardBins["TRICKSWON"]));
 							}
-							
+							transportAction.ExecuteAll();
 							// Reward winning player with 1 TRICK
-							game.players[winningPlayer].storage["TRICKSWON"] += 1;
+							
 							
 							game.gameStorage["CURRENTPLAYER"] =  winningPlayer;//Should be winner
 							
 							
 							var winner = game.players[winningPlayer];
-							if (game.gameStorage["SPADESBROKEN"] == 1){
+							if (game.gameStorage["HEARTSBROKEN"] == 1){
 								winner.storage["CURRENTSTATE"] = 1;
 							}
 							else{
@@ -366,44 +354,50 @@ public class Hearts{
 				
 				// DEBUG tricks taken by each
 				foreach (var player in game.players){
-					Console.WriteLine("Tricks:" + player.storage["TRICKSWON"]);
+					var findHearts = new CardFilter(new List<TreeExpression>{
+						new TreeExpression(new List<int>{
+							0
+						},suitTraversal.ReadValue(game.tableCards["TRUMP"].Peek()),true,"suit")
+					});
+					var filteredList = findHearts.FilterMatchesAll(player.cardBins["TRICKSWON"]);
+					Console.WriteLine("Number Hearts Accrued:" + filteredList.Count);
+					
 				}
 				
 				// DEBUG teams score
 				for (int i = 0; i < game.teams.Count; ++i){
 					Console.Write("Team " + (i + 1) + " Score: ");
-					var total = 0;
-					var totalBid = 0;
+					var heartsFound = 0;
 					var team = game.teams[i];
 					foreach (var player in team.teamPlayers){
-						if (player.storage["BID"] != 0){
-							total += player.storage["TRICKSWON"];
-							totalBid += player.storage["BID"];
-						}
-						else{
-							team.teamStorage["BAGS"] += player.storage["TRICKSWON"];
-							if (player.storage["TRICKSWON"] == 0){
-								team.teamStorage["SCORE"] += 100;
-							}
-							else{
-								team.teamStorage["SCORE"] -= 100;
-							}
-						}
+						var findHearts = new CardFilter(new List<TreeExpression>{
+						new TreeExpression(new List<int>{
+								0
+							},suitTraversal.ReadValue(game.tableCards["TRUMP"].Peek()),true,"suit")
+						});
+						
+						var findQueen = new CardFilter(new List<TreeExpression>{
+							new TreeExpression(new List<int>{
+								0
+							},suitTraversal.ReadValue(game.tableCards["VERYBAD"].Peek()),true,"suit"),
+							new TreeExpression(new List<int>{
+								1
+							}, rankTraversal.ReadValue(game.tableCards["VERYBAD"].Peek()),true,"rank")
+						});
+						var queenList = findQueen.FilterMatchesAll(player.cardBins["TRICKSWON"]);
+						var filteredList = findHearts.FilterMatchesAll(player.cardBins["TRICKSWON"]);
+						heartsFound += filteredList.Count + (13 * queenList.Count);
 					} 
 					
-					if (total >= totalBid){
-						team.teamStorage["SCORE"] += totalBid * 10;
-						team.teamStorage["BAGS"] += total - totalBid;
+					if (heartsFound < 26){
+						team.teamStorage["SCORE"] += heartsFound;
 					}
 					else{
-						team.teamStorage["SCORE"] -= totalBid * 10;
+						team.teamStorage["SCORE"] -= heartsFound;
 					}
-					if (team.teamStorage["BAGS"] >= 10){
-						team.teamStorage["SCORE"] -= 100 * (team.teamStorage["BAGS"]/10);
-						team.teamStorage["BAGS"] %= 10;
-					}
-					Console.WriteLine(total);
-					Console.WriteLine(team.teamStorage["SCORE"] + " : " + team.teamStorage["BAGS"]);
+					
+					
+					Console.WriteLine(team.teamStorage["SCORE"]);
 				}
 			}
 		}
