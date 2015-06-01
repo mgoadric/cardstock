@@ -14,9 +14,9 @@ public class Spades{
 		//
 		// TODO: Push this code inside the CardGame class, to read a string like below
 		// 
-		// (tree (rank (2 3 4 5 6 7 8 9 10 J Q K)
-		// 		 (color (red (hearts diamonds)
-		//		  		(black (clubs spades))))
+		// (deck1 (rank (2 3 4 5 6 7 8 9 10 J Q K)
+		// 		  (color (red (suit (hearts diamonds))
+		//		  		(black (suit (clubs spades)))))
 		var red = new Node{
 			Value = "red",
 			Key="color",
