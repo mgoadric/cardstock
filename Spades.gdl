@@ -1,0 +1,109 @@
+;; Name of the game
+(game spades
+
+;; Preamble setup for the game
+   (preamble
+
+;; Deck definitions
+      (deck (A (rank (A 2 3 4 5 6 7 8 9 10 J Q K))
+      	   (color (red (suit (hearts diamonds)))
+      		       (black (suit (clubs spades))))))
+
+;; Precedence
+      (precedence (suit TRUMP (rank A K Q J 10 9 8 7 6 5 4 3 2))
+                  (suit LEAD (rank A K Q J 10 9 8 7 6 5 4 3 2)))
+
+;; Points
+;; None for Spades
+
+;; Players and Teams
+      (players 2 2)
+
+;; Game Locations and Storage
+      (gamesto (locations (STOCK Stack)
+                          (TRUMP Stack Imaginary)
+      		              (LEAD Stack Imaginary))
+               (storage (SPADESBROKEN, PLAYERTURN, CURRENTPLAYER, CURRENTHAND)))
+
+;; Player Locations and Storage
+      (playersto (locations (HAND List)
+                            (TRICK Stack))
+                 (storage (BID CURRENTSTATE TRICKSWON)))
+
+;; Team Locations and Storage
+      (teamsto (locations ())
+               (storage (SCORE BAGS))))
+               
+;; Stages of the game
+   (stage 
+      (end (>= (any team SCORE) 500))) 
+      (pre (comp (copy AS TRUMP))
+           (comp (populate STOCK))
+           (comp (shuffle STOCK))
+           (comp (dealevery 13 STOCK HAND))
+           (comp (set (game SPADESBROKEN) 0)))
+           (comp (set (game PLAYERTURN) 0)))
+           (comp (set (game CURRENTPLAYER) 0)))
+           (comp (set (game CURRENTHAND) 0)))
+           (comp (setevery (player TRICKSWON) 0))))
+      (actions)
+
+      ;; bidding
+      (stage
+         (end player once)
+         (pre)
+         (actions
+            (() (set (my BID) 1))
+            (() (set (my BID) 2))
+            (() (set (my BID) 3))
+            (() (set (my BID) 4)))
+         (stage)
+         (post))
+         
+      ;; play a round         
+      (stage
+         (end (== (game CURRENTHAND) 13))
+         (pre 
+            (comp set (game PLAYERTURN) 0)))
+            (comp set (player (game PLAYERTURN) CURRENTSTATE 2)))
+         (actions)
+         
+         ;; play a hand
+            (stage
+               (end player once)
+               (pre)
+               (actions
+                  (((== (my CURRENTSTATE) 0) and
+                    (> (size (my HAND where (== suit (game LEAD suit)) 0) ()
+               (stage)
+               (post))
+               
+         ;; determine who won the hand
+            (stage
+               (end)
+               (pre)
+               (actions)
+               (stage)
+               (post))
+         (post
+            (comp (inc (game CURRENTHAND 1)))))
+         
+      ;; determine team score
+      (stage
+         (end team once)
+         (pre)
+         (actions)
+         (stage)
+         (post))
+         
+      (post ())))
+      
+      
+      
+      
+            (stage
+         (end)
+         (pre)
+         (actions)
+         (stage)
+         (post)
