@@ -49,13 +49,18 @@ public class LostCities{
 		time.Start();
 		
 		// READ NUMBER OF PLAYERS and CREATE THE GAME
-		int numPlayers = 4;
+		int numPlayers = 2;
 		var game = new CardGame(numPlayers);
 		
 		List<string> locationsToCreate = new List<string>{
 			"STOCK",
-			"TRUMP",
-			"LEAD"//TODO TRUMP and LEAD are imaginary locations, should not be used for play
+			"yellow",
+			"blue",
+			"black",
+			"green",
+			"red",
+			"JUSTPLAYED"
+			//TODO TRUMP and LEAD are imaginary locations, should not be used for play
 		};
 		foreach (var key in locationsToCreate){
 			game.tableCards.AddKey(key);
@@ -64,12 +69,15 @@ public class LostCities{
 		
 		// Set PLAYER card and int storage locations
 		foreach (var player in game.players){
-			player.storage.AddKey("BID");
+			
 			player.storage.AddKey("CURRENTSTATE");
-			player.storage.AddKey("TRICKSWON");
 			
 			player.cardBins.AddKey("HAND");
-			player.cardBins.AddKey("TRICK");
+			player.cardBins.AddKey("yellow");
+			player.cardBins.AddKey("blue");
+			player.cardBins.AddKey("black");
+			player.cardBins.AddKey("green");
+			player.cardBins.AddKey("red");
 		}
 		
 		// Set TEAMS and Link to PLAYERS
@@ -77,18 +85,13 @@ public class LostCities{
 		for (int i = 0; i < 2; ++i){
 			var team = new Team();
 			team.teamStorage.AddKey("SCORE");
-			team.teamStorage.AddKey("BAGS");
 			team.teamPlayers.Add(game.players[i]);
-			team.teamPlayers.Add(game.players[i + 2]);
 			game.players[i].team = team;
-			game.players[i + 2].team = team;
 			game.teams.Add(team);
 		}
 		
 		game.SetDeck(t);
 		
-		game.tableCards["TRUMP"].Add(game.sourceDeck.Last());
-		Console.WriteLine(game.tableCards["TRUMP"].Peek());
 		
 		//Instantiate Player Decks and Play Areas
 		foreach (var player in game.players){
