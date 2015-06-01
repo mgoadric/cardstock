@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 namespace CardEngine
 {
 	public class CardGame{
@@ -22,6 +22,7 @@ namespace CardEngine
 			var combos = cardAttributes.combinations();
 			foreach (var combo in combos){
 				sourceDeck.Add(new Card(combo));
+				Console.WriteLine(sourceDeck.Last());
 			}
 		}
 		public void PopulateLocation(string cardLocation){

@@ -41,21 +41,22 @@ namespace CardEngine{
 		}
 	}
 	public class TreeExpression {
+		public string CardAttribute;
 		bool equal;
-		TreeTraversal traversals;
 		public string expectedValue;
-		public string indexLabel;
-		public TreeExpression(List<int> t, string s, bool e, string iLabel){
-			traversals = new TreeTraversal(t);
+		
+		public TreeExpression(string cardAttribute, string s, bool e){
+			
+			CardAttribute = cardAttribute;
 			expectedValue = s;
 			equal = e;
-			indexLabel = iLabel;
+			
 		}
 		public TreeExpression Copy(){
-			return new TreeExpression(this.traversals.traversals,this.expectedValue,this.equal,this.indexLabel);
+			return new TreeExpression(CardAttribute,this.expectedValue,this.equal);
 		}
 		public bool CardConforms(Card c){
-			var desiredValue = traversals.ReadValue(c);
+			var desiredValue = c.ReadAttribute(CardAttribute);
 			return equal? desiredValue == expectedValue : desiredValue != expectedValue;
 		}
 	}

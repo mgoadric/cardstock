@@ -19,24 +19,41 @@ public class Hearts{
 		//		  		(black (clubs spades))))
 		var red = new Node{
 			Value = "red",
+			Key="color",
 			children = new List<Node>{
-				new Node{Value="hearts"},
-				new Node{Value= "diamonds"}
+				new Node{
+					Value="hearts",
+					Key="suit",
+				},
+				new Node{
+					Value="diamonds",
+					Key="suit"
+				}
+				
+					
 			}
 		};
 		var black = new Node{	
 			Value = "black",
+			Key = "color",
 			children = new List<Node>{
-				new Node{Value="clubs"},
-				new Node{Value="spades"}	
+				new Node{
+					Value="clubs",
+					Key="suit",
+				},
+				new Node{
+					Value="spades",
+					Key="suit"
+				}
+					
 			}
 		};
 		var ranks = new Node{
-			Value = "rank",
+			Value = "combo2",
 			children = new List<Node>{
-			new Node{Value="2"},new Node{Value="3"},new Node{Value="4"},
-			new Node{Value="5"},new Node{Value="6"},new Node{Value="7"},new Node{Value="8"},new Node{Value="9"},new Node{Value="10"},
-			new Node{Value="J"},new Node{Value="Q"},new Node{Value="K"},new Node{Value="A"}
+			new Node{Value="2",Key="rank"},new Node{Value="3",Key="rank"},new Node{Value="4",Key="rank"},
+			new Node{Value="5",Key="rank"},new Node{Value="6",Key="rank"},new Node{Value="7",Key="rank"},new Node{Value="8",Key="rank"},new Node{Value="9",Key="rank"},new Node{Value="10",Key="rank"},
+			new Node{Value="J",Key="rank"},new Node{Value="Q",Key="rank"},new Node{Value="K",Key="rank"},new Node{Value="A",Key="rank"}
 			}
 		};
 		Tree t = new Tree{
@@ -44,7 +61,7 @@ public class Hearts{
 				Value="Attrs",
 				children = new List<Node>{
 					new Node{
-						Value = "colors",
+						Value = "combo1",
 						children = new List<Node>{
 							red,black
 						}
@@ -113,27 +130,16 @@ public class Hearts{
 		foreach (var suit in suits){
 			foreach (var rank in rankIter){
 				precGen.Add(new CardFilter(new List<TreeExpression>{
-					new TreeExpression(new List<int>{
-						0
-					},suit,true,"suit"),
-					new TreeExpression(new List<int>{
-						1
-					},rank,true,"rank")
+					new TreeExpression("suit",suit,true),
+					new TreeExpression("rank",rank,true)
 				}));
 			}
 		}
-		
-		var suitTraversal = new TreeTraversal(new List<int>{
-			0
-		});
-		var rankTraversal = new TreeTraversal(new List<int>{
-			1
-		});
 		var suitDict = new Dictionary<string,HashSet<Card>>();
 		var rankDict = new Dictionary<string,HashSet<Card>>();
 		var comboDict = new Dictionary<string, Card>();
 		foreach (var card in game.sourceDeck){
-			var suit = suitTraversal.ReadValue(card);
+			var suit = card.ReadAttribute("suit");
 			
 			if (suitDict.ContainsKey(suit)){
 				suitDict[suit].Add(card);
@@ -142,7 +148,7 @@ public class Hearts{
 				suitDict.Add(suit,new HashSet<Card>{card});
 			}
 			
-			var rank = rankTraversal.ReadValue(card);
+			var rank = card.ReadAttribute("rank");
 			
 			if (rankDict.ContainsKey(rank)){
 				rankDict[rank].Add(card);
@@ -164,6 +170,7 @@ public class Hearts{
 		}
 		bool gameNotOver = true;
 		while (gameNotOver){
+			
 			if (game.teams.Exists(team => team.teamStorage["SCORE"] >= 100)){
 				gameNotOver = false;
 			}
@@ -183,9 +190,7 @@ public class Hearts{
 				game.gameStorage["CURRENTHAND"] = 0;//Current Hand
 				
 				var noHearts = new CardFilter(new List<TreeExpression>{
-					new TreeExpression(new List<int>{
-						0
-					},suitTraversal.ReadValue(game.tableCards["TRUMP"].Peek()),false,"suit")
+					new TreeExpression("suit",game.tableCards["TRUMP"].Peek().ReadAttribute("suit"),false)
 				});
 				
 				// STAGE 1.5: Give leading player right values
@@ -217,9 +222,7 @@ public class Hearts{
 								
 								if (player.storage["CURRENTSTATE"] == 0){//Normal Play, follow suit
 									var followSuit = new CardFilter(new List<TreeExpression>{
-									new TreeExpression(new List<int>{
-											0
-										},suitTraversal.ReadValue(game.tableCards["LEAD"].Peek()),true,"suit")
+									new TreeExpression("suit",game.tableCards["LEAD"].Peek().ReadAttribute("suit"),true)
 									});
 									choices = game.FilterCardsFromLocation(followSuit,"P",game.gameStorage["CURRENTPLAYER"],"HAND");
 									
@@ -261,7 +264,7 @@ public class Hearts{
 
 							}
 						}					
-		
+						
 						// STAGE 2_2: Determine who WON the trick
 						bool stage2_2Complete = false;
 						while (!stage2_2Complete) {
@@ -274,12 +277,12 @@ public class Hearts{
 							foreach (var filter in precendence){
 								foreach (var treeDirection in filter.filters){
 									if (treeDirection.expectedValue == "LEAD"){
-										treeDirection.expectedValue = suitTraversal.ReadValue(game.tableCards["LEAD"].Peek());
+										treeDirection.expectedValue = game.tableCards["LEAD"].Peek().ReadAttribute("suit");
 										//Console.WriteLine("treeValue:" + treeDirection.expectedValue);
 									}
 								}
 							}
-							
+							Console.Write("Not Over");
 							//Precedence is known, pop the leading card from imaginary location
 							game.tableCards["LEAD"].Remove();
 							
@@ -287,14 +290,14 @@ public class Hearts{
 							var orderedCards = new List<Card>();
 							foreach (var filter in precendence){
 								//Approaches N time
-								var suit = filter.filters.Where(obj => obj.indexLabel == "suit").FirstOrDefault().expectedValue;
-								var rank = filter.filters.Where(obj => obj.indexLabel == "rank").FirstOrDefault().expectedValue;
+								var suit = filter.filters.Where(obj => obj.CardAttribute == "suit").FirstOrDefault().expectedValue;
+								var rank = filter.filters.Where(obj => obj.CardAttribute == "rank").FirstOrDefault().expectedValue;
 								
 								//direct method
 								var card = comboDict[suit + rank];
 								orderedCards.Add(card);
 							}
-								
+							
 								
 							// Now, determine who won the trick									
 							var winningPlayer = 0;
@@ -317,7 +320,7 @@ public class Hearts{
 								//Uncommenting will throw an exception, stack has been popped
 								Console.Write("Player:" + p.cardBins["TRICK"].AllCards().First().ToString() + "\n");
 								var queueCard = p.cardBins["TRICK"].Peek();
-								if (suitTraversal.ReadValue(queueCard) == suitTraversal.ReadValue(game.tableCards["TRUMP"].Peek())){
+								if (queueCard.ReadAttribute("suit") == game.tableCards["TRUMP"].Peek().ReadAttribute("suit")){
 									Console.WriteLine("***HEARTSBROKEN***");
 									game.gameStorage["HEARTSBROKEN"] = 1;
 								}
@@ -355,9 +358,7 @@ public class Hearts{
 				// DEBUG tricks taken by each
 				foreach (var player in game.players){
 					var findHearts = new CardFilter(new List<TreeExpression>{
-						new TreeExpression(new List<int>{
-							0
-						},suitTraversal.ReadValue(game.tableCards["TRUMP"].Peek()),true,"suit")
+						new TreeExpression("suit",game.tableCards["TRUMP"].Peek().ReadAttribute("suit"),true)
 					});
 					var filteredList = findHearts.FilterMatchesAll(player.cardBins["TRICKSWON"]);
 					Console.WriteLine("Number Hearts Accrued:" + filteredList.Count);
@@ -371,18 +372,12 @@ public class Hearts{
 					var team = game.teams[i];
 					foreach (var player in team.teamPlayers){
 						var findHearts = new CardFilter(new List<TreeExpression>{
-						new TreeExpression(new List<int>{
-								0
-							},suitTraversal.ReadValue(game.tableCards["TRUMP"].Peek()),true,"suit")
+						new TreeExpression("suit",game.tableCards["TRUMP"].Peek().ReadAttribute("suit"),true)
 						});
 						
 						var findQueen = new CardFilter(new List<TreeExpression>{
-							new TreeExpression(new List<int>{
-								0
-							},suitTraversal.ReadValue(game.tableCards["VERYBAD"].Peek()),true,"suit"),
-							new TreeExpression(new List<int>{
-								1
-							}, rankTraversal.ReadValue(game.tableCards["VERYBAD"].Peek()),true,"rank")
+							new TreeExpression("suit",game.tableCards["VERYBAD"].Peek().ReadAttribute("suit"),true),
+							new TreeExpression("rank", game.tableCards["VERYBAD"].Peek().ReadAttribute("rank"),true)
 						});
 						var queenList = findQueen.FilterMatchesAll(player.cardBins["TRICKSWON"]);
 						var filteredList = findHearts.FilterMatchesAll(player.cardBins["TRICKSWON"]);

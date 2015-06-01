@@ -61,12 +61,14 @@ public class Tree{
 }
 public class Node{
 	public string Value;
+	public string Key;
 	public List<Node> children = new List<Node>();
 	public Node(){
 		
 	}
 	public Node(Node copy){
 		Value = copy.Value;
+		Key = copy.Key;
 		children = new List<Node>();
 		foreach (var c in copy.children){
 			children.Add(new Node(c));
@@ -74,6 +76,7 @@ public class Node{
 	}
 	public Node(Node copy, bool useChildren){
 		Value = copy.Value;
+		Key = copy.Key;
 		children = new List<Node>();
 		
 	}
@@ -93,7 +96,7 @@ public class Node{
 			}
 		}
 		if (Value != null){
-			return Value + " {" + ret + "}";
+			return Value + "(" + Key +  ")" +  " {" + ret + "}";
 		}
 		else{
 			return "";
