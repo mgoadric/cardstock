@@ -24,6 +24,7 @@ namespace CardEngine
 				sourceDeck.Add(new Card(combo));
 				Console.WriteLine(sourceDeck.Last());
 			}
+			Console.ReadKey();
 		}
 		public void PopulateLocation(string cardLocation){
 			var location = tableCards[cardLocation];
