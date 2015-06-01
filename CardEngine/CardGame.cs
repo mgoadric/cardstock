@@ -22,9 +22,9 @@ namespace CardEngine
 			var combos = cardAttributes.combinations();
 			foreach (var combo in combos){
 				sourceDeck.Add(new Card(combo));
-				Console.WriteLine(sourceDeck.Last());
+				//Console.WriteLine(sourceDeck.Last());
 			}
-			Console.ReadKey();
+			//Console.ReadKey();
 		}
 		public void PopulateLocation(string cardLocation){
 			var location = tableCards[cardLocation];
