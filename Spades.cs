@@ -299,8 +299,7 @@ public class Spades{
 								}
 							}
 							
-							//Precedence is known, pop the leading card from imaginary location
-							game.tableCards["LEAD"].Remove();
+							
 							
 							
 							var orderedCards = new List<Card>();
@@ -313,22 +312,47 @@ public class Spades{
 								var card = comboDict[suit + rank];
 								orderedCards.Add(card);
 							}
+							
+							var scoringList = new List<PointAwards>();
+							var ranksTemp = new List<string>{
+								"2","3","4","5","6","7","8","9","10","J","Q","K","A"
+							};
+							var rankScore = new List<int>{
+								2,3,4,5,6,7,8,9,10,11,12,13,14
+							};
+							for (int i = 0; i < ranksTemp.Count; ++i){
+								scoringList.Add(new PointAwards(new CardFilter(new List<TreeExpression>{
+									new TreeExpression("rank",ranksTemp[i],true)
+								}),rankScore[i]));
+							}
+							scoringList.Add(new PointAwards(new CardFilter(new List<TreeExpression>{ 
+									new TreeExpression("suit",game.tableCards["TRUMP"].Peek().ReadAttribute("suit"),true)
+								}),200));
+							scoringList.Add(
+								new PointAwards(new CardFilter(new List<TreeExpression>{
+									new TreeExpression("suit",game.tableCards["LEAD"].Peek().ReadAttribute("suit"),true)
+								}),100));
+							var scoring = new CardScore(scoringList);
+							
+							//Precedence (now scoring) is known, pop the leading card from imaginary location
+							game.tableCards["LEAD"].Remove();
 								
 								
 							// Now, determine who won the trick									
 							var winningPlayer = 0;
-							var winningIdx = int.MaxValue;
+							
+							var winningScore = 0;
 							for (int i = 0; i < numPlayers; ++i){
 								//Console.WriteLine("PrecIdx:" + );
 								var player = game.players[i];
-								var precedenceIdx = orderedCards.IndexOf(player.cardBins["TRICK"].AllCards().First());
-								
-								if (precedenceIdx >= 0 && precedenceIdx < winningIdx){
+								//Console.Write("SCORING " + i);
+								var cardScore = scoring.GetScore(player.cardBins["TRICK"].AllCards().First());
+								if (cardScore >= winningScore){
 									winningPlayer = i;
-									winningIdx = precedenceIdx;
+									winningScore = cardScore;
 								}
 							}
-							if (orderedCards[winningIdx].ReadAttribute("suit") == game.tableCards["TRUMP"].Peek().ReadAttribute("suit")){
+							if (game.players[winningPlayer].cardBins["TRICK"].AllCards().First().ReadAttribute("suit") == game.tableCards["TRUMP"].Peek().ReadAttribute("suit")){
 								Console.WriteLine("***SPADESBROKEN***");
 								game.gameStorage["SPADESBROKEN"] = 1;
 							}
