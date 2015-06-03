@@ -21,6 +21,9 @@ namespace CardEngine{
 		public CardStorage(){
 			
 		}
+		public IEnumerable<string> Keys(){
+			return binDict.Keys;
+		}
 		public void AddKey(string key){
 			binDict.Add(key,binCounter);
 			binCounter++;

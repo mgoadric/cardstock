@@ -71,7 +71,7 @@ public class LostCities{
 		foreach (var player in game.players){
 			
 			player.storage.AddKey("CURRENTSTATE");
-			
+			player.storage["CURRENTSTATE"] = 0;
 			player.cardBins.AddKey("HAND");
 			player.cardBins.AddKey("yellow");
 			player.cardBins.AddKey("blue");
@@ -93,69 +93,102 @@ public class LostCities{
 		game.SetDeck(t);
 		
 		
+		
 		//Instantiate Player Decks and Play Areas
 		foreach (var player in game.players){
 			player.cardBins["HAND"] = new CardListCollection();
-			player.cardBins["TRICK"] = new CardStackCollection();
+			player.cardBins["yellow"] = new CardStackCollection();
+			player.cardBins["blue"] = new CardStackCollection();
+			player.cardBins["black"] = new CardStackCollection();
+			player.cardBins["green"] = new CardStackCollection();
+			player.cardBins["red"] = new CardStackCollection();
 		}
 		
-		// Establish PRECEDENCE for the cards.
-		//
-		// TODO : Push this into game, have this description be flexible to again read from string
-		List<CardFilter> precGen = new List<CardFilter>();
 		
-		var suits = new List<string>{"TRUMP","LEAD"};
-		var rankIter = new List<string>{"A","K","Q","J","10","9","8","7","6","5","4","3","2"};
+		//Deal
+		game.PopulateLocation("STOCK");
+		game.tableCards["STOCK"].Shuffle();
+		// STAGE 0: SETUP STORAGE and DEAL
+		game.DealEvery(8,"STOCK","HAND");
 		
-		foreach (var suit in suits){
-			foreach (var rank in rankIter){
-				precGen.Add(new CardFilter(new List<TreeExpression>{
-					new TreeExpression("suit",suit,true),
-					new TreeExpression("rank",rank,true)
-				}));
-			}
+		Console.WriteLine("Dealt");
+		foreach (var card in game.players[0].cardBins["HAND"].AllCards()){
+			Console.WriteLine(card);
 		}
 		
-
-		var suitDict = new Dictionary<string,HashSet<Card>>();
-		var rankDict = new Dictionary<string,HashSet<Card>>();
-		var comboDict = new Dictionary<string, Card>();
-		foreach (var card in game.sourceDeck){
-			var suit = card.ReadAttribute("suit");
-			
-			if (suitDict.ContainsKey(suit)){
-				suitDict[suit].Add(card);
-			}
-			else{
-				suitDict.Add(suit,new HashSet<Card>{card});
-			}
-			
-			var rank = card.ReadAttribute("rank");
-			
-			if (rankDict.ContainsKey(rank)){
-				rankDict[rank].Add(card);
-			}
-			else{
-				rankDict.Add(rank,new HashSet<Card>{card});
-			}
-			
-			comboDict.Add(suit + rank,card);
-		}
 		Dictionary<String, int> StoreNames = new Dictionary<String, int>{
 			{"SPADESBROKEN", 0},
 			{"PLAYERTURN", 1},
 			{"CURRENTPLAYER", 2},
 			{"CURRENTHAND", 3}	
 		};
+		
+		
+		
 		foreach (var key in StoreNames.Keys){
 			game.gameStorage.AddKey(key);
 		}
+		// STAGE 0.5 SETUP
+		game.gameStorage["CURRENTPLAYER"] = 0;//Runs 0->1 everytime
+		
 		bool gameNotOver = true;
 		while (gameNotOver){
-			if (game.teams.Exists(team => team.teamStorage["SCORE"] >= 500)){
+			Console.WriteLine(game.tableCards["STOCK"].Count);
+			if (game.tableCards["STOCK"].Count <= 0){
 				gameNotOver = false;
 			}
 			else{
+				// STAGE 1_1: EACH PLAYER PLAYS ONE CARD and DrawsOne
+				var player = game.players[game.gameStorage["CURRENTPLAYER"]];
+				
+				var choices = new List<GameAction>();
+				
+				if (player.storage["CURRENTSTATE"] == 0){//Play a card
+					Console.WriteLine("Player TURN");
+					foreach (var gameLocation in game.tableCards.Keys()){
+						var colorFilter = new CardFilter(new List<TreeExpression>{
+							new TreeExpression("color",gameLocation,true)
+						});
+						var cardMatches = game.FilterCardsFromLocation(colorFilter,"P",game.gameStorage["CURRENTPLAYER"],"HAND");
+						foreach (var card in cardMatches){
+							choices.Add(new CardMoveAction(card,game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["HAND"],
+							game.tableCards[gameLocation]));
+						}
+					}
+					foreach (var gameLocation in game.players[game.gameStorage["CURRENTPLAYER"]].cardBins.Keys()){
+						var colorFilter = new CardFilter(new List<TreeExpression>{
+							new TreeExpression("color",gameLocation,true)
+						});
+						var cardMatches = game.FilterCardsFromLocation(colorFilter,"P",game.gameStorage["CURRENTPLAYER"],"HAND");
+						foreach (var card in cardMatches){
+							choices.Add(new CardMoveAction(card,game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["HAND"],
+							game.players[game.gameStorage["CURRENTPLAYER"]].cardBins[gameLocation]));
+						}
+					}
+					
+					var ultimateChoices = new List<GameActionCollection>();
+					foreach (var choice in choices){
+						ultimateChoices.Add(new GameActionCollection{
+							choice
+						});
+					}
+					game.PlayerMakeChoice(ultimateChoices,0);//game.gameStorage["CURRENTPLAYER"]);
+					foreach (var location in game.tableCards.Keys()){
+						Console.WriteLine("Location:" + location);
+						foreach (var card in game.tableCards[location].AllCards()){
+							Console.WriteLine(card);
+						}
+					}
+					Console.ReadKey();
+					
+				}
+				else if (player.storage["CURRENTSTATE"] == 1){//Pick up a card
+					
+				}
+				
+				
+					
+				
 			}
 		}
 		time.Stop();
