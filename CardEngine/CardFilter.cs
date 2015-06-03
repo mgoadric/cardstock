@@ -2,13 +2,13 @@ using System.Collections.Generic;
 
 namespace CardEngine{
 	public class CardFilter{
-		public List<TreeExpression> filters;
-		public CardFilter(List<TreeExpression> f){
+		public List<CardExpression> filters;
+		public CardFilter(List<CardExpression> f){
 			filters = f;
 		}
 		public CardFilter Copy(){
 			var ret = new CardFilter(
-				new List<TreeExpression>()
+				new List<CardExpression>()
 			);
 			foreach (var f in filters){
 				ret.filters.Add(f.Copy());
@@ -40,7 +40,32 @@ namespace CardEngine{
 			return ret;
 		}
 	}
-	public class TreeExpression {
+	public abstract class CardExpression{
+		public abstract CardExpression Copy();
+		public abstract bool CardConforms(Card c);
+	}
+	
+	public class ScoreExpression : CardExpression{
+		CardScore scorer;
+		string oper;
+		int TargetValue;
+		public ScoreExpression(CardScore scorer, string op, int targetValue){
+			this.scorer = scorer;
+			oper = op;
+			TargetValue = targetValue;
+		}
+		public override CardExpression Copy(){
+			return this;
+		}
+		public override bool CardConforms(Card c){
+			if (oper == ">="){
+				return scorer.GetScore(c) > TargetValue;
+			}
+			return false;
+		}
+	}
+	
+	public class TreeExpression : CardExpression {
 		public string CardAttribute;
 		bool equal;
 		public string expectedValue;
@@ -52,10 +77,10 @@ namespace CardEngine{
 			equal = e;
 			
 		}
-		public TreeExpression Copy(){
+		public override CardExpression Copy(){
 			return new TreeExpression(CardAttribute,this.expectedValue,this.equal);
 		}
-		public bool CardConforms(Card c){
+		public override bool CardConforms(Card c){
 			var desiredValue = c.ReadAttribute(CardAttribute);
 			return equal? desiredValue == expectedValue : desiredValue != expectedValue;
 		}

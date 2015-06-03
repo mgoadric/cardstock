@@ -133,7 +133,7 @@ public class Spades{
 		
 		foreach (var suit in suits){
 			foreach (var rank in rankIter){
-				precGen.Add(new CardFilter(new List<TreeExpression>{
+				precGen.Add(new CardFilter(new List<CardExpression>{
 					new TreeExpression("suit",suit,true),
 					new TreeExpression("rank",rank,true)
 				}));
@@ -194,7 +194,7 @@ public class Spades{
 				game.gameStorage["CURRENTPLAYER"] = 0;//Current Players Turn
 				game.gameStorage["CURRENTHAND"] = 0;//Current Hand
 				
-				var noSpades = new CardFilter(new List<TreeExpression>{
+				var noSpades = new CardFilter(new List<CardExpression>{
 					new TreeExpression("suit",game.tableCards["TRUMP"].Peek().ReadAttribute("suit"),false)
 				});
 						
@@ -234,14 +234,14 @@ public class Spades{
 								var choices = new List<Card>();
 								
 								if (player.storage["CURRENTSTATE"] == 0){//Normal Play, follow suit
-									var followSuit = new CardFilter(new List<TreeExpression>{
+									var followSuit = new CardFilter(new List<CardExpression>{
 									new TreeExpression("suit",game.tableCards["LEAD"].Peek().ReadAttribute("suit"),true)
 									});
 									choices = game.FilterCardsFromLocation(followSuit,"P",game.gameStorage["CURRENTPLAYER"],"HAND");
 									
 								}
 								else if (player.storage["CURRENTSTATE"] == 1){//Play anything, spades broken or unable to follow
-									choices = game.FilterCardsFromLocation(new CardFilter(new List<TreeExpression>()),"P",game.gameStorage["CURRENTPLAYER"],"HAND");
+									choices = game.FilterCardsFromLocation(new CardFilter(new List<CardExpression>()),"P",game.gameStorage["CURRENTPLAYER"],"HAND");
 								}
 								else if (player.storage["CURRENTSTATE"] == 2){//Spades not broken, leading with non spade
 									choices = game.FilterCardsFromLocation(noSpades,"P",game.gameStorage["CURRENTPLAYER"],"HAND");
@@ -289,12 +289,12 @@ public class Spades{
 							}
 							foreach (var filter in precendence){
 								foreach (var treeDirection in filter.filters){
-									if (treeDirection.expectedValue == "LEAD"){
-										treeDirection.expectedValue = game.tableCards["LEAD"].Peek().ReadAttribute("suit");
+									if (((TreeExpression)treeDirection).expectedValue == "LEAD"){
+										((TreeExpression)treeDirection).expectedValue = game.tableCards["LEAD"].Peek().ReadAttribute("suit");
 										//Console.WriteLine("treeValue:" + treeDirection.expectedValue);
 									}
-									if (treeDirection.expectedValue == "TRUMP"){
-										treeDirection.expectedValue = game.tableCards["TRUMP"].Peek().ReadAttribute("suit");
+									if (((TreeExpression)treeDirection).expectedValue == "TRUMP"){
+										((TreeExpression)treeDirection).expectedValue = game.tableCards["TRUMP"].Peek().ReadAttribute("suit");
 									}
 								}
 							}
@@ -305,8 +305,8 @@ public class Spades{
 							var orderedCards = new List<Card>();
 							foreach (var filter in precendence){
 								//Approaches N time
-								var suit = filter.filters.Where(obj => obj.CardAttribute == "suit").FirstOrDefault().expectedValue;
-								var rank = filter.filters.Where(obj => obj.CardAttribute == "rank").FirstOrDefault().expectedValue;
+								var suit = ((TreeExpression)filter.filters.Where(obj => ((TreeExpression)obj).CardAttribute == "suit").FirstOrDefault()).expectedValue;
+								var rank = ((TreeExpression)filter.filters.Where(obj => ((TreeExpression)obj).CardAttribute == "rank").FirstOrDefault()).expectedValue;
 								
 								//direct method
 								var card = comboDict[suit + rank];
@@ -321,15 +321,15 @@ public class Spades{
 								2,3,4,5,6,7,8,9,10,11,12,13,14
 							};
 							for (int i = 0; i < ranksTemp.Count; ++i){
-								scoringList.Add(new PointAwards(new CardFilter(new List<TreeExpression>{
+								scoringList.Add(new PointAwards(new CardFilter(new List<CardExpression>{
 									new TreeExpression("rank",ranksTemp[i],true)
 								}),rankScore[i]));
 							}
-							scoringList.Add(new PointAwards(new CardFilter(new List<TreeExpression>{ 
+							scoringList.Add(new PointAwards(new CardFilter(new List<CardExpression>{ 
 									new TreeExpression("suit",game.tableCards["TRUMP"].Peek().ReadAttribute("suit"),true)
 								}),200));
 							scoringList.Add(
-								new PointAwards(new CardFilter(new List<TreeExpression>{
+								new PointAwards(new CardFilter(new List<CardExpression>{
 									new TreeExpression("suit",game.tableCards["LEAD"].Peek().ReadAttribute("suit"),true)
 								}),100));
 							var scoring = new CardScore(scoringList);

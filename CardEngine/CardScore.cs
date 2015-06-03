@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 namespace CardEngine{
 	public class CardScore{
-		List<PointAwards> awards;
+		public List<PointAwards> awards;
 		public CardScore(List<PointAwards> input){
 			awards = input;
 		}
