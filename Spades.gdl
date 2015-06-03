@@ -17,6 +17,7 @@
 ;; None for Spades
 
 ;; Players and Teams
+;; 2 teams with 2 players each
       (players 2 2)
 
 ;; Game Locations and Storage
@@ -36,16 +37,16 @@
                
 ;; Stages of the game
    (stage 
-      (end (>= (any team SCORE) 500))) 
-      (pre (comp (copy AS TRUMP))
-           (comp (populate STOCK))
-           (comp (shuffle STOCK))
-           (comp (dealevery 13 STOCK HAND))
-           (comp (set (game SPADESBROKEN) 0)))
-           (comp (set (game PLAYERTURN) 0)))
-           (comp (set (game CURRENTPLAYER) 0)))
-           (comp (set (game CURRENTHAND) 0)))
-           (comp (setevery (player TRICKSWON) 0))))
+      (end (>= (team any SCORE) 500))) 
+      (pre (() (copy AS (game loc TRUMP)))
+           (() (populate (game loc STOCK)))
+           (() (shuffle (game loc STOCK)))
+           (() (deal (player every loc HAND) (game loc STOCK) 13))
+           (() (set (game sto SPADESBROKEN) 0)))
+           (() (set (game sto PLAYERTURN) 0)))
+           (() (set (game sto CURRENTPLAYER) 0)))
+           (() (set (game sto CURRENTHAND) 0)))
+           (() (set (player every sto TRICKSWON) 0))))
       (actions)
 
       ;; bidding
@@ -53,19 +54,22 @@
          (end player once)
          (pre)
          (actions
-            (() (set (my BID) 1))
-            (() (set (my BID) 2))
-            (() (set (my BID) 3))
-            (() (set (my BID) 4)))
+            (() (set (my sto BID) 1))
+            (() (set (my sto BID) 2))
+            (() (set (my sto BID) 3))
+            (() (set (my sto BID) 4)))
          (stage)
          (post))
          
       ;; play a round         
       (stage
-         (end (== (game CURRENTHAND) 13))
+         (end (== (game sto CURRENTHAND) 13))
          (pre 
-            (comp set (game PLAYERTURN) 0)))
-            (comp set (player (game PLAYERTURN) CURRENTSTATE 2)))
+            (() (set (game sto PLAYERTURN) 0)))
+            ((== (game sto SPADESBROKEN) 0)) 
+             (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 2)))
+            ((== (game sto SPADESBROKEN) 1)) 
+             (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 1)))
          (actions)
          
          ;; play a hand
@@ -73,10 +77,25 @@
                (end player once)
                (pre)
                (actions
-                  (((== (my CURRENTSTATE) 0) and
-                    (> (size (my HAND where (== suit (game LEAD suit)) 0) ()
+                  ((and (== (my sto CURRENTSTATE) 0)
+                        (== (size (my loc HAND where (== suit (suit (peek (game loc LEAD))) 0) 
+                   (set (my sto CURRENTSTATE) 1))
+                  ((and (== (my sto CURRENTSTATE) 0)
+                        (xcard A (my loc HAND where (== suit (suit (peek (game loc LEAD))) 
+                   (move A (my loc HAND) (my loc TRICK))
+                  ((and (== (my sto CURRENTSTATE) 1)
+                        (xcard A (my loc HAND)) 
+                   (move A (my loc HAND) (my loc TRICK))
+                  ((and (== (my sto CURRENTSTATE) 2)
+                        (xcard A (my loc HAND where (!= suit (suit (peek (game loc TRUMP))) 
+                   (move A (my loc HAND) (my loc TRICK))
+                  ((and (== (my sto CURRENTSTATE) 1)
+                        (== (size (my loc HAND where (== suit (suit (peek (game loc LEAD))) 0) 
+                   (set (my sto CURRENTSTATE) 1))
+
                (stage)
-               (post))
+               (post
+                  (() (set (player every sto CURRENTSTATE) 0)))
                
          ;; determine who won the hand
             (stage
@@ -86,7 +105,7 @@
                (stage)
                (post))
          (post
-            (comp (inc (game CURRENTHAND 1)))))
+            (() (inc (game sto CURRENTHAND 1)))))
          
       ;; determine team score
       (stage
