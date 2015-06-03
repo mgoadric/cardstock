@@ -31,6 +31,20 @@ namespace CardEngine{
 			endLocation.Add(cardToMove);
 		}
 	}
+	public class CardPopMoveAction : GameAction{
+		Card cardToMove;
+		CardCollection startLocation;
+		CardCollection endLocation;
+		public CardPopMoveAction(Card c,CardCollection start, CardCollection end){
+			cardToMove = c;
+			startLocation = start;
+			endLocation = end;
+		}
+		public override void Execute(){
+			startLocation.Remove();
+			endLocation.Add(cardToMove);
+		}
+	}
 	public class CardCopyAction : GameAction{
 		Card cardToMove;
 		

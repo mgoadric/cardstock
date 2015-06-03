@@ -129,7 +129,7 @@ public class Hearts{
 		
 		foreach (var suit in suits){
 			foreach (var rank in rankIter){
-				precGen.Add(new CardFilter(new List<TreeExpression>{
+				precGen.Add(new CardFilter(new List<CardExpression>{
 					new TreeExpression("suit",suit,true),
 					new TreeExpression("rank",rank,true)
 				}));
@@ -189,7 +189,7 @@ public class Hearts{
 				game.gameStorage["CURRENTPLAYER"] = 0;//Current Players Turn
 				game.gameStorage["CURRENTHAND"] = 0;//Current Hand
 				
-				var noHearts = new CardFilter(new List<TreeExpression>{
+				var noHearts = new CardFilter(new List<CardExpression>{
 					new TreeExpression("suit",game.tableCards["TRUMP"].Peek().ReadAttribute("suit"),false)
 				});
 				
@@ -221,14 +221,14 @@ public class Hearts{
 								var choices = new List<Card>();
 								
 								if (player.storage["CURRENTSTATE"] == 0){//Normal Play, follow suit
-									var followSuit = new CardFilter(new List<TreeExpression>{
+									var followSuit = new CardFilter(new List<CardExpression>{
 									new TreeExpression("suit",game.tableCards["LEAD"].Peek().ReadAttribute("suit"),true)
 									});
 									choices = game.FilterCardsFromLocation(followSuit,"P",game.gameStorage["CURRENTPLAYER"],"HAND");
 									
 								}
 								else if (player.storage["CURRENTSTATE"] == 1){//Play anything, spades broken or unable to follow
-									choices = game.FilterCardsFromLocation(new CardFilter(new List<TreeExpression>()),"P",game.gameStorage["CURRENTPLAYER"],"HAND");
+									choices = game.FilterCardsFromLocation(new CardFilter(new List<CardExpression>()),"P",game.gameStorage["CURRENTPLAYER"],"HAND");
 								}
 								else if (player.storage["CURRENTSTATE"] == 2){//Spades not broken, leading with non spade
 									choices = game.FilterCardsFromLocation(noHearts,"P",game.gameStorage["CURRENTPLAYER"],"HAND");
@@ -276,8 +276,8 @@ public class Hearts{
 							}
 							foreach (var filter in precendence){
 								foreach (var treeDirection in filter.filters){
-									if (treeDirection.expectedValue == "LEAD"){
-										treeDirection.expectedValue = game.tableCards["LEAD"].Peek().ReadAttribute("suit");
+									if (((TreeExpression)treeDirection).expectedValue == "LEAD"){
+										((TreeExpression)treeDirection).expectedValue = game.tableCards["LEAD"].Peek().ReadAttribute("suit");
 										//Console.WriteLine("treeValue:" + treeDirection.expectedValue);
 									}
 								}
@@ -290,8 +290,8 @@ public class Hearts{
 							var orderedCards = new List<Card>();
 							foreach (var filter in precendence){
 								//Approaches N time
-								var suit = filter.filters.Where(obj => obj.CardAttribute == "suit").FirstOrDefault().expectedValue;
-								var rank = filter.filters.Where(obj => obj.CardAttribute == "rank").FirstOrDefault().expectedValue;
+								var suit = ((TreeExpression)filter.filters.Where(obj => ((TreeExpression)obj).CardAttribute == "suit").FirstOrDefault()).expectedValue;
+								var rank = ((TreeExpression)filter.filters.Where(obj => ((TreeExpression)obj).CardAttribute == "rank").FirstOrDefault()).expectedValue;
 								
 								//direct method
 								var card = comboDict[suit + rank];
@@ -357,7 +357,7 @@ public class Hearts{
 				
 				// DEBUG tricks taken by each
 				foreach (var player in game.players){
-					var findHearts = new CardFilter(new List<TreeExpression>{
+					var findHearts = new CardFilter(new List<CardExpression>{
 						new TreeExpression("suit",game.tableCards["TRUMP"].Peek().ReadAttribute("suit"),true)
 					});
 					var filteredList = findHearts.FilterMatchesAll(player.cardBins["TRICKSWON"]);
@@ -371,11 +371,11 @@ public class Hearts{
 					var heartsFound = 0;
 					var team = game.teams[i];
 					foreach (var player in team.teamPlayers){
-						var findHearts = new CardFilter(new List<TreeExpression>{
+						var findHearts = new CardFilter(new List<CardExpression>{
 						new TreeExpression("suit",game.tableCards["TRUMP"].Peek().ReadAttribute("suit"),true)
 						});
 						
-						var findQueen = new CardFilter(new List<TreeExpression>{
+						var findQueen = new CardFilter(new List<CardExpression>{
 							new TreeExpression("suit",game.tableCards["VERYBAD"].Peek().ReadAttribute("suit"),true),
 							new TreeExpression("rank", game.tableCards["VERYBAD"].Peek().ReadAttribute("rank"),true)
 						});
