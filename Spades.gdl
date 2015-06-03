@@ -41,12 +41,12 @@
       (pre (() (copy AS (game loc TRUMP)))
            (() (populate (game loc STOCK)))
            (() (shuffle (game loc STOCK)))
-           (() (deal (player every loc HAND) (game loc STOCK) 13))
+           (() (deal (player all loc HAND) (game loc STOCK) 13))
            (() (set (game sto SPADESBROKEN) 0)))
            (() (set (game sto PLAYERTURN) 0)))
            (() (set (game sto CURRENTPLAYER) 0)))
            (() (set (game sto CURRENTHAND) 0)))
-           (() (set (player every sto TRICKSWON) 0))))
+           (() (set (player all sto TRICKSWON) 0))))
       (actions)
 
       ;; bidding
@@ -75,27 +75,26 @@
          ;; play a hand
             (stage
                (end player once)
-               (pre)
+               (pre ())
                (actions
                   ((and (== (my sto CURRENTSTATE) 0)
                         (== (size (my loc HAND where (== suit (suit (peek (game loc LEAD))) 0) 
                    (set (my sto CURRENTSTATE) 1))
                   ((and (== (my sto CURRENTSTATE) 0)
                         (xcard A (my loc HAND where (== suit (suit (peek (game loc LEAD))) 
-                   (move A (my loc HAND) (my loc TRICK))
+                   (move (any A) (my loc HAND) (my loc TRICK))
                   ((and (== (my sto CURRENTSTATE) 1)
                         (xcard A (my loc HAND)) 
-                   (move A (my loc HAND) (my loc TRICK))
+                   (move (any A) (my loc HAND) (my loc TRICK))
                   ((and (== (my sto CURRENTSTATE) 2)
                         (xcard A (my loc HAND where (!= suit (suit (peek (game loc TRUMP))) 
-                   (move A (my loc HAND) (my loc TRICK))
+                   (move (any A) (my loc HAND) (my loc TRICK))
                   ((and (== (my sto CURRENTSTATE) 1)
                         (== (size (my loc HAND where (== suit (suit (peek (game loc LEAD))) 0) 
                    (set (my sto CURRENTSTATE) 1))
 
-               (stage)
                (post
-                  (() (set (player every sto CURRENTSTATE) 0)))
+                  (() (set (player all sto CURRENTSTATE) 0)))
                
          ;; determine who won the hand
             (stage
@@ -111,7 +110,9 @@
       (stage
          (end team once)
          (pre)
-         (actions)
+         (actions
+            (() (inc (my sto SCORE) (* -100 (// (my sto BAGS) 10))
+            (() (set (my sto BAGS) (% (my sto BAGS) 10))
          (stage)
          (post))
          
