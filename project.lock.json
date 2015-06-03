@@ -2,8 +2,14 @@
   "locked": false,
   "version": -9998,
   "projectFileDependencyGroups": {
-    "": [],
-    "DNX,Version=v4.5.1": [],
+    "": [
+      "AntlrCoreBranch >= 1.0"
+    ],
+    "DNX,Version=v4.5.1": [
+      "System.Collections >= 4.0",
+      "System.Linq.Expressions >= 4.0",
+      "System.Runtime >= 4.0"
+    ],
     "DNXCore,Version=v5.0": [
       "System.Runtime.Extensions >= 4.0.10-beta-22816",
       "System.Console >= 4.0.0-beta-*",
@@ -12,6 +18,72 @@
     ]
   },
   "libraries": {
+    "AntlrCoreBranch/4.5": {
+      "serviceable": false,
+      "sha": "FRYwj14Xal+rIg8D1EtP8e9Fb/RrmL32xJKSLy4xoqwEVkNhdUNb/VWtt2VyZIyfnedxjXuCB045LfLfc2GYkA==",
+      "frameworks": {
+        "DNX,Version=v4.5.1": {
+          "dependencies": {},
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [
+            "lib/Antlr4.Runtime.dll"
+          ],
+          "compileAssemblies": [
+            "lib/Antlr4.Runtime.dll"
+          ]
+        },
+        "DNXCore,Version=v5.0": {
+          "dependencies": {},
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [
+            "lib/Antlr4.Runtime.dll"
+          ],
+          "compileAssemblies": [
+            "lib/Antlr4.Runtime.dll"
+          ]
+        }
+      },
+      "files": [
+        "AntlrCoreBranch.4.5.nupkg",
+        "AntlrCoreBranch.4.5.nupkg.sha512",
+        "AntlrCoreBranch.nuspec",
+        "lib/Antlr4.Runtime.dll"
+      ]
+    },
+    "System.Collections/4.0.10-beta-22231": {
+      "serviceable": false,
+      "sha": "fkYpLxG5MwIoSphSn94TiEtCKh2oGgUwvb5REEVZTfSnEg6DVUIFvpt0PgDCBFwlxRSQukbfcTdt3LrKhQD5Tg==",
+      "frameworks": {
+        "DNX,Version=v4.5.1": {
+          "dependencies": {
+            "System.Runtime": "4.0.0-beta-22231"
+          },
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [],
+          "compileAssemblies": []
+        },
+        "DNXCore,Version=v5.0": {
+          "dependencies": {
+            "System.Runtime": "4.0.0-beta-22231"
+          },
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [
+            "lib/aspnetcore50/System.Collections.dll"
+          ],
+          "compileAssemblies": [
+            "lib/contract/System.Collections.dll"
+          ]
+        }
+      },
+      "files": [
+        "License.rtf",
+        "System.Collections.4.0.10-beta-22231.nupkg",
+        "System.Collections.4.0.10-beta-22231.nupkg.sha512",
+        "System.Collections.nuspec",
+        "lib/aspnetcore50/System.Collections.dll",
+        "lib/contract/System.Collections.dll"
+      ]
+    },
     "System.Collections/4.0.10-beta-22816": {
       "serviceable": false,
       "sha": "pFwiLMtcsvAx8ZFsSIDVSuPAXXW2z1gkmE/YqiMELlxPVHKyJGrUZoJCIBfVg1HERxMnd1dyj7ffqj5Nx3mzGQ==",
@@ -278,6 +350,36 @@
         "lib/contract/System.Reflection.Primitives.dll",
         "lib/net45/System.Reflection.Primitives.dll",
         "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Reflection.Primitives.dll"
+      ]
+    },
+    "System.Runtime/4.0.20-beta-22231": {
+      "serviceable": false,
+      "sha": "8CFWYP0ldITYQqgfMR6Wn7yjpOzrVzwkfDWHd3PtppILgmvo6rjuJd+KfZTCdacbf1WUbWsp1yuJcTpDYI3RUw==",
+      "frameworks": {
+        "DNX,Version=v4.5.1": {
+          "dependencies": {},
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [],
+          "compileAssemblies": []
+        },
+        "DNXCore,Version=v5.0": {
+          "dependencies": {},
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [
+            "lib/aspnetcore50/System.Runtime.dll"
+          ],
+          "compileAssemblies": [
+            "lib/contract/System.Runtime.dll"
+          ]
+        }
+      },
+      "files": [
+        "License.rtf",
+        "System.Runtime.4.0.20-beta-22231.nupkg",
+        "System.Runtime.4.0.20-beta-22231.nupkg.sha512",
+        "System.Runtime.nuspec",
+        "lib/aspnetcore50/System.Runtime.dll",
+        "lib/contract/System.Runtime.dll"
       ]
     },
     "System.Runtime/4.0.20-beta-22816": {
