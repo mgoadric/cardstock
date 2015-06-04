@@ -16,6 +16,8 @@ public class ParseEngine{
                 //Recurse(tree);
                 Console.Write(tree.GetText());
                 //Console.WriteLine(tree);
+                
+                var gen = new DOTTreeGenerator();
 	}
 /*        public void Recurse(CardLanguageParser.BodyContext con){
                 Recurse(con.childNode());
