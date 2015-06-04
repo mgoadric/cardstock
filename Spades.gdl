@@ -66,9 +66,9 @@
          (end (== (game sto CURRENTHAND) 13))
          (pre 
             (() (set (game sto PLAYERTURN) 0)))
-            ((== (game sto SPADESBROKEN) 0)) 
+            ((== (game sto SPADESBROKEN) 0) 
              (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 2)))
-            ((== (game sto SPADESBROKEN) 1)) 
+            ((== (game sto SPADESBROKEN) 1)
              (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 1)))
          (actions)
          

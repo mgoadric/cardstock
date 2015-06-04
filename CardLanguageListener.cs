@@ -29,53 +29,123 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface ICardLanguageListener : IParseTreeListener {
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="CardLanguageParser.body"/>.
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.gameaction"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterBody([NotNull] CardLanguageParser.BodyContext context);
+	void EnterGameaction([NotNull] CardLanguageParser.GameactionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="CardLanguageParser.body"/>.
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.gameaction"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitBody([NotNull] CardLanguageParser.BodyContext context);
+	void ExitGameaction([NotNull] CardLanguageParser.GameactionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="CardLanguageParser.childNode"/>.
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.action"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterChildNode([NotNull] CardLanguageParser.ChildNodeContext context);
+	void EnterAction([NotNull] CardLanguageParser.ActionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="CardLanguageParser.childNode"/>.
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.action"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitChildNode([NotNull] CardLanguageParser.ChildNodeContext context);
+	void ExitAction([NotNull] CardLanguageParser.ActionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="CardLanguageParser.open"/>.
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.setaction"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterOpen([NotNull] CardLanguageParser.OpenContext context);
+	void EnterSetaction([NotNull] CardLanguageParser.SetactionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="CardLanguageParser.open"/>.
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.setaction"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitOpen([NotNull] CardLanguageParser.OpenContext context);
+	void ExitSetaction([NotNull] CardLanguageParser.SetactionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="CardLanguageParser.many"/>.
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.moveaction"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterMany([NotNull] CardLanguageParser.ManyContext context);
+	void EnterMoveaction([NotNull] CardLanguageParser.MoveactionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="CardLanguageParser.many"/>.
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.moveaction"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitMany([NotNull] CardLanguageParser.ManyContext context);
+	void ExitMoveaction([NotNull] CardLanguageParser.MoveactionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="CardLanguageParser.close"/>.
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.card"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterClose([NotNull] CardLanguageParser.CloseContext context);
+	void EnterCard([NotNull] CardLanguageParser.CardContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="CardLanguageParser.close"/>.
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.card"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitClose([NotNull] CardLanguageParser.CloseContext context);
+	void ExitCard([NotNull] CardLanguageParser.CardContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.rawstorage"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRawstorage([NotNull] CardLanguageParser.RawstorageContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.rawstorage"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRawstorage([NotNull] CardLanguageParser.RawstorageContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.locstorage"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterLocstorage([NotNull] CardLanguageParser.LocstorageContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.locstorage"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitLocstorage([NotNull] CardLanguageParser.LocstorageContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.name"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterName([NotNull] CardLanguageParser.NameContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.name"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitName([NotNull] CardLanguageParser.NameContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.quantifier"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterQuantifier([NotNull] CardLanguageParser.QuantifierContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.quantifier"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitQuantifier([NotNull] CardLanguageParser.QuantifierContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.boolean"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBoolean([NotNull] CardLanguageParser.BooleanContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.boolean"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBoolean([NotNull] CardLanguageParser.BooleanContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.intOp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterIntOp([NotNull] CardLanguageParser.IntOpContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.intOp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitIntOp([NotNull] CardLanguageParser.IntOpContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.int"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterInt([NotNull] CardLanguageParser.IntContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.int"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitInt([NotNull] CardLanguageParser.IntContext context);
 }
