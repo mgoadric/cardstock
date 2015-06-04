@@ -356,14 +356,13 @@ public class Hearts{
 				
 				
 				// DEBUG tricks taken by each
-				foreach (var player in game.players){
-					var findHearts = new CardFilter(new List<CardExpression>{
-						new TreeExpression("suit",game.tableCards["TRUMP"].Peek().ReadAttribute("suit"),true)
-					});
-					var filteredList = findHearts.FilterMatchesAll(player.cardBins["TRICKSWON"]);
-					Console.WriteLine("Number Hearts Accrued:" + filteredList.Count);
-					
-				}
+				
+				
+				var scoring = new CardScore(new List<PointAwards>{
+					new PointAwards("suit","hearts",1),
+					new PointAwards("suit,rank","Q,spades",13)
+				});
+				
 				
 				// DEBUG teams score
 				for (int i = 0; i < game.teams.Count; ++i){
@@ -371,17 +370,10 @@ public class Hearts{
 					var heartsFound = 0;
 					var team = game.teams[i];
 					foreach (var player in team.teamPlayers){
-						var findHearts = new CardFilter(new List<CardExpression>{
-						new TreeExpression("suit",game.tableCards["TRUMP"].Peek().ReadAttribute("suit"),true)
-						});
 						
-						var findQueen = new CardFilter(new List<CardExpression>{
-							new TreeExpression("suit",game.tableCards["VERYBAD"].Peek().ReadAttribute("suit"),true),
-							new TreeExpression("rank", game.tableCards["VERYBAD"].Peek().ReadAttribute("rank"),true)
-						});
-						var queenList = findQueen.FilterMatchesAll(player.cardBins["TRICKSWON"]);
-						var filteredList = findHearts.FilterMatchesAll(player.cardBins["TRICKSWON"]);
-						heartsFound += filteredList.Count + (13 * queenList.Count);
+						foreach (var card in player.cardBins["TRICKSWON"].AllCards()){
+							heartsFound += scoring.GetScore(card);
+						}
 					} 
 					
 					if (heartsFound < 26){

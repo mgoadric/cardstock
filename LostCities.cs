@@ -111,9 +111,9 @@ public class LostCities{
 		// STAGE 0: SETUP STORAGE and DEAL
 		game.DealEvery(8,"STOCK","HAND");
 		
-		Console.WriteLine("Dealt");
+		//Console.WriteLine("Dealt");
 		foreach (var card in game.players[0].cardBins["HAND"].AllCards()){
-			//Console.WriteLine(card);
+			////Console.WriteLine(card);
 		}
 		
 		Dictionary<String, int> StoreNames = new Dictionary<String, int>{
@@ -124,9 +124,7 @@ public class LostCities{
 		};
 		
 		//Lost Cities Scoring
-		var scoring = new CardScore(new List<PointAwards>{
-			
-		});
+		var tempPoints = new List<PointAwards>();
 		var rankIter = new List<string>{
 			"HS","2","3","4","5","6","7","8","9","10"
 		};
@@ -134,11 +132,9 @@ public class LostCities{
 			0,2,3,4,5,6,7,8,9,10
 		};
 		for (int i = 0; i < rankIter.Count; ++i){
-			scoring.awards.Add(new PointAwards(new CardFilter(new List<CardExpression>{
-				new TreeExpression("rank",rankIter[i],true)
-			}),pointIter[i]));
+			tempPoints.Add(new PointAwards("rank",rankIter[i],pointIter[i]));
 		}
-		
+		var scoring = new CardScore(tempPoints);
 		
 		foreach (var key in StoreNames.Keys){
 			game.gameStorage.AddKey(key);
@@ -148,7 +144,7 @@ public class LostCities{
 		
 		bool gameNotOver = true;
 		while (gameNotOver){
-			Console.WriteLine(game.tableCards["STOCK"].Count);
+			//Console.WriteLine(game.tableCards["STOCK"].Count);
 			if (game.tableCards["STOCK"].Count <= 0){
 				gameNotOver = false;
 			}
@@ -229,29 +225,29 @@ public class LostCities{
 					"green",
 					"red"
 				};
-		Console.WriteLine("\n\n***GAME");
+		//Console.WriteLine("\n\n***GAME");
 		foreach (var location in locationsToPrint){
-			Console.WriteLine("Location:" + location);
+			//Console.WriteLine("Location:" + location);
 			foreach (var card in game.tableCards[location].AllCards()){
-				Console.WriteLine(card);
+				//Console.WriteLine(card);
 			}
 		}
 		foreach (var player in game.players){
-			Console.WriteLine("\n\nPLAYERS***");
+			//Console.WriteLine("\n\nPLAYERS***");
 			foreach (var location in locationsToPrint){
-				Console.WriteLine("Location:" + location);
+				//Console.WriteLine("Location:" + location);
 				foreach (var card in player.cardBins[location].AllCards()){
-					Console.WriteLine(card);
+					//Console.WriteLine(card);
 				}
 			}
 		}
 		
 		foreach (var player in game.players){
-			Console.WriteLine("\n\nPLAYERS***SCORE");
+			//Console.WriteLine("\n\nPLAYERS***SCORE");
 			var totalScore = 0;
 			foreach (var location in locationsToPrint){
 				var locationScore = player.cardBins[location].Count > 0 ? -20 : 0;
-				Console.WriteLine("Location:" + location);
+				//Console.WriteLine("Location:" + location);
 				var hsCount = 1;
 				foreach (var card in player.cardBins[location].AllCards()){
 					if (card.ReadAttribute("rank") != "HS"){
@@ -264,7 +260,7 @@ public class LostCities{
 				}
 				totalScore += locationScore * hsCount;
 			}
-			Console.WriteLine(totalScore);
+			//Console.WriteLine(totalScore);
 		}
 		
 		time.Stop();

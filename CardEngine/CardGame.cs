@@ -82,7 +82,7 @@ namespace CardEngine
 		}
 		public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
 			var choice = players[playerIdx].MakeAction(choices,rand);
-			Console.WriteLine(choice);
+			//Console.WriteLine(choice);
 			choices[choice].ExecuteAll();
 		}
 		public override string ToString(){
