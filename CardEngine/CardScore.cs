@@ -1,33 +1,56 @@
 using System.Collections.Generic;
 namespace CardEngine{
 	public class CardScore{
-		public List<PointAwards> awards;
+		List<PointAwards> awards;
+		public Dictionary<string,Dictionary<string,int>> pointLookups = new Dictionary<string,Dictionary<string,int>>();
 		public CardScore(List<PointAwards> input){
 			awards = input;
+			foreach (var award in awards){
+				if (pointLookups.ContainsKey(award.identifier)){
+					if (pointLookups[award.identifier].ContainsKey(award.value)){
+						pointLookups[award.identifier][award.value] += award.pointsToAward;
+					}
+					else{
+						pointLookups[award.identifier].Add(award.value,award.pointsToAward);
+					}
+				}
+				else{
+					pointLookups[award.identifier] = new Dictionary<string,int>{
+						{award.value, award.pointsToAward}
+					};
+				}
+			}
 		}
 		public int GetScore(Card c){
 			int total = 0;
-			foreach (var award in awards){
-				total += award.ScoreCard(c);
+			foreach (var key in pointLookups.Keys){
+				var arrAtts = key.Split(',');
+				var attStr = "";
+				foreach (var att in arrAtts){
+					var val = c.ReadAttribute(att);
+					attStr += val + ",";
+				}
+				attStr = attStr.Substring(0,attStr.Length - 1);
+				if (pointLookups[key].ContainsKey(attStr)){
+					total += pointLookups[key][attStr];
+				}
 			}
 			return total;
 		}
 	}
 	public class PointAwards{
-		CardFilter matching;
-		int pointsToAward;
-		public PointAwards(CardFilter m, int p){
-			matching = m;
+		public string identifier;
+		public string value;
+		public int pointsToAward;
+		public PointAwards(string identifier, string value, int p){
+			this.identifier = identifier;
+			this.value = value;
 			pointsToAward = p;
 		}
 		
-		public int ScoreCard(Card card){
-			if (matching.CardConforms(card)){
-				return pointsToAward;
-			}
-			else{
-				return 0;
-			}
+		public int ScoreCard(){
+			return pointsToAward;
+			
 		}
 	}
 }

@@ -321,17 +321,10 @@ public class Spades{
 								2,3,4,5,6,7,8,9,10,11,12,13,14
 							};
 							for (int i = 0; i < ranksTemp.Count; ++i){
-								scoringList.Add(new PointAwards(new CardFilter(new List<CardExpression>{
-									new TreeExpression("rank",ranksTemp[i],true)
-								}),rankScore[i]));
+								scoringList.Add(new PointAwards("rank",ranksTemp[i],rankScore[i]));
 							}
-							scoringList.Add(new PointAwards(new CardFilter(new List<CardExpression>{ 
-									new TreeExpression("suit",game.tableCards["TRUMP"].Peek().ReadAttribute("suit"),true)
-								}),200));
-							scoringList.Add(
-								new PointAwards(new CardFilter(new List<CardExpression>{
-									new TreeExpression("suit",game.tableCards["LEAD"].Peek().ReadAttribute("suit"),true)
-								}),100));
+							scoringList.Add(new PointAwards("suit",game.tableCards["TRUMP"].Peek().ReadAttribute("suit"),200));
+							scoringList.Add(new PointAwards("suit",game.tableCards["LEAD"].Peek().ReadAttribute("suit"),100));
 							var scoring = new CardScore(scoringList);
 							
 							//Precedence (now scoring) is known, pop the leading card from imaginary location

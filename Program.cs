@@ -8,10 +8,10 @@ namespace CardGames
         public static void Main(string[] args)
         {
             //var spades = new Spades();
-            //var hearts = new Hearts();
+            var hearts = new Hearts();
             //var lostCities = new LostCities();
             
-            var codeGen = new ParseEngine();
+            //var codeGen = new ParseEngine();
         }
     }
 }
