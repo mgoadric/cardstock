@@ -85,6 +85,16 @@ namespace CardEngine
 			//Console.WriteLine(choice);
 			choices[choice].ExecuteAll();
 		}
+		public void PlayerMakeChoices(List<GameActionCollection> choices, int playerIdx, int numberOfChoices){
+			var temp = numberOfChoices;
+			while (temp > 0){
+				var choice = players[playerIdx].MakeAction(choices,rand);
+				//Console.WriteLine(choice);
+				choices[choice].ExecuteAll();
+				choices.RemoveAt(choice);
+				--temp;
+			}
+		}
 		public override string ToString(){
 			var ret = "Table Deck:\n";
 			foreach (var card in tableCards["STOCK"].AllCards()){

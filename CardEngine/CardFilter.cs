@@ -59,7 +59,10 @@ namespace CardEngine{
 		}
 		public override bool CardConforms(Card c){
 			if (oper == ">="){
-				return scorer.GetScore(c) > TargetValue;
+				return scorer.GetScore(c) >= TargetValue;
+			}
+			else if (oper == "<="){
+				return scorer.GetScore(c) <= TargetValue;
 			}
 			return false;
 		}
