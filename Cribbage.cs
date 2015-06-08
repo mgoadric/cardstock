@@ -175,6 +175,16 @@ public class Cribbage{
 				var rankInts = new List<int>{
 					1,2,3,4,5,6,7,8,9,10,10,10,10	
 				};
+				var rankPairs = new List<int>{
+					0,1,2,3,4,5,6,7,8,9,10,11,12
+				};
+				var pairList = new List<PointAwards>();
+				for (int i = 0; i < rankStrings.Count; ++i){
+					pairList.Add(new PointAwards("rank",rankStrings[i],rankPairs[i]));
+				}
+				var pairScore = new CardScore(pairList);
+				
+				
 				var scoreList = new List<PointAwards>();
 				for (int i = 0; i < rankStrings.Count; ++i){
 					scoreList.Add(new PointAwards("rank",rankStrings[i],rankInts[i]));
@@ -203,6 +213,8 @@ public class Cribbage{
 								new CardCopyAction(card,game.tableCards["PLAYHISTORY"])
 							});
 						}
+						var findEm = new CardGrouping(13,pairScore);
+						findEm.TuplesOfSize(game.tableCards["PLAYHISTORY"],2);
 						if (actions.Count > 0){
 							game.PlayerMakeChoice(actions,game.gameStorage["CURRENTPLAYER"]);
 							game.gameStorage["CURRENTPLAYER"] = (game.gameStorage["CURRENTPLAYER"] + 1) % 2;
