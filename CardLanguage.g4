@@ -1,6 +1,7 @@
 grammar CardLanguage;
 
-gameaction : OPEN boolean action CLOSE ;
+gameaction : OPEN boolean multiaction CLOSE ;
+multiaction : action+? ;
 action : OPEN (setaction | moveaction) CLOSE ;
 setaction : 'set' rawstorage int ;
 moveaction : 'move' card locstorage locstorage ;

@@ -1,122 +1,120 @@
-;; Name of the game
-(game spades
+;; SPADES in the GDL
+(stage game
 
-;; Preamble setup for the game
-   (preamble
+   (end once)
+;; Game Locations and Storage
+   (comp (() (create loc game (SOURCE List)
+                              (STOCK Stack)
+                              (TRUMP Stack Imaginary)
+      		              (LEAD Stack Imaginary)))
+         (() (create sto game (SPADESBROKEN, PLAYERTURN, CURRENTPLAYER, CURRENTHAND)))
 
-;; Deck definitions
-      (deck (A (rank (A 2 3 4 5 6 7 8 9 10 J Q K))
-      	   (color (red (suit (hearts diamonds)))
-      		       (black (suit (clubs spades))))))
+         (() (initialize (game loc SOURCE) (deck (rank (A 2 3 4 5 6 7 8 9 10 J Q K))
+                                                 (color (red (suit (hearts diamonds)))
+                                                        (black (suit (clubs spades)))))))
+         (() (initialize players 2 2))
+;; Player Locations and Storage
+         (() (create loc player (HAND List)
+                                (TRICK Stack)))
+         (() (create sto player (BID CURRENTSTATE TRICKSWON)))
 
-;; Precedence
-      (precedence (suit TRUMP (rank A K Q J 10 9 8 7 6 5 4 3 2))
-                  (suit LEAD (rank A K Q J 10 9 8 7 6 5 4 3 2)))
+;; Team Locations and Storage
+         (() (create sto team (SCORE BAGS)))
 
 ;; Points
 ;; None for Spades
-
-;; Players and Teams
-;; 2 teams with 2 players each
-      (players 2 2)
-
-;; Game Locations and Storage
-      (gamesto (locations (STOCK Stack)
-                          (TRUMP Stack Imaginary)
-      		              (LEAD Stack Imaginary))
-               (storage (SPADESBROKEN, PLAYERTURN, CURRENTPLAYER, CURRENTHAND)))
-
-;; Player Locations and Storage
-      (playersto (locations (HAND List)
-                            (TRICK Stack))
-                 (storage (BID CURRENTSTATE TRICKSWON)))
-
-;; Team Locations and Storage
-      (teamsto (locations ())
-               (storage (SCORE BAGS))))
+    
                
 ;; Stages of the game
-   (stage 
+   (stage game
       (end (>= (team any SCORE) 500))) 
-      (pre (() (copy AS (game loc TRUMP)))
-           (() (populate (game loc STOCK)))
-           (() (shuffle (game loc STOCK)))
-           (() (deal (player all loc HAND) (game loc STOCK) 13))
-           (() (set (game sto SPADESBROKEN) 0)))
-           (() (set (game sto PLAYERTURN) 0)))
-           (() (set (game sto CURRENTPLAYER) 0)))
-           (() (set (game sto CURRENTHAND) 0)))
-           (() (set (player all sto TRICKSWON) 0))))
+      (comp (() (populate (game loc STOCK)))
+            (() (copy top (game loc STOCK where (== suit spades) top (game loc TRUMP)))        
+            (() (shuffle (game loc STOCK)))
+            (() (deal (player all loc HAND) (game loc STOCK) 13))
+            (() (set (game sto SPADESBROKEN) 0)))
+            (() (set (game sto PLAYERTURN) 0)))
+            (() (set (game sto CURRENTPLAYER) 0)))
+            (() (set (game sto CURRENTHAND) 0)))
+            (() (set (player all sto TRICKSWON) 0))))
       (actions)
 
       ;; bidding
-      (stage
-         (end player once)
-         (pre)
+      (stage player
+         (end player 1)
+         (comp)
          (actions
             (() (set (my sto BID) 1))
             (() (set (my sto BID) 2))
             (() (set (my sto BID) 3))
             (() (set (my sto BID) 4)))
          (stage)
-         (post))
+         (comp))
          
       ;; play a round         
-      (stage
-         (end (== (game sto CURRENTHAND) 13))
-         (pre 
-            (() (set (game sto PLAYERTURN) 0)))
+      (stage player
+         (end player 13))
+         (comp 
+            (() (set (game sto PLAYERTURN) 0))
             ((== (game sto SPADESBROKEN) 0) 
-             (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 2)))
+             (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 2))
             ((== (game sto SPADESBROKEN) 1)
              (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 1)))
          (actions)
          
          ;; play a hand
-            (stage
-               (end player once)
+            (stage player
+               (end player 1)
                (pre ())
                (actions
-                  ((and (== (my sto CURRENTSTATE) 0)
-                        (== (size (my loc HAND where (== suit (suit (peek (game loc LEAD))) 0) 
-                   (set (my sto CURRENTSTATE) 1))
-                  ((and (== (my sto CURRENTSTATE) 0)
-                        (xcard A (my loc HAND where (== suit (suit (peek (game loc LEAD))) 
-                   (move (any A) (my loc HAND) (my loc TRICK))
-                  ((and (== (my sto CURRENTSTATE) 1)
-                        (xcard A (my loc HAND)) 
-                   (move (any A) (my loc HAND) (my loc TRICK))
-                  ((and (== (my sto CURRENTSTATE) 2)
-                        (xcard A (my loc HAND where (!= suit (suit (peek (game loc TRUMP))) 
-                   (move (any A) (my loc HAND) (my loc TRICK))
-                  ((and (== (my sto CURRENTSTATE) 1)
-                        (== (size (my loc HAND where (== suit (suit (peek (game loc LEAD))) 0) 
-                   (set (my sto CURRENTSTATE) 1))
-
+                  ((and (== (size (game loc LEAD)) 0)
+                        (== (game sto SPADESBROKEN) 0)
+                        (xcard A (my loc HAND where (!= suit (suit (peek (game loc TRUMP))))))) 
+                   (move (any A) (my loc HAND) top (my loc TRICK))
+                   (copy top (my loc TRICK) (game loc LEAD))
+                   (turn over))
+                  ((and (== (size (game loc LEAD)) 0)
+                        (== (game sto SPADESBROKEN) 1)
+                        (== (size (my loc HAND where (== suit (suit (peek (game loc TRUMP))) 0))))) 
+                   (move (any (my loc HAND)) (my loc HAND) top (my loc TRICK))
+                   (copy top (my loc TRICK) (game loc LEAD))
+                   (turn over))
+                  ((and (== (size (game loc LEAD)) 1)
+                        (== (size (my loc HAND where (== suit (suit (peek (game loc LEAD))) 0)))))
+                   (move (any (my loc HAND)) (my loc HAND) top (my loc TRICK))
+                   (turn over))
+                  ((and (== (size (game loc LEAD)) 1)
+                        (xcard A (my loc HAND where (== suit (suit (peek (game loc LEAD)))))))
+                   (move (any A) (my loc HAND) top (my loc TRICK))
+                   (turn over)))
                (post
-                  (() (set (player all sto CURRENTSTATE) 0)))
+                  (() (set (player all sto CURRENTSTATE) 0))))
                
          ;; determine who won the hand
-            (stage
+            (stage player
                (end)
-               (pre)
+               (comp)
                (actions)
                (stage)
-               (post))
-         (post
+               (comp))
+         (comp
             (() (inc (game sto CURRENTHAND 1)))))
          
       ;; determine team score
-      (stage
-         (end team once)
-         (pre)
+      (stage team
+         (end team 1)
+         (comp
+            ;; Precedence
+            (() (precedence (suit (suit (peek (game loc TRUMP))) (rank A K Q J 10 9 8 7 6 5 4 3 2))
+                            (suit (suit (peek (game loc LEAD))) (rank A K Q J 10 9 8 7 6 5 4 3 2))))
+
          (actions
             (() (inc (my sto SCORE) (* -100 (// (my sto BAGS) 10))
             (() (set (my sto BAGS) (% (my sto BAGS) 10))
          (stage)
-         (post))
+         (comp))
          
-      (post ())))
+      (comp ())))
       
       
       
