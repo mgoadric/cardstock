@@ -214,7 +214,8 @@ public class Cribbage{
 							});
 						}
 						var findEm = new CardGrouping(13,pairScore);
-						findEm.TuplesOfSize(game.tableCards["PLAYHISTORY"],2);
+						//findEm.TuplesOfSize(game.tableCards["PLAYHISTORY"],2);
+						findEm.RunsOfSize(game.tableCards["PLAYHISTORY"],2);
 						if (actions.Count > 0){
 							game.PlayerMakeChoice(actions,game.gameStorage["CURRENTPLAYER"]);
 							game.gameStorage["CURRENTPLAYER"] = (game.gameStorage["CURRENTPLAYER"] + 1) % 2;

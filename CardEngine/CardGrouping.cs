@@ -30,7 +30,7 @@ namespace CardEngine{
 		public List<CardCollection> TuplesOfSize(CardCollection source, int setSize){
 			var ret = new List<CardCollection>();
 			SortCards(source);
-			for (int i = 0; i < 13; ++i){
+			for (int i = 0; i < array.Count(); ++i){
 				var combos = ListExtension.Combinations<Card>(array[i].AllCards(),setSize);
 				foreach (var combo in combos){
 					var newAdd = new CardListCollection();
@@ -47,6 +47,57 @@ namespace CardEngine{
 				
 			}
 			return ret;
+		}
+		public List<CardCollection> RunsOfSize(CardCollection source, int runLength){
+			var ret = new List<CardCollection>();
+			SortCards(source);
+			for (int i = 0; i < array.Count(); ++i){
+				var found = RightLook(i,runLength);
+				ret.AddRange(found);
+				foreach (var lst in found){
+					Console.WriteLine("RUN***");
+					foreach (var card in lst.AllCards()){
+						Console.WriteLine(card);
+					}
+				}
+			}
+			return ret;
+		}
+		private List<CardCollection> RightLook(int idx, int remainingLength){
+			if (idx < array.Count() && array[idx].Count > 0){
+				List<CardCollection> recurs;
+				if (remainingLength != 1){
+					recurs = RightLook(idx + 1, remainingLength - 1);
+					var ret = new List<CardCollection>();
+					foreach (var card in array[idx].AllCards()){
+						foreach (var downLine in recurs){
+							var tempList = new CardListCollection();
+							tempList.Add(card);
+							foreach (var innerCard in downLine.AllCards()){
+								tempList.Add(innerCard);
+							}
+							ret.Add(tempList);
+							
+						}
+					}
+					return ret;
+				}
+				else{
+					var ret = new List<CardCollection>();
+					foreach (var card in array[idx].AllCards()){
+						var tempList = new CardListCollection();
+						tempList.Add(card);
+						ret.Add(tempList);
+						
+					}
+					return ret;
+				}
+				
+				
+			}
+			else{
+				return new List<CardCollection>();
+			}
 		}
 	}
 }
