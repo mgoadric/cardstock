@@ -20,7 +20,14 @@ namespace CardEngine{
 			}
 			score = scoring;
 		}
+		private void Reset(){
+			array = new CardCollection[array.Count()];
+			for (int i = 0; i < array.Count(); ++i){
+				array[i] = new CardListCollection();
+			}
+		}
 		private void SortCards(CardCollection source){
+			Reset();
 			foreach (var card in source.AllCards()){
 				var curScore = score.GetScore(card);
 				array[curScore].Add(card);
@@ -36,13 +43,13 @@ namespace CardEngine{
 					var newAdd = new CardListCollection();
 					
 					
-					Console.WriteLine("Combo:");
+					
 					foreach (var card in combo){
 						newAdd.Add(card);
-						Console.Write(" " + card + " ");
+						
 					}		
 					ret.Add(newAdd);
-					Console.WriteLine();			
+							
 				}
 				
 			}
@@ -54,15 +61,37 @@ namespace CardEngine{
 			for (int i = 0; i < array.Count(); ++i){
 				var found = RightLook(i,runLength);
 				ret.AddRange(found);
-				foreach (var lst in found){
-					Console.WriteLine("RUN***");
-					foreach (var card in lst.AllCards()){
-						Console.WriteLine(card);
-					}
-				}
+				
 			}
 			return ret;
 		}
+		private CardCollection Clone(CardCollection source){
+			var recurseList = new CardListCollection();
+			foreach (var card in source.AllCards()){
+				recurseList.Add(card);
+			}
+			return recurseList;
+		}
+		public List<CardCollection> AllCombos(CardCollection source){
+			var ret = new List<CardCollection>();
+			var option = new CardListCollection();
+			option.Add(source.Peek());
+			ret.Add(option);
+			if (source.Count > 1){
+				var recurseList = Clone(source);
+				recurseList.Remove();
+				var lower = AllCombos(recurseList);
+				foreach (var combo in lower){
+					var lowerClone = Clone(combo);
+					lowerClone.Add(source.Peek());
+					ret.Add(lowerClone);
+					ret.Add(combo);
+				}
+				
+			}
+			return ret;
+		}
+		
 		private List<CardCollection> RightLook(int idx, int remainingLength){
 			if (idx < array.Count() && array[idx].Count > 0){
 				List<CardCollection> recurs;
