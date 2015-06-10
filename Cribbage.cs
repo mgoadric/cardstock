@@ -109,7 +109,7 @@ public class Cribbage{
 		// Establish PRECEDENCE for the cards.
 		//
 		// TODO : Push this into game, have this description be flexible to again read from string
-		Console.WriteLine("here");
+		
 		
 
 		var suitDict = new Dictionary<string,HashSet<Card>>();
@@ -173,7 +173,7 @@ public class Cribbage{
 					
 					
 					
-					Console.WriteLine("here");
+					
 					//Populate the crib
 					for (int i = 0; i < 2; ++i){
 						var player = game.players[i];
@@ -185,7 +185,7 @@ public class Cribbage{
 						}
 						game.PlayerMakeChoices(ultimateChoices,i,2);
 					}
-					Console.WriteLine("here");
+					
 					//Normal Game phase
 					var rankStrings = new List<string>{
 						"A","2","3","4","5","6","7","8","9","10","J","Q","K"
@@ -208,7 +208,7 @@ public class Cribbage{
 						scoreList.Add(new PointAwards("rank",rankStrings[i],rankInts[i]));
 					}
 					var stackScore = new CardScore(scoreList);
-					Console.WriteLine("here");
+					
 					while (!game.players.All(player => player.cardBins["HAND"].Count == 0)){
 						game.tableCards["PLAYHISTORY"].Clear();
 						foreach (var player in game.players){
