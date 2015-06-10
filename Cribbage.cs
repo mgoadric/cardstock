@@ -145,156 +145,168 @@ public class Cribbage{
 		foreach (var key in StoreNames.Keys){
 			game.gameStorage.AddKey(key);
 		}
+		foreach (var team in game.teams){
+			team.teamStorage.AddTrigger(new Trigger{
+				op = ">=",
+				value = 121,
+				exception = new TriggerException("Game should end here")
+			},"SCORE");
+		}
 		bool gameNotOver = true;
-		while (gameNotOver){
-			if (game.teams.Exists(team => team.teamStorage["SCORE"] >= 121)){
-				gameNotOver = false;
-			}
-			else{
-				game.tableCards["CRIB"].Clear();
-				foreach (var player in game.players){
-					player.cardBins["TRICK"].Clear();
+		try{
+			while (gameNotOver){
+				if (game.teams.Exists(team => team.teamStorage["SCORE"] >= 121)){
+					gameNotOver = false;
 				}
-				
-				game.PopulateLocation("STOCK");
-				game.tableCards["STOCK"].Shuffle();
-				// STAGE 0: SETUP STORAGE and DEAL
-				game.DealEvery(6,"STOCK","HAND");
-				
-				game.tableCards["STARTER"].Add(game.tableCards["STOCK"].Remove());
-				
-				
-				
-				Console.WriteLine("here");
-				//Populate the crib
-				for (int i = 0; i < 2; ++i){
-					var player = game.players[i];
-					var ultimateChoices = new List<GameActionCollection>();
-					foreach (var card in player.cardBins["HAND"].AllCards()){
-						ultimateChoices.Add(new GameActionCollection{
-							new CardMoveAction(card,player.cardBins["HAND"],game.tableCards["CRIB"])
-						});
-					}
-					game.PlayerMakeChoices(ultimateChoices,i,2);
-				}
-				Console.WriteLine("here");
-				//Normal Game phase
-				var rankStrings = new List<string>{
-					"A","2","3","4","5","6","7","8","9","10","J","Q","K"
-				};
-				var rankInts = new List<int>{
-					1,2,3,4,5,6,7,8,9,10,10,10,10	
-				};
-				var rankPairs = new List<int>{
-					0,1,2,3,4,5,6,7,8,9,10,11,12
-				};
-				var pairList = new List<PointAwards>();
-				for (int i = 0; i < rankStrings.Count; ++i){
-					pairList.Add(new PointAwards("rank",rankStrings[i],rankPairs[i]));
-				}
-				var pairScore = new CardScore(pairList);
-				
-				
-				var scoreList = new List<PointAwards>();
-				for (int i = 0; i < rankStrings.Count; ++i){
-					scoreList.Add(new PointAwards("rank",rankStrings[i],rankInts[i]));
-				}
-				var stackScore = new CardScore(scoreList);
-				Console.WriteLine("here");
-				while (!game.players.All(player => player.cardBins["HAND"].Count == 0)){
-					game.tableCards["PLAYHISTORY"].Clear();
+				else{
+					game.tableCards["CRIB"].Clear();
 					foreach (var player in game.players){
-						//player.cardBins["TRICK"].Clear();
-						player.storage["GONE"] = 0;
+						player.cardBins["TRICK"].Clear();
 					}
-					while (game.tableCards["PLAYHISTORY"].AllCards().Sum(card => stackScore.GetScore(card)) < 31 && game.players.Exists(player => player.storage["GONE"] == 0)){
-						//Players each play a remaining card
-						var remainingScore = 31 - game.tableCards["PLAYHISTORY"].AllCards().Sum(card => stackScore.GetScore(card));
-						
-						var playableFilter = new CardFilter(new List<CardExpression>{
-							new ScoreExpression(stackScore,"<=",remainingScore)
-						});
-						
-						var actions = new List<GameActionCollection>();
-						
-						foreach (var card in playableFilter.FilterMatchesAll(game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["HAND"]).AllCards()){
-							actions.Add(new GameActionCollection{
-								new CardMoveAction(card,game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["HAND"],game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["TRICK"]),
-								new CardCopyAction(card,game.tableCards["PLAYHISTORY"])
+					game.tableCards["STOCK"] = new CardListCollection();
+					game.PopulateLocation("STOCK");
+					game.tableCards["STOCK"].Shuffle();
+					// STAGE 0: SETUP STORAGE and DEAL
+					game.DealEvery(6,"STOCK","HAND");
+					
+					game.tableCards["STARTER"].Add(game.tableCards["STOCK"].Remove());
+					
+					
+					
+					Console.WriteLine("here");
+					//Populate the crib
+					for (int i = 0; i < 2; ++i){
+						var player = game.players[i];
+						var ultimateChoices = new List<GameActionCollection>();
+						foreach (var card in player.cardBins["HAND"].AllCards()){
+							ultimateChoices.Add(new GameActionCollection{
+								new CardMoveAction(card,player.cardBins["HAND"],game.tableCards["CRIB"])
 							});
 						}
-						
-						if (actions.Count > 0){
-							game.PlayerMakeChoice(actions,game.gameStorage["CURRENTPLAYER"]);
+						game.PlayerMakeChoices(ultimateChoices,i,2);
+					}
+					Console.WriteLine("here");
+					//Normal Game phase
+					var rankStrings = new List<string>{
+						"A","2","3","4","5","6","7","8","9","10","J","Q","K"
+					};
+					var rankInts = new List<int>{
+						1,2,3,4,5,6,7,8,9,10,10,10,10	
+					};
+					var rankPairs = new List<int>{
+						0,1,2,3,4,5,6,7,8,9,10,11,12
+					};
+					var pairList = new List<PointAwards>();
+					for (int i = 0; i < rankStrings.Count; ++i){
+						pairList.Add(new PointAwards("rank",rankStrings[i],rankPairs[i]));
+					}
+					var pairScore = new CardScore(pairList);
+					
+					
+					var scoreList = new List<PointAwards>();
+					for (int i = 0; i < rankStrings.Count; ++i){
+						scoreList.Add(new PointAwards("rank",rankStrings[i],rankInts[i]));
+					}
+					var stackScore = new CardScore(scoreList);
+					Console.WriteLine("here");
+					while (!game.players.All(player => player.cardBins["HAND"].Count == 0)){
+						game.tableCards["PLAYHISTORY"].Clear();
+						foreach (var player in game.players){
+							//player.cardBins["TRICK"].Clear();
+							player.storage["GONE"] = 0;
+						}
+						while (game.tableCards["PLAYHISTORY"].AllCards().Sum(card => stackScore.GetScore(card)) < 31 && game.players.Exists(player => player.storage["GONE"] == 0)){
+							//Players each play a remaining card
+							var remainingScore = 31 - game.tableCards["PLAYHISTORY"].AllCards().Sum(card => stackScore.GetScore(card));
 							
-							if (game.tableCards["PLAYHISTORY"].AllCards().Sum(card => stackScore.GetScore(card)) == 15){
-								//Score 2 points
-								game.players[game.gameStorage["CURRENTPLAYER"]].team.teamStorage["SCORE"] += 2;
+							var playableFilter = new CardFilter(new List<CardExpression>{
+								new ScoreExpression(stackScore,"<=",remainingScore)
+							});
+							
+							var actions = new List<GameActionCollection>();
+							
+							foreach (var card in playableFilter.FilterMatchesAll(game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["HAND"]).AllCards()){
+								actions.Add(new GameActionCollection{
+									new CardMoveAction(card,game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["HAND"],game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["TRICK"]),
+									new CardCopyAction(card,game.tableCards["PLAYHISTORY"])
+								});
 							}
 							
-							game.gameStorage["CURRENTPLAYER"] = (game.gameStorage["CURRENTPLAYER"] + 1) % 2;
-							
-							Console.WriteLine("STATE");
-							foreach (var card in game.tableCards["PLAYHISTORY"].AllCards()){
+							if (actions.Count > 0){
+								game.PlayerMakeChoice(actions,game.gameStorage["CURRENTPLAYER"]);
+								
+								if (game.tableCards["PLAYHISTORY"].AllCards().Sum(card => stackScore.GetScore(card)) == 15){
+									//Score 2 points
+									game.players[game.gameStorage["CURRENTPLAYER"]].team.teamStorage["SCORE"] += 2;
+								}
+								
+								game.gameStorage["CURRENTPLAYER"] = (game.gameStorage["CURRENTPLAYER"] + 1) % 2;
+								
+								Console.WriteLine("STATE");
+								foreach (var card in game.tableCards["PLAYHISTORY"].AllCards()){
+									Console.WriteLine(card);
+								}
+							}
+							else{
+								game.players[game.gameStorage["CURRENTPLAYER"]].storage["GONE"] = 1;
+								game.gameStorage["CURRENTPLAYER"] = (game.gameStorage["CURRENTPLAYER"] + 1) % 2;
+							}
+						}
+					}
+					
+					//Hand has been played, now score the hands and the crib
+					foreach (var player in game.players){
+						//First score the hand with the starter
+						var trick = player.cardBins["TRICK"];
+						
+						var cardsToScore = new CardListCollection();
+						foreach (var card in trick.AllCards()){
+							cardsToScore.Add(card);
+						}
+						cardsToScore.Add(game.tableCards["STARTER"].Peek());//Add the starter
+						
+						var findEm = new CardGrouping(13,pairScore);
+						
+						//Pairs
+						var pairs = findEm.TuplesOfSize(cardsToScore,2);
+						Console.WriteLine("Pairs:");
+						foreach (var pair in pairs){
+							foreach (var card in pair.AllCards()){
 								Console.WriteLine(card);
 							}
-						}
-						else{
-							game.players[game.gameStorage["CURRENTPLAYER"]].storage["GONE"] = 1;
-							game.gameStorage["CURRENTPLAYER"] = (game.gameStorage["CURRENTPLAYER"] + 1) % 2;
-						}
-					}
-				}
-				
-				//Hand has been played, now score the hands and the crib
-				foreach (var player in game.players){
-					//First score the hand with the starter
-					var trick = player.cardBins["TRICK"];
-					
-					var cardsToScore = new CardListCollection();
-					foreach (var card in trick.AllCards()){
-						cardsToScore.Add(card);
-					}
-					cardsToScore.Add(game.tableCards["STARTER"].Peek());//Add the starter
-					
-					var findEm = new CardGrouping(13,pairScore);
-					
-					//Pairs
-					var pairs = findEm.TuplesOfSize(cardsToScore,2);
-					Console.WriteLine("Pairs:");
-					foreach (var pair in pairs){
-						foreach (var card in pair.AllCards()){
-							Console.WriteLine(card);
+							
+							player.team.teamStorage["SCORE"] += 2;
 						}
 						
-						player.team.teamStorage["SCORE"] += 2;
-					}
-					
-					
-					//Runs
-					var runs = findEm.RunsOfSize(cardsToScore,3);
-					Console.WriteLine("Runs:");
-					foreach (var run in runs){
-						foreach (var card in run.AllCards()){
-							Console.WriteLine(card);
-						}
-						player.team.teamStorage["SCORE"] += 3;
 						
-					}
-					
-					//15's
-					var allcombos = findEm.AllCombos(cardsToScore);
-					foreach (var combo in allcombos){
-						if (combo.AllCards().Sum(item => stackScore.GetScore(item)) == 15){
-							Console.WriteLine("15!");
-							foreach (var card in combo.AllCards()){
+						//Runs
+						var runs = findEm.RunsOfSize(cardsToScore,3);
+						Console.WriteLine("Runs:");
+						foreach (var run in runs){
+							foreach (var card in run.AllCards()){
 								Console.WriteLine(card);
 							}
+							player.team.teamStorage["SCORE"] += 3;
+							
 						}
-						player.team.teamStorage["SCORE"] += 2;
-					}	
+						
+						//15's
+						var allcombos = findEm.AllCombos(cardsToScore);
+						foreach (var combo in allcombos){
+							if (combo.AllCards().Sum(item => stackScore.GetScore(item)) == 15){
+								Console.WriteLine("15!");
+								foreach (var card in combo.AllCards()){
+									Console.WriteLine(card);
+								}
+							}
+							player.team.teamStorage["SCORE"] += 2;
+						}	
+					}
 				}
 			}
+		}
+		catch (TriggerException ex){
+			Console.WriteLine(ex.Message);
 		}
 		foreach (var team in game.teams){
 			Console.WriteLine("FINAL:" + team.teamStorage["SCORE"]);
