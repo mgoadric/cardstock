@@ -47,7 +47,6 @@
              )
       )
  
-
       ;; bidding
       (stage player
          (end player 1)
@@ -61,7 +60,7 @@
          
       ;; players play a round         
       (stage player
-         (end player 13))
+         (end player 13)
          (comp 
             (() (set (game sto PLAYERTURN) 0))
             
@@ -90,7 +89,9 @@
                   ((and (== (size (game loc LEAD)) 1)
                         (xcard A (my loc HAND where (== (cardatt suit this) (cardatt suit (peek (game loc LEAD)))))))
                    (move (any A) (my loc HAND) top (my loc TRICK))
-                   (turn over)))
+                   (turn over))
+               )
+            )
               
             ;; after players play hand, computer wraps up trick
             (comp
@@ -113,17 +114,27 @@
                   
                   ;; discard all the played cards
                   (() (move top (player all loc TRICK) top (game loc DISCARD))   
-                      (inc (game sto CURRENTHAND 1))))
+                      (inc (game sto CURRENTHAND 1)))
+             )
+          )
+      )
          
       ;; determine team score
       (stage team
          (end team 1)
          (actions
           
-          ;; WORKING HERE
-          (> 
-            (() (inc (my sto SCORE) (* -100 (// (my sto BAGS) 10)
-            (set (my sto BAGS) (% (my sto BAGS) 10))
+            ((>= (player my sto TRICKSWON) (player my sto BID))
+             (inc (my sto SCORE (* 10 (player my sto BID))))
+             (inc (my sto BAGS (- (player my sto TRICKSWON) (player my sto BID)))))
+            ((< (player my sto TRICKSWON) (player my sto BID))
+             (dec (my sto SCORE (* 10 (player my sto BID)))))
+            (() (dec (my sto SCORE) (* 100 (// (my sto BAGS) 10)))
+                (set (my sto BAGS) (% (my sto BAGS) 10)))
+         )
+      )
+   )
+)
          
          
       
