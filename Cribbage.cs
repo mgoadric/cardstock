@@ -151,10 +151,20 @@ public class Cribbage{
 				gameNotOver = false;
 			}
 			else{
+				game.tableCards["CRIB"].Clear();
+				foreach (var player in game.players){
+					player.cardBins["TRICK"].Clear();
+				}
+				
 				game.PopulateLocation("STOCK");
 				game.tableCards["STOCK"].Shuffle();
 				// STAGE 0: SETUP STORAGE and DEAL
 				game.DealEvery(6,"STOCK","HAND");
+				
+				game.tableCards["STARTER"].Add(game.tableCards["STOCK"].Remove());
+				
+				
+				
 				Console.WriteLine("here");
 				//Populate the crib
 				for (int i = 0; i < 2; ++i){
@@ -191,10 +201,10 @@ public class Cribbage{
 				}
 				var stackScore = new CardScore(scoreList);
 				Console.WriteLine("here");
-				while (!game.players.Exists(player => player.cardBins["HAND"].Count == 0)){
+				while (!game.players.All(player => player.cardBins["HAND"].Count == 0)){
 					game.tableCards["PLAYHISTORY"].Clear();
 					foreach (var player in game.players){
-						player.cardBins["TRICK"].Clear();
+						//player.cardBins["TRICK"].Clear();
 						player.storage["GONE"] = 0;
 					}
 					while (game.tableCards["PLAYHISTORY"].AllCards().Sum(card => stackScore.GetScore(card)) < 31 && game.players.Exists(player => player.storage["GONE"] == 0)){
@@ -213,10 +223,15 @@ public class Cribbage{
 								new CardCopyAction(card,game.tableCards["PLAYHISTORY"])
 							});
 						}
-						var findEm = new CardGrouping(13,pairScore);
-						findEm.TuplesOfSize(game.tableCards["PLAYHISTORY"],2);
+						
 						if (actions.Count > 0){
 							game.PlayerMakeChoice(actions,game.gameStorage["CURRENTPLAYER"]);
+							
+							if (game.tableCards["PLAYHISTORY"].AllCards().Sum(card => stackScore.GetScore(card)) == 15){
+								//Score 2 points
+								game.players[game.gameStorage["CURRENTPLAYER"]].team.teamStorage["SCORE"] += 2;
+							}
+							
 							game.gameStorage["CURRENTPLAYER"] = (game.gameStorage["CURRENTPLAYER"] + 1) % 2;
 							
 							Console.WriteLine("STATE");
@@ -230,8 +245,59 @@ public class Cribbage{
 						}
 					}
 				}
+				
+				//Hand has been played, now score the hands and the crib
+				foreach (var player in game.players){
+					//First score the hand with the starter
+					var trick = player.cardBins["TRICK"];
+					
+					var cardsToScore = new CardListCollection();
+					foreach (var card in trick.AllCards()){
+						cardsToScore.Add(card);
+					}
+					cardsToScore.Add(game.tableCards["STARTER"].Peek());//Add the starter
+					
+					var findEm = new CardGrouping(13,pairScore);
+					
+					//Pairs
+					var pairs = findEm.TuplesOfSize(cardsToScore,2);
+					Console.WriteLine("Pairs:");
+					foreach (var pair in pairs){
+						foreach (var card in pair.AllCards()){
+							Console.WriteLine(card);
+						}
+						
+						player.team.teamStorage["SCORE"] += 2;
+					}
+					
+					
+					//Runs
+					var runs = findEm.RunsOfSize(cardsToScore,3);
+					Console.WriteLine("Runs:");
+					foreach (var run in runs){
+						foreach (var card in run.AllCards()){
+							Console.WriteLine(card);
+						}
+						player.team.teamStorage["SCORE"] += 3;
+						
+					}
+					
+					//15's
+					var allcombos = findEm.AllCombos(cardsToScore);
+					foreach (var combo in allcombos){
+						if (combo.AllCards().Sum(item => stackScore.GetScore(item)) == 15){
+							Console.WriteLine("15!");
+							foreach (var card in combo.AllCards()){
+								Console.WriteLine(card);
+							}
+						}
+						player.team.teamStorage["SCORE"] += 2;
+					}	
+				}
 			}
-			break;
+		}
+		foreach (var team in game.teams){
+			Console.WriteLine("FINAL:" + team.teamStorage["SCORE"]);
 		}
 		time.Stop();
 		Console.WriteLine("Elapsed:" + time.Elapsed);
