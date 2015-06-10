@@ -1,127 +1,129 @@
 ;; SPADES in the GDL
 (stage game
 
-   (end once)
-;; Game Locations and Storage
-   (comp (() (create loc game (SOURCE List)
+   (end game 1)
+   (comp (() 
+
+             ;; Game Locations and Storage
+             (create loc game (SOURCE List)
                               (STOCK Stack)
+                              (DISCARD Stack)
                               (TRUMP Stack Imaginary)
-      		              (LEAD Stack Imaginary)))
-         (() (create sto game (SPADESBROKEN, PLAYERTURN, CURRENTPLAYER, CURRENTHAND)))
+                              (LEAD Stack Imaginary))
+             (create sto game (SPADESBROKEN, PLAYERTURN, CURRENTPLAYER, CURRENTHAND))
 
-         (() (initialize (game loc SOURCE) (deck (rank (A 2 3 4 5 6 7 8 9 10 J Q K))
-                                                 (color (red (suit (hearts diamonds)))
-                                                        (black (suit (clubs spades)))))))
-         (() (initialize players 2 2))
-;; Player Locations and Storage
-         (() (create loc player (HAND List)
-                                (TRICK Stack)))
-         (() (create sto player (BID CURRENTSTATE TRICKSWON)))
+             ;; Set up the players, 2 teams of 2 players, alternating
+             (initialize players 2 2 alternate)
 
-;; Team Locations and Storage
-         (() (create sto team (SCORE BAGS)))
+             ;; Player Locations and Storage
+             (create loc player (HAND List)
+                                (TRICK Stack))
+             (create sto player (BID TRICKSWON))
 
-;; Points
-;; None for Spades
-    
+             ;; Team Locations and Storage
+             (create sto team (SCORE BAGS))
+             
+             ;; Create the deck source
+             (initialize (game loc SOURCE) (permdeck (rank (A 2 3 4 5 6 7 8 9 10 J Q K))
+                                                     (color (red (suit (hearts diamonds)))
+                                                            (black (suit (clubs spades))))))
+             (populate (game loc DISCARD) (game loc SOURCE))
+             
+         )
+   )
                
 ;; Stages of the game
    (stage game
-      (end (>= (team any SCORE) 500))) 
-      (comp (() (populate (game loc STOCK)))
-            (() (copy top (game loc STOCK where (== suit spades) top (game loc TRUMP)))        
-            (() (shuffle (game loc STOCK)))
-            (() (deal (player all loc HAND) (game loc STOCK) 13))
-            (() (set (game sto SPADESBROKEN) 0)))
-            (() (set (game sto PLAYERTURN) 0)))
-            (() (set (game sto CURRENTPLAYER) 0)))
-            (() (set (game sto CURRENTHAND) 0)))
-            (() (set (player all sto TRICKSWON) 0))))
-      (actions)
+      (end (>= (team any SCORE) 500))
+      (comp (() (move all (game loc DISCARD) top (game loc STOCK))
+                (copy top (game loc STOCK where (== (cardatt suit spades) top (game loc TRUMP))))
+                (shuffle (game loc STOCK))
+                (deal (player all loc HAND) (game loc STOCK) 13)
+                (set (game sto SPADESBROKEN) 0)
+                (set (game sto PLAYERTURN) 0)
+                (set (game sto CURRENTPLAYER) 0)
+                (set (game sto CURRENTHAND) 0)
+                (set (player all sto TRICKSWON) 0)
+             )
+      )
+ 
 
       ;; bidding
       (stage player
          (end player 1)
-         (comp)
          (actions
             (() (set (my sto BID) 1))
             (() (set (my sto BID) 2))
             (() (set (my sto BID) 3))
-            (() (set (my sto BID) 4)))
-         (stage)
-         (comp))
+            (() (set (my sto BID) 4))
+         )
+      )
          
-      ;; play a round         
+      ;; players play a round         
       (stage player
          (end player 13))
          (comp 
             (() (set (game sto PLAYERTURN) 0))
-            ((== (game sto SPADESBROKEN) 0) 
-             (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 2))
-            ((== (game sto SPADESBROKEN) 1)
-             (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 1)))
-         (actions)
+            
          
-         ;; play a hand
+            ;; players play a hand
             (stage player
                (end player 1)
-               (pre ())
+             
                (actions
                   ((and (== (size (game loc LEAD)) 0)
                         (== (game sto SPADESBROKEN) 0)
-                        (xcard A (my loc HAND where (!= suit (suit (peek (game loc TRUMP))))))) 
+                        (xcard A (my loc HAND where (!= (suit this) (suit (peek (game loc TRUMP))))))) 
                    (move (any A) (my loc HAND) top (my loc TRICK))
                    (copy top (my loc TRICK) (game loc LEAD))
                    (turn over))
                   ((and (== (size (game loc LEAD)) 0)
                         (== (game sto SPADESBROKEN) 1)
-                        (== (size (my loc HAND where (== suit (suit (peek (game loc TRUMP))) 0))))) 
+                        (== (size (my loc HAND where (== (cardatt suit this) (cardatt suit (peek (game loc TRUMP))) 0))))) 
                    (move (any (my loc HAND)) (my loc HAND) top (my loc TRICK))
                    (copy top (my loc TRICK) (game loc LEAD))
                    (turn over))
                   ((and (== (size (game loc LEAD)) 1)
-                        (== (size (my loc HAND where (== suit (suit (peek (game loc LEAD))) 0)))))
+                        (== (size (my loc HAND where (== (cardatt suit this) (cardatt suit (peek (game loc LEAD))) 0)))))
                    (move (any (my loc HAND)) (my loc HAND) top (my loc TRICK))
                    (turn over))
                   ((and (== (size (game loc LEAD)) 1)
-                        (xcard A (my loc HAND where (== suit (suit (peek (game loc LEAD)))))))
+                        (xcard A (my loc HAND where (== (cardatt suit this) (cardatt suit (peek (game loc LEAD)))))))
                    (move (any A) (my loc HAND) top (my loc TRICK))
                    (turn over)))
-               (post
-                  (() (set (player all sto CURRENTSTATE) 0))))
-               
-         ;; determine who won the hand
-            (stage player
-               (end)
-               (comp)
-               (actions)
-               (stage)
-               (comp))
-         (comp
-            (() (inc (game sto CURRENTHAND 1)))))
+              
+            ;; after players play hand, computer wraps up trick
+            (comp
+                  (() 
+                      ;; solidfy card recedence
+                      (initialize points PRECEDENCE (suit (cardatt suit (peek (game loc TRUMP))) (rank A K Q J 10 9 8 7 6 5 4 3 2))
+                                  (suit (cardatt suit (peek (game loc LEAD))) (rank A K Q J 10 9 8 7 6 5 4 3 2)))             
+                      
+                      ;; determine who won the hand, set them first next time, and give them a point
+                      (remove top (game loc LEAD))
+                      (set (game sto CURRENTPLAYER) (argmax (union (player all loc TRICK)) using points PRECEDENCE))
+                      (inc (player (game sto CURRENTPLAYER) sto TRICKSWON) 1)
+
+                  )
+                  
+                  ;; if winner played trump and trump not broken, trump is now broken
+                  ((and (== (cardatt suit (top (player (game sto CURRENTPLAYER) loc TRICK))) (cardatt suit (game loc TRUMP)))
+                        (== (game sto SPADESBROKEN) 0))
+                   (set (game sto SPADESBROKEN) 1))
+                  
+                  ;; discard all the played cards
+                  (() (move top (player all loc TRICK) top (game loc DISCARD))   
+                      (inc (game sto CURRENTHAND 1))))
          
       ;; determine team score
       (stage team
          (end team 1)
-         (comp
-            ;; Precedence
-            (() (precedence (suit (suit (peek (game loc TRUMP))) (rank A K Q J 10 9 8 7 6 5 4 3 2))
-                            (suit (suit (peek (game loc LEAD))) (rank A K Q J 10 9 8 7 6 5 4 3 2))))
-
          (actions
-            (() (inc (my sto SCORE) (* -100 (// (my sto BAGS) 10))
-            (() (set (my sto BAGS) (% (my sto BAGS) 10))
-         (stage)
-         (comp))
+          
+          ;; WORKING HERE
+          (> 
+            (() (inc (my sto SCORE) (* -100 (// (my sto BAGS) 10)
+            (set (my sto BAGS) (% (my sto BAGS) 10))
          
-      (comp ())))
+         
       
-      
-      
-      
-            (stage
-         (end)
-         (pre)
-         (actions)
-         (stage)
-         (post)
