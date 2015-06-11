@@ -10,7 +10,7 @@
                               (DISCARD Stack)
                               (TRUMP Stack Imaginary)
                               (LEAD Stack Imaginary))
-             (create sto game (SPADESBROKEN, PLAYERTURN, CURRENTPLAYER, CURRENTHAND))
+             (create sto game (SPADESBROKEN))
 
              ;; Set up the players, 2 teams of 2 players, alternating
              (initialize players 2 2 alternate)
@@ -36,13 +36,10 @@
    (stage game
       (end (>= (team any SCORE) 500))
       (comp (() (move all (game loc DISCARD) top (game loc STOCK))
-                (copy top (game loc STOCK where (== (cardatt suit spades) top (game loc TRUMP))))
+                (copy top (game loc STOCK where (== (cardatt suit this) spades)) top (game loc TRUMP))
                 (shuffle (game loc STOCK))
                 (deal (player all loc HAND) (game loc STOCK) 13)
                 (set (game sto SPADESBROKEN) 0)
-                (set (game sto PLAYERTURN) 0)
-                (set (game sto CURRENTPLAYER) 0)
-                (set (game sto CURRENTHAND) 0)
                 (set (player all sto TRICKSWON) 0)
              )
       )
@@ -102,19 +99,18 @@
                       
                       ;; determine who won the hand, set them first next time, and give them a point
                       (remove top (game loc LEAD))
-                      (set (game sto CURRENTPLAYER) (argmax (union (player all loc TRICK)) using points PRECEDENCE))
-                      (inc (player (game sto CURRENTPLAYER) sto TRICKSWON) 1)
+                      (set NEXTPLAYER (owner (max (union (player all loc TRICK)) using points PRECEDENCE)))
+                      (inc (player NEXTPLAYER sto TRICKSWON) 1)
 
                   )
                   
                   ;; if winner played trump and trump not broken, trump is now broken
-                  ((and (== (cardatt suit (top (player (game sto CURRENTPLAYER) loc TRICK))) (cardatt suit (game loc TRUMP)))
+                  ((and (== (cardatt suit (top (player NEXTPLAYER loc TRICK))) (cardatt suit (game loc TRUMP)))
                         (== (game sto SPADESBROKEN) 0))
                    (set (game sto SPADESBROKEN) 1))
                   
                   ;; discard all the played cards
-                  (() (move top (player all loc TRICK) top (game loc DISCARD))   
-                      (inc (game sto CURRENTHAND 1)))
+                  (() (move top (player all loc TRICK) top (game loc DISCARD)))
              )
           )
       )

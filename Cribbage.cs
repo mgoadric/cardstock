@@ -253,6 +253,9 @@ public class Cribbage{
 							}
 						}
 					}
+		foreach (var team in game.teams){
+			Console.WriteLine("AFTER CARDS PLAYED:" + team.teamStorage["SCORE"]);
+		}
 					
 					//Hand has been played, now score the hands and the crib
 					foreach (var player in game.players){
@@ -277,7 +280,10 @@ public class Cribbage{
 							
 							player.team.teamStorage["SCORE"] += 2;
 						}
-						
+						foreach (var team in game.teams){
+			Console.WriteLine("PAIRS SCORED:" + team.teamStorage["SCORE"]);
+		}
+		
 						
 						//Runs
 						var runs = findEm.RunsOfSize(cardsToScore,3);
@@ -289,7 +295,10 @@ public class Cribbage{
 							player.team.teamStorage["SCORE"] += 3;
 							
 						}
-						
+						foreach (var team in game.teams){
+			Console.WriteLine("RUNS SCORED:" + team.teamStorage["SCORE"]);
+		}
+		
 						//15's
 						var allcombos = findEm.AllCombos(cardsToScore);
 						foreach (var combo in allcombos){
@@ -298,9 +307,16 @@ public class Cribbage{
 								foreach (var card in combo.AllCards()){
 									Console.WriteLine(card);
 								}
+							
+								player.team.teamStorage["SCORE"] += 2;
+								
 							}
-							player.team.teamStorage["SCORE"] += 2;
 						}	
+						
+								foreach (var team in game.teams){
+			Console.WriteLine("15s SCORED:" + team.teamStorage["SCORE"]);
+		}
+
 					}
 				}
 			}
