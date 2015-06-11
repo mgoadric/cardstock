@@ -306,6 +306,7 @@ public class Spades{
 							
 							var orderedCards = new List<Card>();
 							foreach (var filter in precendence){
+								
 								//Approaches N time
 								var suit = ((TreeExpression)filter.filters.Where(obj => ((TreeExpression)obj).CardAttribute == "suit").FirstOrDefault()).expectedValue;
 								var rank = ((TreeExpression)filter.filters.Where(obj => ((TreeExpression)obj).CardAttribute == "rank").FirstOrDefault()).expectedValue;
