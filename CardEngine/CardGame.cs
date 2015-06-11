@@ -9,14 +9,24 @@ namespace CardEngine
 		public CardStorage tableCards = new CardStorage();
 		public List<Player> players = new List<Player>();
 		public List<Team> teams = new List<Team>();
+		public Stack<PlayerCycle> currentPlayer = new Stack<PlayerCycle>();
 		public RawStorage gameStorage = new RawStorage();
 		public CardGame(int numPlayers){
 			
 			for (int i = 0; i < numPlayers; ++i){
 				players.Add(new Player());
 			}
-			
+			currentPlayer.Push(new PlayerCycle(players));
 			//var first = new Card();
+		}
+		public void PushPlayer(){
+			currentPlayer.Push(new PlayerCycle(currentPlayer.Peek()));
+		}
+		public void PopPlayer(){
+			currentPlayer.Pop();
+		}
+		public PlayerCycle CurrentPlayer(){
+			return currentPlayer.Peek();
 		}
 		public void SetDeck(Tree cardAttributes){
 			var combos = cardAttributes.combinations();

@@ -229,7 +229,7 @@ public class Spades{
 							if (game.gameStorage["PLAYERTURN"] == 4) {
 								stage2_1Complete = true;
 							} else {
-								var player = game.players[game.gameStorage["CURRENTPLAYER"]];
+								var player = game.CurrentPlayer().Current();
 								
 								var choices = new List<Card>();
 								
@@ -237,30 +237,30 @@ public class Spades{
 									var followSuit = new CardFilter(new List<CardExpression>{
 									new TreeExpression("suit",game.tableCards["LEAD"].Peek().ReadAttribute("suit"),true)
 									});
-									choices = game.FilterCardsFromLocation(followSuit,"P",game.gameStorage["CURRENTPLAYER"],"HAND");
+									choices = game.FilterCardsFromLocation(followSuit,"P",game.CurrentPlayer().idx,"HAND");
 									
 								}
 								else if (player.storage["CURRENTSTATE"] == 1){//Play anything, spades broken or unable to follow
-									choices = game.FilterCardsFromLocation(new CardFilter(new List<CardExpression>()),"P",game.gameStorage["CURRENTPLAYER"],"HAND");
+									choices = game.FilterCardsFromLocation(new CardFilter(new List<CardExpression>()),"P",game.CurrentPlayer().idx,"HAND");
 								}
 								else if (player.storage["CURRENTSTATE"] == 2){//Spades not broken, leading with non spade
-									choices = game.FilterCardsFromLocation(noSpades,"P",game.gameStorage["CURRENTPLAYER"],"HAND");
+									choices = game.FilterCardsFromLocation(noSpades,"P",game.CurrentPlayer().idx,"HAND");
 								}
 								if (choices.Count == 0){//No moves in current state
-									var changeStateAction = game.ChangePlayerState(game.gameStorage["CURRENTPLAYER"],"CURRENTSTATE",1);
+									var changeStateAction = game.ChangePlayerState(game.CurrentPlayer().idx,"CURRENTSTATE",1);
 									game.PlayerMakeChoice(new List<GameActionCollection>{
 										new GameActionCollection{
 											changeStateAction
 										}
-									},game.gameStorage["CURRENTPLAYER"]);
+									},game.CurrentPlayer().idx);
 								}
 								else{
 									var ultimateChoices = new List<GameActionCollection>();
 									var changeTurnAction = game.ChangeGameState("PLAYERTURN", game.gameStorage["PLAYERTURN"] + 1);
-									var moduloChangeAction = game.ChangeGameState("CURRENTPLAYER",(game.gameStorage["CURRENTPLAYER"] + 1) % 4);
-									var resetStateAction = game.ChangePlayerState(game.gameStorage["CURRENTPLAYER"],"CURRENTSTATE",0);
+									var moduloChangeAction = new EndTurnAction(game.CurrentPlayer());
+									var resetStateAction = game.ChangePlayerState(game.CurrentPlayer().idx,"CURRENTSTATE",0);
 									foreach (var choice in choices){
-										var cardPlayAction = new CardMoveAction(choice,game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["HAND"],game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["TRICK"]);
+										var cardPlayAction = new CardMoveAction(choice,game.CurrentPlayer().Current().cardBins["HAND"],game.CurrentPlayer().Current().cardBins["TRICK"]);
 										ultimateChoices.Add(new GameActionCollection{
 											cardPlayAction,changeTurnAction,moduloChangeAction,resetStateAction
 										});	
@@ -271,8 +271,10 @@ public class Spades{
 											
 									}
 									
-									game.PlayerMakeChoice(ultimateChoices,game.gameStorage["CURRENTPLAYER"]);
-									
+									game.PlayerMakeChoice(ultimateChoices,game.CurrentPlayer().idx);
+									if (game.CurrentPlayer().turnEnded){
+										game.CurrentPlayer().Next();
+									}
 								}
 
 							}
@@ -360,7 +362,7 @@ public class Spades{
 							// Reward winning player with 1 TRICK
 							game.players[winningPlayer].storage["TRICKSWON"] += 1;
 							
-							game.gameStorage["CURRENTPLAYER"] =  winningPlayer;//Should be winner
+							game.CurrentPlayer().SetPlayer( winningPlayer);//Should be winner
 							
 							
 							var winner = game.players[winningPlayer];

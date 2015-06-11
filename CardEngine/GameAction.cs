@@ -72,5 +72,17 @@ namespace CardEngine{
 			bucket[bucketKey] = value;
 		}
 	}
+	public class EndTurnAction : GameAction{
+		
+		PlayerCycle turnObject;
+		
+		public EndTurnAction(PlayerCycle currentTurn){
+			turnObject = currentTurn;
+		}
+		public override void Execute(){
+			turnObject.EndTurn();
+		}
+		
+	}
 	
 }
