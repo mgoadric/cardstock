@@ -57,7 +57,7 @@
          
       ;; players play a round 13 times     
       (stage player
-         (end player 13)
+         (end game 13)
                     
          ;; players play a hand once
          (stage player
