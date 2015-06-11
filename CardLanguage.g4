@@ -1,5 +1,9 @@
 grammar CardLanguage;
 
+computermoves : OPEN 'comp' multigameaction CLOSE ;
+playermoves : OPEN 'action' multigameaction CLOSE ;
+
+multigameaction : gameaction+? ;
 gameaction : OPEN boolean multiaction CLOSE ;
 multiaction : action+? ;
 action : OPEN (setaction | moveaction) CLOSE ;
@@ -18,9 +22,8 @@ quantifier : POSQ | NEGQ ;
 POSQ : 'any'| 'all' ;
 NEGQ : 'none';
 
-boolean : (OPEN ((BOOLOP boolean boolean) | (intOp int  int) | (UNOP boolean)) CLOSE) | (OPEN CLOSE) ;
+boolean : (OPEN ((BOOLOP boolean boolean) | (INTOP int  int) | (UNOP boolean)) CLOSE) | (OPEN CLOSE) ;
 BOOLOP : 'and' | 'or' ;
-intOp : INTOP ;
 INTOP : '<' | '>' | '>=' | '<=' | '!=' | '==' ;
 UNOP : 'not' ;
 
