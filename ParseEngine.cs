@@ -3,9 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Text.RegularExpressions;
+using System.IO;
 public class ParseEngine{
 	public ParseEngine(){
+                var regex = new Regex("(;;)(.*?)(\n)");
+                var f = File.ReadAllText("SpadesTest.gdl");
+                var file = f;
+                Console.WriteLine(file);
+                file = regex.Replace(file,"\n");
+                Console.WriteLine(file);
 		AntlrInputStream stream = new AntlrInputStream("((== (game sto SPADESBROKEN) 0) (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 2))");//\n ((== (game sto SPADESBROKEN) 0)) (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 2))) \n ((== (game sto SPADESBROKEN) 1))  (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 1)))");
                 ITokenSource lexer = new CardLanguageLexer(stream);
                 ITokenStream tokens = new CommonTokenStream(lexer);

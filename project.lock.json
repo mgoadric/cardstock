@@ -14,7 +14,8 @@
       "System.Runtime.Extensions >= 4.0.10-beta-22816",
       "System.Console >= 4.0.0-beta-*",
       "System.Collections >= 4.0.10-beta-*",
-      "System.Linq.Expressions >= 4.0.10-beta-22816"
+      "System.Linq.Expressions >= 4.0.10-beta-22816",
+      "System.Text.RegularExpressions >= 4.0.10-beta-22816"
     ]
   },
   "libraries": {
@@ -506,6 +507,49 @@
         "lib/contract/System.Text.Encoding.dll",
         "lib/net45/System.Text.Encoding.dll",
         "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Text.Encoding.dll"
+      ]
+    },
+    "System.Text.RegularExpressions/4.0.10-beta-22816": {
+      "serviceable": false,
+      "sha": "f6reT2KQ1IjeAKeZEX5TSIFugrsmofjD3N+9HD4c2WAMFlEs4p4/ycsmS1bLlV7n+JRHsmUkhgpCVWMZYPk+aA==",
+      "frameworks": {
+        "DNX,Version=v4.5.1": {
+          "dependencies": {
+            "System.Runtime": "4.0.20-beta-22816"
+          },
+          "frameworkAssemblies": [
+            "mscorlib",
+            "System"
+          ],
+          "runtimeAssemblies": [
+            "lib/net45/System.Text.RegularExpressions.dll"
+          ],
+          "compileAssemblies": [
+            "lib/net45/System.Text.RegularExpressions.dll"
+          ]
+        },
+        "DNXCore,Version=v5.0": {
+          "dependencies": {
+            "System.Runtime": "4.0.20-beta-22816"
+          },
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [
+            "lib/aspnetcore50/System.Text.RegularExpressions.dll"
+          ],
+          "compileAssemblies": [
+            "lib/contract/System.Text.RegularExpressions.dll"
+          ]
+        }
+      },
+      "files": [
+        "License.rtf",
+        "System.Text.RegularExpressions.4.0.10-beta-22816.nupkg",
+        "System.Text.RegularExpressions.4.0.10-beta-22816.nupkg.sha512",
+        "System.Text.RegularExpressions.nuspec",
+        "lib/aspnetcore50/System.Text.RegularExpressions.dll",
+        "lib/contract/System.Text.RegularExpressions.dll",
+        "lib/net45/System.Text.RegularExpressions.dll",
+        "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/System.Text.RegularExpressions.dll"
       ]
     },
     "System.Threading.Tasks/4.0.10-beta-22816": {
