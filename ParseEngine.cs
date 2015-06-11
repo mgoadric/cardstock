@@ -13,13 +13,13 @@ public class ParseEngine{
                 Console.WriteLine(file);
                 file = regex.Replace(file,"\n");
                 Console.WriteLine(file);
-		AntlrInputStream stream = new AntlrInputStream("((== (game sto SPADESBROKEN) 0) (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 2))");//\n ((== (game sto SPADESBROKEN) 0)) (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 2))) \n ((== (game sto SPADESBROKEN) 1))  (set (player (game sto PLAYERTURN) sto CURRENTSTATE) 1)))");
+		        AntlrInputStream stream = new AntlrInputStream(file);
                 ITokenSource lexer = new CardLanguageLexer(stream);
                 ITokenStream tokens = new CommonTokenStream(lexer);
                 var parser = new CardLanguageParser(tokens);
         
                	parser.BuildParseTree = true;
-                var tree = parser.gameaction();
+                var tree = parser.computermoves();
                 //Recurse(tree);
                 Console.Write(tree.GetText());
                 //Console.WriteLine(tree);
