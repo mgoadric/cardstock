@@ -33,33 +33,43 @@ public partial class CardLanguageParser : Parser {
 	public const int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, WHO=20, WHO2=21, BOOLOP=22, COMPOP=23, EQOP=24, UNOP=25, 
-		INTNUM=26, OPEN=27, CLOSE=28, WS=29, ANY=30;
+		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
+		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, 
+		T__31=32, T__32=33, T__33=34, T__34=35, BOOLOP=36, COMPOP=37, EQOP=38, 
+		UNOP=39, INTNUM=40, OPEN=41, CLOSE=42, WS=43, ANY=44;
 	public const int
-		RULE_computermoves = 0, RULE_playermoves = 1, RULE_multigameaction = 2, 
-		RULE_gameaction = 3, RULE_multiaction = 4, RULE_action = 5, RULE_setaction = 6, 
-		RULE_moveaction = 7, RULE_copyaction = 8, RULE_turnaction = 9, RULE_shuffleaction = 10, 
-		RULE_card = 11, RULE_rawstorage = 12, RULE_locstorage = 13, RULE_name = 14, 
-		RULE_whereclause = 15, RULE_boolatt = 16, RULE_attrcomp = 17, RULE_cardatt = 18, 
-		RULE_sizeof = 19, RULE_posq = 20, RULE_boolean = 21, RULE_intop = 22, 
-		RULE_int = 23;
+		RULE_stage = 0, RULE_endcondition = 1, RULE_computermoves = 2, RULE_playermoves = 3, 
+		RULE_multigameaction = 4, RULE_gameaction = 5, RULE_multiaction = 6, RULE_action = 7, 
+		RULE_loccreate = 8, RULE_locationdef = 9, RULE_storagecreate = 10, RULE_obj = 11, 
+		RULE_init = 12, RULE_playerinit = 13, RULE_deckinit = 14, RULE_deck = 15, 
+		RULE_attribute = 16, RULE_setaction = 17, RULE_moveaction = 18, RULE_copyaction = 19, 
+		RULE_turnaction = 20, RULE_shuffleaction = 21, RULE_card = 22, RULE_rawstorage = 23, 
+		RULE_locstorage = 24, RULE_who = 25, RULE_who2 = 26, RULE_name = 27, RULE_trueany = 28, 
+		RULE_whereclause = 29, RULE_boolatt = 30, RULE_attrcomp = 31, RULE_cardatt = 32, 
+		RULE_sizeof = 33, RULE_posq = 34, RULE_boolean = 35, RULE_intop = 36, 
+		RULE_int = 37;
 	public static readonly string[] ruleNames = {
-		"computermoves", "playermoves", "multigameaction", "gameaction", "multiaction", 
-		"action", "setaction", "moveaction", "copyaction", "turnaction", "shuffleaction", 
-		"card", "rawstorage", "locstorage", "name", "whereclause", "boolatt", 
+		"stage", "endcondition", "computermoves", "playermoves", "multigameaction", 
+		"gameaction", "multiaction", "action", "loccreate", "locationdef", "storagecreate", 
+		"obj", "init", "playerinit", "deckinit", "deck", "attribute", "setaction", 
+		"moveaction", "copyaction", "turnaction", "shuffleaction", "card", "rawstorage", 
+		"locstorage", "who", "who2", "name", "trueany", "whereclause", "boolatt", 
 		"attrcomp", "cardatt", "sizeof", "posq", "boolean", "intop", "int"
 	};
 
 	private static readonly string[] _LiteralNames = {
-		null, "'comp'", "'actions'", "'set'", "'move'", "'all'", "'copy'", "'turn'", 
-		"'over'", "'pass'", "'shuffle'", "'top'", "'bottom'", "'any'", "'sto'", 
-		"'loc'", "'where'", "'cardatt'", "'this'", "'size'", null, null, null, 
-		null, null, "'not'", null, "'('", "')'"
+		null, "'stage'", "'game'", "'player'", "'team'", "'end'", "'comp'", "'actions'", 
+		"'create'", "'loc'", "'Stack'", "'List'", "'Queue'", "'Imaginary'", "'sto'", 
+		"'initialize'", "'players'", "'alternate'", "'sequential'", "'permdeck'", 
+		"'set'", "'move'", "'all'", "'copy'", "'turn'", "'over'", "'pass'", "'shuffle'", 
+		"'top'", "'bottom'", "'any'", "'my'", "'where'", "'cardatt'", "'this'", 
+		"'size'", null, null, null, "'not'", null, "'('", "')'"
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, "WHO", "WHO2", "BOOLOP", 
-		"COMPOP", "EQOP", "UNOP", "INTNUM", "OPEN", "CLOSE", "WS", "ANY"
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		"BOOLOP", "COMPOP", "EQOP", "UNOP", "INTNUM", "OPEN", "CLOSE", "WS", "ANY"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -83,6 +93,188 @@ public partial class CardLanguageParser : Parser {
 	{
 		Interpreter = new ParserATNSimulator(this,_ATN);
 	}
+	public partial class StageContext : ParserRuleContext {
+		public ITerminalNode OPEN() { return GetToken(CardLanguageParser.OPEN, 0); }
+		public EndconditionContext endcondition() {
+			return GetRuleContext<EndconditionContext>(0);
+		}
+		public ITerminalNode CLOSE() { return GetToken(CardLanguageParser.CLOSE, 0); }
+		public ComputermovesContext[] computermoves() {
+			return GetRuleContexts<ComputermovesContext>();
+		}
+		public ComputermovesContext computermoves(int i) {
+			return GetRuleContext<ComputermovesContext>(i);
+		}
+		public PlayermovesContext[] playermoves() {
+			return GetRuleContexts<PlayermovesContext>();
+		}
+		public PlayermovesContext playermoves(int i) {
+			return GetRuleContext<PlayermovesContext>(i);
+		}
+		public StageContext[] stage() {
+			return GetRuleContexts<StageContext>();
+		}
+		public StageContext stage(int i) {
+			return GetRuleContext<StageContext>(i);
+		}
+		public StageContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_stage; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.EnterStage(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.ExitStage(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public StageContext stage() {
+		StageContext _localctx = new StageContext(Context, State);
+		EnterRule(_localctx, 0, RULE_stage);
+		int _la;
+		try {
+			int _alt;
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 76; Match(OPEN);
+			State = 77; Match(T__0);
+			State = 78;
+			_la = TokenStream.La(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__2) | (1L << T__3))) != 0)) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+			    Consume();
+			}
+			State = 79; endcondition();
+			State = 83;
+			ErrorHandler.Sync(this);
+			_alt = 1+1;
+			do {
+				switch (_alt) {
+				case 1+1:
+					{
+					State = 83;
+					switch ( Interpreter.AdaptivePredict(TokenStream,0,Context) ) {
+					case 1:
+						{
+						State = 80; computermoves();
+						}
+						break;
+					case 2:
+						{
+						State = 81; playermoves();
+						}
+						break;
+					case 3:
+						{
+						State = 82; stage();
+						}
+						break;
+					}
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				State = 85;
+				ErrorHandler.Sync(this);
+				_alt = Interpreter.AdaptivePredict(TokenStream,1,Context);
+			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
+			State = 87; Match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class EndconditionContext : ParserRuleContext {
+		public ITerminalNode OPEN() { return GetToken(CardLanguageParser.OPEN, 0); }
+		public ITerminalNode CLOSE() { return GetToken(CardLanguageParser.CLOSE, 0); }
+		public BooleanContext boolean() {
+			return GetRuleContext<BooleanContext>(0);
+		}
+		public IntContext @int() {
+			return GetRuleContext<IntContext>(0);
+		}
+		public EndconditionContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_endcondition; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.EnterEndcondition(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.ExitEndcondition(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public EndconditionContext endcondition() {
+		EndconditionContext _localctx = new EndconditionContext(Context, State);
+		EnterRule(_localctx, 2, RULE_endcondition);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 89; Match(OPEN);
+			State = 90; Match(T__4);
+			State = 94;
+			switch (TokenStream.La(1)) {
+			case OPEN:
+				{
+				State = 91; boolean();
+				}
+				break;
+			case T__1:
+			case T__2:
+			case T__3:
+				{
+				{
+				State = 92;
+				_la = TokenStream.La(1);
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__2) | (1L << T__3))) != 0)) ) {
+				ErrorHandler.RecoverInline(this);
+				}
+				else {
+				    Consume();
+				}
+				State = 93; @int();
+				}
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+			State = 96; Match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
 	public partial class ComputermovesContext : ParserRuleContext {
 		public ITerminalNode OPEN() { return GetToken(CardLanguageParser.OPEN, 0); }
 		public MultigameactionContext multigameaction() {
@@ -107,14 +299,14 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public ComputermovesContext computermoves() {
 		ComputermovesContext _localctx = new ComputermovesContext(Context, State);
-		EnterRule(_localctx, 0, RULE_computermoves);
+		EnterRule(_localctx, 4, RULE_computermoves);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 48; Match(OPEN);
-			State = 49; Match(T__0);
-			State = 50; multigameaction();
-			State = 51; Match(CLOSE);
+			State = 98; Match(OPEN);
+			State = 99; Match(T__5);
+			State = 100; multigameaction();
+			State = 101; Match(CLOSE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -152,14 +344,14 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public PlayermovesContext playermoves() {
 		PlayermovesContext _localctx = new PlayermovesContext(Context, State);
-		EnterRule(_localctx, 2, RULE_playermoves);
+		EnterRule(_localctx, 6, RULE_playermoves);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 53; Match(OPEN);
-			State = 54; Match(T__1);
-			State = 55; multigameaction();
-			State = 56; Match(CLOSE);
+			State = 103; Match(OPEN);
+			State = 104; Match(T__6);
+			State = 105; multigameaction();
+			State = 106; Match(CLOSE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -198,12 +390,12 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public MultigameactionContext multigameaction() {
 		MultigameactionContext _localctx = new MultigameactionContext(Context, State);
-		EnterRule(_localctx, 4, RULE_multigameaction);
+		EnterRule(_localctx, 8, RULE_multigameaction);
 		try {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 59;
+			State = 109;
 			ErrorHandler.Sync(this);
 			_alt = 1+1;
 			do {
@@ -211,16 +403,16 @@ public partial class CardLanguageParser : Parser {
 				case 1+1:
 					{
 					{
-					State = 58; gameaction();
+					State = 108; gameaction();
 					}
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 61;
+				State = 111;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,0,Context);
+				_alt = Interpreter.AdaptivePredict(TokenStream,3,Context);
 			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
 			}
 		}
@@ -262,14 +454,14 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public GameactionContext gameaction() {
 		GameactionContext _localctx = new GameactionContext(Context, State);
-		EnterRule(_localctx, 6, RULE_gameaction);
+		EnterRule(_localctx, 10, RULE_gameaction);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 63; Match(OPEN);
-			State = 64; boolean();
-			State = 65; multiaction();
-			State = 66; Match(CLOSE);
+			State = 113; Match(OPEN);
+			State = 114; boolean();
+			State = 115; multiaction();
+			State = 116; Match(CLOSE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -308,12 +500,12 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public MultiactionContext multiaction() {
 		MultiactionContext _localctx = new MultiactionContext(Context, State);
-		EnterRule(_localctx, 8, RULE_multiaction);
+		EnterRule(_localctx, 12, RULE_multiaction);
 		try {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 69;
+			State = 119;
 			ErrorHandler.Sync(this);
 			_alt = 1+1;
 			do {
@@ -321,16 +513,16 @@ public partial class CardLanguageParser : Parser {
 				case 1+1:
 					{
 					{
-					State = 68; action();
+					State = 118; action();
 					}
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 71;
+				State = 121;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,1,Context);
+				_alt = Interpreter.AdaptivePredict(TokenStream,4,Context);
 			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
 			}
 		}
@@ -348,6 +540,15 @@ public partial class CardLanguageParser : Parser {
 	public partial class ActionContext : ParserRuleContext {
 		public ITerminalNode OPEN() { return GetToken(CardLanguageParser.OPEN, 0); }
 		public ITerminalNode CLOSE() { return GetToken(CardLanguageParser.CLOSE, 0); }
+		public InitContext init() {
+			return GetRuleContext<InitContext>(0);
+		}
+		public LoccreateContext loccreate() {
+			return GetRuleContext<LoccreateContext>(0);
+		}
+		public StoragecreateContext storagecreate() {
+			return GetRuleContext<StoragecreateContext>(0);
+		}
 		public SetactionContext setaction() {
 			return GetRuleContext<SetactionContext>(0);
 		}
@@ -381,42 +582,613 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public ActionContext action() {
 		ActionContext _localctx = new ActionContext(Context, State);
-		EnterRule(_localctx, 10, RULE_action);
+		EnterRule(_localctx, 14, RULE_action);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 73; Match(OPEN);
-			State = 79;
+			State = 123; Match(OPEN);
+			State = 132;
+			switch ( Interpreter.AdaptivePredict(TokenStream,5,Context) ) {
+			case 1:
+				{
+				State = 124; init();
+				}
+				break;
+			case 2:
+				{
+				State = 125; loccreate();
+				}
+				break;
+			case 3:
+				{
+				State = 126; storagecreate();
+				}
+				break;
+			case 4:
+				{
+				State = 127; setaction();
+				}
+				break;
+			case 5:
+				{
+				State = 128; moveaction();
+				}
+				break;
+			case 6:
+				{
+				State = 129; copyaction();
+				}
+				break;
+			case 7:
+				{
+				State = 130; turnaction();
+				}
+				break;
+			case 8:
+				{
+				State = 131; shuffleaction();
+				}
+				break;
+			}
+			State = 134; Match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class LoccreateContext : ParserRuleContext {
+		public ObjContext obj() {
+			return GetRuleContext<ObjContext>(0);
+		}
+		public LocationdefContext[] locationdef() {
+			return GetRuleContexts<LocationdefContext>();
+		}
+		public LocationdefContext locationdef(int i) {
+			return GetRuleContext<LocationdefContext>(i);
+		}
+		public LoccreateContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_loccreate; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.EnterLoccreate(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.ExitLoccreate(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public LoccreateContext loccreate() {
+		LoccreateContext _localctx = new LoccreateContext(Context, State);
+		EnterRule(_localctx, 16, RULE_loccreate);
+		try {
+			int _alt;
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 136; Match(T__7);
+			State = 137; Match(T__8);
+			State = 138; obj();
+			State = 140;
+			ErrorHandler.Sync(this);
+			_alt = 1+1;
+			do {
+				switch (_alt) {
+				case 1+1:
+					{
+					{
+					State = 139; locationdef();
+					}
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				State = 142;
+				ErrorHandler.Sync(this);
+				_alt = Interpreter.AdaptivePredict(TokenStream,6,Context);
+			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class LocationdefContext : ParserRuleContext {
+		public ITerminalNode OPEN() { return GetToken(CardLanguageParser.OPEN, 0); }
+		public NameContext name() {
+			return GetRuleContext<NameContext>(0);
+		}
+		public ITerminalNode CLOSE() { return GetToken(CardLanguageParser.CLOSE, 0); }
+		public LocationdefContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_locationdef; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.EnterLocationdef(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.ExitLocationdef(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public LocationdefContext locationdef() {
+		LocationdefContext _localctx = new LocationdefContext(Context, State);
+		EnterRule(_localctx, 18, RULE_locationdef);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 144; Match(OPEN);
+			State = 145; name();
+			State = 146;
+			_la = TokenStream.La(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__9) | (1L << T__10) | (1L << T__11))) != 0)) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+			    Consume();
+			}
+			State = 148;
+			_la = TokenStream.La(1);
+			if (_la==T__12) {
+				{
+				State = 147; Match(T__12);
+				}
+			}
+
+			State = 150; Match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class StoragecreateContext : ParserRuleContext {
+		public ObjContext obj() {
+			return GetRuleContext<ObjContext>(0);
+		}
+		public ITerminalNode OPEN() { return GetToken(CardLanguageParser.OPEN, 0); }
+		public ITerminalNode CLOSE() { return GetToken(CardLanguageParser.CLOSE, 0); }
+		public NameContext[] name() {
+			return GetRuleContexts<NameContext>();
+		}
+		public NameContext name(int i) {
+			return GetRuleContext<NameContext>(i);
+		}
+		public StoragecreateContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_storagecreate; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.EnterStoragecreate(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.ExitStoragecreate(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public StoragecreateContext storagecreate() {
+		StoragecreateContext _localctx = new StoragecreateContext(Context, State);
+		EnterRule(_localctx, 20, RULE_storagecreate);
+		try {
+			int _alt;
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 152; Match(T__7);
+			State = 153; Match(T__13);
+			State = 154; obj();
+			State = 155; Match(OPEN);
+			State = 157;
+			ErrorHandler.Sync(this);
+			_alt = 1+1;
+			do {
+				switch (_alt) {
+				case 1+1:
+					{
+					{
+					State = 156; name();
+					}
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				State = 159;
+				ErrorHandler.Sync(this);
+				_alt = Interpreter.AdaptivePredict(TokenStream,8,Context);
+			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
+			State = 161; Match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ObjContext : ParserRuleContext {
+		public ObjContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_obj; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.EnterObj(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.ExitObj(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ObjContext obj() {
+		ObjContext _localctx = new ObjContext(Context, State);
+		EnterRule(_localctx, 22, RULE_obj);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 163;
+			_la = TokenStream.La(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__2) | (1L << T__3))) != 0)) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+			    Consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class InitContext : ParserRuleContext {
+		public PlayerinitContext playerinit() {
+			return GetRuleContext<PlayerinitContext>(0);
+		}
+		public DeckinitContext deckinit() {
+			return GetRuleContext<DeckinitContext>(0);
+		}
+		public InitContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_init; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.EnterInit(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.ExitInit(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public InitContext init() {
+		InitContext _localctx = new InitContext(Context, State);
+		EnterRule(_localctx, 24, RULE_init);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 165; Match(T__14);
+			State = 168;
 			switch (TokenStream.La(1)) {
-			case T__2:
+			case T__15:
 				{
-				State = 74; setaction();
+				State = 166; playerinit();
 				}
 				break;
-			case T__3:
+			case OPEN:
 				{
-				State = 75; moveaction();
-				}
-				break;
-			case T__5:
-				{
-				State = 76; copyaction();
-				}
-				break;
-			case T__6:
-				{
-				State = 77; turnaction();
-				}
-				break;
-			case T__9:
-				{
-				State = 78; shuffleaction();
+				State = 167; deckinit();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			State = 81; Match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class PlayerinitContext : ParserRuleContext {
+		public IntContext[] @int() {
+			return GetRuleContexts<IntContext>();
+		}
+		public IntContext @int(int i) {
+			return GetRuleContext<IntContext>(i);
+		}
+		public PlayerinitContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_playerinit; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.EnterPlayerinit(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.ExitPlayerinit(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public PlayerinitContext playerinit() {
+		PlayerinitContext _localctx = new PlayerinitContext(Context, State);
+		EnterRule(_localctx, 26, RULE_playerinit);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 170; Match(T__15);
+			State = 171; @int();
+			State = 172; @int();
+			State = 173;
+			_la = TokenStream.La(1);
+			if ( !(_la==T__16 || _la==T__17) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+			    Consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class DeckinitContext : ParserRuleContext {
+		public LocstorageContext locstorage() {
+			return GetRuleContext<LocstorageContext>(0);
+		}
+		public DeckContext deck() {
+			return GetRuleContext<DeckContext>(0);
+		}
+		public DeckinitContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_deckinit; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.EnterDeckinit(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.ExitDeckinit(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public DeckinitContext deckinit() {
+		DeckinitContext _localctx = new DeckinitContext(Context, State);
+		EnterRule(_localctx, 28, RULE_deckinit);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 175; locstorage();
+			State = 176; deck();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class DeckContext : ParserRuleContext {
+		public ITerminalNode OPEN() { return GetToken(CardLanguageParser.OPEN, 0); }
+		public ITerminalNode CLOSE() { return GetToken(CardLanguageParser.CLOSE, 0); }
+		public AttributeContext[] attribute() {
+			return GetRuleContexts<AttributeContext>();
+		}
+		public AttributeContext attribute(int i) {
+			return GetRuleContext<AttributeContext>(i);
+		}
+		public DeckContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_deck; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.EnterDeck(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.ExitDeck(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public DeckContext deck() {
+		DeckContext _localctx = new DeckContext(Context, State);
+		EnterRule(_localctx, 30, RULE_deck);
+		try {
+			int _alt;
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 178; Match(OPEN);
+			State = 179; Match(T__18);
+			State = 181;
+			ErrorHandler.Sync(this);
+			_alt = 1+1;
+			do {
+				switch (_alt) {
+				case 1+1:
+					{
+					{
+					State = 180; attribute();
+					}
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				State = 183;
+				ErrorHandler.Sync(this);
+				_alt = Interpreter.AdaptivePredict(TokenStream,10,Context);
+			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
+			State = 185; Match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class AttributeContext : ParserRuleContext {
+		public ITerminalNode OPEN() { return GetToken(CardLanguageParser.OPEN, 0); }
+		public ITerminalNode CLOSE() { return GetToken(CardLanguageParser.CLOSE, 0); }
+		public TrueanyContext[] trueany() {
+			return GetRuleContexts<TrueanyContext>();
+		}
+		public TrueanyContext trueany(int i) {
+			return GetRuleContext<TrueanyContext>(i);
+		}
+		public AttributeContext[] attribute() {
+			return GetRuleContexts<AttributeContext>();
+		}
+		public AttributeContext attribute(int i) {
+			return GetRuleContext<AttributeContext>(i);
+		}
+		public AttributeContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_attribute; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.EnterAttribute(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.ExitAttribute(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public AttributeContext attribute() {
+		AttributeContext _localctx = new AttributeContext(Context, State);
+		EnterRule(_localctx, 32, RULE_attribute);
+		try {
+			int _alt;
+			EnterOuterAlt(_localctx, 1);
+			{
+			{
+			State = 187; Match(OPEN);
+			State = 189;
+			ErrorHandler.Sync(this);
+			_alt = 1+1;
+			do {
+				switch (_alt) {
+				case 1+1:
+					{
+					{
+					State = 188; trueany();
+					}
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				State = 191;
+				ErrorHandler.Sync(this);
+				_alt = Interpreter.AdaptivePredict(TokenStream,11,Context);
+			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
+			State = 196;
+			ErrorHandler.Sync(this);
+			_alt = Interpreter.AdaptivePredict(TokenStream,12,Context);
+			while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
+				if ( _alt==1+1 ) {
+					{
+					{
+					State = 193; attribute();
+					}
+					} 
+				}
+				State = 198;
+				ErrorHandler.Sync(this);
+				_alt = Interpreter.AdaptivePredict(TokenStream,12,Context);
+			}
+			State = 199; Match(CLOSE);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -455,13 +1227,13 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public SetactionContext setaction() {
 		SetactionContext _localctx = new SetactionContext(Context, State);
-		EnterRule(_localctx, 12, RULE_setaction);
+		EnterRule(_localctx, 34, RULE_setaction);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 83; Match(T__2);
-			State = 84; rawstorage();
-			State = 85; @int();
+			State = 201; Match(T__19);
+			State = 202; rawstorage();
+			State = 203; @int();
 			}
 		}
 		catch (RecognitionException re) {
@@ -503,24 +1275,24 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public MoveactionContext moveaction() {
 		MoveactionContext _localctx = new MoveactionContext(Context, State);
-		EnterRule(_localctx, 14, RULE_moveaction);
+		EnterRule(_localctx, 36, RULE_moveaction);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 87; Match(T__3);
-			State = 88; card();
-			State = 89; card();
-			State = 92;
+			State = 205; Match(T__20);
+			State = 206; card();
+			State = 207; card();
+			State = 210;
 			switch (TokenStream.La(1)) {
 			case INTNUM:
 			case OPEN:
 				{
-				State = 90; @int();
+				State = 208; @int();
 				}
 				break;
-			case T__4:
+			case T__21:
 				{
-				State = 91; Match(T__4);
+				State = 209; Match(T__21);
 				}
 				break;
 			case CLOSE:
@@ -548,6 +1320,9 @@ public partial class CardLanguageParser : Parser {
 		public CardContext card(int i) {
 			return GetRuleContext<CardContext>(i);
 		}
+		public IntContext @int() {
+			return GetRuleContext<IntContext>(0);
+		}
 		public CopyactionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -566,13 +1341,31 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public CopyactionContext copyaction() {
 		CopyactionContext _localctx = new CopyactionContext(Context, State);
-		EnterRule(_localctx, 16, RULE_copyaction);
+		EnterRule(_localctx, 38, RULE_copyaction);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 94; Match(T__5);
-			State = 95; card();
-			State = 96; card();
+			State = 212; Match(T__22);
+			State = 213; card();
+			State = 214; card();
+			State = 217;
+			switch (TokenStream.La(1)) {
+			case INTNUM:
+			case OPEN:
+				{
+				State = 215; @int();
+				}
+				break;
+			case T__21:
+				{
+				State = 216; Match(T__21);
+				}
+				break;
+			case CLOSE:
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -605,15 +1398,15 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public TurnactionContext turnaction() {
 		TurnactionContext _localctx = new TurnactionContext(Context, State);
-		EnterRule(_localctx, 18, RULE_turnaction);
+		EnterRule(_localctx, 40, RULE_turnaction);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 98; Match(T__6);
-			State = 99;
+			State = 219; Match(T__23);
+			State = 220;
 			_la = TokenStream.La(1);
-			if ( !(_la==T__7 || _la==T__8) ) {
+			if ( !(_la==T__24 || _la==T__25) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
@@ -654,12 +1447,12 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public ShuffleactionContext shuffleaction() {
 		ShuffleactionContext _localctx = new ShuffleactionContext(Context, State);
-		EnterRule(_localctx, 20, RULE_shuffleaction);
+		EnterRule(_localctx, 42, RULE_shuffleaction);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 101; Match(T__9);
-			State = 102; locstorage();
+			State = 222; Match(T__26);
+			State = 223; locstorage();
 			}
 		}
 		catch (RecognitionException re) {
@@ -700,39 +1493,39 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public CardContext card() {
 		CardContext _localctx = new CardContext(Context, State);
-		EnterRule(_localctx, 22, RULE_card);
+		EnterRule(_localctx, 44, RULE_card);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 104; Match(OPEN);
-			State = 109;
+			State = 225; Match(OPEN);
+			State = 230;
 			switch (TokenStream.La(1)) {
-			case T__10:
+			case T__27:
 				{
-				State = 105; Match(T__10);
+				State = 226; Match(T__27);
 				}
 				break;
-			case T__11:
+			case T__28:
 				{
-				State = 106; Match(T__11);
+				State = 227; Match(T__28);
 				}
 				break;
 			case INTNUM:
 			case OPEN:
 				{
-				State = 107; @int();
+				State = 228; @int();
 				}
 				break;
-			case T__12:
+			case T__29:
 				{
-				State = 108; Match(T__12);
+				State = 229; Match(T__29);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			State = 111; locstorage();
-			State = 112; Match(CLOSE);
+			State = 232; locstorage();
+			State = 233; Match(CLOSE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -752,8 +1545,12 @@ public partial class CardLanguageParser : Parser {
 			return GetRuleContext<NameContext>(0);
 		}
 		public ITerminalNode CLOSE() { return GetToken(CardLanguageParser.CLOSE, 0); }
-		public ITerminalNode WHO() { return GetToken(CardLanguageParser.WHO, 0); }
-		public ITerminalNode WHO2() { return GetToken(CardLanguageParser.WHO2, 0); }
+		public WhoContext who() {
+			return GetRuleContext<WhoContext>(0);
+		}
+		public Who2Context who2() {
+			return GetRuleContext<Who2Context>(0);
+		}
 		public PosqContext posq() {
 			return GetRuleContext<PosqContext>(0);
 		}
@@ -778,34 +1575,36 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public RawstorageContext rawstorage() {
 		RawstorageContext _localctx = new RawstorageContext(Context, State);
-		EnterRule(_localctx, 24, RULE_rawstorage);
+		EnterRule(_localctx, 46, RULE_rawstorage);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 114; Match(OPEN);
-			State = 121;
+			State = 235; Match(OPEN);
+			State = 242;
 			switch (TokenStream.La(1)) {
-			case WHO:
+			case T__1:
+			case T__30:
 				{
-				State = 115; Match(WHO);
+				State = 236; who();
 				}
 				break;
-			case WHO2:
+			case T__2:
+			case T__3:
 				{
 				{
-				State = 116; Match(WHO2);
-				State = 119;
+				State = 237; who2();
+				State = 240;
 				switch (TokenStream.La(1)) {
-				case T__4:
-				case T__12:
+				case T__21:
+				case T__29:
 					{
-					State = 117; posq();
+					State = 238; posq();
 					}
 					break;
 				case INTNUM:
 				case OPEN:
 					{
-					State = 118; @int();
+					State = 239; @int();
 					}
 					break;
 				default:
@@ -817,9 +1616,9 @@ public partial class CardLanguageParser : Parser {
 			default:
 				throw new NoViableAltException(this);
 			}
-			State = 123; Match(T__13);
-			State = 124; name();
-			State = 125; Match(CLOSE);
+			State = 244; Match(T__13);
+			State = 245; name();
+			State = 246; Match(CLOSE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -839,11 +1638,15 @@ public partial class CardLanguageParser : Parser {
 			return GetRuleContext<NameContext>(0);
 		}
 		public ITerminalNode CLOSE() { return GetToken(CardLanguageParser.CLOSE, 0); }
-		public ITerminalNode WHO() { return GetToken(CardLanguageParser.WHO, 0); }
+		public WhoContext who() {
+			return GetRuleContext<WhoContext>(0);
+		}
 		public WhereclauseContext whereclause() {
 			return GetRuleContext<WhereclauseContext>(0);
 		}
-		public ITerminalNode WHO2() { return GetToken(CardLanguageParser.WHO2, 0); }
+		public Who2Context who2() {
+			return GetRuleContext<Who2Context>(0);
+		}
 		public PosqContext posq() {
 			return GetRuleContext<PosqContext>(0);
 		}
@@ -868,35 +1671,37 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public LocstorageContext locstorage() {
 		LocstorageContext _localctx = new LocstorageContext(Context, State);
-		EnterRule(_localctx, 26, RULE_locstorage);
+		EnterRule(_localctx, 48, RULE_locstorage);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 127; Match(OPEN);
-			State = 134;
+			State = 248; Match(OPEN);
+			State = 255;
 			switch (TokenStream.La(1)) {
-			case WHO:
+			case T__1:
+			case T__30:
 				{
-				State = 128; Match(WHO);
+				State = 249; who();
 				}
 				break;
-			case WHO2:
+			case T__2:
+			case T__3:
 				{
 				{
-				State = 129; Match(WHO2);
-				State = 132;
+				State = 250; who2();
+				State = 253;
 				switch (TokenStream.La(1)) {
-				case T__4:
-				case T__12:
+				case T__21:
+				case T__29:
 					{
-					State = 130; posq();
+					State = 251; posq();
 					}
 					break;
 				case INTNUM:
 				case OPEN:
 					{
-					State = 131; @int();
+					State = 252; @int();
 					}
 					break;
 				default:
@@ -908,17 +1713,107 @@ public partial class CardLanguageParser : Parser {
 			default:
 				throw new NoViableAltException(this);
 			}
-			State = 136; Match(T__14);
-			State = 137; name();
-			State = 139;
+			State = 257; Match(T__8);
+			State = 258; name();
+			State = 260;
 			_la = TokenStream.La(1);
-			if (_la==T__15) {
+			if (_la==T__31) {
 				{
-				State = 138; whereclause();
+				State = 259; whereclause();
 				}
 			}
 
-			State = 141; Match(CLOSE);
+			State = 262; Match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class WhoContext : ParserRuleContext {
+		public WhoContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_who; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.EnterWho(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.ExitWho(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public WhoContext who() {
+		WhoContext _localctx = new WhoContext(Context, State);
+		EnterRule(_localctx, 50, RULE_who);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 264;
+			_la = TokenStream.La(1);
+			if ( !(_la==T__1 || _la==T__30) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+			    Consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class Who2Context : ParserRuleContext {
+		public Who2Context(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_who2; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.EnterWho2(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.ExitWho2(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public Who2Context who2() {
+		Who2Context _localctx = new Who2Context(Context, State);
+		EnterRule(_localctx, 52, RULE_who2);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 266;
+			_la = TokenStream.La(1);
+			if ( !(_la==T__2 || _la==T__3) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+			    Consume();
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -955,12 +1850,12 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public NameContext name() {
 		NameContext _localctx = new NameContext(Context, State);
-		EnterRule(_localctx, 28, RULE_name);
+		EnterRule(_localctx, 54, RULE_name);
 		try {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 144;
+			State = 269;
 			ErrorHandler.Sync(this);
 			_alt = 1+1;
 			do {
@@ -968,16 +1863,104 @@ public partial class CardLanguageParser : Parser {
 				case 1+1:
 					{
 					{
-					State = 143; Match(ANY);
+					State = 268; Match(ANY);
 					}
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 146;
+				State = 271;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,10,Context);
+				_alt = Interpreter.AdaptivePredict(TokenStream,21,Context);
+			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class TrueanyContext : ParserRuleContext {
+		public ITerminalNode[] ANY() { return GetTokens(CardLanguageParser.ANY); }
+		public ITerminalNode ANY(int i) {
+			return GetToken(CardLanguageParser.ANY, i);
+		}
+		public IntContext[] @int() {
+			return GetRuleContexts<IntContext>();
+		}
+		public IntContext @int(int i) {
+			return GetRuleContext<IntContext>(i);
+		}
+		public ITerminalNode[] BOOLOP() { return GetTokens(CardLanguageParser.BOOLOP); }
+		public ITerminalNode BOOLOP(int i) {
+			return GetToken(CardLanguageParser.BOOLOP, i);
+		}
+		public TrueanyContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_trueany; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.EnterTrueany(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ICardLanguageListener typedListener = listener as ICardLanguageListener;
+			if (typedListener != null) typedListener.ExitTrueany(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public TrueanyContext trueany() {
+		TrueanyContext _localctx = new TrueanyContext(Context, State);
+		EnterRule(_localctx, 56, RULE_trueany);
+		try {
+			int _alt;
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 276;
+			ErrorHandler.Sync(this);
+			_alt = 1+1;
+			do {
+				switch (_alt) {
+				case 1+1:
+					{
+					State = 276;
+					switch (TokenStream.La(1)) {
+					case ANY:
+						{
+						State = 273; Match(ANY);
+						}
+						break;
+					case INTNUM:
+					case OPEN:
+						{
+						State = 274; @int();
+						}
+						break;
+					case BOOLOP:
+						{
+						State = 275; Match(BOOLOP);
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				State = 278;
+				ErrorHandler.Sync(this);
+				_alt = Interpreter.AdaptivePredict(TokenStream,23,Context);
 			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
 			}
 		}
@@ -1014,12 +1997,12 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public WhereclauseContext whereclause() {
 		WhereclauseContext _localctx = new WhereclauseContext(Context, State);
-		EnterRule(_localctx, 30, RULE_whereclause);
+		EnterRule(_localctx, 58, RULE_whereclause);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 148; Match(T__15);
-			State = 149; boolatt();
+			State = 280; Match(T__31);
+			State = 281; boolatt();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1057,13 +2040,13 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public BoolattContext boolatt() {
 		BoolattContext _localctx = new BoolattContext(Context, State);
-		EnterRule(_localctx, 32, RULE_boolatt);
+		EnterRule(_localctx, 60, RULE_boolatt);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 151; Match(OPEN);
-			State = 152; attrcomp();
-			State = 153; Match(CLOSE);
+			State = 283; Match(OPEN);
+			State = 284; attrcomp();
+			State = 285; Match(CLOSE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1103,13 +2086,13 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public AttrcompContext attrcomp() {
 		AttrcompContext _localctx = new AttrcompContext(Context, State);
-		EnterRule(_localctx, 34, RULE_attrcomp);
+		EnterRule(_localctx, 62, RULE_attrcomp);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 155; Match(EQOP);
-			State = 156; cardatt();
-			State = 157; cardatt();
+			State = 287; Match(EQOP);
+			State = 288; cardatt();
+			State = 289; cardatt();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1150,39 +2133,39 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public CardattContext cardatt() {
 		CardattContext _localctx = new CardattContext(Context, State);
-		EnterRule(_localctx, 36, RULE_cardatt);
+		EnterRule(_localctx, 64, RULE_cardatt);
 		try {
-			State = 169;
+			State = 301;
 			switch (TokenStream.La(1)) {
 			case ANY:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 159; name();
+				State = 291; name();
 				}
 				break;
 			case OPEN:
 				EnterOuterAlt(_localctx, 2);
 				{
 				{
-				State = 160; Match(OPEN);
-				State = 161; Match(T__16);
-				State = 162; name();
-				State = 165;
+				State = 292; Match(OPEN);
+				State = 293; Match(T__32);
+				State = 294; name();
+				State = 297;
 				switch (TokenStream.La(1)) {
-				case T__17:
+				case T__33:
 					{
-					State = 163; Match(T__17);
+					State = 295; Match(T__33);
 					}
 					break;
 				case OPEN:
 					{
-					State = 164; card();
+					State = 296; card();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 167; Match(CLOSE);
+				State = 299; Match(CLOSE);
 				}
 				}
 				break;
@@ -1225,14 +2208,14 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public SizeofContext @sizeof() {
 		SizeofContext _localctx = new SizeofContext(Context, State);
-		EnterRule(_localctx, 38, RULE_sizeof);
+		EnterRule(_localctx, 66, RULE_sizeof);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 171; Match(OPEN);
-			State = 172; Match(T__18);
-			State = 173; locstorage();
-			State = 174; Match(CLOSE);
+			State = 303; Match(OPEN);
+			State = 304; Match(T__34);
+			State = 305; locstorage();
+			State = 306; Match(CLOSE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1265,14 +2248,14 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public PosqContext posq() {
 		PosqContext _localctx = new PosqContext(Context, State);
-		EnterRule(_localctx, 40, RULE_posq);
+		EnterRule(_localctx, 68, RULE_posq);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 176;
+			State = 308;
 			_la = TokenStream.La(1);
-			if ( !(_la==T__4 || _la==T__12) ) {
+			if ( !(_la==T__21 || _la==T__29) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
@@ -1329,24 +2312,24 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public BooleanContext boolean() {
 		BooleanContext _localctx = new BooleanContext(Context, State);
-		EnterRule(_localctx, 42, RULE_boolean);
+		EnterRule(_localctx, 70, RULE_boolean);
 		try {
 			int _alt;
-			State = 198;
-			switch ( Interpreter.AdaptivePredict(TokenStream,15,Context) ) {
+			State = 330;
+			switch ( Interpreter.AdaptivePredict(TokenStream,28,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
 				{
-				State = 178; Match(OPEN);
-				State = 192;
+				State = 310; Match(OPEN);
+				State = 324;
 				switch (TokenStream.La(1)) {
 				case BOOLOP:
 					{
 					{
-					State = 179; Match(BOOLOP);
-					State = 180; boolean();
-					State = 182;
+					State = 311; Match(BOOLOP);
+					State = 312; boolean();
+					State = 314;
 					ErrorHandler.Sync(this);
 					_alt = 1+1;
 					do {
@@ -1354,16 +2337,16 @@ public partial class CardLanguageParser : Parser {
 						case 1+1:
 							{
 							{
-							State = 181; boolean();
+							State = 313; boolean();
 							}
 							}
 							break;
 						default:
 							throw new NoViableAltException(this);
 						}
-						State = 184;
+						State = 316;
 						ErrorHandler.Sync(this);
-						_alt = Interpreter.AdaptivePredict(TokenStream,13,Context);
+						_alt = Interpreter.AdaptivePredict(TokenStream,26,Context);
 					} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
 					}
 					}
@@ -1372,24 +2355,24 @@ public partial class CardLanguageParser : Parser {
 				case EQOP:
 					{
 					{
-					State = 186; intop();
-					State = 187; @int();
-					State = 188; @int();
+					State = 318; intop();
+					State = 319; @int();
+					State = 320; @int();
 					}
 					}
 					break;
 				case UNOP:
 					{
 					{
-					State = 190; Match(UNOP);
-					State = 191; boolean();
+					State = 322; Match(UNOP);
+					State = 323; boolean();
 					}
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 194; Match(CLOSE);
+				State = 326; Match(CLOSE);
 				}
 				}
 				break;
@@ -1397,8 +2380,8 @@ public partial class CardLanguageParser : Parser {
 				EnterOuterAlt(_localctx, 2);
 				{
 				{
-				State = 196; Match(OPEN);
-				State = 197; Match(CLOSE);
+				State = 328; Match(OPEN);
+				State = 329; Match(CLOSE);
 				}
 				}
 				break;
@@ -1436,12 +2419,12 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public IntopContext intop() {
 		IntopContext _localctx = new IntopContext(Context, State);
-		EnterRule(_localctx, 44, RULE_intop);
+		EnterRule(_localctx, 72, RULE_intop);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 200;
+			State = 332;
 			_la = TokenStream.La(1);
 			if ( !(_la==COMPOP || _la==EQOP) ) {
 			ErrorHandler.RecoverInline(this);
@@ -1491,27 +2474,27 @@ public partial class CardLanguageParser : Parser {
 	[RuleVersion(0)]
 	public IntContext @int() {
 		IntContext _localctx = new IntContext(Context, State);
-		EnterRule(_localctx, 46, RULE_int);
+		EnterRule(_localctx, 74, RULE_int);
 		try {
 			int _alt;
-			State = 209;
-			switch ( Interpreter.AdaptivePredict(TokenStream,17,Context) ) {
+			State = 341;
+			switch ( Interpreter.AdaptivePredict(TokenStream,30,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 202; @sizeof();
+				State = 334; @sizeof();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 203; rawstorage();
+				State = 335; rawstorage();
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 205;
+				State = 337;
 				ErrorHandler.Sync(this);
 				_alt = 1+1;
 				do {
@@ -1519,16 +2502,16 @@ public partial class CardLanguageParser : Parser {
 					case 1+1:
 						{
 						{
-						State = 204; Match(INTNUM);
+						State = 336; Match(INTNUM);
 						}
 						}
 						break;
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 207;
+					State = 339;
 					ErrorHandler.Sync(this);
-					_alt = Interpreter.AdaptivePredict(TokenStream,16,Context);
+					_alt = Interpreter.AdaptivePredict(TokenStream,29,Context);
 				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
 				}
 				break;
@@ -1546,83 +2529,136 @@ public partial class CardLanguageParser : Parser {
 	}
 
 	public static readonly string _serializedATN =
-		"\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3 \xD6\x4\x2\t\x2"+
+		"\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3.\x15A\x4\x2\t\x2"+
 		"\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x4\a\t\a\x4\b\t\b\x4\t\t"+
 		"\t\x4\n\t\n\x4\v\t\v\x4\f\t\f\x4\r\t\r\x4\xE\t\xE\x4\xF\t\xF\x4\x10\t"+
 		"\x10\x4\x11\t\x11\x4\x12\t\x12\x4\x13\t\x13\x4\x14\t\x14\x4\x15\t\x15"+
-		"\x4\x16\t\x16\x4\x17\t\x17\x4\x18\t\x18\x4\x19\t\x19\x3\x2\x3\x2\x3\x2"+
-		"\x3\x2\x3\x2\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x4\x6\x4>\n\x4\r\x4\xE\x4"+
-		"?\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x6\x6\x6H\n\x6\r\x6\xE\x6I\x3\a\x3"+
-		"\a\x3\a\x3\a\x3\a\x3\a\x5\aR\n\a\x3\a\x3\a\x3\b\x3\b\x3\b\x3\b\x3\t\x3"+
-		"\t\x3\t\x3\t\x3\t\x5\t_\n\t\x3\n\x3\n\x3\n\x3\n\x3\v\x3\v\x3\v\x3\f\x3"+
-		"\f\x3\f\x3\r\x3\r\x3\r\x3\r\x3\r\x5\rp\n\r\x3\r\x3\r\x3\r\x3\xE\x3\xE"+
-		"\x3\xE\x3\xE\x3\xE\x5\xEz\n\xE\x5\xE|\n\xE\x3\xE\x3\xE\x3\xE\x3\xE\x3"+
-		"\xF\x3\xF\x3\xF\x3\xF\x3\xF\x5\xF\x87\n\xF\x5\xF\x89\n\xF\x3\xF\x3\xF"+
-		"\x3\xF\x5\xF\x8E\n\xF\x3\xF\x3\xF\x3\x10\x6\x10\x93\n\x10\r\x10\xE\x10"+
-		"\x94\x3\x11\x3\x11\x3\x11\x3\x12\x3\x12\x3\x12\x3\x12\x3\x13\x3\x13\x3"+
-		"\x13\x3\x13\x3\x14\x3\x14\x3\x14\x3\x14\x3\x14\x3\x14\x5\x14\xA8\n\x14"+
-		"\x3\x14\x3\x14\x5\x14\xAC\n\x14\x3\x15\x3\x15\x3\x15\x3\x15\x3\x15\x3"+
-		"\x16\x3\x16\x3\x17\x3\x17\x3\x17\x3\x17\x6\x17\xB9\n\x17\r\x17\xE\x17"+
-		"\xBA\x3\x17\x3\x17\x3\x17\x3\x17\x3\x17\x3\x17\x5\x17\xC3\n\x17\x3\x17"+
-		"\x3\x17\x3\x17\x3\x17\x5\x17\xC9\n\x17\x3\x18\x3\x18\x3\x19\x3\x19\x3"+
-		"\x19\x6\x19\xD0\n\x19\r\x19\xE\x19\xD1\x5\x19\xD4\n\x19\x3\x19\a?I\x94"+
-		"\xBA\xD1\x2\x1A\x2\x4\x6\b\n\f\xE\x10\x12\x14\x16\x18\x1A\x1C\x1E \"$"+
-		"&(*,.\x30\x2\x5\x3\x2\n\v\x4\x2\a\a\xF\xF\x3\x2\x19\x1A\xD7\x2\x32\x3"+
-		"\x2\x2\x2\x4\x37\x3\x2\x2\x2\x6=\x3\x2\x2\x2\b\x41\x3\x2\x2\x2\nG\x3\x2"+
-		"\x2\x2\fK\x3\x2\x2\x2\xEU\x3\x2\x2\x2\x10Y\x3\x2\x2\x2\x12`\x3\x2\x2\x2"+
-		"\x14\x64\x3\x2\x2\x2\x16g\x3\x2\x2\x2\x18j\x3\x2\x2\x2\x1At\x3\x2\x2\x2"+
-		"\x1C\x81\x3\x2\x2\x2\x1E\x92\x3\x2\x2\x2 \x96\x3\x2\x2\x2\"\x99\x3\x2"+
-		"\x2\x2$\x9D\x3\x2\x2\x2&\xAB\x3\x2\x2\x2(\xAD\x3\x2\x2\x2*\xB2\x3\x2\x2"+
-		"\x2,\xC8\x3\x2\x2\x2.\xCA\x3\x2\x2\x2\x30\xD3\x3\x2\x2\x2\x32\x33\a\x1D"+
-		"\x2\x2\x33\x34\a\x3\x2\x2\x34\x35\x5\x6\x4\x2\x35\x36\a\x1E\x2\x2\x36"+
-		"\x3\x3\x2\x2\x2\x37\x38\a\x1D\x2\x2\x38\x39\a\x4\x2\x2\x39:\x5\x6\x4\x2"+
-		":;\a\x1E\x2\x2;\x5\x3\x2\x2\x2<>\x5\b\x5\x2=<\x3\x2\x2\x2>?\x3\x2\x2\x2"+
-		"?@\x3\x2\x2\x2?=\x3\x2\x2\x2@\a\x3\x2\x2\x2\x41\x42\a\x1D\x2\x2\x42\x43"+
-		"\x5,\x17\x2\x43\x44\x5\n\x6\x2\x44\x45\a\x1E\x2\x2\x45\t\x3\x2\x2\x2\x46"+
-		"H\x5\f\a\x2G\x46\x3\x2\x2\x2HI\x3\x2\x2\x2IJ\x3\x2\x2\x2IG\x3\x2\x2\x2"+
-		"J\v\x3\x2\x2\x2KQ\a\x1D\x2\x2LR\x5\xE\b\x2MR\x5\x10\t\x2NR\x5\x12\n\x2"+
-		"OR\x5\x14\v\x2PR\x5\x16\f\x2QL\x3\x2\x2\x2QM\x3\x2\x2\x2QN\x3\x2\x2\x2"+
-		"QO\x3\x2\x2\x2QP\x3\x2\x2\x2RS\x3\x2\x2\x2ST\a\x1E\x2\x2T\r\x3\x2\x2\x2"+
-		"UV\a\x5\x2\x2VW\x5\x1A\xE\x2WX\x5\x30\x19\x2X\xF\x3\x2\x2\x2YZ\a\x6\x2"+
-		"\x2Z[\x5\x18\r\x2[^\x5\x18\r\x2\\_\x5\x30\x19\x2]_\a\a\x2\x2^\\\x3\x2"+
-		"\x2\x2^]\x3\x2\x2\x2^_\x3\x2\x2\x2_\x11\x3\x2\x2\x2`\x61\a\b\x2\x2\x61"+
-		"\x62\x5\x18\r\x2\x62\x63\x5\x18\r\x2\x63\x13\x3\x2\x2\x2\x64\x65\a\t\x2"+
-		"\x2\x65\x66\t\x2\x2\x2\x66\x15\x3\x2\x2\x2gh\a\f\x2\x2hi\x5\x1C\xF\x2"+
-		"i\x17\x3\x2\x2\x2jo\a\x1D\x2\x2kp\a\r\x2\x2lp\a\xE\x2\x2mp\x5\x30\x19"+
-		"\x2np\a\xF\x2\x2ok\x3\x2\x2\x2ol\x3\x2\x2\x2om\x3\x2\x2\x2on\x3\x2\x2"+
-		"\x2pq\x3\x2\x2\x2qr\x5\x1C\xF\x2rs\a\x1E\x2\x2s\x19\x3\x2\x2\x2t{\a\x1D"+
-		"\x2\x2u|\a\x16\x2\x2vy\a\x17\x2\x2wz\x5*\x16\x2xz\x5\x30\x19\x2yw\x3\x2"+
-		"\x2\x2yx\x3\x2\x2\x2z|\x3\x2\x2\x2{u\x3\x2\x2\x2{v\x3\x2\x2\x2|}\x3\x2"+
-		"\x2\x2}~\a\x10\x2\x2~\x7F\x5\x1E\x10\x2\x7F\x80\a\x1E\x2\x2\x80\x1B\x3"+
-		"\x2\x2\x2\x81\x88\a\x1D\x2\x2\x82\x89\a\x16\x2\x2\x83\x86\a\x17\x2\x2"+
-		"\x84\x87\x5*\x16\x2\x85\x87\x5\x30\x19\x2\x86\x84\x3\x2\x2\x2\x86\x85"+
-		"\x3\x2\x2\x2\x87\x89\x3\x2\x2\x2\x88\x82\x3\x2\x2\x2\x88\x83\x3\x2\x2"+
-		"\x2\x89\x8A\x3\x2\x2\x2\x8A\x8B\a\x11\x2\x2\x8B\x8D\x5\x1E\x10\x2\x8C"+
-		"\x8E\x5 \x11\x2\x8D\x8C\x3\x2\x2\x2\x8D\x8E\x3\x2\x2\x2\x8E\x8F\x3\x2"+
-		"\x2\x2\x8F\x90\a\x1E\x2\x2\x90\x1D\x3\x2\x2\x2\x91\x93\a \x2\x2\x92\x91"+
-		"\x3\x2\x2\x2\x93\x94\x3\x2\x2\x2\x94\x95\x3\x2\x2\x2\x94\x92\x3\x2\x2"+
-		"\x2\x95\x1F\x3\x2\x2\x2\x96\x97\a\x12\x2\x2\x97\x98\x5\"\x12\x2\x98!\x3"+
-		"\x2\x2\x2\x99\x9A\a\x1D\x2\x2\x9A\x9B\x5$\x13\x2\x9B\x9C\a\x1E\x2\x2\x9C"+
-		"#\x3\x2\x2\x2\x9D\x9E\a\x1A\x2\x2\x9E\x9F\x5&\x14\x2\x9F\xA0\x5&\x14\x2"+
-		"\xA0%\x3\x2\x2\x2\xA1\xAC\x5\x1E\x10\x2\xA2\xA3\a\x1D\x2\x2\xA3\xA4\a"+
-		"\x13\x2\x2\xA4\xA7\x5\x1E\x10\x2\xA5\xA8\a\x14\x2\x2\xA6\xA8\x5\x18\r"+
-		"\x2\xA7\xA5\x3\x2\x2\x2\xA7\xA6\x3\x2\x2\x2\xA8\xA9\x3\x2\x2\x2\xA9\xAA"+
-		"\a\x1E\x2\x2\xAA\xAC\x3\x2\x2\x2\xAB\xA1\x3\x2\x2\x2\xAB\xA2\x3\x2\x2"+
-		"\x2\xAC\'\x3\x2\x2\x2\xAD\xAE\a\x1D\x2\x2\xAE\xAF\a\x15\x2\x2\xAF\xB0"+
-		"\x5\x1C\xF\x2\xB0\xB1\a\x1E\x2\x2\xB1)\x3\x2\x2\x2\xB2\xB3\t\x3\x2\x2"+
-		"\xB3+\x3\x2\x2\x2\xB4\xC2\a\x1D\x2\x2\xB5\xB6\a\x18\x2\x2\xB6\xB8\x5,"+
-		"\x17\x2\xB7\xB9\x5,\x17\x2\xB8\xB7\x3\x2\x2\x2\xB9\xBA\x3\x2\x2\x2\xBA"+
-		"\xBB\x3\x2\x2\x2\xBA\xB8\x3\x2\x2\x2\xBB\xC3\x3\x2\x2\x2\xBC\xBD\x5.\x18"+
-		"\x2\xBD\xBE\x5\x30\x19\x2\xBE\xBF\x5\x30\x19\x2\xBF\xC3\x3\x2\x2\x2\xC0"+
-		"\xC1\a\x1B\x2\x2\xC1\xC3\x5,\x17\x2\xC2\xB5\x3\x2\x2\x2\xC2\xBC\x3\x2"+
-		"\x2\x2\xC2\xC0\x3\x2\x2\x2\xC3\xC4\x3\x2\x2\x2\xC4\xC5\a\x1E\x2\x2\xC5"+
-		"\xC9\x3\x2\x2\x2\xC6\xC7\a\x1D\x2\x2\xC7\xC9\a\x1E\x2\x2\xC8\xB4\x3\x2"+
-		"\x2\x2\xC8\xC6\x3\x2\x2\x2\xC9-\x3\x2\x2\x2\xCA\xCB\t\x4\x2\x2\xCB/\x3"+
-		"\x2\x2\x2\xCC\xD4\x5(\x15\x2\xCD\xD4\x5\x1A\xE\x2\xCE\xD0\a\x1C\x2\x2"+
-		"\xCF\xCE\x3\x2\x2\x2\xD0\xD1\x3\x2\x2\x2\xD1\xD2\x3\x2\x2\x2\xD1\xCF\x3"+
-		"\x2\x2\x2\xD2\xD4\x3\x2\x2\x2\xD3\xCC\x3\x2\x2\x2\xD3\xCD\x3\x2\x2\x2"+
-		"\xD3\xCF\x3\x2\x2\x2\xD4\x31\x3\x2\x2\x2\x14?IQ^oy{\x86\x88\x8D\x94\xA7"+
-		"\xAB\xBA\xC2\xC8\xD1\xD3";
+		"\x4\x16\t\x16\x4\x17\t\x17\x4\x18\t\x18\x4\x19\t\x19\x4\x1A\t\x1A\x4\x1B"+
+		"\t\x1B\x4\x1C\t\x1C\x4\x1D\t\x1D\x4\x1E\t\x1E\x4\x1F\t\x1F\x4 \t \x4!"+
+		"\t!\x4\"\t\"\x4#\t#\x4$\t$\x4%\t%\x4&\t&\x4\'\t\'\x3\x2\x3\x2\x3\x2\x3"+
+		"\x2\x3\x2\x3\x2\x3\x2\x6\x2V\n\x2\r\x2\xE\x2W\x3\x2\x3\x2\x3\x3\x3\x3"+
+		"\x3\x3\x3\x3\x3\x3\x5\x3\x61\n\x3\x3\x3\x3\x3\x3\x4\x3\x4\x3\x4\x3\x4"+
+		"\x3\x4\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x3\x6\x6\x6p\n\x6\r\x6\xE\x6q\x3"+
+		"\a\x3\a\x3\a\x3\a\x3\a\x3\b\x6\bz\n\b\r\b\xE\b{\x3\t\x3\t\x3\t\x3\t\x3"+
+		"\t\x3\t\x3\t\x3\t\x3\t\x5\t\x87\n\t\x3\t\x3\t\x3\n\x3\n\x3\n\x3\n\x6\n"+
+		"\x8F\n\n\r\n\xE\n\x90\x3\v\x3\v\x3\v\x3\v\x5\v\x97\n\v\x3\v\x3\v\x3\f"+
+		"\x3\f\x3\f\x3\f\x3\f\x6\f\xA0\n\f\r\f\xE\f\xA1\x3\f\x3\f\x3\r\x3\r\x3"+
+		"\xE\x3\xE\x3\xE\x5\xE\xAB\n\xE\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\x10\x3"+
+		"\x10\x3\x10\x3\x11\x3\x11\x3\x11\x6\x11\xB8\n\x11\r\x11\xE\x11\xB9\x3"+
+		"\x11\x3\x11\x3\x12\x3\x12\x6\x12\xC0\n\x12\r\x12\xE\x12\xC1\x3\x12\a\x12"+
+		"\xC5\n\x12\f\x12\xE\x12\xC8\v\x12\x3\x12\x3\x12\x3\x13\x3\x13\x3\x13\x3"+
+		"\x13\x3\x14\x3\x14\x3\x14\x3\x14\x3\x14\x5\x14\xD5\n\x14\x3\x15\x3\x15"+
+		"\x3\x15\x3\x15\x3\x15\x5\x15\xDC\n\x15\x3\x16\x3\x16\x3\x16\x3\x17\x3"+
+		"\x17\x3\x17\x3\x18\x3\x18\x3\x18\x3\x18\x3\x18\x5\x18\xE9\n\x18\x3\x18"+
+		"\x3\x18\x3\x18\x3\x19\x3\x19\x3\x19\x3\x19\x3\x19\x5\x19\xF3\n\x19\x5"+
+		"\x19\xF5\n\x19\x3\x19\x3\x19\x3\x19\x3\x19\x3\x1A\x3\x1A\x3\x1A\x3\x1A"+
+		"\x3\x1A\x5\x1A\x100\n\x1A\x5\x1A\x102\n\x1A\x3\x1A\x3\x1A\x3\x1A\x5\x1A"+
+		"\x107\n\x1A\x3\x1A\x3\x1A\x3\x1B\x3\x1B\x3\x1C\x3\x1C\x3\x1D\x6\x1D\x110"+
+		"\n\x1D\r\x1D\xE\x1D\x111\x3\x1E\x3\x1E\x3\x1E\x6\x1E\x117\n\x1E\r\x1E"+
+		"\xE\x1E\x118\x3\x1F\x3\x1F\x3\x1F\x3 \x3 \x3 \x3 \x3!\x3!\x3!\x3!\x3\""+
+		"\x3\"\x3\"\x3\"\x3\"\x3\"\x5\"\x12C\n\"\x3\"\x3\"\x5\"\x130\n\"\x3#\x3"+
+		"#\x3#\x3#\x3#\x3$\x3$\x3%\x3%\x3%\x3%\x6%\x13D\n%\r%\xE%\x13E\x3%\x3%"+
+		"\x3%\x3%\x3%\x3%\x5%\x147\n%\x3%\x3%\x3%\x3%\x5%\x14D\n%\x3&\x3&\x3\'"+
+		"\x3\'\x3\'\x6\'\x154\n\'\r\'\xE\'\x155\x5\'\x158\n\'\x3\'\xEWq{\x90\xA1"+
+		"\xB9\xC1\xC6\x111\x118\x13E\x155\x2(\x2\x4\x6\b\n\f\xE\x10\x12\x14\x16"+
+		"\x18\x1A\x1C\x1E \"$&(*,.\x30\x32\x34\x36\x38:<>@\x42\x44\x46HJL\x2\n"+
+		"\x3\x2\x4\x6\x3\x2\f\xE\x3\x2\x13\x14\x3\x2\x1B\x1C\x4\x2\x4\x4!!\x3\x2"+
+		"\x5\x6\x4\x2\x18\x18  \x3\x2\'(\x160\x2N\x3\x2\x2\x2\x4[\x3\x2\x2\x2\x6"+
+		"\x64\x3\x2\x2\x2\bi\x3\x2\x2\x2\no\x3\x2\x2\x2\fs\x3\x2\x2\x2\xEy\x3\x2"+
+		"\x2\x2\x10}\x3\x2\x2\x2\x12\x8A\x3\x2\x2\x2\x14\x92\x3\x2\x2\x2\x16\x9A"+
+		"\x3\x2\x2\x2\x18\xA5\x3\x2\x2\x2\x1A\xA7\x3\x2\x2\x2\x1C\xAC\x3\x2\x2"+
+		"\x2\x1E\xB1\x3\x2\x2\x2 \xB4\x3\x2\x2\x2\"\xBD\x3\x2\x2\x2$\xCB\x3\x2"+
+		"\x2\x2&\xCF\x3\x2\x2\x2(\xD6\x3\x2\x2\x2*\xDD\x3\x2\x2\x2,\xE0\x3\x2\x2"+
+		"\x2.\xE3\x3\x2\x2\x2\x30\xED\x3\x2\x2\x2\x32\xFA\x3\x2\x2\x2\x34\x10A"+
+		"\x3\x2\x2\x2\x36\x10C\x3\x2\x2\x2\x38\x10F\x3\x2\x2\x2:\x116\x3\x2\x2"+
+		"\x2<\x11A\x3\x2\x2\x2>\x11D\x3\x2\x2\x2@\x121\x3\x2\x2\x2\x42\x12F\x3"+
+		"\x2\x2\x2\x44\x131\x3\x2\x2\x2\x46\x136\x3\x2\x2\x2H\x14C\x3\x2\x2\x2"+
+		"J\x14E\x3\x2\x2\x2L\x157\x3\x2\x2\x2NO\a+\x2\x2OP\a\x3\x2\x2PQ\t\x2\x2"+
+		"\x2QU\x5\x4\x3\x2RV\x5\x6\x4\x2SV\x5\b\x5\x2TV\x5\x2\x2\x2UR\x3\x2\x2"+
+		"\x2US\x3\x2\x2\x2UT\x3\x2\x2\x2VW\x3\x2\x2\x2WX\x3\x2\x2\x2WU\x3\x2\x2"+
+		"\x2XY\x3\x2\x2\x2YZ\a,\x2\x2Z\x3\x3\x2\x2\x2[\\\a+\x2\x2\\`\a\a\x2\x2"+
+		"]\x61\x5H%\x2^_\t\x2\x2\x2_\x61\x5L\'\x2`]\x3\x2\x2\x2`^\x3\x2\x2\x2\x61"+
+		"\x62\x3\x2\x2\x2\x62\x63\a,\x2\x2\x63\x5\x3\x2\x2\x2\x64\x65\a+\x2\x2"+
+		"\x65\x66\a\b\x2\x2\x66g\x5\n\x6\x2gh\a,\x2\x2h\a\x3\x2\x2\x2ij\a+\x2\x2"+
+		"jk\a\t\x2\x2kl\x5\n\x6\x2lm\a,\x2\x2m\t\x3\x2\x2\x2np\x5\f\a\x2on\x3\x2"+
+		"\x2\x2pq\x3\x2\x2\x2qr\x3\x2\x2\x2qo\x3\x2\x2\x2r\v\x3\x2\x2\x2st\a+\x2"+
+		"\x2tu\x5H%\x2uv\x5\xE\b\x2vw\a,\x2\x2w\r\x3\x2\x2\x2xz\x5\x10\t\x2yx\x3"+
+		"\x2\x2\x2z{\x3\x2\x2\x2{|\x3\x2\x2\x2{y\x3\x2\x2\x2|\xF\x3\x2\x2\x2}\x86"+
+		"\a+\x2\x2~\x87\x5\x1A\xE\x2\x7F\x87\x5\x12\n\x2\x80\x87\x5\x16\f\x2\x81"+
+		"\x87\x5$\x13\x2\x82\x87\x5&\x14\x2\x83\x87\x5(\x15\x2\x84\x87\x5*\x16"+
+		"\x2\x85\x87\x5,\x17\x2\x86~\x3\x2\x2\x2\x86\x7F\x3\x2\x2\x2\x86\x80\x3"+
+		"\x2\x2\x2\x86\x81\x3\x2\x2\x2\x86\x82\x3\x2\x2\x2\x86\x83\x3\x2\x2\x2"+
+		"\x86\x84\x3\x2\x2\x2\x86\x85\x3\x2\x2\x2\x87\x88\x3\x2\x2\x2\x88\x89\a"+
+		",\x2\x2\x89\x11\x3\x2\x2\x2\x8A\x8B\a\n\x2\x2\x8B\x8C\a\v\x2\x2\x8C\x8E"+
+		"\x5\x18\r\x2\x8D\x8F\x5\x14\v\x2\x8E\x8D\x3\x2\x2\x2\x8F\x90\x3\x2\x2"+
+		"\x2\x90\x91\x3\x2\x2\x2\x90\x8E\x3\x2\x2\x2\x91\x13\x3\x2\x2\x2\x92\x93"+
+		"\a+\x2\x2\x93\x94\x5\x38\x1D\x2\x94\x96\t\x3\x2\x2\x95\x97\a\xF\x2\x2"+
+		"\x96\x95\x3\x2\x2\x2\x96\x97\x3\x2\x2\x2\x97\x98\x3\x2\x2\x2\x98\x99\a"+
+		",\x2\x2\x99\x15\x3\x2\x2\x2\x9A\x9B\a\n\x2\x2\x9B\x9C\a\x10\x2\x2\x9C"+
+		"\x9D\x5\x18\r\x2\x9D\x9F\a+\x2\x2\x9E\xA0\x5\x38\x1D\x2\x9F\x9E\x3\x2"+
+		"\x2\x2\xA0\xA1\x3\x2\x2\x2\xA1\xA2\x3\x2\x2\x2\xA1\x9F\x3\x2\x2\x2\xA2"+
+		"\xA3\x3\x2\x2\x2\xA3\xA4\a,\x2\x2\xA4\x17\x3\x2\x2\x2\xA5\xA6\t\x2\x2"+
+		"\x2\xA6\x19\x3\x2\x2\x2\xA7\xAA\a\x11\x2\x2\xA8\xAB\x5\x1C\xF\x2\xA9\xAB"+
+		"\x5\x1E\x10\x2\xAA\xA8\x3\x2\x2\x2\xAA\xA9\x3\x2\x2\x2\xAB\x1B\x3\x2\x2"+
+		"\x2\xAC\xAD\a\x12\x2\x2\xAD\xAE\x5L\'\x2\xAE\xAF\x5L\'\x2\xAF\xB0\t\x4"+
+		"\x2\x2\xB0\x1D\x3\x2\x2\x2\xB1\xB2\x5\x32\x1A\x2\xB2\xB3\x5 \x11\x2\xB3"+
+		"\x1F\x3\x2\x2\x2\xB4\xB5\a+\x2\x2\xB5\xB7\a\x15\x2\x2\xB6\xB8\x5\"\x12"+
+		"\x2\xB7\xB6\x3\x2\x2\x2\xB8\xB9\x3\x2\x2\x2\xB9\xBA\x3\x2\x2\x2\xB9\xB7"+
+		"\x3\x2\x2\x2\xBA\xBB\x3\x2\x2\x2\xBB\xBC\a,\x2\x2\xBC!\x3\x2\x2\x2\xBD"+
+		"\xBF\a+\x2\x2\xBE\xC0\x5:\x1E\x2\xBF\xBE\x3\x2\x2\x2\xC0\xC1\x3\x2\x2"+
+		"\x2\xC1\xC2\x3\x2\x2\x2\xC1\xBF\x3\x2\x2\x2\xC2\xC6\x3\x2\x2\x2\xC3\xC5"+
+		"\x5\"\x12\x2\xC4\xC3\x3\x2\x2\x2\xC5\xC8\x3\x2\x2\x2\xC6\xC7\x3\x2\x2"+
+		"\x2\xC6\xC4\x3\x2\x2\x2\xC7\xC9\x3\x2\x2\x2\xC8\xC6\x3\x2\x2\x2\xC9\xCA"+
+		"\a,\x2\x2\xCA#\x3\x2\x2\x2\xCB\xCC\a\x16\x2\x2\xCC\xCD\x5\x30\x19\x2\xCD"+
+		"\xCE\x5L\'\x2\xCE%\x3\x2\x2\x2\xCF\xD0\a\x17\x2\x2\xD0\xD1\x5.\x18\x2"+
+		"\xD1\xD4\x5.\x18\x2\xD2\xD5\x5L\'\x2\xD3\xD5\a\x18\x2\x2\xD4\xD2\x3\x2"+
+		"\x2\x2\xD4\xD3\x3\x2\x2\x2\xD4\xD5\x3\x2\x2\x2\xD5\'\x3\x2\x2\x2\xD6\xD7"+
+		"\a\x19\x2\x2\xD7\xD8\x5.\x18\x2\xD8\xDB\x5.\x18\x2\xD9\xDC\x5L\'\x2\xDA"+
+		"\xDC\a\x18\x2\x2\xDB\xD9\x3\x2\x2\x2\xDB\xDA\x3\x2\x2\x2\xDB\xDC\x3\x2"+
+		"\x2\x2\xDC)\x3\x2\x2\x2\xDD\xDE\a\x1A\x2\x2\xDE\xDF\t\x5\x2\x2\xDF+\x3"+
+		"\x2\x2\x2\xE0\xE1\a\x1D\x2\x2\xE1\xE2\x5\x32\x1A\x2\xE2-\x3\x2\x2\x2\xE3"+
+		"\xE8\a+\x2\x2\xE4\xE9\a\x1E\x2\x2\xE5\xE9\a\x1F\x2\x2\xE6\xE9\x5L\'\x2"+
+		"\xE7\xE9\a \x2\x2\xE8\xE4\x3\x2\x2\x2\xE8\xE5\x3\x2\x2\x2\xE8\xE6\x3\x2"+
+		"\x2\x2\xE8\xE7\x3\x2\x2\x2\xE9\xEA\x3\x2\x2\x2\xEA\xEB\x5\x32\x1A\x2\xEB"+
+		"\xEC\a,\x2\x2\xEC/\x3\x2\x2\x2\xED\xF4\a+\x2\x2\xEE\xF5\x5\x34\x1B\x2"+
+		"\xEF\xF2\x5\x36\x1C\x2\xF0\xF3\x5\x46$\x2\xF1\xF3\x5L\'\x2\xF2\xF0\x3"+
+		"\x2\x2\x2\xF2\xF1\x3\x2\x2\x2\xF3\xF5\x3\x2\x2\x2\xF4\xEE\x3\x2\x2\x2"+
+		"\xF4\xEF\x3\x2\x2\x2\xF5\xF6\x3\x2\x2\x2\xF6\xF7\a\x10\x2\x2\xF7\xF8\x5"+
+		"\x38\x1D\x2\xF8\xF9\a,\x2\x2\xF9\x31\x3\x2\x2\x2\xFA\x101\a+\x2\x2\xFB"+
+		"\x102\x5\x34\x1B\x2\xFC\xFF\x5\x36\x1C\x2\xFD\x100\x5\x46$\x2\xFE\x100"+
+		"\x5L\'\x2\xFF\xFD\x3\x2\x2\x2\xFF\xFE\x3\x2\x2\x2\x100\x102\x3\x2\x2\x2"+
+		"\x101\xFB\x3\x2\x2\x2\x101\xFC\x3\x2\x2\x2\x102\x103\x3\x2\x2\x2\x103"+
+		"\x104\a\v\x2\x2\x104\x106\x5\x38\x1D\x2\x105\x107\x5<\x1F\x2\x106\x105"+
+		"\x3\x2\x2\x2\x106\x107\x3\x2\x2\x2\x107\x108\x3\x2\x2\x2\x108\x109\a,"+
+		"\x2\x2\x109\x33\x3\x2\x2\x2\x10A\x10B\t\x6\x2\x2\x10B\x35\x3\x2\x2\x2"+
+		"\x10C\x10D\t\a\x2\x2\x10D\x37\x3\x2\x2\x2\x10E\x110\a.\x2\x2\x10F\x10E"+
+		"\x3\x2\x2\x2\x110\x111\x3\x2\x2\x2\x111\x112\x3\x2\x2\x2\x111\x10F\x3"+
+		"\x2\x2\x2\x112\x39\x3\x2\x2\x2\x113\x117\a.\x2\x2\x114\x117\x5L\'\x2\x115"+
+		"\x117\a&\x2\x2\x116\x113\x3\x2\x2\x2\x116\x114\x3\x2\x2\x2\x116\x115\x3"+
+		"\x2\x2\x2\x117\x118\x3\x2\x2\x2\x118\x119\x3\x2\x2\x2\x118\x116\x3\x2"+
+		"\x2\x2\x119;\x3\x2\x2\x2\x11A\x11B\a\"\x2\x2\x11B\x11C\x5> \x2\x11C=\x3"+
+		"\x2\x2\x2\x11D\x11E\a+\x2\x2\x11E\x11F\x5@!\x2\x11F\x120\a,\x2\x2\x120"+
+		"?\x3\x2\x2\x2\x121\x122\a(\x2\x2\x122\x123\x5\x42\"\x2\x123\x124\x5\x42"+
+		"\"\x2\x124\x41\x3\x2\x2\x2\x125\x130\x5\x38\x1D\x2\x126\x127\a+\x2\x2"+
+		"\x127\x128\a#\x2\x2\x128\x12B\x5\x38\x1D\x2\x129\x12C\a$\x2\x2\x12A\x12C"+
+		"\x5.\x18\x2\x12B\x129\x3\x2\x2\x2\x12B\x12A\x3\x2\x2\x2\x12C\x12D\x3\x2"+
+		"\x2\x2\x12D\x12E\a,\x2\x2\x12E\x130\x3\x2\x2\x2\x12F\x125\x3\x2\x2\x2"+
+		"\x12F\x126\x3\x2\x2\x2\x130\x43\x3\x2\x2\x2\x131\x132\a+\x2\x2\x132\x133"+
+		"\a%\x2\x2\x133\x134\x5\x32\x1A\x2\x134\x135\a,\x2\x2\x135\x45\x3\x2\x2"+
+		"\x2\x136\x137\t\b\x2\x2\x137G\x3\x2\x2\x2\x138\x146\a+\x2\x2\x139\x13A"+
+		"\a&\x2\x2\x13A\x13C\x5H%\x2\x13B\x13D\x5H%\x2\x13C\x13B\x3\x2\x2\x2\x13D"+
+		"\x13E\x3\x2\x2\x2\x13E\x13F\x3\x2\x2\x2\x13E\x13C\x3\x2\x2\x2\x13F\x147"+
+		"\x3\x2\x2\x2\x140\x141\x5J&\x2\x141\x142\x5L\'\x2\x142\x143\x5L\'\x2\x143"+
+		"\x147\x3\x2\x2\x2\x144\x145\a)\x2\x2\x145\x147\x5H%\x2\x146\x139\x3\x2"+
+		"\x2\x2\x146\x140\x3\x2\x2\x2\x146\x144\x3\x2\x2\x2\x147\x148\x3\x2\x2"+
+		"\x2\x148\x149\a,\x2\x2\x149\x14D\x3\x2\x2\x2\x14A\x14B\a+\x2\x2\x14B\x14D"+
+		"\a,\x2\x2\x14C\x138\x3\x2\x2\x2\x14C\x14A\x3\x2\x2\x2\x14DI\x3\x2\x2\x2"+
+		"\x14E\x14F\t\t\x2\x2\x14FK\x3\x2\x2\x2\x150\x158\x5\x44#\x2\x151\x158"+
+		"\x5\x30\x19\x2\x152\x154\a*\x2\x2\x153\x152\x3\x2\x2\x2\x154\x155\x3\x2"+
+		"\x2\x2\x155\x156\x3\x2\x2\x2\x155\x153\x3\x2\x2\x2\x156\x158\x3\x2\x2"+
+		"\x2\x157\x150\x3\x2\x2\x2\x157\x151\x3\x2\x2\x2\x157\x153\x3\x2\x2\x2"+
+		"\x158M\x3\x2\x2\x2!UW`q{\x86\x90\x96\xA1\xAA\xB9\xC1\xC6\xD4\xDB\xE8\xF2"+
+		"\xF4\xFF\x101\x106\x111\x116\x118\x12B\x12F\x13E\x146\x14C\x155\x157";
 	public static readonly ATN _ATN =
 		new ATNDeserializer().Deserialize(_serializedATN.ToCharArray());
 }
