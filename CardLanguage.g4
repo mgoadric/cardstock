@@ -15,7 +15,7 @@ action : OPEN (init | loccreate | storagecreate | setaction | moveaction | copya
 loccreate : 'create' 'loc' obj locationdef+? ;
 locationdef : OPEN name ('Stack'|'List'|'Queue') ('Memory')? CLOSE ;
 
-storagecreate : 'create' 'sto' obj OPEN (name ',')*? name CLOSE ;
+storagecreate : 'create' 'sto' obj OPEN (namegr ',')*? namegr CLOSE ;
 
 obj : ('player'|'game'|'team') ;
 
@@ -24,7 +24,7 @@ init : 'initialize'  (playerinit | deckinit | pointsinit) ;
 playerinit : 'players' int int ('alternate' | 'sequential') ;
 deckinit : locstorage deck ;
 deck : OPEN 'permdeck' attribute+? CLOSE ;
-attribute : (OPEN trueany+? attribute*? CLOSE)  ;
+attribute : (OPEN (trueany ',')*? trueany attribute*? CLOSE)  ;
 
 pointsinit : 'points' name OPEN awards+? CLOSE ;
 awards : OPEN posq OPEN name ((OPEN trueany CLOSE) |(cardatt)) CLOSE int CLOSE ;
