@@ -27,7 +27,7 @@ public class ParseEngine{
                 
                 Console.Write(tree.ToStringTree());
                 builder.Append("graph tree{");
-                Recurse(tree,"NODE0");
+                DOTMaker(tree,"NODE0");
                 builder.Append("}");
                 var fs = File.Create(fileName + ".gv");
                 var bytes = Encoding.UTF8.GetBytes(builder.ToString());
@@ -37,7 +37,7 @@ public class ParseEngine{
                 
                 
 	}
-        public void Recurse(IParseTree node, string nodeName){
+        public void DOTMaker(IParseTree node, string nodeName){
                 
                 for (int i = 0; i < node.ChildCount; ++i){
                         var dontCreate = false;
@@ -45,7 +45,7 @@ public class ParseEngine{
                         var contextName = node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","");
                         if (node.GetChild(i).ChildCount > 0 && contextName != "Namegr" && contextName != "Name" && contextName != "Trueany"){
                                 builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","") + "\"]");
-                                Recurse(node.GetChild(i),newNodeName);
+                                DOTMaker(node.GetChild(i),newNodeName);
                         }
                         else if (node.GetChild(i).ChildCount > 0){
                                 builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetText() + "\"]");
@@ -55,7 +55,7 @@ public class ParseEngine{
                         }
                         else{
                                 builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetText() + "\"]");
-                                Recurse(node.GetChild(i),newNodeName);
+                                DOTMaker(node.GetChild(i),newNodeName);
                         }
                         if (!dontCreate){
                                 builder.AppendLine(nodeName + " -- " + newNodeName);
