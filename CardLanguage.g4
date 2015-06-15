@@ -15,7 +15,7 @@ action : OPEN (init | loccreate | storagecreate | setaction | moveaction | copya
 loccreate : 'create' 'loc' obj locationdef+? ;
 locationdef : OPEN name ('Stack'|'List'|'Queue') ('Memory')? CLOSE ;
 
-storagecreate : 'create' 'sto' obj OPEN name+? CLOSE ;
+storagecreate : 'create' 'sto' obj OPEN (name ',')*? name CLOSE ;
 
 obj : ('player'|'game'|'team') ;
 
