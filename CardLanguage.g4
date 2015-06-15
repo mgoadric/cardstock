@@ -4,7 +4,7 @@ stage : OPEN 'stage' ('game'|'player'|'team') endcondition (computermoves|player
 endcondition : OPEN 'end' (boolean | (('game'|'player'|'team') int)) CLOSE ;
 
 computermoves : OPEN 'comp' multigameaction CLOSE ;
-playermoves : OPEN 'actions' multigameaction CLOSE ;
+playermoves : OPEN 'choice' multigameaction CLOSE ;
 
 multigameaction : gameaction+? ;
 gameaction : OPEN boolean multiaction CLOSE ;
@@ -30,7 +30,7 @@ pointsinit : 'points' name OPEN awards+? CLOSE ;
 awards : OPEN posq OPEN name ((OPEN trueany CLOSE) |(cardatt)) CLOSE int CLOSE ;
 
 
-setaction : 'set' ('NEXTPLAYER' | rawstorage) int ;
+setaction : 'set' ('next' | 'current' | rawstorage) int ;
 incaction : 'inc' rawstorage int ;
 decaction : 'dec' rawstorage int ;
 
@@ -49,10 +49,10 @@ imag : 'Memory' ;
 
 card : maxof | (OPEN ('top' | 'bottom' | int | 'any') locstorage CLOSE);
 owner : OPEN 'owner' card CLOSE;
-rawstorage : OPEN (who | (who2  (posq | int |'NEXTPLAYER' | 'my'))) 'sto' namegr CLOSE ;
-locstorage : unionof | OPEN (who | (who2 (posq | int | 'NEXTPLAYER'))) 'loc' name whereclause? CLOSE ;
-who : 'game' | 'my' ;
-who2 : 'player' | 'team' ;
+rawstorage : OPEN (who | who2) 'sto' namegr CLOSE ;
+locstorage : unionof | OPEN (who | who2) 'loc' name whereclause? CLOSE ;
+who : 'game' ;
+who2 : OPEN (posq | int | 'next' | 'current' | who2) ('player' | 'team') CLOSE ;
 
 trueany : (ANY|int|BOOLOP)+?;
 whereclause : 'where' boolatt ; 

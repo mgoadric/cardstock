@@ -34,7 +34,7 @@ public class ParseEngine{
                         var dontCreate = false;
                         var newNodeName = nodeName + "_" + i;
                         var contextName = node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","");
-                        if (node.GetChild(i).ChildCount > 0&& contextName != "Name" && contextName != "Trueany"){
+                        if (node.GetChild(i).ChildCount > 0 && contextName != "Namegr" && contextName != "Name" && contextName != "Trueany"){
                                 Console.WriteLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","") + "\"]");
                                 Recurse(node.GetChild(i),newNodeName);
                         }

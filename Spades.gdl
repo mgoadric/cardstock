@@ -35,26 +35,26 @@
                
    ;; Stages of the game
    (stage player
-      (end (>= (team any SCORE) 500))
+      (end (>= (team any sto SCORE) 500))
       (comp (() (move (top (game loc DISCARD)) 
                       (top (game loc STOCK)) all)
                 (copy (top (game loc STOCK where (== (cardatt suit this) spades)))
                       (top (game loc TRUMP)))
                 (shuffle (game loc STOCK))
                 (move (top (game loc STOCK))
-                      (top (player all loc HAND)) 13)
+                      (top ((all player) loc HAND)) 13)
                 (set (game sto SPADESBROKEN) 0)
-                (set (player all sto TRICKSWON) 0)
+                (set ((all player) sto TRICKSWON) 0)
              )
       ) 
       ;; bidding for number of tricks expected
       (stage player
          (end player 1)
-         (actions
-            (() (set (my sto BID) 1))
-            (() (set (my sto BID) 2))
-            (() (set (my sto BID) 3))
-            (() (set (my sto BID) 4))
+         (choice
+            (() (set ((current player) sto BID) 1))
+            (() (set ((current player) sto BID) 2))
+            (() (set ((current player) sto BID) 3))
+            (() (set ((current player) sto BID) 4))
          )
       )
          
@@ -66,18 +66,18 @@
          (stage player
             (end player 1)
              
-            (actions
+            (choice
              
                ;; if first player and spades not broken and have non-spades cards
                ;;   play one of these, remember it in the lead spot, and end your turn
                ((and (== (size (game loc LEAD)) 0)
                      (== (game sto SPADESBROKEN) 0)
-                     (== (size (my loc HAND where (!= (cardatt suit this) 
-                                                      (cardatt suit (top (game loc TRUMP)))))) 0)) 
-                (move (any (my loc HAND where (!= (cardatt suit this) 
-                                                  (cardatt suit (top (game loc TRUMP)))))) 
-                      (top (my loc TRICK)))
-                (copy (top (my loc TRICK)) 
+                     (== (size ((current player) loc HAND where (!= (cardatt suit this) 
+                                                                    (cardatt suit (top (game loc TRUMP)))))) 0)) 
+                (move (any ((current player) loc HAND where (!= (cardatt suit this) 
+                                                                (cardatt suit (top (game loc TRUMP)))))) 
+                      (top ((current player) loc TRICK)))
+                (copy (top ((current player) loc TRICK)) 
                       (top (game loc LEAD)))
                 (turn over))
 
@@ -85,29 +85,29 @@
                ;;   play any card, remember it in the lead spot, and end your turn
                ((and (== (size (game loc LEAD)) 0)
                      (== (game sto SPADESBROKEN) 1)) 
-                (move (any (my loc HAND)) 
-                      (top (my loc TRICK)))
-                (copy (top (my loc TRICK)) 
+                (move (any ((current player) loc HAND)) 
+                      (top ((current player) loc TRICK)))
+                (copy (top ((current player) loc TRICK)) 
                       (top (game loc LEAD)))
                 (turn over))
 
                ;; if following player and cannot follow suit
                ;;   play any card, and end your turn
                ((and (== (size (game loc LEAD)) 1)
-                     (== (size (my loc HAND where (== (cardatt suit this) 
-                                                      (cardatt suit (top (game loc LEAD)))))) 0))
-                (move (any (my loc HAND)) 
-                      (top (my loc TRICK)))
+                     (== (size ((current player) loc HAND where (== (cardatt suit this) 
+                                                                    (cardatt suit (top (game loc LEAD)))))) 0))
+                (move (any ((current player) loc HAND)) 
+                      (top ((current player) loc TRICK)))
                 (turn over))
 
                ;; if following player and can follow suit
                ;;   play any card that follows suit, and end your turn
                ((and (== (size (game loc LEAD)) 1)
-                     (!= (size (my loc HAND where (== (cardatt suit this) 
-                                                      (cardatt suit (top (game loc LEAD)))))) 0))
-                (move (any (my loc HAND where (== (cardatt suit this) 
-                                                      (cardatt suit (top (game loc LEAD)))))) 
-                      (top (my loc TRICK)))
+                     (!= (size ((current player) loc HAND where (== (cardatt suit this) 
+                                                                    (cardatt suit (top (game loc LEAD)))))) 0))
+                (move (any ((current player) loc HAND where (== (cardatt suit this) 
+                                                                (cardatt suit (top (game loc LEAD)))))) 
+                      (top ((current player) loc TRICK)))
                 (turn over))
             )
          )
@@ -116,24 +116,40 @@
          (comp
              (() 
                  ;; solidfy card recedence
-                 (initialize points PRECEDENCE (suit (cardatt suit (peek (game loc TRUMP))) (rank A K Q J 10 9 8 7 6 5 4 3 2))
-                             (suit (cardatt suit (peek (game loc LEAD))) (rank A K Q J 10 9 8 7 6 5 4 3 2)))             
+                 (initialize points PRECEDENCE (
+                               (all (suit (cardatt suit (top (game loc TRUMP)))) 200)
+                               (all (suit (cardatt suit (top (game loc LEAD)))) 100)
+                               (all (rank (A)) 14)
+                               (all (rank (K)) 13) 
+                               (all (rank (Q)) 12)
+                               (all (rank (J)) 11)
+                               (all (rank (10)) 10)
+                               (all (rank (9)) 9)
+                               (all (rank (8)) 8)
+                               (all (rank (7)) 7)
+                               (all (rank (6)) 6)
+                               (all (rank (5)) 5)
+                               (all (rank (4)) 4)
+                               (all (rank (3)) 3)
+                               (all (rank (2)) 2)
+                               )
+                               )             
                       
                  ;; determine who won the hand, set them first next time, and give them a point
                  (remove (top (game loc LEAD)))
-                 (set NEXTPLAYER (owner (max (union (player all loc TRICK)) using PRECEDENCE)))
-                 (inc (player NEXTPLAYER sto TRICKSWON) 1)
+                 (set next (owner (max (union ((all player) loc TRICK)) using PRECEDENCE)))
+                 (inc ((next player) sto TRICKSWON) 1)
 
              )
                   
              ;; if winner played trump and trump not broken, trump is now broken
-             ((and (== (cardatt suit (top (player NEXTPLAYER loc TRICK))) 
+             ((and (== (cardatt suit (top ((next player) loc TRICK))) 
                        (cardatt suit (top (game loc TRUMP))))
                    (== (game sto SPADESBROKEN) 0))
               (set (game sto SPADESBROKEN) 1))
                   
              ;; discard all the played cards
-             (() (move (top (player all loc TRICK)) 
+             (() (move (top ((all player) loc TRICK)) 
                        (top (game loc DISCARD))))
              
          )
@@ -145,17 +161,20 @@
          (comp
           
             ;; team made their cumulative bid, score positive points
-            ((>= (player my sto TRICKSWON) (player my sto BID))
-             (inc (my sto SCORE (* 10 (player my sto BID))))
-             (inc (my sto BAGS (- (player my sto TRICKSWON) (player my sto BID)))))
+            ((>= (sum (((current team) player) sto TRICKSWON)) 
+                 (sum (((current team) player) sto BID)))
+             (inc ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID))))
+             (inc ((current team) sto BAGS) (- (sum (((current team) player) sto TRICKSWON)) 
+                                               (sum (((current team) player) sto BID)))))
             
             ;; team did not make their cumulative bid, score negative points
-            ((< (player my sto TRICKSWON) (player my sto BID))
-             (dec (my sto SCORE (* 10 (player my sto BID)))))
+            ((< (sum ((current team) sto TRICKSWON)) 
+                (sum ((current team) sto BID)))
+             (dec ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID)))))
             
             ;; record bags if over 10
-            (() (dec (my sto SCORE) (* 100 (// (my sto BAGS) 10)))
-                (set (my sto BAGS) (% (my sto BAGS) 10)))
+            (() (dec ((current team) sto SCORE) (* 100 (// ((current team) sto BAGS) 10)))
+                (set ((current team) sto BAGS) (% ((current team) sto BAGS) 10)))
          )
       )
    )
