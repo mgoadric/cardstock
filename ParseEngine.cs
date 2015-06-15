@@ -7,9 +7,11 @@ using System.Text.RegularExpressions;
 using System.IO;
 using Antlr4.Runtime.Tree;
 public class ParseEngine{
+        StringBuilder builder = new StringBuilder();
 	public ParseEngine(){
                 var regex = new Regex("(;;)(.*?)(\n)");
-                var f = File.ReadAllText("SpadesTest.gdl");
+                var fileName = "SpadesTest";
+                var f = File.ReadAllText(fileName + ".gdl");
                 var file = f;
                 Console.WriteLine(file);
                 file = regex.Replace(file,"\n");
@@ -22,8 +24,15 @@ public class ParseEngine{
                	parser.BuildParseTree = true;
                 var tree = parser.stage();
                 //Recurse(tree);
+                
                 Console.Write(tree.ToStringTree());
+                builder.Append("graph tree{");
                 Recurse(tree,"NODE0");
+                builder.Append("}");
+                var fs = File.Create(fileName + ".gv");
+                var bytes = Encoding.UTF8.GetBytes(builder.ToString());
+                fs.Write(bytes,0,bytes.Length);
+                fs.Close();
                 //Console.WriteLine(tree);
                 
                 
@@ -35,21 +44,21 @@ public class ParseEngine{
                         var newNodeName = nodeName + "_" + i;
                         var contextName = node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","");
                         if (node.GetChild(i).ChildCount > 0 && contextName != "Namegr" && contextName != "Name" && contextName != "Trueany"){
-                                Console.WriteLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","") + "\"]");
+                                builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","") + "\"]");
                                 Recurse(node.GetChild(i),newNodeName);
                         }
                         else if (node.GetChild(i).ChildCount > 0){
-                                Console.WriteLine(newNodeName + " [label=\"" + node.GetChild(i).GetText() + "\"]");
+                                builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetText() + "\"]");
                         }
                         else if (node.GetChild(i).GetText() == "(" || node.GetChild(i).GetText() == ")"){
                                 dontCreate = true;
                         }
                         else{
-                                Console.WriteLine(newNodeName + " [label=\"" + node.GetChild(i).GetText() + "\"]");
+                                builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetText() + "\"]");
                                 Recurse(node.GetChild(i),newNodeName);
                         }
                         if (!dontCreate){
-                                Console.WriteLine(nodeName + " -- " + newNodeName);
+                                builder.AppendLine(nodeName + " -- " + newNodeName);
                         }
                 }
         }
