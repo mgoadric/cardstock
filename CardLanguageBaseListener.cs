@@ -237,6 +237,30 @@ public partial class CardLanguageBaseListener : ICardLanguageListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitAttribute([NotNull] CardLanguageParser.AttributeContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.pointsinit"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterPointsinit([NotNull] CardLanguageParser.PointsinitContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.pointsinit"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitPointsinit([NotNull] CardLanguageParser.PointsinitContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.awards"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAwards([NotNull] CardLanguageParser.AwardsContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.awards"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAwards([NotNull] CardLanguageParser.AwardsContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="CardLanguageParser.setaction"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -248,6 +272,30 @@ public partial class CardLanguageBaseListener : ICardLanguageListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitSetaction([NotNull] CardLanguageParser.SetactionContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.incaction"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterIncaction([NotNull] CardLanguageParser.IncactionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.incaction"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitIncaction([NotNull] CardLanguageParser.IncactionContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.decaction"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterDecaction([NotNull] CardLanguageParser.DecactionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.decaction"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitDecaction([NotNull] CardLanguageParser.DecactionContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="CardLanguageParser.moveaction"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -285,6 +333,18 @@ public partial class CardLanguageBaseListener : ICardLanguageListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitTurnaction([NotNull] CardLanguageParser.TurnactionContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.removeaction"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRemoveaction([NotNull] CardLanguageParser.RemoveactionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.removeaction"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRemoveaction([NotNull] CardLanguageParser.RemoveactionContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="CardLanguageParser.shuffleaction"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -297,6 +357,78 @@ public partial class CardLanguageBaseListener : ICardLanguageListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitShuffleaction([NotNull] CardLanguageParser.ShuffleactionContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.createaction"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterCreateaction([NotNull] CardLanguageParser.CreateactionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.createaction"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitCreateaction([NotNull] CardLanguageParser.CreateactionContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.createsto"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterCreatesto([NotNull] CardLanguageParser.CreatestoContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.createsto"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitCreatesto([NotNull] CardLanguageParser.CreatestoContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.namelist"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterNamelist([NotNull] CardLanguageParser.NamelistContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.namelist"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitNamelist([NotNull] CardLanguageParser.NamelistContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.loclist"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterLoclist([NotNull] CardLanguageParser.LoclistContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.loclist"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitLoclist([NotNull] CardLanguageParser.LoclistContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.loc"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterLoc([NotNull] CardLanguageParser.LocContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.loc"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitLoc([NotNull] CardLanguageParser.LocContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.imag"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterImag([NotNull] CardLanguageParser.ImagContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.imag"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitImag([NotNull] CardLanguageParser.ImagContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="CardLanguageParser.card"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -308,6 +440,18 @@ public partial class CardLanguageBaseListener : ICardLanguageListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitCard([NotNull] CardLanguageParser.CardContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.owner"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterOwner([NotNull] CardLanguageParser.OwnerContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.owner"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitOwner([NotNull] CardLanguageParser.OwnerContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="CardLanguageParser.rawstorage"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -356,18 +500,6 @@ public partial class CardLanguageBaseListener : ICardLanguageListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitWho2([NotNull] CardLanguageParser.Who2Context context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="CardLanguageParser.name"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterName([NotNull] CardLanguageParser.NameContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="CardLanguageParser.name"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitName([NotNull] CardLanguageParser.NameContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="CardLanguageParser.trueany"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -429,18 +561,6 @@ public partial class CardLanguageBaseListener : ICardLanguageListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitCardatt([NotNull] CardLanguageParser.CardattContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="CardLanguageParser.@sizeof"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterSizeof([NotNull] CardLanguageParser.SizeofContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="CardLanguageParser.@sizeof"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitSizeof([NotNull] CardLanguageParser.SizeofContext context) { }
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="CardLanguageParser.posq"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -477,6 +597,102 @@ public partial class CardLanguageBaseListener : ICardLanguageListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitIntop([NotNull] CardLanguageParser.IntopContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.mult"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMult([NotNull] CardLanguageParser.MultContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.mult"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMult([NotNull] CardLanguageParser.MultContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.subtract"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterSubtract([NotNull] CardLanguageParser.SubtractContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.subtract"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitSubtract([NotNull] CardLanguageParser.SubtractContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.mod"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMod([NotNull] CardLanguageParser.ModContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.mod"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMod([NotNull] CardLanguageParser.ModContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.divide"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterDivide([NotNull] CardLanguageParser.DivideContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.divide"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitDivide([NotNull] CardLanguageParser.DivideContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.@sizeof"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterSizeof([NotNull] CardLanguageParser.SizeofContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.@sizeof"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitSizeof([NotNull] CardLanguageParser.SizeofContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.maxof"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMaxof([NotNull] CardLanguageParser.MaxofContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.maxof"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMaxof([NotNull] CardLanguageParser.MaxofContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.unionof"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterUnionof([NotNull] CardLanguageParser.UnionofContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.unionof"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitUnionof([NotNull] CardLanguageParser.UnionofContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.sum"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterSum([NotNull] CardLanguageParser.SumContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.sum"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitSum([NotNull] CardLanguageParser.SumContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="CardLanguageParser.@int"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -488,6 +704,30 @@ public partial class CardLanguageBaseListener : ICardLanguageListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitInt([NotNull] CardLanguageParser.IntContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.namegr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterNamegr([NotNull] CardLanguageParser.NamegrContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.namegr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitNamegr([NotNull] CardLanguageParser.NamegrContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.name"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterName([NotNull] CardLanguageParser.NameContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.name"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitName([NotNull] CardLanguageParser.NameContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

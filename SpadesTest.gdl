@@ -8,8 +8,8 @@
              (create loc game (SOURCE List)
                               (STOCK Stack)
                               (DISCARD Stack)
-                              (TRUMP Stack Imaginary)
-                              (LEAD Stack Imaginary))
+                              (TRUMP Stack Memory)
+                              (LEAD Stack Memory))
              (create sto game (SPADESBROKEN))
 
              ;; Set up the players, 2 teams of 2 players, alternating
@@ -116,23 +116,41 @@
          (comp
              (() 
                  ;; solidfy card recedence
-                 (initialize points PRECEDENCE (suit (cardatt suit (peek (game loc TRUMP))) (rank A K Q J 10 9 8 7 6 5 4 3 2))
-                             (suit (cardatt suit (peek (game loc LEAD))) (rank A K Q J 10 9 8 7 6 5 4 3 2)))             
+                 (initialize points PRECEDENCE (
+                               (all (suit (cardatt suit (top (game loc TRUMP)))) 200)
+                               (all (suit (cardatt suit (top (game loc LEAD)))) 100)
+                               (all (rank (A)) 14)
+                               (all (rank (K)) 13) 
+                               (all (rank (Q)) 12)
+                               (all (rank (J)) 11)
+                               (all (rank (10)) 10)
+                               (all (rank (9)) 9)
+                               (all (rank (8)) 8)
+                               (all (rank (7)) 7)
+                               (all (rank (6)) 6)
+                               (all (rank (5)) 5)
+                               (all (rank (4)) 4)
+                               (all (rank (3)) 3)
+                               (all (rank (2)) 2)
+                               )
+                               )             
                       
                  ;; determine who won the hand, set them first next time, and give them a point
-                 (remove top (game loc LEAD))
-                 (set NEXTPLAYER (owner (max (union (player all loc TRICK)) using points PRECEDENCE)))
+                 (remove (top (game loc LEAD)))
+                 (set NEXTPLAYER (owner (max (union (player all loc TRICK)) using PRECEDENCE)))
                  (inc (player NEXTPLAYER sto TRICKSWON) 1)
 
              )
                   
              ;; if winner played trump and trump not broken, trump is now broken
-             ((and (== (cardatt suit (top (player NEXTPLAYER loc TRICK))) (cardatt suit (game loc TRUMP)))
+             ((and (== (cardatt suit (top (player NEXTPLAYER loc TRICK))) 
+                       (cardatt suit (top (game loc TRUMP))))
                    (== (game sto SPADESBROKEN) 0))
               (set (game sto SPADESBROKEN) 1))
                   
              ;; discard all the played cards
-             (() (move top (player all loc TRICK) top (game loc DISCARD)))
+             (() (move (top (player all loc TRICK)) 
+                       (top (game loc DISCARD))))
              
          )
       )
@@ -140,20 +158,20 @@
       ;; determine team score
       (stage team
          (end team 1)
-         (actions
+         (comp
           
             ;; team made their cumulative bid, score positive points
-            ((>= (player my sto TRICKSWON) (player my sto BID))
-             (inc (my sto SCORE (* 10 (player my sto BID))))
-             (inc (my sto BAGS (- (player my sto TRICKSWON) (player my sto BID)))))
+            ((>= (sum (player my sto TRICKSWON)) (sum (player my sto BID)))
+             (inc (my sto SCORE) (* 10 (sum (player my sto BID))))
+             (inc (my sto BAGS) (- (sum (player my sto TRICKSWON)) (sum (player my sto BID)))))
             
             ;; team did not make their cumulative bid, score negative points
-            ((< (player my sto TRICKSWON) (player my sto BID))
-             (dec (my sto SCORE (* 10 (player my sto BID)))))
+            ((< (sum (player my sto TRICKSWON)) (sum (player my sto BID)))
+             (dec (my sto SCORE) (* 10 (sum (player my sto BID)))))
             
             ;; record bags if over 10
-            (() (dec (my sto SCORE) (* 100 (// (my sto BAGS) 10)))
-                (set (my sto BAGS) (% (my sto BAGS) 10)))
+            (() (dec (team my sto SCORE) (* 100 (// (my sto BAGS) 10)))
+                (set (team my sto BAGS) (% (my sto BAGS) 10)))
          )
       )
    )
