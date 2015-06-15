@@ -13,7 +13,8 @@
              (create sto game (SPADESBROKEN))
 
              ;; Set up the players, 2 teams of 2 players, alternating
-             (initialize players 2 2 alternate)
+             (create players 4)
+             (create teams 2 alternate)
 
              ;; Player Locations and Storage
              (create loc player (HAND List)

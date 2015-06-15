@@ -10,12 +10,15 @@ multigameaction : gameaction+? ;
 gameaction : OPEN boolean multiaction CLOSE ;
 multiaction : action+? ;
 
-action : OPEN (init | loccreate | storagecreate | setaction | moveaction | copyaction | incaction | decaction | removeaction | turnaction | shuffleaction ) CLOSE ;
+action : OPEN (init | loccreate | storagecreate | playercreate | teamcreate | setaction | moveaction | copyaction | incaction | decaction | removeaction | turnaction | shuffleaction ) CLOSE ;
 
 loccreate : 'create' 'loc' obj locationdef+? ;
 locationdef : OPEN name ('Stack'|'List'|'Queue') ('Memory')? CLOSE ;
 
 storagecreate : 'create' 'sto' obj OPEN (namegr ',')*? namegr CLOSE ;
+
+playercreate : 'create' 'players' int ;
+teamcreate : 'create' 'teams' int 'alternate'? ;
 
 obj : ('player'|'game'|'team') ;
 
@@ -39,8 +42,6 @@ copyaction : 'copy' card card (int | 'all')? ;
 turnaction : 'turn' ('over' | 'pass') ;
 removeaction : 'remove' card ;
 shuffleaction : 'shuffle' locstorage ;
-createaction : createsto ;
-createsto : 'create' 'sto' (who | who2) namelist ;
 
 namelist : OPEN name+? CLOSE ;
 loclist : OPEN loc+? CLOSE ;
