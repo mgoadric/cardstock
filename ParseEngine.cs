@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using Antlr4.Runtime.Tree;
+using ParseTreeIterator;
 public class ParseEngine{
         StringBuilder builder = new StringBuilder();
 	public ParseEngine(){
@@ -13,9 +14,9 @@ public class ParseEngine{
                 var fileName = "SpadesTest";
                 var f = File.ReadAllText(fileName + ".gdl");
                 var file = f;
-                Console.WriteLine(file);
+                //Console.WriteLine(file);
                 file = regex.Replace(file,"\n");
-                Console.WriteLine(file);
+                //Console.WriteLine(file);
 		        AntlrInputStream stream = new AntlrInputStream(file);
                 ITokenSource lexer = new CardLanguageLexer(stream);
                 ITokenStream tokens = new CommonTokenStream(lexer);
@@ -25,7 +26,7 @@ public class ParseEngine{
                 var tree = parser.stage();
                 //Recurse(tree);
                 
-                Console.Write(tree.ToStringTree());
+                //Console.Write(tree.ToStringTree());
                 builder.Append("graph tree{");
                 DOTMaker(tree,"NODE0");
                 builder.Append("}");
@@ -35,6 +36,7 @@ public class ParseEngine{
                 fs.Close();
                 //Console.WriteLine(tree);
                 
+                StageIterator.ProcessStage(tree);
                 
 	}
         public void DOTMaker(IParseTree node, string nodeName){
