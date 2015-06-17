@@ -263,7 +263,7 @@ NODE0_4_2_0_2_8_1_1_2_1 -- NODE0_4_2_0_2_8_1_1_2_1_0
 NODE0_4_2_0_2_8_1_1_2 -- NODE0_4_2_0_2_8_1_1_2_1
 NODE0_4_2_0_2_8_1_1_2_2 [label="loc"]
 NODE0_4_2_0_2_8_1_1_2 -- NODE0_4_2_0_2_8_1_1_2_2
-NODE0_4_2_0_2_8_1_1_2_3 [fillcolor="green" style=filled label="DISCARD"]
+NODE0_4_2_0_2_8_1_1_2_3 [fillcolor="green" style=filled label="SOURCE"]
 NODE0_4_2_0_2_8_1_1_2 -- NODE0_4_2_0_2_8_1_1_2_3
 NODE0_4_2_0_2_8_1_1 -- NODE0_4_2_0_2_8_1_1_2
 NODE0_4_2_0_2_8_1 -- NODE0_4_2_0_2_8_1_1
@@ -277,7 +277,7 @@ NODE0_4_2_0_2_8_1_2_2_1 -- NODE0_4_2_0_2_8_1_2_2_1_0
 NODE0_4_2_0_2_8_1_2_2 -- NODE0_4_2_0_2_8_1_2_2_1
 NODE0_4_2_0_2_8_1_2_2_2 [label="loc"]
 NODE0_4_2_0_2_8_1_2_2 -- NODE0_4_2_0_2_8_1_2_2_2
-NODE0_4_2_0_2_8_1_2_2_3 [fillcolor="green" style=filled label="SOURCE"]
+NODE0_4_2_0_2_8_1_2_2_3 [fillcolor="green" style=filled label="DISCARD"]
 NODE0_4_2_0_2_8_1_2_2 -- NODE0_4_2_0_2_8_1_2_2_3
 NODE0_4_2_0_2_8_1_2 -- NODE0_4_2_0_2_8_1_2_2
 NODE0_4_2_0_2_8_1 -- NODE0_4_2_0_2_8_1_2

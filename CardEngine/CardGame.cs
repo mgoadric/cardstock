@@ -3,7 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 namespace CardEngine
 {
+	
 	public class CardGame{
+		private static CardGame instance;
+		public static CardGame Instance
+   		{
+	  		get 
+	  		{
+		         if (instance == null)
+		         {
+		            instance = new CardGame();
+		         }
+		         return instance;
+		     }
+		}
 		public Random rand = new Random();
 		public List<Card> sourceDeck = new List<Card>();
 		public CardStorage tableCards = new CardStorage();
@@ -11,6 +24,9 @@ namespace CardEngine
 		public List<Team> teams = new List<Team>();
 		public Stack<PlayerCycle> currentPlayer = new Stack<PlayerCycle>();
 		public RawStorage gameStorage = new RawStorage();
+		public CardGame(){
+			
+		}
 		public CardGame(int numPlayers){
 			
 			for (int i = 0; i < numPlayers; ++i){
