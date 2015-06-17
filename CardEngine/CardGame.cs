@@ -35,6 +35,12 @@ namespace CardEngine
 			currentPlayer.Push(new PlayerCycle(players));
 			//var first = new Card();
 		}
+		public void AddPlayers(int numPlayers){
+			for (int i = 0; i < numPlayers; ++i){
+				players.Add(new Player());
+			}
+			currentPlayer.Push(new PlayerCycle(players));
+		}
 		public void PushPlayer(){
 			currentPlayer.Push(new PlayerCycle(currentPlayer.Peek()));
 		}
@@ -56,6 +62,11 @@ namespace CardEngine
 			var location = tableCards[cardLocation];
 			foreach (var card in sourceDeck){
 				location.Add(card);
+			}
+		}
+		public void PopulateLocation(CardCollection cardLocation){
+			foreach (var card in sourceDeck){
+				cardLocation.Add(card);
 			}
 		}
 		public void DealEvery(int numCards,string cardLocation,string destination){

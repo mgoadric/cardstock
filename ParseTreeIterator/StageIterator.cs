@@ -44,8 +44,8 @@ namespace ParseTreeIterator
 			}
 		}
 		public static void ProcessAction(CardLanguageParser.ActionContext action){
-			Console.WriteLine("Execute:");
-			Console.WriteLine(action.GetText());
+			//Console.WriteLine("Execute:");
+			//Console.WriteLine(action.GetText());
 			ActionIterator.ProcessAction(action);
 		}
 	}
