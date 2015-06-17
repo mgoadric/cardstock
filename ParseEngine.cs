@@ -47,17 +47,27 @@ public class ParseEngine{
                         var newNodeName = nodeName + "_" + i;
                         var contextName = node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","");
                         if (node.GetChild(i).ChildCount > 0 && contextName != "Namegr" && contextName != "Name" && contextName != "Trueany"){
+                                var extra = "";
                                 if (contextName == "Stage") {
-                                    builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","") + "\" style=filled fillcolor=\"red\"]");
-                                } else {
-                                    builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","") + "\"]");
+                                    extra = " style=filled fillcolor=\"red\"";
+                                } else if (contextName == "Computermoves") {
+                                    extra = " style=filled shape=box fillcolor=\"yellow\"";
+                                } else if (contextName == "Playermoves") {
+                                    extra = " style=filled shape=diamond fillcolor=\"orange\"";
                                 }
+                                builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","") + "\" " + extra + "]");
                                 DOTMaker(node.GetChild(i),newNodeName);                             
                         }
                         else if (node.GetChild(i).ChildCount > 0){
                                 builder.AppendLine(newNodeName + " [fillcolor=\"green\" style=filled label=\"" + node.GetChild(i).GetText() + "\"]");
                         }
-                        else if (node.GetChild(i).GetText() == "(" || node.GetChild(i).GetText() == ")" || node.GetChild(i).GetText() == "," ){
+                        else if (node.GetChild(i).GetText() == "(" || node.GetChild(i).GetText() == ")" || node.GetChild(i).GetText() == "," ||
+                                node.GetChild(i).GetText() == "end" || node.GetChild(i).GetText() == "stage" || node.GetChild(i).GetText() == "comp" || 
+                                node.GetChild(i).GetText() == "create" || node.GetChild(i).GetText() == "sto" || node.GetChild(i).GetText() == "loc" || 
+                                node.GetChild(i).GetText() == "initialize" || node.GetChild(i).GetText() == "move" || node.GetChild(i).GetText() == "copy" || 
+                                node.GetChild(i).GetText() == "inc" || node.GetChild(i).GetText() == "dec" || node.GetChild(i).GetText() == "shuffle" || 
+                                node.GetChild(i).GetText() == "remove" || 
+                               node.GetChild(i).GetText() == "choice"){
                                 dontCreate = true;
                         }
                         else{
