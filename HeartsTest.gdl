@@ -1,4 +1,4 @@
-;; SPADES in the GDL
+;; HEARTS in the GDL
 (stage game
 
    (end game 1)

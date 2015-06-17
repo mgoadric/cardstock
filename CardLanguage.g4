@@ -71,6 +71,7 @@ COMPOP : '<' | '>' | '>=' | '<=' ;
 EQOP : '!=' | '==' ;
 UNOP : 'not' ;
 
+add : OPEN '+' int int CLOSE ;
 mult : OPEN '*' int int CLOSE ;
 subtract : OPEN '-' int int CLOSE ;
 mod : OPEN '%' int int CLOSE ;

@@ -46,7 +46,20 @@ public class ParseEngine{
                         var dontCreate = false;
                         var newNodeName = nodeName + "_" + i;
                         var contextName = node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","");
-                        if (node.GetChild(i).ChildCount > 0 && contextName != "Namegr" && contextName != "Name" && contextName != "Trueany"){
+                        if (node.GetChild(i).ChildCount > 0 && contextName == "Int") {
+                                var text = node.GetChild(i).GetText();
+                                int myi = 0;
+                                while (myi < text.Length && Char.IsDigit(text[myi])) {
+                                    myi++;
+                                } 
+                                if (myi != text.Length) {
+                                    builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","") + "\" ]");
+                                    DOTMaker(node.GetChild(i),newNodeName);                             
+                                } else {
+                                    builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetText() + "\" style=filled fillcolor=\"lightblue\"]");  
+                                }                         
+                        }
+                        else if (node.GetChild(i).ChildCount > 0 && contextName != "Namegr" && contextName != "Name" && contextName != "Trueany"){
                                 var extra = "";
                                 if (contextName == "Stage") {
                                     extra = " style=filled fillcolor=\"red\"";
