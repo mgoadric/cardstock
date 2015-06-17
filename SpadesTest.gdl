@@ -10,7 +10,7 @@
                               (DISCARD Stack)
                               (TRUMP Stack Memory)
                               (LEAD Stack Memory))
-             (create sto game (SPADESBROKEN))
+             (create sto game (BROKEN))
 
              ;; Set up the players, 2 teams of 2 players, alternating
              (create players 4)
@@ -41,7 +41,7 @@
                 (shuffle (game loc STOCK))
                 (move (top (game loc STOCK))
                       (top ((all player) loc HAND)) 13)
-                (set (game sto SPADESBROKEN) 0)
+                (set (game sto BROKEN) 0)
                 (set ((all player) sto TRICKSWON) 0)
              )
       ) 
@@ -69,7 +69,7 @@
                ;; if first player and spades not broken and have non-spades cards
                ;;   play one of these, remember it in the lead spot, and end your turn
                ((and (== (size (game loc LEAD)) 0)
-                     (== (game sto SPADESBROKEN) 0)
+                     (== (game sto BROKEN) 0)
                      (== (size ((current player) loc HAND where (!= (cardatt suit this) 
                                                                     (cardatt suit (top (game loc TRUMP)))))) 0)) 
                 (move (any ((current player) loc HAND where (!= (cardatt suit this) 
@@ -81,7 +81,7 @@
                ;; if first player and spades broken
                ;;   play any card, remember it in the lead spot, and end your turn
                ((and (== (size (game loc LEAD)) 0)
-                     (== (game sto SPADESBROKEN) 1)) 
+                     (== (game sto BROKEN) 1)) 
                 (move (any ((current player) loc HAND)) 
                       (top ((current player) loc TRICK)))
                 (copy (top ((current player) loc TRICK)) 
@@ -139,8 +139,8 @@
              ;; if winner played trump and trump not broken, trump is now broken
              ((and (== (cardatt suit (top ((next player) loc TRICK))) 
                        (cardatt suit (top (game loc TRUMP))))
-                   (== (game sto SPADESBROKEN) 0))
-              (set (game sto SPADESBROKEN) 1))
+                   (== (game sto BROKEN) 0))
+              (set (game sto BROKEN) 1))
                   
              ;; discard all the played cards
              (() (move (top ((all player) loc TRICK)) 

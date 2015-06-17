@@ -48,6 +48,8 @@ loclist : OPEN loc+? CLOSE ;
 loc : OPEN name ('List' | 'Stack' | 'Queue') imag? CLOSE ;
 imag : 'Memory' ;
 
+// Issue with 'any' showing up in comp actions. Needs to be refactored
+
 card : maxof | (OPEN ('top' | 'bottom' | int | 'any') locstorage CLOSE);
 owner : OPEN 'owner' card CLOSE;
 rawstorage : OPEN (who | who2) 'sto' namegr CLOSE ;
