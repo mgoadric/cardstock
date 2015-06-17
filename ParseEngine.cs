@@ -28,6 +28,7 @@ public class ParseEngine{
                 
                 //Console.Write(tree.ToStringTree());
                 builder.Append("graph tree{");
+                builder.AppendLine("NODE0 [label=\"Stage\" style=filled fillcolor=\"red\"]");
                 DOTMaker(tree,"NODE0");
                 builder.Append("}");
                 var fs = File.Create(fileName + ".gv");
@@ -46,18 +47,22 @@ public class ParseEngine{
                         var newNodeName = nodeName + "_" + i;
                         var contextName = node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","");
                         if (node.GetChild(i).ChildCount > 0 && contextName != "Namegr" && contextName != "Name" && contextName != "Trueany"){
-                                builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","") + "\"]");
-                                DOTMaker(node.GetChild(i),newNodeName);
+                                if (contextName == "Stage") {
+                                    builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","") + "\" style=filled fillcolor=\"red\"]");
+                                } else {
+                                    builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","") + "\"]");
+                                }
+                                DOTMaker(node.GetChild(i),newNodeName);                             
                         }
                         else if (node.GetChild(i).ChildCount > 0){
-                                builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetText() + "\"]");
+                                builder.AppendLine(newNodeName + " [fillcolor=\"green\" style=filled label=\"" + node.GetChild(i).GetText() + "\"]");
                         }
-                        else if (node.GetChild(i).GetText() == "(" || node.GetChild(i).GetText() == ")"){
+                        else if (node.GetChild(i).GetText() == "(" || node.GetChild(i).GetText() == ")" || node.GetChild(i).GetText() == "," ){
                                 dontCreate = true;
                         }
                         else{
                                 builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetText() + "\"]");
-                                DOTMaker(node.GetChild(i),newNodeName);
+                                //DOTMaker(node.GetChild(i),newNodeName);
                         }
                         if (!dontCreate){
                                 builder.AppendLine(nodeName + " -- " + newNodeName);

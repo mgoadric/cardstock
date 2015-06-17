@@ -79,8 +79,7 @@
                                                                 (cardatt suit (top (game loc TRUMP)))))) 
                       (top ((current player) loc TRICK)))
                 (copy (top ((current player) loc TRICK)) 
-                      (top (game loc LEAD)))
-                (turn over))
+                      (top (game loc LEAD))))
 
                ;; if first player and spades broken
                ;;   play any card, remember it in the lead spot, and end your turn
@@ -89,8 +88,7 @@
                 (move (any ((current player) loc HAND)) 
                       (top ((current player) loc TRICK)))
                 (copy (top ((current player) loc TRICK)) 
-                      (top (game loc LEAD)))
-                (turn over))
+                      (top (game loc LEAD))))
 
                ;; if following player and cannot follow suit
                ;;   play any card, and end your turn
@@ -98,8 +96,7 @@
                      (== (size ((current player) loc HAND where (== (cardatt suit this) 
                                                                     (cardatt suit (top (game loc LEAD)))))) 0))
                 (move (any ((current player) loc HAND)) 
-                      (top ((current player) loc TRICK)))
-                (turn over))
+                      (top ((current player) loc TRICK))))
 
                ;; if following player and can follow suit
                ;;   play any card that follows suit, and end your turn
@@ -108,8 +105,7 @@
                                                                     (cardatt suit (top (game loc LEAD)))))) 0))
                 (move (any ((current player) loc HAND where (== (cardatt suit this) 
                                                                 (cardatt suit (top (game loc LEAD)))))) 
-                      (top ((current player) loc TRICK)))
-                (turn over))
+                      (top ((current player) loc TRICK))))
             )
          )
               
