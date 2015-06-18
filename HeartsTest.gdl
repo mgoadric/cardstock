@@ -1,58 +1,68 @@
-;; SPADES in the GDL
+;; HEARTS in the GDL
 (stage game
 
    (end game 1)
    (comp (() 
 
              ;; Game Locations and Storage
-             (create loc game (SOURCE List)
-                              (STOCK Stack)
+             (create loc game (STOCK Stack)
                               (DISCARD Stack)
                               (TRUMP Stack Memory)
                               (LEAD Stack Memory))
              (create sto game (BROKEN))
 
-             ;; Set up the players, 2 teams of 2 players, alternating
+             ;; Set up the players
              (create players 4)
-             (create teams 2 alternate)
 
              ;; Player Locations and Storage
              (create loc player (HAND List)
-                                (TRICK Stack))
-             (create sto player (BID, TRICKSWON))
-
-             ;; Team Locations and Storage
-             (create sto team (SCORE, BAGS))
+                                (TRICK Stack)
+                                (TRICKSWON Stack)
+                                (PASSED Stack))
+             (create sto player (SCORE))
              
              ;; Create the deck source
              (initialize (game loc DISCARD) (permdeck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
                                                      (color (red (suit (hearts, diamonds)))
-                                                            (black (suit (clubs, spades))))))
+                                                            (black (suit (clubs, spades))))))             
          )
    )
                
    ;; Stages of the game
    (stage player
-      (end (>= ((any team) sto SCORE) 500))
+      (end (>= ((any player) sto SCORE) 100))
       (comp (() (move (top (game loc DISCARD)) 
                       (top (game loc STOCK)) all)
-                (copy (top (game loc STOCK where (== (cardatt suit this) spades)))
+                (copy (top (game loc STOCK where (== (cardatt suit this) hearts)))
                       (top (game loc TRUMP)))
+                (initialize points SCORE (
+                               (all (suit (cardatt suit (top (game loc TRUMP)))) 1)
+                               (all (rank (Q)) (suit (spades)) 13)
+                                 )
+                               )             
                 (shuffle (game loc STOCK))
                 (move (top (game loc STOCK))
                       (top ((all player) loc HAND)) 13)
                 (set (game sto BROKEN) 0)
-                (set ((all player) sto TRICKSWON) 0)
              )
       ) 
-      ;; bidding for number of tricks expected
+      
+      ;; pass cards to your neighbor
+      ;; TODO
       (stage player
          (end player 1)
-         (choice
-            (() (set ((current player) sto BID) 1))
-            (() (set ((current player) sto BID) 2))
-            (() (set ((current player) sto BID) 3))
-            (() (set ((current player) sto BID) 4))
+            (choice
+               (() (move (any ((current player) loc HAND) (top (next player) loc PASSED)) 
+                   (move (any ((current player) loc HAND) (top (next player) loc PASSED))
+            )
+            
+         )
+      )
+     (stage player
+         (end player 1)
+            (choice
+               (() (move (top ((current player) loc PASSED) (top (current player) loc HAND) all) 
+               )
          )
       )
          
@@ -66,7 +76,7 @@
              
             (choice
              
-               ;; if first player and spades not broken and have non-spades cards
+               ;; if first player and hearts not broken and have non-hearts cards
                ;;   play one of these, remember it in the lead spot, and end your turn
                ((and (== (size (game loc LEAD)) 0)
                      (== (game sto BROKEN) 0)
@@ -78,7 +88,7 @@
                 (copy (top ((current player) loc TRICK)) 
                       (top (game loc LEAD))))
 
-               ;; if first player and spades broken
+               ;; if first player and hearts broken
                ;;   play any card, remember it in the lead spot, and end your turn
                ((and (== (size (game loc LEAD)) 0)
                      (== (game sto BROKEN) 1)) 
@@ -111,7 +121,6 @@
              (() 
                  ;; solidfy card recedence
                  (initialize points PRECEDENCE (
-                               (all (suit (cardatt suit (top (game loc TRUMP)))) 200)
                                (all (suit (cardatt suit (top (game loc LEAD)))) 100)
                                (all (rank (A)) 14)
                                (all (rank (K)) 13) 
@@ -132,7 +141,6 @@
                  ;; determine who won the hand, set them first next time, and give them a point
                  (remove (top (game loc LEAD)))
                  (set next (owner (max (union ((all player) loc TRICK)) using PRECEDENCE)))
-                 (inc ((next player) sto TRICKSWON) 1)
 
              )
                   
@@ -144,14 +152,14 @@
                   
              ;; discard all the played cards
              (() (move (top ((all player) loc TRICK)) 
-                       (top (game loc DISCARD))))
+                       (top ((next player) loc TRICKSWON))))
              
          )
       )
          
       ;; determine team score
-      (stage team
-         (end team 1)
+      (stage player
+         (end player 1)
          (comp
           
             ;; team made their cumulative bid, score positive points
@@ -168,7 +176,10 @@
             
             ;; record bags if over 10
             (() (dec ((current team) sto SCORE) (* 100 (// ((current team) sto BAGS) 10)))
-                (set ((current team) sto BAGS) (% ((current team) sto BAGS) 10)))
+                (set ((current team) sto BAGS) (% ((current team) sto BAGS) 10))
+                
+            (() (move (top ((current player) loc TRICKSWON)
+                      (top (game loc DISCARD)))))
          )
       )
    )

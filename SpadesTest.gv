@@ -1,55 +1,43 @@
 graph tree{NODE0 [label="Stage" style=filled fillcolor="red"]
-NODE0_1 [label="stage"]
-NODE0 -- NODE0_1
 NODE0_2 [label="game"]
 NODE0 -- NODE0_2
-NODE0_3 [label="Endcondition"]
-NODE0_3_1 [label="end"]
-NODE0_3 -- NODE0_3_1
+NODE0_3 [label="Endcondition" ]
 NODE0_3_2 [label="game"]
 NODE0_3 -- NODE0_3_2
-NODE0_3_3 [label="Int"]
-NODE0_3_3_0 [label="1"]
-NODE0_3_3 -- NODE0_3_3_0
+NODE0_3_3 [label="1" style=filled fillcolor="lightblue"]
 NODE0_3 -- NODE0_3_3
 NODE0 -- NODE0_3
-NODE0_4 [label="Computermoves"]
-NODE0_4_1 [label="comp"]
-NODE0_4 -- NODE0_4_1
-NODE0_4_2 [label="Multigameaction"]
-NODE0_4_2_0 [label="Gameaction"]
-NODE0_4_2_0_1 [label="Boolean"]
+NODE0_4 [label="Computermoves"  style=filled shape=box fillcolor="yellow"]
+NODE0_4_2 [label="Multigameaction" ]
+NODE0_4_2_0 [label="Gameaction" ]
+NODE0_4_2_0_1 [label="Boolean" ]
 NODE0_4_2_0 -- NODE0_4_2_0_1
-NODE0_4_2_0_2 [label="Multiaction"]
-NODE0_4_2_0_2_0 [label="Action"]
-NODE0_4_2_0_2_0_1 [label="Loccreate"]
-NODE0_4_2_0_2_0_1_0 [label="create"]
-NODE0_4_2_0_2_0_1 -- NODE0_4_2_0_2_0_1_0
-NODE0_4_2_0_2_0_1_1 [label="loc"]
-NODE0_4_2_0_2_0_1 -- NODE0_4_2_0_2_0_1_1
-NODE0_4_2_0_2_0_1_2 [label="Obj"]
+NODE0_4_2_0_2 [label="Multiaction" ]
+NODE0_4_2_0_2_0 [label="Action" ]
+NODE0_4_2_0_2_0_1 [label="Loccreate" ]
+NODE0_4_2_0_2_0_1_2 [label="Obj" ]
 NODE0_4_2_0_2_0_1_2_0 [label="game"]
 NODE0_4_2_0_2_0_1_2 -- NODE0_4_2_0_2_0_1_2_0
 NODE0_4_2_0_2_0_1 -- NODE0_4_2_0_2_0_1_2
-NODE0_4_2_0_2_0_1_3 [label="Locationdef"]
+NODE0_4_2_0_2_0_1_3 [label="Locationdef" ]
 NODE0_4_2_0_2_0_1_3_1 [fillcolor="green" style=filled label="SOURCE"]
 NODE0_4_2_0_2_0_1_3 -- NODE0_4_2_0_2_0_1_3_1
 NODE0_4_2_0_2_0_1_3_2 [label="List"]
 NODE0_4_2_0_2_0_1_3 -- NODE0_4_2_0_2_0_1_3_2
 NODE0_4_2_0_2_0_1 -- NODE0_4_2_0_2_0_1_3
-NODE0_4_2_0_2_0_1_4 [label="Locationdef"]
+NODE0_4_2_0_2_0_1_4 [label="Locationdef" ]
 NODE0_4_2_0_2_0_1_4_1 [fillcolor="green" style=filled label="STOCK"]
 NODE0_4_2_0_2_0_1_4 -- NODE0_4_2_0_2_0_1_4_1
 NODE0_4_2_0_2_0_1_4_2 [label="Stack"]
 NODE0_4_2_0_2_0_1_4 -- NODE0_4_2_0_2_0_1_4_2
 NODE0_4_2_0_2_0_1 -- NODE0_4_2_0_2_0_1_4
-NODE0_4_2_0_2_0_1_5 [label="Locationdef"]
+NODE0_4_2_0_2_0_1_5 [label="Locationdef" ]
 NODE0_4_2_0_2_0_1_5_1 [fillcolor="green" style=filled label="DISCARD"]
 NODE0_4_2_0_2_0_1_5 -- NODE0_4_2_0_2_0_1_5_1
 NODE0_4_2_0_2_0_1_5_2 [label="Stack"]
 NODE0_4_2_0_2_0_1_5 -- NODE0_4_2_0_2_0_1_5_2
 NODE0_4_2_0_2_0_1 -- NODE0_4_2_0_2_0_1_5
-NODE0_4_2_0_2_0_1_6 [label="Locationdef"]
+NODE0_4_2_0_2_0_1_6 [label="Locationdef" ]
 NODE0_4_2_0_2_0_1_6_1 [fillcolor="green" style=filled label="TRUMP"]
 NODE0_4_2_0_2_0_1_6 -- NODE0_4_2_0_2_0_1_6_1
 NODE0_4_2_0_2_0_1_6_2 [label="Stack"]
@@ -57,7 +45,7 @@ NODE0_4_2_0_2_0_1_6 -- NODE0_4_2_0_2_0_1_6_2
 NODE0_4_2_0_2_0_1_6_3 [label="Memory"]
 NODE0_4_2_0_2_0_1_6 -- NODE0_4_2_0_2_0_1_6_3
 NODE0_4_2_0_2_0_1 -- NODE0_4_2_0_2_0_1_6
-NODE0_4_2_0_2_0_1_7 [label="Locationdef"]
+NODE0_4_2_0_2_0_1_7 [label="Locationdef" ]
 NODE0_4_2_0_2_0_1_7_1 [fillcolor="green" style=filled label="LEAD"]
 NODE0_4_2_0_2_0_1_7 -- NODE0_4_2_0_2_0_1_7_1
 NODE0_4_2_0_2_0_1_7_2 [label="Stack"]
@@ -67,13 +55,9 @@ NODE0_4_2_0_2_0_1_7 -- NODE0_4_2_0_2_0_1_7_3
 NODE0_4_2_0_2_0_1 -- NODE0_4_2_0_2_0_1_7
 NODE0_4_2_0_2_0 -- NODE0_4_2_0_2_0_1
 NODE0_4_2_0_2 -- NODE0_4_2_0_2_0
-NODE0_4_2_0_2_1 [label="Action"]
-NODE0_4_2_0_2_1_1 [label="Storagecreate"]
-NODE0_4_2_0_2_1_1_0 [label="create"]
-NODE0_4_2_0_2_1_1 -- NODE0_4_2_0_2_1_1_0
-NODE0_4_2_0_2_1_1_1 [label="sto"]
-NODE0_4_2_0_2_1_1 -- NODE0_4_2_0_2_1_1_1
-NODE0_4_2_0_2_1_1_2 [label="Obj"]
+NODE0_4_2_0_2_1 [label="Action" ]
+NODE0_4_2_0_2_1_1 [label="Storagecreate" ]
+NODE0_4_2_0_2_1_1_2 [label="Obj" ]
 NODE0_4_2_0_2_1_1_2_0 [label="game"]
 NODE0_4_2_0_2_1_1_2 -- NODE0_4_2_0_2_1_1_2_0
 NODE0_4_2_0_2_1_1 -- NODE0_4_2_0_2_1_1_2
@@ -81,49 +65,37 @@ NODE0_4_2_0_2_1_1_4 [fillcolor="green" style=filled label="SPADESBROKEN"]
 NODE0_4_2_0_2_1_1 -- NODE0_4_2_0_2_1_1_4
 NODE0_4_2_0_2_1 -- NODE0_4_2_0_2_1_1
 NODE0_4_2_0_2 -- NODE0_4_2_0_2_1
-NODE0_4_2_0_2_2 [label="Action"]
-NODE0_4_2_0_2_2_1 [label="Playercreate"]
-NODE0_4_2_0_2_2_1_0 [label="create"]
-NODE0_4_2_0_2_2_1 -- NODE0_4_2_0_2_2_1_0
+NODE0_4_2_0_2_2 [label="Action" ]
+NODE0_4_2_0_2_2_1 [label="Playercreate" ]
 NODE0_4_2_0_2_2_1_1 [label="players"]
 NODE0_4_2_0_2_2_1 -- NODE0_4_2_0_2_2_1_1
-NODE0_4_2_0_2_2_1_2 [label="Int"]
-NODE0_4_2_0_2_2_1_2_0 [label="4"]
-NODE0_4_2_0_2_2_1_2 -- NODE0_4_2_0_2_2_1_2_0
+NODE0_4_2_0_2_2_1_2 [label="4" style=filled fillcolor="lightblue"]
 NODE0_4_2_0_2_2_1 -- NODE0_4_2_0_2_2_1_2
 NODE0_4_2_0_2_2 -- NODE0_4_2_0_2_2_1
 NODE0_4_2_0_2 -- NODE0_4_2_0_2_2
-NODE0_4_2_0_2_3 [label="Action"]
-NODE0_4_2_0_2_3_1 [label="Teamcreate"]
-NODE0_4_2_0_2_3_1_0 [label="create"]
-NODE0_4_2_0_2_3_1 -- NODE0_4_2_0_2_3_1_0
+NODE0_4_2_0_2_3 [label="Action" ]
+NODE0_4_2_0_2_3_1 [label="Teamcreate" ]
 NODE0_4_2_0_2_3_1_1 [label="teams"]
 NODE0_4_2_0_2_3_1 -- NODE0_4_2_0_2_3_1_1
-NODE0_4_2_0_2_3_1_2 [label="Int"]
-NODE0_4_2_0_2_3_1_2_0 [label="2"]
-NODE0_4_2_0_2_3_1_2 -- NODE0_4_2_0_2_3_1_2_0
+NODE0_4_2_0_2_3_1_2 [label="2" style=filled fillcolor="lightblue"]
 NODE0_4_2_0_2_3_1 -- NODE0_4_2_0_2_3_1_2
 NODE0_4_2_0_2_3_1_3 [label="alternate"]
 NODE0_4_2_0_2_3_1 -- NODE0_4_2_0_2_3_1_3
 NODE0_4_2_0_2_3 -- NODE0_4_2_0_2_3_1
 NODE0_4_2_0_2 -- NODE0_4_2_0_2_3
-NODE0_4_2_0_2_4 [label="Action"]
-NODE0_4_2_0_2_4_1 [label="Loccreate"]
-NODE0_4_2_0_2_4_1_0 [label="create"]
-NODE0_4_2_0_2_4_1 -- NODE0_4_2_0_2_4_1_0
-NODE0_4_2_0_2_4_1_1 [label="loc"]
-NODE0_4_2_0_2_4_1 -- NODE0_4_2_0_2_4_1_1
-NODE0_4_2_0_2_4_1_2 [label="Obj"]
+NODE0_4_2_0_2_4 [label="Action" ]
+NODE0_4_2_0_2_4_1 [label="Loccreate" ]
+NODE0_4_2_0_2_4_1_2 [label="Obj" ]
 NODE0_4_2_0_2_4_1_2_0 [label="player"]
 NODE0_4_2_0_2_4_1_2 -- NODE0_4_2_0_2_4_1_2_0
 NODE0_4_2_0_2_4_1 -- NODE0_4_2_0_2_4_1_2
-NODE0_4_2_0_2_4_1_3 [label="Locationdef"]
+NODE0_4_2_0_2_4_1_3 [label="Locationdef" ]
 NODE0_4_2_0_2_4_1_3_1 [fillcolor="green" style=filled label="HAND"]
 NODE0_4_2_0_2_4_1_3 -- NODE0_4_2_0_2_4_1_3_1
 NODE0_4_2_0_2_4_1_3_2 [label="List"]
 NODE0_4_2_0_2_4_1_3 -- NODE0_4_2_0_2_4_1_3_2
 NODE0_4_2_0_2_4_1 -- NODE0_4_2_0_2_4_1_3
-NODE0_4_2_0_2_4_1_4 [label="Locationdef"]
+NODE0_4_2_0_2_4_1_4 [label="Locationdef" ]
 NODE0_4_2_0_2_4_1_4_1 [fillcolor="green" style=filled label="TRICK"]
 NODE0_4_2_0_2_4_1_4 -- NODE0_4_2_0_2_4_1_4_1
 NODE0_4_2_0_2_4_1_4_2 [label="Stack"]
@@ -131,13 +103,9 @@ NODE0_4_2_0_2_4_1_4 -- NODE0_4_2_0_2_4_1_4_2
 NODE0_4_2_0_2_4_1 -- NODE0_4_2_0_2_4_1_4
 NODE0_4_2_0_2_4 -- NODE0_4_2_0_2_4_1
 NODE0_4_2_0_2 -- NODE0_4_2_0_2_4
-NODE0_4_2_0_2_5 [label="Action"]
-NODE0_4_2_0_2_5_1 [label="Storagecreate"]
-NODE0_4_2_0_2_5_1_0 [label="create"]
-NODE0_4_2_0_2_5_1 -- NODE0_4_2_0_2_5_1_0
-NODE0_4_2_0_2_5_1_1 [label="sto"]
-NODE0_4_2_0_2_5_1 -- NODE0_4_2_0_2_5_1_1
-NODE0_4_2_0_2_5_1_2 [label="Obj"]
+NODE0_4_2_0_2_5 [label="Action" ]
+NODE0_4_2_0_2_5_1 [label="Storagecreate" ]
+NODE0_4_2_0_2_5_1_2 [label="Obj" ]
 NODE0_4_2_0_2_5_1_2_0 [label="player"]
 NODE0_4_2_0_2_5_1_2 -- NODE0_4_2_0_2_5_1_2_0
 NODE0_4_2_0_2_5_1 -- NODE0_4_2_0_2_5_1_2
@@ -147,13 +115,9 @@ NODE0_4_2_0_2_5_1_6 [fillcolor="green" style=filled label="TRICKSWON"]
 NODE0_4_2_0_2_5_1 -- NODE0_4_2_0_2_5_1_6
 NODE0_4_2_0_2_5 -- NODE0_4_2_0_2_5_1
 NODE0_4_2_0_2 -- NODE0_4_2_0_2_5
-NODE0_4_2_0_2_6 [label="Action"]
-NODE0_4_2_0_2_6_1 [label="Storagecreate"]
-NODE0_4_2_0_2_6_1_0 [label="create"]
-NODE0_4_2_0_2_6_1 -- NODE0_4_2_0_2_6_1_0
-NODE0_4_2_0_2_6_1_1 [label="sto"]
-NODE0_4_2_0_2_6_1 -- NODE0_4_2_0_2_6_1_1
-NODE0_4_2_0_2_6_1_2 [label="Obj"]
+NODE0_4_2_0_2_6 [label="Action" ]
+NODE0_4_2_0_2_6_1 [label="Storagecreate" ]
+NODE0_4_2_0_2_6_1_2 [label="Obj" ]
 NODE0_4_2_0_2_6_1_2_0 [label="team"]
 NODE0_4_2_0_2_6_1_2 -- NODE0_4_2_0_2_6_1_2_0
 NODE0_4_2_0_2_6_1 -- NODE0_4_2_0_2_6_1_2
@@ -163,28 +127,28 @@ NODE0_4_2_0_2_6_1_6 [fillcolor="green" style=filled label="BAGS"]
 NODE0_4_2_0_2_6_1 -- NODE0_4_2_0_2_6_1_6
 NODE0_4_2_0_2_6 -- NODE0_4_2_0_2_6_1
 NODE0_4_2_0_2 -- NODE0_4_2_0_2_6
-NODE0_4_2_0_2_7 [label="Action"]
-NODE0_4_2_0_2_7_1 [label="Init"]
-NODE0_4_2_0_2_7_1_0 [label="initialize"]
-NODE0_4_2_0_2_7_1 -- NODE0_4_2_0_2_7_1_0
-NODE0_4_2_0_2_7_1_1 [label="Deckinit"]
-NODE0_4_2_0_2_7_1_1_0 [label="Locstorage"]
-NODE0_4_2_0_2_7_1_1_0_1 [label="Who"]
+NODE0_4_2_0_2_7 [label="Action" ]
+NODE0_4_2_0_2_7_1 [label="Init" ]
+NODE0_4_2_0_2_7_1_1 [label="Deckinit" ]
+NODE0_4_2_0_2_7_1_1_0 [label="Locstorage" ]
+NODE0_4_2_0_2_7_1_1_0_1 [label="Who" ]
 NODE0_4_2_0_2_7_1_1_0_1_0 [label="game"]
 NODE0_4_2_0_2_7_1_1_0_1 -- NODE0_4_2_0_2_7_1_1_0_1_0
 NODE0_4_2_0_2_7_1_1_0 -- NODE0_4_2_0_2_7_1_1_0_1
+
 NODE0_4_2_0_2_7_1_1_0_2 [label="loc"]
 NODE0_4_2_0_2_7_1_1_0 -- NODE0_4_2_0_2_7_1_1_0_2
+
 NODE0_4_2_0_2_7_1_1_0_3 [fillcolor="green" style=filled label="DISCARD"]
 NODE0_4_2_0_2_7_1_1_0 -- NODE0_4_2_0_2_7_1_1_0_3
 NODE0_4_2_0_2_7_1_1 -- NODE0_4_2_0_2_7_1_1_0
-NODE0_4_2_0_2_7_1_1_1 [label="Deck"]
+NODE0_4_2_0_2_7_1_1_1 [label="Deck" ]
 NODE0_4_2_0_2_7_1_1_1_1 [label="permdeck"]
 NODE0_4_2_0_2_7_1_1_1 -- NODE0_4_2_0_2_7_1_1_1_1
-NODE0_4_2_0_2_7_1_1_1_2 [label="Attribute"]
+NODE0_4_2_0_2_7_1_1_1_2 [label="Attribute" ]
 NODE0_4_2_0_2_7_1_1_1_2_1 [fillcolor="green" style=filled label="rank"]
 NODE0_4_2_0_2_7_1_1_1_2 -- NODE0_4_2_0_2_7_1_1_1_2_1
-NODE0_4_2_0_2_7_1_1_1_2_2 [label="Attribute"]
+NODE0_4_2_0_2_7_1_1_1_2_2 [label="Attribute" ]
 NODE0_4_2_0_2_7_1_1_1_2_2_1 [fillcolor="green" style=filled label="A"]
 NODE0_4_2_0_2_7_1_1_1_2_2 -- NODE0_4_2_0_2_7_1_1_1_2_2_1
 NODE0_4_2_0_2_7_1_1_1_2_2_3 [fillcolor="green" style=filled label="2"]
@@ -213,16 +177,16 @@ NODE0_4_2_0_2_7_1_1_1_2_2_25 [fillcolor="green" style=filled label="K"]
 NODE0_4_2_0_2_7_1_1_1_2_2 -- NODE0_4_2_0_2_7_1_1_1_2_2_25
 NODE0_4_2_0_2_7_1_1_1_2 -- NODE0_4_2_0_2_7_1_1_1_2_2
 NODE0_4_2_0_2_7_1_1_1 -- NODE0_4_2_0_2_7_1_1_1_2
-NODE0_4_2_0_2_7_1_1_1_3 [label="Attribute"]
+NODE0_4_2_0_2_7_1_1_1_3 [label="Attribute" ]
 NODE0_4_2_0_2_7_1_1_1_3_1 [fillcolor="green" style=filled label="color"]
 NODE0_4_2_0_2_7_1_1_1_3 -- NODE0_4_2_0_2_7_1_1_1_3_1
-NODE0_4_2_0_2_7_1_1_1_3_2 [label="Attribute"]
+NODE0_4_2_0_2_7_1_1_1_3_2 [label="Attribute" ]
 NODE0_4_2_0_2_7_1_1_1_3_2_1 [fillcolor="green" style=filled label="red"]
 NODE0_4_2_0_2_7_1_1_1_3_2 -- NODE0_4_2_0_2_7_1_1_1_3_2_1
-NODE0_4_2_0_2_7_1_1_1_3_2_2 [label="Attribute"]
+NODE0_4_2_0_2_7_1_1_1_3_2_2 [label="Attribute" ]
 NODE0_4_2_0_2_7_1_1_1_3_2_2_1 [fillcolor="green" style=filled label="suit"]
 NODE0_4_2_0_2_7_1_1_1_3_2_2 -- NODE0_4_2_0_2_7_1_1_1_3_2_2_1
-NODE0_4_2_0_2_7_1_1_1_3_2_2_2 [label="Attribute"]
+NODE0_4_2_0_2_7_1_1_1_3_2_2_2 [label="Attribute" ]
 NODE0_4_2_0_2_7_1_1_1_3_2_2_2_1 [fillcolor="green" style=filled label="hearts"]
 NODE0_4_2_0_2_7_1_1_1_3_2_2_2 -- NODE0_4_2_0_2_7_1_1_1_3_2_2_2_1
 NODE0_4_2_0_2_7_1_1_1_3_2_2_2_3 [fillcolor="green" style=filled label="diamonds"]
@@ -230,13 +194,13 @@ NODE0_4_2_0_2_7_1_1_1_3_2_2_2 -- NODE0_4_2_0_2_7_1_1_1_3_2_2_2_3
 NODE0_4_2_0_2_7_1_1_1_3_2_2 -- NODE0_4_2_0_2_7_1_1_1_3_2_2_2
 NODE0_4_2_0_2_7_1_1_1_3_2 -- NODE0_4_2_0_2_7_1_1_1_3_2_2
 NODE0_4_2_0_2_7_1_1_1_3 -- NODE0_4_2_0_2_7_1_1_1_3_2
-NODE0_4_2_0_2_7_1_1_1_3_3 [label="Attribute"]
+NODE0_4_2_0_2_7_1_1_1_3_3 [label="Attribute" ]
 NODE0_4_2_0_2_7_1_1_1_3_3_1 [fillcolor="green" style=filled label="black"]
 NODE0_4_2_0_2_7_1_1_1_3_3 -- NODE0_4_2_0_2_7_1_1_1_3_3_1
-NODE0_4_2_0_2_7_1_1_1_3_3_2 [label="Attribute"]
+NODE0_4_2_0_2_7_1_1_1_3_3_2 [label="Attribute" ]
 NODE0_4_2_0_2_7_1_1_1_3_3_2_1 [fillcolor="green" style=filled label="suit"]
 NODE0_4_2_0_2_7_1_1_1_3_3_2 -- NODE0_4_2_0_2_7_1_1_1_3_3_2_1
-NODE0_4_2_0_2_7_1_1_1_3_3_2_2 [label="Attribute"]
+NODE0_4_2_0_2_7_1_1_1_3_3_2_2 [label="Attribute" ]
 NODE0_4_2_0_2_7_1_1_1_3_3_2_2_1 [fillcolor="green" style=filled label="clubs"]
 NODE0_4_2_0_2_7_1_1_1_3_3_2_2 -- NODE0_4_2_0_2_7_1_1_1_3_3_2_2_1
 NODE0_4_2_0_2_7_1_1_1_3_3_2_2_3 [fillcolor="green" style=filled label="spades"]
@@ -253,81 +217,61 @@ NODE0_4_2_0 -- NODE0_4_2_0_2
 NODE0_4_2 -- NODE0_4_2_0
 NODE0_4 -- NODE0_4_2
 NODE0 -- NODE0_4
-NODE0_5 [label="Stage" style=filled fillcolor="red"]
-NODE0_5_1 [label="stage"]
-NODE0_5 -- NODE0_5_1
+NODE0_5 [label="Stage"  style=filled fillcolor="red"]
 NODE0_5_2 [label="player"]
 NODE0_5 -- NODE0_5_2
-NODE0_5_3 [label="Endcondition"]
-NODE0_5_3_1 [label="end"]
-NODE0_5_3 -- NODE0_5_3_1
-NODE0_5_3_2 [label="Boolean"]
-NODE0_5_3_2_1 [label="Intop"]
+NODE0_5_3 [label="Endcondition" ]
+NODE0_5_3_2 [label="Boolean" ]
+NODE0_5_3_2_1 [label="Intop" ]
 NODE0_5_3_2_1_0 [label=">="]
 NODE0_5_3_2_1 -- NODE0_5_3_2_1_0
 NODE0_5_3_2 -- NODE0_5_3_2_1
-NODE0_5_3_2_2 [label="Int"]
-NODE0_5_3_2_2_0 [label="Rawstorage"]
-NODE0_5_3_2_2_0_1 [label="Who2"]
-NODE0_5_3_2_2_0_1_1 [label="Posq"]
+NODE0_5_3_2_2 [label="Int" ]
+NODE0_5_3_2_2_0 [label="Rawstorage" ]
+NODE0_5_3_2_2_0_1 [label="Who2" ]
+NODE0_5_3_2_2_0_1_1 [label="Posq" ]
 NODE0_5_3_2_2_0_1_1_0 [label="any"]
 NODE0_5_3_2_2_0_1_1 -- NODE0_5_3_2_2_0_1_1_0
 NODE0_5_3_2_2_0_1 -- NODE0_5_3_2_2_0_1_1
 NODE0_5_3_2_2_0_1_2 [label="team"]
 NODE0_5_3_2_2_0_1 -- NODE0_5_3_2_2_0_1_2
 NODE0_5_3_2_2_0 -- NODE0_5_3_2_2_0_1
-NODE0_5_3_2_2_0_2 [label="sto"]
-NODE0_5_3_2_2_0 -- NODE0_5_3_2_2_0_2
 NODE0_5_3_2_2_0_3 [fillcolor="green" style=filled label="SCORE"]
 NODE0_5_3_2_2_0 -- NODE0_5_3_2_2_0_3
 NODE0_5_3_2_2 -- NODE0_5_3_2_2_0
 NODE0_5_3_2 -- NODE0_5_3_2_2
-NODE0_5_3_2_3 [label="Int"]
-NODE0_5_3_2_3_0 [label="5"]
-NODE0_5_3_2_3 -- NODE0_5_3_2_3_0
-NODE0_5_3_2_3_1 [label="0"]
-NODE0_5_3_2_3 -- NODE0_5_3_2_3_1
-NODE0_5_3_2_3_2 [label="0"]
-NODE0_5_3_2_3 -- NODE0_5_3_2_3_2
+NODE0_5_3_2_3 [label="500" style=filled fillcolor="lightblue"]
 NODE0_5_3_2 -- NODE0_5_3_2_3
 NODE0_5_3 -- NODE0_5_3_2
 NODE0_5 -- NODE0_5_3
-NODE0_5_4 [label="Computermoves"]
-NODE0_5_4_1 [label="comp"]
-NODE0_5_4 -- NODE0_5_4_1
-NODE0_5_4_2 [label="Multigameaction"]
-NODE0_5_4_2_0 [label="Gameaction"]
-NODE0_5_4_2_0_1 [label="Boolean"]
+NODE0_5_4 [label="Computermoves"  style=filled shape=box fillcolor="yellow"]
+NODE0_5_4_2 [label="Multigameaction" ]
+NODE0_5_4_2_0 [label="Gameaction" ]
+NODE0_5_4_2_0_1 [label="Boolean" ]
 NODE0_5_4_2_0 -- NODE0_5_4_2_0_1
-NODE0_5_4_2_0_2 [label="Multiaction"]
-NODE0_5_4_2_0_2_0 [label="Action"]
-NODE0_5_4_2_0_2_0_1 [label="Moveaction"]
-NODE0_5_4_2_0_2_0_1_0 [label="move"]
-NODE0_5_4_2_0_2_0_1 -- NODE0_5_4_2_0_2_0_1_0
-NODE0_5_4_2_0_2_0_1_1 [label="Card"]
+NODE0_5_4_2_0_2 [label="Multiaction" ]
+NODE0_5_4_2_0_2_0 [label="Action" ]
+NODE0_5_4_2_0_2_0_1 [label="Moveaction" ]
+NODE0_5_4_2_0_2_0_1_1 [label="Card" ]
 NODE0_5_4_2_0_2_0_1_1_1 [label="top"]
 NODE0_5_4_2_0_2_0_1_1 -- NODE0_5_4_2_0_2_0_1_1_1
-NODE0_5_4_2_0_2_0_1_1_2 [label="Locstorage"]
-NODE0_5_4_2_0_2_0_1_1_2_1 [label="Who"]
+NODE0_5_4_2_0_2_0_1_1_2 [label="Locstorage" ]
+NODE0_5_4_2_0_2_0_1_1_2_1 [label="Who" ]
 NODE0_5_4_2_0_2_0_1_1_2_1_0 [label="game"]
 NODE0_5_4_2_0_2_0_1_1_2_1 -- NODE0_5_4_2_0_2_0_1_1_2_1_0
 NODE0_5_4_2_0_2_0_1_1_2 -- NODE0_5_4_2_0_2_0_1_1_2_1
-NODE0_5_4_2_0_2_0_1_1_2_2 [label="loc"]
-NODE0_5_4_2_0_2_0_1_1_2 -- NODE0_5_4_2_0_2_0_1_1_2_2
 NODE0_5_4_2_0_2_0_1_1_2_3 [fillcolor="green" style=filled label="DISCARD"]
 NODE0_5_4_2_0_2_0_1_1_2 -- NODE0_5_4_2_0_2_0_1_1_2_3
 NODE0_5_4_2_0_2_0_1_1 -- NODE0_5_4_2_0_2_0_1_1_2
 NODE0_5_4_2_0_2_0_1 -- NODE0_5_4_2_0_2_0_1_1
-NODE0_5_4_2_0_2_0_1_2 [label="Card"]
+NODE0_5_4_2_0_2_0_1_2 [label="Card" ]
 NODE0_5_4_2_0_2_0_1_2_1 [label="top"]
 NODE0_5_4_2_0_2_0_1_2 -- NODE0_5_4_2_0_2_0_1_2_1
-NODE0_5_4_2_0_2_0_1_2_2 [label="Locstorage"]
-NODE0_5_4_2_0_2_0_1_2_2_1 [label="Who"]
+NODE0_5_4_2_0_2_0_1_2_2 [label="Locstorage" ]
+NODE0_5_4_2_0_2_0_1_2_2_1 [label="Who" ]
 NODE0_5_4_2_0_2_0_1_2_2_1_0 [label="game"]
 NODE0_5_4_2_0_2_0_1_2_2_1 -- NODE0_5_4_2_0_2_0_1_2_2_1_0
 NODE0_5_4_2_0_2_0_1_2_2 -- NODE0_5_4_2_0_2_0_1_2_2_1
-NODE0_5_4_2_0_2_0_1_2_2_2 [label="loc"]
-NODE0_5_4_2_0_2_0_1_2_2 -- NODE0_5_4_2_0_2_0_1_2_2_2
 NODE0_5_4_2_0_2_0_1_2_2_3 [fillcolor="green" style=filled label="STOCK"]
 NODE0_5_4_2_0_2_0_1_2_2 -- NODE0_5_4_2_0_2_0_1_2_2_3
 NODE0_5_4_2_0_2_0_1_2 -- NODE0_5_4_2_0_2_0_1_2_2
@@ -336,30 +280,26 @@ NODE0_5_4_2_0_2_0_1_3 [label="all"]
 NODE0_5_4_2_0_2_0_1 -- NODE0_5_4_2_0_2_0_1_3
 NODE0_5_4_2_0_2_0 -- NODE0_5_4_2_0_2_0_1
 NODE0_5_4_2_0_2 -- NODE0_5_4_2_0_2_0
-NODE0_5_4_2_0_2_1 [label="Action"]
-NODE0_5_4_2_0_2_1_1 [label="Copyaction"]
-NODE0_5_4_2_0_2_1_1_0 [label="copy"]
-NODE0_5_4_2_0_2_1_1 -- NODE0_5_4_2_0_2_1_1_0
-NODE0_5_4_2_0_2_1_1_1 [label="Card"]
+NODE0_5_4_2_0_2_1 [label="Action" ]
+NODE0_5_4_2_0_2_1_1 [label="Copyaction" ]
+NODE0_5_4_2_0_2_1_1_1 [label="Card" ]
 NODE0_5_4_2_0_2_1_1_1_1 [label="top"]
 NODE0_5_4_2_0_2_1_1_1 -- NODE0_5_4_2_0_2_1_1_1_1
-NODE0_5_4_2_0_2_1_1_1_2 [label="Locstorage"]
-NODE0_5_4_2_0_2_1_1_1_2_1 [label="Who"]
+NODE0_5_4_2_0_2_1_1_1_2 [label="Locstorage" ]
+NODE0_5_4_2_0_2_1_1_1_2_1 [label="Who" ]
 NODE0_5_4_2_0_2_1_1_1_2_1_0 [label="game"]
 NODE0_5_4_2_0_2_1_1_1_2_1 -- NODE0_5_4_2_0_2_1_1_1_2_1_0
 NODE0_5_4_2_0_2_1_1_1_2 -- NODE0_5_4_2_0_2_1_1_1_2_1
-NODE0_5_4_2_0_2_1_1_1_2_2 [label="loc"]
-NODE0_5_4_2_0_2_1_1_1_2 -- NODE0_5_4_2_0_2_1_1_1_2_2
 NODE0_5_4_2_0_2_1_1_1_2_3 [fillcolor="green" style=filled label="STOCK"]
 NODE0_5_4_2_0_2_1_1_1_2 -- NODE0_5_4_2_0_2_1_1_1_2_3
-NODE0_5_4_2_0_2_1_1_1_2_4 [label="Whereclause"]
+NODE0_5_4_2_0_2_1_1_1_2_4 [label="Whereclause" ]
 NODE0_5_4_2_0_2_1_1_1_2_4_0 [label="where"]
 NODE0_5_4_2_0_2_1_1_1_2_4 -- NODE0_5_4_2_0_2_1_1_1_2_4_0
-NODE0_5_4_2_0_2_1_1_1_2_4_1 [label="Boolatt"]
-NODE0_5_4_2_0_2_1_1_1_2_4_1_1 [label="Attrcomp"]
+NODE0_5_4_2_0_2_1_1_1_2_4_1 [label="Boolatt" ]
+NODE0_5_4_2_0_2_1_1_1_2_4_1_1 [label="Attrcomp" ]
 NODE0_5_4_2_0_2_1_1_1_2_4_1_1_0 [label="=="]
 NODE0_5_4_2_0_2_1_1_1_2_4_1_1 -- NODE0_5_4_2_0_2_1_1_1_2_4_1_1_0
-NODE0_5_4_2_0_2_1_1_1_2_4_1_1_1 [label="Cardatt"]
+NODE0_5_4_2_0_2_1_1_1_2_4_1_1_1 [label="Cardatt" ]
 NODE0_5_4_2_0_2_1_1_1_2_4_1_1_1_1 [label="cardatt"]
 NODE0_5_4_2_0_2_1_1_1_2_4_1_1_1 -- NODE0_5_4_2_0_2_1_1_1_2_4_1_1_1_1
 NODE0_5_4_2_0_2_1_1_1_2_4_1_1_1_2 [fillcolor="green" style=filled label="suit"]
@@ -367,7 +307,7 @@ NODE0_5_4_2_0_2_1_1_1_2_4_1_1_1 -- NODE0_5_4_2_0_2_1_1_1_2_4_1_1_1_2
 NODE0_5_4_2_0_2_1_1_1_2_4_1_1_1_3 [label="this"]
 NODE0_5_4_2_0_2_1_1_1_2_4_1_1_1 -- NODE0_5_4_2_0_2_1_1_1_2_4_1_1_1_3
 NODE0_5_4_2_0_2_1_1_1_2_4_1_1 -- NODE0_5_4_2_0_2_1_1_1_2_4_1_1_1
-NODE0_5_4_2_0_2_1_1_1_2_4_1_1_2 [label="Cardatt"]
+NODE0_5_4_2_0_2_1_1_1_2_4_1_1_2 [label="Cardatt" ]
 NODE0_5_4_2_0_2_1_1_1_2_4_1_1_2_0 [fillcolor="green" style=filled label="spades"]
 NODE0_5_4_2_0_2_1_1_1_2_4_1_1_2 -- NODE0_5_4_2_0_2_1_1_1_2_4_1_1_2_0
 NODE0_5_4_2_0_2_1_1_1_2_4_1_1 -- NODE0_5_4_2_0_2_1_1_1_2_4_1_1_2
@@ -376,123 +316,99 @@ NODE0_5_4_2_0_2_1_1_1_2_4 -- NODE0_5_4_2_0_2_1_1_1_2_4_1
 NODE0_5_4_2_0_2_1_1_1_2 -- NODE0_5_4_2_0_2_1_1_1_2_4
 NODE0_5_4_2_0_2_1_1_1 -- NODE0_5_4_2_0_2_1_1_1_2
 NODE0_5_4_2_0_2_1_1 -- NODE0_5_4_2_0_2_1_1_1
-NODE0_5_4_2_0_2_1_1_2 [label="Card"]
+NODE0_5_4_2_0_2_1_1_2 [label="Card" ]
 NODE0_5_4_2_0_2_1_1_2_1 [label="top"]
 NODE0_5_4_2_0_2_1_1_2 -- NODE0_5_4_2_0_2_1_1_2_1
-NODE0_5_4_2_0_2_1_1_2_2 [label="Locstorage"]
-NODE0_5_4_2_0_2_1_1_2_2_1 [label="Who"]
+NODE0_5_4_2_0_2_1_1_2_2 [label="Locstorage" ]
+NODE0_5_4_2_0_2_1_1_2_2_1 [label="Who" ]
 NODE0_5_4_2_0_2_1_1_2_2_1_0 [label="game"]
 NODE0_5_4_2_0_2_1_1_2_2_1 -- NODE0_5_4_2_0_2_1_1_2_2_1_0
 NODE0_5_4_2_0_2_1_1_2_2 -- NODE0_5_4_2_0_2_1_1_2_2_1
-NODE0_5_4_2_0_2_1_1_2_2_2 [label="loc"]
-NODE0_5_4_2_0_2_1_1_2_2 -- NODE0_5_4_2_0_2_1_1_2_2_2
 NODE0_5_4_2_0_2_1_1_2_2_3 [fillcolor="green" style=filled label="TRUMP"]
 NODE0_5_4_2_0_2_1_1_2_2 -- NODE0_5_4_2_0_2_1_1_2_2_3
 NODE0_5_4_2_0_2_1_1_2 -- NODE0_5_4_2_0_2_1_1_2_2
 NODE0_5_4_2_0_2_1_1 -- NODE0_5_4_2_0_2_1_1_2
 NODE0_5_4_2_0_2_1 -- NODE0_5_4_2_0_2_1_1
 NODE0_5_4_2_0_2 -- NODE0_5_4_2_0_2_1
-NODE0_5_4_2_0_2_2 [label="Action"]
-NODE0_5_4_2_0_2_2_1 [label="Shuffleaction"]
-NODE0_5_4_2_0_2_2_1_0 [label="shuffle"]
-NODE0_5_4_2_0_2_2_1 -- NODE0_5_4_2_0_2_2_1_0
-NODE0_5_4_2_0_2_2_1_1 [label="Locstorage"]
-NODE0_5_4_2_0_2_2_1_1_1 [label="Who"]
+NODE0_5_4_2_0_2_2 [label="Action" ]
+NODE0_5_4_2_0_2_2_1 [label="Shuffleaction" ]
+NODE0_5_4_2_0_2_2_1_1 [label="Locstorage" ]
+NODE0_5_4_2_0_2_2_1_1_1 [label="Who" ]
 NODE0_5_4_2_0_2_2_1_1_1_0 [label="game"]
 NODE0_5_4_2_0_2_2_1_1_1 -- NODE0_5_4_2_0_2_2_1_1_1_0
 NODE0_5_4_2_0_2_2_1_1 -- NODE0_5_4_2_0_2_2_1_1_1
-NODE0_5_4_2_0_2_2_1_1_2 [label="loc"]
-NODE0_5_4_2_0_2_2_1_1 -- NODE0_5_4_2_0_2_2_1_1_2
 NODE0_5_4_2_0_2_2_1_1_3 [fillcolor="green" style=filled label="STOCK"]
 NODE0_5_4_2_0_2_2_1_1 -- NODE0_5_4_2_0_2_2_1_1_3
 NODE0_5_4_2_0_2_2_1 -- NODE0_5_4_2_0_2_2_1_1
 NODE0_5_4_2_0_2_2 -- NODE0_5_4_2_0_2_2_1
 NODE0_5_4_2_0_2 -- NODE0_5_4_2_0_2_2
-NODE0_5_4_2_0_2_3 [label="Action"]
-NODE0_5_4_2_0_2_3_1 [label="Moveaction"]
-NODE0_5_4_2_0_2_3_1_0 [label="move"]
-NODE0_5_4_2_0_2_3_1 -- NODE0_5_4_2_0_2_3_1_0
-NODE0_5_4_2_0_2_3_1_1 [label="Card"]
+NODE0_5_4_2_0_2_3 [label="Action" ]
+NODE0_5_4_2_0_2_3_1 [label="Moveaction" ]
+NODE0_5_4_2_0_2_3_1_1 [label="Card" ]
 NODE0_5_4_2_0_2_3_1_1_1 [label="top"]
 NODE0_5_4_2_0_2_3_1_1 -- NODE0_5_4_2_0_2_3_1_1_1
-NODE0_5_4_2_0_2_3_1_1_2 [label="Locstorage"]
-NODE0_5_4_2_0_2_3_1_1_2_1 [label="Who"]
+NODE0_5_4_2_0_2_3_1_1_2 [label="Locstorage" ]
+NODE0_5_4_2_0_2_3_1_1_2_1 [label="Who" ]
 NODE0_5_4_2_0_2_3_1_1_2_1_0 [label="game"]
 NODE0_5_4_2_0_2_3_1_1_2_1 -- NODE0_5_4_2_0_2_3_1_1_2_1_0
 NODE0_5_4_2_0_2_3_1_1_2 -- NODE0_5_4_2_0_2_3_1_1_2_1
-NODE0_5_4_2_0_2_3_1_1_2_2 [label="loc"]
-NODE0_5_4_2_0_2_3_1_1_2 -- NODE0_5_4_2_0_2_3_1_1_2_2
 NODE0_5_4_2_0_2_3_1_1_2_3 [fillcolor="green" style=filled label="STOCK"]
 NODE0_5_4_2_0_2_3_1_1_2 -- NODE0_5_4_2_0_2_3_1_1_2_3
 NODE0_5_4_2_0_2_3_1_1 -- NODE0_5_4_2_0_2_3_1_1_2
 NODE0_5_4_2_0_2_3_1 -- NODE0_5_4_2_0_2_3_1_1
-NODE0_5_4_2_0_2_3_1_2 [label="Card"]
+NODE0_5_4_2_0_2_3_1_2 [label="Card" ]
 NODE0_5_4_2_0_2_3_1_2_1 [label="top"]
 NODE0_5_4_2_0_2_3_1_2 -- NODE0_5_4_2_0_2_3_1_2_1
-NODE0_5_4_2_0_2_3_1_2_2 [label="Locstorage"]
-NODE0_5_4_2_0_2_3_1_2_2_1 [label="Who2"]
-NODE0_5_4_2_0_2_3_1_2_2_1_1 [label="Posq"]
+NODE0_5_4_2_0_2_3_1_2_2 [label="Locstorage" ]
+NODE0_5_4_2_0_2_3_1_2_2_1 [label="Who2" ]
+NODE0_5_4_2_0_2_3_1_2_2_1_1 [label="Posq" ]
 NODE0_5_4_2_0_2_3_1_2_2_1_1_0 [label="all"]
 NODE0_5_4_2_0_2_3_1_2_2_1_1 -- NODE0_5_4_2_0_2_3_1_2_2_1_1_0
 NODE0_5_4_2_0_2_3_1_2_2_1 -- NODE0_5_4_2_0_2_3_1_2_2_1_1
 NODE0_5_4_2_0_2_3_1_2_2_1_2 [label="player"]
 NODE0_5_4_2_0_2_3_1_2_2_1 -- NODE0_5_4_2_0_2_3_1_2_2_1_2
 NODE0_5_4_2_0_2_3_1_2_2 -- NODE0_5_4_2_0_2_3_1_2_2_1
-NODE0_5_4_2_0_2_3_1_2_2_2 [label="loc"]
-NODE0_5_4_2_0_2_3_1_2_2 -- NODE0_5_4_2_0_2_3_1_2_2_2
 NODE0_5_4_2_0_2_3_1_2_2_3 [fillcolor="green" style=filled label="HAND"]
 NODE0_5_4_2_0_2_3_1_2_2 -- NODE0_5_4_2_0_2_3_1_2_2_3
 NODE0_5_4_2_0_2_3_1_2 -- NODE0_5_4_2_0_2_3_1_2_2
 NODE0_5_4_2_0_2_3_1 -- NODE0_5_4_2_0_2_3_1_2
-NODE0_5_4_2_0_2_3_1_3 [label="Int"]
-NODE0_5_4_2_0_2_3_1_3_0 [label="1"]
-NODE0_5_4_2_0_2_3_1_3 -- NODE0_5_4_2_0_2_3_1_3_0
-NODE0_5_4_2_0_2_3_1_3_1 [label="3"]
-NODE0_5_4_2_0_2_3_1_3 -- NODE0_5_4_2_0_2_3_1_3_1
+NODE0_5_4_2_0_2_3_1_3 [label="13" style=filled fillcolor="lightblue"]
 NODE0_5_4_2_0_2_3_1 -- NODE0_5_4_2_0_2_3_1_3
 NODE0_5_4_2_0_2_3 -- NODE0_5_4_2_0_2_3_1
 NODE0_5_4_2_0_2 -- NODE0_5_4_2_0_2_3
-NODE0_5_4_2_0_2_4 [label="Action"]
-NODE0_5_4_2_0_2_4_1 [label="Setaction"]
+NODE0_5_4_2_0_2_4 [label="Action" ]
+NODE0_5_4_2_0_2_4_1 [label="Setaction" ]
 NODE0_5_4_2_0_2_4_1_0 [label="set"]
 NODE0_5_4_2_0_2_4_1 -- NODE0_5_4_2_0_2_4_1_0
-NODE0_5_4_2_0_2_4_1_1 [label="Rawstorage"]
-NODE0_5_4_2_0_2_4_1_1_1 [label="Who"]
+NODE0_5_4_2_0_2_4_1_1 [label="Rawstorage" ]
+NODE0_5_4_2_0_2_4_1_1_1 [label="Who" ]
 NODE0_5_4_2_0_2_4_1_1_1_0 [label="game"]
 NODE0_5_4_2_0_2_4_1_1_1 -- NODE0_5_4_2_0_2_4_1_1_1_0
 NODE0_5_4_2_0_2_4_1_1 -- NODE0_5_4_2_0_2_4_1_1_1
-NODE0_5_4_2_0_2_4_1_1_2 [label="sto"]
-NODE0_5_4_2_0_2_4_1_1 -- NODE0_5_4_2_0_2_4_1_1_2
 NODE0_5_4_2_0_2_4_1_1_3 [fillcolor="green" style=filled label="SPADESBROKEN"]
 NODE0_5_4_2_0_2_4_1_1 -- NODE0_5_4_2_0_2_4_1_1_3
 NODE0_5_4_2_0_2_4_1 -- NODE0_5_4_2_0_2_4_1_1
-NODE0_5_4_2_0_2_4_1_2 [label="Int"]
-NODE0_5_4_2_0_2_4_1_2_0 [label="0"]
-NODE0_5_4_2_0_2_4_1_2 -- NODE0_5_4_2_0_2_4_1_2_0
+NODE0_5_4_2_0_2_4_1_2 [label="0" style=filled fillcolor="lightblue"]
 NODE0_5_4_2_0_2_4_1 -- NODE0_5_4_2_0_2_4_1_2
 NODE0_5_4_2_0_2_4 -- NODE0_5_4_2_0_2_4_1
 NODE0_5_4_2_0_2 -- NODE0_5_4_2_0_2_4
-NODE0_5_4_2_0_2_5 [label="Action"]
-NODE0_5_4_2_0_2_5_1 [label="Setaction"]
+NODE0_5_4_2_0_2_5 [label="Action" ]
+NODE0_5_4_2_0_2_5_1 [label="Setaction" ]
 NODE0_5_4_2_0_2_5_1_0 [label="set"]
 NODE0_5_4_2_0_2_5_1 -- NODE0_5_4_2_0_2_5_1_0
-NODE0_5_4_2_0_2_5_1_1 [label="Rawstorage"]
-NODE0_5_4_2_0_2_5_1_1_1 [label="Who2"]
-NODE0_5_4_2_0_2_5_1_1_1_1 [label="Posq"]
+NODE0_5_4_2_0_2_5_1_1 [label="Rawstorage" ]
+NODE0_5_4_2_0_2_5_1_1_1 [label="Who2" ]
+NODE0_5_4_2_0_2_5_1_1_1_1 [label="Posq" ]
 NODE0_5_4_2_0_2_5_1_1_1_1_0 [label="all"]
 NODE0_5_4_2_0_2_5_1_1_1_1 -- NODE0_5_4_2_0_2_5_1_1_1_1_0
 NODE0_5_4_2_0_2_5_1_1_1 -- NODE0_5_4_2_0_2_5_1_1_1_1
 NODE0_5_4_2_0_2_5_1_1_1_2 [label="player"]
 NODE0_5_4_2_0_2_5_1_1_1 -- NODE0_5_4_2_0_2_5_1_1_1_2
 NODE0_5_4_2_0_2_5_1_1 -- NODE0_5_4_2_0_2_5_1_1_1
-NODE0_5_4_2_0_2_5_1_1_2 [label="sto"]
-NODE0_5_4_2_0_2_5_1_1 -- NODE0_5_4_2_0_2_5_1_1_2
 NODE0_5_4_2_0_2_5_1_1_3 [fillcolor="green" style=filled label="TRICKSWON"]
 NODE0_5_4_2_0_2_5_1_1 -- NODE0_5_4_2_0_2_5_1_1_3
 NODE0_5_4_2_0_2_5_1 -- NODE0_5_4_2_0_2_5_1_1
-NODE0_5_4_2_0_2_5_1_2 [label="Int"]
-NODE0_5_4_2_0_2_5_1_2_0 [label="0"]
-NODE0_5_4_2_0_2_5_1_2 -- NODE0_5_4_2_0_2_5_1_2_0
+NODE0_5_4_2_0_2_5_1_2 [label="0" style=filled fillcolor="lightblue"]
 NODE0_5_4_2_0_2_5_1 -- NODE0_5_4_2_0_2_5_1_2
 NODE0_5_4_2_0_2_5 -- NODE0_5_4_2_0_2_5_1
 NODE0_5_4_2_0_2 -- NODE0_5_4_2_0_2_5
@@ -500,132 +416,108 @@ NODE0_5_4_2_0 -- NODE0_5_4_2_0_2
 NODE0_5_4_2 -- NODE0_5_4_2_0
 NODE0_5_4 -- NODE0_5_4_2
 NODE0_5 -- NODE0_5_4
-NODE0_5_5 [label="Stage" style=filled fillcolor="red"]
-NODE0_5_5_1 [label="stage"]
-NODE0_5_5 -- NODE0_5_5_1
+NODE0_5_5 [label="Stage"  style=filled fillcolor="red"]
 NODE0_5_5_2 [label="player"]
 NODE0_5_5 -- NODE0_5_5_2
-NODE0_5_5_3 [label="Endcondition"]
-NODE0_5_5_3_1 [label="end"]
-NODE0_5_5_3 -- NODE0_5_5_3_1
+NODE0_5_5_3 [label="Endcondition" ]
 NODE0_5_5_3_2 [label="player"]
 NODE0_5_5_3 -- NODE0_5_5_3_2
-NODE0_5_5_3_3 [label="Int"]
-NODE0_5_5_3_3_0 [label="1"]
-NODE0_5_5_3_3 -- NODE0_5_5_3_3_0
+NODE0_5_5_3_3 [label="1" style=filled fillcolor="lightblue"]
 NODE0_5_5_3 -- NODE0_5_5_3_3
 NODE0_5_5 -- NODE0_5_5_3
-NODE0_5_5_4 [label="Playermoves"]
-NODE0_5_5_4_1 [label="choice"]
-NODE0_5_5_4 -- NODE0_5_5_4_1
-NODE0_5_5_4_2 [label="Multigameaction"]
-NODE0_5_5_4_2_0 [label="Gameaction"]
-NODE0_5_5_4_2_0_1 [label="Boolean"]
+NODE0_5_5_4 [label="Playermoves"  style=filled shape=diamond fillcolor="orange"]
+NODE0_5_5_4_2 [label="Multigameaction" ]
+NODE0_5_5_4_2_0 [label="Gameaction" ]
+NODE0_5_5_4_2_0_1 [label="Boolean" ]
 NODE0_5_5_4_2_0 -- NODE0_5_5_4_2_0_1
-NODE0_5_5_4_2_0_2 [label="Multiaction"]
-NODE0_5_5_4_2_0_2_0 [label="Action"]
-NODE0_5_5_4_2_0_2_0_1 [label="Setaction"]
+NODE0_5_5_4_2_0_2 [label="Multiaction" ]
+NODE0_5_5_4_2_0_2_0 [label="Action" ]
+NODE0_5_5_4_2_0_2_0_1 [label="Setaction" ]
 NODE0_5_5_4_2_0_2_0_1_0 [label="set"]
 NODE0_5_5_4_2_0_2_0_1 -- NODE0_5_5_4_2_0_2_0_1_0
-NODE0_5_5_4_2_0_2_0_1_1 [label="Rawstorage"]
-NODE0_5_5_4_2_0_2_0_1_1_1 [label="Who2"]
+NODE0_5_5_4_2_0_2_0_1_1 [label="Rawstorage" ]
+NODE0_5_5_4_2_0_2_0_1_1_1 [label="Who2" ]
 NODE0_5_5_4_2_0_2_0_1_1_1_1 [label="current"]
 NODE0_5_5_4_2_0_2_0_1_1_1 -- NODE0_5_5_4_2_0_2_0_1_1_1_1
 NODE0_5_5_4_2_0_2_0_1_1_1_2 [label="player"]
 NODE0_5_5_4_2_0_2_0_1_1_1 -- NODE0_5_5_4_2_0_2_0_1_1_1_2
 NODE0_5_5_4_2_0_2_0_1_1 -- NODE0_5_5_4_2_0_2_0_1_1_1
-NODE0_5_5_4_2_0_2_0_1_1_2 [label="sto"]
-NODE0_5_5_4_2_0_2_0_1_1 -- NODE0_5_5_4_2_0_2_0_1_1_2
 NODE0_5_5_4_2_0_2_0_1_1_3 [fillcolor="green" style=filled label="BID"]
 NODE0_5_5_4_2_0_2_0_1_1 -- NODE0_5_5_4_2_0_2_0_1_1_3
 NODE0_5_5_4_2_0_2_0_1 -- NODE0_5_5_4_2_0_2_0_1_1
-NODE0_5_5_4_2_0_2_0_1_2 [label="Int"]
-NODE0_5_5_4_2_0_2_0_1_2_0 [label="1"]
-NODE0_5_5_4_2_0_2_0_1_2 -- NODE0_5_5_4_2_0_2_0_1_2_0
+NODE0_5_5_4_2_0_2_0_1_2 [label="1" style=filled fillcolor="lightblue"]
 NODE0_5_5_4_2_0_2_0_1 -- NODE0_5_5_4_2_0_2_0_1_2
 NODE0_5_5_4_2_0_2_0 -- NODE0_5_5_4_2_0_2_0_1
 NODE0_5_5_4_2_0_2 -- NODE0_5_5_4_2_0_2_0
 NODE0_5_5_4_2_0 -- NODE0_5_5_4_2_0_2
 NODE0_5_5_4_2 -- NODE0_5_5_4_2_0
-NODE0_5_5_4_2_1 [label="Gameaction"]
-NODE0_5_5_4_2_1_1 [label="Boolean"]
+NODE0_5_5_4_2_1 [label="Gameaction" ]
+NODE0_5_5_4_2_1_1 [label="Boolean" ]
 NODE0_5_5_4_2_1 -- NODE0_5_5_4_2_1_1
-NODE0_5_5_4_2_1_2 [label="Multiaction"]
-NODE0_5_5_4_2_1_2_0 [label="Action"]
-NODE0_5_5_4_2_1_2_0_1 [label="Setaction"]
+NODE0_5_5_4_2_1_2 [label="Multiaction" ]
+NODE0_5_5_4_2_1_2_0 [label="Action" ]
+NODE0_5_5_4_2_1_2_0_1 [label="Setaction" ]
 NODE0_5_5_4_2_1_2_0_1_0 [label="set"]
 NODE0_5_5_4_2_1_2_0_1 -- NODE0_5_5_4_2_1_2_0_1_0
-NODE0_5_5_4_2_1_2_0_1_1 [label="Rawstorage"]
-NODE0_5_5_4_2_1_2_0_1_1_1 [label="Who2"]
+NODE0_5_5_4_2_1_2_0_1_1 [label="Rawstorage" ]
+NODE0_5_5_4_2_1_2_0_1_1_1 [label="Who2" ]
 NODE0_5_5_4_2_1_2_0_1_1_1_1 [label="current"]
 NODE0_5_5_4_2_1_2_0_1_1_1 -- NODE0_5_5_4_2_1_2_0_1_1_1_1
 NODE0_5_5_4_2_1_2_0_1_1_1_2 [label="player"]
 NODE0_5_5_4_2_1_2_0_1_1_1 -- NODE0_5_5_4_2_1_2_0_1_1_1_2
 NODE0_5_5_4_2_1_2_0_1_1 -- NODE0_5_5_4_2_1_2_0_1_1_1
-NODE0_5_5_4_2_1_2_0_1_1_2 [label="sto"]
-NODE0_5_5_4_2_1_2_0_1_1 -- NODE0_5_5_4_2_1_2_0_1_1_2
 NODE0_5_5_4_2_1_2_0_1_1_3 [fillcolor="green" style=filled label="BID"]
 NODE0_5_5_4_2_1_2_0_1_1 -- NODE0_5_5_4_2_1_2_0_1_1_3
 NODE0_5_5_4_2_1_2_0_1 -- NODE0_5_5_4_2_1_2_0_1_1
-NODE0_5_5_4_2_1_2_0_1_2 [label="Int"]
-NODE0_5_5_4_2_1_2_0_1_2_0 [label="2"]
-NODE0_5_5_4_2_1_2_0_1_2 -- NODE0_5_5_4_2_1_2_0_1_2_0
+NODE0_5_5_4_2_1_2_0_1_2 [label="2" style=filled fillcolor="lightblue"]
 NODE0_5_5_4_2_1_2_0_1 -- NODE0_5_5_4_2_1_2_0_1_2
 NODE0_5_5_4_2_1_2_0 -- NODE0_5_5_4_2_1_2_0_1
 NODE0_5_5_4_2_1_2 -- NODE0_5_5_4_2_1_2_0
 NODE0_5_5_4_2_1 -- NODE0_5_5_4_2_1_2
 NODE0_5_5_4_2 -- NODE0_5_5_4_2_1
-NODE0_5_5_4_2_2 [label="Gameaction"]
-NODE0_5_5_4_2_2_1 [label="Boolean"]
+NODE0_5_5_4_2_2 [label="Gameaction" ]
+NODE0_5_5_4_2_2_1 [label="Boolean" ]
 NODE0_5_5_4_2_2 -- NODE0_5_5_4_2_2_1
-NODE0_5_5_4_2_2_2 [label="Multiaction"]
-NODE0_5_5_4_2_2_2_0 [label="Action"]
-NODE0_5_5_4_2_2_2_0_1 [label="Setaction"]
+NODE0_5_5_4_2_2_2 [label="Multiaction" ]
+NODE0_5_5_4_2_2_2_0 [label="Action" ]
+NODE0_5_5_4_2_2_2_0_1 [label="Setaction" ]
 NODE0_5_5_4_2_2_2_0_1_0 [label="set"]
 NODE0_5_5_4_2_2_2_0_1 -- NODE0_5_5_4_2_2_2_0_1_0
-NODE0_5_5_4_2_2_2_0_1_1 [label="Rawstorage"]
-NODE0_5_5_4_2_2_2_0_1_1_1 [label="Who2"]
+NODE0_5_5_4_2_2_2_0_1_1 [label="Rawstorage" ]
+NODE0_5_5_4_2_2_2_0_1_1_1 [label="Who2" ]
 NODE0_5_5_4_2_2_2_0_1_1_1_1 [label="current"]
 NODE0_5_5_4_2_2_2_0_1_1_1 -- NODE0_5_5_4_2_2_2_0_1_1_1_1
 NODE0_5_5_4_2_2_2_0_1_1_1_2 [label="player"]
 NODE0_5_5_4_2_2_2_0_1_1_1 -- NODE0_5_5_4_2_2_2_0_1_1_1_2
 NODE0_5_5_4_2_2_2_0_1_1 -- NODE0_5_5_4_2_2_2_0_1_1_1
-NODE0_5_5_4_2_2_2_0_1_1_2 [label="sto"]
-NODE0_5_5_4_2_2_2_0_1_1 -- NODE0_5_5_4_2_2_2_0_1_1_2
 NODE0_5_5_4_2_2_2_0_1_1_3 [fillcolor="green" style=filled label="BID"]
 NODE0_5_5_4_2_2_2_0_1_1 -- NODE0_5_5_4_2_2_2_0_1_1_3
 NODE0_5_5_4_2_2_2_0_1 -- NODE0_5_5_4_2_2_2_0_1_1
-NODE0_5_5_4_2_2_2_0_1_2 [label="Int"]
-NODE0_5_5_4_2_2_2_0_1_2_0 [label="3"]
-NODE0_5_5_4_2_2_2_0_1_2 -- NODE0_5_5_4_2_2_2_0_1_2_0
+NODE0_5_5_4_2_2_2_0_1_2 [label="3" style=filled fillcolor="lightblue"]
 NODE0_5_5_4_2_2_2_0_1 -- NODE0_5_5_4_2_2_2_0_1_2
 NODE0_5_5_4_2_2_2_0 -- NODE0_5_5_4_2_2_2_0_1
 NODE0_5_5_4_2_2_2 -- NODE0_5_5_4_2_2_2_0
 NODE0_5_5_4_2_2 -- NODE0_5_5_4_2_2_2
 NODE0_5_5_4_2 -- NODE0_5_5_4_2_2
-NODE0_5_5_4_2_3 [label="Gameaction"]
-NODE0_5_5_4_2_3_1 [label="Boolean"]
+NODE0_5_5_4_2_3 [label="Gameaction" ]
+NODE0_5_5_4_2_3_1 [label="Boolean" ]
 NODE0_5_5_4_2_3 -- NODE0_5_5_4_2_3_1
-NODE0_5_5_4_2_3_2 [label="Multiaction"]
-NODE0_5_5_4_2_3_2_0 [label="Action"]
-NODE0_5_5_4_2_3_2_0_1 [label="Setaction"]
+NODE0_5_5_4_2_3_2 [label="Multiaction" ]
+NODE0_5_5_4_2_3_2_0 [label="Action" ]
+NODE0_5_5_4_2_3_2_0_1 [label="Setaction" ]
 NODE0_5_5_4_2_3_2_0_1_0 [label="set"]
 NODE0_5_5_4_2_3_2_0_1 -- NODE0_5_5_4_2_3_2_0_1_0
-NODE0_5_5_4_2_3_2_0_1_1 [label="Rawstorage"]
-NODE0_5_5_4_2_3_2_0_1_1_1 [label="Who2"]
+NODE0_5_5_4_2_3_2_0_1_1 [label="Rawstorage" ]
+NODE0_5_5_4_2_3_2_0_1_1_1 [label="Who2" ]
 NODE0_5_5_4_2_3_2_0_1_1_1_1 [label="current"]
 NODE0_5_5_4_2_3_2_0_1_1_1 -- NODE0_5_5_4_2_3_2_0_1_1_1_1
 NODE0_5_5_4_2_3_2_0_1_1_1_2 [label="player"]
 NODE0_5_5_4_2_3_2_0_1_1_1 -- NODE0_5_5_4_2_3_2_0_1_1_1_2
 NODE0_5_5_4_2_3_2_0_1_1 -- NODE0_5_5_4_2_3_2_0_1_1_1
-NODE0_5_5_4_2_3_2_0_1_1_2 [label="sto"]
-NODE0_5_5_4_2_3_2_0_1_1 -- NODE0_5_5_4_2_3_2_0_1_1_2
 NODE0_5_5_4_2_3_2_0_1_1_3 [fillcolor="green" style=filled label="BID"]
 NODE0_5_5_4_2_3_2_0_1_1 -- NODE0_5_5_4_2_3_2_0_1_1_3
 NODE0_5_5_4_2_3_2_0_1 -- NODE0_5_5_4_2_3_2_0_1_1
-NODE0_5_5_4_2_3_2_0_1_2 [label="Int"]
-NODE0_5_5_4_2_3_2_0_1_2_0 [label="4"]
-NODE0_5_5_4_2_3_2_0_1_2 -- NODE0_5_5_4_2_3_2_0_1_2_0
+NODE0_5_5_4_2_3_2_0_1_2 [label="4" style=filled fillcolor="lightblue"]
 NODE0_5_5_4_2_3_2_0_1 -- NODE0_5_5_4_2_3_2_0_1_2
 NODE0_5_5_4_2_3_2_0 -- NODE0_5_5_4_2_3_2_0_1
 NODE0_5_5_4_2_3_2 -- NODE0_5_5_4_2_3_2_0
@@ -634,122 +526,96 @@ NODE0_5_5_4_2 -- NODE0_5_5_4_2_3
 NODE0_5_5_4 -- NODE0_5_5_4_2
 NODE0_5_5 -- NODE0_5_5_4
 NODE0_5 -- NODE0_5_5
-NODE0_5_6 [label="Stage" style=filled fillcolor="red"]
-NODE0_5_6_1 [label="stage"]
-NODE0_5_6 -- NODE0_5_6_1
+NODE0_5_6 [label="Stage"  style=filled fillcolor="red"]
 NODE0_5_6_2 [label="player"]
 NODE0_5_6 -- NODE0_5_6_2
-NODE0_5_6_3 [label="Endcondition"]
-NODE0_5_6_3_1 [label="end"]
-NODE0_5_6_3 -- NODE0_5_6_3_1
+NODE0_5_6_3 [label="Endcondition" ]
 NODE0_5_6_3_2 [label="game"]
 NODE0_5_6_3 -- NODE0_5_6_3_2
-NODE0_5_6_3_3 [label="Int"]
-NODE0_5_6_3_3_0 [label="1"]
-NODE0_5_6_3_3 -- NODE0_5_6_3_3_0
-NODE0_5_6_3_3_1 [label="3"]
-NODE0_5_6_3_3 -- NODE0_5_6_3_3_1
+NODE0_5_6_3_3 [label="13" style=filled fillcolor="lightblue"]
 NODE0_5_6_3 -- NODE0_5_6_3_3
 NODE0_5_6 -- NODE0_5_6_3
-NODE0_5_6_4 [label="Stage" style=filled fillcolor="red"]
-NODE0_5_6_4_1 [label="stage"]
-NODE0_5_6_4 -- NODE0_5_6_4_1
+NODE0_5_6_4 [label="Stage"  style=filled fillcolor="red"]
 NODE0_5_6_4_2 [label="player"]
 NODE0_5_6_4 -- NODE0_5_6_4_2
-NODE0_5_6_4_3 [label="Endcondition"]
-NODE0_5_6_4_3_1 [label="end"]
-NODE0_5_6_4_3 -- NODE0_5_6_4_3_1
+NODE0_5_6_4_3 [label="Endcondition" ]
 NODE0_5_6_4_3_2 [label="player"]
 NODE0_5_6_4_3 -- NODE0_5_6_4_3_2
-NODE0_5_6_4_3_3 [label="Int"]
-NODE0_5_6_4_3_3_0 [label="1"]
-NODE0_5_6_4_3_3 -- NODE0_5_6_4_3_3_0
+NODE0_5_6_4_3_3 [label="1" style=filled fillcolor="lightblue"]
 NODE0_5_6_4_3 -- NODE0_5_6_4_3_3
 NODE0_5_6_4 -- NODE0_5_6_4_3
-NODE0_5_6_4_4 [label="Playermoves"]
-NODE0_5_6_4_4_1 [label="choice"]
-NODE0_5_6_4_4 -- NODE0_5_6_4_4_1
-NODE0_5_6_4_4_2 [label="Multigameaction"]
-NODE0_5_6_4_4_2_0 [label="Gameaction"]
-NODE0_5_6_4_4_2_0_1 [label="Boolean"]
+NODE0_5_6_4_4 [label="Playermoves"  style=filled shape=diamond fillcolor="orange"]
+NODE0_5_6_4_4_2 [label="Multigameaction" ]
+NODE0_5_6_4_4_2_0 [label="Gameaction" ]
+NODE0_5_6_4_4_2_0_1 [label="Boolean" ]
 NODE0_5_6_4_4_2_0_1_1 [label="and"]
 NODE0_5_6_4_4_2_0_1 -- NODE0_5_6_4_4_2_0_1_1
-NODE0_5_6_4_4_2_0_1_2 [label="Boolean"]
-NODE0_5_6_4_4_2_0_1_2_1 [label="Intop"]
+NODE0_5_6_4_4_2_0_1_2 [label="Boolean" ]
+NODE0_5_6_4_4_2_0_1_2_1 [label="Intop" ]
 NODE0_5_6_4_4_2_0_1_2_1_0 [label="=="]
 NODE0_5_6_4_4_2_0_1_2_1 -- NODE0_5_6_4_4_2_0_1_2_1_0
 NODE0_5_6_4_4_2_0_1_2 -- NODE0_5_6_4_4_2_0_1_2_1
-NODE0_5_6_4_4_2_0_1_2_2 [label="Int"]
-NODE0_5_6_4_4_2_0_1_2_2_0 [label="Sizeof"]
+NODE0_5_6_4_4_2_0_1_2_2 [label="Int" ]
+NODE0_5_6_4_4_2_0_1_2_2_0 [label="Sizeof" ]
 NODE0_5_6_4_4_2_0_1_2_2_0_1 [label="size"]
 NODE0_5_6_4_4_2_0_1_2_2_0 -- NODE0_5_6_4_4_2_0_1_2_2_0_1
-NODE0_5_6_4_4_2_0_1_2_2_0_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_0_1_2_2_0_2_1 [label="Who"]
+NODE0_5_6_4_4_2_0_1_2_2_0_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_0_1_2_2_0_2_1 [label="Who" ]
 NODE0_5_6_4_4_2_0_1_2_2_0_2_1_0 [label="game"]
 NODE0_5_6_4_4_2_0_1_2_2_0_2_1 -- NODE0_5_6_4_4_2_0_1_2_2_0_2_1_0
 NODE0_5_6_4_4_2_0_1_2_2_0_2 -- NODE0_5_6_4_4_2_0_1_2_2_0_2_1
-NODE0_5_6_4_4_2_0_1_2_2_0_2_2 [label="loc"]
-NODE0_5_6_4_4_2_0_1_2_2_0_2 -- NODE0_5_6_4_4_2_0_1_2_2_0_2_2
 NODE0_5_6_4_4_2_0_1_2_2_0_2_3 [fillcolor="green" style=filled label="LEAD"]
 NODE0_5_6_4_4_2_0_1_2_2_0_2 -- NODE0_5_6_4_4_2_0_1_2_2_0_2_3
 NODE0_5_6_4_4_2_0_1_2_2_0 -- NODE0_5_6_4_4_2_0_1_2_2_0_2
 NODE0_5_6_4_4_2_0_1_2_2 -- NODE0_5_6_4_4_2_0_1_2_2_0
 NODE0_5_6_4_4_2_0_1_2 -- NODE0_5_6_4_4_2_0_1_2_2
-NODE0_5_6_4_4_2_0_1_2_3 [label="Int"]
-NODE0_5_6_4_4_2_0_1_2_3_0 [label="0"]
-NODE0_5_6_4_4_2_0_1_2_3 -- NODE0_5_6_4_4_2_0_1_2_3_0
+NODE0_5_6_4_4_2_0_1_2_3 [label="0" style=filled fillcolor="lightblue"]
 NODE0_5_6_4_4_2_0_1_2 -- NODE0_5_6_4_4_2_0_1_2_3
 NODE0_5_6_4_4_2_0_1 -- NODE0_5_6_4_4_2_0_1_2
-NODE0_5_6_4_4_2_0_1_3 [label="Boolean"]
-NODE0_5_6_4_4_2_0_1_3_1 [label="Intop"]
+NODE0_5_6_4_4_2_0_1_3 [label="Boolean" ]
+NODE0_5_6_4_4_2_0_1_3_1 [label="Intop" ]
 NODE0_5_6_4_4_2_0_1_3_1_0 [label="=="]
 NODE0_5_6_4_4_2_0_1_3_1 -- NODE0_5_6_4_4_2_0_1_3_1_0
 NODE0_5_6_4_4_2_0_1_3 -- NODE0_5_6_4_4_2_0_1_3_1
-NODE0_5_6_4_4_2_0_1_3_2 [label="Int"]
-NODE0_5_6_4_4_2_0_1_3_2_0 [label="Rawstorage"]
-NODE0_5_6_4_4_2_0_1_3_2_0_1 [label="Who"]
+NODE0_5_6_4_4_2_0_1_3_2 [label="Int" ]
+NODE0_5_6_4_4_2_0_1_3_2_0 [label="Rawstorage" ]
+NODE0_5_6_4_4_2_0_1_3_2_0_1 [label="Who" ]
 NODE0_5_6_4_4_2_0_1_3_2_0_1_0 [label="game"]
 NODE0_5_6_4_4_2_0_1_3_2_0_1 -- NODE0_5_6_4_4_2_0_1_3_2_0_1_0
 NODE0_5_6_4_4_2_0_1_3_2_0 -- NODE0_5_6_4_4_2_0_1_3_2_0_1
-NODE0_5_6_4_4_2_0_1_3_2_0_2 [label="sto"]
-NODE0_5_6_4_4_2_0_1_3_2_0 -- NODE0_5_6_4_4_2_0_1_3_2_0_2
 NODE0_5_6_4_4_2_0_1_3_2_0_3 [fillcolor="green" style=filled label="SPADESBROKEN"]
 NODE0_5_6_4_4_2_0_1_3_2_0 -- NODE0_5_6_4_4_2_0_1_3_2_0_3
 NODE0_5_6_4_4_2_0_1_3_2 -- NODE0_5_6_4_4_2_0_1_3_2_0
 NODE0_5_6_4_4_2_0_1_3 -- NODE0_5_6_4_4_2_0_1_3_2
-NODE0_5_6_4_4_2_0_1_3_3 [label="Int"]
-NODE0_5_6_4_4_2_0_1_3_3_0 [label="0"]
-NODE0_5_6_4_4_2_0_1_3_3 -- NODE0_5_6_4_4_2_0_1_3_3_0
+NODE0_5_6_4_4_2_0_1_3_3 [label="0" style=filled fillcolor="lightblue"]
 NODE0_5_6_4_4_2_0_1_3 -- NODE0_5_6_4_4_2_0_1_3_3
 NODE0_5_6_4_4_2_0_1 -- NODE0_5_6_4_4_2_0_1_3
-NODE0_5_6_4_4_2_0_1_4 [label="Boolean"]
-NODE0_5_6_4_4_2_0_1_4_1 [label="Intop"]
+NODE0_5_6_4_4_2_0_1_4 [label="Boolean" ]
+NODE0_5_6_4_4_2_0_1_4_1 [label="Intop" ]
 NODE0_5_6_4_4_2_0_1_4_1_0 [label="=="]
 NODE0_5_6_4_4_2_0_1_4_1 -- NODE0_5_6_4_4_2_0_1_4_1_0
 NODE0_5_6_4_4_2_0_1_4 -- NODE0_5_6_4_4_2_0_1_4_1
-NODE0_5_6_4_4_2_0_1_4_2 [label="Int"]
-NODE0_5_6_4_4_2_0_1_4_2_0 [label="Sizeof"]
+NODE0_5_6_4_4_2_0_1_4_2 [label="Int" ]
+NODE0_5_6_4_4_2_0_1_4_2_0 [label="Sizeof" ]
 NODE0_5_6_4_4_2_0_1_4_2_0_1 [label="size"]
 NODE0_5_6_4_4_2_0_1_4_2_0 -- NODE0_5_6_4_4_2_0_1_4_2_0_1
-NODE0_5_6_4_4_2_0_1_4_2_0_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_0_1_4_2_0_2_1 [label="Who2"]
+NODE0_5_6_4_4_2_0_1_4_2_0_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_0_1_4_2_0_2_1 [label="Who2" ]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_1_1 [label="current"]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_1 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_1_1
 NODE0_5_6_4_4_2_0_1_4_2_0_2_1_2 [label="player"]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_1 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_1_2
 NODE0_5_6_4_4_2_0_1_4_2_0_2 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_1
-NODE0_5_6_4_4_2_0_1_4_2_0_2_2 [label="loc"]
-NODE0_5_6_4_4_2_0_1_4_2_0_2 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_2
 NODE0_5_6_4_4_2_0_1_4_2_0_2_3 [fillcolor="green" style=filled label="HAND"]
 NODE0_5_6_4_4_2_0_1_4_2_0_2 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_3
-NODE0_5_6_4_4_2_0_1_4_2_0_2_4 [label="Whereclause"]
+NODE0_5_6_4_4_2_0_1_4_2_0_2_4 [label="Whereclause" ]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_0 [label="where"]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4_0
-NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1 [label="Boolatt"]
-NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1 [label="Attrcomp"]
+NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1 [label="Boolatt" ]
+NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1 [label="Attrcomp" ]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_0 [label="!="]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_0
-NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_1 [label="Cardatt"]
+NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_1 [label="Cardatt" ]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_1_1 [label="cardatt"]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_1 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_1_1
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_1_2 [fillcolor="green" style=filled label="suit"]
@@ -757,21 +623,19 @@ NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_1 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_1_2
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_1_3 [label="this"]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_1 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_1_3
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_1
-NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2 [label="Cardatt"]
+NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2 [label="Cardatt" ]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_1 [label="cardatt"]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_1
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_2 [fillcolor="green" style=filled label="suit"]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_2
-NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3 [label="Card"]
+NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3 [label="Card" ]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_1 [label="top"]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_1
-NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_1 [label="Who"]
+NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_1 [label="Who" ]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_1_0 [label="game"]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_1 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_1_0
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_1
-NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_2 [label="loc"]
-NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_2
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_3 [fillcolor="green" style=filled label="TRUMP"]
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_3
 NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2
@@ -783,39 +647,33 @@ NODE0_5_6_4_4_2_0_1_4_2_0_2 -- NODE0_5_6_4_4_2_0_1_4_2_0_2_4
 NODE0_5_6_4_4_2_0_1_4_2_0 -- NODE0_5_6_4_4_2_0_1_4_2_0_2
 NODE0_5_6_4_4_2_0_1_4_2 -- NODE0_5_6_4_4_2_0_1_4_2_0
 NODE0_5_6_4_4_2_0_1_4 -- NODE0_5_6_4_4_2_0_1_4_2
-NODE0_5_6_4_4_2_0_1_4_3 [label="Int"]
-NODE0_5_6_4_4_2_0_1_4_3_0 [label="0"]
-NODE0_5_6_4_4_2_0_1_4_3 -- NODE0_5_6_4_4_2_0_1_4_3_0
+NODE0_5_6_4_4_2_0_1_4_3 [label="0" style=filled fillcolor="lightblue"]
 NODE0_5_6_4_4_2_0_1_4 -- NODE0_5_6_4_4_2_0_1_4_3
 NODE0_5_6_4_4_2_0_1 -- NODE0_5_6_4_4_2_0_1_4
 NODE0_5_6_4_4_2_0 -- NODE0_5_6_4_4_2_0_1
-NODE0_5_6_4_4_2_0_2 [label="Multiaction"]
-NODE0_5_6_4_4_2_0_2_0 [label="Action"]
-NODE0_5_6_4_4_2_0_2_0_1 [label="Moveaction"]
-NODE0_5_6_4_4_2_0_2_0_1_0 [label="move"]
-NODE0_5_6_4_4_2_0_2_0_1 -- NODE0_5_6_4_4_2_0_2_0_1_0
-NODE0_5_6_4_4_2_0_2_0_1_1 [label="Card"]
+NODE0_5_6_4_4_2_0_2 [label="Multiaction" ]
+NODE0_5_6_4_4_2_0_2_0 [label="Action" ]
+NODE0_5_6_4_4_2_0_2_0_1 [label="Moveaction" ]
+NODE0_5_6_4_4_2_0_2_0_1_1 [label="Card" ]
 NODE0_5_6_4_4_2_0_2_0_1_1_1 [label="any"]
 NODE0_5_6_4_4_2_0_2_0_1_1 -- NODE0_5_6_4_4_2_0_2_0_1_1_1
-NODE0_5_6_4_4_2_0_2_0_1_1_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_0_2_0_1_1_2_1 [label="Who2"]
+NODE0_5_6_4_4_2_0_2_0_1_1_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_0_2_0_1_1_2_1 [label="Who2" ]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_1_1 [label="current"]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_1 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_1_1
 NODE0_5_6_4_4_2_0_2_0_1_1_2_1_2 [label="player"]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_1 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_1_2
 NODE0_5_6_4_4_2_0_2_0_1_1_2 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_1
-NODE0_5_6_4_4_2_0_2_0_1_1_2_2 [label="loc"]
-NODE0_5_6_4_4_2_0_2_0_1_1_2 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_2
 NODE0_5_6_4_4_2_0_2_0_1_1_2_3 [fillcolor="green" style=filled label="HAND"]
 NODE0_5_6_4_4_2_0_2_0_1_1_2 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_3
-NODE0_5_6_4_4_2_0_2_0_1_1_2_4 [label="Whereclause"]
+NODE0_5_6_4_4_2_0_2_0_1_1_2_4 [label="Whereclause" ]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_0 [label="where"]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_0
-NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1 [label="Boolatt"]
-NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1 [label="Attrcomp"]
+NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1 [label="Boolatt" ]
+NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1 [label="Attrcomp" ]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_0 [label="!="]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_0
-NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_1 [label="Cardatt"]
+NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_1 [label="Cardatt" ]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_1_1 [label="cardatt"]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_1 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_1_1
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_1_2 [fillcolor="green" style=filled label="suit"]
@@ -823,21 +681,19 @@ NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_1 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_1_2
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_1_3 [label="this"]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_1 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_1_3
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_1
-NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2 [label="Cardatt"]
+NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2 [label="Cardatt" ]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_1 [label="cardatt"]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_1
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_2 [fillcolor="green" style=filled label="suit"]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_2
-NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3 [label="Card"]
+NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3 [label="Card" ]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_1 [label="top"]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_1
-NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_1 [label="Who"]
+NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_1 [label="Who" ]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_1_0 [label="game"]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_1 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_1_0
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_1
-NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_2 [label="loc"]
-NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_2
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_3 [fillcolor="green" style=filled label="TRUMP"]
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_3
 NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2
@@ -848,54 +704,46 @@ NODE0_5_6_4_4_2_0_2_0_1_1_2_4 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4_1
 NODE0_5_6_4_4_2_0_2_0_1_1_2 -- NODE0_5_6_4_4_2_0_2_0_1_1_2_4
 NODE0_5_6_4_4_2_0_2_0_1_1 -- NODE0_5_6_4_4_2_0_2_0_1_1_2
 NODE0_5_6_4_4_2_0_2_0_1 -- NODE0_5_6_4_4_2_0_2_0_1_1
-NODE0_5_6_4_4_2_0_2_0_1_2 [label="Card"]
+NODE0_5_6_4_4_2_0_2_0_1_2 [label="Card" ]
 NODE0_5_6_4_4_2_0_2_0_1_2_1 [label="top"]
 NODE0_5_6_4_4_2_0_2_0_1_2 -- NODE0_5_6_4_4_2_0_2_0_1_2_1
-NODE0_5_6_4_4_2_0_2_0_1_2_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_0_2_0_1_2_2_1 [label="Who2"]
+NODE0_5_6_4_4_2_0_2_0_1_2_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_0_2_0_1_2_2_1 [label="Who2" ]
 NODE0_5_6_4_4_2_0_2_0_1_2_2_1_1 [label="current"]
 NODE0_5_6_4_4_2_0_2_0_1_2_2_1 -- NODE0_5_6_4_4_2_0_2_0_1_2_2_1_1
 NODE0_5_6_4_4_2_0_2_0_1_2_2_1_2 [label="player"]
 NODE0_5_6_4_4_2_0_2_0_1_2_2_1 -- NODE0_5_6_4_4_2_0_2_0_1_2_2_1_2
 NODE0_5_6_4_4_2_0_2_0_1_2_2 -- NODE0_5_6_4_4_2_0_2_0_1_2_2_1
-NODE0_5_6_4_4_2_0_2_0_1_2_2_2 [label="loc"]
-NODE0_5_6_4_4_2_0_2_0_1_2_2 -- NODE0_5_6_4_4_2_0_2_0_1_2_2_2
 NODE0_5_6_4_4_2_0_2_0_1_2_2_3 [fillcolor="green" style=filled label="TRICK"]
 NODE0_5_6_4_4_2_0_2_0_1_2_2 -- NODE0_5_6_4_4_2_0_2_0_1_2_2_3
 NODE0_5_6_4_4_2_0_2_0_1_2 -- NODE0_5_6_4_4_2_0_2_0_1_2_2
 NODE0_5_6_4_4_2_0_2_0_1 -- NODE0_5_6_4_4_2_0_2_0_1_2
 NODE0_5_6_4_4_2_0_2_0 -- NODE0_5_6_4_4_2_0_2_0_1
 NODE0_5_6_4_4_2_0_2 -- NODE0_5_6_4_4_2_0_2_0
-NODE0_5_6_4_4_2_0_2_1 [label="Action"]
-NODE0_5_6_4_4_2_0_2_1_1 [label="Copyaction"]
-NODE0_5_6_4_4_2_0_2_1_1_0 [label="copy"]
-NODE0_5_6_4_4_2_0_2_1_1 -- NODE0_5_6_4_4_2_0_2_1_1_0
-NODE0_5_6_4_4_2_0_2_1_1_1 [label="Card"]
+NODE0_5_6_4_4_2_0_2_1 [label="Action" ]
+NODE0_5_6_4_4_2_0_2_1_1 [label="Copyaction" ]
+NODE0_5_6_4_4_2_0_2_1_1_1 [label="Card" ]
 NODE0_5_6_4_4_2_0_2_1_1_1_1 [label="top"]
 NODE0_5_6_4_4_2_0_2_1_1_1 -- NODE0_5_6_4_4_2_0_2_1_1_1_1
-NODE0_5_6_4_4_2_0_2_1_1_1_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_0_2_1_1_1_2_1 [label="Who2"]
+NODE0_5_6_4_4_2_0_2_1_1_1_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_0_2_1_1_1_2_1 [label="Who2" ]
 NODE0_5_6_4_4_2_0_2_1_1_1_2_1_1 [label="current"]
 NODE0_5_6_4_4_2_0_2_1_1_1_2_1 -- NODE0_5_6_4_4_2_0_2_1_1_1_2_1_1
 NODE0_5_6_4_4_2_0_2_1_1_1_2_1_2 [label="player"]
 NODE0_5_6_4_4_2_0_2_1_1_1_2_1 -- NODE0_5_6_4_4_2_0_2_1_1_1_2_1_2
 NODE0_5_6_4_4_2_0_2_1_1_1_2 -- NODE0_5_6_4_4_2_0_2_1_1_1_2_1
-NODE0_5_6_4_4_2_0_2_1_1_1_2_2 [label="loc"]
-NODE0_5_6_4_4_2_0_2_1_1_1_2 -- NODE0_5_6_4_4_2_0_2_1_1_1_2_2
 NODE0_5_6_4_4_2_0_2_1_1_1_2_3 [fillcolor="green" style=filled label="TRICK"]
 NODE0_5_6_4_4_2_0_2_1_1_1_2 -- NODE0_5_6_4_4_2_0_2_1_1_1_2_3
 NODE0_5_6_4_4_2_0_2_1_1_1 -- NODE0_5_6_4_4_2_0_2_1_1_1_2
 NODE0_5_6_4_4_2_0_2_1_1 -- NODE0_5_6_4_4_2_0_2_1_1_1
-NODE0_5_6_4_4_2_0_2_1_1_2 [label="Card"]
+NODE0_5_6_4_4_2_0_2_1_1_2 [label="Card" ]
 NODE0_5_6_4_4_2_0_2_1_1_2_1 [label="top"]
 NODE0_5_6_4_4_2_0_2_1_1_2 -- NODE0_5_6_4_4_2_0_2_1_1_2_1
-NODE0_5_6_4_4_2_0_2_1_1_2_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_0_2_1_1_2_2_1 [label="Who"]
+NODE0_5_6_4_4_2_0_2_1_1_2_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_0_2_1_1_2_2_1 [label="Who" ]
 NODE0_5_6_4_4_2_0_2_1_1_2_2_1_0 [label="game"]
 NODE0_5_6_4_4_2_0_2_1_1_2_2_1 -- NODE0_5_6_4_4_2_0_2_1_1_2_2_1_0
 NODE0_5_6_4_4_2_0_2_1_1_2_2 -- NODE0_5_6_4_4_2_0_2_1_1_2_2_1
-NODE0_5_6_4_4_2_0_2_1_1_2_2_2 [label="loc"]
-NODE0_5_6_4_4_2_0_2_1_1_2_2 -- NODE0_5_6_4_4_2_0_2_1_1_2_2_2
 NODE0_5_6_4_4_2_0_2_1_1_2_2_3 [fillcolor="green" style=filled label="LEAD"]
 NODE0_5_6_4_4_2_0_2_1_1_2_2 -- NODE0_5_6_4_4_2_0_2_1_1_2_2_3
 NODE0_5_6_4_4_2_0_2_1_1_2 -- NODE0_5_6_4_4_2_0_2_1_1_2_2
@@ -904,128 +752,108 @@ NODE0_5_6_4_4_2_0_2_1 -- NODE0_5_6_4_4_2_0_2_1_1
 NODE0_5_6_4_4_2_0_2 -- NODE0_5_6_4_4_2_0_2_1
 NODE0_5_6_4_4_2_0 -- NODE0_5_6_4_4_2_0_2
 NODE0_5_6_4_4_2 -- NODE0_5_6_4_4_2_0
-NODE0_5_6_4_4_2_1 [label="Gameaction"]
-NODE0_5_6_4_4_2_1_1 [label="Boolean"]
+NODE0_5_6_4_4_2_1 [label="Gameaction" ]
+NODE0_5_6_4_4_2_1_1 [label="Boolean" ]
 NODE0_5_6_4_4_2_1_1_1 [label="and"]
 NODE0_5_6_4_4_2_1_1 -- NODE0_5_6_4_4_2_1_1_1
-NODE0_5_6_4_4_2_1_1_2 [label="Boolean"]
-NODE0_5_6_4_4_2_1_1_2_1 [label="Intop"]
+NODE0_5_6_4_4_2_1_1_2 [label="Boolean" ]
+NODE0_5_6_4_4_2_1_1_2_1 [label="Intop" ]
 NODE0_5_6_4_4_2_1_1_2_1_0 [label="=="]
 NODE0_5_6_4_4_2_1_1_2_1 -- NODE0_5_6_4_4_2_1_1_2_1_0
 NODE0_5_6_4_4_2_1_1_2 -- NODE0_5_6_4_4_2_1_1_2_1
-NODE0_5_6_4_4_2_1_1_2_2 [label="Int"]
-NODE0_5_6_4_4_2_1_1_2_2_0 [label="Sizeof"]
+NODE0_5_6_4_4_2_1_1_2_2 [label="Int" ]
+NODE0_5_6_4_4_2_1_1_2_2_0 [label="Sizeof" ]
 NODE0_5_6_4_4_2_1_1_2_2_0_1 [label="size"]
 NODE0_5_6_4_4_2_1_1_2_2_0 -- NODE0_5_6_4_4_2_1_1_2_2_0_1
-NODE0_5_6_4_4_2_1_1_2_2_0_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_1_1_2_2_0_2_1 [label="Who"]
+NODE0_5_6_4_4_2_1_1_2_2_0_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_1_1_2_2_0_2_1 [label="Who" ]
 NODE0_5_6_4_4_2_1_1_2_2_0_2_1_0 [label="game"]
 NODE0_5_6_4_4_2_1_1_2_2_0_2_1 -- NODE0_5_6_4_4_2_1_1_2_2_0_2_1_0
 NODE0_5_6_4_4_2_1_1_2_2_0_2 -- NODE0_5_6_4_4_2_1_1_2_2_0_2_1
-NODE0_5_6_4_4_2_1_1_2_2_0_2_2 [label="loc"]
-NODE0_5_6_4_4_2_1_1_2_2_0_2 -- NODE0_5_6_4_4_2_1_1_2_2_0_2_2
 NODE0_5_6_4_4_2_1_1_2_2_0_2_3 [fillcolor="green" style=filled label="LEAD"]
 NODE0_5_6_4_4_2_1_1_2_2_0_2 -- NODE0_5_6_4_4_2_1_1_2_2_0_2_3
 NODE0_5_6_4_4_2_1_1_2_2_0 -- NODE0_5_6_4_4_2_1_1_2_2_0_2
 NODE0_5_6_4_4_2_1_1_2_2 -- NODE0_5_6_4_4_2_1_1_2_2_0
 NODE0_5_6_4_4_2_1_1_2 -- NODE0_5_6_4_4_2_1_1_2_2
-NODE0_5_6_4_4_2_1_1_2_3 [label="Int"]
-NODE0_5_6_4_4_2_1_1_2_3_0 [label="0"]
-NODE0_5_6_4_4_2_1_1_2_3 -- NODE0_5_6_4_4_2_1_1_2_3_0
+NODE0_5_6_4_4_2_1_1_2_3 [label="0" style=filled fillcolor="lightblue"]
 NODE0_5_6_4_4_2_1_1_2 -- NODE0_5_6_4_4_2_1_1_2_3
 NODE0_5_6_4_4_2_1_1 -- NODE0_5_6_4_4_2_1_1_2
-NODE0_5_6_4_4_2_1_1_3 [label="Boolean"]
-NODE0_5_6_4_4_2_1_1_3_1 [label="Intop"]
+NODE0_5_6_4_4_2_1_1_3 [label="Boolean" ]
+NODE0_5_6_4_4_2_1_1_3_1 [label="Intop" ]
 NODE0_5_6_4_4_2_1_1_3_1_0 [label="=="]
 NODE0_5_6_4_4_2_1_1_3_1 -- NODE0_5_6_4_4_2_1_1_3_1_0
 NODE0_5_6_4_4_2_1_1_3 -- NODE0_5_6_4_4_2_1_1_3_1
-NODE0_5_6_4_4_2_1_1_3_2 [label="Int"]
-NODE0_5_6_4_4_2_1_1_3_2_0 [label="Rawstorage"]
-NODE0_5_6_4_4_2_1_1_3_2_0_1 [label="Who"]
+NODE0_5_6_4_4_2_1_1_3_2 [label="Int" ]
+NODE0_5_6_4_4_2_1_1_3_2_0 [label="Rawstorage" ]
+NODE0_5_6_4_4_2_1_1_3_2_0_1 [label="Who" ]
 NODE0_5_6_4_4_2_1_1_3_2_0_1_0 [label="game"]
 NODE0_5_6_4_4_2_1_1_3_2_0_1 -- NODE0_5_6_4_4_2_1_1_3_2_0_1_0
 NODE0_5_6_4_4_2_1_1_3_2_0 -- NODE0_5_6_4_4_2_1_1_3_2_0_1
-NODE0_5_6_4_4_2_1_1_3_2_0_2 [label="sto"]
-NODE0_5_6_4_4_2_1_1_3_2_0 -- NODE0_5_6_4_4_2_1_1_3_2_0_2
 NODE0_5_6_4_4_2_1_1_3_2_0_3 [fillcolor="green" style=filled label="SPADESBROKEN"]
 NODE0_5_6_4_4_2_1_1_3_2_0 -- NODE0_5_6_4_4_2_1_1_3_2_0_3
 NODE0_5_6_4_4_2_1_1_3_2 -- NODE0_5_6_4_4_2_1_1_3_2_0
 NODE0_5_6_4_4_2_1_1_3 -- NODE0_5_6_4_4_2_1_1_3_2
-NODE0_5_6_4_4_2_1_1_3_3 [label="Int"]
-NODE0_5_6_4_4_2_1_1_3_3_0 [label="1"]
-NODE0_5_6_4_4_2_1_1_3_3 -- NODE0_5_6_4_4_2_1_1_3_3_0
+NODE0_5_6_4_4_2_1_1_3_3 [label="1" style=filled fillcolor="lightblue"]
 NODE0_5_6_4_4_2_1_1_3 -- NODE0_5_6_4_4_2_1_1_3_3
 NODE0_5_6_4_4_2_1_1 -- NODE0_5_6_4_4_2_1_1_3
 NODE0_5_6_4_4_2_1 -- NODE0_5_6_4_4_2_1_1
-NODE0_5_6_4_4_2_1_2 [label="Multiaction"]
-NODE0_5_6_4_4_2_1_2_0 [label="Action"]
-NODE0_5_6_4_4_2_1_2_0_1 [label="Moveaction"]
-NODE0_5_6_4_4_2_1_2_0_1_0 [label="move"]
-NODE0_5_6_4_4_2_1_2_0_1 -- NODE0_5_6_4_4_2_1_2_0_1_0
-NODE0_5_6_4_4_2_1_2_0_1_1 [label="Card"]
+NODE0_5_6_4_4_2_1_2 [label="Multiaction" ]
+NODE0_5_6_4_4_2_1_2_0 [label="Action" ]
+NODE0_5_6_4_4_2_1_2_0_1 [label="Moveaction" ]
+NODE0_5_6_4_4_2_1_2_0_1_1 [label="Card" ]
 NODE0_5_6_4_4_2_1_2_0_1_1_1 [label="any"]
 NODE0_5_6_4_4_2_1_2_0_1_1 -- NODE0_5_6_4_4_2_1_2_0_1_1_1
-NODE0_5_6_4_4_2_1_2_0_1_1_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_1_2_0_1_1_2_1 [label="Who2"]
+NODE0_5_6_4_4_2_1_2_0_1_1_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_1_2_0_1_1_2_1 [label="Who2" ]
 NODE0_5_6_4_4_2_1_2_0_1_1_2_1_1 [label="current"]
 NODE0_5_6_4_4_2_1_2_0_1_1_2_1 -- NODE0_5_6_4_4_2_1_2_0_1_1_2_1_1
 NODE0_5_6_4_4_2_1_2_0_1_1_2_1_2 [label="player"]
 NODE0_5_6_4_4_2_1_2_0_1_1_2_1 -- NODE0_5_6_4_4_2_1_2_0_1_1_2_1_2
 NODE0_5_6_4_4_2_1_2_0_1_1_2 -- NODE0_5_6_4_4_2_1_2_0_1_1_2_1
-NODE0_5_6_4_4_2_1_2_0_1_1_2_2 [label="loc"]
-NODE0_5_6_4_4_2_1_2_0_1_1_2 -- NODE0_5_6_4_4_2_1_2_0_1_1_2_2
 NODE0_5_6_4_4_2_1_2_0_1_1_2_3 [fillcolor="green" style=filled label="HAND"]
 NODE0_5_6_4_4_2_1_2_0_1_1_2 -- NODE0_5_6_4_4_2_1_2_0_1_1_2_3
 NODE0_5_6_4_4_2_1_2_0_1_1 -- NODE0_5_6_4_4_2_1_2_0_1_1_2
 NODE0_5_6_4_4_2_1_2_0_1 -- NODE0_5_6_4_4_2_1_2_0_1_1
-NODE0_5_6_4_4_2_1_2_0_1_2 [label="Card"]
+NODE0_5_6_4_4_2_1_2_0_1_2 [label="Card" ]
 NODE0_5_6_4_4_2_1_2_0_1_2_1 [label="top"]
 NODE0_5_6_4_4_2_1_2_0_1_2 -- NODE0_5_6_4_4_2_1_2_0_1_2_1
-NODE0_5_6_4_4_2_1_2_0_1_2_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_1_2_0_1_2_2_1 [label="Who2"]
+NODE0_5_6_4_4_2_1_2_0_1_2_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_1_2_0_1_2_2_1 [label="Who2" ]
 NODE0_5_6_4_4_2_1_2_0_1_2_2_1_1 [label="current"]
 NODE0_5_6_4_4_2_1_2_0_1_2_2_1 -- NODE0_5_6_4_4_2_1_2_0_1_2_2_1_1
 NODE0_5_6_4_4_2_1_2_0_1_2_2_1_2 [label="player"]
 NODE0_5_6_4_4_2_1_2_0_1_2_2_1 -- NODE0_5_6_4_4_2_1_2_0_1_2_2_1_2
 NODE0_5_6_4_4_2_1_2_0_1_2_2 -- NODE0_5_6_4_4_2_1_2_0_1_2_2_1
-NODE0_5_6_4_4_2_1_2_0_1_2_2_2 [label="loc"]
-NODE0_5_6_4_4_2_1_2_0_1_2_2 -- NODE0_5_6_4_4_2_1_2_0_1_2_2_2
 NODE0_5_6_4_4_2_1_2_0_1_2_2_3 [fillcolor="green" style=filled label="TRICK"]
 NODE0_5_6_4_4_2_1_2_0_1_2_2 -- NODE0_5_6_4_4_2_1_2_0_1_2_2_3
 NODE0_5_6_4_4_2_1_2_0_1_2 -- NODE0_5_6_4_4_2_1_2_0_1_2_2
 NODE0_5_6_4_4_2_1_2_0_1 -- NODE0_5_6_4_4_2_1_2_0_1_2
 NODE0_5_6_4_4_2_1_2_0 -- NODE0_5_6_4_4_2_1_2_0_1
 NODE0_5_6_4_4_2_1_2 -- NODE0_5_6_4_4_2_1_2_0
-NODE0_5_6_4_4_2_1_2_1 [label="Action"]
-NODE0_5_6_4_4_2_1_2_1_1 [label="Copyaction"]
-NODE0_5_6_4_4_2_1_2_1_1_0 [label="copy"]
-NODE0_5_6_4_4_2_1_2_1_1 -- NODE0_5_6_4_4_2_1_2_1_1_0
-NODE0_5_6_4_4_2_1_2_1_1_1 [label="Card"]
+NODE0_5_6_4_4_2_1_2_1 [label="Action" ]
+NODE0_5_6_4_4_2_1_2_1_1 [label="Copyaction" ]
+NODE0_5_6_4_4_2_1_2_1_1_1 [label="Card" ]
 NODE0_5_6_4_4_2_1_2_1_1_1_1 [label="top"]
 NODE0_5_6_4_4_2_1_2_1_1_1 -- NODE0_5_6_4_4_2_1_2_1_1_1_1
-NODE0_5_6_4_4_2_1_2_1_1_1_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_1_2_1_1_1_2_1 [label="Who2"]
+NODE0_5_6_4_4_2_1_2_1_1_1_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_1_2_1_1_1_2_1 [label="Who2" ]
 NODE0_5_6_4_4_2_1_2_1_1_1_2_1_1 [label="current"]
 NODE0_5_6_4_4_2_1_2_1_1_1_2_1 -- NODE0_5_6_4_4_2_1_2_1_1_1_2_1_1
 NODE0_5_6_4_4_2_1_2_1_1_1_2_1_2 [label="player"]
 NODE0_5_6_4_4_2_1_2_1_1_1_2_1 -- NODE0_5_6_4_4_2_1_2_1_1_1_2_1_2
 NODE0_5_6_4_4_2_1_2_1_1_1_2 -- NODE0_5_6_4_4_2_1_2_1_1_1_2_1
-NODE0_5_6_4_4_2_1_2_1_1_1_2_2 [label="loc"]
-NODE0_5_6_4_4_2_1_2_1_1_1_2 -- NODE0_5_6_4_4_2_1_2_1_1_1_2_2
 NODE0_5_6_4_4_2_1_2_1_1_1_2_3 [fillcolor="green" style=filled label="TRICK"]
 NODE0_5_6_4_4_2_1_2_1_1_1_2 -- NODE0_5_6_4_4_2_1_2_1_1_1_2_3
 NODE0_5_6_4_4_2_1_2_1_1_1 -- NODE0_5_6_4_4_2_1_2_1_1_1_2
 NODE0_5_6_4_4_2_1_2_1_1 -- NODE0_5_6_4_4_2_1_2_1_1_1
-NODE0_5_6_4_4_2_1_2_1_1_2 [label="Card"]
+NODE0_5_6_4_4_2_1_2_1_1_2 [label="Card" ]
 NODE0_5_6_4_4_2_1_2_1_1_2_1 [label="top"]
 NODE0_5_6_4_4_2_1_2_1_1_2 -- NODE0_5_6_4_4_2_1_2_1_1_2_1
-NODE0_5_6_4_4_2_1_2_1_1_2_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_1_2_1_1_2_2_1 [label="Who"]
+NODE0_5_6_4_4_2_1_2_1_1_2_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_1_2_1_1_2_2_1 [label="Who" ]
 NODE0_5_6_4_4_2_1_2_1_1_2_2_1_0 [label="game"]
 NODE0_5_6_4_4_2_1_2_1_1_2_2_1 -- NODE0_5_6_4_4_2_1_2_1_1_2_2_1_0
 NODE0_5_6_4_4_2_1_2_1_1_2_2 -- NODE0_5_6_4_4_2_1_2_1_1_2_2_1
-NODE0_5_6_4_4_2_1_2_1_1_2_2_2 [label="loc"]
-NODE0_5_6_4_4_2_1_2_1_1_2_2 -- NODE0_5_6_4_4_2_1_2_1_1_2_2_2
 NODE0_5_6_4_4_2_1_2_1_1_2_2_3 [fillcolor="green" style=filled label="LEAD"]
 NODE0_5_6_4_4_2_1_2_1_1_2_2 -- NODE0_5_6_4_4_2_1_2_1_1_2_2_3
 NODE0_5_6_4_4_2_1_2_1_1_2 -- NODE0_5_6_4_4_2_1_2_1_1_2_2
@@ -1034,64 +862,58 @@ NODE0_5_6_4_4_2_1_2_1 -- NODE0_5_6_4_4_2_1_2_1_1
 NODE0_5_6_4_4_2_1_2 -- NODE0_5_6_4_4_2_1_2_1
 NODE0_5_6_4_4_2_1 -- NODE0_5_6_4_4_2_1_2
 NODE0_5_6_4_4_2 -- NODE0_5_6_4_4_2_1
-NODE0_5_6_4_4_2_2 [label="Gameaction"]
-NODE0_5_6_4_4_2_2_1 [label="Boolean"]
+NODE0_5_6_4_4_2_2 [label="Gameaction" ]
+NODE0_5_6_4_4_2_2_1 [label="Boolean" ]
 NODE0_5_6_4_4_2_2_1_1 [label="and"]
 NODE0_5_6_4_4_2_2_1 -- NODE0_5_6_4_4_2_2_1_1
-NODE0_5_6_4_4_2_2_1_2 [label="Boolean"]
-NODE0_5_6_4_4_2_2_1_2_1 [label="Intop"]
+NODE0_5_6_4_4_2_2_1_2 [label="Boolean" ]
+NODE0_5_6_4_4_2_2_1_2_1 [label="Intop" ]
 NODE0_5_6_4_4_2_2_1_2_1_0 [label="=="]
 NODE0_5_6_4_4_2_2_1_2_1 -- NODE0_5_6_4_4_2_2_1_2_1_0
 NODE0_5_6_4_4_2_2_1_2 -- NODE0_5_6_4_4_2_2_1_2_1
-NODE0_5_6_4_4_2_2_1_2_2 [label="Int"]
-NODE0_5_6_4_4_2_2_1_2_2_0 [label="Sizeof"]
+NODE0_5_6_4_4_2_2_1_2_2 [label="Int" ]
+NODE0_5_6_4_4_2_2_1_2_2_0 [label="Sizeof" ]
 NODE0_5_6_4_4_2_2_1_2_2_0_1 [label="size"]
 NODE0_5_6_4_4_2_2_1_2_2_0 -- NODE0_5_6_4_4_2_2_1_2_2_0_1
-NODE0_5_6_4_4_2_2_1_2_2_0_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_2_1_2_2_0_2_1 [label="Who"]
+NODE0_5_6_4_4_2_2_1_2_2_0_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_2_1_2_2_0_2_1 [label="Who" ]
 NODE0_5_6_4_4_2_2_1_2_2_0_2_1_0 [label="game"]
 NODE0_5_6_4_4_2_2_1_2_2_0_2_1 -- NODE0_5_6_4_4_2_2_1_2_2_0_2_1_0
 NODE0_5_6_4_4_2_2_1_2_2_0_2 -- NODE0_5_6_4_4_2_2_1_2_2_0_2_1
-NODE0_5_6_4_4_2_2_1_2_2_0_2_2 [label="loc"]
-NODE0_5_6_4_4_2_2_1_2_2_0_2 -- NODE0_5_6_4_4_2_2_1_2_2_0_2_2
 NODE0_5_6_4_4_2_2_1_2_2_0_2_3 [fillcolor="green" style=filled label="LEAD"]
 NODE0_5_6_4_4_2_2_1_2_2_0_2 -- NODE0_5_6_4_4_2_2_1_2_2_0_2_3
 NODE0_5_6_4_4_2_2_1_2_2_0 -- NODE0_5_6_4_4_2_2_1_2_2_0_2
 NODE0_5_6_4_4_2_2_1_2_2 -- NODE0_5_6_4_4_2_2_1_2_2_0
 NODE0_5_6_4_4_2_2_1_2 -- NODE0_5_6_4_4_2_2_1_2_2
-NODE0_5_6_4_4_2_2_1_2_3 [label="Int"]
-NODE0_5_6_4_4_2_2_1_2_3_0 [label="1"]
-NODE0_5_6_4_4_2_2_1_2_3 -- NODE0_5_6_4_4_2_2_1_2_3_0
+NODE0_5_6_4_4_2_2_1_2_3 [label="1" style=filled fillcolor="lightblue"]
 NODE0_5_6_4_4_2_2_1_2 -- NODE0_5_6_4_4_2_2_1_2_3
 NODE0_5_6_4_4_2_2_1 -- NODE0_5_6_4_4_2_2_1_2
-NODE0_5_6_4_4_2_2_1_3 [label="Boolean"]
-NODE0_5_6_4_4_2_2_1_3_1 [label="Intop"]
+NODE0_5_6_4_4_2_2_1_3 [label="Boolean" ]
+NODE0_5_6_4_4_2_2_1_3_1 [label="Intop" ]
 NODE0_5_6_4_4_2_2_1_3_1_0 [label="=="]
 NODE0_5_6_4_4_2_2_1_3_1 -- NODE0_5_6_4_4_2_2_1_3_1_0
 NODE0_5_6_4_4_2_2_1_3 -- NODE0_5_6_4_4_2_2_1_3_1
-NODE0_5_6_4_4_2_2_1_3_2 [label="Int"]
-NODE0_5_6_4_4_2_2_1_3_2_0 [label="Sizeof"]
+NODE0_5_6_4_4_2_2_1_3_2 [label="Int" ]
+NODE0_5_6_4_4_2_2_1_3_2_0 [label="Sizeof" ]
 NODE0_5_6_4_4_2_2_1_3_2_0_1 [label="size"]
 NODE0_5_6_4_4_2_2_1_3_2_0 -- NODE0_5_6_4_4_2_2_1_3_2_0_1
-NODE0_5_6_4_4_2_2_1_3_2_0_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_2_1_3_2_0_2_1 [label="Who2"]
+NODE0_5_6_4_4_2_2_1_3_2_0_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_2_1_3_2_0_2_1 [label="Who2" ]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_1_1 [label="current"]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_1 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_1_1
 NODE0_5_6_4_4_2_2_1_3_2_0_2_1_2 [label="player"]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_1 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_1_2
 NODE0_5_6_4_4_2_2_1_3_2_0_2 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_1
-NODE0_5_6_4_4_2_2_1_3_2_0_2_2 [label="loc"]
-NODE0_5_6_4_4_2_2_1_3_2_0_2 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_2
 NODE0_5_6_4_4_2_2_1_3_2_0_2_3 [fillcolor="green" style=filled label="HAND"]
 NODE0_5_6_4_4_2_2_1_3_2_0_2 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_3
-NODE0_5_6_4_4_2_2_1_3_2_0_2_4 [label="Whereclause"]
+NODE0_5_6_4_4_2_2_1_3_2_0_2_4 [label="Whereclause" ]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_0 [label="where"]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4_0
-NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1 [label="Boolatt"]
-NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1 [label="Attrcomp"]
+NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1 [label="Boolatt" ]
+NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1 [label="Attrcomp" ]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_0 [label="=="]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_0
-NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_1 [label="Cardatt"]
+NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_1 [label="Cardatt" ]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_1_1 [label="cardatt"]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_1 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_1_1
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_1_2 [fillcolor="green" style=filled label="suit"]
@@ -1099,21 +921,19 @@ NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_1 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_1_2
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_1_3 [label="this"]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_1 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_1_3
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_1
-NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2 [label="Cardatt"]
+NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2 [label="Cardatt" ]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_1 [label="cardatt"]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_1
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_2 [fillcolor="green" style=filled label="suit"]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_2
-NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3 [label="Card"]
+NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3 [label="Card" ]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_1 [label="top"]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_1
-NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_1 [label="Who"]
+NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_1 [label="Who" ]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_1_0 [label="game"]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_1 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_1_0
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_1
-NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_2 [label="loc"]
-NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_2
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_3 [fillcolor="green" style=filled label="LEAD"]
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_3
 NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2
@@ -1125,45 +945,37 @@ NODE0_5_6_4_4_2_2_1_3_2_0_2 -- NODE0_5_6_4_4_2_2_1_3_2_0_2_4
 NODE0_5_6_4_4_2_2_1_3_2_0 -- NODE0_5_6_4_4_2_2_1_3_2_0_2
 NODE0_5_6_4_4_2_2_1_3_2 -- NODE0_5_6_4_4_2_2_1_3_2_0
 NODE0_5_6_4_4_2_2_1_3 -- NODE0_5_6_4_4_2_2_1_3_2
-NODE0_5_6_4_4_2_2_1_3_3 [label="Int"]
-NODE0_5_6_4_4_2_2_1_3_3_0 [label="0"]
-NODE0_5_6_4_4_2_2_1_3_3 -- NODE0_5_6_4_4_2_2_1_3_3_0
+NODE0_5_6_4_4_2_2_1_3_3 [label="0" style=filled fillcolor="lightblue"]
 NODE0_5_6_4_4_2_2_1_3 -- NODE0_5_6_4_4_2_2_1_3_3
 NODE0_5_6_4_4_2_2_1 -- NODE0_5_6_4_4_2_2_1_3
 NODE0_5_6_4_4_2_2 -- NODE0_5_6_4_4_2_2_1
-NODE0_5_6_4_4_2_2_2 [label="Multiaction"]
-NODE0_5_6_4_4_2_2_2_0 [label="Action"]
-NODE0_5_6_4_4_2_2_2_0_1 [label="Moveaction"]
-NODE0_5_6_4_4_2_2_2_0_1_0 [label="move"]
-NODE0_5_6_4_4_2_2_2_0_1 -- NODE0_5_6_4_4_2_2_2_0_1_0
-NODE0_5_6_4_4_2_2_2_0_1_1 [label="Card"]
+NODE0_5_6_4_4_2_2_2 [label="Multiaction" ]
+NODE0_5_6_4_4_2_2_2_0 [label="Action" ]
+NODE0_5_6_4_4_2_2_2_0_1 [label="Moveaction" ]
+NODE0_5_6_4_4_2_2_2_0_1_1 [label="Card" ]
 NODE0_5_6_4_4_2_2_2_0_1_1_1 [label="any"]
 NODE0_5_6_4_4_2_2_2_0_1_1 -- NODE0_5_6_4_4_2_2_2_0_1_1_1
-NODE0_5_6_4_4_2_2_2_0_1_1_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_2_2_0_1_1_2_1 [label="Who2"]
+NODE0_5_6_4_4_2_2_2_0_1_1_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_2_2_0_1_1_2_1 [label="Who2" ]
 NODE0_5_6_4_4_2_2_2_0_1_1_2_1_1 [label="current"]
 NODE0_5_6_4_4_2_2_2_0_1_1_2_1 -- NODE0_5_6_4_4_2_2_2_0_1_1_2_1_1
 NODE0_5_6_4_4_2_2_2_0_1_1_2_1_2 [label="player"]
 NODE0_5_6_4_4_2_2_2_0_1_1_2_1 -- NODE0_5_6_4_4_2_2_2_0_1_1_2_1_2
 NODE0_5_6_4_4_2_2_2_0_1_1_2 -- NODE0_5_6_4_4_2_2_2_0_1_1_2_1
-NODE0_5_6_4_4_2_2_2_0_1_1_2_2 [label="loc"]
-NODE0_5_6_4_4_2_2_2_0_1_1_2 -- NODE0_5_6_4_4_2_2_2_0_1_1_2_2
 NODE0_5_6_4_4_2_2_2_0_1_1_2_3 [fillcolor="green" style=filled label="HAND"]
 NODE0_5_6_4_4_2_2_2_0_1_1_2 -- NODE0_5_6_4_4_2_2_2_0_1_1_2_3
 NODE0_5_6_4_4_2_2_2_0_1_1 -- NODE0_5_6_4_4_2_2_2_0_1_1_2
 NODE0_5_6_4_4_2_2_2_0_1 -- NODE0_5_6_4_4_2_2_2_0_1_1
-NODE0_5_6_4_4_2_2_2_0_1_2 [label="Card"]
+NODE0_5_6_4_4_2_2_2_0_1_2 [label="Card" ]
 NODE0_5_6_4_4_2_2_2_0_1_2_1 [label="top"]
 NODE0_5_6_4_4_2_2_2_0_1_2 -- NODE0_5_6_4_4_2_2_2_0_1_2_1
-NODE0_5_6_4_4_2_2_2_0_1_2_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_2_2_0_1_2_2_1 [label="Who2"]
+NODE0_5_6_4_4_2_2_2_0_1_2_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_2_2_0_1_2_2_1 [label="Who2" ]
 NODE0_5_6_4_4_2_2_2_0_1_2_2_1_1 [label="current"]
 NODE0_5_6_4_4_2_2_2_0_1_2_2_1 -- NODE0_5_6_4_4_2_2_2_0_1_2_2_1_1
 NODE0_5_6_4_4_2_2_2_0_1_2_2_1_2 [label="player"]
 NODE0_5_6_4_4_2_2_2_0_1_2_2_1 -- NODE0_5_6_4_4_2_2_2_0_1_2_2_1_2
 NODE0_5_6_4_4_2_2_2_0_1_2_2 -- NODE0_5_6_4_4_2_2_2_0_1_2_2_1
-NODE0_5_6_4_4_2_2_2_0_1_2_2_2 [label="loc"]
-NODE0_5_6_4_4_2_2_2_0_1_2_2 -- NODE0_5_6_4_4_2_2_2_0_1_2_2_2
 NODE0_5_6_4_4_2_2_2_0_1_2_2_3 [fillcolor="green" style=filled label="TRICK"]
 NODE0_5_6_4_4_2_2_2_0_1_2_2 -- NODE0_5_6_4_4_2_2_2_0_1_2_2_3
 NODE0_5_6_4_4_2_2_2_0_1_2 -- NODE0_5_6_4_4_2_2_2_0_1_2_2
@@ -1172,64 +984,58 @@ NODE0_5_6_4_4_2_2_2_0 -- NODE0_5_6_4_4_2_2_2_0_1
 NODE0_5_6_4_4_2_2_2 -- NODE0_5_6_4_4_2_2_2_0
 NODE0_5_6_4_4_2_2 -- NODE0_5_6_4_4_2_2_2
 NODE0_5_6_4_4_2 -- NODE0_5_6_4_4_2_2
-NODE0_5_6_4_4_2_3 [label="Gameaction"]
-NODE0_5_6_4_4_2_3_1 [label="Boolean"]
+NODE0_5_6_4_4_2_3 [label="Gameaction" ]
+NODE0_5_6_4_4_2_3_1 [label="Boolean" ]
 NODE0_5_6_4_4_2_3_1_1 [label="and"]
 NODE0_5_6_4_4_2_3_1 -- NODE0_5_6_4_4_2_3_1_1
-NODE0_5_6_4_4_2_3_1_2 [label="Boolean"]
-NODE0_5_6_4_4_2_3_1_2_1 [label="Intop"]
+NODE0_5_6_4_4_2_3_1_2 [label="Boolean" ]
+NODE0_5_6_4_4_2_3_1_2_1 [label="Intop" ]
 NODE0_5_6_4_4_2_3_1_2_1_0 [label="=="]
 NODE0_5_6_4_4_2_3_1_2_1 -- NODE0_5_6_4_4_2_3_1_2_1_0
 NODE0_5_6_4_4_2_3_1_2 -- NODE0_5_6_4_4_2_3_1_2_1
-NODE0_5_6_4_4_2_3_1_2_2 [label="Int"]
-NODE0_5_6_4_4_2_3_1_2_2_0 [label="Sizeof"]
+NODE0_5_6_4_4_2_3_1_2_2 [label="Int" ]
+NODE0_5_6_4_4_2_3_1_2_2_0 [label="Sizeof" ]
 NODE0_5_6_4_4_2_3_1_2_2_0_1 [label="size"]
 NODE0_5_6_4_4_2_3_1_2_2_0 -- NODE0_5_6_4_4_2_3_1_2_2_0_1
-NODE0_5_6_4_4_2_3_1_2_2_0_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_3_1_2_2_0_2_1 [label="Who"]
+NODE0_5_6_4_4_2_3_1_2_2_0_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_3_1_2_2_0_2_1 [label="Who" ]
 NODE0_5_6_4_4_2_3_1_2_2_0_2_1_0 [label="game"]
 NODE0_5_6_4_4_2_3_1_2_2_0_2_1 -- NODE0_5_6_4_4_2_3_1_2_2_0_2_1_0
 NODE0_5_6_4_4_2_3_1_2_2_0_2 -- NODE0_5_6_4_4_2_3_1_2_2_0_2_1
-NODE0_5_6_4_4_2_3_1_2_2_0_2_2 [label="loc"]
-NODE0_5_6_4_4_2_3_1_2_2_0_2 -- NODE0_5_6_4_4_2_3_1_2_2_0_2_2
 NODE0_5_6_4_4_2_3_1_2_2_0_2_3 [fillcolor="green" style=filled label="LEAD"]
 NODE0_5_6_4_4_2_3_1_2_2_0_2 -- NODE0_5_6_4_4_2_3_1_2_2_0_2_3
 NODE0_5_6_4_4_2_3_1_2_2_0 -- NODE0_5_6_4_4_2_3_1_2_2_0_2
 NODE0_5_6_4_4_2_3_1_2_2 -- NODE0_5_6_4_4_2_3_1_2_2_0
 NODE0_5_6_4_4_2_3_1_2 -- NODE0_5_6_4_4_2_3_1_2_2
-NODE0_5_6_4_4_2_3_1_2_3 [label="Int"]
-NODE0_5_6_4_4_2_3_1_2_3_0 [label="1"]
-NODE0_5_6_4_4_2_3_1_2_3 -- NODE0_5_6_4_4_2_3_1_2_3_0
+NODE0_5_6_4_4_2_3_1_2_3 [label="1" style=filled fillcolor="lightblue"]
 NODE0_5_6_4_4_2_3_1_2 -- NODE0_5_6_4_4_2_3_1_2_3
 NODE0_5_6_4_4_2_3_1 -- NODE0_5_6_4_4_2_3_1_2
-NODE0_5_6_4_4_2_3_1_3 [label="Boolean"]
-NODE0_5_6_4_4_2_3_1_3_1 [label="Intop"]
+NODE0_5_6_4_4_2_3_1_3 [label="Boolean" ]
+NODE0_5_6_4_4_2_3_1_3_1 [label="Intop" ]
 NODE0_5_6_4_4_2_3_1_3_1_0 [label="!="]
 NODE0_5_6_4_4_2_3_1_3_1 -- NODE0_5_6_4_4_2_3_1_3_1_0
 NODE0_5_6_4_4_2_3_1_3 -- NODE0_5_6_4_4_2_3_1_3_1
-NODE0_5_6_4_4_2_3_1_3_2 [label="Int"]
-NODE0_5_6_4_4_2_3_1_3_2_0 [label="Sizeof"]
+NODE0_5_6_4_4_2_3_1_3_2 [label="Int" ]
+NODE0_5_6_4_4_2_3_1_3_2_0 [label="Sizeof" ]
 NODE0_5_6_4_4_2_3_1_3_2_0_1 [label="size"]
 NODE0_5_6_4_4_2_3_1_3_2_0 -- NODE0_5_6_4_4_2_3_1_3_2_0_1
-NODE0_5_6_4_4_2_3_1_3_2_0_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_3_1_3_2_0_2_1 [label="Who2"]
+NODE0_5_6_4_4_2_3_1_3_2_0_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_3_1_3_2_0_2_1 [label="Who2" ]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_1_1 [label="current"]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_1 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_1_1
 NODE0_5_6_4_4_2_3_1_3_2_0_2_1_2 [label="player"]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_1 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_1_2
 NODE0_5_6_4_4_2_3_1_3_2_0_2 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_1
-NODE0_5_6_4_4_2_3_1_3_2_0_2_2 [label="loc"]
-NODE0_5_6_4_4_2_3_1_3_2_0_2 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_2
 NODE0_5_6_4_4_2_3_1_3_2_0_2_3 [fillcolor="green" style=filled label="HAND"]
 NODE0_5_6_4_4_2_3_1_3_2_0_2 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_3
-NODE0_5_6_4_4_2_3_1_3_2_0_2_4 [label="Whereclause"]
+NODE0_5_6_4_4_2_3_1_3_2_0_2_4 [label="Whereclause" ]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_0 [label="where"]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4_0
-NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1 [label="Boolatt"]
-NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1 [label="Attrcomp"]
+NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1 [label="Boolatt" ]
+NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1 [label="Attrcomp" ]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_0 [label="=="]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_0
-NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_1 [label="Cardatt"]
+NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_1 [label="Cardatt" ]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_1_1 [label="cardatt"]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_1 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_1_1
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_1_2 [fillcolor="green" style=filled label="suit"]
@@ -1237,21 +1043,19 @@ NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_1 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_1_2
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_1_3 [label="this"]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_1 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_1_3
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_1
-NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2 [label="Cardatt"]
+NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2 [label="Cardatt" ]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_1 [label="cardatt"]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_1
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_2 [fillcolor="green" style=filled label="suit"]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_2
-NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3 [label="Card"]
+NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3 [label="Card" ]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_1 [label="top"]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_1
-NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_1 [label="Who"]
+NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_1 [label="Who" ]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_1_0 [label="game"]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_1 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_1_0
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_1
-NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_2 [label="loc"]
-NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_2
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_3 [fillcolor="green" style=filled label="LEAD"]
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_3
 NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2
@@ -1263,39 +1067,33 @@ NODE0_5_6_4_4_2_3_1_3_2_0_2 -- NODE0_5_6_4_4_2_3_1_3_2_0_2_4
 NODE0_5_6_4_4_2_3_1_3_2_0 -- NODE0_5_6_4_4_2_3_1_3_2_0_2
 NODE0_5_6_4_4_2_3_1_3_2 -- NODE0_5_6_4_4_2_3_1_3_2_0
 NODE0_5_6_4_4_2_3_1_3 -- NODE0_5_6_4_4_2_3_1_3_2
-NODE0_5_6_4_4_2_3_1_3_3 [label="Int"]
-NODE0_5_6_4_4_2_3_1_3_3_0 [label="0"]
-NODE0_5_6_4_4_2_3_1_3_3 -- NODE0_5_6_4_4_2_3_1_3_3_0
+NODE0_5_6_4_4_2_3_1_3_3 [label="0" style=filled fillcolor="lightblue"]
 NODE0_5_6_4_4_2_3_1_3 -- NODE0_5_6_4_4_2_3_1_3_3
 NODE0_5_6_4_4_2_3_1 -- NODE0_5_6_4_4_2_3_1_3
 NODE0_5_6_4_4_2_3 -- NODE0_5_6_4_4_2_3_1
-NODE0_5_6_4_4_2_3_2 [label="Multiaction"]
-NODE0_5_6_4_4_2_3_2_0 [label="Action"]
-NODE0_5_6_4_4_2_3_2_0_1 [label="Moveaction"]
-NODE0_5_6_4_4_2_3_2_0_1_0 [label="move"]
-NODE0_5_6_4_4_2_3_2_0_1 -- NODE0_5_6_4_4_2_3_2_0_1_0
-NODE0_5_6_4_4_2_3_2_0_1_1 [label="Card"]
+NODE0_5_6_4_4_2_3_2 [label="Multiaction" ]
+NODE0_5_6_4_4_2_3_2_0 [label="Action" ]
+NODE0_5_6_4_4_2_3_2_0_1 [label="Moveaction" ]
+NODE0_5_6_4_4_2_3_2_0_1_1 [label="Card" ]
 NODE0_5_6_4_4_2_3_2_0_1_1_1 [label="any"]
 NODE0_5_6_4_4_2_3_2_0_1_1 -- NODE0_5_6_4_4_2_3_2_0_1_1_1
-NODE0_5_6_4_4_2_3_2_0_1_1_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_3_2_0_1_1_2_1 [label="Who2"]
+NODE0_5_6_4_4_2_3_2_0_1_1_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_3_2_0_1_1_2_1 [label="Who2" ]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_1_1 [label="current"]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_1 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_1_1
 NODE0_5_6_4_4_2_3_2_0_1_1_2_1_2 [label="player"]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_1 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_1_2
 NODE0_5_6_4_4_2_3_2_0_1_1_2 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_1
-NODE0_5_6_4_4_2_3_2_0_1_1_2_2 [label="loc"]
-NODE0_5_6_4_4_2_3_2_0_1_1_2 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_2
 NODE0_5_6_4_4_2_3_2_0_1_1_2_3 [fillcolor="green" style=filled label="HAND"]
 NODE0_5_6_4_4_2_3_2_0_1_1_2 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_3
-NODE0_5_6_4_4_2_3_2_0_1_1_2_4 [label="Whereclause"]
+NODE0_5_6_4_4_2_3_2_0_1_1_2_4 [label="Whereclause" ]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_0 [label="where"]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_0
-NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1 [label="Boolatt"]
-NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1 [label="Attrcomp"]
+NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1 [label="Boolatt" ]
+NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1 [label="Attrcomp" ]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_0 [label="=="]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_0
-NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_1 [label="Cardatt"]
+NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_1 [label="Cardatt" ]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_1_1 [label="cardatt"]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_1 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_1_1
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_1_2 [fillcolor="green" style=filled label="suit"]
@@ -1303,21 +1101,19 @@ NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_1 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_1_2
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_1_3 [label="this"]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_1 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_1_3
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_1
-NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2 [label="Cardatt"]
+NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2 [label="Cardatt" ]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_1 [label="cardatt"]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_1
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_2 [fillcolor="green" style=filled label="suit"]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_2
-NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3 [label="Card"]
+NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3 [label="Card" ]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_1 [label="top"]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_1
-NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_1 [label="Who"]
+NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_1 [label="Who" ]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_1_0 [label="game"]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_1 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_1_0
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_1
-NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_2 [label="loc"]
-NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_2
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_3 [fillcolor="green" style=filled label="LEAD"]
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_3
 NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2
@@ -1328,18 +1124,16 @@ NODE0_5_6_4_4_2_3_2_0_1_1_2_4 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4_1
 NODE0_5_6_4_4_2_3_2_0_1_1_2 -- NODE0_5_6_4_4_2_3_2_0_1_1_2_4
 NODE0_5_6_4_4_2_3_2_0_1_1 -- NODE0_5_6_4_4_2_3_2_0_1_1_2
 NODE0_5_6_4_4_2_3_2_0_1 -- NODE0_5_6_4_4_2_3_2_0_1_1
-NODE0_5_6_4_4_2_3_2_0_1_2 [label="Card"]
+NODE0_5_6_4_4_2_3_2_0_1_2 [label="Card" ]
 NODE0_5_6_4_4_2_3_2_0_1_2_1 [label="top"]
 NODE0_5_6_4_4_2_3_2_0_1_2 -- NODE0_5_6_4_4_2_3_2_0_1_2_1
-NODE0_5_6_4_4_2_3_2_0_1_2_2 [label="Locstorage"]
-NODE0_5_6_4_4_2_3_2_0_1_2_2_1 [label="Who2"]
+NODE0_5_6_4_4_2_3_2_0_1_2_2 [label="Locstorage" ]
+NODE0_5_6_4_4_2_3_2_0_1_2_2_1 [label="Who2" ]
 NODE0_5_6_4_4_2_3_2_0_1_2_2_1_1 [label="current"]
 NODE0_5_6_4_4_2_3_2_0_1_2_2_1 -- NODE0_5_6_4_4_2_3_2_0_1_2_2_1_1
 NODE0_5_6_4_4_2_3_2_0_1_2_2_1_2 [label="player"]
 NODE0_5_6_4_4_2_3_2_0_1_2_2_1 -- NODE0_5_6_4_4_2_3_2_0_1_2_2_1_2
 NODE0_5_6_4_4_2_3_2_0_1_2_2 -- NODE0_5_6_4_4_2_3_2_0_1_2_2_1
-NODE0_5_6_4_4_2_3_2_0_1_2_2_2 [label="loc"]
-NODE0_5_6_4_4_2_3_2_0_1_2_2 -- NODE0_5_6_4_4_2_3_2_0_1_2_2_2
 NODE0_5_6_4_4_2_3_2_0_1_2_2_3 [fillcolor="green" style=filled label="TRICK"]
 NODE0_5_6_4_4_2_3_2_0_1_2_2 -- NODE0_5_6_4_4_2_3_2_0_1_2_2_3
 NODE0_5_6_4_4_2_3_2_0_1_2 -- NODE0_5_6_4_4_2_3_2_0_1_2_2
@@ -1351,97 +1145,77 @@ NODE0_5_6_4_4_2 -- NODE0_5_6_4_4_2_3
 NODE0_5_6_4_4 -- NODE0_5_6_4_4_2
 NODE0_5_6_4 -- NODE0_5_6_4_4
 NODE0_5_6 -- NODE0_5_6_4
-NODE0_5_6_5 [label="Computermoves"]
-NODE0_5_6_5_1 [label="comp"]
-NODE0_5_6_5 -- NODE0_5_6_5_1
-NODE0_5_6_5_2 [label="Multigameaction"]
-NODE0_5_6_5_2_0 [label="Gameaction"]
-NODE0_5_6_5_2_0_1 [label="Boolean"]
+NODE0_5_6_5 [label="Computermoves"  style=filled shape=box fillcolor="yellow"]
+NODE0_5_6_5_2 [label="Multigameaction" ]
+NODE0_5_6_5_2_0 [label="Gameaction" ]
+NODE0_5_6_5_2_0_1 [label="Boolean" ]
 NODE0_5_6_5_2_0 -- NODE0_5_6_5_2_0_1
-NODE0_5_6_5_2_0_2 [label="Multiaction"]
-NODE0_5_6_5_2_0_2_0 [label="Action"]
-NODE0_5_6_5_2_0_2_0_1 [label="Init"]
-NODE0_5_6_5_2_0_2_0_1_0 [label="initialize"]
-NODE0_5_6_5_2_0_2_0_1 -- NODE0_5_6_5_2_0_2_0_1_0
-NODE0_5_6_5_2_0_2_0_1_1 [label="Pointsinit"]
+NODE0_5_6_5_2_0_2 [label="Multiaction" ]
+NODE0_5_6_5_2_0_2_0 [label="Action" ]
+NODE0_5_6_5_2_0_2_0_1 [label="Init" ]
+NODE0_5_6_5_2_0_2_0_1_1 [label="Pointsinit" ]
 NODE0_5_6_5_2_0_2_0_1_1_0 [label="points"]
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_0
 NODE0_5_6_5_2_0_2_0_1_1_1 [fillcolor="green" style=filled label="PRECEDENCE"]
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_1
-NODE0_5_6_5_2_0_2_0_1_1_3 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_3_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_3 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_3_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_3_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_3_1 -- NODE0_5_6_5_2_0_2_0_1_1_3_1_0
 NODE0_5_6_5_2_0_2_0_1_1_3 -- NODE0_5_6_5_2_0_2_0_1_1_3_1
 NODE0_5_6_5_2_0_2_0_1_1_3_3 [fillcolor="green" style=filled label="suit"]
 NODE0_5_6_5_2_0_2_0_1_1_3 -- NODE0_5_6_5_2_0_2_0_1_1_3_3
-NODE0_5_6_5_2_0_2_0_1_1_3_4 [label="Cardatt"]
+NODE0_5_6_5_2_0_2_0_1_1_3_4 [label="Cardatt" ]
 NODE0_5_6_5_2_0_2_0_1_1_3_4_1 [label="cardatt"]
 NODE0_5_6_5_2_0_2_0_1_1_3_4 -- NODE0_5_6_5_2_0_2_0_1_1_3_4_1
 NODE0_5_6_5_2_0_2_0_1_1_3_4_2 [fillcolor="green" style=filled label="suit"]
 NODE0_5_6_5_2_0_2_0_1_1_3_4 -- NODE0_5_6_5_2_0_2_0_1_1_3_4_2
-NODE0_5_6_5_2_0_2_0_1_1_3_4_3 [label="Card"]
+NODE0_5_6_5_2_0_2_0_1_1_3_4_3 [label="Card" ]
 NODE0_5_6_5_2_0_2_0_1_1_3_4_3_1 [label="top"]
 NODE0_5_6_5_2_0_2_0_1_1_3_4_3 -- NODE0_5_6_5_2_0_2_0_1_1_3_4_3_1
-NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2 [label="Locstorage"]
-NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2_1 [label="Who"]
+NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2 [label="Locstorage" ]
+NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2_1 [label="Who" ]
 NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2_1_0 [label="game"]
 NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2_1 -- NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2_1_0
 NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2 -- NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2_1
-NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2_2 [label="loc"]
-NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2 -- NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2_2
 NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2_3 [fillcolor="green" style=filled label="TRUMP"]
 NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2 -- NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2_3
 NODE0_5_6_5_2_0_2_0_1_1_3_4_3 -- NODE0_5_6_5_2_0_2_0_1_1_3_4_3_2
 NODE0_5_6_5_2_0_2_0_1_1_3_4 -- NODE0_5_6_5_2_0_2_0_1_1_3_4_3
 NODE0_5_6_5_2_0_2_0_1_1_3 -- NODE0_5_6_5_2_0_2_0_1_1_3_4
-NODE0_5_6_5_2_0_2_0_1_1_3_6 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_3_6_0 [label="2"]
-NODE0_5_6_5_2_0_2_0_1_1_3_6 -- NODE0_5_6_5_2_0_2_0_1_1_3_6_0
-NODE0_5_6_5_2_0_2_0_1_1_3_6_1 [label="0"]
-NODE0_5_6_5_2_0_2_0_1_1_3_6 -- NODE0_5_6_5_2_0_2_0_1_1_3_6_1
-NODE0_5_6_5_2_0_2_0_1_1_3_6_2 [label="0"]
-NODE0_5_6_5_2_0_2_0_1_1_3_6 -- NODE0_5_6_5_2_0_2_0_1_1_3_6_2
+NODE0_5_6_5_2_0_2_0_1_1_3_6 [label="200" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_3 -- NODE0_5_6_5_2_0_2_0_1_1_3_6
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_3
-NODE0_5_6_5_2_0_2_0_1_1_4 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_4_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_4 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_4_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_4_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_4_1 -- NODE0_5_6_5_2_0_2_0_1_1_4_1_0
 NODE0_5_6_5_2_0_2_0_1_1_4 -- NODE0_5_6_5_2_0_2_0_1_1_4_1
 NODE0_5_6_5_2_0_2_0_1_1_4_3 [fillcolor="green" style=filled label="suit"]
 NODE0_5_6_5_2_0_2_0_1_1_4 -- NODE0_5_6_5_2_0_2_0_1_1_4_3
-NODE0_5_6_5_2_0_2_0_1_1_4_4 [label="Cardatt"]
+NODE0_5_6_5_2_0_2_0_1_1_4_4 [label="Cardatt" ]
 NODE0_5_6_5_2_0_2_0_1_1_4_4_1 [label="cardatt"]
 NODE0_5_6_5_2_0_2_0_1_1_4_4 -- NODE0_5_6_5_2_0_2_0_1_1_4_4_1
 NODE0_5_6_5_2_0_2_0_1_1_4_4_2 [fillcolor="green" style=filled label="suit"]
 NODE0_5_6_5_2_0_2_0_1_1_4_4 -- NODE0_5_6_5_2_0_2_0_1_1_4_4_2
-NODE0_5_6_5_2_0_2_0_1_1_4_4_3 [label="Card"]
+NODE0_5_6_5_2_0_2_0_1_1_4_4_3 [label="Card" ]
 NODE0_5_6_5_2_0_2_0_1_1_4_4_3_1 [label="top"]
 NODE0_5_6_5_2_0_2_0_1_1_4_4_3 -- NODE0_5_6_5_2_0_2_0_1_1_4_4_3_1
-NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2 [label="Locstorage"]
-NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2_1 [label="Who"]
+NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2 [label="Locstorage" ]
+NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2_1 [label="Who" ]
 NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2_1_0 [label="game"]
 NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2_1 -- NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2_1_0
 NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2 -- NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2_1
-NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2_2 [label="loc"]
-NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2 -- NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2_2
 NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2_3 [fillcolor="green" style=filled label="LEAD"]
 NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2 -- NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2_3
 NODE0_5_6_5_2_0_2_0_1_1_4_4_3 -- NODE0_5_6_5_2_0_2_0_1_1_4_4_3_2
 NODE0_5_6_5_2_0_2_0_1_1_4_4 -- NODE0_5_6_5_2_0_2_0_1_1_4_4_3
 NODE0_5_6_5_2_0_2_0_1_1_4 -- NODE0_5_6_5_2_0_2_0_1_1_4_4
-NODE0_5_6_5_2_0_2_0_1_1_4_6 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_4_6_0 [label="1"]
-NODE0_5_6_5_2_0_2_0_1_1_4_6 -- NODE0_5_6_5_2_0_2_0_1_1_4_6_0
-NODE0_5_6_5_2_0_2_0_1_1_4_6_1 [label="0"]
-NODE0_5_6_5_2_0_2_0_1_1_4_6 -- NODE0_5_6_5_2_0_2_0_1_1_4_6_1
-NODE0_5_6_5_2_0_2_0_1_1_4_6_2 [label="0"]
-NODE0_5_6_5_2_0_2_0_1_1_4_6 -- NODE0_5_6_5_2_0_2_0_1_1_4_6_2
+NODE0_5_6_5_2_0_2_0_1_1_4_6 [label="100" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_4 -- NODE0_5_6_5_2_0_2_0_1_1_4_6
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_4
-NODE0_5_6_5_2_0_2_0_1_1_5 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_5_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_5 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_5_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_5_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_5_1 -- NODE0_5_6_5_2_0_2_0_1_1_5_1_0
 NODE0_5_6_5_2_0_2_0_1_1_5 -- NODE0_5_6_5_2_0_2_0_1_1_5_1
@@ -1449,15 +1223,11 @@ NODE0_5_6_5_2_0_2_0_1_1_5_3 [fillcolor="green" style=filled label="rank"]
 NODE0_5_6_5_2_0_2_0_1_1_5 -- NODE0_5_6_5_2_0_2_0_1_1_5_3
 NODE0_5_6_5_2_0_2_0_1_1_5_5 [fillcolor="green" style=filled label="A"]
 NODE0_5_6_5_2_0_2_0_1_1_5 -- NODE0_5_6_5_2_0_2_0_1_1_5_5
-NODE0_5_6_5_2_0_2_0_1_1_5_8 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_5_8_0 [label="1"]
-NODE0_5_6_5_2_0_2_0_1_1_5_8 -- NODE0_5_6_5_2_0_2_0_1_1_5_8_0
-NODE0_5_6_5_2_0_2_0_1_1_5_8_1 [label="4"]
-NODE0_5_6_5_2_0_2_0_1_1_5_8 -- NODE0_5_6_5_2_0_2_0_1_1_5_8_1
+NODE0_5_6_5_2_0_2_0_1_1_5_8 [label="14" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_5 -- NODE0_5_6_5_2_0_2_0_1_1_5_8
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_5
-NODE0_5_6_5_2_0_2_0_1_1_6 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_6_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_6 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_6_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_6_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_6_1 -- NODE0_5_6_5_2_0_2_0_1_1_6_1_0
 NODE0_5_6_5_2_0_2_0_1_1_6 -- NODE0_5_6_5_2_0_2_0_1_1_6_1
@@ -1465,15 +1235,11 @@ NODE0_5_6_5_2_0_2_0_1_1_6_3 [fillcolor="green" style=filled label="rank"]
 NODE0_5_6_5_2_0_2_0_1_1_6 -- NODE0_5_6_5_2_0_2_0_1_1_6_3
 NODE0_5_6_5_2_0_2_0_1_1_6_5 [fillcolor="green" style=filled label="K"]
 NODE0_5_6_5_2_0_2_0_1_1_6 -- NODE0_5_6_5_2_0_2_0_1_1_6_5
-NODE0_5_6_5_2_0_2_0_1_1_6_8 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_6_8_0 [label="1"]
-NODE0_5_6_5_2_0_2_0_1_1_6_8 -- NODE0_5_6_5_2_0_2_0_1_1_6_8_0
-NODE0_5_6_5_2_0_2_0_1_1_6_8_1 [label="3"]
-NODE0_5_6_5_2_0_2_0_1_1_6_8 -- NODE0_5_6_5_2_0_2_0_1_1_6_8_1
+NODE0_5_6_5_2_0_2_0_1_1_6_8 [label="13" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_6 -- NODE0_5_6_5_2_0_2_0_1_1_6_8
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_6
-NODE0_5_6_5_2_0_2_0_1_1_7 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_7_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_7 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_7_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_7_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_7_1 -- NODE0_5_6_5_2_0_2_0_1_1_7_1_0
 NODE0_5_6_5_2_0_2_0_1_1_7 -- NODE0_5_6_5_2_0_2_0_1_1_7_1
@@ -1481,15 +1247,11 @@ NODE0_5_6_5_2_0_2_0_1_1_7_3 [fillcolor="green" style=filled label="rank"]
 NODE0_5_6_5_2_0_2_0_1_1_7 -- NODE0_5_6_5_2_0_2_0_1_1_7_3
 NODE0_5_6_5_2_0_2_0_1_1_7_5 [fillcolor="green" style=filled label="Q"]
 NODE0_5_6_5_2_0_2_0_1_1_7 -- NODE0_5_6_5_2_0_2_0_1_1_7_5
-NODE0_5_6_5_2_0_2_0_1_1_7_8 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_7_8_0 [label="1"]
-NODE0_5_6_5_2_0_2_0_1_1_7_8 -- NODE0_5_6_5_2_0_2_0_1_1_7_8_0
-NODE0_5_6_5_2_0_2_0_1_1_7_8_1 [label="2"]
-NODE0_5_6_5_2_0_2_0_1_1_7_8 -- NODE0_5_6_5_2_0_2_0_1_1_7_8_1
+NODE0_5_6_5_2_0_2_0_1_1_7_8 [label="12" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_7 -- NODE0_5_6_5_2_0_2_0_1_1_7_8
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_7
-NODE0_5_6_5_2_0_2_0_1_1_8 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_8_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_8 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_8_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_8_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_8_1 -- NODE0_5_6_5_2_0_2_0_1_1_8_1_0
 NODE0_5_6_5_2_0_2_0_1_1_8 -- NODE0_5_6_5_2_0_2_0_1_1_8_1
@@ -1497,15 +1259,11 @@ NODE0_5_6_5_2_0_2_0_1_1_8_3 [fillcolor="green" style=filled label="rank"]
 NODE0_5_6_5_2_0_2_0_1_1_8 -- NODE0_5_6_5_2_0_2_0_1_1_8_3
 NODE0_5_6_5_2_0_2_0_1_1_8_5 [fillcolor="green" style=filled label="J"]
 NODE0_5_6_5_2_0_2_0_1_1_8 -- NODE0_5_6_5_2_0_2_0_1_1_8_5
-NODE0_5_6_5_2_0_2_0_1_1_8_8 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_8_8_0 [label="1"]
-NODE0_5_6_5_2_0_2_0_1_1_8_8 -- NODE0_5_6_5_2_0_2_0_1_1_8_8_0
-NODE0_5_6_5_2_0_2_0_1_1_8_8_1 [label="1"]
-NODE0_5_6_5_2_0_2_0_1_1_8_8 -- NODE0_5_6_5_2_0_2_0_1_1_8_8_1
+NODE0_5_6_5_2_0_2_0_1_1_8_8 [label="11" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_8 -- NODE0_5_6_5_2_0_2_0_1_1_8_8
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_8
-NODE0_5_6_5_2_0_2_0_1_1_9 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_9_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_9 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_9_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_9_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_9_1 -- NODE0_5_6_5_2_0_2_0_1_1_9_1_0
 NODE0_5_6_5_2_0_2_0_1_1_9 -- NODE0_5_6_5_2_0_2_0_1_1_9_1
@@ -1513,15 +1271,11 @@ NODE0_5_6_5_2_0_2_0_1_1_9_3 [fillcolor="green" style=filled label="rank"]
 NODE0_5_6_5_2_0_2_0_1_1_9 -- NODE0_5_6_5_2_0_2_0_1_1_9_3
 NODE0_5_6_5_2_0_2_0_1_1_9_5 [fillcolor="green" style=filled label="10"]
 NODE0_5_6_5_2_0_2_0_1_1_9 -- NODE0_5_6_5_2_0_2_0_1_1_9_5
-NODE0_5_6_5_2_0_2_0_1_1_9_8 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_9_8_0 [label="1"]
-NODE0_5_6_5_2_0_2_0_1_1_9_8 -- NODE0_5_6_5_2_0_2_0_1_1_9_8_0
-NODE0_5_6_5_2_0_2_0_1_1_9_8_1 [label="0"]
-NODE0_5_6_5_2_0_2_0_1_1_9_8 -- NODE0_5_6_5_2_0_2_0_1_1_9_8_1
+NODE0_5_6_5_2_0_2_0_1_1_9_8 [label="10" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_9 -- NODE0_5_6_5_2_0_2_0_1_1_9_8
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_9
-NODE0_5_6_5_2_0_2_0_1_1_10 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_10_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_10 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_10_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_10_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_10_1 -- NODE0_5_6_5_2_0_2_0_1_1_10_1_0
 NODE0_5_6_5_2_0_2_0_1_1_10 -- NODE0_5_6_5_2_0_2_0_1_1_10_1
@@ -1529,13 +1283,11 @@ NODE0_5_6_5_2_0_2_0_1_1_10_3 [fillcolor="green" style=filled label="rank"]
 NODE0_5_6_5_2_0_2_0_1_1_10 -- NODE0_5_6_5_2_0_2_0_1_1_10_3
 NODE0_5_6_5_2_0_2_0_1_1_10_5 [fillcolor="green" style=filled label="9"]
 NODE0_5_6_5_2_0_2_0_1_1_10 -- NODE0_5_6_5_2_0_2_0_1_1_10_5
-NODE0_5_6_5_2_0_2_0_1_1_10_8 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_10_8_0 [label="9"]
-NODE0_5_6_5_2_0_2_0_1_1_10_8 -- NODE0_5_6_5_2_0_2_0_1_1_10_8_0
+NODE0_5_6_5_2_0_2_0_1_1_10_8 [label="9" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_10 -- NODE0_5_6_5_2_0_2_0_1_1_10_8
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_10
-NODE0_5_6_5_2_0_2_0_1_1_11 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_11_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_11 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_11_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_11_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_11_1 -- NODE0_5_6_5_2_0_2_0_1_1_11_1_0
 NODE0_5_6_5_2_0_2_0_1_1_11 -- NODE0_5_6_5_2_0_2_0_1_1_11_1
@@ -1543,13 +1295,11 @@ NODE0_5_6_5_2_0_2_0_1_1_11_3 [fillcolor="green" style=filled label="rank"]
 NODE0_5_6_5_2_0_2_0_1_1_11 -- NODE0_5_6_5_2_0_2_0_1_1_11_3
 NODE0_5_6_5_2_0_2_0_1_1_11_5 [fillcolor="green" style=filled label="8"]
 NODE0_5_6_5_2_0_2_0_1_1_11 -- NODE0_5_6_5_2_0_2_0_1_1_11_5
-NODE0_5_6_5_2_0_2_0_1_1_11_8 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_11_8_0 [label="8"]
-NODE0_5_6_5_2_0_2_0_1_1_11_8 -- NODE0_5_6_5_2_0_2_0_1_1_11_8_0
+NODE0_5_6_5_2_0_2_0_1_1_11_8 [label="8" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_11 -- NODE0_5_6_5_2_0_2_0_1_1_11_8
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_11
-NODE0_5_6_5_2_0_2_0_1_1_12 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_12_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_12 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_12_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_12_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_12_1 -- NODE0_5_6_5_2_0_2_0_1_1_12_1_0
 NODE0_5_6_5_2_0_2_0_1_1_12 -- NODE0_5_6_5_2_0_2_0_1_1_12_1
@@ -1557,13 +1307,11 @@ NODE0_5_6_5_2_0_2_0_1_1_12_3 [fillcolor="green" style=filled label="rank"]
 NODE0_5_6_5_2_0_2_0_1_1_12 -- NODE0_5_6_5_2_0_2_0_1_1_12_3
 NODE0_5_6_5_2_0_2_0_1_1_12_5 [fillcolor="green" style=filled label="7"]
 NODE0_5_6_5_2_0_2_0_1_1_12 -- NODE0_5_6_5_2_0_2_0_1_1_12_5
-NODE0_5_6_5_2_0_2_0_1_1_12_8 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_12_8_0 [label="7"]
-NODE0_5_6_5_2_0_2_0_1_1_12_8 -- NODE0_5_6_5_2_0_2_0_1_1_12_8_0
+NODE0_5_6_5_2_0_2_0_1_1_12_8 [label="7" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_12 -- NODE0_5_6_5_2_0_2_0_1_1_12_8
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_12
-NODE0_5_6_5_2_0_2_0_1_1_13 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_13_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_13 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_13_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_13_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_13_1 -- NODE0_5_6_5_2_0_2_0_1_1_13_1_0
 NODE0_5_6_5_2_0_2_0_1_1_13 -- NODE0_5_6_5_2_0_2_0_1_1_13_1
@@ -1571,13 +1319,11 @@ NODE0_5_6_5_2_0_2_0_1_1_13_3 [fillcolor="green" style=filled label="rank"]
 NODE0_5_6_5_2_0_2_0_1_1_13 -- NODE0_5_6_5_2_0_2_0_1_1_13_3
 NODE0_5_6_5_2_0_2_0_1_1_13_5 [fillcolor="green" style=filled label="6"]
 NODE0_5_6_5_2_0_2_0_1_1_13 -- NODE0_5_6_5_2_0_2_0_1_1_13_5
-NODE0_5_6_5_2_0_2_0_1_1_13_8 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_13_8_0 [label="6"]
-NODE0_5_6_5_2_0_2_0_1_1_13_8 -- NODE0_5_6_5_2_0_2_0_1_1_13_8_0
+NODE0_5_6_5_2_0_2_0_1_1_13_8 [label="6" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_13 -- NODE0_5_6_5_2_0_2_0_1_1_13_8
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_13
-NODE0_5_6_5_2_0_2_0_1_1_14 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_14_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_14 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_14_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_14_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_14_1 -- NODE0_5_6_5_2_0_2_0_1_1_14_1_0
 NODE0_5_6_5_2_0_2_0_1_1_14 -- NODE0_5_6_5_2_0_2_0_1_1_14_1
@@ -1585,13 +1331,11 @@ NODE0_5_6_5_2_0_2_0_1_1_14_3 [fillcolor="green" style=filled label="rank"]
 NODE0_5_6_5_2_0_2_0_1_1_14 -- NODE0_5_6_5_2_0_2_0_1_1_14_3
 NODE0_5_6_5_2_0_2_0_1_1_14_5 [fillcolor="green" style=filled label="5"]
 NODE0_5_6_5_2_0_2_0_1_1_14 -- NODE0_5_6_5_2_0_2_0_1_1_14_5
-NODE0_5_6_5_2_0_2_0_1_1_14_8 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_14_8_0 [label="5"]
-NODE0_5_6_5_2_0_2_0_1_1_14_8 -- NODE0_5_6_5_2_0_2_0_1_1_14_8_0
+NODE0_5_6_5_2_0_2_0_1_1_14_8 [label="5" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_14 -- NODE0_5_6_5_2_0_2_0_1_1_14_8
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_14
-NODE0_5_6_5_2_0_2_0_1_1_15 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_15_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_15 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_15_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_15_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_15_1 -- NODE0_5_6_5_2_0_2_0_1_1_15_1_0
 NODE0_5_6_5_2_0_2_0_1_1_15 -- NODE0_5_6_5_2_0_2_0_1_1_15_1
@@ -1599,13 +1343,11 @@ NODE0_5_6_5_2_0_2_0_1_1_15_3 [fillcolor="green" style=filled label="rank"]
 NODE0_5_6_5_2_0_2_0_1_1_15 -- NODE0_5_6_5_2_0_2_0_1_1_15_3
 NODE0_5_6_5_2_0_2_0_1_1_15_5 [fillcolor="green" style=filled label="4"]
 NODE0_5_6_5_2_0_2_0_1_1_15 -- NODE0_5_6_5_2_0_2_0_1_1_15_5
-NODE0_5_6_5_2_0_2_0_1_1_15_8 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_15_8_0 [label="4"]
-NODE0_5_6_5_2_0_2_0_1_1_15_8 -- NODE0_5_6_5_2_0_2_0_1_1_15_8_0
+NODE0_5_6_5_2_0_2_0_1_1_15_8 [label="4" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_15 -- NODE0_5_6_5_2_0_2_0_1_1_15_8
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_15
-NODE0_5_6_5_2_0_2_0_1_1_16 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_16_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_16 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_16_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_16_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_16_1 -- NODE0_5_6_5_2_0_2_0_1_1_16_1_0
 NODE0_5_6_5_2_0_2_0_1_1_16 -- NODE0_5_6_5_2_0_2_0_1_1_16_1
@@ -1613,13 +1355,11 @@ NODE0_5_6_5_2_0_2_0_1_1_16_3 [fillcolor="green" style=filled label="rank"]
 NODE0_5_6_5_2_0_2_0_1_1_16 -- NODE0_5_6_5_2_0_2_0_1_1_16_3
 NODE0_5_6_5_2_0_2_0_1_1_16_5 [fillcolor="green" style=filled label="3"]
 NODE0_5_6_5_2_0_2_0_1_1_16 -- NODE0_5_6_5_2_0_2_0_1_1_16_5
-NODE0_5_6_5_2_0_2_0_1_1_16_8 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_16_8_0 [label="3"]
-NODE0_5_6_5_2_0_2_0_1_1_16_8 -- NODE0_5_6_5_2_0_2_0_1_1_16_8_0
+NODE0_5_6_5_2_0_2_0_1_1_16_8 [label="3" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_16 -- NODE0_5_6_5_2_0_2_0_1_1_16_8
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_16
-NODE0_5_6_5_2_0_2_0_1_1_17 [label="Awards"]
-NODE0_5_6_5_2_0_2_0_1_1_17_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_0_1_1_17 [label="Awards" ]
+NODE0_5_6_5_2_0_2_0_1_1_17_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_0_1_1_17_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_0_1_1_17_1 -- NODE0_5_6_5_2_0_2_0_1_1_17_1_0
 NODE0_5_6_5_2_0_2_0_1_1_17 -- NODE0_5_6_5_2_0_2_0_1_1_17_1
@@ -1627,63 +1367,55 @@ NODE0_5_6_5_2_0_2_0_1_1_17_3 [fillcolor="green" style=filled label="rank"]
 NODE0_5_6_5_2_0_2_0_1_1_17 -- NODE0_5_6_5_2_0_2_0_1_1_17_3
 NODE0_5_6_5_2_0_2_0_1_1_17_5 [fillcolor="green" style=filled label="2"]
 NODE0_5_6_5_2_0_2_0_1_1_17 -- NODE0_5_6_5_2_0_2_0_1_1_17_5
-NODE0_5_6_5_2_0_2_0_1_1_17_8 [label="Int"]
-NODE0_5_6_5_2_0_2_0_1_1_17_8_0 [label="2"]
-NODE0_5_6_5_2_0_2_0_1_1_17_8 -- NODE0_5_6_5_2_0_2_0_1_1_17_8_0
+NODE0_5_6_5_2_0_2_0_1_1_17_8 [label="2" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_0_1_1_17 -- NODE0_5_6_5_2_0_2_0_1_1_17_8
 NODE0_5_6_5_2_0_2_0_1_1 -- NODE0_5_6_5_2_0_2_0_1_1_17
 NODE0_5_6_5_2_0_2_0_1 -- NODE0_5_6_5_2_0_2_0_1_1
 NODE0_5_6_5_2_0_2_0 -- NODE0_5_6_5_2_0_2_0_1
 NODE0_5_6_5_2_0_2 -- NODE0_5_6_5_2_0_2_0
-NODE0_5_6_5_2_0_2_1 [label="Action"]
-NODE0_5_6_5_2_0_2_1_1 [label="Removeaction"]
-NODE0_5_6_5_2_0_2_1_1_0 [label="remove"]
-NODE0_5_6_5_2_0_2_1_1 -- NODE0_5_6_5_2_0_2_1_1_0
-NODE0_5_6_5_2_0_2_1_1_1 [label="Card"]
+NODE0_5_6_5_2_0_2_1 [label="Action" ]
+NODE0_5_6_5_2_0_2_1_1 [label="Removeaction" ]
+NODE0_5_6_5_2_0_2_1_1_1 [label="Card" ]
 NODE0_5_6_5_2_0_2_1_1_1_1 [label="top"]
 NODE0_5_6_5_2_0_2_1_1_1 -- NODE0_5_6_5_2_0_2_1_1_1_1
-NODE0_5_6_5_2_0_2_1_1_1_2 [label="Locstorage"]
-NODE0_5_6_5_2_0_2_1_1_1_2_1 [label="Who"]
+NODE0_5_6_5_2_0_2_1_1_1_2 [label="Locstorage" ]
+NODE0_5_6_5_2_0_2_1_1_1_2_1 [label="Who" ]
 NODE0_5_6_5_2_0_2_1_1_1_2_1_0 [label="game"]
 NODE0_5_6_5_2_0_2_1_1_1_2_1 -- NODE0_5_6_5_2_0_2_1_1_1_2_1_0
 NODE0_5_6_5_2_0_2_1_1_1_2 -- NODE0_5_6_5_2_0_2_1_1_1_2_1
-NODE0_5_6_5_2_0_2_1_1_1_2_2 [label="loc"]
-NODE0_5_6_5_2_0_2_1_1_1_2 -- NODE0_5_6_5_2_0_2_1_1_1_2_2
 NODE0_5_6_5_2_0_2_1_1_1_2_3 [fillcolor="green" style=filled label="LEAD"]
 NODE0_5_6_5_2_0_2_1_1_1_2 -- NODE0_5_6_5_2_0_2_1_1_1_2_3
 NODE0_5_6_5_2_0_2_1_1_1 -- NODE0_5_6_5_2_0_2_1_1_1_2
 NODE0_5_6_5_2_0_2_1_1 -- NODE0_5_6_5_2_0_2_1_1_1
 NODE0_5_6_5_2_0_2_1 -- NODE0_5_6_5_2_0_2_1_1
 NODE0_5_6_5_2_0_2 -- NODE0_5_6_5_2_0_2_1
-NODE0_5_6_5_2_0_2_2 [label="Action"]
-NODE0_5_6_5_2_0_2_2_1 [label="Setaction"]
+NODE0_5_6_5_2_0_2_2 [label="Action" ]
+NODE0_5_6_5_2_0_2_2_1 [label="Setaction" ]
 NODE0_5_6_5_2_0_2_2_1_0 [label="set"]
 NODE0_5_6_5_2_0_2_2_1 -- NODE0_5_6_5_2_0_2_2_1_0
 NODE0_5_6_5_2_0_2_2_1_1 [label="next"]
 NODE0_5_6_5_2_0_2_2_1 -- NODE0_5_6_5_2_0_2_2_1_1
-NODE0_5_6_5_2_0_2_2_1_2 [label="Int"]
-NODE0_5_6_5_2_0_2_2_1_2_0 [label="Owner"]
+NODE0_5_6_5_2_0_2_2_1_2 [label="Int" ]
+NODE0_5_6_5_2_0_2_2_1_2_0 [label="Owner" ]
 NODE0_5_6_5_2_0_2_2_1_2_0_1 [label="owner"]
 NODE0_5_6_5_2_0_2_2_1_2_0 -- NODE0_5_6_5_2_0_2_2_1_2_0_1
-NODE0_5_6_5_2_0_2_2_1_2_0_2 [label="Card"]
-NODE0_5_6_5_2_0_2_2_1_2_0_2_0 [label="Maxof"]
+NODE0_5_6_5_2_0_2_2_1_2_0_2 [label="Card" ]
+NODE0_5_6_5_2_0_2_2_1_2_0_2_0 [label="Maxof" ]
 NODE0_5_6_5_2_0_2_2_1_2_0_2_0_1 [label="max"]
 NODE0_5_6_5_2_0_2_2_1_2_0_2_0 -- NODE0_5_6_5_2_0_2_2_1_2_0_2_0_1
-NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2 [label="Locstorage"]
-NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0 [label="Unionof"]
+NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2 [label="Locstorage" ]
+NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0 [label="Unionof" ]
 NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_1 [label="union"]
 NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0 -- NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_1
-NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2 [label="Locstorage"]
-NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_1 [label="Who2"]
-NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_1_1 [label="Posq"]
+NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2 [label="Locstorage" ]
+NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_1 [label="Who2" ]
+NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_1_1 [label="Posq" ]
 NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_1_1_0 [label="all"]
 NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_1_1 -- NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_1_1_0
 NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_1 -- NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_1_1
 NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_1_2 [label="player"]
 NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_1 -- NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_1_2
 NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2 -- NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_1
-NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_2 [label="loc"]
-NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2 -- NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_2
 NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_3 [fillcolor="green" style=filled label="TRICK"]
 NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2 -- NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2_3
 NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0 -- NODE0_5_6_5_2_0_2_2_1_2_0_2_0_2_0_2
@@ -1699,75 +1431,65 @@ NODE0_5_6_5_2_0_2_2_1_2 -- NODE0_5_6_5_2_0_2_2_1_2_0
 NODE0_5_6_5_2_0_2_2_1 -- NODE0_5_6_5_2_0_2_2_1_2
 NODE0_5_6_5_2_0_2_2 -- NODE0_5_6_5_2_0_2_2_1
 NODE0_5_6_5_2_0_2 -- NODE0_5_6_5_2_0_2_2
-NODE0_5_6_5_2_0_2_3 [label="Action"]
-NODE0_5_6_5_2_0_2_3_1 [label="Incaction"]
-NODE0_5_6_5_2_0_2_3_1_0 [label="inc"]
-NODE0_5_6_5_2_0_2_3_1 -- NODE0_5_6_5_2_0_2_3_1_0
-NODE0_5_6_5_2_0_2_3_1_1 [label="Rawstorage"]
-NODE0_5_6_5_2_0_2_3_1_1_1 [label="Who2"]
+NODE0_5_6_5_2_0_2_3 [label="Action" ]
+NODE0_5_6_5_2_0_2_3_1 [label="Incaction" ]
+NODE0_5_6_5_2_0_2_3_1_1 [label="Rawstorage" ]
+NODE0_5_6_5_2_0_2_3_1_1_1 [label="Who2" ]
 NODE0_5_6_5_2_0_2_3_1_1_1_1 [label="next"]
 NODE0_5_6_5_2_0_2_3_1_1_1 -- NODE0_5_6_5_2_0_2_3_1_1_1_1
 NODE0_5_6_5_2_0_2_3_1_1_1_2 [label="player"]
 NODE0_5_6_5_2_0_2_3_1_1_1 -- NODE0_5_6_5_2_0_2_3_1_1_1_2
 NODE0_5_6_5_2_0_2_3_1_1 -- NODE0_5_6_5_2_0_2_3_1_1_1
-NODE0_5_6_5_2_0_2_3_1_1_2 [label="sto"]
-NODE0_5_6_5_2_0_2_3_1_1 -- NODE0_5_6_5_2_0_2_3_1_1_2
 NODE0_5_6_5_2_0_2_3_1_1_3 [fillcolor="green" style=filled label="TRICKSWON"]
 NODE0_5_6_5_2_0_2_3_1_1 -- NODE0_5_6_5_2_0_2_3_1_1_3
 NODE0_5_6_5_2_0_2_3_1 -- NODE0_5_6_5_2_0_2_3_1_1
-NODE0_5_6_5_2_0_2_3_1_2 [label="Int"]
-NODE0_5_6_5_2_0_2_3_1_2_0 [label="1"]
-NODE0_5_6_5_2_0_2_3_1_2 -- NODE0_5_6_5_2_0_2_3_1_2_0
+NODE0_5_6_5_2_0_2_3_1_2 [label="1" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_0_2_3_1 -- NODE0_5_6_5_2_0_2_3_1_2
 NODE0_5_6_5_2_0_2_3 -- NODE0_5_6_5_2_0_2_3_1
 NODE0_5_6_5_2_0_2 -- NODE0_5_6_5_2_0_2_3
 NODE0_5_6_5_2_0 -- NODE0_5_6_5_2_0_2
 NODE0_5_6_5_2 -- NODE0_5_6_5_2_0
-NODE0_5_6_5_2_1 [label="Gameaction"]
-NODE0_5_6_5_2_1_1 [label="Boolean"]
+NODE0_5_6_5_2_1 [label="Gameaction" ]
+NODE0_5_6_5_2_1_1 [label="Boolean" ]
 NODE0_5_6_5_2_1_1_1 [label="and"]
 NODE0_5_6_5_2_1_1 -- NODE0_5_6_5_2_1_1_1
-NODE0_5_6_5_2_1_1_2 [label="Boolean"]
-NODE0_5_6_5_2_1_1_2_1 [label="Attrcomp"]
+NODE0_5_6_5_2_1_1_2 [label="Boolean" ]
+NODE0_5_6_5_2_1_1_2_1 [label="Attrcomp" ]
 NODE0_5_6_5_2_1_1_2_1_0 [label="=="]
 NODE0_5_6_5_2_1_1_2_1 -- NODE0_5_6_5_2_1_1_2_1_0
-NODE0_5_6_5_2_1_1_2_1_1 [label="Cardatt"]
+NODE0_5_6_5_2_1_1_2_1_1 [label="Cardatt" ]
 NODE0_5_6_5_2_1_1_2_1_1_1 [label="cardatt"]
 NODE0_5_6_5_2_1_1_2_1_1 -- NODE0_5_6_5_2_1_1_2_1_1_1
 NODE0_5_6_5_2_1_1_2_1_1_2 [fillcolor="green" style=filled label="suit"]
 NODE0_5_6_5_2_1_1_2_1_1 -- NODE0_5_6_5_2_1_1_2_1_1_2
-NODE0_5_6_5_2_1_1_2_1_1_3 [label="Card"]
+NODE0_5_6_5_2_1_1_2_1_1_3 [label="Card" ]
 NODE0_5_6_5_2_1_1_2_1_1_3_1 [label="top"]
 NODE0_5_6_5_2_1_1_2_1_1_3 -- NODE0_5_6_5_2_1_1_2_1_1_3_1
-NODE0_5_6_5_2_1_1_2_1_1_3_2 [label="Locstorage"]
-NODE0_5_6_5_2_1_1_2_1_1_3_2_1 [label="Who2"]
+NODE0_5_6_5_2_1_1_2_1_1_3_2 [label="Locstorage" ]
+NODE0_5_6_5_2_1_1_2_1_1_3_2_1 [label="Who2" ]
 NODE0_5_6_5_2_1_1_2_1_1_3_2_1_1 [label="next"]
 NODE0_5_6_5_2_1_1_2_1_1_3_2_1 -- NODE0_5_6_5_2_1_1_2_1_1_3_2_1_1
 NODE0_5_6_5_2_1_1_2_1_1_3_2_1_2 [label="player"]
 NODE0_5_6_5_2_1_1_2_1_1_3_2_1 -- NODE0_5_6_5_2_1_1_2_1_1_3_2_1_2
 NODE0_5_6_5_2_1_1_2_1_1_3_2 -- NODE0_5_6_5_2_1_1_2_1_1_3_2_1
-NODE0_5_6_5_2_1_1_2_1_1_3_2_2 [label="loc"]
-NODE0_5_6_5_2_1_1_2_1_1_3_2 -- NODE0_5_6_5_2_1_1_2_1_1_3_2_2
 NODE0_5_6_5_2_1_1_2_1_1_3_2_3 [fillcolor="green" style=filled label="TRICK"]
 NODE0_5_6_5_2_1_1_2_1_1_3_2 -- NODE0_5_6_5_2_1_1_2_1_1_3_2_3
 NODE0_5_6_5_2_1_1_2_1_1_3 -- NODE0_5_6_5_2_1_1_2_1_1_3_2
 NODE0_5_6_5_2_1_1_2_1_1 -- NODE0_5_6_5_2_1_1_2_1_1_3
 NODE0_5_6_5_2_1_1_2_1 -- NODE0_5_6_5_2_1_1_2_1_1
-NODE0_5_6_5_2_1_1_2_1_2 [label="Cardatt"]
+NODE0_5_6_5_2_1_1_2_1_2 [label="Cardatt" ]
 NODE0_5_6_5_2_1_1_2_1_2_1 [label="cardatt"]
 NODE0_5_6_5_2_1_1_2_1_2 -- NODE0_5_6_5_2_1_1_2_1_2_1
 NODE0_5_6_5_2_1_1_2_1_2_2 [fillcolor="green" style=filled label="suit"]
 NODE0_5_6_5_2_1_1_2_1_2 -- NODE0_5_6_5_2_1_1_2_1_2_2
-NODE0_5_6_5_2_1_1_2_1_2_3 [label="Card"]
+NODE0_5_6_5_2_1_1_2_1_2_3 [label="Card" ]
 NODE0_5_6_5_2_1_1_2_1_2_3_1 [label="top"]
 NODE0_5_6_5_2_1_1_2_1_2_3 -- NODE0_5_6_5_2_1_1_2_1_2_3_1
-NODE0_5_6_5_2_1_1_2_1_2_3_2 [label="Locstorage"]
-NODE0_5_6_5_2_1_1_2_1_2_3_2_1 [label="Who"]
+NODE0_5_6_5_2_1_1_2_1_2_3_2 [label="Locstorage" ]
+NODE0_5_6_5_2_1_1_2_1_2_3_2_1 [label="Who" ]
 NODE0_5_6_5_2_1_1_2_1_2_3_2_1_0 [label="game"]
 NODE0_5_6_5_2_1_1_2_1_2_3_2_1 -- NODE0_5_6_5_2_1_1_2_1_2_3_2_1_0
 NODE0_5_6_5_2_1_1_2_1_2_3_2 -- NODE0_5_6_5_2_1_1_2_1_2_3_2_1
-NODE0_5_6_5_2_1_1_2_1_2_3_2_2 [label="loc"]
-NODE0_5_6_5_2_1_1_2_1_2_3_2 -- NODE0_5_6_5_2_1_1_2_1_2_3_2_2
 NODE0_5_6_5_2_1_1_2_1_2_3_2_3 [fillcolor="green" style=filled label="TRUMP"]
 NODE0_5_6_5_2_1_1_2_1_2_3_2 -- NODE0_5_6_5_2_1_1_2_1_2_3_2_3
 NODE0_5_6_5_2_1_1_2_1_2_3 -- NODE0_5_6_5_2_1_1_2_1_2_3_2
@@ -1775,88 +1497,74 @@ NODE0_5_6_5_2_1_1_2_1_2 -- NODE0_5_6_5_2_1_1_2_1_2_3
 NODE0_5_6_5_2_1_1_2_1 -- NODE0_5_6_5_2_1_1_2_1_2
 NODE0_5_6_5_2_1_1_2 -- NODE0_5_6_5_2_1_1_2_1
 NODE0_5_6_5_2_1_1 -- NODE0_5_6_5_2_1_1_2
-NODE0_5_6_5_2_1_1_3 [label="Boolean"]
-NODE0_5_6_5_2_1_1_3_1 [label="Intop"]
+NODE0_5_6_5_2_1_1_3 [label="Boolean" ]
+NODE0_5_6_5_2_1_1_3_1 [label="Intop" ]
 NODE0_5_6_5_2_1_1_3_1_0 [label="=="]
 NODE0_5_6_5_2_1_1_3_1 -- NODE0_5_6_5_2_1_1_3_1_0
 NODE0_5_6_5_2_1_1_3 -- NODE0_5_6_5_2_1_1_3_1
-NODE0_5_6_5_2_1_1_3_2 [label="Int"]
-NODE0_5_6_5_2_1_1_3_2_0 [label="Rawstorage"]
-NODE0_5_6_5_2_1_1_3_2_0_1 [label="Who"]
+NODE0_5_6_5_2_1_1_3_2 [label="Int" ]
+NODE0_5_6_5_2_1_1_3_2_0 [label="Rawstorage" ]
+NODE0_5_6_5_2_1_1_3_2_0_1 [label="Who" ]
 NODE0_5_6_5_2_1_1_3_2_0_1_0 [label="game"]
 NODE0_5_6_5_2_1_1_3_2_0_1 -- NODE0_5_6_5_2_1_1_3_2_0_1_0
 NODE0_5_6_5_2_1_1_3_2_0 -- NODE0_5_6_5_2_1_1_3_2_0_1
-NODE0_5_6_5_2_1_1_3_2_0_2 [label="sto"]
-NODE0_5_6_5_2_1_1_3_2_0 -- NODE0_5_6_5_2_1_1_3_2_0_2
 NODE0_5_6_5_2_1_1_3_2_0_3 [fillcolor="green" style=filled label="SPADESBROKEN"]
 NODE0_5_6_5_2_1_1_3_2_0 -- NODE0_5_6_5_2_1_1_3_2_0_3
 NODE0_5_6_5_2_1_1_3_2 -- NODE0_5_6_5_2_1_1_3_2_0
 NODE0_5_6_5_2_1_1_3 -- NODE0_5_6_5_2_1_1_3_2
-NODE0_5_6_5_2_1_1_3_3 [label="Int"]
-NODE0_5_6_5_2_1_1_3_3_0 [label="0"]
-NODE0_5_6_5_2_1_1_3_3 -- NODE0_5_6_5_2_1_1_3_3_0
+NODE0_5_6_5_2_1_1_3_3 [label="0" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_1_1_3 -- NODE0_5_6_5_2_1_1_3_3
 NODE0_5_6_5_2_1_1 -- NODE0_5_6_5_2_1_1_3
 NODE0_5_6_5_2_1 -- NODE0_5_6_5_2_1_1
-NODE0_5_6_5_2_1_2 [label="Multiaction"]
-NODE0_5_6_5_2_1_2_0 [label="Action"]
-NODE0_5_6_5_2_1_2_0_1 [label="Setaction"]
+NODE0_5_6_5_2_1_2 [label="Multiaction" ]
+NODE0_5_6_5_2_1_2_0 [label="Action" ]
+NODE0_5_6_5_2_1_2_0_1 [label="Setaction" ]
 NODE0_5_6_5_2_1_2_0_1_0 [label="set"]
 NODE0_5_6_5_2_1_2_0_1 -- NODE0_5_6_5_2_1_2_0_1_0
-NODE0_5_6_5_2_1_2_0_1_1 [label="Rawstorage"]
-NODE0_5_6_5_2_1_2_0_1_1_1 [label="Who"]
+NODE0_5_6_5_2_1_2_0_1_1 [label="Rawstorage" ]
+NODE0_5_6_5_2_1_2_0_1_1_1 [label="Who" ]
 NODE0_5_6_5_2_1_2_0_1_1_1_0 [label="game"]
 NODE0_5_6_5_2_1_2_0_1_1_1 -- NODE0_5_6_5_2_1_2_0_1_1_1_0
 NODE0_5_6_5_2_1_2_0_1_1 -- NODE0_5_6_5_2_1_2_0_1_1_1
-NODE0_5_6_5_2_1_2_0_1_1_2 [label="sto"]
-NODE0_5_6_5_2_1_2_0_1_1 -- NODE0_5_6_5_2_1_2_0_1_1_2
 NODE0_5_6_5_2_1_2_0_1_1_3 [fillcolor="green" style=filled label="SPADESBROKEN"]
 NODE0_5_6_5_2_1_2_0_1_1 -- NODE0_5_6_5_2_1_2_0_1_1_3
 NODE0_5_6_5_2_1_2_0_1 -- NODE0_5_6_5_2_1_2_0_1_1
-NODE0_5_6_5_2_1_2_0_1_2 [label="Int"]
-NODE0_5_6_5_2_1_2_0_1_2_0 [label="1"]
-NODE0_5_6_5_2_1_2_0_1_2 -- NODE0_5_6_5_2_1_2_0_1_2_0
+NODE0_5_6_5_2_1_2_0_1_2 [label="1" style=filled fillcolor="lightblue"]
 NODE0_5_6_5_2_1_2_0_1 -- NODE0_5_6_5_2_1_2_0_1_2
 NODE0_5_6_5_2_1_2_0 -- NODE0_5_6_5_2_1_2_0_1
 NODE0_5_6_5_2_1_2 -- NODE0_5_6_5_2_1_2_0
 NODE0_5_6_5_2_1 -- NODE0_5_6_5_2_1_2
 NODE0_5_6_5_2 -- NODE0_5_6_5_2_1
-NODE0_5_6_5_2_2 [label="Gameaction"]
-NODE0_5_6_5_2_2_1 [label="Boolean"]
+NODE0_5_6_5_2_2 [label="Gameaction" ]
+NODE0_5_6_5_2_2_1 [label="Boolean" ]
 NODE0_5_6_5_2_2 -- NODE0_5_6_5_2_2_1
-NODE0_5_6_5_2_2_2 [label="Multiaction"]
-NODE0_5_6_5_2_2_2_0 [label="Action"]
-NODE0_5_6_5_2_2_2_0_1 [label="Moveaction"]
-NODE0_5_6_5_2_2_2_0_1_0 [label="move"]
-NODE0_5_6_5_2_2_2_0_1 -- NODE0_5_6_5_2_2_2_0_1_0
-NODE0_5_6_5_2_2_2_0_1_1 [label="Card"]
+NODE0_5_6_5_2_2_2 [label="Multiaction" ]
+NODE0_5_6_5_2_2_2_0 [label="Action" ]
+NODE0_5_6_5_2_2_2_0_1 [label="Moveaction" ]
+NODE0_5_6_5_2_2_2_0_1_1 [label="Card" ]
 NODE0_5_6_5_2_2_2_0_1_1_1 [label="top"]
 NODE0_5_6_5_2_2_2_0_1_1 -- NODE0_5_6_5_2_2_2_0_1_1_1
-NODE0_5_6_5_2_2_2_0_1_1_2 [label="Locstorage"]
-NODE0_5_6_5_2_2_2_0_1_1_2_1 [label="Who2"]
-NODE0_5_6_5_2_2_2_0_1_1_2_1_1 [label="Posq"]
+NODE0_5_6_5_2_2_2_0_1_1_2 [label="Locstorage" ]
+NODE0_5_6_5_2_2_2_0_1_1_2_1 [label="Who2" ]
+NODE0_5_6_5_2_2_2_0_1_1_2_1_1 [label="Posq" ]
 NODE0_5_6_5_2_2_2_0_1_1_2_1_1_0 [label="all"]
 NODE0_5_6_5_2_2_2_0_1_1_2_1_1 -- NODE0_5_6_5_2_2_2_0_1_1_2_1_1_0
 NODE0_5_6_5_2_2_2_0_1_1_2_1 -- NODE0_5_6_5_2_2_2_0_1_1_2_1_1
 NODE0_5_6_5_2_2_2_0_1_1_2_1_2 [label="player"]
 NODE0_5_6_5_2_2_2_0_1_1_2_1 -- NODE0_5_6_5_2_2_2_0_1_1_2_1_2
 NODE0_5_6_5_2_2_2_0_1_1_2 -- NODE0_5_6_5_2_2_2_0_1_1_2_1
-NODE0_5_6_5_2_2_2_0_1_1_2_2 [label="loc"]
-NODE0_5_6_5_2_2_2_0_1_1_2 -- NODE0_5_6_5_2_2_2_0_1_1_2_2
 NODE0_5_6_5_2_2_2_0_1_1_2_3 [fillcolor="green" style=filled label="TRICK"]
 NODE0_5_6_5_2_2_2_0_1_1_2 -- NODE0_5_6_5_2_2_2_0_1_1_2_3
 NODE0_5_6_5_2_2_2_0_1_1 -- NODE0_5_6_5_2_2_2_0_1_1_2
 NODE0_5_6_5_2_2_2_0_1 -- NODE0_5_6_5_2_2_2_0_1_1
-NODE0_5_6_5_2_2_2_0_1_2 [label="Card"]
+NODE0_5_6_5_2_2_2_0_1_2 [label="Card" ]
 NODE0_5_6_5_2_2_2_0_1_2_1 [label="top"]
 NODE0_5_6_5_2_2_2_0_1_2 -- NODE0_5_6_5_2_2_2_0_1_2_1
-NODE0_5_6_5_2_2_2_0_1_2_2 [label="Locstorage"]
-NODE0_5_6_5_2_2_2_0_1_2_2_1 [label="Who"]
+NODE0_5_6_5_2_2_2_0_1_2_2 [label="Locstorage" ]
+NODE0_5_6_5_2_2_2_0_1_2_2_1 [label="Who" ]
 NODE0_5_6_5_2_2_2_0_1_2_2_1_0 [label="game"]
 NODE0_5_6_5_2_2_2_0_1_2_2_1 -- NODE0_5_6_5_2_2_2_0_1_2_2_1_0
 NODE0_5_6_5_2_2_2_0_1_2_2 -- NODE0_5_6_5_2_2_2_0_1_2_2_1
-NODE0_5_6_5_2_2_2_0_1_2_2_2 [label="loc"]
-NODE0_5_6_5_2_2_2_0_1_2_2 -- NODE0_5_6_5_2_2_2_0_1_2_2_2
 NODE0_5_6_5_2_2_2_0_1_2_2_3 [fillcolor="green" style=filled label="DISCARD"]
 NODE0_5_6_5_2_2_2_0_1_2_2 -- NODE0_5_6_5_2_2_2_0_1_2_2_3
 NODE0_5_6_5_2_2_2_0_1_2 -- NODE0_5_6_5_2_2_2_0_1_2_2
@@ -1868,38 +1576,30 @@ NODE0_5_6_5_2 -- NODE0_5_6_5_2_2
 NODE0_5_6_5 -- NODE0_5_6_5_2
 NODE0_5_6 -- NODE0_5_6_5
 NODE0_5 -- NODE0_5_6
-NODE0_5_7 [label="Stage" style=filled fillcolor="red"]
-NODE0_5_7_1 [label="stage"]
-NODE0_5_7 -- NODE0_5_7_1
+NODE0_5_7 [label="Stage"  style=filled fillcolor="red"]
 NODE0_5_7_2 [label="team"]
 NODE0_5_7 -- NODE0_5_7_2
-NODE0_5_7_3 [label="Endcondition"]
-NODE0_5_7_3_1 [label="end"]
-NODE0_5_7_3 -- NODE0_5_7_3_1
+NODE0_5_7_3 [label="Endcondition" ]
 NODE0_5_7_3_2 [label="team"]
 NODE0_5_7_3 -- NODE0_5_7_3_2
-NODE0_5_7_3_3 [label="Int"]
-NODE0_5_7_3_3_0 [label="1"]
-NODE0_5_7_3_3 -- NODE0_5_7_3_3_0
+NODE0_5_7_3_3 [label="1" style=filled fillcolor="lightblue"]
 NODE0_5_7_3 -- NODE0_5_7_3_3
 NODE0_5_7 -- NODE0_5_7_3
-NODE0_5_7_4 [label="Computermoves"]
-NODE0_5_7_4_1 [label="comp"]
-NODE0_5_7_4 -- NODE0_5_7_4_1
-NODE0_5_7_4_2 [label="Multigameaction"]
-NODE0_5_7_4_2_0 [label="Gameaction"]
-NODE0_5_7_4_2_0_1 [label="Boolean"]
-NODE0_5_7_4_2_0_1_1 [label="Intop"]
+NODE0_5_7_4 [label="Computermoves"  style=filled shape=box fillcolor="yellow"]
+NODE0_5_7_4_2 [label="Multigameaction" ]
+NODE0_5_7_4_2_0 [label="Gameaction" ]
+NODE0_5_7_4_2_0_1 [label="Boolean" ]
+NODE0_5_7_4_2_0_1_1 [label="Intop" ]
 NODE0_5_7_4_2_0_1_1_0 [label=">="]
 NODE0_5_7_4_2_0_1_1 -- NODE0_5_7_4_2_0_1_1_0
 NODE0_5_7_4_2_0_1 -- NODE0_5_7_4_2_0_1_1
-NODE0_5_7_4_2_0_1_2 [label="Int"]
-NODE0_5_7_4_2_0_1_2_0 [label="Sum"]
+NODE0_5_7_4_2_0_1_2 [label="Int" ]
+NODE0_5_7_4_2_0_1_2_0 [label="Sum" ]
 NODE0_5_7_4_2_0_1_2_0_1 [label="sum"]
 NODE0_5_7_4_2_0_1_2_0 -- NODE0_5_7_4_2_0_1_2_0_1
-NODE0_5_7_4_2_0_1_2_0_2 [label="Rawstorage"]
-NODE0_5_7_4_2_0_1_2_0_2_1 [label="Who2"]
-NODE0_5_7_4_2_0_1_2_0_2_1_1 [label="Who2"]
+NODE0_5_7_4_2_0_1_2_0_2 [label="Rawstorage" ]
+NODE0_5_7_4_2_0_1_2_0_2_1 [label="Who2" ]
+NODE0_5_7_4_2_0_1_2_0_2_1_1 [label="Who2" ]
 NODE0_5_7_4_2_0_1_2_0_2_1_1_1 [label="current"]
 NODE0_5_7_4_2_0_1_2_0_2_1_1 -- NODE0_5_7_4_2_0_1_2_0_2_1_1_1
 NODE0_5_7_4_2_0_1_2_0_2_1_1_2 [label="team"]
@@ -1908,20 +1608,18 @@ NODE0_5_7_4_2_0_1_2_0_2_1 -- NODE0_5_7_4_2_0_1_2_0_2_1_1
 NODE0_5_7_4_2_0_1_2_0_2_1_2 [label="player"]
 NODE0_5_7_4_2_0_1_2_0_2_1 -- NODE0_5_7_4_2_0_1_2_0_2_1_2
 NODE0_5_7_4_2_0_1_2_0_2 -- NODE0_5_7_4_2_0_1_2_0_2_1
-NODE0_5_7_4_2_0_1_2_0_2_2 [label="sto"]
-NODE0_5_7_4_2_0_1_2_0_2 -- NODE0_5_7_4_2_0_1_2_0_2_2
 NODE0_5_7_4_2_0_1_2_0_2_3 [fillcolor="green" style=filled label="TRICKSWON"]
 NODE0_5_7_4_2_0_1_2_0_2 -- NODE0_5_7_4_2_0_1_2_0_2_3
 NODE0_5_7_4_2_0_1_2_0 -- NODE0_5_7_4_2_0_1_2_0_2
 NODE0_5_7_4_2_0_1_2 -- NODE0_5_7_4_2_0_1_2_0
 NODE0_5_7_4_2_0_1 -- NODE0_5_7_4_2_0_1_2
-NODE0_5_7_4_2_0_1_3 [label="Int"]
-NODE0_5_7_4_2_0_1_3_0 [label="Sum"]
+NODE0_5_7_4_2_0_1_3 [label="Int" ]
+NODE0_5_7_4_2_0_1_3_0 [label="Sum" ]
 NODE0_5_7_4_2_0_1_3_0_1 [label="sum"]
 NODE0_5_7_4_2_0_1_3_0 -- NODE0_5_7_4_2_0_1_3_0_1
-NODE0_5_7_4_2_0_1_3_0_2 [label="Rawstorage"]
-NODE0_5_7_4_2_0_1_3_0_2_1 [label="Who2"]
-NODE0_5_7_4_2_0_1_3_0_2_1_1 [label="Who2"]
+NODE0_5_7_4_2_0_1_3_0_2 [label="Rawstorage" ]
+NODE0_5_7_4_2_0_1_3_0_2_1 [label="Who2" ]
+NODE0_5_7_4_2_0_1_3_0_2_1_1 [label="Who2" ]
 NODE0_5_7_4_2_0_1_3_0_2_1_1_1 [label="current"]
 NODE0_5_7_4_2_0_1_3_0_2_1_1 -- NODE0_5_7_4_2_0_1_3_0_2_1_1_1
 NODE0_5_7_4_2_0_1_3_0_2_1_1_2 [label="team"]
@@ -1930,48 +1628,38 @@ NODE0_5_7_4_2_0_1_3_0_2_1 -- NODE0_5_7_4_2_0_1_3_0_2_1_1
 NODE0_5_7_4_2_0_1_3_0_2_1_2 [label="player"]
 NODE0_5_7_4_2_0_1_3_0_2_1 -- NODE0_5_7_4_2_0_1_3_0_2_1_2
 NODE0_5_7_4_2_0_1_3_0_2 -- NODE0_5_7_4_2_0_1_3_0_2_1
-NODE0_5_7_4_2_0_1_3_0_2_2 [label="sto"]
-NODE0_5_7_4_2_0_1_3_0_2 -- NODE0_5_7_4_2_0_1_3_0_2_2
 NODE0_5_7_4_2_0_1_3_0_2_3 [fillcolor="green" style=filled label="BID"]
 NODE0_5_7_4_2_0_1_3_0_2 -- NODE0_5_7_4_2_0_1_3_0_2_3
 NODE0_5_7_4_2_0_1_3_0 -- NODE0_5_7_4_2_0_1_3_0_2
 NODE0_5_7_4_2_0_1_3 -- NODE0_5_7_4_2_0_1_3_0
 NODE0_5_7_4_2_0_1 -- NODE0_5_7_4_2_0_1_3
 NODE0_5_7_4_2_0 -- NODE0_5_7_4_2_0_1
-NODE0_5_7_4_2_0_2 [label="Multiaction"]
-NODE0_5_7_4_2_0_2_0 [label="Action"]
-NODE0_5_7_4_2_0_2_0_1 [label="Incaction"]
-NODE0_5_7_4_2_0_2_0_1_0 [label="inc"]
-NODE0_5_7_4_2_0_2_0_1 -- NODE0_5_7_4_2_0_2_0_1_0
-NODE0_5_7_4_2_0_2_0_1_1 [label="Rawstorage"]
-NODE0_5_7_4_2_0_2_0_1_1_1 [label="Who2"]
+NODE0_5_7_4_2_0_2 [label="Multiaction" ]
+NODE0_5_7_4_2_0_2_0 [label="Action" ]
+NODE0_5_7_4_2_0_2_0_1 [label="Incaction" ]
+NODE0_5_7_4_2_0_2_0_1_1 [label="Rawstorage" ]
+NODE0_5_7_4_2_0_2_0_1_1_1 [label="Who2" ]
 NODE0_5_7_4_2_0_2_0_1_1_1_1 [label="current"]
 NODE0_5_7_4_2_0_2_0_1_1_1 -- NODE0_5_7_4_2_0_2_0_1_1_1_1
 NODE0_5_7_4_2_0_2_0_1_1_1_2 [label="team"]
 NODE0_5_7_4_2_0_2_0_1_1_1 -- NODE0_5_7_4_2_0_2_0_1_1_1_2
 NODE0_5_7_4_2_0_2_0_1_1 -- NODE0_5_7_4_2_0_2_0_1_1_1
-NODE0_5_7_4_2_0_2_0_1_1_2 [label="sto"]
-NODE0_5_7_4_2_0_2_0_1_1 -- NODE0_5_7_4_2_0_2_0_1_1_2
 NODE0_5_7_4_2_0_2_0_1_1_3 [fillcolor="green" style=filled label="SCORE"]
 NODE0_5_7_4_2_0_2_0_1_1 -- NODE0_5_7_4_2_0_2_0_1_1_3
 NODE0_5_7_4_2_0_2_0_1 -- NODE0_5_7_4_2_0_2_0_1_1
-NODE0_5_7_4_2_0_2_0_1_2 [label="Int"]
-NODE0_5_7_4_2_0_2_0_1_2_0 [label="Mult"]
+NODE0_5_7_4_2_0_2_0_1_2 [label="Int" ]
+NODE0_5_7_4_2_0_2_0_1_2_0 [label="Mult" ]
 NODE0_5_7_4_2_0_2_0_1_2_0_1 [label="*"]
 NODE0_5_7_4_2_0_2_0_1_2_0 -- NODE0_5_7_4_2_0_2_0_1_2_0_1
-NODE0_5_7_4_2_0_2_0_1_2_0_2 [label="Int"]
-NODE0_5_7_4_2_0_2_0_1_2_0_2_0 [label="1"]
-NODE0_5_7_4_2_0_2_0_1_2_0_2 -- NODE0_5_7_4_2_0_2_0_1_2_0_2_0
-NODE0_5_7_4_2_0_2_0_1_2_0_2_1 [label="0"]
-NODE0_5_7_4_2_0_2_0_1_2_0_2 -- NODE0_5_7_4_2_0_2_0_1_2_0_2_1
+NODE0_5_7_4_2_0_2_0_1_2_0_2 [label="10" style=filled fillcolor="lightblue"]
 NODE0_5_7_4_2_0_2_0_1_2_0 -- NODE0_5_7_4_2_0_2_0_1_2_0_2
-NODE0_5_7_4_2_0_2_0_1_2_0_3 [label="Int"]
-NODE0_5_7_4_2_0_2_0_1_2_0_3_0 [label="Sum"]
+NODE0_5_7_4_2_0_2_0_1_2_0_3 [label="Int" ]
+NODE0_5_7_4_2_0_2_0_1_2_0_3_0 [label="Sum" ]
 NODE0_5_7_4_2_0_2_0_1_2_0_3_0_1 [label="sum"]
 NODE0_5_7_4_2_0_2_0_1_2_0_3_0 -- NODE0_5_7_4_2_0_2_0_1_2_0_3_0_1
-NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2 [label="Rawstorage"]
-NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_1 [label="Who2"]
-NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_1_1 [label="Who2"]
+NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2 [label="Rawstorage" ]
+NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_1 [label="Who2" ]
+NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_1_1 [label="Who2" ]
 NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_1_1_1 [label="current"]
 NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_1_1 -- NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_1_1_1
 NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_1_1_2 [label="team"]
@@ -1980,8 +1668,6 @@ NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_1 -- NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_1_1
 NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_1_2 [label="player"]
 NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_1 -- NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_1_2
 NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2 -- NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_1
-NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_2 [label="sto"]
-NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2 -- NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_2
 NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_3 [fillcolor="green" style=filled label="BID"]
 NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2 -- NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2_3
 NODE0_5_7_4_2_0_2_0_1_2_0_3_0 -- NODE0_5_7_4_2_0_2_0_1_2_0_3_0_2
@@ -1991,33 +1677,29 @@ NODE0_5_7_4_2_0_2_0_1_2 -- NODE0_5_7_4_2_0_2_0_1_2_0
 NODE0_5_7_4_2_0_2_0_1 -- NODE0_5_7_4_2_0_2_0_1_2
 NODE0_5_7_4_2_0_2_0 -- NODE0_5_7_4_2_0_2_0_1
 NODE0_5_7_4_2_0_2 -- NODE0_5_7_4_2_0_2_0
-NODE0_5_7_4_2_0_2_1 [label="Action"]
-NODE0_5_7_4_2_0_2_1_1 [label="Incaction"]
-NODE0_5_7_4_2_0_2_1_1_0 [label="inc"]
-NODE0_5_7_4_2_0_2_1_1 -- NODE0_5_7_4_2_0_2_1_1_0
-NODE0_5_7_4_2_0_2_1_1_1 [label="Rawstorage"]
-NODE0_5_7_4_2_0_2_1_1_1_1 [label="Who2"]
+NODE0_5_7_4_2_0_2_1 [label="Action" ]
+NODE0_5_7_4_2_0_2_1_1 [label="Incaction" ]
+NODE0_5_7_4_2_0_2_1_1_1 [label="Rawstorage" ]
+NODE0_5_7_4_2_0_2_1_1_1_1 [label="Who2" ]
 NODE0_5_7_4_2_0_2_1_1_1_1_1 [label="current"]
 NODE0_5_7_4_2_0_2_1_1_1_1 -- NODE0_5_7_4_2_0_2_1_1_1_1_1
 NODE0_5_7_4_2_0_2_1_1_1_1_2 [label="team"]
 NODE0_5_7_4_2_0_2_1_1_1_1 -- NODE0_5_7_4_2_0_2_1_1_1_1_2
 NODE0_5_7_4_2_0_2_1_1_1 -- NODE0_5_7_4_2_0_2_1_1_1_1
-NODE0_5_7_4_2_0_2_1_1_1_2 [label="sto"]
-NODE0_5_7_4_2_0_2_1_1_1 -- NODE0_5_7_4_2_0_2_1_1_1_2
 NODE0_5_7_4_2_0_2_1_1_1_3 [fillcolor="green" style=filled label="BAGS"]
 NODE0_5_7_4_2_0_2_1_1_1 -- NODE0_5_7_4_2_0_2_1_1_1_3
 NODE0_5_7_4_2_0_2_1_1 -- NODE0_5_7_4_2_0_2_1_1_1
-NODE0_5_7_4_2_0_2_1_1_2 [label="Int"]
-NODE0_5_7_4_2_0_2_1_1_2_0 [label="Subtract"]
+NODE0_5_7_4_2_0_2_1_1_2 [label="Int" ]
+NODE0_5_7_4_2_0_2_1_1_2_0 [label="Subtract" ]
 NODE0_5_7_4_2_0_2_1_1_2_0_1 [label="-"]
 NODE0_5_7_4_2_0_2_1_1_2_0 -- NODE0_5_7_4_2_0_2_1_1_2_0_1
-NODE0_5_7_4_2_0_2_1_1_2_0_2 [label="Int"]
-NODE0_5_7_4_2_0_2_1_1_2_0_2_0 [label="Sum"]
+NODE0_5_7_4_2_0_2_1_1_2_0_2 [label="Int" ]
+NODE0_5_7_4_2_0_2_1_1_2_0_2_0 [label="Sum" ]
 NODE0_5_7_4_2_0_2_1_1_2_0_2_0_1 [label="sum"]
 NODE0_5_7_4_2_0_2_1_1_2_0_2_0 -- NODE0_5_7_4_2_0_2_1_1_2_0_2_0_1
-NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2 [label="Rawstorage"]
-NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_1 [label="Who2"]
-NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_1_1 [label="Who2"]
+NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2 [label="Rawstorage" ]
+NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_1 [label="Who2" ]
+NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_1_1 [label="Who2" ]
 NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_1_1_1 [label="current"]
 NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_1_1 -- NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_1_1_1
 NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_1_1_2 [label="team"]
@@ -2026,20 +1708,18 @@ NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_1 -- NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_1_1
 NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_1_2 [label="player"]
 NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_1 -- NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_1_2
 NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2 -- NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_1
-NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_2 [label="sto"]
-NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2 -- NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_2
 NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_3 [fillcolor="green" style=filled label="TRICKSWON"]
 NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2 -- NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2_3
 NODE0_5_7_4_2_0_2_1_1_2_0_2_0 -- NODE0_5_7_4_2_0_2_1_1_2_0_2_0_2
 NODE0_5_7_4_2_0_2_1_1_2_0_2 -- NODE0_5_7_4_2_0_2_1_1_2_0_2_0
 NODE0_5_7_4_2_0_2_1_1_2_0 -- NODE0_5_7_4_2_0_2_1_1_2_0_2
-NODE0_5_7_4_2_0_2_1_1_2_0_3 [label="Int"]
-NODE0_5_7_4_2_0_2_1_1_2_0_3_0 [label="Sum"]
+NODE0_5_7_4_2_0_2_1_1_2_0_3 [label="Int" ]
+NODE0_5_7_4_2_0_2_1_1_2_0_3_0 [label="Sum" ]
 NODE0_5_7_4_2_0_2_1_1_2_0_3_0_1 [label="sum"]
 NODE0_5_7_4_2_0_2_1_1_2_0_3_0 -- NODE0_5_7_4_2_0_2_1_1_2_0_3_0_1
-NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2 [label="Rawstorage"]
-NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_1 [label="Who2"]
-NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_1_1 [label="Who2"]
+NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2 [label="Rawstorage" ]
+NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_1 [label="Who2" ]
+NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_1_1 [label="Who2" ]
 NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_1_1_1 [label="current"]
 NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_1_1 -- NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_1_1_1
 NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_1_1_2 [label="team"]
@@ -2048,8 +1728,6 @@ NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_1 -- NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_1_1
 NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_1_2 [label="player"]
 NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_1 -- NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_1_2
 NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2 -- NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_1
-NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_2 [label="sto"]
-NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2 -- NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_2
 NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_3 [fillcolor="green" style=filled label="BID"]
 NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2 -- NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2_3
 NODE0_5_7_4_2_0_2_1_1_2_0_3_0 -- NODE0_5_7_4_2_0_2_1_1_2_0_3_0_2
@@ -2061,83 +1739,71 @@ NODE0_5_7_4_2_0_2_1 -- NODE0_5_7_4_2_0_2_1_1
 NODE0_5_7_4_2_0_2 -- NODE0_5_7_4_2_0_2_1
 NODE0_5_7_4_2_0 -- NODE0_5_7_4_2_0_2
 NODE0_5_7_4_2 -- NODE0_5_7_4_2_0
-NODE0_5_7_4_2_1 [label="Gameaction"]
-NODE0_5_7_4_2_1_1 [label="Boolean"]
-NODE0_5_7_4_2_1_1_1 [label="Intop"]
+NODE0_5_7_4_2_1 [label="Gameaction" ]
+NODE0_5_7_4_2_1_1 [label="Boolean" ]
+NODE0_5_7_4_2_1_1_1 [label="Intop" ]
 NODE0_5_7_4_2_1_1_1_0 [label="<"]
 NODE0_5_7_4_2_1_1_1 -- NODE0_5_7_4_2_1_1_1_0
 NODE0_5_7_4_2_1_1 -- NODE0_5_7_4_2_1_1_1
-NODE0_5_7_4_2_1_1_2 [label="Int"]
-NODE0_5_7_4_2_1_1_2_0 [label="Sum"]
+NODE0_5_7_4_2_1_1_2 [label="Int" ]
+NODE0_5_7_4_2_1_1_2_0 [label="Sum" ]
 NODE0_5_7_4_2_1_1_2_0_1 [label="sum"]
 NODE0_5_7_4_2_1_1_2_0 -- NODE0_5_7_4_2_1_1_2_0_1
-NODE0_5_7_4_2_1_1_2_0_2 [label="Rawstorage"]
-NODE0_5_7_4_2_1_1_2_0_2_1 [label="Who2"]
+NODE0_5_7_4_2_1_1_2_0_2 [label="Rawstorage" ]
+NODE0_5_7_4_2_1_1_2_0_2_1 [label="Who2" ]
 NODE0_5_7_4_2_1_1_2_0_2_1_1 [label="current"]
 NODE0_5_7_4_2_1_1_2_0_2_1 -- NODE0_5_7_4_2_1_1_2_0_2_1_1
 NODE0_5_7_4_2_1_1_2_0_2_1_2 [label="team"]
 NODE0_5_7_4_2_1_1_2_0_2_1 -- NODE0_5_7_4_2_1_1_2_0_2_1_2
 NODE0_5_7_4_2_1_1_2_0_2 -- NODE0_5_7_4_2_1_1_2_0_2_1
-NODE0_5_7_4_2_1_1_2_0_2_2 [label="sto"]
-NODE0_5_7_4_2_1_1_2_0_2 -- NODE0_5_7_4_2_1_1_2_0_2_2
 NODE0_5_7_4_2_1_1_2_0_2_3 [fillcolor="green" style=filled label="TRICKSWON"]
 NODE0_5_7_4_2_1_1_2_0_2 -- NODE0_5_7_4_2_1_1_2_0_2_3
 NODE0_5_7_4_2_1_1_2_0 -- NODE0_5_7_4_2_1_1_2_0_2
 NODE0_5_7_4_2_1_1_2 -- NODE0_5_7_4_2_1_1_2_0
 NODE0_5_7_4_2_1_1 -- NODE0_5_7_4_2_1_1_2
-NODE0_5_7_4_2_1_1_3 [label="Int"]
-NODE0_5_7_4_2_1_1_3_0 [label="Sum"]
+NODE0_5_7_4_2_1_1_3 [label="Int" ]
+NODE0_5_7_4_2_1_1_3_0 [label="Sum" ]
 NODE0_5_7_4_2_1_1_3_0_1 [label="sum"]
 NODE0_5_7_4_2_1_1_3_0 -- NODE0_5_7_4_2_1_1_3_0_1
-NODE0_5_7_4_2_1_1_3_0_2 [label="Rawstorage"]
-NODE0_5_7_4_2_1_1_3_0_2_1 [label="Who2"]
+NODE0_5_7_4_2_1_1_3_0_2 [label="Rawstorage" ]
+NODE0_5_7_4_2_1_1_3_0_2_1 [label="Who2" ]
 NODE0_5_7_4_2_1_1_3_0_2_1_1 [label="current"]
 NODE0_5_7_4_2_1_1_3_0_2_1 -- NODE0_5_7_4_2_1_1_3_0_2_1_1
 NODE0_5_7_4_2_1_1_3_0_2_1_2 [label="team"]
 NODE0_5_7_4_2_1_1_3_0_2_1 -- NODE0_5_7_4_2_1_1_3_0_2_1_2
 NODE0_5_7_4_2_1_1_3_0_2 -- NODE0_5_7_4_2_1_1_3_0_2_1
-NODE0_5_7_4_2_1_1_3_0_2_2 [label="sto"]
-NODE0_5_7_4_2_1_1_3_0_2 -- NODE0_5_7_4_2_1_1_3_0_2_2
 NODE0_5_7_4_2_1_1_3_0_2_3 [fillcolor="green" style=filled label="BID"]
 NODE0_5_7_4_2_1_1_3_0_2 -- NODE0_5_7_4_2_1_1_3_0_2_3
 NODE0_5_7_4_2_1_1_3_0 -- NODE0_5_7_4_2_1_1_3_0_2
 NODE0_5_7_4_2_1_1_3 -- NODE0_5_7_4_2_1_1_3_0
 NODE0_5_7_4_2_1_1 -- NODE0_5_7_4_2_1_1_3
 NODE0_5_7_4_2_1 -- NODE0_5_7_4_2_1_1
-NODE0_5_7_4_2_1_2 [label="Multiaction"]
-NODE0_5_7_4_2_1_2_0 [label="Action"]
-NODE0_5_7_4_2_1_2_0_1 [label="Decaction"]
-NODE0_5_7_4_2_1_2_0_1_0 [label="dec"]
-NODE0_5_7_4_2_1_2_0_1 -- NODE0_5_7_4_2_1_2_0_1_0
-NODE0_5_7_4_2_1_2_0_1_1 [label="Rawstorage"]
-NODE0_5_7_4_2_1_2_0_1_1_1 [label="Who2"]
+NODE0_5_7_4_2_1_2 [label="Multiaction" ]
+NODE0_5_7_4_2_1_2_0 [label="Action" ]
+NODE0_5_7_4_2_1_2_0_1 [label="Decaction" ]
+NODE0_5_7_4_2_1_2_0_1_1 [label="Rawstorage" ]
+NODE0_5_7_4_2_1_2_0_1_1_1 [label="Who2" ]
 NODE0_5_7_4_2_1_2_0_1_1_1_1 [label="current"]
 NODE0_5_7_4_2_1_2_0_1_1_1 -- NODE0_5_7_4_2_1_2_0_1_1_1_1
 NODE0_5_7_4_2_1_2_0_1_1_1_2 [label="team"]
 NODE0_5_7_4_2_1_2_0_1_1_1 -- NODE0_5_7_4_2_1_2_0_1_1_1_2
 NODE0_5_7_4_2_1_2_0_1_1 -- NODE0_5_7_4_2_1_2_0_1_1_1
-NODE0_5_7_4_2_1_2_0_1_1_2 [label="sto"]
-NODE0_5_7_4_2_1_2_0_1_1 -- NODE0_5_7_4_2_1_2_0_1_1_2
 NODE0_5_7_4_2_1_2_0_1_1_3 [fillcolor="green" style=filled label="SCORE"]
 NODE0_5_7_4_2_1_2_0_1_1 -- NODE0_5_7_4_2_1_2_0_1_1_3
 NODE0_5_7_4_2_1_2_0_1 -- NODE0_5_7_4_2_1_2_0_1_1
-NODE0_5_7_4_2_1_2_0_1_2 [label="Int"]
-NODE0_5_7_4_2_1_2_0_1_2_0 [label="Mult"]
+NODE0_5_7_4_2_1_2_0_1_2 [label="Int" ]
+NODE0_5_7_4_2_1_2_0_1_2_0 [label="Mult" ]
 NODE0_5_7_4_2_1_2_0_1_2_0_1 [label="*"]
 NODE0_5_7_4_2_1_2_0_1_2_0 -- NODE0_5_7_4_2_1_2_0_1_2_0_1
-NODE0_5_7_4_2_1_2_0_1_2_0_2 [label="Int"]
-NODE0_5_7_4_2_1_2_0_1_2_0_2_0 [label="1"]
-NODE0_5_7_4_2_1_2_0_1_2_0_2 -- NODE0_5_7_4_2_1_2_0_1_2_0_2_0
-NODE0_5_7_4_2_1_2_0_1_2_0_2_1 [label="0"]
-NODE0_5_7_4_2_1_2_0_1_2_0_2 -- NODE0_5_7_4_2_1_2_0_1_2_0_2_1
+NODE0_5_7_4_2_1_2_0_1_2_0_2 [label="10" style=filled fillcolor="lightblue"]
 NODE0_5_7_4_2_1_2_0_1_2_0 -- NODE0_5_7_4_2_1_2_0_1_2_0_2
-NODE0_5_7_4_2_1_2_0_1_2_0_3 [label="Int"]
-NODE0_5_7_4_2_1_2_0_1_2_0_3_0 [label="Sum"]
+NODE0_5_7_4_2_1_2_0_1_2_0_3 [label="Int" ]
+NODE0_5_7_4_2_1_2_0_1_2_0_3_0 [label="Sum" ]
 NODE0_5_7_4_2_1_2_0_1_2_0_3_0_1 [label="sum"]
 NODE0_5_7_4_2_1_2_0_1_2_0_3_0 -- NODE0_5_7_4_2_1_2_0_1_2_0_3_0_1
-NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2 [label="Rawstorage"]
-NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_1 [label="Who2"]
-NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_1_1 [label="Who2"]
+NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2 [label="Rawstorage" ]
+NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_1 [label="Who2" ]
+NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_1_1 [label="Who2" ]
 NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_1_1_1 [label="current"]
 NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_1_1 -- NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_1_1_1
 NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_1_1_2 [label="team"]
@@ -2146,8 +1812,6 @@ NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_1 -- NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_1_1
 NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_1_2 [label="player"]
 NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_1 -- NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_1_2
 NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2 -- NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_1
-NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_2 [label="sto"]
-NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2 -- NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_2
 NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_3 [fillcolor="green" style=filled label="BID"]
 NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2 -- NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2_3
 NODE0_5_7_4_2_1_2_0_1_2_0_3_0 -- NODE0_5_7_4_2_1_2_0_1_2_0_3_0_2
@@ -2159,61 +1823,45 @@ NODE0_5_7_4_2_1_2_0 -- NODE0_5_7_4_2_1_2_0_1
 NODE0_5_7_4_2_1_2 -- NODE0_5_7_4_2_1_2_0
 NODE0_5_7_4_2_1 -- NODE0_5_7_4_2_1_2
 NODE0_5_7_4_2 -- NODE0_5_7_4_2_1
-NODE0_5_7_4_2_2 [label="Gameaction"]
-NODE0_5_7_4_2_2_1 [label="Boolean"]
+NODE0_5_7_4_2_2 [label="Gameaction" ]
+NODE0_5_7_4_2_2_1 [label="Boolean" ]
 NODE0_5_7_4_2_2 -- NODE0_5_7_4_2_2_1
-NODE0_5_7_4_2_2_2 [label="Multiaction"]
-NODE0_5_7_4_2_2_2_0 [label="Action"]
-NODE0_5_7_4_2_2_2_0_1 [label="Decaction"]
-NODE0_5_7_4_2_2_2_0_1_0 [label="dec"]
-NODE0_5_7_4_2_2_2_0_1 -- NODE0_5_7_4_2_2_2_0_1_0
-NODE0_5_7_4_2_2_2_0_1_1 [label="Rawstorage"]
-NODE0_5_7_4_2_2_2_0_1_1_1 [label="Who2"]
+NODE0_5_7_4_2_2_2 [label="Multiaction" ]
+NODE0_5_7_4_2_2_2_0 [label="Action" ]
+NODE0_5_7_4_2_2_2_0_1 [label="Decaction" ]
+NODE0_5_7_4_2_2_2_0_1_1 [label="Rawstorage" ]
+NODE0_5_7_4_2_2_2_0_1_1_1 [label="Who2" ]
 NODE0_5_7_4_2_2_2_0_1_1_1_1 [label="current"]
 NODE0_5_7_4_2_2_2_0_1_1_1 -- NODE0_5_7_4_2_2_2_0_1_1_1_1
 NODE0_5_7_4_2_2_2_0_1_1_1_2 [label="team"]
 NODE0_5_7_4_2_2_2_0_1_1_1 -- NODE0_5_7_4_2_2_2_0_1_1_1_2
 NODE0_5_7_4_2_2_2_0_1_1 -- NODE0_5_7_4_2_2_2_0_1_1_1
-NODE0_5_7_4_2_2_2_0_1_1_2 [label="sto"]
-NODE0_5_7_4_2_2_2_0_1_1 -- NODE0_5_7_4_2_2_2_0_1_1_2
 NODE0_5_7_4_2_2_2_0_1_1_3 [fillcolor="green" style=filled label="SCORE"]
 NODE0_5_7_4_2_2_2_0_1_1 -- NODE0_5_7_4_2_2_2_0_1_1_3
 NODE0_5_7_4_2_2_2_0_1 -- NODE0_5_7_4_2_2_2_0_1_1
-NODE0_5_7_4_2_2_2_0_1_2 [label="Int"]
-NODE0_5_7_4_2_2_2_0_1_2_0 [label="Mult"]
+NODE0_5_7_4_2_2_2_0_1_2 [label="Int" ]
+NODE0_5_7_4_2_2_2_0_1_2_0 [label="Mult" ]
 NODE0_5_7_4_2_2_2_0_1_2_0_1 [label="*"]
 NODE0_5_7_4_2_2_2_0_1_2_0 -- NODE0_5_7_4_2_2_2_0_1_2_0_1
-NODE0_5_7_4_2_2_2_0_1_2_0_2 [label="Int"]
-NODE0_5_7_4_2_2_2_0_1_2_0_2_0 [label="1"]
-NODE0_5_7_4_2_2_2_0_1_2_0_2 -- NODE0_5_7_4_2_2_2_0_1_2_0_2_0
-NODE0_5_7_4_2_2_2_0_1_2_0_2_1 [label="0"]
-NODE0_5_7_4_2_2_2_0_1_2_0_2 -- NODE0_5_7_4_2_2_2_0_1_2_0_2_1
-NODE0_5_7_4_2_2_2_0_1_2_0_2_2 [label="0"]
-NODE0_5_7_4_2_2_2_0_1_2_0_2 -- NODE0_5_7_4_2_2_2_0_1_2_0_2_2
+NODE0_5_7_4_2_2_2_0_1_2_0_2 [label="100" style=filled fillcolor="lightblue"]
 NODE0_5_7_4_2_2_2_0_1_2_0 -- NODE0_5_7_4_2_2_2_0_1_2_0_2
-NODE0_5_7_4_2_2_2_0_1_2_0_3 [label="Int"]
-NODE0_5_7_4_2_2_2_0_1_2_0_3_0 [label="Divide"]
+NODE0_5_7_4_2_2_2_0_1_2_0_3 [label="Int" ]
+NODE0_5_7_4_2_2_2_0_1_2_0_3_0 [label="Divide" ]
 NODE0_5_7_4_2_2_2_0_1_2_0_3_0_1 [label="//"]
 NODE0_5_7_4_2_2_2_0_1_2_0_3_0 -- NODE0_5_7_4_2_2_2_0_1_2_0_3_0_1
-NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2 [label="Int"]
-NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0 [label="Rawstorage"]
-NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0_1 [label="Who2"]
+NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2 [label="Int" ]
+NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0 [label="Rawstorage" ]
+NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0_1 [label="Who2" ]
 NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0_1_1 [label="current"]
 NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0_1 -- NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0_1_1
 NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0_1_2 [label="team"]
 NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0_1 -- NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0_1_2
 NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0 -- NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0_1
-NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0_2 [label="sto"]
-NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0 -- NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0_2
 NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0_3 [fillcolor="green" style=filled label="BAGS"]
 NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0 -- NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0_3
 NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2 -- NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2_0
 NODE0_5_7_4_2_2_2_0_1_2_0_3_0 -- NODE0_5_7_4_2_2_2_0_1_2_0_3_0_2
-NODE0_5_7_4_2_2_2_0_1_2_0_3_0_3 [label="Int"]
-NODE0_5_7_4_2_2_2_0_1_2_0_3_0_3_0 [label="1"]
-NODE0_5_7_4_2_2_2_0_1_2_0_3_0_3 -- NODE0_5_7_4_2_2_2_0_1_2_0_3_0_3_0
-NODE0_5_7_4_2_2_2_0_1_2_0_3_0_3_1 [label="0"]
-NODE0_5_7_4_2_2_2_0_1_2_0_3_0_3 -- NODE0_5_7_4_2_2_2_0_1_2_0_3_0_3_1
+NODE0_5_7_4_2_2_2_0_1_2_0_3_0_3 [label="10" style=filled fillcolor="lightblue"]
 NODE0_5_7_4_2_2_2_0_1_2_0_3_0 -- NODE0_5_7_4_2_2_2_0_1_2_0_3_0_3
 NODE0_5_7_4_2_2_2_0_1_2_0_3 -- NODE0_5_7_4_2_2_2_0_1_2_0_3_0
 NODE0_5_7_4_2_2_2_0_1_2_0 -- NODE0_5_7_4_2_2_2_0_1_2_0_3
@@ -2221,45 +1869,37 @@ NODE0_5_7_4_2_2_2_0_1_2 -- NODE0_5_7_4_2_2_2_0_1_2_0
 NODE0_5_7_4_2_2_2_0_1 -- NODE0_5_7_4_2_2_2_0_1_2
 NODE0_5_7_4_2_2_2_0 -- NODE0_5_7_4_2_2_2_0_1
 NODE0_5_7_4_2_2_2 -- NODE0_5_7_4_2_2_2_0
-NODE0_5_7_4_2_2_2_1 [label="Action"]
-NODE0_5_7_4_2_2_2_1_1 [label="Setaction"]
+NODE0_5_7_4_2_2_2_1 [label="Action" ]
+NODE0_5_7_4_2_2_2_1_1 [label="Setaction" ]
 NODE0_5_7_4_2_2_2_1_1_0 [label="set"]
 NODE0_5_7_4_2_2_2_1_1 -- NODE0_5_7_4_2_2_2_1_1_0
-NODE0_5_7_4_2_2_2_1_1_1 [label="Rawstorage"]
-NODE0_5_7_4_2_2_2_1_1_1_1 [label="Who2"]
+NODE0_5_7_4_2_2_2_1_1_1 [label="Rawstorage" ]
+NODE0_5_7_4_2_2_2_1_1_1_1 [label="Who2" ]
 NODE0_5_7_4_2_2_2_1_1_1_1_1 [label="current"]
 NODE0_5_7_4_2_2_2_1_1_1_1 -- NODE0_5_7_4_2_2_2_1_1_1_1_1
 NODE0_5_7_4_2_2_2_1_1_1_1_2 [label="team"]
 NODE0_5_7_4_2_2_2_1_1_1_1 -- NODE0_5_7_4_2_2_2_1_1_1_1_2
 NODE0_5_7_4_2_2_2_1_1_1 -- NODE0_5_7_4_2_2_2_1_1_1_1
-NODE0_5_7_4_2_2_2_1_1_1_2 [label="sto"]
-NODE0_5_7_4_2_2_2_1_1_1 -- NODE0_5_7_4_2_2_2_1_1_1_2
 NODE0_5_7_4_2_2_2_1_1_1_3 [fillcolor="green" style=filled label="BAGS"]
 NODE0_5_7_4_2_2_2_1_1_1 -- NODE0_5_7_4_2_2_2_1_1_1_3
 NODE0_5_7_4_2_2_2_1_1 -- NODE0_5_7_4_2_2_2_1_1_1
-NODE0_5_7_4_2_2_2_1_1_2 [label="Int"]
-NODE0_5_7_4_2_2_2_1_1_2_0 [label="Mod"]
+NODE0_5_7_4_2_2_2_1_1_2 [label="Int" ]
+NODE0_5_7_4_2_2_2_1_1_2_0 [label="Mod" ]
 NODE0_5_7_4_2_2_2_1_1_2_0_1 [label="%"]
 NODE0_5_7_4_2_2_2_1_1_2_0 -- NODE0_5_7_4_2_2_2_1_1_2_0_1
-NODE0_5_7_4_2_2_2_1_1_2_0_2 [label="Int"]
-NODE0_5_7_4_2_2_2_1_1_2_0_2_0 [label="Rawstorage"]
-NODE0_5_7_4_2_2_2_1_1_2_0_2_0_1 [label="Who2"]
+NODE0_5_7_4_2_2_2_1_1_2_0_2 [label="Int" ]
+NODE0_5_7_4_2_2_2_1_1_2_0_2_0 [label="Rawstorage" ]
+NODE0_5_7_4_2_2_2_1_1_2_0_2_0_1 [label="Who2" ]
 NODE0_5_7_4_2_2_2_1_1_2_0_2_0_1_1 [label="current"]
 NODE0_5_7_4_2_2_2_1_1_2_0_2_0_1 -- NODE0_5_7_4_2_2_2_1_1_2_0_2_0_1_1
 NODE0_5_7_4_2_2_2_1_1_2_0_2_0_1_2 [label="team"]
 NODE0_5_7_4_2_2_2_1_1_2_0_2_0_1 -- NODE0_5_7_4_2_2_2_1_1_2_0_2_0_1_2
 NODE0_5_7_4_2_2_2_1_1_2_0_2_0 -- NODE0_5_7_4_2_2_2_1_1_2_0_2_0_1
-NODE0_5_7_4_2_2_2_1_1_2_0_2_0_2 [label="sto"]
-NODE0_5_7_4_2_2_2_1_1_2_0_2_0 -- NODE0_5_7_4_2_2_2_1_1_2_0_2_0_2
 NODE0_5_7_4_2_2_2_1_1_2_0_2_0_3 [fillcolor="green" style=filled label="BAGS"]
 NODE0_5_7_4_2_2_2_1_1_2_0_2_0 -- NODE0_5_7_4_2_2_2_1_1_2_0_2_0_3
 NODE0_5_7_4_2_2_2_1_1_2_0_2 -- NODE0_5_7_4_2_2_2_1_1_2_0_2_0
 NODE0_5_7_4_2_2_2_1_1_2_0 -- NODE0_5_7_4_2_2_2_1_1_2_0_2
-NODE0_5_7_4_2_2_2_1_1_2_0_3 [label="Int"]
-NODE0_5_7_4_2_2_2_1_1_2_0_3_0 [label="1"]
-NODE0_5_7_4_2_2_2_1_1_2_0_3 -- NODE0_5_7_4_2_2_2_1_1_2_0_3_0
-NODE0_5_7_4_2_2_2_1_1_2_0_3_1 [label="0"]
-NODE0_5_7_4_2_2_2_1_1_2_0_3 -- NODE0_5_7_4_2_2_2_1_1_2_0_3_1
+NODE0_5_7_4_2_2_2_1_1_2_0_3 [label="10" style=filled fillcolor="lightblue"]
 NODE0_5_7_4_2_2_2_1_1_2_0 -- NODE0_5_7_4_2_2_2_1_1_2_0_3
 NODE0_5_7_4_2_2_2_1_1_2 -- NODE0_5_7_4_2_2_2_1_1_2_0
 NODE0_5_7_4_2_2_2_1_1 -- NODE0_5_7_4_2_2_2_1_1_2
