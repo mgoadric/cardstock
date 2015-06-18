@@ -13,7 +13,7 @@ namespace ParseTreeIterator
 	public class BucketIterator{
 		public static CardCollection ProcessLocation(CardLanguageParser.LocstorageContext location){
 			if (location.who() != null){
-				return CardGame.Instance.tableCards[location.name().GetText()];
+				return CardGame.Instance.tableCards[location.namegr().GetText()];
 			}
 			return null;
 		}
