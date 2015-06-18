@@ -3,6 +3,7 @@ using System.Collections.Generic;
 namespace CardEngine{
 	public class Card{
 		private Dictionary<string,TreeTraversal> mapAttributes = new Dictionary<string,TreeTraversal>();
+		public CardCollection owner {get; set;}
 		public Node attributes;
 		public Card(Node atts){
 			attributes = atts;

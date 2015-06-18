@@ -17,6 +17,31 @@ namespace CardEngine{
 		}
 		public abstract void Execute();
 	}
+	public class LocationCreateAction : GameAction{
+		CardCollection newColl;
+		CardStorage location;
+		string key;
+		public LocationCreateAction(CardStorage loc, CardCollection coll, string k){
+			newColl = coll;
+			location = loc;
+			key = k;
+		}
+		public override void Execute(){
+			location.AddKey(key);
+			location[key] = newColl;
+		}
+	}
+	public class StorageCreateAction : GameAction{
+		RawStorage storage;
+		string key;
+		public StorageCreateAction(RawStorage sto, string k){
+			storage = sto;
+			key = k;
+		}
+		public override void Execute(){
+			storage.AddKey(key);
+		}
+	}
 	public class CardMoveAction : GameAction{
 		Card cardToMove;
 		CardCollection startLocation;
@@ -29,6 +54,18 @@ namespace CardEngine{
 		public override void Execute(){
 			startLocation.Remove(cardToMove);
 			endLocation.Add(cardToMove);
+			cardToMove.owner = endLocation;
+		}
+	}
+	public class InitializeAction : GameAction{
+		CardCollection location;
+		Tree deck;
+		public InitializeAction(CardCollection loc, Tree d){
+			location = loc;
+			deck = d;
+		}
+		public override void Execute(){
+			CardGame.Instance.SetDeck(deck,location);
 		}
 	}
 	public class CardPopMoveAction : GameAction{
@@ -43,6 +80,7 @@ namespace CardEngine{
 		public override void Execute(){
 			startLocation.Remove();
 			endLocation.Add(cardToMove);
+			cardToMove.owner = endLocation;
 		}
 	}
 	public class CardCopyAction : GameAction{

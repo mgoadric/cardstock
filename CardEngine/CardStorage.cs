@@ -15,6 +15,7 @@ namespace CardEngine{
 	       		storage[binDict[key]] = value;
 	    	}
 		}
+		public Player owner {get; set;}
 		int binCounter = 0;
 		Dictionary<string,int> binDict = new Dictionary<string,int>();
 		public CardCollection[] storage = new CardCollection[32];

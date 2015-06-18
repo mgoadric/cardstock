@@ -15,6 +15,20 @@ namespace ParseTreeIterator
 			if (boolNode.GetText() == "()"){
 				return true;
 			}
+			else if (boolNode.intop() != null){
+				var intop = boolNode.intop();
+				var intOne = boolNode.@int(0);
+				var intTwo = boolNode.@int(1);
+				if (intOne.GetText().Contains("any")){
+					List<int> trueOne = IntIterator.ProcessListInt(intOne);
+					int trueTwo = IntIterator.ProcessInt(intTwo);
+					if (intop.COMPOP() != null){
+						if (intop.COMPOP().GetText() == ">="){
+							return trueOne.Exists(item => item >= trueTwo);
+						}
+					}
+				}	
+			}
 			return false;
 		}
 		

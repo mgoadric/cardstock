@@ -50,6 +50,14 @@ namespace CardEngine
 		public PlayerCycle CurrentPlayer(){
 			return currentPlayer.Peek();
 		}
+		public void SetDeck(Tree cardAttributes,CardCollection loc){
+			var combos = cardAttributes.combinations();
+			foreach (var combo in combos){
+				loc.Add(new Card(combo));
+				//Console.WriteLine(sourceDeck.Last());
+			}
+			//Console.ReadKey();
+		}
 		public void SetDeck(Tree cardAttributes){
 			var combos = cardAttributes.combinations();
 			foreach (var combo in combos){

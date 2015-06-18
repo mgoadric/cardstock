@@ -21,6 +21,15 @@ namespace ParseTreeIterator
 					start++;
 				}
 			}
+			else if (stage.endcondition().boolean() != null){
+				while (!BooleanIterator.ProcessBoolean(stage.endcondition().boolean())){
+					Console.WriteLine("Hit Boolean while!");
+					for (int i = 4; i < stage.ChildCount - 1; ++i){
+						ProcessSubStage(stage.GetChild(i));
+					}
+					break;
+				}
+			}
 		}
 		public static void ProcessSubStage(IParseTree sub){
 			if (sub is CardLanguageParser.ComputermovesContext){
@@ -36,6 +45,9 @@ namespace ParseTreeIterator
 					}
 				}
 			}
+			else if (sub is CardLanguageParser.StageContext){
+				ProcessStage(sub as CardLanguageParser.StageContext);
+			}
 		}
 		public static void ProcessMultiAction(CardLanguageParser.MultiactionContext actions){
 			for (int i = 0; i < actions.ChildCount; ++i){
@@ -46,7 +58,7 @@ namespace ParseTreeIterator
 		public static void ProcessAction(CardLanguageParser.ActionContext action){
 			//Console.WriteLine("Execute:");
 			//Console.WriteLine(action.GetText());
-			ActionIterator.ProcessAction(action);
+			ActionIterator.ProcessAction(action).ExecuteAll();
 		}
 	}
 }

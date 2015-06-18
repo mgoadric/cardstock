@@ -11,7 +11,8 @@ using CardEngine;
 namespace ParseTreeIterator
 {
 	public class ActionIterator{
-		public static void ProcessAction(CardLanguageParser.ActionContext actionNode){
+		public static GameActionCollection ProcessAction(CardLanguageParser.ActionContext actionNode){
+			var ret = new GameActionCollection();
 			if (actionNode.loccreate() != null){
 				var locAction = actionNode.loccreate() as CardLanguageParser.LoccreateContext;
 				CardStorage[] dest = new CardStorage[1];
@@ -29,27 +30,29 @@ namespace ParseTreeIterator
 					//unsuported (for now?);
 				}
 				
-
+				
 				foreach (var location in dest){
 					for (int i = 3; i < locAction.ChildCount; ++i){
 						var locDef = locAction.GetChild(i) as CardLanguageParser.LocationdefContext;
 						var binName = locDef.name().GetText();
-						location.AddKey(binName);
+						CardCollection temp = new CardListCollection();
 						if (locDef.GetChild(2).GetText() == "Stack"){
-							location[binName] = new CardStackCollection();
+							temp = new CardStackCollection();
 						}
 						else if (locDef.GetChild(2).GetText() == "List"){
-							location[binName] = new CardListCollection();
+							temp = new CardListCollection();
 						}
 						else if (locDef.GetChild(2).GetText() == "Queue"){
-							location[binName] = new CardQueueCollection();
+							temp = new CardQueueCollection();
 						}
 						else{
 							throw new System.ArgumentException("Unsuported Card bin type");
 						}
+						ret.Add(new LocationCreateAction(location,temp,binName));
 						
 					}
 				}
+				
 			}
 			else if (actionNode.storagecreate() != null){
 				var stoAction = actionNode.storagecreate();
@@ -73,13 +76,12 @@ namespace ParseTreeIterator
 						dest[i] = teams[i].teamStorage;
 					}
 				}
-				
 				int namegrCnt = (stoAction.ChildCount - 5)/2 + 1;
 				foreach (var storage in dest){
 					for (int i = 0; i < namegrCnt; ++i){
 						var namegr = stoAction.namegr(i);
 						var name = namegr.GetText();
-						storage.AddKey(name);
+						ret.Add(new StorageCreateAction(storage,name));
 						
 					}
 				}
@@ -128,13 +130,10 @@ namespace ParseTreeIterator
 					var deckinit = initialize.deckinit();
 					var locstorage = BucketIterator.ProcessLocation(deckinit.locstorage());
 					var deckTree = DeckIterator.ProcessDeck(deckinit.deck());
-					CardGame.Instance.SetDeck(deckTree);
-					CardGame.Instance.PopulateLocation(locstorage);
-					foreach (var card in locstorage.AllCards()){
-						Console.WriteLine(card);
-					}
+					ret.Add(new InitializeAction(locstorage,deckTree));
 				}
 			}
+			return ret;
 		}
 		
 	}
