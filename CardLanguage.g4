@@ -1,7 +1,8 @@
 grammar CardLanguage;
 
+game : OPEN 'game' (computermoves|playermoves|stage)+? CLOSE ;
 stage : OPEN 'stage' ('game'|'player'|'team') endcondition (computermoves|playermoves|stage)+? CLOSE ;
-endcondition : OPEN 'end' (boolean | (('game'|'player'|'team') int)) CLOSE ;
+endcondition : OPEN 'end' boolean CLOSE ;
 
 computermoves : OPEN 'comp' multigameaction CLOSE ;
 playermoves : OPEN 'choice' multigameaction CLOSE ;

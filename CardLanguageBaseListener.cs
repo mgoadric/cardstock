@@ -33,6 +33,18 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 [System.CLSCompliant(false)]
 public partial class CardLanguageBaseListener : ICardLanguageListener {
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.game"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterGame([NotNull] CardLanguageParser.GameContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.game"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitGame([NotNull] CardLanguageParser.GameContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="CardLanguageParser.stage"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -596,6 +608,18 @@ public partial class CardLanguageBaseListener : ICardLanguageListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitIntop([NotNull] CardLanguageParser.IntopContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.add"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAdd([NotNull] CardLanguageParser.AddContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.add"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAdd([NotNull] CardLanguageParser.AddContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="CardLanguageParser.mult"/>.
 	/// <para>The default implementation does nothing.</para>

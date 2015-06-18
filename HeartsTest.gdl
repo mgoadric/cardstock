@@ -1,8 +1,6 @@
 ;; HEARTS in the GDL
-(stage game
-
-   (end game 1)
-   (comp (() 
+(game
+    (comp (() 
 
              ;; Game Locations and Storage
              (create loc game (STOCK Stack)

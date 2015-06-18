@@ -23,7 +23,7 @@ public class ParseEngine{
                 var parser = new CardLanguageParser(tokens);
         
                	parser.BuildParseTree = true;
-                var tree = parser.stage();
+                var tree = parser.game();
                 //Recurse(tree);
                 
                 //Console.Write(tree.ToStringTree());
