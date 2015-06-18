@@ -58,13 +58,14 @@ locstorage : unionof | OPEN (who | who2) 'loc' namegr whereclause? CLOSE ;
 who : 'game' ;
 
 // SHOULD THIS BE SPLIT INTO TWO SO YOU CAN'T SAY player player player??
-who2 : OPEN (posq | int | 'next' | 'current' | who2) ('player' | 'team') CLOSE ;
+who2 : OPEN (posq | int | 'previous' | 'next' | 'current' | who2) ('player' | 'team') CLOSE ;
 
 trueany : (ANY|int|BOOLOP)+?;
 whereclause : 'where' boolatt ; 
 boolatt : OPEN attrcomp CLOSE;
 
 attrcomp : EQOP cardatt cardatt ;
+// what about this out of context of where???
 cardatt : name | (OPEN 'cardatt' name ('this' | card ) CLOSE) ;
  
 posq : 'any'| 'all' ;
@@ -86,7 +87,7 @@ divide : OPEN '//' int int CLOSE ;
 sizeof : OPEN 'size' locstorage CLOSE ;
 maxof : OPEN 'max' locstorage 'using' namegr CLOSE ;
 unionof : OPEN 'union' locstorage+? CLOSE ;
-sum : OPEN 'sum' rawstorage CLOSE ; 
+sum : OPEN 'sum' (rawstorage | (locstorage 'using' namegr)) CLOSE ; 
 
 int : owner | sizeof | mult | subtract | mod | divide | sum | rawstorage | INTNUM+ ;
 INTNUM : [0-9] ;
