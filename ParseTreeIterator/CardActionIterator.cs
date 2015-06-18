@@ -30,7 +30,11 @@ namespace ParseTreeIterator
 				//Do once
 				var cardOne = CardIterator.ProcessCard(copy.card(0));
 				var cardTwo = CardIterator.ProcessCard(copy.card(1));
-				ret.Add(new FancyCardCopyAction(cardOne.Get(),cardTwo));
+				foreach (var card1 in cardOne){
+					foreach (var card2 in cardTwo){
+						ret.Add(new FancyCardMoveAction(card1,card2));
+					}
+				}
 			}
 			return ret;
 		}
@@ -53,7 +57,12 @@ namespace ParseTreeIterator
 				//Do once
 				var cardOne = CardIterator.ProcessCard(move.card(0));
 				var cardTwo = CardIterator.ProcessCard(move.card(1));
-				ret.Add(new FancyCardCopyAction(cardOne.Get(),cardTwo));
+				foreach (var card1 in cardOne){
+					foreach (var card2 in cardTwo){
+						ret.Add(new FancyCardCopyAction(card1.Get(),card2));
+					}
+				}
+				
 			}
 			return ret;
 		}
