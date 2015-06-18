@@ -1,0 +1,1766 @@
+graph tree{NODE0 [label="Stage" style=filled fillcolor="red"]
+NODE0_1 [label="game"]
+NODE0 -- NODE0_1
+NODE0_2 [label="Computermoves"  style=filled shape=box fillcolor="yellow"]
+NODE0_2_2 [label="Multigameaction" ]
+NODE0_2_2_0 [label="Gameaction" ]
+NODE0_2_2_0_1 [label="Boolean" ]
+NODE0_2_2_0 -- NODE0_2_2_0_1
+NODE0_2_2_0_2 [label="Multiaction" ]
+NODE0_2_2_0_2_0 [label="Action" ]
+NODE0_2_2_0_2_0_1 [label="Loccreate" ]
+NODE0_2_2_0_2_0_1_2 [label="Obj" ]
+NODE0_2_2_0_2_0_1_2_0 [label="game"]
+NODE0_2_2_0_2_0_1_2 -- NODE0_2_2_0_2_0_1_2_0
+NODE0_2_2_0_2_0_1 -- NODE0_2_2_0_2_0_1_2
+NODE0_2_2_0_2_0_1_3 [label="Locationdef" ]
+NODE0_2_2_0_2_0_1_3_1 [fillcolor="green" style=filled label="STOCK"]
+NODE0_2_2_0_2_0_1_3 -- NODE0_2_2_0_2_0_1_3_1
+NODE0_2_2_0_2_0_1_3_2 [label="Stack"]
+NODE0_2_2_0_2_0_1_3 -- NODE0_2_2_0_2_0_1_3_2
+NODE0_2_2_0_2_0_1 -- NODE0_2_2_0_2_0_1_3
+NODE0_2_2_0_2_0_1_4 [label="Locationdef" ]
+NODE0_2_2_0_2_0_1_4_1 [fillcolor="green" style=filled label="DISCARD"]
+NODE0_2_2_0_2_0_1_4 -- NODE0_2_2_0_2_0_1_4_1
+NODE0_2_2_0_2_0_1_4_2 [label="Stack"]
+NODE0_2_2_0_2_0_1_4 -- NODE0_2_2_0_2_0_1_4_2
+NODE0_2_2_0_2_0_1 -- NODE0_2_2_0_2_0_1_4
+NODE0_2_2_0_2_0_1_5 [label="Locationdef" ]
+NODE0_2_2_0_2_0_1_5_1 [fillcolor="green" style=filled label="TRUMP"]
+NODE0_2_2_0_2_0_1_5 -- NODE0_2_2_0_2_0_1_5_1
+NODE0_2_2_0_2_0_1_5_2 [label="Stack"]
+NODE0_2_2_0_2_0_1_5 -- NODE0_2_2_0_2_0_1_5_2
+NODE0_2_2_0_2_0_1_5_3 [label="Memory"]
+NODE0_2_2_0_2_0_1_5 -- NODE0_2_2_0_2_0_1_5_3
+NODE0_2_2_0_2_0_1 -- NODE0_2_2_0_2_0_1_5
+NODE0_2_2_0_2_0_1_6 [label="Locationdef" ]
+NODE0_2_2_0_2_0_1_6_1 [fillcolor="green" style=filled label="LEAD"]
+NODE0_2_2_0_2_0_1_6 -- NODE0_2_2_0_2_0_1_6_1
+NODE0_2_2_0_2_0_1_6_2 [label="Stack"]
+NODE0_2_2_0_2_0_1_6 -- NODE0_2_2_0_2_0_1_6_2
+NODE0_2_2_0_2_0_1_6_3 [label="Memory"]
+NODE0_2_2_0_2_0_1_6 -- NODE0_2_2_0_2_0_1_6_3
+NODE0_2_2_0_2_0_1 -- NODE0_2_2_0_2_0_1_6
+NODE0_2_2_0_2_0 -- NODE0_2_2_0_2_0_1
+NODE0_2_2_0_2 -- NODE0_2_2_0_2_0
+NODE0_2_2_0_2_1 [label="Action" ]
+NODE0_2_2_0_2_1_1 [label="Storagecreate" ]
+NODE0_2_2_0_2_1_1_2 [label="Obj" ]
+NODE0_2_2_0_2_1_1_2_0 [label="game"]
+NODE0_2_2_0_2_1_1_2 -- NODE0_2_2_0_2_1_1_2_0
+NODE0_2_2_0_2_1_1 -- NODE0_2_2_0_2_1_1_2
+NODE0_2_2_0_2_1_1_4 [fillcolor="green" style=filled label="BROKEN"]
+NODE0_2_2_0_2_1_1 -- NODE0_2_2_0_2_1_1_4
+NODE0_2_2_0_2_1 -- NODE0_2_2_0_2_1_1
+NODE0_2_2_0_2 -- NODE0_2_2_0_2_1
+NODE0_2_2_0_2_2 [label="Action" ]
+NODE0_2_2_0_2_2_1 [label="Playercreate" ]
+NODE0_2_2_0_2_2_1_1 [label="players"]
+NODE0_2_2_0_2_2_1 -- NODE0_2_2_0_2_2_1_1
+NODE0_2_2_0_2_2_1_2 [label="4" style=filled fillcolor="lightblue"]
+NODE0_2_2_0_2_2_1 -- NODE0_2_2_0_2_2_1_2
+NODE0_2_2_0_2_2 -- NODE0_2_2_0_2_2_1
+NODE0_2_2_0_2 -- NODE0_2_2_0_2_2
+NODE0_2_2_0_2_3 [label="Action" ]
+NODE0_2_2_0_2_3_1 [label="Loccreate" ]
+NODE0_2_2_0_2_3_1_2 [label="Obj" ]
+NODE0_2_2_0_2_3_1_2_0 [label="player"]
+NODE0_2_2_0_2_3_1_2 -- NODE0_2_2_0_2_3_1_2_0
+NODE0_2_2_0_2_3_1 -- NODE0_2_2_0_2_3_1_2
+NODE0_2_2_0_2_3_1_3 [label="Locationdef" ]
+NODE0_2_2_0_2_3_1_3_1 [fillcolor="green" style=filled label="HAND"]
+NODE0_2_2_0_2_3_1_3 -- NODE0_2_2_0_2_3_1_3_1
+NODE0_2_2_0_2_3_1_3_2 [label="List"]
+NODE0_2_2_0_2_3_1_3 -- NODE0_2_2_0_2_3_1_3_2
+NODE0_2_2_0_2_3_1 -- NODE0_2_2_0_2_3_1_3
+NODE0_2_2_0_2_3_1_4 [label="Locationdef" ]
+NODE0_2_2_0_2_3_1_4_1 [fillcolor="green" style=filled label="TRICK"]
+NODE0_2_2_0_2_3_1_4 -- NODE0_2_2_0_2_3_1_4_1
+NODE0_2_2_0_2_3_1_4_2 [label="Stack"]
+NODE0_2_2_0_2_3_1_4 -- NODE0_2_2_0_2_3_1_4_2
+NODE0_2_2_0_2_3_1 -- NODE0_2_2_0_2_3_1_4
+NODE0_2_2_0_2_3_1_5 [label="Locationdef" ]
+NODE0_2_2_0_2_3_1_5_1 [fillcolor="green" style=filled label="TRICKSWON"]
+NODE0_2_2_0_2_3_1_5 -- NODE0_2_2_0_2_3_1_5_1
+NODE0_2_2_0_2_3_1_5_2 [label="Stack"]
+NODE0_2_2_0_2_3_1_5 -- NODE0_2_2_0_2_3_1_5_2
+NODE0_2_2_0_2_3_1 -- NODE0_2_2_0_2_3_1_5
+NODE0_2_2_0_2_3_1_6 [label="Locationdef" ]
+NODE0_2_2_0_2_3_1_6_1 [fillcolor="green" style=filled label="PASSED"]
+NODE0_2_2_0_2_3_1_6 -- NODE0_2_2_0_2_3_1_6_1
+NODE0_2_2_0_2_3_1_6_2 [label="Stack"]
+NODE0_2_2_0_2_3_1_6 -- NODE0_2_2_0_2_3_1_6_2
+NODE0_2_2_0_2_3_1 -- NODE0_2_2_0_2_3_1_6
+NODE0_2_2_0_2_3 -- NODE0_2_2_0_2_3_1
+NODE0_2_2_0_2 -- NODE0_2_2_0_2_3
+NODE0_2_2_0_2_4 [label="Action" ]
+NODE0_2_2_0_2_4_1 [label="Storagecreate" ]
+NODE0_2_2_0_2_4_1_2 [label="Obj" ]
+NODE0_2_2_0_2_4_1_2_0 [label="player"]
+NODE0_2_2_0_2_4_1_2 -- NODE0_2_2_0_2_4_1_2_0
+NODE0_2_2_0_2_4_1 -- NODE0_2_2_0_2_4_1_2
+NODE0_2_2_0_2_4_1_4 [fillcolor="green" style=filled label="SCORE"]
+NODE0_2_2_0_2_4_1 -- NODE0_2_2_0_2_4_1_4
+NODE0_2_2_0_2_4 -- NODE0_2_2_0_2_4_1
+NODE0_2_2_0_2 -- NODE0_2_2_0_2_4
+NODE0_2_2_0_2_5 [label="Action" ]
+NODE0_2_2_0_2_5_1 [label="Init" ]
+NODE0_2_2_0_2_5_1_1 [label="Deckinit" ]
+NODE0_2_2_0_2_5_1_1_0 [label="Locstorage" ]
+NODE0_2_2_0_2_5_1_1_0_1 [label="Who" ]
+NODE0_2_2_0_2_5_1_1_0_1_0 [label="game"]
+NODE0_2_2_0_2_5_1_1_0_1 -- NODE0_2_2_0_2_5_1_1_0_1_0
+NODE0_2_2_0_2_5_1_1_0 -- NODE0_2_2_0_2_5_1_1_0_1
+NODE0_2_2_0_2_5_1_1_0_3 [fillcolor="green" style=filled label="DISCARD"]
+NODE0_2_2_0_2_5_1_1_0 -- NODE0_2_2_0_2_5_1_1_0_3
+NODE0_2_2_0_2_5_1_1 -- NODE0_2_2_0_2_5_1_1_0
+NODE0_2_2_0_2_5_1_1_1 [label="Deck" ]
+NODE0_2_2_0_2_5_1_1_1_1 [label="permdeck"]
+NODE0_2_2_0_2_5_1_1_1 -- NODE0_2_2_0_2_5_1_1_1_1
+NODE0_2_2_0_2_5_1_1_1_2 [label="Attribute" ]
+NODE0_2_2_0_2_5_1_1_1_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_2_2_0_2_5_1_1_1_2 -- NODE0_2_2_0_2_5_1_1_1_2_1
+NODE0_2_2_0_2_5_1_1_1_2_2 [label="Attribute" ]
+NODE0_2_2_0_2_5_1_1_1_2_2_1 [fillcolor="green" style=filled label="A"]
+NODE0_2_2_0_2_5_1_1_1_2_2 -- NODE0_2_2_0_2_5_1_1_1_2_2_1
+NODE0_2_2_0_2_5_1_1_1_2_2_3 [fillcolor="green" style=filled label="2"]
+NODE0_2_2_0_2_5_1_1_1_2_2 -- NODE0_2_2_0_2_5_1_1_1_2_2_3
+NODE0_2_2_0_2_5_1_1_1_2_2_5 [fillcolor="green" style=filled label="3"]
+NODE0_2_2_0_2_5_1_1_1_2_2 -- NODE0_2_2_0_2_5_1_1_1_2_2_5
+NODE0_2_2_0_2_5_1_1_1_2_2_7 [fillcolor="green" style=filled label="4"]
+NODE0_2_2_0_2_5_1_1_1_2_2 -- NODE0_2_2_0_2_5_1_1_1_2_2_7
+NODE0_2_2_0_2_5_1_1_1_2_2_9 [fillcolor="green" style=filled label="5"]
+NODE0_2_2_0_2_5_1_1_1_2_2 -- NODE0_2_2_0_2_5_1_1_1_2_2_9
+NODE0_2_2_0_2_5_1_1_1_2_2_11 [fillcolor="green" style=filled label="6"]
+NODE0_2_2_0_2_5_1_1_1_2_2 -- NODE0_2_2_0_2_5_1_1_1_2_2_11
+NODE0_2_2_0_2_5_1_1_1_2_2_13 [fillcolor="green" style=filled label="7"]
+NODE0_2_2_0_2_5_1_1_1_2_2 -- NODE0_2_2_0_2_5_1_1_1_2_2_13
+NODE0_2_2_0_2_5_1_1_1_2_2_15 [fillcolor="green" style=filled label="8"]
+NODE0_2_2_0_2_5_1_1_1_2_2 -- NODE0_2_2_0_2_5_1_1_1_2_2_15
+NODE0_2_2_0_2_5_1_1_1_2_2_17 [fillcolor="green" style=filled label="9"]
+NODE0_2_2_0_2_5_1_1_1_2_2 -- NODE0_2_2_0_2_5_1_1_1_2_2_17
+NODE0_2_2_0_2_5_1_1_1_2_2_19 [fillcolor="green" style=filled label="10"]
+NODE0_2_2_0_2_5_1_1_1_2_2 -- NODE0_2_2_0_2_5_1_1_1_2_2_19
+NODE0_2_2_0_2_5_1_1_1_2_2_21 [fillcolor="green" style=filled label="J"]
+NODE0_2_2_0_2_5_1_1_1_2_2 -- NODE0_2_2_0_2_5_1_1_1_2_2_21
+NODE0_2_2_0_2_5_1_1_1_2_2_23 [fillcolor="green" style=filled label="Q"]
+NODE0_2_2_0_2_5_1_1_1_2_2 -- NODE0_2_2_0_2_5_1_1_1_2_2_23
+NODE0_2_2_0_2_5_1_1_1_2_2_25 [fillcolor="green" style=filled label="K"]
+NODE0_2_2_0_2_5_1_1_1_2_2 -- NODE0_2_2_0_2_5_1_1_1_2_2_25
+NODE0_2_2_0_2_5_1_1_1_2 -- NODE0_2_2_0_2_5_1_1_1_2_2
+NODE0_2_2_0_2_5_1_1_1 -- NODE0_2_2_0_2_5_1_1_1_2
+NODE0_2_2_0_2_5_1_1_1_3 [label="Attribute" ]
+NODE0_2_2_0_2_5_1_1_1_3_1 [fillcolor="green" style=filled label="color"]
+NODE0_2_2_0_2_5_1_1_1_3 -- NODE0_2_2_0_2_5_1_1_1_3_1
+NODE0_2_2_0_2_5_1_1_1_3_2 [label="Attribute" ]
+NODE0_2_2_0_2_5_1_1_1_3_2_1 [fillcolor="green" style=filled label="red"]
+NODE0_2_2_0_2_5_1_1_1_3_2 -- NODE0_2_2_0_2_5_1_1_1_3_2_1
+NODE0_2_2_0_2_5_1_1_1_3_2_2 [label="Attribute" ]
+NODE0_2_2_0_2_5_1_1_1_3_2_2_1 [fillcolor="green" style=filled label="suit"]
+NODE0_2_2_0_2_5_1_1_1_3_2_2 -- NODE0_2_2_0_2_5_1_1_1_3_2_2_1
+NODE0_2_2_0_2_5_1_1_1_3_2_2_2 [label="Attribute" ]
+NODE0_2_2_0_2_5_1_1_1_3_2_2_2_1 [fillcolor="green" style=filled label="hearts"]
+NODE0_2_2_0_2_5_1_1_1_3_2_2_2 -- NODE0_2_2_0_2_5_1_1_1_3_2_2_2_1
+NODE0_2_2_0_2_5_1_1_1_3_2_2_2_3 [fillcolor="green" style=filled label="diamonds"]
+NODE0_2_2_0_2_5_1_1_1_3_2_2_2 -- NODE0_2_2_0_2_5_1_1_1_3_2_2_2_3
+NODE0_2_2_0_2_5_1_1_1_3_2_2 -- NODE0_2_2_0_2_5_1_1_1_3_2_2_2
+NODE0_2_2_0_2_5_1_1_1_3_2 -- NODE0_2_2_0_2_5_1_1_1_3_2_2
+NODE0_2_2_0_2_5_1_1_1_3 -- NODE0_2_2_0_2_5_1_1_1_3_2
+NODE0_2_2_0_2_5_1_1_1_3_3 [label="Attribute" ]
+NODE0_2_2_0_2_5_1_1_1_3_3_1 [fillcolor="green" style=filled label="black"]
+NODE0_2_2_0_2_5_1_1_1_3_3 -- NODE0_2_2_0_2_5_1_1_1_3_3_1
+NODE0_2_2_0_2_5_1_1_1_3_3_2 [label="Attribute" ]
+NODE0_2_2_0_2_5_1_1_1_3_3_2_1 [fillcolor="green" style=filled label="suit"]
+NODE0_2_2_0_2_5_1_1_1_3_3_2 -- NODE0_2_2_0_2_5_1_1_1_3_3_2_1
+NODE0_2_2_0_2_5_1_1_1_3_3_2_2 [label="Attribute" ]
+NODE0_2_2_0_2_5_1_1_1_3_3_2_2_1 [fillcolor="green" style=filled label="clubs"]
+NODE0_2_2_0_2_5_1_1_1_3_3_2_2 -- NODE0_2_2_0_2_5_1_1_1_3_3_2_2_1
+NODE0_2_2_0_2_5_1_1_1_3_3_2_2_3 [fillcolor="green" style=filled label="spades"]
+NODE0_2_2_0_2_5_1_1_1_3_3_2_2 -- NODE0_2_2_0_2_5_1_1_1_3_3_2_2_3
+NODE0_2_2_0_2_5_1_1_1_3_3_2 -- NODE0_2_2_0_2_5_1_1_1_3_3_2_2
+NODE0_2_2_0_2_5_1_1_1_3_3 -- NODE0_2_2_0_2_5_1_1_1_3_3_2
+NODE0_2_2_0_2_5_1_1_1_3 -- NODE0_2_2_0_2_5_1_1_1_3_3
+NODE0_2_2_0_2_5_1_1_1 -- NODE0_2_2_0_2_5_1_1_1_3
+NODE0_2_2_0_2_5_1_1 -- NODE0_2_2_0_2_5_1_1_1
+NODE0_2_2_0_2_5_1 -- NODE0_2_2_0_2_5_1_1
+NODE0_2_2_0_2_5 -- NODE0_2_2_0_2_5_1
+NODE0_2_2_0_2 -- NODE0_2_2_0_2_5
+NODE0_2_2_0 -- NODE0_2_2_0_2
+NODE0_2_2 -- NODE0_2_2_0
+NODE0_2 -- NODE0_2_2
+NODE0 -- NODE0_2
+NODE0_3 [label="Stage"  style=filled fillcolor="red"]
+NODE0_3_2 [label="player"]
+NODE0_3 -- NODE0_3_2
+NODE0_3_3 [label="Endcondition" ]
+NODE0_3_3_2 [label="Boolean" ]
+NODE0_3_3_2_1 [label="Intop" ]
+NODE0_3_3_2_1_0 [label=">="]
+NODE0_3_3_2_1 -- NODE0_3_3_2_1_0
+NODE0_3_3_2 -- NODE0_3_3_2_1
+NODE0_3_3_2_2 [label="Int" ]
+NODE0_3_3_2_2_0 [label="Rawstorage" ]
+NODE0_3_3_2_2_0_1 [label="Who2" ]
+NODE0_3_3_2_2_0_1_1 [label="Posq" ]
+NODE0_3_3_2_2_0_1_1_0 [label="any"]
+NODE0_3_3_2_2_0_1_1 -- NODE0_3_3_2_2_0_1_1_0
+NODE0_3_3_2_2_0_1 -- NODE0_3_3_2_2_0_1_1
+NODE0_3_3_2_2_0_1_2 [label="player"]
+NODE0_3_3_2_2_0_1 -- NODE0_3_3_2_2_0_1_2
+NODE0_3_3_2_2_0 -- NODE0_3_3_2_2_0_1
+NODE0_3_3_2_2_0_3 [fillcolor="green" style=filled label="SCORE"]
+NODE0_3_3_2_2_0 -- NODE0_3_3_2_2_0_3
+NODE0_3_3_2_2 -- NODE0_3_3_2_2_0
+NODE0_3_3_2 -- NODE0_3_3_2_2
+NODE0_3_3_2_3 [label="100" style=filled fillcolor="lightblue"]
+NODE0_3_3_2 -- NODE0_3_3_2_3
+NODE0_3_3 -- NODE0_3_3_2
+NODE0_3 -- NODE0_3_3
+NODE0_3_4 [label="Computermoves"  style=filled shape=box fillcolor="yellow"]
+NODE0_3_4_2 [label="Multigameaction" ]
+NODE0_3_4_2_0 [label="Gameaction" ]
+NODE0_3_4_2_0_1 [label="Boolean" ]
+NODE0_3_4_2_0 -- NODE0_3_4_2_0_1
+NODE0_3_4_2_0_2 [label="Multiaction" ]
+NODE0_3_4_2_0_2_0 [label="Action" ]
+NODE0_3_4_2_0_2_0_1 [label="Moveaction" ]
+NODE0_3_4_2_0_2_0_1_1 [label="Card" ]
+NODE0_3_4_2_0_2_0_1_1_1 [label="top"]
+NODE0_3_4_2_0_2_0_1_1 -- NODE0_3_4_2_0_2_0_1_1_1
+NODE0_3_4_2_0_2_0_1_1_2 [label="Locstorage" ]
+NODE0_3_4_2_0_2_0_1_1_2_1 [label="Who" ]
+NODE0_3_4_2_0_2_0_1_1_2_1_0 [label="game"]
+NODE0_3_4_2_0_2_0_1_1_2_1 -- NODE0_3_4_2_0_2_0_1_1_2_1_0
+NODE0_3_4_2_0_2_0_1_1_2 -- NODE0_3_4_2_0_2_0_1_1_2_1
+NODE0_3_4_2_0_2_0_1_1_2_3 [fillcolor="green" style=filled label="DISCARD"]
+NODE0_3_4_2_0_2_0_1_1_2 -- NODE0_3_4_2_0_2_0_1_1_2_3
+NODE0_3_4_2_0_2_0_1_1 -- NODE0_3_4_2_0_2_0_1_1_2
+NODE0_3_4_2_0_2_0_1 -- NODE0_3_4_2_0_2_0_1_1
+NODE0_3_4_2_0_2_0_1_2 [label="Card" ]
+NODE0_3_4_2_0_2_0_1_2_1 [label="top"]
+NODE0_3_4_2_0_2_0_1_2 -- NODE0_3_4_2_0_2_0_1_2_1
+NODE0_3_4_2_0_2_0_1_2_2 [label="Locstorage" ]
+NODE0_3_4_2_0_2_0_1_2_2_1 [label="Who" ]
+NODE0_3_4_2_0_2_0_1_2_2_1_0 [label="game"]
+NODE0_3_4_2_0_2_0_1_2_2_1 -- NODE0_3_4_2_0_2_0_1_2_2_1_0
+NODE0_3_4_2_0_2_0_1_2_2 -- NODE0_3_4_2_0_2_0_1_2_2_1
+NODE0_3_4_2_0_2_0_1_2_2_3 [fillcolor="green" style=filled label="STOCK"]
+NODE0_3_4_2_0_2_0_1_2_2 -- NODE0_3_4_2_0_2_0_1_2_2_3
+NODE0_3_4_2_0_2_0_1_2 -- NODE0_3_4_2_0_2_0_1_2_2
+NODE0_3_4_2_0_2_0_1 -- NODE0_3_4_2_0_2_0_1_2
+NODE0_3_4_2_0_2_0_1_3 [label="all"]
+NODE0_3_4_2_0_2_0_1 -- NODE0_3_4_2_0_2_0_1_3
+NODE0_3_4_2_0_2_0 -- NODE0_3_4_2_0_2_0_1
+NODE0_3_4_2_0_2 -- NODE0_3_4_2_0_2_0
+NODE0_3_4_2_0_2_1 [label="Action" ]
+NODE0_3_4_2_0_2_1_1 [label="Copyaction" ]
+NODE0_3_4_2_0_2_1_1_1 [label="Card" ]
+NODE0_3_4_2_0_2_1_1_1_1 [label="top"]
+NODE0_3_4_2_0_2_1_1_1 -- NODE0_3_4_2_0_2_1_1_1_1
+NODE0_3_4_2_0_2_1_1_1_2 [label="Locstorage" ]
+NODE0_3_4_2_0_2_1_1_1_2_1 [label="Who" ]
+NODE0_3_4_2_0_2_1_1_1_2_1_0 [label="game"]
+NODE0_3_4_2_0_2_1_1_1_2_1 -- NODE0_3_4_2_0_2_1_1_1_2_1_0
+NODE0_3_4_2_0_2_1_1_1_2 -- NODE0_3_4_2_0_2_1_1_1_2_1
+NODE0_3_4_2_0_2_1_1_1_2_3 [fillcolor="green" style=filled label="STOCK"]
+NODE0_3_4_2_0_2_1_1_1_2 -- NODE0_3_4_2_0_2_1_1_1_2_3
+NODE0_3_4_2_0_2_1_1_1_2_4 [label="Whereclause" ]
+NODE0_3_4_2_0_2_1_1_1_2_4_0 [label="where"]
+NODE0_3_4_2_0_2_1_1_1_2_4 -- NODE0_3_4_2_0_2_1_1_1_2_4_0
+NODE0_3_4_2_0_2_1_1_1_2_4_1 [label="Boolatt" ]
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1 [label="Attrcomp" ]
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1_0 [label="=="]
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1 -- NODE0_3_4_2_0_2_1_1_1_2_4_1_1_0
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1_1 [label="Cardatt" ]
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1_1_1 [label="cardatt"]
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1_1 -- NODE0_3_4_2_0_2_1_1_1_2_4_1_1_1_1
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1_1_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1_1 -- NODE0_3_4_2_0_2_1_1_1_2_4_1_1_1_2
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1_1_3 [label="this"]
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1_1 -- NODE0_3_4_2_0_2_1_1_1_2_4_1_1_1_3
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1 -- NODE0_3_4_2_0_2_1_1_1_2_4_1_1_1
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1_2 [label="Cardatt" ]
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1_2_0 [fillcolor="green" style=filled label="hearts"]
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1_2 -- NODE0_3_4_2_0_2_1_1_1_2_4_1_1_2_0
+NODE0_3_4_2_0_2_1_1_1_2_4_1_1 -- NODE0_3_4_2_0_2_1_1_1_2_4_1_1_2
+NODE0_3_4_2_0_2_1_1_1_2_4_1 -- NODE0_3_4_2_0_2_1_1_1_2_4_1_1
+NODE0_3_4_2_0_2_1_1_1_2_4 -- NODE0_3_4_2_0_2_1_1_1_2_4_1
+NODE0_3_4_2_0_2_1_1_1_2 -- NODE0_3_4_2_0_2_1_1_1_2_4
+NODE0_3_4_2_0_2_1_1_1 -- NODE0_3_4_2_0_2_1_1_1_2
+NODE0_3_4_2_0_2_1_1 -- NODE0_3_4_2_0_2_1_1_1
+NODE0_3_4_2_0_2_1_1_2 [label="Card" ]
+NODE0_3_4_2_0_2_1_1_2_1 [label="top"]
+NODE0_3_4_2_0_2_1_1_2 -- NODE0_3_4_2_0_2_1_1_2_1
+NODE0_3_4_2_0_2_1_1_2_2 [label="Locstorage" ]
+NODE0_3_4_2_0_2_1_1_2_2_1 [label="Who" ]
+NODE0_3_4_2_0_2_1_1_2_2_1_0 [label="game"]
+NODE0_3_4_2_0_2_1_1_2_2_1 -- NODE0_3_4_2_0_2_1_1_2_2_1_0
+NODE0_3_4_2_0_2_1_1_2_2 -- NODE0_3_4_2_0_2_1_1_2_2_1
+NODE0_3_4_2_0_2_1_1_2_2_3 [fillcolor="green" style=filled label="TRUMP"]
+NODE0_3_4_2_0_2_1_1_2_2 -- NODE0_3_4_2_0_2_1_1_2_2_3
+NODE0_3_4_2_0_2_1_1_2 -- NODE0_3_4_2_0_2_1_1_2_2
+NODE0_3_4_2_0_2_1_1 -- NODE0_3_4_2_0_2_1_1_2
+NODE0_3_4_2_0_2_1 -- NODE0_3_4_2_0_2_1_1
+NODE0_3_4_2_0_2 -- NODE0_3_4_2_0_2_1
+NODE0_3_4_2_0_2_2 [label="Action" ]
+NODE0_3_4_2_0_2_2_1 [label="Init" ]
+NODE0_3_4_2_0_2_2_1_1 [label="Pointsinit" ]
+NODE0_3_4_2_0_2_2_1_1_0 [label="points"]
+NODE0_3_4_2_0_2_2_1_1 -- NODE0_3_4_2_0_2_2_1_1_0
+NODE0_3_4_2_0_2_2_1_1_1 [fillcolor="green" style=filled label="SCORE"]
+NODE0_3_4_2_0_2_2_1_1 -- NODE0_3_4_2_0_2_2_1_1_1
+NODE0_3_4_2_0_2_2_1_1_3 [label="Awards" ]
+NODE0_3_4_2_0_2_2_1_1_3_1 [label="Posq" ]
+NODE0_3_4_2_0_2_2_1_1_3_1_0 [label="all"]
+NODE0_3_4_2_0_2_2_1_1_3_1 -- NODE0_3_4_2_0_2_2_1_1_3_1_0
+NODE0_3_4_2_0_2_2_1_1_3 -- NODE0_3_4_2_0_2_2_1_1_3_1
+NODE0_3_4_2_0_2_2_1_1_3_2 [label="Subaward" ]
+NODE0_3_4_2_0_2_2_1_1_3_2_1 [fillcolor="green" style=filled label="suit"]
+NODE0_3_4_2_0_2_2_1_1_3_2 -- NODE0_3_4_2_0_2_2_1_1_3_2_1
+NODE0_3_4_2_0_2_2_1_1_3_2_2 [label="Cardatt" ]
+NODE0_3_4_2_0_2_2_1_1_3_2_2_1 [label="cardatt"]
+NODE0_3_4_2_0_2_2_1_1_3_2_2 -- NODE0_3_4_2_0_2_2_1_1_3_2_2_1
+NODE0_3_4_2_0_2_2_1_1_3_2_2_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_4_2_0_2_2_1_1_3_2_2 -- NODE0_3_4_2_0_2_2_1_1_3_2_2_2
+NODE0_3_4_2_0_2_2_1_1_3_2_2_3 [label="Card" ]
+NODE0_3_4_2_0_2_2_1_1_3_2_2_3_1 [label="top"]
+NODE0_3_4_2_0_2_2_1_1_3_2_2_3 -- NODE0_3_4_2_0_2_2_1_1_3_2_2_3_1
+NODE0_3_4_2_0_2_2_1_1_3_2_2_3_2 [label="Locstorage" ]
+NODE0_3_4_2_0_2_2_1_1_3_2_2_3_2_1 [label="Who" ]
+NODE0_3_4_2_0_2_2_1_1_3_2_2_3_2_1_0 [label="game"]
+NODE0_3_4_2_0_2_2_1_1_3_2_2_3_2_1 -- NODE0_3_4_2_0_2_2_1_1_3_2_2_3_2_1_0
+NODE0_3_4_2_0_2_2_1_1_3_2_2_3_2 -- NODE0_3_4_2_0_2_2_1_1_3_2_2_3_2_1
+NODE0_3_4_2_0_2_2_1_1_3_2_2_3_2_3 [fillcolor="green" style=filled label="TRUMP"]
+NODE0_3_4_2_0_2_2_1_1_3_2_2_3_2 -- NODE0_3_4_2_0_2_2_1_1_3_2_2_3_2_3
+NODE0_3_4_2_0_2_2_1_1_3_2_2_3 -- NODE0_3_4_2_0_2_2_1_1_3_2_2_3_2
+NODE0_3_4_2_0_2_2_1_1_3_2_2 -- NODE0_3_4_2_0_2_2_1_1_3_2_2_3
+NODE0_3_4_2_0_2_2_1_1_3_2 -- NODE0_3_4_2_0_2_2_1_1_3_2_2
+NODE0_3_4_2_0_2_2_1_1_3 -- NODE0_3_4_2_0_2_2_1_1_3_2
+NODE0_3_4_2_0_2_2_1_1_3_3 [label="1" style=filled fillcolor="lightblue"]
+NODE0_3_4_2_0_2_2_1_1_3 -- NODE0_3_4_2_0_2_2_1_1_3_3
+NODE0_3_4_2_0_2_2_1_1 -- NODE0_3_4_2_0_2_2_1_1_3
+NODE0_3_4_2_0_2_2_1_1_4 [label="Awards" ]
+NODE0_3_4_2_0_2_2_1_1_4_1 [label="Posq" ]
+NODE0_3_4_2_0_2_2_1_1_4_1_0 [label="all"]
+NODE0_3_4_2_0_2_2_1_1_4_1 -- NODE0_3_4_2_0_2_2_1_1_4_1_0
+NODE0_3_4_2_0_2_2_1_1_4 -- NODE0_3_4_2_0_2_2_1_1_4_1
+NODE0_3_4_2_0_2_2_1_1_4_2 [label="Subaward" ]
+NODE0_3_4_2_0_2_2_1_1_4_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_3_4_2_0_2_2_1_1_4_2 -- NODE0_3_4_2_0_2_2_1_1_4_2_1
+NODE0_3_4_2_0_2_2_1_1_4_2_3 [fillcolor="green" style=filled label="Q"]
+NODE0_3_4_2_0_2_2_1_1_4_2 -- NODE0_3_4_2_0_2_2_1_1_4_2_3
+NODE0_3_4_2_0_2_2_1_1_4 -- NODE0_3_4_2_0_2_2_1_1_4_2
+NODE0_3_4_2_0_2_2_1_1_4_3 [label="Subaward" ]
+NODE0_3_4_2_0_2_2_1_1_4_3_1 [fillcolor="green" style=filled label="suit"]
+NODE0_3_4_2_0_2_2_1_1_4_3 -- NODE0_3_4_2_0_2_2_1_1_4_3_1
+NODE0_3_4_2_0_2_2_1_1_4_3_3 [fillcolor="green" style=filled label="spades"]
+NODE0_3_4_2_0_2_2_1_1_4_3 -- NODE0_3_4_2_0_2_2_1_1_4_3_3
+NODE0_3_4_2_0_2_2_1_1_4 -- NODE0_3_4_2_0_2_2_1_1_4_3
+NODE0_3_4_2_0_2_2_1_1_4_4 [label="13" style=filled fillcolor="lightblue"]
+NODE0_3_4_2_0_2_2_1_1_4 -- NODE0_3_4_2_0_2_2_1_1_4_4
+NODE0_3_4_2_0_2_2_1_1 -- NODE0_3_4_2_0_2_2_1_1_4
+NODE0_3_4_2_0_2_2_1 -- NODE0_3_4_2_0_2_2_1_1
+NODE0_3_4_2_0_2_2 -- NODE0_3_4_2_0_2_2_1
+NODE0_3_4_2_0_2 -- NODE0_3_4_2_0_2_2
+NODE0_3_4_2_0_2_3 [label="Action" ]
+NODE0_3_4_2_0_2_3_1 [label="Shuffleaction" ]
+NODE0_3_4_2_0_2_3_1_1 [label="Locstorage" ]
+NODE0_3_4_2_0_2_3_1_1_1 [label="Who" ]
+NODE0_3_4_2_0_2_3_1_1_1_0 [label="game"]
+NODE0_3_4_2_0_2_3_1_1_1 -- NODE0_3_4_2_0_2_3_1_1_1_0
+NODE0_3_4_2_0_2_3_1_1 -- NODE0_3_4_2_0_2_3_1_1_1
+NODE0_3_4_2_0_2_3_1_1_3 [fillcolor="green" style=filled label="STOCK"]
+NODE0_3_4_2_0_2_3_1_1 -- NODE0_3_4_2_0_2_3_1_1_3
+NODE0_3_4_2_0_2_3_1 -- NODE0_3_4_2_0_2_3_1_1
+NODE0_3_4_2_0_2_3 -- NODE0_3_4_2_0_2_3_1
+NODE0_3_4_2_0_2 -- NODE0_3_4_2_0_2_3
+NODE0_3_4_2_0_2_4 [label="Action" ]
+NODE0_3_4_2_0_2_4_1 [label="Moveaction" ]
+NODE0_3_4_2_0_2_4_1_1 [label="Card" ]
+NODE0_3_4_2_0_2_4_1_1_1 [label="top"]
+NODE0_3_4_2_0_2_4_1_1 -- NODE0_3_4_2_0_2_4_1_1_1
+NODE0_3_4_2_0_2_4_1_1_2 [label="Locstorage" ]
+NODE0_3_4_2_0_2_4_1_1_2_1 [label="Who" ]
+NODE0_3_4_2_0_2_4_1_1_2_1_0 [label="game"]
+NODE0_3_4_2_0_2_4_1_1_2_1 -- NODE0_3_4_2_0_2_4_1_1_2_1_0
+NODE0_3_4_2_0_2_4_1_1_2 -- NODE0_3_4_2_0_2_4_1_1_2_1
+NODE0_3_4_2_0_2_4_1_1_2_3 [fillcolor="green" style=filled label="STOCK"]
+NODE0_3_4_2_0_2_4_1_1_2 -- NODE0_3_4_2_0_2_4_1_1_2_3
+NODE0_3_4_2_0_2_4_1_1 -- NODE0_3_4_2_0_2_4_1_1_2
+NODE0_3_4_2_0_2_4_1 -- NODE0_3_4_2_0_2_4_1_1
+NODE0_3_4_2_0_2_4_1_2 [label="Card" ]
+NODE0_3_4_2_0_2_4_1_2_1 [label="top"]
+NODE0_3_4_2_0_2_4_1_2 -- NODE0_3_4_2_0_2_4_1_2_1
+NODE0_3_4_2_0_2_4_1_2_2 [label="Locstorage" ]
+NODE0_3_4_2_0_2_4_1_2_2_1 [label="Who2" ]
+NODE0_3_4_2_0_2_4_1_2_2_1_1 [label="Posq" ]
+NODE0_3_4_2_0_2_4_1_2_2_1_1_0 [label="all"]
+NODE0_3_4_2_0_2_4_1_2_2_1_1 -- NODE0_3_4_2_0_2_4_1_2_2_1_1_0
+NODE0_3_4_2_0_2_4_1_2_2_1 -- NODE0_3_4_2_0_2_4_1_2_2_1_1
+NODE0_3_4_2_0_2_4_1_2_2_1_2 [label="player"]
+NODE0_3_4_2_0_2_4_1_2_2_1 -- NODE0_3_4_2_0_2_4_1_2_2_1_2
+NODE0_3_4_2_0_2_4_1_2_2 -- NODE0_3_4_2_0_2_4_1_2_2_1
+NODE0_3_4_2_0_2_4_1_2_2_3 [fillcolor="green" style=filled label="HAND"]
+NODE0_3_4_2_0_2_4_1_2_2 -- NODE0_3_4_2_0_2_4_1_2_2_3
+NODE0_3_4_2_0_2_4_1_2 -- NODE0_3_4_2_0_2_4_1_2_2
+NODE0_3_4_2_0_2_4_1 -- NODE0_3_4_2_0_2_4_1_2
+NODE0_3_4_2_0_2_4_1_3 [label="13" style=filled fillcolor="lightblue"]
+NODE0_3_4_2_0_2_4_1 -- NODE0_3_4_2_0_2_4_1_3
+NODE0_3_4_2_0_2_4 -- NODE0_3_4_2_0_2_4_1
+NODE0_3_4_2_0_2 -- NODE0_3_4_2_0_2_4
+NODE0_3_4_2_0_2_5 [label="Action" ]
+NODE0_3_4_2_0_2_5_1 [label="Setaction" ]
+NODE0_3_4_2_0_2_5_1_0 [label="set"]
+NODE0_3_4_2_0_2_5_1 -- NODE0_3_4_2_0_2_5_1_0
+NODE0_3_4_2_0_2_5_1_1 [label="Rawstorage" ]
+NODE0_3_4_2_0_2_5_1_1_1 [label="Who" ]
+NODE0_3_4_2_0_2_5_1_1_1_0 [label="game"]
+NODE0_3_4_2_0_2_5_1_1_1 -- NODE0_3_4_2_0_2_5_1_1_1_0
+NODE0_3_4_2_0_2_5_1_1 -- NODE0_3_4_2_0_2_5_1_1_1
+NODE0_3_4_2_0_2_5_1_1_3 [fillcolor="green" style=filled label="BROKEN"]
+NODE0_3_4_2_0_2_5_1_1 -- NODE0_3_4_2_0_2_5_1_1_3
+NODE0_3_4_2_0_2_5_1 -- NODE0_3_4_2_0_2_5_1_1
+NODE0_3_4_2_0_2_5_1_2 [label="0" style=filled fillcolor="lightblue"]
+NODE0_3_4_2_0_2_5_1 -- NODE0_3_4_2_0_2_5_1_2
+NODE0_3_4_2_0_2_5 -- NODE0_3_4_2_0_2_5_1
+NODE0_3_4_2_0_2 -- NODE0_3_4_2_0_2_5
+NODE0_3_4_2_0 -- NODE0_3_4_2_0_2
+NODE0_3_4_2 -- NODE0_3_4_2_0
+NODE0_3_4 -- NODE0_3_4_2
+NODE0_3 -- NODE0_3_4
+NODE0_3_5 [label="Stage"  style=filled fillcolor="red"]
+NODE0_3_5_2 [label="player"]
+NODE0_3_5 -- NODE0_3_5_2
+NODE0_3_5_3 [label="Endcondition" ]
+NODE0_3_5_3_2 [label="Boolean" ]
+NODE0_3_5_3_2_1 [label="Intop" ]
+NODE0_3_5_3_2_1_0 [label="=="]
+NODE0_3_5_3_2_1 -- NODE0_3_5_3_2_1_0
+NODE0_3_5_3_2 -- NODE0_3_5_3_2_1
+NODE0_3_5_3_2_2 [label="Int" ]
+NODE0_3_5_3_2_2_0 [label="Sizeof" ]
+NODE0_3_5_3_2_2_0_1 [label="size"]
+NODE0_3_5_3_2_2_0 -- NODE0_3_5_3_2_2_0_1
+NODE0_3_5_3_2_2_0_2 [label="Locstorage" ]
+NODE0_3_5_3_2_2_0_2_1 [label="Who2" ]
+NODE0_3_5_3_2_2_0_2_1_1 [label="Posq" ]
+NODE0_3_5_3_2_2_0_2_1_1_0 [label="all"]
+NODE0_3_5_3_2_2_0_2_1_1 -- NODE0_3_5_3_2_2_0_2_1_1_0
+NODE0_3_5_3_2_2_0_2_1 -- NODE0_3_5_3_2_2_0_2_1_1
+NODE0_3_5_3_2_2_0_2_1_2 [label="player"]
+NODE0_3_5_3_2_2_0_2_1 -- NODE0_3_5_3_2_2_0_2_1_2
+NODE0_3_5_3_2_2_0_2 -- NODE0_3_5_3_2_2_0_2_1
+NODE0_3_5_3_2_2_0_2_3 [fillcolor="green" style=filled label="PASSED"]
+NODE0_3_5_3_2_2_0_2 -- NODE0_3_5_3_2_2_0_2_3
+NODE0_3_5_3_2_2_0 -- NODE0_3_5_3_2_2_0_2
+NODE0_3_5_3_2_2 -- NODE0_3_5_3_2_2_0
+NODE0_3_5_3_2 -- NODE0_3_5_3_2_2
+NODE0_3_5_3_2_3 [label="2" style=filled fillcolor="lightblue"]
+NODE0_3_5_3_2 -- NODE0_3_5_3_2_3
+NODE0_3_5_3 -- NODE0_3_5_3_2
+NODE0_3_5 -- NODE0_3_5_3
+NODE0_3_5_4 [label="Playermoves"  style=filled shape=diamond fillcolor="orange"]
+NODE0_3_5_4_2 [label="Multigameaction" ]
+NODE0_3_5_4_2_0 [label="Gameaction" ]
+NODE0_3_5_4_2_0_1 [label="Boolean" ]
+NODE0_3_5_4_2_0 -- NODE0_3_5_4_2_0_1
+NODE0_3_5_4_2_0_2 [label="Multiaction" ]
+NODE0_3_5_4_2_0_2_0 [label="Action" ]
+NODE0_3_5_4_2_0_2_0_1 [label="Moveaction" ]
+NODE0_3_5_4_2_0_2_0_1_1 [label="Card" ]
+NODE0_3_5_4_2_0_2_0_1_1_1 [label="any"]
+NODE0_3_5_4_2_0_2_0_1_1 -- NODE0_3_5_4_2_0_2_0_1_1_1
+NODE0_3_5_4_2_0_2_0_1_1_2 [label="Locstorage" ]
+NODE0_3_5_4_2_0_2_0_1_1_2_1 [label="Who2" ]
+NODE0_3_5_4_2_0_2_0_1_1_2_1_1 [label="current"]
+NODE0_3_5_4_2_0_2_0_1_1_2_1 -- NODE0_3_5_4_2_0_2_0_1_1_2_1_1
+NODE0_3_5_4_2_0_2_0_1_1_2_1_2 [label="player"]
+NODE0_3_5_4_2_0_2_0_1_1_2_1 -- NODE0_3_5_4_2_0_2_0_1_1_2_1_2
+NODE0_3_5_4_2_0_2_0_1_1_2 -- NODE0_3_5_4_2_0_2_0_1_1_2_1
+NODE0_3_5_4_2_0_2_0_1_1_2_3 [fillcolor="green" style=filled label="HAND"]
+NODE0_3_5_4_2_0_2_0_1_1_2 -- NODE0_3_5_4_2_0_2_0_1_1_2_3
+NODE0_3_5_4_2_0_2_0_1_1 -- NODE0_3_5_4_2_0_2_0_1_1_2
+NODE0_3_5_4_2_0_2_0_1 -- NODE0_3_5_4_2_0_2_0_1_1
+NODE0_3_5_4_2_0_2_0_1_2 [label="Card" ]
+NODE0_3_5_4_2_0_2_0_1_2_1 [label="top"]
+NODE0_3_5_4_2_0_2_0_1_2 -- NODE0_3_5_4_2_0_2_0_1_2_1
+NODE0_3_5_4_2_0_2_0_1_2_2 [label="Locstorage" ]
+NODE0_3_5_4_2_0_2_0_1_2_2_1 [label="Who2" ]
+NODE0_3_5_4_2_0_2_0_1_2_2_1_1 [label="next"]
+NODE0_3_5_4_2_0_2_0_1_2_2_1 -- NODE0_3_5_4_2_0_2_0_1_2_2_1_1
+NODE0_3_5_4_2_0_2_0_1_2_2_1_2 [label="player"]
+NODE0_3_5_4_2_0_2_0_1_2_2_1 -- NODE0_3_5_4_2_0_2_0_1_2_2_1_2
+NODE0_3_5_4_2_0_2_0_1_2_2 -- NODE0_3_5_4_2_0_2_0_1_2_2_1
+NODE0_3_5_4_2_0_2_0_1_2_2_3 [fillcolor="green" style=filled label="PASSED"]
+NODE0_3_5_4_2_0_2_0_1_2_2 -- NODE0_3_5_4_2_0_2_0_1_2_2_3
+NODE0_3_5_4_2_0_2_0_1_2 -- NODE0_3_5_4_2_0_2_0_1_2_2
+NODE0_3_5_4_2_0_2_0_1 -- NODE0_3_5_4_2_0_2_0_1_2
+NODE0_3_5_4_2_0_2_0 -- NODE0_3_5_4_2_0_2_0_1
+NODE0_3_5_4_2_0_2 -- NODE0_3_5_4_2_0_2_0
+NODE0_3_5_4_2_0_2_1 [label="Action" ]
+NODE0_3_5_4_2_0_2_1_1 [label="Moveaction" ]
+NODE0_3_5_4_2_0_2_1_1_1 [label="Card" ]
+NODE0_3_5_4_2_0_2_1_1_1_1 [label="any"]
+NODE0_3_5_4_2_0_2_1_1_1 -- NODE0_3_5_4_2_0_2_1_1_1_1
+NODE0_3_5_4_2_0_2_1_1_1_2 [label="Locstorage" ]
+NODE0_3_5_4_2_0_2_1_1_1_2_1 [label="Who2" ]
+NODE0_3_5_4_2_0_2_1_1_1_2_1_1 [label="current"]
+NODE0_3_5_4_2_0_2_1_1_1_2_1 -- NODE0_3_5_4_2_0_2_1_1_1_2_1_1
+NODE0_3_5_4_2_0_2_1_1_1_2_1_2 [label="player"]
+NODE0_3_5_4_2_0_2_1_1_1_2_1 -- NODE0_3_5_4_2_0_2_1_1_1_2_1_2
+NODE0_3_5_4_2_0_2_1_1_1_2 -- NODE0_3_5_4_2_0_2_1_1_1_2_1
+NODE0_3_5_4_2_0_2_1_1_1_2_3 [fillcolor="green" style=filled label="HAND"]
+NODE0_3_5_4_2_0_2_1_1_1_2 -- NODE0_3_5_4_2_0_2_1_1_1_2_3
+NODE0_3_5_4_2_0_2_1_1_1 -- NODE0_3_5_4_2_0_2_1_1_1_2
+NODE0_3_5_4_2_0_2_1_1 -- NODE0_3_5_4_2_0_2_1_1_1
+NODE0_3_5_4_2_0_2_1_1_2 [label="Card" ]
+NODE0_3_5_4_2_0_2_1_1_2_1 [label="top"]
+NODE0_3_5_4_2_0_2_1_1_2 -- NODE0_3_5_4_2_0_2_1_1_2_1
+NODE0_3_5_4_2_0_2_1_1_2_2 [label="Locstorage" ]
+NODE0_3_5_4_2_0_2_1_1_2_2_1 [label="Who2" ]
+NODE0_3_5_4_2_0_2_1_1_2_2_1_1 [label="next"]
+NODE0_3_5_4_2_0_2_1_1_2_2_1 -- NODE0_3_5_4_2_0_2_1_1_2_2_1_1
+NODE0_3_5_4_2_0_2_1_1_2_2_1_2 [label="player"]
+NODE0_3_5_4_2_0_2_1_1_2_2_1 -- NODE0_3_5_4_2_0_2_1_1_2_2_1_2
+NODE0_3_5_4_2_0_2_1_1_2_2 -- NODE0_3_5_4_2_0_2_1_1_2_2_1
+NODE0_3_5_4_2_0_2_1_1_2_2_3 [fillcolor="green" style=filled label="PASSED"]
+NODE0_3_5_4_2_0_2_1_1_2_2 -- NODE0_3_5_4_2_0_2_1_1_2_2_3
+NODE0_3_5_4_2_0_2_1_1_2 -- NODE0_3_5_4_2_0_2_1_1_2_2
+NODE0_3_5_4_2_0_2_1_1 -- NODE0_3_5_4_2_0_2_1_1_2
+NODE0_3_5_4_2_0_2_1 -- NODE0_3_5_4_2_0_2_1_1
+NODE0_3_5_4_2_0_2 -- NODE0_3_5_4_2_0_2_1
+NODE0_3_5_4_2_0 -- NODE0_3_5_4_2_0_2
+NODE0_3_5_4_2 -- NODE0_3_5_4_2_0
+NODE0_3_5_4 -- NODE0_3_5_4_2
+NODE0_3_5 -- NODE0_3_5_4
+NODE0_3 -- NODE0_3_5
+NODE0_3_6 [label="Stage"  style=filled fillcolor="red"]
+NODE0_3_6_2 [label="player"]
+NODE0_3_6 -- NODE0_3_6_2
+NODE0_3_6_3 [label="Endcondition" ]
+NODE0_3_6_3_2 [label="Boolean" ]
+NODE0_3_6_3_2_1 [label="Intop" ]
+NODE0_3_6_3_2_1_0 [label="=="]
+NODE0_3_6_3_2_1 -- NODE0_3_6_3_2_1_0
+NODE0_3_6_3_2 -- NODE0_3_6_3_2_1
+NODE0_3_6_3_2_2 [label="Int" ]
+NODE0_3_6_3_2_2_0 [label="Sizeof" ]
+NODE0_3_6_3_2_2_0_1 [label="size"]
+NODE0_3_6_3_2_2_0 -- NODE0_3_6_3_2_2_0_1
+NODE0_3_6_3_2_2_0_2 [label="Locstorage" ]
+NODE0_3_6_3_2_2_0_2_1 [label="Who2" ]
+NODE0_3_6_3_2_2_0_2_1_1 [label="Posq" ]
+NODE0_3_6_3_2_2_0_2_1_1_0 [label="all"]
+NODE0_3_6_3_2_2_0_2_1_1 -- NODE0_3_6_3_2_2_0_2_1_1_0
+NODE0_3_6_3_2_2_0_2_1 -- NODE0_3_6_3_2_2_0_2_1_1
+NODE0_3_6_3_2_2_0_2_1_2 [label="player"]
+NODE0_3_6_3_2_2_0_2_1 -- NODE0_3_6_3_2_2_0_2_1_2
+NODE0_3_6_3_2_2_0_2 -- NODE0_3_6_3_2_2_0_2_1
+NODE0_3_6_3_2_2_0_2_3 [fillcolor="green" style=filled label="PASSED"]
+NODE0_3_6_3_2_2_0_2 -- NODE0_3_6_3_2_2_0_2_3
+NODE0_3_6_3_2_2_0 -- NODE0_3_6_3_2_2_0_2
+NODE0_3_6_3_2_2 -- NODE0_3_6_3_2_2_0
+NODE0_3_6_3_2 -- NODE0_3_6_3_2_2
+NODE0_3_6_3_2_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_3_6_3_2 -- NODE0_3_6_3_2_3
+NODE0_3_6_3 -- NODE0_3_6_3_2
+NODE0_3_6 -- NODE0_3_6_3
+NODE0_3_6_4 [label="Playermoves"  style=filled shape=diamond fillcolor="orange"]
+NODE0_3_6_4_2 [label="Multigameaction" ]
+NODE0_3_6_4_2_0 [label="Gameaction" ]
+NODE0_3_6_4_2_0_1 [label="Boolean" ]
+NODE0_3_6_4_2_0 -- NODE0_3_6_4_2_0_1
+NODE0_3_6_4_2_0_2 [label="Multiaction" ]
+NODE0_3_6_4_2_0_2_0 [label="Action" ]
+NODE0_3_6_4_2_0_2_0_1 [label="Moveaction" ]
+NODE0_3_6_4_2_0_2_0_1_1 [label="Card" ]
+NODE0_3_6_4_2_0_2_0_1_1_1 [label="top"]
+NODE0_3_6_4_2_0_2_0_1_1 -- NODE0_3_6_4_2_0_2_0_1_1_1
+NODE0_3_6_4_2_0_2_0_1_1_2 [label="Locstorage" ]
+NODE0_3_6_4_2_0_2_0_1_1_2_1 [label="Who2" ]
+NODE0_3_6_4_2_0_2_0_1_1_2_1_1 [label="current"]
+NODE0_3_6_4_2_0_2_0_1_1_2_1 -- NODE0_3_6_4_2_0_2_0_1_1_2_1_1
+NODE0_3_6_4_2_0_2_0_1_1_2_1_2 [label="player"]
+NODE0_3_6_4_2_0_2_0_1_1_2_1 -- NODE0_3_6_4_2_0_2_0_1_1_2_1_2
+NODE0_3_6_4_2_0_2_0_1_1_2 -- NODE0_3_6_4_2_0_2_0_1_1_2_1
+NODE0_3_6_4_2_0_2_0_1_1_2_3 [fillcolor="green" style=filled label="PASSED"]
+NODE0_3_6_4_2_0_2_0_1_1_2 -- NODE0_3_6_4_2_0_2_0_1_1_2_3
+NODE0_3_6_4_2_0_2_0_1_1 -- NODE0_3_6_4_2_0_2_0_1_1_2
+NODE0_3_6_4_2_0_2_0_1 -- NODE0_3_6_4_2_0_2_0_1_1
+NODE0_3_6_4_2_0_2_0_1_2 [label="Card" ]
+NODE0_3_6_4_2_0_2_0_1_2_1 [label="top"]
+NODE0_3_6_4_2_0_2_0_1_2 -- NODE0_3_6_4_2_0_2_0_1_2_1
+NODE0_3_6_4_2_0_2_0_1_2_2 [label="Locstorage" ]
+NODE0_3_6_4_2_0_2_0_1_2_2_1 [label="Who2" ]
+NODE0_3_6_4_2_0_2_0_1_2_2_1_1 [label="current"]
+NODE0_3_6_4_2_0_2_0_1_2_2_1 -- NODE0_3_6_4_2_0_2_0_1_2_2_1_1
+NODE0_3_6_4_2_0_2_0_1_2_2_1_2 [label="player"]
+NODE0_3_6_4_2_0_2_0_1_2_2_1 -- NODE0_3_6_4_2_0_2_0_1_2_2_1_2
+NODE0_3_6_4_2_0_2_0_1_2_2 -- NODE0_3_6_4_2_0_2_0_1_2_2_1
+NODE0_3_6_4_2_0_2_0_1_2_2_3 [fillcolor="green" style=filled label="HAND"]
+NODE0_3_6_4_2_0_2_0_1_2_2 -- NODE0_3_6_4_2_0_2_0_1_2_2_3
+NODE0_3_6_4_2_0_2_0_1_2 -- NODE0_3_6_4_2_0_2_0_1_2_2
+NODE0_3_6_4_2_0_2_0_1 -- NODE0_3_6_4_2_0_2_0_1_2
+NODE0_3_6_4_2_0_2_0_1_3 [label="all"]
+NODE0_3_6_4_2_0_2_0_1 -- NODE0_3_6_4_2_0_2_0_1_3
+NODE0_3_6_4_2_0_2_0 -- NODE0_3_6_4_2_0_2_0_1
+NODE0_3_6_4_2_0_2 -- NODE0_3_6_4_2_0_2_0
+NODE0_3_6_4_2_0 -- NODE0_3_6_4_2_0_2
+NODE0_3_6_4_2 -- NODE0_3_6_4_2_0
+NODE0_3_6_4 -- NODE0_3_6_4_2
+NODE0_3_6 -- NODE0_3_6_4
+NODE0_3 -- NODE0_3_6
+NODE0_3_7 [label="Stage"  style=filled fillcolor="red"]
+NODE0_3_7_2 [label="player"]
+NODE0_3_7 -- NODE0_3_7_2
+NODE0_3_7_3 [label="Endcondition" ]
+NODE0_3_7_3_2 [label="Boolean" ]
+NODE0_3_7_3_2_1 [label="Intop" ]
+NODE0_3_7_3_2_1_0 [label="=="]
+NODE0_3_7_3_2_1 -- NODE0_3_7_3_2_1_0
+NODE0_3_7_3_2 -- NODE0_3_7_3_2_1
+NODE0_3_7_3_2_2 [label="Int" ]
+NODE0_3_7_3_2_2_0 [label="Sizeof" ]
+NODE0_3_7_3_2_2_0_1 [label="size"]
+NODE0_3_7_3_2_2_0 -- NODE0_3_7_3_2_2_0_1
+NODE0_3_7_3_2_2_0_2 [label="Locstorage" ]
+NODE0_3_7_3_2_2_0_2_1 [label="Who2" ]
+NODE0_3_7_3_2_2_0_2_1_1 [label="Posq" ]
+NODE0_3_7_3_2_2_0_2_1_1_0 [label="all"]
+NODE0_3_7_3_2_2_0_2_1_1 -- NODE0_3_7_3_2_2_0_2_1_1_0
+NODE0_3_7_3_2_2_0_2_1 -- NODE0_3_7_3_2_2_0_2_1_1
+NODE0_3_7_3_2_2_0_2_1_2 [label="player"]
+NODE0_3_7_3_2_2_0_2_1 -- NODE0_3_7_3_2_2_0_2_1_2
+NODE0_3_7_3_2_2_0_2 -- NODE0_3_7_3_2_2_0_2_1
+NODE0_3_7_3_2_2_0_2_3 [fillcolor="green" style=filled label="HAND"]
+NODE0_3_7_3_2_2_0_2 -- NODE0_3_7_3_2_2_0_2_3
+NODE0_3_7_3_2_2_0 -- NODE0_3_7_3_2_2_0_2
+NODE0_3_7_3_2_2 -- NODE0_3_7_3_2_2_0
+NODE0_3_7_3_2 -- NODE0_3_7_3_2_2
+NODE0_3_7_3_2_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_3_7_3_2 -- NODE0_3_7_3_2_3
+NODE0_3_7_3 -- NODE0_3_7_3_2
+NODE0_3_7 -- NODE0_3_7_3
+NODE0_3_7_4 [label="Stage"  style=filled fillcolor="red"]
+NODE0_3_7_4_2 [label="player"]
+NODE0_3_7_4 -- NODE0_3_7_4_2
+NODE0_3_7_4_3 [label="Endcondition" ]
+NODE0_3_7_4_3_2 [label="Boolean" ]
+NODE0_3_7_4_3_2_1 [label="Intop" ]
+NODE0_3_7_4_3_2_1_0 [label="=="]
+NODE0_3_7_4_3_2_1 -- NODE0_3_7_4_3_2_1_0
+NODE0_3_7_4_3_2 -- NODE0_3_7_4_3_2_1
+NODE0_3_7_4_3_2_2 [label="Int" ]
+NODE0_3_7_4_3_2_2_0 [label="Sizeof" ]
+NODE0_3_7_4_3_2_2_0_1 [label="size"]
+NODE0_3_7_4_3_2_2_0 -- NODE0_3_7_4_3_2_2_0_1
+NODE0_3_7_4_3_2_2_0_2 [label="Locstorage" ]
+NODE0_3_7_4_3_2_2_0_2_1 [label="Who2" ]
+NODE0_3_7_4_3_2_2_0_2_1_1 [label="Posq" ]
+NODE0_3_7_4_3_2_2_0_2_1_1_0 [label="all"]
+NODE0_3_7_4_3_2_2_0_2_1_1 -- NODE0_3_7_4_3_2_2_0_2_1_1_0
+NODE0_3_7_4_3_2_2_0_2_1 -- NODE0_3_7_4_3_2_2_0_2_1_1
+NODE0_3_7_4_3_2_2_0_2_1_2 [label="player"]
+NODE0_3_7_4_3_2_2_0_2_1 -- NODE0_3_7_4_3_2_2_0_2_1_2
+NODE0_3_7_4_3_2_2_0_2 -- NODE0_3_7_4_3_2_2_0_2_1
+NODE0_3_7_4_3_2_2_0_2_3 [fillcolor="green" style=filled label="HAND"]
+NODE0_3_7_4_3_2_2_0_2 -- NODE0_3_7_4_3_2_2_0_2_3
+NODE0_3_7_4_3_2_2_0 -- NODE0_3_7_4_3_2_2_0_2
+NODE0_3_7_4_3_2_2 -- NODE0_3_7_4_3_2_2_0
+NODE0_3_7_4_3_2 -- NODE0_3_7_4_3_2_2
+NODE0_3_7_4_3_2_3 [label="1" style=filled fillcolor="lightblue"]
+NODE0_3_7_4_3_2 -- NODE0_3_7_4_3_2_3
+NODE0_3_7_4_3 -- NODE0_3_7_4_3_2
+NODE0_3_7_4 -- NODE0_3_7_4_3
+NODE0_3_7_4_4 [label="Playermoves"  style=filled shape=diamond fillcolor="orange"]
+NODE0_3_7_4_4_2 [label="Multigameaction" ]
+NODE0_3_7_4_4_2_0 [label="Gameaction" ]
+NODE0_3_7_4_4_2_0_1 [label="Boolean" ]
+NODE0_3_7_4_4_2_0_1_1 [label="and"]
+NODE0_3_7_4_4_2_0_1 -- NODE0_3_7_4_4_2_0_1_1
+NODE0_3_7_4_4_2_0_1_2 [label="Boolean" ]
+NODE0_3_7_4_4_2_0_1_2_1 [label="Intop" ]
+NODE0_3_7_4_4_2_0_1_2_1_0 [label="=="]
+NODE0_3_7_4_4_2_0_1_2_1 -- NODE0_3_7_4_4_2_0_1_2_1_0
+NODE0_3_7_4_4_2_0_1_2 -- NODE0_3_7_4_4_2_0_1_2_1
+NODE0_3_7_4_4_2_0_1_2_2 [label="Int" ]
+NODE0_3_7_4_4_2_0_1_2_2_0 [label="Sizeof" ]
+NODE0_3_7_4_4_2_0_1_2_2_0_1 [label="size"]
+NODE0_3_7_4_4_2_0_1_2_2_0 -- NODE0_3_7_4_4_2_0_1_2_2_0_1
+NODE0_3_7_4_4_2_0_1_2_2_0_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_0_1_2_2_0_2_1 [label="Who" ]
+NODE0_3_7_4_4_2_0_1_2_2_0_2_1_0 [label="game"]
+NODE0_3_7_4_4_2_0_1_2_2_0_2_1 -- NODE0_3_7_4_4_2_0_1_2_2_0_2_1_0
+NODE0_3_7_4_4_2_0_1_2_2_0_2 -- NODE0_3_7_4_4_2_0_1_2_2_0_2_1
+NODE0_3_7_4_4_2_0_1_2_2_0_2_3 [fillcolor="green" style=filled label="LEAD"]
+NODE0_3_7_4_4_2_0_1_2_2_0_2 -- NODE0_3_7_4_4_2_0_1_2_2_0_2_3
+NODE0_3_7_4_4_2_0_1_2_2_0 -- NODE0_3_7_4_4_2_0_1_2_2_0_2
+NODE0_3_7_4_4_2_0_1_2_2 -- NODE0_3_7_4_4_2_0_1_2_2_0
+NODE0_3_7_4_4_2_0_1_2 -- NODE0_3_7_4_4_2_0_1_2_2
+NODE0_3_7_4_4_2_0_1_2_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_3_7_4_4_2_0_1_2 -- NODE0_3_7_4_4_2_0_1_2_3
+NODE0_3_7_4_4_2_0_1 -- NODE0_3_7_4_4_2_0_1_2
+NODE0_3_7_4_4_2_0_1_3 [label="Boolean" ]
+NODE0_3_7_4_4_2_0_1_3_1 [label="Intop" ]
+NODE0_3_7_4_4_2_0_1_3_1_0 [label="=="]
+NODE0_3_7_4_4_2_0_1_3_1 -- NODE0_3_7_4_4_2_0_1_3_1_0
+NODE0_3_7_4_4_2_0_1_3 -- NODE0_3_7_4_4_2_0_1_3_1
+NODE0_3_7_4_4_2_0_1_3_2 [label="Int" ]
+NODE0_3_7_4_4_2_0_1_3_2_0 [label="Rawstorage" ]
+NODE0_3_7_4_4_2_0_1_3_2_0_1 [label="Who" ]
+NODE0_3_7_4_4_2_0_1_3_2_0_1_0 [label="game"]
+NODE0_3_7_4_4_2_0_1_3_2_0_1 -- NODE0_3_7_4_4_2_0_1_3_2_0_1_0
+NODE0_3_7_4_4_2_0_1_3_2_0 -- NODE0_3_7_4_4_2_0_1_3_2_0_1
+NODE0_3_7_4_4_2_0_1_3_2_0_3 [fillcolor="green" style=filled label="BROKEN"]
+NODE0_3_7_4_4_2_0_1_3_2_0 -- NODE0_3_7_4_4_2_0_1_3_2_0_3
+NODE0_3_7_4_4_2_0_1_3_2 -- NODE0_3_7_4_4_2_0_1_3_2_0
+NODE0_3_7_4_4_2_0_1_3 -- NODE0_3_7_4_4_2_0_1_3_2
+NODE0_3_7_4_4_2_0_1_3_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_3_7_4_4_2_0_1_3 -- NODE0_3_7_4_4_2_0_1_3_3
+NODE0_3_7_4_4_2_0_1 -- NODE0_3_7_4_4_2_0_1_3
+NODE0_3_7_4_4_2_0_1_4 [label="Boolean" ]
+NODE0_3_7_4_4_2_0_1_4_1 [label="Intop" ]
+NODE0_3_7_4_4_2_0_1_4_1_0 [label="=="]
+NODE0_3_7_4_4_2_0_1_4_1 -- NODE0_3_7_4_4_2_0_1_4_1_0
+NODE0_3_7_4_4_2_0_1_4 -- NODE0_3_7_4_4_2_0_1_4_1
+NODE0_3_7_4_4_2_0_1_4_2 [label="Int" ]
+NODE0_3_7_4_4_2_0_1_4_2_0 [label="Sizeof" ]
+NODE0_3_7_4_4_2_0_1_4_2_0_1 [label="size"]
+NODE0_3_7_4_4_2_0_1_4_2_0 -- NODE0_3_7_4_4_2_0_1_4_2_0_1
+NODE0_3_7_4_4_2_0_1_4_2_0_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_1 [label="Who2" ]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_1_1 [label="current"]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_1 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_1_1
+NODE0_3_7_4_4_2_0_1_4_2_0_2_1_2 [label="player"]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_1 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_1_2
+NODE0_3_7_4_4_2_0_1_4_2_0_2 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_1
+NODE0_3_7_4_4_2_0_1_4_2_0_2_3 [fillcolor="green" style=filled label="HAND"]
+NODE0_3_7_4_4_2_0_1_4_2_0_2 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_3
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4 [label="Whereclause" ]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_0 [label="where"]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_0
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1 [label="Boolatt" ]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1 [label="Attrcomp" ]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_0 [label="!="]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_0
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_1 [label="Cardatt" ]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_1_1 [label="cardatt"]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_1 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_1_1
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_1_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_1 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_1_2
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_1_3 [label="this"]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_1 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_1_3
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_1
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2 [label="Cardatt" ]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_1 [label="cardatt"]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_1
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_2
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3 [label="Card" ]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3_1 [label="top"]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3_1
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_1 [label="Who" ]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_1_0 [label="game"]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_1 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_1_0
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_1
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_3 [fillcolor="green" style=filled label="TRUMP"]
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2_3
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3_2
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2_3
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1_2
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1_1
+NODE0_3_7_4_4_2_0_1_4_2_0_2_4 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4_1
+NODE0_3_7_4_4_2_0_1_4_2_0_2 -- NODE0_3_7_4_4_2_0_1_4_2_0_2_4
+NODE0_3_7_4_4_2_0_1_4_2_0 -- NODE0_3_7_4_4_2_0_1_4_2_0_2
+NODE0_3_7_4_4_2_0_1_4_2 -- NODE0_3_7_4_4_2_0_1_4_2_0
+NODE0_3_7_4_4_2_0_1_4 -- NODE0_3_7_4_4_2_0_1_4_2
+NODE0_3_7_4_4_2_0_1_4_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_3_7_4_4_2_0_1_4 -- NODE0_3_7_4_4_2_0_1_4_3
+NODE0_3_7_4_4_2_0_1 -- NODE0_3_7_4_4_2_0_1_4
+NODE0_3_7_4_4_2_0 -- NODE0_3_7_4_4_2_0_1
+NODE0_3_7_4_4_2_0_2 [label="Multiaction" ]
+NODE0_3_7_4_4_2_0_2_0 [label="Action" ]
+NODE0_3_7_4_4_2_0_2_0_1 [label="Moveaction" ]
+NODE0_3_7_4_4_2_0_2_0_1_1 [label="Card" ]
+NODE0_3_7_4_4_2_0_2_0_1_1_1 [label="any"]
+NODE0_3_7_4_4_2_0_2_0_1_1 -- NODE0_3_7_4_4_2_0_2_0_1_1_1
+NODE0_3_7_4_4_2_0_2_0_1_1_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_1 [label="Who2" ]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_1_1 [label="current"]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_1 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_1_1
+NODE0_3_7_4_4_2_0_2_0_1_1_2_1_2 [label="player"]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_1 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_1_2
+NODE0_3_7_4_4_2_0_2_0_1_1_2 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_1
+NODE0_3_7_4_4_2_0_2_0_1_1_2_3 [fillcolor="green" style=filled label="HAND"]
+NODE0_3_7_4_4_2_0_2_0_1_1_2 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_3
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4 [label="Whereclause" ]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_0 [label="where"]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_0
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1 [label="Boolatt" ]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1 [label="Attrcomp" ]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_0 [label="!="]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_0
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_1 [label="Cardatt" ]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_1_1 [label="cardatt"]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_1 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_1_1
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_1_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_1 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_1_2
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_1_3 [label="this"]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_1 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_1_3
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_1
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2 [label="Cardatt" ]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_1 [label="cardatt"]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_1
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_2
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3 [label="Card" ]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3_1 [label="top"]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3_1
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_1 [label="Who" ]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_1_0 [label="game"]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_1 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_1_0
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_1
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_3 [fillcolor="green" style=filled label="TRUMP"]
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2_3
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3_2
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2_3
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1_2
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1_1
+NODE0_3_7_4_4_2_0_2_0_1_1_2_4 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4_1
+NODE0_3_7_4_4_2_0_2_0_1_1_2 -- NODE0_3_7_4_4_2_0_2_0_1_1_2_4
+NODE0_3_7_4_4_2_0_2_0_1_1 -- NODE0_3_7_4_4_2_0_2_0_1_1_2
+NODE0_3_7_4_4_2_0_2_0_1 -- NODE0_3_7_4_4_2_0_2_0_1_1
+NODE0_3_7_4_4_2_0_2_0_1_2 [label="Card" ]
+NODE0_3_7_4_4_2_0_2_0_1_2_1 [label="top"]
+NODE0_3_7_4_4_2_0_2_0_1_2 -- NODE0_3_7_4_4_2_0_2_0_1_2_1
+NODE0_3_7_4_4_2_0_2_0_1_2_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_0_2_0_1_2_2_1 [label="Who2" ]
+NODE0_3_7_4_4_2_0_2_0_1_2_2_1_1 [label="current"]
+NODE0_3_7_4_4_2_0_2_0_1_2_2_1 -- NODE0_3_7_4_4_2_0_2_0_1_2_2_1_1
+NODE0_3_7_4_4_2_0_2_0_1_2_2_1_2 [label="player"]
+NODE0_3_7_4_4_2_0_2_0_1_2_2_1 -- NODE0_3_7_4_4_2_0_2_0_1_2_2_1_2
+NODE0_3_7_4_4_2_0_2_0_1_2_2 -- NODE0_3_7_4_4_2_0_2_0_1_2_2_1
+NODE0_3_7_4_4_2_0_2_0_1_2_2_3 [fillcolor="green" style=filled label="TRICK"]
+NODE0_3_7_4_4_2_0_2_0_1_2_2 -- NODE0_3_7_4_4_2_0_2_0_1_2_2_3
+NODE0_3_7_4_4_2_0_2_0_1_2 -- NODE0_3_7_4_4_2_0_2_0_1_2_2
+NODE0_3_7_4_4_2_0_2_0_1 -- NODE0_3_7_4_4_2_0_2_0_1_2
+NODE0_3_7_4_4_2_0_2_0 -- NODE0_3_7_4_4_2_0_2_0_1
+NODE0_3_7_4_4_2_0_2 -- NODE0_3_7_4_4_2_0_2_0
+NODE0_3_7_4_4_2_0_2_1 [label="Action" ]
+NODE0_3_7_4_4_2_0_2_1_1 [label="Copyaction" ]
+NODE0_3_7_4_4_2_0_2_1_1_1 [label="Card" ]
+NODE0_3_7_4_4_2_0_2_1_1_1_1 [label="top"]
+NODE0_3_7_4_4_2_0_2_1_1_1 -- NODE0_3_7_4_4_2_0_2_1_1_1_1
+NODE0_3_7_4_4_2_0_2_1_1_1_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_0_2_1_1_1_2_1 [label="Who2" ]
+NODE0_3_7_4_4_2_0_2_1_1_1_2_1_1 [label="current"]
+NODE0_3_7_4_4_2_0_2_1_1_1_2_1 -- NODE0_3_7_4_4_2_0_2_1_1_1_2_1_1
+NODE0_3_7_4_4_2_0_2_1_1_1_2_1_2 [label="player"]
+NODE0_3_7_4_4_2_0_2_1_1_1_2_1 -- NODE0_3_7_4_4_2_0_2_1_1_1_2_1_2
+NODE0_3_7_4_4_2_0_2_1_1_1_2 -- NODE0_3_7_4_4_2_0_2_1_1_1_2_1
+NODE0_3_7_4_4_2_0_2_1_1_1_2_3 [fillcolor="green" style=filled label="TRICK"]
+NODE0_3_7_4_4_2_0_2_1_1_1_2 -- NODE0_3_7_4_4_2_0_2_1_1_1_2_3
+NODE0_3_7_4_4_2_0_2_1_1_1 -- NODE0_3_7_4_4_2_0_2_1_1_1_2
+NODE0_3_7_4_4_2_0_2_1_1 -- NODE0_3_7_4_4_2_0_2_1_1_1
+NODE0_3_7_4_4_2_0_2_1_1_2 [label="Card" ]
+NODE0_3_7_4_4_2_0_2_1_1_2_1 [label="top"]
+NODE0_3_7_4_4_2_0_2_1_1_2 -- NODE0_3_7_4_4_2_0_2_1_1_2_1
+NODE0_3_7_4_4_2_0_2_1_1_2_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_0_2_1_1_2_2_1 [label="Who" ]
+NODE0_3_7_4_4_2_0_2_1_1_2_2_1_0 [label="game"]
+NODE0_3_7_4_4_2_0_2_1_1_2_2_1 -- NODE0_3_7_4_4_2_0_2_1_1_2_2_1_0
+NODE0_3_7_4_4_2_0_2_1_1_2_2 -- NODE0_3_7_4_4_2_0_2_1_1_2_2_1
+NODE0_3_7_4_4_2_0_2_1_1_2_2_3 [fillcolor="green" style=filled label="LEAD"]
+NODE0_3_7_4_4_2_0_2_1_1_2_2 -- NODE0_3_7_4_4_2_0_2_1_1_2_2_3
+NODE0_3_7_4_4_2_0_2_1_1_2 -- NODE0_3_7_4_4_2_0_2_1_1_2_2
+NODE0_3_7_4_4_2_0_2_1_1 -- NODE0_3_7_4_4_2_0_2_1_1_2
+NODE0_3_7_4_4_2_0_2_1 -- NODE0_3_7_4_4_2_0_2_1_1
+NODE0_3_7_4_4_2_0_2 -- NODE0_3_7_4_4_2_0_2_1
+NODE0_3_7_4_4_2_0 -- NODE0_3_7_4_4_2_0_2
+NODE0_3_7_4_4_2 -- NODE0_3_7_4_4_2_0
+NODE0_3_7_4_4_2_1 [label="Gameaction" ]
+NODE0_3_7_4_4_2_1_1 [label="Boolean" ]
+NODE0_3_7_4_4_2_1_1_1 [label="and"]
+NODE0_3_7_4_4_2_1_1 -- NODE0_3_7_4_4_2_1_1_1
+NODE0_3_7_4_4_2_1_1_2 [label="Boolean" ]
+NODE0_3_7_4_4_2_1_1_2_1 [label="Intop" ]
+NODE0_3_7_4_4_2_1_1_2_1_0 [label="=="]
+NODE0_3_7_4_4_2_1_1_2_1 -- NODE0_3_7_4_4_2_1_1_2_1_0
+NODE0_3_7_4_4_2_1_1_2 -- NODE0_3_7_4_4_2_1_1_2_1
+NODE0_3_7_4_4_2_1_1_2_2 [label="Int" ]
+NODE0_3_7_4_4_2_1_1_2_2_0 [label="Sizeof" ]
+NODE0_3_7_4_4_2_1_1_2_2_0_1 [label="size"]
+NODE0_3_7_4_4_2_1_1_2_2_0 -- NODE0_3_7_4_4_2_1_1_2_2_0_1
+NODE0_3_7_4_4_2_1_1_2_2_0_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_1_1_2_2_0_2_1 [label="Who" ]
+NODE0_3_7_4_4_2_1_1_2_2_0_2_1_0 [label="game"]
+NODE0_3_7_4_4_2_1_1_2_2_0_2_1 -- NODE0_3_7_4_4_2_1_1_2_2_0_2_1_0
+NODE0_3_7_4_4_2_1_1_2_2_0_2 -- NODE0_3_7_4_4_2_1_1_2_2_0_2_1
+NODE0_3_7_4_4_2_1_1_2_2_0_2_3 [fillcolor="green" style=filled label="LEAD"]
+NODE0_3_7_4_4_2_1_1_2_2_0_2 -- NODE0_3_7_4_4_2_1_1_2_2_0_2_3
+NODE0_3_7_4_4_2_1_1_2_2_0 -- NODE0_3_7_4_4_2_1_1_2_2_0_2
+NODE0_3_7_4_4_2_1_1_2_2 -- NODE0_3_7_4_4_2_1_1_2_2_0
+NODE0_3_7_4_4_2_1_1_2 -- NODE0_3_7_4_4_2_1_1_2_2
+NODE0_3_7_4_4_2_1_1_2_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_3_7_4_4_2_1_1_2 -- NODE0_3_7_4_4_2_1_1_2_3
+NODE0_3_7_4_4_2_1_1 -- NODE0_3_7_4_4_2_1_1_2
+NODE0_3_7_4_4_2_1_1_3 [label="Boolean" ]
+NODE0_3_7_4_4_2_1_1_3_1 [label="Intop" ]
+NODE0_3_7_4_4_2_1_1_3_1_0 [label="=="]
+NODE0_3_7_4_4_2_1_1_3_1 -- NODE0_3_7_4_4_2_1_1_3_1_0
+NODE0_3_7_4_4_2_1_1_3 -- NODE0_3_7_4_4_2_1_1_3_1
+NODE0_3_7_4_4_2_1_1_3_2 [label="Int" ]
+NODE0_3_7_4_4_2_1_1_3_2_0 [label="Rawstorage" ]
+NODE0_3_7_4_4_2_1_1_3_2_0_1 [label="Who" ]
+NODE0_3_7_4_4_2_1_1_3_2_0_1_0 [label="game"]
+NODE0_3_7_4_4_2_1_1_3_2_0_1 -- NODE0_3_7_4_4_2_1_1_3_2_0_1_0
+NODE0_3_7_4_4_2_1_1_3_2_0 -- NODE0_3_7_4_4_2_1_1_3_2_0_1
+NODE0_3_7_4_4_2_1_1_3_2_0_3 [fillcolor="green" style=filled label="BROKEN"]
+NODE0_3_7_4_4_2_1_1_3_2_0 -- NODE0_3_7_4_4_2_1_1_3_2_0_3
+NODE0_3_7_4_4_2_1_1_3_2 -- NODE0_3_7_4_4_2_1_1_3_2_0
+NODE0_3_7_4_4_2_1_1_3 -- NODE0_3_7_4_4_2_1_1_3_2
+NODE0_3_7_4_4_2_1_1_3_3 [label="1" style=filled fillcolor="lightblue"]
+NODE0_3_7_4_4_2_1_1_3 -- NODE0_3_7_4_4_2_1_1_3_3
+NODE0_3_7_4_4_2_1_1 -- NODE0_3_7_4_4_2_1_1_3
+NODE0_3_7_4_4_2_1 -- NODE0_3_7_4_4_2_1_1
+NODE0_3_7_4_4_2_1_2 [label="Multiaction" ]
+NODE0_3_7_4_4_2_1_2_0 [label="Action" ]
+NODE0_3_7_4_4_2_1_2_0_1 [label="Moveaction" ]
+NODE0_3_7_4_4_2_1_2_0_1_1 [label="Card" ]
+NODE0_3_7_4_4_2_1_2_0_1_1_1 [label="any"]
+NODE0_3_7_4_4_2_1_2_0_1_1 -- NODE0_3_7_4_4_2_1_2_0_1_1_1
+NODE0_3_7_4_4_2_1_2_0_1_1_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_1_2_0_1_1_2_1 [label="Who2" ]
+NODE0_3_7_4_4_2_1_2_0_1_1_2_1_1 [label="current"]
+NODE0_3_7_4_4_2_1_2_0_1_1_2_1 -- NODE0_3_7_4_4_2_1_2_0_1_1_2_1_1
+NODE0_3_7_4_4_2_1_2_0_1_1_2_1_2 [label="player"]
+NODE0_3_7_4_4_2_1_2_0_1_1_2_1 -- NODE0_3_7_4_4_2_1_2_0_1_1_2_1_2
+NODE0_3_7_4_4_2_1_2_0_1_1_2 -- NODE0_3_7_4_4_2_1_2_0_1_1_2_1
+NODE0_3_7_4_4_2_1_2_0_1_1_2_3 [fillcolor="green" style=filled label="HAND"]
+NODE0_3_7_4_4_2_1_2_0_1_1_2 -- NODE0_3_7_4_4_2_1_2_0_1_1_2_3
+NODE0_3_7_4_4_2_1_2_0_1_1 -- NODE0_3_7_4_4_2_1_2_0_1_1_2
+NODE0_3_7_4_4_2_1_2_0_1 -- NODE0_3_7_4_4_2_1_2_0_1_1
+NODE0_3_7_4_4_2_1_2_0_1_2 [label="Card" ]
+NODE0_3_7_4_4_2_1_2_0_1_2_1 [label="top"]
+NODE0_3_7_4_4_2_1_2_0_1_2 -- NODE0_3_7_4_4_2_1_2_0_1_2_1
+NODE0_3_7_4_4_2_1_2_0_1_2_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_1_2_0_1_2_2_1 [label="Who2" ]
+NODE0_3_7_4_4_2_1_2_0_1_2_2_1_1 [label="current"]
+NODE0_3_7_4_4_2_1_2_0_1_2_2_1 -- NODE0_3_7_4_4_2_1_2_0_1_2_2_1_1
+NODE0_3_7_4_4_2_1_2_0_1_2_2_1_2 [label="player"]
+NODE0_3_7_4_4_2_1_2_0_1_2_2_1 -- NODE0_3_7_4_4_2_1_2_0_1_2_2_1_2
+NODE0_3_7_4_4_2_1_2_0_1_2_2 -- NODE0_3_7_4_4_2_1_2_0_1_2_2_1
+NODE0_3_7_4_4_2_1_2_0_1_2_2_3 [fillcolor="green" style=filled label="TRICK"]
+NODE0_3_7_4_4_2_1_2_0_1_2_2 -- NODE0_3_7_4_4_2_1_2_0_1_2_2_3
+NODE0_3_7_4_4_2_1_2_0_1_2 -- NODE0_3_7_4_4_2_1_2_0_1_2_2
+NODE0_3_7_4_4_2_1_2_0_1 -- NODE0_3_7_4_4_2_1_2_0_1_2
+NODE0_3_7_4_4_2_1_2_0 -- NODE0_3_7_4_4_2_1_2_0_1
+NODE0_3_7_4_4_2_1_2 -- NODE0_3_7_4_4_2_1_2_0
+NODE0_3_7_4_4_2_1_2_1 [label="Action" ]
+NODE0_3_7_4_4_2_1_2_1_1 [label="Copyaction" ]
+NODE0_3_7_4_4_2_1_2_1_1_1 [label="Card" ]
+NODE0_3_7_4_4_2_1_2_1_1_1_1 [label="top"]
+NODE0_3_7_4_4_2_1_2_1_1_1 -- NODE0_3_7_4_4_2_1_2_1_1_1_1
+NODE0_3_7_4_4_2_1_2_1_1_1_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_1_2_1_1_1_2_1 [label="Who2" ]
+NODE0_3_7_4_4_2_1_2_1_1_1_2_1_1 [label="current"]
+NODE0_3_7_4_4_2_1_2_1_1_1_2_1 -- NODE0_3_7_4_4_2_1_2_1_1_1_2_1_1
+NODE0_3_7_4_4_2_1_2_1_1_1_2_1_2 [label="player"]
+NODE0_3_7_4_4_2_1_2_1_1_1_2_1 -- NODE0_3_7_4_4_2_1_2_1_1_1_2_1_2
+NODE0_3_7_4_4_2_1_2_1_1_1_2 -- NODE0_3_7_4_4_2_1_2_1_1_1_2_1
+NODE0_3_7_4_4_2_1_2_1_1_1_2_3 [fillcolor="green" style=filled label="TRICK"]
+NODE0_3_7_4_4_2_1_2_1_1_1_2 -- NODE0_3_7_4_4_2_1_2_1_1_1_2_3
+NODE0_3_7_4_4_2_1_2_1_1_1 -- NODE0_3_7_4_4_2_1_2_1_1_1_2
+NODE0_3_7_4_4_2_1_2_1_1 -- NODE0_3_7_4_4_2_1_2_1_1_1
+NODE0_3_7_4_4_2_1_2_1_1_2 [label="Card" ]
+NODE0_3_7_4_4_2_1_2_1_1_2_1 [label="top"]
+NODE0_3_7_4_4_2_1_2_1_1_2 -- NODE0_3_7_4_4_2_1_2_1_1_2_1
+NODE0_3_7_4_4_2_1_2_1_1_2_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_1_2_1_1_2_2_1 [label="Who" ]
+NODE0_3_7_4_4_2_1_2_1_1_2_2_1_0 [label="game"]
+NODE0_3_7_4_4_2_1_2_1_1_2_2_1 -- NODE0_3_7_4_4_2_1_2_1_1_2_2_1_0
+NODE0_3_7_4_4_2_1_2_1_1_2_2 -- NODE0_3_7_4_4_2_1_2_1_1_2_2_1
+NODE0_3_7_4_4_2_1_2_1_1_2_2_3 [fillcolor="green" style=filled label="LEAD"]
+NODE0_3_7_4_4_2_1_2_1_1_2_2 -- NODE0_3_7_4_4_2_1_2_1_1_2_2_3
+NODE0_3_7_4_4_2_1_2_1_1_2 -- NODE0_3_7_4_4_2_1_2_1_1_2_2
+NODE0_3_7_4_4_2_1_2_1_1 -- NODE0_3_7_4_4_2_1_2_1_1_2
+NODE0_3_7_4_4_2_1_2_1 -- NODE0_3_7_4_4_2_1_2_1_1
+NODE0_3_7_4_4_2_1_2 -- NODE0_3_7_4_4_2_1_2_1
+NODE0_3_7_4_4_2_1 -- NODE0_3_7_4_4_2_1_2
+NODE0_3_7_4_4_2 -- NODE0_3_7_4_4_2_1
+NODE0_3_7_4_4_2_2 [label="Gameaction" ]
+NODE0_3_7_4_4_2_2_1 [label="Boolean" ]
+NODE0_3_7_4_4_2_2_1_1 [label="and"]
+NODE0_3_7_4_4_2_2_1 -- NODE0_3_7_4_4_2_2_1_1
+NODE0_3_7_4_4_2_2_1_2 [label="Boolean" ]
+NODE0_3_7_4_4_2_2_1_2_1 [label="Intop" ]
+NODE0_3_7_4_4_2_2_1_2_1_0 [label="=="]
+NODE0_3_7_4_4_2_2_1_2_1 -- NODE0_3_7_4_4_2_2_1_2_1_0
+NODE0_3_7_4_4_2_2_1_2 -- NODE0_3_7_4_4_2_2_1_2_1
+NODE0_3_7_4_4_2_2_1_2_2 [label="Int" ]
+NODE0_3_7_4_4_2_2_1_2_2_0 [label="Sizeof" ]
+NODE0_3_7_4_4_2_2_1_2_2_0_1 [label="size"]
+NODE0_3_7_4_4_2_2_1_2_2_0 -- NODE0_3_7_4_4_2_2_1_2_2_0_1
+NODE0_3_7_4_4_2_2_1_2_2_0_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_2_1_2_2_0_2_1 [label="Who" ]
+NODE0_3_7_4_4_2_2_1_2_2_0_2_1_0 [label="game"]
+NODE0_3_7_4_4_2_2_1_2_2_0_2_1 -- NODE0_3_7_4_4_2_2_1_2_2_0_2_1_0
+NODE0_3_7_4_4_2_2_1_2_2_0_2 -- NODE0_3_7_4_4_2_2_1_2_2_0_2_1
+NODE0_3_7_4_4_2_2_1_2_2_0_2_3 [fillcolor="green" style=filled label="LEAD"]
+NODE0_3_7_4_4_2_2_1_2_2_0_2 -- NODE0_3_7_4_4_2_2_1_2_2_0_2_3
+NODE0_3_7_4_4_2_2_1_2_2_0 -- NODE0_3_7_4_4_2_2_1_2_2_0_2
+NODE0_3_7_4_4_2_2_1_2_2 -- NODE0_3_7_4_4_2_2_1_2_2_0
+NODE0_3_7_4_4_2_2_1_2 -- NODE0_3_7_4_4_2_2_1_2_2
+NODE0_3_7_4_4_2_2_1_2_3 [label="1" style=filled fillcolor="lightblue"]
+NODE0_3_7_4_4_2_2_1_2 -- NODE0_3_7_4_4_2_2_1_2_3
+NODE0_3_7_4_4_2_2_1 -- NODE0_3_7_4_4_2_2_1_2
+NODE0_3_7_4_4_2_2_1_3 [label="Boolean" ]
+NODE0_3_7_4_4_2_2_1_3_1 [label="Intop" ]
+NODE0_3_7_4_4_2_2_1_3_1_0 [label="=="]
+NODE0_3_7_4_4_2_2_1_3_1 -- NODE0_3_7_4_4_2_2_1_3_1_0
+NODE0_3_7_4_4_2_2_1_3 -- NODE0_3_7_4_4_2_2_1_3_1
+NODE0_3_7_4_4_2_2_1_3_2 [label="Int" ]
+NODE0_3_7_4_4_2_2_1_3_2_0 [label="Sizeof" ]
+NODE0_3_7_4_4_2_2_1_3_2_0_1 [label="size"]
+NODE0_3_7_4_4_2_2_1_3_2_0 -- NODE0_3_7_4_4_2_2_1_3_2_0_1
+NODE0_3_7_4_4_2_2_1_3_2_0_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_1 [label="Who2" ]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_1_1 [label="current"]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_1 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_1_1
+NODE0_3_7_4_4_2_2_1_3_2_0_2_1_2 [label="player"]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_1 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_1_2
+NODE0_3_7_4_4_2_2_1_3_2_0_2 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_1
+NODE0_3_7_4_4_2_2_1_3_2_0_2_3 [fillcolor="green" style=filled label="HAND"]
+NODE0_3_7_4_4_2_2_1_3_2_0_2 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_3
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4 [label="Whereclause" ]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_0 [label="where"]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_0
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1 [label="Boolatt" ]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1 [label="Attrcomp" ]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_0 [label="=="]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_0
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_1 [label="Cardatt" ]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_1_1 [label="cardatt"]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_1 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_1_1
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_1_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_1 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_1_2
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_1_3 [label="this"]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_1 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_1_3
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_1
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2 [label="Cardatt" ]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_1 [label="cardatt"]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_1
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_2
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3 [label="Card" ]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3_1 [label="top"]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3_1
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_1 [label="Who" ]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_1_0 [label="game"]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_1 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_1_0
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_1
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_3 [fillcolor="green" style=filled label="LEAD"]
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2_3
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3_2
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2_3
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1_2
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1_1
+NODE0_3_7_4_4_2_2_1_3_2_0_2_4 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4_1
+NODE0_3_7_4_4_2_2_1_3_2_0_2 -- NODE0_3_7_4_4_2_2_1_3_2_0_2_4
+NODE0_3_7_4_4_2_2_1_3_2_0 -- NODE0_3_7_4_4_2_2_1_3_2_0_2
+NODE0_3_7_4_4_2_2_1_3_2 -- NODE0_3_7_4_4_2_2_1_3_2_0
+NODE0_3_7_4_4_2_2_1_3 -- NODE0_3_7_4_4_2_2_1_3_2
+NODE0_3_7_4_4_2_2_1_3_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_3_7_4_4_2_2_1_3 -- NODE0_3_7_4_4_2_2_1_3_3
+NODE0_3_7_4_4_2_2_1 -- NODE0_3_7_4_4_2_2_1_3
+NODE0_3_7_4_4_2_2 -- NODE0_3_7_4_4_2_2_1
+NODE0_3_7_4_4_2_2_2 [label="Multiaction" ]
+NODE0_3_7_4_4_2_2_2_0 [label="Action" ]
+NODE0_3_7_4_4_2_2_2_0_1 [label="Moveaction" ]
+NODE0_3_7_4_4_2_2_2_0_1_1 [label="Card" ]
+NODE0_3_7_4_4_2_2_2_0_1_1_1 [label="any"]
+NODE0_3_7_4_4_2_2_2_0_1_1 -- NODE0_3_7_4_4_2_2_2_0_1_1_1
+NODE0_3_7_4_4_2_2_2_0_1_1_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_2_2_0_1_1_2_1 [label="Who2" ]
+NODE0_3_7_4_4_2_2_2_0_1_1_2_1_1 [label="current"]
+NODE0_3_7_4_4_2_2_2_0_1_1_2_1 -- NODE0_3_7_4_4_2_2_2_0_1_1_2_1_1
+NODE0_3_7_4_4_2_2_2_0_1_1_2_1_2 [label="player"]
+NODE0_3_7_4_4_2_2_2_0_1_1_2_1 -- NODE0_3_7_4_4_2_2_2_0_1_1_2_1_2
+NODE0_3_7_4_4_2_2_2_0_1_1_2 -- NODE0_3_7_4_4_2_2_2_0_1_1_2_1
+NODE0_3_7_4_4_2_2_2_0_1_1_2_3 [fillcolor="green" style=filled label="HAND"]
+NODE0_3_7_4_4_2_2_2_0_1_1_2 -- NODE0_3_7_4_4_2_2_2_0_1_1_2_3
+NODE0_3_7_4_4_2_2_2_0_1_1 -- NODE0_3_7_4_4_2_2_2_0_1_1_2
+NODE0_3_7_4_4_2_2_2_0_1 -- NODE0_3_7_4_4_2_2_2_0_1_1
+NODE0_3_7_4_4_2_2_2_0_1_2 [label="Card" ]
+NODE0_3_7_4_4_2_2_2_0_1_2_1 [label="top"]
+NODE0_3_7_4_4_2_2_2_0_1_2 -- NODE0_3_7_4_4_2_2_2_0_1_2_1
+NODE0_3_7_4_4_2_2_2_0_1_2_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_2_2_0_1_2_2_1 [label="Who2" ]
+NODE0_3_7_4_4_2_2_2_0_1_2_2_1_1 [label="current"]
+NODE0_3_7_4_4_2_2_2_0_1_2_2_1 -- NODE0_3_7_4_4_2_2_2_0_1_2_2_1_1
+NODE0_3_7_4_4_2_2_2_0_1_2_2_1_2 [label="player"]
+NODE0_3_7_4_4_2_2_2_0_1_2_2_1 -- NODE0_3_7_4_4_2_2_2_0_1_2_2_1_2
+NODE0_3_7_4_4_2_2_2_0_1_2_2 -- NODE0_3_7_4_4_2_2_2_0_1_2_2_1
+NODE0_3_7_4_4_2_2_2_0_1_2_2_3 [fillcolor="green" style=filled label="TRICK"]
+NODE0_3_7_4_4_2_2_2_0_1_2_2 -- NODE0_3_7_4_4_2_2_2_0_1_2_2_3
+NODE0_3_7_4_4_2_2_2_0_1_2 -- NODE0_3_7_4_4_2_2_2_0_1_2_2
+NODE0_3_7_4_4_2_2_2_0_1 -- NODE0_3_7_4_4_2_2_2_0_1_2
+NODE0_3_7_4_4_2_2_2_0 -- NODE0_3_7_4_4_2_2_2_0_1
+NODE0_3_7_4_4_2_2_2 -- NODE0_3_7_4_4_2_2_2_0
+NODE0_3_7_4_4_2_2 -- NODE0_3_7_4_4_2_2_2
+NODE0_3_7_4_4_2 -- NODE0_3_7_4_4_2_2
+NODE0_3_7_4_4_2_3 [label="Gameaction" ]
+NODE0_3_7_4_4_2_3_1 [label="Boolean" ]
+NODE0_3_7_4_4_2_3_1_1 [label="and"]
+NODE0_3_7_4_4_2_3_1 -- NODE0_3_7_4_4_2_3_1_1
+NODE0_3_7_4_4_2_3_1_2 [label="Boolean" ]
+NODE0_3_7_4_4_2_3_1_2_1 [label="Intop" ]
+NODE0_3_7_4_4_2_3_1_2_1_0 [label="=="]
+NODE0_3_7_4_4_2_3_1_2_1 -- NODE0_3_7_4_4_2_3_1_2_1_0
+NODE0_3_7_4_4_2_3_1_2 -- NODE0_3_7_4_4_2_3_1_2_1
+NODE0_3_7_4_4_2_3_1_2_2 [label="Int" ]
+NODE0_3_7_4_4_2_3_1_2_2_0 [label="Sizeof" ]
+NODE0_3_7_4_4_2_3_1_2_2_0_1 [label="size"]
+NODE0_3_7_4_4_2_3_1_2_2_0 -- NODE0_3_7_4_4_2_3_1_2_2_0_1
+NODE0_3_7_4_4_2_3_1_2_2_0_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_3_1_2_2_0_2_1 [label="Who" ]
+NODE0_3_7_4_4_2_3_1_2_2_0_2_1_0 [label="game"]
+NODE0_3_7_4_4_2_3_1_2_2_0_2_1 -- NODE0_3_7_4_4_2_3_1_2_2_0_2_1_0
+NODE0_3_7_4_4_2_3_1_2_2_0_2 -- NODE0_3_7_4_4_2_3_1_2_2_0_2_1
+NODE0_3_7_4_4_2_3_1_2_2_0_2_3 [fillcolor="green" style=filled label="LEAD"]
+NODE0_3_7_4_4_2_3_1_2_2_0_2 -- NODE0_3_7_4_4_2_3_1_2_2_0_2_3
+NODE0_3_7_4_4_2_3_1_2_2_0 -- NODE0_3_7_4_4_2_3_1_2_2_0_2
+NODE0_3_7_4_4_2_3_1_2_2 -- NODE0_3_7_4_4_2_3_1_2_2_0
+NODE0_3_7_4_4_2_3_1_2 -- NODE0_3_7_4_4_2_3_1_2_2
+NODE0_3_7_4_4_2_3_1_2_3 [label="1" style=filled fillcolor="lightblue"]
+NODE0_3_7_4_4_2_3_1_2 -- NODE0_3_7_4_4_2_3_1_2_3
+NODE0_3_7_4_4_2_3_1 -- NODE0_3_7_4_4_2_3_1_2
+NODE0_3_7_4_4_2_3_1_3 [label="Boolean" ]
+NODE0_3_7_4_4_2_3_1_3_1 [label="Intop" ]
+NODE0_3_7_4_4_2_3_1_3_1_0 [label="!="]
+NODE0_3_7_4_4_2_3_1_3_1 -- NODE0_3_7_4_4_2_3_1_3_1_0
+NODE0_3_7_4_4_2_3_1_3 -- NODE0_3_7_4_4_2_3_1_3_1
+NODE0_3_7_4_4_2_3_1_3_2 [label="Int" ]
+NODE0_3_7_4_4_2_3_1_3_2_0 [label="Sizeof" ]
+NODE0_3_7_4_4_2_3_1_3_2_0_1 [label="size"]
+NODE0_3_7_4_4_2_3_1_3_2_0 -- NODE0_3_7_4_4_2_3_1_3_2_0_1
+NODE0_3_7_4_4_2_3_1_3_2_0_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_1 [label="Who2" ]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_1_1 [label="current"]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_1 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_1_1
+NODE0_3_7_4_4_2_3_1_3_2_0_2_1_2 [label="player"]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_1 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_1_2
+NODE0_3_7_4_4_2_3_1_3_2_0_2 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_1
+NODE0_3_7_4_4_2_3_1_3_2_0_2_3 [fillcolor="green" style=filled label="HAND"]
+NODE0_3_7_4_4_2_3_1_3_2_0_2 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_3
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4 [label="Whereclause" ]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_0 [label="where"]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_0
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1 [label="Boolatt" ]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1 [label="Attrcomp" ]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_0 [label="=="]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_0
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_1 [label="Cardatt" ]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_1_1 [label="cardatt"]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_1 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_1_1
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_1_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_1 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_1_2
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_1_3 [label="this"]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_1 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_1_3
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_1
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2 [label="Cardatt" ]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_1 [label="cardatt"]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_1
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_2
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3 [label="Card" ]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3_1 [label="top"]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3_1
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_1 [label="Who" ]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_1_0 [label="game"]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_1 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_1_0
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_1
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_3 [fillcolor="green" style=filled label="LEAD"]
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2_3
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3_2
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2_3
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1_2
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1_1
+NODE0_3_7_4_4_2_3_1_3_2_0_2_4 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4_1
+NODE0_3_7_4_4_2_3_1_3_2_0_2 -- NODE0_3_7_4_4_2_3_1_3_2_0_2_4
+NODE0_3_7_4_4_2_3_1_3_2_0 -- NODE0_3_7_4_4_2_3_1_3_2_0_2
+NODE0_3_7_4_4_2_3_1_3_2 -- NODE0_3_7_4_4_2_3_1_3_2_0
+NODE0_3_7_4_4_2_3_1_3 -- NODE0_3_7_4_4_2_3_1_3_2
+NODE0_3_7_4_4_2_3_1_3_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_3_7_4_4_2_3_1_3 -- NODE0_3_7_4_4_2_3_1_3_3
+NODE0_3_7_4_4_2_3_1 -- NODE0_3_7_4_4_2_3_1_3
+NODE0_3_7_4_4_2_3 -- NODE0_3_7_4_4_2_3_1
+NODE0_3_7_4_4_2_3_2 [label="Multiaction" ]
+NODE0_3_7_4_4_2_3_2_0 [label="Action" ]
+NODE0_3_7_4_4_2_3_2_0_1 [label="Moveaction" ]
+NODE0_3_7_4_4_2_3_2_0_1_1 [label="Card" ]
+NODE0_3_7_4_4_2_3_2_0_1_1_1 [label="any"]
+NODE0_3_7_4_4_2_3_2_0_1_1 -- NODE0_3_7_4_4_2_3_2_0_1_1_1
+NODE0_3_7_4_4_2_3_2_0_1_1_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_1 [label="Who2" ]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_1_1 [label="current"]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_1 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_1_1
+NODE0_3_7_4_4_2_3_2_0_1_1_2_1_2 [label="player"]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_1 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_1_2
+NODE0_3_7_4_4_2_3_2_0_1_1_2 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_1
+NODE0_3_7_4_4_2_3_2_0_1_1_2_3 [fillcolor="green" style=filled label="HAND"]
+NODE0_3_7_4_4_2_3_2_0_1_1_2 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_3
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4 [label="Whereclause" ]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_0 [label="where"]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_0
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1 [label="Boolatt" ]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1 [label="Attrcomp" ]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_0 [label="=="]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_0
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_1 [label="Cardatt" ]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_1_1 [label="cardatt"]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_1 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_1_1
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_1_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_1 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_1_2
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_1_3 [label="this"]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_1 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_1_3
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_1
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2 [label="Cardatt" ]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_1 [label="cardatt"]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_1
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_2
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3 [label="Card" ]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3_1 [label="top"]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3_1
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_1 [label="Who" ]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_1_0 [label="game"]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_1 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_1_0
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_1
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_3 [fillcolor="green" style=filled label="LEAD"]
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2_3
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3_2
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2_3
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1_2
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1_1
+NODE0_3_7_4_4_2_3_2_0_1_1_2_4 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4_1
+NODE0_3_7_4_4_2_3_2_0_1_1_2 -- NODE0_3_7_4_4_2_3_2_0_1_1_2_4
+NODE0_3_7_4_4_2_3_2_0_1_1 -- NODE0_3_7_4_4_2_3_2_0_1_1_2
+NODE0_3_7_4_4_2_3_2_0_1 -- NODE0_3_7_4_4_2_3_2_0_1_1
+NODE0_3_7_4_4_2_3_2_0_1_2 [label="Card" ]
+NODE0_3_7_4_4_2_3_2_0_1_2_1 [label="top"]
+NODE0_3_7_4_4_2_3_2_0_1_2 -- NODE0_3_7_4_4_2_3_2_0_1_2_1
+NODE0_3_7_4_4_2_3_2_0_1_2_2 [label="Locstorage" ]
+NODE0_3_7_4_4_2_3_2_0_1_2_2_1 [label="Who2" ]
+NODE0_3_7_4_4_2_3_2_0_1_2_2_1_1 [label="current"]
+NODE0_3_7_4_4_2_3_2_0_1_2_2_1 -- NODE0_3_7_4_4_2_3_2_0_1_2_2_1_1
+NODE0_3_7_4_4_2_3_2_0_1_2_2_1_2 [label="player"]
+NODE0_3_7_4_4_2_3_2_0_1_2_2_1 -- NODE0_3_7_4_4_2_3_2_0_1_2_2_1_2
+NODE0_3_7_4_4_2_3_2_0_1_2_2 -- NODE0_3_7_4_4_2_3_2_0_1_2_2_1
+NODE0_3_7_4_4_2_3_2_0_1_2_2_3 [fillcolor="green" style=filled label="TRICK"]
+NODE0_3_7_4_4_2_3_2_0_1_2_2 -- NODE0_3_7_4_4_2_3_2_0_1_2_2_3
+NODE0_3_7_4_4_2_3_2_0_1_2 -- NODE0_3_7_4_4_2_3_2_0_1_2_2
+NODE0_3_7_4_4_2_3_2_0_1 -- NODE0_3_7_4_4_2_3_2_0_1_2
+NODE0_3_7_4_4_2_3_2_0 -- NODE0_3_7_4_4_2_3_2_0_1
+NODE0_3_7_4_4_2_3_2 -- NODE0_3_7_4_4_2_3_2_0
+NODE0_3_7_4_4_2_3 -- NODE0_3_7_4_4_2_3_2
+NODE0_3_7_4_4_2 -- NODE0_3_7_4_4_2_3
+NODE0_3_7_4_4 -- NODE0_3_7_4_4_2
+NODE0_3_7_4 -- NODE0_3_7_4_4
+NODE0_3_7 -- NODE0_3_7_4
+NODE0_3_7_5 [label="Computermoves"  style=filled shape=box fillcolor="yellow"]
+NODE0_3_7_5_2 [label="Multigameaction" ]
+NODE0_3_7_5_2_0 [label="Gameaction" ]
+NODE0_3_7_5_2_0_1 [label="Boolean" ]
+NODE0_3_7_5_2_0 -- NODE0_3_7_5_2_0_1
+NODE0_3_7_5_2_0_2 [label="Multiaction" ]
+NODE0_3_7_5_2_0_2_0 [label="Action" ]
+NODE0_3_7_5_2_0_2_0_1 [label="Init" ]
+NODE0_3_7_5_2_0_2_0_1_1 [label="Pointsinit" ]
+NODE0_3_7_5_2_0_2_0_1_1_0 [label="points"]
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_0
+NODE0_3_7_5_2_0_2_0_1_1_1 [fillcolor="green" style=filled label="PRECEDENCE"]
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_1
+NODE0_3_7_5_2_0_2_0_1_1_3 [label="Awards" ]
+NODE0_3_7_5_2_0_2_0_1_1_3_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_0_1_1_3_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_0_1_1_3_1 -- NODE0_3_7_5_2_0_2_0_1_1_3_1_0
+NODE0_3_7_5_2_0_2_0_1_1_3 -- NODE0_3_7_5_2_0_2_0_1_1_3_1
+NODE0_3_7_5_2_0_2_0_1_1_3_2 [label="Subaward" ]
+NODE0_3_7_5_2_0_2_0_1_1_3_2_1 [fillcolor="green" style=filled label="suit"]
+NODE0_3_7_5_2_0_2_0_1_1_3_2 -- NODE0_3_7_5_2_0_2_0_1_1_3_2_1
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2 [label="Cardatt" ]
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2_1 [label="cardatt"]
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2 -- NODE0_3_7_5_2_0_2_0_1_1_3_2_2_1
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2 -- NODE0_3_7_5_2_0_2_0_1_1_3_2_2_2
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3 [label="Card" ]
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3_1 [label="top"]
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3 -- NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3_1
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3_2 [label="Locstorage" ]
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3_2_1 [label="Who" ]
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3_2_1_0 [label="game"]
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3_2_1 -- NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3_2_1_0
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3_2 -- NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3_2_1
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3_2_3 [fillcolor="green" style=filled label="LEAD"]
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3_2 -- NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3_2_3
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3 -- NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3_2
+NODE0_3_7_5_2_0_2_0_1_1_3_2_2 -- NODE0_3_7_5_2_0_2_0_1_1_3_2_2_3
+NODE0_3_7_5_2_0_2_0_1_1_3_2 -- NODE0_3_7_5_2_0_2_0_1_1_3_2_2
+NODE0_3_7_5_2_0_2_0_1_1_3 -- NODE0_3_7_5_2_0_2_0_1_1_3_2
+NODE0_3_7_5_2_0_2_0_1_1_3_3 [label="100" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_0_2_0_1_1_3 -- NODE0_3_7_5_2_0_2_0_1_1_3_3
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_3
+NODE0_3_7_5_2_0_2_0_1_1_4 [label="Awards" ]
+NODE0_3_7_5_2_0_2_0_1_1_4_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_0_1_1_4_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_0_1_1_4_1 -- NODE0_3_7_5_2_0_2_0_1_1_4_1_0
+NODE0_3_7_5_2_0_2_0_1_1_4 -- NODE0_3_7_5_2_0_2_0_1_1_4_1
+NODE0_3_7_5_2_0_2_0_1_1_4_2 [label="Subaward" ]
+NODE0_3_7_5_2_0_2_0_1_1_4_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_3_7_5_2_0_2_0_1_1_4_2 -- NODE0_3_7_5_2_0_2_0_1_1_4_2_1
+NODE0_3_7_5_2_0_2_0_1_1_4_2_3 [fillcolor="green" style=filled label="A"]
+NODE0_3_7_5_2_0_2_0_1_1_4_2 -- NODE0_3_7_5_2_0_2_0_1_1_4_2_3
+NODE0_3_7_5_2_0_2_0_1_1_4 -- NODE0_3_7_5_2_0_2_0_1_1_4_2
+NODE0_3_7_5_2_0_2_0_1_1_4_3 [label="14" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_0_2_0_1_1_4 -- NODE0_3_7_5_2_0_2_0_1_1_4_3
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_4
+NODE0_3_7_5_2_0_2_0_1_1_5 [label="Awards" ]
+NODE0_3_7_5_2_0_2_0_1_1_5_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_0_1_1_5_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_0_1_1_5_1 -- NODE0_3_7_5_2_0_2_0_1_1_5_1_0
+NODE0_3_7_5_2_0_2_0_1_1_5 -- NODE0_3_7_5_2_0_2_0_1_1_5_1
+NODE0_3_7_5_2_0_2_0_1_1_5_2 [label="Subaward" ]
+NODE0_3_7_5_2_0_2_0_1_1_5_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_3_7_5_2_0_2_0_1_1_5_2 -- NODE0_3_7_5_2_0_2_0_1_1_5_2_1
+NODE0_3_7_5_2_0_2_0_1_1_5_2_3 [fillcolor="green" style=filled label="K"]
+NODE0_3_7_5_2_0_2_0_1_1_5_2 -- NODE0_3_7_5_2_0_2_0_1_1_5_2_3
+NODE0_3_7_5_2_0_2_0_1_1_5 -- NODE0_3_7_5_2_0_2_0_1_1_5_2
+NODE0_3_7_5_2_0_2_0_1_1_5_3 [label="13" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_0_2_0_1_1_5 -- NODE0_3_7_5_2_0_2_0_1_1_5_3
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_5
+NODE0_3_7_5_2_0_2_0_1_1_6 [label="Awards" ]
+NODE0_3_7_5_2_0_2_0_1_1_6_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_0_1_1_6_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_0_1_1_6_1 -- NODE0_3_7_5_2_0_2_0_1_1_6_1_0
+NODE0_3_7_5_2_0_2_0_1_1_6 -- NODE0_3_7_5_2_0_2_0_1_1_6_1
+NODE0_3_7_5_2_0_2_0_1_1_6_2 [label="Subaward" ]
+NODE0_3_7_5_2_0_2_0_1_1_6_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_3_7_5_2_0_2_0_1_1_6_2 -- NODE0_3_7_5_2_0_2_0_1_1_6_2_1
+NODE0_3_7_5_2_0_2_0_1_1_6_2_3 [fillcolor="green" style=filled label="Q"]
+NODE0_3_7_5_2_0_2_0_1_1_6_2 -- NODE0_3_7_5_2_0_2_0_1_1_6_2_3
+NODE0_3_7_5_2_0_2_0_1_1_6 -- NODE0_3_7_5_2_0_2_0_1_1_6_2
+NODE0_3_7_5_2_0_2_0_1_1_6_3 [label="12" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_0_2_0_1_1_6 -- NODE0_3_7_5_2_0_2_0_1_1_6_3
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_6
+NODE0_3_7_5_2_0_2_0_1_1_7 [label="Awards" ]
+NODE0_3_7_5_2_0_2_0_1_1_7_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_0_1_1_7_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_0_1_1_7_1 -- NODE0_3_7_5_2_0_2_0_1_1_7_1_0
+NODE0_3_7_5_2_0_2_0_1_1_7 -- NODE0_3_7_5_2_0_2_0_1_1_7_1
+NODE0_3_7_5_2_0_2_0_1_1_7_2 [label="Subaward" ]
+NODE0_3_7_5_2_0_2_0_1_1_7_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_3_7_5_2_0_2_0_1_1_7_2 -- NODE0_3_7_5_2_0_2_0_1_1_7_2_1
+NODE0_3_7_5_2_0_2_0_1_1_7_2_3 [fillcolor="green" style=filled label="J"]
+NODE0_3_7_5_2_0_2_0_1_1_7_2 -- NODE0_3_7_5_2_0_2_0_1_1_7_2_3
+NODE0_3_7_5_2_0_2_0_1_1_7 -- NODE0_3_7_5_2_0_2_0_1_1_7_2
+NODE0_3_7_5_2_0_2_0_1_1_7_3 [label="11" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_0_2_0_1_1_7 -- NODE0_3_7_5_2_0_2_0_1_1_7_3
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_7
+NODE0_3_7_5_2_0_2_0_1_1_8 [label="Awards" ]
+NODE0_3_7_5_2_0_2_0_1_1_8_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_0_1_1_8_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_0_1_1_8_1 -- NODE0_3_7_5_2_0_2_0_1_1_8_1_0
+NODE0_3_7_5_2_0_2_0_1_1_8 -- NODE0_3_7_5_2_0_2_0_1_1_8_1
+NODE0_3_7_5_2_0_2_0_1_1_8_2 [label="Subaward" ]
+NODE0_3_7_5_2_0_2_0_1_1_8_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_3_7_5_2_0_2_0_1_1_8_2 -- NODE0_3_7_5_2_0_2_0_1_1_8_2_1
+NODE0_3_7_5_2_0_2_0_1_1_8_2_3 [fillcolor="green" style=filled label="10"]
+NODE0_3_7_5_2_0_2_0_1_1_8_2 -- NODE0_3_7_5_2_0_2_0_1_1_8_2_3
+NODE0_3_7_5_2_0_2_0_1_1_8 -- NODE0_3_7_5_2_0_2_0_1_1_8_2
+NODE0_3_7_5_2_0_2_0_1_1_8_3 [label="10" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_0_2_0_1_1_8 -- NODE0_3_7_5_2_0_2_0_1_1_8_3
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_8
+NODE0_3_7_5_2_0_2_0_1_1_9 [label="Awards" ]
+NODE0_3_7_5_2_0_2_0_1_1_9_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_0_1_1_9_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_0_1_1_9_1 -- NODE0_3_7_5_2_0_2_0_1_1_9_1_0
+NODE0_3_7_5_2_0_2_0_1_1_9 -- NODE0_3_7_5_2_0_2_0_1_1_9_1
+NODE0_3_7_5_2_0_2_0_1_1_9_2 [label="Subaward" ]
+NODE0_3_7_5_2_0_2_0_1_1_9_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_3_7_5_2_0_2_0_1_1_9_2 -- NODE0_3_7_5_2_0_2_0_1_1_9_2_1
+NODE0_3_7_5_2_0_2_0_1_1_9_2_3 [fillcolor="green" style=filled label="9"]
+NODE0_3_7_5_2_0_2_0_1_1_9_2 -- NODE0_3_7_5_2_0_2_0_1_1_9_2_3
+NODE0_3_7_5_2_0_2_0_1_1_9 -- NODE0_3_7_5_2_0_2_0_1_1_9_2
+NODE0_3_7_5_2_0_2_0_1_1_9_3 [label="9" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_0_2_0_1_1_9 -- NODE0_3_7_5_2_0_2_0_1_1_9_3
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_9
+NODE0_3_7_5_2_0_2_0_1_1_10 [label="Awards" ]
+NODE0_3_7_5_2_0_2_0_1_1_10_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_0_1_1_10_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_0_1_1_10_1 -- NODE0_3_7_5_2_0_2_0_1_1_10_1_0
+NODE0_3_7_5_2_0_2_0_1_1_10 -- NODE0_3_7_5_2_0_2_0_1_1_10_1
+NODE0_3_7_5_2_0_2_0_1_1_10_2 [label="Subaward" ]
+NODE0_3_7_5_2_0_2_0_1_1_10_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_3_7_5_2_0_2_0_1_1_10_2 -- NODE0_3_7_5_2_0_2_0_1_1_10_2_1
+NODE0_3_7_5_2_0_2_0_1_1_10_2_3 [fillcolor="green" style=filled label="8"]
+NODE0_3_7_5_2_0_2_0_1_1_10_2 -- NODE0_3_7_5_2_0_2_0_1_1_10_2_3
+NODE0_3_7_5_2_0_2_0_1_1_10 -- NODE0_3_7_5_2_0_2_0_1_1_10_2
+NODE0_3_7_5_2_0_2_0_1_1_10_3 [label="8" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_0_2_0_1_1_10 -- NODE0_3_7_5_2_0_2_0_1_1_10_3
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_10
+NODE0_3_7_5_2_0_2_0_1_1_11 [label="Awards" ]
+NODE0_3_7_5_2_0_2_0_1_1_11_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_0_1_1_11_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_0_1_1_11_1 -- NODE0_3_7_5_2_0_2_0_1_1_11_1_0
+NODE0_3_7_5_2_0_2_0_1_1_11 -- NODE0_3_7_5_2_0_2_0_1_1_11_1
+NODE0_3_7_5_2_0_2_0_1_1_11_2 [label="Subaward" ]
+NODE0_3_7_5_2_0_2_0_1_1_11_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_3_7_5_2_0_2_0_1_1_11_2 -- NODE0_3_7_5_2_0_2_0_1_1_11_2_1
+NODE0_3_7_5_2_0_2_0_1_1_11_2_3 [fillcolor="green" style=filled label="7"]
+NODE0_3_7_5_2_0_2_0_1_1_11_2 -- NODE0_3_7_5_2_0_2_0_1_1_11_2_3
+NODE0_3_7_5_2_0_2_0_1_1_11 -- NODE0_3_7_5_2_0_2_0_1_1_11_2
+NODE0_3_7_5_2_0_2_0_1_1_11_3 [label="7" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_0_2_0_1_1_11 -- NODE0_3_7_5_2_0_2_0_1_1_11_3
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_11
+NODE0_3_7_5_2_0_2_0_1_1_12 [label="Awards" ]
+NODE0_3_7_5_2_0_2_0_1_1_12_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_0_1_1_12_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_0_1_1_12_1 -- NODE0_3_7_5_2_0_2_0_1_1_12_1_0
+NODE0_3_7_5_2_0_2_0_1_1_12 -- NODE0_3_7_5_2_0_2_0_1_1_12_1
+NODE0_3_7_5_2_0_2_0_1_1_12_2 [label="Subaward" ]
+NODE0_3_7_5_2_0_2_0_1_1_12_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_3_7_5_2_0_2_0_1_1_12_2 -- NODE0_3_7_5_2_0_2_0_1_1_12_2_1
+NODE0_3_7_5_2_0_2_0_1_1_12_2_3 [fillcolor="green" style=filled label="6"]
+NODE0_3_7_5_2_0_2_0_1_1_12_2 -- NODE0_3_7_5_2_0_2_0_1_1_12_2_3
+NODE0_3_7_5_2_0_2_0_1_1_12 -- NODE0_3_7_5_2_0_2_0_1_1_12_2
+NODE0_3_7_5_2_0_2_0_1_1_12_3 [label="6" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_0_2_0_1_1_12 -- NODE0_3_7_5_2_0_2_0_1_1_12_3
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_12
+NODE0_3_7_5_2_0_2_0_1_1_13 [label="Awards" ]
+NODE0_3_7_5_2_0_2_0_1_1_13_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_0_1_1_13_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_0_1_1_13_1 -- NODE0_3_7_5_2_0_2_0_1_1_13_1_0
+NODE0_3_7_5_2_0_2_0_1_1_13 -- NODE0_3_7_5_2_0_2_0_1_1_13_1
+NODE0_3_7_5_2_0_2_0_1_1_13_2 [label="Subaward" ]
+NODE0_3_7_5_2_0_2_0_1_1_13_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_3_7_5_2_0_2_0_1_1_13_2 -- NODE0_3_7_5_2_0_2_0_1_1_13_2_1
+NODE0_3_7_5_2_0_2_0_1_1_13_2_3 [fillcolor="green" style=filled label="5"]
+NODE0_3_7_5_2_0_2_0_1_1_13_2 -- NODE0_3_7_5_2_0_2_0_1_1_13_2_3
+NODE0_3_7_5_2_0_2_0_1_1_13 -- NODE0_3_7_5_2_0_2_0_1_1_13_2
+NODE0_3_7_5_2_0_2_0_1_1_13_3 [label="5" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_0_2_0_1_1_13 -- NODE0_3_7_5_2_0_2_0_1_1_13_3
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_13
+NODE0_3_7_5_2_0_2_0_1_1_14 [label="Awards" ]
+NODE0_3_7_5_2_0_2_0_1_1_14_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_0_1_1_14_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_0_1_1_14_1 -- NODE0_3_7_5_2_0_2_0_1_1_14_1_0
+NODE0_3_7_5_2_0_2_0_1_1_14 -- NODE0_3_7_5_2_0_2_0_1_1_14_1
+NODE0_3_7_5_2_0_2_0_1_1_14_2 [label="Subaward" ]
+NODE0_3_7_5_2_0_2_0_1_1_14_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_3_7_5_2_0_2_0_1_1_14_2 -- NODE0_3_7_5_2_0_2_0_1_1_14_2_1
+NODE0_3_7_5_2_0_2_0_1_1_14_2_3 [fillcolor="green" style=filled label="4"]
+NODE0_3_7_5_2_0_2_0_1_1_14_2 -- NODE0_3_7_5_2_0_2_0_1_1_14_2_3
+NODE0_3_7_5_2_0_2_0_1_1_14 -- NODE0_3_7_5_2_0_2_0_1_1_14_2
+NODE0_3_7_5_2_0_2_0_1_1_14_3 [label="4" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_0_2_0_1_1_14 -- NODE0_3_7_5_2_0_2_0_1_1_14_3
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_14
+NODE0_3_7_5_2_0_2_0_1_1_15 [label="Awards" ]
+NODE0_3_7_5_2_0_2_0_1_1_15_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_0_1_1_15_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_0_1_1_15_1 -- NODE0_3_7_5_2_0_2_0_1_1_15_1_0
+NODE0_3_7_5_2_0_2_0_1_1_15 -- NODE0_3_7_5_2_0_2_0_1_1_15_1
+NODE0_3_7_5_2_0_2_0_1_1_15_2 [label="Subaward" ]
+NODE0_3_7_5_2_0_2_0_1_1_15_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_3_7_5_2_0_2_0_1_1_15_2 -- NODE0_3_7_5_2_0_2_0_1_1_15_2_1
+NODE0_3_7_5_2_0_2_0_1_1_15_2_3 [fillcolor="green" style=filled label="3"]
+NODE0_3_7_5_2_0_2_0_1_1_15_2 -- NODE0_3_7_5_2_0_2_0_1_1_15_2_3
+NODE0_3_7_5_2_0_2_0_1_1_15 -- NODE0_3_7_5_2_0_2_0_1_1_15_2
+NODE0_3_7_5_2_0_2_0_1_1_15_3 [label="3" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_0_2_0_1_1_15 -- NODE0_3_7_5_2_0_2_0_1_1_15_3
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_15
+NODE0_3_7_5_2_0_2_0_1_1_16 [label="Awards" ]
+NODE0_3_7_5_2_0_2_0_1_1_16_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_0_1_1_16_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_0_1_1_16_1 -- NODE0_3_7_5_2_0_2_0_1_1_16_1_0
+NODE0_3_7_5_2_0_2_0_1_1_16 -- NODE0_3_7_5_2_0_2_0_1_1_16_1
+NODE0_3_7_5_2_0_2_0_1_1_16_2 [label="Subaward" ]
+NODE0_3_7_5_2_0_2_0_1_1_16_2_1 [fillcolor="green" style=filled label="rank"]
+NODE0_3_7_5_2_0_2_0_1_1_16_2 -- NODE0_3_7_5_2_0_2_0_1_1_16_2_1
+NODE0_3_7_5_2_0_2_0_1_1_16_2_3 [fillcolor="green" style=filled label="2"]
+NODE0_3_7_5_2_0_2_0_1_1_16_2 -- NODE0_3_7_5_2_0_2_0_1_1_16_2_3
+NODE0_3_7_5_2_0_2_0_1_1_16 -- NODE0_3_7_5_2_0_2_0_1_1_16_2
+NODE0_3_7_5_2_0_2_0_1_1_16_3 [label="2" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_0_2_0_1_1_16 -- NODE0_3_7_5_2_0_2_0_1_1_16_3
+NODE0_3_7_5_2_0_2_0_1_1 -- NODE0_3_7_5_2_0_2_0_1_1_16
+NODE0_3_7_5_2_0_2_0_1 -- NODE0_3_7_5_2_0_2_0_1_1
+NODE0_3_7_5_2_0_2_0 -- NODE0_3_7_5_2_0_2_0_1
+NODE0_3_7_5_2_0_2 -- NODE0_3_7_5_2_0_2_0
+NODE0_3_7_5_2_0_2_1 [label="Action" ]
+NODE0_3_7_5_2_0_2_1_1 [label="Removeaction" ]
+NODE0_3_7_5_2_0_2_1_1_1 [label="Card" ]
+NODE0_3_7_5_2_0_2_1_1_1_1 [label="top"]
+NODE0_3_7_5_2_0_2_1_1_1 -- NODE0_3_7_5_2_0_2_1_1_1_1
+NODE0_3_7_5_2_0_2_1_1_1_2 [label="Locstorage" ]
+NODE0_3_7_5_2_0_2_1_1_1_2_1 [label="Who" ]
+NODE0_3_7_5_2_0_2_1_1_1_2_1_0 [label="game"]
+NODE0_3_7_5_2_0_2_1_1_1_2_1 -- NODE0_3_7_5_2_0_2_1_1_1_2_1_0
+NODE0_3_7_5_2_0_2_1_1_1_2 -- NODE0_3_7_5_2_0_2_1_1_1_2_1
+NODE0_3_7_5_2_0_2_1_1_1_2_3 [fillcolor="green" style=filled label="LEAD"]
+NODE0_3_7_5_2_0_2_1_1_1_2 -- NODE0_3_7_5_2_0_2_1_1_1_2_3
+NODE0_3_7_5_2_0_2_1_1_1 -- NODE0_3_7_5_2_0_2_1_1_1_2
+NODE0_3_7_5_2_0_2_1_1 -- NODE0_3_7_5_2_0_2_1_1_1
+NODE0_3_7_5_2_0_2_1 -- NODE0_3_7_5_2_0_2_1_1
+NODE0_3_7_5_2_0_2 -- NODE0_3_7_5_2_0_2_1
+NODE0_3_7_5_2_0_2_2 [label="Action" ]
+NODE0_3_7_5_2_0_2_2_1 [label="Setaction" ]
+NODE0_3_7_5_2_0_2_2_1_0 [label="set"]
+NODE0_3_7_5_2_0_2_2_1 -- NODE0_3_7_5_2_0_2_2_1_0
+NODE0_3_7_5_2_0_2_2_1_1 [label="next"]
+NODE0_3_7_5_2_0_2_2_1 -- NODE0_3_7_5_2_0_2_2_1_1
+NODE0_3_7_5_2_0_2_2_1_2 [label="Int" ]
+NODE0_3_7_5_2_0_2_2_1_2_0 [label="Owner" ]
+NODE0_3_7_5_2_0_2_2_1_2_0_1 [label="owner"]
+NODE0_3_7_5_2_0_2_2_1_2_0 -- NODE0_3_7_5_2_0_2_2_1_2_0_1
+NODE0_3_7_5_2_0_2_2_1_2_0_2 [label="Card" ]
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0 [label="Maxof" ]
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_1 [label="max"]
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0 -- NODE0_3_7_5_2_0_2_2_1_2_0_2_0_1
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2 [label="Locstorage" ]
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0 [label="Unionof" ]
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_1 [label="union"]
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0 -- NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_1
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2 [label="Locstorage" ]
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2_1 [label="Who2" ]
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2_1_1 [label="Posq" ]
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2_1_1_0 [label="all"]
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2_1_1 -- NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2_1_1_0
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2_1 -- NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2_1_1
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2_1_2 [label="player"]
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2_1 -- NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2_1_2
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2 -- NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2_1
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2_3 [fillcolor="green" style=filled label="TRICK"]
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2 -- NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2_3
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0 -- NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0_2
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2 -- NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2_0
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0 -- NODE0_3_7_5_2_0_2_2_1_2_0_2_0_2
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_3 [label="using"]
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0 -- NODE0_3_7_5_2_0_2_2_1_2_0_2_0_3
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0_4 [fillcolor="green" style=filled label="PRECEDENCE"]
+NODE0_3_7_5_2_0_2_2_1_2_0_2_0 -- NODE0_3_7_5_2_0_2_2_1_2_0_2_0_4
+NODE0_3_7_5_2_0_2_2_1_2_0_2 -- NODE0_3_7_5_2_0_2_2_1_2_0_2_0
+NODE0_3_7_5_2_0_2_2_1_2_0 -- NODE0_3_7_5_2_0_2_2_1_2_0_2
+NODE0_3_7_5_2_0_2_2_1_2 -- NODE0_3_7_5_2_0_2_2_1_2_0
+NODE0_3_7_5_2_0_2_2_1 -- NODE0_3_7_5_2_0_2_2_1_2
+NODE0_3_7_5_2_0_2_2 -- NODE0_3_7_5_2_0_2_2_1
+NODE0_3_7_5_2_0_2 -- NODE0_3_7_5_2_0_2_2
+NODE0_3_7_5_2_0 -- NODE0_3_7_5_2_0_2
+NODE0_3_7_5_2 -- NODE0_3_7_5_2_0
+NODE0_3_7_5_2_1 [label="Gameaction" ]
+NODE0_3_7_5_2_1_1 [label="Boolean" ]
+NODE0_3_7_5_2_1_1_1 [label="and"]
+NODE0_3_7_5_2_1_1 -- NODE0_3_7_5_2_1_1_1
+NODE0_3_7_5_2_1_1_2 [label="Boolean" ]
+NODE0_3_7_5_2_1_1_2_1 [label="Attrcomp" ]
+NODE0_3_7_5_2_1_1_2_1_0 [label="=="]
+NODE0_3_7_5_2_1_1_2_1 -- NODE0_3_7_5_2_1_1_2_1_0
+NODE0_3_7_5_2_1_1_2_1_1 [label="Cardatt" ]
+NODE0_3_7_5_2_1_1_2_1_1_1 [label="cardatt"]
+NODE0_3_7_5_2_1_1_2_1_1 -- NODE0_3_7_5_2_1_1_2_1_1_1
+NODE0_3_7_5_2_1_1_2_1_1_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_7_5_2_1_1_2_1_1 -- NODE0_3_7_5_2_1_1_2_1_1_2
+NODE0_3_7_5_2_1_1_2_1_1_3 [label="Card" ]
+NODE0_3_7_5_2_1_1_2_1_1_3_1 [label="top"]
+NODE0_3_7_5_2_1_1_2_1_1_3 -- NODE0_3_7_5_2_1_1_2_1_1_3_1
+NODE0_3_7_5_2_1_1_2_1_1_3_2 [label="Locstorage" ]
+NODE0_3_7_5_2_1_1_2_1_1_3_2_1 [label="Who2" ]
+NODE0_3_7_5_2_1_1_2_1_1_3_2_1_1 [label="next"]
+NODE0_3_7_5_2_1_1_2_1_1_3_2_1 -- NODE0_3_7_5_2_1_1_2_1_1_3_2_1_1
+NODE0_3_7_5_2_1_1_2_1_1_3_2_1_2 [label="player"]
+NODE0_3_7_5_2_1_1_2_1_1_3_2_1 -- NODE0_3_7_5_2_1_1_2_1_1_3_2_1_2
+NODE0_3_7_5_2_1_1_2_1_1_3_2 -- NODE0_3_7_5_2_1_1_2_1_1_3_2_1
+NODE0_3_7_5_2_1_1_2_1_1_3_2_3 [fillcolor="green" style=filled label="TRICK"]
+NODE0_3_7_5_2_1_1_2_1_1_3_2 -- NODE0_3_7_5_2_1_1_2_1_1_3_2_3
+NODE0_3_7_5_2_1_1_2_1_1_3 -- NODE0_3_7_5_2_1_1_2_1_1_3_2
+NODE0_3_7_5_2_1_1_2_1_1 -- NODE0_3_7_5_2_1_1_2_1_1_3
+NODE0_3_7_5_2_1_1_2_1 -- NODE0_3_7_5_2_1_1_2_1_1
+NODE0_3_7_5_2_1_1_2_1_2 [label="Cardatt" ]
+NODE0_3_7_5_2_1_1_2_1_2_1 [label="cardatt"]
+NODE0_3_7_5_2_1_1_2_1_2 -- NODE0_3_7_5_2_1_1_2_1_2_1
+NODE0_3_7_5_2_1_1_2_1_2_2 [fillcolor="green" style=filled label="suit"]
+NODE0_3_7_5_2_1_1_2_1_2 -- NODE0_3_7_5_2_1_1_2_1_2_2
+NODE0_3_7_5_2_1_1_2_1_2_3 [label="Card" ]
+NODE0_3_7_5_2_1_1_2_1_2_3_1 [label="top"]
+NODE0_3_7_5_2_1_1_2_1_2_3 -- NODE0_3_7_5_2_1_1_2_1_2_3_1
+NODE0_3_7_5_2_1_1_2_1_2_3_2 [label="Locstorage" ]
+NODE0_3_7_5_2_1_1_2_1_2_3_2_1 [label="Who" ]
+NODE0_3_7_5_2_1_1_2_1_2_3_2_1_0 [label="game"]
+NODE0_3_7_5_2_1_1_2_1_2_3_2_1 -- NODE0_3_7_5_2_1_1_2_1_2_3_2_1_0
+NODE0_3_7_5_2_1_1_2_1_2_3_2 -- NODE0_3_7_5_2_1_1_2_1_2_3_2_1
+NODE0_3_7_5_2_1_1_2_1_2_3_2_3 [fillcolor="green" style=filled label="TRUMP"]
+NODE0_3_7_5_2_1_1_2_1_2_3_2 -- NODE0_3_7_5_2_1_1_2_1_2_3_2_3
+NODE0_3_7_5_2_1_1_2_1_2_3 -- NODE0_3_7_5_2_1_1_2_1_2_3_2
+NODE0_3_7_5_2_1_1_2_1_2 -- NODE0_3_7_5_2_1_1_2_1_2_3
+NODE0_3_7_5_2_1_1_2_1 -- NODE0_3_7_5_2_1_1_2_1_2
+NODE0_3_7_5_2_1_1_2 -- NODE0_3_7_5_2_1_1_2_1
+NODE0_3_7_5_2_1_1 -- NODE0_3_7_5_2_1_1_2
+NODE0_3_7_5_2_1_1_3 [label="Boolean" ]
+NODE0_3_7_5_2_1_1_3_1 [label="Intop" ]
+NODE0_3_7_5_2_1_1_3_1_0 [label="=="]
+NODE0_3_7_5_2_1_1_3_1 -- NODE0_3_7_5_2_1_1_3_1_0
+NODE0_3_7_5_2_1_1_3 -- NODE0_3_7_5_2_1_1_3_1
+NODE0_3_7_5_2_1_1_3_2 [label="Int" ]
+NODE0_3_7_5_2_1_1_3_2_0 [label="Rawstorage" ]
+NODE0_3_7_5_2_1_1_3_2_0_1 [label="Who" ]
+NODE0_3_7_5_2_1_1_3_2_0_1_0 [label="game"]
+NODE0_3_7_5_2_1_1_3_2_0_1 -- NODE0_3_7_5_2_1_1_3_2_0_1_0
+NODE0_3_7_5_2_1_1_3_2_0 -- NODE0_3_7_5_2_1_1_3_2_0_1
+NODE0_3_7_5_2_1_1_3_2_0_3 [fillcolor="green" style=filled label="BROKEN"]
+NODE0_3_7_5_2_1_1_3_2_0 -- NODE0_3_7_5_2_1_1_3_2_0_3
+NODE0_3_7_5_2_1_1_3_2 -- NODE0_3_7_5_2_1_1_3_2_0
+NODE0_3_7_5_2_1_1_3 -- NODE0_3_7_5_2_1_1_3_2
+NODE0_3_7_5_2_1_1_3_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_1_1_3 -- NODE0_3_7_5_2_1_1_3_3
+NODE0_3_7_5_2_1_1 -- NODE0_3_7_5_2_1_1_3
+NODE0_3_7_5_2_1 -- NODE0_3_7_5_2_1_1
+NODE0_3_7_5_2_1_2 [label="Multiaction" ]
+NODE0_3_7_5_2_1_2_0 [label="Action" ]
+NODE0_3_7_5_2_1_2_0_1 [label="Setaction" ]
+NODE0_3_7_5_2_1_2_0_1_0 [label="set"]
+NODE0_3_7_5_2_1_2_0_1 -- NODE0_3_7_5_2_1_2_0_1_0
+NODE0_3_7_5_2_1_2_0_1_1 [label="Rawstorage" ]
+NODE0_3_7_5_2_1_2_0_1_1_1 [label="Who" ]
+NODE0_3_7_5_2_1_2_0_1_1_1_0 [label="game"]
+NODE0_3_7_5_2_1_2_0_1_1_1 -- NODE0_3_7_5_2_1_2_0_1_1_1_0
+NODE0_3_7_5_2_1_2_0_1_1 -- NODE0_3_7_5_2_1_2_0_1_1_1
+NODE0_3_7_5_2_1_2_0_1_1_3 [fillcolor="green" style=filled label="BROKEN"]
+NODE0_3_7_5_2_1_2_0_1_1 -- NODE0_3_7_5_2_1_2_0_1_1_3
+NODE0_3_7_5_2_1_2_0_1 -- NODE0_3_7_5_2_1_2_0_1_1
+NODE0_3_7_5_2_1_2_0_1_2 [label="1" style=filled fillcolor="lightblue"]
+NODE0_3_7_5_2_1_2_0_1 -- NODE0_3_7_5_2_1_2_0_1_2
+NODE0_3_7_5_2_1_2_0 -- NODE0_3_7_5_2_1_2_0_1
+NODE0_3_7_5_2_1_2 -- NODE0_3_7_5_2_1_2_0
+NODE0_3_7_5_2_1 -- NODE0_3_7_5_2_1_2
+NODE0_3_7_5_2 -- NODE0_3_7_5_2_1
+NODE0_3_7_5_2_2 [label="Gameaction" ]
+NODE0_3_7_5_2_2_1 [label="Boolean" ]
+NODE0_3_7_5_2_2 -- NODE0_3_7_5_2_2_1
+NODE0_3_7_5_2_2_2 [label="Multiaction" ]
+NODE0_3_7_5_2_2_2_0 [label="Action" ]
+NODE0_3_7_5_2_2_2_0_1 [label="Moveaction" ]
+NODE0_3_7_5_2_2_2_0_1_1 [label="Card" ]
+NODE0_3_7_5_2_2_2_0_1_1_1 [label="top"]
+NODE0_3_7_5_2_2_2_0_1_1 -- NODE0_3_7_5_2_2_2_0_1_1_1
+NODE0_3_7_5_2_2_2_0_1_1_2 [label="Locstorage" ]
+NODE0_3_7_5_2_2_2_0_1_1_2_1 [label="Who2" ]
+NODE0_3_7_5_2_2_2_0_1_1_2_1_1 [label="Posq" ]
+NODE0_3_7_5_2_2_2_0_1_1_2_1_1_0 [label="all"]
+NODE0_3_7_5_2_2_2_0_1_1_2_1_1 -- NODE0_3_7_5_2_2_2_0_1_1_2_1_1_0
+NODE0_3_7_5_2_2_2_0_1_1_2_1 -- NODE0_3_7_5_2_2_2_0_1_1_2_1_1
+NODE0_3_7_5_2_2_2_0_1_1_2_1_2 [label="player"]
+NODE0_3_7_5_2_2_2_0_1_1_2_1 -- NODE0_3_7_5_2_2_2_0_1_1_2_1_2
+NODE0_3_7_5_2_2_2_0_1_1_2 -- NODE0_3_7_5_2_2_2_0_1_1_2_1
+NODE0_3_7_5_2_2_2_0_1_1_2_3 [fillcolor="green" style=filled label="TRICK"]
+NODE0_3_7_5_2_2_2_0_1_1_2 -- NODE0_3_7_5_2_2_2_0_1_1_2_3
+NODE0_3_7_5_2_2_2_0_1_1 -- NODE0_3_7_5_2_2_2_0_1_1_2
+NODE0_3_7_5_2_2_2_0_1 -- NODE0_3_7_5_2_2_2_0_1_1
+NODE0_3_7_5_2_2_2_0_1_2 [label="Card" ]
+NODE0_3_7_5_2_2_2_0_1_2_1 [label="top"]
+NODE0_3_7_5_2_2_2_0_1_2 -- NODE0_3_7_5_2_2_2_0_1_2_1
+NODE0_3_7_5_2_2_2_0_1_2_2 [label="Locstorage" ]
+NODE0_3_7_5_2_2_2_0_1_2_2_1 [label="Who2" ]
+NODE0_3_7_5_2_2_2_0_1_2_2_1_1 [label="next"]
+NODE0_3_7_5_2_2_2_0_1_2_2_1 -- NODE0_3_7_5_2_2_2_0_1_2_2_1_1
+NODE0_3_7_5_2_2_2_0_1_2_2_1_2 [label="player"]
+NODE0_3_7_5_2_2_2_0_1_2_2_1 -- NODE0_3_7_5_2_2_2_0_1_2_2_1_2
+NODE0_3_7_5_2_2_2_0_1_2_2 -- NODE0_3_7_5_2_2_2_0_1_2_2_1
+NODE0_3_7_5_2_2_2_0_1_2_2_3 [fillcolor="green" style=filled label="TRICKSWON"]
+NODE0_3_7_5_2_2_2_0_1_2_2 -- NODE0_3_7_5_2_2_2_0_1_2_2_3
+NODE0_3_7_5_2_2_2_0_1_2 -- NODE0_3_7_5_2_2_2_0_1_2_2
+NODE0_3_7_5_2_2_2_0_1 -- NODE0_3_7_5_2_2_2_0_1_2
+NODE0_3_7_5_2_2_2_0 -- NODE0_3_7_5_2_2_2_0_1
+NODE0_3_7_5_2_2_2 -- NODE0_3_7_5_2_2_2_0
+NODE0_3_7_5_2_2 -- NODE0_3_7_5_2_2_2
+NODE0_3_7_5_2 -- NODE0_3_7_5_2_2
+NODE0_3_7_5 -- NODE0_3_7_5_2
+NODE0_3_7 -- NODE0_3_7_5
+NODE0_3 -- NODE0_3_7
+NODE0_3_8 [label="Stage"  style=filled fillcolor="red"]
+NODE0_3_8_2 [label="player"]
+NODE0_3_8 -- NODE0_3_8_2
+NODE0_3_8_3 [label="Endcondition" ]
+NODE0_3_8_3_2 [label="Boolean" ]
+NODE0_3_8_3_2_1 [label="Intop" ]
+NODE0_3_8_3_2_1_0 [label="=="]
+NODE0_3_8_3_2_1 -- NODE0_3_8_3_2_1_0
+NODE0_3_8_3_2 -- NODE0_3_8_3_2_1
+NODE0_3_8_3_2_2 [label="Int" ]
+NODE0_3_8_3_2_2_0 [label="Sizeof" ]
+NODE0_3_8_3_2_2_0_1 [label="size"]
+NODE0_3_8_3_2_2_0 -- NODE0_3_8_3_2_2_0_1
+NODE0_3_8_3_2_2_0_2 [label="Locstorage" ]
+NODE0_3_8_3_2_2_0_2_1 [label="Who2" ]
+NODE0_3_8_3_2_2_0_2_1_1 [label="Posq" ]
+NODE0_3_8_3_2_2_0_2_1_1_0 [label="all"]
+NODE0_3_8_3_2_2_0_2_1_1 -- NODE0_3_8_3_2_2_0_2_1_1_0
+NODE0_3_8_3_2_2_0_2_1 -- NODE0_3_8_3_2_2_0_2_1_1
+NODE0_3_8_3_2_2_0_2_1_2 [label="player"]
+NODE0_3_8_3_2_2_0_2_1 -- NODE0_3_8_3_2_2_0_2_1_2
+NODE0_3_8_3_2_2_0_2 -- NODE0_3_8_3_2_2_0_2_1
+NODE0_3_8_3_2_2_0_2_3 [fillcolor="green" style=filled label="TRICKSWON"]
+NODE0_3_8_3_2_2_0_2 -- NODE0_3_8_3_2_2_0_2_3
+NODE0_3_8_3_2_2_0 -- NODE0_3_8_3_2_2_0_2
+NODE0_3_8_3_2_2 -- NODE0_3_8_3_2_2_0
+NODE0_3_8_3_2 -- NODE0_3_8_3_2_2
+NODE0_3_8_3_2_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_3_8_3_2 -- NODE0_3_8_3_2_3
+NODE0_3_8_3 -- NODE0_3_8_3_2
+NODE0_3_8 -- NODE0_3_8_3
+NODE0_3_8_4 [label="Computermoves"  style=filled shape=box fillcolor="yellow"]
+NODE0_3_8_4_2 [label="Multigameaction" ]
+NODE0_3_8_4_2_0 [label="Gameaction" ]
+NODE0_3_8_4_2_0_1 [label="Boolean" ]
+NODE0_3_8_4_2_0 -- NODE0_3_8_4_2_0_1
+NODE0_3_8_4_2_0_2 [label="Multiaction" ]
+NODE0_3_8_4_2_0_2_0 [label="Action" ]
+NODE0_3_8_4_2_0_2_0_1 [label="Moveaction" ]
+NODE0_3_8_4_2_0_2_0_1_1 [label="Card" ]
+NODE0_3_8_4_2_0_2_0_1_1_1 [label="top"]
+NODE0_3_8_4_2_0_2_0_1_1 -- NODE0_3_8_4_2_0_2_0_1_1_1
+NODE0_3_8_4_2_0_2_0_1_1_2 [label="Locstorage" ]
+NODE0_3_8_4_2_0_2_0_1_1_2_1 [label="Who2" ]
+NODE0_3_8_4_2_0_2_0_1_1_2_1_1 [label="current"]
+NODE0_3_8_4_2_0_2_0_1_1_2_1 -- NODE0_3_8_4_2_0_2_0_1_1_2_1_1
+NODE0_3_8_4_2_0_2_0_1_1_2_1_2 [label="player"]
+NODE0_3_8_4_2_0_2_0_1_1_2_1 -- NODE0_3_8_4_2_0_2_0_1_1_2_1_2
+NODE0_3_8_4_2_0_2_0_1_1_2 -- NODE0_3_8_4_2_0_2_0_1_1_2_1
+NODE0_3_8_4_2_0_2_0_1_1_2_3 [fillcolor="green" style=filled label="TRICKSWON"]
+NODE0_3_8_4_2_0_2_0_1_1_2 -- NODE0_3_8_4_2_0_2_0_1_1_2_3
+NODE0_3_8_4_2_0_2_0_1_1 -- NODE0_3_8_4_2_0_2_0_1_1_2
+NODE0_3_8_4_2_0_2_0_1 -- NODE0_3_8_4_2_0_2_0_1_1
+NODE0_3_8_4_2_0_2_0_1_2 [label="Card" ]
+NODE0_3_8_4_2_0_2_0_1_2_1 [label="top"]
+NODE0_3_8_4_2_0_2_0_1_2 -- NODE0_3_8_4_2_0_2_0_1_2_1
+NODE0_3_8_4_2_0_2_0_1_2_2 [label="Locstorage" ]
+NODE0_3_8_4_2_0_2_0_1_2_2_1 [label="Who" ]
+NODE0_3_8_4_2_0_2_0_1_2_2_1_0 [label="game"]
+NODE0_3_8_4_2_0_2_0_1_2_2_1 -- NODE0_3_8_4_2_0_2_0_1_2_2_1_0
+NODE0_3_8_4_2_0_2_0_1_2_2 -- NODE0_3_8_4_2_0_2_0_1_2_2_1
+NODE0_3_8_4_2_0_2_0_1_2_2_3 [fillcolor="green" style=filled label="DISCARD"]
+NODE0_3_8_4_2_0_2_0_1_2_2 -- NODE0_3_8_4_2_0_2_0_1_2_2_3
+NODE0_3_8_4_2_0_2_0_1_2 -- NODE0_3_8_4_2_0_2_0_1_2_2
+NODE0_3_8_4_2_0_2_0_1 -- NODE0_3_8_4_2_0_2_0_1_2
+NODE0_3_8_4_2_0_2_0 -- NODE0_3_8_4_2_0_2_0_1
+NODE0_3_8_4_2_0_2 -- NODE0_3_8_4_2_0_2_0
+NODE0_3_8_4_2_0 -- NODE0_3_8_4_2_0_2
+NODE0_3_8_4_2 -- NODE0_3_8_4_2_0
+NODE0_3_8_4 -- NODE0_3_8_4_2
+NODE0_3_8 -- NODE0_3_8_4
+NODE0_3 -- NODE0_3_8
+NODE0 -- NODE0_3
+}

@@ -297,6 +297,18 @@ public partial class CardLanguageBaseListener : ICardLanguageListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitAwards([NotNull] CardLanguageParser.AwardsContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.subaward"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterSubaward([NotNull] CardLanguageParser.SubawardContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.subaward"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitSubaward([NotNull] CardLanguageParser.SubawardContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="CardLanguageParser.setaction"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

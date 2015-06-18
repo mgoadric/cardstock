@@ -249,6 +249,16 @@ public interface ICardLanguageListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitAwards([NotNull] CardLanguageParser.AwardsContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.subaward"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSubaward([NotNull] CardLanguageParser.SubawardContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.subaward"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSubaward([NotNull] CardLanguageParser.SubawardContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="CardLanguageParser.setaction"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

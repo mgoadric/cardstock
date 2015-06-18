@@ -31,8 +31,8 @@ deck : OPEN 'permdeck' attribute+? CLOSE ;
 attribute : (OPEN (trueany ',')*? trueany attribute*? CLOSE)  ;
 
 pointsinit : 'points' name OPEN awards+? CLOSE ;
-awards : OPEN posq OPEN name ((OPEN trueany CLOSE) |(cardatt)) CLOSE int CLOSE ;
-
+awards : OPEN posq subaward+? int CLOSE ;
+subaward : OPEN name ((OPEN trueany CLOSE) |(cardatt)) CLOSE ;
 
 setaction : 'set' ('next' | 'current' | rawstorage) int ;
 incaction : 'inc' rawstorage int ;
@@ -54,8 +54,10 @@ imag : 'Memory' ;
 card : maxof | (OPEN ('top' | 'bottom' | int | 'any') locstorage CLOSE);
 owner : OPEN 'owner' card CLOSE;
 rawstorage : OPEN (who | who2) 'sto' namegr CLOSE ;
-locstorage : unionof | OPEN (who | who2) 'loc' name whereclause? CLOSE ;
+locstorage : unionof | OPEN (who | who2) 'loc' namegr whereclause? CLOSE ;
 who : 'game' ;
+
+// SHOULD THIS BE SPLIT INTO TWO SO YOU CAN'T SAY player player player??
 who2 : OPEN (posq | int | 'next' | 'current' | who2) ('player' | 'team') CLOSE ;
 
 trueany : (ANY|int|BOOLOP)+?;
