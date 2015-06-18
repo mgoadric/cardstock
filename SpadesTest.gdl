@@ -58,11 +58,11 @@
          
       ;; players play a round 13 times     
       (stage player
-         (end (== (size ((all player) loc HAND) 0)))
+         (end (== (size ((all player) loc HAND)) 0))
                     
          ;; players play a hand once
          (stage player
-            (end (> (size ((all player) loc TRICK) 0)))
+            (end (> (size ((all player) loc TRICK)) 0))
              
             (choice
              

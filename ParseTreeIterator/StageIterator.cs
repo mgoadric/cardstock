@@ -10,18 +10,11 @@ using Antlr4.Runtime.Tree;
 namespace ParseTreeIterator
 {
 	public class StageIterator{
+		public static void ProcessGame(CardLanguageParser.GameContext stage){
+			
+		}
 		public static void ProcessStage(CardLanguageParser.StageContext stage){
-			if (stage.endcondition().GetChild(2).GetText() == "game"){
-				int start = 0;
-				int end = IntIterator.ProcessInt(stage.endcondition().@int());
-				while (start < end){
-					for (int i = 4; i < stage.ChildCount - 1; ++i){
-						ProcessSubStage(stage.GetChild(i));
-					}
-					start++;
-				}
-			}
-			else if (stage.endcondition().boolean() != null){
+			if (stage.endcondition().boolean() != null){
 				while (!BooleanIterator.ProcessBoolean(stage.endcondition().boolean())){
 					Console.WriteLine("Hit Boolean while!");
 					for (int i = 4; i < stage.ChildCount - 1; ++i){

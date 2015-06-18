@@ -37,7 +37,7 @@ public class ParseEngine{
                 fs.Close();
                 //Console.WriteLine(tree);
                 
-                StageIterator.ProcessStage(tree);
+                StageIterator.ProcessGame(tree);
                 
 	}
         public void DOTMaker(IParseTree node, string nodeName){
