@@ -17,7 +17,7 @@ namespace ParseTreeIterator
 		public static FancyCardLocation ProcessLocation(CardLanguageParser.LocstorageContext loc){
 			if (loc.who() != null){
 				return new FancyCardLocation{
-					cardList=CardGame.Instance.tableCards[loc.name()]
+					cardList=CardGame.Instance.tableCards[loc.namegr().GetText()]
 				};
 			}
 			return null;
