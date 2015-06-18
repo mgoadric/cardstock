@@ -12,7 +12,15 @@ namespace ParseTreeIterator
 {
 	public class CardIterator{
 		public static FancyCardLocation ProcessCard(CardLanguageParser.CardContext card){
-			return new FancyCardLocation(new CardListCollection(),card.GetChild(1).GetText());
+			return new FancyCardLocation{cardList = new CardListCollection(),locIdentifier=card.GetChild(1).GetText()};
+		}
+		public static FancyCardLocation ProcessLocation(CardLanguageParser.LocstorageContext loc){
+			if (loc.who() != null){
+				return new FancyCardLocation{
+					cardList=CardGame.Instance.tableCards[loc.name()]
+				};
+			}
+			return null;
 		}
 		
 	}

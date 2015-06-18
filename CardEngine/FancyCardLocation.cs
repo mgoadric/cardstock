@@ -1,12 +1,9 @@
 namespace CardEngine{
 	public class FancyCardLocation{
 		public CardCollection cardList;
-		string locIdentifier;
+		public string locIdentifier;
 		
-		public FancyCardLocation(CardCollection c, string locIdent){
-			cardList = c;
-			locIdentifier = locIdent;
-		}
+		
 		public void Add(Card c){
 			if (locIdentifier == "top"){
 				cardList.Add(c);
