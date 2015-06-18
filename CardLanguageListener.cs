@@ -29,6 +29,16 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface ICardLanguageListener : IParseTreeListener {
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.game"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterGame([NotNull] CardLanguageParser.GameContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.game"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitGame([NotNull] CardLanguageParser.GameContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="CardLanguageParser.stage"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -498,6 +508,16 @@ public interface ICardLanguageListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitIntop([NotNull] CardLanguageParser.IntopContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CardLanguageParser.add"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAdd([NotNull] CardLanguageParser.AddContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CardLanguageParser.add"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAdd([NotNull] CardLanguageParser.AddContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="CardLanguageParser.mult"/>.
 	/// </summary>

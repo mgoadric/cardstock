@@ -1,7 +1,6 @@
 ;; SPADES in the GDL
-(stage game
+(game
 
-   (end game 1)
    (comp (() 
 
              ;; Game Locations and Storage
@@ -43,11 +42,12 @@
                       (top ((all player) loc HAND)) 13)
                 (set (game sto BROKEN) 0)
                 (set ((all player) sto TRICKSWON) 0)
+                (set ((all player) sto BID) 14)
              )
       ) 
       ;; bidding for number of tricks expected
       (stage player
-         (end player 1)
+         (end (<= ((all player) sto BID) 13))
          (choice
             (() (set ((current player) sto BID) 1))
             (() (set ((current player) sto BID) 2))
@@ -58,11 +58,11 @@
          
       ;; players play a round 13 times     
       (stage player
-         (end game 13)
+         (end (== (size ((all player) loc HAND) 0)))
                     
          ;; players play a hand once
          (stage player
-            (end player 1)
+            (end (> (size ((all player) loc TRICK) 0)))
              
             (choice
              
@@ -151,7 +151,7 @@
          
       ;; determine team score
       (stage team
-         (end team 1)
+         (end (== ((all player) sto TRICKSWON) 0))
          (comp
           
             ;; team made their cumulative bid, score positive points
@@ -162,13 +162,14 @@
                                                (sum (((current team) player) sto BID)))))
             
             ;; team did not make their cumulative bid, score negative points
-            ((< (sum ((current team) sto TRICKSWON)) 
-                (sum ((current team) sto BID)))
+            ((< (sum (((current team) player) sto TRICKSWON)) 
+                (sum (((current team) player) sto BID)))
              (dec ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID)))))
             
             ;; record bags if over 10
             (() (dec ((current team) sto SCORE) (* 100 (// ((current team) sto BAGS) 10)))
-                (set ((current team) sto BAGS) (% ((current team) sto BAGS) 10)))
+                (set ((current team) sto BAGS) (% ((current team) sto BAGS) 10))
+                (set (((current team) player) sto TRICKSWON) 0))
          )
       )
    )
