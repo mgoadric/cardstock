@@ -1,6 +1,6 @@
 namespace CardEngine{
 	public class FancyCardLocation{
-		CardCollection cardList;
+		public CardCollection cardList;
 		string locIdentifier;
 		
 		public FancyCardLocation(CardCollection c, string locIdent){

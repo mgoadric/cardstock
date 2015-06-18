@@ -11,8 +11,8 @@ using CardEngine;
 namespace ParseTreeIterator
 {
 	public class CardIterator{
-		public static GameActionCollection ProcessCard(CardLanguageParser.CardContext copy){
-			
+		public static FancyCardLocation ProcessCard(CardLanguageParser.CardContext card){
+			return new FancyCardLocation(new CardListCollection(),card.GetChild(1).GetText());
 		}
 		
 	}

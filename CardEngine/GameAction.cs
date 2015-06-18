@@ -57,6 +57,20 @@ namespace CardEngine{
 			cardToMove.owner = endLocation;
 		}
 	}
+	public class FancyCardMoveAction : GameAction{
+		FancyCardLocation startLocation;
+		FancyCardLocation endLocation;
+		public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end){
+			
+			startLocation = start;
+			endLocation = end;
+		}
+		public override void Execute(){
+			var cardToMove = startLocation.Remove();
+			endLocation.Add(cardToMove);
+			cardToMove.owner = endLocation.cardList;
+		}
+	}
 	public class InitializeAction : GameAction{
 		CardCollection location;
 		Tree deck;
@@ -88,6 +102,19 @@ namespace CardEngine{
 		
 		CardCollection endLocation;
 		public CardCopyAction(Card c, CardCollection end){
+			cardToMove = c;
+			
+			endLocation = end;
+		}
+		public override void Execute(){
+			endLocation.Add(cardToMove);
+		}
+	}
+	public class FancyCardCopyAction : GameAction{
+		Card cardToMove;
+		
+		FancyCardLocation endLocation;
+		public FancyCardCopyAction(Card c, FancyCardLocation end){
 			cardToMove = c;
 			
 			endLocation = end;
