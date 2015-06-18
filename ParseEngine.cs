@@ -11,7 +11,7 @@ public class ParseEngine{
         StringBuilder builder = new StringBuilder();
 	public ParseEngine(){
                 var regex = new Regex("(;;)(.*?)(\n)");
-                var fileName = "HeartsTest";
+                var fileName = "SpadesTest";
                 var f = File.ReadAllText(fileName + ".gdl");
                 var file = f;
                 //Console.WriteLine(file);
