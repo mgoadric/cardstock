@@ -13,7 +13,7 @@
              ;; Player Locations and Storage
              (create loc player (HAND List)
                                 (TRICK Stack)
-                                (WON Stack))
+                                (BUNDLE Stack))
              (create sto player (SCORE))
              
              ;; Create the deck source
@@ -28,7 +28,7 @@
                
    ;; Stages of the game
    (stage player
-      (end (== (size (game loc STOCK) 0))
+      (end (== (size (game loc STOCK) 0)))
       (comp (() (move (top (game loc STOCK))
                       (top ((all player) loc HAND)) 4)
              )
@@ -51,58 +51,42 @@
          (comp
              ((== (cardatt rank (any (game loc POOL)))
                   (cardatt rank (top ((current player) loc TRICK))))
-              (move (all (game loc POOL where (== (cardatt rank this)
+              (move (top (game loc POOL where (== (cardatt rank this)
                                                 (cardatt rank (top ((current player) loc TRICK))) 0)))
-                    (top ((current player) loc WON)))
+                    (top ((current player) loc BUNDLE)) all)
               (set ((current player) sto MOVED) 1))
              
              ;; BROKE HERE< NEED MORE LANGUANGE STUFF
-             ((== (cardatt rank (top ((any player) loc WON)))
+             ((== (cardatt rank (top ((any player) loc BUNDLE)))
                   (cardatt rank (top ((current player) loc TRICK))))
-              (move (all ((any player) loc WON where (== (cardatt rank this)
-                                                         (cardatt rank (top ((current player) loc TRICK))))))
-                    (top ((current player) loc WON)))
+              (move (top ((any player where (== (cardatt rank (top ((this player) loc BUNDLE)))
+                                                (cardatt rank (top ((current player) loc TRICK)))))) loc BUNDLE)
+                    (top ((current player) loc BUNDLE)) all)
               (set ((current player) sto MOVED) 1))
               
-              
+             ((== ((current player) sto MOVED) 0)      
               (move (top ((current player) loc TRICK))
-                    (top ((current player) loc WON)))
-                    
-                      
-                 ;; determine who won the hand, set them first next time, and give them a point
-                 (remove (top (game loc LEAD)))
-                 (set next (owner (max (union ((all player) loc TRICK)) using PRECEDENCE)))
+                    (top (game loc POOL))))
 
-             )
-                  
-             ;; if winner played trump and trump not broken, trump is now broken
-             ((and (== (cardatt suit (top ((next player) loc TRICK))) 
-                       (cardatt suit (top (game loc TRUMP))))
-                   (== (game sto BROKEN) 0))
-              (set (game sto BROKEN) 1))
-                  
-             ;; discard all the played cards
-             (() (move (top ((all player) loc TRICK)) 
-                       (top ((next player) loc TRICKSWON))))
-             
+             ((== ((current player) sto MOVED) 1)
+              (move (top ((current player) loc TRICK))
+                    (top ((current player) loc BUNDLE)))
+              (set ((current player) sto MOVED) 0))
+                                   
          )
-      )
+      )    
+   )
          
-      ;; determine team score
-      (stage player
-         (end (== (size ((all player) loc TRICKSWON)) 0))
-         (comp
+   ;; determine team score
+   (stage player
+      (end (== (size ((all player) loc BUNDLE)) 0))
+      (comp
           
-            ;; ADD REAL SCORING HERE TODO
-            ((== (sum ((current player) loc TRICKSWON) using SCORE) 26)
-             (dec ((current player) sto SCORE) 26))
-            
-            ((!= (sum ((current player) loc TRICKSWON) using SCORE) 26)
-             (inc ((current player) sto SCORE) (sum ((current player) loc TRICKSWON) using SCORE)))
-          
-            (() (move (top ((current player) loc TRICKSWON))
-                      (top (game loc DISCARD))))
-         )
+         ;; ADD REAL SCORING HERE TODO
+            (()
+             (set ((current player) sto SCORE) (size ((current player) loc BUNDLE)))
+             (move (top ((current player) loc BUNDLE))
+                   (top (game loc DISCARD))))
       )
    )
 )
