@@ -69,7 +69,7 @@ attrcomp : EQOP cardatt cardatt ;
 cardatt : name | (OPEN 'cardatt' name ('this' | card ) CLOSE) ;
  
 posq : 'any'| 'all' ;
-
+//need some way to talk about PLAYER EQUALITY/INEQUALITY
 boolean : (OPEN ((BOOLOP boolean boolean+?) | attrcomp | (intop int  int) | (UNOP boolean)) CLOSE) | (OPEN CLOSE) ;
 BOOLOP : 'and' | 'or' ;
 intop : (COMPOP | EQOP) ;
