@@ -28,8 +28,12 @@ namespace ParseTreeIterator
 				var resultingEntity = ProcessWho2(loc.who2());
 				if (resultingEntity is Player){
 					var innerPlayer = resultingEntity as Player;
+					var clause = ProcessWhere(loc.whereclause());
 					return new FancyCardLocation[]{
-						new FancyCardLocation{cardList=innerPlayer.cardBins[loc.namegr().GetText()]}
+						new FancyCardLocation{
+							cardList=innerPlayer.cardBins[loc.namegr().GetText()],
+							filter=clause
+						}
 					};
 				}
 				else if (resultingEntity is Team){
@@ -45,6 +49,30 @@ namespace ParseTreeIterator
 				}
 			}
 			return null;
+		}
+		public static CardFilter ProcessWhere(CardLanguageParser.WhereclauseContext clause){
+			if (clause == null){
+				return null;
+			}
+			var attrcomp = clause.boolatt().attrcomp();
+			
+			return new CardFilter(new List<CardExpression>{
+				new TreeExpression(ProcessCardatt(attrcomp.cardatt(0)),ProcessCardatt(attrcomp.cardatt(1)),(attrcomp.EQOP().GetText() == "=="))
+			});
+		}
+		public static string ProcessCardatt(CardLanguageParser.CardattContext cardatt){
+			if (cardatt.ChildCount == 1){
+				return cardatt.GetText();
+			}
+			else{
+				if (cardatt.GetChild(3).GetText() == "this"){
+					return cardatt.name().GetText();
+				}
+				else{
+					var loc = ProcessCard(cardatt.card())[0];
+					return loc.Get().ReadAttribute(cardatt.name().GetText());
+				}
+			}
 		}
 		public static object ProcessWho2(CardLanguageParser.Who2Context who2){
 			if (who2.who2() == null){

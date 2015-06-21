@@ -89,12 +89,12 @@ namespace ParseTreeIterator
 			}
 			else if (actionNode.playercreate() != null){
 				var playerCreate = actionNode.playercreate() as CardLanguageParser.PlayercreateContext;
-				var numPlayers = IntIterator.ProcessInt(playerCreate.@int());
+				var numPlayers = IntIterator.ProcessListInt(playerCreate.@int())[0];
 				CardGame.Instance.AddPlayers(numPlayers);
 			}
 			else if (actionNode.teamcreate() != null){
 				var teamCreate = actionNode.teamcreate() as CardLanguageParser.TeamcreateContext;
-				var numTeams = IntIterator.ProcessInt(teamCreate.@int());
+				var numTeams = IntIterator.ProcessListInt(teamCreate.@int())[0];
 				if (teamCreate.ChildCount == 4){//alternate
 					for (int i = 0; i < numTeams; ++i){
 						var newTeam = new Team();
@@ -132,6 +132,42 @@ namespace ParseTreeIterator
 					var deckTree = DeckIterator.ProcessDeck(deckinit.deck());
 					ret.Add(new InitializeAction(locstorage,deckTree));
 				}
+			}
+			else if (actionNode.copyaction() != null){
+				Console.WriteLine("COPY: '" + actionNode.GetText() + "'");
+				var copy = actionNode.copyaction();
+				ret.AddRange(CardActionIterator.ProcessCopy(copy));
+			}
+			else if (actionNode.removeaction() != null){
+				Console.WriteLine("COPY: '" + actionNode.GetText() + "'");
+				var removeAction = actionNode.removeaction();
+				ret.AddRange(CardActionIterator.ProcessRemove(removeAction));
+			}
+			else if (actionNode.moveaction() != null){
+				Console.WriteLine("MOVE: '" + actionNode.GetText() + "'");
+				var move = actionNode.moveaction();
+				ret.AddRange(CardActionIterator.ProcessMove(move));
+			}
+			else if (actionNode.shuffleaction() != null){
+				var locations = CardIterator.ProcessLocation(actionNode.shuffleaction().locstorage());
+				foreach (var loc in locations){
+					loc.cardList.Shuffle();
+				}
+			}
+			else if (actionNode.setaction() != null){
+				var setAction = actionNode.setaction();
+				ret.AddRange(IntIterator.SetAction(setAction));
+			}
+			else if (actionNode.incaction() != null){
+				var incAction = actionNode.incaction();
+				ret.AddRange(IntIterator.IncAction(incAction));
+			}
+			else if (actionNode.decaction() != null){
+				var decAction = actionNode.decaction();
+				ret.AddRange(IntIterator.DecAction(decAction));
+			}
+			else{
+				Console.WriteLine("Not Processed: '" + actionNode.GetText() + "'");
 			}
 			return ret;
 		}

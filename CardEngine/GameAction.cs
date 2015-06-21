@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 namespace CardEngine{
 	public class GameActionCollection: List<GameAction>{
 		public GameActionCollection() : base(){
@@ -66,9 +67,12 @@ namespace CardEngine{
 			endLocation = end;
 		}
 		public override void Execute(){
-			var cardToMove = startLocation.Remove();
-			endLocation.Add(cardToMove);
-			cardToMove.owner = endLocation.cardList;
+			if (startLocation.cardList.Count != 0){
+				var cardToMove = startLocation.Remove();
+				endLocation.Add(cardToMove);
+				cardToMove.owner = endLocation.cardList;
+				Console.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
+			}
 		}
 	}
 	public class InitializeAction : GameAction{
@@ -123,6 +127,15 @@ namespace CardEngine{
 			endLocation.Add(cardToMove);
 		}
 	}
+	public class FancyRemoveAction : GameAction{
+		FancyCardLocation endLocation;
+		public FancyRemoveAction(FancyCardLocation end){
+			endLocation = end;
+		}
+		public override void Execute(){
+			endLocation.Remove();
+		}
+	} 
 	public class IntAction : GameAction{
 		
 		RawStorage bucket;

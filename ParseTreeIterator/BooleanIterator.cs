@@ -21,13 +21,62 @@ namespace ParseTreeIterator
 				var intTwo = boolNode.@int(1);
 				if (intOne.GetText().Contains("any")){
 					List<int> trueOne = IntIterator.ProcessListInt(intOne);
-					int trueTwo = IntIterator.ProcessInt(intTwo);
+					int trueTwo = IntIterator.ProcessListInt(intTwo)[0];
 					if (intop.COMPOP() != null){
 						if (intop.COMPOP().GetText() == ">="){
 							return trueOne.Exists(item => item >= trueTwo);
 						}
+						else if (intop.COMPOP().GetText() == ">"){
+							return trueOne.Exists(item => item > trueTwo);
+						}
 					}
-				}	
+				}
+				else if (intOne.GetText().Contains("all")){
+					List<int> trueOne = IntIterator.ProcessListInt(intOne);
+					int trueTwo = IntIterator.ProcessListInt(intTwo)[0];
+					if (intop.COMPOP() != null){
+						if (intop.COMPOP().GetText() == "<="){
+							return trueOne.All(item => item <= trueTwo);
+						}
+						else if (intop.COMPOP().GetText() == ">"){
+							return trueOne.All(item => item > trueTwo);
+						}
+					}
+				}
+				else{//single comparison
+					int trueOne = IntIterator.ProcessListInt(intOne)[0];
+					int trueTwo = IntIterator.ProcessListInt(intTwo)[0];
+					if (intop.EQOP() != null){
+						if (intop.EQOP().GetText() == "=="){
+							return trueOne == trueTwo;
+						}
+						else if (intop.EQOP().GetText() == "!="){
+							return trueOne != trueTwo;
+						}
+					}
+				}
+			}
+			else if (boolNode.UNOP() != null){
+				//NOT (...)
+				return ! ProcessBoolean(boolNode.boolean(0));
+			}
+			else if (boolNode.BOOLOP() != null){
+				if (boolNode.BOOLOP().GetText() == "or"){
+					bool flag = false;
+					foreach (var boolean in boolNode.boolean()){
+						
+						flag |= ProcessBoolean(boolean);
+					}
+					return flag;
+				}
+				else if (boolNode.BOOLOP().GetText() == "and"){
+					bool flag = true;
+					foreach (var boolean in boolNode.boolean()){
+						Console.WriteLine(boolean.GetText());
+						flag &= ProcessBoolean(boolean);
+					}
+					return flag;
+				}
 			}
 			return false;
 		}

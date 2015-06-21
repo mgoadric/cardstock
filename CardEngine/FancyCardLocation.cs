@@ -3,7 +3,7 @@ namespace CardEngine{
 		public CardCollection cardList;
 		public string locIdentifier;
 		
-		
+		public CardFilter filter;
 		public void Add(Card c){
 			if (locIdentifier == "top"){
 				cardList.Add(c);
@@ -12,8 +12,23 @@ namespace CardEngine{
 				
 			}
 		}
+		public int FilteredCount(){
+			if (filter != null){
+				var temp = filter.FilterMatchesAll(cardList);
+				return temp.Count;
+			}
+			return cardList.Count;
+		}
 		public Card Get(){
-			
+			if (filter != null){
+				var temp = filter.FilterMatchesAll(cardList);
+				if (locIdentifier == "top"){
+					return temp.Peek();
+				}
+				else if (locIdentifier == "bottom"){
+					return temp.AllCards().GetEnumerator().Current;
+				}
+			}
 			if (locIdentifier == "top"){
 				return cardList.Peek();
 			}
@@ -23,11 +38,13 @@ namespace CardEngine{
 			return null;
 		}
 		public Card Remove(){
-			if (locIdentifier == "top"){
-				return cardList.Remove();
-			}
-			else if (locIdentifier == "bottom"){
-				return cardList.Remove();
+			if (cardList.Count != 0){
+				if (locIdentifier == "top"){
+					return cardList.Remove();
+				}
+				else if (locIdentifier == "bottom"){
+					return cardList.Remove();
+				}
 			}
 			return null;
 		}
