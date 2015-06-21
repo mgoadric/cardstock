@@ -70,7 +70,7 @@
                ;;   play one of these, remember it in the lead spot, and end your turn
                ((and (== (size (game loc LEAD)) 0)
                      (== (game sto BROKEN) 0)
-                     (== (size ((current player) loc HAND where (!= (cardatt suit this) 
+                     (> (size ((current player) loc HAND where (!= (cardatt suit this) 
                                                                     (cardatt suit (top (game loc TRUMP)))))) 0)) 
                 (move (any ((current player) loc HAND where (!= (cardatt suit this) 
                                                                 (cardatt suit (top (game loc TRUMP)))))) 

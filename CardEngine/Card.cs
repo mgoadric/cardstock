@@ -33,7 +33,17 @@ namespace CardEngine{
 			return ret;
 		}
 		public string ReadAttribute(string attributeName){
-			return mapAttributes[attributeName].ReadValue(this);
+			
+			try{
+				return mapAttributes[attributeName].ReadValue(this);
+			}
+			catch{
+				Console.WriteLine("KEYS");
+				foreach (var key in mapAttributes.Keys){
+					Console.WriteLine(key);
+				}
+				throw;
+			}
 		}
 	}
 }

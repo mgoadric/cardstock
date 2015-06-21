@@ -74,6 +74,9 @@ namespace ParseTreeIterator
 					foreach (var boolean in boolNode.boolean()){
 						Console.WriteLine(boolean.GetText());
 						flag &= ProcessBoolean(boolean);
+						if (!flag){
+							return flag;
+						}
 					}
 					return flag;
 				}

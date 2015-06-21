@@ -37,8 +37,8 @@ namespace ParseTreeIterator
 				var trueCount = (subNode.ChildCount - 3)/2 + 1;
 				for (int i = 0; i < trueCount; ++i){
 					ret.Add(new Node{
-						Value=terminalTitle.GetText(),
-						Key=subNode.trueany(i).GetText()
+						Key=terminalTitle.GetText(),
+						Value=subNode.trueany(i).GetText()
 					});
 				}
 				return ret;
@@ -46,19 +46,23 @@ namespace ParseTreeIterator
 				
 			}
 			else{
+				var ret = new List<Node>();
 				var terminalTitle = attr.trueany()[0];
-				var subNode = attr.attribute()[0] as CardLanguageParser.AttributeContext;
-				var childs = new List<Node>();
-				foreach (var att in attr.attribute()){
-					childs.AddRange(ProcessAttribute(att));
-				}
-				return new List<Node>{
-					new Node{
-						Value=terminalTitle.GetText(),
-						Key=subNode.trueany()[0].GetText(),
-						children=childs
+				var children = attr.attribute();
+				
+				foreach (var subNode in children){
+					var childs = new List<Node>();
+					foreach (var att in subNode.attribute()){
+						childs.AddRange(ProcessAttribute(att));
 					}
-				};
+					ret.Add(new Node{
+						Key=terminalTitle.GetText(),
+						Value=subNode.trueany()[0].GetText(),
+						children=childs
+					});
+					
+				}
+				return ret;
 			}
 		}
 		
