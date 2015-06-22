@@ -12,6 +12,28 @@ namespace ParseTreeIterator
 {
 	public class CardIterator{
 		public static FancyCardLocation[] ProcessCard(CardLanguageParser.CardContext card){
+			if (card.maxof() != null){
+				var scoring = CardGame.Instance.points[card.maxof().namegr().GetText()];
+				var coll = ProcessLocation(card.maxof().locstorage());
+				var max = 0;
+				Card maxCard = null;
+				foreach (var loc in coll){
+					foreach (var c in loc.FilteredList().AllCards()){
+						if (scoring.GetScore(c) > max){
+							max = scoring.GetScore(c);
+							maxCard = c;
+						}
+					}
+				}
+				var lst = new CardListCollection();
+				lst.Add(maxCard);
+				return new FancyCardLocation[1]{
+					new FancyCardLocation{
+						cardList=lst,
+						locIdentifier="top"
+					}
+				};
+			}
 			var ret = ProcessLocation(card.locstorage());
 			foreach (var fancy in ret){
 				fancy.locIdentifier = card.GetChild(1).GetText();
@@ -19,6 +41,23 @@ namespace ParseTreeIterator
 			return ret;
 		}
 		public static FancyCardLocation[] ProcessLocation(CardLanguageParser.LocstorageContext loc){
+			if (loc.unionof() != null){
+				CardListCollection temp = new CardListCollection();
+				foreach (var locChild in loc.unionof().locstorage()){
+					var locChildren = ProcessLocation(locChild);
+					foreach (var subLoc in locChildren){
+						foreach (var card in subLoc.FilteredList().AllCards()){
+							temp.Add(card);
+						}
+					}
+				}
+				return new FancyCardLocation[1]{
+					new FancyCardLocation{
+						cardList=temp,
+						locIdentifier="top"
+					}
+				};
+			}
 			if (loc.who() != null){
 				return new FancyCardLocation[]{
 					new FancyCardLocation{cardList=CardGame.Instance.tableCards[loc.namegr().GetText()]}

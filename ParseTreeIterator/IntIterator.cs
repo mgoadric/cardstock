@@ -13,7 +13,7 @@ namespace ParseTreeIterator
 	public class IntIterator{
 		
 		public static List<int> ProcessListInt(CardLanguageParser.IntContext intNode){
-			Console.WriteLine(intNode.GetText());
+			
 			var ret = new List<int>();
 			if (intNode.rawstorage() != null){
 				var raw = intNode.rawstorage();
@@ -86,7 +86,11 @@ namespace ParseTreeIterator
 						ret.Add(new FancyRawStorage(curTeam.teamStorage,raw.namegr().GetText()));
 						Console.WriteLine("STO:" +raw.namegr().GetText() );
 					}
-					
+					else if (raw.who2().GetChild(2).GetText() == "player"){
+						var curPlayer = CardGame.Instance.CurrentPlayer().Current();
+						ret.Add(new FancyRawStorage(curPlayer.storage,raw.namegr().GetText()));
+						Console.WriteLine("STO:" +raw.namegr().GetText() );
+					}
 				}
 			}
 			return ret;

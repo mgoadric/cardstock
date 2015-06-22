@@ -21,9 +21,17 @@ namespace ParseTreeIterator
 				if (intOne.GetText().Contains("any")){
 					List<int> trueOne = IntIterator.ProcessListInt(intOne);
 					int trueTwo = IntIterator.ProcessListInt(intTwo)[0];
+					if (intop.EQOP() != null){
+						if (intop.EQOP().GetText() == "=="){
+							return trueOne.Exists(item => item == trueTwo);
+						}
+						else if (intop.EQOP().GetText() == "!="){
+							return trueOne.Exists(item => item != trueTwo);
+						}
+					}
 					if (intop.COMPOP() != null){
-						if (intop.COMPOP().GetText() == ">="){
-							return trueOne.Exists(item => item >= trueTwo);
+						if (intop.COMPOP().GetText() == "<="){
+							return trueOne.Exists(item => item <= trueTwo);
 						}
 						else if (intop.COMPOP().GetText() == ">"){
 							return trueOne.Exists(item => item > trueTwo);
@@ -39,8 +47,17 @@ namespace ParseTreeIterator
 				else if (intOne.GetText().Contains("all")){
 					List<int> trueOne = IntIterator.ProcessListInt(intOne);
 					int trueTwo = IntIterator.ProcessListInt(intTwo)[0];
+					if (intop.EQOP() != null){
+						if (intop.EQOP().GetText() == "=="){
+							return trueOne.All(item => item == trueTwo);
+						}
+						else if (intop.EQOP().GetText() == "!="){
+							return trueOne.All(item => item != trueTwo);
+						}
+					}
 					if (intop.COMPOP() != null){
 						if (intop.COMPOP().GetText() == "<="){
+							
 							return trueOne.All(item => item <= trueTwo);
 						}
 						else if (intop.COMPOP().GetText() == ">"){

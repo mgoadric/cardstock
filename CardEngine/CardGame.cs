@@ -24,6 +24,7 @@ namespace CardEngine
 		public List<Team> teams = new List<Team>();
 		public Stack<PlayerCycle> currentPlayer = new Stack<PlayerCycle>();
 		public RawStorage gameStorage = new RawStorage();
+		public PointsStorage points = new PointsStorage();
 		public CardGame(){
 			
 		}

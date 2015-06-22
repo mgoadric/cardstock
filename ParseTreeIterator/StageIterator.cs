@@ -94,6 +94,9 @@ namespace ParseTreeIterator
 			if (flatten.Count != 0){
 				CardGame.Instance.PlayerMakeChoice(flatten,CardGame.Instance.CurrentPlayer().idx);
 			}
+			else{
+				Console.WriteLine("NO Choice Available");
+			}
 		}
 		public static void ProcessMultiAction(CardLanguageParser.MultiactionContext actions){
 			for (int i = 0; i < actions.ChildCount; ++i){

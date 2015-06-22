@@ -132,6 +132,30 @@ namespace ParseTreeIterator
 					var deckTree = DeckIterator.ProcessDeck(deckinit.deck());
 					ret.Add(new InitializeAction(locstorage,deckTree));
 				}
+				else if (initialize.pointsinit() != null){
+					var points = initialize.pointsinit();
+					var name = points.name().GetText();
+					List<PointAwards> temp = new List<PointAwards>();
+					var awards = points.awards();
+					foreach (CardLanguageParser.AwardsContext award in awards){
+						string key = "";
+						string value = "";
+						int reward = IntIterator.ProcessListInt(award.@int())[0];
+						var iter = award.subaward();
+						foreach (CardLanguageParser.SubawardContext i in iter){
+							key += i.name().GetText() + ",";
+							if (i.trueany() != null){
+								value += i.trueany().GetText() + ",";
+							}
+							else{
+								value += CardIterator.ProcessCardatt(i.cardatt()) + ",";
+							}
+						}
+						key = key.Substring(0,key.Length - 1);
+						value = value.Substring(0,value.Length - 1);
+						temp.Add(new PointAwards(key,value,reward));
+					}
+				}
 			}
 			else if (actionNode.copyaction() != null){
 				Console.WriteLine("COPY: '" + actionNode.GetText() + "'");
