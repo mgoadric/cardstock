@@ -75,6 +75,8 @@
                                    
          )
       )    
+      (comp (() (set next current))
+      ) 
    )
          
    ;; determine team score
@@ -86,7 +88,7 @@
             (()
              (set ((current player) sto SCORE) (size ((current player) loc BUNDLE)))
              (move (top ((current player) loc BUNDLE))
-                   (top (game loc DISCARD))))
+                   (top (game loc DISCARD)) all))
       )
    )
 )

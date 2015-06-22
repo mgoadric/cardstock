@@ -60,7 +60,7 @@
                ((== (game sto PASSINGDIR) 0)
                 (inc (game sto PASSINGDIR) 1))
                ((== (game sto PASSINGDIR) 1)
-                (set (game sto PASSINGDIR) 1))
+                (set (game sto PASSINGDIR) 0))
                
          )
       )
@@ -178,7 +178,7 @@
              (inc ((current player) sto SCORE) (sum ((current player) loc TRICKSWON) using SCORE)))
           
             (() (move (top ((current player) loc TRICKSWON))
-                      (top (game loc DISCARD))))
+                      (top (game loc DISCARD)) all))
          )
       )
    )
