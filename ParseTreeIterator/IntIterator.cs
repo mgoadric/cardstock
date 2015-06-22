@@ -13,6 +13,7 @@ namespace ParseTreeIterator
 	public class IntIterator{
 		
 		public static List<int> ProcessListInt(CardLanguageParser.IntContext intNode){
+			Console.WriteLine(intNode.GetText());
 			var ret = new List<int>();
 			if (intNode.rawstorage() != null){
 				var raw = intNode.rawstorage();
@@ -22,7 +23,6 @@ namespace ParseTreeIterator
 				}
 			}
 			else if (intNode.INTNUM() != null && intNode.INTNUM().Count() != 0){
-				Console.WriteLine(intNode.GetText());
 				ret.Add(int.Parse(intNode.GetText()));
 			}
 			else if (intNode.@sizeof() != null){
@@ -33,7 +33,30 @@ namespace ParseTreeIterator
 					ret.Add(l.FilteredCount());
 				}
 			}
+			else if (intNode.mult() != null){
+				ret.Add(ProcessListInt(intNode.mult().@int(0))[0] * ProcessListInt(intNode.mult().@int(1))[0]); 
+			}
+			else if (intNode.subtract() != null){
+				ret.Add( ProcessListInt(intNode.subtract().@int(0))[0] - ProcessListInt(intNode.subtract().@int(1))[0]);
+			}
 			
+			else if (intNode.mod() != null){
+				ret.Add( ProcessListInt(intNode.mod().@int(0))[0] % ProcessListInt(intNode.mod().@int(1))[0]);
+			}
+			else if (intNode.divide() != null){
+				ret.Add( ProcessListInt(intNode.divide().@int(0))[0] / ProcessListInt(intNode.divide().@int(1))[0]);
+			}
+			else if (intNode.sum() != null){
+				var list = ProcessRawStorage(intNode.sum().rawstorage());
+				var total = 0;
+				foreach (var fancyRaw in list){
+					total += fancyRaw.Get();
+				}
+				ret.Add(total);
+			}
+			else{
+				ret.Add(0);
+			}
 			
 			return ret;
 		}
@@ -45,15 +68,23 @@ namespace ParseTreeIterator
 			}
 			if (raw.who2() != null){
 				if (raw.who2().posq() != null){
-					if (raw.GetChild(2).GetText() == "team"){
+					if (raw.who2().GetChild(2).GetText() == "team"){
 						foreach (var team in CardGame.Instance.teams){
 							ret.Add(new FancyRawStorage(team.teamStorage,raw.namegr().GetText()));
 						}
 					}
-					else if (raw.GetChild(2).GetText() == "player"){
+					else if (raw.who2().GetChild(2).GetText() == "player"){
 						foreach (var player in CardGame.Instance.players){
 							ret.Add(new FancyRawStorage(player.storage,raw.namegr().GetText()));
 						}
+					}
+					
+				}
+				else{
+					if (raw.who2().GetChild(2).GetText() == "team"){
+						var curTeam = CardGame.Instance.CurrentPlayer().Current().team;
+						ret.Add(new FancyRawStorage(curTeam.teamStorage,raw.namegr().GetText()));
+						Console.WriteLine("STO:" +raw.namegr().GetText() );
 					}
 					
 				}

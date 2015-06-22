@@ -57,8 +57,9 @@ namespace ParseTreeIterator
 			for (int i = 0; i < multigameaction.ChildCount; ++i){
 				Console.WriteLine("gameaction");
 				var gameaction = multigameaction.GetChild(i) as CardLanguageParser.GameactionContext;
+				Console.WriteLine(gameaction.boolean().GetText());
+				Console.WriteLine(BooleanIterator.ProcessBoolean(gameaction.boolean()));
 				if (BooleanIterator.ProcessBoolean(gameaction.boolean())){
-					Console.WriteLine("bool true");
 					ProcessMultiActionChoice(gameaction.multiaction());
 				}
 			}
@@ -75,7 +76,19 @@ namespace ParseTreeIterator
 			var opts = ActionIterator.ProcessAction(action);
 			var flatten = new List<GameActionCollection>();
 			foreach (var a in opts){
-				flatten.Add(new GameActionCollection{a});
+				if (a is FancyCardMoveAction){
+					var fa = a as FancyCardMoveAction;
+					if (fa.startLocation.locIdentifier == "any"){
+						foreach (var card in fa.startLocation.FilteredList().AllCards()){
+							flatten.Add(new GameActionCollection{
+								new CardMoveAction(card,fa.startLocation.cardList,fa.endLocation.cardList)
+							});
+						}	
+					}
+				}
+				else{
+					flatten.Add(new GameActionCollection{a});
+				}
 			}
 			
 			if (flatten.Count != 0){

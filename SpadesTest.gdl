@@ -32,7 +32,7 @@
                
    ;; Stages of the game
    (stage player
-      (end (>= ((any team) sto SCORE) 500))
+      (end (> (size ((all player) loc TRICK)) 0));;(>= ((any team) sto SCORE) 500))
       (comp (() (move (top (game loc DISCARD)) 
                       (top (game loc STOCK)) all)
                 (copy (top (game loc STOCK where (== (cardatt suit this) spades)))
@@ -58,34 +58,15 @@
          
       ;; players play a round 13 times     
       (stage player
-         (end (== (size ((all player) loc HAND)) 0))
+         (end (> (size ((all player) loc TRICK)) 0));;(== (size ((all player) loc HAND)) 0))
                     
          ;; players play a hand once
          (stage player
             (end (> (size ((all player) loc TRICK)) 0))
              
             (choice
-             
-               ;; if first player and spades not broken and have non-spades cards
-               ;;   play one of these, remember it in the lead spot, and end your turn
-               ((and (== (size (game loc LEAD)) 0)
-                     (== (game sto BROKEN) 0)
-                     (> (size ((current player) loc HAND where (!= (cardatt suit this) 
-                                                                    (cardatt suit (top (game loc TRUMP)))))) 0)) 
-                (move (any ((current player) loc HAND where (!= (cardatt suit this) 
-                                                                (cardatt suit (top (game loc TRUMP)))))) 
-                      (top ((current player) loc TRICK)))
-                (copy (top ((current player) loc TRICK)) 
-                      (top (game loc LEAD))))
 
-               ;; if first player and spades broken
-               ;;   play any card, remember it in the lead spot, and end your turn
-               ((and (== (size (game loc LEAD)) 0)
-                     (== (game sto BROKEN) 1)) 
-                (move (any ((current player) loc HAND)) 
-                      (top ((current player) loc TRICK)))
-                (copy (top ((current player) loc TRICK)) 
-                      (top (game loc LEAD))))
+               
 
                ;; if following player and cannot follow suit
                ;;   play any card, and end your turn
@@ -103,6 +84,27 @@
                 (move (any ((current player) loc HAND where (== (cardatt suit this) 
                                                                 (cardatt suit (top (game loc LEAD)))))) 
                       (top ((current player) loc TRICK))))
+                      
+               ;; if first player and spades not broken and have non-spades cards
+               ;;   play one of these, remember it in the lead spot, and end your turn
+               ((and (== (size (game loc LEAD)) 0)
+                     (== (game sto BROKEN) 0)
+                     (> (size ((current player) loc HAND where (!= (cardatt suit this) 
+                                                                    (cardatt suit (top (game loc TRUMP)))))) 0)) 
+                (move (any ((current player) loc HAND where (!= (cardatt suit this) 
+                                                                (cardatt suit (top (game loc TRUMP)))))) 
+                      (top ((current player) loc TRICK)))
+                (copy (top ((current player) loc TRICK)) 
+                      (top (game loc LEAD))))
+                      
+               ;; if first player and spades broken
+               ;;   play any card, remember it in the lead spot, and end your turn
+               ((and (== (size (game loc LEAD)) 0)
+                     (== (game sto BROKEN) 1)) 
+                (move (any ((current player) loc HAND)) 
+                      (top ((current player) loc TRICK)))
+                (copy (top ((current player) loc TRICK)) 
+                      (top (game loc LEAD))))
             )
          )
               
@@ -143,8 +145,8 @@
               (set (game sto BROKEN) 1))
                   
              ;; discard all the played cards
-             (() (move (top ((all player) loc TRICK)) 
-                       (top (game loc DISCARD))))
+             ;;(() (move (top ((all player) loc TRICK)) 
+                       ;;(top (game loc DISCARD))))
              
          )
       )

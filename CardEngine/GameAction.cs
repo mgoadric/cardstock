@@ -53,25 +53,35 @@ namespace CardEngine{
 			endLocation = end;
 		}
 		public override void Execute(){
+			Console.WriteLine("Moved Card '" + cardToMove);
 			startLocation.Remove(cardToMove);
 			endLocation.Add(cardToMove);
 			cardToMove.owner = endLocation;
 		}
 	}
 	public class FancyCardMoveAction : GameAction{
-		FancyCardLocation startLocation;
-		FancyCardLocation endLocation;
+		public FancyCardLocation startLocation;
+		public FancyCardLocation endLocation;
 		public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end){
 			
 			startLocation = start;
 			endLocation = end;
 		}
 		public override void Execute(){
-			if (startLocation.cardList.Count != 0){
-				var cardToMove = startLocation.Remove();
+			Card cardToMove = null;
+			try{
+			if (startLocation.FilteredCount() != 0){
+				cardToMove = startLocation.Remove();
 				endLocation.Add(cardToMove);
 				cardToMove.owner = endLocation.cardList;
 				Console.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
+			}
+			}
+			catch{
+				foreach (var card in startLocation.cardList.AllCards()){
+					Console.WriteLine(card);
+				}
+				throw;
 			}
 		}
 	}

@@ -11,7 +11,6 @@ namespace ParseTreeIterator
 {
 	public class BooleanIterator{
 		public static bool ProcessBoolean(CardLanguageParser.BooleanContext boolNode){
-			Console.WriteLine("'" + boolNode.GetText() + "'");
 			if (boolNode.GetText() == "()"){
 				return true;
 			}
@@ -29,6 +28,12 @@ namespace ParseTreeIterator
 						else if (intop.COMPOP().GetText() == ">"){
 							return trueOne.Exists(item => item > trueTwo);
 						}
+						else if (intop.COMPOP().GetText() == ">="){
+							return trueOne.Exists(item => item >= trueTwo);
+						}
+						else if (intop.COMPOP().GetText() == "<"){
+							return trueOne.Exists(item => item < trueTwo);
+						}
 					}
 				}
 				else if (intOne.GetText().Contains("all")){
@@ -41,6 +46,12 @@ namespace ParseTreeIterator
 						else if (intop.COMPOP().GetText() == ">"){
 							return trueOne.All(item => item > trueTwo);
 						}
+						else if (intop.COMPOP().GetText() == ">="){
+							return trueOne.All(item => item >= trueTwo);
+						}
+						else if (intop.COMPOP().GetText() == "<"){
+							return trueOne.All(item => item < trueTwo);
+						}
 					}
 				}
 				else{//single comparison
@@ -52,6 +63,20 @@ namespace ParseTreeIterator
 						}
 						else if (intop.EQOP().GetText() == "!="){
 							return trueOne != trueTwo;
+						}
+					}
+					else if (intop.COMPOP() != null){
+						if (intop.COMPOP().GetText() == "<="){
+							return trueOne <= trueTwo;
+						}
+						else if (intop.COMPOP().GetText() == ">"){
+							return trueOne > trueTwo;
+						}
+						else if (intop.COMPOP().GetText() == ">="){
+							return trueOne >= trueTwo;
+						}
+						else if (intop.COMPOP().GetText() == "<"){
+							return trueOne < trueTwo;
 						}
 					}
 				}
@@ -72,7 +97,6 @@ namespace ParseTreeIterator
 				else if (boolNode.BOOLOP().GetText() == "and"){
 					bool flag = true;
 					foreach (var boolean in boolNode.boolean()){
-						Console.WriteLine(boolean.GetText());
 						flag &= ProcessBoolean(boolean);
 						if (!flag){
 							return flag;

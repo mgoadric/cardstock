@@ -37,7 +37,23 @@ namespace CardEngine{
 			}
 			return null;
 		}
+		public CardCollection FilteredList(){
+			if (filter != null){
+				var temp = filter.FilterMatchesAll(cardList);
+				return temp;
+			}
+			return cardList;
+		}
 		public Card Remove(){
+			if (filter != null){
+				var temp = filter.FilterMatchesAll(cardList);
+				if (locIdentifier == "top"){
+					return temp.Remove();
+				}
+				else if (locIdentifier == "bottom"){
+					return temp.AllCards().GetEnumerator().Current;
+				}
+			}
 			if (cardList.Count != 0){
 				if (locIdentifier == "top"){
 					return cardList.Remove();
