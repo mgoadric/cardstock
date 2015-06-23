@@ -2,9 +2,10 @@ using System.Collections.Generic;
 
 namespace CardEngine{
 	public class PlayerCycle{
-		List<Player> playerList;
+		public List<Player> playerList;
 		public bool turnEnded;
 		public int idx = 0;
+		int queuedNext = -1;
 		public PlayerCycle(List<Player> pList){
 			playerList = pList;
 		}
@@ -12,6 +13,15 @@ namespace CardEngine{
 			playerList = clone.playerList;
 			idx = clone.idx;
 			turnEnded = clone.turnEnded;
+		}
+		public Player PeekNext(){
+			var saved = idx;
+			if (queuedNext != -1){
+				idx = queuedNext;
+			}
+			var ret = Current();
+			idx = saved;
+			return ret;
 		}
 		public void Next(){
 			turnEnded = false;
@@ -30,6 +40,9 @@ namespace CardEngine{
 		public void SetPlayer(int index){
 			turnEnded = false;
 			idx = index;
+		}
+		public void SetNext(int index){
+			queuedNext = index;
 		}
 		public void EndTurn(){
 			turnEnded = true;

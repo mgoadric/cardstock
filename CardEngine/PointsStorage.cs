@@ -15,7 +15,7 @@ namespace CardEngine{
 		}
 		public CardScore[] storage;
 		int binCounter = 0;
-		Dictionary<string,int> binDict = new Dictionary<string,int>();
+		public Dictionary<string,int> binDict = new Dictionary<string,int>();
 		public PointsStorage(){
 			storage = new CardScore[32];
 		}

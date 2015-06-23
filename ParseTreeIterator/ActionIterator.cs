@@ -122,6 +122,7 @@ namespace ParseTreeIterator
 						CardGame.Instance.teams.Add(newTeam);
 					}
 				}
+				CardGame.Instance.currentTeam.Push(new TeamCycle(CardGame.Instance.teams));
 				Console.WriteLine("NUMTEAMS:" + CardGame.Instance.teams.Count);
 			}
 			else if (actionNode.init() != null){
@@ -135,6 +136,9 @@ namespace ParseTreeIterator
 				else if (initialize.pointsinit() != null){
 					var points = initialize.pointsinit();
 					var name = points.name().GetText();
+					if (!CardGame.Instance.points.binDict.ContainsKey(name)){
+						CardGame.Instance.points.AddKey(name);
+					}
 					List<PointAwards> temp = new List<PointAwards>();
 					var awards = points.awards();
 					foreach (CardLanguageParser.AwardsContext award in awards){
@@ -155,6 +159,7 @@ namespace ParseTreeIterator
 						value = value.Substring(0,value.Length - 1);
 						temp.Add(new PointAwards(key,value,reward));
 					}
+					CardGame.Instance.points[name] = new CardScore(temp);
 				}
 			}
 			else if (actionNode.copyaction() != null){

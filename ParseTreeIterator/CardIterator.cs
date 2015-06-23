@@ -25,6 +25,7 @@ namespace ParseTreeIterator
 						}
 					}
 				}
+				Console.WriteLine("MAX:" + maxCard);
 				var lst = new CardListCollection();
 				lst.Add(maxCard);
 				return new FancyCardLocation[1]{
@@ -128,11 +129,11 @@ namespace ParseTreeIterator
 				}
 				else if (who2.GetChild(1).GetText() == "current"){
 					if (who2.GetChild(2).GetText() == "player"){
-							return CardGame.Instance.CurrentPlayer().Current();
-						}
-						else{//teams
-							return CardGame.Instance.CurrentPlayer().Current().team;//TODO change to true current team
-						}
+						return CardGame.Instance.CurrentPlayer().Current();
+					}
+					else{//teams
+						return CardGame.Instance.CurrentPlayer().Current().team;//TODO change to true current team
+					}
 				}
 			}
 			else{

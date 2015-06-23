@@ -10,6 +10,7 @@ namespace CardEngine
 		public Player(){
 			storage = new RawStorage();
 			cardBins = new CardStorage();
+			cardBins.owner = this;
 		}
 		
 		public void IncrValue(int bin, int value){

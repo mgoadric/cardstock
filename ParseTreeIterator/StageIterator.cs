@@ -21,9 +21,16 @@ namespace ParseTreeIterator
 			if (stage.endcondition().boolean() != null){
 				while (!BooleanIterator.ProcessBoolean(stage.endcondition().boolean())){
 					Console.WriteLine("Hit Boolean while!");
-					CardGame.Instance.CurrentPlayer().Next();
+					
+					Console.WriteLine("Current Player: " + CardGame.Instance.CurrentPlayer().idx);
 					for (int i = 4; i < stage.ChildCount - 1; ++i){
 						ProcessSubStage(stage.GetChild(i));
+					}
+					if (stage.GetChild(2).GetText() == "player"){
+						CardGame.Instance.CurrentPlayer().Next();
+					}
+					else if (stage.GetChild(2).GetText() == "team"){
+						CardGame.Instance.CurrentTeam().Next();
 					}
 					
 				}
@@ -54,23 +61,50 @@ namespace ParseTreeIterator
 		}
 		public static void ProcessChoice(CardLanguageParser.PlayermovesContext playerMoves){
 			var multigameaction = playerMoves.multigameaction()  as CardLanguageParser.MultigameactionContext;
+			var allOptions = new List<GameActionCollection>();
 			for (int i = 0; i < multigameaction.ChildCount; ++i){
 				Console.WriteLine("gameaction");
 				var gameaction = multigameaction.GetChild(i) as CardLanguageParser.GameactionContext;
 				Console.WriteLine(gameaction.boolean().GetText());
 				Console.WriteLine(BooleanIterator.ProcessBoolean(gameaction.boolean()));
 				if (BooleanIterator.ProcessBoolean(gameaction.boolean())){
-					ProcessMultiActionChoice(gameaction.multiaction());
+					allOptions.AddRange(ProcessMultiActionChoice(gameaction.multiaction()));
 				}
 			}
-		}
-		public static void ProcessMultiActionChoice(CardLanguageParser.MultiactionContext actions){
-			for (int i = 0; i < actions.ChildCount; ++i){
-				Console.WriteLine("action children");
-				ProcessActionChoice(actions.GetChild(i)  as CardLanguageParser.ActionContext);
+			if (allOptions.Count != 0){
+				Console.WriteLine("Choice count:" + allOptions.Count);
+				CardGame.Instance.PlayerMakeChoice(allOptions,CardGame.Instance.CurrentPlayer().idx);
+			}
+			else{
+				Console.WriteLine("NO Choice Available");
 			}
 		}
-		public static void ProcessActionChoice(CardLanguageParser.ActionContext action){
+		public static List<GameActionCollection> ProcessMultiActionChoice(CardLanguageParser.MultiactionContext actions){
+			var allOptions = new List<GameActionCollection>();
+			for (int i = 0; i < actions.ChildCount; ++i){
+				Console.WriteLine("action children");
+				var options = ProcessActionChoice(actions.GetChild(i)  as CardLanguageParser.ActionContext);
+				var temp = new List<GameActionCollection>();
+				if (allOptions.Count == 0){
+					temp = options;
+				}
+				else{
+					foreach (var additionalAction in options){
+						foreach (var sourcePerm in allOptions){
+							var copyPerm = new GameActionCollection();
+							copyPerm.AddRange(sourcePerm);
+							copyPerm.AddRange(additionalAction);
+							temp.Add(copyPerm);
+						}
+					}
+				}
+				allOptions = temp;
+			}
+			
+			return allOptions;
+			
+		}
+		public static List<GameActionCollection> ProcessActionChoice(CardLanguageParser.ActionContext action){
 			//Console.WriteLine("Execute:");
 			//Console.WriteLine(action.GetText());
 			var opts = ActionIterator.ProcessAction(action);
@@ -90,13 +124,8 @@ namespace ParseTreeIterator
 					flatten.Add(new GameActionCollection{a});
 				}
 			}
+			return flatten;
 			
-			if (flatten.Count != 0){
-				CardGame.Instance.PlayerMakeChoice(flatten,CardGame.Instance.CurrentPlayer().idx);
-			}
-			else{
-				Console.WriteLine("NO Choice Available");
-			}
 		}
 		public static void ProcessMultiAction(CardLanguageParser.MultiactionContext actions){
 			for (int i = 0; i < actions.ChildCount; ++i){

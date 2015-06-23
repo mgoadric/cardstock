@@ -54,6 +54,11 @@ namespace ParseTreeIterator
 				}
 				ret.Add(total);
 			}
+			else if (intNode.owner() != null){
+				var own = intNode.owner();
+				var resultingCard = CardIterator.ProcessCard(own.card())[0].Get();
+				ret.Add(CardGame.Instance.CurrentPlayer().playerList.IndexOf(resultingCard.owner.container.owner));
+			}
 			else{
 				ret.Add(0);
 			}
@@ -66,7 +71,7 @@ namespace ParseTreeIterator
 				var gamebucket = raw.namegr();
 				ret.Add(new FancyRawStorage(CardGame.Instance.gameStorage,gamebucket.GetText()));
 			}
-			if (raw.who2() != null){
+			if (raw.who2() != null&&raw.who2().who2() == null){
 				if (raw.who2().posq() != null){
 					if (raw.who2().GetChild(2).GetText() == "team"){
 						foreach (var team in CardGame.Instance.teams){
@@ -82,14 +87,27 @@ namespace ParseTreeIterator
 				}
 				else{
 					if (raw.who2().GetChild(2).GetText() == "team"){
-						var curTeam = CardGame.Instance.CurrentPlayer().Current().team;
+						var curTeam = CardGame.Instance.CurrentTeam().Current();
 						ret.Add(new FancyRawStorage(curTeam.teamStorage,raw.namegr().GetText()));
 						Console.WriteLine("STO:" +raw.namegr().GetText() );
 					}
 					else if (raw.who2().GetChild(2).GetText() == "player"){
-						var curPlayer = CardGame.Instance.CurrentPlayer().Current();
-						ret.Add(new FancyRawStorage(curPlayer.storage,raw.namegr().GetText()));
-						Console.WriteLine("STO:" +raw.namegr().GetText() );
+						if (raw.who2().GetChild(1).GetText() == "current"){
+							var curPlayer = CardGame.Instance.CurrentPlayer().Current();
+							ret.Add(new FancyRawStorage(curPlayer.storage,raw.namegr().GetText()));
+							Console.WriteLine("STO:" +raw.namegr().GetText() );
+						}
+						else if (raw.who2().GetChild(1).GetText() == "next"){
+							var curPlayer = CardGame.Instance.CurrentPlayer().PeekNext();
+							ret.Add(new FancyRawStorage(curPlayer.storage,raw.namegr().GetText()));
+						}
+					}
+				}
+			}
+			else if (raw.who2() != null){
+				if (raw.who2().GetText() == "((currentteam)player)"){
+					foreach (var player in CardGame.Instance.CurrentTeam().Current().teamPlayers){
+						ret.Add(new FancyRawStorage(player.storage,raw.namegr().GetText()));
 					}
 				}
 			}
@@ -103,6 +121,12 @@ namespace ParseTreeIterator
 				foreach (var bin in bins){
 					ret.Add(new IntAction(bin.storage,bin.key,setValue));
 				}
+			}
+			else if (setAction.GetChild(1).GetText() == "next"){
+				//Set next player
+				var idx = ProcessListInt(setAction.@int())[0];
+				CardGame.Instance.CurrentPlayer().SetNext(idx);
+				Console.Write("Next Player:" + idx);
 			}
 			return ret;
 		}

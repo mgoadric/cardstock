@@ -125,16 +125,15 @@ namespace CardEngine{
 		}
 	}
 	public class FancyCardCopyAction : GameAction{
-		Card cardToMove;
-		
+		FancyCardLocation startLocation;
 		FancyCardLocation endLocation;
-		public FancyCardCopyAction(Card c, FancyCardLocation end){
-			cardToMove = c;
+		public FancyCardCopyAction(FancyCardLocation start, FancyCardLocation end){
+			startLocation = start;
 			
 			endLocation = end;
 		}
 		public override void Execute(){
-			endLocation.Add(cardToMove);
+			endLocation.Add(startLocation.Get());
 		}
 	}
 	public class FancyRemoveAction : GameAction{

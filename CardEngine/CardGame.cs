@@ -23,6 +23,7 @@ namespace CardEngine
 		public List<Player> players = new List<Player>();
 		public List<Team> teams = new List<Team>();
 		public Stack<PlayerCycle> currentPlayer = new Stack<PlayerCycle>();
+		public Stack<TeamCycle> currentTeam = new Stack<TeamCycle>();
 		public RawStorage gameStorage = new RawStorage();
 		public PointsStorage points = new PointsStorage();
 		public CardGame(){
@@ -48,6 +49,17 @@ namespace CardEngine
 		public void PopPlayer(){
 			currentPlayer.Pop();
 		}
+		
+		public TeamCycle CurrentTeam(){
+			return currentTeam.Peek();
+		}
+		public void PushTeam(){
+			currentTeam.Push(new TeamCycle(currentTeam.Peek()));
+		}
+		public void PopTeam(){
+			currentTeam.Pop();
+		}
+		
 		public PlayerCycle CurrentPlayer(){
 			return currentPlayer.Peek();
 		}

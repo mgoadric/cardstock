@@ -13,6 +13,7 @@ namespace CardEngine{
 		    set
 		    {
 	       		storage[binDict[key]] = value;
+				value.container = this;
 	    	}
 		}
 		public Player owner {get; set;}
@@ -41,6 +42,7 @@ namespace CardEngine{
 		public abstract void Remove(Card c);
 		public abstract int Count {get;}
 		public abstract void Shuffle();
+		public CardStorage container {get; set;}
 		public void Shuffle(List<Card> list)  
 		{  
 		    Random rng = new Random();  

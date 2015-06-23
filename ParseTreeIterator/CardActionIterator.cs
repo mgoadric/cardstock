@@ -32,7 +32,7 @@ namespace ParseTreeIterator
 				var cardTwo = CardIterator.ProcessCard(copy.card(1));
 				foreach (var card1 in cardOne){
 					foreach (var card2 in cardTwo){
-						ret.Add(new FancyCardCopyAction(card1.Get(),card2));
+						ret.Add(new FancyCardCopyAction(card1,card2));
 					}
 				}
 			}
