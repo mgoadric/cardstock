@@ -89,13 +89,13 @@ namespace ParseTreeIterator
 					if (raw.who2().GetChild(2).GetText() == "team"){
 						var curTeam = CardGame.Instance.CurrentTeam().Current();
 						ret.Add(new FancyRawStorage(curTeam.teamStorage,raw.namegr().GetText()));
-						Console.WriteLine("STO:" +raw.namegr().GetText() );
+						//Console.WriteLine("STO:" +raw.namegr().GetText() );
 					}
 					else if (raw.who2().GetChild(2).GetText() == "player"){
 						if (raw.who2().GetChild(1).GetText() == "current"){
 							var curPlayer = CardGame.Instance.CurrentPlayer().Current();
 							ret.Add(new FancyRawStorage(curPlayer.storage,raw.namegr().GetText()));
-							Console.WriteLine("STO:" +raw.namegr().GetText() );
+							//Console.WriteLine("STO:" +raw.namegr().GetText() );
 						}
 						else if (raw.who2().GetChild(1).GetText() == "next"){
 							var curPlayer = CardGame.Instance.CurrentPlayer().PeekNext();
@@ -126,7 +126,7 @@ namespace ParseTreeIterator
 				//Set next player
 				var idx = ProcessListInt(setAction.@int())[0];
 				CardGame.Instance.CurrentPlayer().SetNext(idx);
-				Console.Write("Next Player:" + idx);
+				Console.WriteLine("Next Player:" + idx);
 			}
 			return ret;
 		}

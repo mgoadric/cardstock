@@ -25,7 +25,12 @@ namespace CardEngine{
 		}
 		public void Next(){
 			turnEnded = false;
-			++idx;
+			if (queuedNext != -1){
+				idx = queuedNext;
+			}
+			else{
+				++idx;
+			}
 			if (idx >= playerList.Count){
 				idx = 0;
 			}

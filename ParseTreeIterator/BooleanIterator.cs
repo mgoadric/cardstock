@@ -50,11 +50,8 @@ namespace ParseTreeIterator
 					int trueTwo = IntIterator.ProcessListInt(intTwo)[0];
 					if (intop.EQOP() != null){
 						if (intop.EQOP().GetText() == "=="){
-							Console.WriteLine(boolNode.GetText());
-							foreach (var i in trueOne){
-								Console.Write(i + " ");
-							}
-							Console.Write("\n");
+							
+							//Console.Write("\n");
 							return trueOne.All(item => item == trueTwo);
 						}
 						else if (intop.EQOP().GetText() == "!="){
