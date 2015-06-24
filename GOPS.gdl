@@ -1,0 +1,105 @@
+;; GOPS in the GDL
+(game
+    (comp (() 
+
+             ;; Game Locations and Storage
+             (create loc game (STOCK Stack)
+                              (AWARD Stack)
+                              (DISCARD Stack))
+
+             ;; Set up the players
+             (create players 2)
+
+             ;; Player Locations and Storage
+             (create loc player (HAND List)
+                     (TRICK Stack)
+                     (WON Stack))
+             (create sto player (SCORE))
+             
+             ;; Create the deck source
+             (initialize (game loc STOCK) (permdeck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
+                                                     (color (red (suit (diamonds))))))
+             (initialize ((current player) loc HAND) (permdeck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
+                                                     (color 
+                                                            (black (suit (clubs))))))
+             (initialize ((next player) loc HAND) (permdeck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
+                                                     (color 
+                                                            (black (suit (spades))))))
+                 (initialize points PRECEDENCE (
+                               (all (rank (A)) 1)
+                               (all (rank (K)) 13) 
+                               (all (rank (Q)) 12)
+                               (all (rank (J)) 11)
+                               (all (rank (10)) 10)
+                               (all (rank (9)) 9)
+                               (all (rank (8)) 8)
+                               (all (rank (7)) 7)
+                               (all (rank (6)) 6)
+                               (all (rank (5)) 5)
+                               (all (rank (4)) 4)
+                               (all (rank (3)) 3)
+                               (all (rank (2)) 2)
+                               )
+                               )    
+                 
+             (shuffle (game loc STOCK))  
+          )
+   )
+               
+   ;; Stages of the game
+   (stage player
+      (end (== (size ((all player) loc HAND)) 0))
+      
+      
+      (comp
+         (()
+          (move (top (game loc STOCK))
+                (top (game loc AWARD)))
+         )
+      )
+                     
+      ;; Stages of the game
+      (stage player
+          (end (== (size ((all player) loc TRICK)) 1))
+                     
+                    
+          ;; players play a card
+          (choice
+             
+              (()
+               (move (any ((current player) loc HAND))
+                 (top ((current player) loc TRICK)))
+              )
+          )
+      )
+
+      (comp
+          
+          ((!= (top ((current player) loc TRICK))
+               (top ((next player) loc TRICK)) using PRECEDENCE)
+           (move (top (game loc AWARD))
+                 (top ((owner (max (union ((all player) loc TRICK)) using PRECEDENCE)) loc WON)))
+          )
+
+          (()           
+           (move (top ((all player) loc TRICK))
+                 (top (game loc DISCARD)))
+          )
+      )
+   )
+         
+   ;; determine player score
+   (stage player
+      (end (== (size ((all player) loc WON)) 0))
+      (comp
+          
+            (()
+             (set ((current player) sto SCORE) (sum ((current player) loc WON) using PRECEDENCE)))
+             (move (top ((current player) loc WON))
+                   (top (game loc DISCARD)) all))
+      )
+   )
+)
+         
+         
+      
