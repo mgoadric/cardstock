@@ -75,8 +75,8 @@
 
       (comp
           
-          ((!= (top ((current player) loc TRICK))
-               (top ((next player) loc TRICK)) using PRECEDENCE)
+          ((!= (cardatt rank (top ((current player) loc TRICK)))
+               (cardatt rank (top ((next player) loc TRICK))))
            (move (top (game loc AWARD))
                  (top ((owner (max (union ((all player) loc TRICK)) using PRECEDENCE)) loc WON)))
           )

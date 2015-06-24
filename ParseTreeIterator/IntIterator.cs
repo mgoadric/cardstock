@@ -47,12 +47,27 @@ namespace ParseTreeIterator
 				ret.Add( ProcessListInt(intNode.divide().@int(0))[0] / ProcessListInt(intNode.divide().@int(1))[0]);
 			}
 			else if (intNode.sum() != null){
-				var list = ProcessRawStorage(intNode.sum().rawstorage());
-				var total = 0;
-				foreach (var fancyRaw in list){
-					total += fancyRaw.Get();
+				if (intNode.sum().rawstorage() != null){
+					var list = ProcessRawStorage(intNode.sum().rawstorage());
+					var total = 0;
+					foreach (var fancyRaw in list){
+						total += fancyRaw.Get();
+					}
+					ret.Add(total);
 				}
-				ret.Add(total);
+				else{
+					var sum = intNode.sum();
+					var scoring = CardGame.Instance.points[sum.namegr().GetText()];
+					var coll = CardIterator.ProcessLocation(sum.locstorage());
+					var total = 0;
+					foreach (var loc in coll){
+						foreach (var c in loc.FilteredList().AllCards()){
+							total += scoring.GetScore(c);
+						}
+					}
+					Console.WriteLine("Sum:" + total);
+					ret.Add(total);
+				}
 			}
 			else if (intNode.owner() != null){
 				var own = intNode.owner();

@@ -28,7 +28,7 @@
                
    ;; Stages of the game
    (stage player
-      (end (== (size ((current player) loc HAND)) 0))
+      (end (== (size ((any player) loc HAND)) 0))
                      
                     
       ;; players play a card

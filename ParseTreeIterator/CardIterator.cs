@@ -118,7 +118,7 @@ namespace ParseTreeIterator
 			if (who2.who2() == null){
 				//base case
 				if (who2.posq() != null){
-					if (who2.posq().GetText() == "all"){
+					if (who2.posq().GetText() == "all" || who2.posq().GetText() ==  "any"){
 						if (who2.GetChild(2).GetText() == "player"){
 							return CardGame.Instance.players;
 						}
@@ -126,10 +126,27 @@ namespace ParseTreeIterator
 							return CardGame.Instance.teams;
 						}
 					}
+					
 				}
 				else if (who2.GetChild(1).GetText() == "current"){
 					if (who2.GetChild(2).GetText() == "player"){
 						return CardGame.Instance.CurrentPlayer().Current();
+					}
+					else{//teams
+						return CardGame.Instance.CurrentPlayer().Current().team;//TODO change to true current team
+					}
+				}
+				else if (who2.GetChild(1).GetText() == "next"){
+					if (who2.GetChild(2).GetText() == "player"){
+						return CardGame.Instance.CurrentPlayer().PeekNext();
+					}
+					else{//teams
+						return CardGame.Instance.CurrentPlayer().Current().team;//TODO change to true current team
+					}
+				}
+				else if (who2.GetChild(1).GetText() == "previous"){
+					if (who2.GetChild(2).GetText() == "player"){
+						return CardGame.Instance.CurrentPlayer().PeekPrevious();
 					}
 					else{//teams
 						return CardGame.Instance.CurrentPlayer().Current().team;//TODO change to true current team

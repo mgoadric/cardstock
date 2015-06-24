@@ -66,10 +66,11 @@ namespace ParseTreeIterator
 						}
 					}
 				}
-				else{//copy x number of times
+				else{//move x number of times
 					var explicitCount = int.Parse(count);
 					var cardOne = CardIterator.ProcessCard(move.card(0));
 					var cardTwo = CardIterator.ProcessCard(move.card(1));
+					
 					foreach (var card1 in cardOne){
 						for (int i = 0; i < explicitCount; ++i){
 							foreach (var card2 in cardTwo){

@@ -23,6 +23,16 @@ namespace CardEngine{
 			idx = saved;
 			return ret;
 		}
+		public Player PeekPrevious(){
+			var saved = idx;
+			idx--;
+			if (idx < 0){
+				idx = playerList.Count - 1;
+			}
+			var ret = Current();
+			idx = saved;
+			return ret;
+		}
 		public void Next(){
 			turnEnded = false;
 			if (queuedNext != -1){

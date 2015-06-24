@@ -51,10 +51,10 @@
             (choice
                ((== (game sto PASSINGDIR) 0) 
                 (move (any ((current player) loc HAND)) (top ((next player) loc PASSED))) 
-                (move (any ((current player) loc HAND)) (top ((next player) loc PASSED))))
+                );;(move (any ((current player) loc HAND)) (top ((next player) loc PASSED))))
                ((== (game sto PASSINGDIR) 1) 
                 (move (any ((current player) loc HAND)) (top ((previous player) loc PASSED))) 
-                (move (any ((current player) loc HAND)) (top ((previous player) loc PASSED))))
+                );;(move (any ((current player) loc HAND)) (top ((previous player) loc PASSED))))
             )  
             (comp
                ((== (game sto PASSINGDIR) 0)
@@ -69,7 +69,7 @@
       (stage player
          (end (== (size ((all player) loc PASSED)) 0))
             (choice
-               (() (move (top ((current player) loc PASSED)) (top ((current player) loc HAND)) all)
+               (() (move (top ((current player) loc PASSED)) (top ((current player) loc HAND)))
             ) 
          )
       )
@@ -88,10 +88,20 @@
                ;;   play one of these, remember it in the lead spot, and end your turn
                ((and (== (size (game loc LEAD)) 0)
                      (== (game sto BROKEN) 0)
-                     (== (size ((current player) loc HAND where (!= (cardatt suit this) 
+                     (> (size ((current player) loc HAND where (!= (cardatt suit this) 
                                                                     (cardatt suit (top (game loc TRUMP)))))) 0)) 
                 (move (any ((current player) loc HAND where (!= (cardatt suit this) 
                                                                 (cardatt suit (top (game loc TRUMP)))))) 
+                      (top ((current player) loc TRICK)))
+                (copy (top ((current player) loc TRICK)) 
+                      (top (game loc LEAD))))
+
+
+                 ((and (== (size (game loc LEAD)) 0)
+                     (== (game sto BROKEN) 0)
+                     (== (size ((current player) loc HAND where (!= (cardatt suit this) 
+                                                                    (cardatt suit (top (game loc TRUMP)))))) 0)) 
+                (move (any ((current player) loc HAND)) 
                       (top ((current player) loc TRICK)))
                 (copy (top ((current player) loc TRICK)) 
                       (top (game loc LEAD))))

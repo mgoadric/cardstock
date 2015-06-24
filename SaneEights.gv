@@ -240,7 +240,9 @@ NODE0_3_3_2_2_0_1 [label="size"]
 NODE0_3_3_2_2_0 -- NODE0_3_3_2_2_0_1
 NODE0_3_3_2_2_0_2 [label="Locstorage" ]
 NODE0_3_3_2_2_0_2_1 [label="Who2" ]
-NODE0_3_3_2_2_0_2_1_1 [label="current"]
+NODE0_3_3_2_2_0_2_1_1 [label="Posq" ]
+NODE0_3_3_2_2_0_2_1_1_0 [label="any"]
+NODE0_3_3_2_2_0_2_1_1 -- NODE0_3_3_2_2_0_2_1_1_0
 NODE0_3_3_2_2_0_2_1 -- NODE0_3_3_2_2_0_2_1_1
 NODE0_3_3_2_2_0_2_1_2 [label="player"]
 NODE0_3_3_2_2_0_2_1 -- NODE0_3_3_2_2_0_2_1_2

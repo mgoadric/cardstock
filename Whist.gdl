@@ -72,8 +72,8 @@
                       (top ((current player) loc TRICK))))
                       
                ;; if first player, play any card, remember it in the lead spot, and end your turn
-               ((and (== (size (game loc LEAD)) 0)
-                     (== (game sto BROKEN) 1)) 
+               ((== (size (game loc LEAD)) 0)
+                      
                 (move (any ((current player) loc HAND)) 
                       (top ((current player) loc TRICK)))
                 (copy (top ((current player) loc TRICK)) 

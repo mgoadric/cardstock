@@ -72,11 +72,11 @@ namespace ParseTreeIterator
 				}
 			}
 			if (allOptions.Count != 0){
-				//Console.WriteLine("Choice count:" + allOptions.Count);
+				Console.WriteLine("Choice count:" + allOptions.Count);
 				CardGame.Instance.PlayerMakeChoice(allOptions,CardGame.Instance.CurrentPlayer().idx);
 			}
 			else{
-				//Console.WriteLine("NO Choice Available");
+				Console.WriteLine("NO Choice Available");
 			}
 		}
 		public static List<GameActionCollection> ProcessMultiActionChoice(CardLanguageParser.MultiactionContext actions){
@@ -100,7 +100,7 @@ namespace ParseTreeIterator
 				}
 				allOptions = temp;
 			}
-			
+			Console.WriteLine("MultiActionChoiceCount:" + allOptions.Count);
 			return allOptions;
 			
 		}
@@ -108,6 +108,7 @@ namespace ParseTreeIterator
 			//Console.WriteLine("Execute:");
 			//Console.WriteLine(action.GetText());
 			var opts = ActionIterator.ProcessAction(action);
+			//Console.WriteLine("orig:" + opts.Count);
 			var flatten = new List<GameActionCollection>();
 			foreach (var a in opts){
 				if (a is FancyCardMoveAction){
@@ -119,11 +120,17 @@ namespace ParseTreeIterator
 							});
 						}	
 					}
+					else{
+						flatten.Add(new GameActionCollection{
+							fa
+						});
+					}
 				}
 				else{
 					flatten.Add(new GameActionCollection{a});
 				}
 			}
+			//Console.WriteLine("Flatten:" + flatten.Count);
 			return flatten;
 			
 		}
