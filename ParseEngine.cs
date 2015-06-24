@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using ParseTreeIterator;
 public class ParseEngine{
@@ -37,8 +38,15 @@ public class ParseEngine{
                 fs.Close();
                 //Console.WriteLine(tree);
                 
+                // Here for timing estimates right now
+        		Stopwatch time = new Stopwatch();
+        		time.Start();
+
                 StageIterator.ProcessGame(tree);
                 
+                time.Stop();
+		        Console.WriteLine("Elapsed:" + time.Elapsed);
+
 	}
         public void DOTMaker(IParseTree node, string nodeName){
                 
