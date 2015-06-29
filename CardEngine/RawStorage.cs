@@ -24,7 +24,7 @@ namespace CardEngine{
 		public int[] storage;
 		int binCounter = 0;
 		Dictionary<string,List<Trigger>> triggerDict = new Dictionary<string, List<Trigger>>();
-		Dictionary<string,int> binDict = new Dictionary<string,int>();
+		public Dictionary<string,int> binDict = new Dictionary<string,int>();
 		public RawStorage(){
 			storage = new int[32];
 		}

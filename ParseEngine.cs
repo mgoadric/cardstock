@@ -12,7 +12,7 @@ public class ParseEngine{
         StringBuilder builder = new StringBuilder();
 	public ParseEngine(){
                 var regex = new Regex("(;;)(.*?)(\n)");
-                var fileName = "Whist";
+                var fileName = "SpadesTest";
                 var f = File.ReadAllText(fileName + ".gdl");
                 var file = f;
                 //Console.WriteLine(file);
@@ -39,16 +39,23 @@ public class ParseEngine{
                 //Console.WriteLine(tree);
                 
                 // Here for timing estimates right now
-        		Stopwatch time = new Stopwatch();
-        		time.Start();
+		Stopwatch time = new Stopwatch();
+		time.Start();
 
                 StageIterator.ProcessGame(tree);
                 Console.Write(Analytics.StageCount.Instance);
                 Console.Write(Analytics.BranchingFactor.Instance);
                 Console.Write(Analytics.StorageValues.Instance);
+                var binCounts = Analytics.BinCounts.Instance.DictRep();
+                foreach (var key in binCounts.Keys){
+                        Console.WriteLine(key);
+                        foreach (var str in binCounts[key]){
+                                Console.Write(str + ", ");
+                        }
+                        Console.Write("\n");
+                }
                 time.Stop();
-                
-		        Console.WriteLine("Elapsed:" + time.Elapsed);
+                Console.WriteLine("Elapsed:" + time.Elapsed);
 
 	}
         public void DOTMaker(IParseTree node, string nodeName){
