@@ -8,6 +8,8 @@ using System.IO;
 using Antlr4.Runtime.Tree;
 using CardEngine;
 
+using Analytics;
+
 namespace ParseTreeIterator
 {
 	public class StageIterator{
@@ -21,7 +23,7 @@ namespace ParseTreeIterator
 			if (stage.endcondition().boolean() != null){
 				while (!BooleanIterator.ProcessBoolean(stage.endcondition().boolean())){
 					//Console.WriteLine("Hit Boolean while!");
-					
+					StageCount.Instance.IncCount(stage);
 					Console.WriteLine("Current Player: " + CardGame.Instance.CurrentPlayer().idx);
 					for (int i = 4; i < stage.ChildCount - 1; ++i){
 						ProcessSubStage(stage.GetChild(i));
@@ -71,6 +73,7 @@ namespace ParseTreeIterator
 					allOptions.AddRange(ProcessMultiActionChoice(gameaction.multiaction()));
 				}
 			}
+			BranchingFactor.Instance.AddCount(allOptions.Count,CardGame.Instance.CurrentPlayer().idx);
 			if (allOptions.Count != 0){
 				Console.WriteLine("Choice count:" + allOptions.Count);
 				CardGame.Instance.PlayerMakeChoice(allOptions,CardGame.Instance.CurrentPlayer().idx);

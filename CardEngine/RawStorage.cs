@@ -11,7 +11,9 @@ namespace CardEngine{
 		    }
 		    set
 		    {
+				
 	       		storage[binDict[key]] = value;
+				Analytics.StorageValues.Instance.AddCount(value,this.GetHashCode() + key);
 				if (triggerDict.ContainsKey(key)){
 					foreach (var trigger in triggerDict[key]){
 						trigger.Evaluate(storage[binDict[key]]);
