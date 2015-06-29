@@ -68,7 +68,7 @@
       ;; pick up the cards passed to you
       (stage player
          (end (== (size ((all player) loc PASSED)) 0))
-            (choice
+            (comp
                (() (move (top ((current player) loc PASSED)) (top ((current player) loc HAND)))
             ) 
          )
