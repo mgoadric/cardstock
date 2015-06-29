@@ -11,12 +11,12 @@ using CardEngine;
 namespace ParseTreeIterator
 {
 	public class StageIterator{
-		public static void ProcessGame(CardLanguageParser.GameContext game){
+		public static void ProcessGame(RecycleParser.GameContext game){
 			for (int i = 2; i < game.ChildCount - 1; ++i){
 				ProcessSubStage(game.GetChild(i));
 			}
 		}
-		public static void ProcessStage(CardLanguageParser.StageContext stage){
+		public static void ProcessStage(RecycleParser.StageContext stage){
 			CardGame.Instance.PushPlayer();
 			if (stage.endcondition().boolean() != null){
 				while (!BooleanIterator.ProcessBoolean(stage.endcondition().boolean())){
@@ -38,33 +38,33 @@ namespace ParseTreeIterator
 			CardGame.Instance.PopPlayer();
 		}
 		public static void ProcessSubStage(IParseTree sub){
-			if (sub is CardLanguageParser.ComputermovesContext){
+			if (sub is RecycleParser.ComputermovesContext){
 				//Console.WriteLine("Comp Action");
-				var comp = sub as CardLanguageParser.ComputermovesContext;
-				var multigameaction = comp.multigameaction()  as CardLanguageParser.MultigameactionContext;
+				var comp = sub as RecycleParser.ComputermovesContext;
+				var multigameaction = comp.multigameaction()  as RecycleParser.MultigameactionContext;
 				for (int i = 0; i < multigameaction.ChildCount; ++i){
 					//Console.WriteLine("gameaction");
-					var gameaction = multigameaction.GetChild(i) as CardLanguageParser.GameactionContext;
+					var gameaction = multigameaction.GetChild(i) as RecycleParser.GameactionContext;
 					if (BooleanIterator.ProcessBoolean(gameaction.boolean())){
 						//Console.WriteLine("bool true");
 						ProcessMultiAction(gameaction.multiaction());
 					}
 				}
 			}
-			else if (sub is CardLanguageParser.StageContext){
-				ProcessStage(sub as CardLanguageParser.StageContext);
+			else if (sub is RecycleParser.StageContext){
+				ProcessStage(sub as RecycleParser.StageContext);
 			}
-			else if (sub is CardLanguageParser.PlayermovesContext){
-				var choice = sub as CardLanguageParser.PlayermovesContext;
+			else if (sub is RecycleParser.PlayermovesContext){
+				var choice = sub as RecycleParser.PlayermovesContext;
 				ProcessChoice(choice);
 			}
 		}
-		public static void ProcessChoice(CardLanguageParser.PlayermovesContext playerMoves){
-			var multigameaction = playerMoves.multigameaction()  as CardLanguageParser.MultigameactionContext;
+		public static void ProcessChoice(RecycleParser.PlayermovesContext playerMoves){
+			var multigameaction = playerMoves.multigameaction()  as RecycleParser.MultigameactionContext;
 			var allOptions = new List<GameActionCollection>();
 			for (int i = 0; i < multigameaction.ChildCount; ++i){
 				//Console.WriteLine("gameaction");
-				var gameaction = multigameaction.GetChild(i) as CardLanguageParser.GameactionContext;
+				var gameaction = multigameaction.GetChild(i) as RecycleParser.GameactionContext;
 				//Console.WriteLine(gameaction.boolean().GetText());
 				//Console.WriteLine(BooleanIterator.ProcessBoolean(gameaction.boolean()));
 				if (BooleanIterator.ProcessBoolean(gameaction.boolean())){
@@ -79,11 +79,11 @@ namespace ParseTreeIterator
 				Console.WriteLine("NO Choice Available");
 			}
 		}
-		public static List<GameActionCollection> ProcessMultiActionChoice(CardLanguageParser.MultiactionContext actions){
+		public static List<GameActionCollection> ProcessMultiActionChoice(RecycleParser.MultiactionContext actions){
 			var allOptions = new List<GameActionCollection>();
 			for (int i = 0; i < actions.ChildCount; ++i){
 				//Console.WriteLine("action children");
-				var options = ProcessActionChoice(actions.GetChild(i)  as CardLanguageParser.ActionContext);
+				var options = ProcessActionChoice(actions.GetChild(i)  as RecycleParser.ActionContext);
 				var temp = new List<GameActionCollection>();
 				if (allOptions.Count == 0){
 					temp = options;
@@ -104,7 +104,7 @@ namespace ParseTreeIterator
 			return allOptions;
 			
 		}
-		public static List<GameActionCollection> ProcessActionChoice(CardLanguageParser.ActionContext action){
+		public static List<GameActionCollection> ProcessActionChoice(RecycleParser.ActionContext action){
 			//Console.WriteLine("Execute:");
 			//Console.WriteLine(action.GetText());
 			var opts = ActionIterator.ProcessAction(action);
@@ -134,13 +134,13 @@ namespace ParseTreeIterator
 			return flatten;
 			
 		}
-		public static void ProcessMultiAction(CardLanguageParser.MultiactionContext actions){
+		public static void ProcessMultiAction(RecycleParser.MultiactionContext actions){
 			for (int i = 0; i < actions.ChildCount; ++i){
 				//Console.WriteLine("action children");
-				ProcessAction(actions.GetChild(i)  as CardLanguageParser.ActionContext);
+				ProcessAction(actions.GetChild(i)  as RecycleParser.ActionContext);
 			}
 		}
-		public static void ProcessAction(CardLanguageParser.ActionContext action){
+		public static void ProcessAction(RecycleParser.ActionContext action){
 			//Console.WriteLine("Execute:");
 			//Console.WriteLine(action.GetText());
 			ActionIterator.ProcessAction(action).ExecuteAll();

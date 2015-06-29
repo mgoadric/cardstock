@@ -11,10 +11,10 @@ using CardEngine;
 namespace ParseTreeIterator
 {
 	public class ActionIterator{
-		public static GameActionCollection ProcessAction(CardLanguageParser.ActionContext actionNode){
+		public static GameActionCollection ProcessAction(RecycleParser.ActionContext actionNode){
 			var ret = new GameActionCollection();
 			if (actionNode.loccreate() != null){
-				var locAction = actionNode.loccreate() as CardLanguageParser.LoccreateContext;
+				var locAction = actionNode.loccreate() as RecycleParser.LoccreateContext;
 				CardStorage[] dest = new CardStorage[1];
 				if (locAction.obj().GetText() == "game"){
 					dest = new CardStorage[]{CardGame.Instance.tableCards};
@@ -33,7 +33,7 @@ namespace ParseTreeIterator
 				
 				foreach (var location in dest){
 					for (int i = 3; i < locAction.ChildCount; ++i){
-						var locDef = locAction.GetChild(i) as CardLanguageParser.LocationdefContext;
+						var locDef = locAction.GetChild(i) as RecycleParser.LocationdefContext;
 						var binName = locDef.name().GetText();
 						CardCollection temp = new CardListCollection();
 						if (locDef.GetChild(2).GetText() == "Stack"){
@@ -88,12 +88,12 @@ namespace ParseTreeIterator
 				
 			}
 			else if (actionNode.playercreate() != null){
-				var playerCreate = actionNode.playercreate() as CardLanguageParser.PlayercreateContext;
+				var playerCreate = actionNode.playercreate() as RecycleParser.PlayercreateContext;
 				var numPlayers = IntIterator.ProcessListInt(playerCreate.@int())[0];
 				CardGame.Instance.AddPlayers(numPlayers);
 			}
 			else if (actionNode.teamcreate() != null){
-				var teamCreate = actionNode.teamcreate() as CardLanguageParser.TeamcreateContext;
+				var teamCreate = actionNode.teamcreate() as RecycleParser.TeamcreateContext;
 				var numTeams = IntIterator.ProcessListInt(teamCreate.@int())[0];
 				if (teamCreate.ChildCount == 4){//alternate
 					for (int i = 0; i < numTeams; ++i){
@@ -141,12 +141,12 @@ namespace ParseTreeIterator
 					}
 					List<PointAwards> temp = new List<PointAwards>();
 					var awards = points.awards();
-					foreach (CardLanguageParser.AwardsContext award in awards){
+					foreach (RecycleParser.AwardsContext award in awards){
 						string key = "";
 						string value = "";
 						int reward = IntIterator.ProcessListInt(award.@int())[0];
 						var iter = award.subaward();
-						foreach (CardLanguageParser.SubawardContext i in iter){
+						foreach (RecycleParser.SubawardContext i in iter){
 							key += i.name().GetText() + ",";
 							if (i.trueany() != null){
 								value += i.trueany().GetText() + ",";

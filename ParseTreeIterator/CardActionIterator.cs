@@ -11,7 +11,7 @@ using CardEngine;
 namespace ParseTreeIterator
 {
 	public class CardActionIterator{
-		public static GameActionCollection ProcessCopy(CardLanguageParser.CopyactionContext copy){
+		public static GameActionCollection ProcessCopy(RecycleParser.CopyactionContext copy){
 			var ret = new GameActionCollection();
 			if (copy.ChildCount == 4){
 				//Explicit Repeat
@@ -38,7 +38,7 @@ namespace ParseTreeIterator
 			}
 			return ret;
 		}
-		public static GameActionCollection ProcessRemove(CardLanguageParser.RemoveactionContext removeAction){
+		public static GameActionCollection ProcessRemove(RecycleParser.RemoveactionContext removeAction){
 			var ret = new GameActionCollection();
 			
 			//Do once
@@ -49,7 +49,7 @@ namespace ParseTreeIterator
 			
 			return ret;
 		}
-		public static GameActionCollection ProcessMove(CardLanguageParser.MoveactionContext move){
+		public static GameActionCollection ProcessMove(RecycleParser.MoveactionContext move){
 			var ret = new GameActionCollection();
 			if (move.ChildCount == 4){
 				//Explicit Repeat

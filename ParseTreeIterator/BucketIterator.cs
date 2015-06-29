@@ -11,7 +11,7 @@ using CardEngine;
 namespace ParseTreeIterator
 {
 	public class BucketIterator{
-		public static CardCollection ProcessLocation(CardLanguageParser.LocstorageContext location){
+		public static CardCollection ProcessLocation(RecycleParser.LocstorageContext location){
 			if (location.who() != null){
 				return CardGame.Instance.tableCards[location.namegr().GetText()];
 			}

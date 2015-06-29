@@ -12,7 +12,7 @@ namespace ParseTreeIterator
 {
 	public class IntIterator{
 		
-		public static List<int> ProcessListInt(CardLanguageParser.IntContext intNode){
+		public static List<int> ProcessListInt(RecycleParser.IntContext intNode){
 			
 			var ret = new List<int>();
 			if (intNode.rawstorage() != null){
@@ -26,8 +26,8 @@ namespace ParseTreeIterator
 				ret.Add(int.Parse(intNode.GetText()));
 			}
 			else if (intNode.@sizeof() != null){
-				var size = intNode.@sizeof() as CardLanguageParser.SizeofContext;
-				var loc = size.locstorage() as CardLanguageParser.LocstorageContext;
+				var size = intNode.@sizeof() as RecycleParser.SizeofContext;
+				var loc = size.locstorage() as RecycleParser.LocstorageContext;
 				var trueLoc = CardIterator.ProcessLocation(loc);
 				foreach (var l in trueLoc){
 					ret.Add(l.FilteredCount());
@@ -80,7 +80,7 @@ namespace ParseTreeIterator
 			
 			return ret;
 		}
-		public static List<FancyRawStorage> ProcessRawStorage(CardLanguageParser.RawstorageContext raw){
+		public static List<FancyRawStorage> ProcessRawStorage(RecycleParser.RawstorageContext raw){
 			var ret = new List<FancyRawStorage>();
 			if (raw.who() != null){
 				var gamebucket = raw.namegr();
@@ -128,7 +128,7 @@ namespace ParseTreeIterator
 			}
 			return ret;
 		}
-		public static GameActionCollection SetAction(CardLanguageParser.SetactionContext setAction){
+		public static GameActionCollection SetAction(RecycleParser.SetactionContext setAction){
 			var ret = new GameActionCollection();
 			if (setAction.rawstorage() != null){
 				var bins = ProcessRawStorage(setAction.rawstorage());
@@ -145,7 +145,7 @@ namespace ParseTreeIterator
 			}
 			return ret;
 		}
-		public static GameActionCollection IncAction(CardLanguageParser.IncactionContext setAction){
+		public static GameActionCollection IncAction(RecycleParser.IncactionContext setAction){
 			var ret = new GameActionCollection();
 			if (setAction.rawstorage() != null){
 				var bins = ProcessRawStorage(setAction.rawstorage());
@@ -156,7 +156,7 @@ namespace ParseTreeIterator
 			}
 			return ret;
 		}
-		public static GameActionCollection DecAction(CardLanguageParser.DecactionContext setAction){
+		public static GameActionCollection DecAction(RecycleParser.DecactionContext setAction){
 			var ret = new GameActionCollection();
 			if (setAction.rawstorage() != null){
 				var bins = ProcessRawStorage(setAction.rawstorage());

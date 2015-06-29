@@ -11,7 +11,7 @@ using CardEngine;
 namespace ParseTreeIterator
 {
 	public class CardIterator{
-		public static FancyCardLocation[] ProcessCard(CardLanguageParser.CardContext card){
+		public static FancyCardLocation[] ProcessCard(RecycleParser.CardContext card){
 			if (card.maxof() != null){
 				var scoring = CardGame.Instance.points[card.maxof().namegr().GetText()];
 				var coll = ProcessLocation(card.maxof().locstorage());
@@ -41,7 +41,7 @@ namespace ParseTreeIterator
 			}
 			return ret;
 		}
-		public static FancyCardLocation[] ProcessLocation(CardLanguageParser.LocstorageContext loc){
+		public static FancyCardLocation[] ProcessLocation(RecycleParser.LocstorageContext loc){
 			if (loc.unionof() != null){
 				CardListCollection temp = new CardListCollection();
 				foreach (var locChild in loc.unionof().locstorage()){
@@ -90,7 +90,7 @@ namespace ParseTreeIterator
 			}
 			return null;
 		}
-		public static CardFilter ProcessWhere(CardLanguageParser.WhereclauseContext clause){
+		public static CardFilter ProcessWhere(RecycleParser.WhereclauseContext clause){
 			if (clause == null){
 				return null;
 			}
@@ -100,7 +100,7 @@ namespace ParseTreeIterator
 				new TreeExpression(ProcessCardatt(attrcomp.cardatt(0)),ProcessCardatt(attrcomp.cardatt(1)),(attrcomp.EQOP().GetText() == "=="))
 			});
 		}
-		public static string ProcessCardatt(CardLanguageParser.CardattContext cardatt){
+		public static string ProcessCardatt(RecycleParser.CardattContext cardatt){
 			if (cardatt.ChildCount == 1){
 				return cardatt.GetText();
 			}
@@ -114,7 +114,7 @@ namespace ParseTreeIterator
 				}
 			}
 		}
-		public static object ProcessWho2(CardLanguageParser.Who2Context who2){
+		public static object ProcessWho2(RecycleParser.Who2Context who2){
 			if (who2.who2() == null){
 				//base case
 				if (who2.posq() != null){

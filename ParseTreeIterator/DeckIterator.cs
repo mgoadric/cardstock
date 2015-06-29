@@ -11,7 +11,7 @@ using CardEngine;
 namespace ParseTreeIterator
 {
 	public class DeckIterator{
-		public static Tree ProcessDeck(CardLanguageParser.DeckContext deck){
+		public static Tree ProcessDeck(RecycleParser.DeckContext deck){
 			var attributeCount = deck.ChildCount - 3;
 			List<Node> childs = new List<Node>();
 			for (int i = 0; i < attributeCount; ++i){
@@ -28,11 +28,11 @@ namespace ParseTreeIterator
 			};
 		}
 		
-		public static List<Node> ProcessAttribute(CardLanguageParser.AttributeContext attr){
+		public static List<Node> ProcessAttribute(RecycleParser.AttributeContext attr){
 			if (attr.attribute()[0].attribute().Count() == 0){
 				//base case
 				var terminalTitle = attr.trueany()[0];
-				var subNode = attr.attribute()[0] as CardLanguageParser.AttributeContext;
+				var subNode = attr.attribute()[0] as RecycleParser.AttributeContext;
 				var ret = new List<Node>();
 				var trueCount = (subNode.ChildCount - 3)/2 + 1;
 				for (int i = 0; i < trueCount; ++i){
