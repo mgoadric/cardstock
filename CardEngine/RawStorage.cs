@@ -7,11 +7,17 @@ namespace CardEngine{
 		{
 		    get
 		    {
+				if (!binDict.ContainsKey(key)) {
+					AddKey(key);
+				}
 		        return storage[binDict[key]];
 		    }
 		    set
 		    {
 				
+				if (!binDict.ContainsKey(key)) {
+					AddKey(key);
+				}
 	       		storage[binDict[key]] = value;
 				Analytics.StorageValues.Instance.AddCount(value,this.GetHashCode() + key);
 				if (triggerDict.ContainsKey(key)){

@@ -465,6 +465,30 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitMemstorage([NotNull] RecycleParser.MemstorageContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.locpre"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterLocpre([NotNull] RecycleParser.LocpreContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.locpre"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitLocpre([NotNull] RecycleParser.LocpreContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.locpost"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterLocpost([NotNull] RecycleParser.LocpostContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.locpost"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitLocpost([NotNull] RecycleParser.LocpostContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.who"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

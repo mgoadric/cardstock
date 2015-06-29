@@ -13,11 +13,11 @@ namespace Analytics{
 		         return instance;
 		     }
 		}
-		Dictionary<CardLanguageParser.StageContext,int> counter = new Dictionary<CardLanguageParser.StageContext,int>();
+		Dictionary<RecycleParser.StageContext,int> counter = new Dictionary<RecycleParser.StageContext,int>();
 		public StageCount(){
 			
 		}
-		public void IncCount(CardLanguageParser.StageContext stage){
+		public void IncCount(RecycleParser.StageContext stage){
 			if (counter.ContainsKey(stage)){
 				counter[stage] += 1;
 			}

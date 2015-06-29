@@ -41,10 +41,10 @@ namespace ParseTreeIterator
 			}
 			return ret;
 		}
-		public static FancyCardLocation[] ProcessLocation(RecycleParser.LocstorageContext loc){
+		public static FancyCardLocation[] ProcessLocation(RecycleParser.CstorageContext loc){
 			if (loc.unionof() != null){
 				CardListCollection temp = new CardListCollection();
-				foreach (var locChild in loc.unionof().locstorage()){
+				foreach (var locChild in loc.unionof().cstorage()){
 					var locChildren = ProcessLocation(locChild);
 					foreach (var subLoc in locChildren){
 						foreach (var card in subLoc.FilteredList().AllCards()){
@@ -58,20 +58,28 @@ namespace ParseTreeIterator
 						locIdentifier="top"
 					}
 				};
-			}
-			if (loc.who() != null){
+			} else if (loc.locstorage() != null) {				
+				return ProcessSubLocation(loc.locstorage().locpre(), loc.locstorage().locpost);
+			} else if (loc.memstorage() != null) {				
+				return ProcessSubLocation(loc.memstorage().locpre(), loc.memstorage().locpost);
+			}			
+			return null;
+		}
+		public static FancyCardLocation[] ProcessSubLocation(RecycleParser.LocpreContext locpre,
+			RecycleParser.LocpostContext locpost) {
+			if (locpre.who() != null){
 				return new FancyCardLocation[]{
-					new FancyCardLocation{cardList=CardGame.Instance.tableCards[loc.namegr().GetText()]}
+					new FancyCardLocation{cardList=CardGame.Instance.tableCards[locpost.namegr().GetText()]}
 				};
 			}
-			else if (loc.who2() != null){
+			else if (locpre.who2() != null){
 				var resultingEntity = ProcessWho2(loc.who2());
 				if (resultingEntity is Player){
 					var innerPlayer = resultingEntity as Player;
-					var clause = ProcessWhere(loc.whereclause());
+					var clause = ProcessWhere(locpost.whereclause());
 					return new FancyCardLocation[]{
 						new FancyCardLocation{
-							cardList=innerPlayer.cardBins[loc.namegr().GetText()],
+							cardList=innerPlayer.cardBins[locpost.namegr().GetText()],
 							filter=clause
 						}
 					};
@@ -83,7 +91,7 @@ namespace ParseTreeIterator
 					var plist = resultingEntity as List<Player>;
 					var ret = new FancyCardLocation[plist.Count];
 					for (int i = 0; i < plist.Count; ++i){
-						ret[i] = new FancyCardLocation{cardList=plist[i].cardBins[loc.namegr().GetText()]};
+						ret[i] = new FancyCardLocation{cardList=plist[i].cardBins[locpost.namegr().GetText()]};
 					}
 					return ret;
 				}

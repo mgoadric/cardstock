@@ -14,9 +14,17 @@ namespace ParseTreeIterator
 {
 	public class StageIterator{
 		public static void ProcessGame(RecycleParser.GameContext game){
-			for (int i = 2; i < game.ChildCount - 1; ++i){
+
+			// process setup
+			SetupIterator.ProcessSetup(game.setup());
+			
+			for (int i = 3; i < game.ChildCount - 2; ++i){
 				ProcessSubStage(game.GetChild(i));
 			}
+			
+			// process scoring TODO
+			
+			
 		}
 		public static void ProcessStage(RecycleParser.StageContext stage){
 			CardGame.Instance.PushPlayer();

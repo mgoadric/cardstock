@@ -8,10 +8,17 @@ namespace CardEngine{
 		{
 		    get
 		    {
+				if (!binDict.ContainsKey(key)) {
+					AddKey(key);
+					storage[binDict[key]] = new CardListCollection();
+				}
 		        return storage[binDict[key]];
 		    }
 		    set
 		    {
+				if (!binDict.ContainsKey(key)) {
+					AddKey(key);
+				}
 	       		storage[binDict[key]] = value;
 				value.container = this;
 	    	}

@@ -1,7 +1,7 @@
 grammar Recycle;
 
 game : OPEN 'game' setup (computermoves|playermoves|stage)+? scoring CLOSE ;
-setup : OPEN playercreate teamcreate? deckcreate+? CLOSE ;
+setup : OPEN playercreate OPEN teamcreate CLOSE deckcreate+? CLOSE ;
 stage : OPEN 'stage' ('game'|'player'|'team') endcondition (computermoves|playermoves|stage)+? CLOSE ;
 scoring : OPEN 'scoring' ('min' | 'max') rawstorage ;
 endcondition : OPEN 'end' boolean CLOSE ;
@@ -15,9 +15,9 @@ multiaction : action+? ;
 
 action : OPEN (initpoints | teamcreate | cycleaction | setaction | moveaction | copyaction | incaction | decaction | removeaction | turnaction | shuffleaction ) CLOSE ;
 
-playercreate : 'create' 'players' int ;
+playercreate : OPEN 'create' 'players' int CLOSE ;
 teamcreate : 'create' 'teams' int 'alternate'? ;
-deckcreate : 'create' 'deck' locstorage deck ;
+deckcreate : OPEN 'create' 'deck' locstorage deck CLOSE ;
 deck : OPEN 'permdeck' attribute+? CLOSE ;
 attribute : (OPEN (trueany ',')*? trueany attribute*? CLOSE)  ;
 
@@ -39,14 +39,17 @@ turnaction : 'turn' 'pass' ;
 
 // Issue with 'any' showing up in comp actions. Needs to be refactored?
 
-card : (cardp | cardm) ;
-cardp : maxof | (OPEN ('top' | 'bottom' | int | 'any') locstorage CLOSE) ;
-cardm : maxof | (OPEN ('top' | 'bottom' | int | 'any') memstorage CLOSE) ;
+card : maxof | (cardp | cardm) ;
+cardp : (OPEN ('top' | 'bottom' | int | 'any') locstorage CLOSE) ;
+cardm : (OPEN ('top' | 'bottom' | int | 'any') memstorage CLOSE) ;
 owner : OPEN 'owner' card CLOSE ;
 rawstorage : OPEN (who | who2) 'sto' namegr CLOSE ;
-cstorage : (locstorage | memstorage) ;
-locstorage : unionof | OPEN (who | who2) 'loc' namegr whereclause? CLOSE ;
-memstorage : unionof | OPEN (who | who2) 'mem' namegr whereclause? CLOSE ;
+cstorage : unionof | (locstorage | memstorage) ;
+locstorage : OPEN locpre 'loc' locpost CLOSE ;
+memstorage : OPEN locpre 'mem' locpost CLOSE;
+locpre :  (who | who2) ;
+locpost : namegr whereclause? ;
+
 who : 'game' ;
 
 // SHOULD THIS BE SPLIT INTO TWO SO YOU CAN'T SAY player player player??
