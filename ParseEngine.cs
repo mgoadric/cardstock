@@ -12,7 +12,7 @@ public class ParseEngine{
         StringBuilder builder = new StringBuilder();
 	public ParseEngine(){
                 var regex = new Regex("(;;)(.*?)(\n)");
-                var fileName = "HeartsTest";
+                var fileName = "Whist";
                 var f = File.ReadAllText(fileName + ".gdl");
                 var file = f;
                 //Console.WriteLine(file);
@@ -43,8 +43,11 @@ public class ParseEngine{
         		time.Start();
 
                 StageIterator.ProcessGame(tree);
-                
+                Console.Write(Analytics.StageCount.Instance);
+                Console.Write(Analytics.BranchingFactor.Instance);
+                Console.Write(Analytics.StorageValues.Instance);
                 time.Stop();
+                
 		        Console.WriteLine("Elapsed:" + time.Elapsed);
 
 	}
