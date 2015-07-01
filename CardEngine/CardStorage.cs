@@ -11,6 +11,7 @@ namespace CardEngine{
 				if (!binDict.ContainsKey(key)) {
 					AddKey(key);
 					storage[binDict[key]] = new CardListCollection();
+					storage[binDict[key]].container = this;
 				}
 		        return storage[binDict[key]];
 		    }

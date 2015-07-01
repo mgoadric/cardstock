@@ -77,6 +77,15 @@ namespace ParseTreeIterator
 			else if (actionNode.decaction() != null){
 				var decAction = actionNode.decaction();
 				ret.AddRange(IntIterator.DecAction(decAction));
+			} 
+			else if (actionNode.cycleaction() != null) {
+				
+				if (actionNode.cycleaction().GetChild(1).GetText() == "next"){
+					//Set next player
+					var idx = IntIterator.ProcessListInt(actionNode.cycleaction().@int())[0];
+					CardGame.Instance.CurrentPlayer().SetNext(idx);
+					Console.WriteLine("Next Player:" + idx);
+				}
 			}
 			else{
 				Console.WriteLine("Not Processed: '" + actionNode.GetText() + "'");

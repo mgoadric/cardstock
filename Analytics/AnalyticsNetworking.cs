@@ -10,21 +10,21 @@ namespace Analytics{
 			public float ExecutionTime{get; set;}
 			public List<Tuple<int,int,string,string>> branchingFactor = new List<Tuple<int,int,string,string>>();
 			public override string ToString(){
-				var ret = "{";
-				ret += "\"GameID\" : " + GameId + ",";
-				ret += "\"ExecutionTime\" : " + ExecutionTime + ",";
-				ret += "\"branchingFactor\" : [ ";
+				var ret = new StringBuilder("{");
+				ret.Append("\"GameID\" : " + GameId + ",");
+				ret.Append("\"ExecutionTime\" : " + ExecutionTime + ",");
+				ret.Append("\"branchingFactor\" : [ ");
 				foreach (var item in branchingFactor){
-					ret += "{";
-					ret += "\"Item1\" : " + item.Item1 + ",";
-					ret += "\"Item2\" : \"" + item.Item2 + "\",";
-					ret += "\"Item3\" : \"" + item.Item3 + "\",";
-					ret += "\"Item4\" : \"" + item.Item4 + "\"";
-					ret += "},";
+					ret.Append("{");
+					ret.Append("\"Item1\" : " + item.Item1 + ",");
+					ret.Append("\"Item2\" : \"" + item.Item2 + "\",");
+					ret.Append("\"Item3\" : \"" + item.Item3 + "\",");
+					ret.Append("\"Item4\" : \"" + item.Item4 + "\"");
+					ret.Append("},");
 				}
-				ret = ret.Substring(0,ret.Length - 1);
-				ret += "]}";
-				return ret;
+				var str = ret.ToString().Substring(0,ret.Length - 1);
+				str += "]}";
+				return str;
 			}
 		}
 		public static void PostResults(){

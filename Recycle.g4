@@ -1,3 +1,5 @@
+// Version 0.3 of our REcursive CYclic Card game LanguagE
+
 grammar Recycle;
 
 game : OPEN 'game' setup (computermoves|playermoves|stage)+? scoring CLOSE ;

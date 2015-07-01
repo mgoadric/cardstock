@@ -71,7 +71,9 @@ namespace ParseTreeIterator
 			}
 			else if (intNode.owner() != null){
 				var own = intNode.owner();
+				Console.WriteLine("Got to OWNER");
 				var resultingCard = CardIterator.ProcessCard(own.card())[0].Get();
+				Console.WriteLine("Result :" + resultingCard);
 				ret.Add(CardGame.Instance.CurrentPlayer().playerList.IndexOf(resultingCard.owner.container.owner));
 			}
 			else{
@@ -136,12 +138,6 @@ namespace ParseTreeIterator
 				foreach (var bin in bins){
 					ret.Add(new IntAction(bin.storage,bin.key,setValue));
 				}
-			}
-			else if (setAction.GetChild(1).GetText() == "next"){
-				//Set next player
-				var idx = ProcessListInt(setAction.@int())[0];
-				CardGame.Instance.CurrentPlayer().SetNext(idx);
-				Console.WriteLine("Next Player:" + idx);
 			}
 			return ret;
 		}
