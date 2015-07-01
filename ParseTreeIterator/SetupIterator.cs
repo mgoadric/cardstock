@@ -12,7 +12,8 @@ namespace ParseTreeIterator
 {
 	public class SetupIterator{
 		
-		public static GameActionCollection ProcessTeamCreate(RecycleParser.TeamcreateContext teamCreate) {
+		public static void ProcessTeamCreate(RecycleParser.TeamcreateContext teamCreate) {
+			/*
 				var numTeams = IntIterator.ProcessListInt(teamCreate.@int())[0];
 				if (teamCreate.ChildCount == 4){//alternate
 					for (int i = 0; i < numTeams; ++i){
@@ -43,7 +44,7 @@ namespace ParseTreeIterator
 				}
 				CardGame.Instance.currentTeam.Push(new TeamCycle(CardGame.Instance.teams));
 				Console.WriteLine("NUMTEAMS:" + CardGame.Instance.teams.Count);
-			
+			*/
 		}
 		public static GameActionCollection ProcessSetup(RecycleParser.SetupContext setupNode){
 			var ret = new GameActionCollection();
@@ -57,13 +58,15 @@ namespace ParseTreeIterator
 				ProcessTeamCreate(teamCreate);
 			}
 			else if (setupNode.deckcreate() != null){
-				var deckinit = setupNode.deckcreate();
-				var locstorage = BucketIterator.ProcessLocation(deckinit.locstorage());
-				var deckTree = DeckIterator.ProcessDeck(deckinit.deck());
-				ret.Add(new InitializeAction(locstorage,deckTree));
+				var decks = setupNode.deckcreate();
+				foreach (var deckinit in decks) {				
+					var locstorage = CardIterator.ProcessSubLocation(deckinit.locstorage().locpre(), deckinit.locstorage().locpost());
+					var deckTree = DeckIterator.ProcessDeck(deckinit.deck());
+					ret.Add(new InitializeAction(locstorage[0].cardList,deckTree));
+				}
 			}
 			else{
-				Console.WriteLine("Not Processed: '" + actionNode.GetText() + "'");
+				Console.WriteLine("Not Processed: '" + setupNode.GetText() + "'");
 			}
 			return ret;
 		}		

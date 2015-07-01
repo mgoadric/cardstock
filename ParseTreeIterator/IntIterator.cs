@@ -27,7 +27,7 @@ namespace ParseTreeIterator
 			}
 			else if (intNode.@sizeof() != null){
 				var size = intNode.@sizeof() as RecycleParser.SizeofContext;
-				var loc = size.locstorage() as RecycleParser.LocstorageContext;
+				var loc = size.cstorage() as RecycleParser.CstorageContext;
 				var trueLoc = CardIterator.ProcessLocation(loc);
 				foreach (var l in trueLoc){
 					ret.Add(l.FilteredCount());
@@ -58,7 +58,7 @@ namespace ParseTreeIterator
 				else{
 					var sum = intNode.sum();
 					var scoring = CardGame.Instance.points[sum.namegr().GetText()];
-					var coll = CardIterator.ProcessLocation(sum.locstorage());
+					var coll = CardIterator.ProcessLocation(sum.cstorage());
 					var total = 0;
 					foreach (var loc in coll){
 						foreach (var c in loc.FilteredList().AllCards()){

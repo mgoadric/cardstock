@@ -12,7 +12,7 @@ public class ParseEngine{
         StringBuilder builder = new StringBuilder();
 	public ParseEngine(){
                 var regex = new Regex("(;;)(.*?)(\n)");
-                var fileName = "Whist";
+                var fileName = "SpadesTestV3";
                 var f = File.ReadAllText(fileName + ".gdl");
                 var file = f;
                 //Console.WriteLine(file);

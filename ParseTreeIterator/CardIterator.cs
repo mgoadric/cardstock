@@ -11,10 +11,19 @@ using CardEngine;
 namespace ParseTreeIterator
 {
 	public class CardIterator{
+
+		public static FancyCardLocation[] ProcessCard(RecycleParser.CardmContext cardm){
+			return ProcessSubLocation(cardm.memstorage().locpre(),
+					cardm.memstorage().locpost());	
+		}
+		public static FancyCardLocation[] ProcessCard(RecycleParser.CardpContext cardp){
+			return ProcessSubLocation(cardp.locstorage().locpre(),
+					cardp.locstorage().locpost());	
+		}
 		public static FancyCardLocation[] ProcessCard(RecycleParser.CardContext card){
 			if (card.maxof() != null){
 				var scoring = CardGame.Instance.points[card.maxof().namegr().GetText()];
-				var coll = ProcessLocation(card.maxof().locstorage());
+				var coll = ProcessLocation(card.maxof().cstorage());
 				var max = 0;
 				Card maxCard = null;
 				foreach (var loc in coll){
@@ -35,12 +44,21 @@ namespace ParseTreeIterator
 					}
 				};
 			}
-			var ret = ProcessLocation(card.locstorage());
+			
+			FancyCardLocation[] ret = null;
+			if (card.cardp() != null) {
+				ret = ProcessCard(card.cardp());
+			} else if (card.cardm() != null) {
+				ret = ProcessCard(card.cardm());				
+			}
+			
 			foreach (var fancy in ret){
 				fancy.locIdentifier = card.GetChild(1).GetText();
 			}
+						
 			return ret;
 		}
+		
 		public static FancyCardLocation[] ProcessLocation(RecycleParser.CstorageContext loc){
 			if (loc.unionof() != null){
 				CardListCollection temp = new CardListCollection();
@@ -59,9 +77,9 @@ namespace ParseTreeIterator
 					}
 				};
 			} else if (loc.locstorage() != null) {				
-				return ProcessSubLocation(loc.locstorage().locpre(), loc.locstorage().locpost);
+				return ProcessSubLocation(loc.locstorage().locpre(), loc.locstorage().locpost());
 			} else if (loc.memstorage() != null) {				
-				return ProcessSubLocation(loc.memstorage().locpre(), loc.memstorage().locpost);
+				return ProcessSubLocation(loc.memstorage().locpre(), loc.memstorage().locpost());
 			}			
 			return null;
 		}
@@ -73,7 +91,7 @@ namespace ParseTreeIterator
 				};
 			}
 			else if (locpre.who2() != null){
-				var resultingEntity = ProcessWho2(loc.who2());
+				var resultingEntity = ProcessWho2(locpre.who2());
 				if (resultingEntity is Player){
 					var innerPlayer = resultingEntity as Player;
 					var clause = ProcessWhere(locpost.whereclause());

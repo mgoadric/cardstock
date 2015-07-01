@@ -1,7 +1,7 @@
 grammar Recycle;
 
 game : OPEN 'game' setup (computermoves|playermoves|stage)+? scoring CLOSE ;
-setup : OPEN playercreate OPEN teamcreate CLOSE deckcreate+? CLOSE ;
+setup : OPEN 'setup' playercreate OPEN teamcreate CLOSE deckcreate+? CLOSE ;
 stage : OPEN 'stage' ('game'|'player'|'team') endcondition (computermoves|playermoves|stage)+? CLOSE ;
 scoring : OPEN 'scoring' ('min' | 'max') rawstorage ;
 endcondition : OPEN 'end' boolean CLOSE ;
@@ -16,7 +16,7 @@ multiaction : action+? ;
 action : OPEN (initpoints | teamcreate | cycleaction | setaction | moveaction | copyaction | incaction | decaction | removeaction | turnaction | shuffleaction ) CLOSE ;
 
 playercreate : OPEN 'create' 'players' int CLOSE ;
-teamcreate : 'create' 'teams' int 'alternate'? ;
+teamcreate : 'create' 'teams' attribute+? ;
 deckcreate : OPEN 'create' 'deck' locstorage deck CLOSE ;
 deck : OPEN 'permdeck' attribute+? CLOSE ;
 attribute : (OPEN (trueany ',')*? trueany attribute*? CLOSE)  ;
