@@ -1,46 +1,28 @@
 ;; Whist in the GDL
 (game
 
-   (comp (() 
+   (setup 
+      ;; Set up the players, 2 teams of 2 players, alternating
+      (create players 4)
+      (create teams (0, 2) (1, 3))
 
-             ;; Set up the players, 2 teams of 2 players, alternating
-             (create players 4)
-             (create teams 2 alternate)
-
-             ;; Game Locations and Storage
-             (create loc game (SOURCE List)
-                              (STOCK Stack)
-                              (DISCARD Stack)
-                              (TRUMP Stack Memory)
-                              (LEAD Stack Memory))
-
-
-             ;; Player Locations and Storage
-             (create loc player (HAND List)
-                                (TRICK Stack))
-             (create sto player (BID, TRICKSWON))
-
-             ;; Team Locations and Storage
-             (create sto team (SCORE))
-             
-             ;; Create the deck source
-             (initialize (game loc DISCARD) (permdeck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
+      ;; Create the deck source
+      (create deck (game loc DISCARD) (permdeck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
                                                      (color (red (suit (hearts, diamonds)))
-                                                            (black (suit (clubs, spades))))))
-         )
+                                                            (black (suit (clubs, spades))))))         
    )
                
    ;; Stages of the game
    (stage player
-      (end (>= ((any team) sto SCORE) 7))
+      (end (>= ((any team) sto SCORE) 10))
       (comp (() (move (top (game loc DISCARD)) 
                       (top (game loc STOCK)) all)
                 (shuffle (game loc STOCK))
                 (move (top (game loc STOCK))
                       (top ((all player) loc HAND)) 13)
                 (set ((all player) sto TRICKSWON) 0)
-                (copy (top ((current player) loc HAND))
-                      (top (game loc TRUMP)))
+                (remember (top ((current player) loc HAND))
+                          (top (game mem TRUMP)))
              )
       ) 
          
@@ -56,28 +38,28 @@
 
                ;; if following player and cannot follow suit
                ;;   play any card, and end your turn
-               ((and (== (size (game loc LEAD)) 1)
-                     (== (size ((current player) loc HAND where (== (cardatt suit this) 
-                                                                    (cardatt suit (top (game loc LEAD)))))) 0))
+               ((and (== (size (game mem LEAD)) 1)
+                     (== (size ((current player) loc HAND where (== (cardatt suit each) 
+                                                                    (cardatt suit (top (game mem LEAD)))))) 0))
                 (move (any ((current player) loc HAND)) 
                       (top ((current player) loc TRICK))))
 
                ;; if following player and can follow suit
                ;;   play any card that follows suit, and end your turn
-               ((and (== (size (game loc LEAD)) 1)
-                     (!= (size ((current player) loc HAND where (== (cardatt suit this) 
-                                                                    (cardatt suit (top (game loc LEAD)))))) 0))
-                (move (any ((current player) loc HAND where (== (cardatt suit this) 
-                                                                (cardatt suit (top (game loc LEAD)))))) 
+               ((and (== (size (game mem LEAD)) 1)
+                     (!= (size ((current player) loc HAND where (== (cardatt suit each) 
+                                                                    (cardatt suit (top (game mem LEAD)))))) 0))
+                (move (any ((current player) loc HAND where (== (cardatt suit each) 
+                                                                (cardatt suit (top (game mem LEAD)))))) 
                       (top ((current player) loc TRICK))))
                       
                ;; if first player, play any card, remember it in the lead spot, and end your turn
-               ((== (size (game loc LEAD)) 0)
+               ((== (size (game mem LEAD)) 0)
                       
                 (move (any ((current player) loc HAND)) 
                       (top ((current player) loc TRICK)))
-                (copy (top ((current player) loc TRICK)) 
-                      (top (game loc LEAD))))
+                (remember (top ((current player) loc TRICK)) 
+                          (top (game mem LEAD))))
                       
            )
          )
@@ -87,8 +69,8 @@
              (() 
                  ;; solidfy card recedence
                  (initialize points PRECEDENCE (
-                               (all (suit (cardatt suit (top (game loc TRUMP)))) 200)
-                               (all (suit (cardatt suit (top (game loc LEAD)))) 100)
+                               (all (suit (cardatt suit (top (game mem TRUMP)))) 200)
+                               (all (suit (cardatt suit (top (game mem LEAD)))) 100)
                                (all (rank (A)) 14)
                                (all (rank (K)) 13) 
                                (all (rank (Q)) 12)
@@ -106,8 +88,8 @@
                                )             
                       
                  ;; determine who won the hand, set them first next time, and give them a point
-                 (remove (top (game loc LEAD)))
-                 (set next (owner (max (union ((all player) loc TRICK)) using PRECEDENCE)))
+                 (forget (top (game mem LEAD)))
+                 (cycle next (owner (max (union ((all player) loc TRICK)) using PRECEDENCE)))
                  (inc ((next player) sto TRICKSWON) 1)
 
              )
@@ -135,6 +117,7 @@
          )
       )
    )
+   (scoring max (((current player) team) sto SCORE))
 )
          
          

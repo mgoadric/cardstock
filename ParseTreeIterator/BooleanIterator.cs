@@ -10,7 +10,7 @@ using Antlr4.Runtime.Tree;
 namespace ParseTreeIterator
 {
 	public class BooleanIterator{
-		public static bool ProcessBoolean(CardLanguageParser.BooleanContext boolNode){
+		public static bool ProcessBoolean(RecycleParser.BooleanContext boolNode){
 			if (boolNode.GetText() == "()"){
 				return true;
 			}

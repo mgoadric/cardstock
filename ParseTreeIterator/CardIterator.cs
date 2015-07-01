@@ -11,10 +11,28 @@ using CardEngine;
 namespace ParseTreeIterator
 {
 	public class CardIterator{
-		public static FancyCardLocation[] ProcessCard(CardLanguageParser.CardContext card){
+
+		public static FancyCardLocation[] ProcessCard(RecycleParser.CardmContext cardm){
+			var ret = ProcessSubLocation(cardm.memstorage().locpre(),
+					cardm.memstorage().locpost());
+			foreach (var fancy in ret){
+					fancy.locIdentifier = cardm.GetChild(1).GetText();
+			}
+			return ret;
+	
+		}
+		public static FancyCardLocation[] ProcessCard(RecycleParser.CardpContext cardp){
+			var ret = ProcessSubLocation(cardp.locstorage().locpre(),
+					cardp.locstorage().locpost());	
+			foreach (var fancy in ret){
+					fancy.locIdentifier = cardp.GetChild(1).GetText();
+			}
+			return ret;
+		}
+		public static FancyCardLocation[] ProcessCard(RecycleParser.CardContext card){
 			if (card.maxof() != null){
 				var scoring = CardGame.Instance.points[card.maxof().namegr().GetText()];
-				var coll = ProcessLocation(card.maxof().locstorage());
+				var coll = ProcessLocation(card.maxof().cstorage());
 				var max = 0;
 				Card maxCard = null;
 				foreach (var loc in coll){
@@ -35,16 +53,21 @@ namespace ParseTreeIterator
 					}
 				};
 			}
-			var ret = ProcessLocation(card.locstorage());
-			foreach (var fancy in ret){
-				fancy.locIdentifier = card.GetChild(1).GetText();
+			
+			FancyCardLocation[] ret = null;
+			if (card.cardp() != null) {
+				ret = ProcessCard(card.cardp());
+			} else if (card.cardm() != null) {
+				ret = ProcessCard(card.cardm());				
 			}
+									
 			return ret;
 		}
-		public static FancyCardLocation[] ProcessLocation(CardLanguageParser.LocstorageContext loc){
+		
+		public static FancyCardLocation[] ProcessLocation(RecycleParser.CstorageContext loc){
 			if (loc.unionof() != null){
 				CardListCollection temp = new CardListCollection();
-				foreach (var locChild in loc.unionof().locstorage()){
+				foreach (var locChild in loc.unionof().cstorage()){
 					var locChildren = ProcessLocation(locChild);
 					foreach (var subLoc in locChildren){
 						foreach (var card in subLoc.FilteredList().AllCards()){
@@ -58,20 +81,28 @@ namespace ParseTreeIterator
 						locIdentifier="top"
 					}
 				};
-			}
-			if (loc.who() != null){
+			} else if (loc.locstorage() != null) {				
+				return ProcessSubLocation(loc.locstorage().locpre(), loc.locstorage().locpost());
+			} else if (loc.memstorage() != null) {				
+				return ProcessSubLocation(loc.memstorage().locpre(), loc.memstorage().locpost());
+			}			
+			return null;
+		}
+		public static FancyCardLocation[] ProcessSubLocation(RecycleParser.LocpreContext locpre,
+			RecycleParser.LocpostContext locpost) {
+			if (locpre.who() != null){
 				return new FancyCardLocation[]{
-					new FancyCardLocation{cardList=CardGame.Instance.tableCards[loc.namegr().GetText()]}
+					new FancyCardLocation{cardList=CardGame.Instance.tableCards[locpost.namegr().GetText()]}
 				};
 			}
-			else if (loc.who2() != null){
-				var resultingEntity = ProcessWho2(loc.who2());
+			else if (locpre.who2() != null){
+				var resultingEntity = ProcessWho2(locpre.who2());
 				if (resultingEntity is Player){
 					var innerPlayer = resultingEntity as Player;
-					var clause = ProcessWhere(loc.whereclause());
+					var clause = ProcessWhere(locpost.whereclause());
 					return new FancyCardLocation[]{
 						new FancyCardLocation{
-							cardList=innerPlayer.cardBins[loc.namegr().GetText()],
+							cardList=innerPlayer.cardBins[locpost.namegr().GetText()],
 							filter=clause
 						}
 					};
@@ -83,14 +114,15 @@ namespace ParseTreeIterator
 					var plist = resultingEntity as List<Player>;
 					var ret = new FancyCardLocation[plist.Count];
 					for (int i = 0; i < plist.Count; ++i){
-						ret[i] = new FancyCardLocation{cardList=plist[i].cardBins[loc.namegr().GetText()]};
+						ret[i] = new FancyCardLocation{cardList=plist[i].cardBins[locpost.namegr().GetText()]};
 					}
 					return ret;
 				}
 			}
+			Console.WriteLine("NOTHING RETURNED!!!");
 			return null;
 		}
-		public static CardFilter ProcessWhere(CardLanguageParser.WhereclauseContext clause){
+		public static CardFilter ProcessWhere(RecycleParser.WhereclauseContext clause){
 			if (clause == null){
 				return null;
 			}
@@ -100,12 +132,12 @@ namespace ParseTreeIterator
 				new TreeExpression(ProcessCardatt(attrcomp.cardatt(0)),ProcessCardatt(attrcomp.cardatt(1)),(attrcomp.EQOP().GetText() == "=="))
 			});
 		}
-		public static string ProcessCardatt(CardLanguageParser.CardattContext cardatt){
+		public static string ProcessCardatt(RecycleParser.CardattContext cardatt){
 			if (cardatt.ChildCount == 1){
 				return cardatt.GetText();
 			}
 			else{
-				if (cardatt.GetChild(3).GetText() == "this"){
+				if (cardatt.GetChild(3).GetText() == "each"){
 					return cardatt.name().GetText();
 				}
 				else{
@@ -114,7 +146,7 @@ namespace ParseTreeIterator
 				}
 			}
 		}
-		public static object ProcessWho2(CardLanguageParser.Who2Context who2){
+		public static object ProcessWho2(RecycleParser.Who2Context who2){
 			if (who2.who2() == null){
 				//base case
 				if (who2.posq() != null){

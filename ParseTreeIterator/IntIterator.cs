@@ -12,7 +12,7 @@ namespace ParseTreeIterator
 {
 	public class IntIterator{
 		
-		public static List<int> ProcessListInt(CardLanguageParser.IntContext intNode){
+		public static List<int> ProcessListInt(RecycleParser.IntContext intNode){
 			
 			var ret = new List<int>();
 			if (intNode.rawstorage() != null){
@@ -26,8 +26,8 @@ namespace ParseTreeIterator
 				ret.Add(int.Parse(intNode.GetText()));
 			}
 			else if (intNode.@sizeof() != null){
-				var size = intNode.@sizeof() as CardLanguageParser.SizeofContext;
-				var loc = size.locstorage() as CardLanguageParser.LocstorageContext;
+				var size = intNode.@sizeof() as RecycleParser.SizeofContext;
+				var loc = size.cstorage() as RecycleParser.CstorageContext;
 				var trueLoc = CardIterator.ProcessLocation(loc);
 				foreach (var l in trueLoc){
 					ret.Add(l.FilteredCount());
@@ -58,7 +58,7 @@ namespace ParseTreeIterator
 				else{
 					var sum = intNode.sum();
 					var scoring = CardGame.Instance.points[sum.namegr().GetText()];
-					var coll = CardIterator.ProcessLocation(sum.locstorage());
+					var coll = CardIterator.ProcessLocation(sum.cstorage());
 					var total = 0;
 					foreach (var loc in coll){
 						foreach (var c in loc.FilteredList().AllCards()){
@@ -71,7 +71,9 @@ namespace ParseTreeIterator
 			}
 			else if (intNode.owner() != null){
 				var own = intNode.owner();
+				Console.WriteLine("Got to OWNER");
 				var resultingCard = CardIterator.ProcessCard(own.card())[0].Get();
+				Console.WriteLine("Result :" + resultingCard);
 				ret.Add(CardGame.Instance.CurrentPlayer().playerList.IndexOf(resultingCard.owner.container.owner));
 			}
 			else{
@@ -80,7 +82,7 @@ namespace ParseTreeIterator
 			
 			return ret;
 		}
-		public static List<FancyRawStorage> ProcessRawStorage(CardLanguageParser.RawstorageContext raw){
+		public static List<FancyRawStorage> ProcessRawStorage(RecycleParser.RawstorageContext raw){
 			var ret = new List<FancyRawStorage>();
 			if (raw.who() != null){
 				var gamebucket = raw.namegr();
@@ -128,7 +130,7 @@ namespace ParseTreeIterator
 			}
 			return ret;
 		}
-		public static GameActionCollection SetAction(CardLanguageParser.SetactionContext setAction){
+		public static GameActionCollection SetAction(RecycleParser.SetactionContext setAction){
 			var ret = new GameActionCollection();
 			if (setAction.rawstorage() != null){
 				var bins = ProcessRawStorage(setAction.rawstorage());
@@ -137,15 +139,9 @@ namespace ParseTreeIterator
 					ret.Add(new IntAction(bin.storage,bin.key,setValue));
 				}
 			}
-			else if (setAction.GetChild(1).GetText() == "next"){
-				//Set next player
-				var idx = ProcessListInt(setAction.@int())[0];
-				CardGame.Instance.CurrentPlayer().SetNext(idx);
-				Console.WriteLine("Next Player:" + idx);
-			}
 			return ret;
 		}
-		public static GameActionCollection IncAction(CardLanguageParser.IncactionContext setAction){
+		public static GameActionCollection IncAction(RecycleParser.IncactionContext setAction){
 			var ret = new GameActionCollection();
 			if (setAction.rawstorage() != null){
 				var bins = ProcessRawStorage(setAction.rawstorage());
@@ -156,7 +152,7 @@ namespace ParseTreeIterator
 			}
 			return ret;
 		}
-		public static GameActionCollection DecAction(CardLanguageParser.DecactionContext setAction){
+		public static GameActionCollection DecAction(RecycleParser.DecactionContext setAction){
 			var ret = new GameActionCollection();
 			if (setAction.rawstorage() != null){
 				var bins = ProcessRawStorage(setAction.rawstorage());

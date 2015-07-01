@@ -12,16 +12,17 @@ public class ParseEngine{
         StringBuilder builder = new StringBuilder();
 	public ParseEngine(){
                 var regex = new Regex("(;;)(.*?)(\n)");
-                var fileName = "SpadesTest";
+
+                var fileName = "Whist";
                 var f = File.ReadAllText(fileName + ".gdl");
                 var file = f;
                 //Console.WriteLine(file);
                 file = regex.Replace(file,"\n");
                 //Console.WriteLine(file);
 		        AntlrInputStream stream = new AntlrInputStream(file);
-                ITokenSource lexer = new CardLanguageLexer(stream);
+                ITokenSource lexer = new RecycleLexer(stream);
                 ITokenStream tokens = new CommonTokenStream(lexer);
-                var parser = new CardLanguageParser(tokens);
+                var parser = new RecycleParser(tokens);
         
                	parser.BuildParseTree = true;
                 var tree = parser.game();
@@ -64,7 +65,7 @@ public class ParseEngine{
                 for (int i = 0; i < node.ChildCount; ++i){
                         var dontCreate = false;
                         var newNodeName = nodeName + "_" + i;
-                        var contextName = node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","");
+                        var contextName = node.GetChild(i).GetType().ToString().Replace("RecycleParser+","").Replace("Context","");
                         if (node.GetChild(i).ChildCount > 0 && contextName == "Int") {
                                 var text = node.GetChild(i).GetText();
                                 int myi = 0;
@@ -72,7 +73,7 @@ public class ParseEngine{
                                     myi++;
                                 } 
                                 if (myi != text.Length) {
-                                    builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","") + "\" ]");
+                                    builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("RecycleParser+","").Replace("Context","") + "\" ]");
                                     DOTMaker(node.GetChild(i),newNodeName);                             
                                 } else {
                                     builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetText() + "\" style=filled fillcolor=\"lightblue\"]");  
@@ -87,7 +88,7 @@ public class ParseEngine{
                                 } else if (contextName == "Playermoves") {
                                     extra = " style=filled shape=diamond fillcolor=\"orange\"";
                                 }
-                                builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("CardLanguageParser+","").Replace("Context","") + "\" " + extra + "]");
+                                builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("RecycleParser+","").Replace("Context","") + "\" " + extra + "]");
                                 DOTMaker(node.GetChild(i),newNodeName);                             
                         }
                         else if (node.GetChild(i).ChildCount > 0){
@@ -111,17 +112,17 @@ public class ParseEngine{
                         }
                 }
         }
-/*        public void Recurse(CardLanguageParser.BodyContext con){
+/*        public void Recurse(RecycleParser.BodyContext con){
                 Recurse(con.childNode());
         }
-        public void Recurse(CardLanguageParser.ChildNodeContext con){
+        public void Recurse(RecycleParser.ChildNodeContext con){
                 Console.Write("{ ");
                 if (con.ChildCount == 4){
-                        Recurse((CardLanguageParser.ChildNodeContext)con.children[1]);
-                        Recurse((CardLanguageParser.ChildNodeContext)con.children[3]);
+                        Recurse((RecycleParser.ChildNodeContext)con.children[1]);
+                        Recurse((RecycleParser.ChildNodeContext)con.children[3]);
                 }
                 else if (con.ChildCount == 3){
-                        Recurse((CardLanguageParser.ChildNodeContext)con.children[1]);
+                        Recurse((RecycleParser.ChildNodeContext)con.children[1]);
                 }
                 else{
                         Console.Write(con.GetText());

@@ -1,31 +1,26 @@
 ;; Crazy Eights in the GDL
 (game
-    (comp (() 
+    (setup  
+     ;; Set up the players, 4 players each on their own team
+      (create players 4)
+      (create teams (0) (1) (2) (3))
 
-             ;; Game Locations and Storage
-             (create loc game (STOCK Stack)
-                              (DISCARD Stack)
-                              (TEMP Stack))
-
-             ;; Set up the players
-             (create players 4)
-
-             ;; Player Locations and Storage
-             (create loc player (HAND List))
-             (create sto player (SCORE))
-             
-             ;; Create the deck source
-             (initialize (game loc STOCK) (permdeck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
-                                                     (color (red (suit (hearts, diamonds)))
-                                                            (black (suit (clubs, spades))))))
-             (shuffle (game loc STOCK))
-             (move (top (game loc STOCK))
-                   (top ((all player) loc HAND)) 5)  
-             (move (top (game loc STOCK))
-                   (top (game loc DISCARD)))  
-          )
+      ;; Create the deck source
+      (create deck (game loc STOCK) (permdeck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
+                                              (color (red (suit (hearts, diamonds)))
+                                                     (black (suit (clubs, spades))))))         
    )
-               
+     
+    
+   (comp 
+       (()
+        (shuffle (game loc STOCK))
+        (move (top (game loc STOCK))
+              (top ((all player) loc HAND)) 5)  
+        (move (top (game loc STOCK))
+              (top (game loc DISCARD)))  
+       )
+   )
    ;; Stages of the game
    (stage player
       (end (== (size ((any player) loc HAND)) 0))
@@ -36,13 +31,13 @@
              
          ((== (cardatt rank (any ((current player) loc HAND)))
               (cardatt rank (top (game loc DISCARD))))
-           (move (any ((current player) loc HAND where (== (cardatt rank this)
+           (move (any ((current player) loc HAND where (== (cardatt rank each)
                                                            (cardatt rank (top (game loc DISCARD))))))
                  (top (game loc DISCARD)))
          )
          ((== (cardatt suit (any ((current player) loc HAND)))
               (cardatt suit (top (game loc DISCARD))))
-           (move (any ((current player) loc HAND where (== (cardatt suit this)
+           (move (any ((current player) loc HAND where (== (cardatt suit each)
                                                            (cardatt suit (top (game loc DISCARD))))))
                  (top (game loc DISCARD)))
          )
@@ -78,6 +73,7 @@
                    (top (game loc DISCARD)) all))
       )
    )
+   (scoring min ((current player) sto SCORE))
 )
          
          
