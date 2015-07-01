@@ -16,7 +16,7 @@ namespace ParseTreeIterator
 		public static void ProcessGame(RecycleParser.GameContext game){
 
 			// process setup
-			SetupIterator.ProcessSetup(game.setup());
+			SetupIterator.ProcessSetup(game.setup()).ExecuteAll();
 			
 			for (int i = 3; i < game.ChildCount - 2; ++i){
 				ProcessSubStage(game.GetChild(i));

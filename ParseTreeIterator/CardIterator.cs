@@ -13,12 +13,21 @@ namespace ParseTreeIterator
 	public class CardIterator{
 
 		public static FancyCardLocation[] ProcessCard(RecycleParser.CardmContext cardm){
-			return ProcessSubLocation(cardm.memstorage().locpre(),
-					cardm.memstorage().locpost());	
+			var ret = ProcessSubLocation(cardm.memstorage().locpre(),
+					cardm.memstorage().locpost());
+			foreach (var fancy in ret){
+					fancy.locIdentifier = cardm.GetChild(1).GetText();
+			}
+			return ret;
+	
 		}
 		public static FancyCardLocation[] ProcessCard(RecycleParser.CardpContext cardp){
-			return ProcessSubLocation(cardp.locstorage().locpre(),
+			var ret = ProcessSubLocation(cardp.locstorage().locpre(),
 					cardp.locstorage().locpost());	
+			foreach (var fancy in ret){
+					fancy.locIdentifier = cardp.GetChild(1).GetText();
+			}
+			return ret;
 		}
 		public static FancyCardLocation[] ProcessCard(RecycleParser.CardContext card){
 			if (card.maxof() != null){
@@ -51,11 +60,7 @@ namespace ParseTreeIterator
 			} else if (card.cardm() != null) {
 				ret = ProcessCard(card.cardm());				
 			}
-			
-			foreach (var fancy in ret){
-				fancy.locIdentifier = card.GetChild(1).GetText();
-			}
-						
+									
 			return ret;
 		}
 		
@@ -114,6 +119,7 @@ namespace ParseTreeIterator
 					return ret;
 				}
 			}
+			Console.WriteLine("NOTHING RETURNED!!!");
 			return null;
 		}
 		public static CardFilter ProcessWhere(RecycleParser.WhereclauseContext clause){
@@ -131,7 +137,7 @@ namespace ParseTreeIterator
 				return cardatt.GetText();
 			}
 			else{
-				if (cardatt.GetChild(3).GetText() == "this"){
+				if (cardatt.GetChild(3).GetText() == "each"){
 					return cardatt.name().GetText();
 				}
 				else{

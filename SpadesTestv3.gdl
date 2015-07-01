@@ -17,8 +17,8 @@
       (end (>= ((any team) sto SCORE) 500))
       (comp (() (move (top (game loc DISCARD)) 
                       (top (game loc STOCK)) all)
-                (remember (top (game loc STOCK where (== (cardatt suit this) spades)))
-                          (top (game loc TRUMP)))
+                (remember (top (game loc STOCK where (== (cardatt suit each) spades)))
+                          (top (game mem TRUMP)))
                 (shuffle (game loc STOCK))
                 (move (top (game loc STOCK))
                       (top ((all player) loc HAND)) 13)
@@ -54,49 +54,49 @@
                ;; if following player and cannot follow suit
                ;;   play any card, and end your turn
                ((and (== (size (game loc LEAD)) 1)
-                     (== (size ((current player) loc HAND where (== (cardatt suit this) 
-                                                                    (cardatt suit (top (game loc LEAD)))))) 0))
+                     (== (size ((current player) loc HAND where (== (cardatt suit each) 
+                                                                    (cardatt suit (top (game mem LEAD)))))) 0))
                 (move (any ((current player) loc HAND)) 
                       (top ((current player) loc TRICK))))
 
                ;; if following player and can follow suit
                ;;   play any card that follows suit, and end your turn
                ((and (== (size (game loc LEAD)) 1)
-                     (!= (size ((current player) loc HAND where (== (cardatt suit this) 
-                                                                    (cardatt suit (top (game loc LEAD)))))) 0))
-                (move (any ((current player) loc HAND where (== (cardatt suit this) 
-                                                                (cardatt suit (top (game loc LEAD)))))) 
+                     (!= (size ((current player) loc HAND where (== (cardatt suit each) 
+                                                                    (cardatt suit (top (game mem LEAD)))))) 0))
+                (move (any ((current player) loc HAND where (== (cardatt suit each) 
+                                                                (cardatt suit (top (game mem LEAD)))))) 
                       (top ((current player) loc TRICK))))
                       
                ;; if first player and spades not broken and have non-spades cards
                ;;   play one of these, remember it in the lead spot, and end your turn
                ((and (== (size (game loc LEAD)) 0)
                      (== (game sto BROKEN) 0)
-                     (> (size ((current player) loc HAND where (!= (cardatt suit this) 
-                                                                    (cardatt suit (top (game loc TRUMP)))))) 0)) 
-                (move (any ((current player) loc HAND where (!= (cardatt suit this) 
-                                                                (cardatt suit (top (game loc TRUMP)))))) 
+                     (> (size ((current player) loc HAND where (!= (cardatt suit each) 
+                                                                    (cardatt suit (top (game mem TRUMP)))))) 0)) 
+                (move (any ((current player) loc HAND where (!= (cardatt suit each) 
+                                                                (cardatt suit (top (game mem TRUMP)))))) 
                       (top ((current player) loc TRICK)))
                 (remember (top ((current player) loc TRICK)) 
-                          (top (game loc LEAD))))
+                          (top (game mem LEAD))))
                       
                ;; if first player and spades broken
                ;;   play any card, remember it in the lead spot, and end your turn
-               ((and (== (size (game loc LEAD)) 0)
+               ((and (== (size (game mem LEAD)) 0)
                      (== (game sto BROKEN) 1)) 
                 (move (any ((current player) loc HAND)) 
                       (top ((current player) loc TRICK)))
                 (remember (top ((current player) loc TRICK)) 
-                          (top (game loc LEAD))))
+                          (top (game mem LEAD))))
                       
-               ((and (== (size (game loc LEAD)) 0)
+               ((and (== (size (game mem LEAD)) 0)
                      (== (game sto BROKEN) 0)
-                     (== (size ((current player) loc HAND where (!= (cardatt suit this) 
-                                                                    (cardatt suit (top (game loc TRUMP)))))) 0)) 
+                     (== (size ((current player) loc HAND where (!= (cardatt suit each) 
+                                                                    (cardatt suit (top (game mem TRUMP)))))) 0)) 
                 (move (any ((current player) loc HAND)) 
                       (top ((current player) loc TRICK)))
                 (remember (top ((current player) loc TRICK)) 
-                          (top (game loc LEAD))))
+                          (top (game mem LEAD))))
             )
          )
               
@@ -105,8 +105,8 @@
              (() 
                  ;; solidfy card recedence
                  (initialize points PRECEDENCE (
-                               (all (suit (cardatt suit (top (game loc TRUMP)))) 200)
-                               (all (suit (cardatt suit (top (game loc LEAD)))) 100)
+                               (all (suit (cardatt suit (top (game mem TRUMP)))) 200)
+                               (all (suit (cardatt suit (top (game mem LEAD)))) 100)
                                (all (rank (A)) 14)
                                (all (rank (K)) 13) 
                                (all (rank (Q)) 12)
@@ -124,7 +124,7 @@
                                )             
                       
                  ;; determine who won the hand, set them first next time, and give them a point
-                 (forget (top (game loc LEAD)))
+                 (forget (top (game mem LEAD)))
                  (cycle next (owner (max (union ((all player) loc TRICK)) using PRECEDENCE)))
                  (inc ((next player) sto TRICKSWON) 1)
 
@@ -132,7 +132,7 @@
                   
              ;; if winner played trump and trump not broken, trump is now broken
              ((and (== (cardatt suit (top ((next player) loc TRICK))) 
-                       (cardatt suit (top (game loc TRUMP))))
+                       (cardatt suit (top (game mem TRUMP))))
                    (== (game sto BROKEN) 0))
               (set (game sto BROKEN) 1))
                   
