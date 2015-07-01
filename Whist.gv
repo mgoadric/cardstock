@@ -134,7 +134,7 @@ NODE0_3_3_2_2_0_3 [fillcolor="green" style=filled label="SCORE"]
 NODE0_3_3_2_2_0 -- NODE0_3_3_2_2_0_3
 NODE0_3_3_2_2 -- NODE0_3_3_2_2_0
 NODE0_3_3_2 -- NODE0_3_3_2_2
-NODE0_3_3_2_3 [label="10" style=filled fillcolor="lightblue"]
+NODE0_3_3_2_3 [label="1000" style=filled fillcolor="lightblue"]
 NODE0_3_3_2 -- NODE0_3_3_2_3
 NODE0_3_3 -- NODE0_3_3_2
 NODE0_3 -- NODE0_3_3
