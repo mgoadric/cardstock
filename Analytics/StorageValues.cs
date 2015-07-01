@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 namespace Analytics{
 	public class StorageValues{
 		private static StorageValues instance;
@@ -13,17 +14,17 @@ namespace Analytics{
 		         return instance;
 		     }
 		}
-		Dictionary<string,List<int>> counter = new Dictionary<string,List<int>>();
+		Dictionary<string,List<Tuple<int,string,string>>> counter = new Dictionary<string,List<Tuple<int,string,string>>>();
 		public StorageValues(){
 			
 		}
 		public void AddCount(int value, string key){
 			if (counter.ContainsKey(key)){
-				counter[key].Add(value);
+				counter[key].Add(new Tuple<int,string,string>(value,TimeStep.Instance.GetTreeLoc(),TimeStep.Instance.GetTimeStep()));
 			}
 			else{
-				counter[key] = new List<int>{
-					value
+				counter[key] = new List<Tuple<int,string,string>>{
+					new Tuple<int,string,string>(value,TimeStep.Instance.GetTreeLoc(),TimeStep.Instance.GetTimeStep())
 				};
 			}
 		}

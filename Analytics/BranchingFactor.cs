@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 namespace Analytics{
 	public class BranchingFactor{
 		private static BranchingFactor instance;
@@ -13,17 +14,17 @@ namespace Analytics{
 		         return instance;
 		     }
 		}
-		Dictionary<int,List<int>> counter = new Dictionary<int,List<int>>();
+		public Dictionary<int,List<Tuple<int,int,string,string>>> counter = new Dictionary<int,List<Tuple<int,int,string,string>>>();
 		public BranchingFactor(){
 			
 		}
 		public void AddCount(int numChoices, int playerNum){
 			if (counter.ContainsKey(playerNum)){
-				counter[playerNum].Add(numChoices);
+				counter[playerNum].Add(new Tuple<int,int,string,string>(numChoices,playerNum,TimeStep.Instance.GetTreeLoc(),TimeStep.Instance.GetTimeStep()));
 			}
 			else{
-				counter[playerNum] = new List<int>{
-					numChoices
+				counter[playerNum] = new List<Tuple<int,int,string,string>>{
+					new Tuple<int,int,string,string>(numChoices,playerNum,TimeStep.Instance.GetTreeLoc(),TimeStep.Instance.GetTimeStep())
 				};
 			}
 		}

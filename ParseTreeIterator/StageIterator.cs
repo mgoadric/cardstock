@@ -29,12 +29,17 @@ namespace ParseTreeIterator
 		public static void ProcessStage(RecycleParser.StageContext stage){
 			CardGame.Instance.PushPlayer();
 			if (stage.endcondition().boolean() != null){
+				TimeStep.Instance.timeStep.Push(0);
 				while (!BooleanIterator.ProcessBoolean(stage.endcondition().boolean())){
 					//Console.WriteLine("Hit Boolean while!");
 					StageCount.Instance.IncCount(stage);
+					TimeStep.Instance.timeStep.Push(TimeStep.Instance.timeStep.Pop() + 1);
 					Console.WriteLine("Current Player: " + CardGame.Instance.CurrentPlayer().idx);
 					for (int i = 4; i < stage.ChildCount - 1; ++i){
+						TimeStep.Instance.treeLoc.Push(i - 4);
+						Console.WriteLine(TimeStep.Instance);
 						ProcessSubStage(stage.GetChild(i));
+						TimeStep.Instance.treeLoc.Pop();
 					}
 					if (stage.GetChild(2).GetText() == "player"){
 						CardGame.Instance.CurrentPlayer().Next();
@@ -44,6 +49,7 @@ namespace ParseTreeIterator
 					}
 					
 				}
+				TimeStep.Instance.timeStep.Pop();
 			}
 			CardGame.Instance.PopPlayer();
 		}
