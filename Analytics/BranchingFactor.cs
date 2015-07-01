@@ -14,17 +14,17 @@ namespace Analytics{
 		         return instance;
 		     }
 		}
-		Dictionary<int,List<Tuple<int,string,string>>> counter = new Dictionary<int,List<Tuple<int,string,string>>>();
+		public Dictionary<int,List<Tuple<int,int,string,string>>> counter = new Dictionary<int,List<Tuple<int,int,string,string>>>();
 		public BranchingFactor(){
 			
 		}
 		public void AddCount(int numChoices, int playerNum){
 			if (counter.ContainsKey(playerNum)){
-				counter[playerNum].Add(new Tuple<int,string,string>(numChoices,TimeStep.Instance.GetTreeLoc(),TimeStep.Instance.GetTimeStep()));
+				counter[playerNum].Add(new Tuple<int,int,string,string>(numChoices,playerNum,TimeStep.Instance.GetTreeLoc(),TimeStep.Instance.GetTimeStep()));
 			}
 			else{
-				counter[playerNum] = new List<Tuple<int,string,string>>{
-					new Tuple<int,string,string>(numChoices,TimeStep.Instance.GetTreeLoc(),TimeStep.Instance.GetTimeStep())
+				counter[playerNum] = new List<Tuple<int,int,string,string>>{
+					new Tuple<int,int,string,string>(numChoices,playerNum,TimeStep.Instance.GetTreeLoc(),TimeStep.Instance.GetTimeStep())
 				};
 			}
 		}

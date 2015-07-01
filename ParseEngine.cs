@@ -55,6 +55,7 @@ public class ParseEngine{
                         Console.Write("\n");
                 }
                 time.Stop();
+                Analytics.AnalyticsNetworking.PostResults();
                 Console.WriteLine("Elapsed:" + time.Elapsed);
 
 	}
