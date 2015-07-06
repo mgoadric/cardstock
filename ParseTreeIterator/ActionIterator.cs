@@ -82,9 +82,31 @@ namespace ParseTreeIterator
 				
 				if (actionNode.cycleaction().GetChild(1).GetText() == "next"){
 					//Set next player
-					var idx = IntIterator.ProcessListInt(actionNode.cycleaction().@int())[0];
-					CardGame.Instance.CurrentPlayer().SetNext(idx);
-					Console.WriteLine("Next Player:" + idx);
+					if (actionNode.cycleaction().@int() != null) {
+						var idx = IntIterator.ProcessListInt(actionNode.cycleaction().@int())[0];
+						CardGame.Instance.CurrentPlayer().SetNext(idx);
+						Console.WriteLine("Next Player:" + idx);
+					} else if (actionNode.cycleaction().GetChild(2).GetText() == "next") {
+						CardGame.Instance.CurrentPlayer().SetNext(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekNext()));			
+					} else if (actionNode.cycleaction().GetChild(2).GetText() == "current") {
+						CardGame.Instance.CurrentPlayer().SetNext(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().Current()));			
+					} else if (actionNode.cycleaction().GetChild(2).GetText() == "previous") {
+						CardGame.Instance.CurrentPlayer().SetNext(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekPrevious()));			
+					}
+				}
+				else if (actionNode.cycleaction().GetChild(1).GetText() == "current"){
+					//Set next player
+					if (actionNode.cycleaction().@int() != null) {
+						var idx = IntIterator.ProcessListInt(actionNode.cycleaction().@int())[0];
+						CardGame.Instance.CurrentPlayer().SetPlayer(idx);
+						Console.WriteLine("Next Player:" + idx);
+					} else if (actionNode.cycleaction().GetChild(2).GetText() == "next") {
+						CardGame.Instance.CurrentPlayer().SetPlayer(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekNext()));			
+					} else if (actionNode.cycleaction().GetChild(2).GetText() == "current") {
+						CardGame.Instance.CurrentPlayer().SetPlayer(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().Current()));			
+					} else if (actionNode.cycleaction().GetChild(2).GetText() == "previous") {
+						CardGame.Instance.CurrentPlayer().SetPlayer(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekPrevious()));			
+					}
 				}
 			}
 			else{

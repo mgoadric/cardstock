@@ -27,7 +27,7 @@ initpoints : 'initialize' 'points' name OPEN awards+? CLOSE ;
 awards : OPEN posq subaward+? int CLOSE ;
 subaward : OPEN name ((OPEN trueany CLOSE) |(cardatt)) CLOSE ;
 
-cycleaction : 'cycle' ('next' | 'current') int ;
+cycleaction : 'cycle' ('next' | 'current') (int | 'current' | 'next' | 'previous') ;
 
 setaction : 'set' rawstorage int ;
 incaction : 'inc' rawstorage int ;

@@ -96,7 +96,7 @@ NODE0_2_7 -- NODE0_2_7_2
 NODE0_2_7_3 [label="Locstorage" ]
 NODE0_2_7_3_1 [label="Locpre" ]
 NODE0_2_7_3_1_0 [label="Who2" ]
-NODE0_2_7_3_1_0_1 [label="0" style=filled fillcolor="lightblue"]
+NODE0_2_7_3_1_0_1 [label="current"]
 NODE0_2_7_3_1_0 -- NODE0_2_7_3_1_0_1
 NODE0_2_7_3_1_0_2 [label="player"]
 NODE0_2_7_3_1_0 -- NODE0_2_7_3_1_0_2
@@ -166,7 +166,7 @@ NODE0_2_8 -- NODE0_2_8_2
 NODE0_2_8_3 [label="Locstorage" ]
 NODE0_2_8_3_1 [label="Locpre" ]
 NODE0_2_8_3_1_0 [label="Who2" ]
-NODE0_2_8_3_1_0_1 [label="1" style=filled fillcolor="lightblue"]
+NODE0_2_8_3_1_0_1 [label="next"]
 NODE0_2_8_3_1_0 -- NODE0_2_8_3_1_0_1
 NODE0_2_8_3_1_0_2 [label="player"]
 NODE0_2_8_3_1_0 -- NODE0_2_8_3_1_0_2

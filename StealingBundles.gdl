@@ -20,7 +20,7 @@
                
    ;; Stages of the game
    (stage player
-      (end (== (size (game loc STOCK) 0)))
+      (end (== (size (game loc STOCK)) 0))
       (comp (() (move (top (game loc STOCK))
                       (top ((all player) loc HAND)) 4)
              )
@@ -43,18 +43,18 @@
          (comp
              ((== (cardatt rank (any (game loc POOL)))
                   (cardatt rank (top ((current player) loc TRICK))))
-              (move (top (game loc POOL where (== (cardatt rank this)
-                                                (cardatt rank (top ((current player) loc TRICK))) 0)))
+              (move (top (game loc POOL where (== (cardatt rank each)
+                                                  (cardatt rank (top ((current player) loc TRICK))))))
                     (top ((current player) loc BUNDLE)) all)
               (set ((current player) sto MOVED) 1))
              
              ;; BROKE HERE< NEED MORE LANGUANGE STUFF
-             ((== (cardatt rank (top ((any player) loc BUNDLE)))
-                  (cardatt rank (top ((current player) loc TRICK))))
-              (move (top ((any player where (== (cardatt rank (top (this loc BUNDLE)))
-                                                (cardatt rank (top ((current player) loc TRICK)))))) loc BUNDLE)
-                    (top ((current player) loc BUNDLE)) all)
-              (set ((current player) sto MOVED) 1))
+;;             ((== (cardatt rank (top ((any player) loc BUNDLE)))
+;;                  (cardatt rank (top ((current player) loc TRICK))))
+;;              (move (top ((any player where (== (cardatt rank (top (this loc BUNDLE)))
+;;                                                (cardatt rank (top ((current player) loc TRICK)))))) loc BUNDLE)
+;;                    (top ((current player) loc BUNDLE)) all)
+;;              (set ((current player) sto MOVED) 1))
               
              ((== ((current player) sto MOVED) 0)      
               (move (top ((current player) loc TRICK))
@@ -67,7 +67,7 @@
                                    
          )
       )    
-      (comp (() (set next current))
+      (comp (() (cycle next current))
       ) 
    )
          
