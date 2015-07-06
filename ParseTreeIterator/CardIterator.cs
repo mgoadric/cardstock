@@ -184,6 +184,14 @@ namespace ParseTreeIterator
 						return CardGame.Instance.CurrentPlayer().Current().team;//TODO change to true current team
 					}
 				}
+				else if (who2.@int() != null){
+					if (who2.GetChild(2).GetText() == "player"){
+						return CardGame.Instance.players[IntIterator.ProcessListInt(who2.@int())[0]];
+					}
+					else{//teams
+						return CardGame.Instance.CurrentPlayer().Current().team;//TODO change to true current team
+					}
+				}
 			}
 			else{
 				//need to recurse
