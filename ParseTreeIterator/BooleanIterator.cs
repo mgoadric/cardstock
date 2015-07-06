@@ -125,7 +125,33 @@ namespace ParseTreeIterator
 					return flag;
 				}
 			}
+			else if (boolNode.attrcomp() != null){
+				var lst1 = ProcessAtt(boolNode.attrcomp().cardatt(0));
+				var lst2 = ProcessAtt(boolNode.attrcomp().cardatt(1));
+				if (boolNode.attrcomp().EQOP().GetText() == "=="){
+					return lst1.Intersect(lst2).Count() >= 1;
+				}
+				else{// == "!="
+					return lst1.Union(lst2).Count() == 1;
+				}
+			}
 			return false;
+		}
+		public static  List<string> ProcessAtt(RecycleParser.CardattContext cAtt){
+			List<string> ret = new List<string>();
+			if (cAtt.ChildCount == 1){
+				ret.Add(cAtt.GetText());
+			}
+			else{//We're ignoring 'each' here, not iterating over a deck
+				var lstOfCards = CardIterator.ProcessCard(cAtt.card());
+				foreach (var fLoc in lstOfCards){
+					foreach (var card in fLoc.FilteredList().AllCards()){
+						ret.Add(card.ReadAttribute(cAtt.name().GetText()));
+					}
+				}
+				
+			}
+			return ret;
 		}
 		
 	}

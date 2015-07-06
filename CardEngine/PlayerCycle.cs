@@ -19,6 +19,9 @@ namespace CardEngine{
 			if (queuedNext != -1){
 				idx = queuedNext;
 			}
+			else{
+				Next();
+			}
 			var ret = Current();
 			idx = saved;
 			return ret;

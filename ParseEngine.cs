@@ -13,7 +13,11 @@ public class ParseEngine{
 	public ParseEngine(){
                 var regex = new Regex("(;;)(.*?)(\n)");
 
+<<<<<<< HEAD
                 var fileName = "GOPS";
+=======
+                var fileName = "SaneEights";
+>>>>>>> aea6c2b21a7ed74d0e0bdff02d257c0f6bd68b8a
                 var f = File.ReadAllText(fileName + ".gdl");
                 var file = f;
                 //Console.WriteLine(file);
