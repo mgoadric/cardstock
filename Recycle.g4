@@ -58,8 +58,7 @@ who : 'game' ;
 who2 : OPEN (posq | int | 'previous' | 'next' | 'current' | who2) ('player' | 'team') CLOSE ;
 
 trueany : (ANY|int|BOOLOP)+?;
-whereclause : 'where' boolatt ; 
-boolatt : OPEN attrcomp CLOSE ;
+whereclause : 'where' booleanwhere ; 
 
 attrcomp : EQOP cardatt cardatt ;
 // what about this out of context of where???
@@ -67,7 +66,8 @@ cardatt : name | (OPEN 'cardatt' name ('each' | card ) CLOSE) ;
  
 posq : 'any' | 'all' ;
 //need some way to talk about PLAYER EQUALITY/INEQUALITY
-boolean : (OPEN ((BOOLOP boolean boolean+?) | attrcomp | (intop int  int) | (UNOP boolean)) CLOSE) | (OPEN CLOSE) ;
+booleanwhere : (OPEN ((BOOLOP booleanwhere booleanwhere+?) | attrcomp | (intop intwhere intwhere) | (UNOP booleanwhere)) CLOSE) | (OPEN CLOSE) ;
+boolean : (OPEN ((BOOLOP boolean boolean+?) | (intop int  int) | (UNOP boolean)) CLOSE) | (OPEN CLOSE) ;
 BOOLOP : 'and' | 'or' ;
 intop : (COMPOP | EQOP) ;
 COMPOP : '<' | '>' | '>=' | '<=' ;
@@ -84,8 +84,10 @@ sizeof : OPEN 'size' cstorage CLOSE ;
 maxof : OPEN 'max' cstorage 'using' namegr CLOSE ;
 unionof : OPEN 'union' cstorage+? CLOSE ;
 sum : OPEN 'sum' (rawstorage | (cstorage 'using' namegr)) CLOSE ; 
-score : OPEN 'score' (card | 'each') 'using' namegr CLOSE ;
+scorewhere : OPEN 'score' 'each' 'using' namegr CLOSE ;
+score : OPEN 'score' card 'using' namegr CLOSE ;
 
+intwhere : scorewhere | int ;
 int : owner | sizeof | mult | subtract | mod | divide | sum | rawstorage | score | INTNUM+ ;
 INTNUM : [0-9] ;
 
