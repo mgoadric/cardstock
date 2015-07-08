@@ -60,25 +60,27 @@ who2 : OPEN (posq | int | 'previous' | 'next' | 'current' | who2) ('player' | 't
 trueany : (ANY|int|BOOLOP)+?;
 whereclause : 'where' booleanwhere ; 
 
-attrcomp : EQOP cardatt cardatt ;
+attrcomp : EQOP cardatt{2} ;
+attrcompwhere : EQOP (cardatt | cardattwhere){2} ;
 // what about this out of context of where???
-cardatt : name | (OPEN 'cardatt' name ('each' | card ) CLOSE) ;
+cardatt : name | (OPEN 'cardatt' name card  CLOSE) ;
+cardattwhere : name | (OPEN 'cardatt' name 'each' CLOSE) ;
  
 posq : 'any' | 'all' ;
 //need some way to talk about PLAYER EQUALITY/INEQUALITY
-booleanwhere : (OPEN ((BOOLOP booleanwhere booleanwhere+?) | attrcomp | (intop intwhere intwhere) | (UNOP booleanwhere)) CLOSE) | (OPEN CLOSE) ;
-boolean : (OPEN ((BOOLOP boolean boolean+?) | (intop int  int) | (UNOP boolean)) CLOSE) | (OPEN CLOSE) ;
+booleanwhere : (OPEN ((BOOLOP booleanwhere booleanwhere+?) | attrcompwhere | (intop intwhere{2} ) | (UNOP booleanwhere)) CLOSE) | (OPEN CLOSE) ;
+boolean : (OPEN ((BOOLOP boolean boolean+?) | (intop int{2} ) | attrcomp | (UNOP boolean)) CLOSE) | (OPEN CLOSE) ;
 BOOLOP : 'and' | 'or' ;
 intop : (COMPOP | EQOP) ;
 COMPOP : '<' | '>' | '>=' | '<=' ;
 EQOP : '!=' | '==' ;
 UNOP : 'not' ;
 
-add : OPEN '+' int int CLOSE ;
-mult : OPEN '*' int int CLOSE ;
-subtract : OPEN '-' int int CLOSE ;
-mod : OPEN '%' int int CLOSE ;
-divide : OPEN '//' int int CLOSE ;
+add : OPEN '+' int{2} CLOSE ;
+mult : OPEN '*' int{2} CLOSE ;
+subtract : OPEN '-' int{2} CLOSE ;
+mod : OPEN '%' int{2} CLOSE ;
+divide : OPEN '//' int{2} CLOSE ;
 
 sizeof : OPEN 'size' cstorage CLOSE ;
 maxof : OPEN 'max' cstorage 'using' namegr CLOSE ;
