@@ -1,0 +1,196 @@
+;; Lost Cities in the GDL
+(game
+
+   (setup 
+      ;; Set up the players, 2 teams of 2 players, alternating
+      (create players 2)
+
+      ;; Create the deck source
+      (create deck (game loc STOCK) (permdeck (rank (2, 3, 4, 5, 6, 7, 8, 9, 10))
+                                                     (color (white, blue, green, red, yellow))))
+      (create deck (game loc STOCK) (permdeck 3 (rank (HS))
+                                                     (color (white, blue, green, red, yellow))))
+   )
+   (comp (()
+          (set (game sto ROUNDS) 0)
+          ;; solidfy card recedence
+                 (initialize points PRECEDENCE (
+                               
+                               (all (rank (10)) 10)
+                               (all (rank (9)) 9)
+                               (all (rank (8)) 8)
+                               (all (rank (7)) 7)
+                               (all (rank (6)) 6)
+                               (all (rank (5)) 5)
+                               (all (rank (4)) 4)
+                               (all (rank (3)) 3)
+                               (all (rank (2)) 2)
+                               )
+                               )
+                 (initialize points MULTIPLIER (
+                                                
+                                                (all (rank (HS)) 1)
+                                                )
+                             )
+                 )
+         )       
+   ;; Stages of the game
+   (stage player
+      (end (== (game sto ROUNDS) 3))
+      (comp (() (shuffle (game loc STOCK))
+                (move (top (game loc STOCK))
+                      (top ((all player) loc HAND)) 8)
+             )
+      ) 
+         
+      
+      ;; players play a hand once
+      (stage player
+             (end (== (size (game loc STOCK)) 0))
+             
+             (choice
+              
+              
+              
+              ;; if following player and cannot follow suit
+              ;;   play any card, and end your turn
+              ((> (size ((current player) loc HAND where (== (cardatt suit each) green)) 0))
+                    
+               (move (any ((current player) loc HAND where (== (cardatt suit each) green))) 
+                     (top (game loc GREEN))))
+              
+              ( (> (size ((current player) loc HAND where (== (cardatt suit each) yellow)) 0))
+                    
+               (move (any ((current player) loc HAND where (== (cardatt suit each) yellow))) 
+                     (top (game loc YELLOW))))
+              
+              ( (> (size ((current player) loc HAND where (== (cardatt suit each) white)) 0))
+                    
+               (move (any ((current player) loc HAND where (== (cardatt suit each) white))) 
+                     (top (game loc WHITE))))
+              
+              ( (> (size ((current player) loc HAND where (== (cardatt suit each) red)) 0))
+                    
+               (move (any ((current player) loc HAND where (== (cardatt suit each) red))) 
+                     (top (game loc RED))))
+              
+              ( (> (size ((current player) loc HAND where (== (cardatt suit each) blue)) 0))
+                    
+               (move (any ((current player) loc HAND where (== (cardatt suit each) blue))) 
+                     (top (game loc BLUE))))
+              
+              
+              ( (> (size ((current player) loc HAND where (and (== (cardatt suit each) green)
+                                                               (> (score each using PRECEDENCE)
+                                                                  (score (top ((current player) loc GREEN)) using PRECEDENCE)))) 0))
+                    
+                    
+               (move (any ((current player) loc HAND where (and (== (cardatt suit each) green)
+                                                               (> (score each using PRECEDENCE)
+                                                                  (score (top ((current player) loc GREEN)) using PRECEDENCE))))) 
+                     (top ((current player) loc GREEN))))
+              
+              ( (> (size ((current player) loc HAND where (and (== (cardatt suit each) yellow)
+                                                               (> (score each using PRECEDENCE)
+                                                                  (score (top ((current player) loc YELLOW)) using PRECEDENCE)))) 0))
+                    
+                    
+               (move (any ((current player) loc HAND where (and (== (cardatt suit each) yellow)
+                                                               (> (score each using PRECEDENCE)
+                                                                  (score (top ((current player) loc YELLOW)) using PRECEDENCE))))) 
+                     (top ((current player) loc YELLOW))))
+              
+              ( (> (size ((current player) loc HAND where (and (== (cardatt suit each) white)
+                                                               (> (score each using PRECEDENCE)
+                                                                  (score (top ((current player) loc WHITE)) using PRECEDENCE)))) 0))
+                    
+                    
+               (move (any ((current player) loc HAND where (and (== (cardatt suit each) white)
+                                                               (> (score each using PRECEDENCE)
+                                                                  (score (top ((current player) loc WHITE)) using PRECEDENCE))))) 
+                     (top ((current player) loc WHITE))))
+              
+              ( (> (size ((current player) loc HAND where (and (== (cardatt suit each) red)
+                                                               (> (score each using PRECEDENCE)
+                                                                  (score (top ((current player) loc RED)) using PRECEDENCE)))) 0))
+                    
+                    
+               (move (any ((current player) loc HAND where (and (== (cardatt suit each) red)
+                                                               (> (score each using PRECEDENCE)
+                                                                  (score (top ((current player) loc RED)) using PRECEDENCE))))) 
+                     (top ((current player) loc RED))))
+              
+              ( (> (size ((current player) loc HAND where (and (== (cardatt suit each) blue)
+                                                               (> (score each using PRECEDENCE)
+                                                                  (score (top ((current player) loc BLUE)) using PRECEDENCE)))) 0))
+                    
+                    
+               (move (any ((current player) loc HAND where (and (== (cardatt suit each) blue)
+                                                               (> (score each using PRECEDENCE)
+                                                                  (score (top ((current player) loc BLUE)) using PRECEDENCE))))) 
+                     (top ((current player) loc BLUE))))
+              
+         )
+         (choice 
+          ((> (size (game loc GREEN)) 0)
+           (move (top (game loc GREEN))
+                 (top ((current player) loc HAND))))
+          ((> (size (game loc YELLOW)) 0)
+           (move (top (game loc YELLOW))
+                 (top ((current player) loc HAND))))
+          )
+           
+         ;; after players play hand, computer wraps up trick
+         (comp
+             (() 
+                              
+                      
+                 ;; determine who won the hand, set them first next time, and give them a point
+                 (forget (top (game mem LEAD)))
+                 (cycle next (owner (max (union ((all player) loc TRICK)) using PRECEDENCE)))
+                 (inc ((next player) sto TRICKSWON) 1)
+
+             )
+                  
+             ;; if winner played trump and trump not broken, trump is now broken
+             ((and (== (cardatt suit (top ((next player) loc TRICK))) 
+                       (cardatt suit (top (game mem TRUMP))))
+                   (== (game sto BROKEN) 0))
+              (set (game sto BROKEN) 1))
+                  
+             ;; discard all the played cards
+             (() (move (top ((all player) loc TRICK)) 
+                       (top (game loc DISCARD))))
+             
+         )
+      )
+         
+      ;; determine player score
+      (stage player
+         (end (== ((all player) sto TRICKSWON) 0))
+         (comp
+          
+            ;; team made their cumulative bid, score positive points
+            ((>= (sum (((current team) player) sto TRICKSWON)) 
+                 (sum (((current team) player) sto BID)))
+             (inc ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID))))
+             (inc ((current team) sto BAGS) (- (sum (((current team) player) sto TRICKSWON)) 
+                                               (sum (((current team) player) sto BID)))))
+            
+            ;; team did not make their cumulative bid, score negative points
+            ((< (sum (((current team) player) sto TRICKSWON)) 
+                (sum (((current team) player) sto BID)))
+             (dec ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID)))))
+            
+            ;; record bags if over 10
+            (() (dec ((current team) sto SCORE) (* 100 (// ((current team) sto BAGS) 10)))
+                (set ((current team) sto BAGS) (% ((current team) sto BAGS) 10))
+                (set (((current team) player) sto TRICKSWON) 0))
+         )
+      )
+   )
+   (scoring max (((current player) team) sto SCORE))
+)
+         
+         
+      
