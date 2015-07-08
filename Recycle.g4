@@ -84,8 +84,9 @@ sizeof : OPEN 'size' cstorage CLOSE ;
 maxof : OPEN 'max' cstorage 'using' namegr CLOSE ;
 unionof : OPEN 'union' cstorage+? CLOSE ;
 sum : OPEN 'sum' (rawstorage | (cstorage 'using' namegr)) CLOSE ; 
+score : OPEN 'score' (card | 'each') 'using' namegr CLOSE ;
 
-int : owner | sizeof | mult | subtract | mod | divide | sum | rawstorage | INTNUM+ ;
+int : owner | sizeof | mult | subtract | mod | divide | sum | rawstorage | score | INTNUM+ ;
 INTNUM : [0-9] ;
 
 namegr : ANY+ ;
