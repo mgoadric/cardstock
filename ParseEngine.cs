@@ -13,7 +13,7 @@ public class ParseEngine{
 	public ParseEngine(){
                 var regex = new Regex("(;;)(.*?)(\n)");
 
-                var fileName = "StealingBundles";
+                var fileName = "LostCities";
                 var f = File.ReadAllText(fileName + ".gdl");
                 var file = f;
                 //Console.WriteLine(file);
@@ -43,7 +43,7 @@ public class ParseEngine{
 		Stopwatch time = new Stopwatch();
 		time.Start();
 
-                StageIterator.ProcessGame(tree);
+                //StageIterator.ProcessGame(tree);
                 Console.Write(Analytics.StageCount.Instance);
                 Console.Write(Analytics.BranchingFactor.Instance);
                 Console.Write(Analytics.StorageValues.Instance);

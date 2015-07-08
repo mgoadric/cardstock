@@ -20,7 +20,7 @@ action : OPEN (initpoints | teamcreate | cycleaction | setaction | moveaction | 
 playercreate : OPEN 'create' 'players' int CLOSE ;
 teamcreate : 'create' 'teams' attribute+? ;
 deckcreate : OPEN 'create' 'deck' locstorage deck CLOSE ;
-deck : OPEN 'permdeck' attribute+? CLOSE ;
+deck : OPEN 'permdeck' int? attribute+? CLOSE ;
 attribute : (OPEN (trueany ',')*? trueany attribute*? CLOSE)  ;
 
 initpoints : 'initialize' 'points' name OPEN awards+? CLOSE ;
