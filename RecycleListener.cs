@@ -459,6 +459,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitAttrcomp([NotNull] RecycleParser.AttrcompContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.attrcompwhere"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAttrcompwhere([NotNull] RecycleParser.AttrcompwhereContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.attrcompwhere"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAttrcompwhere([NotNull] RecycleParser.AttrcompwhereContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.cardatt"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -468,6 +478,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitCardatt([NotNull] RecycleParser.CardattContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.cardattwhere"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCardattwhere([NotNull] RecycleParser.CardattwhereContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.cardattwhere"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCardattwhere([NotNull] RecycleParser.CardattwhereContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.posq"/>.
 	/// </summary>

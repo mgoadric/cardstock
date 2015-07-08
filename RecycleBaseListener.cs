@@ -549,6 +549,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitAttrcomp([NotNull] RecycleParser.AttrcompContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.attrcompwhere"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAttrcompwhere([NotNull] RecycleParser.AttrcompwhereContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.attrcompwhere"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAttrcompwhere([NotNull] RecycleParser.AttrcompwhereContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.cardatt"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -560,6 +572,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitCardatt([NotNull] RecycleParser.CardattContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.cardattwhere"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterCardattwhere([NotNull] RecycleParser.CardattwhereContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.cardattwhere"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitCardattwhere([NotNull] RecycleParser.CardattwhereContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.posq"/>.
 	/// <para>The default implementation does nothing.</para>

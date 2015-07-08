@@ -126,7 +126,7 @@ namespace ParseTreeIterator
 			if (clause == null){
 				return null;
 			}
-			var attrcomp = clause.boolatt().attrcomp();
+			var attrcomp = clause.booleanwhere().attrcomp();
 			
 			return new CardFilter(new List<CardExpression>{
 				new TreeExpression(ProcessCardatt(attrcomp.cardatt(0)),ProcessCardatt(attrcomp.cardatt(1)),(attrcomp.EQOP().GetText() == "=="))
