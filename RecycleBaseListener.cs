@@ -537,18 +537,6 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitWhereclause([NotNull] RecycleParser.WhereclauseContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.boolatt"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterBoolatt([NotNull] RecycleParser.BoolattContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.boolatt"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitBoolatt([NotNull] RecycleParser.BoolattContext context) { }
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.attrcomp"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -584,6 +572,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitPosq([NotNull] RecycleParser.PosqContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.booleanwhere"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBooleanwhere([NotNull] RecycleParser.BooleanwhereContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.booleanwhere"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBooleanwhere([NotNull] RecycleParser.BooleanwhereContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.boolean"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -717,6 +717,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitSum([NotNull] RecycleParser.SumContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.scorewhere"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterScorewhere([NotNull] RecycleParser.ScorewhereContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.scorewhere"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitScorewhere([NotNull] RecycleParser.ScorewhereContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.score"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -728,6 +740,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitScore([NotNull] RecycleParser.ScoreContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.intwhere"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterIntwhere([NotNull] RecycleParser.IntwhereContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.intwhere"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitIntwhere([NotNull] RecycleParser.IntwhereContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.@int"/>.
 	/// <para>The default implementation does nothing.</para>
