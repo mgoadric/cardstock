@@ -717,6 +717,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitSum([NotNull] RecycleParser.SumContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.score"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterScore([NotNull] RecycleParser.ScoreContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.score"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitScore([NotNull] RecycleParser.ScoreContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.@int"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
