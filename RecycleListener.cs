@@ -499,6 +499,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitPosq([NotNull] RecycleParser.PosqContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.negq"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNegq([NotNull] RecycleParser.NegqContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.negq"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNegq([NotNull] RecycleParser.NegqContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.booleanwhere"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -508,6 +518,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitBooleanwhere([NotNull] RecycleParser.BooleanwhereContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.whereconditions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterWhereconditions([NotNull] RecycleParser.WhereconditionsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.whereconditions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitWhereconditions([NotNull] RecycleParser.WhereconditionsContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.boolean"/>.
 	/// </summary>

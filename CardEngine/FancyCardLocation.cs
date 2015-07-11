@@ -16,14 +16,14 @@ namespace CardEngine{
 		}
 		public int FilteredCount(){
 			if (filter != null){
-				var temp = filter.FilterMatchesAll(cardList);
+				var temp = filter.FilterList(cardList);
 				return temp.Count;
 			}
 			return cardList.Count;
 		}
 		public Card Get(){
 			if (filter != null){
-				var temp = filter.FilterMatchesAll(cardList);
+				var temp = filter.FilterList(cardList);
 				if (locIdentifier == "top"){
 					return temp.Peek();
 				}
@@ -41,14 +41,14 @@ namespace CardEngine{
 		}
 		public CardCollection FilteredList(){
 			if (filter != null){
-				var temp = filter.FilterMatchesAll(cardList);
+				var temp = filter.FilterList(cardList);
 				return temp;
 			}
 			return cardList;
 		}
 		public Card Remove(){
 			if (filter != null){
-				var temp = filter.FilterMatchesAll(cardList);
+				var temp = filter.FilterList(cardList);
 				Console.WriteLine("Removed from Filter...");
 				if (locIdentifier == "top"){
 					return temp.Remove();

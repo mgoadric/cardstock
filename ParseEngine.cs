@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
 using Antlr4.Runtime.Tree;
-//using ParseTreeIterator;
+using ParseTreeIterator;
 public class ParseEngine{
         StringBuilder builder = new StringBuilder();
 	public ParseEngine(){
@@ -43,7 +43,7 @@ public class ParseEngine{
 		Stopwatch time = new Stopwatch();
 		time.Start();
 
-                //StageIterator.ProcessGame(tree);
+                StageIterator.ProcessGame(tree);
                 Console.Write(Analytics.StageCount.Instance);
                 Console.Write(Analytics.BranchingFactor.Instance);
                 Console.Write(Analytics.StorageValues.Instance);

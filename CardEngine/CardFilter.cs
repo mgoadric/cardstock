@@ -1,8 +1,12 @@
 using System.Collections.Generic;
 
 namespace CardEngine{
+	public enum Quantifier{
+		ANY, ALL,NONE
+	}
 	public class CardFilter{
 		public List<CardExpression> filters;
+		public Quantifier quant = Quantifier.ALL;
 		public CardFilter(List<CardExpression> f){
 			filters = f;
 		}
@@ -15,6 +19,7 @@ namespace CardEngine{
 			}
 			return ret;
 		}
+		/*
 		public CardCollection FilterMatchesAll(CardCollection cards){
 			var ret = new CardListCollection();
 			foreach (var c in cards.AllCards()){
@@ -23,14 +28,53 @@ namespace CardEngine{
 				}
 			}
 			return ret;
+		}*/
+		public CardCollection FilterList(CardCollection cards){
+			var ret = new CardListCollection();
+			if (quant == Quantifier.ALL){
+				foreach (var c in cards.AllCards()){
+					if (CardConformsAll(c)){
+						ret.Add(c);
+					}
+				}
+				return ret;
+			}
+			else if (quant == Quantifier.ANY){
+				foreach (var c in cards.AllCards()){
+					if (CardConformsAny(c)){
+						ret.Add(c);
+					}
+				}
+				return ret;
+			}
+			else{// if (quant == Quantifier.NONE){
+				foreach (var c in cards.AllCards()){
+					if (CardConformsNone(c)){
+						ret.Add(c);
+					}
+				}
+				return ret;
+			}
 		}
-		public bool CardConforms(Card c){
+		public bool CardConformsAll(Card c){
 			foreach (var f in filters){
 				if (!f.CardConforms(c)){
 					return false;
 				}
 			}
 			return true;
+		}
+		public bool CardConformsAny(Card c){
+			bool flag = false;
+			foreach (var f in filters){
+				if (f.CardConforms(c)){
+					flag = true;
+				}
+			}
+			return flag;
+		}
+		public bool CardConformsNone(Card c){
+			return ! CardConformsAny(c);
 		}
 		public override string ToString(){
 			string ret = "";

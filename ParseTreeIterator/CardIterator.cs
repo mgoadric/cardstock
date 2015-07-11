@@ -126,24 +126,56 @@ namespace ParseTreeIterator
 			if (clause == null){
 				return null;
 			}
-			var attrcomp = clause.booleanwhere().attrcomp();
+			else{
+				return ProcessBooleanWhere(clause.booleanwhere());
+			}
 			
-			return new CardFilter(new List<CardExpression>{
-				new TreeExpression(ProcessCardatt(attrcomp.cardatt(0)),ProcessCardatt(attrcomp.cardatt(1)),(attrcomp.EQOP().GetText() == "=="))
-			});
+		}
+		public static CardFilter ProcessBooleanWhere(RecycleParser.BooleanwhereContext clause){
+			var quantifier = clause.GetChild(1).GetText();
+			foreach (var conds in clause.whereconditions()){
+				if (conds.attrcompwhere() != null){
+					var attrcomp = conds.attrcompwhere();
+			
+					return new CardFilter(new List<CardExpression>{
+						new TreeExpression(ProcessEitherCardatt(attrcomp.GetChild(1)),ProcessEitherCardatt(attrcomp.GetChild(2)),(attrcomp.EQOP().GetText() == "=="))
+					});
+				}
+				else{//intop, intwhere, intwhere
+					
+				}
+			}
+			
+			return null;
+		}
+		public static string ProcessEitherCardatt(IParseTree att){
+			if (att is RecycleParser.CardattContext){
+				return ProcessCardatt(att as RecycleParser.CardattContext);
+			}
+			else{
+				
+				return ProcessCardattwhere(att as RecycleParser.CardattwhereContext);
+			}
+		}
+		public static string ProcessCardattwhere(RecycleParser.CardattwhereContext caw){
+			
+			if (caw.ChildCount == 1){
+				return caw.GetText();
+			}
+			else{
+				
+				return caw.name().GetText();
+			}
 		}
 		public static string ProcessCardatt(RecycleParser.CardattContext cardatt){
 			if (cardatt.ChildCount == 1){
 				return cardatt.GetText();
 			}
 			else{
-				if (cardatt.GetChild(3).GetText() == "each"){
-					return cardatt.name().GetText();
-				}
-				else{
-					var loc = ProcessCard(cardatt.card())[0];
-					return loc.Get().ReadAttribute(cardatt.name().GetText());
-				}
+			
+				var loc = ProcessCard(cardatt.card())[0];
+				return loc.Get().ReadAttribute(cardatt.name().GetText());
+			
 			}
 		}
 		public static object ProcessWho2(RecycleParser.Who2Context who2){

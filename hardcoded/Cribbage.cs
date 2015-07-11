@@ -225,7 +225,7 @@ public class Cribbage{
 							
 							var actions = new List<GameActionCollection>();
 							
-							foreach (var card in playableFilter.FilterMatchesAll(game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["HAND"]).AllCards()){
+							foreach (var card in playableFilter.FilterList(game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["HAND"]).AllCards()){
 								actions.Add(new GameActionCollection{
 									new CardMoveAction(card,game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["HAND"],game.players[game.gameStorage["CURRENTPLAYER"]].cardBins["TRICK"]),
 									new CardCopyAction(card,game.tableCards["PLAYHISTORY"])

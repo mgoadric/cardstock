@@ -121,13 +121,13 @@ namespace CardEngine
 		public List<Card> FilterCardsFromLocation(CardFilter filter, string sourceLocation, int locationNumber,  string sourceBucket){
 			if (sourceLocation == "T"){//Table
 				var bin = tableCards[sourceBucket];
-				var possibilities = filter.FilterMatchesAll(bin);
+				var possibilities = filter.FilterList(bin);
 				return new List<Card>(possibilities.AllCards());
 			}
 			else if (sourceLocation == "P") {//Player
 				var p = players[locationNumber];
 				var bin = p.cardBins[sourceBucket];
-				var possibilities = filter.FilterMatchesAll(bin);
+				var possibilities = filter.FilterList(bin);
 				return new List<Card>(possibilities.AllCards());
 			}
 			return new List<Card>();//String didn't match a location

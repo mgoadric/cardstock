@@ -17,7 +17,7 @@
       (end (>= ((any team) sto SCORE) 500))
       (comp (() (move (top (game loc DISCARD)) 
                       (top (game loc STOCK)) all)
-                (remember (top (game loc STOCK where (== (cardatt suit each) spades)))
+                (remember (top (game loc STOCK where (all (== (cardatt suit each) spades))))
                           (top (game mem TRUMP)))
                 (shuffle (game loc STOCK))
                 (move (top (game loc STOCK))
@@ -54,28 +54,28 @@
                ;; if following player and cannot follow suit
                ;;   play any card, and end your turn
                ((and (== (size (game loc LEAD)) 1)
-                     (== (size ((current player) loc HAND where (== (cardatt suit each) 
-                                                                    (cardatt suit (top (game mem LEAD)))))) 0))
+                     (== (size ((current player) loc HAND where (all (== (cardatt suit each) 
+                                                                    (cardatt suit (top (game mem LEAD))))))) 0))
                 (move (any ((current player) loc HAND)) 
                       (top ((current player) loc TRICK))))
 
                ;; if following player and can follow suit
                ;;   play any card that follows suit, and end your turn
                ((and (== (size (game loc LEAD)) 1)
-                     (!= (size ((current player) loc HAND where (== (cardatt suit each) 
-                                                                    (cardatt suit (top (game mem LEAD)))))) 0))
-                (move (any ((current player) loc HAND where (== (cardatt suit each) 
-                                                                (cardatt suit (top (game mem LEAD)))))) 
+                     (!= (size ((current player) loc HAND where (all (== (cardatt suit each) 
+                                                                    (cardatt suit (top (game mem LEAD))))))) 0))
+                (move (any ((current player) loc HAND where (all (== (cardatt suit each) 
+                                                                (cardatt suit (top (game mem LEAD))))))) 
                       (top ((current player) loc TRICK))))
                       
                ;; if first player and spades not broken and have non-spades cards
                ;;   play one of these, remember it in the lead spot, and end your turn
                ((and (== (size (game loc LEAD)) 0)
                      (== (game sto BROKEN) 0)
-                     (> (size ((current player) loc HAND where (!= (cardatt suit each) 
-                                                                    (cardatt suit (top (game mem TRUMP)))))) 0)) 
-                (move (any ((current player) loc HAND where (!= (cardatt suit each) 
-                                                                (cardatt suit (top (game mem TRUMP)))))) 
+                     (> (size ((current player) loc HAND where (all (!= (cardatt suit each) 
+                                                                    (cardatt suit (top (game mem TRUMP))))))) 0)) 
+                (move (any ((current player) loc HAND where (all (!= (cardatt suit each) 
+                                                                (cardatt suit (top (game mem TRUMP))))))) 
                       (top ((current player) loc TRICK)))
                 (remember (top ((current player) loc TRICK)) 
                           (top (game mem LEAD))))
@@ -91,8 +91,8 @@
                       
                ((and (== (size (game mem LEAD)) 0)
                      (== (game sto BROKEN) 0)
-                     (== (size ((current player) loc HAND where (!= (cardatt suit each) 
-                                                                    (cardatt suit (top (game mem TRUMP)))))) 0)) 
+                     (== (size ((current player) loc HAND where (all (!= (cardatt suit each) 
+                                                                    (cardatt suit (top (game mem TRUMP))))))) 0)) 
                 (move (any ((current player) loc HAND)) 
                       (top ((current player) loc TRICK)))
                 (remember (top ((current player) loc TRICK)) 

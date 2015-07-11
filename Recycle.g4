@@ -67,8 +67,10 @@ cardatt : name | (OPEN 'cardatt' name card  CLOSE) ;
 cardattwhere : name | (OPEN 'cardatt' name 'each' CLOSE) ;
  
 posq : 'any' | 'all' ;
+negq : 'none' ;
 //need some way to talk about PLAYER EQUALITY/INEQUALITY
-booleanwhere : (OPEN ((BOOLOP booleanwhere booleanwhere+?) | attrcompwhere | (intop intwhere intwhere ) | (UNOP booleanwhere)) CLOSE) | (OPEN CLOSE) ;
+booleanwhere : (OPEN (posq | negq) whereconditions+? CLOSE) ;
+whereconditions :  OPEN (attrcompwhere | (intop intwhere intwhere ) ) CLOSE ;
 boolean : (OPEN ((BOOLOP boolean boolean+?) | (intop int int ) | attrcomp | (UNOP boolean)) CLOSE) | (OPEN CLOSE) ;
 BOOLOP : 'and' | 'or' ;
 intop : (COMPOP | EQOP) ;
