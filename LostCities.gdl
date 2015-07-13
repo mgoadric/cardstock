@@ -6,9 +6,9 @@
       (create players 2)
       (create teams (0) (1))
       ;; Create the deck source
-      (create deck (game loc STOCK) (permdeck (rank (2, 3, 4, 5, 6, 7, 8, 9, 10))
+      (create deck (game loc STOCK) (deck (rank (2, 3, 4, 5, 6, 7, 8, 9, 10))
                                                      (color (white, blue, green, red, yellow))))
-      (create deck (game loc STOCK) (permdeck 3 (rank (HS))
+      (create deck (game loc STOCK) (deck 3 (rank (HS))
                                                      (color (white, blue, green, red, yellow))))
    )
    (comp (()
@@ -54,89 +54,101 @@
               
               ;; if following player and cannot follow suit
               ;;   play any card, and end your turn
-              ((> (size ((current player) loc HAND where (== (cardatt suit each) green))) 0)
+              ((> (size ((current player) loc HAND where (all (== (cardatt color each) green)))) 0)
                     
-               (move (any ((current player) loc HAND where (== (cardatt suit each) green))) 
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) green)))) 
                      (top (game loc GREEN))))
               
-              ( (> (size ((current player) loc HAND where (== (cardatt suit each) yellow))) 0)
+              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) yellow)))) 0)
                     
-               (move (any ((current player) loc HAND where (== (cardatt suit each) yellow))) 
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) yellow)))) 
                      (top (game loc YELLOW))))
               
-              ( (> (size ((current player) loc HAND where (== (cardatt suit each) white)) ) 0)
+              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) white))))  0)
                     
-               (move (any ((current player) loc HAND where (== (cardatt suit each) white))) 
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) white)))) 
                      (top (game loc WHITE))))
               
-              ( (> (size ((current player) loc HAND where (== (cardatt suit each) red)) ) 0)
+              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) red)))) 0)
                     
-               (move (any ((current player) loc HAND where (== (cardatt suit each) red))) 
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) red)))) 
                      (top (game loc RED))))
               
-              ( (> (size ((current player) loc HAND where (== (cardatt suit each) blue)) ) 0)
+              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) blue)))) 0)
                     
-               (move (any ((current player) loc HAND where (== (cardatt suit each) blue))) 
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) blue)))) 
                      (top (game loc BLUE))))
               
               
-              ( (> (size ((current player) loc HAND where (and (== (cardatt suit each) green)
+              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) green)
                                                                (> (score each using PRECEDENCE)
                                                                   (score (top ((current player) loc GREEN)) using PRECEDENCE)))) ) 0)
                     
                     
-               (move (any ((current player) loc HAND where (and (== (cardatt suit each) green)
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) green)
                                                                (> (score each using PRECEDENCE)
                                                                   (score (top ((current player) loc GREEN)) using PRECEDENCE))))) 
                      (top ((current player) loc GREEN))))
               
-              ( (> (size ((current player) loc HAND where (and (== (cardatt suit each) yellow)
+              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) yellow)
                                                                (> (score each using PRECEDENCE)
                                                                   (score (top ((current player) loc YELLOW)) using PRECEDENCE)))) ) 0)
                     
                     
-               (move (any ((current player) loc HAND where (and (== (cardatt suit each) yellow)
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) yellow)
                                                                (> (score each using PRECEDENCE)
                                                                   (score (top ((current player) loc YELLOW)) using PRECEDENCE))))) 
                      (top ((current player) loc YELLOW))))
               
-              ( (> (size ((current player) loc HAND where (and (== (cardatt suit each) white)
+              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) white)
                                                                (> (score each using PRECEDENCE)
                                                                   (score (top ((current player) loc WHITE)) using PRECEDENCE)))) ) 0)
                     
                     
-               (move (any ((current player) loc HAND where (and (== (cardatt suit each) white)
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) white)
                                                                (> (score each using PRECEDENCE)
                                                                   (score (top ((current player) loc WHITE)) using PRECEDENCE))))) 
                      (top ((current player) loc WHITE))))
               
-              ( (> (size ((current player) loc HAND where (and (== (cardatt suit each) red)
+              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) red)
                                                                (> (score each using PRECEDENCE)
                                                                   (score (top ((current player) loc RED)) using PRECEDENCE)))) ) 0)
                     
                     
-               (move (any ((current player) loc HAND where (and (== (cardatt suit each) red)
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) red)
                                                                (> (score each using PRECEDENCE)
                                                                   (score (top ((current player) loc RED)) using PRECEDENCE))))) 
                      (top ((current player) loc RED))))
               
-              ( (> (size ((current player) loc HAND where (and (== (cardatt suit each) blue)
+              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) blue)
                                                                (> (score each using PRECEDENCE)
                                                                   (score (top ((current player) loc BLUE)) using PRECEDENCE)))) ) 0)
                     
                     
-               (move (any ((current player) loc HAND where (and (== (cardatt suit each) blue)
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) blue)
                                                                (> (score each using PRECEDENCE)
                                                                   (score (top ((current player) loc BLUE)) using PRECEDENCE))))) 
                      (top ((current player) loc BLUE))))
               
          )
          (choice 
+         (()
+         (move (top (game loc STOCK))
+               (top ((current player) loc HAND))))
           ((> (size (game loc GREEN)) 0)
            (move (top (game loc GREEN))
                  (top ((current player) loc HAND))))
           ((> (size (game loc YELLOW)) 0)
            (move (top (game loc YELLOW))
+                 (top ((current player) loc HAND))))
+          ((> (size (game loc RED)) 0)
+           (move (top (game loc RED))
+                 (top ((current player) loc HAND))))
+          ((> (size (game loc BLUE)) 0)
+           (move (top (game loc BLUE))
+                 (top ((current player) loc HAND))))
+          ((> (size (game loc WHITE)) 0)
+           (move (top (game loc WHITE))
                  (top ((current player) loc HAND))))
           )
            

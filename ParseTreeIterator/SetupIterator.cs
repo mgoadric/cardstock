@@ -45,7 +45,13 @@ namespace ParseTreeIterator
 				foreach (var deckinit in decks) {				
 					var locstorage = CardIterator.ProcessSubLocation(deckinit.locstorage().locpre(), deckinit.locstorage().locpost());
 					var deckTree = DeckIterator.ProcessDeck(deckinit.deck());
-					ret.Add(new InitializeAction(locstorage[0].cardList,deckTree));
+					var repeat = 1;
+					if (deckinit.deck().@int() != null){
+						repeat = IntIterator.ProcessListInt(deckinit.deck().@int())[0];
+					}
+					for (int x = 0; x < repeat; ++x){
+						ret.Add(new InitializeAction(locstorage[0].cardList,deckTree));
+					}
 				}
 			}
 			
