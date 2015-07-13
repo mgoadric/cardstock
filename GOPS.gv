@@ -38,7 +38,7 @@ NODE0_2_6_3_3 -- NODE0_2_6_3_3_0
 NODE0_2_6_3 -- NODE0_2_6_3_3
 NODE0_2_6 -- NODE0_2_6_3
 NODE0_2_6_4 [label="Deck" ]
-NODE0_2_6_4_1 [label="permdeck"]
+NODE0_2_6_4_1 [label="deck"]
 NODE0_2_6_4 -- NODE0_2_6_4_1
 NODE0_2_6_4_2 [label="Attribute" ]
 NODE0_2_6_4_2_1 [fillcolor="green" style=filled label="rank"]
@@ -108,7 +108,7 @@ NODE0_2_7_3_3 -- NODE0_2_7_3_3_0
 NODE0_2_7_3 -- NODE0_2_7_3_3
 NODE0_2_7 -- NODE0_2_7_3
 NODE0_2_7_4 [label="Deck" ]
-NODE0_2_7_4_1 [label="permdeck"]
+NODE0_2_7_4_1 [label="deck"]
 NODE0_2_7_4 -- NODE0_2_7_4_1
 NODE0_2_7_4_2 [label="Attribute" ]
 NODE0_2_7_4_2_1 [fillcolor="green" style=filled label="rank"]
@@ -178,7 +178,7 @@ NODE0_2_8_3_3 -- NODE0_2_8_3_3_0
 NODE0_2_8_3 -- NODE0_2_8_3_3
 NODE0_2_8 -- NODE0_2_8_3
 NODE0_2_8_4 [label="Deck" ]
-NODE0_2_8_4_1 [label="permdeck"]
+NODE0_2_8_4_1 [label="deck"]
 NODE0_2_8_4 -- NODE0_2_8_4_1
 NODE0_2_8_4_2 [label="Attribute" ]
 NODE0_2_8_4_2_1 [fillcolor="green" style=filled label="rank"]

@@ -36,7 +36,7 @@
          )       
    ;; Stages of the game
    (stage player
-      (end (== (game sto ROUNDS) 3))
+      (end (== (game sto ROUNDS) 1))
       (comp (() (shuffle (game loc STOCK))
                 (move (top (game loc STOCK))
                       (top ((all player) loc HAND)) 8)
@@ -80,9 +80,51 @@
                      (top (game loc BLUE))))
               
               
-              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) green)
+              
+               ((and (== (size ((current player) loc GREEN)) 0)
+                
+                    (> (size ((current player) loc HAND where (all (== (cardatt color each) green))) ) 0))
+                    
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) green)))) 
+                     (top ((current player) loc GREEN))))
+               
+               ((and (== (size ((current player) loc YELLOW)) 0)
+                
+                    (> (size ((current player) loc HAND where (all (== (cardatt color each) yellow))) ) 0))
+                    
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) yellow)))) 
+                     (top ((current player) loc YELLOW))))
+               
+               
+               ((and (== (size ((current player) loc WHITE)) 0)
+                
+                    (> (size ((current player) loc HAND where (all (== (cardatt color each) white))) ) 0))
+                    
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) white)))) 
+                     (top ((current player) loc WHITE))))
+               
+               
+               ((and (== (size ((current player) loc RED)) 0)
+                
+                    (> (size ((current player) loc HAND where (all (== (cardatt color each) red))) ) 0))
+                    
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) red)))) 
+                     (top ((current player) loc RED))))
+               
+               ((and (== (size ((current player) loc BLUE)) 0)
+                
+                    (> (size ((current player) loc HAND where (all (== (cardatt color each) blue))) ) 0))
+                    
+               (move (any ((current player) loc HAND where (all (== (cardatt color each) blue)))) 
+                     (top ((current player) loc BLUE))))
+               
+              
+              ((and (> (size ((current player) loc GREEN)) 0)
+                
+                    (> (size ((current player) loc HAND where (all (== (cardatt color each) green)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc GREEN)) using PRECEDENCE)))) ) 0)
+                                                                  (score (top ((current player) loc GREEN)) using PRECEDENCE)))) ) 0))
+                    
                     
                     
                (move (any ((current player) loc HAND where (all (== (cardatt color each) green)
@@ -90,9 +132,10 @@
                                                                   (score (top ((current player) loc GREEN)) using PRECEDENCE))))) 
                      (top ((current player) loc GREEN))))
               
-              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) yellow)
+              ((and (> (size ((current player) loc YELLOW)) 0)
+                    (> (size ((current player) loc HAND where (all (== (cardatt color each) yellow)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc YELLOW)) using PRECEDENCE)))) ) 0)
+                                                                  (score (top ((current player) loc YELLOW)) using PRECEDENCE)))) ) 0))
                     
                     
                (move (any ((current player) loc HAND where (all (== (cardatt color each) yellow)
@@ -100,9 +143,10 @@
                                                                   (score (top ((current player) loc YELLOW)) using PRECEDENCE))))) 
                      (top ((current player) loc YELLOW))))
               
-              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) white)
+              ((and (> (size ((current player) loc WHITE)) 0)
+                    (> (size ((current player) loc HAND where (all (== (cardatt color each) white)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc WHITE)) using PRECEDENCE)))) ) 0)
+                                                                  (score (top ((current player) loc WHITE)) using PRECEDENCE)))) ) 0))
                     
                     
                (move (any ((current player) loc HAND where (all (== (cardatt color each) white)
@@ -110,9 +154,10 @@
                                                                   (score (top ((current player) loc WHITE)) using PRECEDENCE))))) 
                      (top ((current player) loc WHITE))))
               
-              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) red)
+              ((and (> (size ((current player) loc RED)) 0)
+                    (> (size ((current player) loc HAND where (all (== (cardatt color each) red)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc RED)) using PRECEDENCE)))) ) 0)
+                                                                  (score (top ((current player) loc RED)) using PRECEDENCE)))) ) 0))
                     
                     
                (move (any ((current player) loc HAND where (all (== (cardatt color each) red)
@@ -120,9 +165,10 @@
                                                                   (score (top ((current player) loc RED)) using PRECEDENCE))))) 
                      (top ((current player) loc RED))))
               
-              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) blue)
+              ((and (> (size ((current player) loc BLUE)) 0) 
+                    (> (size ((current player) loc HAND where (all (== (cardatt color each) blue)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc BLUE)) using PRECEDENCE)))) ) 0)
+                                                                  (score (top ((current player) loc BLUE)) using PRECEDENCE)))) ) 0))
                     
                     
                (move (any ((current player) loc HAND where (all (== (cardatt color each) blue)
@@ -153,53 +199,13 @@
           )
            
          ;; after players play hand, computer wraps up trick
-         (comp
-             (() 
-                              
-                      
-                 ;; determine who won the hand, set them first next time, and give them a point
-                 (forget (top (game mem LEAD)))
-                 (cycle next (owner (max (union ((all player) loc TRICK)) using PRECEDENCE)))
-                 (inc ((next player) sto TRICKSWON) 1)
-
-             )
-                  
-             ;; if winner played trump and trump not broken, trump is now broken
-             ((and (== (cardatt suit (top ((next player) loc TRICK))) 
-                       (cardatt suit (top (game mem TRUMP))))
-                   (== (game sto BROKEN) 0))
-              (set (game sto BROKEN) 1))
-                  
-             ;; discard all the played cards
-             (() (move (top ((all player) loc TRICK)) 
-                       (top (game loc DISCARD))))
-             
-         )
-      )
          
-      ;; determine player score
-      (stage player
-         (end (== ((all player) sto TRICKSWON) 0))
-         (comp
-          
-            ;; team made their cumulative bid, score positive points
-            ((>= (sum (((current team) player) sto TRICKSWON)) 
-                 (sum (((current team) player) sto BID)))
-             (inc ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID))))
-             (inc ((current team) sto BAGS) (- (sum (((current team) player) sto TRICKSWON)) 
-                                               (sum (((current team) player) sto BID)))))
-            
-            ;; team did not make their cumulative bid, score negative points
-            ((< (sum (((current team) player) sto TRICKSWON)) 
-                (sum (((current team) player) sto BID)))
-             (dec ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID)))))
-            
-            ;; record bags if over 10
-            (() (dec ((current team) sto SCORE) (* 100 (// ((current team) sto BAGS) 10)))
-                (set ((current team) sto BAGS) (% ((current team) sto BAGS) 10))
-                (set (((current team) player) sto TRICKSWON) 0))
-         )
       )
+      (comp
+            (()
+            (set (game sto ROUNDS) 1)
+            )
+         )
    )
    (scoring max (((current player) team) sto SCORE))
 )
