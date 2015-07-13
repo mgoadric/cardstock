@@ -12,9 +12,10 @@ namespace ParseTreeIterator
 {
 	public class DeckIterator{
 		public static Tree ProcessDeck(RecycleParser.DeckContext deck){
-			var attributeCount = deck.ChildCount - 3;
+			//var attributeCount = deck.ChildCount - 3;
+			
 			List<Node> childs = new List<Node>();
-			for (int i = 0; i < attributeCount; ++i){
+			for (int i = 0; i < deck.attribute().Count(); ++i){
 				childs.Add(new Node{
 					Value="combo"+i,
 					children=ProcessAttribute(deck.attribute(i))

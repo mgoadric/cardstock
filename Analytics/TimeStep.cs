@@ -23,7 +23,9 @@ namespace Analytics{
 			foreach (var i in treeLoc){
 				tempRet =  "-" + i + tempRet;
 			}
-			tempRet = tempRet.Substring(1);
+			if (tempRet.Length > 0){
+				tempRet = tempRet.Substring(1);
+			}
 			return tempRet;
 		}
 		public string GetTimeStep(){
@@ -31,7 +33,9 @@ namespace Analytics{
 			foreach (var i in timeStep){
 				tempRet =  "-" + i + tempRet;
 			}
-			tempRet = tempRet.Substring(1);
+			if (tempRet.Length > 0){
+				tempRet = tempRet.Substring(1);
+			}
 			return tempRet;
 		}
 		public override string ToString(){

@@ -133,20 +133,23 @@ namespace ParseTreeIterator
 		}
 		public static CardFilter ProcessBooleanWhere(RecycleParser.BooleanwhereContext clause){
 			var quantifier = clause.GetChild(1).GetText();
+			var tempList = new List<CardExpression>();
 			foreach (var conds in clause.whereconditions()){
 				if (conds.attrcompwhere() != null){
 					var attrcomp = conds.attrcompwhere();
 			
-					return new CardFilter(new List<CardExpression>{
-						new TreeExpression(ProcessEitherCardatt(attrcomp.GetChild(1)),ProcessEitherCardatt(attrcomp.GetChild(2)),(attrcomp.EQOP().GetText() == "=="))
-					});
+					tempList.Add(new TreeExpression(ProcessEitherCardatt(attrcomp.GetChild(1)),ProcessEitherCardatt(attrcomp.GetChild(2)),(attrcomp.EQOP().GetText() == "==")));
 				}
 				else{//intop, intwhere, intwhere
-					
+					var intop = conds.intop();
+					var intOne = conds.scorewhere().namegr().GetText();
+					var intTwo = IntIterator.ProcessListInt(conds.@int())[0];
+					tempList.Add(new ScoreExpression(CardGame.Instance.points[intOne],intop.GetText(),intTwo));
 				}
 			}
-			
-			return null;
+			var ret = new CardFilter(tempList);
+			ret.quant = Quantifier.ALL;
+			return ret;
 		}
 		public static string ProcessEitherCardatt(IParseTree att){
 			if (att is RecycleParser.CardattContext){
@@ -164,7 +167,7 @@ namespace ParseTreeIterator
 			}
 			else{
 				
-				return caw.name().GetText();
+				return caw.trueany().GetText();
 			}
 		}
 		public static string ProcessCardatt(RecycleParser.CardattContext cardatt){

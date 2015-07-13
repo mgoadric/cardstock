@@ -20,7 +20,7 @@ action : OPEN (initpoints | teamcreate | cycleaction | setaction | moveaction | 
 playercreate : OPEN 'create' 'players' int CLOSE ;
 teamcreate : 'create' 'teams' attribute+? ;
 deckcreate : OPEN 'create' 'deck' locstorage deck CLOSE ;
-deck : OPEN 'permdeck' int? attribute+? CLOSE ;
+deck : OPEN 'deck' int? attribute+? CLOSE ;
 attribute : (OPEN (trueany ',')*? trueany attribute*? CLOSE)  ;
 
 initpoints : 'initialize' 'points' name OPEN awards+? CLOSE ;
@@ -64,13 +64,13 @@ attrcomp : EQOP cardatt cardatt ;
 attrcompwhere : EQOP (cardatt | cardattwhere) (cardatt | cardattwhere) ;
 // what about this out of context of where???
 cardatt : name | (OPEN 'cardatt' name card  CLOSE) ;
-cardattwhere : name | (OPEN 'cardatt' name 'each' CLOSE) ;
+cardattwhere : name | (OPEN 'cardatt' trueany 'each' CLOSE) ;
  
 posq : 'any' | 'all' ;
 negq : 'none' ;
 //need some way to talk about PLAYER EQUALITY/INEQUALITY
 booleanwhere : (OPEN (posq | negq) whereconditions+? CLOSE) ;
-whereconditions :  OPEN (attrcompwhere | (intop intwhere intwhere ) ) CLOSE ;
+whereconditions :  OPEN (attrcompwhere | (intop scorewhere int ) ) CLOSE ;
 boolean : (OPEN ((BOOLOP boolean boolean+?) | (intop int int ) | attrcomp | (UNOP boolean)) CLOSE) | (OPEN CLOSE) ;
 BOOLOP : 'and' | 'or' ;
 intop : (COMPOP | EQOP) ;
