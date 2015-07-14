@@ -41,7 +41,7 @@ turnaction : 'turn' 'pass' ;
 
 // Issue with 'any' showing up in comp actions. Needs to be refactored?
 
-card : maxof | (cardp | cardm) ;
+card : maxof | minof | (cardp | cardm) ;
 cardp : (OPEN ('top' | 'bottom' | int | 'any') locstorage CLOSE) ;
 cardm : (OPEN ('top' | 'bottom' | int | 'any') memstorage CLOSE) ;
 owner : OPEN 'owner' card CLOSE ;
@@ -71,7 +71,7 @@ negq : 'none' ;
 //need some way to talk about PLAYER EQUALITY/INEQUALITY
 booleanwhere : (OPEN (posq | negq) whereconditions+? CLOSE) ;
 whereconditions :  OPEN (attrcompwhere | (intop scorewhere int ) ) CLOSE ;
-boolean : (OPEN ((BOOLOP boolean boolean+?) | (intop int int ) | attrcomp | (UNOP boolean)) CLOSE) | (OPEN CLOSE) ;
+boolean : (OPEN ((BOOLOP boolean boolean+?) | (intop int int ) | attrcomp | (EQOP card card) | (UNOP boolean)) CLOSE) | (OPEN CLOSE) ;
 BOOLOP : 'and' | 'or' ;
 intop : (COMPOP | EQOP) ;
 COMPOP : '<' | '>' | '>=' | '<=' ;
@@ -86,6 +86,7 @@ divide : OPEN '//' int int CLOSE ;
 
 sizeof : OPEN 'size' cstorage CLOSE ;
 maxof : OPEN 'max' cstorage 'using' namegr CLOSE ;
+minof : OPEN 'min' cstorage 'using' namegr CLOSE ;
 unionof : OPEN 'union' cstorage+? CLOSE ;
 sum : OPEN 'sum' (rawstorage | (cstorage 'using' namegr)) CLOSE ; 
 scorewhere : OPEN 'score' 'each' 'using' namegr CLOSE ;
