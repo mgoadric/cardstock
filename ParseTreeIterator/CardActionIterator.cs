@@ -59,7 +59,7 @@ namespace ParseTreeIterator
 					var cardOne = CardIterator.ProcessCard(move.cardp(0));
 					var cardTwo = CardIterator.ProcessCard(move.cardp(1));
 					foreach (var card1 in cardOne){
-						for (int i = 0; i < card1.cardList.Count; ++i){
+						for (int i = 0; i < card1.FilteredCount(); ++i){
 							foreach (var card2 in cardTwo){
 								ret.Add(new FancyCardMoveAction(card1,card2));
 							}

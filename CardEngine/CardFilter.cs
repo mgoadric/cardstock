@@ -108,6 +108,16 @@ namespace CardEngine{
 			else if (oper == "<="){
 				return scorer.GetScore(c) <= TargetValue;
 			}
+			else if (oper == ">"){
+				System.Console.WriteLine(scorer.GetScore(c) + " > " + TargetValue);
+				return scorer.GetScore(c) > TargetValue;
+			}
+			else if (oper == "<"){
+				return scorer.GetScore(c) < TargetValue;
+			}
+			else if (oper == "=="){
+				return scorer.GetScore(c) == TargetValue;
+			}
 			return false;
 		}
 	}

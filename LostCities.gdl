@@ -36,7 +36,7 @@
          )       
    ;; Stages of the game
    (stage player
-      (end (== (game sto ROUNDS) 1))
+      (end (== (game sto ROUNDS) 3))
       (comp (() (shuffle (game loc STOCK))
                 (move (top (game loc STOCK))
                       (top ((all player) loc HAND)) 8)
@@ -200,14 +200,61 @@
            
          ;; after players play hand, computer wraps up trick
          
-      )
-      (comp
+       )
+      (stage player ;;scoring
+         (end (== ((all player) sto PROC) 1))
+         (comp
+          ((> (size ((current player) loc GREEN)) 0)
+         (inc ((current player) sto SCORE) (* (- (sum ((current player) loc GREEN) using PRECEDENCE) 20) (+ (sum ((current player) loc GREEN) using MULTIPLIER) 1)))
+         )
+         ((> (size ((current player) loc YELLOW)) 0)
+         (inc ((current player) sto SCORE) (* (- (sum ((current player) loc YELLOW) using PRECEDENCE) 20) (+ (sum ((current player) loc YELLOW) using MULTIPLIER) 1)))
+         )
+         ((> (size ((current player) loc WHITE)) 0)
+         (inc ((current player) sto SCORE) (* (- (sum ((current player) loc WHITE) using PRECEDENCE) 20) (+ (sum ((current player) loc WHITE) using MULTIPLIER) 1)))
+         )
+         ((> (size ((current player) loc RED)) 0)
+         (inc ((current player) sto SCORE) (* (- (sum ((current player) loc RED) using PRECEDENCE) 20) (+ (sum ((current player) loc RED) using MULTIPLIER) 1)))
+         )
+         ((> (size ((current player) loc BLUE)) 0)
+         (inc ((current player) sto SCORE) (* (- (sum ((current player) loc BLUE) using PRECEDENCE) 20) (+ (sum ((current player) loc BLUE) using MULTIPLIER) 1)))
+         )
+         (()
+             (set ((current player) sto PROC) 1)
+             (move (top ((current player) loc GREEN))
+                  (top (game loc STOCK)) all)
+              (move (top ((current player) loc YELLOW))
+                  (top (game loc STOCK)) all)
+                  (move (top ((current player) loc WHITE))
+                  (top (game loc STOCK)) all)
+                  (move (top ((current player) loc RED))
+                  (top (game loc STOCK)) all)
+                  (move (top ((current player) loc BLUE))
+                  (top (game loc STOCK)) all)
+         )
+         )
+          )
+         (comp
             (()
-            (set (game sto ROUNDS) 1)
+            (move (top (game loc GREEN))
+                  (top (game loc STOCK)) all)
+              (move (top (game loc YELLOW))
+                  (top (game loc STOCK)) all)
+                  (move (top (game loc WHITE))
+                  (top (game loc STOCK)) all)
+                  (move (top (game loc RED))
+                  (top (game loc STOCK)) all)
+                  (move (top (game loc BLUE))
+                  (top (game loc STOCK)) all)
+            (inc (game sto ROUNDS) 1)
+            (set ((all player) sto PROC) 0)
             )
          )
-   )
-   (scoring max (((current player) team) sto SCORE))
+      )
+      
+       
+   
+   (scoring max ((current player) sto SCORE))
 )
          
          

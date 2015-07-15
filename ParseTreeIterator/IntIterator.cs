@@ -46,6 +46,9 @@ namespace ParseTreeIterator
 			else if (intNode.divide() != null){
 				ret.Add( ProcessListInt(intNode.divide().@int(0))[0] / ProcessListInt(intNode.divide().@int(1))[0]);
 			}
+			else if (intNode.@add() != null){
+				ret.Add( ProcessListInt(intNode.@add().@int(0))[0] + ProcessListInt(intNode.@add().@int(1))[0]);
+			}
 			else if (intNode.sum() != null){
 				if (intNode.sum().rawstorage() != null){
 					var list = ProcessRawStorage(intNode.sum().rawstorage());
@@ -75,6 +78,11 @@ namespace ParseTreeIterator
 				var resultingCard = CardIterator.ProcessCard(own.card())[0].Get();
 				Console.WriteLine("Result :" + resultingCard);
 				ret.Add(CardGame.Instance.CurrentPlayer().playerList.IndexOf(resultingCard.owner.container.owner));
+			}
+			else if (intNode.score() != null){
+				var scorer = CardGame.Instance.points[intNode.score().namegr().GetText()];
+				var card = CardIterator.ProcessCard(intNode.score().card());
+				ret.Add(scorer.GetScore(card[0].Get()));
 			}
 			else{
 				ret.Add(0);

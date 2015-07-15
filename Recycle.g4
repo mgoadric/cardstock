@@ -92,7 +92,7 @@ scorewhere : OPEN 'score' 'each' 'using' namegr CLOSE ;
 score : OPEN 'score' card 'using' namegr CLOSE ;
 
 intwhere : scorewhere | int ;
-int : owner | sizeof | mult | subtract | mod | divide | sum | rawstorage | score | INTNUM+ ;
+int : owner | sizeof | mult | subtract | mod | add | divide | sum | rawstorage | score | INTNUM+ ;
 INTNUM : [0-9] ;
 
 namegr : ANY+ ;

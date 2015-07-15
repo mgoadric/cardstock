@@ -91,8 +91,12 @@ namespace ParseTreeIterator
 		public static FancyCardLocation[] ProcessSubLocation(RecycleParser.LocpreContext locpre,
 			RecycleParser.LocpostContext locpost) {
 			if (locpre.who() != null){
+				var clause = ProcessWhere(locpost.whereclause());
 				return new FancyCardLocation[]{
-					new FancyCardLocation{cardList=CardGame.Instance.tableCards[locpost.namegr().GetText()]}
+					new FancyCardLocation{
+						cardList=CardGame.Instance.tableCards[locpost.namegr().GetText()],
+						filter=clause
+					}
 				};
 			}
 			else if (locpre.who2() != null){
