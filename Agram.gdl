@@ -1,0 +1,99 @@
+;; Agram in the GDL
+(game
+
+   (setup 
+      ;; Set up the players, 2 teams of 2 players, alternating
+      (create players 4)
+      (create teams (0) (1) (2) (3))
+
+      ;; Create the deck source
+      (create deck (game loc STOCK) (deck (rank (3, 4, 5, 6, 7, 8, 9, 10))
+                                          (color (red (suit (hearts, diamonds)))
+                                                 (black (suit (clubs, spades))))))         
+      ;; Create the deck source
+      (create deck (game loc STOCK) (deck (rank (A))
+                                          (color (red (suit (hearts, diamonds)))
+                                                 (black (suit (clubs))))))         
+   )
+               
+   ;; Stages of the game
+      (comp (()
+                (shuffle (game loc STOCK))
+                (move (top (game loc STOCK))
+                      (top ((all player) loc HAND)) 6)
+             )
+      ) 
+         
+      ;; players play a round 6 times     
+      (stage player
+         (end (== (size ((all player) loc HAND)) 0))
+                    
+         ;; players play a hand once
+         (stage player
+            (end (> (size ((all player) loc TRICK)) 0))
+             
+            (choice
+
+               ;; if following player and cannot follow suit
+               ;;   play any card, and end your turn
+               ((and (== (size (game mem LEAD)) 1)
+                     (== (size ((current player) loc HAND where (all (== (cardatt suit each) 
+                                                                         (cardatt suit (top (game mem LEAD))))))) 0))
+                (move (any ((current player) loc HAND)) 
+                      (top ((current player) loc TRICK))))
+
+               ;; if following player and can follow suit
+               ;;   play any card that follows suit, and end your turn
+               ((and (== (size (game mem LEAD)) 1)
+                     (!= (size ((current player) loc HAND where (all (== (cardatt suit each) 
+                                                                         (cardatt suit (top (game mem LEAD))))))) 0))
+                (move (any ((current player) loc HAND where (all (== (cardatt suit each) 
+                                                                     (cardatt suit (top (game mem LEAD))))))) 
+                      (top ((current player) loc TRICK))))
+                      
+               ;; if first player, play any card, remember it in the lead spot, and end your turn
+               ((== (size (game mem LEAD)) 0)
+                      
+                (move (any ((current player) loc HAND)) 
+                      (top ((current player) loc TRICK)))
+                (remember (top ((current player) loc TRICK)) 
+                          (top (game mem LEAD))))
+                      
+           )
+         )
+              
+         ;; after players play hand, computer wraps up trick
+         (comp
+             (() 
+                 ;; solidfy card recedence
+                 (initialize points PRECEDENCE (
+                               (all (suit (cardatt suit (top (game mem LEAD)))) 100)
+                               (all (rank (A)) 14)
+                               (all (rank (10)) 10)
+                               (all (rank (9)) 9)
+                               (all (rank (8)) 8)
+                               (all (rank (7)) 7)
+                               (all (rank (6)) 6)
+                               (all (rank (5)) 5)
+                               (all (rank (4)) 4)
+                               (all (rank (3)) 3)
+                               )
+                               )             
+                      
+                 ;; determine who won the hand, set them first next time
+                 (forget (top (game mem LEAD)))
+                 (cycle next (owner (max (union ((all player) loc TRICK)) using PRECEDENCE)))
+                 (move (top ((all player) loc TRICK)) 
+                       (top (game loc DISCARD))))
+             
+             ;; if that was the last round, give the winner a point
+            ((== (size ((all player) loc HAND)) 0)
+             (inc ((next player) sto SCORE) 1)           
+            )        
+         )
+      )
+   (scoring max (((current player) player) sto SCORE))
+)
+         
+         
+      
