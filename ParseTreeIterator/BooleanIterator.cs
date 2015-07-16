@@ -109,7 +109,6 @@ namespace ParseTreeIterator
 				if (boolNode.BOOLOP().GetText() == "or"){
 					bool flag = false;
 					foreach (var boolean in boolNode.boolean()){
-						
 						flag |= ProcessBoolean(boolean);
 					}
 					return flag;

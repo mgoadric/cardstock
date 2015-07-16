@@ -29,15 +29,13 @@
       ;; players play a card
       (choice
              
-         ((== (cardatt rank (any ((current player) loc HAND)))
-              (cardatt rank (top (game loc DISCARD))))
-           (move (any ((current player) loc HAND where (all (== (cardatt rank each)
-                                                                (cardatt rank (top (game loc DISCARD)))))))
-                 (top (game loc DISCARD)))
-         )
-         ((== (cardatt suit (any ((current player) loc HAND)))
-              (cardatt suit (top (game loc DISCARD))))
-           (move (any ((current player) loc HAND where (all (== (cardatt suit each)
+         ((or (== (cardatt rank (any ((current player) loc HAND)))
+                  (cardatt rank (top (game loc DISCARD))))
+              (== (cardatt suit (any ((current player) loc HAND)))
+                  (cardatt suit (top (game loc DISCARD)))))
+           (move (any ((current player) loc HAND where (any (== (cardatt rank each)
+                                                                (cardatt rank (top (game loc DISCARD))))
+                                                            (== (cardatt suit each)
                                                                 (cardatt suit (top (game loc DISCARD)))))))
                  (top (game loc DISCARD)))
          )
