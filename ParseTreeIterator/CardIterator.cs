@@ -54,6 +54,32 @@ namespace ParseTreeIterator
 				};
 			}
 			
+			if (card.minof() != null){
+				var scoring = CardGame.Instance.points[card.minof().namegr().GetText()];
+				var coll = ProcessLocation(card.minof().cstorage());
+				var min = Int32.MaxValue;
+				Card minCard = null;
+				foreach (var loc in coll){
+					foreach (var c in loc.FilteredList().AllCards()){
+						if (scoring.GetScore(c) < min){
+							min = scoring.GetScore(c);
+							minCard = c;
+						}
+					}
+				}
+				Console.WriteLine("MIN:" + minCard);
+				var lst = new CardListCollection();
+				lst.Add(minCard);
+				return new FancyCardLocation[1]{
+					new FancyCardLocation{
+						cardList=lst,
+						locIdentifier="top"
+					}
+				};
+			}
+			
+			
+			
 			FancyCardLocation[] ret = null;
 			if (card.cardp() != null) {
 				ret = ProcessCard(card.cardp());
