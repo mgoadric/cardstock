@@ -4,7 +4,7 @@ grammar Recycle;
 
 game : OPEN 'game' setup (computermoves|playermoves|stage)+? scoring CLOSE ;
 setup : OPEN 'setup' playercreate OPEN teamcreate CLOSE deckcreate+? CLOSE ;
-stage : OPEN 'stage' ('game'|'player'|'team') endcondition (computermoves|playermoves|stage)+? CLOSE ;
+stage : OPEN 'stage' ('player'|'team') endcondition (computermoves|playermoves|stage)+? CLOSE ;
 scoring : OPEN 'scoring' ('min' | 'max') rawstorage ;
 endcondition : OPEN 'end' boolean CLOSE ;
 

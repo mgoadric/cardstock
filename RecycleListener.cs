@@ -619,6 +619,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitMaxof([NotNull] RecycleParser.MaxofContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.minof"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMinof([NotNull] RecycleParser.MinofContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.minof"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMinof([NotNull] RecycleParser.MinofContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.unionof"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

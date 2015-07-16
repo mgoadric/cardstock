@@ -741,6 +741,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitMaxof([NotNull] RecycleParser.MaxofContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.minof"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMinof([NotNull] RecycleParser.MinofContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.minof"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMinof([NotNull] RecycleParser.MinofContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.unionof"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
