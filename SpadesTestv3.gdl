@@ -14,7 +14,7 @@
                
    ;; Stages of the game
    (stage player
-      (end (>= ((any team) sto SCORE) 5000))
+      (end (>= ((any team) sto SCORE) 500))
       (comp (() (move (top (game loc DISCARD)) 
                       (top (game loc STOCK)) all)
                 (remember (top (game loc STOCK where (all (== (cardatt suit each) spades))))

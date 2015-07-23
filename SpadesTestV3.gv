@@ -134,7 +134,7 @@ NODE0_3_3_2_2_0_3 [fillcolor="green" style=filled label="SCORE"]
 NODE0_3_3_2_2_0 -- NODE0_3_3_2_2_0_3
 NODE0_3_3_2_2 -- NODE0_3_3_2_2_0
 NODE0_3_3_2 -- NODE0_3_3_2_2
-NODE0_3_3_2_3 [label="5000" style=filled fillcolor="lightblue"]
+NODE0_3_3_2_3 [label="500" style=filled fillcolor="lightblue"]
 NODE0_3_3_2 -- NODE0_3_3_2_3
 NODE0_3_3 -- NODE0_3_3_2
 NODE0_3 -- NODE0_3_3
@@ -2468,19 +2468,21 @@ NODE0_4_1 [label="scoring"]
 NODE0_4 -- NODE0_4_1
 NODE0_4_2 [label="max"]
 NODE0_4 -- NODE0_4_2
-NODE0_4_3 [label="Rawstorage" ]
-NODE0_4_3_1 [label="Who2" ]
-NODE0_4_3_1_1 [label="Who2" ]
-NODE0_4_3_1_1_1 [label="current"]
-NODE0_4_3_1_1 -- NODE0_4_3_1_1_1
-NODE0_4_3_1_1_2 [label="player"]
-NODE0_4_3_1_1 -- NODE0_4_3_1_1_2
-NODE0_4_3_1 -- NODE0_4_3_1_1
-NODE0_4_3_1_2 [label="team"]
-NODE0_4_3_1 -- NODE0_4_3_1_2
-NODE0_4_3 -- NODE0_4_3_1
-NODE0_4_3_3 [fillcolor="green" style=filled label="SCORE"]
-NODE0_4_3 -- NODE0_4_3_3
+NODE0_4_3 [label="Int" ]
+NODE0_4_3_0 [label="Rawstorage" ]
+NODE0_4_3_0_1 [label="Who2" ]
+NODE0_4_3_0_1_1 [label="Who2" ]
+NODE0_4_3_0_1_1_1 [label="current"]
+NODE0_4_3_0_1_1 -- NODE0_4_3_0_1_1_1
+NODE0_4_3_0_1_1_2 [label="player"]
+NODE0_4_3_0_1_1 -- NODE0_4_3_0_1_1_2
+NODE0_4_3_0_1 -- NODE0_4_3_0_1_1
+NODE0_4_3_0_1_2 [label="team"]
+NODE0_4_3_0_1 -- NODE0_4_3_0_1_2
+NODE0_4_3_0 -- NODE0_4_3_0_1
+NODE0_4_3_0_3 [fillcolor="green" style=filled label="SCORE"]
+NODE0_4_3_0 -- NODE0_4_3_0_3
+NODE0_4_3 -- NODE0_4_3_0
 NODE0_4 -- NODE0_4_3
 NODE0 -- NODE0_4
 }
