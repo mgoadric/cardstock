@@ -7,14 +7,14 @@
       (create teams (0, 2) (1, 3))
 
       ;; Create the deck source
-      (create deck (game loc DISCARD) (permdeck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
+      (create deck (game loc DISCARD) (deck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
                                                      (color (red (suit (hearts, diamonds)))
                                                             (black (suit (clubs, spades))))))         
    )
                
    ;; Stages of the game
    (stage player
-      (end (>= ((any team) sto SCORE) 500))
+      (end (>= ((any team) sto SCORE) 5000))
       (comp (() (move (top (game loc DISCARD)) 
                       (top (game loc STOCK)) all)
                 (remember (top (game loc STOCK where (all (== (cardatt suit each) spades))))

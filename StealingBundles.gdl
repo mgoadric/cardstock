@@ -71,19 +71,7 @@
       ) 
    )
          
-   ;; determine team score
-   (stage player
-      (end (== (size ((all player) loc BUNDLE)) 0))
-      (comp
-          
-         ;; ADD REAL SCORING HERE TODO
-            (()
-             (set ((current player) sto SCORE) (size ((current player) loc BUNDLE)))
-             (move (top ((current player) loc BUNDLE))
-                   (top (game loc DISCARD)) all))
-      )
-   )
-   (scoring max ((current player) sto SCORE))
+   (scoring max (size ((current player) loc BUNDLE)))
 
 )
          

@@ -94,6 +94,3 @@
       )
    (scoring max (((current player) player) sto SCORE))
 )
-         
-         
-      

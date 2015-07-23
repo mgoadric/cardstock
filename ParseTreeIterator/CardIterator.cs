@@ -178,7 +178,13 @@ namespace ParseTreeIterator
 				}
 			}
 			var ret = new CardFilter(tempList);
-			ret.quant = Quantifier.ALL;
+			if (quantifier == "all") {
+				ret.quant = Quantifier.ALL;
+			} else if (quantifier == "any") {
+				ret.quant = Quantifier.ANY;
+			} else if (quantifier == "none") {
+				ret.quant = Quantifier.NONE;
+			} 
 			return ret;
 		}
 		public static string ProcessEitherCardatt(IParseTree att){

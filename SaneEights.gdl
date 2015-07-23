@@ -59,19 +59,8 @@
        
       )
    )
-         
-   ;; determine player score
-   (stage player
-      (end (== (size ((all player) loc HAND)) 0))
-      (comp
-          
-            (()
-             (set ((current player) sto SCORE) (size ((current player) loc HAND)))
-             (move (top ((current player) loc HAND))
-                   (top (game loc DISCARD)) all))
-      )
-   )
-   (scoring min ((current player) sto SCORE))
+ 
+   (scoring min (size ((current player) loc HAND)))
 )
          
          

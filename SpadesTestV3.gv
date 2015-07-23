@@ -42,7 +42,7 @@ NODE0_2_6_3_3 -- NODE0_2_6_3_3_0
 NODE0_2_6_3 -- NODE0_2_6_3_3
 NODE0_2_6 -- NODE0_2_6_3
 NODE0_2_6_4 [label="Deck" ]
-NODE0_2_6_4_1 [label="permdeck"]
+NODE0_2_6_4_1 [label="deck"]
 NODE0_2_6_4 -- NODE0_2_6_4_1
 NODE0_2_6_4_2 [label="Attribute" ]
 NODE0_2_6_4_2_1 [fillcolor="green" style=filled label="rank"]
@@ -134,7 +134,7 @@ NODE0_3_3_2_2_0_3 [fillcolor="green" style=filled label="SCORE"]
 NODE0_3_3_2_2_0 -- NODE0_3_3_2_2_0_3
 NODE0_3_3_2_2 -- NODE0_3_3_2_2_0
 NODE0_3_3_2 -- NODE0_3_3_2_2
-NODE0_3_3_2_3 [label="500" style=filled fillcolor="lightblue"]
+NODE0_3_3_2_3 [label="5000" style=filled fillcolor="lightblue"]
 NODE0_3_3_2 -- NODE0_3_3_2_3
 NODE0_3_3 -- NODE0_3_3_2
 NODE0_3 -- NODE0_3_3

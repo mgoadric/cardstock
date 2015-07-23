@@ -1,4 +1,4 @@
-;; GOPS in the GDL
+;; War in the GDL
 (game
     (setup  
      ;; Set up the players, 2 players each on their own team
@@ -7,17 +7,14 @@
 
       ;; Create the deck source
       (create deck (game loc STOCK) (deck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
-                                          (color (red (suit (diamonds))))))
-      (create deck ((current player) loc HAND) (deck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
-                                                     (color (black (suit (clubs))))))
-      (create deck ((next player) loc HAND) (deck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
-                                                  (color (black (suit (spades))))))
+                                                     (color (red (suit (hearts, diamonds)))
+                                                            (black (suit (clubs, spades))))))         
     )
     (comp (() 
              
              ;; Create the deck source
-                 (initialize points PRECEDENCE (
-                               (all (rank (A)) 1)
+             (initialize points PRECEDENCE (
+                               (all (rank (A)) 14)
                                (all (rank (K)) 13) 
                                (all (rank (Q)) 12)
                                (all (rank (J)) 11)
@@ -31,24 +28,18 @@
                                (all (rank (3)) 3)
                                (all (rank (2)) 2)
                                )
-                 )                    
+             )                    
              (shuffle (game loc STOCK))  
+             (move (top (game loc STOCK))
+                   (top ((all player) loc HAND)) 26)
           )
    )
                
    ;; Stages of the game
    (stage player
-      (end (== (size ((all player) loc HAND)) 0))
-      
-      
-      (comp
-         (()
-          (move (top (game loc STOCK))
-                (top (game loc AWARD)))
-         )
-      )
-                     
-      ;; Stages of the game
+      (end (== (size ((any player) loc HAND)) 0))
+                           
+      ;; Each player plays a card
       (stage player
           (end (== (size ((all player) loc TRICK)) 1))
                      
@@ -56,9 +47,13 @@
           ;; players play a card
           (choice
              
-              (()
-               (move (any ((current player) loc HAND))
-                 (top ((current player) loc TRICK)))
+              ((== (game sto WAR) 0)
+               (move (top ((current player) loc HAND))
+                     (top ((current player) loc TRICK)))
+              )
+              ((== (game sto WAR) 1)
+               (move (top ((current player) loc HAND))
+                     (top ((current player) loc TRICK)) 4)
               )
           )
       )
@@ -67,19 +62,16 @@
           
           ((!= (cardatt rank (top ((current player) loc TRICK)))
                (cardatt rank (top ((next player) loc TRICK))))
-           (move (top (game loc AWARD))
-                 (top (((owner (max (union ((all player) loc TRICK)) using PRECEDENCE)) player) loc WON)))
-          )
-
-          (()           
+           (set (game sto WAR) 0)
            (move (top ((all player) loc TRICK))
-                 (top (game loc DISCARD)))
+                 (bottom (((owner (max (union ((all player) loc TRICK)) using PRECEDENCE)) player) loc HAND)) all)
+          )
+          ((== (cardatt rank (top ((current player) loc TRICK)))
+               (cardatt rank (top ((next player) loc TRICK))))
+           (set (game sto WAR) 1)
           )
       )
    )
          
-   (scoring max (sum ((current player) loc WON) using PRECEDENCE))
+   (scoring max (size ((current player) loc HAND))
 )
-         
-         
-      

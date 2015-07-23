@@ -13,7 +13,7 @@ public class ParseEngine{
 	public ParseEngine(){
                 var regex = new Regex("(;;)(.*?)(\n)");
 
-                var fileName = "SaneEights";
+                var fileName = "SpadesTestv3";
                 var f = File.ReadAllText(fileName + ".gdl");
                 var file = f;
                 //Console.WriteLine(file);
@@ -50,9 +50,9 @@ public class ParseEngine{
                                 Console.WriteLine(green);
                         }
                 }
-                Console.Write(Analytics.StageCount.Instance);
-                Console.Write(Analytics.BranchingFactor.Instance);
-                Console.Write(Analytics.StorageValues.Instance);
+                //Console.Write(Analytics.StageCount.Instance);
+                //Console.Write(Analytics.BranchingFactor.Instance);
+                //Console.Write(Analytics.StorageValues.Instance);
                 var binCounts = Analytics.BinCounts.Instance.DictRep();
                 foreach (var key in binCounts.Keys){
                         Console.WriteLine(key);
