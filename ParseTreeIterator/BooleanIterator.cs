@@ -131,7 +131,7 @@ namespace ParseTreeIterator
 					return lst1.Intersect(lst2).Count() >= 1;
 				}
 				else{// == "!="
-					return lst1.Union(lst2).Count() == 1;
+					return lst1.Intersect(lst2).Count() == 0;
 				}
 			}
 			return false;
