@@ -35,6 +35,9 @@ namespace ParseTreeIterator
 					StageCount.Instance.IncCount(stage);
 					TimeStep.Instance.timeStep.Push(TimeStep.Instance.timeStep.Pop() + 1);
 					Console.WriteLine("Current Player: " + CardGame.Instance.CurrentPlayer().idx);
+					foreach (var player in CardGame.Instance.players) {
+						Console.WriteLine("HANDSIZE: " + player.cardBins["HAND"].Count);
+					}
 					for (int i = 4; i < stage.ChildCount - 1; ++i){
 						TimeStep.Instance.treeLoc.Push(i - 4);
 						Console.WriteLine(TimeStep.Instance);
@@ -147,7 +150,7 @@ namespace ParseTreeIterator
 					flatten.Add(new GameActionCollection{a});
 				}
 			}
-			//Console.WriteLine("Flatten:" + flatten.Count);
+			Console.WriteLine("Flatten:" + flatten.Count);
 			return flatten;
 			
 		}
