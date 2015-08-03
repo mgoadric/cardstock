@@ -64,6 +64,8 @@
                (cardatt rank (top ((next player) loc TRICK))))
            (move (top ((all player) loc TRICK))
                  (bottom (((owner (max (union ((all player) loc TRICK)) using PRECEDENCE)) player) loc HAND)) all)
+;;           (move (top (game loc BOUNTY))
+;;                 (bottom (((owner (max (union ((all player) loc TRICK)) using PRECEDENCE)) player) loc HAND)) all)
            (set (game sto WAR) 0)
           )
           ((== (cardatt rank (top ((current player) loc TRICK)))
