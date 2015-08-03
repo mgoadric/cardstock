@@ -41,7 +41,7 @@
                            
       ;; Each player plays a card
       (stage player
-          (end (== (size ((all player) loc TRICK)) 1))
+          (end (>= (size ((all player) loc TRICK)) 1))
                      
                     
           ;; players play a card
@@ -62,12 +62,14 @@
           
           ((!= (cardatt rank (top ((current player) loc TRICK)))
                (cardatt rank (top ((next player) loc TRICK))))
-           (set (game sto WAR) 0)
            (move (top ((all player) loc TRICK))
                  (bottom (((owner (max (union ((all player) loc TRICK)) using PRECEDENCE)) player) loc HAND)) all)
+           (set (game sto WAR) 0)
           )
           ((== (cardatt rank (top ((current player) loc TRICK)))
                (cardatt rank (top ((next player) loc TRICK))))
+           (move (top ((all player) loc TRICK))
+                 (top (game loc BOUNTY)) all)
            (set (game sto WAR) 1)
           )
       )
