@@ -42,6 +42,7 @@ namespace CardEngine{
 	}
 	public abstract class CardCollection{
 		public abstract IEnumerable<Card> AllCards();
+		public abstract void AddBottom(Card c);
 		public abstract void Add(Card c);
 		public abstract Card Remove();
 		public abstract Card Peek();
@@ -75,6 +76,9 @@ namespace CardEngine{
 		}
 		public override void Add(Card c){
 			cards.Add(c);
+		}
+		public override void AddBottom(Card c){
+			cards.Insert(0,c);
 		}
 		public override void Clear(){
 			cards.Clear();
@@ -110,6 +114,11 @@ namespace CardEngine{
 		}
 		public override void Add(Card c){
 			cards.Push(c);
+		}
+		public override void AddBottom(Card c){
+			cards.Reverse();
+			cards.Push(c);
+			cards.Reverse();
 		}
 		public override Card Remove(){
 			return cards.Pop();
@@ -149,6 +158,11 @@ namespace CardEngine{
 			cards.Clear();
 		}
 		public override void Add(Card c){
+			cards.Reverse();
+			cards.Enqueue(c);
+			cards.Reverse();
+		}
+		public override void AddBottom(Card c){
 			cards.Enqueue(c);
 		}
 		public override Card Remove(){
