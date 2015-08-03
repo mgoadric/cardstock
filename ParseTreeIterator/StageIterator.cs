@@ -138,9 +138,12 @@ namespace ParseTreeIterator
 						}	
 					}
 					else{
-						flatten.Add(new GameActionCollection{
+						
+						/*flatten.Add(new GameActionCollection{
 							fa
-						});
+						});*/
+						flatten.Add(opts);
+						break;
 					}
 				}
 				else{
