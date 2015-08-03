@@ -11,7 +11,7 @@ namespace CardEngine{
 				cardList.Add(c);
 			}
 			else if (locIdentifier == "bottom"){
-				
+				cardList.AddBottom(c);
 			}
 		}
 		public int FilteredCount(){
