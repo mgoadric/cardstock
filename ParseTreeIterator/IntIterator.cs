@@ -78,6 +78,7 @@ namespace ParseTreeIterator
 				var resultingCard = CardIterator.ProcessCard(own.card())[0].Get();
 				Console.WriteLine("Result :" + resultingCard);
 				ret.Add(CardGame.Instance.CurrentPlayer().playerList.IndexOf(resultingCard.owner.container.owner));
+				Console.WriteLine("GOING TO: " + ret.Last());
 			}
 			else if (intNode.score() != null){
 				var scorer = CardGame.Instance.points[intNode.score().namegr().GetText()];

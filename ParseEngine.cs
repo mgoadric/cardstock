@@ -13,7 +13,9 @@ public class ParseEngine{
 	public ParseEngine(){
                 var regex = new Regex("(;;)(.*?)(\n)");
 
+
                 var fileName = "Pairs";
+
                 var f = File.ReadAllText(fileName + ".gdl");
                 var file = f;
                 //Console.WriteLine(file);

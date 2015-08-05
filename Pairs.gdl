@@ -98,14 +98,5 @@
       )         
    )   
          
-   ;; determine player score
-   (stage player
-      (end (== (size ((all player) loc SCORING)) 0))
-      (()
-        (set ((current player) sto SCORE) (sum ((current player) loc SCORING) using POINTS))
-        (move (top ((current player) loc SCORING))
-              (top (game loc STOCK) all)
-      )
-   )
-   (scoring min ((current player) sto SCORE))
+   (scoring min (sum ((current player) loc SCORING) using POINTS))
 )    
