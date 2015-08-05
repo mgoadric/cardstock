@@ -45,7 +45,7 @@ public class ParseEngine{
 		Stopwatch time = new Stopwatch();
 		time.Start();
 
-                //StageIterator.ProcessGame(tree);
+                StageIterator.ProcessGame(tree);
                 foreach (var player in CardEngine.CardGame.Instance.players){
                         Console.WriteLine("Green bin:");
                         foreach (var green in player.cardBins["GREEN"].AllCards()){

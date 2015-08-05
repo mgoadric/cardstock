@@ -49,7 +49,9 @@ actual : OPEN 'actual' card CLOSE ;
 rawstorage : OPEN (who | who2) 'sto' namegr CLOSE ;
 cstorage : unionof | (locstorage | memstorage) ;
 locstorage : OPEN locpre 'loc' locpost CLOSE ;
-memstorage : OPEN locpre 'mem' locpost CLOSE;
+memstorage :  (OPEN ('top' | 'bottom' | int | 'any') memset CLOSE) | OPEN locpre 'mem' locpost CLOSE;
+memset : tuple ;
+tuple : OPEN 'tuples' int cstorage 'using' namegr CLOSE ;
 locpre :  (who | who2) ;
 locpost : namegr whereclause? ;
 
@@ -85,7 +87,7 @@ subtract : OPEN '-' int int CLOSE ;
 mod : OPEN '%' int int CLOSE ;
 divide : OPEN '//' int int CLOSE ;
 
-sizeof : OPEN 'size' cstorage CLOSE ;
+sizeof : OPEN 'size' (cstorage | memset) CLOSE ;
 maxof : OPEN 'max' cstorage 'using' namegr CLOSE ;
 minof : OPEN 'min' cstorage 'using' namegr CLOSE ;
 unionof : OPEN 'union' cstorage+? CLOSE ;

@@ -67,7 +67,7 @@
                 
             (()
              (set (game sto FINISHED) 1)
-             (move (min (union ((all player) loc HAND)) using POINTS)
+             (move (actual (min (union ((all player) loc HAND)) using POINTS))
                    (top ((current player) loc SCORING)))
              )
             (()
@@ -80,7 +80,7 @@
          (comp
              ((> (size (tuples 2 ((current player) loc HAND) using POINTS)) 0)
               (set (game sto FINISHED) 1)
-              (move (top (top (tuples 2 ((current player) loc HAND) using POINTS)))
+              (move (actual (top (top (tuples 2 ((current player) loc HAND) using POINTS))))
                     (top ((current player) loc SCORING)))
              )
          )

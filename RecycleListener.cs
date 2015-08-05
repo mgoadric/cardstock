@@ -399,6 +399,26 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitMemstorage([NotNull] RecycleParser.MemstorageContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.memset"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMemset([NotNull] RecycleParser.MemsetContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.memset"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMemset([NotNull] RecycleParser.MemsetContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.tuple"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTuple([NotNull] RecycleParser.TupleContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.tuple"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTuple([NotNull] RecycleParser.TupleContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.locpre"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
