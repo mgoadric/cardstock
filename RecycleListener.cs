@@ -349,6 +349,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitOwner([NotNull] RecycleParser.OwnerContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.actual"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterActual([NotNull] RecycleParser.ActualContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.actual"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitActual([NotNull] RecycleParser.ActualContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.rawstorage"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

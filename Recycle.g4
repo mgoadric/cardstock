@@ -42,9 +42,10 @@ turnaction : 'turn' 'pass' ;
 // Issue with 'any' showing up in comp actions. Needs to be refactored?
 
 card : maxof | minof | (cardp | cardm) ;
-cardp : (OPEN ('top' | 'bottom' | int | 'any') locstorage CLOSE) ;
+cardp : actual | (OPEN ('top' | 'bottom' | int | 'any') locstorage CLOSE) ;
 cardm : (OPEN ('top' | 'bottom' | int | 'any') memstorage CLOSE) ;
 owner : OPEN 'owner' card CLOSE ;
+actual : OPEN 'actual' card CLOSE ;
 rawstorage : OPEN (who | who2) 'sto' namegr CLOSE ;
 cstorage : unionof | (locstorage | memstorage) ;
 locstorage : OPEN locpre 'loc' locpost CLOSE ;

@@ -13,7 +13,7 @@ public class ParseEngine{
 	public ParseEngine(){
                 var regex = new Regex("(;;)(.*?)(\n)");
 
-                var fileName = "War";
+                var fileName = "Pairs";
                 var f = File.ReadAllText(fileName + ".gdl");
                 var file = f;
                 //Console.WriteLine(file);
@@ -43,7 +43,7 @@ public class ParseEngine{
 		Stopwatch time = new Stopwatch();
 		time.Start();
 
-                StageIterator.ProcessGame(tree);
+                //StageIterator.ProcessGame(tree);
                 foreach (var player in CardEngine.CardGame.Instance.players){
                         Console.WriteLine("Green bin:");
                         foreach (var green in player.cardBins["GREEN"].AllCards()){
