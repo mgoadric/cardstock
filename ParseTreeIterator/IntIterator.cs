@@ -26,11 +26,16 @@ namespace ParseTreeIterator
 				ret.Add(int.Parse(intNode.GetText()));
 			}
 			else if (intNode.@sizeof() != null){
-				var size = intNode.@sizeof() as RecycleParser.SizeofContext;
-				var loc = size.cstorage() as RecycleParser.CstorageContext;
-				var trueLoc = CardIterator.ProcessLocation(loc);
-				foreach (var l in trueLoc){
-					ret.Add(l.FilteredCount());
+				if (intNode.@sizeof().cstorage() != null){
+					var size = intNode.@sizeof() as RecycleParser.SizeofContext;
+					var loc = size.cstorage() as RecycleParser.CstorageContext;
+					var trueLoc = CardIterator.ProcessLocation(loc);
+					foreach (var l in trueLoc){
+						ret.Add(l.FilteredCount());
+					}
+				}
+				else if (intNode.@sizeof().memset() != null){
+					ret.Add(CardIterator.ProcessMemset(intNode.@sizeof().memset()).Count());
 				}
 			}
 			else if (intNode.mult() != null){

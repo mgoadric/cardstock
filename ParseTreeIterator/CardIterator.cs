@@ -13,15 +13,48 @@ namespace ParseTreeIterator
 	public class CardIterator{
 
 		public static FancyCardLocation[] ProcessCard(RecycleParser.CardmContext cardm){
-			var ret = ProcessSubLocation(cardm.memstorage().locpre(),
-					cardm.memstorage().locpost());
-			foreach (var fancy in ret){
-					fancy.locIdentifier = cardm.GetChild(1).GetText();
+			if (cardm.memstorage().locpre() != null){
+				var ret = ProcessSubLocation(cardm.memstorage().locpre(),
+						cardm.memstorage().locpost());
+				foreach (var fancy in ret){
+						fancy.locIdentifier = cardm.GetChild(1).GetText();
+				}
+				return ret;
 			}
-			return ret;
+			else{
+				Console.WriteLine("Tuple Track");
+					var identifier = cardm.memstorage().GetChild(1).GetText();
+					var resultingSet = ProcessMemset(cardm.memstorage().memset());
+					if (identifier == "top"){
+						return new FancyCardLocation[1]{
+							resultingSet[0]
+						};
+					}
+					else if (identifier == "bottom"){
+						return new FancyCardLocation[1]{
+							resultingSet.Last()
+						};
+					
+					}
+					else if (cardm.memstorage().@int() != null){
+						var processInt = IntIterator.ProcessListInt(cardm.memstorage().@int())[0];
+						return new FancyCardLocation[1]{
+							resultingSet[processInt]
+						};
+					}
+					else{
+						throw new NotImplementedException("Can't use any (yet) for memset");
+					}
+			}
 	
 		}
 		public static FancyCardLocation[] ProcessCard(RecycleParser.CardpContext cardp){
+			if (cardp.actual() != null){
+				var card = cardp.actual().card() as RecycleParser.CardContext;
+				var cardLocations = ProcessCard(card);
+				cardLocations[0].physicalLocation = true;
+				return cardLocations;
+			}
 			var ret = ProcessSubLocation(cardp.locstorage().locpre(),
 					cardp.locstorage().locpost());	
 			foreach (var fancy in ret){
@@ -107,11 +140,62 @@ namespace ParseTreeIterator
 						locIdentifier="top"
 					}
 				};
-			} else if (loc.locstorage() != null) {				
+			} else if (loc.locstorage() != null) {
+				Console.WriteLine("Loc");				
 				return ProcessSubLocation(loc.locstorage().locpre(), loc.locstorage().locpost());
-			} else if (loc.memstorage() != null) {				
-				return ProcessSubLocation(loc.memstorage().locpre(), loc.memstorage().locpost());
+			} else if (loc.memstorage() != null) {
+				if (loc.memstorage().locpre() != null){//standard mem location	
+					Console.WriteLine("LocPre");	
+					return ProcessSubLocation(loc.memstorage().locpre(), loc.memstorage().locpost());
+				}
+				else{//Set of Tuples
+					Console.WriteLine("Tuple Track");
+					var identifier = loc.memstorage().GetChild(1).GetText();
+					var resultingSet = ProcessMemset(loc.memstorage().memset());
+					if (identifier == "top"){
+						return new FancyCardLocation[1]{
+							resultingSet[0]
+						};
+					}
+					else if (identifier == "bottom"){
+						return new FancyCardLocation[1]{
+							resultingSet.Last()
+						};
+					
+					}
+					else if (loc.memstorage().@int() != null){
+						var processInt = IntIterator.ProcessListInt(loc.memstorage().@int())[0];
+						return new FancyCardLocation[1]{
+							resultingSet[processInt]
+						};
+					}
+					else{
+						throw new NotImplementedException("Can't use any (yet) for memset");
+					}
+				}
 			}			
+			return null;
+		}
+		public static FancyCardLocation[] ProcessMemset(RecycleParser.MemsetContext memset){
+			if (memset.tuple() != null){
+				var findEm = new CardGrouping(13,CardGame.Instance.points[memset.tuple().namegr().GetText()]);
+				//Pairs
+				var cardsToScore = new CardListCollection();
+				var cstorageProcessed = ProcessLocation(memset.tuple().cstorage());
+				foreach (var fLoc in cstorageProcessed){
+					foreach (var card in fLoc.FilteredList().AllCards()){
+						cardsToScore.Add(card);
+					}
+				}
+				var pairs = findEm.TuplesOfSize(cardsToScore,IntIterator.ProcessListInt(memset.tuple().@int())[0]);
+				var returnList = new FancyCardLocation[pairs.Count];
+				for (int i = 0; i < pairs.Count; ++i){
+					returnList[i] = new FancyCardLocation{
+						cardList=pairs[i]
+					};
+				}
+				return returnList;
+			}
 			return null;
 		}
 		public static FancyCardLocation[] ProcessSubLocation(RecycleParser.LocpreContext locpre,
@@ -128,6 +212,7 @@ namespace ParseTreeIterator
 			else if (locpre.who2() != null){
 				var resultingEntity = ProcessWho2(locpre.who2());
 				if (resultingEntity is Player){
+					Console.WriteLine("token:" + locpost.namegr().GetText());
 					var innerPlayer = resultingEntity as Player;
 					var clause = ProcessWhere(locpost.whereclause());
 					return new FancyCardLocation[]{

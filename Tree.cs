@@ -44,12 +44,26 @@ public class Tree{
 		return ret;
 	}
 	public List<Node> combinations(){
+		
 		var unique = uniqueOptions();
-		var latestIter = unique[0];
-		for (int i = 0; i < unique.Count - 1; ++i){
-			latestIter = perm(latestIter,unique[i + 1],(i == 0));
+		if (unique.Count > 1){
+			var latestIter = unique[0];
+			for (int i = 0; i < unique.Count - 1; ++i){
+				latestIter = perm(latestIter,unique[i + 1],(i == 0));
+			}
+			return latestIter;
 		}
-		return latestIter;
+		else{//single attribute case
+			
+			var latestIter = unique[0];
+			var ret = new List<Node>();
+			foreach (var node in latestIter){
+				ret.Add(
+					new Node{Value="treeRoot",children = new List<Node>{node}}
+				);
+			}
+			return ret;
+		}
 	}
 	public List<Node> perm(List<Node> thingOne, List<Node> thingTwo,bool first){
 		

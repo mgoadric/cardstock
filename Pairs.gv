@@ -44,14 +44,16 @@ NODE0_2_6 -- NODE0_2_6_3
 NODE0_2_6_4 [label="Deck" ]
 NODE0_2_6_4_1 [label="deck"]
 NODE0_2_6_4 -- NODE0_2_6_4_1
-NODE0_2_6_4_2 [label="Attribute" ]
-NODE0_2_6_4_2_1 [fillcolor="green" style=filled label="value"]
-NODE0_2_6_4_2 -- NODE0_2_6_4_2_1
-NODE0_2_6_4_2_2 [label="Attribute" ]
-NODE0_2_6_4_2_2_1 [fillcolor="green" style=filled label="1"]
-NODE0_2_6_4_2_2 -- NODE0_2_6_4_2_2_1
-NODE0_2_6_4_2 -- NODE0_2_6_4_2_2
+NODE0_2_6_4_2 [label="1" style=filled fillcolor="lightblue"]
 NODE0_2_6_4 -- NODE0_2_6_4_2
+NODE0_2_6_4_3 [label="Attribute" ]
+NODE0_2_6_4_3_1 [fillcolor="green" style=filled label="value"]
+NODE0_2_6_4_3 -- NODE0_2_6_4_3_1
+NODE0_2_6_4_3_2 [label="Attribute" ]
+NODE0_2_6_4_3_2_1 [fillcolor="green" style=filled label="1"]
+NODE0_2_6_4_3_2 -- NODE0_2_6_4_3_2_1
+NODE0_2_6_4_3 -- NODE0_2_6_4_3_2
+NODE0_2_6_4 -- NODE0_2_6_4_3
 NODE0_2_6 -- NODE0_2_6_4
 NODE0_2 -- NODE0_2_6
 NODE0_2_7 [label="Deckcreate" ]

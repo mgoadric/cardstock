@@ -4,6 +4,7 @@ namespace CardEngine{
 	public class FancyCardLocation{
 		public CardCollection cardList;
 		public string locIdentifier;
+		public bool physicalLocation = false;
 		
 		public CardFilter filter;
 		public void Add(Card c){
@@ -47,6 +48,12 @@ namespace CardEngine{
 			return cardList;
 		}
 		public Card Remove(){
+			if (physicalLocation){
+				var card = cardList.Peek();
+				var trueLocation = card.owner;
+				trueLocation.Remove(card);
+				return card;
+			}
 			if (filter != null){
 				var temp = filter.FilterList(cardList);
 				Console.WriteLine("Removed from Filter...");

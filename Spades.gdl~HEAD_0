@@ -1,0 +1,184 @@
+;; SPADES in the GDL
+(stage game
+
+   (end game 1)
+   (comp (() 
+
+             ;; Game Locations and Storage
+             (create loc game (SOURCE List)
+                              (STOCK Stack)
+                              (DISCARD Stack)
+                              (TRUMP Stack Memory)
+                              (LEAD Stack Memory))
+             (create sto game (SPADESBROKEN))
+
+             ;; Set up the players, 2 teams of 2 players, alternating
+             (initialize players 2 2 alternate)
+
+             ;; Player Locations and Storage
+             (create loc player (HAND List)
+                                (TRICK Stack))
+             (create sto player (BID TRICKSWON))
+
+             ;; Team Locations and Storage
+             (create sto team (SCORE BAGS))
+             
+             ;; Create the deck source
+             (initialize (game loc SOURCE) (permdeck (rank (A 2 3 4 5 6 7 8 9 10 J Q K))
+                                                     (color (red (suit (hearts diamonds)))
+                                                            (black (suit (clubs spades))))))
+             (copy (top (game loc DISCARD)) 
+                   (top (game loc SOURCE)) all)
+             
+         )
+   )
+               
+   ;; Stages of the game
+   (stage player
+      (end (>= (team any sto SCORE) 500))
+      (comp (() (move (top (game loc DISCARD)) 
+                      (top (game loc STOCK)) all)
+                (copy (top (game loc STOCK where (== (cardatt suit this) spades)))
+                      (top (game loc TRUMP)))
+                (shuffle (game loc STOCK))
+                (move (top (game loc STOCK))
+                      (top ((all player) loc HAND)) 13)
+                (set (game sto SPADESBROKEN) 0)
+                (set ((all player) sto TRICKSWON) 0)
+             )
+      ) 
+      ;; bidding for number of tricks expected
+      (stage player
+         (end player 1)
+         (choice
+            (() (set ((current player) sto BID) 1))
+            (() (set ((current player) sto BID) 2))
+            (() (set ((current player) sto BID) 3))
+            (() (set ((current player) sto BID) 4))
+         )
+      )
+         
+      ;; players play a round 13 times     
+      (stage player
+         (end game 13)
+                    
+         ;; players play a hand once
+         (stage player
+            (end player 1)
+             
+            (choice
+             
+               ;; if first player and spades not broken and have non-spades cards
+               ;;   play one of these, remember it in the lead spot, and end your turn
+               ((and (== (size (game loc LEAD)) 0)
+                     (== (game sto SPADESBROKEN) 0)
+                     (== (size ((current player) loc HAND where (!= (cardatt suit this) 
+                                                                    (cardatt suit (top (game loc TRUMP)))))) 0)) 
+                (move (any ((current player) loc HAND where (!= (cardatt suit this) 
+                                                                (cardatt suit (top (game loc TRUMP)))))) 
+                      (top ((current player) loc TRICK)))
+                (copy (top ((current player) loc TRICK)) 
+                      (top (game loc LEAD)))
+                (turn over))
+
+               ;; if first player and spades broken
+               ;;   play any card, remember it in the lead spot, and end your turn
+               ((and (== (size (game loc LEAD)) 0)
+                     (== (game sto SPADESBROKEN) 1)) 
+                (move (any ((current player) loc HAND)) 
+                      (top ((current player) loc TRICK)))
+                (copy (top ((current player) loc TRICK)) 
+                      (top (game loc LEAD)))
+                (turn over))
+
+               ;; if following player and cannot follow suit
+               ;;   play any card, and end your turn
+               ((and (== (size (game loc LEAD)) 1)
+                     (== (size ((current player) loc HAND where (== (cardatt suit this) 
+                                                                    (cardatt suit (top (game loc LEAD)))))) 0))
+                (move (any ((current player) loc HAND)) 
+                      (top ((current player) loc TRICK)))
+                (turn over))
+
+               ;; if following player and can follow suit
+               ;;   play any card that follows suit, and end your turn
+               ((and (== (size (game loc LEAD)) 1)
+                     (!= (size ((current player) loc HAND where (== (cardatt suit this) 
+                                                                    (cardatt suit (top (game loc LEAD)))))) 0))
+                (move (any ((current player) loc HAND where (== (cardatt suit this) 
+                                                                (cardatt suit (top (game loc LEAD)))))) 
+                      (top ((current player) loc TRICK)))
+                (turn over))
+            )
+         )
+              
+         ;; after players play hand, computer wraps up trick
+         (comp
+             (() 
+                 ;; solidfy card recedence
+                 (initialize points PRECEDENCE (
+                               (all (suit (cardatt suit (top (game loc TRUMP)))) 200)
+                               (all (suit (cardatt suit (top (game loc LEAD)))) 100)
+                               (all (rank (A)) 14)
+                               (all (rank (K)) 13) 
+                               (all (rank (Q)) 12)
+                               (all (rank (J)) 11)
+                               (all (rank (10)) 10)
+                               (all (rank (9)) 9)
+                               (all (rank (8)) 8)
+                               (all (rank (7)) 7)
+                               (all (rank (6)) 6)
+                               (all (rank (5)) 5)
+                               (all (rank (4)) 4)
+                               (all (rank (3)) 3)
+                               (all (rank (2)) 2)
+                               )
+                               )             
+                      
+                 ;; determine who won the hand, set them first next time, and give them a point
+                 (remove (top (game loc LEAD)))
+                 (set next (owner (max (union ((all player) loc TRICK)) using PRECEDENCE)))
+                 (inc ((next player) sto TRICKSWON) 1)
+
+             )
+                  
+             ;; if winner played trump and trump not broken, trump is now broken
+             ((and (== (cardatt suit (top ((next player) loc TRICK))) 
+                       (cardatt suit (top (game loc TRUMP))))
+                   (== (game sto SPADESBROKEN) 0))
+              (set (game sto SPADESBROKEN) 1))
+                  
+             ;; discard all the played cards
+             (() (move (top ((all player) loc TRICK)) 
+                       (top (game loc DISCARD))))
+             
+         )
+      )
+         
+      ;; determine team score
+      (stage team
+         (end team 1)
+         (comp
+          
+            ;; team made their cumulative bid, score positive points
+            ((>= (sum (((current team) player) sto TRICKSWON)) 
+                 (sum (((current team) player) sto BID)))
+             (inc ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID))))
+             (inc ((current team) sto BAGS) (- (sum (((current team) player) sto TRICKSWON)) 
+                                               (sum (((current team) player) sto BID)))))
+            
+            ;; team did not make their cumulative bid, score negative points
+            ((< (sum ((current team) sto TRICKSWON)) 
+                (sum ((current team) sto BID)))
+             (dec ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID)))))
+            
+            ;; record bags if over 10
+            (() (dec ((current team) sto SCORE) (* 100 (// ((current team) sto BAGS) 10)))
+                (set ((current team) sto BAGS) (% ((current team) sto BAGS) 10)))
+         )
+      )
+   )
+)
+         
+         
+      
