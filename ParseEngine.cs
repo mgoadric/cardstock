@@ -14,9 +14,9 @@ public class ParseEngine{
                 var regex = new Regex("(;;)(.*?)(\n)");
 
 
-                var fileName = "Pairs";
+                var fileName = "Spades";
 
-                var f = File.ReadAllText(fileName + ".gdl");
+                var f = File.ReadAllText("games/" + fileName + ".gdl");
                 var file = f;
                 //Console.WriteLine(file);
                 file = regex.Replace(file,"\n");
@@ -35,7 +35,7 @@ public class ParseEngine{
                 builder.AppendLine("NODE0 [label=\"Stage\" style=filled fillcolor=\"red\"]");
                 DOTMaker(tree,"NODE0");
                 builder.Append("}");
-                var fs = File.Create(fileName + ".gv");
+                var fs = File.Create("games/" + fileName + ".gv");
                 var bytes = Encoding.UTF8.GetBytes(builder.ToString());
                 fs.Write(bytes,0,bytes.Length);
                 fs.Close();
