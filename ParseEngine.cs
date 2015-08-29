@@ -14,7 +14,7 @@ public class ParseEngine{
                 var regex = new Regex("(;;)(.*?)(\n)");
 
 
-                var fileName = "Spades";
+                var fileName = "War";
 
                 var f = File.ReadAllText("games/" + fileName + ".gdl");
                 var file = f;
