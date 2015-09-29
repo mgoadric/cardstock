@@ -33,6 +33,7 @@ namespace ParseTreeIterator
 					foreach (var l in trueLoc){
 						ret.Add(l.FilteredCount());
 					}
+					Console.WriteLine("fCount:"+ret[0]);
 				}
 				else if (intNode.@sizeof().memset() != null){
 					ret.Add(CardIterator.ProcessMemset(intNode.@sizeof().memset()).Count());

@@ -43,7 +43,7 @@ namespace ParseTreeIterator
 			if (setupNode.deckcreate() != null){
 				var decks = setupNode.deckcreate();
 				foreach (var deckinit in decks) {				
-					var locstorage = CardIterator.ProcessSubLocation(deckinit.locstorage().locpre(), deckinit.locstorage().locpost());
+					var locstorage = CardIterator.ProcessSubLocation(deckinit.locstorage().locpre(), deckinit.locstorage().locpost(),deckinit.locstorage().GetChild(2).GetText() == "iloc");
 					var deckTree = DeckIterator.ProcessDeck(deckinit.deck());
 					var repeat = 1;
 					if (deckinit.deck().@int() != null){

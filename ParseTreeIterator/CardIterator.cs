@@ -15,7 +15,7 @@ namespace ParseTreeIterator
 		public static FancyCardLocation[] ProcessCard(RecycleParser.CardmContext cardm){
 			if (cardm.memstorage().locpre() != null){
 				var ret = ProcessSubLocation(cardm.memstorage().locpre(),
-						cardm.memstorage().locpost());
+						cardm.memstorage().locpost(),false);
 				foreach (var fancy in ret){
 						fancy.locIdentifier = cardm.GetChild(1).GetText();
 				}
@@ -56,7 +56,7 @@ namespace ParseTreeIterator
 				return cardLocations;
 			}
 			var ret = ProcessSubLocation(cardp.locstorage().locpre(),
-					cardp.locstorage().locpost());	
+					cardp.locstorage().locpost(),cardp.locstorage().GetChild(2).GetText() == "iloc");	
 			foreach (var fancy in ret){
 					fancy.locIdentifier = cardp.GetChild(1).GetText();
 			}
@@ -142,11 +142,11 @@ namespace ParseTreeIterator
 				};
 			} else if (loc.locstorage() != null) {
 				Console.WriteLine("Loc");				
-				return ProcessSubLocation(loc.locstorage().locpre(), loc.locstorage().locpost());
+				return ProcessSubLocation(loc.locstorage().locpre(), loc.locstorage().locpost(),(loc.locstorage().ChildCount > 2 && loc.locstorage().GetChild(2).GetText() == "iloc"));
 			} else if (loc.memstorage() != null) {
 				if (loc.memstorage().locpre() != null){//standard mem location	
 					Console.WriteLine("LocPre");	
-					return ProcessSubLocation(loc.memstorage().locpre(), loc.memstorage().locpost());
+					return ProcessSubLocation(loc.memstorage().locpre(), loc.memstorage().locpost(),false);
 				}
 				else{//Set of Tuples
 					Console.WriteLine("Tuple Track");
@@ -199,12 +199,12 @@ namespace ParseTreeIterator
 			return null;
 		}
 		public static FancyCardLocation[] ProcessSubLocation(RecycleParser.LocpreContext locpre,
-			RecycleParser.LocpostContext locpost) {
+			RecycleParser.LocpostContext locpost, bool hidden) {
 			if (locpre.who() != null){
 				var clause = ProcessWhere(locpost.whereclause());
 				return new FancyCardLocation[]{
 					new FancyCardLocation{
-						cardList=CardGame.Instance.tableCards[locpost.namegr().GetText()],
+						cardList=CardGame.Instance.tableCards[(hidden?"{hidden}":"") + locpost.namegr().GetText()],
 						filter=clause
 					}
 				};
@@ -217,7 +217,7 @@ namespace ParseTreeIterator
 					var clause = ProcessWhere(locpost.whereclause());
 					return new FancyCardLocation[]{
 						new FancyCardLocation{
-							cardList=innerPlayer.cardBins[locpost.namegr().GetText()],
+							cardList=innerPlayer.cardBins[(hidden?"{hidden}":"") + locpost.namegr().GetText()],
 							filter=clause
 						}
 					};
@@ -229,7 +229,7 @@ namespace ParseTreeIterator
 					var plist = resultingEntity as List<Player>;
 					var ret = new FancyCardLocation[plist.Count];
 					for (int i = 0; i < plist.Count; ++i){
-						ret[i] = new FancyCardLocation{cardList=plist[i].cardBins[locpost.namegr().GetText()]};
+						ret[i] = new FancyCardLocation{cardList=plist[i].cardBins[(hidden?"{hidden}":"") + locpost.namegr().GetText()]};
 					}
 					return ret;
 				}

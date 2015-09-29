@@ -20,6 +20,7 @@ namespace CardEngine
 		public Random rand = new Random();
 		public List<Card> sourceDeck = new List<Card>();
 		public CardStorage tableCards = new CardStorage();
+		
 		public List<Player> players = new List<Player>();
 		public List<Team> teams = new List<Team>();
 		public Stack<PlayerCycle> currentPlayer = new Stack<PlayerCycle>();

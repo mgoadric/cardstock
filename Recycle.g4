@@ -48,7 +48,7 @@ owner : OPEN 'owner' card CLOSE ;
 actual : OPEN 'actual' card CLOSE ;
 rawstorage : OPEN (who | who2) 'sto' namegr CLOSE ;
 cstorage : unionof | (locstorage | memstorage) ;
-locstorage : OPEN locpre 'loc' locpost CLOSE ;
+locstorage : OPEN locpre ('vloc'|'iloc') locpost CLOSE ;
 memstorage :  (OPEN ('top' | 'bottom' | int | 'any') memset CLOSE) | OPEN locpre 'mem' locpost CLOSE;
 memset : tuple ;
 tuple : OPEN 'tuples' int cstorage 'using' namegr CLOSE ;
