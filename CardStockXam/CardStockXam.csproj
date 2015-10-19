@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{098970BA-900D-47CE-859E-98A39EAC1BB3}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>CardStockXam</RootNamespace>
+    <AssemblyName>CardStockXam</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Antlr4.Runtime">
+      <HintPath>..\packages\AntlrCoreBranch.4.5\lib\Antlr4.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Analytics\AnalyticsNetworking.cs" />
+    <Compile Include="Analytics\BinCounts.cs" />
+    <Compile Include="Analytics\BranchingFactor.cs" />
+    <Compile Include="Analytics\StageCount.cs" />
+    <Compile Include="Analytics\StorageValues.cs" />
+    <Compile Include="Analytics\TimeStep.cs" />
+    <Compile Include="CardEngine\BooleanFilter.cs" />
+    <Compile Include="CardEngine\Card.cs" />
+    <Compile Include="CardEngine\CardFilter.cs" />
+    <Compile Include="CardEngine\CardGame.cs" />
+    <Compile Include="CardEngine\CardGrouping.cs" />
+    <Compile Include="CardEngine\CardScore.cs" />
+    <Compile Include="CardEngine\CardStorage.cs" />
+    <Compile Include="CardEngine\FancyCardLocation.cs" />
+    <Compile Include="CardEngine\FancyRawStorage.cs" />
+    <Compile Include="CardEngine\Game.cs" />
+    <Compile Include="CardEngine\GameAction.cs" />
+    <Compile Include="CardEngine\Player.cs" />
+    <Compile Include="CardEngine\PlayerCycle.cs" />
+    <Compile Include="CardEngine\PointsStorage.cs" />
+    <Compile Include="CardEngine\RawStorage.cs" />
+    <Compile Include="CardEngine\Team.cs" />
+    <Compile Include="CardEngine\TeamCycle.cs" />
+    <Compile Include="Json.cs" />
+    <Compile Include="ParseEngine.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="RecycleBaseListener.cs" />
+    <Compile Include="RecycleLexer.cs" />
+    <Compile Include="RecycleListener.cs" />
+    <Compile Include="RecycleParser.cs" />
+    <Compile Include="Tree.cs" />
+    <Compile Include="ParseTreeIterator\ActionIterator.cs" />
+    <Compile Include="ParseTreeIterator\BooleanIterator.cs" />
+    <Compile Include="ParseTreeIterator\CardActionIterator.cs" />
+    <Compile Include="ParseTreeIterator\CardIterator.cs" />
+    <Compile Include="ParseTreeIterator\DeckIterator.cs" />
+    <Compile Include="ParseTreeIterator\IntIterator.cs" />
+    <Compile Include="ParseTreeIterator\SetupIterator.cs" />
+    <Compile Include="ParseTreeIterator\StageIterator.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Analytics\" />
+    <Folder Include="CardEngine\" />
+    <Folder Include="games\" />
+    <Folder Include="ParseTreeIterator\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Recycle.tokens" />
+    <None Include="RecycleLexer.tokens" />
+    <None Include="packages.config" />
+    <None Include="games\Agram.gdl" />
+    <None Include="games\Agram.gv" />
+    <None Include="games\Agram.pdf" />
+    <None Include="games\Blackjack.gdl" />
+    <None Include="games\GOPS.gdl" />
+    <None Include="games\GOPS.gv" />
+    <None Include="games\GOPS.pdf" />
+    <None Include="games\Hearts.gdl" />
+    <None Include="games\Hearts.gv" />
+    <None Include="games\Hearts.pdf" />
+    <None Include="games\LostCities.gdl" />
+    <None Include="games\LostCities.gv" />
+    <None Include="games\LostCities.pdf" />
+    <None Include="games\NoThanks.gdl" />
+    <None Include="games\Pairs.gdl" />
+    <None Include="games\Pairs.gv" />
+    <None Include="games\Pairs.pdf" />
+    <None Include="games\SaneEights.gdl" />
+    <None Include="games\SaneEights.gv" />
+    <None Include="games\SaneEights.pdf" />
+    <None Include="games\Spades.gdl" />
+    <None Include="games\Spades.gv" />
+    <None Include="games\Spades.pdf" />
+    <None Include="games\StealingBundles.gdl" />
+    <None Include="games\StealingBundles.gv" />
+    <None Include="games\StealingBundles.pdf" />
+    <None Include="games\War.gdl" />
+    <None Include="games\War.gv" />
+    <None Include="games\War.pdf" />
+    <None Include="games\Whist.gdl" />
+    <None Include="games\Whist.gv" />
+    <None Include="games\Whist.pdf" />
+  </ItemGroup>
+</Project>

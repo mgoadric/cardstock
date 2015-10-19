@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 namespace CardEngine
 {
 	
@@ -98,6 +99,9 @@ namespace CardEngine
 					player.AddCard(location.Remove(),destination);
 				}
 			}
+		}
+		public Json GameState(){
+			return new Json ("");
 		}
 		public void SetValue(int idx, int value){
 			gameStorage.storage[idx] = value;

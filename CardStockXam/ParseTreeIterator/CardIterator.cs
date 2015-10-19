@@ -204,7 +204,7 @@ namespace ParseTreeIterator
 				var clause = ProcessWhere(locpost.whereclause());
 				return new FancyCardLocation[]{
 					new FancyCardLocation{
-						cardList=CardGame.Instance.tableCards[(hidden?"{hidden}":"") + locpost.namegr().GetText()],
+						cardList=CardGame.Instance.tableCards[(hidden?"{hidden}":"{visible}") + locpost.namegr().GetText()],
 						filter=clause
 					}
 				};
@@ -217,7 +217,7 @@ namespace ParseTreeIterator
 					var clause = ProcessWhere(locpost.whereclause());
 					return new FancyCardLocation[]{
 						new FancyCardLocation{
-							cardList=innerPlayer.cardBins[(hidden?"{hidden}":"") + locpost.namegr().GetText()],
+							cardList=innerPlayer.cardBins[(hidden?"{hidden}":"{visible}") + locpost.namegr().GetText()],
 							filter=clause
 						}
 					};
@@ -229,7 +229,7 @@ namespace ParseTreeIterator
 					var plist = resultingEntity as List<Player>;
 					var ret = new FancyCardLocation[plist.Count];
 					for (int i = 0; i < plist.Count; ++i){
-						ret[i] = new FancyCardLocation{cardList=plist[i].cardBins[(hidden?"{hidden}":"") + locpost.namegr().GetText()]};
+						ret[i] = new FancyCardLocation{cardList=plist[i].cardBins[(hidden?"{hidden}":"{visible}") + locpost.namegr().GetText()]};
 					}
 					return ret;
 				}
