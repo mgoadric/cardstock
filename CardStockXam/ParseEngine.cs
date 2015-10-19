@@ -16,7 +16,7 @@ public class ParseEngine{
 
                 var fileName = "Spades";
 
-                var f = File.ReadAllText("/users/connorbell/CardGames/games/" + fileName + ".gdl");
+                var f = File.ReadAllText("games/" + fileName + ".gdl");
                 var file = f;
                 //Console.WriteLine(file);
                 file = regex.Replace(file,"\n");

@@ -108,7 +108,9 @@
     <None Include="games\SaneEights.gdl" />
     <None Include="games\SaneEights.gv" />
     <None Include="games\SaneEights.pdf" />
-    <None Include="games\Spades.gdl" />
+    <None Include="games\Spades.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="games\Spades.gv" />
     <None Include="games\Spades.pdf" />
     <None Include="games\StealingBundles.gdl" />
