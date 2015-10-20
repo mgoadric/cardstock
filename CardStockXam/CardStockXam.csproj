@@ -94,10 +94,14 @@
     <None Include="games\Agram.gv" />
     <None Include="games\Agram.pdf" />
     <None Include="games\Blackjack.gdl" />
-    <None Include="games\GOPS.gdl" />
+    <None Include="games\GOPS.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="games\GOPS.gv" />
     <None Include="games\GOPS.pdf" />
-    <None Include="games\Hearts.gdl" />
+    <None Include="games\Hearts.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="games\Hearts.gv" />
     <None Include="games\Hearts.pdf" />
     <None Include="games\LostCities.gdl">
@@ -106,10 +110,14 @@
     <None Include="games\LostCities.gv" />
     <None Include="games\LostCities.pdf" />
     <None Include="games\NoThanks.gdl" />
-    <None Include="games\Pairs.gdl" />
+    <None Include="games\Pairs.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="games\Pairs.gv" />
     <None Include="games\Pairs.pdf" />
-    <None Include="games\SaneEights.gdl" />
+    <None Include="games\SaneEights.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="games\SaneEights.gv" />
     <None Include="games\SaneEights.pdf" />
     <None Include="games\Spades.gdl">
@@ -122,7 +130,9 @@
     </None>
     <None Include="games\StealingBundles.gv" />
     <None Include="games\StealingBundles.pdf" />
-    <None Include="games\War.gdl" />
+    <None Include="games\War.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="games\War.gv" />
     <None Include="games\War.pdf" />
     <None Include="games\Whist.gdl">

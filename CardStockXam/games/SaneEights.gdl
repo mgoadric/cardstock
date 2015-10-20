@@ -6,7 +6,8 @@
       (create teams (0) (1) (2) (3))
 
       ;; Create the deck source
-      (create deck (game loc STOCK) (deck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
+      (create deck (game iloc 
+                         STOCK) (deck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
                                           (color (red (suit (hearts, diamonds)))
                                                  (black (suit (clubs, spades))))))         
       )
@@ -14,53 +15,53 @@
     
    (comp 
        (()
-        (shuffle (game loc STOCK))
-        (move (top (game loc STOCK))
-              (top ((all player) loc HAND)) 5)  
-        (move (top (game loc STOCK))
-              (top (game loc DISCARD)))  
+        (shuffle (game iloc STOCK))
+        (move (top (game iloc STOCK))
+              (top ((all player) iloc HAND)) 5)  
+        (move (top (game iloc STOCK))
+              (top (game vloc DISCARD)))  
        )
    )
    ;; Stages of the game
    (stage player
-      (end (== (size ((any player) loc HAND)) 0))
+      (end (== (size ((any player) iloc HAND)) 0))
                      
                     
       ;; players play a card
       (choice
              
-         ((or (== (cardatt rank (any ((current player) loc HAND)))
-                  (cardatt rank (top (game loc DISCARD))))
-              (== (cardatt suit (any ((current player) loc HAND)))
-                  (cardatt suit (top (game loc DISCARD)))))
-           (move (any ((current player) loc HAND where (any (== (cardatt rank each)
-                                                                (cardatt rank (top (game loc DISCARD))))
+         ((or (== (cardatt rank (any ((current player) iloc HAND)))
+                  (cardatt rank (top (game vloc DISCARD))))
+              (== (cardatt suit (any ((current player) iloc HAND)))
+                  (cardatt suit (top (game vloc DISCARD)))))
+           (move (any ((current player) iloc HAND where (any (== (cardatt rank each)
+                                                                (cardatt rank (top (game vloc DISCARD))))
                                                             (== (cardatt suit each)
-                                                                (cardatt suit (top (game loc DISCARD)))))))
-                 (top (game loc DISCARD)))
+                                                                (cardatt suit (top (game vloc DISCARD)))))))
+                 (top (game vloc DISCARD)))
          )
          (()
-          (move (top (game loc STOCK))
-                 (top ((current player) loc HAND)))
+          (move (top (game iloc STOCK))
+                 (top ((current player) iloc HAND)))
           )
       )
       
       ;; if STOCK is empty, resupply from discard
       (comp
           
-          ((== (size (game loc STOCK)) 0)
-           (move (top (game loc DISCARD))
-                 (top (game loc TEMP)))
-           (move (top (game loc DISCARD))
-                 (top (game loc STOCK)) all)
-           (move (top (game loc TEMP))
-                 (top (game loc DISCARD)))
-           (shuffle (game loc STOCK)))              
+          ((== (size (game iloc STOCK)) 0)
+           (move (top (game vloc DISCARD))
+                 (top (game vloc TEMP)))
+           (move (top (game vloc DISCARD))
+                 (top (game iloc STOCK)) all)
+           (move (top (game vloc TEMP))
+                 (top (game vloc DISCARD)))
+           (shuffle (game iloc STOCK)))              
        
       )
    )
  
-   (scoring min (size ((current player) loc HAND)))
+   (scoring min (size ((current player) iloc HAND)))
 )
          
          

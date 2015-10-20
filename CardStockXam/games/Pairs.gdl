@@ -6,16 +6,16 @@
       (create teams (0) (1) (2))
 
       ;; Create the deck source
-      (create deck (game loc STOCK) (deck 1 (value (1))))         
-      (create deck (game loc STOCK) (deck 2 (value (2))))         
-      (create deck (game loc STOCK) (deck 3 (value (3))))         
-      (create deck (game loc STOCK) (deck 4 (value (4))))         
-      (create deck (game loc STOCK) (deck 5 (value (5))))         
-      (create deck (game loc STOCK) (deck 6 (value (6))))         
-      (create deck (game loc STOCK) (deck 7 (value (7))))         
-      (create deck (game loc STOCK) (deck 8 (value (8))))         
-      (create deck (game loc STOCK) (deck 9 (value (9))))         
-      (create deck (game loc STOCK) (deck 10 (value (10))))         
+      (create deck (game iloc STOCK) (deck 1 (value (1))))         
+      (create deck (game iloc STOCK) (deck 2 (value (2))))         
+      (create deck (game iloc STOCK) (deck 3 (value (3))))         
+      (create deck (game iloc STOCK) (deck 4 (value (4))))         
+      (create deck (game iloc STOCK) (deck 5 (value (5))))         
+      (create deck (game iloc STOCK) (deck 6 (value (6))))         
+      (create deck (game iloc STOCK) (deck 7 (value (7))))         
+      (create deck (game iloc STOCK) (deck 8 (value (8))))         
+      (create deck (game iloc STOCK) (deck 9 (value (9))))         
+      (create deck (game iloc STOCK) (deck 10 (value (10))))         
    )
      
     
@@ -37,22 +37,22 @@
         )
    )
    (stage player
-      (end (>= (sum ((any player) loc SCORING) using POINTS) 21))
+      (end (>= (sum ((any player) vloc SCORING) using POINTS) 21))
       
       ;; Shuffle and then throw out 5 cards for mystery      
       (comp 
           (()
-           (shuffle (game loc STOCK))
-           (move (top (game loc STOCK))
-                 (top (game loc THROWOUT)) 5)
-           (move (top (game loc STOCK))
-                 (top ((all player) loc HAND)))
+           (shuffle (game iloc STOCK))
+           (move (top (game iloc STOCK))
+                 (top (game iloc THROWOUT)) 5)
+           (move (top (game iloc STOCK))
+                 (top ((all player) vloc HAND)))
            
            ;; Stage here, find the player with smallest card
            ;; if tied, deal new card and try again
            ;; Stage, for tied players if dealt a pair, then discard and do it again
            
-           (cycle current (owner (min (union ((all player) loc HAND)) using POINTS)))
+           (cycle current (owner (min (union ((all player) vloc HAND)) using POINTS)))
           )
       )
       
@@ -67,21 +67,21 @@
                 
             (()
              (set (game sto FINISHED) 1)
-             (move (actual (min (union ((all player) loc HAND)) using POINTS))
-                   (top ((current player) loc SCORING)))
+             (move (actual (min (union ((all player) vloc HAND)) using POINTS))
+                   (top ((current player) vloc SCORING)))
              )
             (()
-             (move (top (game loc STOCK))
-                   (top ((current player) loc HAND)))
+             (move (top (game iloc STOCK))
+                   (top ((current player) vloc HAND)))
             )
          )
          
          ;; if pair, end the round
          (comp
-             ((> (size (tuples 2 ((current player) loc HAND) using POINTS)) 0)
+             ((> (size (tuples 2 ((current player) vloc HAND) using POINTS)) 0)
               (set (game sto FINISHED) 1)
-              (move (actual (top (top (tuples 2 ((current player) loc HAND) using POINTS))))
-                    (top ((current player) loc SCORING)))
+              (move (actual (top (top (tuples 2 ((current player) vloc HAND) using POINTS))))
+                    (top ((current player) vloc SCORING)))
              )
          )
       )
@@ -89,14 +89,14 @@
       ;; Move all cards back to the stock
       (comp
           (()
-           (move (top ((all player) loc HAND))
-                 (top (game loc STOCK)) all)
-           (move (top (game loc THROWOUT))
-                 (top (game loc STOCK)) all)
+           (move (top ((all player) vloc HAND))
+                 (top (game iloc STOCK)) all)
+           (move (top (game iloc THROWOUT))
+                 (top (game iloc STOCK)) all)
            (set (game sto FINISHED) 0)
           )
       )         
    )   
          
-   (scoring min (sum ((current player) loc SCORING) using POINTS))
+   (scoring min (sum ((current player) vloc SCORING) using POINTS))
 )    
