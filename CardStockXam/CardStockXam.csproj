@@ -88,7 +88,9 @@
     <None Include="Recycle.tokens" />
     <None Include="RecycleLexer.tokens" />
     <None Include="packages.config" />
-    <None Include="games\Agram.gdl" />
+    <None Include="games\Agram.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="games\Agram.gv" />
     <None Include="games\Agram.pdf" />
     <None Include="games\Blackjack.gdl" />
@@ -98,7 +100,9 @@
     <None Include="games\Hearts.gdl" />
     <None Include="games\Hearts.gv" />
     <None Include="games\Hearts.pdf" />
-    <None Include="games\LostCities.gdl" />
+    <None Include="games\LostCities.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="games\LostCities.gv" />
     <None Include="games\LostCities.pdf" />
     <None Include="games\NoThanks.gdl" />
@@ -113,13 +117,17 @@
     </None>
     <None Include="games\Spades.gv" />
     <None Include="games\Spades.pdf" />
-    <None Include="games\StealingBundles.gdl" />
+    <None Include="games\StealingBundles.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="games\StealingBundles.gv" />
     <None Include="games\StealingBundles.pdf" />
     <None Include="games\War.gdl" />
     <None Include="games\War.gv" />
     <None Include="games\War.pdf" />
-    <None Include="games\Whist.gdl" />
+    <None Include="games\Whist.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="games\Whist.gv" />
     <None Include="games\Whist.pdf" />
   </ItemGroup>

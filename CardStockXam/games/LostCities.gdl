@@ -6,9 +6,9 @@
       (create players 2)
       (create teams (0) (1))
       ;; Create the deck source
-      (create deck (game loc STOCK) (deck (rank (2, 3, 4, 5, 6, 7, 8, 9, 10))
+      (create deck (game iloc STOCK) (deck (rank (2, 3, 4, 5, 6, 7, 8, 9, 10))
                                                      (color (white, blue, green, red, yellow))))
-      (create deck (game loc STOCK) (deck 3 (rank (HS))
+      (create deck (game iloc STOCK) (deck 3 (rank (HS))
                                                      (color (white, blue, green, red, yellow))))
    )
    (comp (()
@@ -37,16 +37,16 @@
    ;; Stages of the game
    (stage player
       (end (== (game sto ROUNDS) 3))
-      (comp (() (shuffle (game loc STOCK))
-                (move (top (game loc STOCK))
-                      (top ((all player) loc HAND)) 8)
+      (comp (() (shuffle (game iloc STOCK))
+                (move (top (game iloc STOCK))
+                      (top ((all player) iloc HAND)) 8)
              )
       ) 
          
       
       ;; players play a hand once
       (stage player
-             (end (== (size (game loc STOCK)) 0))
+             (end (== (size (game iloc STOCK)) 0))
              
              (choice
               
@@ -54,148 +54,148 @@
               
               ;; if following player and cannot follow suit
               ;;   play any card, and end your turn
-              ((> (size ((current player) loc HAND where (all (== (cardatt color each) green)))) 0)
+              ((> (size ((current player) iloc HAND where (all (== (cardatt color each) green)))) 0)
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) green)))) 
-                     (top (game loc GREEN))))
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) green)))) 
+                     (top (game vloc GREEN))))
               
-              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) yellow)))) 0)
+              ( (> (size ((current player) iloc HAND where (all (== (cardatt color each) yellow)))) 0)
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) yellow)))) 
-                     (top (game loc YELLOW))))
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) yellow)))) 
+                     (top (game vloc YELLOW))))
               
-              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) white))))  0)
+              ( (> (size ((current player) iloc HAND where (all (== (cardatt color each) white))))  0)
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) white)))) 
-                     (top (game loc WHITE))))
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) white)))) 
+                     (top (game vloc WHITE))))
               
-              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) red)))) 0)
+              ( (> (size ((current player) iloc HAND where (all (== (cardatt color each) red)))) 0)
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) red)))) 
-                     (top (game loc RED))))
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) red)))) 
+                     (top (game vloc RED))))
               
-              ( (> (size ((current player) loc HAND where (all (== (cardatt color each) blue)))) 0)
+              ( (> (size ((current player) iloc HAND where (all (== (cardatt color each) blue)))) 0)
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) blue)))) 
-                     (top (game loc BLUE))))
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) blue)))) 
+                     (top (game vloc BLUE))))
               
               
               
-               ((and (== (size ((current player) loc GREEN)) 0)
+               ((and (== (size ((current player) vloc GREEN)) 0)
                 
-                    (> (size ((current player) loc HAND where (all (== (cardatt color each) green))) ) 0))
+                    (> (size ((current player) iloc HAND where (all (== (cardatt color each) green))) ) 0))
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) green)))) 
-                     (top ((current player) loc GREEN))))
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) green)))) 
+                     (top ((current player) vloc GREEN))))
                
-               ((and (== (size ((current player) loc YELLOW)) 0)
+               ((and (== (size ((current player) vloc YELLOW)) 0)
                 
-                    (> (size ((current player) loc HAND where (all (== (cardatt color each) yellow))) ) 0))
+                    (> (size ((current player) iloc HAND where (all (== (cardatt color each) yellow))) ) 0))
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) yellow)))) 
-                     (top ((current player) loc YELLOW))))
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) yellow)))) 
+                     (top ((current player) vloc YELLOW))))
                
                
-               ((and (== (size ((current player) loc WHITE)) 0)
+               ((and (== (size ((current player) vloc WHITE)) 0)
                 
-                    (> (size ((current player) loc HAND where (all (== (cardatt color each) white))) ) 0))
+                    (> (size ((current player) iloc HAND where (all (== (cardatt color each) white))) ) 0))
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) white)))) 
-                     (top ((current player) loc WHITE))))
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) white)))) 
+                     (top ((current player) vloc WHITE))))
                
                
-               ((and (== (size ((current player) loc RED)) 0)
+               ((and (== (size ((current player) vloc RED)) 0)
                 
-                    (> (size ((current player) loc HAND where (all (== (cardatt color each) red))) ) 0))
+                    (> (size ((current player) iloc HAND where (all (== (cardatt color each) red))) ) 0))
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) red)))) 
-                     (top ((current player) loc RED))))
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) red)))) 
+                     (top ((current player) vloc RED))))
                
-               ((and (== (size ((current player) loc BLUE)) 0)
+               ((and (== (size ((current player) vloc BLUE)) 0)
                 
-                    (> (size ((current player) loc HAND where (all (== (cardatt color each) blue))) ) 0))
+                    (> (size ((current player) iloc HAND where (all (== (cardatt color each) blue))) ) 0))
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) blue)))) 
-                     (top ((current player) loc BLUE))))
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) blue)))) 
+                     (top ((current player) vloc BLUE))))
                
               
-              ((and (> (size ((current player) loc GREEN)) 0)
+              ((and (> (size ((current player) vloc GREEN)) 0)
                 
-                    (> (size ((current player) loc HAND where (all (== (cardatt color each) green)
+                    (> (size ((current player) iloc HAND where (all (== (cardatt color each) green)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc GREEN)) using PRECEDENCE)))) ) 0))
+                                                                  (score (top ((current player) vloc GREEN)) using PRECEDENCE)))) ) 0))
                     
                     
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) green)
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) green)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc GREEN)) using PRECEDENCE))))) 
-                     (top ((current player) loc GREEN))))
+                                                                  (score (top ((current player) vloc GREEN)) using PRECEDENCE))))) 
+                     (top ((current player) vloc GREEN))))
               
-              ((and (> (size ((current player) loc YELLOW)) 0)
-                    (> (size ((current player) loc HAND where (all (== (cardatt color each) yellow)
+              ((and (> (size ((current player) vloc YELLOW)) 0)
+                    (> (size ((current player) iloc HAND where (all (== (cardatt color each) yellow)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc YELLOW)) using PRECEDENCE)))) ) 0))
+                                                                  (score (top ((current player) vloc YELLOW)) using PRECEDENCE)))) ) 0))
                     
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) yellow)
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) yellow)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc YELLOW)) using PRECEDENCE))))) 
-                     (top ((current player) loc YELLOW))))
+                                                                  (score (top ((current player) vloc YELLOW)) using PRECEDENCE))))) 
+                     (top ((current player) vloc YELLOW))))
               
-              ((and (> (size ((current player) loc WHITE)) 0)
-                    (> (size ((current player) loc HAND where (all (== (cardatt color each) white)
+              ((and (> (size ((current player) vloc WHITE)) 0)
+                    (> (size ((current player) iloc HAND where (all (== (cardatt color each) white)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc WHITE)) using PRECEDENCE)))) ) 0))
+                                                                  (score (top ((current player) vloc WHITE)) using PRECEDENCE)))) ) 0))
                     
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) white)
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) white)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc WHITE)) using PRECEDENCE))))) 
-                     (top ((current player) loc WHITE))))
+                                                                  (score (top ((current player) vloc WHITE)) using PRECEDENCE))))) 
+                     (top ((current player) vloc WHITE))))
               
-              ((and (> (size ((current player) loc RED)) 0)
-                    (> (size ((current player) loc HAND where (all (== (cardatt color each) red)
+              ((and (> (size ((current player) vloc RED)) 0)
+                    (> (size ((current player) iloc HAND where (all (== (cardatt color each) red)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc RED)) using PRECEDENCE)))) ) 0))
+                                                                  (score (top ((current player) vloc RED)) using PRECEDENCE)))) ) 0))
                     
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) red)
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) red)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc RED)) using PRECEDENCE))))) 
-                     (top ((current player) loc RED))))
+                                                                  (score (top ((current player) vloc RED)) using PRECEDENCE))))) 
+                     (top ((current player) vloc RED))))
               
-              ((and (> (size ((current player) loc BLUE)) 0) 
-                    (> (size ((current player) loc HAND where (all (== (cardatt color each) blue)
+              ((and (> (size ((current player) vloc BLUE)) 0) 
+                    (> (size ((current player) iloc HAND where (all (== (cardatt color each) blue)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc BLUE)) using PRECEDENCE)))) ) 0))
+                                                                  (score (top ((current player) vloc BLUE)) using PRECEDENCE)))) ) 0))
                     
                     
-               (move (any ((current player) loc HAND where (all (== (cardatt color each) blue)
+               (move (any ((current player) iloc HAND where (all (== (cardatt color each) blue)
                                                                (> (score each using PRECEDENCE)
-                                                                  (score (top ((current player) loc BLUE)) using PRECEDENCE))))) 
-                     (top ((current player) loc BLUE))))
+                                                                  (score (top ((current player) vloc BLUE)) using PRECEDENCE))))) 
+                     (top ((current player) vloc BLUE))))
               
          )
          (choice 
          (()
-         (move (top (game loc STOCK))
-               (top ((current player) loc HAND))))
-          ((> (size (game loc GREEN)) 0)
-           (move (top (game loc GREEN))
-                 (top ((current player) loc HAND))))
-          ((> (size (game loc YELLOW)) 0)
-           (move (top (game loc YELLOW))
-                 (top ((current player) loc HAND))))
-          ((> (size (game loc RED)) 0)
-           (move (top (game loc RED))
-                 (top ((current player) loc HAND))))
-          ((> (size (game loc BLUE)) 0)
-           (move (top (game loc BLUE))
-                 (top ((current player) loc HAND))))
-          ((> (size (game loc WHITE)) 0)
-           (move (top (game loc WHITE))
-                 (top ((current player) loc HAND))))
+         (move (top (game iloc STOCK))
+               (top ((current player) iloc HAND))))
+          ((> (size (game vloc GREEN)) 0)
+           (move (top (game vloc GREEN))
+                 (top ((current player) iloc HAND))))
+          ((> (size (game vloc YELLOW)) 0)
+           (move (top (game vloc YELLOW))
+                 (top ((current player) iloc HAND))))
+          ((> (size (game vloc RED)) 0)
+           (move (top (game vloc RED))
+                 (top ((current player) iloc HAND))))
+          ((> (size (game vloc BLUE)) 0)
+           (move (top (game vloc BLUE))
+                 (top ((current player) iloc HAND))))
+          ((> (size (game vloc WHITE)) 0)
+           (move (top (game vloc WHITE))
+                 (top ((current player) iloc HAND))))
           )
            
          ;; after players play hand, computer wraps up trick
@@ -204,50 +204,50 @@
       (stage player ;;scoring
          (end (== ((all player) sto PROC) 1))
          (comp
-          ((> (size ((current player) loc GREEN)) 0)
-         (inc ((current player) sto SCORE) (* (- (sum ((current player) loc GREEN) using PRECEDENCE) 20) (+ (sum ((current player) loc GREEN) using MULTIPLIER) 1)))
+          ((> (size ((current player) vloc GREEN)) 0)
+         (inc ((current player) sto SCORE) (* (- (sum ((current player) vloc GREEN) using PRECEDENCE) 20) (+ (sum ((current player) vloc GREEN) using MULTIPLIER) 1)))
          )
-         ((> (size ((current player) loc YELLOW)) 0)
-         (inc ((current player) sto SCORE) (* (- (sum ((current player) loc YELLOW) using PRECEDENCE) 20) (+ (sum ((current player) loc YELLOW) using MULTIPLIER) 1)))
+         ((> (size ((current player) vloc YELLOW)) 0)
+         (inc ((current player) sto SCORE) (* (- (sum ((current player) vloc YELLOW) using PRECEDENCE) 20) (+ (sum ((current player) vloc YELLOW) using MULTIPLIER) 1)))
          )
-         ((> (size ((current player) loc WHITE)) 0)
-         (inc ((current player) sto SCORE) (* (- (sum ((current player) loc WHITE) using PRECEDENCE) 20) (+ (sum ((current player) loc WHITE) using MULTIPLIER) 1)))
+         ((> (size ((current player) vloc WHITE)) 0)
+         (inc ((current player) sto SCORE) (* (- (sum ((current player) vloc WHITE) using PRECEDENCE) 20) (+ (sum ((current player) vloc WHITE) using MULTIPLIER) 1)))
          )
-         ((> (size ((current player) loc RED)) 0)
-         (inc ((current player) sto SCORE) (* (- (sum ((current player) loc RED) using PRECEDENCE) 20) (+ (sum ((current player) loc RED) using MULTIPLIER) 1)))
+         ((> (size ((current player) vloc RED)) 0)
+         (inc ((current player) sto SCORE) (* (- (sum ((current player) vloc RED) using PRECEDENCE) 20) (+ (sum ((current player) vloc RED) using MULTIPLIER) 1)))
          )
-         ((> (size ((current player) loc BLUE)) 0)
-         (inc ((current player) sto SCORE) (* (- (sum ((current player) loc BLUE) using PRECEDENCE) 20) (+ (sum ((current player) loc BLUE) using MULTIPLIER) 1)))
+         ((> (size ((current player) vloc BLUE)) 0)
+         (inc ((current player) sto SCORE) (* (- (sum ((current player) vloc BLUE) using PRECEDENCE) 20) (+ (sum ((current player) vloc BLUE) using MULTIPLIER) 1)))
          )
          (()
              (set ((current player) sto PROC) 1)
-             (move (top ((current player) loc HAND))
-                  (top (game loc STOCK)) all)
-            (move (top ((current player) loc GREEN))
-                  (top (game loc STOCK)) all)
-              (move (top ((current player) loc YELLOW))
-                  (top (game loc STOCK)) all)
-                  (move (top ((current player) loc WHITE))
-                  (top (game loc STOCK)) all)
-                  (move (top ((current player) loc RED))
-                  (top (game loc STOCK)) all)
-                  (move (top ((current player) loc BLUE))
-                  (top (game loc STOCK)) all)
+             (move (top ((current player) iloc HAND))
+                  (top (game iloc STOCK)) all)
+            (move (top ((current player) vloc GREEN))
+                  (top (game iloc STOCK)) all)
+              (move (top ((current player) vloc YELLOW))
+                  (top (game iloc STOCK)) all)
+                  (move (top ((current player) vloc WHITE))
+                  (top (game iloc STOCK)) all)
+                  (move (top ((current player) vloc RED))
+                  (top (game iloc STOCK)) all)
+                  (move (top ((current player) vloc BLUE))
+                  (top (game iloc STOCK)) all)
          )
          )
           )
          (comp
             (()
-            (move (top (game loc GREEN))
-                  (top (game loc STOCK)) all)
-              (move (top (game loc YELLOW))
-                  (top (game loc STOCK)) all)
-                  (move (top (game loc WHITE))
-                  (top (game loc STOCK)) all)
-                  (move (top (game loc RED))
-                  (top (game loc STOCK)) all)
-                  (move (top (game loc BLUE))
-                  (top (game loc STOCK)) all)
+            (move (top (game vloc GREEN))
+                  (top (game iloc STOCK)) all)
+              (move (top (game vloc YELLOW))
+                  (top (game iloc STOCK)) all)
+                  (move (top (game vloc WHITE))
+                  (top (game iloc STOCK)) all)
+                  (move (top (game vloc RED))
+                  (top (game iloc STOCK)) all)
+                  (move (top (game vloc BLUE))
+                  (top (game iloc STOCK)) all)
             (inc (game sto ROUNDS) 1)
             (set ((all player) sto PROC) 0)
             )
