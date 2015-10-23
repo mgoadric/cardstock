@@ -112,6 +112,26 @@ public class Node{
 		}
 		temp.children = new List<Node>{n};
 	}
+
+	public string Serialize(){
+		string ret = "";
+		if (children != null){
+			foreach (var node in children){
+
+				ret += node.Serialize() + ", ";
+			}
+			if (ret.Length > 0) {
+				ret = ret.Remove (ret.Length - 1);
+			}
+		}
+		if (Value != null){
+			return "{ "+(Key != null?Key : "anon")+" : \""+Value+"\", children : [" + ret + "]}";//Value + "(" + Key +  ")" +  " {" + ret + "}";
+		}
+		else{
+			return "";
+		} 
+	}
+
 	public override string ToString(){
 		string ret = "";
 		if (children != null){

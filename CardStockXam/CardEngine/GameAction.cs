@@ -17,6 +17,7 @@ namespace CardEngine{
 			
 		}
 		public abstract void Execute();
+		public abstract String Serialize();
 	}
 	public class LocationCreateAction : GameAction{
 		CardCollection newColl;
@@ -31,6 +32,9 @@ namespace CardEngine{
 			location.AddKey(key);
 			location[key] = newColl;
 		}
+		public override String Serialize(){
+			return "";
+		}
 	}
 	public class StorageCreateAction : GameAction{
 		RawStorage storage;
@@ -41,6 +45,9 @@ namespace CardEngine{
 		}
 		public override void Execute(){
 			storage.AddKey(key);
+		}
+		public override String Serialize(){
+			return "";
 		}
 	}
 	public class CardMoveAction : GameAction{
@@ -57,6 +64,9 @@ namespace CardEngine{
 			startLocation.Remove(cardToMove);
 			endLocation.Add(cardToMove);
 			cardToMove.owner = endLocation;
+		}
+		public override String Serialize(){
+			return cardToMove.Serialize();
 		}
 	}
 	public class FancyCardMoveAction : GameAction{
@@ -84,6 +94,9 @@ namespace CardEngine{
 				throw;
 			}
 		}
+		public override String Serialize(){
+			return "";
+		}
 	}
 	public class InitializeAction : GameAction{
 		CardCollection location;
@@ -94,6 +107,9 @@ namespace CardEngine{
 		}
 		public override void Execute(){
 			CardGame.Instance.SetDeck(deck,location);
+		}
+		public override String Serialize(){
+			return "";
 		}
 	}
 	public class CardPopMoveAction : GameAction{
@@ -110,6 +126,9 @@ namespace CardEngine{
 			endLocation.Add(cardToMove);
 			cardToMove.owner = endLocation;
 		}
+		public override String Serialize(){
+			return "";
+		}
 	}
 	public class CardCopyAction : GameAction{
 		Card cardToMove;
@@ -123,6 +142,9 @@ namespace CardEngine{
 		public override void Execute(){
 			endLocation.Add(cardToMove);
 		}
+		public override String Serialize(){
+			return "";
+		}
 	}
 	public class FancyCardCopyAction : GameAction{
 		FancyCardLocation startLocation;
@@ -135,6 +157,10 @@ namespace CardEngine{
 		public override void Execute(){
 			endLocation.Add(startLocation.Get());
 		}
+		public override String Serialize(){
+			return "";
+		}
+
 	}
 	public class FancyRemoveAction : GameAction{
 		FancyCardLocation endLocation;
@@ -143,6 +169,9 @@ namespace CardEngine{
 		}
 		public override void Execute(){
 			endLocation.Remove();
+		}
+		public override String Serialize(){
+			return "";
 		}
 	} 
 	public class IntAction : GameAction{
@@ -158,6 +187,9 @@ namespace CardEngine{
 		public override void Execute(){
 			bucket[bucketKey] = value;
 		}
+		public override String Serialize(){
+			return "";
+		}
 	}
 	public class EndTurnAction : GameAction{
 		
@@ -168,6 +200,9 @@ namespace CardEngine{
 		}
 		public override void Execute(){
 			turnObject.EndTurn();
+		}
+		public override String Serialize(){
+			return "";
 		}
 		
 	}

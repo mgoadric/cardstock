@@ -26,10 +26,10 @@ namespace CardEngine
 			
 			return rand.Next(0,possibles.Count);
 		}
-		public int MakeAction(List<GameActionCollection> possibles,Random rand){
-			
-			return rand.Next(0,possibles.Count);
-		}
+//		public int MakeAction(List<GameActionCollection> possibles,Random rand){
+//			
+//			return rand.Next(0,possibles.Count);
+//		}
 		public override string ToString(){
 			string ret = "Player:\n";
 			foreach (var card in cardBins.storage[0].AllCards()){

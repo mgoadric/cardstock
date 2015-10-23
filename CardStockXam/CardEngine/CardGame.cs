@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Players;
+using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 namespace CardEngine
 {
 	
@@ -23,6 +26,7 @@ namespace CardEngine
 		public CardStorage tableCards = new CardStorage();
 		
 		public List<Player> players = new List<Player>();
+		public List<GeneralPlayer> decisionPlayers = new List<GeneralPlayer> ();
 		public List<Team> teams = new List<Team>();
 		public Stack<PlayerCycle> currentPlayer = new Stack<PlayerCycle>();
 		public Stack<TeamCycle> currentTeam = new Stack<TeamCycle>();
@@ -100,8 +104,8 @@ namespace CardEngine
 				}
 			}
 		}
-		public Json GameState(){
-			return new Json ("");
+		public JsonDictionaryAttribute GameState(){
+			return new JsonDictionaryAttribute();
 		}
 		public void SetValue(int idx, int value){
 			gameStorage.storage[idx] = value;
@@ -144,14 +148,32 @@ namespace CardEngine
 			return new IntAction(players[playerIdx].storage,bucket,value);
 		}
 		public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
-			var choice = players[playerIdx].MakeAction(choices,rand);
+			var strDescription = SerializeGAC (choices);
+			var json = (JObject) JsonConvert.DeserializeObject (strDescription);
+			var choice = decisionPlayers[playerIdx].MakeAction(json,rand);
 			//Console.WriteLine(choice);
 			choices[choice].ExecuteAll();
+		}
+		public String SerializeGAC(List<GameActionCollection> list){
+			StringBuilder b = new StringBuilder ();
+			b.Append ("{ items:[");
+			foreach (var item in list) {
+				b.Append ("[");
+				foreach (var ga in item) {
+					b.Append (ga.Serialize ());
+					b.Append (",");
+				}
+				b.Remove (b.Length - 1, 1);
+				b.Append ("],");
+			}
+			b.Remove (b.Length - 1, 1);
+			b.Append ("]}");
+			return b.ToString ();
 		}
 		public void PlayerMakeChoices(List<GameActionCollection> choices, int playerIdx, int numberOfChoices){
 			var temp = numberOfChoices;
 			while (temp > 0){
-				var choice = players[playerIdx].MakeAction(choices,rand);
+				var choice = decisionPlayers[playerIdx].MakeAction(choices,rand);
 				//Console.WriteLine(choice);
 				choices[choice].ExecuteAll();
 				choices.RemoveAt(choice);

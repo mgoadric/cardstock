@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 namespace CardEngine{
 	public class Card{
 		private Dictionary<string,TreeTraversal> mapAttributes = new Dictionary<string,TreeTraversal>();
@@ -31,6 +32,10 @@ namespace CardEngine{
 		public override string ToString(){
 			string ret = attributes.ToString();
 			return ret;
+		}
+		public string Serialize(){
+			return attributes.Serialize ();
+		
 		}
 		public string ReadAttribute(string attributeName){
 			

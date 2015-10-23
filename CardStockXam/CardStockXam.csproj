@@ -34,6 +34,9 @@
     <Reference Include="Antlr4.Runtime">
       <HintPath>..\packages\AntlrCoreBranch.4.5\lib\Antlr4.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +79,8 @@
     <Compile Include="ParseTreeIterator\IntIterator.cs" />
     <Compile Include="ParseTreeIterator\SetupIterator.cs" />
     <Compile Include="ParseTreeIterator\StageIterator.cs" />
+    <Compile Include="Players\GeneralPlayer.cs" />
+    <Compile Include="Players\SpadesPlayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -83,6 +88,7 @@
     <Folder Include="CardEngine\" />
     <Folder Include="games\" />
     <Folder Include="ParseTreeIterator\" />
+    <Folder Include="Players\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Recycle.tokens" />
