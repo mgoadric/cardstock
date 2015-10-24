@@ -15,7 +15,7 @@ namespace CardGames
 			var temp = CardGame.Instance.decisionPlayers;
 			temp.Add (new SpadesPlayer ());
 			temp.Add (new GeneralPlayer ());
-			temp.Add (new SpadesPlayer ());
+			temp.Add (new GeneralPlayer ());
 			temp.Add (new GeneralPlayer ());
             var codeGen = new ParseEngine();
         }

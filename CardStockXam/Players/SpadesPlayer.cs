@@ -40,6 +40,8 @@ namespace Players
 			int maxCard = -1;
 			int maxScore = 0;
 			int count = 0;
+
+
 			foreach (JArray sequence in items) {
 				foreach (JObject card in sequence) {
 					var root = (JArray) card ["children"];

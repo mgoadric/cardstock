@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace CardEngine{
 	public class FancyCardLocation{
@@ -56,7 +57,7 @@ namespace CardEngine{
 			}
 			if (filter != null){
 				var temp = filter.FilterList(cardList);
-				Console.WriteLine("Removed from Filter...");
+				Debug.WriteLine("Removed from Filter...");
 				if (locIdentifier == "top"){
 					return temp.Remove();
 				}
@@ -65,7 +66,7 @@ namespace CardEngine{
 				}
 			}
 			if (cardList.Count != 0){
-				Console.WriteLine("Pulling from Standard...");
+				Debug.WriteLine("Pulling from Standard...");
 				if (locIdentifier == "top"){
 					return cardList.Remove();
 				}

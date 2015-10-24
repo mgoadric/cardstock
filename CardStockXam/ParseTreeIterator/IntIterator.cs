@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using CardEngine;
 
@@ -33,7 +34,7 @@ namespace ParseTreeIterator
 					foreach (var l in trueLoc){
 						ret.Add(l.FilteredCount());
 					}
-					Console.WriteLine("fCount:"+ret[0]);
+					Debug.WriteLine("fCount:"+ret[0]);
 				}
 				else if (intNode.@sizeof().memset() != null){
 					ret.Add(CardIterator.ProcessMemset(intNode.@sizeof().memset()).Count());
@@ -74,17 +75,17 @@ namespace ParseTreeIterator
 							total += scoring.GetScore(c);
 						}
 					}
-					Console.WriteLine("Sum:" + total);
+					Debug.WriteLine("Sum:" + total);
 					ret.Add(total);
 				}
 			}
 			else if (intNode.owner() != null){
 				var own = intNode.owner();
-				Console.WriteLine("Got to OWNER");
+				Debug.WriteLine("Got to OWNER");
 				var resultingCard = CardIterator.ProcessCard(own.card())[0].Get();
-				Console.WriteLine("Result :" + resultingCard);
+				Debug.WriteLine("Result :" + resultingCard);
 				ret.Add(CardGame.Instance.CurrentPlayer().playerList.IndexOf(resultingCard.owner.container.owner));
-				Console.WriteLine("GOING TO: " + ret.Last());
+				Debug.WriteLine("GOING TO: " + ret.Last());
 			}
 			else if (intNode.score() != null){
 				var scorer = CardGame.Instance.points[intNode.score().namegr().GetText()];

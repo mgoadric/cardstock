@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using CardEngine;
 
@@ -34,13 +35,13 @@ namespace ParseTreeIterator
 					//Console.WriteLine("Hit Boolean while!");
 					StageCount.Instance.IncCount(stage);
 					TimeStep.Instance.timeStep.Push(TimeStep.Instance.timeStep.Pop() + 1);
-					Console.WriteLine("Current Player: " + CardGame.Instance.CurrentPlayer().idx);
+					Debug.WriteLine("Current Player: " + CardGame.Instance.CurrentPlayer().idx);
 					foreach (var player in CardGame.Instance.players) {
-						Console.WriteLine("HANDSIZE: " + player.cardBins["HAND"].Count);
+						Debug.WriteLine("HANDSIZE: " + player.cardBins["HAND"].Count);
 					}
 					for (int i = 4; i < stage.ChildCount - 1; ++i){
 						TimeStep.Instance.treeLoc.Push(i - 4);
-						Console.WriteLine(TimeStep.Instance);
+						Debug.WriteLine(TimeStep.Instance);
 						ProcessSubStage(stage.GetChild(i));
 						TimeStep.Instance.treeLoc.Pop();
 					}
@@ -92,11 +93,11 @@ namespace ParseTreeIterator
 			}
 			BranchingFactor.Instance.AddCount(allOptions.Count,CardGame.Instance.CurrentPlayer().idx);
 			if (allOptions.Count != 0){
-				Console.WriteLine("Choice count:" + allOptions.Count);
+				Debug.WriteLine("Choice count:" + allOptions.Count);
 				CardGame.Instance.PlayerMakeChoice(allOptions,CardGame.Instance.CurrentPlayer().idx);
 			}
 			else{
-				Console.WriteLine("NO Choice Available");
+				Debug.WriteLine("NO Choice Available");
 			}
 		}
 		public static List<GameActionCollection> ProcessMultiActionChoice(RecycleParser.MultiactionContext actions){
@@ -120,7 +121,7 @@ namespace ParseTreeIterator
 				}
 				allOptions = temp;
 			}
-			Console.WriteLine("MultiActionChoiceCount:" + allOptions.Count);
+			Debug.WriteLine("MultiActionChoiceCount:" + allOptions.Count);
 			return allOptions;
 			
 		}
@@ -153,7 +154,7 @@ namespace ParseTreeIterator
 					flatten.Add(new GameActionCollection{a});
 				}
 			}
-			Console.WriteLine("Flatten:" + flatten.Count);
+			Debug.WriteLine("Flatten:" + flatten.Count);
 			return flatten;
 			
 		}
