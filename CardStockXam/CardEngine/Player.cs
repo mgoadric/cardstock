@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System;
+using Players;
 namespace CardEngine
 {
 	public class Player{
 		public RawStorage storage;
 		public CardStorage cardBins;
 		public Team team;
-		
+		public GeneralPlayer decision;
 		public Player(){
 			storage = new RawStorage();
 			cardBins = new CardStorage();

@@ -46,6 +46,12 @@ namespace CardEngine
 		public void AddPlayers(int numPlayers){
 			for (int i = 0; i < numPlayers; ++i){
 				players.Add(new Player());
+				if (i == 0) {
+					players [i].decision = new SpadesPlayer ();
+				} else {
+					players [i].decision = new GeneralPlayer ();
+
+				}
 			}
 			currentPlayer.Push(new PlayerCycle(players));
 		}
@@ -150,7 +156,7 @@ namespace CardEngine
 		public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
 			var strDescription = SerializeGAC (choices);
 			var json = (JObject) JsonConvert.DeserializeObject (strDescription);
-			var choice = decisionPlayers[playerIdx].MakeAction(json,rand);
+			var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(json,rand);
 			//Console.WriteLine(choice);
 			choices[choice].ExecuteAll();
 		}
@@ -173,7 +179,7 @@ namespace CardEngine
 		public void PlayerMakeChoices(List<GameActionCollection> choices, int playerIdx, int numberOfChoices){
 			var temp = numberOfChoices;
 			while (temp > 0){
-				var choice = decisionPlayers[playerIdx].MakeAction(choices,rand);
+				var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices,rand);
 				//Console.WriteLine(choice);
 				choices[choice].ExecuteAll();
 				choices.RemoveAt(choice);

@@ -26,6 +26,7 @@ namespace Analytics{
 				str += "]}";
 				return str;
 			}
+
 		}
 		public static void PostResults(){
 			using (var client = new WebClient())
