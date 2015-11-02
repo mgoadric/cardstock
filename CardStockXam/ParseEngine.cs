@@ -60,14 +60,15 @@ public class ParseEngine{
                 //Console.Write(Analytics.StorageValues.Instance);
                 var binCounts = Analytics.BinCounts.Instance.DictRep();
                 foreach (var key in binCounts.Keys){
-                        Console.WriteLine(key);
+                        Debug.WriteLine(key);
                         foreach (var str in binCounts[key]){
-                                Console.Write(str + ", ");
+							Debug.Write(str + ", ");
                         }
-                        Console.Write("\n");
+						
+						Debug.Write("\n");
                 }
                 time.Stop();
-                Analytics.AnalyticsNetworking.PostResults();
+                //Analytics.AnalyticsNetworking.PostResults();
                 Console.WriteLine("Elapsed:" + time.Elapsed);
 
 	}
