@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using CardEngine;
 
@@ -26,7 +27,7 @@ namespace ParseTreeIterator
 				}
 				
 				CardGame.Instance.currentTeam.Push(new TeamCycle(CardGame.Instance.teams));
-				Console.WriteLine("NUMTEAMS:" + CardGame.Instance.teams.Count);
+				Debug.WriteLine("NUMTEAMS:" + CardGame.Instance.teams.Count);
 			
 		}
 		public static GameActionCollection ProcessSetup(RecycleParser.SetupContext setupNode){

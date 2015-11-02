@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using CardEngine;
 
@@ -22,7 +23,7 @@ namespace ParseTreeIterator
 				return ret;
 			}
 			else{
-				Console.WriteLine("Tuple Track");
+				Debug.WriteLine("Tuple Track");
 					var identifier = cardm.memstorage().GetChild(1).GetText();
 					var resultingSet = ProcessMemset(cardm.memstorage().memset());
 					if (identifier == "top"){
@@ -76,7 +77,7 @@ namespace ParseTreeIterator
 						}
 					}
 				}
-				Console.WriteLine("MAX:" + maxCard);
+				Debug.WriteLine("MAX:" + maxCard);
 				var lst = new CardListCollection();
 				lst.Add(maxCard);
 				return new FancyCardLocation[1]{
@@ -100,7 +101,7 @@ namespace ParseTreeIterator
 						}
 					}
 				}
-				Console.WriteLine("MIN:" + minCard);
+				Debug.WriteLine("MIN:" + minCard);
 				var lst = new CardListCollection();
 				lst.Add(minCard);
 				return new FancyCardLocation[1]{
@@ -141,15 +142,15 @@ namespace ParseTreeIterator
 					}
 				};
 			} else if (loc.locstorage() != null) {
-				Console.WriteLine("Loc");				
+				Debug.WriteLine("Loc");				
 				return ProcessSubLocation(loc.locstorage().locpre(), loc.locstorage().locpost(),(loc.locstorage().ChildCount > 2 && loc.locstorage().GetChild(2).GetText() == "iloc"));
 			} else if (loc.memstorage() != null) {
 				if (loc.memstorage().locpre() != null){//standard mem location	
-					Console.WriteLine("LocPre");	
+					Debug.WriteLine("LocPre");	
 					return ProcessSubLocation(loc.memstorage().locpre(), loc.memstorage().locpost(),false);
 				}
 				else{//Set of Tuples
-					Console.WriteLine("Tuple Track");
+					Debug.WriteLine("Tuple Track");
 					var identifier = loc.memstorage().GetChild(1).GetText();
 					var resultingSet = ProcessMemset(loc.memstorage().memset());
 					if (identifier == "top"){
@@ -212,7 +213,7 @@ namespace ParseTreeIterator
 			else if (locpre.who2() != null){
 				var resultingEntity = ProcessWho2(locpre.who2());
 				if (resultingEntity is Player){
-					Console.WriteLine("token:" + locpost.namegr().GetText());
+					Debug.WriteLine("token:" + locpost.namegr().GetText());
 					var innerPlayer = resultingEntity as Player;
 					var clause = ProcessWhere(locpost.whereclause());
 					return new FancyCardLocation[]{

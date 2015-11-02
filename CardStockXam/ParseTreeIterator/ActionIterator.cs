@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using CardEngine;
 
@@ -46,17 +47,17 @@ namespace ParseTreeIterator
 				CardGame.Instance.points[name] = new CardScore(temp);
 			}
 			else if (actionNode.copyaction() != null){
-				Console.WriteLine("REMEMBER: '" + actionNode.GetText() + "'");
+				Debug.WriteLine("REMEMBER: '" + actionNode.GetText() + "'");
 				var copy = actionNode.copyaction();
 				ret.AddRange(CardActionIterator.ProcessCopy(copy));
 			}
 			else if (actionNode.removeaction() != null){
-				Console.WriteLine("FORGET: '" + actionNode.GetText() + "'");
+				Debug.WriteLine("FORGET: '" + actionNode.GetText() + "'");
 				var removeAction = actionNode.removeaction();
 				ret.AddRange(CardActionIterator.ProcessRemove(removeAction));
 			}
 			else if (actionNode.moveaction() != null){
-				Console.WriteLine("MOVE: '" + actionNode.GetText() + "'");
+				Debug.WriteLine("MOVE: '" + actionNode.GetText() + "'");
 				var move = actionNode.moveaction();
 				ret.AddRange(CardActionIterator.ProcessMove(move));
 			}
@@ -85,7 +86,7 @@ namespace ParseTreeIterator
 					if (actionNode.cycleaction().@int() != null) {
 						var idx = IntIterator.ProcessListInt(actionNode.cycleaction().@int())[0];
 						CardGame.Instance.CurrentPlayer().SetNext(idx);
-						Console.WriteLine("Next Player:" + idx);
+						Debug.WriteLine("Next Player:" + idx);
 					} else if (actionNode.cycleaction().GetChild(2).GetText() == "next") {
 						CardGame.Instance.CurrentPlayer().SetNext(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekNext()));			
 					} else if (actionNode.cycleaction().GetChild(2).GetText() == "current") {
@@ -99,7 +100,7 @@ namespace ParseTreeIterator
 					if (actionNode.cycleaction().@int() != null) {
 						var idx = IntIterator.ProcessListInt(actionNode.cycleaction().@int())[0];
 						CardGame.Instance.CurrentPlayer().SetPlayer(idx);
-						Console.WriteLine("Next Player:" + idx);
+						Debug.WriteLine("Next Player:" + idx);
 					} else if (actionNode.cycleaction().GetChild(2).GetText() == "next") {
 						CardGame.Instance.CurrentPlayer().SetPlayer(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekNext()));			
 					} else if (actionNode.cycleaction().GetChild(2).GetText() == "current") {

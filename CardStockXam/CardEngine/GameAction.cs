@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System;
+using System.Diagnostics;
+
 namespace CardEngine{
 	public class GameActionCollection: List<GameAction>{
 		public GameActionCollection() : base(){
@@ -60,7 +62,7 @@ namespace CardEngine{
 			endLocation = end;
 		}
 		public override void Execute(){
-			Console.WriteLine("Moved Card '" + cardToMove);
+			Debug.WriteLine("Moved Card '" + cardToMove);
 			startLocation.Remove(cardToMove);
 			endLocation.Add(cardToMove);
 			cardToMove.owner = endLocation;
@@ -84,7 +86,7 @@ namespace CardEngine{
 				cardToMove = startLocation.Remove();
 				endLocation.Add(cardToMove);
 				cardToMove.owner = endLocation.cardList;
-				Console.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
+				Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
 			}
 			}
 			catch{

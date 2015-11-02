@@ -11,6 +11,9 @@ using ParseTreeIterator;
 public class ParseEngine{
         StringBuilder builder = new StringBuilder();
 	public ParseEngine(){
+
+		Debug.AutoFlush = true;
+
                 var regex = new Regex("(;;)(.*?)(\n)");
 
 
@@ -47,9 +50,9 @@ public class ParseEngine{
 
                 StageIterator.ProcessGame(tree);
                 foreach (var player in CardEngine.CardGame.Instance.players){
-                        Console.WriteLine("Green bin:");
+                        Debug.WriteLine("Green bin:");
                         foreach (var green in player.cardBins["GREEN"].AllCards()){
-                                Console.WriteLine(green);
+                                Debug.WriteLine(green);
                         }
                 }
                 //Console.Write(Analytics.StageCount.Instance);
