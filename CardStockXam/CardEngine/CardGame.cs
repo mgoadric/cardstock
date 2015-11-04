@@ -47,7 +47,7 @@ namespace CardEngine
 			for (int i = 0; i < numPlayers; ++i){
 				players.Add(new Player());
 				if (i == 0) {
-					players [i].decision = new SpadesPlayer ();
+					players [i].decision = new GeneralPlayer ();
 				} else {
 					players [i].decision = new GeneralPlayer ();
 
