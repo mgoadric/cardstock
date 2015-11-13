@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 namespace Players
 {
-	public class SpadesPlayer : GeneralPlayer
+	public class HeartsPlayer : GeneralPlayer
 	{
 		Dictionary<String,int> scores = new Dictionary<String,int>{
 			{"2",1},
@@ -23,12 +23,12 @@ namespace Players
 			{"A",13}
 		};
 		Dictionary<String,int> suitsScores = new Dictionary<String,int>{
-			{"spades",100},
-			{"hearts",0},
+			{"spades",0},
+			{"hearts",100},
 			{"clubs",0},
 			{"diamonds",0}
 		};
-		public SpadesPlayer ()
+		public HeartsPlayer ()
 		{
 		}
 		public override int MakeAction(List<GameActionCollection> possibles,Random rand){
@@ -40,7 +40,7 @@ namespace Players
 			int maxCard = -1;
 			int maxScore = 0;
 			int count = 0;
-
+			JObject currentState = CardGame.Instance.GameState (0);
 
 			foreach (JArray sequence in items) {
 				foreach (JObject card in sequence) {

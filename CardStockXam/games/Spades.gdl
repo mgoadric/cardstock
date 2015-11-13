@@ -14,7 +14,7 @@
                
    ;; Stages of the game
    (stage player
-      (end (>= ((any team) sto SCORE) 500))
+      (end (!= ((any team) sto SCORE) 0))
       (comp (() (move (top (game iloc DISCARD)) 
                       (top (game iloc STOCK)) all)
                 (remember (top (game iloc STOCK where (all (== (cardatt suit each) spades))))
@@ -36,6 +36,14 @@
             (() (set ((current player) sto BID) 2))
             (() (set ((current player) sto BID) 3))
             (() (set ((current player) sto BID) 4))
+            (() (set ((current player) sto BID) 5))
+            (() (set ((current player) sto BID) 6))
+            (() (set ((current player) sto BID) 7))
+            (() (set ((current player) sto BID) 8))
+            (() (set ((current player) sto BID) 9))
+            (() (set ((current player) sto BID) 10))
+            (() (set ((current player) sto BID) 11))
+            (() (set ((current player) sto BID) 12))
          )
       )
          

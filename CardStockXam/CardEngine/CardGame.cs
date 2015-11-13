@@ -20,6 +20,9 @@ namespace CardEngine
 		         }
 		         return instance;
 		     }
+			set{
+				instance = value;
+			}
 		}
 		public Random rand = new Random();
 		public List<Card> sourceDeck = new List<Card>();
@@ -46,8 +49,8 @@ namespace CardEngine
 		public void AddPlayers(int numPlayers){
 			for (int i = 0; i < numPlayers; ++i){
 				players.Add(new Player());
-				if (i == 0) {
-					players [i].decision = new GeneralPlayer ();
+				if (i % 2 == 0) {
+					players [i].decision = new SpadesPlayer ();
 				} else {
 					players [i].decision = new GeneralPlayer ();
 
@@ -110,8 +113,40 @@ namespace CardEngine
 				}
 			}
 		}
-		public JsonDictionaryAttribute GameState(){
-			return new JsonDictionaryAttribute();
+		public JObject GameState(int requestingPlayer){
+			StringBuilder j = new StringBuilder ("{ players:[");
+			bool first = true;
+			foreach (var player in players) {
+				if (!first) {
+					j.Append (",");
+				}
+				j.Append ("{");
+				j.Append("cards:[");
+				bool innerFirst = true;
+				foreach (var cardBin in player.cardBins.Keys()) {
+					if (!innerFirst) {
+						j.Append (",");
+					}
+					j.Append ("name:\"" + cardBin + "\",");
+					j.Append ("contents:[");
+					bool innerinnerFirst = true;
+					foreach (var card in player.cardBins[cardBin].AllCards()) {
+						if (!innerinnerFirst) {
+							j.Append (",\n");
+						}
+						j.Append (card.Serialize());
+
+						innerinnerFirst = false;
+					}
+					innerFirst = false;
+					j.Append ("]");
+				}
+				j.Append ("]}\n");
+				first = false;
+			}
+			j.Append ("]}");
+			Console.WriteLine (j.ToString ());
+			return new JObject (j.ToString ());
 		}
 		public void SetValue(int idx, int value){
 			gameStorage.storage[idx] = value;

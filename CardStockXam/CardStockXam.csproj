@@ -81,6 +81,7 @@
     <Compile Include="ParseTreeIterator\StageIterator.cs" />
     <Compile Include="Players\GeneralPlayer.cs" />
     <Compile Include="Players\SpadesPlayer.cs" />
+    <Compile Include="Players\HeartsPlayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
