@@ -32,18 +32,11 @@
       (stage player
          (end (<= ((all player) sto BID) 13))
          (choice
-            (() (set ((current player) sto BID) 1))
-            (() (set ((current player) sto BID) 2))
-            (() (set ((current player) sto BID) 3))
+           ;;(() (set ((current player) sto BID) 1))
+            ;;(() (set ((current player) sto BID) 2))
+            ;;(() (set ((current player) sto BID) 3))
             (() (set ((current player) sto BID) 4))
-            (() (set ((current player) sto BID) 5))
-            (() (set ((current player) sto BID) 6))
-            (() (set ((current player) sto BID) 7))
-            (() (set ((current player) sto BID) 8))
-            (() (set ((current player) sto BID) 9))
-            (() (set ((current player) sto BID) 10))
-            (() (set ((current player) sto BID) 11))
-            (() (set ((current player) sto BID) 12))
+            
          )
       )
          

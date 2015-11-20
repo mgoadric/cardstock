@@ -49,7 +49,7 @@ namespace CardEngine
 		public void AddPlayers(int numPlayers){
 			for (int i = 0; i < numPlayers; ++i){
 				players.Add(new Player());
-				players [i].decision = i == 0 ? new SpadesPlayer () : new GeneralPlayer ();
+				players [i].decision = i  == 0 ? new HeartsPlayer () : new GeneralPlayer ();
 			}
 			currentPlayer.Push(new PlayerCycle(players));
 		}

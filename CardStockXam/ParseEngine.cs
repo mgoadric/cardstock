@@ -17,7 +17,7 @@ public class ParseEngine{
 		var regex = new Regex ("(;;)(.*?)(\n)");
 
 
-		const string fileName = "Spades";
+		const string fileName = "Hearts";
 
 		var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
@@ -47,8 +47,9 @@ public class ParseEngine{
 		TimeSpan maxTime = TimeSpan.MinValue;
 		TimeSpan totalTime = new TimeSpan(0);
 		int[] teamWins = new int[4];
+		int[] teamTies = new int[4];
 		double[] teamScores = new double[4];
-		for (int i = 0; i < 200; ++i) {
+		for (int i = 0; i < 1000; ++i) {
 			CardEngine.CardGame.Instance = new CardEngine.CardGame ();
 
 			// Here for timing estimates right now
@@ -56,33 +57,43 @@ public class ParseEngine{
 			time.Start ();
 
 			StageIterator.ProcessGame (tree);
-			if (CardEngine.CardGame.Instance.teams [0].teamStorage ["SCORE"] > CardEngine.CardGame.Instance.teams [1].teamStorage ["SCORE"]) {
-				teamWins [0]++;
-			}
-			if (CardEngine.CardGame.Instance.teams [1].teamStorage ["SCORE"] > CardEngine.CardGame.Instance.teams [0].teamStorage ["SCORE"]) {
-				teamWins [1]++;
-			}
-			if (CardEngine.CardGame.Instance.teams [1].teamStorage ["SCORE"] == CardEngine.CardGame.Instance.teams [0].teamStorage ["SCORE"]) {
-				teamWins [2]++;
-			}
+//			if (CardEngine.CardGame.Instance.teams [0].teamStorage ["SCORE"] > CardEngine.CardGame.Instance.teams [1].teamStorage ["SCORE"]) {
+//				teamWins [0]++;
+//			}
+//			if (CardEngine.CardGame.Instance.teams [1].teamStorage ["SCORE"] > CardEngine.CardGame.Instance.teams [0].teamStorage ["SCORE"]) {
+//				teamWins [1]++;
+//			}
+//			if (CardEngine.CardGame.Instance.teams [1].teamStorage ["SCORE"] == CardEngine.CardGame.Instance.teams [0].teamStorage ["SCORE"]) {
+//				teamWins [2]++;
+//			}
 
-			/*
+
 			int minIdx = 0;
+			bool tie = false;
 			int minScore = CardEngine.CardGame.Instance.players [0].storage ["SCORE"];
-			for (int j = 0; j < 4; ++j){
+			teamScores [0] += minScore;
+			for (int j = 1; j < 4; ++j){
 				int score = CardEngine.CardGame.Instance.players [j].storage ["SCORE"];
 				teamScores [j] += score;
-				if (score < minScore){
+				if (score < minScore) {
+					minIdx = j;
+					minScore = score;
+					tie = false;
+				} else if (score <= minScore) {
+					tie = true;
 					minIdx = j;
 					minScore = score;
 				}
 			}
 			for (int j = 0; j < 4; ++j) {
 				if (minScore == CardEngine.CardGame.Instance.players [j].storage ["SCORE"]) {
-					teamWins [j]++;
+					if (tie)
+						teamTies [j]++;
+					else
+						teamWins [j]++;
 				}
 			}
-			*/
+
 			foreach (var player in CardEngine.CardGame.Instance.players) {
 				Debug.WriteLine ("Green bin:");
 				foreach (var green in player.cardBins["GREEN"].AllCards()) {
@@ -114,11 +125,11 @@ public class ParseEngine{
 		}
 		Console.WriteLine ("Min:" + minTime);
 		Console.WriteLine ("Max:" + maxTime);
-		Console.WriteLine ("Avg:" + totalTime.TotalSeconds / 100.0);
+		Console.WriteLine ("Avg:" + totalTime.TotalSeconds / 1000.0);
 		//Console.WriteLine ("Team 1: " + teamWins [0] + " Team 2: " + teamWins [1] + " Ties: " + teamWins[2]);
 		for (int i = 0; i < 4; ++i){
-			teamScores [i] /= 200.0;
-			Console.Write("Score: " + teamWins[i] + " " + teamScores[i] + " "); 
+			teamScores [i] /= 1000.0;
+			Console.Write("Score: " + (teamWins[i] + teamTies[i]) + " (" + teamWins[i] + ", " + teamTies[i] + ") " + teamScores[i]); 
 		}
 	}
     public void DOTMaker(IParseTree node, string nodeName){
