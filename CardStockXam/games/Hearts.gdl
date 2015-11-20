@@ -13,7 +13,7 @@
                  
    ;; Stages of the game
    (stage player
-      (end (>= ((any player) sto SCORE) 100))
+      (end (!= ((any player) sto SCORE) 0))
       (comp (() (move (top (game vloc DISCARD)) 
                       (top (game iloc STOCK)) all)
                 (remember (top (game iloc STOCK where (all (== (cardatt suit each) hearts))))
@@ -30,34 +30,7 @@
              )
       ) 
       
-      ;; pass cards to your neighbor
-      (stage player
-         (end (== (size ((all player) iloc PASSED)) 2))
-            (choice
-               ((== (game sto PASSINGDIR) 0) 
-                (move (any ((current player) iloc HAND)) (top ((next player) iloc PASSED))) 
-                );;(move (any ((current player) loc HAND)) (top ((next player) loc PASSED))))
-               ((== (game sto PASSINGDIR) 1) 
-                (move (any ((current player) iloc HAND)) (top ((previous player) iloc PASSED))) 
-                );;(move (any ((current player) loc HAND)) (top ((previous player) loc PASSED))))
-            )  
-            (comp
-               ((== (game sto PASSINGDIR) 0)
-                (inc (game sto PASSINGDIR) 1))
-               ((== (game sto PASSINGDIR) 1)
-                (set (game sto PASSINGDIR) 0))
-               
-         )
-      )
       
-      ;; pick up the cards passed to you
-      (stage player
-         (end (== (size ((all player) iloc PASSED)) 0))
-            (comp
-               (() (move (top ((current player) iloc PASSED)) (top ((current player) iloc HAND)))
-            ) 
-         )
-      )
          
       ;; players play a round 13 times     
       (stage player

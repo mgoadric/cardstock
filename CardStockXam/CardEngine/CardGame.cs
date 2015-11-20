@@ -49,12 +49,7 @@ namespace CardEngine
 		public void AddPlayers(int numPlayers){
 			for (int i = 0; i < numPlayers; ++i){
 				players.Add(new Player());
-				if (i % 2 == 0) {
-					players [i].decision = new SpadesPlayer ();
-				} else {
-					players [i].decision = new GeneralPlayer ();
-
-				}
+				players [i].decision = i == 0 ? new SpadesPlayer () : new GeneralPlayer ();
 			}
 			currentPlayer.Push(new PlayerCycle(players));
 		}
@@ -127,7 +122,7 @@ namespace CardEngine
 					if (!innerFirst) {
 						j.Append (",");
 					}
-					j.Append ("name:\"" + cardBin + "\",");
+					j.Append ("{name:\"" + cardBin + "\",");
 					j.Append ("contents:[");
 					bool innerinnerFirst = true;
 					foreach (var card in player.cardBins[cardBin].AllCards()) {
@@ -139,14 +134,36 @@ namespace CardEngine
 						innerinnerFirst = false;
 					}
 					innerFirst = false;
-					j.Append ("]");
+					j.Append ("]}");
 				}
 				j.Append ("]}\n");
 				first = false;
 			}
-			j.Append ("]}");
-			Console.WriteLine (j.ToString ());
-			return new JObject (j.ToString ());
+			j.Append ("],");
+			j.Append("gamecards:[");
+			bool outterFirst = true;
+			foreach (var cardBin in tableCards.Keys()) {
+				if (!outterFirst) {
+					j.Append (",");
+				}
+				j.Append ("{name:\"" + cardBin + "\",");
+				j.Append ("contents:[");
+				bool innerinnerFirst = true;
+				foreach (var card in tableCards[cardBin].AllCards()) {
+					if (!innerinnerFirst) {
+						j.Append (",\n");
+					}
+					j.Append (card.Serialize());
+
+					innerinnerFirst = false;
+				}
+				outterFirst = false;
+				j.Append ("]}");
+			}
+			j.Append ("]");
+			j.Append("}");
+			//Console.WriteLine (j.ToString ());
+			return (JObject) JsonConvert.DeserializeObject (j.ToString ());
 		}
 		public void SetValue(int idx, int value){
 			gameStorage.storage[idx] = value;

@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardStockXam", "CardStockXam\CardStockXam.csproj", "{098970BA-900D-47CE-859E-98A39EAC1BB3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0D244E81-E90F-4334-A343-286C20305501}"
+	ProjectSection(SolutionItems) = preProject
+		CardStockXam.sln = CardStockXam.sln
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,5 +18,7 @@ Global
 		{098970BA-900D-47CE-859E-98A39EAC1BB3}.Debug|x86.Build.0 = Debug|x86
 		{098970BA-900D-47CE-859E-98A39EAC1BB3}.Release|x86.ActiveCfg = Release|x86
 		{098970BA-900D-47CE-859E-98A39EAC1BB3}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal
