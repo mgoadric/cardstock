@@ -60,6 +60,5 @@ namespace Analytics{
 			ret.Append(GetTimeStep() + "\n");
 			return ret.ToString();
 		}
-	}
-	
+	}	
 }
