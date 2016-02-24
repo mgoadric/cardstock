@@ -56,26 +56,35 @@ public class ParseEngine{
 		int[] teamTies = new int[4];
 		double[] teamScores = new double[4];
 
-		var manageContext = new FreezeFrame.GameIterator(tree);
-		manageContext.AdvanceToChoice ();
-		Debug.WriteLine ("****Made Switch****");
-		CardEngine.CardGame.preserved = CardEngine.CardGame.Instance;
-		CardEngine.CardGame.Instance = CardEngine.CardGame.preserved.Clone ();
-		foreach (var player in CardEngine.CardGame.Instance.players) {
-			player.decision = new Players.GeneralPlayer ();
-		}
+		CardEngine.CardGame.Instance = new CardEngine.CardGame ();
+		var manageContext = new FreezeFrame.GameIterator (tree);
+		//manageContext.AdvanceToChoice ();
 
-		var cloneContext = manageContext.Clone ();
-		while (!cloneContext.AdvanceToChoice ()) {
-			cloneContext.ProcessChoice ();
-		}
-		Debug.WriteLine ("***Switch Back***");
-		CardEngine.CardGame.Instance = CardEngine.CardGame.preserved;
+
+
 		//manageContext.AdvanceToChoice ();
 		while (!manageContext.AdvanceToChoice ()) {
+			CardEngine.CardGame.preserved = CardEngine.CardGame.Instance;
+			for (int i = 0; i < 10; ++i) {
+				Debug.WriteLine ("****Made Switch****");
+
+				CardEngine.CardGame.Instance = CardEngine.CardGame.preserved.Clone ();
+				foreach (var player in CardEngine.CardGame.Instance.players) {
+					player.decision = new Players.GeneralPlayer ();
+				}
+
+				var cloneContext = manageContext.Clone ();
+				while (!cloneContext.AdvanceToChoice ()) {
+					cloneContext.ProcessChoice ();
+				}
+
+
+
+			}
+			Debug.WriteLine ("***Switch Back***");
+			CardEngine.CardGame.Instance = CardEngine.CardGame.preserved;
 			manageContext.ProcessChoice ();
 		}
-
 		/*
 		for (int i = 0; i < 1000; ++i) {
 			CardEngine.CardGame.Instance = new CardEngine.CardGame ();

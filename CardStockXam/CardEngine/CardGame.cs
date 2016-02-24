@@ -50,7 +50,7 @@ namespace CardEngine
 		}
 		public CardGame Clone(){
 			var temp = new CardGame (this.players.Count);
-			Console.WriteLine ("Num Players:" + temp.players.Count);
+			//Console.WriteLine ("Num Players:" + temp.players.Count);
 			temp.DeclaredName = "Special";
 			//copy/reassign players
 			//*********************
@@ -97,6 +97,7 @@ namespace CardEngine
 						var toAdd = temp.sourceDeck [cardIdxs [card]];
 						temp.players [p].cardBins [loc]
 							.Add (toAdd);
+						toAdd.owner = temp.players [p].cardBins [loc];
 					}
 				}
 			}
