@@ -9,7 +9,9 @@ namespace CardEngine
 {
 	
 	public class CardGame{
+		public static CardGame preserved;
 		private static CardGame instance;
+		public string DeclaredName = "Default";
 		public static CardGame Instance
    		{
 	  		get 
@@ -46,6 +48,71 @@ namespace CardEngine
 			currentPlayer.Push(new PlayerCycle(players));
 			//var first = new Card();
 		}
+		public CardGame Clone(){
+			var temp = new CardGame (this.players.Count);
+			Console.WriteLine ("Num Players:" + temp.players.Count);
+			temp.DeclaredName = "Special";
+			//copy/reassign players
+			//*********************
+			//cache indexes of players for efficient clone
+			Dictionary<Player, int> playerIdxs = new Dictionary<Player, int>();
+			for (int i = 0; i < this.players.Count; ++i) {
+				playerIdxs [players [i]] = i;
+			}
+
+			//recreate player bins
+
+			for (int i = 0; i < this.players.Count; ++i) {
+				this.players [i].CopyStructure (temp.players [i]);
+			}
+			//reconstruct team and player cycles
+			temp.currentPlayer.Pop();
+			foreach (var cycle in this.currentPlayer.Reverse()){
+				var newCycle = new PlayerCycle (temp.players);
+				newCycle.idx = cycle.idx;
+				newCycle.turnEnded = cycle.turnEnded;
+				newCycle.queuedNext = cycle.queuedNext;
+				temp.currentPlayer.Push (newCycle);
+			}
+			temp.currentTeam.Clear();
+			foreach (var cycle in this.currentTeam.Reverse()){
+				var newCycle = new TeamCycle (temp.teams);
+				newCycle.idx = cycle.idx;
+				newCycle.turnEnded = cycle.turnEnded;
+
+				temp.currentTeam.Push (newCycle);
+			}
+
+			//Clone Source Deck and Index Cards
+			//*****************
+			Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>();
+			for (int i = 0; i < sourceDeck.Count; ++i) {
+				cardIdxs [sourceDeck [i]] = i;
+				temp.sourceDeck.Add (sourceDeck[i].Clone ());
+			}
+
+			for (int p = 0; p < players.Count; ++p) {
+				foreach (var loc in players[p].cardBins.Keys()) {
+					foreach (var card in players[p].cardBins[loc].AllCards()) {
+						var toAdd = temp.sourceDeck [cardIdxs [card]];
+						temp.players [p].cardBins [loc]
+							.Add (toAdd);
+					}
+				}
+			}
+			temp.gameStorage = gameStorage.Clone ();
+			temp.tableCards = tableCards.Clone ();
+			foreach (var bin in tableCards.Keys()) {
+				foreach (var card in tableCards[bin].AllCards()) {
+					var toAdd = temp.sourceDeck [cardIdxs [card]];
+					temp.tableCards[bin]
+						.Add (toAdd);
+				}
+			}
+			temp.points = points.Clone ();
+			return temp;
+		}
+
 		public void AddPlayers(int numPlayers){
 			for (int i = 0; i < numPlayers; ++i){
 				players.Add(new Player());
@@ -76,7 +143,10 @@ namespace CardEngine
 		public void SetDeck(Tree cardAttributes,CardCollection loc){
 			var combos = cardAttributes.combinations();
 			foreach (var combo in combos){
-				loc.Add(new Card(combo));
+				var newCard = new Card (combo);
+				sourceDeck.Add (newCard);
+				loc.Add(newCard);
+
 				//Console.WriteLine(sourceDeck.Last());
 			}
 			//Console.ReadKey();

@@ -36,12 +36,18 @@ public class ParseEngine{
 		//Console.Write(tree.ToStringTree());
 		builder.Append ("graph tree{");
 		builder.AppendLine ("NODE0 [label=\"Stage\" style=filled fillcolor=\"red\"]");
-		DOTMaker (tree, "NODE0");
+		NEWMaker (tree, "NODE0");
 		builder.Append ("}");
-		//var fs = File.Create("games/" + fileName + ".gv");
-		var bytes = Encoding.UTF8.GetBytes (builder.ToString ());
-		//fs.Write(bytes,0,bytes.Length);
-		//fs.Close();
+		try {
+			var fs = File.Create ("games/" + fileName + ".gv");
+			var bytes = Encoding.UTF8.GetBytes (builder.ToString ());
+			fs.Write (bytes, 0, bytes.Length);
+			fs.Close ();
+			Console.WriteLine("wrote games.gv");
+		} catch (Exception ex) {
+			Console.WriteLine (ex);
+		}
+	
 		//Console.WriteLine(tree);
 		TimeSpan minTime = TimeSpan.MaxValue;
 		TimeSpan maxTime = TimeSpan.MinValue;
@@ -49,6 +55,28 @@ public class ParseEngine{
 		int[] teamWins = new int[4];
 		int[] teamTies = new int[4];
 		double[] teamScores = new double[4];
+
+		var manageContext = new FreezeFrame.GameIterator(tree);
+		manageContext.AdvanceToChoice ();
+		Debug.WriteLine ("****Made Switch****");
+		CardEngine.CardGame.preserved = CardEngine.CardGame.Instance;
+		CardEngine.CardGame.Instance = CardEngine.CardGame.preserved.Clone ();
+		foreach (var player in CardEngine.CardGame.Instance.players) {
+			player.decision = new Players.GeneralPlayer ();
+		}
+
+		var cloneContext = manageContext.Clone ();
+		while (!cloneContext.AdvanceToChoice ()) {
+			cloneContext.ProcessChoice ();
+		}
+		Debug.WriteLine ("***Switch Back***");
+		CardEngine.CardGame.Instance = CardEngine.CardGame.preserved;
+		//manageContext.AdvanceToChoice ();
+		while (!manageContext.AdvanceToChoice ()) {
+			manageContext.ProcessChoice ();
+		}
+
+		/*
 		for (int i = 0; i < 1000; ++i) {
 			CardEngine.CardGame.Instance = new CardEngine.CardGame ();
 
@@ -130,6 +158,56 @@ public class ParseEngine{
 		for (int i = 0; i < 4; ++i){
 			teamScores [i] /= 1000.0;
 			Console.Write("Score: " + (teamWins[i] + teamTies[i]) + " (" + teamWins[i] + ", " + teamTies[i] + ") " + teamScores[i]); 
+		}
+		*/
+	}
+	public void NEWMaker(IParseTree node, string nodeName){
+		for (int i = 0; i < node.ChildCount; ++i) {
+			var dontCreate = false;
+			var newNodeName = nodeName + "_" + i;
+			var contextName = node.GetChild (i).GetType ().ToString ().Replace ("RecycleParser+", "").Replace ("Context", "");
+			if (node.GetChild (i).ChildCount > 0 && contextName == "Int") { 
+				continue;
+				var text = node.GetChild (i).GetText ();
+				int myi = 0;
+				while (myi < text.Length && Char.IsDigit (text [myi])) {
+					myi++;
+				} 
+				if (myi != text.Length) {
+					builder.AppendLine (newNodeName + " [label=\"" + node.GetChild (i).GetType ().ToString ().Replace ("RecycleParser+", "").Replace ("Context", "") + "\" ]");
+					DOTMaker (node.GetChild (i), newNodeName);                             
+				} else {
+					builder.AppendLine (newNodeName + " [label=\"" + node.GetChild (i).GetText () + "\" style=filled fillcolor=\"lightblue\"]");  
+				}                         
+			} else if (node.GetChild (i).ChildCount > 0 && contextName != "Namegr" && contextName != "Name" && contextName != "Trueany") {
+				continue;
+				var extra = "";
+				if (contextName == "Stage") {
+					extra = " style=filled fillcolor=\"red\"";
+				} else if (contextName == "Computermoves") {
+					extra = " style=filled shape=box fillcolor=\"yellow\"";
+				} else if (contextName == "Playermoves") {
+					extra = " style=filled shape=diamond fillcolor=\"orange\"";
+				}
+				builder.AppendLine (newNodeName + " [label=\"" + node.GetChild (i).GetType ().ToString ().Replace ("RecycleParser+", "").Replace ("Context", "") + "\" " + extra + "]");
+				DOTMaker (node.GetChild (i), newNodeName);                             
+			} else if (node.GetChild (i).ChildCount > 0) {
+				builder.AppendLine (newNodeName + " [fillcolor=\"green\" style=filled label=\"" + node.GetChild (i).GetText () + "\"]");
+			} else if (node.GetChild (i).GetText () == "(" || node.GetChild (i).GetText () == ")" || node.GetChild (i).GetText () == "," ||
+				node.GetChild (i).GetText () == "end" || node.GetChild (i).GetText () == "stage" || node.GetChild (i).GetText () == "comp" ||
+				node.GetChild (i).GetText () == "create" || node.GetChild (i).GetText () == "sto" || node.GetChild (i).GetText () == "loc" ||
+				node.GetChild (i).GetText () == "initialize" || node.GetChild (i).GetText () == "move" || node.GetChild (i).GetText () == "copy" ||
+				node.GetChild (i).GetText () == "inc" || node.GetChild (i).GetText () == "dec" || node.GetChild (i).GetText () == "shuffle" ||
+				node.GetChild (i).GetText () == "remove" ||
+				node.GetChild (i).GetText () == "choice") {
+				dontCreate = true;
+			} else {
+				builder.AppendLine (newNodeName + " [label=\"" + node.GetChild (i).GetText () + "\"]");
+				//DOTMaker(node.GetChild(i),newNodeName);
+			}
+			if (!dontCreate) {
+				builder.AppendLine (nodeName + " -- " + newNodeName);
+			}
 		}
 	}
     public void DOTMaker(IParseTree node, string nodeName){

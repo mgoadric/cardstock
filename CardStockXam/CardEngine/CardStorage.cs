@@ -8,10 +8,13 @@ namespace CardEngine{
 		{
 		    get
 		    {
-				if (!binDict.ContainsKey(key)) {
-					AddKey(key);
-					storage[binDict[key]] = new CardListCollection();
-					storage[binDict[key]].container = this;
+				if (!binDict.ContainsKey (key)) {
+					AddKey (key);
+					storage [binDict [key]] = new CardListCollection ();
+					storage [binDict [key]].container = this;
+				} else if (storage [binDict [key]] == null) {
+					storage [binDict [key]] = new CardListCollection ();
+					storage [binDict [key]].container = this;
 				}
 		        return storage[binDict[key]];
 		    }
@@ -38,7 +41,13 @@ namespace CardEngine{
 			binDict.Add(key,binCounter);
 			binCounter++;
 		}
-		
+		public CardStorage Clone(){
+			var ret = new CardStorage ();
+			foreach (var key in binDict){
+				ret.AddKey (key.Key);
+			}
+			return ret;
+		}
 	}
 	public abstract class CardCollection{
 		public abstract IEnumerable<Card> AllCards();
@@ -89,6 +98,7 @@ namespace CardEngine{
 			return ret;
 		}
 		public override Card Peek(){
+
 			return cards.Last();
 			
 		}

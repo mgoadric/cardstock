@@ -5,7 +5,7 @@ namespace CardEngine{
 		public List<Player> playerList;
 		public bool turnEnded;
 		public int idx = 0;
-		int queuedNext = -1;
+		public int queuedNext = -1;
 		public PlayerCycle(List<Player> pList){
 			playerList = pList;
 		}
@@ -24,7 +24,7 @@ namespace CardEngine{
 			}
 			var ret = Current();
 			idx = saved;
-			return ret;
+			return ret; 
 		}
 		public Player PeekPrevious(){
 			var saved = idx;

@@ -84,6 +84,7 @@ namespace ParseTreeIterator
 				Debug.WriteLine("Got to OWNER");
 				var resultingCard = CardIterator.ProcessCard(own.card())[0].Get();
 				Debug.WriteLine("Result :" + resultingCard);
+
 				ret.Add(CardGame.Instance.CurrentPlayer().playerList.IndexOf(resultingCard.owner.container.owner));
 				Debug.WriteLine("GOING TO: " + ret.Last());
 			}

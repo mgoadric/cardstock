@@ -27,12 +27,26 @@ namespace CardEngine{
 				}
 	    	}
 		}
+
 		public int[] storage;
 		int binCounter = 0;
 		Dictionary<string,List<Trigger>> triggerDict = new Dictionary<string, List<Trigger>>();
 		public Dictionary<string,int> binDict = new Dictionary<string,int>();
 		public RawStorage(){
 			storage = new int[32];
+		}
+		public RawStorage Clone(){
+			var raw = new RawStorage ();
+			raw.storage = storage.Clone () as int[];
+			foreach (var key in binDict.Keys) {
+				raw.AddKey (key);
+			}
+			foreach (var key in triggerDict.Keys) {
+				foreach (var trig in triggerDict[key]) {
+					raw.AddTrigger (trig, key);
+				}
+			}
+			return raw;
 		}
 		public void AddTrigger(Trigger trig, string key){
 			if (!triggerDict.ContainsKey(key)){

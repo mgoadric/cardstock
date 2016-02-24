@@ -13,7 +13,11 @@ namespace CardEngine
 			cardBins = new CardStorage();
 			cardBins.owner = this;
 		}
-		
+		public void CopyStructure(Player other){
+			other.storage = storage.Clone ();
+			other.cardBins = cardBins.Clone ();
+			other.cardBins.owner = other;
+		}
 		public void IncrValue(int bin, int value){
 			storage.storage[bin] += value;
 		}

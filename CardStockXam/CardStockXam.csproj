@@ -82,6 +82,9 @@
     <Compile Include="Players\GeneralPlayer.cs" />
     <Compile Include="Players\SpadesPlayer.cs" />
     <Compile Include="Players\HeartsPlayer.cs" />
+    <Compile Include="FreezeFrame\GameIterator.cs" />
+    <Compile Include="FreezeFrame\StackState.cs" />
+    <Compile Include="Players\PerfectPlayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -90,6 +93,7 @@
     <Folder Include="games\" />
     <Folder Include="ParseTreeIterator\" />
     <Folder Include="Players\" />
+    <Folder Include="FreezeFrame\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Recycle.tokens" />

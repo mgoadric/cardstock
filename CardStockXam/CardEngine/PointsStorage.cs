@@ -19,6 +19,14 @@ namespace CardEngine{
 		public PointsStorage(){
 			storage = new CardScore[32];
 		}
+		public PointsStorage Clone(){
+			var ret = new PointsStorage ();
+			foreach (var bin in binDict.Keys) {
+				ret.AddKey (bin);
+				ret [bin] = storage [binDict [bin]];
+			}
+			return ret;
+		}
 		public void AddKey(string key){
 			binDict.Add(key,binCounter);
 			binCounter++;

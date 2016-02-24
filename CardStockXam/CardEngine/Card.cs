@@ -10,6 +10,12 @@ namespace CardEngine{
 			attributes = atts;
 			CreateTraversals();
 		}
+
+
+		public Card Clone(){
+			Card ret = new Card (attributes);
+			return ret;
+		}
 		private void CreateTraversals(){
 			for (int i = 0; i < attributes.children.Count; ++i){
 				Create(attributes.children[i], new List<int>{i});
