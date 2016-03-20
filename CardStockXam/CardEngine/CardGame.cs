@@ -26,7 +26,7 @@ namespace CardEngine
 				instance = value;
 			}
 		}
-		public Random rand = new Random();
+		public static Random rand = new Random();
 		public List<Card> sourceDeck = new List<Card>();
 		public CardStorage tableCards = new CardStorage();
 		
@@ -116,8 +116,9 @@ namespace CardEngine
 
 		public void AddPlayers(int numPlayers){
 			for (int i = 0; i < numPlayers; ++i){
+				
 				players.Add(new Player());
-				players [i].decision = i  == 0 ? new HeartsPlayer () : new GeneralPlayer ();
+				players [i].decision = i  == 0 ? new GeneralPlayer () : new GeneralPlayer ();
 			}
 			currentPlayer.Push(new PlayerCycle(players));
 		}

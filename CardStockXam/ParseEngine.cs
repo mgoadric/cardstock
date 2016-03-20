@@ -9,6 +9,8 @@ using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using ParseTreeIterator;
 public class ParseEngine{
+	public static FreezeFrame.GameIterator currentIterator;
+	public static RecycleParser.GameContext currentTree;
         StringBuilder builder = new StringBuilder();
 	public ParseEngine(){
 
@@ -17,7 +19,7 @@ public class ParseEngine{
 		var regex = new Regex ("(;;)(.*?)(\n)");
 
 
-		const string fileName = "Hearts";
+		const string fileName = "Agram";
 
 		var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
@@ -31,6 +33,7 @@ public class ParseEngine{
         
 		parser.BuildParseTree = true;
 		var tree = parser.game ();
+		currentTree = tree;
 		//Recurse(tree);
                 
 		//Console.Write(tree.ToStringTree());
@@ -56,34 +59,32 @@ public class ParseEngine{
 		int[] teamTies = new int[4];
 		double[] teamScores = new double[4];
 
-		CardEngine.CardGame.Instance = new CardEngine.CardGame ();
-		var manageContext = new FreezeFrame.GameIterator (tree);
-		//manageContext.AdvanceToChoice ();
+		int[] aggregator = new int[4];
+		int numGames = 0;
+		for (int i = 0; i < 50; ++i){
+			CardEngine.CardGame.Instance = new CardEngine.CardGame ();
+			var manageContext = new FreezeFrame.GameIterator (tree);
+			//manageContext.AdvanceToChoice ();
+			currentIterator = manageContext;
 
-
-
-		//manageContext.AdvanceToChoice ();
-		while (!manageContext.AdvanceToChoice ()) {
-			CardEngine.CardGame.preserved = CardEngine.CardGame.Instance;
-			for (int i = 0; i < 10; ++i) {
-				Debug.WriteLine ("****Made Switch****");
-
-				CardEngine.CardGame.Instance = CardEngine.CardGame.preserved.Clone ();
-				foreach (var player in CardEngine.CardGame.Instance.players) {
-					player.decision = new Players.GeneralPlayer ();
-				}
-
-				var cloneContext = manageContext.Clone ();
-				while (!cloneContext.AdvanceToChoice ()) {
-					cloneContext.ProcessChoice ();
-				}
-
-
-
+			CardEngine.CardGame.Instance.players [0].decision = new Players.PerfectPlayer ();
+			//manageContext.AdvanceToChoice ();
+			while (!manageContext.AdvanceToChoice ()) {
+				
+				manageContext.ProcessChoice ();
 			}
-			Debug.WriteLine ("***Switch Back***");
-			CardEngine.CardGame.Instance = CardEngine.CardGame.preserved;
-			manageContext.ProcessChoice ();
+
+
+			Console.Out.WriteLine ("Results:");
+			var results = ScoreIterator.ProcessScore (tree.scoring ());
+			for (int j = 0; j < results.Count; ++j) {
+				aggregator [results [j].Item2] += results[j].Item1;
+				Console.Out.WriteLine ("Player " + results[j].Item2 + ":" + results [j].Item1);
+			}
+
+		}
+		for (int i = 0; i < 4; ++i) {
+			Console.Out.WriteLine("Player" + (i + 1) + ": " + aggregator[i]/500.0); 
 		}
 		/*
 		for (int i = 0; i < 1000; ++i) {

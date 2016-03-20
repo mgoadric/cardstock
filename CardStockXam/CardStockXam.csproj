@@ -85,6 +85,8 @@
     <Compile Include="FreezeFrame\GameIterator.cs" />
     <Compile Include="FreezeFrame\StackState.cs" />
     <Compile Include="Players\PerfectPlayer.cs" />
+    <Compile Include="Players\PredictablePlayer.cs" />
+    <Compile Include="ParseTreeIterator\ScoreIterator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
