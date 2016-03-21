@@ -19,7 +19,7 @@ public class ParseEngine{
 		var regex = new Regex ("(;;)(.*?)(\n)");
 
 
-		const string fileName = "LostCities";
+		const string fileName = "Agram";
 
 		var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
@@ -61,13 +61,14 @@ public class ParseEngine{
 
 		int[] aggregator = new int[4];
 		int numGames = 0;
-		for (int i = 0; i < 50; ++i){
+		int ROUNDS = 50;
+		for (int i = 0; i < ROUNDS; ++i){
 			CardEngine.CardGame.Instance = new CardEngine.CardGame ();
 			var manageContext = new FreezeFrame.GameIterator (tree);
 			//manageContext.AdvanceToChoice ();
 			currentIterator = manageContext;
 
-			//CardEngine.CardGame.Instance.players [0].decision = new Players.PerfectPlayer ();
+			CardEngine.CardGame.Instance.players [0].decision = new Players.PerfectPlayer ();
 			//manageContext.AdvanceToChoice ();
 			while (!manageContext.AdvanceToChoice ()) {
 				
@@ -84,7 +85,7 @@ public class ParseEngine{
 
 		}
 		for (int i = 0; i < 4; ++i) {
-			Console.Out.WriteLine("Player" + (i + 1) + ": " + aggregator[i]/500.0); 
+			Console.Out.WriteLine("Player" + (i + 1) + ": " + aggregator[i]/(float)ROUNDS); 
 		}
 		/*
 		for (int i = 0; i < 1000; ++i) {
