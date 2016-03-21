@@ -52,35 +52,39 @@
               
               
               
-              ;; if following player and cannot follow suit
-              ;;   play any card, and end your turn
+              ;; Play to the board
               ((> (size ((current player) iloc HAND where (all (== (cardatt color each) green)))) 0)
                     
                (move (any ((current player) iloc HAND where (all (== (cardatt color each) green)))) 
-                     (top (game vloc GREEN))))
+                     (top (game vloc GREEN)))
+               (set (game sto GREEN) 1))
               
               ( (> (size ((current player) iloc HAND where (all (== (cardatt color each) yellow)))) 0)
                     
                (move (any ((current player) iloc HAND where (all (== (cardatt color each) yellow)))) 
-                     (top (game vloc YELLOW))))
+                     (top (game vloc YELLOW)))
+               (set (game sto YELLOW) 1))
               
               ( (> (size ((current player) iloc HAND where (all (== (cardatt color each) white))))  0)
                     
                (move (any ((current player) iloc HAND where (all (== (cardatt color each) white)))) 
-                     (top (game vloc WHITE))))
+                     (top (game vloc WHITE)))
+               (set (game sto WHITE) 1))
               
               ( (> (size ((current player) iloc HAND where (all (== (cardatt color each) red)))) 0)
                     
                (move (any ((current player) iloc HAND where (all (== (cardatt color each) red)))) 
-                     (top (game vloc RED))))
+                     (top (game vloc RED)))
+               (set (game sto RED) 1))
               
               ( (> (size ((current player) iloc HAND where (all (== (cardatt color each) blue)))) 0)
                     
                (move (any ((current player) iloc HAND where (all (== (cardatt color each) blue)))) 
-                     (top (game vloc BLUE))))
+                     (top (game vloc BLUE)))
+               (set (game sto BLUE) 1))
               
               
-              
+              ;; OR play to your side
                ((and (== (size ((current player) vloc GREEN)) 0)
                 
                     (> (size ((current player) iloc HAND where (all (== (cardatt color each) green))) ) 0))
@@ -177,25 +181,41 @@
                      (top ((current player) vloc BLUE))))
               
          )
+             
+             ;; Draw a card
          (choice 
          (()
          (move (top (game iloc STOCK))
                (top ((current player) iloc HAND))))
-          ((> (size (game vloc GREEN)) 0)
+          ((and (> (size (game vloc GREEN)) 0)
+                (!= (game sto GREEN) 1))
            (move (top (game vloc GREEN))
                  (top ((current player) iloc HAND))))
-          ((> (size (game vloc YELLOW)) 0)
+          ((and (> (size (game vloc YELLOW)) 0)
+                (!= (game sto YELLOW) 1))
            (move (top (game vloc YELLOW))
                  (top ((current player) iloc HAND))))
-          ((> (size (game vloc RED)) 0)
+          ((and (> (size (game vloc RED)) 0)
+                (!= (game sto RED) 1))
            (move (top (game vloc RED))
                  (top ((current player) iloc HAND))))
-          ((> (size (game vloc BLUE)) 0)
+          ((and (> (size (game vloc BLUE)) 0)
+                (!= (game sto BLUE) 1))
            (move (top (game vloc BLUE))
                  (top ((current player) iloc HAND))))
-          ((> (size (game vloc WHITE)) 0)
+          ((and (> (size (game vloc WHITE)) 0)
+                (!= (game sto WHITE) 1))
            (move (top (game vloc WHITE))
                  (top ((current player) iloc HAND))))
+          )
+         (comp
+          (()
+           (set (game sto GREEN) 0)
+           (set (game sto YELLOW) 0)
+           (set (game sto RED) 0)
+           (set (game sto BLUE) 0)
+           (set (game sto WHITE) 0)
+          )
           )
            
          ;; after players play hand, computer wraps up trick
