@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using Players;
+using System.Text;
 namespace CardEngine
 {
 	public class Player{
@@ -36,11 +37,11 @@ namespace CardEngine
 //			return rand.Next(0,possibles.Count);
 //		}
 		public override string ToString(){
-			string ret = "Player:\n";
+			StringBuilder ret = new StringBuilder("Player:\n");
 			foreach (var card in cardBins.storage[0].AllCards()){
-				ret += "Card:" + card.ToString() + "\n";
+				ret.Append("Card:" + card.ToString() + "\n");
 			}
-			return ret;
+			return ret.ToString();
 		}
 	}
 }

@@ -14,6 +14,9 @@ namespace Analytics{
 		         }
 		         return instance;
 		     }
+			set{
+				instance = value;
+			}
 		}
 		public Stack<int> treeLoc = new Stack<int>();
 		public Stack<int> timeStep = new Stack<int>();

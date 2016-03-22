@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 public class Tree{
 	public Node rootNode;
 	public Tree(){
@@ -125,7 +126,15 @@ public class Node{
 			}
 		}
 		if (Value != null){
-			return "{ "+(Key != null?Key : "anon")+" : \""+Value+"\", children : [" + ret + "]}";//Value + "(" + Key +  ")" +  " {" + ret + "}";
+			StringBuilder temp = new StringBuilder ();
+			temp.Append ("{");
+			temp.Append ((Key != null?Key : "anon"));
+			temp.Append (" : \"");
+			temp.Append (Value);
+			temp.Append ("\", children : [");
+			temp.Append (ret);
+			temp.Append ("]}");
+			return temp.ToString ();//"{ "+(Key != null?Key : "anon")+" : \""+Value+"\", children : [" + ret + "]}";//Value + "(" + Key +  ")" +  " {" + ret + "}";
 		}
 		else{
 			return "";
@@ -133,15 +142,22 @@ public class Node{
 	}
 
 	public override string ToString(){
-		string ret = "";
+		StringBuilder ret = new StringBuilder();
 		if (children != null){
 			foreach (var node in children){
 				
-				ret += node.ToString() + " ";
+				ret.Append(node.ToString() + " ");
 			}
 		}
 		if (Value != null){
-			return Value + "(" + Key +  ")" +  " {" + ret + "}";
+			StringBuilder temp = new StringBuilder ();
+			temp.Append (Value);
+			temp.Append ("(");
+			temp.Append (Key);
+			temp.Append (") {");
+			temp.Append (ret);
+			temp.Append ("}");
+			return temp.ToString();
 		}
 		else{
 			return "";

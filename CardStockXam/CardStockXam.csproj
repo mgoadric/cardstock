@@ -8,8 +8,6 @@
     <RootNamespace>CardStockXam</RootNamespace>
     <AssemblyName>CardStockXam</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -155,7 +153,7 @@
     </None>
     <None Include="games\Whist.gv" />
     <None Include="games\Whist.pdf" />
-    <None Include="games\Pairs2.gdl">
+    <None Include="games\War2.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

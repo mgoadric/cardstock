@@ -12,6 +12,9 @@ namespace Analytics{
 		         }
 		         return instance;
 		     }
+			set{
+				instance = value;
+			}
 		}
 		Dictionary<RecycleParser.StageContext,int> counter = new Dictionary<RecycleParser.StageContext,int>();
 		public StageCount(){

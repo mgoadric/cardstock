@@ -15,11 +15,11 @@ public class ParseEngine{
 	public ParseEngine(){
 
 		Debug.AutoFlush = true;
-
+		var breakOnCycle = true;
 		var regex = new Regex ("(;;)(.*?)(\n)");
 
 
-		const string fileName = "Pairs2";
+		const string fileName = "War";
 
 		var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
@@ -60,9 +60,18 @@ public class ParseEngine{
 		double[] teamScores = new double[4];
 
 		int[] aggregator = new int[4];
-		int numGames = 0;
-		int ROUNDS = 500;
-		for (int i = 0; i < ROUNDS; ++i){
+		int cycleCount = 0;
+		int numGames = 1000;
+		for (int i = 0; i < numGames; ++i){
+			Analytics.BranchingFactor.Instance = new Analytics.BranchingFactor ();
+			Analytics.BinCounts.Instance = new Analytics.BinCounts ();
+			Analytics.StageCount.Instance = new Analytics.StageCount ();
+			Analytics.StorageValues.Instance = new Analytics.StorageValues ();
+			Analytics.TimeStep.Instance = new Analytics.TimeStep ();
+
+			System.GC.Collect ();
+			bool gameBroke = false;
+			HashSet<String> seenStates = new HashSet<String> ();
 			CardEngine.CardGame.Instance = new CardEngine.CardGame ();
 			var manageContext = new FreezeFrame.GameIterator (tree);
 			//manageContext.AdvanceToChoice ();
@@ -71,21 +80,35 @@ public class ParseEngine{
 			//CardEngine.CardGame.Instance.players [0].decision = new Players.PerfectPlayer ();
 			//manageContext.AdvanceToChoice ();
 			while (!manageContext.AdvanceToChoice ()) {
-				
+				if (breakOnCycle) {
+					var curr = CardEngine.CardGame.Instance.ToString ();
+					if (seenStates.Contains (curr)) {
+						cycleCount++;
+						gameBroke = true;
+						break;
+					} else {
+						seenStates.Add (curr);
+					}
+				}
 				manageContext.ProcessChoice ();
 			}
 
-
-			Console.Out.WriteLine ("Results:");
-			var results = ScoreIterator.ProcessScore (tree.scoring ());
-			for (int j = 0; j < results.Count; ++j) {
-				aggregator [results [j].Item2] += results[j].Item1;
-				Console.Out.WriteLine ("Player " + results[j].Item2 + ":" + results [j].Item1);
+			if (!gameBroke) {
+				Console.Out.WriteLine ("Results: " + i);
+				var results = ScoreIterator.ProcessScore (tree.scoring ());
+				for (int j = 0; j < results.Count; ++j) {
+					aggregator [results [j].Item2] += results [j].Item1;
+					Console.Out.WriteLine ("Player " + results [j].Item2 + ":" + results [j].Item1);
+				}
+			} else {
+				Console.Out.WriteLine ("Results:\nCycle Occurred\n");
 			}
-
 		}
 		for (int i = 0; i < 4; ++i) {
-			Console.Out.WriteLine("Player" + (i + 1) + ": " + aggregator[i]/(float)ROUNDS); 
+			Console.Out.WriteLine("Player" + (i + 1) + ": " + aggregator[i]/(double)(numGames)); 
+		}
+		if (breakOnCycle) {
+			Console.WriteLine ("Cycles:" + cycleCount);
 		}
 		/*
 		for (int i = 0; i < 1000; ++i) {

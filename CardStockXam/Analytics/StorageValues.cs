@@ -13,6 +13,9 @@ namespace Analytics{
 		         }
 		         return instance;
 		     }
+			set{
+				instance = value;
+			}
 		}
 		Dictionary<string,List<Tuple<int,string,string>>> counter = new Dictionary<string,List<Tuple<int,string,string>>>();
 		public StorageValues(){

@@ -13,6 +13,9 @@ namespace Analytics{
 		         }
 		         return instance;
 		     }
+			set{
+				instance = value;
+			}
 		}
 		public BinCounts(){
 			

@@ -13,6 +13,9 @@ namespace Analytics{
 		         }
 		         return instance;
 		     }
+			set{
+				instance = value;
+			}
 		}
 		public Dictionary<int,List<Tuple<int,int,string,string>>> counter = new Dictionary<int,List<Tuple<int,int,string,string>>>();
 		public BranchingFactor(){
