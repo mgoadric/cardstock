@@ -155,5 +155,8 @@
     </None>
     <None Include="games\Whist.gv" />
     <None Include="games\Whist.pdf" />
+    <None Include="games\Pairs2.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

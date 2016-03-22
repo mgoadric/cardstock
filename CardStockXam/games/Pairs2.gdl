@@ -33,18 +33,27 @@
              (all (value (2)) 2)
              (all (value (1)) 1)
              )
-           )             
+           )
+         (set (game sto NUMP) 4)
+         (shuffle (game iloc STOCK))
+         (move (top (game iloc STOCK))
+               (top (game iloc THROWOUT)) 5)
+
         )
    )
    (stage player
-      (end (>= (sum ((any player) vloc SCORING) using POINTS) 1)) ;; 21 really
+      (end (>= (sum ((any player) vloc SCORING) using POINTS) 21)) ;; 21 really
       
       ;; Shuffle and then throw out 5 cards for mystery      
       (comp 
+           ((< (size (game iloc STOCK)) (game sto NUMP))
+            (move (top (game iloc THROWOUT))
+                  (top (game iloc STOCK)) all)
+            (move (top (game iloc DISCARD))
+                  (top (game iloc STOCK)) all)
+            (shuffle (game iloc STOCK))          
+           )
           (()
-           (shuffle (game iloc STOCK))
-           (move (top (game iloc STOCK))
-                 (top (game iloc THROWOUT)) 5)
            (move (top (game iloc STOCK))
                  (top ((all player) vloc HAND)))
            
@@ -61,7 +70,16 @@
              
          ;; end when any player has a pair or bows out
          (end (== (game sto FINISHED) 1))
-                       
+         
+         (comp
+           ((== (size (game iloc STOCK)) 0)
+            (move (top (game iloc THROWOUT))
+                  (top (game iloc STOCK)) all)
+            (move (top (game vloc DISCARD))
+                  (top (game iloc STOCK)) all)
+            (shuffle (game iloc STOCK))          
+           )
+         )           
          ;; players flip a card or bow out
          (choice
                 
@@ -86,13 +104,11 @@
          )
       )
       
-      ;; Move all cards back to the stock
+      ;; Move all cards back to the discard pile
       (comp
           (()
            (move (top ((all player) vloc HAND))
-                 (top (game iloc STOCK)) all)
-           (move (top (game iloc THROWOUT))
-                 (top (game iloc STOCK)) all)
+                 (top (game vloc DISCARD)) all)
            (set (game sto FINISHED) 0)
           )
       )         

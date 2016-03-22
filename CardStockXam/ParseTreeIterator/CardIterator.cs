@@ -71,7 +71,9 @@ namespace ParseTreeIterator
 				Card maxCard = null;
 				foreach (var loc in coll){
 					foreach (var c in loc.FilteredList().AllCards()){
-						if (scoring.GetScore(c) > max){
+						//MHG when equal, pick randomly
+						if (scoring.GetScore(c) > max || (scoring.GetScore(c) == max && (new Random()).Next(0, 2) == 0)){
+						//if (scoring.GetScore(c) > max){
 							max = scoring.GetScore(c);
 							maxCard = c;
 						}
@@ -95,7 +97,9 @@ namespace ParseTreeIterator
 				Card minCard = null;
 				foreach (var loc in coll){
 					foreach (var c in loc.FilteredList().AllCards()){
-						if (scoring.GetScore(c) < min){
+						//MHG when equal, pick randomly
+						if (scoring.GetScore(c) < min || (scoring.GetScore(c) == min && (new Random()).Next(0, 2) == 0)){
+						//if (scoring.GetScore(c) < min) {
 							min = scoring.GetScore(c);
 							minCard = c;
 						}
