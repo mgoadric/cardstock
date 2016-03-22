@@ -66,17 +66,32 @@ namespace ParseTreeIterator
 					ret.Add(total);
 				}
 				else{
-					var sum = intNode.sum();
-					var scoring = CardGame.Instance.points[sum.namegr().GetText()];
-					var coll = CardIterator.ProcessLocation(sum.cstorage());
-					var total = 0;
-					foreach (var loc in coll){
-						foreach (var c in loc.FilteredList().AllCards()){
-							total += scoring.GetScore(c);
+					if (intNode.sum ().GetText ().Contains ("any")) {
+						var sum = intNode.sum ();
+						var scoring = CardGame.Instance.points [sum.namegr ().GetText ()];
+						var coll = CardIterator.ProcessLocation (sum.cstorage ());
+						var total = new int[coll.Length];
+						for (int i = 0; i < coll.Length; ++i) {
+							var loc = coll [i];
+							foreach (var c in loc.FilteredList().AllCards()) {
+								total[i] += scoring.GetScore (c);
+							}
 						}
+						Debug.WriteLine ("Sum:" + total);
+						ret.AddRange (total);
+					} else {
+						var sum = intNode.sum ();
+						var scoring = CardGame.Instance.points [sum.namegr ().GetText ()];
+						var coll = CardIterator.ProcessLocation (sum.cstorage ());
+						var total = 0;
+						foreach (var loc in coll) {
+							foreach (var c in loc.FilteredList().AllCards()) {
+								total += scoring.GetScore (c);
+							}
+						}
+						Debug.WriteLine ("Sum:" + total);
+						ret.Add (total);
 					}
-					Debug.WriteLine("Sum:" + total);
-					ret.Add(total);
 				}
 			}
 			else if (intNode.owner() != null){
