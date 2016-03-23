@@ -87,6 +87,7 @@
     <Compile Include="Players\PerfectPlayer.cs" />
     <Compile Include="Players\PredictablePlayer.cs" />
     <Compile Include="ParseTreeIterator\ScoreIterator.cs" />
+    <Compile Include="Players\LessThanPerfectPlayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -48,7 +48,7 @@ namespace CardEngine
 			currentPlayer.Push(new PlayerCycle(players));
 			//var first = new Card();
 		}
-		public CardGame Clone(){
+		public CardGame CloneCommon(){
 			var temp = new CardGame (this.players.Count);
 			//Console.WriteLine ("Num Players:" + temp.players.Count);
 			temp.DeclaredName = "Special";
@@ -83,6 +83,85 @@ namespace CardEngine
 				temp.currentTeam.Push (newCycle);
 			}
 
+			return temp;
+		}
+
+		public CardGame CloneSecret(int playerIdx){
+			var temp = CloneCommon ();
+			//Clone Source Deck and Index Cards
+			//*****************
+			HashSet<int> free = new HashSet<int>();
+			Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>();
+			for (int i = 0; i < sourceDeck.Count; ++i) {
+				cardIdxs [sourceDeck [i]] = i;
+				temp.sourceDeck.Add (sourceDeck[i].Clone ());
+				free.Add (i);
+			}
+			for (int p = 0; p < players.Count; ++p) {
+				foreach (var loc in players[p].cardBins.Keys()) {
+					if (!loc.StartsWith ("{hidden}") || p == playerIdx) {
+						foreach (var card in players[p].cardBins[loc].AllCards()) {
+							var toAdd = temp.sourceDeck [cardIdxs [card]];
+							temp.players [p].cardBins [loc]
+							.Add (toAdd);
+							toAdd.owner = temp.players [p].cardBins [loc];
+							free.Remove (cardIdxs [card]);
+						}
+					}
+				}
+			}
+			temp.gameStorage = gameStorage.Clone ();
+			temp.tableCards = tableCards.Clone ();
+			foreach (var bin in tableCards.Keys()) {
+				if (!bin.StartsWith ("{hidden}")) {
+					foreach (var card in tableCards[bin].AllCards()) {
+						var toAdd = temp.sourceDeck [cardIdxs [card]];
+						temp.tableCards [bin]
+						.Add (toAdd);
+						free.Remove (cardIdxs [card]);
+					}
+				}
+			}
+			List<int> vals = free.ToList<int> ();
+			for (int p = 0; p < players.Count; ++p) {
+				foreach (var loc in players[p].cardBins.Keys()) {
+					if (loc.StartsWith ("{hidden}") && p != playerIdx) {
+						foreach (var card in players[p].cardBins[loc].AllCards()) {
+							var picked = rand.Next (0,vals.Count);
+							var last = vals [vals.Count - 1];
+							vals [vals.Count - 1] = vals [picked];
+							vals [picked] = last;
+							var toAdd = temp.sourceDeck [vals[vals.Count - 1]];
+							temp.players [p].cardBins [loc]
+								.Add (toAdd);
+							toAdd.owner = temp.players [p].cardBins [loc];
+							vals.RemoveAt (vals.Count - 1);
+						}
+					}
+				}
+			}
+			foreach (var bin in tableCards.Keys()) {
+				if (bin.StartsWith ("{hidden}")) {
+					foreach (var card in tableCards[bin].AllCards()) {
+						var picked = rand.Next (0,vals.Count);
+						var last = vals [vals.Count - 1];
+						vals [vals.Count - 1] = vals [picked];
+						vals [picked] = last;
+
+						var toAdd = temp.sourceDeck [vals[vals.Count - 1]];
+						temp.tableCards [bin]
+							.Add (toAdd);
+						
+						vals.RemoveAt (vals.Count - 1);
+					}
+				}
+			}
+			temp.points = points.Clone ();
+			return temp;
+			return temp;
+		}
+		public CardGame Clone(){
+			var temp = CloneCommon ();
 			//Clone Source Deck and Index Cards
 			//*****************
 			Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>();
@@ -90,7 +169,6 @@ namespace CardEngine
 				cardIdxs [sourceDeck [i]] = i;
 				temp.sourceDeck.Add (sourceDeck[i].Clone ());
 			}
-
 			for (int p = 0; p < players.Count; ++p) {
 				foreach (var loc in players[p].cardBins.Keys()) {
 					foreach (var card in players[p].cardBins[loc].AllCards()) {

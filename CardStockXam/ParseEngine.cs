@@ -15,11 +15,11 @@ public class ParseEngine{
 	public ParseEngine(){
 
 		Debug.AutoFlush = true;
-		var breakOnCycle = true;
+		var breakOnCycle = false;
 		var regex = new Regex ("(;;)(.*?)(\n)");
 
 
-		const string fileName = "War";
+		const string fileName = "Agram";
 
 		var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
@@ -61,7 +61,7 @@ public class ParseEngine{
 
 		int[] aggregator = new int[4];
 		int cycleCount = 0;
-		int numGames = 1000;
+		int numGames = 100;
 		for (int i = 0; i < numGames; ++i){
 			Analytics.BranchingFactor.Instance = new Analytics.BranchingFactor ();
 			Analytics.BinCounts.Instance = new Analytics.BinCounts ();
@@ -77,6 +77,7 @@ public class ParseEngine{
 			//manageContext.AdvanceToChoice ();
 			currentIterator = manageContext;
 
+			CardEngine.CardGame.Instance.players [0].decision = new Players.LessThanPerfectPlayer ();
 			//CardEngine.CardGame.Instance.players [0].decision = new Players.PerfectPlayer ();
 			//manageContext.AdvanceToChoice ();
 			while (!manageContext.AdvanceToChoice ()) {
