@@ -80,7 +80,7 @@ namespace Players
 			int max = int.MinValue;
 			int maxIdx = -1;
 			for (int i = 0; i < input.Length; ++i) {
-				if (input[i] < max) {
+				if (input[i] > max) {
 					max = input[i];
 					maxIdx = i;
 				}

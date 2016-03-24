@@ -42,7 +42,7 @@
         )
    )
    (stage player
-      (end (>= (sum ((any player) vloc SCORING) using POINTS) 100)) ;; 21 really
+      (end (>= (sum ((any player) vloc SCORING) using POINTS) 21)) ;; 21 really
       
       ;; Shuffle and then throw out 5 cards for mystery      
       (comp 

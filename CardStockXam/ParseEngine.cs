@@ -78,7 +78,7 @@ public class ParseEngine{
 			currentIterator = manageContext;
 
 			//CardEngine.CardGame.Instance.players [0].decision = new Players.LessThanPerfectPlayer ();
-			//CardEngine.CardGame.Instance.players [0].decision = new Players.PerfectPlayer ();
+			CardEngine.CardGame.Instance.players [0].decision = new Players.PerfectPlayer ();
 			//manageContext.AdvanceToChoice ();
 			while (!manageContext.AdvanceToChoice ()) {
 				if (breakOnCycle) {
