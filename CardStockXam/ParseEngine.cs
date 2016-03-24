@@ -19,7 +19,7 @@ public class ParseEngine{
 		var regex = new Regex ("(;;)(.*?)(\n)");
 
 
-		const string fileName = "Agram";
+		const string fileName = "Pairs2";
 
 		var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
@@ -57,7 +57,7 @@ public class ParseEngine{
 		TimeSpan totalTime = new TimeSpan(0);
 		int[] teamWins = new int[4];
 		int[] teamTies = new int[4];
-		double[] teamScores = new double[4];
+		double[] teamScores = new double[5];
 
 		int[] aggregator = new int[4];
 		int cycleCount = 0;
@@ -77,7 +77,7 @@ public class ParseEngine{
 			//manageContext.AdvanceToChoice ();
 			currentIterator = manageContext;
 
-			CardEngine.CardGame.Instance.players [0].decision = new Players.LessThanPerfectPlayer ();
+			//CardEngine.CardGame.Instance.players [0].decision = new Players.LessThanPerfectPlayer ();
 			//CardEngine.CardGame.Instance.players [0].decision = new Players.PerfectPlayer ();
 			//manageContext.AdvanceToChoice ();
 			while (!manageContext.AdvanceToChoice ()) {

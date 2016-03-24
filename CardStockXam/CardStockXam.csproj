@@ -74,11 +74,9 @@
     <Compile Include="ParseTreeIterator\ActionIterator.cs" />
     <Compile Include="ParseTreeIterator\BooleanIterator.cs" />
     <Compile Include="ParseTreeIterator\CardActionIterator.cs" />
-    <Compile Include="ParseTreeIterator\CardIterator.cs" />
     <Compile Include="ParseTreeIterator\DeckIterator.cs" />
     <Compile Include="ParseTreeIterator\IntIterator.cs" />
     <Compile Include="ParseTreeIterator\SetupIterator.cs" />
-    <Compile Include="ParseTreeIterator\StageIterator.cs" />
     <Compile Include="Players\GeneralPlayer.cs" />
     <Compile Include="Players\SpadesPlayer.cs" />
     <Compile Include="Players\HeartsPlayer.cs" />
@@ -88,6 +86,8 @@
     <Compile Include="Players\PredictablePlayer.cs" />
     <Compile Include="ParseTreeIterator\ScoreIterator.cs" />
     <Compile Include="Players\LessThanPerfectPlayer.cs" />
+    <Compile Include="ParseTreeIterator\CardIterator.cs" />
+    <Compile Include="ParseTreeIterator\StageIterator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -124,9 +124,6 @@
     <None Include="games\LostCities.gv" />
     <None Include="games\LostCities.pdf" />
     <None Include="games\NoThanks.gdl" />
-    <None Include="games\Pairs.gdl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="games\Pairs.gv" />
     <None Include="games\Pairs.pdf" />
     <None Include="games\SaneEights.gdl">
@@ -155,6 +152,9 @@
     <None Include="games\Whist.gv" />
     <None Include="games\Whist.pdf" />
     <None Include="games\War2.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="games\Pairs3.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

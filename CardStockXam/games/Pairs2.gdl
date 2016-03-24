@@ -42,14 +42,14 @@
         )
    )
    (stage player
-      (end (>= (sum ((any player) vloc SCORING) using POINTS) 21)) ;; 21 really
+      (end (>= (sum ((any player) vloc SCORING) using POINTS) 100)) ;; 21 really
       
       ;; Shuffle and then throw out 5 cards for mystery      
       (comp 
            ((< (size (game iloc STOCK)) (game sto NUMP))
             (move (top (game iloc THROWOUT))
                   (top (game iloc STOCK)) all)
-            (move (top (game iloc DISCARD))
+            (move (top (game vloc DISCARD))
                   (top (game iloc STOCK)) all)
             (shuffle (game iloc STOCK))          
            )
@@ -83,11 +83,11 @@
          ;; players flip a card or bow out
          (choice
                 
-            (()
+           (()
              (set (game sto FINISHED) 1)
              (move (actual (min (union ((all player) vloc HAND)) using POINTS))
                    (top ((current player) vloc SCORING)))
-             )
+            )
             (()
              (move (top (game iloc STOCK))
                    (top ((current player) vloc HAND)))

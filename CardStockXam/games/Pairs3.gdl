@@ -33,7 +33,12 @@
              (all (value (2)) 2)
              (all (value (1)) 1)
              )
-           )             
+           )
+         (set (game sto NUMP) 4)
+         (shuffle (game iloc STOCK))
+         (move (top (game iloc STOCK))
+               (top (game iloc THROWOUT)) 5)
+
         )
    )
    (stage player
@@ -41,18 +46,36 @@
       
       ;; Shuffle and then throw out 5 cards for mystery      
       (comp 
+           ((< (size (game iloc STOCK)) (game sto NUMP))
+            (move (top (game iloc THROWOUT))
+                  (top (game iloc STOCK)) all)
+            (move (top (game vloc DISCARD))
+                  (top (game iloc STOCK)) all)
+            (shuffle (game iloc STOCK))          
+           )
           (()
-           (shuffle (game iloc STOCK))
            (move (top (game iloc STOCK))
-                 (top (game iloc THROWOUT)) 5)
-           (move (top (game iloc STOCK))
-                 (top ((all player) vloc HAND)))
+                 (top (game iloc TODEAL)) 4)
            
            ;; Stage here, find the player with smallest card
            ;; if tied, deal new card and try again
            ;; Stage, for tied players if dealt a pair, then discard and do it again
            
-           (cycle current (owner (min (union ((all player) vloc HAND)) using POINTS)))
+           ;;(cycle current (owner (min (union ((all player) vloc HAND)) using POINTS)))
+          )
+      )
+      
+      (stage player
+         (end (== (size (game iloc TODEAL)) 0))
+         (comp
+           ((< (size (game iloc TODEAL)) (game sto NUMP))
+          (move (top (game iloc TODEAL))
+                (top ((current player) vloc HAND)))
+          )
+          ((== (size (game iloc TODEAL)) (game sto NUMP))
+          (move (actual (min (game iloc TODEAL) using POINTS))
+                (top ((current player) vloc HAND)))
+          )
           )
       )
       
@@ -61,15 +84,24 @@
              
          ;; end when any player has a pair or bows out
          (end (== (game sto FINISHED) 1))
-                       
+         
+         (comp
+           ((== (size (game iloc STOCK)) 0)
+            (move (top (game iloc THROWOUT))
+                  (top (game iloc STOCK)) all)
+            (move (top (game vloc DISCARD))
+                  (top (game iloc STOCK)) all)
+            (shuffle (game iloc STOCK))          
+           )
+         )           
          ;; players flip a card or bow out
          (choice
                 
-            (()
-             (set (game sto FINISHED) 1)
-             (move (actual (min (union ((all player) vloc HAND)) using POINTS))
-                   (top ((current player) vloc SCORING)))
-             )
+;;            (()
+;;             (set (game sto FINISHED) 1)
+;;             (move (actual (min (union ((all player) vloc HAND)) using POINTS))
+;;                   (top ((current player) vloc SCORING)))
+;;             )
             (()
              (move (top (game iloc STOCK))
                    (top ((current player) vloc HAND)))
@@ -86,13 +118,11 @@
          )
       )
       
-      ;; Move all cards back to the stock
+      ;; Move all cards back to the discard pile
       (comp
           (()
            (move (top ((all player) vloc HAND))
-                 (top (game iloc STOCK)) all)
-           (move (top (game iloc THROWOUT))
-                 (top (game iloc STOCK)) all)
+                 (top (game vloc DISCARD)) all)
            (set (game sto FINISHED) 0)
           )
       )         
