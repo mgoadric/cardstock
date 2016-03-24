@@ -1,4 +1,3 @@
-;; Pairs in the GDL
 (game
     (setup  
      ;; Set up the players, 3 players each on their own team
@@ -42,7 +41,7 @@
         )
    )
    (stage player
-      (end (>= (sum ((any player) vloc SCORING) using POINTS) 100)) ;; 21 really
+      (end (>= (sum ((any player) vloc SCORING) using POINTS) 1)) ;; 21 really
       
       ;; Shuffle and then throw out 5 cards for mystery      
       (comp 
@@ -55,13 +54,27 @@
            )
           (()
            (move (top (game iloc STOCK))
-                 (top ((all player) vloc HAND)))
+                 (top (game iloc TODEAL)) 4)
            
            ;; Stage here, find the player with smallest card
            ;; if tied, deal new card and try again
            ;; Stage, for tied players if dealt a pair, then discard and do it again
            
-           (cycle current (owner (min (union ((all player) vloc HAND)) using POINTS)))
+           ;;(cycle current (owner (min (union ((all player) vloc HAND)) using POINTS)))
+          )
+      )
+      
+      (stage player
+         (end (== (size (game iloc TODEAL)) 0))
+         (comp
+           ((< (size (game iloc TODEAL)) (game sto NUMP))
+          (move (top (game iloc TODEAL))
+                (top ((current player) vloc HAND)))
+          )
+          ((== (size (game iloc TODEAL)) (game sto NUMP))
+          (move (actual (min (game iloc TODEAL) using POINTS))
+                (top ((current player) vloc HAND)))
+          )
           )
       )
       
@@ -83,11 +96,11 @@
          ;; players flip a card or bow out
          (choice
                 
-           (()
-             (set (game sto FINISHED) 1)
-             (move (actual (min (union ((all player) vloc HAND)) using POINTS))
-                   (top ((current player) vloc SCORING)))
-            )
+;;            (()
+;;             (set (game sto FINISHED) 1)
+;;             (move (actual (min (union ((all player) vloc HAND)) using POINTS))
+;;                   (top ((current player) vloc SCORING)))
+;;             )
             (()
              (move (top (game iloc STOCK))
                    (top ((current player) vloc HAND)))

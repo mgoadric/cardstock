@@ -57,7 +57,7 @@ public class ParseEngine{
 		TimeSpan totalTime = new TimeSpan(0);
 		int[] teamWins = new int[4];
 		int[] teamTies = new int[4];
-		double[] teamScores = new double[4];
+		double[] teamScores = new double[5];
 
 		int[] aggregator = new int[4];
 		int cycleCount = 0;
