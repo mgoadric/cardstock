@@ -17,13 +17,13 @@ namespace Players
 
 			return rand.Next(0,possibles.Count);
 		}
+
 		public override int MakeAction(JObject possibles, Random rand){
 			var items = (JArray)possibles ["items"];
 			CardEngine.CardGame.preserved = CardEngine.CardGame.Instance;
 
 
 			var results = new int[items.Count];
-			int best = int.MaxValue;
 			for (int item = 0; item < items.Count; ++item){
 				results [item] = 0;
 				for (int i = 0; i < 20; ++i) {
@@ -53,26 +53,39 @@ namespace Players
 						}
 					}
 				}
-				if (results [item] < best) {
-					best = results [item];
-				}
 
 			}
 			//Debug.WriteLine ("***Switch Back***");
 			CardEngine.CardGame.Instance = CardEngine.CardGame.preserved;
-			return idxOfMinimum (results);
+			var typeOfGame = ParseEngine.currentTree.scoring ().GetChild (2).GetText ();
+			if (typeOfGame == "min") {
+				return idxOfMinimum (results);
+			} else {
+				return idxOfMaximum (results);
+			}
 			//return rand.Next (0,items.Count);
 		}
 		public static int idxOfMinimum(int[] input){
-			int min = int.MinValue;
+			int min = int.MaxValue;
 			int minIdx = -1;
 			for (int i = 0; i < input.Length; ++i) {
-				if (input[i] > min) {
+				if (input[i] < min) {
 					min = input[i];
 					minIdx = i;
 				}
 			}
 			return minIdx;
+		}
+		public static int idxOfMaximum(int[] input){
+			int max = int.MinValue;
+			int maxIdx = -1;
+			for (int i = 0; i < input.Length; ++i) {
+				if (input[i] < max) {
+					max = input[i];
+					maxIdx = i;
+				}
+			}
+			return maxIdx;
 		}
 	}
 }

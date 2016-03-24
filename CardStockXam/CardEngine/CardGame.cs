@@ -158,7 +158,6 @@ namespace CardEngine
 			}
 			temp.points = points.Clone ();
 			return temp;
-			return temp;
 		}
 		public CardGame Clone(){
 			var temp = CloneCommon ();

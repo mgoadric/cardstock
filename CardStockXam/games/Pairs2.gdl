@@ -49,7 +49,7 @@
            ((< (size (game iloc STOCK)) (game sto NUMP))
             (move (top (game iloc THROWOUT))
                   (top (game iloc STOCK)) all)
-            (move (top (game iloc DISCARD))
+            (move (top (game vloc DISCARD))
                   (top (game iloc STOCK)) all)
             (shuffle (game iloc STOCK))          
            )
