@@ -159,6 +159,10 @@ namespace ParseTreeIterator
 						ret.Add(new FancyRawStorage(player.storage,raw.namegr().GetText()));
 					}
 				}
+				else if (raw.who2().GetText() == "((currentplayer)team)"){
+					ret.Add(new FancyRawStorage(CardGame.Instance.CurrentPlayer().Current().team.teamStorage,
+						raw.namegr().GetText()));
+				}
 			}
 			return ret;
 		}

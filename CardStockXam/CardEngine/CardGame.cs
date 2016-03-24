@@ -60,11 +60,20 @@ namespace CardEngine
 				playerIdxs [players [i]] = i;
 			}
 
+			for (int i = 0; i < this.teams.Count; ++i) {
+				var newTeam = new Team ();
+				for (int j = 0; j < this.teams [i].teamPlayers.Count; ++j) {
+					newTeam.teamPlayers.Add (temp.players [playerIdxs [this.teams [i].teamPlayers [j]]]);
+					temp.players [playerIdxs [this.teams [i].teamPlayers [j]]].team = newTeam;
+				}
+				temp.teams.Add (newTeam);
+			}
 			//recreate player bins
 
 			for (int i = 0; i < this.players.Count; ++i) {
 				this.players [i].CopyStructure (temp.players [i]);
 			}
+
 			//reconstruct team and player cycles
 			temp.currentPlayer.Pop();
 			foreach (var cycle in this.currentPlayer.Reverse()){

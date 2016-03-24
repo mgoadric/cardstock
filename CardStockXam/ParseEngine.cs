@@ -19,7 +19,7 @@ public class ParseEngine{
 		var regex = new Regex ("(;;)(.*?)(\n)");
 
 
-		const string fileName = "Pairs2";
+		const string fileName = "Hearts";
 
 		var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
@@ -77,8 +77,8 @@ public class ParseEngine{
 			//manageContext.AdvanceToChoice ();
 			currentIterator = manageContext;
 
-			//CardEngine.CardGame.Instance.players [0].decision = new Players.LessThanPerfectPlayer ();
-			CardEngine.CardGame.Instance.players [0].decision = new Players.PerfectPlayer ();
+			CardEngine.CardGame.Instance.players [0].decision = new Players.LessThanPerfectPlayer ();
+			//CardEngine.CardGame.Instance.players [0].decision = new Players.PerfectPlayer ();
 			//manageContext.AdvanceToChoice ();
 			while (!manageContext.AdvanceToChoice ()) {
 				if (breakOnCycle) {
