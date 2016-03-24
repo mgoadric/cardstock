@@ -1,3 +1,4 @@
+;; Pairs in the GDL
 (game
     (setup  
      ;; Set up the players, 3 players each on their own team
