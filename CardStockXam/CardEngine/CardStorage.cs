@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Text;
 namespace CardEngine{
 	
 	public class CardStorage{
@@ -28,7 +29,7 @@ namespace CardEngine{
 	    	}
 		}
 		public Player owner {get; set;}
-		int binCounter = 0;
+		public int binCounter = 0;
 		Dictionary<string,int> binDict = new Dictionary<string,int>();
 		public CardCollection[] storage = new CardCollection[32];
 		public CardStorage(){
@@ -47,6 +48,17 @@ namespace CardEngine{
 				ret.AddKey (key.Key);
 			}
 			return ret;
+		}
+		public String ToString(){
+			StringBuilder ret = new StringBuilder ();
+			for (int i = 0; i < binCounter; ++i) {
+				ret.Append (binDict.Where (itm => itm.Value == i).First () +"\n");
+				foreach (var card in storage[i].AllCards()){
+					ret.Append("Card:" + card.ToString() + "\n");
+				}
+				ret.Append ("\n");
+			}
+			return ret.ToString ();
 		}
 	}
 	public abstract class CardCollection{

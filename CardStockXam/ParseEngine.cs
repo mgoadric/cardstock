@@ -12,6 +12,7 @@ public class ParseEngine{
 	public static FreezeFrame.GameIterator currentIterator;
 	public static RecycleParser.GameContext currentTree;
         StringBuilder builder = new StringBuilder();
+	public static int reportedBF = 0;
 	public ParseEngine(){
 
 		Debug.AutoFlush = true;
@@ -19,7 +20,7 @@ public class ParseEngine{
 		var regex = new Regex ("(;;)(.*?)(\n)");
 
 
-		const string fileName = "Hearts";
+		const string fileName = "Spades";
 
 		var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
@@ -58,10 +59,13 @@ public class ParseEngine{
 		int[] teamWins = new int[4];
 		int[] teamTies = new int[4];
 		double[] teamScores = new double[5];
-
-		int[] aggregator = new int[4];
+		int choiceCount = 0;
+		int[] aggregator = new int[5];
+		var branching = new int[6,4];
+		int curTBranch = 0;
+		int curPBranch = 0;
 		int cycleCount = 0;
-		int numGames = 10;
+		int numGames = 1000;
 		for (int i = 0; i < numGames; ++i){
 			Analytics.BranchingFactor.Instance = new Analytics.BranchingFactor ();
 			Analytics.BinCounts.Instance = new Analytics.BinCounts ();
@@ -71,28 +75,45 @@ public class ParseEngine{
 
 			System.GC.Collect ();
 			bool gameBroke = false;
-			HashSet<String> seenStates = new HashSet<String> ();
+			Dictionary<String,int> seenStates = new Dictionary<String,int> ();
 			CardEngine.CardGame.Instance = new CardEngine.CardGame ();
 			var manageContext = new FreezeFrame.GameIterator (tree);
 			//manageContext.AdvanceToChoice ();
 			currentIterator = manageContext;
 
-			CardEngine.CardGame.Instance.players [0].decision = new Players.LessThanPerfectPlayer ();
+			//CardEngine.CardGame.Instance.players [0].decision = new Players.LessThanPerfectPlayer ();
 			//CardEngine.CardGame.Instance.players [0].decision = new Players.PerfectPlayer ();
 			//manageContext.AdvanceToChoice ();
 			while (!manageContext.AdvanceToChoice ()) {
+				choiceCount++;
 				if (breakOnCycle) {
 					var curr = CardEngine.CardGame.Instance.ToString ();
-					if (seenStates.Contains (curr)) {
-						cycleCount++;
-						gameBroke = true;
-						break;
+					if (seenStates.ContainsKey (curr)) {
+						if (seenStates [curr] < 3) {
+							seenStates [curr] += 1;
+						} else {
+							cycleCount++;
+							gameBroke = true;
+							break;
+						}
 					} else {
-						seenStates.Add (curr);
+						seenStates.Add (curr,1);
 					}
 				}
 				manageContext.ProcessChoice ();
+				branching [curPBranch,curTBranch] += reportedBF;
+				curTBranch++;
+				if (curTBranch == 4) {
+					curTBranch = 0;
+					curPBranch++;
+					if (curPBranch == 6) {
+						curPBranch = 0;
+					}
+				}
+
+
 			}
+
 
 			if (!gameBroke) {
 				Console.Out.WriteLine ("Results: " + i);
@@ -105,11 +126,19 @@ public class ParseEngine{
 				Console.Out.WriteLine ("Results:\nCycle Occurred\n");
 			}
 		}
-		for (int i = 0; i < 4; ++i) {
+		Console.Out.WriteLine(choiceCount/(double)(numGames));
+		for (int i = 0; i < 5; ++i) {
 			Console.Out.WriteLine("Player" + (i + 1) + ": " + aggregator[i]/(double)(numGames)); 
 		}
 		if (breakOnCycle) {
 			Console.WriteLine ("Cycles:" + cycleCount);
+		}
+		for (int i = 0; i < 4; ++i) {
+			for (int j = 0; j < 6; ++j) {
+				Console.Write(branching [j, i]/1000.0 + " ");
+
+			}
+			Console.WriteLine();
 		}
 		/*
 		for (int i = 0; i < 1000; ++i) {

@@ -38,9 +38,7 @@ namespace CardEngine
 //		}
 		public override string ToString(){
 			StringBuilder ret = new StringBuilder("Player:\n");
-			foreach (var card in cardBins.storage[0].AllCards()){
-				ret.Append("Card:" + card.ToString() + "\n");
-			}
+			ret.Append (cardBins.ToString ());
 			return ret.ToString();
 		}
 	}

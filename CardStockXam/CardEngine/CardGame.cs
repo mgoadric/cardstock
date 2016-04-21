@@ -398,9 +398,7 @@ namespace CardEngine
 		}
 		public override string ToString(){
 			var ret = "Table Deck:\n";
-			foreach (var card in tableCards["STOCK"].AllCards()){
-				ret += "Card:" + card.ToString() + "\n";
-			}
+			ret += tableCards.ToString ();
 			ret += "Players:\n";
 			foreach (var player in players){
 				ret += player.ToString() + "\n";

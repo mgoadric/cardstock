@@ -2,8 +2,8 @@
 (game
     (setup  
      ;; Set up the players, 3 players each on their own team
-      (create players 4)
-      (create teams (0) (1) (2) (3))
+      (create players 6)
+      (create teams (0) (1) (2) (3) (4) (5))
 
       ;; Create the deck source
       (create deck (game iloc STOCK) (deck 1 (value (1))))         
@@ -42,7 +42,7 @@
         )
    )
    (stage player
-      (end (>= (sum ((any player) vloc SCORING) using POINTS) 21)) ;; 21 really
+      (end (>= (sum ((any player) vloc SCORING) using POINTS) 13)) ;; 21 really
       
       ;; Shuffle and then throw out 5 cards for mystery      
       (comp 
