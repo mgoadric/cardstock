@@ -367,12 +367,13 @@ namespace CardEngine
 		public GameAction ChangePlayerState(int playerIdx, string bucket, int value){
 			return new IntAction(players[playerIdx].storage,bucket,value);
 		}
-		public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
+		public int PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
 			var strDescription = SerializeGAC (choices);
 			var json = (JObject) JsonConvert.DeserializeObject (strDescription);
 			var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(json,rand);
 			//Console.WriteLine(choice);
 			choices[choice].ExecuteAll();
+			return choice;
 		}
 		public String SerializeGAC(List<GameActionCollection> list){
 			StringBuilder b = new StringBuilder ();

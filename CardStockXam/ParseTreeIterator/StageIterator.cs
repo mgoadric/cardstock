@@ -82,33 +82,88 @@ namespace ParseTreeIterator
 		public static void ProcessChoice(RecycleParser.PlayermovesContext playerMoves){
 			var multigameaction = playerMoves.multigameaction()  as RecycleParser.MultigameactionContext;
 			var allOptions = new List<GameActionCollection>();
+			Dictionary<int, int> skips = new Dictionary<int,int>();
 			for (int i = 0; i < multigameaction.ChildCount; ++i){
 				//Console.WriteLine("gameaction");
 				var gameaction = multigameaction.GetChild(i) as RecycleParser.GameactionContext;
 				//Console.WriteLine(gameaction.boolean().GetText());
 				//Console.WriteLine(BooleanIterator.ProcessBoolean(gameaction.boolean()));
+				int startingIdx = allOptions.Count;
 				if (BooleanIterator.ProcessBoolean(gameaction.boolean())){
 					allOptions.AddRange(ProcessMultiActionChoice(gameaction.multiaction()));
+					for (int j = startingIdx; j < allOptions.Count; ++j) {
+						skips.Add (j, i);
+					}
 				}
+
 			}
 			BranchingFactor.Instance.AddCount(allOptions.Count,CardGame.Instance.CurrentPlayer().idx);
-			if (allOptions.Count != 0){
-				Debug.WriteLine("Choice count:" + allOptions.Count);
-				CardGame.Instance.PlayerMakeChoice(allOptions,CardGame.Instance.CurrentPlayer().idx);
-			}
-			else{
-				Debug.WriteLine("NO Choice Available");
+			Boolean satisfied = false;
+			Boolean first = true;
+			int chosenIdx = -1;
+			int iteratorCount = -1;
+			while (!satisfied) {
+				++iteratorCount;
+				if (first) {
+					if (allOptions.Count != 0) {
+						Debug.WriteLine ("Choice count:" + allOptions.Count);
+						chosenIdx = skips[CardGame.Instance.PlayerMakeChoice (allOptions, CardGame.Instance.CurrentPlayer ().idx)];
+					} else {
+						Debug.WriteLine ("NO Choice Available");
+					}
+					first = false;
+				} else {
+					allOptions.Clear ();
+					allOptions.AddRange(ProcessMultiActionChoice((multigameaction.GetChild(chosenIdx) as RecycleParser.GameactionContext).multiaction(),iteratorCount));
+					if (allOptions.Count != 0) {
+						Debug.WriteLine ("Choice count:" + allOptions.Count);
+						chosenIdx = CardGame.Instance.PlayerMakeChoice (allOptions, CardGame.Instance.CurrentPlayer ().idx);
+					} else {
+						Debug.WriteLine ("NO Choice Available");
+					}
+				}
+				if (iteratorCount == (multigameaction.GetChild(chosenIdx) as RecycleParser.GameactionContext).multiaction().ChildCount - 1) {
+					satisfied = true;
+				}
+
 			}
 		}
-		public static List<GameActionCollection> ProcessMultiActionChoice(RecycleParser.MultiactionContext actions){
+
+		public static List<GameActionCollection> ProcessMultiActionChoice(RecycleParser.MultiactionContext actions, int idx){
 			var allOptions = new List<GameActionCollection>();
-			for (int i = 0; i < actions.ChildCount; ++i){
-				//Console.WriteLine("action children");
-				var options = ProcessActionChoice(actions.GetChild(i)  as RecycleParser.ActionContext);
-				var temp = new List<GameActionCollection>();
-				if (allOptions.Count == 0){
-					temp = options;
+			int i = idx;
+			//Console.WriteLine("action children");
+			var options = ProcessActionChoice(actions.GetChild(i)  as RecycleParser.ActionContext);
+			var temp = new List<GameActionCollection>();
+			//if (allOptions.Count == 0){
+			temp = options;
+			/*}
+			else{
+				foreach (var additionalAction in options){
+					foreach (var sourcePerm in allOptions){
+						var copyPerm = new GameActionCollection();
+						copyPerm.AddRange(sourcePerm);
+						copyPerm.AddRange(additionalAction);
+						temp.Add(copyPerm);
+					}
 				}
+			}*/
+			allOptions = temp;
+
+
+			Debug.WriteLine("MultiActionChoiceCount:" + allOptions.Count);
+			return allOptions;
+
+		}
+		public static List<GameActionCollection> ProcessMultiActionChoice(RecycleParser.MultiactionContext actions){
+			var allOptions = new List<GameActionCollection> ();
+			int i = 0;
+			//Console.WriteLine("action children");
+			var options = ProcessActionChoice (actions.GetChild (i)  as RecycleParser.ActionContext);
+			var temp = new List<GameActionCollection> ();
+			//if (allOptions.Count == 0){
+			temp = options;
+			/*}
 				else{
 					foreach (var additionalAction in options){
 						foreach (var sourcePerm in allOptions){
@@ -118,10 +173,11 @@ namespace ParseTreeIterator
 							temp.Add(copyPerm);
 						}
 					}
-				}
-				allOptions = temp;
-			}
-			Debug.WriteLine("MultiActionChoiceCount:" + allOptions.Count);
+				}*/
+			allOptions = temp;
+
+
+			Debug.WriteLine ("MultiActionChoiceCount:" + allOptions.Count);
 			return allOptions;
 			
 		}
