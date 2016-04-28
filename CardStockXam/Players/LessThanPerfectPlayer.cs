@@ -19,11 +19,14 @@ namespace Players
 		}
 		public override int MakeAction(JObject possibles, Random rand){
 			var items = (JArray)possibles ["items"];
+			if (items.Count == 1) {
+				return 0;
+			}
 			CardEngine.CardGame.preserved = CardEngine.CardGame.Instance;
 
 
 			var results = new int[items.Count];
-
+			Debug.WriteLine ("Start Monte");
 			for (int item = 0; item < items.Count; ++item){
 				results [item] = 0;
 				for (int i = 0; i < 20; ++i) {
@@ -42,8 +45,9 @@ namespace Players
 							player.decision = new Players.GeneralPlayer ();
 						}
 					}
-
+					var preservedIterator = ParseEngine.currentIterator;
 					var cloneContext = ParseEngine.currentIterator.Clone ();
+					ParseEngine.currentIterator = cloneContext;
 					while (!cloneContext.AdvanceToChoice ()) {
 						cloneContext.ProcessChoice ();
 					}
@@ -53,9 +57,12 @@ namespace Players
 							results [item] += j;
 						}
 					}
+
+					ParseEngine.currentIterator = preservedIterator;
 				}
 
 			}
+			Debug.WriteLine ("End Monte");
 			//Debug.WriteLine ("***Switch Back***");
 			CardEngine.CardGame.Instance = CardEngine.CardGame.preserved;
 			var typeOfGame = ParseEngine.currentTree.scoring ().GetChild (2).GetText ();

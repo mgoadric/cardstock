@@ -113,9 +113,11 @@ namespace CardEngine
 							var toAdd = temp.sourceDeck [cardIdxs [card]];
 							temp.players [p].cardBins [loc]
 							.Add (toAdd);
-							if (loc.StartsWith("{visible}")){
+							if (!loc.StartsWith ("{mem}")) {
 								toAdd.owner = temp.players [p].cardBins [loc];
 								free.Remove (cardIdxs [card]);
+							} else {
+								//Console.WriteLine (loc);
 							}
 						}
 					}
@@ -129,8 +131,10 @@ namespace CardEngine
 						var toAdd = temp.sourceDeck [cardIdxs [card]];
 						temp.tableCards [bin]
 						.Add (toAdd);
-						if (bin.StartsWith ("{visible}")) {
+						if (!bin.StartsWith ("{mem}")) {
 							free.Remove (cardIdxs [card]);
+						} else {
+							//Console.WriteLine (bin);
 						}
 					}
 				}

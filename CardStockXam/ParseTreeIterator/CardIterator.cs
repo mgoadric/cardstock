@@ -16,7 +16,7 @@ namespace ParseTreeIterator
 		public static FancyCardLocation[] ProcessCard(RecycleParser.CardmContext cardm){
 			if (cardm.memstorage().locpre() != null){
 				var ret = ProcessSubLocation(cardm.memstorage().locpre(),
-						cardm.memstorage().locpost(),false);
+						cardm.memstorage().locpost(),false,true);
 				foreach (var fancy in ret){
 						fancy.locIdentifier = cardm.GetChild(1).GetText();
 				}
@@ -57,7 +57,8 @@ namespace ParseTreeIterator
 				return cardLocations;
 			}
 			var ret = ProcessSubLocation(cardp.locstorage().locpre(),
-					cardp.locstorage().locpost(),cardp.locstorage().GetChild(2).GetText() == "iloc");	
+					cardp.locstorage().locpost(),cardp.locstorage().GetChild(2).GetText() == "iloc",
+				cardp.locstorage().GetChild(2).GetText() == "mem");	
 			foreach (var fancy in ret){
 					fancy.locIdentifier = cardp.GetChild(1).GetText();
 			}
@@ -147,11 +148,11 @@ namespace ParseTreeIterator
 				};
 			} else if (loc.locstorage() != null) {
 				Debug.WriteLine("Loc");				
-				return ProcessSubLocation(loc.locstorage().locpre(), loc.locstorage().locpost(),(loc.locstorage().ChildCount > 2 && loc.locstorage().GetChild(2).GetText() == "iloc"));
+				return ProcessSubLocation(loc.locstorage().locpre(), loc.locstorage().locpost(),(loc.locstorage().ChildCount > 2 && loc.locstorage().GetChild(2).GetText() == "iloc"),(loc.locstorage().ChildCount > 2 && loc.locstorage().GetChild(2).GetText() == "mem"));
 			} else if (loc.memstorage() != null) {
 				if (loc.memstorage().locpre() != null){//standard mem location	
 					Debug.WriteLine("LocPre");	
-					return ProcessSubLocation(loc.memstorage().locpre(), loc.memstorage().locpost(),false);
+					return ProcessSubLocation(loc.memstorage().locpre(), loc.memstorage().locpost(),false,true);
 				}
 				else{//Set of Tuples
 					Debug.WriteLine("Tuple Track");
@@ -204,12 +205,12 @@ namespace ParseTreeIterator
 			return null;
 		}
 		public static FancyCardLocation[] ProcessSubLocation(RecycleParser.LocpreContext locpre,
-			RecycleParser.LocpostContext locpost, bool hidden) {
+			RecycleParser.LocpostContext locpost, bool hidden,bool mem) {
 			if (locpre.who() != null){
 				var clause = ProcessWhere(locpost.whereclause());
 				return new FancyCardLocation[]{
 					new FancyCardLocation{
-						cardList=CardGame.Instance.tableCards[(hidden?"{hidden}":"{visible}") + locpost.namegr().GetText()],
+						cardList=CardGame.Instance.tableCards[(hidden?"{hidden}":mem?"{mem}":"{visible}") + locpost.namegr().GetText()],
 						filter=clause
 					}
 				};

@@ -99,31 +99,36 @@ namespace ParseTreeIterator
 			}
 			BranchingFactor.Instance.AddCount(allOptions.Count,CardGame.Instance.CurrentPlayer().idx);
 			Boolean satisfied = false;
-			Boolean first = true;
-			int chosenIdx = -1;
-			int iteratorCount = -1;
+			int chosenIdx = ParseEngine.currentIterator.decisionBranch;
+			int iteratorCount = ParseEngine.currentIterator.decisionIdx;
 			while (!satisfied) {
+				
+				ParseEngine.currentIterator.decisionBranch = chosenIdx;
+				ParseEngine.currentIterator.decisionIdx = iteratorCount;
 				++iteratorCount;
-				if (first) {
+				if (chosenIdx == -1) {
 					if (allOptions.Count != 0) {
 						Debug.WriteLine ("Choice count:" + allOptions.Count);
 						chosenIdx = skips[CardGame.Instance.PlayerMakeChoice (allOptions, CardGame.Instance.CurrentPlayer ().idx)];
 					} else {
 						Debug.WriteLine ("NO Choice Available");
+
 					}
-					first = false;
 				} else {
 					allOptions.Clear ();
 					allOptions.AddRange(ProcessMultiActionChoice((multigameaction.GetChild(chosenIdx) as RecycleParser.GameactionContext).multiaction(),iteratorCount));
 					if (allOptions.Count != 0) {
 						Debug.WriteLine ("Choice count:" + allOptions.Count);
-						chosenIdx = CardGame.Instance.PlayerMakeChoice (allOptions, CardGame.Instance.CurrentPlayer ().idx);
+						CardGame.Instance.PlayerMakeChoice (allOptions, CardGame.Instance.CurrentPlayer ().idx);
 					} else {
 						Debug.WriteLine ("NO Choice Available");
+
 					}
 				}
 				if (iteratorCount == (multigameaction.GetChild(chosenIdx) as RecycleParser.GameactionContext).multiaction().ChildCount - 1) {
 					satisfied = true;
+					ParseEngine.currentIterator.decisionBranch = -1;
+					ParseEngine.currentIterator.decisionIdx = -1;
 				}
 
 			}

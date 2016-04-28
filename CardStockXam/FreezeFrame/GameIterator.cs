@@ -13,6 +13,8 @@ namespace FreezeFrame
 		Stack<Queue<IParseTree>> iterStack;
 		HashSet<IParseTree> iteratingSet;
 		bool shouldInc = true;
+		public int decisionBranch = -1;
+		public int decisionIdx = -1;
 		public GameIterator Clone(){
 			var ret = new GameIterator (game,false);
 			var revStack = new Stack<Queue<IParseTree>> ();
@@ -29,6 +31,8 @@ namespace FreezeFrame
 			foreach (var node in iteratingSet) {
 				ret.iteratingSet.Add (node);
 			}
+			ret.decisionBranch = decisionBranch;
+			ret.decisionIdx = decisionIdx;
 			return ret;
 		}
 		public GameIterator(RecycleParser.GameContext g, Boolean f){
