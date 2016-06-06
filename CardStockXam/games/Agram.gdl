@@ -3,8 +3,8 @@
 
    (setup 
       ;; Set up the players, 2 teams of 2 players, alternating
-      (create players 4)
-      (create teams (0) (1) (2) (3))
+      (create players 2)
+      (create teams (0) (1))
 
       ;; Create the deck source
       (create deck (game iloc STOCK) (deck (rank (3,4,5,6 7, 8, 9, 10))

@@ -20,7 +20,7 @@ public class ParseEngine{
 		var regex = new Regex ("(;;)(.*?)(\n)");
 
 
-		const string fileName = "Hearts";
+		const string fileName = "SaneEights";
 
 		var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
@@ -60,12 +60,16 @@ public class ParseEngine{
 		int[] teamTies = new int[4];
 		double[] teamScores = new double[5];
 		int choiceCount = 0;
-		int[] aggregator = new int[5];
+		var aggregator = new int[5,10];
+		var winaggregator = new int[10];
 		var branching = new int[6,4];
 		int curTBranch = 0;
 		int curPBranch = 0;
 		int cycleCount = 0;
 		int numGames = 1000;
+		Stopwatch time = new Stopwatch ();
+		time.Start ();
+
 		for (int i = 0; i < numGames; ++i){
 			Analytics.BranchingFactor.Instance = new Analytics.BranchingFactor ();
 			Analytics.BinCounts.Instance = new Analytics.BinCounts ();
@@ -119,27 +123,41 @@ public class ParseEngine{
 				Console.Out.WriteLine ("Results: " + i);
 				var results = ScoreIterator.ProcessScore (tree.scoring ());
 				for (int j = 0; j < results.Count; ++j) {
-					aggregator [results [j].Item2] += results [j].Item1;
+					aggregator [results [j].Item2, i / 100] += results [j].Item1;
 					Console.Out.WriteLine ("Player " + results [j].Item2 + ":" + results [j].Item1);
+					if (results [j].Item2 == 0 && j != results.Count - 1) {
+						winaggregator [i / 100]++;
+					}
 				}
 			} else {
 				Console.Out.WriteLine ("Results:\nCycle Occurred\n");
 			}
 		}
+		time.Stop ();
+		Console.Out.WriteLine (time.Elapsed);
 		Console.Out.WriteLine(choiceCount/(double)(numGames));
 		for (int i = 0; i < 5; ++i) {
-			Console.Out.WriteLine("Player" + (i + 1) + ": " + aggregator[i]/(double)(numGames)); 
+			Console.Out.Write ("Player" + (i + 1) + ":\t");
+			for (int j = 0; j < 10; j++) {
+				Console.Out.Write (aggregator [i, j] / (double)(numGames / 10) + "\t"); 
+			}
+			Console.Out.WriteLine ();
 		}
+		Console.Out.Write ("Wins :\t");
+		for (int j = 0; j < 10; j++) {
+			Console.Out.Write (winaggregator [j] / (double)(numGames / 10) + "\t"); 
+		}
+		Console.Out.WriteLine ();
 		if (breakOnCycle) {
 			Console.WriteLine ("Cycles:" + cycleCount);
 		}
-		for (int i = 0; i < 4; ++i) {
-			for (int j = 0; j < 6; ++j) {
-				Console.Write(branching [j, i]/1000.0 + " ");
-
-			}
-			Console.WriteLine();
-		}
+//		for (int i = 0; i < 4; ++i) {
+//			for (int j = 0; j < 6; ++j) {
+//				Console.Write(branching [j, i]/1000.0 + " ");
+//
+//			}
+//			Console.WriteLine();
+//		}
 		/*
 		for (int i = 0; i < 1000; ++i) {
 			CardEngine.CardGame.Instance = new CardEngine.CardGame ();

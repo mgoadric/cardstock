@@ -59,6 +59,7 @@ namespace ParseTreeIterator
 			var ret = ProcessSubLocation(cardp.locstorage().locpre(),
 					cardp.locstorage().locpost(),cardp.locstorage().GetChild(2).GetText() == "iloc",
 				cardp.locstorage().GetChild(2).GetText() == "mem");	
+
 			foreach (var fancy in ret){
 					fancy.locIdentifier = cardp.GetChild(1).GetText();
 			}
