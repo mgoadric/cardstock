@@ -12,15 +12,17 @@ public class ParseEngine{
 	public static FreezeFrame.GameIterator currentIterator;
 	public static RecycleParser.GameContext currentTree;
         StringBuilder builder = new StringBuilder();
+
 	public static int reportedBF = 0;
-	public ParseEngine(){
+    int numGames = 1; //1000;
+    String outputFileName = "Output";
+    const string fileName = "Pairs2";
+
+    public ParseEngine(){
 
 		Debug.AutoFlush = true;
 		var breakOnCycle = false;
 		var regex = new Regex ("(;;)(.*?)(\n)");
-
-
-		const string fileName = "SaneEights";
 
 		var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
@@ -47,7 +49,7 @@ public class ParseEngine{
 			var bytes = Encoding.UTF8.GetBytes (builder.ToString ());
 			fs.Write (bytes, 0, bytes.Length);
 			fs.Close ();
-			Console.WriteLine("wrote games.gv");
+			Console.WriteLine("wrote " + fileName + ".gv");
 		} catch (Exception ex) {
 			Console.WriteLine (ex);
 		}
@@ -66,9 +68,10 @@ public class ParseEngine{
 		int curTBranch = 0;
 		int curPBranch = 0;
 		int cycleCount = 0;
-		int numGames = 1000;
 		Stopwatch time = new Stopwatch ();
 		time.Start ();
+
+        var output = "";
 
 		for (int i = 0; i < numGames; ++i){
 			Analytics.BranchingFactor.Instance = new Analytics.BranchingFactor ();
@@ -104,7 +107,8 @@ public class ParseEngine{
 						seenStates.Add (curr,1);
 					}
 				}
-				manageContext.ProcessChoice ();
+                Console.WriteLine("test2");
+                manageContext.ProcessChoice ();
 				branching [curPBranch,curTBranch] += reportedBF;
 				curTBranch++;
 				if (curTBranch == 4) {
@@ -114,12 +118,13 @@ public class ParseEngine{
 						curPBranch = 0;
 					}
 				}
+                Console.WriteLine("test3");
 
 
-			}
+            }
+            Console.WriteLine("test4");
 
-
-			if (!gameBroke) {
+            if (!gameBroke) {
 				Console.Out.WriteLine ("Results: " + i);
 				var results = ScoreIterator.ProcessScore (tree.scoring ());
 				for (int j = 0; j < results.Count; ++j) {
@@ -132,7 +137,9 @@ public class ParseEngine{
 			} else {
 				Console.Out.WriteLine ("Results:\nCycle Occurred\n");
 			}
+            output += "|";
 		}
+        Console.WriteLine("test1");
 		time.Stop ();
 		Console.Out.WriteLine (time.Elapsed);
 		Console.Out.WriteLine(choiceCount/(double)(numGames));
@@ -151,14 +158,16 @@ public class ParseEngine{
 		if (breakOnCycle) {
 			Console.WriteLine ("Cycles:" + cycleCount);
 		}
-//		for (int i = 0; i < 4; ++i) {
-//			for (int j = 0; j < 6; ++j) {
-//				Console.Write(branching [j, i]/1000.0 + " ");
-//
-//			}
-//			Console.WriteLine();
-//		}
-		/*
+
+        exportOutput(output);
+        //		for (int i = 0; i < 4; ++i) {
+        //			for (int j = 0; j < 6; ++j) {
+        //				Console.Write(branching [j, i]/1000.0 + " ");
+        //
+        //			}
+        //			Console.WriteLine();
+        //		}
+        /*
 		for (int i = 0; i < 1000; ++i) {
 			CardEngine.CardGame.Instance = new CardEngine.CardGame ();
 
@@ -242,7 +251,7 @@ public class ParseEngine{
 			Console.Write("Score: " + (teamWins[i] + teamTies[i]) + " (" + teamWins[i] + ", " + teamTies[i] + ") " + teamScores[i]); 
 		}
 		*/
-	}
+    }
 	public void NEWMaker(IParseTree node, string nodeName){
 		for (int i = 0; i < node.ChildCount; ++i) {
 			var dontCreate = false;
@@ -358,4 +367,9 @@ public class ParseEngine{
                 Console.Write(" }");
         }
         */
+    public void exportOutput(String output)
+    {
+        System.IO.File.WriteAllText(@"games\" + outputFileName + ".txt", output);
+        Console.WriteLine("Success");
+    }
 }
