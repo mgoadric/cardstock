@@ -32,7 +32,6 @@ public class Center {
         field.setPrefRowCount(6);
         field.setWrapText(true);
         fields.add(field);
-        cards.add("");
     }
 
     public void setLocs() {

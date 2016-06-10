@@ -373,7 +373,6 @@ public class ParseEngine{
     }
     public static void WriteToFile(String text)
     {
-        Console.WriteLine("ParseEngine: " + text);
         using (System.IO.StreamWriter file = new System.IO.StreamWriter("TestFile.txt", true))
         {
             file.WriteLine(text);

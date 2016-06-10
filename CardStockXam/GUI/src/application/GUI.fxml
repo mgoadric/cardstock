@@ -33,6 +33,7 @@
                <children>
                   <Button fx:id="backward" mnemonicParsing="false" prefHeight="35.0" prefWidth="93.0" text="Back" />
                   <Button fx:id="forward" mnemonicParsing="false" prefHeight="35.0" prefWidth="93.0" text="Forward" />
+                  <TextField fx:id="currentMoveField" prefHeight="35.0" prefWidth="149.0" />
                   <ChoiceBox fx:id="gameSelect" prefHeight="36.0" prefWidth="150.0" />
                </children>
             </HBox>

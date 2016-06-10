@@ -76,5 +76,9 @@ namespace CardEngine{
 			}
 			return null;
 		}
+
+        public String ToString() { //TODO work in CardList
+            return cardList.ToString() + " " + locIdentifier + " " + physicalLocation;
+        }
 	}	
 }

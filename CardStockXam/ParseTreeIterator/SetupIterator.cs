@@ -67,7 +67,6 @@ namespace ParseTreeIterator
 			return ret;
 		}
         public static void WriteToFile(string text) {
-            Console.WriteLine("setupIterator: " + text);
             using (System.IO.StreamWriter file = new System.IO.StreamWriter("TestFile.txt", true))
             {
                 file.WriteLine(text);

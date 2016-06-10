@@ -1,10 +1,9 @@
 package application;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
@@ -20,6 +19,9 @@ public class Controller {
     TextField errorField;
 
     @FXML
+    TextField currentMoveField;
+
+    @FXML
     AnchorPane pane;
 
     @FXML
@@ -33,6 +35,7 @@ public class Controller {
 
     private Game currentGame;
     private int numPlayers;
+    private int currentMove;
     private ArrayList<Cards> cardLocs;
     private ArrayList<Move> moves;
     private ArrayList<Game> games;
@@ -56,21 +59,28 @@ public class Controller {
         this.numPlayers = currentGame.numPlayers;
         this.cardLocs = currentGame.cardLocs;
         this.moves = currentGame.moves;
+        currentMove = 0;
         addCards();
         updateCardLocations();
         table.setLocs();
+        addTeams(currentGame.teams);
         paint();
     }
 
     @FXML
     public void forward() {
         //TODO
+        Move move = moves.get(currentMove);
+
+        currentMove++;
         paint();
     }
 
     @FXML
     public void backward() {
         //TODO
+        Move move = moves.get(currentMove);
+        currentMove--;
         paint();
     }
 
@@ -86,6 +96,7 @@ public class Controller {
                 errorField.setText(e.toString());
                 e.printStackTrace();
             }
+            gameSelect.getItems().clear();
             clearCanvas();
             addGames();
         }
@@ -118,10 +129,16 @@ public class Controller {
             if (!tempDeck.playerOwned) {
                 TextArea temp = new TextArea();
                 temp.setText(tempDeck.toString());
-                System.out.println(tempDeck.toString());
                 table.addToCenter(temp);
             }
         }
+    }
+
+    private void addTeams(ObservableList<String> teams) {
+        ListView teamList = new ListView(teams);
+        teamList.setPrefHeight(teams.size() * 24 + 2);
+        teamList.setPrefWidth(150);
+        pane.getChildren().add(teamList);
     }
 
     private void updateCardLocations() {
@@ -130,7 +147,9 @@ public class Controller {
 
     private void paint() {
         table.paint(pane);
+        currentMoveField.setText("Current move: " + currentMove);
     }
+
 
     private ArrayList<Game> parseDataFrom(File dataFile) throws IOException {
         FileReader fileReader = new FileReader(dataFile);
@@ -138,49 +157,53 @@ public class Controller {
         ArrayList<Cards> cardLocs = new ArrayList<>();
         Cards startingDeck = new Cards(false);
         ArrayList<Move> moves = new ArrayList<>();
-        ArrayList<String> teams = new ArrayList<>();
+        ObservableList<String> teams = FXCollections.observableArrayList();
         ArrayList<Game> result = new ArrayList<>();
+
 
         String line = reader.readLine();
         numPlayers = Integer.valueOf(line.split(" ")[1]);
 
         while ((line = reader.readLine()) != null) {
-            char tempId = line.charAt(0);
+            char lineId = line.charAt(0);
 
-            if (tempId == 'T') { //Team
+            if (lineId == 'T') { //Team
                 String[] players = line.split(" ");
-                String team = ""; //TODO make this data structure?
+                String team = "Team "; //TODO make this data structure?
                 for (int i = 1; i < players.length; i++) {
                     team += players[i] + " ";
                 }
                 teams.add(team.trim());
             }
 
-            else if (tempId == 'C') { //Card
+            else if (lineId == 'C') { //Card
                 String[] parts = line.split(" \\{");
-                for (int i = 0; i < parts.length; i++) {
-                    String temp = parts[i];
+                for (String part : parts) {
+                    String temp = part;
                     if (temp.contains("value")) {
-                        temp = temp.replace("(value)","");
-                        startingDeck.add(temp);
+                        temp = temp.replace("(value)", "");
+                        Card newCard = new Card("value",temp);
+                        startingDeck.add(newCard);
                         break; //if more info, don't break
                     }
                 }
             }
-            else if (tempId == 'M') { //Move, TODO
+            else if (lineId == 'M') { //Move, TODO
 
             }
 
-            else if (tempId == '|') {
+            else if (lineId == 'A') {
+                String[] parts = line.split(" ");
+                startingDeck.addValueToCard("reward", parts[1], parts[2]);
+            }
+
+            else if (lineId == '|') {
                 cardLocs.add(startingDeck);
-
-
-                result.add(new Game(numPlayers, cardLocs, moves));
-
+                result.add(new Game(numPlayers, teams, cardLocs, moves));
                 cardLocs = new ArrayList<>();
                 startingDeck = new Cards(false);
                 moves = new ArrayList<>();
-                teams = new ArrayList<>();
+                teams = FXCollections.observableArrayList();
             }
         }
         reader.close();

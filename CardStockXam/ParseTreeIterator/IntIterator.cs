@@ -173,8 +173,9 @@ namespace ParseTreeIterator
 				var setValue = ProcessListInt(setAction.@int())[0];
 				foreach (var bin in bins){
 					ret.Add(new IntAction(bin.storage,bin.key,setValue));
-				}
-			}
+                    WriteToFile("S " + " " + bin.storage + " " + bin.key + " " + setValue);
+                }
+            }
 			return ret;
 		}
 		public static GameActionCollection IncAction(RecycleParser.IncactionContext setAction){
@@ -183,8 +184,11 @@ namespace ParseTreeIterator
 				var bins = ProcessRawStorage(setAction.rawstorage());
 				var setValue = ProcessListInt(setAction.@int())[0];
 				foreach (var bin in bins){
-					ret.Add(new IntAction(bin.storage,bin.key,bin.Get() + setValue));
-				}
+                    var newVal = bin.Get() + setValue;
+					ret.Add(new IntAction(bin.storage,bin.key, newVal));
+                    WriteToFile("Z IntIterator incVar"); //TODO
+                    WriteToFile("I " + bin.key + " " + newVal);
+                }
 			}
 			return ret;
 		}
@@ -194,11 +198,21 @@ namespace ParseTreeIterator
 				var bins = ProcessRawStorage(setAction.rawstorage());
 				var setValue = ProcessListInt(setAction.@int())[0];
 				foreach (var bin in bins){
-					ret.Add(new IntAction(bin.storage,bin.key,bin.Get() - setValue));
-				}
+                    var newVal = bin.Get() - setValue;
+                    ret.Add(new IntAction(bin.storage, bin.key, newVal));
+                    WriteToFile("Z IntIterator decVar"); //TODO
+                    WriteToFile("I " + bin.key + " " + newVal);
+                }
 			}
 			return ret;
 		}
-		
-	}
+
+        public static void WriteToFile(string text)
+        {
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter("TestFile.txt", true))
+            {
+                file.WriteLine(text);
+            }
+        }
+    }
 }

@@ -34,8 +34,10 @@ namespace ParseTreeIterator
 				foreach (var card1 in cardOne){
 					foreach (var card2 in cardTwo){
 						ret.Add(new FancyCardCopyAction(card1,card2));
-					}
-				}
+                        //WriteToFile("Z CardActionIterator processmove1"); //TODO
+                        //WriteToFile("M " + card1.ToString() + " " + card2.ToString());
+                    }
+                }
 			}
 			return ret;
 		}
@@ -63,7 +65,9 @@ namespace ParseTreeIterator
 						for (int i = 0; i < card1.FilteredCount(); ++i){
 							foreach (var card2 in cardTwo){
 								ret.Add(new FancyCardMoveAction(card1,card2));
-							}
+                                //WriteToFile("Z CardActionIterator processmove1"); //TODO
+                                //WriteToFile("M " + card1.ToString() + " " + card2.ToString());
+                            }
 						}
 					}
 				}
@@ -76,8 +80,10 @@ namespace ParseTreeIterator
 						for (int i = 0; i < explicitCount; ++i){
 							foreach (var card2 in cardTwo){
 								ret.Add(new FancyCardMoveAction(card1,card2));
-							}
-						}
+                                //WriteToFile("Z CardActionIterator processmove1"); //TODO
+                                //WriteToFile("M " + card1.ToString() + " " + card2.ToString());
+                            }
+                        }
 					}
 					
 				}
@@ -89,12 +95,20 @@ namespace ParseTreeIterator
 				foreach (var card1 in cardOne){
 					foreach (var card2 in cardTwo){
 						ret.Add(new FancyCardMoveAction(card1,card2));
-					}
-				}
+                        //WriteToFile("Z CardActionIterator processmove1"); //TODO
+                        //WriteToFile("M " + card1.ToString() + " " + card2.ToString());
+                    }
+                }
 				
 			}
 			return ret;
 		}
-		
-	}
+        public static void WriteToFile(string text)
+        {
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter("TestFile.txt", true))
+            {
+                file.WriteLine(text);
+            }
+        }
+    }
 }

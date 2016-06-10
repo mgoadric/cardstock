@@ -140,7 +140,13 @@ namespace CardEngine{
 		public override void Shuffle(){
 			Shuffle(cards);
 		}
-	}
+/*      TODO
+        public override string ToString()
+        {
+
+        }
+*/
+    }
 	public class CardStackCollection : CardCollection {
 		public override int Count {get{
 			return cards.Count;
@@ -225,7 +231,7 @@ namespace CardEngine{
 		}
         public override string ToString()
         {
-            var ret = "Testing\n\n";
+            var ret = "";
             var tempCards = cards;
             while (tempCards.Count != 0)
             {

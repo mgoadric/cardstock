@@ -23,6 +23,8 @@ namespace ParseTreeIterator
 				var name = points.name().GetText();
 				if (!CardGame.Instance.points.binDict.ContainsKey(name)){
 					CardGame.Instance.points.AddKey(name);
+                    //WriteToFile("Z ActionIterator initpoints"); //TODO
+                    //WriteToFile("P " + points + " " + name);
 				}
 				List<PointAwards> temp = new List<PointAwards>();
 				var awards = points.awards();
@@ -35,14 +37,15 @@ namespace ParseTreeIterator
 						key += i.name().GetText() + ",";
 						if (i.trueany() != null){
 							value += i.trueany().GetText() + ",";
-						}
+                        }
 						else{
 							value += CardIterator.ProcessCardatt(i.cardatt()) + ",";
-						}
+                        }
 					}
 					key = key.Substring(0,key.Length - 1);
 					value = value.Substring(0,value.Length - 1);
-					temp.Add(new PointAwards(key,value,reward));
+                    WriteToFile("A " + value + " " + reward);
+                    temp.Add(new PointAwards(key,value,reward));
 				}
 				CardGame.Instance.points[name] = new CardScore(temp);
 			}
@@ -59,6 +62,8 @@ namespace ParseTreeIterator
 			else if (actionNode.moveaction() != null){
 				Debug.WriteLine("MOVE: '" + actionNode.GetText() + "'");
 				var move = actionNode.moveaction();
+                //WriteToFile("Z ActionIterator moveaction"); //TODO
+                //WriteToFile(move.ToString());
 				ret.AddRange(CardActionIterator.ProcessMove(move));
 			}
 			else if (actionNode.shuffleaction() != null){
@@ -92,7 +97,7 @@ namespace ParseTreeIterator
 					} else if (actionNode.cycleaction().GetChild(2).GetText() == "current") {
 						CardGame.Instance.CurrentPlayer().SetNext(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().Current()));			
 					} else if (actionNode.cycleaction().GetChild(2).GetText() == "previous") {
-						CardGame.Instance.CurrentPlayer().SetNext(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekPrevious()));			
+						CardGame.Instance.CurrentPlayer().SetNext(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekPrevious()));
 					}
 				}
 				else if (actionNode.cycleaction().GetChild(1).GetText() == "current"){
@@ -116,8 +121,7 @@ namespace ParseTreeIterator
 			return ret;
 		}
 		
-        public void WriteToFile(string text) {
-            Console.Write("Action: " + text);
+        public static void WriteToFile(string text) {
             using (System.IO.StreamWriter file = new System.IO.StreamWriter("TestFile.txt", true))
             {
                 file.WriteLine(text);
