@@ -113,7 +113,8 @@ namespace CardEngine
 							var toAdd = temp.sourceDeck [cardIdxs [card]];
 							temp.players [p].cardBins [loc]
 							.Add (toAdd);
-							if (!loc.StartsWith ("{mem}")) {
+                            //WriteToFile(toAdd.ToOutputString());
+                            if (!loc.StartsWith ("{mem}")) {
 								toAdd.owner = temp.players [p].cardBins [loc];
 								free.Remove (cardIdxs [card]);
 							} else {
@@ -125,7 +126,6 @@ namespace CardEngine
 			}
 			temp.gameStorage = gameStorage.Clone ();
 			temp.tableCards = tableCards.Clone ();
-            WriteToFile(tableCards.ToOutputString());
 			foreach (var bin in tableCards.Keys()) {
 				if (!bin.StartsWith ("{hidden}")) {
 					foreach (var card in tableCards[bin].AllCards()) {
@@ -243,9 +243,8 @@ namespace CardEngine
 				var newCard = new Card (combo);
 				sourceDeck.Add (newCard);
 				loc.Add(newCard);
-                //WriteToFile("loc: " + loc.ToString() + " " + newCard.ToString());
-				//Console.WriteLine(sourceDeck.Last());
-			}
+                WriteToFile("C " + newCard.ToString());
+            }
 			//Console.ReadKey();
 		}
 		public void SetDeck(Tree cardAttributes){

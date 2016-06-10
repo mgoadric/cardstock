@@ -1,6 +1,7 @@
 package application;
 
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -40,7 +41,7 @@ public class Table {
         setLocs();
     }
 
-    public void addToCenter(TextField field) {
+    public void addToCenter(TextArea field) {
         center.addField(field);
     }
 
@@ -55,11 +56,12 @@ public class Table {
             player.setLocs();
             i++;
         }
+        center.setCenter(circle.getCenterX(), circle.getCenterY());
         center.setLocs();
     }
 
-    public ArrayList<TextField> getAll() {
-        ArrayList<TextField> ret = new ArrayList<>();
+    public ArrayList<TextInputControl> getAll() {
+        ArrayList<TextInputControl> ret = new ArrayList<>();
         for (Player p : players) {
             ret.addAll(p.getAll());
         }

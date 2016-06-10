@@ -109,7 +109,7 @@ namespace CardEngine{
 		}
 		public override void Execute(){
 			CardGame.Instance.SetDeck(deck,location);
-            WriteToFile(location.ToString() + " " + deck);
+            //WriteToFile(location.ToString() + " " + deck);
 		}
 		public override String Serialize(){
 			return "";

@@ -15,7 +15,7 @@ public class Cards {
 		playerOwned = owned;
 	}
 
-    public void add(String card) {
+	public void add(String card) {
         cards.add(card);
     }
 	

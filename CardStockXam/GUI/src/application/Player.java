@@ -40,12 +40,6 @@ public class Player {
         name.setText("Player " + id);
         name.setLayoutX(circle.getCenterX());
         name.setLayoutY(circle.getCenterY());
-        System.out.println(name.getText());
-        System.out.println(circle.getCenterX());
-        System.out.println(circle.getCenterY());
-        System.out.println(name.getLayoutX());
-        System.out.println(name.getLayoutY());
-
     }
 
     public void addField(TextField field) {

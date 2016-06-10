@@ -18,12 +18,12 @@ namespace ParseTreeIterator
 				var numTeams = teamCreate.attribute().Count();
 				for (int i = 0; i < numTeams; ++i){
 					var newTeam = new Team();
-                    var teamStr = "";
+                    var teamStr = "T";
 					foreach (var p in teamCreate.attribute(i).trueany()) {
 						var j = Int32.Parse(p.GetText());
 						newTeam.teamPlayers.Add(CardGame.Instance.players[j]);
 						CardGame.Instance.players[j].team = newTeam;
-                        teamStr += "T" + j;
+                        teamStr += " " + j;
 					}
 					CardGame.Instance.teams.Add(newTeam);
                     WriteToFile(teamStr);
