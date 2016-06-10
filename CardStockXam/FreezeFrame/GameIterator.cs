@@ -5,6 +5,8 @@ using ParseTreeIterator;
 using CardEngine;
 using Analytics;
 using System.Collections.Generic;
+using System.Text;
+
 namespace FreezeFrame
 {
 	public class GameIterator
@@ -15,6 +17,8 @@ namespace FreezeFrame
 		bool shouldInc = true;
 		public int decisionBranch = -1;
 		public int decisionIdx = -1;
+        //public StringBuilder recorder;
+
 		public GameIterator Clone(){
 			var ret = new GameIterator (game,false);
 			var revStack = new Stack<Queue<IParseTree>> ();
@@ -40,6 +44,7 @@ namespace FreezeFrame
 			iterStack = new Stack<Queue<IParseTree>> ();
 			iteratingSet = new HashSet<IParseTree> ();
 			shouldInc = false;
+            
 			//iterStack.Push(new Queue<IParseTree>());
 
 		}
@@ -87,8 +92,9 @@ namespace FreezeFrame
 					//Console.WriteLine("gameaction");
 					var gameaction = multigameaction.GetChild(i) as RecycleParser.GameactionContext;
 					if (BooleanIterator.ProcessBoolean(gameaction.boolean())){
-						//Console.WriteLine("bool true");
-						StageIterator.ProcessMultiAction(gameaction.multiaction());
+                        //recorder.Append(gameaction);
+                        //Console.WriteLine("bool true");
+                        StageIterator.ProcessMultiAction(gameaction.multiaction());
 					}
 				}
 			}
@@ -114,7 +120,6 @@ namespace FreezeFrame
 		}
 		//this just queues the appropriate actions if condition is met, doesn't execute
 		public bool ProcessStage(RecycleParser.StageContext stage){
-			
 
 			if (stage.endcondition().boolean() != null){
 
@@ -133,7 +138,7 @@ namespace FreezeFrame
 					}
 					iterStack.Push (new Queue<IParseTree> ());
 					var topLevel = iterStack.Peek ();
-					Debug.WriteLine ("Current Player: " + CardGame.Instance.CurrentPlayer ().idx);
+					Debug.WriteLine ("Current Player: " + CardGame.Instance.CurrentPlayer ().idx); //TODO, perhaps record current player here
 					foreach (var player in CardGame.Instance.players) {
 						Debug.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
 					}
@@ -169,6 +174,9 @@ namespace FreezeFrame
 			return true;
 			//CardGame.Instance.PopPlayer();
 		}
-	}
+        //public override String ToString() {
+        //    return recorder.ToString();
+        //}
+    }
 }
 

@@ -125,6 +125,7 @@ namespace CardEngine
 			}
 			temp.gameStorage = gameStorage.Clone ();
 			temp.tableCards = tableCards.Clone ();
+            WriteToFile(tableCards.ToOutputString());
 			foreach (var bin in tableCards.Keys()) {
 				if (!bin.StartsWith ("{hidden}")) {
 					foreach (var card in tableCards[bin].AllCards()) {
@@ -242,7 +243,7 @@ namespace CardEngine
 				var newCard = new Card (combo);
 				sourceDeck.Add (newCard);
 				loc.Add(newCard);
-
+                //WriteToFile("loc: " + loc.ToString() + " " + newCard.ToString());
 				//Console.WriteLine(sourceDeck.Last());
 			}
 			//Console.ReadKey();
@@ -414,5 +415,13 @@ namespace CardEngine
 			}
 			return ret;
 		}
-	}
+
+        public void WriteToFile(string text)
+        {
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter("TestFile.txt", true))
+            {
+                file.WriteLine(text);
+            }
+        }
+    }
 }

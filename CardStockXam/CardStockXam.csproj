@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -48,7 +48,6 @@
     <Compile Include="Analytics\StageCount.cs" />
     <Compile Include="Analytics\StorageValues.cs" />
     <Compile Include="Analytics\TimeStep.cs" />
-    <Compile Include="CardEngine\BooleanFilter.cs" />
     <Compile Include="CardEngine\Card.cs" />
     <Compile Include="CardEngine\CardFilter.cs" />
     <Compile Include="CardEngine\CardGame.cs" />
@@ -92,14 +91,7 @@
     <Compile Include="ParseTreeIterator\StageIterator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Analytics\" />
-    <Folder Include="CardEngine\" />
-    <Folder Include="games\" />
-    <Folder Include="ParseTreeIterator\" />
-    <Folder Include="Players\" />
-    <Folder Include="FreezeFrame\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Recycle.tokens" />
     <None Include="RecycleLexer.tokens" />

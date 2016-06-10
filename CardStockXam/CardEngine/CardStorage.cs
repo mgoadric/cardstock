@@ -49,7 +49,7 @@ namespace CardEngine{
 			}
 			return ret;
 		}
-		public String ToString(){
+		public override String ToString(){
 			StringBuilder ret = new StringBuilder ();
 			for (int i = 0; i < binCounter; ++i) {
 				ret.Append (binDict.Where (itm => itm.Value == i).First () +"\n");
@@ -60,6 +60,21 @@ namespace CardEngine{
 			}
 			return ret.ToString ();
 		}
+
+        public String ToOutputString(){
+            StringBuilder ret = new StringBuilder();
+            for (int i = 0; i < binCounter; ++i)
+            {
+                ret.Append(binDict.Where(itm => itm.Value == i).First() + " ");
+                foreach (var card in storage[i].AllCards())
+                {
+                    ret.Append(" ");
+                    ret.Append(card.ToString());
+                }
+                ret.Append("\n");
+            }
+            return ret.ToString();
+        }
 	}
 	public abstract class CardCollection{
 		public abstract IEnumerable<Card> AllCards();
@@ -208,5 +223,15 @@ namespace CardEngine{
 				cards.Enqueue(card);
 			}
 		}
-	}
+        public override string ToString()
+        {
+            var ret = "Testing\n\n";
+            var tempCards = cards;
+            while (tempCards.Count != 0)
+            {
+                ret += tempCards.Dequeue().ToString() + "\n";
+            }
+            return ret;
+        }
+    }
 }

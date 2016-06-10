@@ -41,5 +41,11 @@ namespace CardEngine
 			ret.Append (cardBins.ToString ());
 			return ret.ToString();
 		}
+
+        public string ToOutputString(int idx){
+            StringBuilder ret = new StringBuilder("P" + idx);
+            ret.Append(cardBins.ToOutputString());
+            return ret.ToString();
+        }
 	}
 }

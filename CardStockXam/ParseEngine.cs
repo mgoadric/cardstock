@@ -24,9 +24,10 @@ public class ParseEngine{
 		var breakOnCycle = false;
 		var regex = new Regex ("(;;)(.*?)(\n)");
 
-		var f = File.ReadAllText ("games/" + fileName + ".gdl");
+        System.IO.File.WriteAllText("TestFile.txt", string.Empty);
+
+        var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
-		//Console.WriteLine(file);
 		file = regex.Replace (file, "\n");
 		//Console.WriteLine(file);
 		AntlrInputStream stream = new AntlrInputStream (file);
@@ -107,7 +108,6 @@ public class ParseEngine{
 						seenStates.Add (curr,1);
 					}
 				}
-                Console.WriteLine("test2");
                 manageContext.ProcessChoice ();
 				branching [curPBranch,curTBranch] += reportedBF;
 				curTBranch++;
@@ -118,12 +118,9 @@ public class ParseEngine{
 						curPBranch = 0;
 					}
 				}
-                Console.WriteLine("test3");
 
 
             }
-            Console.WriteLine("test4");
-
             if (!gameBroke) {
 				Console.Out.WriteLine ("Results: " + i);
 				var results = ScoreIterator.ProcessScore (tree.scoring ());
@@ -137,7 +134,8 @@ public class ParseEngine{
 			} else {
 				Console.Out.WriteLine ("Results:\nCycle Occurred\n");
 			}
-            output += "|";
+            WriteToFile("|");
+            //Console.WriteLine(currentIterator.ToString());
 		}
         Console.WriteLine("test1");
 		time.Stop ();
@@ -160,6 +158,7 @@ public class ParseEngine{
 		}
 
         exportOutput(output);
+        Console.Read();
         //		for (int i = 0; i < 4; ++i) {
         //			for (int j = 0; j < 6; ++j) {
         //				Console.Write(branching [j, i]/1000.0 + " ");
@@ -371,5 +370,13 @@ public class ParseEngine{
     {
         System.IO.File.WriteAllText(@"games\" + outputFileName + ".txt", output);
         Console.WriteLine("Success");
+    }
+    public static void WriteToFile(String text)
+    {
+        Console.WriteLine("ParseEngine: " + text);
+        using (System.IO.StreamWriter file = new System.IO.StreamWriter("TestFile.txt", true))
+        {
+            file.WriteLine(text);
+        }
     }
 }

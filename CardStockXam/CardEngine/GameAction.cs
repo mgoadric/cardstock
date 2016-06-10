@@ -109,11 +109,20 @@ namespace CardEngine{
 		}
 		public override void Execute(){
 			CardGame.Instance.SetDeck(deck,location);
+            WriteToFile(location.ToString() + " " + deck);
 		}
 		public override String Serialize(){
 			return "";
 		}
-	}
+        public static void WriteToFile(string text)
+        {
+            Console.WriteLine("initializeAction: " + text);
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter("TestFile.txt", true))
+            {
+                file.WriteLine(text);
+            }
+        }
+    }
 	public class CardPopMoveAction : GameAction{
 		Card cardToMove;
 		CardCollection startLocation;
@@ -208,5 +217,4 @@ namespace CardEngine{
 		}
 		
 	}
-	
 }

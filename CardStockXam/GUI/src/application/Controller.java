@@ -1,18 +1,18 @@
 package application;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Controller {
 	
@@ -33,20 +33,15 @@ public class Controller {
 
 	private Game currentGame;
 	private int numPlayers;
-	public ArrayList<Cards> cardLocs;
-	public String[] playerInfo;
-	public ArrayList<Move> moves;
+	private ArrayList<Cards> cardLocs;
+	private ArrayList<Move> moves;
 	private ArrayList<Game> games;
-	private ArrayList<TextField> textFields;
-	private Double[] plocX = {572.0, 572.0, 75.0, 1049.0};
-	private Double[] plocY = {51.0, 713.0, 396.0, 396.0};
-	private Double[] tlocX = {398.0, 398.0, 709.0, 709.0};
-	private Double[] tlocY = {336.0, 450.0, 336.0, 450.0};
+	private Table table;
 
 	@FXML
 	public void initialize() {
-		textFields = new ArrayList<>();
-		gameSelect.getSelectionModel().selectedIndexProperty().addListener((v,vOld,vNew) -> {
+		table = new Table();
+        gameSelect.getSelectionModel().selectedIndexProperty().addListener((v,vOld,vNew) -> {
 			int choice = vNew.intValue();
 			if (choice >= 0) {
 				currentGame = games.get(choice);
@@ -54,17 +49,29 @@ public class Controller {
 				newGame();
 			}
 		});
-		clearCanvas();
 	}
+
+    @FXML
+    private void newGame() {
+        this.numPlayers = currentGame.numPlayers;
+        this.cardLocs = currentGame.cardLocs;
+        this.moves = currentGame.moves;
+        addCards();
+        updateCardLocations();
+        table.setLocs();
+        paint();
+    }
 	
 	@FXML
 	public void forward() {
 		//TODO
+        paint();
 	}
 	
 	@FXML
 	public void backward() {
 		//TODO
+        paint();
 	}
 
 	public void openDataFile() {
@@ -88,8 +95,9 @@ public class Controller {
 
 	private void clearCanvas() {
 		errorField.setText("All good");
-		textFields.clear();
+		table = new Table();
 		pane.getChildren().clear();
+
 	}
 
 	private void addGames() {
@@ -97,68 +105,29 @@ public class Controller {
 			gameSelect.getItems().add(i);
 		}
 	}
-	
-	@FXML
-	private void newGame() {
-		this.numPlayers = currentGame.numPlayers;
-		this.cardLocs = currentGame.cardLocs;
-		this.moves = currentGame.moves;
-		System.out.println(numPlayers);
-		System.out.println(cardLocs.toString());
-		addCards();
-		updateCardLocations();
-	}
 
 
 	private void addCards() {
 		for (int i = 0; i < numPlayers; i++) {
-			TextField temp = new TextField();
-			temp.setLayoutX(plocX[i]);
-			temp.setLayoutY(plocY[i]);
-			temp.setScaleX(temp.getScaleX()*1.5);
-			temp.setScaleY(temp.getScaleX()*1.3);
-			temp.setEditable(false);
-			temp.setText("Player " + (i + 1) + ": ");
-			textFields.add(temp);
+			Player player = new Player(i);
+            table.addPlayer(player);
 		}
 		for (int i = 0; i < cardLocs.size(); i++) {
 			Cards tempCard = cardLocs.get(i);
 			if (!tempCard.playerOwned) {
 				TextField temp = new TextField();
-				temp.setLayoutX(tlocX[tempCard.location]);
-				temp.setLayoutY(tlocY[tempCard.location]);
-				temp.setScaleX(temp.getScaleX()*2);
-				temp.setScaleY(temp.getScaleX()*1.3);
-				temp.setEditable(false);
-				textFields.add(temp);
+				table.addToCenter(temp);
 			}
 		}
-		pane.getChildren().addAll(textFields);
 	}
 
 	private void updateCardLocations() {
-		for (int i = 0; i < cardLocs.size(); i++) {
-			Cards temp = cardLocs.get(i);
-			System.out.println(temp.playerOwned);
-			if (temp.playerOwned) {
-				updatePlayerText(textFields.get(temp.location), temp.cards, temp.location);
-			}
-			else {
-				updateTableText(textFields.get(temp.location + numPlayers), temp.cards);
-			}
-		}
+		//TODO
 	}
 
-	private void updateTableText(TextField textField, ArrayList<String> cards) {
-		textField.setText(getCardText(cards));
-	}
-
-	private void updatePlayerText(TextField textField, ArrayList<String> cards, int loc) {
-		String str = "Player " + (loc + 1) + ": ";
-		str += getCardText(cards);
-		//TODO, insert raw info
-		textField.setText(str);		
-	}
+    private void paint() {
+        table.paint(pane);
+    }
 	
 	private String getCardText(ArrayList<String> cards) {
 		String str = "";
@@ -215,7 +184,7 @@ private Cards fromLine(String line) {//TODO, change delimiter if cards can/do ha
 	
 	ArrayList<String> list = new ArrayList<String>(Arrays.asList(ar));
 	list.remove(0);
-	return new Cards(list, loc, playerOwned);
+	return new Cards(list, playerOwned);
 }
 
 public File getDataFile() {
