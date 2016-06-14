@@ -28,22 +28,17 @@ public class Cards {
         cards.add(card);
         alignCards();
     }
-    public void remove(Card card) {
-        boolean removed = false;
+    public Card remove(Card card) {
         for (int i = 0; i < cards.size(); i++) {
             Card temp = cards.get(i);
             if (temp.matches(card.toString())) {
-                cards.remove(i);
-                removed = true;
-                break;
+                Card removedCard = cards.remove(i);
+                alignCards();
+                return removedCard;
             }
         }
-        if (!removed) {
-            alignCards();
-        }
-        else {
-            System.out.println("failed to remove card " + card);
-        }
+        System.out.println(card.toString() + " failed to be removed");
+        return null;
     }
 
 	public Card get(int index) { return cards.get(index);}
@@ -71,9 +66,6 @@ public class Cards {
         for (int i = 0; i < cards.size(); i++) {
             double xcoord = x - CARDWIDTH - (CARDWIDTH * cards.size() / 2) + (i * CARDWIDTH);
             cards.get(i).setCenter(xcoord, y);
-//            System.out.println(x);
-//            System.out.println(y);
-//            System.out.println(xcoord + "\n");
         }
     }
 

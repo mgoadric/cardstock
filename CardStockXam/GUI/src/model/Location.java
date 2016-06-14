@@ -1,40 +1,30 @@
 package model;
 
-import javafx.collections.ObservableList;
-
 public class Location {
     private String cardId;
     private Table table;
+    private int playerId;
     private boolean forPlayer;
 
-/*
-    public Location(Cards cards) { // for storing cards(such as a player's hand, or deck)
-        this.cards = cards;
-    }
-*/
-
-    public Location(Table table, String cardId) {
+    public Location(Table table, String cardId) { // for cards on table
         this.table = table;
         this.cardId = cardId;
+        forPlayer = false;
     }
 
-    public Pair<ObservableList, Integer> getAttribute() {//TODO
-//        if (forPlayer) {
-//            return player.getAttr(attr);
-//        }
-//        else {
-//            ObservableList items = table.getItems();
-//            for (int i = 0; i < items.size(); i++) {
-//                String curr = (String) items.get(i);
-//                if (curr == attr) {
-//                    return new Pair<>(items, i);
-//                }
-//            }
-//        }
-        return null;
+    public Location(Table table, String cardId, int playerId) { // for cards players have
+        this.table = table;
+        this.cardId = cardId;
+        this.playerId = playerId;
+        forPlayer = true;
     }
 
     public Cards getHand() {
-        return table.getTableCards(cardId);
+        if (!forPlayer) {
+            return table.getTableCards(cardId);
+        }
+        else {
+            return table.getPlayerCards(playerId, cardId);
+        }
     }
 }

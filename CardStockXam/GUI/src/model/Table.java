@@ -42,6 +42,15 @@ public class Table {
         return center.getCards(string);
     }
 
+    public Cards getPlayerCards(int playerId, String cardId) {
+        for (Player p : players) {
+            if (p.matchesWith(playerId)) {
+                return p.getCards(cardId);
+            }
+        }
+        return null;
+    }
+
     public Player getPlayer(int playerId) {
         if (playerId < players.size() && playerId >=0) {
             return players.get(playerId);
@@ -70,7 +79,6 @@ public class Table {
             ret.addAll(p.getAll());
         }
         ret.addAll(center.getAll());
-        System.out.println(center.getAll());
         return ret;
     }
     public ArrayList<Circle> getCircles() {

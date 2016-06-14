@@ -1,7 +1,5 @@
 package model;
 
-import javafx.collections.ObservableList;
-
 public class PointMove {
     public int value;
     public Location location;
@@ -12,21 +10,21 @@ public class PointMove {
     }
 
     public void execute() {
-        performAction(value);
+//        performAction(value);
     }
 
     public void revert() {
-        performAction(value * -1);
+//        performAction(value * -1);
     }
 
-    private void performAction(int currentVal) {
-        Pair<ObservableList, Integer> temp = location.getAttribute();
-        String line = (String) temp.first.get(temp.second);
-        Pair<String, Integer> pair = getValue(line);
-        int tempVal = pair.second + currentVal;
-        String newText = pair.first + String.valueOf(tempVal);
-        temp.first.set(temp.second, newText);
-    }
+//    private void performAction(int currentVal) {
+//        Pair<ObservableList, Integer> temp = location.getAttribute();
+//        String line = (String) temp.first.get(temp.second);
+//        Pair<String, Integer> pair = getValue(line);
+//        int tempVal = pair.second + currentVal;
+//        String newText = pair.first + String.valueOf(tempVal);
+//        temp.first.set(temp.second, newText);
+//    }
     
     private Pair<String, Integer> getValue(String text) {
         String[] both = text.split(": ");

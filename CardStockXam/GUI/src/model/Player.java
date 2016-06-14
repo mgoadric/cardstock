@@ -45,7 +45,7 @@ public class Player {
         double rads = (2 * Math.PI) / playerCards.size();
         int i = 0;
         for (Cards groups : playerCards) {
-            double angle = rads * i;
+            double angle = rads * i + Math.PI;
             double x = circle.getCenterX() + (circle.getRadius() * Math.sin(angle));
             double y = circle.getCenterY() + (circle.getRadius() * Math.cos(angle));
             groups.setCenter(x,y);
@@ -98,12 +98,23 @@ public class Player {
                 return group;
             }
         }
-        return null;
+        return addNewGroup(toMatch);
+    }
+
+    private Cards addNewGroup(String str) {
+        Cards newCards = new Cards(str, true);
+        playerCards.add(newCards);
+        setLocs();
+        return newCards;
     }
 
     public void addValueToCards(String key, String value, String v) {
         for (Cards cs : playerCards) {
             cs.addValueToCard(key, value, v);
         }
+    }
+
+    public boolean matchesWith(int playerId) {
+        return id == playerId;
     }
 }

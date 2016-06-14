@@ -181,7 +181,7 @@ public class Controller {
             }
 
             else if (lineId == 'S') { //Storage TODO
-
+                
             }
 
             else if (lineId == 't') { //current player (turn) TODO
@@ -221,14 +221,13 @@ public class Controller {
             if (cards == null) {
                 newTable.addNewTableGroup(line.substring(1));
             }
-            return new Location(newTable, line.substring((1)));
+            return new Location(newTable, line.substring(1));
         }
         else if (id == 'p') { //player
             int playerId = Character.getNumericValue(line.charAt(1));
             Player p = newTable.getPlayer(playerId);
             if (p != null) {
-                Cards cards = p.getCards(line.substring(2));
-                return new Location(newTable, line.substring(2));
+                return new Location(newTable, line.substring(2), playerId);
             }
             else {
                 error("bad player: " + playerId);

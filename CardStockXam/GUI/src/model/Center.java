@@ -16,7 +16,7 @@ public class Center {
 
     private void setupCircle() {
         this.circle = new Circle();
-        circle.setRadius(50);
+        circle.setRadius(150);
     }
 
     public void setLocs() {
@@ -26,7 +26,6 @@ public class Center {
             double angle = rads * i + (Math.PI);
             double x = circle.getCenterX() + (circle.getRadius() * Math.sin(angle));
             double y = circle.getCenterY() + (circle.getRadius() * Math.cos(angle));
-            System.out.println(circle.getCenterY() + " " + y);
             cards.setCenter(x,y);
             cards.alignCards();
             i++;
