@@ -1,12 +1,10 @@
 package model;
 
-public class PointMove {
-    public int value;
-    public Location location;
+public class DataMove {
+    public String toUpdate;
 
-    public PointMove(Location loc, int value) {
-        this.location = loc;
-        this.value = value;
+    public DataMove(String toUpdate) {
+        this.toUpdate = toUpdate;
     }
 
     public void execute() {

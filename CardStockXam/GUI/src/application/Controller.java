@@ -23,6 +23,12 @@ public class Controller {
     TextField currentMoveField;
 
     @FXML
+    TextField currentTurn;
+
+    @FXML
+    TextArea infoTable;
+
+    @FXML
     AnchorPane pane;
 
     @FXML
@@ -62,7 +68,7 @@ public class Controller {
 
         currentMove = 0;
         table.setLocs();
-        addTeams(currentGame.teams);
+        addInfo(currentGame.info);
         paint();
     }
 
@@ -119,16 +125,18 @@ public class Controller {
         }
     }
 
-    private void addTeams(ObservableList<String> teams) {
-        ListView teamList = new ListView(teams);
-        teamList.setPrefHeight(teams.size() * 24 + 2);
-        teamList.setPrefWidth(150);
-        pane.getChildren().add(teamList);
+    private void addInfo(ObservableList<String> info) {
+        infoTable.setPrefHeight(info.size() * 24 + 2);
+        infoTable.setPrefWidth(150);
+        pane.getChildren().add(infoTable);
     }
 
     private void paint() {
         pane.getChildren().clear();
         table.paint(pane);
+        addInfo(currentGame.info);
+        int turn = moves.get(currentMove).getCurrentPlayer();
+        currentTurn.setText("Current turn: Player " + turn);
         currentMoveField.setText("Current move: " + currentMove);
     }
 
@@ -138,9 +146,10 @@ public class Controller {
         BufferedReader reader = new BufferedReader(fileReader);
 
         ArrayList<Cards> cardLocs = new ArrayList<>();
-        ArrayList<Move> moves = new ArrayList<>();
-        ObservableList<String> teams = FXCollections.observableArrayList();
+        ArrayList<Move> currentMoves = new ArrayList<>();
+        ObservableList<String> info = FXCollections.observableArrayList();
         ArrayList<Game> result = new ArrayList<>();
+        int scoreNum = 0;
 
 
         String line = reader.readLine();
@@ -158,7 +167,7 @@ public class Controller {
                 for (int i = 0; i < players.length; i++) {
                     team += players[i] + " ";
                 }
-                teams.add(team.trim());
+                info.add(team.trim());
             }
 
             else if (lineId == 'C') { //Card
@@ -166,13 +175,17 @@ public class Controller {
                 newTable.addToTable(newCard, STOCKNAME);
             }
             else if (lineId == 'M') { //Move
-
                 String[] parts = line.split(" ");
                 Card card = getCard(parts[0]);
                 Location startLoc = getLocation(parts[1], newTable);
                 Location endLoc = getLocation(parts[2], newTable);
                 Move newMove = new Move(card, startLoc, endLoc);
-                moves.add(newMove);
+                if (currentMoves.size() != 0) {
+                    int currentPlayer = lastMove(currentMoves).getCurrentPlayer();
+                    newMove.setCurrentPlayer(currentPlayer);
+                }
+                else {newMove.setCurrentPlayer(0);}
+                currentMoves.add(newMove);
             }
 
             else if (lineId == 'A') { //Assignment
@@ -180,24 +193,36 @@ public class Controller {
                 newTable.addValueToCards("reward", parts[0], parts[1]);
             }
 
-            else if (lineId == 'S') { //Storage TODO
-                
+            else if (lineId == 'S') { //Storage
+                String[] parts = line.split(" ");
+                String loc = parts[0];
+                String key = parts[1];
+                int value = Integer.parseInt(parts[2]);
+                Move newMove = new Move(loc + " " + key + " " + value);
+                currentMoves.add(newMove);
             }
 
-            else if (lineId == 't') { //current player (turn) TODO
-
+            else if (lineId == 't') { //current player (turn)
+                Move move = lastMove(currentMoves);
+                move.setCurrentPlayer(Integer.parseInt(line));
             }
 
-            else if (lineId == 's') { //Score TODO
-
+            else if (lineId == 's') { //Score
+                String[] parts = line.split(" ");
+                String score = parts[0];
+                String won = parts[1];
+                String suffix = "lost";
+                if (parts[1].equals("1")) {suffix = "won";}
+                Move newMove = new Move("Player " + scoreNum + ": " + score + ", " + suffix);
+                currentMoves.add(newMove);
             }
 
             else if (lineId == '|') { //End of game
-                result.add(new Game(numPlayers, newTable, teams, cardLocs, moves));
+                result.add(new Game(numPlayers, newTable, info, cardLocs, currentMoves));
                 cardLocs = new ArrayList<>();
                 newTable = setupTable();
-                moves = new ArrayList<>();
-                teams = FXCollections.observableArrayList();
+                currentMoves = new ArrayList<>();
+                info = FXCollections.observableArrayList();
             }
         }
         reader.close();
@@ -212,6 +237,10 @@ public class Controller {
             ret.addAttribute(attrs[1],attrs[0]);
         }
         return ret;
+    }
+
+    private Move lastMove(ArrayList<Move> moves) {
+        return moves.get(moves.size()-1);
     }
 
     private Location getLocation(String line, Table newTable) {
