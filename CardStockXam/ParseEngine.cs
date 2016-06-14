@@ -16,7 +16,8 @@ public class ParseEngine{
 	public static int reportedBF = 0;
     int numGames = 1; //1000;
     String outputFileName = "Output";
-    const string fileName = "Pairs2";
+    //const string fileName = "Pairs2";
+    const string fileName = "Agram";
 
     public ParseEngine(){
 
@@ -89,7 +90,7 @@ public class ParseEngine{
 			//manageContext.AdvanceToChoice ();
 			currentIterator = manageContext;
 
-			CardEngine.CardGame.Instance.players [0].decision = new Players.LessThanPerfectPlayer ();
+			//CardEngine.CardGame.Instance.players [0].decision = new Players.LessThanPerfectPlayer ();
 			//CardEngine.CardGame.Instance.players [0].decision = new Players.PerfectPlayer ();
 			//manageContext.AdvanceToChoice ();
 			while (!manageContext.AdvanceToChoice ()) {

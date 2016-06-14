@@ -1,5 +1,7 @@
-package application;
+package model;
 
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -10,9 +12,9 @@ public class Player {
     public int id;
     private Circle circle;
     private ArrayList<TextField> fields;
+    private TableView table;
     private TextField name;
     private Cards cards;
-    private ArrayList<String> info; //TODO
 
     public Player(int id) {
         fields = new ArrayList<>();
@@ -38,22 +40,24 @@ public class Player {
         name = new TextField();
         name.setEditable(false);
         name.setText("Player " + id);
-        name.setLayoutX(circle.getCenterX());
-        name.setLayoutY(circle.getCenterY());
+        name.setLayoutX(circle.getCenterX() - 75);
+        name.setLayoutY(circle.getCenterY() - 12.5);
     }
 
     public void addField(TextField field) {
         field.setScaleX(field.getScaleX()*1.5);
         field.setScaleY(field.getScaleY()*1.3);
         field.setEditable(false);
-        field.setText("Player " + (id + 1) + ": ");
         field.toFront();
         fields.add(field);
-        //cards.add("");
+    }
+
+    public void addRawInfo(String info) {
+        table.getItems().add(info);
     }
 
     public void setLocs() {
-        double rads = -1 * (2 * Math.PI) / fields.size();
+        double rads = (2 * Math.PI) / fields.size();
         int i = 0;
         for (TextField field : fields) {
             double angle = rads * i;
@@ -79,5 +83,16 @@ public class Player {
 
     public Circle getCircle() {
         return circle;
+    }
+
+    public Pair<ObservableList, Integer> getAttr(String attr) {
+        ObservableList items = table.getItems();
+        for (int i = 0; i < items.size(); i++) {
+            String curr = (String) items.get(i);
+            if (curr == attr) {
+                return new Pair<>(items, i);
+            }
+        }
+        return null;
     }
 }

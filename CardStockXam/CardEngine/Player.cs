@@ -8,6 +8,7 @@ namespace CardEngine
 		public RawStorage storage;
 		public CardStorage cardBins;
 		public Team team;
+        public string name;
 		public GeneralPlayer decision;
 		public Player(){
 			storage = new RawStorage();
@@ -16,6 +17,7 @@ namespace CardEngine
 		}
 		public void CopyStructure(Player other){
 			other.storage = storage.Clone ();
+            other.name = name;
 			other.cardBins = cardBins.Clone ();
 			other.cardBins.owner = other;
 		}

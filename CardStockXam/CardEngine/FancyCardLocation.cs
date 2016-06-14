@@ -5,7 +5,9 @@ namespace CardEngine{
 	public class FancyCardLocation{
 		public CardCollection cardList;
 		public string locIdentifier;
+        public string name;
 		public bool physicalLocation = false;
+        
 		
 		public CardFilter filter;
 		public void Add(Card c){

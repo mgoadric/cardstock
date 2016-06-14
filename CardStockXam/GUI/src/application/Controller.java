@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import model.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -69,17 +70,16 @@ public class Controller {
 
     @FXML
     public void forward() {
-        //TODO
         Move move = moves.get(currentMove);
-
+        move.execute();
         currentMove++;
         paint();
     }
 
     @FXML
     public void backward() {
-        //TODO
         Move move = moves.get(currentMove);
+        move.revert();
         currentMove--;
         paint();
     }
@@ -166,6 +166,7 @@ public class Controller {
 
         while ((line = reader.readLine()) != null) {
             char lineId = line.charAt(0);
+            line = line.split(":")[1];
 
             if (lineId == 'T') { //Team
                 String[] players = line.split(" ");
@@ -177,27 +178,34 @@ public class Controller {
             }
 
             else if (lineId == 'C') { //Card
-                String[] parts = line.split(" \\{");
-                for (String part : parts) {
-                    String temp = part;
-                    if (temp.contains("value")) {
-                        temp = temp.replace("(value)", "");
-                        Card newCard = new Card("value",temp);
-                        startingDeck.add(newCard);
-                        break; //if more info, don't break
-                    }
-                }
+                Card newCard = getCard(line);
+                startingDeck.add(newCard);
             }
             else if (lineId == 'M') { //Move, TODO
-
+                String[] parts = line.split(" ");
+                Card card = getCard(parts[0]);
+                Location startLoc = getLocation(parts[1]);
+                Location endLoc = getLocation(parts[1]);
             }
 
-            else if (lineId == 'A') {
+            else if (lineId == 'A') { //Assignment
                 String[] parts = line.split(" ");
                 startingDeck.addValueToCard("reward", parts[1], parts[2]);
             }
 
-            else if (lineId == '|') {
+            else if (lineId == 'S') { //Storage TODO
+
+            }
+
+            else if (lineId == 't') { //current player (turn) TODO
+
+            }
+
+            else if (lineId == 's') { //Score TODO
+
+            }
+
+            else if (lineId == '|') { //End of game
                 cardLocs.add(startingDeck);
                 result.add(new Game(numPlayers, teams, cardLocs, moves));
                 cardLocs = new ArrayList<>();
@@ -210,60 +218,85 @@ public class Controller {
         return result;
     }
 
-/*  Deprecated
-    private ArrayList<Game> protoParseDataFrom(File dataFile) throws IOException {
-        FileReader fileReader = new FileReader(dataFile);
-        BufferedReader reader = new BufferedReader(fileReader);
-
-        ArrayList<Game> result = new ArrayList<>();
-        String line;
-
-        while ((line = reader.readLine()) != null) {
-            ArrayList<Cards> cardLocs = new ArrayList<>();
-            ArrayList<Move> moves = new ArrayList<>();
-
-            //get num players
-            numPlayers = Integer.valueOf(line);
-            line = reader.readLine();
-
-            //get card locations
-            while (!line.equals("!")) {
-                cardLocs.add(fromLine(line));
-                line = reader.readLine();
-            }
-            line = reader.readLine();
-
-            //get move list
-            while (line != null && !line.equals("|")) {
-                line = reader.readLine();
-            }
-            result.add(new Game(numPlayers, cardLocs, moves));
+    private Card getCard(String line) {
+        String[] parts = line.split("|");
+        Card ret = new Card();
+        for (String part : parts) {
+            String[] attrs = part.split("-");
+            ret.addAttribute(attrs[1],attrs[0]);
         }
-        reader.close();
-        return result;
+        return ret;
     }
 
-    //Card format ex: P1 2 3 Ace
-    private Cards fromLine(String line) {
-        String[] ar = line.split(" ");
-        String id = ar[0];
-        boolean playerOwned = false;
-        if (id.charAt(0) == ('P')) {playerOwned = true;}
-        int loc = Character.getNumericValue(id.charAt(1));
+    private Location getLocation(String line) {
+        char id = line.charAt(0);
+        if (id == 't') {
 
-        ArrayList<String> list = new ArrayList<String>(Arrays.asList(ar));
-        list.remove(0);
-        return new Cards(list, playerOwned);
-    }
-
-     private String getCardText(ArrayList<String> cards) {
-        String str = "";
-        for (int i = 0; i < cards.size(); i++) {
-            str += cards.get(i) + " ";
         }
-        return str.trim();
+        else if (id == 'p') {
+
+        }
+        else {
+            errorField.setText("unknown line: " + line);
+            System.out.println("unknown line: " + line);
+        }
+        return null;
     }
-*/
+
+    /*  Deprecated
+        private ArrayList<Game> protoParseDataFrom(File dataFile) throws IOException {
+            FileReader fileReader = new FileReader(dataFile);
+            BufferedReader reader = new BufferedReader(fileReader);
+
+            ArrayList<Game> result = new ArrayList<>();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                ArrayList<Cards> cardLocs = new ArrayList<>();
+                ArrayList<Move> moves = new ArrayList<>();
+
+                //get num players
+                numPlayers = Integer.valueOf(line);
+                line = reader.readLine();
+
+                //get card locations
+                while (!line.equals("!")) {
+                    cardLocs.add(fromLine(line));
+                    line = reader.readLine();
+                }
+                line = reader.readLine();
+
+                //get move list
+                while (line != null && !line.equals("|")) {
+                    line = reader.readLine();
+                }
+                result.add(new Game(numPlayers, cardLocs, moves));
+            }
+            reader.close();
+            return result;
+        }
+
+        //Card format ex: P1 2 3 Ace
+        private Cards fromLine(String line) {
+            String[] ar = line.split(" ");
+            String id = ar[0];
+            boolean playerOwned = false;
+            if (id.charAt(0) == ('P')) {playerOwned = true;}
+            int loc = Character.getNumericValue(id.charAt(1));
+
+            ArrayList<String> list = new ArrayList<String>(Arrays.asList(ar));
+            list.remove(0);
+            return new Cards(list, playerOwned);
+        }
+
+         private String getCardText(ArrayList<String> cards) {
+            String str = "";
+            for (int i = 0; i < cards.size(); i++) {
+                str += cards.get(i) + " ";
+            }
+            return str.trim();
+        }
+    */
     private File getDataFile() {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Select test data");

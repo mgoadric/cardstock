@@ -171,9 +171,8 @@ namespace ParseTreeIterator
 			if (setAction.rawstorage() != null){
 				var bins = ProcessRawStorage(setAction.rawstorage());
 				var setValue = ProcessListInt(setAction.@int())[0];
-				foreach (var bin in bins){
+				foreach (var bin in bins){ 
 					ret.Add(new IntAction(bin.storage,bin.key,setValue));
-                    WriteToFile("S " + " " + bin.storage + " " + bin.key + " " + setValue);
                 }
             }
 			return ret;
@@ -186,8 +185,6 @@ namespace ParseTreeIterator
 				foreach (var bin in bins){
                     var newVal = bin.Get() + setValue;
 					ret.Add(new IntAction(bin.storage,bin.key, newVal));
-                    WriteToFile("Z IntIterator incVar"); //TODO
-                    WriteToFile("I " + bin.key + " " + newVal);
                 }
 			}
 			return ret;
@@ -200,19 +197,9 @@ namespace ParseTreeIterator
 				foreach (var bin in bins){
                     var newVal = bin.Get() - setValue;
                     ret.Add(new IntAction(bin.storage, bin.key, newVal));
-                    WriteToFile("Z IntIterator decVar"); //TODO
-                    WriteToFile("I " + bin.key + " " + newVal);
                 }
 			}
 			return ret;
 		}
-
-        public static void WriteToFile(string text)
-        {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter("TestFile.txt", true))
-            {
-                file.WriteLine(text);
-            }
-        }
     }
 }

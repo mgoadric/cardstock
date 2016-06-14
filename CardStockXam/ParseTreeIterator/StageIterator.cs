@@ -15,17 +15,11 @@ namespace ParseTreeIterator
 {
 	public class StageIterator{
 		public static void ProcessGame(RecycleParser.GameContext game){
-
-			// process setup
 			SetupIterator.ProcessSetup(game.setup()).ExecuteAll();
 			
 			for (int i = 3; i < game.ChildCount - 2; ++i){
 				ProcessSubStage(game.GetChild(i));
 			}
-			
-			// process scoring TODO
-			
-			
 		}
 		public static void ProcessStage(RecycleParser.StageContext stage){
 			CardGame.Instance.PushPlayer();
@@ -36,6 +30,9 @@ namespace ParseTreeIterator
 					StageCount.Instance.IncCount(stage);
 					TimeStep.Instance.timeStep.Push(TimeStep.Instance.timeStep.Pop() + 1);
 					Debug.WriteLine("Current Player: " + CardGame.Instance.CurrentPlayer().idx);
+                    Console.WriteLine("hello!");
+
+                    CardGame.Instance.WriteToFile("t:" + CardGame.Instance.CurrentPlayer().idx);
 					foreach (var player in CardGame.Instance.players) {
 						Debug.WriteLine("HANDSIZE: " + player.cardBins["HAND"].Count);
 					}

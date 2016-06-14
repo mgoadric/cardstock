@@ -23,8 +23,6 @@ namespace ParseTreeIterator
 				var name = points.name().GetText();
 				if (!CardGame.Instance.points.binDict.ContainsKey(name)){
 					CardGame.Instance.points.AddKey(name);
-                    //WriteToFile("Z ActionIterator initpoints"); //TODO
-                    //WriteToFile("P " + points + " " + name);
 				}
 				List<PointAwards> temp = new List<PointAwards>();
 				var awards = points.awards();
@@ -44,7 +42,7 @@ namespace ParseTreeIterator
 					}
 					key = key.Substring(0,key.Length - 1);
 					value = value.Substring(0,value.Length - 1);
-                    WriteToFile("A " + value + " " + reward);
+                    CardGame.Instance.WriteToFile("A:" + value + " " + reward);
                     temp.Add(new PointAwards(key,value,reward));
 				}
 				CardGame.Instance.points[name] = new CardScore(temp);
@@ -62,8 +60,6 @@ namespace ParseTreeIterator
 			else if (actionNode.moveaction() != null){
 				Debug.WriteLine("MOVE: '" + actionNode.GetText() + "'");
 				var move = actionNode.moveaction();
-                //WriteToFile("Z ActionIterator moveaction"); //TODO
-                //WriteToFile(move.ToString());
 				ret.AddRange(CardActionIterator.ProcessMove(move));
 			}
 			else if (actionNode.shuffleaction() != null){
@@ -120,12 +116,5 @@ namespace ParseTreeIterator
 			}
 			return ret;
 		}
-		
-        public static void WriteToFile(string text) {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter("TestFile.txt", true))
-            {
-                file.WriteLine(text);
-            }
-        }
 	}
 }

@@ -1,9 +1,12 @@
-package application;
+package model;
+
+import javafx.scene.shape.Rectangle;
 
 import java.util.HashMap;
 
 public class Card {
     public HashMap<String, Object> attributes;
+    public Rectangle rect;
 
     public Card() {
         attributes = new HashMap<>();
@@ -11,14 +14,14 @@ public class Card {
 
     public Card(String k, Object v) {
         attributes = new HashMap<>();
-        setAttribute(k,v);
+        addAttribute(k,v);
     }
 
     public Card(HashMap<String, Object> map) {
         attributes = map;
     }
 
-    public void setAttribute(String k, Object v) {
+    public void addAttribute(String k, Object v) {
         attributes.put(k,v);
     }
 

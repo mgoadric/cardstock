@@ -47,7 +47,10 @@ namespace CardEngine{
 			if (idx >= playerList.Count){
 				idx = 0;
 			}
-		}
+
+            CardGame.Instance.WriteToFile("t:" + idx);
+
+        }
 		public void Previous(){
 			turnEnded = false;
 			--idx;

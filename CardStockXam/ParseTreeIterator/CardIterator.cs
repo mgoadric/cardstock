@@ -87,7 +87,8 @@ namespace ParseTreeIterator
 				return new FancyCardLocation[1]{
 					new FancyCardLocation{
 						cardList=lst,
-						locIdentifier="top"
+						locIdentifier="top",
+                        name="MAX"
 					}
 				};
 			}
@@ -113,7 +114,8 @@ namespace ParseTreeIterator
 				return new FancyCardLocation[1]{
 					new FancyCardLocation{
 						cardList=lst,
-						locIdentifier="top"
+						locIdentifier="top",
+                        name="MINIMUM"
 					}
 				};
 			}
@@ -144,7 +146,8 @@ namespace ParseTreeIterator
 				return new FancyCardLocation[1]{
 					new FancyCardLocation{
 						cardList=temp,
-						locIdentifier="top"
+						locIdentifier="top",
+                        name="UNION"
 					}
 				};
 			} else if (loc.locstorage() != null) {
@@ -197,9 +200,11 @@ namespace ParseTreeIterator
 				var pairs = findEm.TuplesOfSize(cardsToScore,IntIterator.ProcessListInt(memset.tuple().@int())[0]);
 				var returnList = new FancyCardLocation[pairs.Count];
 				for (int i = 0; i < pairs.Count; ++i){
-					returnList[i] = new FancyCardLocation{
-						cardList=pairs[i]
-					};
+                    returnList[i] = new FancyCardLocation {
+                        cardList = pairs[i],
+                        name = "MEMSET"
+                        //name = "p" + i + "mem" + locpost.namegr().GetText()
+                    };
 				}
 				return returnList;
 			}
@@ -212,8 +217,9 @@ namespace ParseTreeIterator
 				return new FancyCardLocation[]{
 					new FancyCardLocation{
 						cardList=CardGame.Instance.tableCards[(hidden?"{hidden}":mem?"{mem}":"{visible}") + locpost.namegr().GetText()],
-						filter=clause
-					}
+						filter=clause,
+                        name="t" + (hidden ? "{hidden}" : mem?"{mem}":"{visible}") + locpost.namegr().GetText()
+                    }
 				};
 			}
 			else if (locpre.who2() != null){
@@ -225,8 +231,9 @@ namespace ParseTreeIterator
 					return new FancyCardLocation[]{
 						new FancyCardLocation{
 							cardList=innerPlayer.cardBins[(hidden?"{hidden}":"{visible}") + locpost.namegr().GetText()],
-							filter=clause
-						}
+							filter=clause,
+                            name =innerPlayer.name + (hidden ? "{hidden}" : mem?"{mem}":"{visible}") + locpost.namegr().GetText()
+                        }
 					};
 				}
 				else if (resultingEntity is Team){
@@ -236,7 +243,8 @@ namespace ParseTreeIterator
 					var plist = resultingEntity as List<Player>;
 					var ret = new FancyCardLocation[plist.Count];
 					for (int i = 0; i < plist.Count; ++i){
-						ret[i] = new FancyCardLocation{cardList=plist[i].cardBins[(hidden?"{hidden}":"{visible}") + locpost.namegr().GetText()]};
+						ret[i] = new FancyCardLocation{cardList=plist[i].cardBins[(hidden?"{hidden}":"{visible}") + locpost.namegr().GetText()],
+                                 name ="p" + i + (hidden ? "{hidden}" : "{visible}") + locpost.namegr().GetText() };
 					}
 					return ret;
 				}

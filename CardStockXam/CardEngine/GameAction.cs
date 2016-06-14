@@ -82,12 +82,22 @@ namespace CardEngine{
 		public override void Execute(){
 			Card cardToMove = null;
 			try{
-			if (startLocation.FilteredCount() != 0){
-				cardToMove = startLocation.Remove();
-				endLocation.Add(cardToMove);
-				cardToMove.owner = endLocation.cardList;
-				Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
-			}
+
+			    if (startLocation.FilteredCount() != 0){
+                    
+				    cardToMove = startLocation.Remove();
+				    endLocation.Add(cardToMove);
+                    try
+                    {
+                        CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
+                    }
+                    catch
+                    {
+                        CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + startLocation.name + " " + endLocation.name);
+                    }
+                    cardToMove.owner = endLocation.cardList;
+                    Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
+			    }
 			}
 			catch{
 				foreach (var card in startLocation.cardList.AllCards()){
@@ -99,7 +109,7 @@ namespace CardEngine{
 		public override String Serialize(){
 			return "";
 		}
-	}
+    }
 	public class InitializeAction : GameAction{
 		CardCollection location;
 		Tree deck;
@@ -109,19 +119,10 @@ namespace CardEngine{
 		}
 		public override void Execute(){
 			CardGame.Instance.SetDeck(deck,location);
-            //WriteToFile(location.ToString() + " " + deck);
 		}
 		public override String Serialize(){
 			return "";
 		}
-        public static void WriteToFile(string text)
-        {
-            Console.WriteLine("initializeAction: " + text);
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter("TestFile.txt", true))
-            {
-                file.WriteLine(text);
-            }
-        }
     }
 	public class CardPopMoveAction : GameAction{
 		Card cardToMove;
@@ -197,7 +198,8 @@ namespace CardEngine{
 		}
 		public override void Execute(){
 			bucket[bucketKey] = value;
-		}
+            CardGame.Instance.WriteToFile("S:" + bucket + " " + bucketKey + " " + value);
+        }
 		public override String Serialize(){
 			return "";
 		}

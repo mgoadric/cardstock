@@ -1,9 +1,9 @@
-package application;
+package model;
 
 import java.util.ArrayList;
 
 public class Cards {
-	public ArrayList<Card> cards;
+	private ArrayList<Card> cards;
 	public boolean playerOwned;
 
 	public Cards(boolean owned) {
@@ -19,10 +19,23 @@ public class Cards {
         cards.add(card);
     }
 
+	public Card get(int index) { return cards.get(index);}
+
+	public Card get(String desc) {
+		for (Card card : cards) {
+			if (card.toString().equals(desc)) {return card;}
+		}
+		return null;
+	}
+
+	public void remove(Card card) {
+		cards.remove(card);
+	}
+
     public void addValueToCard(String key, Object value, Object v) {
         for (Card card : cards) {
             if (card.hasAttribute(value)) {
-                card.setAttribute(key, v);
+                card.addAttribute(key, v);
             }
         }
     }
@@ -35,4 +48,6 @@ public class Cards {
 		}
 		return temp.trim();
 	}
+
+
 }

@@ -7,7 +7,7 @@
       (create teams (0) (1))
 
       ;; Create the deck source
-      (create deck (game iloc STOCK) (deck (rank (3,4,5,6 7, 8, 9, 10))
+      (create deck (game iloc STOCK) (deck (rank (3,4,5,6, 7, 8, 9, 10))
                                           (color (red (suit (hearts,diamonds)))
                                                  (black (suit (spades,clubs)))
                                                  )))         

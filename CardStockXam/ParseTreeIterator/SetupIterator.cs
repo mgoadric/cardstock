@@ -18,15 +18,15 @@ namespace ParseTreeIterator
 				var numTeams = teamCreate.attribute().Count();
 				for (int i = 0; i < numTeams; ++i){
 					var newTeam = new Team();
-                    var teamStr = "T";
+                    var teamStr = "T:";
 					foreach (var p in teamCreate.attribute(i).trueany()) {
 						var j = Int32.Parse(p.GetText());
 						newTeam.teamPlayers.Add(CardGame.Instance.players[j]);
 						CardGame.Instance.players[j].team = newTeam;
-                        teamStr += " " + j;
+                        teamStr += j + " ";
 					}
 					CardGame.Instance.teams.Add(newTeam);
-                    WriteToFile(teamStr);
+                    CardGame.Instance.WriteToFile(teamStr);
 				}
 				
 				CardGame.Instance.currentTeam.Push(new TeamCycle(CardGame.Instance.teams));
@@ -38,7 +38,7 @@ namespace ParseTreeIterator
 			if (setupNode.playercreate() != null){
 				var playerCreate = setupNode.playercreate() as RecycleParser.PlayercreateContext;
 				var numPlayers = IntIterator.ProcessListInt(playerCreate.@int())[0];
-                WriteToFile("nump: " + numPlayers);
+                CardGame.Instance.WriteToFile("nump:" + numPlayers);
 				CardGame.Instance.AddPlayers(numPlayers);
 			}
 			if (setupNode.teamcreate() != null){
@@ -66,11 +66,5 @@ namespace ParseTreeIterator
 			
 			return ret;
 		}
-        public static void WriteToFile(string text) {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter("TestFile.txt", true))
-            {
-                file.WriteLine(text);
-            }
-        }
     }
 }

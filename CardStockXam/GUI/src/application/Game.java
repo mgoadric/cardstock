@@ -1,6 +1,8 @@
 package application;
 
 import javafx.collections.ObservableList;
+import model.Cards;
+import model.Move;
 
 import java.util.ArrayList;
 

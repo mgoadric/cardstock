@@ -39,6 +39,10 @@ namespace CardEngine{
 			return ret;
 		}
 
+        public string ToOutputString() {
+            return attributes.ToOutputString();
+        }
+
 		public string Serialize(){
 			return attributes.Serialize ();
 		
