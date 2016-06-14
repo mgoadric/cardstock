@@ -1,20 +1,23 @@
 package model;
 
-import javafx.scene.shape.Rectangle;
+import javafx.scene.control.TextArea;
 
 import java.util.HashMap;
 
 public class Card {
     public HashMap<String, Object> attributes;
-    public Rectangle rect;
+    public TextArea rect;
+    public double x,y;
 
     public Card() {
         attributes = new HashMap<>();
+        rect = new TextArea();
     }
 
     public Card(String k, Object v) {
         attributes = new HashMap<>();
         addAttribute(k,v);
+        rect = new TextArea();
     }
 
     public Card(HashMap<String, Object> map) {
@@ -29,6 +32,13 @@ public class Card {
         return attributes.get(k);
     }
 
+    public void setText() {
+        String text = "";
+        for (String key : attributes.keySet()) {
+            text += getValue(key) + ": " + key + "\n";
+        }
+        rect.setText(text);
+    }
     public String toString() {
         String ret = "";
         for (String key : attributes.keySet()) {
@@ -44,5 +54,10 @@ public class Card {
             }
         }
         return false;
+    }
+
+    public void setCenter(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 }

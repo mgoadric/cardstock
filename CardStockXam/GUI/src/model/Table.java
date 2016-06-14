@@ -75,7 +75,19 @@ public class Table {
     }
 
     public void paint(AnchorPane pane) {
+
         pane.getChildren().addAll(getCircles());
         pane.getChildren().addAll(getAll());
+    }
+
+    public Player getPlayer(int playerId) {
+        if (playerId < players.size() && playerId >=0) {
+            return players.get(playerId);
+        }
+        return null;
+    }
+
+    public Cards getCards(String string) {
+        return center.getCards(string);
     }
 }

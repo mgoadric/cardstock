@@ -44,7 +44,6 @@ public class Controller {
 
     @FXML
     public void initialize() {
-        table = new Table();
         gameSelect.getSelectionModel().selectedIndexProperty().addListener((v,vOld,vNew) -> {
             int choice = vNew.intValue();
             if (choice >= 0) {
@@ -60,6 +59,8 @@ public class Controller {
         this.numPlayers = currentGame.numPlayers;
         this.cardLocs = currentGame.cardLocs;
         this.moves = currentGame.moves;
+        this.table = currentGame.table;
+
         currentMove = 0;
         addCards();
         updateCardLocations();
@@ -107,7 +108,6 @@ public class Controller {
 
     private void clearCanvas() {
         errorField.setText("All good");
-        table = new Table();
         pane.getChildren().clear();
 
     }
@@ -120,10 +120,10 @@ public class Controller {
 
 
     private void addCards() {
-        for (int i = 0; i < numPlayers; i++) {
+        /*for (int i = 0; i < numPlayers; i++) {
             Player player = new Player(i);
             table.addPlayer(player);
-        }
+        }*/
         for (int i = 0; i < cardLocs.size(); i++) {
             Cards tempDeck = cardLocs.get(i);
             if (!tempDeck.playerOwned) {
@@ -146,6 +146,7 @@ public class Controller {
     }
 
     private void paint() {
+        pane.getChildren().clear();
         table.paint(pane);
         currentMoveField.setText("Current move: " + currentMove);
     }
@@ -154,6 +155,7 @@ public class Controller {
     private ArrayList<Game> parseDataFrom(File dataFile) throws IOException {
         FileReader fileReader = new FileReader(dataFile);
         BufferedReader reader = new BufferedReader(fileReader);
+
         ArrayList<Cards> cardLocs = new ArrayList<>();
         Cards startingDeck = new Cards(false);
         ArrayList<Move> moves = new ArrayList<>();
@@ -162,16 +164,17 @@ public class Controller {
 
 
         String line = reader.readLine();
-        numPlayers = Integer.valueOf(line.split(" ")[1]);
+        numPlayers = Integer.valueOf(line.split(":")[1]);
+        Table newTable = setupTable();
 
         while ((line = reader.readLine()) != null) {
             char lineId = line.charAt(0);
-            line = line.split(":")[1];
+            if (line.length() > 1) {line = line.split(":")[1];}
 
             if (lineId == 'T') { //Team
                 String[] players = line.split(" ");
                 String team = "Team "; //TODO make this data structure?
-                for (int i = 1; i < players.length; i++) {
+                for (int i = 0; i < players.length; i++) {
                     team += players[i] + " ";
                 }
                 teams.add(team.trim());
@@ -184,13 +187,15 @@ public class Controller {
             else if (lineId == 'M') { //Move, TODO
                 String[] parts = line.split(" ");
                 Card card = getCard(parts[0]);
-                Location startLoc = getLocation(parts[1]);
-                Location endLoc = getLocation(parts[1]);
+                Location startLoc = getLocation(parts[1], newTable);
+                Location endLoc = getLocation(parts[2], newTable);
+                Move newMove = new Move(card, startLoc, endLoc);
+                moves.add(newMove);
             }
 
             else if (lineId == 'A') { //Assignment
                 String[] parts = line.split(" ");
-                startingDeck.addValueToCard("reward", parts[1], parts[2]);
+                startingDeck.addValueToCard("reward", parts[0], parts[1]);
             }
 
             else if (lineId == 'S') { //Storage TODO
@@ -207,8 +212,9 @@ public class Controller {
 
             else if (lineId == '|') { //End of game
                 cardLocs.add(startingDeck);
-                result.add(new Game(numPlayers, teams, cardLocs, moves));
+                result.add(new Game(numPlayers, newTable, teams, cardLocs, moves));
                 cardLocs = new ArrayList<>();
+                newTable = setupTable();
                 startingDeck = new Cards(false);
                 moves = new ArrayList<>();
                 teams = FXCollections.observableArrayList();
@@ -219,7 +225,7 @@ public class Controller {
     }
 
     private Card getCard(String line) {
-        String[] parts = line.split("|");
+        String[] parts = line.split("\\|");
         Card ret = new Card();
         for (String part : parts) {
             String[] attrs = part.split("-");
@@ -228,78 +234,45 @@ public class Controller {
         return ret;
     }
 
-    private Location getLocation(String line) {
+    private Location getLocation(String line, Table newTable) {
         char id = line.charAt(0);
-        if (id == 't') {
-
+        if (id == 't') { //table
+            Cards cards = newTable.getCards(line.substring(1));
+            return new Location(cards);
         }
-        else if (id == 'p') {
-
+        else if (id == 'p') { //player
+            int playerId = Character.getNumericValue(line.charAt(1));
+            Player p = newTable.getPlayer(playerId);
+            if (p != null) {
+                Cards cards = p.getCards(line.substring(2));
+                return new Location(cards);
+            }
+            else {
+                error("bad player: " + playerId);
+            }
         }
         else {
-            errorField.setText("unknown line: " + line);
-            System.out.println("unknown line: " + line);
+            error("unknown line: " + line);
         }
         return null;
     }
 
-    /*  Deprecated
-        private ArrayList<Game> protoParseDataFrom(File dataFile) throws IOException {
-            FileReader fileReader = new FileReader(dataFile);
-            BufferedReader reader = new BufferedReader(fileReader);
-
-            ArrayList<Game> result = new ArrayList<>();
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                ArrayList<Cards> cardLocs = new ArrayList<>();
-                ArrayList<Move> moves = new ArrayList<>();
-
-                //get num players
-                numPlayers = Integer.valueOf(line);
-                line = reader.readLine();
-
-                //get card locations
-                while (!line.equals("!")) {
-                    cardLocs.add(fromLine(line));
-                    line = reader.readLine();
-                }
-                line = reader.readLine();
-
-                //get move list
-                while (line != null && !line.equals("|")) {
-                    line = reader.readLine();
-                }
-                result.add(new Game(numPlayers, cardLocs, moves));
-            }
-            reader.close();
-            return result;
-        }
-
-        //Card format ex: P1 2 3 Ace
-        private Cards fromLine(String line) {
-            String[] ar = line.split(" ");
-            String id = ar[0];
-            boolean playerOwned = false;
-            if (id.charAt(0) == ('P')) {playerOwned = true;}
-            int loc = Character.getNumericValue(id.charAt(1));
-
-            ArrayList<String> list = new ArrayList<String>(Arrays.asList(ar));
-            list.remove(0);
-            return new Cards(list, playerOwned);
-        }
-
-         private String getCardText(ArrayList<String> cards) {
-            String str = "";
-            for (int i = 0; i < cards.size(); i++) {
-                str += cards.get(i) + " ";
-            }
-            return str.trim();
-        }
-    */
     private File getDataFile() {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Select test data");
         return chooser.showOpenDialog(null);
+    }
+
+    private Table setupTable() {
+        Table ret = new Table();
+        for (int i = 0; i < numPlayers; i++) {
+            ret.addPlayer(new Player(i));
+        }
+        return ret;
+    }
+
+    private void error(String text) {
+        errorField.setText(text);
+        System.out.println(text);
     }
 }

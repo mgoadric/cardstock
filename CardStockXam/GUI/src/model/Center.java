@@ -8,12 +8,12 @@ import java.util.ArrayList;
 public class Center {
     private Circle circle;
     private ArrayList<TextArea> fields;
-    private Cards cards;
+    private ArrayList<Cards> cards;
 
     public Center() {
         setupCircle();
         fields = new ArrayList<>();
-        cards = new Cards(true);
+        cards = new ArrayList<>();
     }
 
     public Center(ArrayList<TextArea> fields) {
@@ -50,6 +50,17 @@ public class Center {
     public void setCenter(double x, double y) {
         circle.setCenterX(x);
         circle.setCenterY(y);
+    }
+
+    public Cards getCards(String toMatch) {
+        for (Cards group : cards) {
+            if (group.name.equals(toMatch)) {
+                return group;
+            }
+        }
+        Cards newCards = new Cards(toMatch, true);
+        cards.add(newCards);
+        return newCards;
     }
 
     public ArrayList<TextArea> getAll() {

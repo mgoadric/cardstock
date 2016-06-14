@@ -4,10 +4,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 
 public class Location {
-    private Cards cardList;
     public TableView table;
     public String attr;
     public Player player;
+    public Cards cards;
     public boolean forPlayer;
 
     public Location(String attr, TableView table) { // for cardList storage
@@ -22,7 +22,11 @@ public class Location {
         forPlayer = true;
     }
 
-    public Pair<ObservableList, Integer> getPointer() {
+    public Location(Cards cards) { // for storing cards(such as a player's hand, or deck)
+        this.cards = cards;
+    }
+
+    public Pair<ObservableList, Integer> getAttribute() {
         if (forPlayer) {
             return player.getAttr(attr);
         }
@@ -39,7 +43,6 @@ public class Location {
     }
 
     public Cards getHand() {
-        //TODO
-        return null;
+        return cards;
     }
 }

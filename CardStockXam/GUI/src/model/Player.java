@@ -2,6 +2,7 @@ package model;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -11,21 +12,13 @@ import java.util.ArrayList;
 public class Player {
     public int id;
     private Circle circle;
-    private ArrayList<TextField> fields;
-    private TableView table;
+    private TableView rawData;
     private TextField name;
-    private Cards cards;
+    private ArrayList<Cards> playerCards;
 
     public Player(int id) {
-        fields = new ArrayList<>();
-        cards = new Cards(true);
+        playerCards = new ArrayList<>();
         this.id = id;
-        setupCircle();
-    }
-
-    public Player(int id, ArrayList<TextField> fields) {
-        this.id = id;
-        this.fields = fields;
         setupCircle();
         addNameField();
     }
@@ -44,27 +37,18 @@ public class Player {
         name.setLayoutY(circle.getCenterY() - 12.5);
     }
 
-    public void addField(TextField field) {
-        field.setScaleX(field.getScaleX()*1.5);
-        field.setScaleY(field.getScaleY()*1.3);
-        field.setEditable(false);
-        field.toFront();
-        fields.add(field);
-    }
-
     public void addRawInfo(String info) {
-        table.getItems().add(info);
+        rawData.getItems().add(info);
     }
 
     public void setLocs() {
-        double rads = (2 * Math.PI) / fields.size();
+        double rads = (2 * Math.PI) / playerCards.size();
         int i = 0;
-        for (TextField field : fields) {
+        for (Cards groups : playerCards) {
             double angle = rads * i;
             double x = circle.getCenterX() + (circle.getRadius() * Math.sin(angle));
             double y = circle.getCenterY() + (circle.getRadius() * Math.cos(angle));
-            field.setLayoutX(x);
-            field.setLayoutY(y);
+            groups.setCenter(x,y);
             i++;
         }
         addNameField();
@@ -75,10 +59,20 @@ public class Player {
         circle.setCenterY(y);
     }
 
-    public ArrayList<TextField> getAll() {
-        ArrayList<TextField> temp = fields;
-        temp.add(name);
-        return temp;
+    public ArrayList<TextArea> getAll() {
+        ArrayList<TextArea> ret = new ArrayList<>();
+        for (Cards groups : playerCards) {
+            ret.addAll(groups.getAll());
+        }
+        return ret;
+    }
+
+    private ArrayList<TextField> copy(ArrayList<TextField> fields) {
+        ArrayList<TextField> ret = new ArrayList<>();
+        for (TextField item : fields) {
+            ret.add(item);
+        }
+        return ret;
     }
 
     public Circle getCircle() {
@@ -86,7 +80,7 @@ public class Player {
     }
 
     public Pair<ObservableList, Integer> getAttr(String attr) {
-        ObservableList items = table.getItems();
+        ObservableList items = rawData.getItems();
         for (int i = 0; i < items.size(); i++) {
             String curr = (String) items.get(i);
             if (curr == attr) {
@@ -94,5 +88,16 @@ public class Player {
             }
         }
         return null;
+    }
+
+    public Cards getCards(String toMatch) {
+        for (Cards group : playerCards) {
+            if (group.name.equals(toMatch)) {
+                return group;
+            }
+        }
+        Cards newCards = new Cards(toMatch, true);
+        playerCards.add(newCards);
+        return newCards;
     }
 }

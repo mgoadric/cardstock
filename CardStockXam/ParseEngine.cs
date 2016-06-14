@@ -16,8 +16,8 @@ public class ParseEngine{
 	public static int reportedBF = 0;
     int numGames = 1; //1000;
     String outputFileName = "Output";
-    //const string fileName = "Pairs2";
-    const string fileName = "Agram";
+    const string fileName = "Pairs2";
+    //const string fileName = "Agram";
 
     public ParseEngine(){
 

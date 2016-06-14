@@ -20,7 +20,7 @@ public class PointMove {
     }
 
     private void performAction(int currentVal) {
-        Pair<ObservableList, Integer> temp = location.getPointer();
+        Pair<ObservableList, Integer> temp = location.getAttribute();
         String line = (String) temp.first.get(temp.second);
         Pair<String, Integer> pair = getValue(line);
         int tempVal = pair.second + currentVal;
