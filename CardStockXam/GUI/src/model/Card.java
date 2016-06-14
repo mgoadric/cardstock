@@ -5,19 +5,13 @@ import javafx.scene.control.TextArea;
 import java.util.HashMap;
 
 public class Card {
-    public HashMap<String, Object> attributes;
-    public TextArea rect;
-    public double x,y;
+    private HashMap<String, Object> attributes;
+    TextArea rect;
 
     public Card() {
         attributes = new HashMap<>();
-        rect = new TextArea();
-    }
-
-    public Card(String k, Object v) {
-        attributes = new HashMap<>();
-        addAttribute(k,v);
-        rect = new TextArea();
+        setupRect();
+        setText();
     }
 
     public Card(HashMap<String, Object> map) {
@@ -26,10 +20,20 @@ public class Card {
 
     public void addAttribute(String k, Object v) {
         attributes.put(k,v);
+        setText();
     }
 
     public Object getValue(String k) {
         return attributes.get(k);
+    }
+
+    public void setupRect() {
+        rect = new TextArea();
+        rect.setEditable(false);
+        rect.setPrefRowCount(8);
+        rect.setPrefColumnCount(5);
+//        rect.setPrefWidth(25);
+//        rect.setPrefHeight(25);
     }
 
     public void setText() {
@@ -40,11 +44,7 @@ public class Card {
         rect.setText(text);
     }
     public String toString() {
-        String ret = "";
-        for (String key : attributes.keySet()) {
-            ret += key + ": " + getValue(key) + " ";
-        }
-        return ret.trim();
+        return rect.getText();
     }
 
     public boolean hasAttribute(Object value) {
@@ -57,7 +57,21 @@ public class Card {
     }
 
     public void setCenter(double x, double y) {
-        this.x = x;
-        this.y = y;
+        rect.setLayoutX(x);
+        rect.setLayoutY(y);
+    }
+
+    public boolean matches(String s) {
+        return s.equals(toMatchingString());
+    }
+
+    private String toMatchingString() {
+        String text = "";
+        for (String key : attributes.keySet()) {
+            if (key != "reward") {
+                text += getValue(key) + ": " + key + "\n";
+            }
+        }
+        return text;
     }
 }

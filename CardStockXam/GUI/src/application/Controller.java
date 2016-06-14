@@ -37,10 +37,10 @@ public class Controller {
     private Game currentGame;
     private int numPlayers;
     private int currentMove;
-    private ArrayList<Cards> cardLocs;
     private ArrayList<Move> moves;
     private ArrayList<Game> games;
     private Table table;
+    private String STOCKNAME = "{hidden}STOCK";
 
     @FXML
     public void initialize() {
@@ -57,13 +57,10 @@ public class Controller {
     @FXML
     private void newGame() {
         this.numPlayers = currentGame.numPlayers;
-        this.cardLocs = currentGame.cardLocs;
         this.moves = currentGame.moves;
         this.table = currentGame.table;
 
         currentMove = 0;
-        addCards();
-        updateCardLocations();
         table.setLocs();
         addTeams(currentGame.teams);
         paint();
@@ -71,18 +68,22 @@ public class Controller {
 
     @FXML
     public void forward() {
-        Move move = moves.get(currentMove);
-        move.execute();
-        currentMove++;
-        paint();
+        if (currentMove < moves.size()) {
+            Move move = moves.get(currentMove);
+            move.execute();
+            currentMove++;
+            paint();
+        }
     }
 
     @FXML
     public void backward() {
-        Move move = moves.get(currentMove);
-        move.revert();
-        currentMove--;
-        paint();
+        if (currentMove > 0) {
+            Move move = moves.get(currentMove - 1);
+            move.revert();
+            currentMove--;
+            paint();
+        }
     }
 
     public void openDataFile() {
@@ -118,31 +119,11 @@ public class Controller {
         }
     }
 
-
-    private void addCards() {
-        /*for (int i = 0; i < numPlayers; i++) {
-            Player player = new Player(i);
-            table.addPlayer(player);
-        }*/
-        for (int i = 0; i < cardLocs.size(); i++) {
-            Cards tempDeck = cardLocs.get(i);
-            if (!tempDeck.playerOwned) {
-                TextArea temp = new TextArea();
-                temp.setText(tempDeck.toString());
-                table.addToCenter(temp);
-            }
-        }
-    }
-
     private void addTeams(ObservableList<String> teams) {
         ListView teamList = new ListView(teams);
         teamList.setPrefHeight(teams.size() * 24 + 2);
         teamList.setPrefWidth(150);
         pane.getChildren().add(teamList);
-    }
-
-    private void updateCardLocations() {
-        //TODO
     }
 
     private void paint() {
@@ -157,7 +138,6 @@ public class Controller {
         BufferedReader reader = new BufferedReader(fileReader);
 
         ArrayList<Cards> cardLocs = new ArrayList<>();
-        Cards startingDeck = new Cards(false);
         ArrayList<Move> moves = new ArrayList<>();
         ObservableList<String> teams = FXCollections.observableArrayList();
         ArrayList<Game> result = new ArrayList<>();
@@ -166,6 +146,7 @@ public class Controller {
         String line = reader.readLine();
         numPlayers = Integer.valueOf(line.split(":")[1]);
         Table newTable = setupTable();
+        newTable.addToTable(new Cards(STOCKNAME, false));
 
         while ((line = reader.readLine()) != null) {
             char lineId = line.charAt(0);
@@ -182,9 +163,10 @@ public class Controller {
 
             else if (lineId == 'C') { //Card
                 Card newCard = getCard(line);
-                startingDeck.add(newCard);
+                newTable.addToTable(newCard, STOCKNAME);
             }
-            else if (lineId == 'M') { //Move, TODO
+            else if (lineId == 'M') { //Move
+
                 String[] parts = line.split(" ");
                 Card card = getCard(parts[0]);
                 Location startLoc = getLocation(parts[1], newTable);
@@ -195,7 +177,7 @@ public class Controller {
 
             else if (lineId == 'A') { //Assignment
                 String[] parts = line.split(" ");
-                startingDeck.addValueToCard("reward", parts[0], parts[1]);
+                newTable.addValueToCards("reward", parts[0], parts[1]);
             }
 
             else if (lineId == 'S') { //Storage TODO
@@ -211,11 +193,9 @@ public class Controller {
             }
 
             else if (lineId == '|') { //End of game
-                cardLocs.add(startingDeck);
                 result.add(new Game(numPlayers, newTable, teams, cardLocs, moves));
                 cardLocs = new ArrayList<>();
                 newTable = setupTable();
-                startingDeck = new Cards(false);
                 moves = new ArrayList<>();
                 teams = FXCollections.observableArrayList();
             }
@@ -237,15 +217,18 @@ public class Controller {
     private Location getLocation(String line, Table newTable) {
         char id = line.charAt(0);
         if (id == 't') { //table
-            Cards cards = newTable.getCards(line.substring(1));
-            return new Location(cards);
+            Cards cards = newTable.getTableCards(line.substring(1));
+            if (cards == null) {
+                newTable.addNewTableGroup(line.substring(1));
+            }
+            return new Location(newTable, line.substring((1)));
         }
         else if (id == 'p') { //player
             int playerId = Character.getNumericValue(line.charAt(1));
             Player p = newTable.getPlayer(playerId);
             if (p != null) {
                 Cards cards = p.getCards(line.substring(2));
-                return new Location(cards);
+                return new Location(newTable, line.substring(2));
             }
             else {
                 error("bad player: " + playerId);

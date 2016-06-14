@@ -2,8 +2,8 @@ package model;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -49,6 +49,7 @@ public class Player {
             double x = circle.getCenterX() + (circle.getRadius() * Math.sin(angle));
             double y = circle.getCenterY() + (circle.getRadius() * Math.cos(angle));
             groups.setCenter(x,y);
+
             i++;
         }
         addNameField();
@@ -59,11 +60,12 @@ public class Player {
         circle.setCenterY(y);
     }
 
-    public ArrayList<TextArea> getAll() {
-        ArrayList<TextArea> ret = new ArrayList<>();
+    public ArrayList<TextInputControl> getAll() {
+        ArrayList<TextInputControl> ret = new ArrayList<>();
         for (Cards groups : playerCards) {
             ret.addAll(groups.getAll());
         }
+        ret.add(name);
         return ret;
     }
 
@@ -92,12 +94,16 @@ public class Player {
 
     public Cards getCards(String toMatch) {
         for (Cards group : playerCards) {
-            if (group.name.equals(toMatch)) {
+            if (group.matchesWith(toMatch)) {
                 return group;
             }
         }
-        Cards newCards = new Cards(toMatch, true);
-        playerCards.add(newCards);
-        return newCards;
+        return null;
+    }
+
+    public void addValueToCards(String key, String value, String v) {
+        for (Cards cs : playerCards) {
+            cs.addValueToCard(key, value, v);
+        }
     }
 }

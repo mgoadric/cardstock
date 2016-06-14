@@ -23,13 +23,13 @@ public class CardMove {
     //This currently uses getAttribute to get a row in a table view
     //Cards will not be in a table view, but rather as individual objects
     private void performAction(Location start, Location end) {
-        System.out.println(card);
-        System.out.println(start.toString());
-        System.out.println(end.toString());
+//        System.out.println(card);
+//        System.out.println(start.toString());
+//        System.out.println(end.toString());
         Cards startHand = start.getHand();
         Cards endHand = end.getHand();
-        System.out.println(startHand);
-        System.out.println(endHand);
+//        System.out.println(startHand);
+//        System.out.println(endHand);
         startHand.remove(card);
         endHand.add(card);
     }

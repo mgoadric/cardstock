@@ -1,6 +1,5 @@
 package model;
 
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -21,12 +20,6 @@ public class Table {
         center = new Center();
     }
 
-    public Table(ArrayList<Player> players) {
-        setupCircle();
-        this.players = players;
-        center = new Center();
-    }
-
     private void setupCircle() {
         this.circle = new Circle();
         circle.setCenterX(600);
@@ -41,8 +34,19 @@ public class Table {
         setLocs();
     }
 
-    public void addToCenter(TextArea field) {
-        center.addField(field);
+    public void addToTable(Cards tempDeck) {
+        center.addCardGroup(tempDeck);
+    }
+
+    public Cards getTableCards(String string) {
+        return center.getCards(string);
+    }
+
+    public Player getPlayer(int playerId) {
+        if (playerId < players.size() && playerId >=0) {
+            return players.get(playerId);
+        }
+        return null;
     }
 
     public void setLocs() {
@@ -66,6 +70,7 @@ public class Table {
             ret.addAll(p.getAll());
         }
         ret.addAll(center.getAll());
+        System.out.println(center.getAll());
         return ret;
     }
     public ArrayList<Circle> getCircles() {
@@ -75,19 +80,22 @@ public class Table {
     }
 
     public void paint(AnchorPane pane) {
-
         pane.getChildren().addAll(getCircles());
         pane.getChildren().addAll(getAll());
     }
 
-    public Player getPlayer(int playerId) {
-        if (playerId < players.size() && playerId >=0) {
-            return players.get(playerId);
-        }
-        return null;
+    public void addNewTableGroup(String str) {
+        center.addNewGroup(str);
     }
 
-    public Cards getCards(String string) {
-        return center.getCards(string);
+    public void addToTable(Card newCard, String loc) {
+        center.addCard(newCard, loc);
+    }
+
+    public void addValueToCards(String key, String value, String v) {
+        center.addValueToCards(key, value, v);
+        for (Player p : players) {
+            p.addValueToCards(key, value, v);
+        }
     }
 }

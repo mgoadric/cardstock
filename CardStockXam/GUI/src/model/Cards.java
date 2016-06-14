@@ -6,35 +6,44 @@ import java.util.ArrayList;
 
 public class Cards {
 	private ArrayList<Card> cards;
-	public String name;
-	public boolean playerOwned;
-    public double x,y;
+	private String name;
+	private boolean playerOwned;
+    private double x,y;
     private final double CARDWIDTH = 25;
 
 	public Cards(boolean owned) {
 		cards = new ArrayList<>();
 		playerOwned = owned;
+        alignCards();
 	}
 
     public Cards(String name, boolean owned) {
         this.name = name;
         cards = new ArrayList<>();
         this.playerOwned = owned;
+        alignCards();
     }
-
-	public Cards(ArrayList<Card> cards, boolean owned) {
-		this.cards = cards;
-		playerOwned = owned;
-	}
 
 	public void add(Card card) {
         cards.add(card);
         alignCards();
-        //TODO update text
     }
     public void remove(Card card) {
-        cards.remove(card);
-        //TODO update text
+        boolean removed = false;
+        for (int i = 0; i < cards.size(); i++) {
+            Card temp = cards.get(i);
+            if (temp.matches(card.toString())) {
+                cards.remove(i);
+                removed = true;
+                break;
+            }
+        }
+        if (!removed) {
+            alignCards();
+        }
+        else {
+            System.out.println("failed to remove card " + card);
+        }
     }
 
 	public Card get(int index) { return cards.get(index);}
@@ -62,6 +71,9 @@ public class Cards {
         for (int i = 0; i < cards.size(); i++) {
             double xcoord = x - CARDWIDTH - (CARDWIDTH * cards.size() / 2) + (i * CARDWIDTH);
             cards.get(i).setCenter(xcoord, y);
+//            System.out.println(x);
+//            System.out.println(y);
+//            System.out.println(xcoord + "\n");
         }
     }
 
@@ -74,16 +86,21 @@ public class Cards {
     }
 
 	public String toString() {
-		String temp = "";
+		String temp = name;
 		for (Card card : cards) {
 			temp += card.toString();
 			temp += " | ";
 		}
+        if (temp.length() == name.length()) {return name + " empty collection";}
 		return temp.trim();
 	}
 
     public void setCenter(double x, double y) {
         this.x = x;
-        this.y = x;
+        this.y = y;
+    }
+
+    public boolean matchesWith(String toMatch) {
+        return name.equals(toMatch);
     }
 }
