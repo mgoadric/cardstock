@@ -27,4 +27,7 @@ public class Location {
             return table.getPlayerCards(playerId, cardId);
         }
     }
+
+    public int getPlayerId() {return playerId;}
+    public boolean getForPlayer() {return forPlayer;}
 }

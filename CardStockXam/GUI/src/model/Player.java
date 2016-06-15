@@ -1,7 +1,5 @@
 package model;
 
-import javafx.collections.ObservableList;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.paint.Color;
@@ -12,7 +10,6 @@ import java.util.ArrayList;
 public class Player {
     public int id;
     private Circle circle;
-    private TableView rawData;
     private TextField name;
     private ArrayList<Cards> playerCards;
 
@@ -37,17 +34,13 @@ public class Player {
         name.setLayoutY(circle.getCenterY() - 12.5);
     }
 
-    public void addRawInfo(String info) {
-        rawData.getItems().add(info);
-    }
-
     public void setLocs() {
         double rads = (2 * Math.PI) / playerCards.size();
         int i = 0;
         for (Cards groups : playerCards) {
             double angle = rads * i + Math.PI;
-            double x = circle.getCenterX() + (circle.getRadius() * Math.sin(angle));
-            double y = circle.getCenterY() + (circle.getRadius() * Math.cos(angle));
+            double x = circle.getCenterX() + (circle.getRadius() * .7 * Math.sin(angle));
+            double y = circle.getCenterY() + (circle.getRadius() * .7 * Math.cos(angle)) - 35;
             groups.setCenter(x,y);
 
             i++;
@@ -79,17 +72,6 @@ public class Player {
 
     public Circle getCircle() {
         return circle;
-    }
-
-    public Pair<ObservableList, Integer> getAttr(String attr) {
-        ObservableList items = rawData.getItems();
-        for (int i = 0; i < items.size(); i++) {
-            String curr = (String) items.get(i);
-            if (curr == attr) {
-                return new Pair<>(items, i);
-            }
-        }
-        return null;
     }
 
     public Cards getCards(String toMatch) {

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="902.0" prefWidth="1292.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+<BorderPane prefHeight="902.0" prefWidth="1471.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <top>
       <VBox>
          <children>
@@ -24,10 +24,7 @@
       </VBox>
    </top>
    <center>
-      <AnchorPane fx:id="pane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <TextArea fx:id="infoTable" prefHeight="200.0" prefWidth="200.0" />
-         </children></AnchorPane>
+      <AnchorPane fx:id="pane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <VBox prefHeight="60.0" prefWidth="1292.0" BorderPane.alignment="CENTER">
@@ -36,13 +33,22 @@
                <children>
                   <Button fx:id="backward" mnemonicParsing="false" onAction="#backward" prefHeight="35.0" prefWidth="93.0" text="Back" />
                   <Button fx:id="forward" mnemonicParsing="false" onAction="#forward" prefHeight="35.0" prefWidth="93.0" text="Forward" />
-                  <TextField fx:id="currentTurn" prefHeight="35.0" prefWidth="149.0" />
-                  <TextField fx:id="currentMoveField" prefHeight="35.0" prefWidth="149.0" />
                   <ChoiceBox fx:id="gameSelect" prefHeight="36.0" prefWidth="150.0" />
+                  <TextField fx:id="currentTurn" prefHeight="35.0" prefWidth="130.0" />
+                  <TextField fx:id="currentMoveField" prefHeight="35.0" prefWidth="130.0" />
+                  <TextField fx:id="moveDesc" prefHeight="35.0" prefWidth="735.0" />
                </children>
             </HBox>
             <TextField fx:id="errorField" />
          </children>
       </VBox>
    </bottom>
+   <left>
+      <TableView fx:id="infoTable" prefHeight="817.0" prefWidth="84.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+   </left>
 </BorderPane>

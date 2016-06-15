@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import model.*;
@@ -26,7 +27,10 @@ public class Controller {
     TextField currentTurn;
 
     @FXML
-    TextArea infoTable;
+    TextField moveDesc;
+
+    @FXML
+    TableView<RawStorage> infoTable;
 
     @FXML
     AnchorPane pane;
@@ -50,6 +54,7 @@ public class Controller {
 
     @FXML
     public void initialize() {
+        infoTable.setEditable(false);
         gameSelect.getSelectionModel().selectedIndexProperty().addListener((v,vOld,vNew) -> {
             int choice = vNew.intValue();
             if (choice >= 0) {
@@ -68,7 +73,7 @@ public class Controller {
 
         currentMove = 0;
         table.setLocs();
-        addInfo(currentGame.info);
+        setupInfoTable(currentGame.info);
         paint();
     }
 
@@ -76,8 +81,11 @@ public class Controller {
     public void forward() {
         if (currentMove < moves.size()) {
             Move move = moves.get(currentMove);
-            move.execute();
             currentMove++;
+            String transcript = move.execute();
+            moveDesc.setText(transcript);
+            System.out.println(transcript);
+            if (transcript.contains("Added")) {resizeInfoTable(infoTable.getItems());}
             paint();
         }
     }
@@ -86,8 +94,9 @@ public class Controller {
     public void backward() {
         if (currentMove > 0) {
             Move move = moves.get(currentMove - 1);
-            move.revert();
             currentMove--;
+            String transcript = move.revert();
+            moveDesc.setText(transcript);
             paint();
         }
     }
@@ -125,16 +134,31 @@ public class Controller {
         }
     }
 
-    private void addInfo(ObservableList<String> info) {
+    private void setupInfoTable(ObservableList<RawStorage> info) {
+        TableColumn<RawStorage, String> locColumn = new TableColumn<>("Location");
+        locColumn.setMinWidth(150);
+        locColumn.setCellValueFactory(new PropertyValueFactory<>("Loc"));
+        TableColumn<RawStorage, String> keyColumn = new TableColumn<>("Key");
+        keyColumn.setMinWidth(100);
+        keyColumn.setCellValueFactory(new PropertyValueFactory<>("Key"));
+        TableColumn<RawStorage, String> valueColumn = new TableColumn<>("Value");
+        valueColumn.setMinWidth(50);
+        valueColumn.setCellValueFactory(new PropertyValueFactory<>("Value"));
+        infoTable.getColumns().clear();
+        infoTable.getColumns().addAll(locColumn, keyColumn, valueColumn);
+        infoTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        infoTable.setItems(info);
+        resizeInfoTable(info);
+        infoTable.setPrefWidth(300);
+    }
+
+    private void resizeInfoTable(ObservableList<RawStorage> info) {
         infoTable.setPrefHeight(info.size() * 24 + 2);
-        infoTable.setPrefWidth(150);
-        pane.getChildren().add(infoTable);
     }
 
     private void paint() {
         pane.getChildren().clear();
         table.paint(pane);
-        addInfo(currentGame.info);
         int turn = moves.get(currentMove).getCurrentPlayer();
         currentTurn.setText("Current turn: Player " + turn);
         currentMoveField.setText("Current move: " + currentMove);
@@ -147,7 +171,7 @@ public class Controller {
 
         ArrayList<Cards> cardLocs = new ArrayList<>();
         ArrayList<Move> currentMoves = new ArrayList<>();
-        ObservableList<String> info = FXCollections.observableArrayList();
+        ObservableList<RawStorage> info = FXCollections.observableArrayList();
         ArrayList<Game> result = new ArrayList<>();
         int scoreNum = 0;
 
@@ -163,11 +187,12 @@ public class Controller {
 
             if (lineId == 'T') { //Team
                 String[] players = line.split(" ");
-                String team = "Team "; //TODO make this data structure?
+                String team = "";
                 for (int i = 0; i < players.length; i++) {
                     team += players[i] + " ";
                 }
-                info.add(team.trim());
+                RawStorage stor = new RawStorage("CardEngine.RawStorage", "Team", team.trim());
+                info.add(stor);
             }
 
             else if (lineId == 'C') { //Card
@@ -195,10 +220,11 @@ public class Controller {
 
             else if (lineId == 'S') { //Storage
                 String[] parts = line.split(" ");
-                String loc = parts[0];
-                String key = parts[1];
-                int value = Integer.parseInt(parts[2]);
-                Move newMove = new Move(loc + " " + key + " " + value);
+                String loc   = parts[0];
+                String key   = parts[1];
+                String value = parts[2];
+                RawStorage stor = new RawStorage(loc, key, value);
+                Move newMove = new Move(infoTable, stor);
                 currentMoves.add(newMove);
             }
 
@@ -212,8 +238,10 @@ public class Controller {
                 String score = parts[0];
                 String won = parts[1];
                 String suffix = "lost";
-                if (parts[1].equals("1")) {suffix = "won";}
-                Move newMove = new Move("Player " + scoreNum + ": " + score + ", " + suffix);
+                if (won.equals("1")) {suffix = "won";}
+                RawStorage stor = new RawStorage("Player " + scoreNum, score, suffix);
+                scoreNum++;
+                Move newMove = new Move(infoTable, stor);
                 currentMoves.add(newMove);
             }
 
@@ -223,6 +251,7 @@ public class Controller {
                 newTable = setupTable();
                 currentMoves = new ArrayList<>();
                 info = FXCollections.observableArrayList();
+                scoreNum = 0;
             }
         }
         reader.close();

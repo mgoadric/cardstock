@@ -16,7 +16,7 @@ public class Center {
 
     private void setupCircle() {
         this.circle = new Circle();
-        circle.setRadius(150);
+        circle.setRadius(100);
     }
 
     public void setLocs() {

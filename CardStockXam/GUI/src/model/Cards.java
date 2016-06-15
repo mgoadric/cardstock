@@ -9,7 +9,7 @@ public class Cards {
 	private String name;
 	private boolean playerOwned;
     private double x,y;
-    private final double CARDWIDTH = 25;
+    private final double CARDWIDTH = 50;
 
 	public Cards(boolean owned) {
 		cards = new ArrayList<>();
@@ -50,6 +50,7 @@ public class Cards {
 		return null;
 	}
 
+    public String getName() {return name;}
     public void setName(String name) {
         this.name = name;
     }

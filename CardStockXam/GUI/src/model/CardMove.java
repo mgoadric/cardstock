@@ -11,20 +11,30 @@ public class CardMove {
         endLocation = endLoc;
     }
 
-	public void execute() {
-		performAction(startLocation, endLocation);
-	}
+	public String execute() {return performAction(startLocation, endLocation);}
 
-    public void revert() {
-        performAction(endLocation, startLocation);
-    }
+    public String revert() {return performAction(endLocation, startLocation);}
 
-    //TODO
-    private void performAction(Location start, Location end) {
+    private String performAction(Location start, Location end) {
         Cards startHand = start.getHand();
         Cards endHand = end.getHand();
         Card removed = startHand.remove(card);
         endHand.add(removed);
+        return createTranscript(start, end, removed, startHand, endHand);
+    }
+
+    private String createTranscript(Location start, Location end, Card removed, Cards startHand, Cards endHand) {
+        String startId = "";
+        String endId = "";
+        if (start.getForPlayer()) {
+            startId = "Player " + start.getPlayerId();
+        }
+        if (end.getForPlayer()) {
+            endId = "Player " + end.getPlayerId();
+        }
+        return "Moved card " + removed.toString().replace("\n", " ") +
+                " from " + startId + " " + startHand.getName() +
+                " to "   + endId   + " " + endHand.getName();
     }
 }
 

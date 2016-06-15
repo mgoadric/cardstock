@@ -1,13 +1,15 @@
 package model;
 
+import javafx.scene.control.TableView;
+
 public class Move {
     private CardMove cardMove;
     private DataMove dataMove;
     private boolean isCardMove;
     private int currentPlayer;
 
-    public Move(String str) {//TODO, may have to include alt that changes values
-        dataMove = new DataMove(str);
+    public Move(TableView<RawStorage> table, RawStorage stor) {//TODO, may have to include alt that changes values
+        dataMove = new DataMove(table, stor);
         isCardMove = false;
     }
 
@@ -23,21 +25,21 @@ public class Move {
         return currentPlayer;
     }
 
-    public void execute() {
+    public String execute() {
         if (isCardMove) {
-            cardMove.execute();
+            return cardMove.execute();
         }
         else {
-            dataMove.execute();
+            return dataMove.execute();
         }
     }
 
-    public void revert() {
+    public String revert() {
         if (isCardMove) {
-            cardMove.revert();
+            return cardMove.revert();
         }
         else {
-            dataMove.revert();
+            return dataMove.revert();
         }
     }
 }

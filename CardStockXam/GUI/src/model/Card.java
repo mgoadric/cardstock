@@ -30,10 +30,8 @@ public class Card {
     public void setupRect() {
         rect = new TextArea();
         rect.setEditable(false);
-        rect.setPrefRowCount(8);
-        rect.setPrefColumnCount(5);
-//        rect.setPrefWidth(25);
-//        rect.setPrefHeight(25);
+        rect.setPrefWidth(75);
+        rect.setPrefHeight(100);
     }
 
     public void setText() {

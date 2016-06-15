@@ -1,18 +1,47 @@
 package model;
 
-public class DataMove {
-    public String toUpdate;
+import javafx.scene.control.TableView;
 
-    public DataMove(String toUpdate) {
+public class DataMove {
+    private TableView<RawStorage> table;
+    private RawStorage toUpdate;
+    private RawStorage revertTo;
+
+    public DataMove(TableView<RawStorage> table, RawStorage toUpdate) {
+        this.table = table;
         this.toUpdate = toUpdate;
     }
 
-    public void execute() {
-//        performAction(value);
+    public String execute() {
+        if (replaceOrAdd(toUpdate)) {
+            return "Replaced " + toUpdate.toString();
+        }
+        return "Added " + toUpdate.toString();
     }
 
-    public void revert() {
-//        performAction(value * -1);
+    public String revert() {
+        if (replaceOrAdd(revertTo)) {
+            return "Replaced " + revertTo.toString();
+        }
+        return "Error: revert failed to replace";
+    }
+
+    private boolean replaceOrAdd(RawStorage toAdd) {
+        int i = 0;
+        for (RawStorage item : table.getItems()) {
+            if (item.getLoc().equals(toAdd.getLoc())) {
+                if (item.getKey().equals(toAdd.getKey())) {
+                    table.getItems().remove(i);
+                    if (i == table.getItems().size()) {table.getItems().add(toAdd);}
+                    else {table.getItems().set(i, toAdd);}
+                    return true;
+                }
+            }
+            i++;
+        }
+        table.getItems().add(toAdd);
+        return false;
+
     }
 
 //    private void performAction(int currentVal) {
