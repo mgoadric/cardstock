@@ -27,7 +27,7 @@ public class ParseEngine{
 
         System.IO.File.WriteAllText("TestFile.txt", string.Empty);
 
-        var f = File.ReadAllText ("games/" + fileName + ".gdl");
+		var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
 		file = regex.Replace (file, "\n");
 		//Console.WriteLine(file);

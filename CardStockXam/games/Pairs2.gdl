@@ -80,8 +80,8 @@
             (move (top (game vloc DISCARD))
                   (top (game iloc STOCK)) all)
             (shuffle (game iloc STOCK))          
-         (move (top (game iloc STOCK))
-               (top (game iloc THROWOUT)) 5)
+            (move (top (game iloc STOCK))
+                  (top (game iloc THROWOUT)) 5)
            )
          )           
          ;; players flip a card or bow out
