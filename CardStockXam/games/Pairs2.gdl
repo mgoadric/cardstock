@@ -2,8 +2,8 @@
 (game
     (setup  
      ;; Set up the players, 3 players each on their own team
-      (create players 2)
-      (create teams (0) (1))
+      (create players 4)
+      (create teams (0) (1) (2) (3))
 
       ;; Create the deck source
       (create deck (game iloc STOCK) (deck 1 (value (1))))         
@@ -42,7 +42,7 @@
         )
    )
    (stage player
-      (end (>= (sum ((any player) vloc SCORING) using POINTS) 31)) ;; 21 really
+      (end (>= (sum ((any player) vloc SCORING) using POINTS) 16)) ;; 21 really
       
       ;; Shuffle and then throw out 5 cards for mystery      
       (comp 
@@ -80,8 +80,8 @@
             (move (top (game vloc DISCARD))
                   (top (game iloc STOCK)) all)
             (shuffle (game iloc STOCK))          
-         (move (top (game iloc STOCK))
-               (top (game iloc THROWOUT)) 5)
+            (move (top (game iloc STOCK))
+                  (top (game iloc THROWOUT)) 5)
            )
          )           
          ;; players flip a card or bow out
