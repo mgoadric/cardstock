@@ -33,7 +33,7 @@ public class CardMove {
             endId = "Player " + end.getPlayerId();
         }
         return "Moved card " + removed.toString().replace("\n", " ") +
-                " from " + startId + " " + startHand.getName() +
+                "from" + startId + " " + startHand.getName() +
                 " to "   + endId   + " " + endHand.getName();
     }
 }

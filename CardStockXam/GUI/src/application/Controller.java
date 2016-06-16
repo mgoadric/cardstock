@@ -33,6 +33,9 @@ public class Controller {
     TableView<RawStorage> infoTable;
 
     @FXML
+    TableView<Memory> memoryTable;
+
+    @FXML
     AnchorPane pane;
 
     @FXML
@@ -51,6 +54,7 @@ public class Controller {
     private ArrayList<Game> games;
     private Table table;
     private String STOCKNAME = "{hidden}STOCK";
+    private int turn = 0;
 
     @FXML
     public void initialize() {
@@ -73,31 +77,40 @@ public class Controller {
 
         currentMove = 0;
         table.setLocs();
-        setupInfoTable(currentGame.info);
+        setupInfoTable(currentGame.rawInfo, currentGame.memInfo);
         paint();
     }
 
     @FXML
     public void forward() {
-        if (currentMove < moves.size()) {
-            Move move = moves.get(currentMove);
-            currentMove++;
-            String transcript = move.execute();
-            moveDesc.setText(transcript);
-            System.out.println(transcript);
-            if (transcript.contains("Added")) {resizeInfoTable(infoTable.getItems());}
-            paint();
+        if (currentGame != null) {
+            if (currentMove < moves.size()) {
+                Move move = moves.get(currentMove);
+                currentMove++;
+                String transcript = move.execute();
+                moveDesc.setText(transcript);
+                System.out.println(transcript);
+                paint();
+            }
+        }
+        else {
+            errorField.setText("No game selected");
         }
     }
 
     @FXML
     public void backward() {
-        if (currentMove > 0) {
-            Move move = moves.get(currentMove - 1);
-            currentMove--;
-            String transcript = move.revert();
-            moveDesc.setText(transcript);
-            paint();
+        if (currentGame != null) {
+            if (currentMove > 0) {
+                Move move = moves.get(currentMove - 1);
+                currentMove--;
+                String transcript = move.revert();
+                moveDesc.setText(transcript);
+                paint();
+            }
+        }
+        else {
+            errorField.setText("No game selected");
         }
     }
 
@@ -134,12 +147,12 @@ public class Controller {
         }
     }
 
-    private void setupInfoTable(ObservableList<RawStorage> info) {
+    private void setupInfoTable(ObservableList<RawStorage> info, ObservableList<Memory> memInfo) {
         TableColumn<RawStorage, String> locColumn = new TableColumn<>("Location");
-        locColumn.setMinWidth(150);
+        locColumn.setMinWidth(125);
         locColumn.setCellValueFactory(new PropertyValueFactory<>("Loc"));
         TableColumn<RawStorage, String> keyColumn = new TableColumn<>("Key");
-        keyColumn.setMinWidth(100);
+        keyColumn.setMinWidth(75);
         keyColumn.setCellValueFactory(new PropertyValueFactory<>("Key"));
         TableColumn<RawStorage, String> valueColumn = new TableColumn<>("Value");
         valueColumn.setMinWidth(50);
@@ -148,32 +161,48 @@ public class Controller {
         infoTable.getColumns().addAll(locColumn, keyColumn, valueColumn);
         infoTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         infoTable.setItems(info);
-        resizeInfoTable(info);
         infoTable.setPrefWidth(300);
-    }
 
-    private void resizeInfoTable(ObservableList<RawStorage> info) {
-        infoTable.setPrefHeight(info.size() * 24 + 2);
+        TableColumn<Memory, String> newKeyColumn = new TableColumn<>("Key");
+        newKeyColumn.setMinWidth(100);
+        newKeyColumn.setCellValueFactory(new PropertyValueFactory<>("Key"));
+        TableColumn<Memory, String> cardColumn = new TableColumn<>("Card");
+        cardColumn.setMinWidth(200);
+        cardColumn.setCellValueFactory(new PropertyValueFactory<>("Card"));
+        memoryTable.getColumns().clear();
+        memoryTable.getColumns().addAll(newKeyColumn, cardColumn);
+        memoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        memoryTable.setItems(memInfo);
+        memoryTable.setPrefWidth(300);
     }
 
     private void paint() {
         pane.getChildren().clear();
+        if (currentMove < moves.size()) {
+            int oldTurn = turn;
+            turn = moves.get(currentMove).getCurrentPlayer();
+            currentTurn.setText("Current turn: Player " + turn);
+            if (oldTurn != turn) {
+                table.paintCurrentTurn(oldTurn, turn);
+            }
+        }
         table.paint(pane);
-        int turn = moves.get(currentMove).getCurrentPlayer();
-        currentTurn.setText("Current turn: Player " + turn);
         currentMoveField.setText("Current move: " + currentMove);
     }
 
 
     private ArrayList<Game> parseDataFrom(File dataFile) throws IOException {
+        errorField.setText("Parsing..");
         FileReader fileReader = new FileReader(dataFile);
         BufferedReader reader = new BufferedReader(fileReader);
 
         ArrayList<Cards> cardLocs = new ArrayList<>();
         ArrayList<Move> currentMoves = new ArrayList<>();
-        ObservableList<RawStorage> info = FXCollections.observableArrayList();
+        ObservableList<RawStorage> rawInfo = FXCollections.observableArrayList();
         ArrayList<Game> result = new ArrayList<>();
         int scoreNum = 0;
+        int numGamesRead = 0;
+        int nextMoveTurn = -1;
 
 
         String line = reader.readLine();
@@ -192,7 +221,7 @@ public class Controller {
                     team += players[i] + " ";
                 }
                 RawStorage stor = new RawStorage("CardEngine.RawStorage", "Team", team.trim());
-                info.add(stor);
+                rawInfo.add(stor);
             }
 
             else if (lineId == 'C') { //Card
@@ -205,13 +234,30 @@ public class Controller {
                 Location startLoc = getLocation(parts[1], newTable);
                 Location endLoc = getLocation(parts[2], newTable);
                 Move newMove = new Move(card, startLoc, endLoc);
-                if (currentMoves.size() != 0) {
+                /*if (currentMoves.size() != 0) {
                     int currentPlayer = lastMove(currentMoves).getCurrentPlayer();
                     newMove.setCurrentPlayer(currentPlayer);
                 }
-                else {newMove.setCurrentPlayer(0);}
+                else {newMove.setCurrentPlayer(0);}*/
+                if (nextMoveTurn != -1) {
+                    newMove.setCurrentPlayer(nextMoveTurn);
+                    nextMoveTurn = -1;
+                }
+                else {
+                    int tempP = lastMove(currentMoves).getCurrentPlayer();
+                    newMove.setCurrentPlayer(tempP);
+                }
                 currentMoves.add(newMove);
             }
+
+            /*
+            else if (lineId == 'm') { //Memory storage TODO
+                String[] parts = line.split(" ");
+                String key = parts[0];
+                Card card = getCard(parts[1]);
+                currentMoves.add(new Move(memoryTable, new Memory(key, card));
+            }
+             */
 
             else if (lineId == 'A') { //Assignment
                 String[] parts = line.split(" ");
@@ -229,8 +275,11 @@ public class Controller {
             }
 
             else if (lineId == 't') { //current player (turn)
-                Move move = lastMove(currentMoves);
-                move.setCurrentPlayer(Integer.parseInt(line));
+                nextMoveTurn = Character.getNumericValue(line.charAt(1));
+                /*Move move = lastMove(currentMoves);
+                if (move != null) {
+                    move.setCurrentPlayer(Character.getNumericValue(line.charAt(1)));
+                }*/
             }
 
             else if (lineId == 's') { //Score
@@ -246,12 +295,17 @@ public class Controller {
             }
 
             else if (lineId == '|') { //End of game
-                result.add(new Game(numPlayers, newTable, info, cardLocs, currentMoves));
+                result.add(new Game(numPlayers, newTable, rawInfo, cardLocs, currentMoves));
                 cardLocs = new ArrayList<>();
                 newTable = setupTable();
                 currentMoves = new ArrayList<>();
-                info = FXCollections.observableArrayList();
+                rawInfo = FXCollections.observableArrayList();
                 scoreNum = 0;
+                numGamesRead ++;
+                nextMoveTurn = -1;
+                if (numGamesRead % 10 == 0) {
+                    errorField.setText("Parsing.. " + numGamesRead + " games read");
+                }
             }
         }
         reader.close();
@@ -269,6 +323,7 @@ public class Controller {
     }
 
     private Move lastMove(ArrayList<Move> moves) {
+        if (moves.size() == 0) {return null;}
         return moves.get(moves.size()-1);
     }
 

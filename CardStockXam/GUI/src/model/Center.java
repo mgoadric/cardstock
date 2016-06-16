@@ -1,6 +1,6 @@
 package model;
 
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
@@ -46,8 +46,8 @@ public class Center {
         return null;
     }
 
-    public ArrayList<TextArea> getAll() {
-        ArrayList<TextArea> ret = new ArrayList<>();
+    public ArrayList<TextInputControl> getAll() {
+        ArrayList<TextInputControl> ret = new ArrayList<>();
         for (Cards groups : tableCards) {
             ret.addAll(groups.getAll());
         }

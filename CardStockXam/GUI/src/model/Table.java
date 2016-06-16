@@ -106,4 +106,15 @@ public class Table {
             p.addValueToCards(key, value, v);
         }
     }
+
+    public void paintCurrentTurn(int oldTurn, int turn) {
+        for (Player p : players) {
+            if (p.id == turn) {
+                p.setColor(Color.RED);
+            }
+            else if (p.id == oldTurn) {
+                p.setColor(Color.CYAN);
+            }
+        }
+    }
 }

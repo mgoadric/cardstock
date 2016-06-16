@@ -5,12 +5,15 @@ import javafx.scene.control.TableView;
 public class Move {
     private CardMove cardMove;
     private DataMove dataMove;
-    private boolean isCardMove;
+    private boolean isCardMove = false;
     private int currentPlayer;
 
-    public Move(TableView<RawStorage> table, RawStorage stor) {//TODO, may have to include alt that changes values
-        dataMove = new DataMove(table, stor);
-        isCardMove = false;
+    public Move(TableView<RawStorage> table, RawStorage stor) {
+        dataMove = new DataMove<>(table, stor);
+    }
+
+    public Move(TableView<Memory> table, Memory mem) {
+        dataMove = new DataMove<>(table, mem);
     }
 
     public Move(Card card, Location startLoc, Location endLoc) {

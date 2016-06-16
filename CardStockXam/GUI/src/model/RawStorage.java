@@ -1,6 +1,6 @@
 package model;
 
-public class RawStorage {
+public class RawStorage implements BasicMemory {
     private String loc;
     private String key;
     private String value;
@@ -14,6 +14,18 @@ public class RawStorage {
     public String toString() {
         return loc + " " + key + " " + value;
     }
+
+    @Override
+    public String toMatchingString() {
+        return loc + " " + key;
+    }
+
+    @Override
+    public boolean matches(BasicMemory m) {
+        return this.toMatchingString().equals(m.toMatchingString());
+    }
+
+
 
     public String getLoc() {
         return loc;

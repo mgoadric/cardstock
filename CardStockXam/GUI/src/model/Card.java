@@ -1,6 +1,11 @@
 package model;
 
+import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.util.HashMap;
 
@@ -32,6 +37,15 @@ public class Card {
         rect.setEditable(false);
         rect.setPrefWidth(75);
         rect.setPrefHeight(100);
+        rect.setOnMouseClicked(event -> {
+            final Stage dialog = new Stage();
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            VBox dialogVbox = new VBox(20);
+            dialogVbox.getChildren().add(new Text(rect.getText()));
+            Scene dialogScene = new Scene(dialogVbox, 150, 200);
+            dialog.setScene(dialogScene);
+            dialog.show();
+        });
     }
 
     public void setText() {

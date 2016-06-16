@@ -1,26 +1,23 @@
 package model;
 
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 
 import java.util.ArrayList;
 
 public class Cards {
 	private ArrayList<Card> cards;
+    private TextField nameField;
 	private String name;
 	private boolean playerOwned;
     private double x,y;
-    private final double CARDWIDTH = 50;
-
-	public Cards(boolean owned) {
-		cards = new ArrayList<>();
-		playerOwned = owned;
-        alignCards();
-	}
+    private final double CARDWIDTH = 20;
 
     public Cards(String name, boolean owned) {
         this.name = name;
         cards = new ArrayList<>();
         this.playerOwned = owned;
+        setupNameField();
         alignCards();
     }
 
@@ -70,11 +67,12 @@ public class Cards {
         }
     }
 
-    public ArrayList<TextArea> getAll() {
-        ArrayList<TextArea> ret = new ArrayList<>();
+    public ArrayList<TextInputControl> getAll() {
+        ArrayList<TextInputControl> ret = new ArrayList<>();
         for (Card card : cards) {
             ret.add(card.rect);
         }
+        ret.add(nameField);
         return ret;
     }
 
@@ -91,9 +89,23 @@ public class Cards {
     public void setCenter(double x, double y) {
         this.x = x;
         this.y = y;
+        nameField.setLayoutX(x - (nameField.getPrefWidth() / 2));
+        //if (y < 500) {
+        //    nameField.setLayoutY(y - 50);
+        //}
+        //else {
+            nameField.setLayoutY(y + 50);
+        //}
     }
 
     public boolean matchesWith(String toMatch) {
         return name.equals(toMatch);
+    }
+
+    private void setupNameField() {
+        nameField = new TextField();
+        nameField.setPrefWidth(125);
+        nameField.setPrefHeight(40);
+        nameField.setText(name);
     }
 }

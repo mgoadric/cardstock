@@ -23,7 +23,7 @@ public class Player {
     private void setupCircle() {
         this.circle = new Circle();
         circle.setRadius(150);
-        circle.setFill(Color.CYAN);
+        setColor(Color.CYAN);
     }
 
     private void addNameField(){
@@ -98,5 +98,9 @@ public class Player {
 
     public boolean matchesWith(int playerId) {
         return id == playerId;
+    }
+
+    public void setColor(Color color) {
+        circle.setFill(color);
     }
 }

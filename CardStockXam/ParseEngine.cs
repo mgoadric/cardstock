@@ -14,7 +14,7 @@ public class ParseEngine{
         StringBuilder builder = new StringBuilder();
 
 	public static int reportedBF = 0;
-    int numGames = 1; //1000;
+    int numGames = 1;
     String outputFileName = "Output";
     const string fileName = "Pairs2";
     //const string fileName = "Agram";

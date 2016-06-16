@@ -1,7 +1,7 @@
 ;; Pairs in the GDL
 (game
     (setup  
-     ;; Set up the players, 3 players each on their own team
+     ;; Set up the players, 2 players each on their own team
       (create players 2)
       (create teams (0) (1))
 
@@ -34,7 +34,7 @@
              (all (value (1)) 1)
              )
            )
-         (set (game sto NUMP) 4)
+         (set (game sto NUMP) 2)
          (shuffle (game iloc STOCK))
          (move (top (game iloc STOCK))
                (top (game iloc THROWOUT)) 5)
