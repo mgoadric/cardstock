@@ -1,23 +1,25 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Memory implements BasicMemory {
     private String key;
-    private Card card;
+    private ArrayList<Card> cards;
 
-    public Memory(String key, Card card) {
+    public Memory(String key, ArrayList<Card> cards) {
         this.key = key;
-        this.card = card;
+        this.cards = cards;
     }
 
     public String getKey() {
         return key;
     }
 
-    public Card getCard() {
-        return card;
+    public ArrayList<Card> getCard() {
+        return cards;
     }
     public String toString() {
-        return key + " " + card.toString();
+        return key + " " + cards.toString();
     }
 
     @Override

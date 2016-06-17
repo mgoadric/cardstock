@@ -240,7 +240,7 @@ namespace CardEngine
 				var newCard = new Card (combo);
 				sourceDeck.Add (newCard);
 				loc.Add(newCard);
-                WriteToFile("C:" + newCard.ToOutputString());
+                WriteToFile("C:" + newCard.ToOutputString() + loc.name);
             }
 			//Console.ReadKey();
 		}
@@ -412,12 +412,8 @@ namespace CardEngine
 			return ret;
 		}
 
-        public void WriteToFile(string text)
-        {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter("TestFile.txt", true))
-            {
-                file.WriteLine(text);
-            }
+        public void WriteToFile(string text) {
+            ParseEngine.WriteToFile(text);
         }
     }
 }

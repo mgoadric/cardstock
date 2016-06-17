@@ -12,10 +12,12 @@ public class Player {
     private Circle circle;
     private TextField name;
     private ArrayList<Cards> playerCards;
+    private Table owner;
 
-    public Player(int id) {
+    public Player(int id, Table owner) {
         playerCards = new ArrayList<>();
         this.id = id;
+        this.owner = owner;
         setupCircle();
         addNameField();
     }
@@ -28,9 +30,10 @@ public class Player {
 
     private void addNameField(){
         name = new TextField();
+        name.setPrefWidth(100);
         name.setEditable(false);
         name.setText("Player " + id);
-        name.setLayoutX(circle.getCenterX() - 75);
+        name.setLayoutX(circle.getCenterX() - 50);
         name.setLayoutY(circle.getCenterY() - 12.5);
     }
 
@@ -42,7 +45,6 @@ public class Player {
             double x = circle.getCenterX() + (circle.getRadius() * .7 * Math.sin(angle));
             double y = circle.getCenterY() + (circle.getRadius() * .7 * Math.cos(angle)) - 35;
             groups.setCenter(x,y);
-
             i++;
         }
         addNameField();
@@ -55,10 +57,10 @@ public class Player {
 
     public ArrayList<TextInputControl> getAll() {
         ArrayList<TextInputControl> ret = new ArrayList<>();
+        ret.add(name);
         for (Cards groups : playerCards) {
             ret.addAll(groups.getAll());
         }
-        ret.add(name);
         return ret;
     }
 
@@ -84,7 +86,7 @@ public class Player {
     }
 
     private Cards addNewGroup(String str) {
-        Cards newCards = new Cards(str, true);
+        Cards newCards = new Cards(str, true, owner);
         playerCards.add(newCards);
         setLocs();
         return newCards;

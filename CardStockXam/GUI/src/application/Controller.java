@@ -1,5 +1,6 @@
 package application;
 
+import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,6 +31,12 @@ public class Controller {
     TextField moveDesc;
 
     @FXML
+    Button timerButton;
+
+    @FXML
+    TextField speedField;
+
+    @FXML
     TableView<RawStorage> infoTable;
 
     @FXML
@@ -45,6 +52,9 @@ public class Controller {
     Button backward;
 
     @FXML
+    CheckBox transcriptBox;
+
+    @FXML
     ChoiceBox<Integer> gameSelect;
 
     private Game currentGame;
@@ -53,8 +63,12 @@ public class Controller {
     private ArrayList<Move> moves;
     private ArrayList<Game> games;
     private Table table;
-    private String STOCKNAME = "{hidden}STOCK";
     private int turn = 0;
+    private Timer timer;
+    private boolean timerStarted;
+    private final long INTERVAL = 250000000L;
+    private boolean transcripting = false;
+    private long FINAL_INTERVAL;
 
     @FXML
     public void initialize() {
@@ -65,6 +79,7 @@ public class Controller {
                 currentGame = games.get(choice);
                 clearCanvas();
                 newGame();
+                timer = new Timer();
             }
         });
     }
@@ -89,7 +104,7 @@ public class Controller {
                 currentMove++;
                 String transcript = move.execute();
                 moveDesc.setText(transcript);
-                System.out.println(transcript);
+                if (transcripting) {System.out.println(transcript);}
                 paint();
             }
         }
@@ -106,11 +121,67 @@ public class Controller {
                 currentMove--;
                 String transcript = move.revert();
                 moveDesc.setText(transcript);
+                if (transcripting) {System.out.println(transcript);}
                 paint();
             }
         }
         else {
             errorField.setText("No game selected");
+        }
+    }
+
+    private class Timer extends AnimationTimer {
+        private long last = 0;
+
+        @Override
+        public void handle(long now) {
+            if (now - last > FINAL_INTERVAL) {
+                forward();
+                last = now;
+                if (currentMove == moves.size()) {
+                    changeTimer();
+                }
+            }
+
+        }
+    }
+    @FXML
+    public void changeTimer() {
+        if (timer != null) {
+            if (timerStarted) {
+                timer.stop();
+                timerStarted = !timerStarted;
+                timerButton.setText("Start");
+            } else {
+                changeInterval();
+                timer.start();
+                timerStarted = !timerStarted;
+                timerButton.setText("Stop");
+            }
+        }
+    }
+
+    @FXML
+    public void changeInterval() {
+        FINAL_INTERVAL = parsePercentage(speedField.getText(), INTERVAL);
+    }
+
+    @FXML
+    public void updateTranscripting() {
+        transcripting = ! transcripting;
+    }
+
+    private long parsePercentage(String percent, long interval) {
+        if (percent.charAt(percent.length()-1) == '%') {
+            percent = percent.substring(0, percent.length()-1);
+        }
+        try {
+            double val = 100 / Integer.parseInt(percent);
+            return (long) val * interval;
+        }
+        catch (NumberFormatException n) {
+            error(percent + " is not a proper value.");
+            return interval;
         }
     }
 
@@ -176,7 +247,7 @@ public class Controller {
         memoryTable.setPrefWidth(300);
     }
 
-    private void paint() {
+    public void paint() {
         pane.getChildren().clear();
         if (currentMove < moves.size()) {
             int oldTurn = turn;
@@ -208,7 +279,6 @@ public class Controller {
         String line = reader.readLine();
         numPlayers = Integer.valueOf(line.split(":")[1]);
         Table newTable = setupTable();
-        newTable.addToTable(new Cards(STOCKNAME, false));
 
         while ((line = reader.readLine()) != null) {
             char lineId = line.charAt(0);
@@ -225,20 +295,22 @@ public class Controller {
             }
 
             else if (lineId == 'C') { //Card
-                Card newCard = getCard(line);
-                newTable.addToTable(newCard, STOCKNAME);
+                String[] parts = line.split("\\|");
+                Card newCard = getCard(parts, 1);
+                String loc = parts[parts.length-1];
+                if (loc.charAt(0) == 't') {
+                    newTable.addToTable(newCard, loc.substring(1));
+                }
+                else {
+                    error("card " + newCard.toString() + " started off of the table");
+                }
             }
             else if (lineId == 'M') { //Move
                 String[] parts = line.split(" ");
-                Card card = getCard(parts[0]);
+                Card card = getCard(parts[0], 0);
                 Location startLoc = getLocation(parts[1], newTable);
                 Location endLoc = getLocation(parts[2], newTable);
                 Move newMove = new Move(card, startLoc, endLoc);
-                /*if (currentMoves.size() != 0) {
-                    int currentPlayer = lastMove(currentMoves).getCurrentPlayer();
-                    newMove.setCurrentPlayer(currentPlayer);
-                }
-                else {newMove.setCurrentPlayer(0);}*/
                 if (nextMoveTurn != -1) {
                     newMove.setCurrentPlayer(nextMoveTurn);
                     nextMoveTurn = -1;
@@ -247,17 +319,32 @@ public class Controller {
                     int tempP = lastMove(currentMoves).getCurrentPlayer();
                     newMove.setCurrentPlayer(tempP);
                 }
+
                 currentMoves.add(newMove);
             }
-
-            /*
             else if (lineId == 'm') { //Memory storage TODO
-                String[] parts = line.split(" ");
+                String[] parts = line.split("#");
                 String key = parts[0];
-                Card card = getCard(parts[1]);
-                currentMoves.add(new Move(memoryTable, new Memory(key, card));
+                if (key.charAt(0) == 't') {key = "Table " + key.substring(1);}
+                key = key.replace("{mem}","");
+                ArrayList<Card> cards = new ArrayList<>();
+                if (parts.length > 1) {
+                    for (String cardText : parts[1].split(" ")) {
+                        cards.add(getCard(cardText, 0));
+                    }
+                }
+                currentMoves.add(new Move(memoryTable, new Memory(key, cards)));
             }
-             */
+            else if (lineId == 'O') { //Ordering TODO
+                String[] parts = line.split("#");
+                Location loc = getLocation(parts[0], newTable);
+                parts = parts[1].split(" ");
+                ArrayList<Card> cards = new ArrayList<>();
+                for (int i = 0; i < parts.length; i++) {
+                    cards.add(getCard(parts[i],0));
+                }
+                currentMoves.add( new Move(loc, cards));
+            }
 
             else if (lineId == 'A') { //Assignment
                 String[] parts = line.split(" ");
@@ -271,25 +358,23 @@ public class Controller {
                 String value = parts[2];
                 RawStorage stor = new RawStorage(loc, key, value);
                 Move newMove = new Move(infoTable, stor);
+                Move lastMove = lastMove(currentMoves);
+                if (lastMove != null) {
+                    newMove.setCurrentPlayer(lastMove.getCurrentPlayer());
+                }
+                else {newMove.setCurrentPlayer(0);}
                 currentMoves.add(newMove);
             }
 
             else if (lineId == 't') { //current player (turn)
                 nextMoveTurn = Character.getNumericValue(line.charAt(1));
-                /*Move move = lastMove(currentMoves);
-                if (move != null) {
-                    move.setCurrentPlayer(Character.getNumericValue(line.charAt(1)));
-                }*/
             }
 
             else if (lineId == 's') { //Score
                 String[] parts = line.split(" ");
                 String score = parts[0];
-                String won = parts[1];
-                String suffix = "lost";
-                if (won.equals("1")) {suffix = "won";}
-                RawStorage stor = new RawStorage("Player " + scoreNum, score, suffix);
-                scoreNum++;
+                String playerNum = parts[1];
+                RawStorage stor = new RawStorage("Player " + playerNum, score, "");
                 Move newMove = new Move(infoTable, stor);
                 currentMoves.add(newMove);
             }
@@ -312,11 +397,15 @@ public class Controller {
         return result;
     }
 
-    private Card getCard(String line) {
+    private Card getCard(String line, int offset) {
         String[] parts = line.split("\\|");
+        return getCard(parts, offset);
+    }
+
+    private Card getCard(String[] parts, int offset) {
         Card ret = new Card();
-        for (String part : parts) {
-            String[] attrs = part.split("-");
+        for (int idx = 0; idx < parts.length - offset; idx ++) {
+            String[] attrs = parts[idx].split("-");
             ret.addAttribute(attrs[1],attrs[0]);
         }
         return ret;
@@ -359,9 +448,9 @@ public class Controller {
     }
 
     private Table setupTable() {
-        Table ret = new Table();
+        Table ret = new Table(this);
         for (int i = 0; i < numPlayers; i++) {
-            ret.addPlayer(new Player(i));
+            ret.addPlayer(i);
         }
         return ret;
     }

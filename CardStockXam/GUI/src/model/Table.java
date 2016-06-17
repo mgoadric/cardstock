@@ -1,5 +1,6 @@
 package model;
 
+import application.Controller;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -12,12 +13,14 @@ public class Table {
     private Circle circle;
     private ArrayList<Player> players;
     private Center center;
+    private Controller owner;
 
 
-    public Table() {
+    public Table(Controller owner) {
+        this.owner = owner;
         setupCircle();
         players = new ArrayList<>();
-        center = new Center();
+        center = new Center(this);
     }
 
     private void setupCircle() {
@@ -29,13 +32,10 @@ public class Table {
         circle.setVisible(false);
     }
 
-    public void addPlayer(Player p) {
+    public void addPlayer(int id) {
+        Player p = new Player(id, this);
         players.add(p);
         setLocs();
-    }
-
-    public void addToTable(Cards tempDeck) {
-        center.addCardGroup(tempDeck);
     }
 
     public Cards getTableCards(String string) {
@@ -116,5 +116,13 @@ public class Table {
                 p.setColor(Color.CYAN);
             }
         }
+    }
+
+    public void paint() {
+        owner.paint();
+    }
+
+    public void reorderTable(Location loc, ArrayList<Card> cards) {
+        loc.getHand().reorder(cards);
     }
 }

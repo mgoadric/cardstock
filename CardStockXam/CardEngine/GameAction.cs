@@ -65,8 +65,9 @@ namespace CardEngine{
 			Debug.WriteLine("Moved Card '" + cardToMove);
 			startLocation.Remove(cardToMove);
 			endLocation.Add(cardToMove);
-			cardToMove.owner = endLocation;
-		}
+            CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
+            cardToMove.owner = endLocation;
+        }
 		public override String Serialize(){
 			return cardToMove.Serialize();
 		}
@@ -198,7 +199,15 @@ namespace CardEngine{
 		}
 		public override void Execute(){
 			bucket[bucketKey] = value;
-            CardGame.Instance.WriteToFile("S:" + bucket + " " + bucketKey + " " + value);
+            if (bucket.owner != null) {
+                CardGame.Instance.WriteToFile("S:" + bucket.owner.name + " " + bucketKey + " " + value);
+            }
+            else if (bucket.teamOwner != null) {
+                CardGame.Instance.WriteToFile("S:" + bucket.teamOwner.ToString() + " " + bucketKey + " " + value);
+            }
+            else {
+                CardGame.Instance.WriteToFile("S:" + bucket + " " + bucketKey + " " + value);
+            }
         }
 		public override String Serialize(){
 			return "";

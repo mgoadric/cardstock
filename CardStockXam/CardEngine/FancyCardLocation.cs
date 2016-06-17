@@ -79,7 +79,7 @@ namespace CardEngine{
 			return null;
 		}
 
-        public String ToString() { //TODO work in CardList
+        public String ToString() {
             return cardList.ToString() + " " + locIdentifier + " " + physicalLocation;
         }
 	}	

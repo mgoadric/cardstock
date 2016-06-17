@@ -8,8 +8,10 @@ import java.util.ArrayList;
 public class Center {
     private Circle circle;
     private ArrayList<Cards> tableCards;
+    private Table owner;
 
-    public Center() {
+    public Center(Table owner) {
+        this.owner = owner;
         setupCircle();
         tableCards = new ArrayList<>();
     }
@@ -25,7 +27,7 @@ public class Center {
         for (Cards cards : tableCards) {
             double angle = rads * i + (Math.PI);
             double x = circle.getCenterX() + (circle.getRadius() * Math.sin(angle));
-            double y = circle.getCenterY() + (circle.getRadius() * Math.cos(angle));
+            double y = circle.getCenterY() + (circle.getRadius() * Math.cos(angle)) - 50;
             cards.setCenter(x,y);
             cards.alignCards();
             i++;
@@ -35,6 +37,7 @@ public class Center {
     public void setCenter(double x, double y) {
         circle.setCenterX(x);
         circle.setCenterY(y);
+        setLocs();
     }
 
     public Cards getCards(String toMatch) {
@@ -60,7 +63,7 @@ public class Center {
     }
 
     public void addNewGroup(String str) {
-        tableCards.add(new Cards(str, false));
+        tableCards.add(new Cards(str, false, owner));
     }
 
     public void addCard(Card newCard, String loc) {

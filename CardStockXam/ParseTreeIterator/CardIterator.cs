@@ -13,14 +13,15 @@ namespace ParseTreeIterator
 {
 	public class CardIterator{
 
-		public static FancyCardLocation[] ProcessCard(RecycleParser.CardmContext cardm){
-			if (cardm.memstorage().locpre() != null){
-				var ret = ProcessSubLocation(cardm.memstorage().locpre(),
-						cardm.memstorage().locpost(),false,true);
-				foreach (var fancy in ret){
-						fancy.locIdentifier = cardm.GetChild(1).GetText();
-				}
-				return ret;
+		public static FancyCardLocation[] ProcessCard(RecycleParser.CardmContext cardm){ //TODO
+            if (cardm.memstorage().locpre() != null) {
+                var ret = ProcessSubLocation(cardm.memstorage().locpre(),
+                        cardm.memstorage().locpost(), false, true);
+                foreach (var fancy in ret) {
+                    fancy.locIdentifier = cardm.GetChild(1).GetText();
+                    CardGame.Instance.WriteToFile("m:" + fancy.cardList.ToString());
+                }
+                return ret;
 			}
 			else{
 				Debug.WriteLine("Tuple Track");

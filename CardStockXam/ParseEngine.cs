@@ -16,8 +16,13 @@ public class ParseEngine{
 	public static int reportedBF = 0;
     int numGames = 1;
     String outputFileName = "Output";
-    const string fileName = "Pairs2";
+    //const string fileName = "Pairs2";
+    //const string fileName = "Hearts";
     //const string fileName = "Agram";
+    //const string fileName = "GOPS";
+    const string fileName = "StealingBundles";
+    //const string fileName = "War";
+    //const string fileName = "Whist";
 
     public ParseEngine(){
 
@@ -25,7 +30,7 @@ public class ParseEngine{
 		var breakOnCycle = false;
 		var regex = new Regex ("(;;)(.*?)(\n)");
 
-        System.IO.File.WriteAllText("TestFile.txt", string.Empty);
+        System.IO.File.WriteAllText(fileName + ".txt", string.Empty);
 
 		var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
@@ -138,7 +143,6 @@ public class ParseEngine{
             WriteToFile("|");
             //Console.WriteLine(currentIterator.ToString());
 		}
-        Console.WriteLine("test1");
 		time.Stop ();
 		Console.Out.WriteLine (time.Elapsed);
 		Console.Out.WriteLine(choiceCount/(double)(numGames));
@@ -374,7 +378,7 @@ public class ParseEngine{
     }
     public static void WriteToFile(String text)
     {
-        using (System.IO.StreamWriter file = new System.IO.StreamWriter("TestFile.txt", true))
+        using (System.IO.StreamWriter file = new System.IO.StreamWriter(fileName + ".txt", true))
         {
             file.WriteLine(text);
         }

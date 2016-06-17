@@ -87,6 +87,7 @@ namespace CardEngine{
 		public abstract void Remove(Card c);
 		public abstract int Count {get;}
 		public abstract void Shuffle();
+        public override abstract string ToString();
 		public CardStorage container {get; set;}
         public string name = "undefined";
 		public void Shuffle(List<Card> list)  
@@ -99,7 +100,7 @@ namespace CardEngine{
 		        Card value = list[k];  
 		        list[k] = list[n];  
 		        list[n] = value;  
-		    }  
+		    }
 		}
 	}	
 	
@@ -140,13 +141,17 @@ namespace CardEngine{
 		}
 		public override void Shuffle(){
 			Shuffle(cards);
-		}
-/*      TODO
-        public override string ToString()
-        {
-        allcards
+            CardGame.Instance.WriteToFile("O:" + ToString());
         }
-*/
+      
+        public override string ToString() {
+            var ret = name + "#";
+            foreach (var card in cards) {
+                ret += card.ToOutputString() + " ";
+            }
+            return ret.Substring(0, ret.Length - 1);
+        }
+
     }
 	public class CardStackCollection : CardCollection {
 		public override int Count {get{
@@ -188,7 +193,17 @@ namespace CardEngine{
 				cards.Push(card);
 			}
 		}
-	}
+        public override string ToString()
+        {
+            Console.WriteLine("Stack");
+            var ret = name + "-";
+            foreach (var card in cards)
+            {
+                ret += card.ToOutputString() + "|";
+            }
+            return ret.Substring(0, ret.Length - 1);
+        }
+    }
 	public class CardQueueCollection : CardCollection {
 		public override int Count {get{
 			return cards.Count;
@@ -232,6 +247,7 @@ namespace CardEngine{
 		}
         public override string ToString()
         {
+            Console.WriteLine("Queue");
             var ret = "";
             var tempCards = cards;
             while (tempCards.Count != 0)

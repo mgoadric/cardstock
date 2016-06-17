@@ -12,23 +12,27 @@ public class Cards {
 	private boolean playerOwned;
     private double x,y;
     private final double CARDWIDTH = 20;
+    private boolean expandMode = true;
+    private Table owner;
 
-    public Cards(String name, boolean owned) {
-        this.name = name;
+    public Cards(String name, boolean owned, Table owner) {
         cards = new ArrayList<>();
+        this.name = name;
         this.playerOwned = owned;
+        this.owner = owner;
         setupNameField();
         alignCards();
     }
 
 	public void add(Card card) {
+        card.setOwner(this);//TODO
         cards.add(card);
         alignCards();
     }
     public Card remove(Card card) {
-        for (int i = 0; i < cards.size(); i++) {
+        for (int i = cards.size()-1; i >= 0; i--) {
             Card temp = cards.get(i);
-            if (temp.matches(card.toString())) {
+            if (temp.matches(card)) {
                 Card removedCard = cards.remove(i);
                 alignCards();
                 return removedCard;
@@ -38,7 +42,7 @@ public class Cards {
         return null;
     }
 
-	public Card get(int index) { return cards.get(index);}
+    public Card get(int index) { return cards.get(index);}
 
 	public Card get(String desc) {
 		for (Card card : cards) {
@@ -52,6 +56,12 @@ public class Cards {
         this.name = name;
     }
 
+    public void switchExpandMode() {
+        expandMode = !expandMode;
+        alignCards();
+        owner.paint();
+    }
+
     public void addValueToCard(String key, Object value, Object v) {
         for (Card card : cards) {
             if (card.hasAttribute(value)) {
@@ -61,16 +71,26 @@ public class Cards {
     }
 
     public void alignCards() {
-        for (int i = 0; i < cards.size(); i++) {
-            double xcoord = x - CARDWIDTH - (CARDWIDTH * cards.size() / 2) + (i * CARDWIDTH);
-            cards.get(i).setCenter(xcoord, y);
+        if (expandMode) {
+            for (int i = 0; i < cards.size(); i++) {
+                double xcoord = x - CARDWIDTH - (CARDWIDTH * cards.size() / 2) + (i * CARDWIDTH);
+                cards.get(i).setCenter(xcoord, y);
+            }
         }
+        else {alignUnexpanded();}
     }
 
     public ArrayList<TextInputControl> getAll() {
         ArrayList<TextInputControl> ret = new ArrayList<>();
-        for (Card card : cards) {
-            ret.add(card.rect);
+        if (expandMode) {
+            for (Card card : cards) {
+                ret.add(card.rect);
+            }
+        }
+        else {
+            if (cards.size() > 0) {
+                ret.add(getLast().rect);
+            }
         }
         ret.add(nameField);
         return ret;
@@ -90,12 +110,7 @@ public class Cards {
         this.x = x;
         this.y = y;
         nameField.setLayoutX(x - (nameField.getPrefWidth() / 2));
-        //if (y < 500) {
-        //    nameField.setLayoutY(y - 50);
-        //}
-        //else {
             nameField.setLayoutY(y + 50);
-        //}
     }
 
     public boolean matchesWith(String toMatch) {
@@ -107,5 +122,36 @@ public class Cards {
         nameField.setPrefWidth(125);
         nameField.setPrefHeight(40);
         nameField.setText(name);
+    }
+
+    public ArrayList<Card> reorder(ArrayList<Card> orderedCards) {
+        ArrayList<Card> ret = cards;
+        for (int i = 0; i < orderedCards.size(); i++) {
+            Card current = orderedCards.get(i);
+            for (int j = i; j < cards.size(); j++) {
+                Card temp = cards.get(j);
+                if (current.matches(temp)) {
+                    cards.set(j, cards.get(i));
+                    cards.set(i, temp);
+                    break;
+                }
+            }
+        }
+        alignCards();
+        return ret;
+    }
+
+    private void alignUnexpanded() {
+        Card last = getLast();
+        if (last != null) {
+            last.setCenter(x - (CARDWIDTH * 3 / 2), y);
+        }
+    }
+
+    private Card getLast() {
+        if (cards.size() > 0) {
+            return cards.get(cards.size() - 1);
+        }
+        return null;
     }
 }

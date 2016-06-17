@@ -10,8 +10,8 @@ namespace CardEngine
 		public Team team;
         public string name;
 		public GeneralPlayer decision;
-		public Player(){
-			storage = new RawStorage();
+        public Player() {
+            storage = new RawStorage() { owner = this };
 			cardBins = new CardStorage();
 			cardBins.owner = this;
 		}

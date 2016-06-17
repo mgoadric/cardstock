@@ -27,7 +27,8 @@ namespace CardEngine{
 				}
 	    	}
 		}
-
+        public Player owner;
+        public Team teamOwner;
 		public int[] storage;
 		int binCounter = 0;
 		Dictionary<string,List<Trigger>> triggerDict = new Dictionary<string, List<Trigger>>();
