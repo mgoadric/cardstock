@@ -2,18 +2,18 @@
 (game
 
    (setup 
-      ;; Set up the players, 2 teams of 2 players, alternating
+      ;; Set up the players
       (create players 2)
       (create teams (0) (1))
 
       ;; Create the deck source
-      (create deck (game iloc STOCK) (deck (RANK (3,4,5,6 7, 8, 9, 10))
-                                          (COLOR (RED (SUIT (HEARTS,DIAMONDS)))
-                                                 (BLACK (SUIT (SPADES,CLUBS)))
+      (create deck (game iloc STOCK) (deck (RANK (3, 4, 5, 6, 7, 8, 9, 10))
+                                          (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                 (BLACK (SUIT (SPADES, CLUBS)))
                                                  )))         
       ;; Create the deck source
       (create deck (game iloc STOCK) (deck (RANK (A))
-                                          (COLOR (RED (SUIT (HEARTS,DIAMONDS)))
+                                          (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                                   (BLACK (SUIT (CLUBS)))
                                                  )))         
    )
@@ -21,46 +21,49 @@
    ;; Stages of the game
       (comp (()
                 (shuffle (game iloc STOCK))
-                (all player P (repeat 6 (move (top (game iloc STOCK))
-                                    (top (P iloc HAND)))))
-                (all player P (set (P sto SCORE) 0))
+                (all player P 
+                     (repeat 6 (move (top (game iloc STOCK))
+                                     (top (P iloc HAND)))))
+                (all player P 
+                     (set (P sto SCORE) 0))
                 
              )
       ) 
          
       ;; players play a round 6 times     
       (stage player
-         (end (all player P (== (size (P iloc HAND)) 0)))
+         (end (all player P 
+                   (== (size (P iloc HAND)) 0)))
                     
          ;; players play a hand once
          (stage player
-            (end (all player P (> (size (P vloc TRICK)) 0)))
+            (end (all player P 
+                      (> (size (P vloc TRICK)) 0)))
              
             (choice
-
+              (let ((current player) iloc HAND where C (all (== (cardatt SUIT C)
+                                                                (cardatt SUIT (top (game mem LEAD)))))) LEADCARDS)
                ;; if following player and cannot follow SUIT
                ;;   play any card, and end your turn
                ((and (== (size (game mem LEAD)) 1)
-                     (== (size ((current player) iloc HAND where (all (== (cardatt SUIT each) 
-                                                                          (cardatt SUIT (top (game mem LEAD))))))) 0))
-                (any ((current player) iloc HAND) C 
-                     (move C 
-                           (top ((current player) vloc TRICK))))
+                     (== (size LEADCARDS) 0))
+                (any ((current player) iloc HAND) AC 
+                     (move AC 
+                           (top ((current player) vloc TRICK)))))
 
                ;; if following player and can follow SUIT
                ;;   play any card that follows SUIT, and end your turn
                ((and (== (size (game mem LEAD)) 1)
-                     (!= (size ((current player) iloc HAND where (all (== (cardatt SUIT each) 
-                                                                          (cardatt SUIT (top (game mem LEAD))))))) 0))
-                (move (any ((current player) iloc HAND where (all (== (cardatt SUIT each) 
-                                                                      (cardatt SUIT (top (game mem LEAD))))))) 
-                      (top ((current player) vloc TRICK))))
+                     (!= (size LEADCARDS) 0))
+                (any LEADCARDS LC (move LC
+                                        (top ((current player) vloc TRICK)))))
                       
                ;; if first player, play any card, remember it in the lead spot, and end your turn
                ((== (size (game mem LEAD)) 0)
                       
-                (move (any ((current player) iloc HAND)) 
-                      (top ((current player) vloc TRICK)))
+                (any ((current player) iloc HAND) AC 
+                     (move AC
+                           (top ((current player) vloc TRICK))))
                 (remember (top ((current player) vloc TRICK)) 
                           (top (game mem LEAD))))
                       
@@ -71,7 +74,7 @@
          (comp
              (() 
                  ;; solidfy card recedence
-                 (initialize points PRECEDENCE (
+                 (points PRECEDENCE (
                                (all (SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
                                (all (RANK (A)) 14)
                                (all (RANK (10)) 10)
@@ -87,12 +90,16 @@
                       
                  ;; determine who won the hand, set them first next time
                  (forget (top (game mem LEAD)))
-                 (cycle next (owner (max (union ((all player) vloc TRICK)) using PRECEDENCE)))
-                 (move (top ((all player) vloc TRICK)) 
-                       (top (game vloc DISCARD))))
+                 
+                 ;; FIXME
+                 (cycle next (owner (max (union (all player P (P vloc TRICK))) using PRECEDENCE))))
+                 
+                 (all player P 
+                      (move (top (P vloc TRICK)) 
+                            (top (game vloc DISCARD))))
              
              ;; if that was the last round, give the winner a point
-            ((== (size ((all player) iloc HAND)) 0)
+            ((all player P (== (size (P iloc HAND)) 0))
              (inc ((next player) sto SCORE) 1)           
             )        
          )
