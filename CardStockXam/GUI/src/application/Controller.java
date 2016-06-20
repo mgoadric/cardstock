@@ -303,7 +303,6 @@ public class Controller {
                 }
                 else {
                     getLocation(loc, newTable).getHand().add(newCard);
-                    error("card " + newCard.toString() + " started off of the table");
                 }
             }
             else if (lineId == 'M') { //Move
