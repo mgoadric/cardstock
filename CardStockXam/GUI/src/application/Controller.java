@@ -302,6 +302,7 @@ public class Controller {
                     newTable.addToTable(newCard, loc.substring(1));
                 }
                 else {
+                    getLocation(loc, newTable).getHand().add(newCard);
                     error("card " + newCard.toString() + " started off of the table");
                 }
             }
@@ -322,7 +323,7 @@ public class Controller {
 
                 currentMoves.add(newMove);
             }
-            else if (lineId == 'm') { //Memory storage TODO
+            else if (lineId == 'm') { //Memory storage
                 String[] parts = line.split("#");
                 String key = parts[0];
                 if (key.charAt(0) == 't') {key = "Table " + key.substring(1);}
@@ -335,7 +336,7 @@ public class Controller {
                 }
                 currentMoves.add(new Move(memoryTable, new Memory(key, cards)));
             }
-            else if (lineId == 'O') { //Ordering TODO
+            else if (lineId == 'O') { //Ordering
                 String[] parts = line.split("#");
                 Location loc = getLocation(parts[0], newTable);
                 parts = parts[1].split(" ");
@@ -377,6 +378,10 @@ public class Controller {
                 RawStorage stor = new RawStorage("Player " + playerNum, score, "");
                 Move newMove = new Move(infoTable, stor);
                 currentMoves.add(newMove);
+            }
+
+            else if (lineId == 'E') { //Error
+                error(line);
             }
 
             else if (lineId == '|') { //End of game

@@ -105,4 +105,5 @@ public class Player {
     public void setColor(Color color) {
         circle.setFill(color);
     }
+
 }

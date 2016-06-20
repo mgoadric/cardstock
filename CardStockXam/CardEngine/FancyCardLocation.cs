@@ -52,7 +52,7 @@ namespace CardEngine{
 		}
 		public Card Remove(){
 			if (physicalLocation){
-				var card = cardList.Peek();
+                var card = cardList.Peek();
 				var trueLocation = card.owner;
 				trueLocation.Remove(card);
 				return card;
@@ -61,25 +61,35 @@ namespace CardEngine{
 				var temp = filter.FilterList(cardList);
 				Debug.WriteLine("Removed from Filter...");
 				if (locIdentifier == "top"){
-					return temp.Remove();
+                    var current = temp.Peek();
+                    current.owner.Remove(current);
+                    return current;
+					//return temp.Remove();
 				}
 				else if (locIdentifier == "bottom"){
-					return temp.AllCards().GetEnumerator().Current;
+                    var current = temp.AllCards().GetEnumerator().Current;
+                    current.owner.Remove(current);
+                    return current;
 				}
 			}
 			if (cardList.Count != 0){
 				Debug.WriteLine("Pulling from Standard...");
-				if (locIdentifier == "top"){
+                if (locIdentifier == "top"){
 					return cardList.Remove();
 				}
 				else if (locIdentifier == "bottom"){
-					return cardList.Remove();
+					return cardList.RemoveAt(0);
 				}
 			}
 			return null;
 		}
 
-        public String ToString() {
+        public bool Contains(Card c)
+        {
+            return cardList.Contains(c);
+        }
+
+        public override String ToString() {
             return cardList.ToString() + " " + locIdentifier + " " + physicalLocation;
         }
 	}	

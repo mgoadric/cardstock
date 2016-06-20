@@ -7,9 +7,9 @@
       (create teams (0) (1))
       ;; Create the deck source
       (create deck (game iloc STOCK) (deck (rank (2, 3, 4, 5, 6, 7, 8, 9, 10))
-                                                     (color (white, blue )))) ;;, green, red, yellow))))
+                                                     (color (white, blue, green, red, yellow))))
       (create deck (game iloc STOCK) (deck 3 (rank (HS))
-                                                     (color (white, blue )))) ;;, green, red, yellow))))
+                                                     (color (white, blue, green, red, yellow))))
    )
    (comp (()
           (set (game sto ROUNDS) 0)
@@ -36,7 +36,7 @@
          )       
    ;; Stages of the game
    (stage player
-      (end (== (game sto ROUNDS) 1))
+      (end (== (game sto ROUNDS) 3))
       (comp (() (shuffle (game iloc STOCK))
                 (move (top (game iloc STOCK))
                       (top ((all player) iloc HAND)) 8)

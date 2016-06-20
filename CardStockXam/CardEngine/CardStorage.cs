@@ -83,6 +83,7 @@ namespace CardEngine{
 		public abstract Card Remove();
 		public abstract Card Peek();
 		public abstract void Clear();
+        public abstract bool Contains(Card c);
 		public abstract Card RemoveAt(int idx);
 		public abstract void Remove(Card c);
 		public abstract int Count {get;}
@@ -136,7 +137,13 @@ namespace CardEngine{
 			cards.RemoveAt(idx);
 			return ret;
 		}
-		public override void Remove(Card c){
+        public override bool Contains(Card c) {
+            foreach (var card in cards){
+                if (card.Equals(c)) { return true; }
+            }
+            return false;
+        }
+        public override void Remove(Card c){
 			cards.Remove(c);
 		}
 		public override void Shuffle(){
@@ -179,7 +186,15 @@ namespace CardEngine{
 			return cards.Peek();
 			
 		}
-		public override Card RemoveAt(int idx){
+        public override bool Contains(Card c)
+        {
+            foreach (var card in cards)
+            {
+                if (card.Equals(c)) { return true; }
+            }
+            return false;
+        }
+        public override Card RemoveAt(int idx){
 			throw new NotImplementedException();
 		}
 		public override void Remove(Card c){
@@ -229,9 +244,16 @@ namespace CardEngine{
 		}
 		public override Card Peek(){
 			return cards.Peek();
-			
 		}
-		public override Card RemoveAt(int idx){
+        public override bool Contains(Card c)
+        {
+            foreach (var card in cards)
+            {
+                if (card.Equals(c)) { return true; }
+            }
+            return false;
+        }
+        public override Card RemoveAt(int idx){
 			throw new NotImplementedException();
 		}
 		public override void Remove(Card c){

@@ -20,9 +20,11 @@ public class ParseEngine{
     //const string fileName = "Hearts";
     //const string fileName = "Agram";
     //const string fileName = "GOPS";
-    const string fileName = "StealingBundles";
+    //const string fileName = "StealingBundles";
     //const string fileName = "War";
     //const string fileName = "Whist";
+    const string fileName = "LostCities";
+    const bool writing = true;
 
     public ParseEngine(){
 
@@ -378,9 +380,12 @@ public class ParseEngine{
     }
     public static void WriteToFile(String text)
     {
-        using (System.IO.StreamWriter file = new System.IO.StreamWriter(fileName + ".txt", true))
+        if (writing)
         {
-            file.WriteLine(text);
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(fileName + ".txt", true))
+            {
+                file.WriteLine(text);
+            }
         }
     }
 }

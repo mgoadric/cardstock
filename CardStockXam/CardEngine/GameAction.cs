@@ -63,9 +63,17 @@ namespace CardEngine{
 		}
 		public override void Execute(){
 			Debug.WriteLine("Moved Card '" + cardToMove);
-			startLocation.Remove(cardToMove);
-			endLocation.Add(cardToMove);
-            CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
+            //CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
+            startLocation.Remove(cardToMove);
+            try
+            {
+                CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
+            }
+            catch
+            {
+                CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + startLocation.name + " " + endLocation.name);
+            }
+            endLocation.Add(cardToMove);
             cardToMove.owner = endLocation;
         }
 		public override String Serialize(){
@@ -85,9 +93,10 @@ namespace CardEngine{
 			try{
 
 			    if (startLocation.FilteredCount() != 0){
-                    
-				    cardToMove = startLocation.Remove();
-				    endLocation.Add(cardToMove);
+                    cardToMove = startLocation.Remove();
+                    if (startLocation.Contains(cardToMove)) { CardGame.Instance.WriteToFile("E: startloc " + cardToMove.owner.name + " - " + startLocation.locIdentifier + " was supposed to be removed."); }
+                    if (endLocation.Contains(cardToMove)) { CardGame.Instance.WriteToFile("E: endLoc " + endLocation.name + " - " + endLocation.locIdentifier + " should not have this card."); }
+                    if (startLocation.name.Equals(endLocation.name)) { CardGame.Instance.WriteToFile("E: major error, " + endLocation.name + " is the start and end location"); }
                     try
                     {
                         CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
@@ -96,6 +105,7 @@ namespace CardEngine{
                     {
                         CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + startLocation.name + " " + endLocation.name);
                     }
+				    endLocation.Add(cardToMove);
                     cardToMove.owner = endLocation.cardList;
                     Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
 			    }

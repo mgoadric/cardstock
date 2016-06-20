@@ -215,7 +215,7 @@ namespace ParseTreeIterator
 			RecycleParser.LocpostContext locpost, bool hidden,bool mem) {
 			if (locpre.who() != null){
 				var clause = ProcessWhere(locpost.whereclause());
-				return new FancyCardLocation[]{
+                return new FancyCardLocation[]{
 					new FancyCardLocation{
 						cardList=CardGame.Instance.tableCards[(hidden?"{hidden}":mem?"{mem}":"{visible}") + locpost.namegr().GetText()],
 						filter=clause,

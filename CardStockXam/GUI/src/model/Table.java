@@ -121,8 +121,4 @@ public class Table {
     public void paint() {
         owner.paint();
     }
-
-    public void reorderTable(Location loc, ArrayList<Card> cards) {
-        loc.getHand().reorder(cards);
-    }
 }
