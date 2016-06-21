@@ -25,9 +25,10 @@ public class Cards {
     }
 
 	public void add(Card card) {
-        card.setOwner(this);//TODO
+        card.setOwner(this);
         cards.add(card);
         alignCards();
+        updateName();
     }
     public Card remove(Card card) {
         for (int i = cards.size()-1; i >= 0; i--) {
@@ -35,6 +36,7 @@ public class Cards {
             if (temp.matches(card)) {
                 Card removedCard = cards.remove(i);
                 alignCards();
+                updateName();
                 return removedCard;
             }
         }
@@ -54,6 +56,7 @@ public class Cards {
     public String getName() {return name;}
     public void setName(String name) {
         this.name = name;
+        updateName();
     }
 
     public void switchExpandMode() {
@@ -111,6 +114,7 @@ public class Cards {
         this.y = y;
         nameField.setLayoutX(x - (nameField.getPrefWidth() / 2));
             nameField.setLayoutY(y + 50);
+        alignCards();
     }
 
     public boolean matchesWith(String toMatch) {
@@ -119,9 +123,13 @@ public class Cards {
 
     private void setupNameField() {
         nameField = new TextField();
-        nameField.setPrefWidth(125);
+        nameField.setPrefWidth(150);
         nameField.setPrefHeight(40);
-        nameField.setText(name);
+        updateName();
+    }
+
+    private void updateName() {
+        nameField.setText(name + "[" + cards.size() + "]");
     }
 
     public ArrayList<Card> reorder(ArrayList<Card> orderedCards) {

@@ -39,7 +39,7 @@
                   <CheckBox fx:id="transcriptBox" mnemonicParsing="false" onAction="#updateTranscripting" prefHeight="35.0" prefWidth="124.0" text="Printing Transcript" />
                   <TextField fx:id="currentTurn" prefHeight="35.0" prefWidth="130.0" />
                   <TextField fx:id="currentMoveField" prefHeight="35.0" prefWidth="130.0" />
-                  <TextField fx:id="moveDesc" prefHeight="35.0" prefWidth="1259.0" />
+                  <TextField fx:id="moveDesc" prefHeight="35.0" prefWidth="1052.0" />
                </children>
             </HBox>
             <TextField fx:id="errorField" />

@@ -94,8 +94,8 @@ namespace CardEngine{
 
 			    if (startLocation.FilteredCount() != 0){
                     cardToMove = startLocation.Remove();
-                    if (startLocation.Contains(cardToMove)) { CardGame.Instance.WriteToFile("E: startloc " + cardToMove.owner.name + " - " + startLocation.locIdentifier + " was supposed to be removed."); }
-                    if (endLocation.Contains(cardToMove)) { CardGame.Instance.WriteToFile("E: endLoc " + endLocation.name + " - " + endLocation.locIdentifier + " should not have this card."); }
+                    //if (startLocation.Contains(cardToMove)) { CardGame.Instance.WriteToFile("E:card " + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " - " + startLocation.locIdentifier + " was supposed to be removed."); }
+                    //if (endLocation.Contains(cardToMove)) { CardGame.Instance.WriteToFile("E: endLoc " + endLocation.name + " - " + endLocation.locIdentifier + " should not have this card."); }
                     if (startLocation.name.Equals(endLocation.name)) { CardGame.Instance.WriteToFile("E: major error, " + endLocation.name + " is the start and end location"); }
                     try
                     {

@@ -37,6 +37,7 @@ namespace CardEngine
 		public Stack<TeamCycle> currentTeam = new Stack<TeamCycle>();
 		public RawStorage gameStorage = new RawStorage();
 		public PointsStorage points = new PointsStorage();
+        public bool isRecording = true;
 		public CardGame(){
 			
 		}
@@ -97,6 +98,7 @@ namespace CardEngine
 
 		public CardGame CloneSecret(int playerIdx){
 			var temp = CloneCommon ();
+            temp.isRecording = false;
 			//Clone Source Deck and Index Cards
 			//*****************
 			HashSet<int> free = new HashSet<int>();
@@ -413,7 +415,9 @@ namespace CardEngine
 		}
 
         public void WriteToFile(string text) {
-            ParseEngine.WriteToFile(text);
+            if (isRecording) {
+                ParseEngine.WriteToFile(text);
+            }
         }
     }
 }

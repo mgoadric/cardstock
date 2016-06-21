@@ -310,16 +310,9 @@ public class Controller {
                 Card card = getCard(parts[0], 0);
                 Location startLoc = getLocation(parts[1], newTable);
                 Location endLoc = getLocation(parts[2], newTable);
-                Move newMove = new Move(card, startLoc, endLoc);
-                if (nextMoveTurn != -1) {
-                    newMove.setCurrentPlayer(nextMoveTurn);
-                    nextMoveTurn = -1;
-                }
-                else {
-                    int tempP = lastMove(currentMoves).getCurrentPlayer();
-                    newMove.setCurrentPlayer(tempP);
-                }
-
+                int currTurn = getTurn(currentMoves, nextMoveTurn);
+                nextMoveTurn = -1;
+                Move newMove = new Move(card, startLoc, endLoc, currTurn);
                 currentMoves.add(newMove);
             }
             else if (lineId == 'm') { //Memory storage
@@ -333,7 +326,9 @@ public class Controller {
                         cards.add(getCard(cardText, 0));
                     }
                 }
-                currentMoves.add(new Move(memoryTable, new Memory(key, cards)));
+                int currTurn = getTurn(currentMoves, nextMoveTurn);
+                nextMoveTurn = -1;
+                currentMoves.add(new Move(memoryTable, new Memory(key, cards), currTurn));
             }
             else if (lineId == 'O') { //Ordering
                 String[] parts = line.split("#");
@@ -343,7 +338,9 @@ public class Controller {
                 for (int i = 0; i < parts.length; i++) {
                     cards.add(getCard(parts[i],0));
                 }
-                currentMoves.add( new Move(loc, cards));
+                int currTurn = getTurn(currentMoves, nextMoveTurn);
+                nextMoveTurn = -1;
+                currentMoves.add(new Move(loc, cards, currTurn));
             }
 
             else if (lineId == 'A') { //Assignment
@@ -357,12 +354,9 @@ public class Controller {
                 String key   = parts[1];
                 String value = parts[2];
                 RawStorage stor = new RawStorage(loc, key, value);
-                Move newMove = new Move(infoTable, stor);
-                Move lastMove = lastMove(currentMoves);
-                if (lastMove != null) {
-                    newMove.setCurrentPlayer(lastMove.getCurrentPlayer());
-                }
-                else {newMove.setCurrentPlayer(0);}
+                int currTurn = getTurn(currentMoves, nextMoveTurn);
+                nextMoveTurn = -1;
+                Move newMove = new Move(infoTable, stor, currTurn);
                 currentMoves.add(newMove);
             }
 
@@ -375,7 +369,9 @@ public class Controller {
                 String score = parts[0];
                 String playerNum = parts[1];
                 RawStorage stor = new RawStorage("Player " + playerNum, score, "");
-                Move newMove = new Move(infoTable, stor);
+                int currTurn = getTurn(currentMoves, nextMoveTurn);
+                nextMoveTurn = -1;
+                Move newMove = new Move(infoTable, stor, currTurn);
                 currentMoves.add(newMove);
             }
 
@@ -399,6 +395,16 @@ public class Controller {
         }
         reader.close();
         return result;
+    }
+
+    private int getTurn(ArrayList<Move> currentMoves, int nextMoveTurn) {
+        if (nextMoveTurn != -1) {
+            int temp = nextMoveTurn;
+            return temp;
+        }
+        else {
+            return lastMove(currentMoves).getCurrentPlayer();
+        }
     }
 
     private Card getCard(String line, int offset) {

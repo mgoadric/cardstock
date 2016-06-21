@@ -1,7 +1,6 @@
 package model;
 
 import javafx.scene.control.TableView;
-
 import java.util.ArrayList;
 
 public class Move {
@@ -11,28 +10,29 @@ public class Move {
     private int moveId = 0;
     private int currentPlayer;
 
-    public Move(Card card, Location startLoc, Location endLoc) {
+    public Move(Card card, Location startLoc, Location endLoc, int player) {
         cardMove = new CardMove(card, startLoc, endLoc);
+        currentPlayer = player;
     }
 
-    public Move(TableView<RawStorage> table, RawStorage stor) {
+    public Move(TableView<RawStorage> table, RawStorage stor, int player) {
         dataMove = new DataMove<>(table, stor);
         moveId = 1;
+        currentPlayer = player;
     }
 
-    public Move(TableView<Memory> table, Memory mem) {
+    public Move(TableView<Memory> table, Memory mem, int player) {
         dataMove = new DataMove<>(table, mem);
         moveId = 1;
+        currentPlayer = player;
     }
 
-    public Move(Location loc, ArrayList<Card> cards) {
+    public Move(Location loc, ArrayList<Card> cards, int player) {
         orderMove = new OrderMove(loc, cards);
         moveId = 2;
+        currentPlayer = player;
     }
 
-    public void setCurrentPlayer(int num) {
-        currentPlayer = num;
-    }
     public int getCurrentPlayer() {
         return currentPlayer;
     }
@@ -63,7 +63,7 @@ public class Move {
 
     public String toString() {
         if (moveId == 0) {
-            return "moves card " + cardMove.card + " from " + cardMove.startLocation.getHand().toString() + " to " + cardMove.endLocation.getHand();
+            return "moves card " + cardMove.card + " from " + cardMove.startLocation.getHand().getName() + " to " + cardMove.endLocation.getHand().getName();
         }
         else if (moveId == 1){
             return "data move";

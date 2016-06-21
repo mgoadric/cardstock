@@ -16,14 +16,15 @@ public class ParseEngine{
 	public static int reportedBF = 0;
     int numGames = 1;
     String outputFileName = "Output";
-    //const string fileName = "Pairs2";
+    const string fileName = "Pairs2";
     //const string fileName = "Hearts";
     //const string fileName = "Agram";
     //const string fileName = "GOPS";
     //const string fileName = "StealingBundles";
     //const string fileName = "War";
     //const string fileName = "Whist";
-    const string fileName = "LostCities";
+    //const string fileName = "LostCities";
+    //const string fileName = "SaneEights";
     const bool writing = true;
 
     public ParseEngine(){
@@ -97,7 +98,7 @@ public class ParseEngine{
 			//manageContext.AdvanceToChoice ();
 			currentIterator = manageContext;
 
-			//CardEngine.CardGame.Instance.players [0].decision = new Players.LessThanPerfectPlayer ();
+			CardEngine.CardGame.Instance.players [0].decision = new Players.LessThanPerfectPlayer ();
 			//CardEngine.CardGame.Instance.players [0].decision = new Players.PerfectPlayer ();
 			//manageContext.AdvanceToChoice ();
 			while (!manageContext.AdvanceToChoice ()) {
