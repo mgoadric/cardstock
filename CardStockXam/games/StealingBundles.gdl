@@ -9,7 +9,7 @@
       (create deck (game iloc STOCK) (deck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
                                           (color (red (suit (hearts, diamonds)))
                                                  (black (suit (clubs, spades))))))         
-   )
+    )
     (comp (()
      
              (shuffle (game iloc STOCK))
@@ -43,21 +43,24 @@
               
          ;; after players play hand, computer wraps up trick
          (comp
-			((any (game vloc POOL) P
-				(== (cardatt rank P)
-				(cardatt rank (top ((current player) vloc TRICK)))))
-              (move (top (game vloc POOL where (all (== (cardatt rank each)
+              (any (game vloc POOL) P
+                    ((== (cardatt rank P)
+                        (cardatt rank (top ((current player) vloc TRICK))))
+                    (move (top (game vloc POOL where C(all (== (cardatt rank C)
                                                        (cardatt rank (top ((current player) vloc TRICK)))))))
                     (top ((current player) vloc BUNDLE)) all)
-              (set ((current player) sto MOVED) 1))
-             
-             ;; BROKE HERE< NEED MORE LANGUANGE STUFF
-;;             ((== (cardatt rank (top ((any player) loc BUNDLE)))
-;;                  (cardatt rank (top ((current player) loc TRICK))))
-;;              (move (top ((any player where (== (cardatt rank (top (this loc BUNDLE)))
-;;                                                (cardatt rank (top ((current player) loc TRICK)))))) loc BUNDLE)
-;;                    (top ((current player) loc BUNDLE)) all)
-;;              (set ((current player) sto MOVED) 1))
+                    (set ((current player) sto MOVED) 1)))
+            
+              (any player P
+              (let (P vloc BUNDLE) OB
+                   ((== (cardatt rank (top OB))
+		       (cardatt rank (top ((current player) vloc TRICK))))
+		   (repeat (size OB)
+                       (move (bottom OB))
+                             (top ((current player) loc BUNDLE))
+                   (set ((current player) sto MOVED) 1)))))
+			
+
               
              ((== ((current player) sto MOVED) 0)      
               (move (top ((current player) vloc TRICK))
@@ -68,12 +71,11 @@
                     (top ((current player) vloc BUNDLE)))
               (set ((current player) sto MOVED) 0))
                                    
-         )
-      )    
-      (comp (() (cycle next current))
+         )    
+      (comp (() (cycle next current)))
       ) 
    )
-         
+   )         
    (scoring max (size ((current player) vloc BUNDLE)))
 
 )
