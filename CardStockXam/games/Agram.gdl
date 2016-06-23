@@ -40,10 +40,10 @@
             (end (all player P 
                       (> (size (P vloc TRICK)) 0)))
              
-            (choice
               (let ((current player) iloc HAND where C (all (== (cardatt SUIT C)
-                                                                (cardatt SUIT (top (game mem LEAD)))))) LEADCARDS)
-               ;; if following player and cannot follow SUIT
+                                                                (cardatt SUIT (top (game mem LEAD)))))) LEADCARDS
+           (choice
+                ;; if following player and cannot follow SUIT
                ;;   play any card, and end your turn
                ((and (== (size (game mem LEAD)) 1)
                      (== (size LEADCARDS) 0))
@@ -66,7 +66,7 @@
                            (top ((current player) vloc TRICK))))
                 (remember (top ((current player) vloc TRICK)) 
                           (top (game mem LEAD))))
-                      
+             )          
            )
          )
               
