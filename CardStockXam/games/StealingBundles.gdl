@@ -34,15 +34,18 @@
          (choice
              
             (()
-                (move (any ((current player) iloc HAND))										;; here
-                      (top ((current player) vloc TRICK))))
+				(any ((current player) iloc HAND) AC
+                (move AC
+                      (top ((current player) vloc TRICK)))))
+
 
          )
               
          ;; after players play hand, computer wraps up trick
          (comp
-             ((== (cardatt rank (any (game vloc POOL)))										    ;; here
-                  (cardatt rank (top ((current player) vloc TRICK))))
+			((any (game vloc POOL) P
+				(== (cardatt rank P)
+				(cardatt rank (top ((current player) vloc TRICK)))))
               (move (top (game vloc POOL where (all (== (cardatt rank each)
                                                        (cardatt rank (top ((current player) vloc TRICK)))))))
                     (top ((current player) vloc BUNDLE)) all)
