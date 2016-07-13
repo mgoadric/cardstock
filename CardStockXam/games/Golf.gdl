@@ -8,9 +8,22 @@
                                                  (BLACK (SUIT (CLUBS, SPADES))))))
     )
     (do (()
-          (initialize points PRECEDENCE (
-             (all (rank (10)) 10) ;;TODO
-          )
+       (initialize points PRECEDENCE (
+                               (all (rank (A)) 1)
+                               (all (rank (K)) 12) 
+                               (all (rank (Q)) 11)
+                               (all (rank (J)) 0)
+                               (all (rank (10)) 10)
+                               (all (rank (9)) 9)
+                               (all (rank (8)) 8)
+                               (all (rank (7)) 7)
+                               (all (rank (6)) 6)
+                               (all (rank (5)) 5)
+                               (all (rank (4)) 4)
+                               (all (rank (3)) 3)
+                               (all (rank (2)) 2)
+                               )
+                               ) 
            (shuffle (game iloc STOCK)))))
     
            (all player 'P
