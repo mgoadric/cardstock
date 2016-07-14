@@ -28,7 +28,7 @@
                       (top ((all player) iloc HAND)) 13)
                 (set (game sto BROKEN) 0)
              )
-      ) 
+      )
       
       
       

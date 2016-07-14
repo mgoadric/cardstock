@@ -23,14 +23,14 @@
                                (all (rank (3)) 3)
                                (all (rank (2)) 2)
                                )
-                               ) 
-           (shuffle (game iloc STOCK)))))
+                               )
+       (shuffle (game iloc STOCK))
     
-           (all player 'P
-                (all 'PLOCS 'L
-                     (do (() (move (top (game iloc STOCK)) (top ('P iloc 'L)))))
+       (all player 'P
+          (all 'PLOCS 'L
+             (do (() (move (top (game iloc STOCK)) (top ('P iloc 'L)))))))
            
-    )))
+    ))
     (stage player
         (end (== (size (game iloc STOCK) 0)))
         (choice
@@ -50,4 +50,5 @@
     )
     (scoring min (sum (union (all 'PLOCS 'L
                               ((current player) iloc 'L)) using PRECEDENCE)))
+   )
 )
