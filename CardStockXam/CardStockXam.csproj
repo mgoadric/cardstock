@@ -89,6 +89,7 @@
     <Compile Include="Players\LessThanPerfectPlayer.cs" />
     <Compile Include="ParseTreeIterator\CardIterator.cs" />
     <Compile Include="ParseTreeIterator\StageIterator.cs" />
+    <Compile Include="Experiment.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
