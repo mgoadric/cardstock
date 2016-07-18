@@ -42,7 +42,7 @@
         )
    )
    (stage player
-      (end (any player P (>= (sum (P vloc SCORING) using 'POINTS) 16)))      
+      (end (any player 'P (>= (sum ('P vloc SCORING) using 'POINTS) 16)))      
       (do  
          ((< (size (game iloc STOCK)) 'NUMP)
             (move (top (game iloc THROWOUT))
@@ -108,8 +108,8 @@
       
       ;; Move all cards back to the discard pile
       (do
-        (() (all player P
-             (move (top (P vloc HAND))
+        (() (all player 'P
+             (move (top ('P vloc HAND))
                (top (game vloc DISCARD)) all)))
         (() (set (game sto FINISHED) 0))
       )    

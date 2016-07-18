@@ -69,12 +69,12 @@
               
         ))))
         (() ;; move card from reserve to table
-          (any 'PLOCS 'P
+          (any 'PLOCS 'L
             (any 'TLOCS 'T
                (do ((and
                     (> (size (game vloc 'T)) 0)
-                    (== (score (top (game vloc 'T)) using 'PRECEDENCE) (- (score (top ((current player) vloc 'P)) using 'PRECEDENCE) 1))
-                 (move (top ((current player) vloc 'P)) (top (game vloc 'T))))
+                    (== (score (top (game vloc 'T)) using 'PRECEDENCE) (- (score (top ((current player) vloc 'L)) using 'PRECEDENCE) 1))
+                 (move (top ((current player) vloc 'L)) (top (game vloc 'T))))
                  (() (cycle next current))
         )))))
         (() ;; move card from current to table
@@ -99,10 +99,10 @@
         )))))
         (() ;; add ace from reserve
          (any 'TLOCS 'T
-           (any 'PLOCS 'P
+           (any 'PLOCS 'L
              (do ((and
                    (== (size (game vloc 'T)) 0)) 
-                   (== 1 (score (top ((current player) vloc 'P)) using 'PRECEDENCE))
+                   (== 1 (score (top ((current player) vloc 'L)) using 'PRECEDENCE))
                  (move (top ((current player) vloc 'P)) (top (game vloc 'T)))
                  (() (cycle next current))
         )))))

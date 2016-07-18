@@ -28,7 +28,7 @@
          
       ;; players play a round 13 times     
       (stage player
-         (end (all player 'P (== (size ('P iloc HAND)) 0))
+         (end (all player 'P (== (size ('P iloc HAND)) 0)))
                     
          ;; players play a hand once
          (stage player
@@ -93,19 +93,18 @@
              ;; discard all the played cards
               (() (all player 'P
                       (move (top ('P vloc TRICK)) 
-                        (top (game vloc DISCARD))))
+                        (top (game vloc DISCARD)))))
              
-         )
+         ))
       )
          
       ;; determine team score
       (stage team
-         (end (all player 'P(== ('P sto TRICKSWON) 0))
-         (comp
+         (end (all player 'P(== ('P sto TRICKSWON) 0)))
+         (do
           
             ;; team made their cumulative bid, score positive points
-            ((> (sum (((current team) player) sto TRICKSWON)) 
-                6)
+            ((> (sum (((current team) player) sto TRICKSWON)) 6)
              (inc ((current team) sto SCORE) (- (sum (((current team) player) sto TRICKSWON)) 
                 6))
             )

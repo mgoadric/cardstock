@@ -149,7 +149,7 @@
          
       ;; determine team score
       (stage team
-         (end (== ((all player) sto TRICKSWON) 0))
+         (end (all player 'P(== ('P sto TRICKSWON) 0))
          (do
           
             ;; team made their cumulative bid, score positive points

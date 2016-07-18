@@ -13,7 +13,7 @@
                  
    ;; Stages of the game
    (stage player
-      (end (!= ((any player) sto SCORE) 0))
+      (end (!= (any player 'P ('P sto SCORE) 0)))
       (do
          (() (move (top (game vloc DISCARD)) 
                       (top (game iloc STOCK)) all))
@@ -27,11 +27,7 @@
          (() (move (top (game iloc STOCK))
                    (top ((all player) iloc HAND)) 13))
          (() (set (game sto BROKEN) 0))
-      )
-   )
-      
-      
-      
+      )   
          
       ;; players play a round 13 times     
       (stage player
@@ -126,7 +122,7 @@
              ;; discard all the played cards
              (() (all player 'P
                    (move (top ('P vloc TRICK)) 
-                       (top ((next player) vloc TRICKSWON))))
+                       (top ((next player) vloc TRICKSWON)))))
              
          )
       )
