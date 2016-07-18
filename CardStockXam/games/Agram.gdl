@@ -1,9 +1,9 @@
 ;; Agram in the GDL
 (game
-
+   (declare 2 'NUMP)
    (setup 
       ;; Set up the players
-      (create players 2)
+      (create players 'NUMP)
       (create teams (0) (1))
 
       ;; Create the deck source
@@ -19,62 +19,60 @@
    )
                
    ;; Stages of the game
-      (comp (()
-                (shuffle (game iloc STOCK))
-                (all player P 
-                     (repeat 6 (move (top (game iloc STOCK))
-                                     (top (P iloc HAND)))))
-                (all player P 
-                     (set (P sto SCORE) 0))
-                
-             )
-      ) 
+      (do
+          (()
+            (shuffle (game iloc STOCK)))
+          (()
+            (all player 'P 
+              (repeat 6 (move (top (game iloc STOCK))
+                              (top ('P iloc HAND))))))
+          (()
+            (all player P 
+              (set (P sto SCORE) 0)))
+      )
          
       ;; players play a round 6 times     
       (stage player
-         (end (all player P 
-                   (== (size (P iloc HAND)) 0)))
+         (end (all player 'P 
+                   (== (size ('P iloc HAND)) 0)))
                     
          ;; players play a hand once
          (stage player
-            (end (all player P 
-                      (> (size (P vloc TRICK)) 0)))
-             
-              (let ((current player) iloc HAND where C (all (== (cardatt SUIT C)
-                                                                (cardatt SUIT (top (game mem LEAD)))))) LEADCARDS
+            (end (all player 'P 
+                      (> (size ('P vloc TRICK)) 0)))
+            
            (choice
-                ;; if following player and cannot follow SUIT
+                ;; if following player cannot follow SUIT
                ;;   play any card, and end your turn
-               ((and (== (size (game mem LEAD)) 1)
-                     (== (size LEADCARDS) 0))
-                (any ((current player) iloc HAND) AC 
-                     (move AC 
-                           (top ((current player) vloc TRICK)))))
+             ((and (== (size (game mem LEAD)) 1)
+                     (== (size ((current player) iloc HAND where (all (== (cardatt suit each)
+                                                                          (cardatt suit (top (game mem LEAD))))))) 0))
+               (any ((current player) iloc HAND)
+                  (move 'AC 
+                      (top ((current player) vloc TRICK)))))
 
                ;; if following player and can follow SUIT
                ;;   play any card that follows SUIT, and end your turn
-               ((and (== (size (game mem LEAD)) 1)
-                     (!= (size LEADCARDS) 0))
-                (any LEADCARDS LC (move LC
-                                        (top ((current player) vloc TRICK)))))
+            (any ((current player) iloc HAND where (all (== (cardatt suit each)
+                                                               (cardatt suit (top (game mem LEAD)))))) 'C
+               ((== (size (game mem LEAD)) 1)
+                   (move 'C (top ((current player) vloc TRICK)))))
                       
                ;; if first player, play any card, remember it in the lead spot, and end your turn
-               ((== (size (game mem LEAD)) 0)
-                      
-                (any ((current player) iloc HAND) AC 
-                     (move AC
+            ((== (size (game mem LEAD)) 0)                      
+              (any ((current player) iloc HAND) 'AC 
+                     (move 'AC
                            (top ((current player) vloc TRICK))))
                 (remember (top ((current player) vloc TRICK)) 
-                          (top (game mem LEAD))))
-             )          
-           )
-         )
+                          (top (game mem LEAD))))          
+             )
+          )
               
          ;; after players play hand, computer wraps up trick
-         (comp
+         (do
              (() 
                  ;; solidfy card recedence
-                 (points PRECEDENCE (
+                 (put points 'PRECEDENCE (
                                (all (SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
                                (all (RANK (A)) 14)
                                (all (RANK (10)) 10)
@@ -86,22 +84,21 @@
                                (all (RANK (4)) 4)
                                (all (RANK (3)) 3)
                                )
-                               )             
+                               ))           
                       
                  ;; determine who won the hand, set them first next time
-                 (forget (top (game mem LEAD)))
+            (() (forget (top (game mem LEAD))))
                  
                  ;; FIXME
-                 (cycle next (owner (max (union (all player P (P vloc TRICK))) using PRECEDENCE))))
+            (() (cycle next (owner (max (union (all player P (P vloc TRICK))) using 'PRECEDENCE))))
                  
-                 (all player P 
+            (() (all player P 
                       (move (top (P vloc TRICK)) 
-                            (top (game vloc DISCARD))))
+                            (top (game vloc DISCARD)))))
              
              ;; if that was the last round, give the winner a point
             ((all player P (== (size (P iloc HAND)) 0))
-             (inc ((next player) sto SCORE) 1)           
-            )        
+               (inc ((next player) sto SCORE) 1))        
          )
       )
    (scoring max ((current player) sto SCORE))

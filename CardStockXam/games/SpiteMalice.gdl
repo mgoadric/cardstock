@@ -12,8 +12,8 @@
                                                   (BLACK (SUIT (CLUBS, SPADES)))))))
    )
    (do (()
-       (initialize points 'PRECEDENCE (
-                               (all (rank (K)) 13) ;;TODO kings wild 
+       (put points 'PRECEDENCE (
+                               (all (rank (K)) 0) ;;TODO kings wild 
                                (all (rank (Q)) 12)
                                (all (rank (J)) 11)
                                (all (rank (10)) 10)
@@ -42,13 +42,14 @@
    (stage player
      (end (any player 'P (== (size ('P vloc CURRENT) 0))))
      (do ((== (size ((current player) vloc HAND)) 0) ;; if hand is empty, refill hand
-          (repeat 'HANDSIZE
-          (move (top (game iloc STOCK)) (top('P iloc PILE))))))
+          (do
+            (() (repeat 'HANDSIZE))
+            (() (move (top (game iloc STOCK)) (top('P iloc PILE)))))))
      (all 'TLOC 'T
-        (do (== (size (game vloc 'T)) 'MAXSIZE)
+        (do ((== (size (game vloc 'T)) 'MAXSIZE)
            (do
              (()(shuffle (game vloc 'T)))
-             (()(repeat 'MAXSIZE (move (top (game vloc 'T)) (bottom (game iloc STOCK))))))))
+             (()(repeat 'MAXSIZE (move (top (game vloc 'T)) (bottom (game iloc STOCK)))))))))
      (choice ;; hand to reserve
         (()
           (any ((current player) iloc HAND) 'DISC 

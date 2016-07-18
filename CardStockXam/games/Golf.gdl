@@ -8,7 +8,7 @@
                                                  (BLACK (SUIT (CLUBS, SPADES))))))
     )
     (do (()
-       (initialize points PRECEDENCE (
+       (put points 'PRECEDENCE (
                                (all (rank (A)) 1)
                                (all (rank (K)) 12) 
                                (all (rank (Q)) 11)
@@ -28,7 +28,7 @@
     
        (all player 'P
           (all 'PLOCS 'L
-             (do (() (move (top (game iloc STOCK)) (top ('P iloc 'L)))))))
+             (do (() (move (top (game iloc STOCK)) (top ('P hloc 'L)))))))
            
     ))
     (stage player
@@ -42,13 +42,12 @@
         )
         (choice
             (()
-               (move (top ((current player) iloc HAND)) (top(game vloc DISCARD))))
+              (move (top ((current player) iloc HAND)) (top(game vloc DISCARD))))
             (()
-               (all 'PLOCS 'L
-                    (choice (() (move (top ((current player) iloc HAND)) (top ((current player) iloc 'L))))))
+              (any 'PLOCS 'L
+                (move (top ((current player) iloc HAND)) (top ((current player) hloc 'L)))))
          )
     )
     (scoring min (sum (union (all 'PLOCS 'L
-                              ((current player) iloc 'L)) using PRECEDENCE)))
-   )
+                              ((current player) hloc 'L)) using 'PRECEDENCE)))
 )
