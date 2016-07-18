@@ -346,6 +346,7 @@ public class Controller {
             else if (lineId == 'A') { //Assignment
                 String[] parts = line.split(" ");
                 newTable.addValueToCards("reward", parts[0], parts[1]);
+                //TODO, take in specific name of map instead of 'reward'
             }
 
             else if (lineId == 'S') { //Storage
