@@ -10,50 +10,48 @@
                                           (color (RED (suit (HEARTS, DIAMONDS)))
                                                  (BLACK (suit (CLUBS, SPADES))))))         
     )
-    (do
-      (() (shuffle (game iloc STOCK)))
-      (() (move (top (game iloc STOCK))
-                (top (game vloc POOL)) 4))  
-    )
+    (do (
+      (shuffle (game iloc STOCK))
+      (move (top (game iloc STOCK))
+                (top (game vloc POOL)) 4)  
+    ))
                
    ;; Stages of the game
    (stage player
       (end (== (size (game iloc STOCK)) 0))
-      (do (() (all player 'P (move (top (game iloc STOCK))
-                      (top ('P iloc HAND)) 4))
-             )
-      ) 
+      (do (
+         (all player 'P (move (top (game iloc STOCK))
+                              (top ('P iloc HAND)) 4))
+      ))
                      
       ;; players play a round      
       (stage player
          (end (all player 'P (== (size (P iloc HAND)) 0)))
                     
          ;; players play a card
-         (choice
-           (() (any ((current player) iloc HAND) 'AC
-                 (move 'AC (top ((current player) vloc TRICK)))))
-
-
-         )
+         (choice (
+           (any ((current player) iloc HAND) 'AC
+              (move 'AC (top ((current player) vloc TRICK))))
+         ))
               
          ;; after players play hand, computer wraps up trick
          (do
             (any (game vloc POOL) 'L
                     ((== (cardatt rank 'L)
                         (cardatt rank (top ((current player) vloc TRICK))))
-                      (do
-                         (() (all (top (game vloc POOL where 'C (all (== (cardatt rank 'C) (cardatt rank (top ((current player) vloc TRICK))))))) 'N
-                                  (move 'N (top ((current player) vloc BUNDLE)) all)))
-                         (() (set ((current player) sto MOVED) 1)))))
-            
+                      (do (
+                         (all (top (game vloc POOL where 'C (all (== (cardatt rank 'C) (cardatt rank (top ((current player) vloc TRICK))))))) 'N
+                                  (move 'N (top ((current player) vloc BUNDLE)) all))
+                         (set ((current player) sto MOVED) 1)
+                      ))))
             (any player 'P
-              (let ('P vloc BUNDLE) OB
-                   ((== (cardatt rank (top OB))
+              (let ('P vloc BUNDLE) 'OB
+                   ((== (cardatt rank (top 'OB))
 		       (cardatt rank (top ((current player) vloc TRICK))))
-		   (repeat (size OB)
-                       (move (bottom OB))
-                             (top ((current player) loc BUNDLE))
-                   (set ((current player) sto MOVED) 1)))))
+		     (repeat (size 'OB)
+                         (move (bottom 'OB))
+                               (top ((current player) loc BUNDLE))
+                     (set ((current player) sto MOVED) 1)))))
 			
 
               
@@ -62,15 +60,14 @@
                     (top (game vloc POOL))))
 
              ((== ((current player) sto MOVED) 1)
-              (do
-                (() (move (top ((current player) vloc TRICK))
-                          (top ((current player) vloc BUNDLE))))
-                (()(set ((current player) sto MOVED) 0))
+              (do (
+                (move (top ((current player) vloc TRICK))
+                      (top ((current player) vloc BUNDLE))))
+                (set ((current player) sto MOVED) 0)))
                                    
-            ))    
-      (do (() (cycle next current)))
+         )    
+         (do ((cycle next current)))
       ) 
-   )
    )         
    (scoring max (size ((current player) vloc BUNDLE)))
 

@@ -10,9 +10,9 @@
                                                      (color (RED (suit (HEARTS, DIAMONDS)))
                                                             (BLACK (suit (CLUBS, SPADES))))))
     )
-    (do
-           ;; Create the deck source
-        (() (initialize points 'PRECEDENCE (
+    (do (
+        ;; Create the deck source
+        (initialize points 'PRECEDENCE (
                                (all (rank (A)) 14)
                                (all (rank (K)) 13) 
                                (all (rank (Q)) 12)
@@ -26,11 +26,11 @@
                                (all (rank (4)) 4)
                                (all (rank (3)) 3)
                                (all (rank (2)) 2)
-                               )))                    
-        (() (shuffle (game iloc STOCK)))
-        (() (move (top (game iloc STOCK))
-                  (top ((all player) iloc HAND)) 26))
-   )
+                               ))      
+        (shuffle (game iloc STOCK))
+        (move (top (game iloc STOCK))
+                  (top ((all player) iloc HAND)) 26)
+   ))
                
    ;; Stages of the game
    (stage player
@@ -39,84 +39,84 @@
       ;; Each player plays a card
       (stage player
           (end (>= (size ((all player) vloc TRICK)) 1))
-                     
-                    
           ;; players play a card
-          (choice
-             
+          (choice (
               ((== (game sto WAR) 0)
-               (do
-                 (() (move (top ((current player) iloc HAND))
-                           (top ((current player) vloc TRICK))))
-                 (() (move (top ((next player) iloc HAND))
-                           (top ((next player) vloc TRICK))))
-              ))
-              ((all player 'P ;;TODO
-                 (and (== (game sto WAR) 1) (>= (size ('P iloc HAND)) 4)))
-               (do
-                 (() (move (top ((current player) iloc HAND))
-                           (top (game iloc BOUNTY)) 3))
-                 (() (move (top ((current player) iloc HAND))
-                           (top ((current player) vloc TRICK))))
-                 (() (move (top ((next player) iloc HAND))
-                           (top (game iloc BOUNTY)) 3))
-                 (() (move (top ((next player) iloc HAND))
-                           (top ((next player) vloc TRICK))))
-              ))
-              ((and (== (game sto WAR) 1) (== (size ((any player) iloc HAND)) 3) (!= (size ((any player) iloc HAND)) 2) (!= (size ((any player) iloc HAND)) 1)) ;;TODO
-               (do 
-                 (() (move (top ((current player) iloc HAND))
-                           (top (game iloc BOUNTY)) 2))
-                 (() (move (top ((current player) iloc HAND))
-                           (top ((current player) vloc TRICK))))
-                 (() (move (top ((next player) iloc HAND))
-                           (top (game iloc BOUNTY)) 2))
-                 (() (move (top ((next player) iloc HAND))
-                           (top ((next player) vloc TRICK))))
-              ))
-              ((and (== (game sto WAR) 1) (== (size ((any player) iloc HAND)) 2) (!= (size ((any player) iloc HAND)) 1))
-               (do
-                 (() (move (top ((current player) iloc HAND))
-                           (top (game iloc BOUNTY)) 1))
-                 (() (move (top ((current player) iloc HAND))
-                           (top ((current player) vloc TRICK))))
-                 (() (move (top ((next player) iloc HAND))
-                           (top (game iloc BOUNTY)) 1))
-                 (() (move (top ((next player) iloc HAND))
-                           (top ((next player) vloc TRICK))))
-              ))
+               (do (
+                 (move (top ((current player) iloc HAND))
+                       (top ((current player) vloc TRICK)))
+                 (move (top ((next player) iloc HAND))
+                           (top ((next player) vloc TRICK)))
+              )))
+              (all player 'P
+                 ((and (== (game sto WAR) 1) (>= (size ('P iloc HAND)) 4))
+               (do (
+                 (move (top ((current player) iloc HAND))
+                           (top (game iloc BOUNTY)) 3)
+                 (move (top ((current player) iloc HAND))
+                           (top ((current player) vloc TRICK)))
+                 (move (top ((next player) iloc HAND))
+                           (top (game iloc BOUNTY)) 3)
+                 (move (top ((next player) iloc HAND))
+                           (top ((next player) vloc TRICK)))
+              ))))
+              ((and (== (game sto WAR) 1) (any player 'P (== (size ('P iloc HAND)) 3)) (all player 'P (!= (size ('P iloc HAND)) 2)) (all player 'P (!= (size ('P iloc HAND)) 1))) ;;TODO
+               (do ( 
+                 (move (top ((current player) iloc HAND))
+                           (top (game iloc BOUNTY)) 2)
+                 (move (top ((current player) iloc HAND))
+                           (top ((current player) vloc TRICK)))
+                 (move (top ((next player) iloc HAND))
+                           (top (game iloc BOUNTY)) 2)
+                 (move (top ((next player) iloc HAND))
+                           (top ((next player) vloc TRICK)))
+              )))
+              ((and (== (game sto WAR) 1) (any player 'P (== (size ('P iloc HAND)) 2)) (all player 'P (!= (size ('P iloc HAND)) 1)))
+               (do (
+                 (move (top ((current player) iloc HAND))
+                       (top (game iloc BOUNTY)) 1)
+                 (move (top ((current player) iloc HAND))
+                       (top ((current player) vloc TRICK)))
+                 (move (top ((next player) iloc HAND))
+                       (top (game iloc BOUNTY)) 1)
+                 (move (top ((next player) iloc HAND))
+                       (top ((next player) vloc TRICK)))
+              )))
               ((and (== (game sto WAR) 1) (== (size ((any player) iloc HAND)) 1))
-               (do
-                 (() (move (top ((current player) iloc HAND))
-                           (top ((current player) vloc TRICK))))
-                 (() (move (top ((next player) iloc HAND))
-                           (top ((next player) vloc TRICK))))
-              ))
-          )
+               (do (
+                 (move (top ((current player) iloc HAND))
+                           (top ((current player) vloc TRICK)))
+                 (move (top ((next player) iloc HAND))
+                           (top ((next player) vloc TRICK)))
+              )))
+          ))
       )
 
-      (do
+      (do (
           
           ((!= (cardatt rank (top ((current player) vloc TRICK)))
                (cardatt rank (top ((next player) vloc TRICK))))
-           (do
-             (() (all player 'P
+           (do (
+             (all player 'P
                    (move (top (game iloc BOUNTY))
-                         (bottom (((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) player) iloc HAND)) all)))
-             (() (all player 'P
+                         (bottom (((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) player) iloc HAND)) all))
+             (all player 'P
                    (move (top ((all player) vloc TRICK))
-                       (bottom (((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) player) iloc HAND)) all)))
-             (() (set (game sto WAR) 0))
-          ))
+                       (bottom (((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) player) iloc HAND)) all))
+             (set (game sto WAR) 0)
+           ))
+          )
+          
           ((== (cardatt rank (top ((current player) vloc TRICK)))
                (cardatt rank (top ((next player) vloc TRICK))))
-           (do
-             (() (all player 'P
+           (do (
+             (all player 'P
                    (move (top ('P vloc TRICK))
-                         (top (game iloc BOUNTY)) all)))
-             (() (set (game sto WAR) 1)))
-          )
-       )
+                         (top (game iloc BOUNTY)) all))
+             (set (game sto WAR) 1)
+          ))
+         )
+      ))
    )
          
    (scoring max (size ((current player) iloc HAND)))

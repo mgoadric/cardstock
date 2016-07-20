@@ -15,48 +15,48 @@
    ;; Stages of the game
    (stage player
       (end (any team 'T (!= ('T sto SCORE) 0)))
-      (do
-          (() (move (top (game iloc DISCARD)) 
-                    (top (game iloc STOCK)) all))
-          (() (remember (top (game iloc STOCK where (all (== (cardatt suit each) spades))))
-                          (top (game mem TRUMP))))
-          (() (shuffle (game iloc STOCK)))
-          (() (move (top (game iloc STOCK))
-                      (top ((all player) iloc HAND)) 13))
-          (() (set (game sto BROKEN) 0))
-          (() (set ((all player) sto TRICKSWON) 0))
-          (() (set ((all player) sto BID) 14))
-      )
+      (do (
+          (move (top (game iloc DISCARD)) 
+                    (top (game iloc STOCK)) all)
+          (remember (top (game iloc STOCK where (all (== (cardatt suit each) spades))))
+                          (top (game mem TRUMP)))
+          (shuffle (game iloc STOCK))
+          (move (top (game iloc STOCK))
+                      (top ((all player) iloc HAND)) 13)
+          (set (game sto BROKEN) 0)
+          (set ((all player) sto TRICKSWON) 0)
+          (set ((all player) sto BID) 14)
+      ))
       
       ;; bidding for number of tricks expected
       (stage player
-         (end (all player 'P (<= ('P sto BID) 13))
-         (choice
-            (() (set ((current player) sto BID) 1))
-            (() (set ((current player) sto BID) 2))
-            (() (set ((current player) sto BID) 3))
-            (() (set ((current player) sto BID) 4))
-            (() (set ((current player) sto BID) 5))
-            (() (set ((current player) sto BID) 6))
-            (() (set ((current player) sto BID) 7))
-            (() (set ((current player) sto BID) 8))
-            (() (set ((current player) sto BID) 9))
-            ;;(() (set ((current player) sto BID) 10))
-            ;;(() (set ((current player) sto BID) 11))
-            ;;(() (set ((current player) sto BID) 12))
-            ;;(() (set ((current player) sto BID) 13))
-         )
+         (end (all player 'P (<= ('P sto BID) 13)))
+         (choice (
+            (set ((current player) sto BID) 1)
+            (set ((current player) sto BID) 2)
+            (set ((current player) sto BID) 3)
+            (set ((current player) sto BID) 4)
+            (set ((current player) sto BID) 5)
+            (set ((current player) sto BID) 6)
+            (set ((current player) sto BID) 7)
+            (set ((current player) sto BID) 8)
+            (set ((current player) sto BID) 9)
+            ;;(set ((current player) sto BID) 10)
+            ;;(set ((current player) sto BID) 11)
+            ;;(set ((current player) sto BID) 12)
+            ;;(set ((current player) sto BID) 13)
+         ))
       )
          
       ;; players play a round 13 times     
       (stage player
-         (end (all player 'P (== (size ('P iloc HAND)) 0))
+         (end (all player 'P (== (size ('P iloc HAND)) 0)))
                     
          ;; players play a hand once
          (stage player
             (end (all player 'P (> (size ('P vloc TRICK)) 0)))
              
-            (choice
+            (choice (
                ;; if following player and cannot follow suit
                ;;   play any card, and end your turn
                ((and (== (size (game mem LEAD)) 1)
@@ -69,8 +69,8 @@
                ;;   play any card that follows suit, and end your turn
                (all ((current player) iloc HAND where (all (== (cardatt suit each)
                                                                (cardatt suit (top (game mem LEAD)))))) 'C
-                 (== (size (game mem LEAD)) 1)
-                    (move 'C (top ((current player) vloc TRICK))))
+                 ((== (size (game mem LEAD)) 1)
+                    (move 'C (top ((current player) vloc TRICK)))))
                       
                ;; if first player and spades not broken and have non-spades cards
                ;;   play one of these, remember it in the lead spot, and end your turn
@@ -78,39 +78,38 @@
                                                                (cardatt suit (top (game mem TRUMP)))))) 'C
                  ((and (== (size (game mem LEAD)) 0)
                      (== (game sto BROKEN) 0))
-                  (do
-                    (() (move 'C (top ((current player) vloc TRICK))))
-                    (() (remember (top ((current player) vloc TRICK)) 
+                  (do (
+                    (move 'C (top ((current player) vloc TRICK)))
+                    (remember (top ((current player) vloc TRICK)) 
                            (top (game mem LEAD)))))))
                       
                ;; if first player and spades broken
                ;;   play any card, remember it in the lead spot, and end your turn
                ((and (== (size (game mem LEAD)) 0)
                      (== (game sto BROKEN) 1)) 
-                (do
-                   (() (any ((current player) iloc HAND) 'C
-                          (move 'C (top ((current player) vloc TRICK)))))
-                (remember (top ((current player) vloc TRICK)) 
+                 (do
+                   (any ((current player) iloc HAND) 'C
+                          (move 'C (top ((current player) vloc TRICK))))
+                   (remember (top ((current player) vloc TRICK)) 
                           (top (game mem LEAD)))))
                       
                ((and (== (size (game mem LEAD)) 0)
                      (== (game sto BROKEN) 0)
                      (== (size ((current player) iloc HAND where (all (!= (cardatt suit each) 
                                                                     (cardatt suit (top (game mem TRUMP))))))) 0))
-                 (do
-                    (() (move (any ((current player) iloc HAND)) 
-                              (top ((current player) vloc TRICK))))
-                    (() (remember (top ((current player) vloc TRICK)) 
-                              (top (game mem LEAD))))
-                 ))
-            )
+                 (do (
+                    (move (any ((current player) iloc HAND)) 
+                              (top ((current player) vloc TRICK)))
+                    (remember (top ((current player) vloc TRICK)) 
+                              (top (game mem LEAD)))
+                 )))
+            ))
          )
               
          ;; after players play hand, computer wraps up trick
-         (do
-             (() 
+         (do (
                  ;; solidfy card recedence
-                 (put points 'PRECEDENCE (
+               (put points 'PRECEDENCE (
                                (all (suit (cardatt suit (top (game mem TRUMP)))) 200)
                                (all (suit (cardatt suit (top (game mem LEAD)))) 100)
                                (all (rank (A)) 14)
@@ -127,37 +126,36 @@
                                (all (rank (3)) 3)
                                (all (rank (2)) 2)
                                )
-                               ))            
+                               )            
                       
                  ;; determine who won the hand, set them first next time, and give them a point
-              (() (forget (top (game mem LEAD))))
-              (() (cycle next (owner (max (union ((all player) vloc TRICK)) using 'PRECEDENCE))))
-              (() (inc ((next player) sto TRICKSWON) 1))
+              (forget (top (game mem LEAD)))
+              (cycle next (owner (max (union ((all player) vloc TRICK)) using 'PRECEDENCE)))
+              (inc ((next player) sto TRICKSWON) 1)
                   
              ;; if winner played trump and trump not broken, trump is now broken
-             ((and (== (cardatt suit (top ((next player) vloc TRICK))) 
-                       (cardatt suit (top (game mem TRUMP))))
+              ((and (== (cardatt suit (top ((next player) vloc TRICK))) 
+                        (cardatt suit (top (game mem TRUMP))))
                    (== (game sto BROKEN) 0))
-              (set (game sto BROKEN) 1))
+                (set (game sto BROKEN) 1))
                   
              ;; discard all the played cards
-             (() (move (top ((all player) vloc TRICK)) 
-                       (top (game iloc DISCARD))))
-             
-         )
-      ))
+              (move (top ((all player) vloc TRICK)) 
+                       (top (game iloc DISCARD)))
+         ))
+      )
          
       ;; determine team score
       (stage team
-         (end (all player 'P(== ('P sto TRICKSWON) 0))
-         (do
+         (end (all player 'P(== ('P sto TRICKSWON) 0)))
+         (do (
           
             ;; team made their cumulative bid, score positive points
             ((>= (sum (((current team) player) sto TRICKSWON)) 
                  (sum (((current team) player) sto BID)))
-              (do
-                (() (inc ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID)))))
-                (() (inc ((current team) sto BAGS) (- (sum (((current team) player) sto TRICKSWON)) 
+              (do (
+                (inc ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID))))
+                (inc ((current team) sto BAGS) (- (sum (((current team) player) sto TRICKSWON)) 
                                                (sum (((current team) player) sto BID)))))))
             
             ;; team did not make their cumulative bid, score negative points
@@ -166,12 +164,12 @@
              (dec ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID)))))
             
             ;; record bags if over 10
-            (() (dec ((current team) sto SCORE) (* 100 (// ((current team) sto BAGS) 10))))
-            (() (set ((current team) sto BAGS) (% ((current team) sto BAGS) 10)))
-            (() (set (((current team) player) sto TRICKSWON) 0))
-         )
+            (dec ((current team) sto SCORE) (* 100 (// ((current team) sto BAGS) 10)))
+            (set ((current team) sto BAGS) (% ((current team) sto BAGS) 10))
+            (set (((current team) player) sto TRICKSWON) 0)
+         ))
       )
-   ))
+   )
    (scoring max (((current player) team) sto SCORE))
 )
          

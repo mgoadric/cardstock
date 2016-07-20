@@ -19,17 +19,14 @@
    )
                
    ;; Stages of the game
-      (do
-          (()
-            (shuffle (game iloc STOCK)))
-          (()
-            (all player 'P 
+      (do (
+         (shuffle (game iloc STOCK))
+         (all player 'P 
               (repeat 6 (move (top (game iloc STOCK))
-                              (top ('P iloc HAND))))))
-          (()
-            (all player 'P 
-              (set ('P sto SCORE) 0)))
-      )
+                              (top ('P iloc HAND)))))
+         (all player 'P 
+              (set ('P sto SCORE) 0))
+      ))
          
       ;; players play a round 6 times     
       (stage player
@@ -41,7 +38,7 @@
             (end (all player 'P2 
                       (> (size ('P2 vloc TRICK)) 0)))
             
-           (choice
+           (choice (
                 ;; if following player cannot follow SUIT
                ;;   play any card, and end your turn
              ((and (== (size (game mem LEAD)) 1)
@@ -53,24 +50,26 @@
 
                ;; if following player and can follow SUIT
                ;;   play any card that follows SUIT, and end your turn
-            (any ((current player) iloc HAND where (all (== (cardatt suit each)
+             (any ((current player) iloc HAND where (all (== (cardatt suit each)
                                                                (cardatt suit (top (game mem LEAD)))))) 'C
                ((== (size (game mem LEAD)) 1)
                    (move 'C (top ((current player) vloc TRICK)))))
                       
                ;; if first player, play any card, remember it in the lead spot, and end your turn
-            ((== (size (game mem LEAD)) 0)                      
-              (any ((current player) iloc HAND) 'AC 
+             ((== (size (game mem LEAD)) 0)                      
+              (any ((current player) iloc HAND) 'AC
+                 (do (
                      (move 'AC
-                           (top ((current player) vloc TRICK))))
-                (remember (top ((current player) vloc TRICK)) 
-                          (top (game mem LEAD))))          
-             )
-          )
+                           (top ((current player) vloc TRICK)))
+                     (remember (top ((current player) vloc TRICK)) 
+                               (top (game mem LEAD)))
+                 ))
+             ))
+          ))
+         )
               
          ;; after players play hand, computer wraps up trick
-         (do
-             (() 
+         (do (
                  ;; solidfy card recedence
                  (put points 'PRECEDENCE (
                                (all (SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
@@ -84,22 +83,22 @@
                                (all (RANK (4)) 4)
                                (all (RANK (3)) 3)
                                )
-                               ))           
+                               )          
                       
                  ;; determine who won the hand, set them first next time
-            (() (forget (top (game mem LEAD))))
+            (forget (top (game mem LEAD)))
                  
                  ;; FIXME
-            (() (cycle next (owner (max (union (all player P (P vloc TRICK))) using 'PRECEDENCE))))
+            (cycle next (owner (max (union (all player'P ('P vloc TRICK))) using 'PRECEDENCE)))
                  
-            (() (all player P 
-                      (move (top (P vloc TRICK)) 
-                            (top (game vloc DISCARD)))))
+            (all player 'P 
+                      (move (top ('P vloc TRICK)) 
+                            (top (game vloc DISCARD))))
              
              ;; if that was the last round, give the winner a point
             ((all player 'P2 (== (size ('P2 iloc HAND)) 0))
                (inc ((next player) sto SCORE) 1))        
-         )
+         ))
       )
    (scoring max ((current player) sto SCORE))
 )

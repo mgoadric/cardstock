@@ -13,10 +13,10 @@
       (create deck ((next player) iloc HAND) (deck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
                                                   (color (black (suit (SPADES))))))
     )
-    (do (() 
+    (do ( 
              
              ;; Create the deck source
-                 (initialize points 'PRECEDENCE (
+       (initialize points 'PRECEDENCE (
                                (all (rank (A)) 1)
                                (all (rank (K)) 13) 
                                (all (rank (Q)) 12)
@@ -31,19 +31,17 @@
                                (all (rank (3)) 3)
                                (all (rank (2)) 2)
                                )
-                 ))               
-      (() (shuffle (game iloc STOCK)))
-   )
+                 )               
+      (shuffle (game iloc STOCK))
+   ))
                
    ;; Stages of the game
    (stage player
       (end (all player 'P (== (size ('P iloc HAND)) 0)))
-      (do
-         (()
+      (do (
           (move (top (game iloc STOCK))
                 (top (game vloc AWARD)))
-         )
-      )
+      ))
                      
       ;; Stages of the game
       (stage player
@@ -51,12 +49,10 @@
                      
                     
           ;; players play a card
-          (choice
-              (()
+          (choice (
                ((any ((current player) iloc HAND) 'C
-                   (move 'C (top ((current player) iloc TRICK))))
-              )
-          )
+                   (move 'C (top ((current player) iloc TRICK)))))
+          ))
       )
 
       ;; Stages of the game
@@ -65,26 +61,20 @@
                      
                     
           ;; players play a card
-          (do
-             (()
+          (do (
                (move (top ((current player) iloc TRICK))
                  (top ((current player) vloc TRICK)))
-              )
-          )
+          ))
       )
-      (do    
+      (do (  
           ((!= (cardatt rank (top ((current player) vloc TRICK)))
                (cardatt rank (top ((next player) vloc TRICK))))
            (move (top (game vloc AWARD))
-                 (top (((owner (max (union ((all player) vloc TRICK)) using 'PRECEDENCE)) player) vloc WON)))
-          )
-
-          (()           
-           (all player 'P (move (top ('P vloc TRICK))
-                 (top (game vloc DISCARD))))
-          )
-      )
-   ))
+                 (top (((owner (max (union ((all player) vloc TRICK)) using 'PRECEDENCE)) player) vloc WON))))       
+          (all player 'P (move (top ('P vloc TRICK))
+                               (top (game vloc DISCARD))))
+      ))
+   )
          
    (scoring max (sum ((current player) vloc WON) using 'PRECEDENCE))
 )

@@ -196,3 +196,4 @@ FakesAssemblies/
 *.opt
 CardStockXam/GUI/.idea/workspace.xml
 CardStockXam/games/StealingBundles.1
+*.bak

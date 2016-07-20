@@ -15,16 +15,16 @@
    ;; Stages of the game
    (stage player
       (end (any team 'T (>= ('T sto SCORE) 10)))
-      (do
-         (() (move (top (game vloc DISCARD)) 
-                   (top (game iloc STOCK)) all))
-         (() (shuffle (game iloc STOCK)))
-         (() (move (top (game iloc STOCK))
-                   (top ((all player) iloc HAND)) 13))
-         (() (set ((all player) sto TRICKSWON) 0))
-         (() (remember (top ((current player) iloc HAND))
-                       (top (game mem TRUMP))))
-      ) 
+      (do (
+         (move (top (game vloc DISCARD)) 
+                   (top (game iloc STOCK)) all)
+         (shuffle (game iloc STOCK))
+         (move (top (game iloc STOCK))
+                   (top ((all player) iloc HAND)) 13)
+         (set ((all player) sto TRICKSWON) 0)
+         (remember (top ((current player) iloc HAND))
+                       (top (game mem TRUMP)))
+      ))
          
       ;; players play a round 13 times     
       (stage player
@@ -34,7 +34,7 @@
          (stage player
             (end (all player 'P2(> (size ('P2 vloc TRICK)) 0)))
              
-            (choice
+            (choice (
 
                ;; if following player and cannot follow suit
                ;;   play any card, and end your turn
@@ -48,23 +48,21 @@
                ;;   play any card that follows suit, and end your turn
                (any ((current player) iloc HAND where (all (== (cardatt suit each)
                                                                (cardatt suit (top (game mem LEAD)))))) 'C
-                (== (size (game mem LEAD)) 1)
-                   (move 'C (top ((current player) vloc TRICK))))
+                ((== (size (game mem LEAD)) 1)
+                   (move 'C (top ((current player) vloc TRICK)))))
                       
                ;; if first player, play any card, remember it in the lead spot, and end your turn
                ((== (size (game mem LEAD)) 0)
-                 (do
-                    (() (any ((current player) iloc HAND) 'C
-                           (move 'C (top ((current player) vloc TRICK)))))
-                    (() (remember (top ((current player) vloc TRICK)) 
-                          (top (game mem LEAD))))))
-                      
-           )
+                 (do (
+                    (any ((current player) iloc HAND) 'C
+                           (move 'C (top ((current player) vloc TRICK))))
+                    (remember (top ((current player) vloc TRICK)) 
+                          (top (game mem LEAD))))))  
+           ))
          )
               
          ;; after players play hand, computer wraps up trick
-         (do
-             (() 
+         (do (
                  ;; solidfy card recedence
                  (initialize points 'PRECEDENCE (
                                (all (suit (cardatt suit (top (game mem TRUMP)))) 200)
@@ -86,14 +84,13 @@
                                )             
                       
                  ;; determine who won the hand, set them first next time, and give them a point
-              (() (forget (top (game mem LEAD))))
-              (() (cycle next (owner (max (union ((all player) vloc TRICK)) using PRECEDENCE))))
-              (() (inc ((next player) sto TRICKSWON) 1))
-                                    
+              (forget (top (game mem LEAD)))
+              (cycle next (owner (max (union ((all player) vloc TRICK)) using PRECEDENCE)))
+              (inc ((next player) sto TRICKSWON) 1)                 
              ;; discard all the played cards
-              (() (all player 'P
+              (all player 'P
                       (move (top ('P vloc TRICK)) 
-                        (top (game vloc DISCARD)))))
+                        (top (game vloc DISCARD))))
              
          ))
       )
@@ -101,16 +98,17 @@
       ;; determine team score
       (stage team
          (end (all player 'P(== ('P sto TRICKSWON) 0)))
-         (do
+         (do (
           
             ;; team made their cumulative bid, score positive points
-            ((> (sum (((current team) player) sto TRICKSWON)) 6)
-             (inc ((current team) sto SCORE) (- (sum (((current team) player) sto TRICKSWON)) 
-                6))
-            )
-            (()
-             (set (((current team) player) sto TRICKSWON) 0))
-         )
+           (set ((current team) sto TRICKSWON) 0)
+           (all (current team) 'P
+               (inc ((current team) sto TRICKSWON) ('P sto TRICKSWON)))
+             ((> ((current team) sto TRICKSWON) 6)
+               (inc ((current team) sto SCORE) (- ((current team) sto TRICKSWON) 6)))
+           (all (current team) 'P
+            (set ('P sto TRICKSWON) 0))
+         ))
       )
    )
    (scoring max (((current player) team) sto SCORE))

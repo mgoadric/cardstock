@@ -11,12 +11,11 @@
       (create deck (game iloc STOCK) (deck 3 (rank (HS))
                                                      (COLOR 'COLORS)))
    )
-   (do 
-     (()
-      (set (game sto ROUNDS) 0))
-     (()
-      (initialize points 'PRECEDENCE (   
+   (do (
+      (set (game sto ROUNDS) 0)
+      (put points 'PRECEDENCE (   
          (all (rank (10)) 10)
+         ((rank (10)) 10)
          (all (rank (9)) 9)
          (all (rank (8)) 8)
          (all (rank (7)) 7)
@@ -24,22 +23,19 @@
          (all (rank (5)) 5)
          (all (rank (4)) 4)
          (all (rank (3)) 3)
-         (all (rank (2)) 2))))
-     (()
-      (initialize points 'MULTIPLIER (   
-         (all (rank (HS)) 1))))
-   )      
+         (all (rank (2)) 2)))
+      (put points 'MULTIPLIER (   
+         (all (rank (HS)) 1)))
+   ))      
    ;; Stages of the game
    
    (stage player
       (end (== (game sto ROUNDS) 3))
-      (do 
-        (() 
-         (shuffle (game iloc STOCK)))
-        (()
-         (all player 'P (repeat 8 (move (top (game iloc STOCK))
-                                        (top ('P iloc HAND))))))
-      )
+      (do ( 
+        (shuffle (game iloc STOCK))
+        (all player 'P (repeat 8 (move (top (game iloc STOCK))
+                                        (top ('P iloc HAND)))))
+      ))
       
       ;; players play a hand once
       (stage player
@@ -53,12 +49,10 @@
                    
                     ((> (size 'MYCOLOR) 0)                    
                      (any 'MYCOLOR 'AC
-                        (do 
-                          (()
-                           (move 'AC (top (game vloc 'C))))
-                          (()
-                           (set (game sto 'C) 1)))))     
-                          
+                        (do (
+                           (move 'AC (top (game vloc 'C)))
+                           (set (game sto 'C) 1)
+                        ))))
                     ((and (== (size ((current player) vloc 'C)) 0)
                           (> (size 'MYCOLOR) 0))               
                      (any 'MYCOLOR 'AC
@@ -78,63 +72,51 @@
          )
              
              ;; Draw a card
-         (choice 
-            (()
+         (choice (
              (move (top (game iloc STOCK))
-                   (top ((current player) iloc HAND))))
-            (()
+                   (top ((current player) iloc HAND)))
              (all 'COLORS 'C
                  (do ((and (> (size (game vloc 'C)) 0)
                            (!= (game sto 'C) 1))
                       (move (top (game vloc 'C))
-                            (top ((current player) iloc HAND)))))))          
-         )
+                            (top ((current player) iloc HAND))))))    
+         ))
          
          ;; Reset the marker for what card was played to the table
-        (do
+        (do (
           (all 'COLORS 'C
-            (() (set (game sto 'C) 0))))
+            (set (game sto 'C) 0))))
          ;; after players play hand, computer wraps up trick
          
       )
       
       (stage player ;;scoring
          (end (all player 'P (== ('P sto PROC) 1)))
-         (all 'COLORS 'C
-            (do 
-          
+         (do (
+           (all 'COLORS 'C
               ((> (size ((current player) vloc 'C)) 0)
-               (inc ((current player) sto SCORE) 
-                    (* (- (sum ((current player) vloc 'C) using 'PRECEDENCE) 20) 
-                       (+ (sum ((current player) vloc 'C) using 'MULTIPLIER) 1))))
-            )
-         )
-         (do
-           (()
-            (set ((current player) sto PROC) 1))
-           (()
-            (repeat (size ((current player) iloc HAND))
+                 (inc ((current player) sto SCORE) 
+                       (* (- (sum ((current player) vloc 'C) using 'PRECEDENCE) 20) 
+                       (+ (sum ((current player) vloc 'C) using 'MULTIPLIER) 1)))))
+           (set ((current player) sto PROC) 1)
+           (repeat (size ((current player) iloc HAND))
                   (move (top ((current player) iloc HAND))
-                        (top (game iloc STOCK)))))
-           (()
+                        (top (game iloc STOCK))))
             (all 'COLORS 'C
                (repeat (size ((current player) vloc 'C)) 
                   (move (top ((current player) vloc 'C))
-                        (top (game iloc STOCK))))))
-         )
+                        (top (game iloc STOCK)))))
+         ))
       )
-      (do
-        (()
+      (do (
          (all 'COLORS 'C
             (repeat (size (game vloc 'C)) 
                 (move (top (game vloc 'C))
-                      (top (game iloc STOCK))))))
-        (()
-         (inc (game sto ROUNDS) 1))
-        (()
-         (set ((all player) sto PROC) 0))
-      )
+                      (top (game iloc STOCK)))))
+         (inc (game sto ROUNDS) 1)
+         (set ((all player) sto PROC) 0)
+      ))
    )
    
    (scoring max ((current player) sto SCORE))
-)     
+)

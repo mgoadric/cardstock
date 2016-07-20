@@ -11,7 +11,7 @@
                                            (color (RED (SUIT (HEARTS, DIAMONDS)))
                                                   (BLACK (SUIT (CLUBS, SPADES)))))))
    )
-   (do (()
+   (do (
        (put points 'PRECEDENCE (
                                (all (rank (K)) 0) ;;TODO kings wild 
                                (all (rank (Q)) 12)
@@ -27,97 +27,104 @@
                                (all (rank (2)) 2)
                                (all (rank (A)) 1)
                                )
-                               ))
-       (() (shuffle (game iloc STOCK)))
-       (() (all player 'P
+                               )
+       (shuffle (game iloc STOCK))
+       (all player 'P
             (repeat 'NUMCARDS
-                (move (top (game iloc STOCK)) (top('P hloc PILE))))))
-       (()(all player 'P
-            (move (top('P hloc PILE)) ('P vloc CURRENT))))
-       (() (all player 'P
+                (move (top (game iloc STOCK)) (top('P hloc PILE)))))
+       (all player 'P
+            (move (top('P hloc PILE)) ('P vloc CURRENT)))
+       (all player 'P
             (repeat 'HANDSIZE
-                (move (top (game iloc STOCK)) (top ('P iloc HAND))))))
-       (() (set (game sto FINISHED 0)))
+                (move (top (game iloc STOCK)) (top ('P iloc HAND)))))
+       (set (game sto FINISHED 0)))
    )
    (stage player
-     (end (any player 'P (== (size ('P vloc CURRENT) 0))))
-     (do ((== (size ((current player) vloc HAND)) 0) ;; if hand is empty, refill hand
-          (do
-            (() (repeat 'HANDSIZE))
-            (() (move (top (game iloc STOCK)) (top('P iloc PILE)))))))
+     (end (or (any player 'P (== (size ('P vloc CURRENT) 0))) (== (size (game iloc STOCK)) 0)))
+     (do (
+         (and (== (size ((current player) vloc HAND)) 0) ;; if hand is empty, refill hand
+               (>= (size (game iloc STOCK)) 'HANDSIZE))
+         (repeat 'HANDSIZE
+           (move (top (game iloc STOCK)) (top((current player) iloc HAND))))))
      (all 'TLOC 'T
         (do ((== (size (game vloc 'T)) 'MAXSIZE)
-           (do
-             (()(shuffle (game vloc 'T)))
-             (()(repeat 'MAXSIZE (move (top (game vloc 'T)) (bottom (game iloc STOCK)))))))))
-     (choice ;; hand to reserve
-        (()
-          (any ((current player) iloc HAND) 'DISC 
+           (do (
+             (shuffle (game vloc 'T))
+             (repeat 'MAXSIZE (move (top (game vloc 'T)) (bottom (game iloc STOCK)))))))))
+     (choice ( ;; hand to reserve
+       (any ((current player) iloc HAND) 'DISC 
              (any 'PLOCS 'L
-               (do (() (move (top 'DISC) (top ((current player) iloc 'L)))
-                   (() (repeat (- 'HANDSIZE (size ((next player) iloc HAND)))
-                            (move (top (game iloc STOCK)) (top ((next player) iloc HAND)))))))
-        )))
-        (() ;; move card from hand to table
+               (do (
+                 (move (top 'DISC) (top ((current player) iloc 'L)))
+                   ((>= (- 'HANDSIZE (size ((next player) iloc HAND))) (size (game iloc STOCK)))
+                 (repeat (- 'HANDSIZE (size ((next player) iloc HAND)))
+                   (move (top (game iloc STOCK)) (top ((next player) iloc HAND)))))))
+        ))
+        ( ;; move card from hand to table
           (any 'TLOCS 'T
             (any ((current player) iloc HAND) 'C
-              (do ((and
+              (do (
+                  (and
                     (> (size (game vloc 'T)) 0)
                     (== (score (top (game vloc 'T)) using 'PRECEDENCE) (- (score 'C using 'PRECEDENCE) 1)))
-                  (move 'C (top (game vloc 'T))))
-                (() (cycle next current))
+                (do (
+                  (move 'C (top (game vloc 'T)))
+                  (cycle next current)))
               
-        ))))
-        (() ;; move card from reserve to table
+        )))))
+        ( ;; move card from reserve to table
           (any 'PLOCS 'L
             (any 'TLOCS 'T
-               (do ((and
+               (do (
+                  ((and
                     (> (size (game vloc 'T)) 0)
-                    (== (score (top (game vloc 'T)) using 'PRECEDENCE) (- (score (top ((current player) vloc 'L)) using 'PRECEDENCE) 1))
-                 (move (top ((current player) vloc 'L)) (top (game vloc 'T))))
-                 (() (cycle next current))
+                    (== (score (top (game vloc 'T)) using 'PRECEDENCE) (- (score (top ((current player) vloc 'L)) using 'PRECEDENCE) 1)))
+                 (move (top ((current player) vloc 'L)) (top (game vloc 'T)))
+                 (cycle next current))
         )))))
-        (() ;; move card from current to table
+        ( ;; move card from current to table
          (any 'TLOCS 'T
-           (do ((and
+           (do (
+              ((and
                     (> (size (game vloc 'T)) 0)
-                    (== (score (game vloc 'T) using 'PRECEDENCE) (- (score ((top ((current player) vloc CURRENT)) using 'PRECEDENCE)) 1))
-                (do (()
-                       (move (top ((current player) vloc CURRENT)) (top (game vloc 'T)))
-                    ((> (size (current player) iloc PILE) 0)
-                       (move (top ((current player) hloc PILE)) (top ((current player) vloc CURRENT)))))))
-                (() (cycle next current))
+                    (== (score (game vloc 'T) using 'PRECEDENCE) (- (score ((top ((current player) vloc CURRENT)) using 'PRECEDENCE)) 1)))
+              (do (
+                (move (top ((current player) vloc CURRENT)) (top (game vloc 'T)))
+                 ((> (size (current player) iloc PILE) 0)
+                (move (top ((current player) hloc PILE)) (top ((current player) vloc CURRENT))))
+                (cycle next current))))
         ))))
-        (() ;; add ace from hand
+        ( ;; add ace from hand
          (any 'TLOCS 'T
            (any ((current player) iloc HAND) 'C
-             (do ((and
+             (do (
+                 ((and
                    (== (size (game vloc 'T)) 0)) 
-                   (== 1 (score 'C using 'PRECEDENCE))
+                   (== 1 (score 'C using 'PRECEDENCE)))
                  (move 'C (top (game vloc 'T)))
-                 (() (cycle next current))
-        )))))
-        (() ;; add ace from reserve
+                 (cycle next current)))))
+        )
+        ( ;; add ace from reserve
          (any 'TLOCS 'T
            (any 'PLOCS 'L
              (do ((and
-                   (== (size (game vloc 'T)) 0)) 
-                   (== 1 (score (top ((current player) vloc 'L)) using 'PRECEDENCE))
+                   (== (size (game vloc 'T)) 0) 
+                   (== 1 (score (top ((current player) vloc 'L)) using 'PRECEDENCE)))
                  (move (top ((current player) vloc 'P)) (top (game vloc 'T)))
-                 (() (cycle next current))
-        )))))
-        (() ;; add ace from current
+                 (cycle next current)))))
+        )
+        ( ;; add ace from current
          (any 'TLOCS 'T
              (do ((and
-                   (== (size (game vloc 'T)) 0)) 
-                   (== 1 (score (top ((current player) vloc CURRENT)) using 'PRECEDENCE))
-                 (do (()
-                       (move (top ((current player) vloc CURRENT)) (top (game vloc 'T)))
-                    ((> (size (current player) iloc PILE) 0)
-                       (move (top ((current player) hloc PILE)) (top ((current player) vloc CURRENT))))))
-                    (() (cycle next current))
-        ))))
-      )
+                   (== (size (game vloc 'T)) 0) 
+                   (== 1 (score (top ((current player) vloc CURRENT)) using 'PRECEDENCE)))
+                 (do (
+                   (move (top ((current player) vloc CURRENT)) (top (game vloc 'T)))
+                     ((> (size (current player) iloc PILE) 0)
+                       (move (top ((current player) hloc PILE)) (top ((current player) vloc CURRENT))))
+                   (cycle next current)
+        ))))))
+      ))
    )
    (scoring min (size (union (((current player) hloc PILE) ((current player) vloc CURRENT)))))
 )
