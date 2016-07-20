@@ -6,9 +6,9 @@
       (create teams (0) (1) (2) (3))
 
       ;; Create the deck source
-      (create deck (game vloc DISCARD) (deck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
-                                             (color (RED (suit (HEARTS, DIAMONDS)))
-                                                   (BLACK (suit (CLUBS, SPADES))))))         
+      (create deck (game vloc DISCARD) (deck (RANK (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
+                                             (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                   (BLACK (SUIT (CLUBS, SPADES))))))         
    )
                  
    ;; Stages of the game

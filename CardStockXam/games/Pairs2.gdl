@@ -1,6 +1,6 @@
 ;; Pairs in the GDL
 (game
-    (declare 'NUMP 4)
+    (declare 4 'NUMP)
     (setup  
      ;; Set up the players, 3 players each on their own team
       (create players 'NUMP)
@@ -22,16 +22,16 @@
     
    (do (
         (put points 'POINTS (
-             (all (value (10)) 10)
-             (all (value (9)) 9)
-             (all (value (8)) 8)
-             (all (value (7)) 7)
-             (all (value (6)) 6)
-             (all (value (5)) 5)
-             (all (value (4)) 4)
-             (all (value (3)) 3)
-             (all (value (2)) 2)
-             (all (value (1)) 1)
+             ((VALUE (10)) 10)
+             ((VALUE (9)) 9)
+             ((VALUE (8)) 8)
+             ((VALUE (7)) 7)
+             ((VALUE (6)) 6)
+             ((VALUE (5)) 5)
+             ((VALUE (4)) 4)
+             ((VALUE (3)) 3)
+             ((VALUE (2)) 2)
+             ((VALUE (1)) 1)
              )
          )
          (shuffle (game iloc STOCK))
@@ -42,7 +42,7 @@
    )
    (stage player
       (end (any player 'P (>= (sum ('P vloc SCORING) using 'POINTS) 16)))      
-      (do  
+      (do (
          ((< (size (game iloc STOCK)) 'NUMP)
             (do (
                 (repeat (size (game iloc THROWOUT))
@@ -63,7 +63,7 @@
            ;; if tied, deal new card and try again
            ;; Stage, for tied players if dealt a pair, then discard and do it again
          (cycle current (owner (min (union (all player 'P ('P vloc HAND))) using 'POINTS)))
-     )
+     ))
    )
       
    ;; Stages of the game

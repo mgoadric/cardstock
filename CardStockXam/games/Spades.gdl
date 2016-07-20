@@ -7,8 +7,8 @@
       (create teams (0, 2) (1, 3))
 
       ;; Create the deck source
-      (create deck (game iloc DISCARD) (deck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
-                                                     (color (RED (suit (HEARTS, DIAMONDS)))
+      (create deck (game iloc DISCARD) (deck (RANK (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
+                                                     (COLOR (RED (suit (HEARTS, DIAMONDS)))
                                                             (BLACK (suit (CLUBS, SPADES))))))         
    )
                

@@ -7,9 +7,9 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
 using Antlr4.Runtime.Tree;
-using ParseTreeIterator;
+//using ParseTreeIterator;
 public class ParseEngine{
-	public static FreezeFrame.GameIterator currentIterator;
+	//public static FreezeFrame.GameIterator currentIterator;
 	public static RecycleParser.GameContext currentTree;
         StringBuilder builder = new StringBuilder();
 	public static int reportedBF = 0;
@@ -19,10 +19,11 @@ public class ParseEngine{
 		var breakOnCycle = false;
 		var regex = new Regex ("(;;)(.*?)(\n)");
 
+        //const string fileName = "Pairs2";
+        //const string fileName = "SpiteMalice";
+        const string fileName = "Hearts";
 
-		const string fileName = "Pairs2";
-
-		var f = File.ReadAllText ("games/" + fileName + ".gdl");
+        var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
 		//Console.WriteLine(file);
 		file = regex.Replace (file, "\n");
@@ -47,10 +48,12 @@ public class ParseEngine{
 			var bytes = Encoding.UTF8.GetBytes (builder.ToString ());
 			fs.Write (bytes, 0, bytes.Length);
 			fs.Close ();
-			Console.WriteLine("wrote games.gv");
+			Console.WriteLine("wrote " + fileName + ".gv");
 		} catch (Exception ex) {
 			Console.WriteLine (ex);
 		}
+        Console.ReadLine();
+        /*
 	
 		//Console.WriteLine(tree);
 		TimeSpan minTime = TimeSpan.MaxValue;
@@ -244,6 +247,7 @@ public class ParseEngine{
 		*/
 	}
 	public void NEWMaker(IParseTree node, string nodeName){
+        Console.WriteLine(node.ChildCount);
 		for (int i = 0; i < node.ChildCount; ++i) {
 			var dontCreate = false;
 			var newNodeName = nodeName + "_" + i;
@@ -356,6 +360,5 @@ public class ParseEngine{
                         Console.Write(con.GetText());
                 }
                 Console.Write(" }");
-        }
-        */
+        }*/
 }
