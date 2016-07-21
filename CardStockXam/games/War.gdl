@@ -5,26 +5,26 @@
       (create players 2)
       (create teams (0) (1))
       ;; Create the deck source
-      (create deck (game iloc STOCK) (deck (RANK (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
-                                                     (color (RED (suit (HEARTS, DIAMONDS)))
-                                                           (BLACK (suit (CLUBS, SPADES))))))
+      (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                                     (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                           (BLACK (SUIT (CLUBS, SPADES))))))
     )
     (do (
         ;; Create the deck source
         (put points 'PRECEDENCE (
-                               ((RANK (a)) 14)
-                               ((RANK (k)) 13) 
-                               ((RANK (q)) 12)
-                               ((RANK (j)) 11)
-                               ((RANK (10)) 10)
-                               ((RANK (9)) 9)
-                               ((RANK (8)) 8)
-                               ((RANK (7)) 7)
-                               ((RANK (6)) 6)
-                               ((RANK (5)) 5)
-                               ((RANK (4)) 4)
-                               ((RANK (3)) 3)
-                               ((RANK (2)) 2)
+                               ((RANK (A)) 14)
+                               ((RANK (K)) 13) 
+                               ((RANK (Q)) 12)
+                               ((RANK (J)) 11)
+                               ((RANK (TEN)) 10)
+                               ((RANK (NINE)) 9)
+                               ((RANK (EIGHT)) 8)
+                               ((RANK (SEVEN)) 7)
+                               ((RANK (SIX)) 6)
+                               ((RANK (FIVE)) 5)
+                               ((RANK (FOUR)) 4)
+                               ((RANK (THREE)) 3)
+                               ((RANK (TWO)) 2)
                                ))      
         (shuffle (game iloc STOCK))
         (repeat 26
@@ -105,11 +105,11 @@
                (cardatt RANK (top ((next player) vloc TRICK))))
            (do (
              (all player 'P
-                (repeat (size (game iloc BOUNTY))
+                (repeat all
                    (move (top (game iloc BOUNTY))
                          (bottom (((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) player) iloc HAND)))))
              (all player 'P
-               (repeat (size ('P vloc TRICK))
+               (repeat all
                    (move (top ('P vloc TRICK))
                        (bottom (((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) player) iloc HAND)))))
              (set (game sto WAR) 0)
@@ -120,7 +120,7 @@
                (cardatt RANK (top ((next player) vloc TRICK))))
            (do (
              (all player 'P
-                 (repeat (size ('P vloc TRICK))
+                 (repeat all
                    (move (top ('P vloc TRICK))
                          (top (game iloc BOUNTY)))))
              (set (game sto WAR) 1)

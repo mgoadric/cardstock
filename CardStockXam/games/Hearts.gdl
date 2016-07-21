@@ -5,7 +5,7 @@
       (create players 4)
       (create teams (0) (1) (2) (3))
       ;; Create the deck source
-      (create deck (game vloc DISCARD) (deck (RANK (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
+      (create deck (game vloc DISCARD) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                              (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                                    (BLACK (SUIT (CLUBS, SPADES))))))         
    )
@@ -14,7 +14,7 @@
    (stage player
       (end (any player 'P (!= ('P sto SCORE) 0)))
       (do (
-         (repeat (size (game vloc DISCARD))
+         (repeat all
              (move (top (game vloc DISCARD)) 
                 (top (game iloc STOCK))))
          (remember (top (filter (game iloc STOCK) 'H (== (cardatt SUIT 'H) HEARTS)))
@@ -96,17 +96,16 @@
                                ((RANK (K)) 13) 
                                ((RANK (Q)) 12)
                                ((RANK (J)) 11)
-                               ((RANK (10)) 10)
-                               ((RANK (9)) 9)
-                               ((RANK (8)) 8)
-                               ((RANK (7)) 7)
-                               ((RANK (6)) 6)
-                               ((RANK (5)) 5)
-                               ((RANK (4)) 4)
-                               ((RANK (3)) 3)
-                               ((RANK (2)) 2)
-                               )
-                               )
+                               ((RANK (TEN)) 10)
+                               ((RANK (NINE)) 9)
+                               ((RANK (EIGHT)) 8)
+                               ((RANK (SEVEN)) 7)
+                               ((RANK (SIX)) 6)
+                               ((RANK (FIVE)) 5)
+                               ((RANK (FOUR)) 4)
+                               ((RANK (THREE)) 3)
+                               ((RANK (TWO)) 2)
+                               ))
                       
                  ;; determine who won the hand, set them first next time, and give them a point
              (forget (top (game mem LEAD)))
@@ -137,7 +136,7 @@
             ((!= (sum ((current player) vloc TRICKSWON) using 'SCORE) 26)
                (inc ((current player) sto SCORE) (sum ((current player) vloc TRICKSWON) using 'SCORE)))
           
-            (repeat (size ((current player) vloc TRICKSWON))
+            (repeat all
                (move (top ((current player) vloc TRICKSWON))
                      (top (game vloc DISCARD))))
          ))

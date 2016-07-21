@@ -7,10 +7,10 @@
       (create teams (0) (1))
       
       ;; Create the deck source
-      (create deck (game iloc STOCK) (deck (RANK (3, 4, 5, 6, 7, 8, 9, 10))
+      (create deck (game iloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN))
                                           (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                                  (BLACK (SUIT (SPADES, CLUBS)))
-                                                 )))                
+                                                 )))
    )
       (do (
          (shuffle (game iloc STOCK))
@@ -35,7 +35,7 @@
                 ;; if following player cannot follow SUIT
                ;;   play any card, and end your turn
              ((and (== (size (game mem LEAD)) 1)
-                   (== (size (where ((current player) iloc HAND) 'C (== (cardatt SUIT 'C)
+                   (== (size (filter ((current player) iloc HAND) 'C (== (cardatt SUIT 'C)
                                                                         (cardatt SUIT (top (game mem LEAD)))))) 0))
                (any ((current player) iloc HAND) 'AC
                   (move 'AC 
@@ -43,7 +43,7 @@
 
                ;; if following player and can follow SUIT
                ;;   play any card that follows SUIT, and end your turn
-             (any (where ((current player) iloc HAND) 'T (== (cardatt SUIT 'T)
+             (any (filter ((current player) iloc HAND) 'T (== (cardatt SUIT 'T)
                                                              (cardatt SUIT (top (game mem LEAD))))) 'C
                ((== (size (game mem LEAD)) 1)
                    (move 'C (top ((current player) vloc TRICK)))))
@@ -67,14 +67,14 @@
                  (put points 'PRECEDENCE (
                                ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
                                ((RANK (A)) 14)
-                               ((RANK (10)) 10)
-                               ((RANK (9)) 9)
-                               ((RANK (8)) 8)
-                               ((RANK (7)) 7)
-                               ((RANK (6)) 6)
-                               ((RANK (5)) 5)
-                               ((RANK (4)) 4)
-                               ((RANK (3)) 3)
+                               ((RANK (TEN)) 10)
+                               ((RANK (NINE)) 9)
+                               ((RANK (EIGHT)) 8)
+                               ((RANK (SEVEN)) 7)
+                               ((RANK (SIX)) 6)
+                               ((RANK (FIVE)) 5)
+                               ((RANK (FOUR)) 4)
+                               ((RANK (THREE)) 3)
                                )
                                )          
                       

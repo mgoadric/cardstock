@@ -41,7 +41,7 @@
 
          (all player 'P
             (move (top (game iloc STOCK))
-                  (top ('P vloc HAND)))
+                  (top ('P vloc HAND))))
            
            ;; Stage here, find the player with smallest card
            ;; if tied, deal new card and try again
@@ -56,13 +56,16 @@
       (do (
           ((== (size (game iloc STOCK)) 0)
             (do (
-              (move (top (game iloc THROWOUT))
-                    (top (game iloc STOCK)) all)
-              (every (size (move (top (game vloc DISCARD))
-                    (top (game iloc STOCK)))
+              (repeat all
+                (move (top (game iloc THROWOUT))
+                    (top (game iloc STOCK))))
+              (repeat all
+                 (move (top (game vloc DISCARD))
+                    (top (game iloc STOCK))))
               (shuffle (game iloc STOCK))          
-              (move (top (game iloc STOCK))
-                    (top (game iloc THROWOUT)) 5)
+              (repeat 5
+                (move (top (game iloc STOCK))
+                    (top (game iloc THROWOUT))))
            )))
       ))
       
@@ -73,13 +76,12 @@
              (do (
                 (move (actual (min (union (all player 'P ('P vloc HAND))) using 'POINTS))
                       (top ((current player) vloc SCORING)))
-                (repeat (size ((current player) vloc HAND))
+                (repeat all
                     (move (top ((current player) vloc HAND))
-                          (top (game vloc DISCARD)) all))
-            ))
+                          (top (game vloc DISCARD))))
+            )))
             (move (top (game iloc STOCK))
                   (top ((current player) vloc HAND)))
-            )
        ))
          
          ;; if pair, end the round
@@ -88,13 +90,11 @@
               (do (
                   (move (actual (top (top (tuples 2 ((current player) vloc HAND) using 'POINTS))))
                         (top ((current player) vloc SCORING)))
-                  (repeat (size ((current player) vloc HAND))
+                  (repeat all
                     (move (top ((current player) vloc HAND))
-                          (top (game vloc DISCARD)) all))
+                          (top (game vloc DISCARD))))
              ))
         )))
       )
-      
-         
    (scoring min (sum ((current player) vloc SCORING) using 'POINTS))
 )    

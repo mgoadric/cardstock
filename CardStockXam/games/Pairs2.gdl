@@ -7,16 +7,16 @@
       (create teams (0) (1) (2) (3))
 
       ;; Create the deck source
-      (create deck (game iloc STOCK) (deck 1 (value (1))))         
-      (create deck (game iloc STOCK) (deck 2 (value (2))))         
-      (create deck (game iloc STOCK) (deck 3 (value (3))))         
-      (create deck (game iloc STOCK) (deck 4 (value (4))))         
-      (create deck (game iloc STOCK) (deck 5 (value (5))))         
-      (create deck (game iloc STOCK) (deck 6 (value (6))))         
-      (create deck (game iloc STOCK) (deck 7 (value (7))))         
-      (create deck (game iloc STOCK) (deck 8 (value (8))))         
-      (create deck (game iloc STOCK) (deck 9 (value (9))))         
-      (create deck (game iloc STOCK) (deck 10 (value (10))))         
+      (repeat 1 (create deck (game iloc STOCK) (deck (VALUE (ONE)))))         
+      (repeat 2 (create deck (game iloc STOCK) (deck (VALUE (TWO)))))        
+      (repeat 3 (create deck (game iloc STOCK) (deck (VALUE (THREE)))))         
+      (repeat 4 (create deck (game iloc STOCK) (deck (VALUE (FOUR)))))       
+      (repeat 5 (create deck (game iloc STOCK) (deck (VALUE (FIVE)))))        
+      (repeat 6 (create deck (game iloc STOCK) (deck (VALUE (SIX)))))       
+      (repeat 7 (create deck (game iloc STOCK) (deck (VALUE (SEVEN)))))         
+      (repeat 8 (create deck (game iloc STOCK) (deck (VALUE (EIGHT)))))         
+      (repeat 9 (create deck (game iloc STOCK) (deck (VALUE (NINE)))))       
+      (repeat 10 (create deck (game iloc STOCK) (deck (VALUE (TEN)))))            
    )
      
     
@@ -45,10 +45,10 @@
       (do (
          ((< (size (game iloc STOCK)) 'NUMP)
             (do (
-                (repeat (size (game iloc THROWOUT))
+                (repeat all
                       (move (top (game iloc THROWOUT))
                             (top (game iloc STOCK))))
-                (repeat (size (game vloc DISCARD))
+                (repeat all
                       (move (top (game vloc DISCARD))
                             (top (game iloc STOCK))))
                 (shuffle (game iloc STOCK))
@@ -75,10 +75,10 @@
          (do (
             ((== (size (game iloc STOCK)) 0)
              (do (
-                (repeat (size (game iloc THROWOUT))
+                (repeat all
                       (move (top (game iloc THROWOUT))
                             (top (game iloc STOCK))))
-                (repeat (size (game vloc DISCARD))
+                (repeat all
                       (move (top (game vloc DISCARD))
                             (top (game iloc STOCK))))
                 (shuffle (game iloc STOCK))
@@ -110,7 +110,7 @@
       ;; Move all cards back to the discard pile
       (do (
         (all player 'P
-             (repeat (size ('P vloc HAND))
+             (repeat all
                    (move (top ('P vloc HAND))
                          (top (game vloc DISCARD)))))
         (set (game sto FINISHED) 0)

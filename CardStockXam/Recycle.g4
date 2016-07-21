@@ -18,9 +18,10 @@ agg : OPEN ('any' | 'all') collection var (multiaction | action | boolean | csto
 let : OPEN 'let' typed var (multiaction | action | condact) CLOSE ;
 
 playercreate : OPEN 'create' 'players' (int | var) CLOSE ;
-teamcreate : 'create' 'teams' attribute+? ;
+teamcreate : 'create' 'teams' teams+? ;
 deckcreate : 'create' 'deck' cstorage deck | repeat ;
 deck : OPEN 'deck' attribute+? CLOSE ;
+teams : OPEN (INTNUM ',')*? INTNUM teams*? CLOSE ;
 attribute : var | OPEN (namegr ',')*? namegr attribute*? CLOSE ;
 
 initpoints : 'put' 'points' var OPEN awards+? CLOSE ;
@@ -56,7 +57,7 @@ who : OPEN (int | 'previous' | 'next' | 'current' | who) ('player' | 'team') CLO
 owner : OPEN 'owner' card CLOSE ;
 
 typed : int | boolean | namegr | var | collection ;
-collection : cstorage | strcollection | cstoragecollection | pcollection | var;
+collection : cstorage | strcollection | cstoragecollection | pcollection | 'team' | var;
 strcollection : OPEN (namegr ',')*? namegr CLOSE ;
 cstoragecollection : memset | agg | let ;
 pcollection : 'player' ;

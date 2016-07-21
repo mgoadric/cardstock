@@ -201,6 +201,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitDeck([NotNull] RecycleParser.DeckContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.teams"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterTeams([NotNull] RecycleParser.TeamsContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.teams"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitTeams([NotNull] RecycleParser.TeamsContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.attribute"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
