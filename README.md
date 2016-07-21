@@ -6,7 +6,7 @@ Card games have long been enjoyed by children and adults of all ages. However, s
 popular than others. Our research goal is to computationally simulate various card games and quantify
 their quality automatically. We have thus far developed two components: a card
 game description language. and an interpreter for this language. Using these
-components, we can generate sample run transcripts and analyze their game flow. 
+components, we can generate sample run transcripts and analyze their game flow.
 
 First, we created a language, titled RECYCLE, in which turn-based games can be represented. We restrict
 ourselves to games which use only cards and numeric tokens and where all card locations are spatially independent.
@@ -17,6 +17,10 @@ branching factor, average game length, game complexity, etc.
 
 More details of RECYCLE and CardStock can be found in the article "Automated Playtesting with RECYCLEd CARDSTOCK"
 by Connor Bell and Mark Goadrich, Game and Puzzle Design Journal, Volume 2 Issue 1 (http://gapdjournal.com/issues/)
+
+## UPDATES
+
+RECYCLE is currently being streamlined and updated to include variables, over on the grammar-v4 branch of the code.
 
 ## Requirements
 
