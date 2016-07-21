@@ -21,7 +21,16 @@ public class ParseEngine{
 
         //const string fileName = "Pairs2";
         //const string fileName = "SpiteMalice";
-        const string fileName = "Hearts";
+        //const string fileName = "Hearts";
+        //const string fileName = "Spades";
+        const string fileName = "Agram";
+        //const string fileName = "Blackjack";
+        //const string fileName = "Golf";
+        //const string fileName = "GOPS";
+        //const string fileName = "LostCities";
+        //const string fileName = "War";
+        //const string fileName = "Whist";
+
 
         var f = File.ReadAllText ("games/" + fileName + ".gdl");
 		var file = f;
@@ -41,7 +50,7 @@ public class ParseEngine{
 		//Console.Write(tree.ToStringTree());
 		builder.Append ("graph tree{");
 		builder.AppendLine ("NODE0 [label=\"Stage\" style=filled fillcolor=\"red\"]");
-		NEWMaker (tree, "NODE0");
+		DOTMaker (tree, "NODE0");
 		builder.Append ("}");
 		try {
 			var fs = File.Create ("games/" + fileName + ".gv");

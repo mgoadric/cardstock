@@ -79,7 +79,12 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
   <ItemGroup>
-    <None Include="games\SpiteMalice.gdl" />
+    <None Include="games\Golf.gdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="games\SpiteMalice.gdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Recycle.tokens" />
     <None Include="RecycleLexer.tokens" />
     <None Include="packages.config" />

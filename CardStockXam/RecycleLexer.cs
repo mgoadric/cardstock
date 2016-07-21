@@ -35,7 +35,7 @@ public partial class RecycleLexer : Lexer {
 		T__38=39, T__39=40, T__40=41, T__41=42, T__42=43, T__43=44, T__44=45, 
 		T__45=46, T__46=47, T__47=48, T__48=49, T__49=50, T__50=51, T__51=52, 
 		T__52=53, T__53=54, T__54=55, T__55=56, T__56=57, T__57=58, T__58=59, 
-		BOOLOP=60, COMPOP=61, EQOP=62, UNOP=63, INTNUM=64, NAME=65, OPEN=66, CLOSE=67, 
+		BOOLOP=60, COMPOP=61, EQOP=62, UNOP=63, INTNUM=64, LETT=65, OPEN=66, CLOSE=67, 
 		WS=68, ANY=69;
 	public static string[] modeNames = {
 		"DEFAULT_MODE"
@@ -49,7 +49,7 @@ public partial class RecycleLexer : Lexer {
 		"T__33", "T__34", "T__35", "T__36", "T__37", "T__38", "T__39", "T__40", 
 		"T__41", "T__42", "T__43", "T__44", "T__45", "T__46", "T__47", "T__48", 
 		"T__49", "T__50", "T__51", "T__52", "T__53", "T__54", "T__55", "T__56", 
-		"T__57", "T__58", "BOOLOP", "COMPOP", "EQOP", "UNOP", "INTNUM", "NAME", 
+		"T__57", "T__58", "BOOLOP", "COMPOP", "EQOP", "UNOP", "INTNUM", "LETT", 
 		"OPEN", "CLOSE", "WS", "ANY"
 	};
 
@@ -77,7 +77,7 @@ public partial class RecycleLexer : Lexer {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		"BOOLOP", "COMPOP", "EQOP", "UNOP", "INTNUM", "NAME", "OPEN", "CLOSE", 
+		"BOOLOP", "COMPOP", "EQOP", "UNOP", "INTNUM", "LETT", "OPEN", "CLOSE", 
 		"WS", "ANY"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);

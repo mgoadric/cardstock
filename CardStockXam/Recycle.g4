@@ -9,18 +9,19 @@ scoring : OPEN 'scoring' ('min' | 'max') int ;
 endcondition : OPEN 'end' boolean CLOSE ;
 
 action : OPEN (initpoints | teamcreate | deckcreate | cycleaction | setaction | moveaction | copyaction
-         | incaction | decaction | removeaction | turnaction | shuffleaction | repeat) CLOSE ;
+         | incaction | decaction | removeaction | turnaction | shuffleaction | repeat) CLOSE | agg ;
 multiaction : OPEN 'choice' OPEN (condact)+? CLOSE CLOSE | OPEN 'do' OPEN (condact)+? CLOSE CLOSE
               | agg | let ;
 condact : OPEN boolean multiaction CLOSE | multiaction | OPEN boolean action CLOSE | action ;
 
-agg : OPEN ('any' | 'all') collection var (multiaction | action | boolean | cstorage) CLOSE ;
+agg : OPEN ('any' | 'all') collection var (multiaction | action | boolean | cstorage | condact) CLOSE ;
 let : OPEN 'let' typed var (multiaction | action) CLOSE ;
 
 playercreate : OPEN 'create' 'players' (int | var) CLOSE ;
 teamcreate : 'create' 'teams' attribute+? ;
 deckcreate : 'create' 'deck' cstorage deck | repeat ;
 deck : OPEN 'deck' int? attribute+? CLOSE ;
+attribute : var | OPEN (trueany ',')*? trueany attribute*? CLOSE ;
 
 initpoints : 'put' 'points' var OPEN awards+? CLOSE ;
 awards : OPEN subaward+? int CLOSE ;
@@ -41,8 +42,9 @@ repeat : 'repeat' int action ;
 
 card : maxof | minof | var | actual | (OPEN ('top' | 'bottom' | int) cstorage CLOSE) ;
 actual : OPEN 'actual' card CLOSE ;
-rawstorage : OPEN ('game' | who) 'sto' namegr CLOSE ;
-cstorage : unionof | wherefilter | OPEN locpre ('vloc'|'iloc'|'hloc'|'mem') namegr CLOSE | memstorage ;
+rawstorage : OPEN ('game' | who | var) 'sto' (namegr | var) CLOSE ;
+cstorage : unionof | wherefilter | OPEN locpre locdesc (namegr | var) CLOSE | memstorage  | var;
+locdesc : 'vloc'|'iloc'|'hloc'|'mem' ;
 memstorage :  (OPEN ('top' | 'bottom' | int) memset CLOSE) ;
 memset : tuple ;
 tuple : OPEN 'tuples' int cstorage 'using' var CLOSE ;
@@ -53,13 +55,13 @@ who : OPEN (int | 'previous' | 'next' | 'current' | who) ('player' | 'team') CLO
 owner : OPEN 'owner' card CLOSE ;
 
 typed : int | boolean | namegr | var | collection ;
-collection : cstorage | strcollection | cstoragecollection | pcollection ;
+collection : cstorage | strcollection | cstoragecollection | pcollection | var;
 strcollection : OPEN (namegr ',')*? namegr CLOSE ;
 cstoragecollection : memset | agg | let ;
 pcollection : 'player' ;
 declare : OPEN 'declare' typed var CLOSE ;
 
-trueany : (ANY|int|BOOLOP)+?;
+trueany : (ANY|int|BOOLOP|namegr)+?;
 
 wherefilter : OPEN 'where' cstorage var boolean CLOSE ;
 
@@ -91,8 +93,8 @@ score : OPEN 'score' card 'using' var CLOSE ;
 int : sizeof | mult | subtract | mod | add | divide | sum | rawstorage | score | INTNUM+ | var ;
 INTNUM : [0-9] ;
 
-namegr : (NAME)+? ;
-NAME : [A-Z] ;
+namegr : (LETT)+ ;
+LETT : [A-Z] ;
 
 OPEN : '(' ;
 CLOSE : ')' ;

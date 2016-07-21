@@ -9,41 +9,40 @@
     )
     (do (
        (put points 'PRECEDENCE (
-                               (all (rank (A)) 1)
-                               (all (rank (K)) 12) 
-                               (all (rank (Q)) 11)
-                               (all (rank (J)) 0)
-                               (all (rank (10)) 10)
-                               (all (rank (9)) 9)
-                               (all (rank (8)) 8)
-                               (all (rank (7)) 7)
-                               (all (rank (6)) 6)
-                               (all (rank (5)) 5)
-                               (all (rank (4)) 4)
-                               (all (rank (3)) 3)
-                               (all (rank (2)) 2)
+                               ((RANK (A)) 1)
+                               ((RANK (K)) 12) 
+                               ((RANK (Q)) 11)
+                               ((RANK (J)) 0)
+                               ((RANK (10)) 10)
+                               ((RANK (9)) 9)
+                               ((RANK (8)) 8)
+                               ((RANK (7)) 7)
+                               ((RANK (6)) 6)
+                               ((RANK (5)) 5)
+                               ((RANK (4)) 4)
+                               ((RANK (3)) 3)
+                               ((RANK (2)) 2)
                                )
                                )
        (shuffle (game iloc STOCK))
     
        (all player 'P
           (all 'PLOCS 'L
-             (do (move (top (game iloc STOCK)) (top ('P hloc 'L))))))
+             (move (top (game iloc STOCK)) (top ('P hloc 'L)))))
     ))
     (stage player
-        (end (== (size (game iloc STOCK) 0)))
+        (end (== (size (game iloc STOCK)) 0))
         (choice (
-            (move (top (game iloc STOCK)) (top((current player) iloc HAND))))
-               
+            (move (top (game iloc STOCK)) (top((current player) iloc HAND)))
             ((> (size (game vloc DISCARD)) 0)
                (move (top (game vloc DISCARD)) (top((current player) iloc HAND))))
-        )
+        ))
         (choice (
-           (move (top ((current player) iloc HAND)) (top(game vloc DISCARD)))
+           (move (top ((current player) iloc HAND)) (top (game vloc DISCARD)))
            (any 'PLOCS 'L
               (move (top ((current player) iloc HAND)) (top ((current player) hloc 'L))))
         ))
     )
     (scoring min (sum (union (all 'PLOCS 'L
-                              ((current player) hloc 'L)) using 'PRECEDENCE)))
+                              ((current player) hloc 'L))) using 'PRECEDENCE))
 )
