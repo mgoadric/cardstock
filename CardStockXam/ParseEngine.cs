@@ -21,14 +21,15 @@ public class ParseEngine{
 
         //const string fileName = "Pairs2";
         //const string fileName = "SpiteMalice";
-        //const string fileName = "Hearts";
-        //const string fileName = "Spades";
-        const string fileName = "Agram";
-        //const string fileName = "Blackjack";
-        //const string fileName = "Golf";
-        //const string fileName = "GOPS";
         //const string fileName = "LostCities";
         //const string fileName = "War";
+        //const string fileName = "Agram";
+        //const string fileName = "Golf";
+        //const string fileName = "Hearts";
+        //const string fileName = "GOPS";
+        const string fileName = "ContinuousPairs";
+
+        //const string fileName = "Spades";
         //const string fileName = "Whist";
 
 

@@ -597,17 +597,17 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitTrueany([NotNull] RecycleParser.TrueanyContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.wherefilter"/>.
+	/// Enter a parse tree produced by <see cref="RecycleParser.filter"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterWherefilter([NotNull] RecycleParser.WherefilterContext context) { }
+	public virtual void EnterFilter([NotNull] RecycleParser.FilterContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.wherefilter"/>.
+	/// Exit a parse tree produced by <see cref="RecycleParser.filter"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitWherefilter([NotNull] RecycleParser.WherefilterContext context) { }
+	public virtual void ExitFilter([NotNull] RecycleParser.FilterContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.attrcomp"/>.
 	/// <para>The default implementation does nothing.</para>

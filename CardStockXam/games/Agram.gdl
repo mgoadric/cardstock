@@ -12,8 +12,6 @@
                                                  (BLACK (SUIT (SPADES, CLUBS)))
                                                  )))                
    )
-               
-   ;; Stages of the game
       (do (
          (shuffle (game iloc STOCK))
          (all player 'P 
@@ -37,17 +35,16 @@
                 ;; if following player cannot follow SUIT
                ;;   play any card, and end your turn
              ((and (== (size (game mem LEAD)) 1)
-                   (
-                   (== (size (where ((current player) iloc HAND) 'C ((== (cardatt suit each)
-                                                                        (cardatt suit (top (game mem LEAD))))))) 0))
+                   (== (size (where ((current player) iloc HAND) 'C (== (cardatt SUIT 'C)
+                                                                        (cardatt SUIT (top (game mem LEAD)))))) 0))
                (any ((current player) iloc HAND) 'AC
                   (move 'AC 
                       (top ((current player) vloc TRICK)))))
 
                ;; if following player and can follow SUIT
                ;;   play any card that follows SUIT, and end your turn
-             (any ((current player) iloc HAND where (all (== (cardatt suit each)
-                                                               (cardatt suit (top (game mem LEAD)))))) 'C
+             (any (where ((current player) iloc HAND) 'T (== (cardatt SUIT 'T)
+                                                             (cardatt SUIT (top (game mem LEAD))))) 'C
                ((== (size (game mem LEAD)) 1)
                    (move 'C (top ((current player) vloc TRICK)))))
                       
@@ -68,16 +65,16 @@
          (do (
                  ;; solidfy card recedence
                  (put points 'PRECEDENCE (
-                               (all (SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
-                               (all (RANK (A)) 14)
-                               (all (RANK (10)) 10)
-                               (all (RANK (9)) 9)
-                               (all (RANK (8)) 8)
-                               (all (RANK (7)) 7)
-                               (all (RANK (6)) 6)
-                               (all (RANK (5)) 5)
-                               (all (RANK (4)) 4)
-                               (all (RANK (3)) 3)
+                               ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
+                               ((RANK (A)) 14)
+                               ((RANK (10)) 10)
+                               ((RANK (9)) 9)
+                               ((RANK (8)) 8)
+                               ((RANK (7)) 7)
+                               ((RANK (6)) 6)
+                               ((RANK (5)) 5)
+                               ((RANK (4)) 4)
+                               ((RANK (3)) 3)
                                )
                                )          
                       
@@ -88,12 +85,13 @@
             (cycle next (owner (max (union (all player'P ('P vloc TRICK))) using 'PRECEDENCE)))
                  
             (all player 'P 
-                      (move (top ('P vloc TRICK)) 
-                            (top (game vloc DISCARD))))
+                 (move (top ('P vloc TRICK)) 
+                       (top (game vloc DISCARD))))
              
              ;; if that was the last round, give the winner a point
-            ((all player 'P2 (== (size ('P2 iloc HAND)) 0))
-               (inc ((next player) sto SCORE) 1))        
+            (all player 'P
+               ((== (size ('P iloc HAND)) 0)
+                 (inc ((next player) sto SCORE) 1)))      
          ))
       )
    (scoring max ((current player) sto SCORE))

@@ -15,13 +15,13 @@ multiaction : OPEN 'choice' OPEN (condact)+? CLOSE CLOSE | OPEN 'do' OPEN (conda
 condact : OPEN boolean multiaction CLOSE | multiaction | OPEN boolean action CLOSE | action ;
 
 agg : OPEN ('any' | 'all') collection var (multiaction | action | boolean | cstorage | condact) CLOSE ;
-let : OPEN 'let' typed var (multiaction | action) CLOSE ;
+let : OPEN 'let' typed var (multiaction | action | condact) CLOSE ;
 
 playercreate : OPEN 'create' 'players' (int | var) CLOSE ;
 teamcreate : 'create' 'teams' attribute+? ;
 deckcreate : 'create' 'deck' cstorage deck | repeat ;
-deck : OPEN 'deck' int? attribute+? CLOSE ;
-attribute : var | OPEN (trueany ',')*? trueany attribute*? CLOSE ;
+deck : OPEN 'deck' attribute+? CLOSE ;
+attribute : var | OPEN (namegr ',')*? namegr attribute*? CLOSE ;
 
 initpoints : 'put' 'points' var OPEN awards+? CLOSE ;
 awards : OPEN subaward+? int CLOSE ;
@@ -38,12 +38,13 @@ copyaction : 'remember' card card ;
 removeaction : 'forget' card ;
 shuffleaction : 'shuffle' cstorage ;
 turnaction : 'turn' 'pass' ;
-repeat : 'repeat' int action ;
+repeat : 'repeat' int action | 'repeat' 'all' action ;
+
 
 card : maxof | minof | var | actual | (OPEN ('top' | 'bottom' | int) cstorage CLOSE) ;
 actual : OPEN 'actual' card CLOSE ;
 rawstorage : OPEN ('game' | who | var) 'sto' (namegr | var) CLOSE ;
-cstorage : unionof | wherefilter | OPEN locpre locdesc (namegr | var) CLOSE | memstorage  | var;
+cstorage : unionof | filter | OPEN locpre locdesc (namegr | var) CLOSE | memstorage  | var;
 locdesc : 'vloc'|'iloc'|'hloc'|'mem' ;
 memstorage :  (OPEN ('top' | 'bottom' | int) memset CLOSE) ;
 memset : tuple ;
@@ -63,14 +64,13 @@ declare : OPEN 'declare' typed var CLOSE ;
 
 trueany : (ANY|int|BOOLOP|namegr)+?;
 
-wherefilter : OPEN 'where' cstorage var boolean CLOSE ;
+filter : OPEN 'filter' cstorage var boolean CLOSE ;
 
 attrcomp : EQOP cardatt cardatt ;
 cardatt : namegr | (OPEN 'cardatt' (var | namegr) card CLOSE) | var ;
 
-//need some way to talk about PLAYER EQUALITY/INEQUALITY
 boolean : (OPEN ((BOOLOP boolean boolean+?) | (intop int int ) | attrcomp | (EQOP card card)
-          | (UNOP boolean)) CLOSE) | (OPEN CLOSE) | agg ;
+          | (UNOP boolean)) CLOSE) | agg ;
 BOOLOP : 'and' | 'or' ;
 intop : (COMPOP | EQOP) ;
 COMPOP : '<' | '>' | '>=' | '<=' ;
@@ -83,7 +83,7 @@ subtract : OPEN '-' int int CLOSE ;
 mod : OPEN '%' int int CLOSE ;
 divide : OPEN '//' int int CLOSE ;
 
-sizeof : OPEN 'size' (cstorage | memset) CLOSE ;
+sizeof : OPEN 'size' (cstorage | memset | var) CLOSE ;
 maxof : OPEN 'max' cstorage 'using' var CLOSE ;
 minof : OPEN 'min' cstorage 'using' var CLOSE ;
 unionof : OPEN 'union' (cstorage+? | agg) CLOSE ;

@@ -5,9 +5,6 @@
       (create players 2)
       (create teams (0) (1))
       ;; Create the deck source
-
-      ;;TODO
-      ;;(create deck (game iloc STOCK) (deck (2)))
       (create deck (game iloc STOCK) (deck (RANK (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
                                                      (color (RED (suit (HEARTS, DIAMONDS)))
                                                            (BLACK (suit (CLUBS, SPADES))))))
@@ -93,27 +90,28 @@
                        (top ((next player) vloc TRICK)))
               )))
               ((and (== (game sto WAR) 1)
-                    (any player 'P (== (size ('P iloc HAND)) 1))
+                    (any player 'P (== (size ('P iloc HAND)) 1)))
                (do (
                  (move (top ((current player) iloc HAND))
                            (top ((current player) vloc TRICK)))
                  (move (top ((next player) iloc HAND))
-                           (top ((next player) vloc TRICK)))
+                       (top ((next player) vloc TRICK)))
               )))
           ))
       )
 
       (do (
-          
           ((!= (cardatt RANK (top ((current player) vloc TRICK)))
                (cardatt RANK (top ((next player) vloc TRICK))))
            (do (
              (all player 'P
+                (repeat (size (game iloc BOUNTY))
                    (move (top (game iloc BOUNTY))
-                         (bottom (((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) player) iloc HAND)) all))
+                         (bottom (((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) player) iloc HAND)))))
              (all player 'P
-                   (move (top ((all player) vloc TRICK))
-                       (bottom (((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) player) iloc HAND)) all))
+               (repeat (size ('P vloc TRICK))
+                   (move (top ('P vloc TRICK))
+                       (bottom (((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) player) iloc HAND)))))
              (set (game sto WAR) 0)
            ))
           )
@@ -122,8 +120,9 @@
                (cardatt RANK (top ((next player) vloc TRICK))))
            (do (
              (all player 'P
+                 (repeat (size ('P vloc TRICK))
                    (move (top ('P vloc TRICK))
-                         (top (game iloc BOUNTY)) all))
+                         (top (game iloc BOUNTY)))))
              (set (game sto WAR) 1)
           ))
          )
