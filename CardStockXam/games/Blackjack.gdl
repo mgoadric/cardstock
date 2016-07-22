@@ -6,110 +6,112 @@
       (create teams (0) (1) (2) (3))
 
       ;; Create the deck source
-      (create deck (game loc STOCK) (permdeck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
-                                              (color (red (suit (hearts, diamonds)))
-                                                     (black (suit (clubs, spades))))))         
+      (create deck (game vloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                             (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                   (BLACK (SUIT (CLUBS, SPADES))))))          
     )
-    (comp (()
-     
-             (shuffle (game loc STOCK))
-             (move (top (game loc STOCK))
-                   (top ((all player) loc HAND)) 2)
-             (set ((all player) sto CHIPS) 99)
-
-             (initialize points POINTSLOW (
-                               (all (rank (A)) 1)
-                               (all (rank (K)) 10) 
-                               (all (rank (Q)) 10)
-                               (all (rank (J)) 10)
-                               (all (rank (10)) 10)
-                               (all (rank (9)) 9)
-                               (all (rank (8)) 8)
-                               (all (rank (7)) 7)
-                               (all (rank (6)) 6)
-                               (all (rank (5)) 5)
-                               (all (rank (4)) 4)
-                               (all (rank (3)) 3)
-                               (all (rank (2)) 2)
-                               )
-                               )    
-              (initialize points POINTSHIGH (
-                               (all (rank (A)) 11)
-                               (all (rank (K)) 10) 
-                               (all (rank (Q)) 10)
-                               (all (rank (J)) 10)
-                               (all (rank (10)) 10)
-                               (all (rank (9)) 9)
-                               (all (rank (8)) 8)
-                               (all (rank (7)) 7)
-                               (all (rank (6)) 6)
-                               (all (rank (5)) 5)
-                               (all (rank (4)) 4)
-                               (all (rank (3)) 3)
-                               (all (rank (2)) 2)
-                               )
-                               )    
-          )
-     )
+    (do (
+      (shuffle (game iloc STOCK))
+      (all player 'P
+         (do (
+            (repeat 2
+               (move (top (game iloc STOCK))
+                     (top ('P iloc HAND))))
+            (set ('P sto CHIPS) 99)
+         ))
+      )
+      (put points 'POINTSLOW (
+        ((RANK (A)) 1)
+        ((RANK (K)) 10) 
+        ((RANK (Q)) 10)
+        ((RANK (J)) 10)
+        ((RANK (TEN)) 10)
+        ((RANK (NINE)) 9)
+        ((RANK (EIGHT)) 8)
+        ((RANK (SEVEN)) 7)
+        ((RANK (SIX)) 6)
+        ((RANK (FIVE)) 5)
+        ((RANK (FOUR)) 4)
+        ((RANK (THREE)) 3)
+        ((RANK (TWO)) 2)
+      ))    
+      (put points 'POINTSHIGH (
+        ((RANK (A)) 11)
+        ((RANK (K)) 10) 
+        ((RANK (Q)) 10)
+        ((RANK (J)) 10)
+        ((RANK (TEN)) 10)
+        ((RANK (NINE)) 9)
+        ((RANK (EIGHT)) 8)
+        ((RANK (SEVEN)) 7)
+        ((RANK (SIX)) 6)
+        ((RANK (FIVE)) 5)
+        ((RANK (FOUR)) 4)
+        ((RANK (THREE)) 3)
+        ((RANK (TWO)) 2)
+        ))
+     ))
                
      ;; bidding
-     (stage player
-         (end (> ((all player) sto BET) 0))
-         (choice
-            (() (set ((current player) sto BET) (any (range (1) ((current player) sto CHIPS)))))
-         )
-     )
+     ;;(stage player
+         ;;(end (all player 'P (> ('P sto BET) 0)))
+         ;;TODO
+         ;;(choice (
+         ;;   (set ((current player) sto BET) (any (range (1) ((current player) sto CHIPS))))
+         ;;))
+     ;;)
       
       ;; players get cards until FINISHED or BUSTED    
       (stage player
-         (end (== ((all player) sto FINISHED)) 1)
+         (end (all player 'P (== ('P sto FINISHED) 1)))
                     
-         (choice
+         (choice (
              
-            ((or (< (sum ((current player) loc HAND) using POINTSHIGH) 22)
-                 (< (sum ((current player) loc HAND) using POINTSLOW) 22))
-                (move (top (game loc STOCK)) 
-                      (top ((current player) loc HAND)))
-                (cycle next current))
+            ((or (< (sum ((current player) iloc HAND) using 'POINTSHIGH) 22)
+                 (< (sum ((current player) iloc HAND) using 'POINTSLOW) 22))
+             (do (
+                (move (top (game iloc STOCK)) 
+                      (top ((current player) iloc HAND)))
+                (cycle next current)
+            )))
             
-            ((or (< (sum ((current player) loc HAND) using POINTSHIGH) 22)
-                 (< (sum ((current player) loc HAND) using POINTSLOW) 22))
+            ((or (< (sum ((current player) iloc HAND) using 'POINTSHIGH) 22)
+                 (< (sum ((current player) iloc HAND) using 'POINTSLOW) 22))
              (set ((current player) sto FINISHED) 1))
             
-            ((and (>= (sum ((current player) loc HAND) using POINTSHIGH) 22)
-                  (>= (sum ((current player) loc HAND) using POINTSLOW) 22))
-             (move (top ((current player) loc HAND)) 
-                   (top (game loc DISCARD)) all)
-             (dec ((current player) sto CHIPS) ((current player) sto BET))
-             (set ((current player) sto BET) 0)
-             (set ((current player) sto FINISHED) 1))
-         )
-   )
+            ((and (>= (sum ((current player) iloc HAND) using 'POINTSHIGH) 22)
+                  (>= (sum ((current player) iloc HAND) using 'POINTSLOW) 22))
+             (do (
+                 (repeat all
+                    (move (top ((current player) iloc HAND)) 
+                          (top (game vloc DISCARD))))
+                 (dec ((current player) sto CHIPS) ((current player) sto BET))
+                 (set ((current player) sto BET) 0)
+                 (set ((current player) sto FINISHED) 1)
+           )))
+   )))
 
    (stage player
-      (end (== ((all player) sto BET) 0))
+      (end (all player 'P (== ('P sto BET) 0)))
       
       ;; WEIRDNESS WITH THE MAX OVER SETS
-      (comp 
-         ((> (max ((sum ((current player) loc HAND) using POINTSHIGH)
-                  (sum ((current player) loc HAND) using POINTSLOW)))
-            (max ((sum ((other player) loc HAND) using POINTSHIGH)
-                  (sum ((other player) loc HAND) using POINTSLOW)))) 
+      (do ( 
+         ((> (max ((sum ((current player) iloc HAND) using 'POINTSHIGH)
+                  (sum ((current player) iloc HAND) using 'POINTSLOW)))
+            (max ((sum ((other player) iloc HAND) using 'POINTSHIGH)
+                  (sum ((other player) iloc HAND) using 'POINTSLOW)))) 
           (inc ((current player) sto CHIPS) ((current player) sto BET))
          )
-         ((<= (max ((sum ((current player) loc HAND) using POINTSHIGH)
-                    (sum ((current player) loc HAND) using POINTSLOW)))
-              (max ((sum ((other player) loc HAND) using POINTSHIGH)
-                    (sum ((other player) loc HAND) using POINTSLOW)))) 
+         ((<= (max ((sum ((current player) iloc HAND) using 'POINTSHIGH)
+                    (sum ((current player) iloc HAND) using 'POINTSLOW)))
+              (max ((sum ((other player) iloc HAND) using 'POINTSHIGH)
+                    (sum ((other player) iloc HAND) using 'POINTSLOW)))) 
           (dec ((current player) sto CHIPS) ((current player) sto BET))
          )
-         (()
-          (move (top ((current player) loc HAND)) 
-                (top (game loc DISCARD)) all)
-          (set ((current player) sto BET) 0)
-         )
-
-      )
+         (move (top ((current player) iloc HAND)) 
+               (top (game vloc DISCARD)) all)
+         (set ((current player) sto BET) 0)
+      ))
    )
    (scoring max ((current player) sto CHIPS))
-)    
+)

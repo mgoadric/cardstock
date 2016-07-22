@@ -93,7 +93,9 @@
     </None>
     <None Include="games\Agram.gv" />
     <None Include="games\Agram.pdf" />
-    <None Include="games\Blackjack.gdl" />
+    <None Include="games\Blackjack.gdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="games\GOPS.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

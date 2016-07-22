@@ -19,7 +19,7 @@ public class ParseEngine{
 		var breakOnCycle = false;
 		var regex = new Regex ("(;;)(.*?)(\n)");
 
-        //const string fileName = "Pairs2";
+        const string fileName = "Pairs2";
         //const string fileName = "SpiteMalice";
         //const string fileName = "LostCities";
         //const string fileName = "War";
@@ -30,6 +30,8 @@ public class ParseEngine{
         //const string fileName = "ContinuousPairs";
         //const string fileName = "Spades";
         //const string fileName = "Whist";
+
+        //const string fileName = "Blackjack";
 
 
         var f = File.ReadAllText ("games/" + fileName + ".gdl");
@@ -62,7 +64,7 @@ public class ParseEngine{
 			Console.WriteLine (ex);
 		}
         Console.ReadLine();
-        /*
+        
 	
 		//Console.WriteLine(tree);
 		TimeSpan minTime = TimeSpan.MaxValue;
@@ -81,7 +83,7 @@ public class ParseEngine{
 		int numGames = 1000;
 		Stopwatch time = new Stopwatch ();
 		time.Start ();
-
+        
 		for (int i = 0; i < numGames; ++i){
 			Analytics.BranchingFactor.Instance = new Analytics.BranchingFactor ();
 			Analytics.BinCounts.Instance = new Analytics.BinCounts ();
@@ -148,6 +150,7 @@ public class ParseEngine{
 		time.Stop ();
 		Console.Out.WriteLine (time.Elapsed);
 		Console.Out.WriteLine(choiceCount/(double)(numGames));
+        /*
 		for (int i = 0; i < 5; ++i) {
 			Console.Out.Write ("Player" + (i + 1) + ":\t");
 			for (int j = 0; j < 10; j++) {
