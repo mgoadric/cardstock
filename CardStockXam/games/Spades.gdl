@@ -159,7 +159,7 @@
           
             ;; team made their cumulative bid, score positive points
             ((>= (sum ((current team) sto TRICKSWON)) 
-                 (sum (((current team) sto BID)))
+                 (sum ((current team) sto BID)))
               (do (
                 (inc ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID))))
                 (inc ((current team) sto BAGS) (- (sum (((current team) player) sto TRICKSWON)) 

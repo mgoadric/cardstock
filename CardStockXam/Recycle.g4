@@ -57,7 +57,7 @@ who : OPEN (int | 'previous' | 'next' | 'current' | who) ('player' | 'team') CLO
 owner : OPEN 'owner' card CLOSE ;
 
 typed : int | boolean | namegr | var | collection ;
-collection : cstorage | strcollection | cstoragecollection | pcollection | 'team' | var;
+collection : cstorage | strcollection | cstoragecollection | pcollection | 'team' | who | var;
 strcollection : OPEN (namegr ',')*? namegr CLOSE ;
 cstoragecollection : memset | agg | let ;
 pcollection : 'player' ;
@@ -88,7 +88,7 @@ sizeof : OPEN 'size' (cstorage | memset | var) CLOSE ;
 maxof : OPEN 'max' cstorage 'using' var CLOSE ;
 minof : OPEN 'min' cstorage 'using' var CLOSE ;
 unionof : OPEN 'union' (cstorage+? | agg) CLOSE ;
-sum : OPEN 'sum' cstorage 'using' var CLOSE ;
+sum : OPEN 'sum' cstorage 'using' var CLOSE | OPEN 'sum' rawstorage CLOSE ;
 score : OPEN 'score' card 'using' var CLOSE ;
 
 int : sizeof | mult | subtract | mod | add | divide | sum | rawstorage | score | INTNUM+ | var ;

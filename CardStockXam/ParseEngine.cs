@@ -28,8 +28,7 @@ public class ParseEngine{
         //const string fileName = "Hearts";
         //const string fileName = "GOPS";
         //const string fileName = "ContinuousPairs";
-
-        const string fileName = "Spades";
+        //const string fileName = "Spades";
         //const string fileName = "Whist";
 
 
