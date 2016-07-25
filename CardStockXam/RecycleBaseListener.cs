@@ -153,6 +153,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitLet([NotNull] RecycleParser.LetContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.declare"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterDeclare([NotNull] RecycleParser.DeclareContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.declare"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitDeclare([NotNull] RecycleParser.DeclareContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.playercreate"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -513,6 +525,42 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitWho([NotNull] RecycleParser.WhoContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.whop"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterWhop([NotNull] RecycleParser.WhopContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.whop"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitWhop([NotNull] RecycleParser.WhopContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.whot"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterWhot([NotNull] RecycleParser.WhotContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.whot"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitWhot([NotNull] RecycleParser.WhotContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.whodesc"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterWhodesc([NotNull] RecycleParser.WhodescContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.whodesc"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitWhodesc([NotNull] RecycleParser.WhodescContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.owner"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -524,6 +572,30 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitOwner([NotNull] RecycleParser.OwnerContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.teamp"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterTeamp([NotNull] RecycleParser.TeampContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.teamp"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitTeamp([NotNull] RecycleParser.TeampContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.other"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterOther([NotNull] RecycleParser.OtherContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.other"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitOther([NotNull] RecycleParser.OtherContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.typed"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -573,29 +645,17 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitCstoragecollection([NotNull] RecycleParser.CstoragecollectionContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.pcollection"/>.
+	/// Enter a parse tree produced by <see cref="RecycleParser.range"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterPcollection([NotNull] RecycleParser.PcollectionContext context) { }
+	public virtual void EnterRange([NotNull] RecycleParser.RangeContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.pcollection"/>.
+	/// Exit a parse tree produced by <see cref="RecycleParser.range"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitPcollection([NotNull] RecycleParser.PcollectionContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.declare"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterDeclare([NotNull] RecycleParser.DeclareContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.declare"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitDeclare([NotNull] RecycleParser.DeclareContext context) { }
+	public virtual void ExitRange([NotNull] RecycleParser.RangeContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.trueany"/>.
 	/// <para>The default implementation does nothing.</para>

@@ -36,21 +36,10 @@
       ;; bidding for number of tricks expected
       (stage player
          (end (all player 'P (<= ('P sto BID) 13)))
-         (choice (
-            (set ((current player) sto BID) 1)
-            (set ((current player) sto BID) 2)
-            (set ((current player) sto BID) 3)
-            (set ((current player) sto BID) 4)
-            (set ((current player) sto BID) 5)
-            (set ((current player) sto BID) 6)
-            (set ((current player) sto BID) 7)
-            (set ((current player) sto BID) 8)
-            (set ((current player) sto BID) 9)
-            ;;(set ((current player) sto BID) 10)
-            ;;(set ((current player) sto BID) 11)
-            ;;(set ((current player) sto BID) 12)
-            ;;(set ((current player) sto BID) 13)
-         ))
+         (any (range 1..13) 'B
+            (choice (
+              (set ((current player) sto BID) 'B)
+         )))
       )
          
       ;; players play a round 13 times     
@@ -155,29 +144,34 @@
       ;; determine team score
       (stage team
          (end (all player 'P(== ('P sto TRICKSWON) 0)))
-         (do (
+         (let (all (current team) 'P ('P sto TRICKSWON)) 'TEAMTRICKS
+           (let (all (current team) 'Q ('Q sto BID)) 'TEAMBIDS
+             (do (
           
             ;; team made their cumulative bid, score positive points
-            ((>= (sum ((current team) sto TRICKSWON)) 
-                 (sum ((current team) sto BID)))
+            ((>= 'TEAMTRICKS 
+                 'TEAMBIDS)
               (do (
-                (inc ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID))))
-                (inc ((current team) sto BAGS) (- (sum (((current team) player) sto TRICKSWON)) 
-                                               (sum (((current team) player) sto BID)))))))
+                (inc ((current team) sto SCORE) (* 10 'TEAMBIDS))
+                (inc ((current team) sto BAGS) (- 'TEAMTRICKS 
+                                               'TEAMBIDS))
+             )))
             
             ;; team did not make their cumulative bid, score negative points
-            ((< (sum (((current team) player) sto TRICKSWON)) 
-                (sum (((current team) player) sto BID)))
-             (dec ((current team) sto SCORE) (* 10 (sum (((current team) player) sto BID)))))
+            ((< 'TEAMTRICKS
+                'TEAMBIDS)
+             (dec ((current team) sto SCORE) (* 10 'TEAMBIDS))
+            )
             
             ;; record bags if over 10
             (dec ((current team) sto SCORE) (* 100 (// ((current team) sto BAGS) 10)))
             (set ((current team) sto BAGS) (% ((current team) sto BAGS) 10))
-            (set (((current team) player) sto TRICKSWON) 0)
-         ))
+            (all (current team) 'R
+               (set ('R sto TRICKSWON) 0))
+           ))))
       )
    )
-   (scoring max (((current player) team) sto SCORE))
+   (scoring max ((team (current player)) sto SCORE))
 )
          
          

@@ -19,7 +19,7 @@ public class ParseEngine{
 		var breakOnCycle = false;
 		var regex = new Regex ("(;;)(.*?)(\n)");
 
-        const string fileName = "Pairs2";
+        //const string fileName = "Pairs2";
         //const string fileName = "SpiteMalice";
         //const string fileName = "LostCities";
         //const string fileName = "War";
@@ -65,7 +65,7 @@ public class ParseEngine{
 		}
         Console.ReadLine();
         
-	
+	/*
 		//Console.WriteLine(tree);
 		TimeSpan minTime = TimeSpan.MaxValue;
 		TimeSpan maxTime = TimeSpan.MinValue;
@@ -173,6 +173,8 @@ public class ParseEngine{
 //			}
 //			Console.WriteLine();
 //		}
+
+/*
 		/*
 		for (int i = 0; i < 1000; ++i) {
 			CardEngine.CardGame.Instance = new CardEngine.CardGame ();

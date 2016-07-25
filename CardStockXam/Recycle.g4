@@ -14,8 +14,9 @@ multiaction : OPEN 'choice' OPEN (condact)+? CLOSE CLOSE | OPEN 'do' OPEN (conda
               | agg | let ;
 condact : OPEN boolean multiaction CLOSE | multiaction | OPEN boolean action CLOSE | action ;
 
-agg : OPEN ('any' | 'all') collection var (multiaction | action | boolean | cstorage | condact) CLOSE ;
+agg : OPEN ('any' | 'all') collection var (multiaction | action | boolean | cstorage | condact | rawstorage) CLOSE ;
 let : OPEN 'let' typed var (multiaction | action | condact) CLOSE ;
+declare : OPEN 'declare' typed var CLOSE ;
 
 playercreate : OPEN 'create' 'players' (int | var) CLOSE ;
 teamcreate : 'create' 'teams' teams+? ;
@@ -47,36 +48,43 @@ actual : OPEN 'actual' card CLOSE ;
 rawstorage : OPEN ('game' | who | var) 'sto' (namegr | var) CLOSE ;
 cstorage : unionof | filter | OPEN locpre locdesc (namegr | var) CLOSE | memstorage  | var;
 locdesc : 'vloc'|'iloc'|'hloc'|'mem' ;
-memstorage :  (OPEN ('top' | 'bottom' | int) memset CLOSE) ;
+memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
 memset : tuple ;
 tuple : OPEN 'tuples' int cstorage 'using' var CLOSE ;
 var : '\'' namegr ;
 
 locpre :  'game' | who | var ;
-who : OPEN (int | 'previous' | 'next' | 'current' | who) ('player' | 'team') CLOSE | owner;
+who : whot | whop ;
+whop : OPEN whodesc 'player' CLOSE | owner ;
+whot : OPEN whodesc 'team' CLOSE | teamp ;
+whodesc : int | 'previous' | 'next' | 'current' ;
 owner : OPEN 'owner' card CLOSE ;
+teamp : OPEN 'team' whop CLOSE ;
+
+other : OPEN 'other' ('player' | 'team') CLOSE ;
 
 typed : int | boolean | namegr | var | collection ;
-collection : cstorage | strcollection | cstoragecollection | pcollection | 'team' | who | var;
+collection : cstorage | strcollection | cstoragecollection | 'player' | 'team'
+             | whot | var | other | range | filter ;
 strcollection : OPEN (namegr ',')*? namegr CLOSE ;
 cstoragecollection : memset | agg | let ;
-pcollection : 'player' ;
-declare : OPEN 'declare' typed var CLOSE ;
+range : OPEN 'range' int '..' int CLOSE ;
 
 trueany : (ANY|int|BOOLOP|namegr)+?;
 
-filter : OPEN 'filter' cstorage var boolean CLOSE ;
+filter : OPEN 'filter' collection var boolean CLOSE ;
 
 attrcomp : EQOP cardatt cardatt ;
-cardatt : namegr | (OPEN 'cardatt' (var | namegr) card CLOSE) | var ;
+cardatt : namegr | var | (OPEN 'cardatt' (var | namegr) card CLOSE) ;
 
 boolean : (OPEN ((BOOLOP boolean boolean+?) | (intop int int ) | attrcomp | (EQOP card card)
-          | (UNOP boolean)) CLOSE) | agg ;
+          | (UNOP boolean) | (EQOP whop whop) | (EQOP whot whot)) CLOSE) | agg ;
 BOOLOP : 'and' | 'or' ;
 intop : (COMPOP | EQOP) ;
 COMPOP : '<' | '>' | '>=' | '<=' ;
 EQOP : '!=' | '==' ;
 UNOP : 'not' ;
+
 
 add : OPEN '+' int int CLOSE ;
 mult : OPEN '*' int int CLOSE ;
