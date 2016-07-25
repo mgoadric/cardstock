@@ -37,6 +37,7 @@ namespace CardEngine
 		public Stack<TeamCycle> currentTeam = new Stack<TeamCycle>();
 		public RawStorage gameStorage = new RawStorage();
 		public PointsStorage points = new PointsStorage();
+        public bool isRecording = true;
 		public CardGame(){
 			
 		}
@@ -414,5 +415,12 @@ namespace CardEngine
 			}
 			return ret;
 		}
-	}
+        public void WriteToFile(string text)
+        {
+            if (isRecording)
+            {
+                ParseEngine.WriteToFile(text);
+            }
+        }
+    }
 }

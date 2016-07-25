@@ -116,7 +116,7 @@
          ))
       )
    )
-   (scoring max (((current player) team) sto SCORE))
+   (scoring max ((team (current player)) sto SCORE))
 )
          
          

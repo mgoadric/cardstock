@@ -70,7 +70,7 @@
           ((!= (cardatt RANK (top ((current player) vloc TRICK)))
                (cardatt RANK (top ((next player) vloc TRICK))))
               (move (top (game vloc AWARD))
-                 (top (((owner (max (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE)) player) vloc WON))))      
+                 (top ((owner (max (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE)) vloc WON))))      
           (all player 'P (move (top ('P vloc TRICK))
                                (top (game vloc DISCARD))))
       ))

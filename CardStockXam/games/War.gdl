@@ -107,11 +107,11 @@
              (all player 'P
                 (repeat all
                    (move (top (game iloc BOUNTY))
-                         (bottom (((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) player) iloc HAND)))))
+                         (bottom ((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) iloc HAND)))))
              (all player 'P
                (repeat all
                    (move (top ('P vloc TRICK))
-                       (bottom (((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) player) iloc HAND)))))
+                       (bottom ((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) iloc HAND)))))
              (set (game sto WAR) 0)
            ))
           )

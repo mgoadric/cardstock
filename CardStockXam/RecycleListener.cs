@@ -129,6 +129,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitLet([NotNull] RecycleParser.LetContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.declare"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDeclare([NotNull] RecycleParser.DeclareContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.declare"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDeclare([NotNull] RecycleParser.DeclareContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.playercreate"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -429,6 +439,36 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitWho([NotNull] RecycleParser.WhoContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.whop"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterWhop([NotNull] RecycleParser.WhopContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.whop"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitWhop([NotNull] RecycleParser.WhopContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.whot"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterWhot([NotNull] RecycleParser.WhotContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.whot"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitWhot([NotNull] RecycleParser.WhotContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.whodesc"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterWhodesc([NotNull] RecycleParser.WhodescContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.whodesc"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitWhodesc([NotNull] RecycleParser.WhodescContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.owner"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -438,6 +478,26 @@ public interface IRecycleListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitOwner([NotNull] RecycleParser.OwnerContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.teamp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTeamp([NotNull] RecycleParser.TeampContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.teamp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTeamp([NotNull] RecycleParser.TeampContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.other"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterOther([NotNull] RecycleParser.OtherContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.other"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitOther([NotNull] RecycleParser.OtherContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.typed"/>.
 	/// </summary>
@@ -479,25 +539,15 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitCstoragecollection([NotNull] RecycleParser.CstoragecollectionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.pcollection"/>.
+	/// Enter a parse tree produced by <see cref="RecycleParser.range"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterPcollection([NotNull] RecycleParser.PcollectionContext context);
+	void EnterRange([NotNull] RecycleParser.RangeContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.pcollection"/>.
+	/// Exit a parse tree produced by <see cref="RecycleParser.range"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitPcollection([NotNull] RecycleParser.PcollectionContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.declare"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDeclare([NotNull] RecycleParser.DeclareContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.declare"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDeclare([NotNull] RecycleParser.DeclareContext context);
+	void ExitRange([NotNull] RecycleParser.RangeContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.trueany"/>.
 	/// </summary>

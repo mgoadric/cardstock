@@ -41,6 +41,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FreezeFrame\GameIterator.cs" />
+    <Compile Include="ParseTreeIterator\ActionIterator.cs" />
+    <Compile Include="ParseTreeIterator\BooleanIterator.cs" />
+    <Compile Include="ParseTreeIterator\CardActionIterator.cs" />
+    <Compile Include="ParseTreeIterator\CardIterator.cs" />
+    <Compile Include="ParseTreeIterator\DeckIterator.cs" />
+    <Compile Include="ParseTreeIterator\IntIterator.cs" />
+    <Compile Include="ParseTreeIterator\ScoreIterator.cs" />
+    <Compile Include="ParseTreeIterator\SetupIterator.cs" />
+    <Compile Include="ParseTreeIterator\StageIterator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Analytics\AnalyticsNetworking.cs" />
     <Compile Include="Analytics\BinCounts.cs" />

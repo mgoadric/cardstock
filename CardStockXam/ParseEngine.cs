@@ -356,21 +356,31 @@ public class ParseEngine{
 			}
 		}
 	}
-/*        public void Recurse(RecycleParser.BodyContext con){
-                Recurse(con.childNode());
+    /*        public void Recurse(RecycleParser.BodyContext con){
+                    Recurse(con.childNode());
+            }
+            public void Recurse(RecycleParser.ChildNodeContext con){
+                    Console.Write("{ ");
+                    if (con.ChildCount == 4){
+                            Recurse((RecycleParser.ChildNodeContext)con.children[1]);
+                            Recurse((RecycleParser.ChildNodeContext)con.children[3]);
+                    }
+                    else if (con.ChildCount == 3){
+                            Recurse((RecycleParser.ChildNodeContext)con.children[1]);
+                    }
+                    else{
+                            Console.Write(con.GetText());
+                    }
+                    Console.Write(" }");
+            }*/
+    public static void WriteToFile(String text)
+    {
+        if (expstat.logging)
+        {
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(expstat.fileName + ".txt", true))
+            {
+                file.WriteLine(text);
+            }
         }
-        public void Recurse(RecycleParser.ChildNodeContext con){
-                Console.Write("{ ");
-                if (con.ChildCount == 4){
-                        Recurse((RecycleParser.ChildNodeContext)con.children[1]);
-                        Recurse((RecycleParser.ChildNodeContext)con.children[3]);
-                }
-                else if (con.ChildCount == 3){
-                        Recurse((RecycleParser.ChildNodeContext)con.children[1]);
-                }
-                else{
-                        Console.Write(con.GetText());
-                }
-                Console.Write(" }");
-        }*/
+    }
 }
