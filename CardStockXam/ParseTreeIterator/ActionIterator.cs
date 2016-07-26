@@ -29,7 +29,7 @@ namespace ParseTreeIterator
 				foreach (RecycleParser.AwardsContext award in awards){
 					string key = "";
 					string value = "";
-					int reward = IntIterator.ProcessListInt(award.@int())[0];
+					int reward = IntIterator.ProcessListInt(award.@int());
 					var iter = award.subaward();
 					foreach (RecycleParser.SubawardContext i in iter){
 						key += i.namegr().GetText() + ",";
@@ -64,9 +64,7 @@ namespace ParseTreeIterator
 			}
 			else if (actionNode.shuffleaction() != null){
 				var locations = CardIterator.ProcessLocation(actionNode.shuffleaction().cstorage());
-				foreach (var loc in locations){
-					loc.cardList.Shuffle();
-				}
+                locations.cardList.Shuffle();
 			}
 			else if (actionNode.setaction() != null){
 				var setAction = actionNode.setaction();
@@ -84,8 +82,8 @@ namespace ParseTreeIterator
 				
 				if (actionNode.cycleaction().GetChild(1).GetText() == "next"){
 					//Set next player
-					if (actionNode.cycleaction().@int() != null) {
-						var idx = IntIterator.ProcessListInt(actionNode.cycleaction().@int())[0];
+					if (actionNode.cycleaction().owner() != null) {
+                        var idx = ProcessOwner(actionNode.cycleaction().owner());
 						CardGame.Instance.CurrentPlayer().SetNext(idx);
 						Debug.WriteLine("Next Player:" + idx);
 					} else if (actionNode.cycleaction().GetChild(2).GetText() == "next") {
@@ -98,9 +96,9 @@ namespace ParseTreeIterator
 				}
 				else if (actionNode.cycleaction().GetChild(1).GetText() == "current"){
 					//Set next player
-					if (actionNode.cycleaction().@int() != null) {
-						var idx = IntIterator.ProcessListInt(actionNode.cycleaction().@int())[0];
-						CardGame.Instance.CurrentPlayer().SetPlayer(idx);
+					if (actionNode.cycleaction().owner() != null) {
+						var idx = ProcessOwner(actionNode.cycleaction().owner());
+                        CardGame.Instance.CurrentPlayer().SetPlayer(idx);
 						Debug.WriteLine("Next Player:" + idx);
 					} else if (actionNode.cycleaction().GetChild(2).GetText() == "next") {
 						CardGame.Instance.CurrentPlayer().SetPlayer(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekNext()));			
@@ -116,5 +114,11 @@ namespace ParseTreeIterator
 			}
 			return ret;
 		}
+        private static int ProcessOwner(RecycleParser.OwnerContext owner) {
+            Debug.WriteLine("Got to OWNER");
+            var resultingCard = CardIterator.ProcessCard(owner.card()).Get();
+            Debug.WriteLine("Result :" + resultingCard);
+            return CardGame.Instance.CurrentPlayer().playerList.IndexOf(resultingCard.owner.container.owner);
+        }
 	}
 }

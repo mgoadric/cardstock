@@ -9,7 +9,7 @@ using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 //using ParseTreeIterator;
 public class ParseEngine{
-	//public static FreezeFrame.GameIterator currentIterator;
+	public static FreezeFrame.GameIterator currentIterator;
 	public static RecycleParser.GameContext currentTree;
         StringBuilder builder = new StringBuilder();
 	public static int reportedBF = 0;

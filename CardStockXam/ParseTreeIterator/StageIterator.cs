@@ -54,9 +54,20 @@ namespace ParseTreeIterator
 		}
 		public static void ProcessSubStage(IParseTree sub){
 			if (sub is RecycleParser.MultiactionContext){
-                //Console.WriteLine("Comp Action");
-                //var comp = sub as RecycleParser.ComputermovesContext;
-                //var multigameaction = comp.multigameaction()  as RecycleParser.MultigameactionContext;
+                var multiaction = sub as RecycleParser.MultiactionContext;
+                if (multiaction.GetChild(1).GetText() == "choice") {
+                    ProcessChoice(multiaction.condact());
+                }
+                else if (multiaction.GetChild(1).GetText() == "do") {
+                    ProcessDo(multiaction.condact());
+                }
+                else if (multiaction.agg() != null) {
+                    ProcessAgg(multiaction.agg());
+                }
+                else if (multiaction.let() != null) {
+                    ProcessLet(multiaction.let());
+                }
+                /*
                 var dostatement = sub as RecycleParser.MultiactionContext;
                 //TODO??
 				for (int i = 0; i < multigameaction.ChildCount; ++i){
@@ -66,28 +77,25 @@ namespace ParseTreeIterator
 						//Console.WriteLine("bool true");
 						ProcessMultiAction(gameaction.multiaction());
 					}
-				}
-			}
+				}*/
+            }
 			else if (sub is RecycleParser.StageContext){
 				ProcessStage(sub as RecycleParser.StageContext);
 			}
-			else if (sub is RecycleParser.PlayermovesContext){
-				var choice = sub as RecycleParser.PlayermovesContext;
-				ProcessChoice(choice);
-			}
 		}
-		public static void ProcessChoice(RecycleParser.PlayermovesContext playerMoves){
-			var multigameaction = playerMoves.multigameaction()  as RecycleParser.MultigameactionContext;
+		public static void ProcessChoice(RecycleParser.CondactContext[] choices){
+            
+			//var multigameaction = playerMoves.multigameaction()  as RecycleParser.MultigameactionContext;
 			var allOptions = new List<GameActionCollection>();
 			Dictionary<int, int> skips = new Dictionary<int,int>();
-			for (int i = 0; i < multigameaction.ChildCount; ++i){
+			for (int i = 0; i < choices.Length; ++i){
 				//Console.WriteLine("gameaction");
-				var gameaction = multigameaction.GetChild(i) as RecycleParser.GameactionContext;
+				var gameaction = choices[i];
 				//Console.WriteLine(gameaction.boolean().GetText());
 				//Console.WriteLine(BooleanIterator.ProcessBoolean(gameaction.boolean()));
 				int startingIdx = allOptions.Count;
 				if (BooleanIterator.ProcessBoolean(gameaction.boolean())){
-					allOptions.AddRange(ProcessMultiActionChoice(gameaction.multiaction()));
+					allOptions.AddRange(ProcessCondactChoice(gameaction));
 					for (int j = startingIdx; j < allOptions.Count; ++j) {
 						skips.Add (j, i);
 					}
@@ -113,7 +121,7 @@ namespace ParseTreeIterator
 					}
 				} else {
 					allOptions.Clear ();
-					allOptions.AddRange(ProcessMultiActionChoice((multigameaction.GetChild(chosenIdx) as RecycleParser.GameactionContext).multiaction(),iteratorCount));
+					allOptions.AddRange(ProcessMultiActionChoice((choices[chosenIdx] as RecycleParser.CondactContext).multiaction(),iteratorCount));
 					if (allOptions.Count != 0) {
 						Debug.WriteLine ("Choice count:" + allOptions.Count);
 						CardGame.Instance.PlayerMakeChoice (allOptions, CardGame.Instance.CurrentPlayer ().idx);
@@ -122,7 +130,7 @@ namespace ParseTreeIterator
 
 					}
 				}
-				if (iteratorCount == (multigameaction.GetChild(chosenIdx) as RecycleParser.GameactionContext).multiaction().ChildCount - 1) {
+				if (iteratorCount == (choices[chosenIdx] as RecycleParser.CondactContext).multiaction().ChildCount - 1) {
 					satisfied = true;
 					ParseEngine.currentIterator.decisionBranch = -1;
 					ParseEngine.currentIterator.decisionIdx = -1;
@@ -157,6 +165,23 @@ namespace ParseTreeIterator
 			return allOptions;
 
 		}
+
+        public static List<GameActionCollection> ProcessCondactChoice(RecycleParser.CondactContext cond)
+        {
+            var allOptions = new List<GameActionCollection>();
+            //TODO
+            //if ((cond.boolean()!= null && cond.boolean() == true) || cond.boolean() == null) {
+            if (cond.multiaction() != null)
+            {
+                return ProcessMultiActionChoice(cond.multiaction());
+            }
+            else if (cond.action() != null)
+            {
+                return ProcessActionChoice(cond.action());
+            }
+            //}
+            return null;
+        }
 		public static List<GameActionCollection> ProcessMultiActionChoice(RecycleParser.MultiactionContext actions){
 			var allOptions = new List<GameActionCollection> ();
 			int i = 0;

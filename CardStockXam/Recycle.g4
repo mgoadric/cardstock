@@ -96,7 +96,7 @@ sizeof : OPEN 'size' (cstorage | memset | var) CLOSE ;
 maxof : OPEN 'max' cstorage 'using' var CLOSE ;
 minof : OPEN 'min' cstorage 'using' var CLOSE ;
 unionof : OPEN 'union' (cstorage+? | agg) CLOSE ;
-sum : OPEN 'sum' cstorage 'using' var CLOSE | OPEN 'sum' rawstorage CLOSE ;
+sum : OPEN 'sum' cstorage 'using' var CLOSE ;
 score : OPEN 'score' card 'using' var CLOSE ;
 
 int : sizeof | mult | subtract | mod | add | divide | sum | rawstorage | score | INTNUM+ | var ;

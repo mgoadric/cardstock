@@ -12,7 +12,7 @@ using CardEngine;
 namespace ParseTreeIterator
 {
 	public class CardIterator{
-        public static FancyCardLocation[] ProcessCard(RecycleParser.CardContext card)
+        public static FancyCardLocation ProcessCard(RecycleParser.CardContext card)
         {
             if (card.maxof() != null)
             {
@@ -20,28 +20,22 @@ namespace ParseTreeIterator
                 var coll = ProcessLocation(card.maxof().cstorage());
                 var max = 0;
                 Card maxCard = null;
-                foreach (var loc in coll)
-                {
-                    foreach (var c in loc.FilteredList().AllCards())
+                foreach (var c in coll.FilteredList().AllCards()) {
+                    //MHG when equal, pick randomly
+                    if (scoring.GetScore(c) > max || (scoring.GetScore(c) == max && (new Random()).Next(0, 2) == 0))
                     {
-                        //MHG when equal, pick randomly
-                        if (scoring.GetScore(c) > max || (scoring.GetScore(c) == max && (new Random()).Next(0, 2) == 0))
-                        {
-                            //if (scoring.GetScore(c) > max){
-                            max = scoring.GetScore(c);
-                            maxCard = c;
-                        }
+                        //if (scoring.GetScore(c) > max){
+                        max = scoring.GetScore(c);
+                        maxCard = c;
                     }
                 }
                 Debug.WriteLine("MAX:" + maxCard);
                 var lst = new CardListCollection();
                 lst.Add(maxCard);
-                return new FancyCardLocation[1]{
-                    new FancyCardLocation{
+                return new FancyCardLocation {
                         cardList=lst,
                         locIdentifier="top",
-                        //name="MAX"
-                    }
+                        name="MAX"
                 };
             }
 
@@ -51,28 +45,22 @@ namespace ParseTreeIterator
                 var coll = ProcessLocation(card.minof().cstorage());
                 var min = Int32.MaxValue;
                 Card minCard = null;
-                foreach (var loc in coll)
-                {
-                    foreach (var c in loc.FilteredList().AllCards())
+                foreach (var c in coll.FilteredList().AllCards()) {
+                    //MHG when equal, pick randomly
+                    if (scoring.GetScore(c) < min || (scoring.GetScore(c) == min && (new Random()).Next(0, 2) == 0))
                     {
-                        //MHG when equal, pick randomly
-                        if (scoring.GetScore(c) < min || (scoring.GetScore(c) == min && (new Random()).Next(0, 2) == 0))
-                        {
-                            //if (scoring.GetScore(c) < min) {
-                            min = scoring.GetScore(c);
-                            minCard = c;
-                        }
+                        //if (scoring.GetScore(c) < min) {
+                        min = scoring.GetScore(c);
+                        minCard = c;
                     }
                 }
                 Debug.WriteLine("MIN:" + minCard);
                 var lst = new CardListCollection();
                 lst.Add(minCard);
-                return new FancyCardLocation[1]{
-                    new FancyCardLocation{
+                return new FancyCardLocation {
                         cardList=lst,
                         locIdentifier="top",
-                        //name="MINIMUM"
-                    }
+                        name="MINIMUM"
                 };
             }
 
@@ -83,29 +71,35 @@ namespace ParseTreeIterator
             {
                 var temp = card.actual().card() as RecycleParser.CardContext;
                 var cardLocations = ProcessCard(temp);
-                cardLocations[0].physicalLocation = true;
+                cardLocations.physicalLocation = true;
                 return cardLocations;
+            }            
+            else { //TODO: need to include (top | bottom | int) part
+                if (card.cstorage().locdesc().GetText() == 'mem') {
+                    var mem = ProcessLocation(card.cstorage());
+                    if (card.GetChild(1).GetText() == "top") {
+                        return mem.Get();
+                    }
+                }
+                else if (card.cstorage().memstorage() != null) {
+                    return ProcessLocation(card.cstorage());
+                }
+                else if (card.cstorage().var() != null) {
+                    return ProcessCardVar(card.cstorage());
+                }
+                else {
+                    return ProcessCardPhy(card.GetChild(1), card.cstorage());
+                }
             }
-
-            return ProcessLocation(card.cstorage());
-
-            //TODO:
-            //  Process cstorage, could be memstorage or physical
-            /*
-            FancyCardLocation[] ret = null;
-            if (card.cardp() != null)
-            {
-                ret = ProcessPhysical(card.cardp());
-            }
-            else if (card.cardm() != null)
-            {
-                ret = ProcessCard(card.cardm());
-            }
-
-            return ret;*/
         }
 
-		public static FancyCardLocation[] ProcessMem(RecycleParser.CardContext cardm){ 
+		public static FancyCardLocation ProcessMem(String id, RecycleParser.CstorageContext cardm){
+            var where = cardm.namegr().GetText();
+            if (cardm.var() == null) {
+                where = ProcessLocVar(cardm.var());
+            }
+            ProcessSubLocation(cardm.locpre, cardm.locdesc, where, false, true);
+            /*
             if (cardm.memstorage().locpre() != null) {
                 var ret = ProcessSubLocation(cardm.memstorage().locpre(),
                         cardm.memstorage().locpost(), false, true);
@@ -120,12 +114,12 @@ namespace ParseTreeIterator
 					var identifier = cardm.memstorage().GetChild(1).GetText();
 					var resultingSet = ProcessMemset(cardm.memstorage().memset());
 					if (identifier == "top"){
-						return new FancyCardLocation[1]{
+						return new FancyCardLocation{
 							resultingSet[0]
 						};
 					}
 					else if (identifier == "bottom"){
-						return new FancyCardLocation[1]{
+						return new FancyCardLocation{
 							resultingSet.Last()
 						};
 					
@@ -139,11 +133,11 @@ namespace ParseTreeIterator
 					else{
 						throw new NotImplementedException("Can't use any (yet) for memset");
 					}
-			}
+			}*/
 	
 		}
 
-        public static FancyCardLocation[] ProcessPhysical(RecycleParser.CardContext cardp) {
+        public static FancyCardLocation ProcessPhysical(RecycleParser.CardContext cardp) {
             var ret = ProcessSubLocation(cardp.locstorage().locpre(),
                     cardp.locstorage().locpost(), cardp.locstorage().GetChild(2).GetText() == "iloc",
                 cardp.locstorage().GetChild(2).GetText() == "mem");
@@ -155,11 +149,11 @@ namespace ParseTreeIterator
             return ret;
         }
 
-        public static FancyCardLocation[] ProcessCardVar(RecycleParser.CardContext cardVar) {
+        public static FancyCardLocation ProcessCardVar(RecycleParser.CardContext cardVar) {
             //TODO
         }
 
-        public static FancyCardLocation[] ProcessLocation(RecycleParser.CstorageContext loc) {
+        public static FancyCardLocation ProcessLocation(RecycleParser.CstorageContext loc) {
             if (loc.unionof() != null) {
                 CardListCollection temp = new CardListCollection();
                 foreach (var locChild in loc.unionof().cstorage()) {
@@ -170,12 +164,10 @@ namespace ParseTreeIterator
                         }
                     }
                 }
-                return new FancyCardLocation[1]{
-                    new FancyCardLocation{
+                return new FancyCardLocation{
                         cardList=temp,
                         locIdentifier="top",
                         //name="UNION"
-					}
                 };
             } else if (loc.filter() != null) { 
                 //TODO
@@ -192,7 +184,7 @@ namespace ParseTreeIterator
 					var identifier = loc.memstorage().GetChild(1).GetText();
 					var resultingSet = ProcessMemset(loc.memstorage().memset());
 					if (identifier == "top"){
-						return new FancyCardLocation[1]{
+						return new FancyCardLocation{
 							resultingSet[0]
 						};
 					}
@@ -242,8 +234,8 @@ namespace ParseTreeIterator
 			}
 			return null;
 		}
-		public static FancyCardLocation[] ProcessSubLocation(RecycleParser.LocpreContext locpre,
-			RecycleParser.NamegrContext namegr, bool hidden,bool mem) {
+		public static FancyCardLocation ProcessSubLocation(RecycleParser.LocpreContext locpre,
+			RecycleParser.LocdescContext desc, RecycleParser.NamegrContext namegr, bool hidden,bool mem) {
             //TODO, this will have to be mostly rewritten (who2 is now who, who is gone (was 'game')
 			if (locpre.who() != null){
 				var clause = ProcessWhere(locpost.whereclause());
@@ -286,7 +278,7 @@ namespace ParseTreeIterator
 			return null;
 		}
 
-        public static FancyCardLocation[] ProcessSubLocation(RecycleParser.LocpreContext locpre,
+        public static FancyCardLocation ProcessSubLocation(RecycleParser.LocpreContext locpre,
             RecycleParser.VarContext loc, bool hidden, bool mem) {
             var newloc = ProcessLocVar(loc);
             //TODO
@@ -355,53 +347,41 @@ namespace ParseTreeIterator
 			
 			}
 		}
-		public static object ProcessWho2(RecycleParser.WhoContext who){
-			if (who.who() == null){
-				//base case
-				if (who2.posq() != null){
-					if (who2.posq().GetText() == "all" || who2.posq().GetText() ==  "any"){
-						if (who2.GetChild(2).GetText() == "player"){
-							return CardGame.Instance.players;
-						}
-						else{//teams
-							return CardGame.Instance.teams;
-						}
-					}
-					
-				}
-				else if (who2.GetChild(1).GetText() == "current"){
-					if (who2.GetChild(2).GetText() == "player"){
+		public static object ProcessWho(RecycleParser.WhoContext who){
+			if (who.whop() == null){
+                var who2 = who.whop();
+				if (who2.GetChild(2).GetText() == "current"){
 						return CardGame.Instance.CurrentPlayer().Current();
-					}
-					else{//teams
-						return CardGame.Instance.CurrentPlayer().Current().team;//TODO change to true current team
-					}
 				}
 				else if (who2.GetChild(1).GetText() == "next"){
-					if (who2.GetChild(2).GetText() == "player"){
 						return CardGame.Instance.CurrentPlayer().PeekNext();
-					}
-					else{//teams
-						return CardGame.Instance.CurrentPlayer().Current().team;//TODO change to true current team
-					}
 				}
 				else if (who2.GetChild(1).GetText() == "previous"){
-					if (who2.GetChild(2).GetText() == "player"){
 						return CardGame.Instance.CurrentPlayer().PeekPrevious();
-					}
-					else{//teams
-						return CardGame.Instance.CurrentPlayer().Current().team;//TODO change to true current team
-					}
 				}
 				else if (who2.@int() != null){
-					if (who2.GetChild(2).GetText() == "player"){
 						return CardGame.Instance.players[IntIterator.ProcessListInt(who2.@int())[0]];
-					}
-					else{//teams
-						return CardGame.Instance.CurrentPlayer().Current().team;//TODO change to true current team
-					}
 				}
 			}
+            else if (who.whot() == null) {
+                var who2 = who.whot();
+                if (who2.GetChild(2).GetText() == "current")
+                {
+                    return CardGame.Instance.CurrentPlayer().Current().team;
+                }
+                else if (who2.GetChild(1).GetText() == "next")
+                {
+                    return CardGame.Instance.CurrentPlayer().PeekNext().team;
+                }
+                else if (who2.GetChild(1).GetText() == "previous")
+                {
+                    return CardGame.Instance.CurrentPlayer().PeekPrevious().team;
+                }
+                else if (who2.GetChild(1)().@int() != null)
+                {
+                    return CardGame.Instance.players[IntIterator.ProcessListInt(who2.whodesc().@int())[0]].team;
+                }
+            }
 			else{
 				//need to recurse
 				var subObject = ProcessWho2(who2.who2());

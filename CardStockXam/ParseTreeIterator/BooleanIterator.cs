@@ -20,11 +20,10 @@ namespace ParseTreeIterator
 				var intOne = boolNode.@int(0);
 				var intTwo = boolNode.@int(1);
 				if (intOne.GetText().Contains("any")){
-					List<int> trueOne = IntIterator.ProcessListInt(intOne);
-					int trueTwo = IntIterator.ProcessListInt(intTwo)[0];
+					int trueOne = IntIterator.ProcessListInt(intOne);
+					int trueTwo = IntIterator.ProcessListInt(intTwo);
 					if (intop.EQOP() != null){
 						if (intop.EQOP().GetText() == "=="){
-							
 							return trueOne.Exists(item => item == trueTwo);
 						}
 						else if (intop.EQOP().GetText() == "!="){
@@ -47,8 +46,8 @@ namespace ParseTreeIterator
 					}
 				}
 				else if (intOne.GetText().Contains("all")){
-					List<int> trueOne = IntIterator.ProcessListInt(intOne);
-					int trueTwo = IntIterator.ProcessListInt(intTwo)[0];
+					int trueOne = IntIterator.ProcessListInt(intOne);
+					int trueTwo = IntIterator.ProcessListInt(intTwo);
 					if (intop.EQOP() != null){
 						if (intop.EQOP().GetText() == "=="){
 							
@@ -76,8 +75,8 @@ namespace ParseTreeIterator
 					}
 				}
 				else{//single comparison
-					int trueOne = IntIterator.ProcessListInt(intOne)[0];
-					int trueTwo = IntIterator.ProcessListInt(intTwo)[0];
+					int trueOne = IntIterator.ProcessListInt(intOne);
+					int trueTwo = IntIterator.ProcessListInt(intTwo);
 					if (intop.EQOP() != null){
 						if (intop.EQOP().GetText() == "=="){
 							return trueOne == trueTwo;

@@ -13,109 +13,69 @@ namespace ParseTreeIterator
 {
 	public class IntIterator{
 		
-		public static List<int> ProcessListInt(RecycleParser.IntContext intNode){
-			
-			var ret = new List<int>();
-			if (intNode.rawstorage() != null){
-				var raw = intNode.rawstorage();
-				var fancy = ProcessRawStorage(intNode.rawstorage());
-				foreach (var fan in fancy){
-					ret.Add(fan.Get());
-				}
-			}
-			else if (intNode.INTNUM() != null && intNode.INTNUM().Count() != 0){
-				ret.Add(int.Parse(intNode.GetText()));
-			}
-			else if (intNode.@sizeof() != null){
-				if (intNode.@sizeof().cstorage() != null){
-					var size = intNode.@sizeof() as RecycleParser.SizeofContext;
-					var loc = size.cstorage() as RecycleParser.CstorageContext;
-					var trueLoc = CardIterator.ProcessLocation(loc);
-					foreach (var l in trueLoc){
-						ret.Add(l.FilteredCount());
-					}
-					Debug.WriteLine("fCount:"+ret[0]);
-				}
-				else if (intNode.@sizeof().memset() != null){
-					ret.Add(CardIterator.ProcessMemset(intNode.@sizeof().memset()).Count());
-				}
-			}
-			else if (intNode.mult() != null){
-				ret.Add(ProcessListInt(intNode.mult().@int(0))[0] * ProcessListInt(intNode.mult().@int(1))[0]); 
-			}
-			else if (intNode.subtract() != null){
-				ret.Add( ProcessListInt(intNode.subtract().@int(0))[0] - ProcessListInt(intNode.subtract().@int(1))[0]);
-			}
-			
-			else if (intNode.mod() != null){
-				ret.Add( ProcessListInt(intNode.mod().@int(0))[0] % ProcessListInt(intNode.mod().@int(1))[0]);
-			}
-			else if (intNode.divide() != null){
-				ret.Add( ProcessListInt(intNode.divide().@int(0))[0] / ProcessListInt(intNode.divide().@int(1))[0]);
-			}
-			else if (intNode.@add() != null){
-				ret.Add( ProcessListInt(intNode.@add().@int(0))[0] + ProcessListInt(intNode.@add().@int(1))[0]);
-			}
-			else if (intNode.sum() != null){
-				if (intNode.sum().rawstorage() != null){
-					var list = ProcessRawStorage(intNode.sum().rawstorage());
-					var total = 0;
-					foreach (var fancyRaw in list){
-						total += fancyRaw.Get();
-					}
-					ret.Add(total);
-				}
-				else{
-					if (intNode.sum ().GetText ().Contains ("any")) {
-						var sum = intNode.sum ();
-						var scoring = CardGame.Instance.points [sum.namegr ().GetText ()];
-						var coll = CardIterator.ProcessLocation (sum.cstorage ());
-						var total = new int[coll.Length];
-						for (int i = 0; i < coll.Length; ++i) {
-							var loc = coll [i];
-							foreach (var c in loc.FilteredList().AllCards()) {
-								total[i] += scoring.GetScore (c);
-							}
-						}
-						Debug.WriteLine ("Sum:" + total);
-						ret.AddRange (total);
-					} else {
-						var sum = intNode.sum ();
-						var scoring = CardGame.Instance.points [sum.namegr ().GetText ()];
-						var coll = CardIterator.ProcessLocation (sum.cstorage ());
-						var total = 0;
-						foreach (var loc in coll) {
-							foreach (var c in loc.FilteredList().AllCards()) {
-								total += scoring.GetScore (c);
-							}
-						}
-						Debug.WriteLine ("Sum:" + total);
-						ret.Add (total);
-					}
-				}
-			}
-			else if (intNode.owner() != null){
-				var own = intNode.owner();
-				Debug.WriteLine("Got to OWNER");
-				var resultingCard = CardIterator.ProcessCard(own.card())[0].Get();
-				Debug.WriteLine("Result :" + resultingCard);
-
-				ret.Add(CardGame.Instance.CurrentPlayer().playerList.IndexOf(resultingCard.owner.container.owner));
-				Debug.WriteLine("GOING TO: " + ret.Last());
-			}
-			else if (intNode.score() != null){
-				var scorer = CardGame.Instance.points[intNode.score().namegr().GetText()];
-				var card = CardIterator.ProcessCard(intNode.score().card());
-				ret.Add(scorer.GetScore(card[0].Get()));
-			}
-			else{
-				ret.Add(0);
-			}
-			
-			return ret;
+		public static int ProcessListInt(RecycleParser.IntContext intNode){
+            if (intNode.rawstorage() != null) {
+                var raw = intNode.rawstorage();
+                var fancy = ProcessRawStorage(intNode.rawstorage());
+                return fancy.Get();
+            }
+            else if (intNode.INTNUM() != null && intNode.INTNUM().Count() != 0) {
+                return int.Parse(intNode.GetText());
+            }
+            else if (intNode.@sizeof() != null) {
+                if (intNode.@sizeof().cstorage() != null) {
+                    var size = intNode.@sizeof() as RecycleParser.SizeofContext;
+                    var loc = size.cstorage() as RecycleParser.CstorageContext;
+                    var trueLoc = CardIterator.ProcessLocation(loc);
+                    return trueLoc.FilteredCount();
+                }
+                else if (intNode.@sizeof().memset() != null) {
+                    return CardIterator.ProcessMemset(intNode.@sizeof().memset()).Count());
+                }
+                else {
+                    Debug.WriteLine("failed to find size");
+                    return 0;
+                }
+            }
+            else if (intNode.mult() != null) {
+                return ProcessListInt(intNode.mult().@int(0)) * ProcessListInt(intNode.mult().@int(1));
+            }
+            else if (intNode.subtract() != null) {
+                return ProcessListInt(intNode.subtract().@int(0)) - ProcessListInt(intNode.subtract().@int(1));
+            }
+            else if (intNode.mod() != null) {
+                return ProcessListInt(intNode.mod().@int(0)) % ProcessListInt(intNode.mod().@int(1)));
+            }
+            else if (intNode.divide() != null) {
+                return ProcessListInt(intNode.divide().@int(0)) / ProcessListInt(intNode.divide().@int(1));
+            }
+            else if (intNode.@add() != null) {
+                return ProcessListInt(intNode.@add().@int(0)) + ProcessListInt(intNode.@add().@int(1));
+            }
+            else if (intNode.sum() != null) {
+                var sum = intNode.sum();
+                var scoring = CardGame.Instance.points[sum.var().GetText()];
+                var coll = CardIterator.ProcessLocation(sum.cstorage());
+                int total = 0;
+                foreach (var c in coll.FilteredList().AllCards()) {
+                    total += scoring.GetScore(c);
+                }
+                Debug.WriteLine("Sum:" + total);
+                return total;
+            }
+            else if (intNode.score() != null) {
+                var scorer = CardGame.Instance.points[intNode.score().var().GetText()];
+                var card = CardIterator.ProcessCard(intNode.score().card());
+                return scorer.GetScore(card.Get());
+            }
+            else {
+                return 0;
+            }
 		}
-		public static List<FancyRawStorage> ProcessRawStorage(RecycleParser.RawstorageContext raw){
-			var ret = new List<FancyRawStorage>();
+		public static FancyRawStorage ProcessRawStorage(RecycleParser.RawstorageContext raw){ //TODO
+            if (raw.GetChild(1).GetText() == "game") {
+                
+            }
 			if (raw.who() != null){
 				var gamebucket = raw.namegr();
 				ret.Add(new FancyRawStorage(CardGame.Instance.gameStorage,gamebucket.GetText()));

@@ -29,44 +29,56 @@ namespace ParseTreeIterator
 				}
 			};
 		}
-		
-		public static List<Node> ProcessAttribute(RecycleParser.AttributeContext attr){
-			if (attr.attribute()[0].attribute().Count() == 0){
-				//base case
-				var terminalTitle = attr.trueany()[0];
-				var subNode = attr.attribute()[0] as RecycleParser.AttributeContext;
-				var ret = new List<Node>();
-				var trueCount = (subNode.ChildCount - 3)/2 + 1;
-				for (int i = 0; i < trueCount; ++i){
-					ret.Add(new Node{
-						Key=terminalTitle.GetText(),
-						Value=subNode.trueany(i).GetText()
-					});
-				}
-				return ret;
-				
-				
-			}
-			else{
-				var ret = new List<Node>();
-				var terminalTitle = attr.trueany()[0];
-				var children = attr.attribute();
-				
-				foreach (var subNode in children){
-					var childs = new List<Node>();
-					foreach (var att in subNode.attribute()){
-						childs.AddRange(ProcessAttribute(att));
-					}
-					ret.Add(new Node{
-						Key=terminalTitle.GetText(),
-						Value=subNode.trueany()[0].GetText(),
-						children=childs
-					});
-					
-				}
-				return ret;
-			}
-		}
-		
+
+        public static List<Node> ProcessAttribute(RecycleParser.AttributeContext attr)
+        {
+            if (attr.var() != null) {
+                return ProcessAttrVar(attr);
+            }
+            else {
+                if (attr.attribute()[0].attribute().Count() == 0)
+                {
+                    //base case
+                    var terminalTitle = attr.namegr()[0];
+                    var subNode = attr.attribute()[0] as RecycleParser.AttributeContext;
+                    var ret = new List<Node>();
+                    var trueCount = (subNode.ChildCount - 3) / 2 + 1;
+                    for (int i = 0; i < trueCount; ++i)
+                    {
+                        ret.Add(new Node
+                        {
+                            Key = terminalTitle.GetText(),
+                            Value = subNode.namegr(i).GetText()
+                        });
+                    }
+                    return ret;
+
+
+                }
+                else
+                {
+                    var ret = new List<Node>();
+                    var terminalTitle = attr.trueany()[0];
+                    var children = attr.attribute();
+
+                    foreach (var subNode in children)
+                    {
+                        var childs = new List<Node>();
+                        foreach (var att in subNode.attribute())
+                        {
+                            childs.AddRange(ProcessAttribute(att));
+                        }
+                        ret.Add(new Node
+                        {
+                            Key = terminalTitle.GetText(),
+                            Value = subNode.trueany()[0].GetText(),
+                            children = childs
+                        });
+
+                    }
+                    return ret;
+                }
+            }
+        }
 	}
 }
