@@ -15,6 +15,9 @@ namespace CardEngine{
 			else if (locIdentifier == "bottom"){
 				cardList.AddBottom(c);
 			}
+            else{
+                cardList.Add(c, Int32.Parse(locIdentifier));
+            }
 		}
 		public int FilteredCount(){
 			if (filter != null){
@@ -24,22 +27,19 @@ namespace CardEngine{
 			return cardList.Count;
 		}
 		public Card Get(){
-			if (filter != null){
-				var temp = filter.FilterList(cardList);
-				if (locIdentifier == "top"){
-					return temp.Peek();
-				}
-				else if (locIdentifier == "bottom"){
-					return temp.AllCards().GetEnumerator().Current;
-				}
-			}
+            var temp = cardList;
+            if (filter != null) {
+                temp = filter.FilterList(cardList);
+            }			
 			if (locIdentifier == "top"){
-				return cardList.Peek();
+				return temp.Peek();
 			}
 			else if (locIdentifier == "bottom"){
-				return cardList.AllCards().GetEnumerator().Current;
+				return temp.AllCards().GetEnumerator().Current;
 			}
-			return null;
+            else{
+                return temp.Get(Int32.Parse(locIdentifier));
+            }
 		}
 		public CardCollection FilteredList(){
 			if (filter != null){
@@ -64,6 +64,9 @@ namespace CardEngine{
 				else if (locIdentifier == "bottom"){
 					return temp.AllCards().GetEnumerator().Current;
 				}
+                else{
+                    return temp.RemoveAt(Int32.Parse(locIdentifier));
+                }
 			}
 			if (cardList.Count != 0){
 				Debug.WriteLine("Pulling from Standard...");

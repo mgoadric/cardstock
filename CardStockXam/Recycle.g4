@@ -45,15 +45,17 @@ repeat : 'repeat' int action | 'repeat' 'all' action ;
 
 card : maxof | minof | var | actual | (OPEN ('top' | 'bottom' | int) cstorage CLOSE) ;
 actual : OPEN 'actual' card CLOSE ;
+
 rawstorage : OPEN ('game' | who | var) 'sto' (namegr | var) CLOSE ;
 cstorage : unionof | filter | OPEN locpre locdesc (namegr | var) CLOSE | memstorage  | var;
-locdesc : 'vloc'|'iloc'|'hloc'|'mem' ;
 memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
+
 memset : tuple ;
 tuple : OPEN 'tuples' int cstorage 'using' var CLOSE ;
 var : '\'' namegr ;
 
 locpre :  'game' | who | var ;
+locdesc : 'vloc'|'iloc'|'hloc'|'mem' ;
 who : whot | whop ;
 whop : OPEN whodesc 'player' CLOSE | owner ;
 whot : OPEN whodesc 'team' CLOSE | teamp ;

@@ -153,7 +153,6 @@ namespace CardEngine{
 		FancyCardLocation endLocation;
 		public FancyCardCopyAction(FancyCardLocation start, FancyCardLocation end){
 			startLocation = start;
-			
 			endLocation = end;
 		}
 		public override void Execute(){

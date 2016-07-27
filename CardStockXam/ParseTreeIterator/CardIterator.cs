@@ -35,7 +35,7 @@ namespace ParseTreeIterator
                 return new FancyCardLocation {
                         cardList=lst,
                         locIdentifier="top",
-                        name="MAX"
+                        //name="MAX"
                 };
             }
 
@@ -60,7 +60,7 @@ namespace ParseTreeIterator
                 return new FancyCardLocation {
                         cardList=lst,
                         locIdentifier="top",
-                        name="MINIMUM"
+                        //name="MINIMUM"
                 };
             }
 
@@ -74,68 +74,24 @@ namespace ParseTreeIterator
                 cardLocations.physicalLocation = true;
                 return cardLocations;
             }            
-            else { //TODO: need to include (top | bottom | int) part
-                if (card.cstorage().locdesc().GetText() == 'mem') {
+            else {
+                if (card.cstorage().var() != null)
+                {
+                    var temp = VarIterator.ProcessCardStorageVar(card.cstorage());
+                    return new FancyCardLocation {
+                        cardList = temp.cardList,
+                        locIdentifier = card.GetChild(1).GetText()
+                    };
+                }
+                else{
                     var mem = ProcessLocation(card.cstorage());
-                    if (card.GetChild(1).GetText() == "top") {
-                        return mem.Get();
-                    }
-                }
-                else if (card.cstorage().memstorage() != null) {
-                    return ProcessLocation(card.cstorage());
-                }
-                else if (card.cstorage().var() != null) {
-                    return ProcessCardVar(card.cstorage());
-                }
-                else {
-                    return ProcessCardPhy(card.GetChild(1), card.cstorage());
+                    return new FancyCardLocation {
+                        cardList = mem.cardList,
+                        locIdentifier = card.GetChild(1).GetText()
+                    };
                 }
             }
         }
-
-		public static FancyCardLocation ProcessMem(String id, RecycleParser.CstorageContext cardm){
-            var where = cardm.namegr().GetText();
-            if (cardm.var() == null) {
-                where = ProcessLocVar(cardm.var());
-            }
-            ProcessSubLocation(cardm.locpre, cardm.locdesc, where, false, true);
-            /*
-            if (cardm.memstorage().locpre() != null) {
-                var ret = ProcessSubLocation(cardm.memstorage().locpre(),
-                        cardm.memstorage().locpost(), false, true);
-                foreach (var fancy in ret) {
-                    fancy.locIdentifier = cardm.GetChild(1).GetText();
-                    CardGame.Instance.WriteToFile("m:" + fancy.cardList.ToString());
-                }
-                return ret;
-			}
-			else{
-				Debug.WriteLine("Tuple Track");
-					var identifier = cardm.memstorage().GetChild(1).GetText();
-					var resultingSet = ProcessMemset(cardm.memstorage().memset());
-					if (identifier == "top"){
-						return new FancyCardLocation{
-							resultingSet[0]
-						};
-					}
-					else if (identifier == "bottom"){
-						return new FancyCardLocation{
-							resultingSet.Last()
-						};
-					
-					}
-					else if (cardm.memstorage().@int() != null){
-						var processInt = IntIterator.ProcessListInt(cardm.memstorage().@int())[0];
-						return new FancyCardLocation[1]{
-							resultingSet[processInt]
-						};
-					}
-					else{
-						throw new NotImplementedException("Can't use any (yet) for memset");
-					}
-			}*/
-	
-		}
 
         public static FancyCardLocation ProcessPhysical(RecycleParser.CardContext cardp) {
             var ret = ProcessSubLocation(cardp.locstorage().locpre(),
@@ -174,35 +130,39 @@ namespace ParseTreeIterator
             } else if (loc.locpre() != null) {
 				Debug.WriteLine("Loc");
                 if (loc.namegr() != null) {
-                    return ProcessSubLocation(loc.locpre(), loc.namegr(), loc.locdesc().GetText() == "iloc", loc.locdesc().GetText() == "mem");
+                    return ProcessSubLocation(loc.locpre(), loc.namegr(), loc.locdesc().GetText());
                 }
                 else {
-                    return ProcessSubLocation(loc.locpre(), loc.var(), loc.locdesc().GetText() == "iloc", loc.locdesc().GetText() == "mem");
+                    return ProcessSubLocation(loc.locpre(), loc.var(), loc.locdesc().GetText());
                 }
 			} else if (loc.memstorage() != null) {
 					Debug.WriteLine("Tuple Track");
 					var identifier = loc.memstorage().GetChild(1).GetText();
 					var resultingSet = ProcessMemset(loc.memstorage().memset());
-					if (identifier == "top"){
-						return new FancyCardLocation{
-							resultingSet[0]
-						};
-					}
-					else if (identifier == "bottom"){
-						return new FancyCardLocation[1]{
-							resultingSet.Last()
-						};
-					
-					}
-					else if (loc.memstorage().@int() != null){
-						var processInt = IntIterator.ProcessListInt(loc.memstorage().@int())[0];
-						return new FancyCardLocation[1]{
-							resultingSet[processInt]
-						};
-					}
-					else{
-						throw new NotImplementedException("Can't use any (yet) for memset");
-					}
+                if (identifier == "top")
+                {
+                    return new FancyCardLocation 
+                            resultingSet.Get();
+                        ;
+                }
+                else if (identifier == "bottom")
+                {
+                    return new FancyCardLocation {
+                            //resultingSet.Last() TODO fix
+                        };
+
+                }
+                else if (loc.memstorage().@int() != null)
+                {
+                    var processInt = IntIterator.ProcessInt(loc.memstorage().@int())[0];
+                    return new FancyCardLocation[1]{
+                            resultingSet[processInt]
+                        };
+                }
+                else
+                {
+                    throw new NotImplementedException("Can't use any (yet) for memset");
+                }
 				
 			}
             else if (loc.var() != null) {
@@ -210,7 +170,7 @@ namespace ParseTreeIterator
             }			
 			return null;
 		}
-		public static FancyCardLocation[] ProcessMemset(RecycleParser.MemsetContext memset){
+		public static FancyCardLocation ProcessMemset(RecycleParser.MemsetContext memset){
 			if (memset.tuple() != null){
 				var findEm = new CardGrouping(13,CardGame.Instance.points[memset.tuple().var().GetText()]);
 				//Pairs
@@ -221,7 +181,7 @@ namespace ParseTreeIterator
 						cardsToScore.Add(card);
 					}
 				}
-				var pairs = findEm.TuplesOfSize(cardsToScore,IntIterator.ProcessListInt(memset.tuple().@int())[0]);
+				var pairs = findEm.TuplesOfSize(cardsToScore,IntIterator.ProcessInt(memset.tuple().@int())[0]);
 				var returnList = new FancyCardLocation[pairs.Count];
 				for (int i = 0; i < pairs.Count; ++i){
                     returnList[i] = new FancyCardLocation {
@@ -238,10 +198,10 @@ namespace ParseTreeIterator
 			RecycleParser.LocdescContext desc, RecycleParser.NamegrContext namegr, bool hidden,bool mem) {
             //TODO, this will have to be mostly rewritten (who2 is now who, who is gone (was 'game')
 			if (locpre.who() != null){
-				var clause = ProcessWhere(locpost.whereclause());
+				var clause = ProcessWhere(desc.whereclause());
                 return new FancyCardLocation[]{
 					new FancyCardLocation{
-						cardList=CardGame.Instance.tableCards[(hidden?"{hidden}":mem?"{mem}":"{visible}") + locpost.namegr().GetText()],
+						cardList=CardGame.Instance.tableCards[(hidden?"{hidden}":mem?"{mem}":"{visible}") + desc.namegr().GetText()],
 						filter=clause,
                         //name="t" + (hidden ? "{hidden}" : mem?"{mem}":"{visible}") + locpost.namegr().GetText()
                     }
@@ -359,8 +319,8 @@ namespace ParseTreeIterator
 				else if (who2.GetChild(1).GetText() == "previous"){
 						return CardGame.Instance.CurrentPlayer().PeekPrevious();
 				}
-				else if (who2.@int() != null){
-						return CardGame.Instance.players[IntIterator.ProcessListInt(who2.@int())[0]];
+				else if (who2.whodesc().@int() != null){
+						return CardGame.Instance.players[IntIterator.ProcessInt(who2.whodesc().@int())];
 				}
 			}
             else if (who.whot() == null) {
@@ -377,20 +337,10 @@ namespace ParseTreeIterator
                 {
                     return CardGame.Instance.CurrentPlayer().PeekPrevious().team;
                 }
-                else if (who2.GetChild(1)().@int() != null)
+                else if (who2.whodesc().@int() != null)
                 {
-                    return CardGame.Instance.players[IntIterator.ProcessListInt(who2.whodesc().@int())[0]].team;
+                    return CardGame.Instance.players[IntIterator.ProcessInt(who2.whodesc().@int())].team;
                 }
-            }
-			else{
-				//need to recurse
-				var subObject = ProcessWho2(who2.who2());
-				if (subObject is Player){
-					return (subObject as Player).team;
-				}
-				else if (subObject is Team){
-					return (subObject as Team).teamPlayers;
-				}
 			}
 			return null;
 		}

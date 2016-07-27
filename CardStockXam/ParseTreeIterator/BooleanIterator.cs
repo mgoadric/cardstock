@@ -11,96 +11,39 @@ using Antlr4.Runtime.Tree;
 namespace ParseTreeIterator
 {
 	public class BooleanIterator{
-		public static bool ProcessBoolean(RecycleParser.BooleanContext boolNode){
-			if (boolNode.GetText() == "()"){
-				return true;
-			}
-			else if (boolNode.intop() != null){
-				var intop = boolNode.intop();
-				var intOne = boolNode.@int(0);
-				var intTwo = boolNode.@int(1);
-				if (intOne.GetText().Contains("any")){
-					int trueOne = IntIterator.ProcessListInt(intOne);
-					int trueTwo = IntIterator.ProcessListInt(intTwo);
-					if (intop.EQOP() != null){
-						if (intop.EQOP().GetText() == "=="){
-							return trueOne.Exists(item => item == trueTwo);
-						}
-						else if (intop.EQOP().GetText() == "!="){
-							return trueOne.Exists(item => item != trueTwo);
-						}
-					}
-					if (intop.COMPOP() != null){
-						if (intop.COMPOP().GetText() == "<="){
-							return trueOne.Exists(item => item <= trueTwo);
-						}
-						else if (intop.COMPOP().GetText() == ">"){
-							return trueOne.Exists(item => item > trueTwo);
-						}
-						else if (intop.COMPOP().GetText() == ">="){
-							return trueOne.Exists(item => item >= trueTwo);
-						}
-						else if (intop.COMPOP().GetText() == "<"){
-							return trueOne.Exists(item => item < trueTwo);
-						}
-					}
-				}
-				else if (intOne.GetText().Contains("all")){
-					int trueOne = IntIterator.ProcessListInt(intOne);
-					int trueTwo = IntIterator.ProcessListInt(intTwo);
-					if (intop.EQOP() != null){
-						if (intop.EQOP().GetText() == "=="){
-							
-							//Console.Write("\n");
-							return trueOne.All(item => item == trueTwo);
-						}
-						else if (intop.EQOP().GetText() == "!="){
-							return trueOne.All(item => item != trueTwo);
-						}
-					}
-					if (intop.COMPOP() != null){
-						if (intop.COMPOP().GetText() == "<="){
-							
-							return trueOne.All(item => item <= trueTwo);
-						}
-						else if (intop.COMPOP().GetText() == ">"){
-							return trueOne.All(item => item > trueTwo);
-						}
-						else if (intop.COMPOP().GetText() == ">="){
-							return trueOne.All(item => item >= trueTwo);
-						}
-						else if (intop.COMPOP().GetText() == "<"){
-							return trueOne.All(item => item < trueTwo);
-						}
-					}
-				}
-				else{//single comparison
-					int trueOne = IntIterator.ProcessListInt(intOne);
-					int trueTwo = IntIterator.ProcessListInt(intTwo);
-					if (intop.EQOP() != null){
-						if (intop.EQOP().GetText() == "=="){
-							return trueOne == trueTwo;
-						}
-						else if (intop.EQOP().GetText() == "!="){
-							return trueOne != trueTwo;
-						}
-					}
-					else if (intop.COMPOP() != null){
-						if (intop.COMPOP().GetText() == "<="){
-							return trueOne <= trueTwo;
-						}
-						else if (intop.COMPOP().GetText() == ">"){
-							return trueOne > trueTwo;
-						}
-						else if (intop.COMPOP().GetText() == ">="){
-							return trueOne >= trueTwo;
-						}
-						else if (intop.COMPOP().GetText() == "<"){
-							return trueOne < trueTwo;
-						}
-					}
-				}
-			}
+        public static bool ProcessBoolean(RecycleParser.BooleanContext boolNode) {
+            if (boolNode.GetText() == "()") {
+                return true;
+            }
+            else if (boolNode.intop() != null) {
+                var intop = boolNode.intop();
+                var intOne = boolNode.@int(0);
+                var intTwo = boolNode.@int(1);
+                int trueOne = IntIterator.ProcessInt(intOne);
+                int trueTwo = IntIterator.ProcessInt(intTwo);
+                if (intop.EQOP() != null) {
+                    if (intop.EQOP().GetText() == "==") {
+                        return trueOne == trueTwo;
+                    }
+                    else if (intop.EQOP().GetText() == "!=") {
+                        return trueOne != trueTwo;
+                    }
+                }
+                else if (intop.COMPOP() != null) {
+                    if (intop.COMPOP().GetText() == "<=") {
+                        return trueOne <= trueTwo;
+                    }
+                    else if (intop.COMPOP().GetText() == ">") {
+                        return trueOne > trueTwo;
+                    }
+                    else if (intop.COMPOP().GetText() == ">=") {
+                        return trueOne >= trueTwo;
+                    }
+                    else if (intop.COMPOP().GetText() == "<") {
+                        return trueOne < trueTwo;
+                    }
+                }
+            }
 			else if (boolNode.UNOP() != null){
 				//NOT (...)
 				return ! ProcessBoolean(boolNode.boolean(0));
@@ -143,12 +86,9 @@ namespace ParseTreeIterator
 			}
 			else{//We're ignoring 'each' here, not iterating over a deck
 				var lstOfCards = CardIterator.ProcessCard(cAtt.card());
-				foreach (var fLoc in lstOfCards){
-					foreach (var card in fLoc.FilteredList().AllCards()){
-						ret.Add(card.ReadAttribute(cAtt.name().GetText()));
-					}
-				}
-				
+					foreach (var card in lstOfCards.FilteredList().AllCards()){
+						ret.Add(card.ReadAttribute(cAtt.namegr().GetText()));
+					}				
 			}
 			return ret;
 		}

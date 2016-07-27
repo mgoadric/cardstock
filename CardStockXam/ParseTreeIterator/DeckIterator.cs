@@ -58,7 +58,7 @@ namespace ParseTreeIterator
                 else
                 {
                     var ret = new List<Node>();
-                    var terminalTitle = attr.trueany()[0];
+                    var terminalTitle = attr.namegr()[0];
                     var children = attr.attribute();
 
                     foreach (var subNode in children)
@@ -71,7 +71,7 @@ namespace ParseTreeIterator
                         ret.Add(new Node
                         {
                             Key = terminalTitle.GetText(),
-                            Value = subNode.trueany()[0].GetText(),
+                            Value = subNode.namegr()[0].GetText(),
                             children = childs
                         });
 

@@ -36,7 +36,7 @@ namespace ParseTreeIterator
 			var ret = new GameActionCollection();
 			if (setupNode.playercreate() != null){
 				var playerCreate = setupNode.playercreate() as RecycleParser.PlayercreateContext;
-				var numPlayers = IntIterator.ProcessListInt(playerCreate.@int());
+				var numPlayers = IntIterator.ProcessInt(playerCreate.@int());
                 CardGame.Instance.WriteToFile("nump:" + numPlayers);
 				CardGame.Instance.AddPlayers(numPlayers);
 			}
@@ -52,19 +52,17 @@ namespace ParseTreeIterator
 			}
 			return ret;
 		}
-        public static GameActionCollection ProcessDeck(RecycleParser.DeckcreateContext deckinit) {
+        public static GameActionCollection ProcessDeck(RecycleParser.DeckcreateContext deckinit)
+        {
             var ret = new GameActionCollection();
-            var repeat = 1;
             if (deckinit.repeat() != null) {
-                repeat = deckinit.repeat().@int;
+                return ActionIterator.ProcessRepeat(deckinit.repeat()));
             }
-            var locstorage = CardIterator.ProcessSubLocation(deckinit.cstorage().locpre(), deckinit.cstorage().locdesc(), deckinit.cstorage().GetChild(2).GetText() == "iloc", deckinit.cstorage().GetChild(2).GetText() == "mem");
-            var deckTree = DeckIterator.ProcessDeck(deckinit.deck());
-            for (int x = 0; x < repeat; ++x)
-            {
-                ret.Add(new InitializeAction(locstorage[0].cardList, deckTree));
+            else {
+                var locstorage = CardIterator.ProcessSubLocation(deckinit.cstorage().locpre(), deckinit.cstorage().locdesc(), deckinit.cstorage().GetChild(2).GetText() == "iloc", deckinit.cstorage().GetChild(2).GetText() == "mem");
+                var deckTree = DeckIterator.ProcessDeck(deckinit.deck());
+                return ret;
             }
-            return ret;
-            
+        }
     }
 }

@@ -8,12 +8,13 @@ using System.IO;
 using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using CardEngine;
+using 
 
 namespace ParseTreeIterator
 {
 	public class IntIterator{
 		
-		public static int ProcessListInt(RecycleParser.IntContext intNode){
+		public static int ProcessInt(RecycleParser.IntContext intNode){
             if (intNode.rawstorage() != null) {
                 var raw = intNode.rawstorage();
                 var fancy = ProcessRawStorage(intNode.rawstorage());
@@ -30,7 +31,7 @@ namespace ParseTreeIterator
                     return trueLoc.FilteredCount();
                 }
                 else if (intNode.@sizeof().memset() != null) {
-                    return CardIterator.ProcessMemset(intNode.@sizeof().memset()).Count());
+                    return CardIterator.ProcessMemset(intNode.@sizeof().memset()).cardList.Count;
                 }
                 else {
                     Debug.WriteLine("failed to find size");
@@ -38,19 +39,19 @@ namespace ParseTreeIterator
                 }
             }
             else if (intNode.mult() != null) {
-                return ProcessListInt(intNode.mult().@int(0)) * ProcessListInt(intNode.mult().@int(1));
+                return ProcessInt(intNode.mult().@int(0)) * ProcessInt(intNode.mult().@int(1));
             }
             else if (intNode.subtract() != null) {
-                return ProcessListInt(intNode.subtract().@int(0)) - ProcessListInt(intNode.subtract().@int(1));
+                return ProcessInt(intNode.subtract().@int(0)) - ProcessInt(intNode.subtract().@int(1));
             }
             else if (intNode.mod() != null) {
-                return ProcessListInt(intNode.mod().@int(0)) % ProcessListInt(intNode.mod().@int(1)));
+                return ProcessInt(intNode.mod().@int(0)) % ProcessInt(intNode.mod().@int(1));
             }
             else if (intNode.divide() != null) {
-                return ProcessListInt(intNode.divide().@int(0)) / ProcessListInt(intNode.divide().@int(1));
+                return ProcessInt(intNode.divide().@int(0)) / ProcessInt(intNode.divide().@int(1));
             }
             else if (intNode.@add() != null) {
-                return ProcessListInt(intNode.@add().@int(0)) + ProcessListInt(intNode.@add().@int(1));
+                return ProcessInt(intNode.@add().@int(0)) + ProcessInt(intNode.@add().@int(1));
             }
             else if (intNode.sum() != null) {
                 var sum = intNode.sum();
@@ -74,92 +75,81 @@ namespace ParseTreeIterator
 		}
 		public static FancyRawStorage ProcessRawStorage(RecycleParser.RawstorageContext raw){ //TODO
             if (raw.GetChild(1).GetText() == "game") {
-                
-            }
-			if (raw.who() != null){
-				var gamebucket = raw.namegr();
-				ret.Add(new FancyRawStorage(CardGame.Instance.gameStorage,gamebucket.GetText()));
-			}
-			if (raw.who2() != null&&raw.who2().who2() == null){
-				if (raw.who2().posq() != null){
-					if (raw.who2().GetChild(2).GetText() == "team"){
-						foreach (var team in CardGame.Instance.teams){
-							ret.Add(new FancyRawStorage(team.teamStorage,raw.namegr().GetText()));
-						}
-					}
-					else if (raw.who2().GetChild(2).GetText() == "player"){
-						foreach (var player in CardGame.Instance.players){
-							ret.Add(new FancyRawStorage(player.storage,raw.namegr().GetText()));
-						}
-					}
-					
-				}
-				else{
-					if (raw.who2().GetChild(2).GetText() == "team"){
-						var curTeam = CardGame.Instance.CurrentTeam().Current();
-						ret.Add(new FancyRawStorage(curTeam.teamStorage,raw.namegr().GetText()));
-						//Console.WriteLine("STO:" +raw.namegr().GetText() );
-					}
-					else if (raw.who2().GetChild(2).GetText() == "player"){
-						if (raw.who2().GetChild(1).GetText() == "current"){
-							var curPlayer = CardGame.Instance.CurrentPlayer().Current();
-							ret.Add(new FancyRawStorage(curPlayer.storage,raw.namegr().GetText()));
-							//Console.WriteLine("STO:" +raw.namegr().GetText() );
-						}
-						else if (raw.who2().GetChild(1).GetText() == "next"){
-							var curPlayer = CardGame.Instance.CurrentPlayer().PeekNext();
-							ret.Add(new FancyRawStorage(curPlayer.storage,raw.namegr().GetText()));
-						}
-					}
-				}
-			}
-			else if (raw.who2() != null){
-				if (raw.who2().GetText() == "((currentteam)player)"){
-					foreach (var player in CardGame.Instance.CurrentTeam().Current().teamPlayers){
-						ret.Add(new FancyRawStorage(player.storage,raw.namegr().GetText()));
-					}
-				}
-				else if (raw.who2().GetText() == "((currentplayer)team)"){
-					ret.Add(new FancyRawStorage(CardGame.Instance.CurrentPlayer().Current().team.teamStorage,
-						raw.namegr().GetText()));
-				}
-			}
-			return ret;
-		}
-		public static GameActionCollection SetAction(RecycleParser.SetactionContext setAction){
-			var ret = new GameActionCollection();
-			if (setAction.rawstorage() != null){
-				var bins = ProcessRawStorage(setAction.rawstorage());
-				var setValue = ProcessListInt(setAction.@int())[0];
-				foreach (var bin in bins){ 
-					ret.Add(new IntAction(bin.storage,bin.key,setValue));
+                if (raw.var() != null) {
+                    var temp = VarIterator.ProcessStringVar(raw.var()[0]);
+                    return new FancyRawStorage(CardGame.Instance.gameStorage, temp);
+                }
+                else {
+                    return new FancyRawStorage(CardGame.Instance.gameStorage, raw.namegr().GetText());
                 }
             }
-			return ret;
-		}
-		public static GameActionCollection IncAction(RecycleParser.IncactionContext setAction){
-			var ret = new GameActionCollection();
-			if (setAction.rawstorage() != null){
-				var bins = ProcessRawStorage(setAction.rawstorage());
-				var setValue = ProcessListInt(setAction.@int())[0];
-				foreach (var bin in bins){
-                    var newVal = bin.Get() + setValue;
-					ret.Add(new IntAction(bin.storage,bin.key, newVal));
+            else if(raw.who() != null){
+                if (raw.who().whot() != null){
+                    var who = CardIterator.ProcessWho(raw.who()) as Team;
+                    if (raw.namegr() != null){
+                        return new FancyRawStorage(who.teamStorage, raw.namegr().GetText());
+                    }
+                    else{
+                        var temp = ProcessStringVar(raw.var());
+                        return new FancyRawStorage(who.teamStorage, temp);
+                    }
                 }
-			}
-			return ret;
-		}
-		public static GameActionCollection DecAction(RecycleParser.DecactionContext setAction){
-			var ret = new GameActionCollection();
-			if (setAction.rawstorage() != null){
-				var bins = ProcessRawStorage(setAction.rawstorage());
-				var setValue = ProcessListInt(setAction.@int())[0];
-				foreach (var bin in bins){
-                    var newVal = bin.Get() - setValue;
-                    ret.Add(new IntAction(bin.storage, bin.key, newVal));
+                else if (raw.who().whop() != null){
+                    var who = CardIterator.ProcessWho(raw.who()) as Player;
+                    if (raw.namegr() != null)
+                    {
+                        return new FancyRawStorage(who.storage, raw.namegr().GetText());
+                    }
+                    else
+                    {
+                        var temp = ProcessStringVar(raw.var());
+                        return new FancyRawStorage(who.storage, temp);
+                    }
                 }
-			}
-			return ret;
+            }
+            else{
+                var who = VarIterator.ProcessWhoVar(raw.var()[0]);
+                if (who.GetType().Name == "Team"){
+                    if (raw.namegr() != null)
+                    {
+                        return new FancyRawStorage(who.teamStorage, raw.namegr().GetText());
+                    }
+                    else
+                    {
+                        var temp = ProcessStringVar(raw.var()[1]);
+                        return new FancyRawStorage(who.teamStorage, temp);
+                    }
+                }
+                else{
+                    if (raw.namegr() != null)
+                    {
+                        return new FancyRawStorage(who.storage, raw.namegr().GetText());
+                    }
+                    else
+                    {
+                        var temp = ProcessStringVar(raw.var()[1]);
+                        return new FancyRawStorage(who.storage, temp);
+                    }
+                }
+            }
 		}
+
+        public static GameAction SetAction(RecycleParser.SetactionContext setAction){
+            var bin = ProcessRawStorage(setAction.rawstorage());
+            var setValue = ProcessInt(setAction.@int());
+            return new IntAction(bin.storage, bin.key, setValue);
+        }
+		public static GameAction IncAction(RecycleParser.IncactionContext setAction){
+            var bin = ProcessRawStorage(setAction.rawstorage());
+            var setValue = ProcessInt(setAction.@int());
+            var newVal = bin.Get() + setValue;
+            return new IntAction(bin.storage, bin.key, newVal);
+        }
+        public static GameAction DecAction(RecycleParser.DecactionContext setAction) {
+            var bin = ProcessRawStorage(setAction.rawstorage());
+            var setValue = ProcessInt(setAction.@int());
+            var newVal = bin.Get() - setValue;
+            return new IntAction(bin.storage, bin.key, newVal);
+        }
     }
 }
