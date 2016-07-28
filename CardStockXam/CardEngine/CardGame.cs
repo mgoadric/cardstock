@@ -38,6 +38,7 @@ namespace CardEngine
 		public RawStorage gameStorage = new RawStorage();
 		public PointsStorage points = new PointsStorage();
         public bool isRecording = true;
+        public Dictionary<String, object> vars;
 		public CardGame(){
 			
 		}

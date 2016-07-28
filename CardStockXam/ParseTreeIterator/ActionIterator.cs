@@ -144,11 +144,7 @@ namespace ParseTreeIterator
             throw new NotImplementedException();
         }
 
-        public static void ProcessAgg(RecycleParser.AggContext aggContext){ //TODO
-            throw new NotImplementedException();
-        }
-
-        public static GameActionCollection ProcessDo(RecycleParser.CondactContext[] condact){ //TODO
+        public static GameActionCollection ProcessDo(RecycleParser.CondactContext[] condact){
             GameActionCollection ret = new GameActionCollection();
             foreach (RecycleParser.CondactContext cond in condact){
                 if (cond.boolean() != null){

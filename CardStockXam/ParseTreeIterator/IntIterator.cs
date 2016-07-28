@@ -8,7 +8,6 @@ using System.IO;
 using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using CardEngine;
-using 
 
 namespace ParseTreeIterator
 {
@@ -76,7 +75,7 @@ namespace ParseTreeIterator
 		public static FancyRawStorage ProcessRawStorage(RecycleParser.RawstorageContext raw){ //TODO
             if (raw.GetChild(1).GetText() == "game") {
                 if (raw.var() != null) {
-                    var temp = VarIterator.ProcessStringVar(raw.var()[0]);
+                    String temp = VarIterator.ProcessStringVar(raw.var()[0]);
                     return new FancyRawStorage(CardGame.Instance.gameStorage, temp);
                 }
                 else {
@@ -90,7 +89,7 @@ namespace ParseTreeIterator
                         return new FancyRawStorage(who.teamStorage, raw.namegr().GetText());
                     }
                     else{
-                        var temp = ProcessStringVar(raw.var());
+                        var temp = VarIterator.ProcessStringVar(raw.var()[0]);
                         return new FancyRawStorage(who.teamStorage, temp);
                     }
                 }
@@ -102,7 +101,7 @@ namespace ParseTreeIterator
                     }
                     else
                     {
-                        var temp = ProcessStringVar(raw.var());
+                        var temp = VarIterator.ProcessStringVar(raw.var()[0]);
                         return new FancyRawStorage(who.storage, temp);
                     }
                 }
@@ -110,28 +109,31 @@ namespace ParseTreeIterator
             else{
                 var who = VarIterator.ProcessWhoVar(raw.var()[0]);
                 if (who.GetType().Name == "Team"){
+                    Team temp = who as Team;
                     if (raw.namegr() != null)
                     {
-                        return new FancyRawStorage(who.teamStorage, raw.namegr().GetText());
+                        return new FancyRawStorage(temp.teamStorage, raw.namegr().GetText());
                     }
                     else
                     {
-                        var temp = ProcessStringVar(raw.var()[1]);
-                        return new FancyRawStorage(who.teamStorage, temp);
+                        var str = VarIterator.ProcessStringVar(raw.var()[1]);
+                        return new FancyRawStorage(temp.teamStorage, str);
                     }
                 }
                 else{
+                    Player temp = who as Player;
                     if (raw.namegr() != null)
                     {
-                        return new FancyRawStorage(who.storage, raw.namegr().GetText());
+                        return new FancyRawStorage(temp.storage, raw.namegr().GetText());
                     }
                     else
                     {
-                        var temp = ProcessStringVar(raw.var()[1]);
-                        return new FancyRawStorage(who.storage, temp);
+                        var str = VarIterator.ProcessStringVar(raw.var()[1]);
+                        return new FancyRawStorage(temp.storage, str);
                     }
                 }
             }
+            return null;
 		}
 
         public static GameAction SetAction(RecycleParser.SetactionContext setAction){

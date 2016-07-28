@@ -46,6 +46,7 @@
     <Compile Include="ParseTreeIterator\BooleanIterator.cs" />
     <Compile Include="ParseTreeIterator\CardActionIterator.cs" />
     <Compile Include="ParseTreeIterator\CardIterator.cs" />
+    <Compile Include="ParseTreeIterator\VarIterator.cs" />
     <Compile Include="ParseTreeIterator\DeckIterator.cs" />
     <Compile Include="ParseTreeIterator\IntIterator.cs" />
     <Compile Include="ParseTreeIterator\ScoreIterator.cs" />

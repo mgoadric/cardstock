@@ -169,18 +169,22 @@ namespace ParseTreeIterator
         public static List<GameActionCollection> ProcessCondactChoice(RecycleParser.CondactContext cond)
         {
             var allOptions = new List<GameActionCollection>();
-            //TODO
-            //if ((cond.boolean()!= null && cond.boolean() == true) || cond.boolean() == null) {
-            if (cond.multiaction() != null)
-            {
-                return ProcessMultiActionChoice(cond.multiaction());
+            bool condition = true;
+            if (cond.boolean() != null){
+                condition = BooleanIterator.ProcessBoolean(cond.boolean());
             }
-            else if (cond.action() != null)
-            {
-                return ProcessActionChoice(cond.action());
+            if (condition){
+                if (cond.multiaction() != null)
+                {
+                    return ProcessMultiActionChoice(cond.multiaction());
+                }
+                else if (cond.action() != null)
+                {
+                    return ProcessActionChoice(cond.action());
+                }
             }
             //}
-            return null;
+            return new List<GameActionCollection>();
         }
 		public static List<GameActionCollection> ProcessMultiActionChoice(RecycleParser.MultiactionContext actions){
 			var allOptions = new List<GameActionCollection> ();
@@ -239,18 +243,6 @@ namespace ParseTreeIterator
 			}
 			Debug.WriteLine("Flatten:" + flatten.Count);
 			return flatten;
-			
-		}
-		public static void ProcessMultiAction(RecycleParser.MultiactionContext actions){
-			for (int i = 0; i < actions.ChildCount; ++i){
-				//Console.WriteLine("action children");
-				ProcessAction(actions.GetChild(i)  as RecycleParser.ActionContext);
-			}
-		}
-		public static void ProcessAction(RecycleParser.ActionContext action){
-			//Console.WriteLine("Execute:");
-			//Console.WriteLine(action.GetText());
-			ActionIterator.ProcessAction(action).ExecuteAll();
 		}
 	}
 }
