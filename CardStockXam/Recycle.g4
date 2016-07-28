@@ -54,7 +54,7 @@ memset : tuple ;
 tuple : OPEN 'tuples' int cstorage 'using' var CLOSE ;
 var : '\'' namegr ;
 
-locpre :  'game' | who | var ;
+locpre : ('game' | whop | var) ;
 locdesc : 'vloc'|'iloc'|'hloc'|'mem' ;
 who : whot | whop ;
 whop : OPEN whodesc 'player' CLOSE | owner ;

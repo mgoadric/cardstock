@@ -62,7 +62,7 @@ namespace ParseTreeIterator
                     ActionIterator.ProcessDo(multiaction.condact());
                 }
                 else if (multiaction.agg() != null) {
-                    ActionIterator.ProcessAgg(multiaction.agg());
+                    VarIterator.ProcessAgg(multiaction.agg());
                 }
                 else if (multiaction.let() != null) {
                     ActionIterator.ProcessLet(multiaction.let());
@@ -222,7 +222,7 @@ namespace ParseTreeIterator
 				if (a is FancyCardMoveAction){
 					var fa = a as FancyCardMoveAction;
 					if (fa.startLocation.locIdentifier == "any"){
-						foreach (var card in fa.startLocation.FilteredList().AllCards()){
+						foreach (var card in fa.startLocation.cardList.AllCards()){
 							flatten.Add(new GameActionCollection{
 								new CardMoveAction(card,fa.startLocation.cardList,fa.endLocation.cardList)
 							});

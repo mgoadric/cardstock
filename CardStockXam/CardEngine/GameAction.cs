@@ -82,7 +82,7 @@ namespace CardEngine{
 		public override void Execute(){
 			Card cardToMove = null;
 			try{
-			if (startLocation.FilteredCount() != 0){
+			if (startLocation.Count() != 0){
 				cardToMove = startLocation.Remove();
 				endLocation.Add(cardToMove);
 				cardToMove.owner = endLocation.cardList;

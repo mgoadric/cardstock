@@ -441,18 +441,6 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitCstorage([NotNull] RecycleParser.CstorageContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.locdesc"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterLocdesc([NotNull] RecycleParser.LocdescContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.locdesc"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitLocdesc([NotNull] RecycleParser.LocdescContext context) { }
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.memstorage"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -512,6 +500,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitLocpre([NotNull] RecycleParser.LocpreContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.locdesc"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterLocdesc([NotNull] RecycleParser.LocdescContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.locdesc"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitLocdesc([NotNull] RecycleParser.LocdescContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.who"/>.
 	/// <para>The default implementation does nothing.</para>

@@ -41,7 +41,6 @@ namespace CardEngine{
 		}
 		public string Serialize(){
 			return attributes.Serialize ();
-		
 		}
 		public string ReadAttribute(string attributeName){
 			

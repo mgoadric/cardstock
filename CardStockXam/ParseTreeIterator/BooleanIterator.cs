@@ -12,10 +12,7 @@ namespace ParseTreeIterator
 {
 	public class BooleanIterator{
         public static bool ProcessBoolean(RecycleParser.BooleanContext boolNode) {
-            if (boolNode.GetText() == "()") {
-                return true;
-            }
-            else if (boolNode.intop() != null) {
+            if (boolNode.intop() != null) {
                 var intop = boolNode.intop();
                 var intOne = boolNode.@int(0);
                 var intTwo = boolNode.@int(1);
@@ -45,7 +42,6 @@ namespace ParseTreeIterator
                 }
             }
 			else if (boolNode.UNOP() != null){
-				//NOT (...)
 				return ! ProcessBoolean(boolNode.boolean(0));
 			}
 			else if (boolNode.BOOLOP() != null){
@@ -53,6 +49,9 @@ namespace ParseTreeIterator
 					bool flag = false;
 					foreach (var boolean in boolNode.boolean()){
 						flag |= ProcessBoolean(boolean);
+                        if (flag){
+                            return flag;
+                        }
 					}
 					return flag;
 				}
@@ -68,29 +67,60 @@ namespace ParseTreeIterator
 				}
 			}
 			else if (boolNode.attrcomp() != null){
-				var lst1 = ProcessAtt(boolNode.attrcomp().cardatt(0));
-				var lst2 = ProcessAtt(boolNode.attrcomp().cardatt(1));
+				var str1 = ProcessAtt(boolNode.attrcomp().cardatt(0));
+				var str2 = ProcessAtt(boolNode.attrcomp().cardatt(1));
 				if (boolNode.attrcomp().EQOP().GetText() == "=="){
-					return lst1.Intersect(lst2).Count() >= 1;
+                    return str1 == str2;
 				}
 				else{// == "!="
-					return lst1.Intersect(lst2).Count() == 0;
+                    return str1 != str2;
 				}
 			}
-			return false;
+            else if (boolNode.EQOP() != null){
+                bool eq = false;
+                if (boolNode.EQOP().GetText() == "=="){
+                    eq = true;
+                }
+                if (boolNode.card() != null){
+                    var card1 = CardIterator.ProcessCard(boolNode.card()[0]);
+                    var card2 = CardIterator.ProcessCard(boolNode.card()[1]);
+                    return eq == card1.Equals(card2);
+                }
+                else if (boolNode.whop() != null){
+                    var p1 = CardIterator.ProcessWhop(boolNode.whop()[0]);
+                    var p2 = CardIterator.ProcessWhop(boolNode.whop()[1]);
+                    return eq == p1.Equals(p2);
+                }
+                else if (boolNode.whot() != null){
+                    var t1 = CardIterator.ProcessWhot(boolNode.whot()[0]);
+                    var t2 = CardIterator.ProcessWhot(boolNode.whot()[1]);
+                    return eq == t1.Equals(t2);
+                }
+            }
+            else if (boolNode.agg() != null){
+                //TODO
+            }
+            throw new NotSupportedException();
 		}
-		public static  List<string> ProcessAtt(RecycleParser.CardattContext cAtt){
-			List<string> ret = new List<string>();
+		public static  string ProcessAtt(RecycleParser.CardattContext cAtt){
 			if (cAtt.ChildCount == 1){
-				ret.Add(cAtt.GetText());
+                if (cAtt.namegr() != null){
+                    return cAtt.GetText();
+                }
+                else{
+                    return VarIterator.ProcessStringVar(cAtt.var());
+                }
 			}
 			else{//We're ignoring 'each' here, not iterating over a deck
-				var lstOfCards = CardIterator.ProcessCard(cAtt.card());
-					foreach (var card in lstOfCards.FilteredList().AllCards()){
-						ret.Add(card.ReadAttribute(cAtt.namegr().GetText()));
-					}				
+				var card = CardIterator.ProcessCard(cAtt.card());
+                if (cAtt.namegr() != null) {
+                    return card.Get().ReadAttribute(cAtt.namegr().GetText());
+                }
+                else{
+                    var temp = VarIterator.ProcessStringVar(cAtt.var());
+                    return card.Get().ReadAttribute(temp);
+                }		
 			}
-			return ret;
 		}
 		
 	}

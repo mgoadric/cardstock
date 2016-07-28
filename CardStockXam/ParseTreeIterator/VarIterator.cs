@@ -51,7 +51,7 @@ namespace ParseTreeIterator
             };
         }
 
-        public static void ProcessAgg(RecycleParser.AggContext agg){ //TODO
+        public static object ProcessAgg(RecycleParser.AggContext agg){ //TODO
             FancyCardLocation stor;
             List<String> strings;
             Team team;
@@ -65,13 +65,14 @@ namespace ParseTreeIterator
                 strings = ProcessStringCollection(agg.collection().strcollection());
             }
             else if (agg.collection().cstoragecollection() != null){
-
+                //TODO  ???
             }
             else if (agg.collection().whot() != null){
                 team = CardIterator.ProcessWhot(agg.collection().whot());
             }
             else if (agg.collection().other() != null){
-
+                var other = agg.collection().other();
+                
             }
             else if (agg.collection().range() != null){
 
@@ -85,7 +86,6 @@ namespace ParseTreeIterator
             else if (agg.collection().GetText() == "team"){
 
             }
-            //else (any other cases?)
             else{
                 throw new NotSupportedException();
             }
@@ -98,12 +98,24 @@ namespace ParseTreeIterator
             else{ //any
 
             }
+            return null;
         }
 
         private static List<string> ProcessStringCollection(RecycleParser.StrcollectionContext strcollectionContext)
         {
             //TODO, iterate through text splitting on commas
             throw new NotImplementedException();
+        }
+
+        internal static int ProcessIntVar(RecycleParser.VarContext varContext)
+        {
+            var temp = Get(varContext);
+            var raw = temp as FancyRawStorage;
+            if (raw != null){
+                return raw.Get();
+            }
+            int num = Convert.ToInt32(temp);
+            return num;
         }
 
         internal static List<Node> ProcessAttrVar(RecycleParser.AttributeContext attr)

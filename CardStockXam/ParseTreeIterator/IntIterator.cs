@@ -15,7 +15,6 @@ namespace ParseTreeIterator
 		
 		public static int ProcessInt(RecycleParser.IntContext intNode){
             if (intNode.rawstorage() != null) {
-                var raw = intNode.rawstorage();
                 var fancy = ProcessRawStorage(intNode.rawstorage());
                 return fancy.Get();
             }
@@ -24,13 +23,27 @@ namespace ParseTreeIterator
             }
             else if (intNode.@sizeof() != null) {
                 if (intNode.@sizeof().cstorage() != null) {
-                    var size = intNode.@sizeof() as RecycleParser.SizeofContext;
-                    var loc = size.cstorage() as RecycleParser.CstorageContext;
-                    var trueLoc = CardIterator.ProcessLocation(loc);
-                    return trueLoc.FilteredCount();
+                    return CardIterator.ProcessLocation(intNode.@sizeof().cstorage()).Count();
                 }
                 else if (intNode.@sizeof().memset() != null) {
-                    return CardIterator.ProcessMemset(intNode.@sizeof().memset()).cardList.Count;
+                    return CardIterator.ProcessMemset(intNode.@sizeof().memset()).Length;
+                }
+                else if (intNode.@sizeof().var() != null){
+                    var temp = VarIterator.Get(intNode.@sizeof().var());
+                    var temp2 = temp as FancyCardLocation;
+                    if (temp2 != null){
+                        if (temp2.locIdentifier != "-1"){
+                            return temp2.Count();
+                        }
+                        throw new TypeAccessException();
+                    }
+                    else{
+                        var temp3 = temp as FancyCardLocation[];
+                        if (temp3 != null){
+                            return temp3.Length;
+                        }
+                        throw new TypeAccessException();
+                    }
                 }
                 else {
                     Debug.WriteLine("failed to find size");
@@ -57,7 +70,7 @@ namespace ParseTreeIterator
                 var scoring = CardGame.Instance.points[sum.var().GetText()];
                 var coll = CardIterator.ProcessLocation(sum.cstorage());
                 int total = 0;
-                foreach (var c in coll.FilteredList().AllCards()) {
+                foreach (var c in coll.cardList.AllCards()) {
                     total += scoring.GetScore(c);
                 }
                 Debug.WriteLine("Sum:" + total);
@@ -68,8 +81,11 @@ namespace ParseTreeIterator
                 var card = CardIterator.ProcessCard(intNode.score().card());
                 return scorer.GetScore(card.Get());
             }
+            else if (intNode.var() != null){
+                return VarIterator.ProcessIntVar(intNode.var());
+            }
             else {
-                return 0;
+                throw new InvalidDataException();
             }
 		}
 		public static FancyRawStorage ProcessRawStorage(RecycleParser.RawstorageContext raw){ //TODO
