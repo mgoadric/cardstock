@@ -88,7 +88,18 @@ namespace ParseTreeIterator
                 throw new InvalidDataException();
             }
 		}
-		public static FancyRawStorage ProcessRawStorage(RecycleParser.RawstorageContext raw){ //TODO
+
+        public static List<int> ProcessRange(RecycleParser.RangeContext range){
+            int int1 = ProcessInt(range.GetChild(2) as RecycleParser.IntContext);
+            int int2 = ProcessInt(range.GetChild(4) as RecycleParser.IntContext);
+            List<int> ret = new List<int>();
+            for (int idx = int1; idx < int2; idx++){
+                ret.Add(idx);
+            }
+            return ret;
+        }
+
+        public static FancyRawStorage ProcessRawStorage(RecycleParser.RawstorageContext raw){ //TODO
             if (raw.GetChild(1).GetText() == "game") {
                 if (raw.var() != null) {
                     String temp = VarIterator.ProcessStringVar(raw.var()[0]);
@@ -123,7 +134,7 @@ namespace ParseTreeIterator
                 }
             }
             else{
-                var who = VarIterator.ProcessWhoVar(raw.var()[0]);
+                var who = VarIterator.Get(raw.var()[0]);
                 if (who.GetType().Name == "Team"){
                     Team temp = who as Team;
                     if (raw.namegr() != null)

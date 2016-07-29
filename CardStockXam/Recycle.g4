@@ -27,7 +27,7 @@ attribute : var | OPEN (namegr ',')*? namegr attribute*? CLOSE ;
 
 initpoints : 'put' 'points' var OPEN awards+? CLOSE ;
 awards : OPEN subaward+? int CLOSE ;
-subaward : OPEN namegr ((OPEN trueany CLOSE) |(cardatt)) CLOSE ;
+subaward : OPEN namegr ((OPEN namegr CLOSE) | (cardatt)) CLOSE ;
 
 cycleaction : 'cycle' ('next' | 'current') (owner | 'current' | 'next' | 'previous') ;
 
@@ -71,8 +71,6 @@ collection : cstorage | strcollection | cstoragecollection | 'player' | 'team'
 strcollection : OPEN (namegr ',')*? namegr CLOSE ;
 cstoragecollection : memset | agg | let ;
 range : OPEN 'range' int '..' int CLOSE ;
-
-trueany : (ANY|int|BOOLOP|namegr)+?;
 
 filter : OPEN 'filter' collection var boolean CLOSE ;
 

@@ -88,6 +88,16 @@ namespace ParseTreeIterator
             throw new NotSupportedException();
         }
 
+        public static List<object> ProcessOther(RecycleParser.OtherContext otherContext)
+        { //return list of teams or list of players
+            throw new NotImplementedException();
+        }
+
+        public static List<CardStorage> ProcessCStorageCollection(RecycleParser.CstoragecollectionContext cstoragecollectionContext)
+        {
+            throw new NotImplementedException();
+        }
+
         public static FancyCardLocation ProcessLocation(RecycleParser.CstorageContext loc)
         {
             if (loc.unionof() != null)
@@ -152,7 +162,7 @@ namespace ParseTreeIterator
                 }
             }
             else if (loc.var() != null){
-                return VarIterator.ProcessCardStorageVar(loc.var());
+                return VarIterator.Get(loc.var()) as FancyCardLocation;
             }
             throw new NotSupportedException();
         }
@@ -225,7 +235,7 @@ namespace ParseTreeIterator
                 player = ProcessWhop(locpre.whop());
             }
             else { 
-                player = VarIterator.ProcessWhoVar(locpre.var()) as Player;
+                player = VarIterator.Get(locpre.var()) as Player;
             }
             if (namegr != null)
             {

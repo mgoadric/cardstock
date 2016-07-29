@@ -3,18 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Antlr4.Runtime.Tree;
 using CardEngine;
 
 namespace ParseTreeIterator
 {
     class VarIterator
     {
-        public static object ProcessWhoVar(RecycleParser.VarContext varContext)
-        {
-            throw new NotImplementedException();//TODO
-        }
-
-        public static String ProcessStringVar(RecycleParser.VarContext var){
+        public static string ProcessStringVar(RecycleParser.VarContext var){
             return Get(var) as string;
         }
 
@@ -30,7 +26,7 @@ namespace ParseTreeIterator
                 stor = CardIterator.ProcessLocation(filter.collection().cstorage());
             }
             else if (filter.collection().var() != null){
-                stor = ProcessCardStorageVar(filter.collection().var());
+                stor = Get(filter.collection().var()) as FancyCardLocation;
             }
             else{
                 throw new NotSupportedException();
@@ -46,53 +42,52 @@ namespace ParseTreeIterator
             }
             return new FancyCardLocation
             {
-                cardList = cList,
-                locIdentifier = "-1"
+                cardList = cList
             };
         }
 
         public static object ProcessAgg(RecycleParser.AggContext agg){ //TODO
-            FancyCardLocation stor;
-            List<String> strings;
-            Team team;
             if (agg.collection().cstorage() != null){
-                stor = CardIterator.ProcessLocation(agg.collection().cstorage());
+                var stor = CardIterator.ProcessLocation(agg.collection().cstorage());
+                return IterateAgg<Card>(agg, stor.cardList.AllCards());
             }
             else if (agg.collection().var() != null){
-                stor = ProcessCardStorageVar(agg.collection().var());
+                var stor = Get(agg.collection().var()) as FancyCardLocation;
+                return IterateAgg<Card>(agg, stor.cardList.AllCards());
             }
-            else if (agg.collection().strcollection() != null){
-                strings = ProcessStringCollection(agg.collection().strcollection());
+            else if (agg.collection().strcollection() != null){//TODO check
+                var lst = ProcessStringCollection(agg.collection().strcollection());
+                return IterateAgg(agg, lst);
             }
             else if (agg.collection().cstoragecollection() != null){
-                //TODO  ???
+                var colls = CardIterator.ProcessCStorageCollection(agg.collection().cstoragecollection());
+                return IterateAgg(agg, colls);
             }
             else if (agg.collection().whot() != null){
-                team = CardIterator.ProcessWhot(agg.collection().whot());
-            }
-            else if (agg.collection().other() != null){
-                var other = agg.collection().other();
-                
+                var team = CardIterator.ProcessWhot(agg.collection().whot());
+                return IterateAgg(agg, team.teamPlayers);
             }
             else if (agg.collection().range() != null){
-
+                var range = IntIterator.ProcessRange(agg.collection().range());
+                return IterateAgg(agg, range);
             }
             else if (agg.collection().filter() != null){
-
+                var filter = ProcessCStorageFilter(agg.collection().filter());
+                return IterateAgg(agg, filter.cardList.AllCards());
             }
             else if (agg.collection().GetText() == "player"){
-
+                return IterateAgg(agg, CardGame.Instance.players);
             }
             else if (agg.collection().GetText() == "team"){
-
+                return IterateAgg(agg, CardGame.Instance.teams);
             }
-            else{
+            else if (agg.collection().other() != null){
+                var other = CardIterator.ProcessOther(agg.collection().other());
+                return IterateAgg(agg, other);
+            }
+            else
+            {
                 throw new NotSupportedException();
-            }
-            if (stor != null){
-                foreach (Card card in stor.cardList.AllCards()){
-                    CardGame.Instance.vars[agg.var().GetText()] = card;
-                }
             }
             if (agg.GetChild(1).GetText() == "all"){}
             else{ //any
@@ -101,10 +96,60 @@ namespace ParseTreeIterator
             return null;
         }
 
-        private static List<string> ProcessStringCollection(RecycleParser.StrcollectionContext strcollectionContext)
+        private static object IterateAgg<T>(RecycleParser.AggContext agg, IEnumerable<T> stor){
+            var ret = new List<Object>();
+            if (All(agg))
+            {
+                foreach (T t in stor)
+                {
+                    CardGame.Instance.vars[agg.var().GetText()] = t;
+                    ret.Add(ProcessAggPost(agg.GetChild(4)));
+                    CardGame.Instance.vars.Remove(agg.var().GetText());
+                }
+            }
+            else
+            { //any
+                foreach (T t in stor)
+                {
+                    CardGame.Instance.vars[agg.var().GetText()] = t;
+                    ret.Add(ProcessAggPost(agg.GetChild(4)));
+                    CardGame.Instance.vars.Remove(agg.var().GetText());
+                }
+            }
+            return ret;
+        }
+
+        private static object ProcessAggPost(IParseTree parseTree){//TODO, return type?
+            if (parseTree is RecycleParser.MultiactionContext){
+                StageIterator.ProcessSubStage(parseTree);
+                return null;
+            }
+            else if (parseTree is RecycleParser.ActionContext){
+                return ActionIterator.ProcessAction(parseTree as RecycleParser.ActionContext);
+            }
+            else if (parseTree is RecycleParser.BooleanContext){
+                return BooleanIterator.ProcessBoolean(parseTree as RecycleParser.BooleanContext);
+            }
+            else if (parseTree is RecycleParser.CstorageContext){
+                return CardIterator.ProcessLocation(parseTree as RecycleParser.CstorageContext);
+            }
+            else if (parseTree is RecycleParser.CondactContext){
+                return ActionIterator.DoAction(parseTree as RecycleParser.CondactContext);
+            }
+            else if (parseTree is RecycleParser.RawstorageContext){
+                return IntIterator.ProcessRawStorage(parseTree as RecycleParser.RawstorageContext);
+            }
+            throw new NotSupportedException();
+        }
+
+
+
+        private static string[] ProcessStringCollection(RecycleParser.StrcollectionContext strcollectionContext)
         {
             //TODO, iterate through text splitting on commas
-            throw new NotImplementedException();
+            string text = strcollectionContext.GetText();
+            char[] delimiter = { ',' };
+            return text.Split(delimiter);
         }
 
         internal static int ProcessIntVar(RecycleParser.VarContext varContext)
@@ -140,6 +185,10 @@ namespace ParseTreeIterator
                 Console.WriteLine("failed to find var " + text);
                 return null;
             }
+        }
+
+        public static bool All(RecycleParser.AggContext agg){
+            return agg.boolean().GetText() == "all";
         }
     }
 }

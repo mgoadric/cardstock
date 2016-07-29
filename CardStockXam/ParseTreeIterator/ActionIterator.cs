@@ -14,71 +14,71 @@ namespace ParseTreeIterator
 	public class ActionIterator{
 		public static GameActionCollection ProcessAction(RecycleParser.ActionContext actionNode){
 			var ret = new GameActionCollection();
-			if (actionNode.teamcreate() != null) {
-				var teamCreate = actionNode.teamcreate() as RecycleParser.TeamcreateContext;
-				SetupIterator.ProcessTeamCreate(teamCreate);
-			}
-			else if (actionNode.initpoints() != null){
-				var points = actionNode.initpoints();
-				var name = points.var().GetText();
-				if (!CardGame.Instance.points.binDict.ContainsKey(name)){
-					CardGame.Instance.points.AddKey(name);
-				}
-				List<PointAwards> temp = new List<PointAwards>();
-				var awards = points.awards();
-				foreach (RecycleParser.AwardsContext award in awards){
-					string key = "";
-					string value = "";
-					int reward = IntIterator.ProcessInt(award.@int());
-					var iter = award.subaward();
-					foreach (RecycleParser.SubawardContext i in iter){
-						key += i.namegr().GetText() + ",";
-						if (i.trueany() != null){
-							value += i.trueany().GetText() + ",";
+            if (actionNode.teamcreate() != null) {
+                var teamCreate = actionNode.teamcreate() as RecycleParser.TeamcreateContext;
+                SetupIterator.ProcessTeamCreate(teamCreate);
+            }
+            else if (actionNode.initpoints() != null) {
+                var points = actionNode.initpoints();
+                var name = points.var().GetText();
+                if (!CardGame.Instance.points.binDict.ContainsKey(name)) {
+                    CardGame.Instance.points.AddKey(name);
+                }
+                List<PointAwards> temp = new List<PointAwards>();
+                var awards = points.awards();
+                foreach (RecycleParser.AwardsContext award in awards) {
+                    string key = "";
+                    string value = "";
+                    int reward = IntIterator.ProcessInt(award.@int());
+                    var iter = award.subaward();
+                    foreach (RecycleParser.SubawardContext i in iter) {
+                        key += i.namegr()[0].GetText() + ",";
+                        if (i.namegr().Length > 1) {
+                            value += i.namegr()[1].GetText() + ",";
                         }
-						else{
-							value += CardIterator.ProcessCardatt(i.cardatt()) + ",";
+                        else {
+                            value += CardIterator.ProcessCardatt(i.cardatt()) + ",";
                         }
-					}
-					key = key.Substring(0,key.Length - 1);
-					value = value.Substring(0,value.Length - 1);
+                    }
+                    key = key.Substring(0, key.Length - 1);
+                    value = value.Substring(0, value.Length - 1);
                     CardGame.Instance.WriteToFile("A:" + value + " " + reward);
-                    temp.Add(new PointAwards(key,value,reward));
-				}
-				CardGame.Instance.points[name] = new CardScore(temp);
-			}
-			else if (actionNode.copyaction() != null){
-				Debug.WriteLine("REMEMBER: '" + actionNode.GetText() + "'");
-				var copy = actionNode.copyaction();
-				ret.Add(CardActionIterator.ProcessCopy(copy));
-			}
-			else if (actionNode.removeaction() != null){
-				Debug.WriteLine("FORGET: '" + actionNode.GetText() + "'");
-				var removeAction = actionNode.removeaction();
-				ret.Add(CardActionIterator.ProcessRemove(removeAction));
-			}
-			else if (actionNode.moveaction() != null){
-				Debug.WriteLine("MOVE: '" + actionNode.GetText() + "'");
-				var move = actionNode.moveaction();
-				ret.Add(CardActionIterator.ProcessMove(move));
-			}
-			else if (actionNode.shuffleaction() != null){
-				var locations = CardIterator.ProcessLocation(actionNode.shuffleaction().cstorage());
+                    temp.Add(new PointAwards(key, value, reward));
+                }
+                CardGame.Instance.points[name] = new CardScore(temp);
+            }
+            else if (actionNode.copyaction() != null) {
+                Debug.WriteLine("REMEMBER: '" + actionNode.GetText() + "'");
+                var copy = actionNode.copyaction();
+                ret.Add(CardActionIterator.ProcessCopy(copy));
+            }
+            else if (actionNode.removeaction() != null) {
+                Debug.WriteLine("FORGET: '" + actionNode.GetText() + "'");
+                var removeAction = actionNode.removeaction();
+                ret.Add(CardActionIterator.ProcessRemove(removeAction));
+            }
+            else if (actionNode.moveaction() != null) {
+                Debug.WriteLine("MOVE: '" + actionNode.GetText() + "'");
+                var move = actionNode.moveaction();
+                ret.Add(CardActionIterator.ProcessMove(move));
+            }
+            else if (actionNode.shuffleaction() != null) {
+                var locations = CardIterator.ProcessLocation(actionNode.shuffleaction().cstorage());
                 locations.cardList.Shuffle();
-			}
-			else if (actionNode.setaction() != null){
-				var setAction = actionNode.setaction();
-				ret.Add(IntIterator.SetAction(setAction));
-			}
-			else if (actionNode.incaction() != null){
-				var incAction = actionNode.incaction();
-				ret.Add(IntIterator.IncAction(incAction));
-			}
-			else if (actionNode.decaction() != null){
-				var decAction = actionNode.decaction();
-				ret.Add(IntIterator.DecAction(decAction));
-			} 
-			else if (actionNode.cycleaction() != null) {
+            }
+            else if (actionNode.setaction() != null) {
+                var setAction = actionNode.setaction();
+                ret.Add(IntIterator.SetAction(setAction));
+            }
+            else if (actionNode.incaction() != null) {
+                var incAction = actionNode.incaction();
+                ret.Add(IntIterator.IncAction(incAction));
+            }
+            else if (actionNode.decaction() != null) {
+                var decAction = actionNode.decaction();
+                ret.Add(IntIterator.DecAction(decAction));
+            }
+            else if (actionNode.cycleaction() != null) {
 
                 if (actionNode.cycleaction().GetChild(1).GetText() == "next")
                 {
@@ -124,15 +124,15 @@ namespace ParseTreeIterator
                         CardGame.Instance.CurrentPlayer().SetPlayer(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekPrevious()));
                     }
                 }
-                else if (actionNode.deckcreate() != null){
-                    ret.AddRange(SetupIterator.ProcessDeck(actionNode.deckcreate()));
-                }
-                else if (actionNode.turnaction() != null){
-                    CardGame.Instance.CurrentPlayer().Next();
-                }
-                else if (actionNode.repeat() != null){
-                    ret.AddRange(ProcessRepeat(actionNode.repeat()));
-                }
+            }
+            else if (actionNode.deckcreate() != null) {
+                ret.AddRange(SetupIterator.ProcessDeck(actionNode.deckcreate()));
+            }
+            else if (actionNode.turnaction() != null) {
+                CardGame.Instance.CurrentPlayer().Next();
+            }
+            else if (actionNode.repeat() != null) {
+                ret.AddRange(ProcessRepeat(actionNode.repeat()));
 			}
 			else{
 				Console.WriteLine("Not Processed: '" + actionNode.GetText() + "'");
@@ -147,12 +147,8 @@ namespace ParseTreeIterator
         public static GameActionCollection ProcessDo(RecycleParser.CondactContext[] condact){
             GameActionCollection ret = new GameActionCollection();
             foreach (RecycleParser.CondactContext cond in condact){
-                if (cond.boolean() != null){
-                    if (BooleanIterator.ProcessBoolean(cond.boolean())){
-                        ret.AddRange(DoAction(cond));
-                    }
-                }
-                else{
+                if ((cond.boolean() != null && BooleanIterator.ProcessBoolean(cond.boolean())) || cond.boolean() == null)
+                {
                     ret.AddRange(DoAction(cond));
                 }
             }

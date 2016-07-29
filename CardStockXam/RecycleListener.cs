@@ -549,16 +549,6 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitRange([NotNull] RecycleParser.RangeContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.trueany"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTrueany([NotNull] RecycleParser.TrueanyContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.trueany"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTrueany([NotNull] RecycleParser.TrueanyContext context);
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.filter"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

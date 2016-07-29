@@ -657,18 +657,6 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitRange([NotNull] RecycleParser.RangeContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.trueany"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterTrueany([NotNull] RecycleParser.TrueanyContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.trueany"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitTrueany([NotNull] RecycleParser.TrueanyContext context) { }
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.filter"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
