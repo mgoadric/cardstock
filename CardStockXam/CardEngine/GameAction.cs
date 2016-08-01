@@ -100,7 +100,26 @@ namespace CardEngine{
 			return "";
 		}
 	}
-	public class InitializeAction : GameAction{
+    public class FancyShuffleAction : GameAction
+    {
+        private FancyCardLocation locations;
+
+        public FancyShuffleAction(FancyCardLocation locations)
+        {
+            this.locations = locations;
+        }
+
+        public override void Execute()
+        {
+            locations.cardList.Shuffle();
+        }
+
+        public override string Serialize()
+        {
+            return "";
+        }
+    }
+    public class InitializeAction : GameAction{
 		CardCollection location;
 		Tree deck;
 		public InitializeAction(CardCollection loc, Tree d){
