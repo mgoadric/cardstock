@@ -50,7 +50,8 @@ namespace ParseTreeIterator
             }
             return new FancyCardLocation
             {
-                cardList = cList
+                cardList = cList,
+                nonPhysical = true
             };
         }
 
@@ -100,24 +101,19 @@ namespace ParseTreeIterator
         }
 
         private static object IterateAgg<T>(RecycleParser.AggContext agg, IEnumerable<T> stor){
-            var ret = new List<Object>();
-            if (All(agg))
+            var ret = new List<object>();
+            foreach (T t in stor)
             {
-                foreach (T t in stor)
-                {
-                    Put(agg.var().GetText(), t);
-                    ret.Add(ProcessAggPost(agg.GetChild(4)));
-                    Remove(agg.var().GetText());
-                }
+                Put(agg.var().GetText(), t);
+                ret.Add(ProcessAggPost(agg.GetChild(4)));
+                Remove(agg.var().GetText());
+
             }
-            else
-            { //any
-                foreach (T t in stor)
-                {
-                    Put(agg.var().GetText(), t);
-                    ret.Add(ProcessAggPost(agg.GetChild(4)));
-                    Remove(agg.var().GetText());
-                }
+            if (All(agg)){
+                //multiaction, action, etc
+            }
+            else{ //any
+                //same ifs, different responses
             }
             return ret;
         }
@@ -182,9 +178,22 @@ namespace ParseTreeIterator
             return Get(attr) as List<Node>;
         }
 
-        internal static FancyCardLocation ProcessCardVar(RecycleParser.VarContext card)
+        public static FancyCardLocation ProcessCardVar(RecycleParser.VarContext card)
         {
-            return Get(card) as FancyCardLocation;
+            var ret = Get(card) as FancyCardLocation;
+            if (ret.locIdentifier != "-1"){
+                return ret;
+            }
+            return null;
+        }
+        public static FancyCardLocation ProcessLocVar(RecycleParser.VarContext card)
+        {
+            var ret = Get(card) as FancyCardLocation;
+            if (ret.locIdentifier == "-1")
+            {
+                return ret;
+            }
+            return null;
         }
         public static string ProcessStringVar(RecycleParser.VarContext var)
         {

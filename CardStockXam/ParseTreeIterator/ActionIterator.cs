@@ -16,7 +16,7 @@ namespace ParseTreeIterator
 			var ret = new GameActionCollection();
             if (actionNode.teamcreate() != null) {
                 var teamCreate = actionNode.teamcreate() as RecycleParser.TeamcreateContext;
-                SetupIterator.ProcessTeamCreate(teamCreate);
+                ret.Add(new TeamCreateAction(teamCreate));
             }
             else if (actionNode.initpoints() != null) {
                 var points = actionNode.initpoints();
@@ -126,10 +126,10 @@ namespace ParseTreeIterator
                 }
             }
             else if (actionNode.deckcreate() != null) {
-                ret.AddRange(SetupIterator.ProcessDeck(actionNode.deckcreate()));
+                ret.Add(SetupIterator.ProcessDeck(actionNode.deckcreate()));
             }
             else if (actionNode.turnaction() != null) {
-                CardGame.Instance.CurrentPlayer().Next();
+                ret.Add(new TurnAction());
             }
             else if (actionNode.repeat() != null) {
                 ret.AddRange(ProcessRepeat(actionNode.repeat()));
@@ -165,12 +165,22 @@ namespace ParseTreeIterator
             int idx = 1;
             if (rep.@int() != null){
                 idx = IntIterator.ProcessInt(rep.@int());
+                for (int i = 0; i < idx; i++)
+                {
+                    ret.AddRange(ProcessAction(rep.action()));
+                }
             }
-            else { //TODO if valid action for all
-                //idx = size of from location 
-            }
-            for (int i = 0; i < idx; i++){
-                ret.AddRange(ProcessAction(rep.action()));
+            else { //'all'
+                var card1 = CardIterator.ProcessCard(rep.moveaction().card()[0]);
+                var card2 = CardIterator.ProcessCard(rep.moveaction().card()[1]);
+                idx = card1.cardList.Count;
+                //if card1 non-actual, update after moving cards
+                //card2 cannot be filter or union or memstorage
+                for (int i = 0; i < idx; i++)
+                {
+                    ret.Add(new FancyCardMoveAction(card1, card2));
+
+                }
             }
             return ret;
         }

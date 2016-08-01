@@ -75,7 +75,7 @@ namespace ParseTreeIterator
             }
             if (card.actual() != null){
                 var cardLocations = ProcessCard(card.actual().card());
-                cardLocations.physicalLocation = true;
+                cardLocations.inMemory = true;
                 return cardLocations;
             }
             else if (card.cstorage() != null){//cstorage
@@ -138,13 +138,20 @@ namespace ParseTreeIterator
                         }
                     }
                 }
-                else{ //var
-                    return VarIterator.ProcessAgg(loc.unionof().agg()) as FancyCardLocation; //TODO?
+                else{ //agg
+                    foreach (var locs in VarIterator.ProcessAgg(loc.unionof().agg()) as FancyCardLocation[])
+                    {
+                        foreach (var card in locs.cardList.AllCards())
+                        {
+                            temp.Add(card);
+                        }
+                    }
                 }
                 return new FancyCardLocation
                 {
                     cardList = temp,
-                    locIdentifier = "top",
+                    locIdentifier = "-1",
+                    nonPhysical = true
                     //name="UNION"
                 };
             }
@@ -169,24 +176,17 @@ namespace ParseTreeIterator
                 var identifier = loc.memstorage().GetChild(1).GetText();
                 var resultingSet = ProcessMemset(loc.memstorage().memset());
                 if (identifier == "top") {
-                    return new FancyCardLocation {
-                        cardList = resultingSet[0].cardList
-                    };
+                    return resultingSet[0];
                 }
-                else if (identifier == "bottom")
-                {
-                    return new FancyCardLocation {
-                        cardList = resultingSet[resultingSet.Length - 1].cardList
-                    };
+                else if (identifier == "bottom"){
+                    return resultingSet[resultingSet.Length - 1];
                 }
                 else{
-                    return new FancyCardLocation{
-                        cardList = resultingSet[Int32.Parse(identifier)].cardList
-                    };
+                    return resultingSet[Int32.Parse(identifier)];
                 }
             }
             else if (loc.var() != null){
-                return VarIterator.Get(loc.var()) as FancyCardLocation;
+                return VarIterator.ProcessLocVar(loc.var());
             }
             throw new NotSupportedException();
         }
@@ -208,7 +208,8 @@ namespace ParseTreeIterator
                 {
                     returnList[i] = new FancyCardLocation
                     {
-                        cardList = pairs[i]
+                        cardList = pairs[i],
+                        nonPhysical = true
                         //name = "p" + i + "mem" + locpost.namegr().GetText()
                     };
                 }

@@ -84,6 +84,7 @@ namespace FreezeFrame
 		public bool ProcessSubStage(){
 			var sub = CurrentNode () as RecycleParser.MultiactionContext;
             StageIterator.ProcessSubStage(sub);
+            if (sub.GetChild(1).GetText() == "choice"){ return true; }
             /*
 			if (sub.GetChild(1).GetText() == "do"){
 				PopCurrentNode ();

@@ -41,12 +41,8 @@ namespace CardEngine{
 				var combos = ListExtension.Combinations<Card>(array[i].AllCards(),setSize);
 				foreach (var combo in combos){
 					var newAdd = new CardListCollection();
-					
-					
-					
 					foreach (var card in combo){
 						newAdd.Add(card);
-						
 					}		
 					ret.Add(newAdd);
 							

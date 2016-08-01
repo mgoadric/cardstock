@@ -5,9 +5,10 @@ namespace CardEngine{
 	public class FancyCardLocation{
 		public CardCollection cardList;
 		public string locIdentifier = "-1";
-		public bool physicalLocation = false;
+		public bool inMemory = false;
+        public bool nonPhysical = false;
 
-		public void Add(Card c){
+        public void Add(Card c){
 			if (locIdentifier == "top"){
 				cardList.Add(c);
 			}
@@ -36,23 +37,20 @@ namespace CardEngine{
                 return temp.Get(Int32.Parse(locIdentifier));
             }
 		}
-		public Card Remove(){
-            if (physicalLocation){
-                var card = cardList.Peek();
-                var trueLocation = card.owner;
-                trueLocation.Remove(card);
-                return card;
+		public Card Remove(){//perhaps allow for unionof memory and physical
+            var card = Get();
+            if (inMemory){
+                card.owner.Remove(card);
             }
-			if (cardList.Count != 0){
-				Debug.WriteLine("Pulling from Standard...");
-				if (locIdentifier == "top"){
-					return cardList.Remove();
-				}
-				else if (locIdentifier == "bottom"){
-					return cardList.Remove();
-				}
-			}
-			return null;
+            else if (nonPhysical){
+                cardList.Remove(card);
+                card.owner.Remove(card);
+            }
+            else{
+                Debug.WriteLine("Pulling from Standard...");
+                cardList.Remove(card);
+            }
+            return card;
 		}
 	}	
 }

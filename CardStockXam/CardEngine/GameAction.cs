@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using System.Diagnostics;
+using ParseTreeIterator;
 
 namespace CardEngine{
 	public class GameActionCollection: List<GameAction>{
@@ -75,8 +76,10 @@ namespace CardEngine{
 		public FancyCardLocation startLocation;
 		public FancyCardLocation endLocation;
 		public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end){
-			
-			startLocation = start;
+            //TODO disallow mems
+            //if (start.start)
+            if (end.nonPhysical) { throw new NotSupportedException(); }
+            startLocation = start;
 			endLocation = end;
 		}
 		public override void Execute(){
@@ -84,6 +87,7 @@ namespace CardEngine{
 			try{
 			if (startLocation.Count() != 0){
 				cardToMove = startLocation.Remove();
+                if (!startLocation.inMemory)
 				endLocation.Add(cardToMove);
 				cardToMove.owner = endLocation.cardList;
 				Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
@@ -100,11 +104,11 @@ namespace CardEngine{
 			return "";
 		}
 	}
-    public class FancyShuffleAction : GameAction
+    public class ShuffleAction : GameAction
     {
         private FancyCardLocation locations;
 
-        public FancyShuffleAction(FancyCardLocation locations)
+        public ShuffleAction(FancyCardLocation locations)
         {
             this.locations = locations;
         }
@@ -112,6 +116,35 @@ namespace CardEngine{
         public override void Execute()
         {
             locations.cardList.Shuffle();
+        }
+
+        public override string Serialize()
+        {
+            return "";
+        }
+    }
+    public class TurnAction : GameAction{
+        public TurnAction() {}
+
+        public override void Execute()
+        {
+            return;
+        }
+
+        public override string Serialize()
+        {
+            return "";
+        }
+    }
+    public class TeamCreateAction : GameAction{
+        private RecycleParser.TeamcreateContext teamcreate;
+        public TeamCreateAction(RecycleParser.TeamcreateContext teamcreate){
+            this.teamcreate = teamcreate;
+        }
+
+        public override void Execute()
+        {
+            SetupIterator.ProcessTeamCreate(teamcreate);
         }
 
         public override string Serialize()

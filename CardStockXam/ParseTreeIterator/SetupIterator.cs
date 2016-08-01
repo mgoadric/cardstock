@@ -47,22 +47,37 @@ namespace ParseTreeIterator
 			if (setupNode.deckcreate() != null){
 				var decks = setupNode.deckcreate();
 				foreach (var deckinit in decks) {
-                    ret.Concat(ProcessDeck(deckinit));
+                    ret.Add(ProcessDeck(deckinit));
 				}
 			}
+            if (setupNode.repeat() != null){
+                foreach (var rep in setupNode.repeat()){
+                    if (CheckDeckRepeat(rep)){
+                        ret.AddRange(ActionIterator.ProcessRepeat(rep));
+                    }
+                    else
+                    {
+                        throw new InvalidDataException();
+                    }
+                }
+            }
 			return ret;
 		}
-        public static GameActionCollection ProcessDeck(RecycleParser.DeckcreateContext deckinit)
+
+        public static bool CheckDeckRepeat(RecycleParser.RepeatContext reps){
+            if (reps.action().deckcreate() != null){
+                return true;
+            }
+            else if (reps.action().repeat() != null){
+                return CheckDeckRepeat(reps.action().repeat());
+            }
+            return false;
+        }
+        public static GameAction ProcessDeck(RecycleParser.DeckcreateContext deckinit)
         {
-            var ret = new GameActionCollection();
-            if (deckinit.repeat() != null) {
-                return ActionIterator.ProcessRepeat(deckinit.repeat()));
-            }
-            else {
-                var locstorage = CardIterator.ProcessSubLocation(deckinit.cstorage().locpre(), deckinit.cstorage().locdesc(), deckinit.cstorage().GetChild(2).GetText() == "iloc", deckinit.cstorage().GetChild(2).GetText() == "mem");
-                var deckTree = DeckIterator.ProcessDeck(deckinit.deck());
-                return ret;
-            }
+            var locstorage = CardIterator.ProcessLocation(deckinit.cstorage());
+            var deckTree = DeckIterator.ProcessDeck(deckinit.deck());
+            return new InitializeAction(locstorage.cardList, deckTree);
         }
     }
 }

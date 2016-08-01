@@ -30,7 +30,7 @@ namespace ParseTreeIterator
 
         internal static GameAction ProcessShuffle(FancyCardLocation locations)
         {
-            return new FancyShuffleAction(locations);
+            return new ShuffleAction(locations);
         }
     }
 }

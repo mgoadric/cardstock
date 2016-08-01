@@ -100,7 +100,6 @@ namespace ParseTreeIterator
 						skips.Add (j, i);
 					}
 				}
-
 			}
 			BranchingFactor.Instance.AddCount(allOptions.Count,CardGame.Instance.CurrentPlayer().idx);
 			Boolean satisfied = false;

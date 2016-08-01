@@ -3,7 +3,7 @@
 grammar Recycle;
 
 game : OPEN 'game' declare*? setup (multiaction|stage)+? scoring CLOSE ;
-setup : OPEN 'setup' playercreate OPEN teamcreate CLOSE (OPEN deckcreate CLOSE)+? CLOSE ;
+setup : OPEN 'setup' playercreate OPEN teamcreate CLOSE (OPEN (deckcreate | repeat) CLOSE)+? CLOSE ;
 stage : OPEN 'stage' ('player'|'team') endcondition (multiaction | stage)+? CLOSE ;
 scoring : OPEN 'scoring' ('min' | 'max') int ;
 endcondition : OPEN 'end' boolean CLOSE ;
@@ -20,7 +20,7 @@ declare : OPEN 'declare' typed var CLOSE ;
 
 playercreate : OPEN 'create' 'players' (int | var) CLOSE ;
 teamcreate : 'create' 'teams' teams+? ;
-deckcreate : 'create' 'deck' cstorage deck | repeat ;
+deckcreate : 'create' 'deck' cstorage deck ;
 deck : OPEN 'deck' attribute+? CLOSE ;
 teams : OPEN (INTNUM ',')*? INTNUM teams*? CLOSE ;
 attribute : var | OPEN (namegr ',')*? namegr attribute*? CLOSE ;
@@ -40,7 +40,7 @@ copyaction : 'remember' card card ;
 removeaction : 'forget' card ;
 shuffleaction : 'shuffle' cstorage ;
 turnaction : 'turn' 'pass' ;
-repeat : 'repeat' int action | 'repeat' 'all' action ;
+repeat : 'repeat' int action | 'repeat' 'all' moveaction ;
 
 
 card : maxof | minof | var | actual | (OPEN ('top' | 'bottom' | int) cstorage CLOSE) ;
