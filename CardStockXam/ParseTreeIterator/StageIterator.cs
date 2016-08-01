@@ -58,14 +58,14 @@ namespace ParseTreeIterator
                 if (multiaction.GetChild(1).GetText() == "choice") {
                     ProcessChoice(multiaction.condact());
                 }
-                else if (multiaction.GetChild(1).GetText() == "do") {//TODO do something with return values?
+                else if (multiaction.GetChild(1).GetText() == "do") {
                     ActionIterator.ProcessDo(multiaction.condact());
                 }
                 else if (multiaction.agg() != null) {
                     VarIterator.ProcessAgg(multiaction.agg());
                 }
                 else if (multiaction.let() != null) {
-                    ActionIterator.ProcessLet(multiaction.let());
+                    VarIterator.ProcessLet(multiaction.let());
                 }
                 /*
                 var dostatement = sub as RecycleParser.MultiactionContext;

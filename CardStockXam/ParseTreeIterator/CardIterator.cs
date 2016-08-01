@@ -88,14 +88,38 @@ namespace ParseTreeIterator
             throw new NotSupportedException();
         }
 
-        public static List<object> ProcessOther(RecycleParser.OtherContext otherContext)
+        public static List<object> ProcessOther(RecycleParser.OtherContext other)
         { //return list of teams or list of players
-            throw new NotImplementedException();
+            List<object> lst = new List<object>();
+            if (other.GetChild(2).GetText() == "player"){
+                foreach (Player p in CardGame.Instance.players){
+                    lst.Add(p);
+                }
+                lst.Remove(CardGame.Instance.currentPlayer);
+            }
+            else{
+                foreach (Team t in CardGame.Instance.teams){
+                    lst.Add(t);
+                }
+                lst.Remove(CardGame.Instance.currentTeam);
+            }
+            return lst;
         }
 
-        public static List<CardStorage> ProcessCStorageCollection(RecycleParser.CstoragecollectionContext cstoragecollectionContext)
+        public static List<FancyCardLocation> ProcessCStorageCollection(RecycleParser.CstoragecollectionContext cstoragecoll)
         {
-            throw new NotImplementedException();
+            if (cstoragecoll.memset() != null){
+                var lst = ProcessMemset(cstoragecoll.memset());
+                return new List<FancyCardLocation>(lst);
+            }
+            else if (cstoragecoll.agg() != null){
+                return VarIterator.ProcessAgg(cstoragecoll.agg()) as List<FancyCardLocation>;
+            }
+            else if (cstoragecoll.let() != null){
+                //TODO
+                //return ActionIterator.ProcessLet(cstoragecoll.let());
+            }
+            throw new NotSupportedException();
         }
 
         public static FancyCardLocation ProcessLocation(RecycleParser.CstorageContext loc)

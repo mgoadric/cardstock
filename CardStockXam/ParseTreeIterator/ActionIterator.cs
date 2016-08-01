@@ -64,7 +64,7 @@ namespace ParseTreeIterator
             }
             else if (actionNode.shuffleaction() != null) {
                 var locations = CardIterator.ProcessLocation(actionNode.shuffleaction().cstorage());
-                locations.cardList.Shuffle();
+                ret.Add(CardActionIterator.ProcessShuffle(locations));
             }
             else if (actionNode.setaction() != null) {
                 var setAction = actionNode.setaction();
@@ -139,10 +139,6 @@ namespace ParseTreeIterator
 			}
 			return ret;
 		}
-
-        public static void ProcessLet(RecycleParser.LetContext letContext){ //TODO
-            throw new NotImplementedException();
-        }
 
         public static GameActionCollection ProcessDo(RecycleParser.CondactContext[] condact){
             GameActionCollection ret = new GameActionCollection();

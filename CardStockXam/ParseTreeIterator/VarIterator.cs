@@ -10,15 +10,23 @@ namespace ParseTreeIterator
 {
     class VarIterator
     {
-        public static string ProcessStringVar(RecycleParser.VarContext var){
-            return Get(var) as string;
+        public static object Get(String text){
+            if (CardGame.Instance.vars.ContainsKey(text))
+            {
+                return CardGame.Instance.vars[text];
+            }
+            else
+            {
+                Console.WriteLine("failed to find var " + text);
+                return null;
+            }
         }
-
-        public static FancyCardLocation ProcessCardStorageVar(RecycleParser.VarContext varcontext)
-        {
-            throw new NotImplementedException();
+        public static void Put(string k, Object v){
+            CardGame.Instance.vars[k] = v;
         }
-
+        public static void Remove(string k){
+            CardGame.Instance.vars.Remove(k);
+        }
         public static FancyCardLocation ProcessCStorageFilter(RecycleParser.FilterContext filter){
             var cList = new CardListCollection();
             FancyCardLocation stor;
@@ -33,12 +41,12 @@ namespace ParseTreeIterator
             }
             foreach (Card card in stor.cardList.AllCards())
             {
-                CardGame.Instance.vars[filter.var().GetText()] = card;
+                Put(filter.var().GetText(), card);
                 if (BooleanIterator.ProcessBoolean(filter.boolean())){
                     cList.Add(card);
                 }
 
-                CardGame.Instance.vars.Remove(filter.var().GetText());
+                Remove(filter.var().GetText());
             }
             return new FancyCardLocation
             {
@@ -46,7 +54,7 @@ namespace ParseTreeIterator
             };
         }
 
-        public static object ProcessAgg(RecycleParser.AggContext agg){ //TODO
+        public static object ProcessAgg(RecycleParser.AggContext agg){
             if (agg.collection().cstorage() != null){
                 var stor = CardIterator.ProcessLocation(agg.collection().cstorage());
                 return IterateAgg<Card>(agg, stor.cardList.AllCards());
@@ -55,7 +63,7 @@ namespace ParseTreeIterator
                 var stor = Get(agg.collection().var()) as FancyCardLocation;
                 return IterateAgg<Card>(agg, stor.cardList.AllCards());
             }
-            else if (agg.collection().strcollection() != null){//TODO check
+            else if (agg.collection().strcollection() != null){
                 var lst = ProcessStringCollection(agg.collection().strcollection());
                 return IterateAgg(agg, lst);
             }
@@ -89,11 +97,6 @@ namespace ParseTreeIterator
             {
                 throw new NotSupportedException();
             }
-            if (agg.GetChild(1).GetText() == "all"){}
-            else{ //any
-
-            }
-            return null;
         }
 
         private static object IterateAgg<T>(RecycleParser.AggContext agg, IEnumerable<T> stor){
@@ -102,18 +105,18 @@ namespace ParseTreeIterator
             {
                 foreach (T t in stor)
                 {
-                    CardGame.Instance.vars[agg.var().GetText()] = t;
+                    Put(agg.var().GetText(), t);
                     ret.Add(ProcessAggPost(agg.GetChild(4)));
-                    CardGame.Instance.vars.Remove(agg.var().GetText());
+                    Remove(agg.var().GetText());
                 }
             }
             else
             { //any
                 foreach (T t in stor)
                 {
-                    CardGame.Instance.vars[agg.var().GetText()] = t;
+                    Put(agg.var().GetText(), t);
                     ret.Add(ProcessAggPost(agg.GetChild(4)));
-                    CardGame.Instance.vars.Remove(agg.var().GetText());
+                    Remove(agg.var().GetText());
                 }
             }
             return ret;
@@ -142,11 +145,22 @@ namespace ParseTreeIterator
             throw new NotSupportedException();
         }
 
-
+        public static void ProcessLet(RecycleParser.LetContext let){
+            Put(let.var().GetText(), let.typed());
+            if (let.multiaction() != null){
+                StageIterator.ProcessSubStage(let.multiaction());
+            }
+            else if (let.action() != null){
+                ActionIterator.ProcessAction(let.action());
+            }
+            else if (let.condact() != null){
+                ActionIterator.DoAction(let.condact());
+            }
+            Remove(let.var().GetText());
+        }
 
         private static string[] ProcessStringCollection(RecycleParser.StrcollectionContext strcollectionContext)
         {
-            //TODO, iterate through text splitting on commas
             string text = strcollectionContext.GetText();
             char[] delimiter = { ',' };
             return text.Split(delimiter);
@@ -163,30 +177,24 @@ namespace ParseTreeIterator
             return num;
         }
 
-        internal static List<Node> ProcessAttrVar(RecycleParser.AttributeContext attr)
+        internal static List<Node> ProcessAttrVar(RecycleParser.VarContext attr)
         {
-            throw new NotImplementedException();
+            return Get(attr) as List<Node>;
         }
 
         internal static FancyCardLocation ProcessCardVar(RecycleParser.VarContext card)
         {
-            throw new NotImplementedException();
+            return Get(card) as FancyCardLocation;
+        }
+        public static string ProcessStringVar(RecycleParser.VarContext var)
+        {
+            return Get(var) as string;
         }
 
         internal static object Get(RecycleParser.VarContext varContext)
         {
             return Get(varContext.GetText());
         }
-        public static object Get(String text){
-            if (CardGame.Instance.vars.ContainsKey(text)) {
-                return CardGame.Instance.vars[text];
-            }
-            else{
-                Console.WriteLine("failed to find var " + text);
-                return null;
-            }
-        }
-
         public static bool All(RecycleParser.AggContext agg){
             return agg.boolean().GetText() == "all";
         }

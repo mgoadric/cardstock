@@ -82,21 +82,14 @@ namespace FreezeFrame
 
 		}
 		public bool ProcessSubStage(){
-			var sub = CurrentNode ();
-			if (sub is RecycleParser.ComputermovesContext){
+			var sub = CurrentNode () as RecycleParser.MultiactionContext;
+            StageIterator.ProcessSubStage(sub);
+            /*
+			if (sub.GetChild(1).GetText() == "do"){
 				PopCurrentNode ();
-				//Console.WriteLine("Comp Action");
-				var comp = sub as RecycleParser.ComputermovesContext;
-				var multigameaction = comp.multigameaction()  as RecycleParser.MultigameactionContext;
-				for (int i = 0; i < multigameaction.ChildCount; ++i){
-					//Console.WriteLine("gameaction");
-					var gameaction = multigameaction.GetChild(i) as RecycleParser.GameactionContext;
-					if (BooleanIterator.ProcessBoolean(gameaction.boolean())){
-                        //recorder.Append(gameaction);
-                        //Console.WriteLine("bool true");
-                        StageIterator.ProcessMultiAction(gameaction.multiaction());
-					}
-				}
+                foreach (RecycleParser.CondactContext cond in sub.condact()){
+                    ActionIterator.DoAction(cond);
+                }
 			}
 			else if (sub is RecycleParser.StageContext){
 				var allowedToRun = ProcessStage(sub as RecycleParser.StageContext);
@@ -109,13 +102,13 @@ namespace FreezeFrame
 				//ProcessChoice(choice);
 
 				return true;
-			}
+			}*/
 			return false;
 		}
 		public void ProcessChoice(){
 			var sub = CurrentNode ();
-			var choice = sub as RecycleParser.PlayermovesContext;
-			StageIterator.ProcessChoice(choice);
+			var choice = sub as RecycleParser.MultiactionContext;
+			StageIterator.ProcessChoice(choice.condact());
 			PopCurrentNode ();
 		}
 		//this just queues the appropriate actions if condition is met, doesn't execute
@@ -138,7 +131,7 @@ namespace FreezeFrame
 					}
 					iterStack.Push (new Queue<IParseTree> ());
 					var topLevel = iterStack.Peek ();
-					Debug.WriteLine ("Current Player: " + CardGame.Instance.CurrentPlayer ().idx); //TODO, perhaps record current player here
+					Debug.WriteLine ("Current Player: " + CardGame.Instance.CurrentPlayer ().idx);
 					foreach (var player in CardGame.Instance.players) {
 						Debug.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
 					}

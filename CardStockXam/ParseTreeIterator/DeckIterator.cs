@@ -33,7 +33,7 @@ namespace ParseTreeIterator
         public static List<Node> ProcessAttribute(RecycleParser.AttributeContext attr)
         {
             if (attr.var() != null) {
-                return VarIterator.ProcessAttrVar(attr);
+                return VarIterator.ProcessAttrVar(attr.var());
             }
             else {
                 if (attr.attribute()[0].attribute().Count() == 0)

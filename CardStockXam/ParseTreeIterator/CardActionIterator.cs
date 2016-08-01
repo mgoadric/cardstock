@@ -27,5 +27,10 @@ namespace ParseTreeIterator
             var cardTwo = CardIterator.ProcessCard(move.GetChild(2) as RecycleParser.CardContext);
             return new FancyCardMoveAction(cardOne, cardTwo);
         }
+
+        internal static GameAction ProcessShuffle(FancyCardLocation locations)
+        {
+            return new FancyShuffleAction(locations);
+        }
     }
 }
