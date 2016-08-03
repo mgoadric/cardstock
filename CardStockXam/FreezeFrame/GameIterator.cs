@@ -52,7 +52,7 @@ namespace FreezeFrame
 		{
 			game = g;
             foreach (RecycleParser.DeclareContext declare in game.declare()){
-                SetupIterator.ProcessDeclare(declare);
+                VarIterator.ProcessDeclare(declare);
             }
 			SetupIterator.ProcessSetup(game.setup()).ExecuteAll();
 			iterStack = new Stack<Queue<IParseTree>> ();
@@ -85,7 +85,7 @@ namespace FreezeFrame
 
 		}
 		public bool ProcessSubStage(){
-			var sub = CurrentNode () as RecycleParser.MultiactionContext;
+			var sub = CurrentNode ();
             StageIterator.ProcessMultiaction(sub);
             if (sub.GetChild(1).GetText() == "choice"){ return true; }
 			return false;

@@ -10,67 +10,27 @@ namespace CardEngine{
 		}
 		public void ExecuteAll(){
 			foreach (var gameAction in this){
-				gameAction.Execute();
+				gameAction.ExecuteIf();
 			}
 		}
 	}
 	public abstract class GameAction{
-		
+        private RecycleParser.BooleanContext boolContext;
 		public GameAction(){
 			
 		}
-		public abstract void Execute();
+        public void ExecuteIf() { 
+            if (boolContext != null){
+                if (BooleanIterator.ProcessBoolean(boolContext)){
+                    Execute();
+                }
+            }
+            else {
+                Execute();
+            }
+        }
+        public abstract void Execute();
 		public abstract String Serialize();
-	}
-	public class LocationCreateAction : GameAction{
-		CardCollection newColl;
-		CardStorage location;
-		string key;
-		public LocationCreateAction(CardStorage loc, CardCollection coll, string k){
-			newColl = coll;
-			location = loc;
-			key = k;
-		}
-		public override void Execute(){
-			location.AddKey(key);
-			location[key] = newColl;
-		}
-		public override String Serialize(){
-			return "";
-		}
-	}
-	public class StorageCreateAction : GameAction{
-		RawStorage storage;
-		string key;
-		public StorageCreateAction(RawStorage sto, string k){
-			storage = sto;
-			key = k;
-		}
-		public override void Execute(){
-			storage.AddKey(key);
-		}
-		public override String Serialize(){
-			return "";
-		}
-	}
-	public class CardMoveAction : GameAction{
-		Card cardToMove;
-		CardCollection startLocation;
-		CardCollection endLocation;
-		public CardMoveAction(Card c,CardCollection start, CardCollection end){
-			cardToMove = c;
-			startLocation = start;
-			endLocation = end;
-		}
-		public override void Execute(){
-			Debug.WriteLine("Moved Card '" + cardToMove);
-			startLocation.Remove(cardToMove);
-			endLocation.Add(cardToMove);
-			cardToMove.owner = endLocation;
-		}
-		public override String Serialize(){
-			return cardToMove.Serialize();
-		}
 	}
 	public class FancyCardMoveAction : GameAction{
 		public FancyCardLocation startLocation;

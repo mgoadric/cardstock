@@ -117,6 +117,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitMultiaction([NotNull] RecycleParser.MultiactionContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.multiaction2"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMultiaction2([NotNull] RecycleParser.Multiaction2Context context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.multiaction2"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMultiaction2([NotNull] RecycleParser.Multiaction2Context context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.condact"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

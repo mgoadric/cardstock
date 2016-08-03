@@ -95,7 +95,7 @@ public class ParseEngine
                 CardEngine.CardGame.Instance.players[0].decision = new Players.LessThanPerfectPlayer();
             }
 
-            while (!manageContext.AdvanceToChoice())
+            while (!manageContext.AdvanceToChoice())//TODO
             {
                 choiceCount++;
                 if (breakOnCycle)
@@ -152,6 +152,7 @@ public class ParseEngine
             {
                 Console.Out.WriteLine("Results:\nCycle Occurred\n");
             }
+            Console.WriteLine("here");
             WriteToFile("|");
         }
         time.Stop();

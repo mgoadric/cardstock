@@ -128,7 +128,7 @@ namespace ParseTreeIterator
                 if (agg.GetChild(4) is RecycleParser.MultiactionContext){//TODO
                     //??? no return value
                 }
-                else if (agg.GetChild(4) is RecycleParser.ActionContext || agg.GetChild(4) is RecycleParser.CondactContext){
+                else if (agg.GetChild(4) is RecycleParser.ActionContext){
                     return ret;
                 }
                 else if (agg.GetChild(4) is RecycleParser.BooleanContext){
@@ -159,8 +159,8 @@ namespace ParseTreeIterator
                 if (agg.GetChild(4) is RecycleParser.MultiactionContext){//TODO
                     //???
                 }
-                else if (agg.GetChild(4) is RecycleParser.ActionContext || agg.GetChild(4) is RecycleParser.CondactContext){
-                    //TODO return choice of ret?
+                else if (agg.GetChild(4) is RecycleParser.ActionContext){
+                    return ret;
                 }
                 else if (agg.GetChild(4) is RecycleParser.BooleanContext){
                     var all = false;
@@ -171,7 +171,12 @@ namespace ParseTreeIterator
                     return all;
                 }
                 else if (agg.GetChild(4) is RecycleParser.CstorageContext){
-                    //TODO???
+                    var coll = new List<FancyCardLocation>();
+                    foreach (object obj in ret)
+                    {
+                        coll.Add((FancyCardLocation)obj);
+                    }
+                    return coll;
                 }
                 else if (agg.GetChild(4) is RecycleParser.RawstorageContext){
                     var lst = new List<int>();
@@ -187,7 +192,7 @@ namespace ParseTreeIterator
         }
 
         private static object ProcessAggPost(IParseTree parseTree){
-            if (parseTree is RecycleParser.MultiactionContext){
+            if (parseTree is RecycleParser.Multiaction2Context){
                 StageIterator.ProcessMultiaction(parseTree);
                 return null;
             }
@@ -241,8 +246,8 @@ namespace ParseTreeIterator
 
         public static void ProcessLet(RecycleParser.LetContext let){
             Put(let.var().GetText(), let.typed());
-            if (let.multiaction() != null){
-                StageIterator.ProcessMultiaction(let.multiaction());
+            if (let.multiaction2() != null){
+                StageIterator.ProcessMultiaction(let.multiaction2());
             }
             else if (let.action() != null){
                 ActionIterator.ProcessAction(let.action());

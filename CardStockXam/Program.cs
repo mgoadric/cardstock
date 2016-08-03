@@ -9,10 +9,10 @@ namespace CardGames
         public static void Main(string[] args)
         {
             var exp = new Experiment();
-            exp.fileName = "Pairs2";
+            exp.fileName = "Golf";
             exp.numGames = 1;
             exp.numEpochs = 1;
-            exp.logging = false;
+            exp.logging = true;
             exp.ai = true;
 
             var codeGen = new ParseEngine(exp);

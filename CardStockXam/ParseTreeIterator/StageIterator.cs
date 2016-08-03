@@ -68,12 +68,24 @@ namespace ParseTreeIterator
                     VarIterator.ProcessLet(multiaction.let());
                 }
             }
+            else if (sub is RecycleParser.Multiaction2Context){
+                var multiaction = sub as RecycleParser.Multiaction2Context;
+                if (multiaction.GetChild(1).GetText() == "do"){
+                    ActionIterator.ProcessDo(multiaction.condact());
+                }
+                else if (multiaction.agg() != null){
+                    VarIterator.ProcessAgg(multiaction.agg());
+                }
+                else if (multiaction.let() != null){
+                    VarIterator.ProcessLet(multiaction.let());
+                }
+            }
 			else if (sub is RecycleParser.StageContext){
 				ProcessStage(sub as RecycleParser.StageContext);
 			}
 		}
-		public static void ProcessChoice(RecycleParser.CondactContext[] choices){
-            
+        public static void ProcessChoice(RecycleParser.CondactContext[] choices){
+            /*
 			//var multigameaction = playerMoves.multigameaction()  as RecycleParser.MultigameactionContext;
 			var allOptions = new List<GameActionCollection>();
 			Dictionary<int, int> skips = new Dictionary<int,int>();
@@ -124,11 +136,11 @@ namespace ParseTreeIterator
 					ParseEngine.currentIterator.decisionIdx = -1;
 				}
 
-			}
+			}*/
 		}
 
-		public static List<GameActionCollection> ProcessMultiActionChoice(RecycleParser.MultiactionContext actions, int idx){
-			var allOptions = new List<GameActionCollection>();
+		public static List<GameActionCollection> ProcessMultiActionChoice(RecycleParser.Multiaction2Context actions, int idx){
+            /*var allOptions = new List<GameActionCollection>();
 			int i = idx;
 			//Console.WriteLine("action children");
 			var options = ProcessActionChoice(actions.GetChild(i)  as RecycleParser.ActionContext);
@@ -145,37 +157,37 @@ namespace ParseTreeIterator
 						temp.Add(copyPerm);
 					}
 				}
-			}*/
+			}
 			allOptions = temp;
 
 
 			Debug.WriteLine("MultiActionChoiceCount:" + allOptions.Count);
-			return allOptions;
-
+			return allOptions;*/
+            return null;
 		}
 
         public static List<GameActionCollection> ProcessCondactChoice(RecycleParser.CondactContext cond)
         {
-            var allOptions = new List<GameActionCollection>();
+            /*var allOptions = new List<GameActionCollection>();
             bool condition = true;
             if (cond.boolean() != null){
                 condition = BooleanIterator.ProcessBoolean(cond.boolean());
             }
             if (condition){
-                if (cond.multiaction() != null)
+                if (cond.multiaction2() != null)
                 {
-                    return ProcessMultiActionChoice(cond.multiaction());
+                    return ProcessMultiActionChoice(cond.multiaction2());
                 }
                 else if (cond.action() != null)
                 {
                     return ProcessActionChoice(cond.action());
                 }
-            }
+            */
             //}
             return new List<GameActionCollection>();
         }
 		public static List<GameActionCollection> ProcessMultiActionChoice(RecycleParser.MultiactionContext actions){
-			var allOptions = new List<GameActionCollection> ();
+			/*var allOptions = new List<GameActionCollection> ();
 			int i = 0;
 			//Console.WriteLine("action children");
 			var options = ProcessActionChoice (actions.GetChild (i)  as RecycleParser.ActionContext);
@@ -192,45 +204,14 @@ namespace ParseTreeIterator
 							temp.Add(copyPerm);
 						}
 					}
-				}*/
+				}
 			allOptions = temp;
 
 
 			Debug.WriteLine ("MultiActionChoiceCount:" + allOptions.Count);
 			return allOptions;
-			
+			*/
+            return null;
 		}
-		public static List<GameActionCollection> ProcessActionChoice(RecycleParser.ActionContext action){
-			//Console.WriteLine("Execute:");
-			//Console.WriteLine(action.GetText());
-			var opts = ActionIterator.ProcessAction(action);
-			//Console.WriteLine("orig:" + opts.Count);
-			var flatten = new List<GameActionCollection>();
-			foreach (var a in opts){
-				if (a is FancyCardMoveAction){
-					var fa = a as FancyCardMoveAction;
-					if (fa.startLocation.locIdentifier == "any"){
-						foreach (var card in fa.startLocation.cardList.AllCards()){
-							flatten.Add(new GameActionCollection{
-								new CardMoveAction(card,fa.startLocation.cardList,fa.endLocation.cardList)
-							});
-						}	
-					}
-					else{
-						
-						/*flatten.Add(new GameActionCollection{
-							fa
-						});*/
-						flatten.Add(opts);
-						break;
-					}
-				}
-				else{
-					flatten.Add(new GameActionCollection{a});
-				}
-			}
-			Debug.WriteLine("Flatten:" + flatten.Count);
-			return flatten;
-		}
-	}
+    }
 }

@@ -37,10 +37,8 @@ namespace ParseTreeIterator
 		public static GameActionCollection ProcessSetup(RecycleParser.SetupContext setupNode){
 			var ret = new GameActionCollection();
 			if (setupNode.playercreate() != null){
-                Console.WriteLine("in playercreate");
 				var playerCreate = setupNode.playercreate() as RecycleParser.PlayercreateContext;
 				var numPlayers = IntIterator.ProcessInt(playerCreate.@int());
-                Console.WriteLine(numPlayers);
                 CardGame.Instance.WriteToFile("nump:" + numPlayers);
 				CardGame.Instance.AddPlayers(numPlayers);
 			}

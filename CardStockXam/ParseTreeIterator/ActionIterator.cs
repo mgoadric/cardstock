@@ -142,7 +142,7 @@ namespace ParseTreeIterator
 
         public static GameActionCollection ProcessDo(RecycleParser.CondactContext[] condact){
             GameActionCollection ret = new GameActionCollection();
-            foreach (RecycleParser.CondactContext cond in condact){
+            foreach (RecycleParser.CondactContext cond in condact){//TODO
                 if ((cond.boolean() != null && BooleanIterator.ProcessBoolean(cond.boolean())) || cond.boolean() == null)
                 {
                     ret.AddRange(DoAction(cond));
@@ -152,8 +152,8 @@ namespace ParseTreeIterator
         }
 
         public static GameActionCollection DoAction(RecycleParser.CondactContext cond){
-            if (cond.multiaction() != null){
-                StageIterator.ProcessMultiaction(cond.multiaction());//TODO
+            if (cond.multiaction2() != null){
+                StageIterator.ProcessMultiaction(cond.multiaction2());//TODO
                 return null;
             }
             else{

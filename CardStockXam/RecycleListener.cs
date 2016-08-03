@@ -99,6 +99,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitMultiaction([NotNull] RecycleParser.MultiactionContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.multiaction2"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMultiaction2([NotNull] RecycleParser.Multiaction2Context context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.multiaction2"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMultiaction2([NotNull] RecycleParser.Multiaction2Context context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.condact"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

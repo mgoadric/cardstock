@@ -10,12 +10,12 @@ endcondition : OPEN 'end' boolean CLOSE ;
 
 action : OPEN (initpoints | teamcreate | deckcreate | cycleaction | setaction | moveaction | copyaction
          | incaction | decaction | removeaction | turnaction | shuffleaction | repeat) CLOSE | agg ;
-multiaction : OPEN 'choice' OPEN (condact)+? CLOSE CLOSE | OPEN 'do' OPEN (condact)+? CLOSE CLOSE
-              | agg | let ;
-condact : OPEN boolean multiaction CLOSE | multiaction | OPEN boolean action CLOSE | action ;
+multiaction : OPEN 'choice' OPEN (condact)+? CLOSE CLOSE | OPEN 'do' OPEN (condact)+? CLOSE CLOSE | agg | let ;
+multiaction2 : OPEN 'do' OPEN (condact)+? CLOSE CLOSE | agg | let ;
+condact : OPEN boolean multiaction2 CLOSE | multiaction2 | OPEN boolean action CLOSE | action ;
 
-agg : OPEN ('any' | 'all') collection var (multiaction | action | boolean | cstorage | condact | rawstorage) CLOSE ;
-let : OPEN 'let' typed var (multiaction | action | condact) CLOSE ;
+agg : OPEN ('any' | 'all') collection var (multiaction2 | action | boolean | cstorage | rawstorage) CLOSE ;
+let : OPEN 'let' typed var (multiaction2 | action | condact) CLOSE ;
 declare : OPEN 'declare' typed var CLOSE ;
 
 playercreate : OPEN 'create' 'players' (int | var) CLOSE ;
