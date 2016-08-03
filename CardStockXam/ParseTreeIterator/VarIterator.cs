@@ -10,16 +10,14 @@ namespace ParseTreeIterator
 {
     class VarIterator
     {
+        public static object Get(RecycleParser.VarContext var){
+            return Get(var.GetText());
+        }
         public static object Get(String text){
-            if (CardGame.Instance.vars.ContainsKey(text))
-            {
+            if (CardGame.Instance.vars.ContainsKey(text)){
                 return CardGame.Instance.vars[text];
             }
-            else
-            {
-                Console.WriteLine("failed to find var " + text);
-                return null;
-            }
+            return null;
         }
         public static void Put(string k, Object v){
             CardGame.Instance.vars[k] = v;
@@ -56,43 +54,52 @@ namespace ParseTreeIterator
         }
 
         public static object ProcessAgg(RecycleParser.AggContext agg){
-            if (agg.collection().cstorage() != null){
-                var stor = CardIterator.ProcessLocation(agg.collection().cstorage());
-                return IterateAgg<Card>(agg, stor.cardList.AllCards());
+            return IterateAgg(agg, ProcessCollection(agg.collection()));
+        }
+
+        private static Enumerable<T> ProcessCollection(RecycleParser.CollectionContext collection){
+            if (collection.cstorage() != null)
+            {
+                var stor = CardIterator.ProcessLocation(collection.cstorage());
+                return stor.cardList.AllCards();
             }
-            else if (agg.collection().var() != null){
-                var stor = Get(agg.collection().var()) as FancyCardLocation;
-                return IterateAgg<Card>(agg, stor.cardList.AllCards());
+            else if (collection.var() != null)
+            {
+                var stor = Get(collection.var()) as FancyCardLocation;
+                return stor.cardList.AllCards();
             }
-            else if (agg.collection().strcollection() != null){
-                var lst = ProcessStringCollection(agg.collection().strcollection());
-                return IterateAgg(agg, lst);
+            else if (collection.strcollection() != null)
+            {
+                return ProcessStringCollection(collection.strcollection());
             }
-            else if (agg.collection().cstoragecollection() != null){
-                var colls = CardIterator.ProcessCStorageCollection(agg.collection().cstoragecollection());
-                return IterateAgg(agg, colls);
+            else if (collection.cstoragecollection() != null)
+            {
+                return CardIterator.ProcessCStorageCollection(collection.cstoragecollection());
             }
-            else if (agg.collection().whot() != null){
-                var team = CardIterator.ProcessWhot(agg.collection().whot());
-                return IterateAgg(agg, team.teamPlayers);
+            else if (collection.whot() != null)
+            {
+                return CardIterator.ProcessWhot(collection.whot()).teamPlayers;
             }
-            else if (agg.collection().range() != null){
-                var range = IntIterator.ProcessRange(agg.collection().range());
-                return IterateAgg(agg, range);
+            else if (collection.range() != null)
+            {
+                return IntIterator.ProcessRange(collection.range());
             }
-            else if (agg.collection().filter() != null){
-                var filter = ProcessCStorageFilter(agg.collection().filter());
-                return IterateAgg(agg, filter.cardList.AllCards());
+            else if (collection.filter() != null)
+            {
+                var filter = ProcessCStorageFilter(collection.filter());
+                return filter.cardList.AllCards();
             }
-            else if (agg.collection().GetText() == "player"){
-                return IterateAgg(agg, CardGame.Instance.players);
+            else if (collection.GetText() == "player")
+            {
+                return CardGame.Instance.players;
             }
-            else if (agg.collection().GetText() == "team"){
-                return IterateAgg(agg, CardGame.Instance.teams);
+            else if (collection.GetText() == "team")
+            {
+                return CardGame.Instance.teams;
             }
-            else if (agg.collection().other() != null){
-                var other = CardIterator.ProcessOther(agg.collection().other());
-                return IterateAgg(agg, other);
+            else if (collection.other() != null)
+            {
+                return CardIterator.ProcessOther(agg.collection().other());
             }
             else
             {
@@ -111,14 +118,68 @@ namespace ParseTreeIterator
             }
             if (All(agg)){
                 //multiaction, action, etc
+                if (agg.GetChild(4) is RecycleParser.MultiactionContext){//TODO
+                    //??? no return value
+                }
+                else if (agg.GetChild(4) is RecycleParser.ActionContext || agg.GetChild(4) is RecycleParser.CondactContext){
+                    return ret;
+                }
+                else if (agg.GetChild(4) is RecycleParser.BooleanContext){
+                    var all = true;
+                    foreach (object obj in ret){
+                        all &= (bool) obj;
+                    }
+                    return all;
+                }
+                else if (agg.GetChild(4) is RecycleParser.CstorageContext){
+                    var coll = new List<FancyCardLocation>();
+                    foreach (object obj in ret){
+                        coll.Add((FancyCardLocation)obj);
+                    }
+                    return coll;
+                }
+                else if (agg.GetChild(4) is RecycleParser.RawstorageContext){
+                    var sum = 0;
+                    foreach (object obj in ret){
+                        var raw = (FancyRawStorage) obj;
+                        sum += raw.Get();
+                    }
+                    return sum;
+                }
             }
             else{ //any
-                //same ifs, different responses
+                  //same ifs, different responses
+                if (agg.GetChild(4) is RecycleParser.MultiactionContext){//TODO
+                    //???
+                }
+                else if (agg.GetChild(4) is RecycleParser.ActionContext || agg.GetChild(4) is RecycleParser.CondactContext){
+                    //TODO return choice of ret?
+                }
+                else if (agg.GetChild(4) is RecycleParser.BooleanContext){
+                    var all = false;
+                    foreach (object obj in ret)
+                    {
+                        all |= (bool)obj;
+                    }
+                    return all;
+                }
+                else if (agg.GetChild(4) is RecycleParser.CstorageContext){
+                    //TODO???
+                }
+                else if (agg.GetChild(4) is RecycleParser.RawstorageContext){
+                    var lst = new List<int>();
+                    foreach (object obj in ret)
+                    {
+                        var raw = (FancyRawStorage)obj;
+                        lst.Add(raw.Get());
+                    }
+                    return lst;
+                }
             }
             return ret;
         }
 
-        private static object ProcessAggPost(IParseTree parseTree){//TODO, return type?
+        private static object ProcessAggPost(IParseTree parseTree){
             if (parseTree is RecycleParser.MultiactionContext){
                 StageIterator.ProcessSubStage(parseTree);
                 return null;
@@ -137,6 +198,36 @@ namespace ParseTreeIterator
             }
             else if (parseTree is RecycleParser.RawstorageContext){
                 return IntIterator.ProcessRawStorage(parseTree as RecycleParser.RawstorageContext);
+            }
+            throw new NotSupportedException();
+        }
+
+        public static void ProcessDeclare(RecycleParser.DeclareContext declare)
+        {
+            Put(declare.var().GetText(), ProcessTyped(declare.typed()));
+        }
+
+        public static object ProcessTyped(RecycleParser.TypedContext typed)
+        {
+            if (typed.@int() != null)
+            {
+                return IntIterator.ProcessInt(typed.@int());
+            }
+            else if (typed.boolean() != null)
+            {
+                return BooleanIterator.ProcessBoolean(typed.boolean());
+            }
+            else if (typed.namegr() != null)
+            {
+                return typed.namegr().GetText();
+            }
+            else if (typed.var() != null)
+            {
+                return Get(typed.var());
+            }
+            else if (typed.collection() != null)
+            {
+                return ProcessCollection(typed.collection());
             }
             throw new NotSupportedException();
         }
@@ -164,13 +255,14 @@ namespace ParseTreeIterator
 
         internal static int ProcessIntVar(RecycleParser.VarContext varContext)
         {
-            var temp = Get(varContext);
-            var raw = temp as FancyRawStorage;
-            if (raw != null){
+            var temp = Get(varContext.GetText());
+            if (temp is FancyRawStorage){
+                var raw = temp as FancyRawStorage;
                 return raw.Get();
             }
-            int num = Convert.ToInt32(temp);
-            return num;
+            Console.WriteLine(varContext.GetText());
+            Console.WriteLine(temp);
+            return (int) temp;
         }
 
         internal static List<Node> ProcessAttrVar(RecycleParser.VarContext attr)
@@ -198,11 +290,6 @@ namespace ParseTreeIterator
         public static string ProcessStringVar(RecycleParser.VarContext var)
         {
             return Get(var) as string;
-        }
-
-        internal static object Get(RecycleParser.VarContext varContext)
-        {
-            return Get(varContext.GetText());
         }
         public static bool All(RecycleParser.AggContext agg){
             return agg.boolean().GetText() == "all";

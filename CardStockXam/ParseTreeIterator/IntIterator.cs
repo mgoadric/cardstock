@@ -99,7 +99,7 @@ namespace ParseTreeIterator
             return ret;
         }
 
-        public static FancyRawStorage ProcessRawStorage(RecycleParser.RawstorageContext raw){ //TODO
+        public static FancyRawStorage ProcessRawStorage(RecycleParser.RawstorageContext raw){
             if (raw.GetChild(1).GetText() == "game") {
                 if (raw.var() != null) {
                     String temp = VarIterator.ProcessStringVar(raw.var()[0]);

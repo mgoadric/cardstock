@@ -37,8 +37,7 @@ namespace ParseTreeIterator
                 return new FancyCardLocation
                 {
                     cardList = lst,
-                    locIdentifier = "top",
-                    //name="MAX"
+                    name="MAX"
                 };
             }
 
@@ -64,8 +63,7 @@ namespace ParseTreeIterator
                 return new FancyCardLocation
                 {
                     cardList = lst,
-                    locIdentifier = "top",
-                    //name="MINIMUM"
+                    name="MINIMUM"
                 };
             }
 
@@ -116,8 +114,9 @@ namespace ParseTreeIterator
                 return VarIterator.ProcessAgg(cstoragecoll.agg()) as List<FancyCardLocation>;
             }
             else if (cstoragecoll.let() != null){
-                //TODO
-                //return ActionIterator.ProcessLet(cstoragecoll.let());
+                VarIterator.ProcessLet(cstoragecoll.let());
+                Console.WriteLine("let, returning nothing");
+                return new List<FancyCardLocation>();
             }
             throw new NotSupportedException();
         }
@@ -139,7 +138,7 @@ namespace ParseTreeIterator
                     }
                 }
                 else{ //agg
-                    foreach (var locs in VarIterator.ProcessAgg(loc.unionof().agg()) as FancyCardLocation[])
+                    foreach (var locs in (VarIterator.ProcessAgg(loc.unionof().agg()) as List<FancyCardLocation>))
                     {
                         foreach (var card in locs.cardList.AllCards())
                         {
@@ -150,9 +149,8 @@ namespace ParseTreeIterator
                 return new FancyCardLocation
                 {
                     cardList = temp,
-                    locIdentifier = "-1",
-                    nonPhysical = true
-                    //name="UNION"
+                    nonPhysical = true,
+                    name="UNION"
                 };
             }
             else if (loc.filter() != null)
@@ -162,14 +160,7 @@ namespace ParseTreeIterator
             else if (loc.locpre() != null)
             {
                 Debug.WriteLine("Loc");
-                if (loc.namegr() != null)
-                {
-                    return ProcessSubLocation(loc.locpre(), loc.locdesc().GetText(), loc.namegr(), null);
-                }
-                else
-                {
-                    return ProcessSubLocation(loc.locpre(), loc.locdesc().GetText(), null, loc.var());
-                }
+                return ProcessSubLocation(loc);
             }
             else if (loc.memstorage() != null){
                 Debug.WriteLine("Tuple Track");
@@ -209,17 +200,17 @@ namespace ParseTreeIterator
                     returnList[i] = new FancyCardLocation
                     {
                         cardList = pairs[i],
-                        nonPhysical = true
-                        //name = "p" + i + "mem" + locpost.namegr().GetText()
+                        nonPhysical = true,
+                        name = "p" + i + "mem" + memset.tuple().var().GetText()
                     };
                 }
                 return returnList;
             }
             return null;
         }
-        public static FancyCardLocation ProcessSubLocation(RecycleParser.LocpreContext locpre,
-            string desc, RecycleParser.NamegrContext namegr, RecycleParser.VarContext var)
+        public static FancyCardLocation ProcessSubLocation(RecycleParser.CstorageContext stor)
         {
+            string desc = stor.locdesc().GetText();
             string prefix = "";
             if (desc == "vloc")
             {
@@ -237,47 +228,43 @@ namespace ParseTreeIterator
                 prefix = "mem";
             }
             Player player;
-            if (locpre.GetText() == "game")
-            {
-                if (namegr != null)
-                {
+            if (stor.locpre().GetText() == "game"){
+                if (stor.namegr() != null){
                     return new FancyCardLocation
                     {
-                        cardList = CardGame.Instance.tableCards["{" + prefix + "}" + namegr]
+                        cardList = CardGame.Instance.tableCards["{" + prefix + "}" + stor.namegr()],
+                        //TODO name?
                     };
                 }
-                else
-                {
-                    var name = VarIterator.ProcessStringVar(var);
+                else{
+                    var name = VarIterator.ProcessStringVar(stor.var());
                     return new FancyCardLocation
                     {
                         cardList = CardGame.Instance.tableCards["{" + prefix + "}" + name]
                     };
                 }
             }
-            if (locpre.whop() != null)
+            if (stor.locpre().whop() != null)
             {
-                player = ProcessWhop(locpre.whop());
+                player = ProcessWhop(stor.locpre().whop());
             }
             else { 
-                player = VarIterator.Get(locpre.var()) as Player;
+                player = VarIterator.Get(stor.locpre().var()) as Player;
             }
-            if (namegr != null)
+            if (stor.namegr() != null)
             {
                 return new FancyCardLocation
                 {
-                    cardList = player.cardBins["{" + prefix + "}" + namegr]
+                    cardList = player.cardBins["{" + prefix + "}" + stor.namegr()]
                 };
             }
             else{
-                var name = VarIterator.ProcessStringVar(var);
+                var name = VarIterator.ProcessStringVar(stor.var());
                 return new FancyCardLocation
                 {
                     cardList = player.cardBins["{" + prefix + "}" + name]
                 };
             }
-            Console.WriteLine("NOTHING RETURNED!!!");
-            return null;
         }
         public static string ProcessEitherCardatt(IParseTree att)
         {

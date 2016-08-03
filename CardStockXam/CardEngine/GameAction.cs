@@ -77,7 +77,7 @@ namespace CardEngine{
 		public FancyCardLocation endLocation;
 		public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end){
             //TODO disallow mems
-            //if (start.start)
+            if (start.inMemory) { throw new NotSupportedException(); }
             if (end.nonPhysical) { throw new NotSupportedException(); }
             startLocation = start;
 			endLocation = end;

@@ -52,7 +52,7 @@ namespace ParseTreeIterator
 			}
 			CardGame.Instance.PopPlayer();
 		}
-		public static void ProcessSubStage(IParseTree sub){
+		public static void ProcessSubStage(IParseTree sub){//TODO have return value?
 			if (sub is RecycleParser.MultiactionContext){
                 var multiaction = sub as RecycleParser.MultiactionContext;
                 if (multiaction.GetChild(1).GetText() == "choice") {
@@ -67,17 +67,6 @@ namespace ParseTreeIterator
                 else if (multiaction.let() != null) {
                     VarIterator.ProcessLet(multiaction.let());
                 }
-                /*
-                var dostatement = sub as RecycleParser.MultiactionContext;
-                //TODO??
-				for (int i = 0; i < multigameaction.ChildCount; ++i){
-					//Console.WriteLine("gameaction");
-					var gameaction = multigameaction.GetChild(i) as RecycleParser.GameactionContext;
-					if (BooleanIterator.ProcessBoolean(gameaction.boolean())){
-						//Console.WriteLine("bool true");
-						ProcessMultiAction(gameaction.multiaction());
-					}
-				}*/
             }
 			else if (sub is RecycleParser.StageContext){
 				ProcessStage(sub as RecycleParser.StageContext);

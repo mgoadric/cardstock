@@ -5,6 +5,7 @@ namespace CardEngine{
 	public class FancyCardLocation{
 		public CardCollection cardList;
 		public string locIdentifier = "-1";
+        public string name;
 		public bool inMemory = false;
         public bool nonPhysical = false;
 

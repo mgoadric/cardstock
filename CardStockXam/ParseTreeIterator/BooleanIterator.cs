@@ -98,7 +98,7 @@ namespace ParseTreeIterator
                 }
             }
             else if (boolNode.agg() != null){
-                //TODO
+                return (bool) VarIterator.ProcessAgg(boolNode.agg());
             }
             throw new NotSupportedException();
 		}

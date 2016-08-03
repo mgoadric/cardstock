@@ -8,18 +8,14 @@ namespace CardGames
     {
         public static void Main(string[] args)
         {
-            //var spades = new Spades();
-            //var hearts = new Hearts();
-            //var lostCities = new LostCities();
-            //var cribbage = new Cribbage();
+            var exp = new Experiment();
+            exp.fileName = "Pairs2";
+            exp.numGames = 1;
+            exp.numEpochs = 1;
+            exp.logging = false;
+            exp.ai = true;
 
-			//var temp = CardGame.Instance.decisionPlayers;
-			//temp.Add (new SpadesPlayer ());
-			//temp.Add (new GeneralPlayer ());
-			//temp.Add (new SpadesPlayer ());
-			//temp.Add (new GeneralPlayer ());
-
-            var codeGen = new ParseEngine();
+            var codeGen = new ParseEngine(exp);
         }
     }
 }

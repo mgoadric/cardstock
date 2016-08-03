@@ -49,7 +49,7 @@ namespace CardEngine{
 			}
 			return ret;
 		}
-		public String ToString(){
+		public override String ToString(){
 			StringBuilder ret = new StringBuilder ();
 			for (int i = 0; i < binCounter; ++i) {
 				ret.Append (binDict.Where (itm => itm.Value == i).First () +"\n");

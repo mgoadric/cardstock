@@ -12,31 +12,35 @@ using CardEngine;
 namespace ParseTreeIterator
 {
 	public class SetupIterator{
-		
-		public static void ProcessTeamCreate(RecycleParser.TeamcreateContext teamCreate) {
-                var numTeams = teamCreate.teams().Count();
-				for (int i = 0; i < numTeams; ++i){
-					var newTeam = new Team();
-                    var teamStr = "T:";
-					foreach (var p in teamCreate.teams(i).INTNUM()) {
-						var j = Int32.Parse(p.GetText());
-						newTeam.teamPlayers.Add(CardGame.Instance.players[j]);
-						CardGame.Instance.players[j].team = newTeam;
-                        teamStr += j + " ";
-					}
-					CardGame.Instance.teams.Add(newTeam);
-                    CardGame.Instance.WriteToFile(teamStr);
-				}
-				
-				CardGame.Instance.currentTeam.Push(new TeamCycle(CardGame.Instance.teams));
-				Debug.WriteLine("NUMTEAMS:" + CardGame.Instance.teams.Count);
-			
-		}
+
+        public static void ProcessTeamCreate(RecycleParser.TeamcreateContext teamCreate){
+            var numTeams = teamCreate.teams().Count();
+            for (int i = 0; i < numTeams; ++i){
+                var newTeam = new Team();
+                var teamStr = "T:";
+                foreach (var p in teamCreate.teams(i).INTNUM()){
+                    var j = Int32.Parse(p.GetText());
+                    Console.WriteLine(j);
+                    Console.WriteLine(CardGame.Instance.players.Count);
+                    newTeam.teamPlayers.Add(CardGame.Instance.players[j]);
+                    CardGame.Instance.players[j].team = newTeam;
+                    teamStr += j + " ";
+                }
+                CardGame.Instance.teams.Add(newTeam);
+                CardGame.Instance.WriteToFile(teamStr);
+            }
+
+            CardGame.Instance.currentTeam.Push(new TeamCycle(CardGame.Instance.teams));
+            Debug.WriteLine("NUMTEAMS:" + CardGame.Instance.teams.Count);
+
+        }
 		public static GameActionCollection ProcessSetup(RecycleParser.SetupContext setupNode){
 			var ret = new GameActionCollection();
 			if (setupNode.playercreate() != null){
+                Console.WriteLine("in playercreate");
 				var playerCreate = setupNode.playercreate() as RecycleParser.PlayercreateContext;
 				var numPlayers = IntIterator.ProcessInt(playerCreate.@int());
+                Console.WriteLine(numPlayers);
                 CardGame.Instance.WriteToFile("nump:" + numPlayers);
 				CardGame.Instance.AddPlayers(numPlayers);
 			}

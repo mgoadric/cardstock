@@ -153,7 +153,8 @@ namespace ParseTreeIterator
 
         public static GameActionCollection DoAction(RecycleParser.CondactContext cond){
             if (cond.multiaction() != null){
-                return StageIterator.ProcessSubStage(cond.multiaction());//TODO
+                StageIterator.ProcessSubStage(cond.multiaction());//TODO
+                return null;
             }
             else{
                 return ProcessAction(cond.action());
@@ -174,8 +175,6 @@ namespace ParseTreeIterator
                 var card1 = CardIterator.ProcessCard(rep.moveaction().card()[0]);
                 var card2 = CardIterator.ProcessCard(rep.moveaction().card()[1]);
                 idx = card1.cardList.Count;
-                //if card1 non-actual, update after moving cards
-                //card2 cannot be filter or union or memstorage
                 for (int i = 0; i < idx; i++)
                 {
                     ret.Add(new FancyCardMoveAction(card1, card2));
