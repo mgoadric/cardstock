@@ -18,7 +18,7 @@ namespace ParseTreeIterator
 			SetupIterator.ProcessSetup(game.setup()).ExecuteAll();
 			
 			for (int i = 3; i < game.ChildCount - 2; ++i){
-				ProcessSubStage(game.GetChild(i));
+				ProcessMultiaction(game.GetChild(i));
 			}
 		}
 		public static void ProcessStage(RecycleParser.StageContext stage){
@@ -37,7 +37,7 @@ namespace ParseTreeIterator
 					for (int i = 4; i < stage.ChildCount - 1; ++i){
 						TimeStep.Instance.treeLoc.Push(i - 4);
 						Debug.WriteLine(TimeStep.Instance);
-						ProcessSubStage(stage.GetChild(i));
+						ProcessMultiaction(stage.GetChild(i));
 						TimeStep.Instance.treeLoc.Pop();
 					}
 					if (stage.GetChild(2).GetText() == "player"){
@@ -52,7 +52,7 @@ namespace ParseTreeIterator
 			}
 			CardGame.Instance.PopPlayer();
 		}
-		public static void ProcessSubStage(IParseTree sub){//TODO have return value?
+		public static void ProcessMultiaction(IParseTree sub){//TODO have return value?
 			if (sub is RecycleParser.MultiactionContext){
                 var multiaction = sub as RecycleParser.MultiactionContext;
                 if (multiaction.GetChild(1).GetText() == "choice") {

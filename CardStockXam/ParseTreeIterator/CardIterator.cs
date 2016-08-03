@@ -37,7 +37,7 @@ namespace ParseTreeIterator
                 return new FancyCardLocation
                 {
                     cardList = lst,
-                    name="MAX"
+                    name=coll.name + "{MAX}"
                 };
             }
 
@@ -63,7 +63,7 @@ namespace ParseTreeIterator
                 return new FancyCardLocation
                 {
                     cardList = lst,
-                    name="MINIMUM"
+                    name=coll.name + "{MIN}"
                 };
             }
 
@@ -73,7 +73,7 @@ namespace ParseTreeIterator
             }
             if (card.actual() != null){
                 var cardLocations = ProcessCard(card.actual().card());
-                cardLocations.inMemory = true;
+                cardLocations.actual = true;
                 return cardLocations;
             }
             else if (card.cstorage() != null){//cstorage
@@ -123,6 +123,7 @@ namespace ParseTreeIterator
 
         public static FancyCardLocation ProcessLocation(RecycleParser.CstorageContext loc)
         {
+            string name = "";
             if (loc.unionof() != null)
             {
                 CardListCollection temp = new CardListCollection();
@@ -131,26 +132,30 @@ namespace ParseTreeIterator
                     foreach (var locChild in loc.unionof().cstorage())
                     {
                         var locs = ProcessLocation(locChild);
+                        name += locs.name + " ";
                         foreach (var card in locs.cardList.AllCards())
                         {
                             temp.Add(card);
                         }
                     }
+                    name.Remove(name.Length - 1);
                 }
                 else{ //agg
                     foreach (var locs in (VarIterator.ProcessAgg(loc.unionof().agg()) as List<FancyCardLocation>))
                     {
+                        name += locs.name + " ";
                         foreach (var card in locs.cardList.AllCards())
                         {
                             temp.Add(card);
                         }
                     }
+                    name.Remove(name.Length - 1);
                 }
                 return new FancyCardLocation
                 {
                     cardList = temp,
                     nonPhysical = true,
-                    name="UNION"
+                    name = name + "{UNION}"
                 };
             }
             else if (loc.filter() != null)
@@ -201,7 +206,7 @@ namespace ParseTreeIterator
                     {
                         cardList = pairs[i],
                         nonPhysical = true,
-                        name = "p" + i + "mem" + memset.tuple().var().GetText()
+                        name = "{mem}" + memset.tuple().var().GetText() + "{p" + i + "}"
                     };
                 }
                 return returnList;
@@ -233,14 +238,15 @@ namespace ParseTreeIterator
                     return new FancyCardLocation
                     {
                         cardList = CardGame.Instance.tableCards["{" + prefix + "}" + stor.namegr()],
-                        //TODO name?
+                        name = "{" + prefix + "}" + stor.namegr()
                     };
                 }
                 else{
                     var name = VarIterator.ProcessStringVar(stor.var());
                     return new FancyCardLocation
                     {
-                        cardList = CardGame.Instance.tableCards["{" + prefix + "}" + name]
+                        cardList = CardGame.Instance.tableCards["{" + prefix + "}" + name],
+                        name = "{" + prefix + "}" + name
                     };
                 }
             }
@@ -255,14 +261,16 @@ namespace ParseTreeIterator
             {
                 return new FancyCardLocation
                 {
-                    cardList = player.cardBins["{" + prefix + "}" + stor.namegr()]
+                    cardList = player.cardBins["{" + prefix + "}" + stor.namegr()],
+                    name = "{" + prefix + "}" + stor.namegr()
                 };
             }
             else{
                 var name = VarIterator.ProcessStringVar(stor.var());
                 return new FancyCardLocation
                 {
-                    cardList = player.cardBins["{" + prefix + "}" + name]
+                    cardList = player.cardBins["{" + prefix + "}" + name],
+                    name = "{" + prefix + "}" + name
                 };
             }
         }

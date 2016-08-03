@@ -6,7 +6,7 @@ namespace CardEngine{
 		public CardCollection cardList;
 		public string locIdentifier = "-1";
         public string name;
-		public bool inMemory = false;
+		public bool actual = false;
         public bool nonPhysical = false;
 
         public void Add(Card c){
@@ -38,9 +38,9 @@ namespace CardEngine{
                 return temp.Get(Int32.Parse(locIdentifier));
             }
 		}
-		public Card Remove(){//perhaps allow for unionof memory and physical
+		public Card Remove(){
             var card = Get();
-            if (inMemory){
+            if (actual){
                 card.owner.Remove(card);
             }
             else if (nonPhysical){

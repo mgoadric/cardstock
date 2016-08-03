@@ -153,7 +153,7 @@ namespace ParseTreeIterator
 
         public static GameActionCollection DoAction(RecycleParser.CondactContext cond){
             if (cond.multiaction() != null){
-                StageIterator.ProcessSubStage(cond.multiaction());//TODO
+                StageIterator.ProcessMultiaction(cond.multiaction());//TODO
                 return null;
             }
             else{

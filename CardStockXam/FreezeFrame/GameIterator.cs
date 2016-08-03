@@ -86,7 +86,7 @@ namespace FreezeFrame
 		}
 		public bool ProcessSubStage(){
 			var sub = CurrentNode () as RecycleParser.MultiactionContext;
-            StageIterator.ProcessSubStage(sub);
+            StageIterator.ProcessMultiaction(sub);
             if (sub.GetChild(1).GetText() == "choice"){ return true; }
 			return false;
 		}

@@ -76,29 +76,34 @@ namespace CardEngine{
 		public FancyCardLocation startLocation;
 		public FancyCardLocation endLocation;
 		public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end){
-            //TODO disallow mems
-            if (start.inMemory) { throw new NotSupportedException(); }
-            if (end.nonPhysical) { throw new NotSupportedException(); }
+            if ((start.name.Contains("{mem}") && !start.actual) || 
+                end.nonPhysical || 
+                end.name.Contains("{mem}")) {
+                throw new NotSupportedException();
+            }
             startLocation = start;
 			endLocation = end;
 		}
 		public override void Execute(){
 			Card cardToMove = null;
-			try{
-			if (startLocation.Count() != 0){
-				cardToMove = startLocation.Remove();
-                if (!startLocation.inMemory)
-				endLocation.Add(cardToMove);
-				cardToMove.owner = endLocation.cardList;
-				Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
-			}
-			}
-			catch{
-				foreach (var card in startLocation.cardList.AllCards()){
-					Console.WriteLine(card);
-				}
-				throw;
-			}
+            try{
+                if (startLocation.Count() != 0){
+                    cardToMove = startLocation.Remove();
+                    if (!startLocation.actual){
+                        endLocation.Add(cardToMove);
+                        cardToMove.owner = endLocation.cardList;
+                        Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
+                    }
+                }
+            }
+            catch
+            {
+                foreach (var card in startLocation.cardList.AllCards())
+                {
+                    Console.WriteLine(card);
+                }
+                throw;
+            }
 		}
 		public override String Serialize(){
 			return "";
@@ -184,29 +189,19 @@ namespace CardEngine{
 			return "";
 		}
 	}
-	public class CardCopyAction : GameAction{
-		Card cardToMove;
-		
-		CardCollection endLocation;
-		public CardCopyAction(Card c, CardCollection end){
-			cardToMove = c;
-			
-			endLocation = end;
-		}
-		public override void Execute(){
-			endLocation.Add(cardToMove);
-		}
-		public override String Serialize(){
-			return "";
-		}
-	}
 	public class FancyCardCopyAction : GameAction{
 		FancyCardLocation startLocation;
 		FancyCardLocation endLocation;
-		public FancyCardCopyAction(FancyCardLocation start, FancyCardLocation end){
-			startLocation = start;
-			endLocation = end;
-		}
+        public FancyCardCopyAction(FancyCardLocation start, FancyCardLocation end) {
+            startLocation = start;
+            endLocation = end;
+            if (endLocation.nonPhysical ||
+                !endLocation.name.Contains("{mem}") ||
+                endLocation.name.Contains("{MAX}") ||
+                endLocation.name.Contains("{MIN}")){
+                throw new InvalidOperationException(); }
+
+        }
 		public override void Execute(){
 			endLocation.Add(startLocation.Get());
 		}
@@ -218,7 +213,10 @@ namespace CardEngine{
 	public class FancyRemoveAction : GameAction{
 		FancyCardLocation endLocation;
 		public FancyRemoveAction(FancyCardLocation end){
-			endLocation = end;
+            if (end.name.StartsWith("{mem}")){
+                endLocation = end;
+            }
+            else{ throw new InvalidOperationException(); }
 		}
 		public override void Execute(){
 			endLocation.Remove();
