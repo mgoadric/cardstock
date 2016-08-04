@@ -4,32 +4,33 @@ using System.Diagnostics;
 using ParseTreeIterator;
 
 namespace CardEngine{
-	public class GameActionCollection: List<GameAction>{
+	public class GameActionCollection: List<GameAction> {
 		public GameActionCollection() : base(){
 			
 		}
 		public void ExecuteAll(){
-			foreach (var gameAction in this){
-				gameAction.ExecuteIf();
-			}
-		}
+            foreach (var gameColl in this)
+            {
+                gameColl.ExecuteAll();
+            }
+        }
+        public string Serialize(){
+            string ret = "[";
+            foreach (var gameColl in this){
+                ret += gameColl.Serialize();
+                ret += ",";
+            }
+            ret.Remove(ret.Length - 1, 1);
+            ret += "]";
+            return ret;
+        }
 	}
-	public abstract class GameAction{
-        private RecycleParser.BooleanContext boolContext;
+	public abstract class GameAction {
 		public GameAction(){
 			
 		}
-        public void ExecuteIf() { 
-            if (boolContext != null){
-                if (BooleanIterator.ProcessBoolean(boolContext)){
-                    Execute();
-                }
-            }
-            else {
-                Execute();
-            }
-        }
         public abstract void Execute();
+        public abstract void Undo();
 		public abstract String Serialize();
 	}
 	public class FancyCardMoveAction : GameAction{

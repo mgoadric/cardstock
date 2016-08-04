@@ -384,13 +384,7 @@ namespace CardEngine
 			StringBuilder b = new StringBuilder ();
 			b.Append ("{ items:[");
 			foreach (var item in list) {
-				b.Append ("[");
-				foreach (var ga in item) {
-					b.Append (ga.Serialize ());
-					b.Append (",");
-				}
-				b.Remove (b.Length - 1, 1);
-				b.Append ("],");
+				b.Append (item.Serialize ());
 			}
 			b.Remove (b.Length - 1, 1);
 			b.Append ("]}");

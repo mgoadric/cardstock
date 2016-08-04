@@ -244,18 +244,20 @@ namespace ParseTreeIterator
             throw new NotSupportedException();
         }
 
-        public static void ProcessLet(RecycleParser.LetContext let){
+        public static List<GameActionCollection> ProcessLet(RecycleParser.LetContext let){
+            var ret = new List<GameActionCollection>();
             Put(let.var().GetText(), let.typed());
             if (let.multiaction2() != null){
-                StageIterator.ProcessMultiaction(let.multiaction2());
+                ret.AddRange(StageIterator.ProcessMultiaction(let.multiaction2()));
             }
             else if (let.action() != null){
-                ActionIterator.ProcessAction(let.action());
+                ret.Add(ActionIterator.ProcessAction(let.action()));
             }
             else if (let.condact() != null){
-                ActionIterator.DoAction(let.condact());
+                ret.AddRange(ActionIterator.DoAction(let.condact()));
             }
             Remove(let.var().GetText());
+            return ret;
         }
 
         private static string[] ProcessStringCollection(RecycleParser.StrcollectionContext strcollectionContext)

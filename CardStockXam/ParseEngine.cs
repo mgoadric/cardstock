@@ -95,7 +95,7 @@ public class ParseEngine
                 CardEngine.CardGame.Instance.players[0].decision = new Players.LessThanPerfectPlayer();
             }
 
-            while (!manageContext.AdvanceToChoice())//TODO
+            while (!manageContext.AdvanceToChoice())
             {
                 choiceCount++;
                 if (breakOnCycle)

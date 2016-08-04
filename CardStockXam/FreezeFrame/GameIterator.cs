@@ -73,7 +73,6 @@ namespace FreezeFrame
 			return false;//interupted by player decision
 		}
 		public IParseTree CurrentNode(){
-			
 			var ret =  iterStack.Peek ().Peek ();
 			return ret;
 		}
@@ -86,9 +85,29 @@ namespace FreezeFrame
 		}
 		public bool ProcessSubStage(){
 			var sub = CurrentNode ();
-            StageIterator.ProcessMultiaction(sub);
-            if (sub.GetChild(1).GetText() == "choice"){ return true; }
-			return false;
+            //StageIterator.ProcessMultiaction(sub);
+            Console.WriteLine(sub.GetText());
+            if (sub.GetChild(1).GetText() == "choice") { return true; }
+            else if (sub is RecycleParser.StageContext){
+                var allowedToRun = ProcessStage(sub as RecycleParser.StageContext);
+                if (allowedToRun){
+                    iteratingSet.Add(sub);
+                }
+            }
+            else if (sub is RecycleParser.MultiactionContext){
+                PopCurrentNode();
+                StageIterator.ProcessMultiaction(sub as RecycleParser.MultiactionContext);
+            }
+            else if (sub is RecycleParser.Multiaction2Context){
+                PopCurrentNode();
+                StageIterator.ProcessMultiaction(sub as RecycleParser.Multiaction2Context);
+            }
+            else if (sub is RecycleParser.SetupContext){
+                PopCurrentNode();
+                SetupIterator.ProcessSetup(sub as RecycleParser.SetupContext);
+            }
+            else { throw new NotSupportedException(); }
+            return false;
 		}
 		public void ProcessChoice(){
 			var sub = CurrentNode ();
