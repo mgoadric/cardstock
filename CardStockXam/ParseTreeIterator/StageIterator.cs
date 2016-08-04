@@ -68,7 +68,7 @@ namespace ParseTreeIterator
                     ProcessChoice(multiaction.condact());
                 }
                 else if (multiaction.GetChild(1).GetText() == "do") {
-                    lst.AddRange(ActionIterator.ProcessDo(multiaction.condact()));
+                    lst.Add(ActionIterator.ProcessDo(multiaction.condact()));
                 }
             }
             else if (sub is RecycleParser.StageContext)
@@ -84,12 +84,56 @@ namespace ParseTreeIterator
                     lst.AddRange(VarIterator.ProcessLet(multiaction.let()));
                 }
                 else{ //do
-                    lst.AddRange(ActionIterator.ProcessDo(multiaction.condact()));
+                    lst.Add(ActionIterator.ProcessDo(multiaction.condact()));
                 }
                 
             }
             return lst;
 		}
+
+        public static List<GameActionCollection> Recurse(IParseTree tree, List<GameActionCollection> lst){//TODO
+            GameActionCollection current;
+            if (tree is RecycleParser.Multiaction2Context){
+                var sub = tree as RecycleParser.Multiaction2Context;
+                if (sub.agg() != null){
+                    //process agg
+                    //for each agg, 
+                        //lst = lst ++ Recurse(aggTree, []?)
+                }
+                else if (sub.let() != null){
+
+                }
+                else{//do
+
+                }
+            }
+            else if (tree is RecycleParser.CondactContext){
+                var sub = tree as RecycleParser.CondactContext;
+                if ((sub.boolean() != null && BooleanIterator.ProcessBoolean(sub.boolean())) || sub.boolean() == null){
+                    if (sub.multiaction2() != null){
+                        //Execute??
+                        lst = Recurse(sub.multiaction2(), lst);
+                        //Undo??
+                    }
+                    else if (sub.action() != null){
+                        var act = ActionIterator.ProcessAction(sub.action());
+                        act.ExecuteAll();
+                        lst = Recurse(sub.action(), lst);
+                        act.UndoAll();
+                    }
+                }
+            }
+            else if (tree is RecycleParser.ActionContext)
+            {
+                var sub = tree as RecycleParser.ActionContext;
+                if (lst.Count > 0){current = lst[lst.Count - 1];}
+                else { current = new GameActionCollection(); }
+                current.AddRange(ActionIterator.ProcessAction(sub));
+                if (lst.Count > 0) { lst.RemoveAt(lst.Count-1); }
+                lst.Add(current);
+            }
+            return lst;
+        }
         public static void ProcessChoice(RecycleParser.CondactContext[] choices){
 			var allOptions = new List<GameActionCollection>();
 			Dictionary<int, int> skips = new Dictionary<int,int>();

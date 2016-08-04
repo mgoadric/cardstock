@@ -11,7 +11,14 @@ namespace CardEngine{
 		public void ExecuteAll(){
             foreach (var gameColl in this)
             {
-                gameColl.ExecuteAll();
+                gameColl.Execute();
+            }
+        }
+        public void UndoAll()
+        {
+            foreach (var gameColl in this)
+            {
+                gameColl.Undo();
             }
         }
         public string Serialize(){
