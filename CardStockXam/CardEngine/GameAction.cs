@@ -33,10 +33,8 @@ namespace CardEngine{
         }
 	}
 	public abstract class GameAction {
-		public GameAction(){
-			
-		}
-        public abstract void Execute();
+		public bool complete;
+		public abstract void Execute();
         public abstract void Undo();
 		public abstract String Serialize();
 	}
@@ -80,18 +78,32 @@ namespace CardEngine{
     public class ShuffleAction : GameAction
     {
         private FancyCardLocation locations;
+		private CardCollection unshuffled;
 
         public ShuffleAction(FancyCardLocation locations)
         {
             this.locations = locations;
+			unshuffled = new CardListCollection();
         }
 
         public override void Execute()
         {
-            locations.cardList.Shuffle();
+			foreach (Card c in locations.cardList.AllCards())
+			{
+				unshuffled.Add(c);
+			}
+			locations.cardList.Shuffle();
         }
+		public override void Undo()
+		{
+			locations.cardList.Clear();
+			foreach (Card c in unshuffled.AllCards())
+			{
+				locations.Add(c);
+			}
+		}
 
-        public override string Serialize()
+		public override string Serialize()
         {
             return "";
         }
@@ -103,8 +115,12 @@ namespace CardEngine{
         {
             return;
         }
+		public override void Undo()
+		{
 
-        public override string Serialize()
+		}
+
+		public override string Serialize()
         {
             return "";
         }
@@ -127,31 +143,27 @@ namespace CardEngine{
     }
     public class InitializeAction : GameAction{
 		CardCollection location;
+		CardCollection before;
 		Tree deck;
 		public InitializeAction(CardCollection loc, Tree d){
 			location = loc;
+			before = new CardListCollection();
 			deck = d;
 		}
 		public override void Execute(){
+			foreach (Card c in location.AllCards())
+			{
+				before.Add(c);
+			}
 			CardGame.Instance.SetDeck(deck,location);
 		}
-		public override String Serialize(){
-			return "";
-		}
-	}
-	public class CardPopMoveAction : GameAction{
-		Card cardToMove;
-		CardCollection startLocation;
-		CardCollection endLocation;
-		public CardPopMoveAction(Card c,CardCollection start, CardCollection end){
-			cardToMove = c;
-			startLocation = start;
-			endLocation = end;
-		}
-		public override void Execute(){
-			startLocation.Remove();
-			endLocation.Add(cardToMove);
-			cardToMove.owner = endLocation;
+		public override void Undo()
+		{
+			location.Clear();
+			foreach (Card c in before.AllCards())
+			{
+				location.Add(c);
+			}
 		}
 		public override String Serialize(){
 			return "";
@@ -198,32 +210,30 @@ namespace CardEngine{
 		RawStorage bucket;
 		string bucketKey;
 		int value;
+		int oldValue;
+
 		public IntAction(RawStorage storage, string bKey, int v) {
 			bucket = storage;
 			bucketKey = bKey; 
 			value = v;
 		}
 		public override void Execute(){
+			oldValue = bucket[bucketKey];
 			bucket[bucketKey] = value;
+			complete = true;
+		}
+		public override void Undo() {
+			if (complete)
+			{
+				bucket[bucketKey] = oldValue;
+				complete = false;
+			}
+			else {
+				throw new UnauthorizedAccessException();
+			}
 		}
 		public override String Serialize(){
 			return "";
 		}
 	}
-	public class EndTurnAction : GameAction{
-		
-		PlayerCycle turnObject;
-		
-		public EndTurnAction(PlayerCycle currentTurn){
-			turnObject = currentTurn;
-		}
-		public override void Execute(){
-			turnObject.EndTurn();
-		}
-		public override String Serialize(){
-			return "";
-		}
-		
-	}
-	
 }
