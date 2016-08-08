@@ -8,12 +8,14 @@ namespace CardEngine{
 		public int queuedNext = -1;
 		public PlayerCycle(List<Player> pList){
 			playerList = pList;
-		}
+            CardGame.Instance.WriteToFile("t:" + playerList[idx].name);
+        }
 		public PlayerCycle(PlayerCycle clone){
 			playerList = clone.playerList;
 			idx = clone.idx;
 			turnEnded = clone.turnEnded;
-		}
+            CardGame.Instance.WriteToFile("t:" + playerList[idx].name);
+        }
 		public Player PeekNext(){
 			var saved = idx;
 			if (queuedNext != -1){
@@ -47,7 +49,8 @@ namespace CardEngine{
 			if (idx >= playerList.Count){
 				idx = 0;
 			}
-		}
+            CardGame.Instance.WriteToFile("t:" + playerList[idx].name);
+        }
 		public void Previous(){
 			turnEnded = false;
 			--idx;

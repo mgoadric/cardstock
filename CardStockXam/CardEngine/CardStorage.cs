@@ -133,6 +133,16 @@ namespace CardEngine{
 		}
 		public override void Shuffle(){
 			Shuffle(cards);
-		}
-	}
+            CardGame.Instance.WriteToFile("O:" + ToString());
+        }
+        public override string ToString()
+        {
+            var ret = name + "#";
+            foreach (var card in cards)
+            {
+                ret += card.ToOutputString() + " ";
+            }
+            return ret.Substring(0, ret.Length - 1);
+        }
+    }
 }

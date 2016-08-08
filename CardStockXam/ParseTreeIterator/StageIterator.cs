@@ -30,9 +30,9 @@ namespace ParseTreeIterator
 					StageCount.Instance.IncCount(stage);
 					TimeStep.Instance.timeStep.Push(TimeStep.Instance.timeStep.Pop() + 1);
 					Debug.WriteLine("Current Player: " + CardGame.Instance.CurrentPlayer().idx);
-
+                    
                     CardGame.Instance.WriteToFile("t:" + CardGame.Instance.CurrentPlayer().idx);
-					foreach (var player in CardGame.Instance.players) {
+                    foreach (var player in CardGame.Instance.players) {
 						Debug.WriteLine("HANDSIZE: " + player.cardBins["HAND"].Count);
 					}
 					for (int i = 4; i < stage.ChildCount - 1; ++i){

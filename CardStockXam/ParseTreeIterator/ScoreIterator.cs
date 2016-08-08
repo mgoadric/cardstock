@@ -18,7 +18,7 @@ namespace ParseTreeIterator
 			CardGame.Instance.CurrentPlayer ().idx = 0;
 			for (int i = 0; i < CardGame.Instance.players.Count; ++i) {
 				var working = IntIterator.ProcessInt (scoreMethod.@int ());
-                CardGame.Instance.WriteToFile("s:" + working + " " + i);
+                CardGame.Instance.WriteToFile("s:" + working.First() + " " + i);
 				ret.Add(new Tuple<int,int>(working,i));
 				CardGame.Instance.CurrentPlayer ().Next ();
 			}

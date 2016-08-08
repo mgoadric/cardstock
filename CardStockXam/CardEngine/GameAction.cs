@@ -66,6 +66,14 @@ namespace CardEngine{
                 if (startLocation.Count() != 0){
                     cardToMove = startLocation.Remove();
                     if (!startLocation.actual){
+                        try
+                        {
+                            CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
+                        }
+                        catch
+                        {
+                            CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + startLocation.name + " " + endLocation.name);
+                        }
                         endLocation.Add(cardToMove);
                         cardToMove.owner = endLocation.cardList;
                         CardGame.Instance.WriteToFile("M:" + cardToMove + " " + endLocation.locIdentifier);
@@ -253,7 +261,19 @@ namespace CardEngine{
 			oldValue = bucket[bucketKey];
 			bucket[bucketKey] = value;
 			complete = true;
-		}
+            if (bucket.owner != null)
+            {
+                CardGame.Instance.WriteToFile("S:" + bucket.owner.name + " " + bucketKey + " " + value);
+            }
+            else if (bucket.teamOwner != null)
+            {
+                CardGame.Instance.WriteToFile("S:" + bucket.teamOwner.ToString() + " " + bucketKey + " " + value);
+            }
+            else
+            {
+                CardGame.Instance.WriteToFile("S:" + bucket + " " + bucketKey + " " + value);
+            }
+        }
 		public override void Undo() {
 			if (complete)
 			{

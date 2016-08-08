@@ -243,8 +243,8 @@ namespace CardEngine
 				var newCard = new Card (combo);
 				sourceDeck.Add (newCard);
 				loc.Add(newCard);
-                CardGame.Instance.WriteToFile("C: " + sourceDeck.Last().ToString());
-			}
+                WriteToFile("C:" + newCard.ToOutputString() + loc.name);
+            }
 			//Console.ReadKey();
 		}
 		public JObject GameState(int requestingPlayer){

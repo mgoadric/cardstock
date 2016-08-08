@@ -74,10 +74,12 @@ namespace ParseTreeIterator
             if (card.actual() != null){
                 var cardLocations = ProcessCard(card.actual().card());
                 cardLocations.actual = true;
+                CardGame.Instance.WriteToFile("m:" + cardLocations.cardList.ToString());
                 return cardLocations;
             }
             else if (card.cstorage() != null){//cstorage
                 var loc = ProcessLocation(card.cstorage());
+                //TODO writetofile?
                 return new FancyCardLocation {
                     cardList = loc.cardList,
                     locIdentifier = card.GetChild(1).GetText()
