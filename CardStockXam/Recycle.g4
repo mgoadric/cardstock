@@ -1,7 +1,7 @@
 // Version 0.4 of our REcursive CYclic Card game LanguagE
 
 grammar Recycle;
-
+var : '\'' namegr ;
 game : OPEN 'game' declare*? setup (multiaction|stage)+? scoring CLOSE ;
 setup : OPEN 'setup' playercreate OPEN teamcreate CLOSE (OPEN (deckcreate | repeat) CLOSE)+? CLOSE ;
 stage : OPEN 'stage' ('player'|'team') endcondition (multiaction | stage)+? CLOSE ;
@@ -18,7 +18,7 @@ agg : OPEN ('any' | 'all') collection var (multiaction2 | action | boolean | cst
 let : OPEN 'let' typed var (multiaction2 | action | condact) CLOSE ;
 declare : OPEN 'declare' typed var CLOSE ;
 
-playercreate : OPEN 'create' 'players' (int | var) CLOSE ;
+playercreate : OPEN 'create' 'players' (var | int) CLOSE ;
 teamcreate : 'create' 'teams' teams+? ;
 deckcreate : 'create' 'deck' cstorage deck ;
 deck : OPEN 'deck' attribute+? CLOSE ;
@@ -42,19 +42,17 @@ shuffleaction : 'shuffle' cstorage ;
 turnaction : 'turn' 'pass' ;
 repeat : 'repeat' int action | 'repeat' 'all' moveaction ;
 
-
-card : maxof | minof | var | actual | (OPEN ('top' | 'bottom' | int) cstorage CLOSE) ;
+card : var | maxof | minof | actual | (OPEN ('top' | 'bottom' | int) cstorage CLOSE) ;
 actual : OPEN 'actual' card CLOSE ;
 
-rawstorage : OPEN ('game' | who | var) 'sto' (namegr | var) CLOSE ;
-cstorage : unionof | filter | OPEN locpre locdesc (namegr | var) CLOSE | memstorage  | var;
+rawstorage : OPEN (var | 'game' | who) 'sto' (namegr | var) CLOSE ;
+cstorage : var | unionof | filter | OPEN locpre locdesc (namegr | var) CLOSE | memstorage ;
 memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
 
 memset : tuple ;
 tuple : OPEN 'tuples' int cstorage 'using' var CLOSE ;
-var : '\'' namegr ;
 
-locpre : ('game' | whop | var) ;
+locpre : (var | 'game' | whop) ;
 locdesc : 'vloc'|'iloc'|'hloc'|'mem' ;
 who : whot | whop ;
 whop : OPEN whodesc 'player' CLOSE | owner ;
@@ -65,9 +63,9 @@ teamp : OPEN 'team' whop CLOSE ;
 
 other : OPEN 'other' ('player' | 'team') CLOSE ;
 
-typed : int | boolean | namegr | var | collection ;
-collection : cstorage | strcollection | cstoragecollection | 'player' | 'team'
-             | whot | var | other | range | filter ;
+typed : var | int | boolean | namegr | collection ;
+collection : var | cstorage | strcollection | cstoragecollection | 'player' | 'team'
+             | whot | other | range | filter ;
 strcollection : OPEN (namegr ',')*? namegr CLOSE ;
 cstoragecollection : memset | agg | let ;
 range : OPEN 'range' int '..' int CLOSE ;
@@ -75,7 +73,7 @@ range : OPEN 'range' int '..' int CLOSE ;
 filter : OPEN 'filter' collection var boolean CLOSE ;
 
 attrcomp : EQOP cardatt cardatt ;
-cardatt : namegr | var | (OPEN 'cardatt' (var | namegr) card CLOSE) ;
+cardatt : var | namegr | (OPEN 'cardatt' (var | namegr) card CLOSE) ;
 
 boolean : (OPEN ((BOOLOP boolean boolean+?) | (intop int int ) | attrcomp | (EQOP card card)
           | (UNOP boolean) | (EQOP whop whop) | (EQOP whot whot)) CLOSE) | agg ;
@@ -85,21 +83,20 @@ COMPOP : '<' | '>' | '>=' | '<=' ;
 EQOP : '!=' | '==' ;
 UNOP : 'not' ;
 
-
 add : OPEN '+' int int CLOSE ;
 mult : OPEN '*' int int CLOSE ;
 subtract : OPEN '-' int int CLOSE ;
 mod : OPEN '%' int int CLOSE ;
 divide : OPEN '//' int int CLOSE ;
 
-sizeof : OPEN 'size' (cstorage | memset | var) CLOSE ;
+sizeof : OPEN 'size' (var |cstorage | memset) CLOSE ;
 maxof : OPEN 'max' cstorage 'using' var CLOSE ;
 minof : OPEN 'min' cstorage 'using' var CLOSE ;
-unionof : OPEN 'union' (cstorage+? | agg) CLOSE ;
+unionof : OPEN 'union' (agg | cstorage+?) CLOSE ;
 sum : OPEN 'sum' cstorage 'using' var CLOSE ;
 score : OPEN 'score' card 'using' var CLOSE ;
 
-int : sizeof | mult | subtract | mod | add | divide | sum | rawstorage | score | INTNUM+ | var ;
+int : var | sizeof | mult | subtract | mod | add | divide | sum | rawstorage | score | INTNUM+ ;
 INTNUM : [0-9] ;
 
 namegr : (LETT)+ ;

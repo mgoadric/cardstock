@@ -42,15 +42,25 @@ namespace CardEngine{
 		public FancyCardLocation startLocation;
 		public FancyCardLocation endLocation;
 		public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end){
-            if ((start.name.Contains("{mem}") && !start.actual) || 
-                end.nonPhysical || 
-                end.name.Contains("{mem}")) {
+            if (start.name != null){
+                if (start.name.Contains("{mem}") && !start.actual){
+                    throw new NotSupportedException();
+                }
+            }
+            else if (end.nonPhysical){
                 throw new NotSupportedException();
+            }
+            else if (end.name != null){
+                if (end.name.Contains("{mem}")){
+                    throw new NotSupportedException();
+                }
             }
             startLocation = start;
 			endLocation = end;
 		}
 		public override void Execute(){
+            Console.WriteLine("executing move");
+            Console.WriteLine(startLocation.cardList.container.owner.ToString() + " " + endLocation.ToString());
 			Card cardToMove = null;
             try{
                 if (startLocation.Count() != 0){
@@ -58,6 +68,7 @@ namespace CardEngine{
                     if (!startLocation.actual){
                         endLocation.Add(cardToMove);
                         cardToMove.owner = endLocation.cardList;
+                        CardGame.Instance.WriteToFile("M:" + cardToMove + " " + endLocation.locIdentifier);
                         Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
                     }
                 }
@@ -74,7 +85,12 @@ namespace CardEngine{
 		public override String Serialize(){
 			return "";
 		}
-	}
+
+        public override void Undo()
+        {
+            throw new NotImplementedException();
+        }
+    }
     public class ShuffleAction : GameAction
     {
         private FancyCardLocation locations;
@@ -140,6 +156,11 @@ namespace CardEngine{
         {
             return "";
         }
+
+        public override void Undo()
+        {
+            throw new NotImplementedException();
+        }
     }
     public class InitializeAction : GameAction{
 		CardCollection location;
@@ -149,8 +170,10 @@ namespace CardEngine{
 			location = loc;
 			before = new CardListCollection();
 			deck = d;
+            Console.WriteLine("init constructed");
 		}
 		public override void Execute(){
+            Console.WriteLine("init executed");
 			foreach (Card c in location.AllCards())
 			{
 				before.Add(c);
@@ -189,7 +212,11 @@ namespace CardEngine{
 			return "";
 		}
 
-	}
+        public override void Undo()
+        {
+            throw new NotImplementedException();
+        }
+    }
 	public class FancyRemoveAction : GameAction{
 		FancyCardLocation endLocation;
 		public FancyRemoveAction(FancyCardLocation end){
@@ -204,7 +231,12 @@ namespace CardEngine{
 		public override String Serialize(){
 			return "";
 		}
-	} 
+
+        public override void Undo()
+        {
+            throw new NotImplementedException();
+        }
+    } 
 	public class IntAction : GameAction{
 		
 		RawStorage bucket;

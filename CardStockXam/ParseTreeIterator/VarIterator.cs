@@ -58,15 +58,36 @@ namespace ParseTreeIterator
             return IterateAgg(agg, ProcessCollection(agg.collection()));
         }
 
-        private static IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection){
+        public static IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection)
+        {
+             if (collection.var() != null){
+                var stor = Get(collection.var());
+                if (stor is FancyCardLocation)
+                {
+                    var card = stor as FancyCardLocation;
+                    return card.cardList.AllCards();
+                }
+                if (stor is string[])
+                {
+                    return stor as string[];
+                }
+                if (stor is List<FancyCardLocation>)
+                {
+                    return stor as List<FancyCardLocation>;
+                }
+                if (stor is Team)
+                {
+                    var team = stor as Team;
+                    return team.teamPlayers;
+                }
+                if (stor is List<int>)
+                {
+                    return stor as List<object>;
+                }
+            }
             if (collection.cstorage() != null)
             {
                 var stor = CardIterator.ProcessLocation(collection.cstorage());
-                return stor.cardList.AllCards();
-            }
-            else if (collection.var() != null)
-            {
-                var stor = Get(collection.var()) as FancyCardLocation;
                 return stor.cardList.AllCards();
             }
             else if (collection.strcollection() != null)
@@ -87,7 +108,7 @@ namespace ParseTreeIterator
                 List<object> newlst = new List<object>();
                 foreach (int num in lst)
                 {
-                    newlst.Add((object) num);
+                    newlst.Add((object)num);
                 }
                 return newlst;
             }
@@ -108,10 +129,7 @@ namespace ParseTreeIterator
             {
                 return CardIterator.ProcessOther(collection.other());
             }
-            else
-            {
-                throw new NotSupportedException();
-            }
+            throw new NotSupportedException();
         }
 
         private static object IterateAgg<T>(RecycleParser.AggContext agg, IEnumerable<T> stor){
@@ -119,16 +137,31 @@ namespace ParseTreeIterator
             foreach (T t in stor)
             {
                 Put(agg.var().GetText(), t);
-                ret.Add(ProcessAggPost(agg.GetChild(4)));
+                var post = ProcessAggPost(agg.GetChild(4));
+                ret.Add(post);
                 Remove(agg.var().GetText());
+                if (All(agg) && post is GameAction){
+                    var act = post as GameAction;
+                    act.Execute();
+                }
+                else if (post is GameActionCollection){
+                    foreach (GameAction act in (post as GameActionCollection)){
+                        act.Execute();
+                    }
+                }
 
             }
             if (All(agg)){
                 //multiaction, action, etc
-                if (agg.GetChild(4) is RecycleParser.MultiactionContext){//TODO
-                    //??? no return value
+                if (agg.GetChild(4) is RecycleParser.ActionContext){
+                    var coll = new GameActionCollection();
+                    foreach (object obj in ret){
+                        var gameaction = obj as GameActionCollection;
+                        coll.AddRange(gameaction);
+                    }
+                    return coll;
                 }
-                else if (agg.GetChild(4) is RecycleParser.ActionContext){
+                if (agg.GetChild(4) is RecycleParser.Multiaction2Context){
                     return ret;
                 }
                 else if (agg.GetChild(4) is RecycleParser.BooleanContext){
@@ -155,9 +188,8 @@ namespace ParseTreeIterator
                 }
             }
             else{ //any
-                  //same ifs, different responses
-                if (agg.GetChild(4) is RecycleParser.MultiactionContext){//TODO
-                    //???
+                if (agg.GetChild(4) is RecycleParser.Multiaction2Context){//TODO
+                    return ret;
                 }
                 else if (agg.GetChild(4) is RecycleParser.ActionContext){
                     return ret;
@@ -193,8 +225,7 @@ namespace ParseTreeIterator
 
         private static object ProcessAggPost(IParseTree parseTree){
             if (parseTree is RecycleParser.Multiaction2Context){
-                StageIterator.ProcessMultiaction(parseTree);
-                return null;
+                return StageIterator.ProcessMultiaction(parseTree);
             }
             else if (parseTree is RecycleParser.ActionContext){
                 return ActionIterator.ProcessAction(parseTree as RecycleParser.ActionContext);
@@ -206,11 +237,13 @@ namespace ParseTreeIterator
                 return CardIterator.ProcessLocation(parseTree as RecycleParser.CstorageContext);
             }
             else if (parseTree is RecycleParser.CondactContext){
-                return ActionIterator.DoAction(parseTree as RecycleParser.CondactContext);
+                ActionIterator.DoAction(parseTree as RecycleParser.CondactContext);
+                return null;
             }
             else if (parseTree is RecycleParser.RawstorageContext){
                 return IntIterator.ProcessRawStorage(parseTree as RecycleParser.RawstorageContext);
             }
+            Console.WriteLine(parseTree.GetText());
             throw new NotSupportedException();
         }
 
@@ -254,7 +287,7 @@ namespace ParseTreeIterator
                 ret.Add(ActionIterator.ProcessAction(let.action()));
             }
             else if (let.condact() != null){
-                ret.AddRange(ActionIterator.DoAction(let.condact()));
+                ActionIterator.DoAction(let.condact());
             }
             Remove(let.var().GetText());
             return ret;
@@ -274,8 +307,6 @@ namespace ParseTreeIterator
                 var raw = temp as FancyRawStorage;
                 return raw.Get();
             }
-            Console.WriteLine(varContext.GetText());
-            Console.WriteLine(temp);
             return (int) temp;
         }
 
@@ -306,7 +337,7 @@ namespace ParseTreeIterator
             return Get(var) as string;
         }
         public static bool All(RecycleParser.AggContext agg){
-            return agg.boolean().GetText() == "all";
+            return agg.GetChild(1).GetText() == "all";
         }
     }
 }

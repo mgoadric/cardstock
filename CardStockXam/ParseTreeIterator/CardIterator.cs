@@ -127,7 +127,7 @@ namespace ParseTreeIterator
             if (loc.unionof() != null)
             {
                 CardListCollection temp = new CardListCollection();
-                if (loc.unionof().cstorage() != null)
+                if (loc.unionof().cstorage().Length > 0)
                 {
                     foreach (var locChild in loc.unionof().cstorage())
                     {
@@ -250,11 +250,10 @@ namespace ParseTreeIterator
                     };
                 }
             }
-            if (stor.locpre().whop() != null)
-            {
+            if (stor.locpre().whop() != null){
                 player = ProcessWhop(stor.locpre().whop());
             }
-            else { 
+            else {
                 player = VarIterator.Get(stor.locpre().var()) as Player;
             }
             if (stor.namegr() != null)
@@ -319,7 +318,7 @@ namespace ParseTreeIterator
                 return loc.Get().owner.container.owner;
             }
             else{
-                if (who.GetChild(2).GetText() == "current")
+                if (who.GetChild(1).GetText() == "current")
                 {
                     return CardGame.Instance.CurrentPlayer().Current();
                 }
@@ -344,7 +343,7 @@ namespace ParseTreeIterator
                 return ProcessWhop(who.teamp().whop()).team;
             }
             else{
-                if (who.GetChild(2).GetText() == "current")
+                if (who.GetChild(1).GetText() == "current")
                 {
                     return CardGame.Instance.CurrentPlayer().Current().team;
                 }

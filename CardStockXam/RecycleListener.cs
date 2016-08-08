@@ -29,6 +29,16 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface IRecycleListener : IParseTreeListener {
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.var"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterVar([NotNull] RecycleParser.VarContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.var"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitVar([NotNull] RecycleParser.VarContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.game"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -408,16 +418,6 @@ public interface IRecycleListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitTuple([NotNull] RecycleParser.TupleContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.var"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterVar([NotNull] RecycleParser.VarContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.var"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitVar([NotNull] RecycleParser.VarContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.locpre"/>.
 	/// </summary>

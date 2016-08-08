@@ -140,24 +140,22 @@ namespace ParseTreeIterator
 			return ret;
 		}
 
-        public static GameActionCollection ProcessDo(RecycleParser.CondactContext[] condact){
-            GameActionCollection ret = new GameActionCollection();
-            foreach (RecycleParser.CondactContext cond in condact){//TODO
-                if ((cond.boolean() != null && BooleanIterator.ProcessBoolean(cond.boolean())) || cond.boolean() == null)
-                {
-                    ret.AddRange(DoAction(cond));
-                }
+        public static void ProcessDo(RecycleParser.CondactContext[] condact){
+            Console.WriteLine(condact);
+            foreach (RecycleParser.CondactContext cond in condact){
+                Console.WriteLine("in cond");
+                Console.WriteLine(cond.GetText());
+                if (cond.boolean() == null){ DoAction(cond); }
+                else if (BooleanIterator.ProcessBoolean(cond.boolean())) { DoAction(cond); }
             }
-            return ret;
         }
 
-        public static GameActionCollection DoAction(RecycleParser.CondactContext cond){
+        public static void DoAction(RecycleParser.CondactContext cond){
             if (cond.multiaction2() != null){
-                StageIterator.ProcessMultiaction(cond.multiaction2());//TODO
-                return null;
+                StageIterator.ProcessMultiaction(cond.multiaction2());
             }
             else{
-                return ProcessAction(cond.action());
+                ProcessAction(cond.action());
             }
         }
 

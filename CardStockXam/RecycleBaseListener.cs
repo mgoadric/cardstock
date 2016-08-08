@@ -33,6 +33,18 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 [System.CLSCompliant(false)]
 public partial class RecycleBaseListener : IRecycleListener {
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.var"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterVar([NotNull] RecycleParser.VarContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.var"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitVar([NotNull] RecycleParser.VarContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.game"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -488,18 +500,6 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitTuple([NotNull] RecycleParser.TupleContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.var"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterVar([NotNull] RecycleParser.VarContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.var"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitVar([NotNull] RecycleParser.VarContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.locpre"/>.
 	/// <para>The default implementation does nothing.</para>

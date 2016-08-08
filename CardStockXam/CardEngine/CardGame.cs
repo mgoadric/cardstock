@@ -243,37 +243,9 @@ namespace CardEngine
 				var newCard = new Card (combo);
 				sourceDeck.Add (newCard);
 				loc.Add(newCard);
-
-				//Console.WriteLine(sourceDeck.Last());
+                CardGame.Instance.WriteToFile("C: " + sourceDeck.Last().ToString());
 			}
 			//Console.ReadKey();
-		}
-		public void SetDeck(Tree cardAttributes){
-			var combos = cardAttributes.combinations();
-			foreach (var combo in combos){
-				sourceDeck.Add(new Card(combo));
-				//Console.WriteLine(sourceDeck.Last());
-			}
-			//Console.ReadKey();
-		}
-		public void PopulateLocation(string cardLocation){
-			var location = tableCards[cardLocation];
-			foreach (var card in sourceDeck){
-				location.Add(card);
-			}
-		}
-		public void PopulateLocation(CardCollection cardLocation){
-			foreach (var card in sourceDeck){
-				cardLocation.Add(card);
-			}
-		}
-		public void DealEvery(int numCards,string cardLocation,string destination){
-			var location = tableCards[cardLocation];
-			foreach (var player in players){
-				for (int i = 0; i < numCards; ++i){
-					player.AddCard(location.Remove(),destination);
-				}
-			}
 		}
 		public JObject GameState(int requestingPlayer){
 			StringBuilder j = new StringBuilder ("{ players:[");

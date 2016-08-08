@@ -54,6 +54,7 @@ namespace FreezeFrame
             foreach (RecycleParser.DeclareContext declare in game.declare()){
                 VarIterator.ProcessDeclare(declare);
             }
+            Console.WriteLine("setup 1");
 			SetupIterator.ProcessSetup(game.setup()).ExecuteAll();
 			iterStack = new Stack<Queue<IParseTree>> ();
 			iteratingSet = new HashSet<IParseTree> ();
@@ -86,7 +87,6 @@ namespace FreezeFrame
 		public bool ProcessSubStage(){
 			var sub = CurrentNode ();
             //StageIterator.ProcessMultiaction(sub);
-            Console.WriteLine(sub.GetText());
             if (sub.GetChild(1).GetText() == "choice") { return true; }
             else if (sub is RecycleParser.StageContext){
                 var allowedToRun = ProcessStage(sub as RecycleParser.StageContext);
@@ -104,6 +104,7 @@ namespace FreezeFrame
             }
             else if (sub is RecycleParser.SetupContext){
                 PopCurrentNode();
+                Console.WriteLine("setup 2");
                 SetupIterator.ProcessSetup(sub as RecycleParser.SetupContext);
             }
             else { throw new NotSupportedException(); }

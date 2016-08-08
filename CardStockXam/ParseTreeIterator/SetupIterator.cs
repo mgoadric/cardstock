@@ -20,8 +20,6 @@ namespace ParseTreeIterator
                 var teamStr = "T:";
                 foreach (var p in teamCreate.teams(i).INTNUM()){
                     var j = Int32.Parse(p.GetText());
-                    Console.WriteLine(j);
-                    Console.WriteLine(CardGame.Instance.players.Count);
                     newTeam.teamPlayers.Add(CardGame.Instance.players[j]);
                     CardGame.Instance.players[j].team = newTeam;
                     teamStr += j + " ";
@@ -63,6 +61,7 @@ namespace ParseTreeIterator
                     }
                 }
             }
+            Console.WriteLine(ret.Count);
 			return ret;
 		}
 
