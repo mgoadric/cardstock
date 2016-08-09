@@ -233,7 +233,7 @@ namespace ParseTreeIterator
 						new FancyCardLocation{
 							cardList=innerPlayer.cardBins[(hidden?"{hidden}":"{visible}") + locpost.namegr().GetText()],
 							filter=clause,
-                            name =innerPlayer.name + (hidden ? "{hidden}" : mem?"{mem}":"{visible}") + locpost.namegr().GetText()
+                            name = innerPlayer.name + (hidden ? "{hidden}" : mem?"{mem}":"{visible}") + locpost.namegr().GetText()
                         }
 					};
 				}

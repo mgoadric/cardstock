@@ -17,9 +17,9 @@ namespace CardEngine
 		}
 		public void CopyStructure(Player other){
 			other.storage = storage.Clone ();
-            other.name = name;
 			other.cardBins = cardBins.Clone ();
-			other.cardBins.owner = other;
+            other.name = name;
+            other.cardBins.owner = other;
 		}
 		public void IncrValue(int bin, int value){
 			storage.storage[bin] += value;
