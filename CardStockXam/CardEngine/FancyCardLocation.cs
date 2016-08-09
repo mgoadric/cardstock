@@ -53,5 +53,10 @@ namespace CardEngine{
             }
             return card;
 		}
-	}	
+
+        public override String ToString()
+        {
+            return cardList.ToString() + " " + locIdentifier + " " + actual + " " + nonPhysical;
+        }
+    }	
 }

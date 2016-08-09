@@ -60,12 +60,11 @@ namespace CardEngine{
 		}
 		public override void Execute(){
             Console.WriteLine("executing move");
-            //Console.WriteLine(startLocation.cardList.container.owner.ToString());
-            //Console.WriteLine(endLocation.ToString());
 			Card cardToMove = null;
             try{
                 if (startLocation.Count() != 0){
                     cardToMove = startLocation.Remove();
+                    Console.WriteLine(startLocation.ToString());
                     if (!startLocation.actual){
                         try
                         {
@@ -80,6 +79,9 @@ namespace CardEngine{
                         CardGame.Instance.WriteToFile("M:" + cardToMove + " " + endLocation.locIdentifier);
                         Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
                     }
+                }
+                else{
+                    Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString());
                 }
             }
             catch
@@ -113,6 +115,7 @@ namespace CardEngine{
 
         public override void Execute()
         {
+            Console.WriteLine("shuffling");
 			foreach (Card c in locations.cardList.AllCards())
 			{
 				unshuffled.Add(c);
@@ -182,7 +185,7 @@ namespace CardEngine{
             Console.WriteLine("init constructed");
 		}
 		public override void Execute(){
-            Console.WriteLine("init executed");
+            Console.WriteLine("init executed, loc: " + location.ToString());
 			foreach (Card c in location.AllCards())
 			{
 				before.Add(c);

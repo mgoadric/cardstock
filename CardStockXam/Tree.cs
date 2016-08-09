@@ -173,7 +173,7 @@ public class Node{
                 var output = node.ToOutputString();
                 if (!output.Contains("combo"))
                 {
-                    ret.Append(node.ToOutputString());
+                    ret.Append(output);
                 }
             }
         }
