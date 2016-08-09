@@ -11,10 +11,10 @@ namespace CardEngine{
 		    {
 				if (!binDict.ContainsKey (key)) {
 					AddKey (key);
-					storage [binDict [key]] = new CardListCollection ();
+					storage [binDict [key]] = new CardListCollection() { name = (owner == null ? "t" : owner.name) + key };
 					storage [binDict [key]].container = this;
 				} else if (storage [binDict [key]] == null) {
-					storage [binDict [key]] = new CardListCollection ();
+					storage [binDict [key]] = new CardListCollection() { name = (owner == null ? "t" : owner.name) + key };
 					storage [binDict [key]].container = this;
 				}
 		        return storage[binDict[key]];
@@ -75,6 +75,7 @@ namespace CardEngine{
 		public abstract int Count {get;}
 		public abstract void Shuffle();
 		public CardStorage container {get; set;}
+        public string name = "undefined";
 		public void Shuffle(List<Card> list)  
 		{  
 		    Random rng = new Random();  
