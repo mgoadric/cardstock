@@ -60,7 +60,8 @@ namespace CardEngine{
 		}
 		public override void Execute(){
             Console.WriteLine("executing move");
-            Console.WriteLine(startLocation.cardList.container.owner.ToString() + " " + endLocation.ToString());
+            //Console.WriteLine(startLocation.cardList.container.owner.ToString());
+            //Console.WriteLine(endLocation.ToString());
 			Card cardToMove = null;
             try{
                 if (startLocation.Count() != 0){

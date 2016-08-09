@@ -163,4 +163,33 @@ public class Node{
 			return "";
 		} 
  	}
+    public string ToOutputString()
+    {
+        StringBuilder ret = new StringBuilder();
+        if (children != null)
+        {
+            foreach (var node in children)
+            {
+                var output = node.ToOutputString();
+                if (!output.Contains("combo"))
+                {
+                    ret.Append(node.ToOutputString());
+                }
+            }
+        }
+        if (Value != null && !Value.Contains("Root"))
+        {
+            StringBuilder temp = new StringBuilder();
+            temp.Append(Value);
+            temp.Append("-");
+            temp.Append(Key);
+            temp.Append("|");
+            temp.Append(ret);
+            return temp.ToString();
+        }
+        else
+        {
+            return ret.ToString();
+        }
+    }
 }

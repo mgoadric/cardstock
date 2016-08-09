@@ -137,6 +137,7 @@ namespace ParseTreeIterator
             foreach (T t in stor)
             {
                 Put(agg.var().GetText(), t);
+                Console.WriteLine(agg.GetText());
                 var post = ProcessAggPost(agg.GetChild(4));
                 ret.Add(post);
                 Remove(agg.var().GetText());

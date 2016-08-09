@@ -39,7 +39,11 @@ namespace CardEngine{
 			string ret = attributes.ToString();
 			return ret;
 		}
-		public string Serialize(){
+        public string ToOutputString()
+        {
+            return attributes.ToOutputString();
+        }
+        public string Serialize(){
 			return attributes.Serialize ();
 		}
 		public string ReadAttribute(string attributeName){
