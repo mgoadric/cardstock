@@ -44,7 +44,7 @@ namespace CardEngine
 		public CardGame(int numPlayers){
 			
 			for (int i = 0; i < numPlayers; ++i){
-				players.Add(new Player());
+				players.Add(new Player() { name = "p" + i });
 			}
 			currentPlayer.Push(new PlayerCycle(players));
 			//var first = new Card();
@@ -212,7 +212,7 @@ namespace CardEngine
 		public void AddPlayers(int numPlayers){
 			for (int i = 0; i < numPlayers; ++i){
 				
-				players.Add(new Player());
+				players.Add(new Player() { name = "p" + i });
 				players [i].decision = i  == 0 ? new GeneralPlayer () : new GeneralPlayer ();
 			}
 			currentPlayer.Push(new PlayerCycle(players));

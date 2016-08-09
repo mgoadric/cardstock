@@ -240,7 +240,7 @@ namespace ParseTreeIterator
                     return new FancyCardLocation
                     {
                         cardList = CardGame.Instance.tableCards["{" + prefix + "}" + stor.namegr()],
-                        name = "{" + prefix + "}" + stor.namegr()
+                        name = "t" + (hidden ? "{hidden}" : mem ? "{mem}" : "{visible}") + locpost.namegr().GetText()
                     };
                 }
                 else{
@@ -248,7 +248,7 @@ namespace ParseTreeIterator
                     return new FancyCardLocation
                     {
                         cardList = CardGame.Instance.tableCards["{" + prefix + "}" + name],
-                        name = "{" + prefix + "}" + name
+                        name = "t" + (hidden ? "{hidden}" : mem ? "{mem}" : "{visible}") + locpost.namegr().GetText()
                     };
                 }
             }
@@ -263,7 +263,7 @@ namespace ParseTreeIterator
                 return new FancyCardLocation
                 {
                     cardList = player.cardBins["{" + prefix + "}" + stor.namegr()],
-                    name = "{" + prefix + "}" + stor.namegr()
+                    name = innerPlayer.name + (hidden ? "{hidden}" : mem ? "{mem}" : "{visible}") + locpost.namegr().GetText()
                 };
             }
             else{
@@ -271,7 +271,7 @@ namespace ParseTreeIterator
                 return new FancyCardLocation
                 {
                     cardList = player.cardBins["{" + prefix + "}" + name],
-                    name = "{" + prefix + "}" + name
+                    name = innerPlayer.name + (hidden ? "{hidden}" : mem ? "{mem}" : "{visible}") + locpost.namegr().GetText()
                 };
             }
         }
