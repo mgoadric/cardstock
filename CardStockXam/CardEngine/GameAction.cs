@@ -21,26 +21,22 @@ namespace CardEngine{
                 gameColl.Undo();
             }
         }
-        public string Serialize(){
-            string ret = "[";
-            foreach (var gameColl in this){
-                ret += gameColl.Serialize();
-                ret += ",";
-            }
-            ret.Remove(ret.Length - 1, 1);
-            ret += "]";
-            return ret;
-        }
 	}
 	public abstract class GameAction {
+        public bool actual;
 		public bool complete;
 		public abstract void Execute();
         public abstract void Undo();
 		public abstract String Serialize();
+        public void TempExecute(){
+            Execute();
+            actual = false;
+        }
 	}
 	public class FancyCardMoveAction : GameAction{
 		public FancyCardLocation startLocation;
 		public FancyCardLocation endLocation;
+        public CardCollection owner;
 		public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end){
             if (start.name != null){
                 if (start.name.Contains("{mem}") && !start.actual){
@@ -59,24 +55,22 @@ namespace CardEngine{
 			endLocation = end;
 		}
 		public override void Execute(){
-            Console.WriteLine("executing move");
-			Card cardToMove = null;
+            Card cardToMove = null;
             try{
                 if (startLocation.Count() != 0){
                     cardToMove = startLocation.Remove();
-                    Console.WriteLine(startLocation.ToString());
                     if (!startLocation.actual){
-                        try
-                        {
+                        if (cardToMove.owner != null){
+                            CardGame.Instance.WriteToFile("1");
                             CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
                         }
-                        catch
-                        {
+                        else{
+                            CardGame.Instance.WriteToFile("2");
                             CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + startLocation.name + " " + endLocation.name);
                         }
                         endLocation.Add(cardToMove);
+                        owner = cardToMove.owner;
                         cardToMove.owner = endLocation.cardList;
-                        CardGame.Instance.WriteToFile("M:" + cardToMove + " " + endLocation.locIdentifier);
                         Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
                     }
                 }
@@ -92,6 +86,8 @@ namespace CardEngine{
                 }
                 throw;
             }
+            actual = true;
+            complete = true;
 		}
 		public override String Serialize(){
 			return "";
@@ -99,7 +95,15 @@ namespace CardEngine{
 
         public override void Undo()
         {
-            throw new NotImplementedException();
+            if (complete){
+                var cardToMove = endLocation.Remove();
+                startLocation.Add(cardToMove);
+                cardToMove.owner = owner;
+            }
+            else{
+                Console.WriteLine("move has not been executed yet");
+                throw new NotSupportedException();
+            }
         }
     }
     public class ShuffleAction : GameAction
@@ -113,14 +117,13 @@ namespace CardEngine{
 			unshuffled = new CardListCollection();
         }
 
-        public override void Execute()
-        {
-            Console.WriteLine("shuffling");
+        public override void Execute(){
 			foreach (Card c in locations.cardList.AllCards())
 			{
 				unshuffled.Add(c);
 			}
 			locations.cardList.Shuffle();
+            actual = true;
         }
 		public override void Undo()
 		{
@@ -133,7 +136,7 @@ namespace CardEngine{
 
 		public override string Serialize()
         {
-            return "";
+            return "ShuffleAction";
         }
     }
     public class TurnAction : GameAction{
@@ -141,16 +144,15 @@ namespace CardEngine{
 
         public override void Execute()
         {
-            return;
+            actual = true;
         }
-		public override void Undo()
-		{
+		public override void Undo(){
 
 		}
 
 		public override string Serialize()
         {
-            return "";
+            return "TurnAction";
         }
     }
     public class TeamCreateAction : GameAction{
@@ -162,11 +164,12 @@ namespace CardEngine{
         public override void Execute()
         {
             SetupIterator.ProcessTeamCreate(teamcreate);
+            actual = true;
         }
 
         public override string Serialize()
         {
-            return "";
+            return "TeamCreateAction";
         }
 
         public override void Undo()
@@ -182,15 +185,14 @@ namespace CardEngine{
 			location = loc;
 			before = new CardListCollection();
 			deck = d;
-            Console.WriteLine("init constructed");
 		}
 		public override void Execute(){
-            Console.WriteLine("init executed, loc: " + location.ToString());
 			foreach (Card c in location.AllCards())
 			{
 				before.Add(c);
 			}
 			CardGame.Instance.SetDeck(deck,location);
+            actual = true;
 		}
 		public override void Undo()
 		{
@@ -201,7 +203,7 @@ namespace CardEngine{
 			}
 		}
 		public override String Serialize(){
-			return "";
+			return "InitializeAction";
 		}
 	}
 	public class FancyCardCopyAction : GameAction{
@@ -219,9 +221,10 @@ namespace CardEngine{
         }
 		public override void Execute(){
 			endLocation.Add(startLocation.Get());
+            actual = true;
 		}
 		public override String Serialize(){
-			return "";
+			return "FancyCardCopyAction";
 		}
 
         public override void Undo()
@@ -239,9 +242,10 @@ namespace CardEngine{
 		}
 		public override void Execute(){
 			endLocation.Remove();
+            actual = true;
 		}
 		public override String Serialize(){
-			return "";
+			return "FancyRemoveAction";
 		}
 
         public override void Undo()
@@ -277,6 +281,7 @@ namespace CardEngine{
             {
                 CardGame.Instance.WriteToFile("S:" + bucket + " " + bucketKey + " " + value);
             }
+            actual = true;
         }
 		public override void Undo() {
 			if (complete)
@@ -289,7 +294,7 @@ namespace CardEngine{
 			}
 		}
 		public override String Serialize(){
-			return "";
+			return "IntAction";
 		}
 	}
 }

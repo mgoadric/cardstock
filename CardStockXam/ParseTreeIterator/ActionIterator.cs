@@ -141,10 +141,7 @@ namespace ParseTreeIterator
 		}
 
         public static void ProcessDo(RecycleParser.CondactContext[] condact){
-            Console.WriteLine(condact);
             foreach (RecycleParser.CondactContext cond in condact){
-                Console.WriteLine("in cond");
-                Console.WriteLine(cond.GetText());
                 if (cond.boolean() == null){ DoAction(cond); }
                 else if (BooleanIterator.ProcessBoolean(cond.boolean())) { DoAction(cond); }
             }
@@ -155,7 +152,7 @@ namespace ParseTreeIterator
                 StageIterator.ProcessMultiaction(cond.multiaction2());
             }
             else{
-                ProcessAction(cond.action());
+                ProcessAction(cond.action()).ExecuteAll();
             }
         }
 

@@ -41,21 +41,12 @@ namespace CardEngine
 		public CardGame(){
 			
 		}
-		public CardGame(int numPlayers){
-			
-			for (int i = 0; i < numPlayers; ++i){
-				players.Add(new Player() { name = "p" + i });
-			}
+		public CardGame(int numPlayers) {
 			currentPlayer.Push(new PlayerCycle(players));
-			//var first = new Card();
 		}
 		public CardGame CloneCommon(){
 			var temp = new CardGame (this.players.Count);
-			//Console.WriteLine ("Num Players:" + temp.players.Count);
 			temp.DeclaredName = "Special";
-			//copy/reassign players
-			//*********************
-			//cache indexes of players for efficient clone
 			Dictionary<Player, int> playerIdxs = new Dictionary<Player, int>();
 			for (int i = 0; i < this.players.Count; ++i) {
 				playerIdxs [players [i]] = i;
@@ -78,6 +69,7 @@ namespace CardEngine
 			//reconstruct team and player cycles
 			temp.currentPlayer.Pop();
 			foreach (var cycle in this.currentPlayer.Reverse()){
+                CardGame.instance.WriteToFile("2:");
 				var newCycle = new PlayerCycle (temp.players);
 				newCycle.idx = cycle.idx;
 				newCycle.turnEnded = cycle.turnEnded;
@@ -130,8 +122,7 @@ namespace CardEngine
 				if (!bin.StartsWith ("{hidden}")) {
 					foreach (var card in tableCards[bin].AllCards()) {
 						var toAdd = temp.sourceDeck [cardIdxs [card]];
-						temp.tableCards [bin]
-						.Add (toAdd);
+						temp.tableCards [bin].Add (toAdd);
 						if (!bin.StartsWith ("{mem}")) {
 							free.Remove (cardIdxs [card]);
 						} else {
@@ -150,8 +141,7 @@ namespace CardEngine
 							vals [vals.Count - 1] = vals [picked];
 							vals [picked] = last;
 							var toAdd = temp.sourceDeck [vals[vals.Count - 1]];
-							temp.players [p].cardBins [loc]
-								.Add (toAdd);
+							temp.players [p].cardBins [loc].Add (toAdd);
 							toAdd.owner = temp.players [p].cardBins [loc];
 							vals.RemoveAt (vals.Count - 1);
 						}
@@ -211,11 +201,14 @@ namespace CardEngine
 
 		public void AddPlayers(int numPlayers){
 			for (int i = 0; i < numPlayers; ++i){
-				
 				players.Add(new Player() { name = "p" + i });
 				players [i].decision = i  == 0 ? new GeneralPlayer () : new GeneralPlayer ();
 			}
-			currentPlayer.Push(new PlayerCycle(players));
+            foreach (Player p in players)
+            {
+                CardGame.Instance.WriteToFile(p.name);
+            }
+            currentPlayer.Push(new PlayerCycle(players));
 		}
 		public void PushPlayer(){
 			currentPlayer.Push(new PlayerCycle(currentPlayer.Peek()));
@@ -324,45 +317,35 @@ namespace CardEngine
 			possibles[choice].Execute();
 			
 		}
-		public List<Card> FilterCardsFromLocation(CardFilter filter, string sourceLocation, int locationNumber,  string sourceBucket){
-			if (sourceLocation == "T"){//Table
-				var bin = tableCards[sourceBucket];
-				var possibilities = filter.FilterList(bin);
-				return new List<Card>(possibilities.AllCards());
-			}
-			else if (sourceLocation == "P") {//Player
-				var p = players[locationNumber];
-				var bin = p.cardBins[sourceBucket];
-				var possibilities = filter.FilterList(bin);
-				return new List<Card>(possibilities.AllCards());
-			}
-			return new List<Card>();//String didn't match a location
-		}
 		public GameAction ChangeGameState(string bucket, int value){
 			return new IntAction(this.gameStorage,bucket,value);
 		}
 		public GameAction ChangePlayerState(int playerIdx, string bucket, int value){
 			return new IntAction(players[playerIdx].storage,bucket,value);
 		}
-		public int PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
+		public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
 			var strDescription = SerializeGAC (choices);
 			var json = (JObject) JsonConvert.DeserializeObject (strDescription);
-			var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(json,rand);
-			//Console.WriteLine(choice);
-			choices[choice].ExecuteAll();
-			return choice;
+            var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(json,rand);
+            choices[choice].ExecuteAll();
 		}
-		public String SerializeGAC(List<GameActionCollection> list){
-			StringBuilder b = new StringBuilder ();
-			b.Append ("{ items:[");
-			foreach (var item in list) {
-				b.Append (item.Serialize ());
-			}
-			b.Remove (b.Length - 1, 1);
-			b.Append ("]}");
-			return b.ToString ();
-		}
-		public void PlayerMakeChoices(List<GameActionCollection> choices, int playerIdx, int numberOfChoices){
+        public String SerializeGAC(List<GameActionCollection> list){
+            StringBuilder b = new StringBuilder();
+            b.Append("{ items:[");
+            foreach (var item in list){
+                b.Append("[");
+                foreach (var ga in item){
+                    b.Append(ga.Serialize());
+                    b.Append(",");
+                }
+                b.Remove(b.Length - 1, 1);
+                b.Append("],");
+            }
+            b.Remove(b.Length - 1, 1);
+            b.Append("]}");
+            return b.ToString();
+        }
+        public void PlayerMakeChoices(List<GameActionCollection> choices, int playerIdx, int numberOfChoices){
 			var temp = numberOfChoices;
 			while (temp > 0){
 				var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices,rand);

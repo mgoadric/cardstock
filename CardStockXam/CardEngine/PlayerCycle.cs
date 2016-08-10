@@ -7,14 +7,12 @@ namespace CardEngine{
 		public int idx = 0;
 		public int queuedNext = -1;
 		public PlayerCycle(List<Player> pList){
-			playerList = pList;
-            CardGame.Instance.WriteToFile("t:" + playerList[idx].name);
+            playerList = pList;
         }
 		public PlayerCycle(PlayerCycle clone){
 			playerList = clone.playerList;
 			idx = clone.idx;
 			turnEnded = clone.turnEnded;
-            CardGame.Instance.WriteToFile("t:" + playerList[idx].name);
         }
 		public Player PeekNext(){
 			var saved = idx;
@@ -39,15 +37,15 @@ namespace CardEngine{
 			return ret;
 		}
 		public void Next(){
-			turnEnded = false;
+            turnEnded = false;
 			if (queuedNext != -1){
 				idx = queuedNext;
 			}
 			else{
 				++idx;
 			}
-			if (idx >= playerList.Count){
-				idx = 0;
+            if (idx >= playerList.Count){
+                idx = 0;
 			}
             CardGame.Instance.WriteToFile("t:" + playerList[idx].name);
         }

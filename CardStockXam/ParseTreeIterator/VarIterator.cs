@@ -62,8 +62,7 @@ namespace ParseTreeIterator
         {
              if (collection.var() != null){
                 var stor = Get(collection.var());
-                if (stor is FancyCardLocation)
-                {
+                if (stor is FancyCardLocation){
                     var card = stor as FancyCardLocation;
                     return card.cardList.AllCards();
                 }
@@ -137,7 +136,6 @@ namespace ParseTreeIterator
             foreach (T t in stor)
             {
                 Put(agg.var().GetText(), t);
-                Console.WriteLine(agg.GetText());
                 var post = ProcessAggPost(agg.GetChild(4));
                 ret.Add(post);
                 Remove(agg.var().GetText());

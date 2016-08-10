@@ -9,7 +9,6 @@ namespace CardEngine{
 		{
 		    get
 		    {
-                Console.WriteLine("key: " + key);
 				if (!binDict.ContainsKey (key)) {
 					AddKey (key);
 					storage [binDict [key]] = new CardListCollection() { name = (owner == null ? "t" : owner.name) + key };
@@ -139,11 +138,9 @@ namespace CardEngine{
         public override string ToString()
         {
             var ret = name + "#";
-            Console.WriteLine("length: " + cards.Count);
             foreach (var card in cards)
             {
                 ret += card.ToOutputString() + " ";
-                Console.WriteLine("output: " + card.ToOutputString() + "\n");
             }
             return ret.Substring(0, ret.Length - 1);
         }

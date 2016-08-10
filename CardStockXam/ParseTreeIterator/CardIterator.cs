@@ -82,7 +82,8 @@ namespace ParseTreeIterator
                 //TODO writetofile?
                 return new FancyCardLocation {
                     cardList = loc.cardList,
-                    locIdentifier = card.GetChild(1).GetText()
+                    locIdentifier = card.GetChild(1).GetText(),
+                    name = loc.name
                 };
             }
             throw new NotSupportedException();
@@ -235,11 +236,12 @@ namespace ParseTreeIterator
                 prefix = "mem";
             }
             Player player;
+            
             if (stor.locpre().GetText() == "game"){
                 if (stor.namegr() != null){
                     return new FancyCardLocation
                     {
-                        cardList = CardGame.Instance.tableCards["{" + prefix + "}" + stor.namegr()],
+                        cardList = CardGame.Instance.tableCards["{" + prefix + "}" + stor.namegr().GetText()],
                         name = "t:" + prefix + stor.namegr().GetText()
                     };
                 }
@@ -262,7 +264,7 @@ namespace ParseTreeIterator
             {
                 return new FancyCardLocation
                 {
-                    cardList = player.cardBins["{" + prefix + "}" + stor.namegr()],
+                    cardList = player.cardBins["{" + prefix + "}" + stor.namegr().GetText()],
                     name = player.name + prefix + stor.namegr().GetText()
                 };
             }
