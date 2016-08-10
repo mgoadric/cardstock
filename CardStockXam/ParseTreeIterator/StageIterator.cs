@@ -15,7 +15,6 @@ namespace ParseTreeIterator
 {
 	public class StageIterator{
 		public static void ProcessGame(RecycleParser.GameContext game){
-            Console.WriteLine("setup 3");
 			SetupIterator.ProcessSetup(game.setup()).ExecuteAll();
 			
 			for (int i = 3; i < game.ChildCount - 2; ++i){
@@ -90,157 +89,83 @@ namespace ParseTreeIterator
             }
             return lst;
 		}
+        public static List<GameActionCollection> RecurseDo(RecycleParser.CondactContext cond, List<GameActionCollection> lst){
+            var all = new List<GameActionCollection>();
+            var stackTree = new Stack<IParseTree>();
+            stackTree.Push(cond);
+            var stackActs = new Stack<GameAction>();
+            while (stackTree.Count != 0) {
+                var current = stackTree.Pop();
+                if (current is RecycleParser.CondactContext){
+                    var condact = current as RecycleParser.CondactContext;
+                    if (condact.boolean() == null || BooleanIterator.ProcessBoolean(condact.boolean())){
+                        if (condact.action() != null){
+                            var actions = ActionIterator.ProcessAction(condact.action());
+                            foreach (GameAction action in actions){
+                                stackActs.Push(action);
+                                action.TempExecute();
+                            }
+                        }
+                        if (condact.multiaction2() != null){
+                            stackTree.Push(condact.multiaction2());
+                        }
+                    }
+                }
+                else if (current is RecycleParser.Multiaction2Context){
+                    var multi = current as RecycleParser.Multiaction2Context;
+                    if (multi.agg() != null){
+                        stackTree.Push(multi.agg());
+                    }
+                    else if (multi.let() != null){
+                        stackTree.Push(multi.let());
+                    }
+                    else{//do
+                        for (int i = multi.condact().Length - 1; i >= 0; i--){
+                            stackTree.Push(multi.condact()[i]);
+                        }
+                    }
+                }
+                else if (current is RecycleParser.AggContext){
 
-        public static List<GameActionCollection> Recurse(IParseTree tree, List<GameActionCollection> lst){//TODO
-            GameActionCollection current;
-            if (lst.Count > 0) { current = lst[lst.Count - 1]; }
-            else { current = new GameActionCollection(); }
-            if (tree is RecycleParser.Multiaction2Context){
-                var sub = tree as RecycleParser.Multiaction2Context;
-                if (sub.agg() != null){
-                    if (sub.agg().GetChild(1).GetText() == "all"){
-                        var actions = VarIterator.ProcessAgg(sub.agg()) as GameActionCollection;
-                        foreach (GameAction action in actions){
-                            current.Add(action);
-                        }
-                        for (int idx = current.Count - 1; idx >= 0; idx--){
-                            current[idx].Undo();
-                        }
-                        if (lst.Count > 0) { lst.RemoveAt(lst.Count - 1); }
-                        lst.Add(current);
+                }
+                else if (current is RecycleParser.LetContext){
 
-                    }
-                    else {//any
-                        var actions = VarIterator.ProcessAgg(sub.agg()) as List<GameActionCollection>;
-                        foreach (GameActionCollection coll in actions){
-                            lst.Add(coll);
-                        }
-                        
-                    }
                 }
-                else if (sub.let() != null){
-                    var let = VarIterator.ProcessLet(sub.let());
-                    foreach (GameActionCollection coll in let){
-                        current.AddRange(coll);//execute?
-                    }
-                    if (lst.Count > 0) { lst.RemoveAt(lst.Count - 1); }
-                    lst.Add(current);
-                }
-                else{//do
-                    /*var coll = ActionIterator.ProcessDo(sub.condact());
-                    if (lst.Count > 0) { lst.RemoveAt(lst.Count - 1); }
-                    lst.Add(coll);*/
+                else{
+                    Console.WriteLine("failed to parse type " + current.GetType());
                 }
             }
-            else if (tree is RecycleParser.CondactContext){
-                var sub = tree as RecycleParser.CondactContext;
-                if ((sub.boolean() != null && BooleanIterator.ProcessBoolean(sub.boolean())) || sub.boolean() == null){
-                    if (sub.multiaction2() != null){
-                        //Execute??
-                        lst = Recurse(sub.multiaction2(), lst);
-                        //Undo??
-                    }
-                    else if (sub.action() != null){
-                        var act = ActionIterator.ProcessAction(sub.action());
-                        act.ExecuteAll();
-                        lst = Recurse(sub.action(), lst);
-                        act.UndoAll();
-                    }
-                }
+            var coll = new GameActionCollection();
+            foreach (GameAction act in stackActs.ToArray()){
+                coll.Add(act);
             }
-            else if (tree is RecycleParser.ActionContext)
-            {
-                var sub = tree as RecycleParser.ActionContext;
-                current.AddRange(ActionIterator.ProcessAction(sub));
-                if (lst.Count > 0) { lst.RemoveAt(lst.Count - 1); }
-                lst.Add(current);
+            coll.Reverse();
+            while (stackActs.Count > 0){
+                stackActs.Pop().Undo();
             }
-            return lst;
+            if (coll.Count > 0) { all.Add(coll); }
+            return all;
         }
-        public static void ProcessChoice(RecycleParser.CondactContext[] choices){
-			var allOptions = new List<GameActionCollection>();
-			Dictionary<int, int> skips = new Dictionary<int,int>();
-            for (int i = 0; i < choices.Length; ++i){
-                var gameaction = choices[i];
-                int startingIdx = allOptions.Count;
-                var gacs = ProcessCondactChoice(gameaction);
-                allOptions.AddRange(gacs);
-                for (int j = startingIdx; j < allOptions.Count; ++j){
-                    skips.Add(j, i);
+
+        public static void ProcessChoice(RecycleParser.CondactContext[] choices)
+        {
+            var allOptions = new List<GameActionCollection>();
+            for (int i = 0; i < choices.Length; ++i)
+            {
+                var gacs = RecurseDo(choices[i], new List<GameActionCollection>());
+                if (gacs.Count > 0){
+                    allOptions.AddRange(gacs);
                 }
             }
-			BranchingFactor.Instance.AddCount(allOptions.Count,CardGame.Instance.CurrentPlayer().idx);
-			Boolean satisfied = false;
-			int chosenIdx = ParseEngine.currentIterator.decisionBranch;
-			int iteratorCount = ParseEngine.currentIterator.decisionIdx;
-			while (!satisfied) {
-				
-				ParseEngine.currentIterator.decisionBranch = chosenIdx;
-				ParseEngine.currentIterator.decisionIdx = iteratorCount;
-				++iteratorCount;
-				if (chosenIdx == -1) {
-					if (allOptions.Count != 0) {
-						Debug.WriteLine ("Choice count:" + allOptions.Count);
-						chosenIdx = skips[CardGame.Instance.PlayerMakeChoice (allOptions, CardGame.Instance.CurrentPlayer ().idx)];
-					} else {
-						Debug.WriteLine ("NO Choice Available");
-
-					}
-				} else {
-					allOptions.Clear ();
-					allOptions.AddRange(ProcessMultiaction((choices[chosenIdx] as RecycleParser.CondactContext).multiaction2()));
-					if (allOptions.Count != 0) {
-						Debug.WriteLine ("Choice count:" + allOptions.Count);
-						CardGame.Instance.PlayerMakeChoice (allOptions, CardGame.Instance.CurrentPlayer ().idx);
-					} else {
-						Debug.WriteLine ("NO Choice Available");
-
-					}
-				}
-				if (iteratorCount == (choices[chosenIdx] as RecycleParser.CondactContext).multiaction2().ChildCount - 1) {
-					satisfied = true;
-					ParseEngine.currentIterator.decisionBranch = -1;
-					ParseEngine.currentIterator.decisionIdx = -1;
-				}
-
-			}
+            //BranchingFactor.Instance.AddCount(allOptions.Count, CardGame.Instance.CurrentPlayer().idx);
+            if (allOptions.Count != 0){
+                Debug.WriteLine("Choice count:" + allOptions.Count);
+                CardGame.Instance.PlayerMakeChoice(allOptions, CardGame.Instance.CurrentPlayer().idx);
+            }
+            else{ Debug.WriteLine("NO Choice Available");}
 		}
 
-		/*public static List<GameActionCollection> ProcessMultiactionChoice(RecycleParser.Multiaction2Context actions, int idx){
-            var allOptions = new List<GameActionCollection>();
-            if (actions.agg() != null){
-                return (List<GameActionCollection>) VarIterator.ProcessAgg(actions.agg());
-            }
-            else if (actions.let() != null){
-                allOptions.AddRange(VarIterator.ProcessLet(actions.let()));
-            }
-            else {//do
-                foreach (RecycleParser.CondactContext cond in actions.condact()){
-                    allOptions.AddRange(ProcessCondactChoice(cond));
-                }
-            }
-			//Console.WriteLine("action children");
-			/*var options = ProcessActionChoice(actions.GetChild(i)  as RecycleParser.ActionContext);
-			var temp = new List<GameActionCollection>();
-			//if (allOptions.Count == 0){
-			temp = options;
-            foreach (var additionalAction in options)
-            {
-                foreach (var sourcePerm in allOptions)
-                {
-                    var copyPerm = new GameActionCollection();
-                    copyPerm.AddRange(sourcePerm);
-                    copyPerm.AddRange(additionalAction);
-                    temp.Add(copyPerm);
-                }
-            }
-			
-			allOptions = temp;
-			Debug.WriteLine("MultiActionChoiceCount:" + allOptions.Count);
-			return allOptions;
-		*/
-
-        public static List<GameActionCollection> ProcessCondactChoice(RecycleParser.CondactContext cond)//TODO pass in boolean
+        public static List<GameActionCollection> ProcessCondactChoice(RecycleParser.CondactContext cond)
         {
             var allOptions = new List<GameActionCollection>();
             bool condition = true;
@@ -259,32 +184,5 @@ namespace ParseTreeIterator
             }
             return allOptions;
         }
-		public static List<GameActionCollection> ProcessMultiActionChoice(RecycleParser.Multiaction2Context actions){
-			/*var allOptions = new List<GameActionCollection> ();
-			int i = 0;
-			//Console.WriteLine("action children");
-			var options = ProcessActionChoice (actions.GetChild (i)  as RecycleParser.ActionContext);
-			var temp = new List<GameActionCollection> ();
-			//if (allOptions.Count == 0){
-			temp = options;
-			/*}
-				else{
-					foreach (var additionalAction in options){
-						foreach (var sourcePerm in allOptions){
-							var copyPerm = new GameActionCollection();
-							copyPerm.AddRange(sourcePerm);
-							copyPerm.AddRange(additionalAction);
-							temp.Add(copyPerm);
-						}
-					}
-				}
-			allOptions = temp;
-
-
-			Debug.WriteLine ("MultiActionChoiceCount:" + allOptions.Count);
-			return allOptions;
-			*/
-            return null;
-		}
     }
 }
