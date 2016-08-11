@@ -101,7 +101,7 @@ namespace ParseTreeIterator
 
         public static FancyRawStorage ProcessRawStorage(RecycleParser.RawstorageContext raw){
             if (raw.GetChild(1).GetText() == "game") {
-                if (raw.var() != null) {
+                if (raw.var().Length == 1) {
                     String temp = VarIterator.ProcessStringVar(raw.var()[0]);
                     return new FancyRawStorage(CardGame.Instance.gameStorage, temp);
                 }

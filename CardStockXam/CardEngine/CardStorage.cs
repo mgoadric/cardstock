@@ -138,7 +138,8 @@ namespace CardEngine{
         public override string ToString()
         {
             var ret = name + "#";
-            foreach (var card in cards)
+            Console.WriteLine(cards[0].ToOutputString());
+            foreach (Card card in cards)
             {
                 ret += card.ToOutputString() + " ";
             }

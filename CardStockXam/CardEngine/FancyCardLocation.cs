@@ -32,6 +32,7 @@ namespace CardEngine{
 				return temp.AllCards().GetEnumerator().Current;
 			}
             else if (locIdentifier == "-1"){
+                Console.WriteLine(name);
                 throw new NotSupportedException();
             }
             else{

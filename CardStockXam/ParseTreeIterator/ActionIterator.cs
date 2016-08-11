@@ -79,51 +79,7 @@ namespace ParseTreeIterator
                 ret.Add(IntIterator.DecAction(decAction));
             }
             else if (actionNode.cycleaction() != null) {
-
-                if (actionNode.cycleaction().GetChild(1).GetText() == "next")
-                {
-                    //Set next player
-                    if (actionNode.cycleaction().owner() != null)
-                    {
-                        var idx = ProcessOwner(actionNode.cycleaction().owner());
-                        CardGame.Instance.CurrentPlayer().SetNext(idx);
-                        Debug.WriteLine("Next Player:" + idx);
-                    }
-                    else if (actionNode.cycleaction().GetChild(2).GetText() == "next")
-                    {
-                        CardGame.Instance.CurrentPlayer().SetNext(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekNext()));
-                    }
-                    else if (actionNode.cycleaction().GetChild(2).GetText() == "current")
-                    {
-                        CardGame.Instance.CurrentPlayer().SetNext(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().Current()));
-                    }
-                    else if (actionNode.cycleaction().GetChild(2).GetText() == "previous")
-                    {
-                        CardGame.Instance.CurrentPlayer().SetNext(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekPrevious()));
-                    }
-                }
-                else if (actionNode.cycleaction().GetChild(1).GetText() == "current")
-                {
-                    //Set next player
-                    if (actionNode.cycleaction().owner() != null)
-                    {
-                        var idx = ProcessOwner(actionNode.cycleaction().owner());
-                        CardGame.Instance.CurrentPlayer().SetPlayer(idx);
-                        Debug.WriteLine("Next Player:" + idx);
-                    }
-                    else if (actionNode.cycleaction().GetChild(2).GetText() == "next")
-                    {
-                        CardGame.Instance.CurrentPlayer().SetPlayer(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekNext()));
-                    }
-                    else if (actionNode.cycleaction().GetChild(2).GetText() == "current")
-                    {
-                        CardGame.Instance.CurrentPlayer().SetPlayer(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().Current()));
-                    }
-                    else if (actionNode.cycleaction().GetChild(2).GetText() == "previous")
-                    {
-                        CardGame.Instance.CurrentPlayer().SetPlayer(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekPrevious()));
-                    }
-                }
+                ret.Add(CycleAction(actionNode.cycleaction()));
             }
             else if (actionNode.deckcreate() != null) {
                 ret.Add(SetupIterator.ProcessDeck(actionNode.deckcreate()));
@@ -139,6 +95,53 @@ namespace ParseTreeIterator
 			}
 			return ret;
 		}
+
+        private static GameAction CycleAction(RecycleParser.CycleactionContext cycle)
+        {
+            if (cycle.GetChild(1).GetText() == "next")
+            {
+                //Set next player
+                if (cycle.owner() != null)
+                {
+                    var idx = ProcessOwner(cycle.owner());
+                    return new NextAction(CardGame.Instance.CurrentPlayer(), idx);
+                }
+                else if (cycle.GetChild(2).GetText() == "next")
+                {
+                    return new NextAction(CardGame.Instance.CurrentPlayer(), CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekNext()));
+                }
+                else if (cycle.GetChild(2).GetText() == "current")
+                {
+                    return new NextAction(CardGame.Instance.CurrentPlayer(), CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().Current()));
+                }
+                else if (cycle.GetChild(2).GetText() == "previous")
+                {
+                    return new NextAction(CardGame.Instance.CurrentPlayer(), CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekPrevious()));
+                }
+            }
+            else if (cycle.GetChild(1).GetText() == "current")
+            {
+                //Set next player
+                if (cycle.owner() != null)
+                {
+                    var idx = ProcessOwner(cycle.owner());
+                    return new SetPlayerAction(idx);
+                }
+                else if (cycle.GetChild(2).GetText() == "next")
+                {
+                    return new SetPlayerAction(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekNext()));
+                }
+                else if (cycle.GetChild(2).GetText() == "current")
+                {
+                    return new SetPlayerAction(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().Current()));
+                }
+                else if (cycle.GetChild(2).GetText() == "previous")
+                {
+                    return new SetPlayerAction(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekPrevious()));
+                }
+            }
+            return null;
+        }
 
         public static void ProcessDo(RecycleParser.CondactContext[] condact){
             foreach (RecycleParser.CondactContext cond in condact){
@@ -161,8 +164,7 @@ namespace ParseTreeIterator
             int idx = 1;
             if (rep.@int() != null){
                 idx = IntIterator.ProcessInt(rep.@int());
-                for (int i = 0; i < idx; i++)
-                {
+                for (int i = 0; i < idx; i++){
                     ret.AddRange(ProcessAction(rep.action()));
                 }
             }
@@ -170,10 +172,8 @@ namespace ParseTreeIterator
                 var card1 = CardIterator.ProcessCard(rep.moveaction().card()[0]);
                 var card2 = CardIterator.ProcessCard(rep.moveaction().card()[1]);
                 idx = card1.cardList.Count;
-                for (int i = 0; i < idx; i++)
-                {
+                for (int i = 0; i < idx; i++){
                     ret.Add(new FancyCardMoveAction(card1, card2));
-
                 }
             }
             return ret;

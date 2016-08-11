@@ -69,7 +69,6 @@ namespace CardEngine
 			//reconstruct team and player cycles
 			temp.currentPlayer.Pop();
 			foreach (var cycle in this.currentPlayer.Reverse()){
-                CardGame.instance.WriteToFile("2:");
 				var newCycle = new PlayerCycle (temp.players);
 				newCycle.idx = cycle.idx;
 				newCycle.turnEnded = cycle.turnEnded;
@@ -204,10 +203,6 @@ namespace CardEngine
 				players.Add(new Player() { name = "p" + i });
 				players [i].decision = i  == 0 ? new GeneralPlayer () : new GeneralPlayer ();
 			}
-            foreach (Player p in players)
-            {
-                CardGame.Instance.WriteToFile(p.name);
-            }
             currentPlayer.Push(new PlayerCycle(players));
 		}
 		public void PushPlayer(){
@@ -325,6 +320,7 @@ namespace CardEngine
 		}
 		public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
 			var strDescription = SerializeGAC (choices);
+            Console.WriteLine(strDescription);
 			var json = (JObject) JsonConvert.DeserializeObject (strDescription);
             var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(json,rand);
             choices[choice].ExecuteAll();

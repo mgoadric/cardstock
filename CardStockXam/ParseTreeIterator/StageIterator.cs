@@ -75,7 +75,7 @@ namespace ParseTreeIterator
             {
                 ProcessStage(sub as RecycleParser.StageContext);
             }
-            else if (sub is RecycleParser.Multiaction2Context){//multiaction2
+            else if (sub is RecycleParser.Multiaction2Context){
                 var multi = sub as RecycleParser.Multiaction2Context;
                 if (multi.agg() != null){
                     lst.Add(VarIterator.ProcessAgg(multi.agg()) as GameActionCollection);
@@ -83,7 +83,7 @@ namespace ParseTreeIterator
                 else if (multi.let() != null){
                     lst.AddRange(VarIterator.ProcessLet(multi.let()));
                 }
-                else{ //do
+                else{
                     ActionIterator.ProcessDo(multi.condact());
                 }
             }

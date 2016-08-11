@@ -299,8 +299,7 @@ namespace ParseTreeIterator
             return text.Split(delimiter);
         }
 
-        internal static int ProcessIntVar(RecycleParser.VarContext varContext)
-        {
+        public static int ProcessIntVar(RecycleParser.VarContext varContext){
             var temp = Get(varContext.GetText());
             if (temp is FancyRawStorage){
                 var raw = temp as FancyRawStorage;

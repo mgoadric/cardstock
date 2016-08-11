@@ -22,16 +22,16 @@
     
    (do (
         (put points 'POINTS (
-             ((VALUE (10)) 10)
-             ((VALUE (9)) 9)
-             ((VALUE (8)) 8)
-             ((VALUE (7)) 7)
-             ((VALUE (6)) 6)
-             ((VALUE (5)) 5)
-             ((VALUE (4)) 4)
-             ((VALUE (3)) 3)
-             ((VALUE (2)) 2)
-             ((VALUE (1)) 1)
+             ((VALUE (TEN)) 10)
+             ((VALUE (NINE)) 9)
+             ((VALUE (EIGHT)) 8)
+             ((VALUE (SEVEN)) 7)
+             ((VALUE (SIX)) 6)
+             ((VALUE (FIVE)) 5)
+             ((VALUE (FOUR)) 4)
+             ((VALUE (THREE)) 3)
+             ((VALUE (TWO)) 2)
+             ((VALUE (ONE)) 1)
              )
          )
          (shuffle (game iloc STOCK))
@@ -57,17 +57,16 @@
             ))
          )
          (all player 'P (move (top (game iloc STOCK))
-		             (top ('P vloc HAND))))
+		              (top ('P vloc HAND))))
            
            ;; Stage here, find the player with smallest card
            ;; if tied, deal new card and try again
            ;; Stage, for tied players if dealt a pair, then discard and do it again
          (cycle current (owner (min (union (all player 'P ('P vloc HAND))) using 'POINTS)))
      ))
-   )
       
-   ;; Stages of the game
-   (stage player
+      ;; Stages of the game
+      (stage player
              
          ;; end when any player has a pair or bows out
          (end (== (game sto FINISHED) 1))
@@ -87,26 +86,27 @@
            )))
          ))
          ;; players flip a card or bow out
-      (choice (
-        (do (
+        (choice (
+          (do (
             (move (actual (min (union (all player 'P ('P vloc HAND))) using 'POINTS))
                   (top ((current player) vloc SCORING)))
             (set (game sto FINISHED) 1)
+          ))
             (move (top (game iloc STOCK))
                   (top ((current player) vloc HAND)))
-        ))
+         ))
          
          ;; if pair, end the round
 		 ;; current player is similar to how all players was used previously, is this ok?
-         (do (
-            ((> (size (tuples 2 ((current player) vloc HAND) using 'POINTS)) 0)
-              (do (
+      (do (
+        ((> (size (tuples 2 ((current player) vloc HAND) using 'POINTS)) 0)
+          (do (
                 (set (game sto FINISHED) 1)
                 (move (actual (top (top (tuples 2 ((current player) vloc HAND) using 'POINTS))))
                               (top ((current player) vloc SCORING))))
-             ))
-          ))
+           ))
       ))
+    )
       ;; Move all cards back to the discard pile
       (do (
         (all player 'P
@@ -114,8 +114,7 @@
                    (move (top ('P vloc HAND))
                          (top (game vloc DISCARD)))))
         (set (game sto FINISHED) 0)
-      ))    
-   )   
-         
+      ))      
+   )    
    (scoring min (sum ((current player) vloc SCORING) using 'POINTS))
 )

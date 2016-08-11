@@ -23,12 +23,15 @@ namespace CardEngine{
         }
 	}
 	public abstract class GameAction {
-        public bool actual;
+        public bool actual = true;
 		public bool complete;
 		public abstract void Execute();
         public abstract void Undo();
-		public abstract String Serialize();
+        public String Serialize(){
+            return "";
+        }
         public void TempExecute(){
+            actual = false;
             Execute();
             actual = false;
         }
@@ -59,23 +62,23 @@ namespace CardEngine{
             try{
                 if (startLocation.Count() != 0){
                     cardToMove = startLocation.Remove();
-                    if (!startLocation.actual){
+                    var prefix = "M:";
+                    if (!actual) { prefix = "TM:"; }
+                    
                         if (cardToMove.owner != null){
-                            CardGame.Instance.WriteToFile("1");
-                            CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
+                            CardGame.Instance.WriteToFile(prefix + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
                         }
                         else{
-                            CardGame.Instance.WriteToFile("2");
-                            CardGame.Instance.WriteToFile("M:" + cardToMove.ToOutputString() + " " + startLocation.name + " " + endLocation.name);
+                            CardGame.Instance.WriteToFile(prefix + cardToMove.ToOutputString() + " " + startLocation.name + " " + endLocation.name);
                         }
                         endLocation.Add(cardToMove);
                         owner = cardToMove.owner;
                         cardToMove.owner = endLocation.cardList;
                         Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
-                    }
                 }
                 else{
                     Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString());
+                    throw new Exception();
                 }
             }
             catch
@@ -88,9 +91,6 @@ namespace CardEngine{
             }
             actual = true;
             complete = true;
-		}
-		public override String Serialize(){
-			return "";
 		}
 
         public override void Undo()
@@ -133,11 +133,6 @@ namespace CardEngine{
 				locations.Add(c);
 			}
 		}
-
-		public override string Serialize()
-        {
-            return "ShuffleAction";
-        }
     }
     public class TurnAction : GameAction{
         public TurnAction() {}
@@ -149,11 +144,6 @@ namespace CardEngine{
 		public override void Undo(){
 
 		}
-
-		public override string Serialize()
-        {
-            return "TurnAction";
-        }
     }
     public class TeamCreateAction : GameAction{
         private RecycleParser.TeamcreateContext teamcreate;
@@ -165,11 +155,6 @@ namespace CardEngine{
         {
             SetupIterator.ProcessTeamCreate(teamcreate);
             actual = true;
-        }
-
-        public override string Serialize()
-        {
-            return "TeamCreateAction";
         }
 
         public override void Undo()
@@ -202,9 +187,6 @@ namespace CardEngine{
 				location.Add(c);
 			}
 		}
-		public override String Serialize(){
-			return "InitializeAction";
-		}
 	}
 	public class FancyCardCopyAction : GameAction{
 		FancyCardLocation startLocation;
@@ -223,9 +205,6 @@ namespace CardEngine{
 			endLocation.Add(startLocation.Get());
             actual = true;
 		}
-		public override String Serialize(){
-			return "FancyCardCopyAction";
-		}
 
         public override void Undo()
         {
@@ -243,9 +222,6 @@ namespace CardEngine{
 		public override void Execute(){
 			endLocation.Remove();
             actual = true;
-		}
-		public override String Serialize(){
-			return "FancyRemoveAction";
 		}
 
         public override void Undo()
@@ -293,8 +269,47 @@ namespace CardEngine{
 				throw new UnauthorizedAccessException();
 			}
 		}
-		public override String Serialize(){
-			return "IntAction";
-		}
 	}
+    public class NextAction : GameAction
+    {
+        private PlayerCycle playerCycle;
+        private int idx;
+        private int former;
+
+        public NextAction(PlayerCycle playerCycle, int idx){
+            this.playerCycle = playerCycle;
+            this.idx = idx;
+        }
+
+        public override void Execute()
+        {
+            former = CardGame.Instance.players.IndexOf(playerCycle.PeekNext());
+            playerCycle.SetNext(idx);
+        }
+
+        public override void Undo()
+        {
+            playerCycle.SetNext(former);
+        }
+    }
+    public class SetPlayerAction : GameAction
+    {
+        private int idx;
+        private int former;
+        public SetPlayerAction(int idx){
+            this.idx = idx;
+        }
+
+        public override void Execute()
+        {
+            former = CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().Current());
+            CardGame.Instance.CurrentPlayer().SetPlayer(idx);
+
+        }
+
+        public override void Undo()
+        {
+            CardGame.Instance.CurrentPlayer().SetPlayer(former);
+        }
+    }
 }

@@ -36,7 +36,13 @@ namespace ParseTreeIterator
 			var ret = new GameActionCollection();
 			if (setupNode.playercreate() != null){
 				var playerCreate = setupNode.playercreate() as RecycleParser.PlayercreateContext;
-				var numPlayers = IntIterator.ProcessInt(playerCreate.@int());
+                var numPlayers = 2;
+                if (playerCreate.@int() != null){
+                    numPlayers = IntIterator.ProcessInt(playerCreate.@int());
+                }
+                else{
+                    numPlayers = VarIterator.ProcessIntVar(playerCreate.var());
+                }
                 CardGame.Instance.WriteToFile("nump:" + numPlayers);
 				CardGame.Instance.AddPlayers(numPlayers);
 			}
@@ -61,7 +67,6 @@ namespace ParseTreeIterator
                     }
                 }
             }
-            Console.WriteLine(ret.Count);
 			return ret;
 		}
 

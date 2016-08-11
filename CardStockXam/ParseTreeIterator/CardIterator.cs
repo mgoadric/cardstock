@@ -37,6 +37,7 @@ namespace ParseTreeIterator
                 return new FancyCardLocation
                 {
                     cardList = lst,
+                    locIdentifier = "top",
                     name=coll.name + "{MAX}"
                 };
             }
@@ -63,6 +64,7 @@ namespace ParseTreeIterator
                 return new FancyCardLocation
                 {
                     cardList = lst,
+                    locIdentifier = "top",
                     name=coll.name + "{MIN}"
                 };
             }
@@ -72,6 +74,7 @@ namespace ParseTreeIterator
                 return VarIterator.ProcessCardVar(card.var());
             }
             if (card.actual() != null){
+                Console.WriteLine(card.GetText());
                 var cardLocations = ProcessCard(card.actual().card());
                 cardLocations.actual = true;
                 CardGame.Instance.WriteToFile("m:" + cardLocations.cardList.ToString());
@@ -222,18 +225,18 @@ namespace ParseTreeIterator
             string prefix = "";
             if (desc == "vloc")
             {
-                prefix = "visible";
+                prefix = "{visible}";
             }
             else if (desc == "iloc")
             {
-                prefix = "invisible";
+                prefix = "{invisible}";
             }
             else if (desc == "hloc")
             {
-                prefix = "hidden";
+                prefix = "{hidden}";
             }
             else{
-                prefix = "mem";
+                prefix = "{mem}";
             }
             Player player;
             
@@ -241,16 +244,16 @@ namespace ParseTreeIterator
                 if (stor.namegr() != null){
                     return new FancyCardLocation
                     {
-                        cardList = CardGame.Instance.tableCards["{" + prefix + "}" + stor.namegr().GetText()],
-                        name = "t:" + prefix + stor.namegr().GetText()
+                        cardList = CardGame.Instance.tableCards[prefix + stor.namegr().GetText()],
+                        name = "t" + prefix + stor.namegr().GetText()
                     };
                 }
                 else{
                     var name = VarIterator.ProcessStringVar(stor.var());
                     return new FancyCardLocation
                     {
-                        cardList = CardGame.Instance.tableCards["{" + prefix + "}" + name],
-                        name = "t:" + prefix + stor.namegr().GetText()
+                        cardList = CardGame.Instance.tableCards[prefix + name],
+                        name = "t" + prefix + stor.namegr().GetText()
                     };
                 }
             }
@@ -264,7 +267,7 @@ namespace ParseTreeIterator
             {
                 return new FancyCardLocation
                 {
-                    cardList = player.cardBins["{" + prefix + "}" + stor.namegr().GetText()],
+                    cardList = player.cardBins[ prefix + stor.namegr().GetText()],
                     name = player.name + prefix + stor.namegr().GetText()
                 };
             }
@@ -272,7 +275,7 @@ namespace ParseTreeIterator
                 var name = VarIterator.ProcessStringVar(stor.var());
                 return new FancyCardLocation
                 {
-                    cardList = player.cardBins["{" + prefix + "}" + name],
+                    cardList = player.cardBins[prefix + name],
                     name = player.name + prefix + name
                 };
             }

@@ -40,7 +40,7 @@ copyaction : 'remember' card card ;
 removeaction : 'forget' card ;
 shuffleaction : 'shuffle' cstorage ;
 turnaction : 'turn' 'pass' ;
-repeat : 'repeat' int action | 'repeat' 'all' moveaction ;
+repeat : 'repeat' int action | 'repeat' 'all' OPEN moveaction CLOSE ;
 
 card : var | maxof | minof | actual | (OPEN ('top' | 'bottom' | int) cstorage CLOSE) ;
 actual : OPEN 'actual' card CLOSE ;
