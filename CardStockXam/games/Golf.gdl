@@ -38,8 +38,8 @@
         ))
         (choice (
            (move (top ((current player) iloc HAND)) (top (game vloc DISCARD)))
-           ;;(any 'PLOCS 'L
-           ;;   (move (top ((current player) iloc HAND)) (top ((current player) hloc 'L))))
+           (any 'PLOCS 'L
+              (move (top ((current player) iloc HAND)) (top ((current player) hloc 'L))))
         ))
     )
     (scoring min (sum (union (all 'PLOCS 'L

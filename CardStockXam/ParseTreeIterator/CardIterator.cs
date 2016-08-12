@@ -74,7 +74,6 @@ namespace ParseTreeIterator
                 return VarIterator.ProcessCardVar(card.var());
             }
             if (card.actual() != null){
-                Console.WriteLine(card.GetText());
                 var cardLocations = ProcessCard(card.actual().card());
                 cardLocations.actual = true;
                 CardGame.Instance.WriteToFile("m:" + cardLocations.cardList.ToString());

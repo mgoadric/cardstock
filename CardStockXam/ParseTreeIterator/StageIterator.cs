@@ -10,6 +10,7 @@ using Antlr4.Runtime.Tree;
 using CardEngine;
 
 using Analytics;
+using CardStockXam.CardEngine;
 
 namespace ParseTreeIterator
 {
@@ -91,59 +92,113 @@ namespace ParseTreeIterator
 		}
         public static List<GameActionCollection> RecurseDo(RecycleParser.CondactContext cond, List<GameActionCollection> lst){
             var all = new List<GameActionCollection>();
-            var stackTree = new Stack<IParseTree>();
+            var stackTrees = new Stack<IteratingTree>();
+            var stackTree = new IteratingTree();
             stackTree.Push(cond);
-            var stackActs = new Stack<GameAction>();
-            while (stackTree.Count != 0) {
-                var current = stackTree.Pop();
-                if (current is RecycleParser.CondactContext){
-                    var condact = current as RecycleParser.CondactContext;
-                    if (condact.boolean() == null || BooleanIterator.ProcessBoolean(condact.boolean())){
-                        if (condact.action() != null){
-                            var actions = ActionIterator.ProcessAction(condact.action());
-                            foreach (GameAction action in actions){
-                                stackActs.Push(action);
-                                action.TempExecute();
+            stackTrees.Push(stackTree);
+            var stackAct = new Stack<GameAction>();
+            while (stackTrees.Count != 0) {
+                CardGame.Instance.WriteToFile("prepop: " + stackTrees.Count.ToString());
+                stackTree = stackTrees.Pop();
+                CardGame.Instance.WriteToFile("postpop: " + stackTrees.Count.ToString());
+                foreach (var stack in stackTrees){
+                    CardGame.Instance.WriteToFile(stack.ToString());
+                    CardGame.Instance.WriteToFile("\n");
+                }
+                while (stackTree.Count() != 0) {
+                    var current = stackTree.Pop();
+                    if (current is RecycleParser.CondactContext) {
+                        var condact = current as RecycleParser.CondactContext;
+                        if (condact.boolean() == null || BooleanIterator.ProcessBoolean(condact.boolean())) {
+                            if (condact.action() != null) {
+                                stackTree.Push(condact.action());
+                            }
+                            if (condact.multiaction2() != null) {
+                                stackTree.Push(condact.multiaction2());
                             }
                         }
-                        if (condact.multiaction2() != null){
-                            stackTree.Push(condact.multiaction2());
+                    }
+                    else if (current is RecycleParser.Multiaction2Context) {
+                        var multi = current as RecycleParser.Multiaction2Context;
+                        if (multi.agg() != null) {
+                            stackTree.Push(multi.agg());
+                        }
+                        else if (multi.let() != null) {
+                            stackTree.Push(multi.let());
+                        }
+                        else {//do
+                            for (int i = multi.condact().Length - 1; i >= 0; i--) {
+                                stackTree.Push(multi.condact()[i]);
+                            }
                         }
                     }
-                }
-                else if (current is RecycleParser.Multiaction2Context){
-                    var multi = current as RecycleParser.Multiaction2Context;
-                    if (multi.agg() != null){
-                        stackTree.Push(multi.agg());
-                    }
-                    else if (multi.let() != null){
-                        stackTree.Push(multi.let());
-                    }
-                    else{//do
-                        for (int i = multi.condact().Length - 1; i >= 0; i--){
-                            stackTree.Push(multi.condact()[i]);
+                    else if (current is RecycleParser.AggContext) {
+                        var agg = current as RecycleParser.AggContext;
+                        var collection = VarIterator.ProcessCollection(agg.collection());
+                        if (agg.GetChild(1).GetText() == "any"){
+                            bool first = true;
+                            stackTree.Push(current.GetChild(4));
+                            foreach (object item in collection){
+                                CardGame.Instance.WriteToFile("item: " + item.ToString());
+                                stackAct.Push(new LoopAction(agg.var().GetText(), item));
+                                if (first){
+                                    VarIterator.Put(agg.var().GetText(), item);
+                                    first = false;
+                                }
+                                else{
+                                    CardGame.Instance.WriteToFile(item.ToString());
+                                    CardGame.Instance.WriteToFile(stackTrees.Count.ToString());
+                                    var newtree = new IteratingTree(stackTree.trees);
+                                    CardGame.Instance.WriteToFile(newtree.ToString());
+                                    stackTrees.Push(newtree);
+                                    CardGame.Instance.WriteToFile(stackTrees.Count.ToString());
+                                }
+                            }
+                        }
+                        else { //all
+                            foreach (object item in collection){
+                                stackTree.Push(current.GetChild(4));
+                                //need to put and remove var contexts at right times?
+                            }
                         }
                     }
-                }
-                else if (current is RecycleParser.AggContext){
+                    else if (current is RecycleParser.LetContext) {
 
+                    }
+                    else if (current is RecycleParser.ActionContext){
+                        var actions = ActionIterator.ProcessAction(current as RecycleParser.ActionContext);
+                        foreach (GameAction action in actions){
+                            stackAct.Push(action);
+                            action.TempExecute();
+                        }
+                    }
+                    else {
+                        Console.WriteLine("failed to parse type " + current.GetType());
+                    }
                 }
-                else if (current is RecycleParser.LetContext){
-
+                var coll = new GameActionCollection();
+                foreach (GameAction act in stackAct.ToArray()) {
+                    if (!(act is LoopAction)){
+                        coll.Add(act);
+                    }
                 }
-                else{
-                    Console.WriteLine("failed to parse type " + current.GetType());
+                coll.Reverse();
+                while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction)) {
+                   stackAct.Pop().Undo();
                 }
+                if (stackAct.Count != 0){
+                    var loop = stackAct.Pop() as LoopAction;
+                    VarIterator.Remove(loop.var);
+                }
+                while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction)){
+                    stackAct.Pop().Undo();
+                }
+                if (stackAct.Count != 0){
+                    var loop = stackAct.Peek() as LoopAction;
+                    VarIterator.Put(loop.var, loop.item);
+                }
+                if (coll.Count > 0) { all.Add(coll); }
             }
-            var coll = new GameActionCollection();
-            foreach (GameAction act in stackActs.ToArray()){
-                coll.Add(act);
-            }
-            coll.Reverse();
-            while (stackActs.Count > 0){
-                stackActs.Pop().Undo();
-            }
-            if (coll.Count > 0) { all.Add(coll); }
             return all;
         }
 

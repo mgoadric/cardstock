@@ -3,15 +3,15 @@ using System;
 using System.Diagnostics;
 using ParseTreeIterator;
 
-namespace CardEngine{
-	public class GameActionCollection: List<GameAction> {
-		public GameActionCollection() : base(){
-			
-		}
-		public void ExecuteAll(){
+namespace CardEngine {
+    public class GameActionCollection : List<GameAction> {
+        public GameActionCollection() : base() {
+
+        }
+        public void ExecuteAll() {
             foreach (var gameColl in this)
             {
-                gameColl.Execute();
+                gameColl.ExecuteActual();
             }
         }
         public void UndoAll()
@@ -21,62 +21,64 @@ namespace CardEngine{
                 gameColl.Undo();
             }
         }
-	}
-	public abstract class GameAction {
+    }
+    public abstract class GameAction {
         public bool actual = true;
-		public bool complete;
-		public abstract void Execute();
-        public abstract void Undo();
-        public String Serialize(){
-            return "";
+        public bool complete;
+        public void ExecuteActual(){
+            actual = true;
+            Execute();
         }
-        public void TempExecute(){
+        public void TempExecute()
+        {
             actual = false;
             Execute();
-            actual = false;
         }
-	}
-	public class FancyCardMoveAction : GameAction{
-		public FancyCardLocation startLocation;
-		public FancyCardLocation endLocation;
+        public abstract void Execute();
+        public abstract void Undo();
+        public String Serialize() {
+            return "";
+        }
+    }
+    public class FancyCardMoveAction : GameAction {
+        public FancyCardLocation startLocation;
+        public FancyCardLocation endLocation;
         public CardCollection owner;
-		public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end){
-            if (start.name != null){
-                if (start.name.Contains("{mem}") && !start.actual){
+        public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end) {
+            if (start.name != null) {
+                if (start.name.Contains("{mem}") && !start.actual) {
                     throw new NotSupportedException();
                 }
             }
-            else if (end.nonPhysical){
+            else if (end.nonPhysical) {
                 throw new NotSupportedException();
             }
-            else if (end.name != null){
-                if (end.name.Contains("{mem}")){
+            else if (end.name != null) {
+                if (end.name.Contains("{mem}")) {
                     throw new NotSupportedException();
                 }
             }
             startLocation = start;
-			endLocation = end;
-		}
-		public override void Execute(){
-            Card cardToMove = null;
-            try{
-                if (startLocation.Count() != 0){
-                    cardToMove = startLocation.Remove();
+            endLocation = end;
+        }
+        public override void Execute() {
+            try {
+                if (startLocation.Count() != 0) {
+                    Card cardToMove = startLocation.Remove();
                     var prefix = "M:";
                     if (!actual) { prefix = "TM:"; }
-                    
-                        if (cardToMove.owner != null){
-                            CardGame.Instance.WriteToFile(prefix + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
-                        }
-                        else{
-                            CardGame.Instance.WriteToFile(prefix + cardToMove.ToOutputString() + " " + startLocation.name + " " + endLocation.name);
-                        }
-                        endLocation.Add(cardToMove);
-                        owner = cardToMove.owner;
-                        cardToMove.owner = endLocation.cardList;
-                        Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
+                    if (cardToMove.owner != null) {
+                        CardGame.Instance.WriteToFile(prefix + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
+                    }
+                    else {
+                        CardGame.Instance.WriteToFile(prefix + cardToMove.ToOutputString() + " " + startLocation.name + " " + endLocation.name);
+                    }
+                    endLocation.Add(cardToMove);
+                    owner = cardToMove.owner;
+                    cardToMove.owner = endLocation.cardList;
+                    Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
                 }
-                else{
+                else {
                     Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString());
                     throw new Exception();
                 }
@@ -89,18 +91,17 @@ namespace CardEngine{
                 }
                 throw;
             }
-            actual = true;
             complete = true;
-		}
+        }
 
         public override void Undo()
         {
-            if (complete){
+            if (complete) {
                 var cardToMove = endLocation.Remove();
                 startLocation.Add(cardToMove);
                 cardToMove.owner = owner;
             }
-            else{
+            else {
                 Console.WriteLine("move has not been executed yet");
                 throw new NotSupportedException();
             }
@@ -109,45 +110,42 @@ namespace CardEngine{
     public class ShuffleAction : GameAction
     {
         private FancyCardLocation locations;
-		private CardCollection unshuffled;
+        private CardCollection unshuffled;
 
         public ShuffleAction(FancyCardLocation locations)
         {
             this.locations = locations;
-			unshuffled = new CardListCollection();
+            unshuffled = new CardListCollection();
         }
+
+        public override void Execute() {
+            foreach (Card c in locations.cardList.AllCards())
+            {
+                unshuffled.Add(c);
+            }
+            locations.cardList.Shuffle();
+        }
+        public override void Undo()
+        {
+            locations.cardList.Clear();
+            foreach (Card c in unshuffled.AllCards())
+            {
+                locations.Add(c);
+            }
+        }
+    }
+    public class TurnAction : GameAction {
+        public TurnAction() { }
 
         public override void Execute(){
-			foreach (Card c in locations.cardList.AllCards())
-			{
-				unshuffled.Add(c);
-			}
-			locations.cardList.Shuffle();
-            actual = true;
         }
-		public override void Undo()
-		{
-			locations.cardList.Clear();
-			foreach (Card c in unshuffled.AllCards())
-			{
-				locations.Add(c);
-			}
-		}
-    }
-    public class TurnAction : GameAction{
-        public TurnAction() {}
+        public override void Undo() {
 
-        public override void Execute()
-        {
-            actual = true;
         }
-		public override void Undo(){
-
-		}
     }
-    public class TeamCreateAction : GameAction{
+    public class TeamCreateAction : GameAction {
         private RecycleParser.TeamcreateContext teamcreate;
-        public TeamCreateAction(RecycleParser.TeamcreateContext teamcreate){
+        public TeamCreateAction(RecycleParser.TeamcreateContext teamcreate) {
             this.teamcreate = teamcreate;
         }
 
@@ -162,89 +160,89 @@ namespace CardEngine{
             throw new NotImplementedException();
         }
     }
-    public class InitializeAction : GameAction{
-		CardCollection location;
-		CardCollection before;
-		Tree deck;
-		public InitializeAction(CardCollection loc, Tree d){
-			location = loc;
-			before = new CardListCollection();
-			deck = d;
-		}
-		public override void Execute(){
-			foreach (Card c in location.AllCards())
-			{
-				before.Add(c);
-			}
-			CardGame.Instance.SetDeck(deck,location);
+    public class InitializeAction : GameAction {
+        CardCollection location;
+        CardCollection before;
+        Tree deck;
+        public InitializeAction(CardCollection loc, Tree d) {
+            location = loc;
+            before = new CardListCollection();
+            deck = d;
+        }
+        public override void Execute() {
+            foreach (Card c in location.AllCards())
+            {
+                before.Add(c);
+            }
+            CardGame.Instance.SetDeck(deck, location);
             actual = true;
-		}
-		public override void Undo()
-		{
-			location.Clear();
-			foreach (Card c in before.AllCards())
-			{
-				location.Add(c);
-			}
-		}
-	}
-	public class FancyCardCopyAction : GameAction{
-		FancyCardLocation startLocation;
-		FancyCardLocation endLocation;
+        }
+        public override void Undo()
+        {
+            location.Clear();
+            foreach (Card c in before.AllCards())
+            {
+                location.Add(c);
+            }
+        }
+    }
+    public class FancyCardCopyAction : GameAction {
+        FancyCardLocation startLocation;
+        FancyCardLocation endLocation;
         public FancyCardCopyAction(FancyCardLocation start, FancyCardLocation end) {
             startLocation = start;
             endLocation = end;
             if (endLocation.nonPhysical ||
                 !endLocation.name.Contains("{mem}") ||
                 endLocation.name.Contains("{MAX}") ||
-                endLocation.name.Contains("{MIN}")){
+                endLocation.name.Contains("{MIN}")) {
                 throw new InvalidOperationException(); }
 
         }
-		public override void Execute(){
-			endLocation.Add(startLocation.Get());
+        public override void Execute() {
+            endLocation.Add(startLocation.Get());
             actual = true;
-		}
+        }
 
         public override void Undo()
         {
             throw new NotImplementedException();
         }
     }
-	public class FancyRemoveAction : GameAction{
-		FancyCardLocation endLocation;
-		public FancyRemoveAction(FancyCardLocation end){
-            if (end.name.StartsWith("{mem}")){
+    public class FancyRemoveAction : GameAction {
+        FancyCardLocation endLocation;
+        public FancyRemoveAction(FancyCardLocation end) {
+            if (end.name.StartsWith("{mem}")) {
                 endLocation = end;
             }
-            else{ throw new InvalidOperationException(); }
-		}
-		public override void Execute(){
-			endLocation.Remove();
+            else { throw new InvalidOperationException(); }
+        }
+        public override void Execute() {
+            endLocation.Remove();
             actual = true;
-		}
+        }
 
         public override void Undo()
         {
             throw new NotImplementedException();
         }
-    } 
-	public class IntAction : GameAction{
-		
-		RawStorage bucket;
-		string bucketKey;
-		int value;
-		int oldValue;
+    }
+    public class IntAction : GameAction {
 
-		public IntAction(RawStorage storage, string bKey, int v) {
-			bucket = storage;
-			bucketKey = bKey; 
-			value = v;
-		}
-		public override void Execute(){
-			oldValue = bucket[bucketKey];
-			bucket[bucketKey] = value;
-			complete = true;
+        RawStorage bucket;
+        string bucketKey;
+        int value;
+        int oldValue;
+
+        public IntAction(RawStorage storage, string bKey, int v) {
+            bucket = storage;
+            bucketKey = bKey;
+            value = v;
+        }
+        public override void Execute() {
+            oldValue = bucket[bucketKey];
+            bucket[bucketKey] = value;
+            complete = true;
             if (bucket.owner != null)
             {
                 CardGame.Instance.WriteToFile("S:" + bucket.owner.name + " " + bucketKey + " " + value);
@@ -259,24 +257,24 @@ namespace CardEngine{
             }
             actual = true;
         }
-		public override void Undo() {
-			if (complete)
-			{
-				bucket[bucketKey] = oldValue;
-				complete = false;
-			}
-			else {
-				throw new UnauthorizedAccessException();
-			}
-		}
-	}
+        public override void Undo() {
+            if (complete)
+            {
+                bucket[bucketKey] = oldValue;
+                complete = false;
+            }
+            else {
+                throw new UnauthorizedAccessException();
+            }
+        }
+    }
     public class NextAction : GameAction
     {
         private PlayerCycle playerCycle;
         private int idx;
         private int former;
 
-        public NextAction(PlayerCycle playerCycle, int idx){
+        public NextAction(PlayerCycle playerCycle, int idx) {
             this.playerCycle = playerCycle;
             this.idx = idx;
         }
@@ -296,7 +294,7 @@ namespace CardEngine{
     {
         private int idx;
         private int former;
-        public SetPlayerAction(int idx){
+        public SetPlayerAction(int idx) {
             this.idx = idx;
         }
 
@@ -310,6 +308,26 @@ namespace CardEngine{
         public override void Undo()
         {
             CardGame.Instance.CurrentPlayer().SetPlayer(former);
+        }
+    }
+
+    public class LoopAction : GameAction{
+        public string var;
+        public object item;
+
+        public LoopAction(string v, object item){
+            this.var = v;
+            this.item = item;
+        }
+
+        public override void Execute()
+        {
+            throw new Exception();
+        }
+
+        public override void Undo()
+        {
+            throw new Exception();
         }
     }
 }

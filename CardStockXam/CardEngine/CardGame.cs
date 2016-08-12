@@ -309,7 +309,7 @@ namespace CardEngine
 			}
 			var choice = p.MakeAction(possibles,rand);
 			Console.WriteLine("Choice:" + choice);
-			possibles[choice].Execute();
+			possibles[choice].ExecuteActual();
 			
 		}
 		public GameAction ChangeGameState(string bucket, int value){
@@ -320,7 +320,6 @@ namespace CardEngine
 		}
 		public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
 			var strDescription = SerializeGAC (choices);
-            Console.WriteLine(strDescription);
 			var json = (JObject) JsonConvert.DeserializeObject (strDescription);
             var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(json,rand);
             choices[choice].ExecuteAll();

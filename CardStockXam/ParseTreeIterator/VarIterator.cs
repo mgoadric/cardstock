@@ -141,11 +141,11 @@ namespace ParseTreeIterator
                 Remove(agg.var().GetText());
                 if (All(agg) && post is GameAction){
                     var act = post as GameAction;
-                    act.Execute();
+                    act.ExecuteActual();
                 }
                 else if (post is GameActionCollection){
                     foreach (GameAction act in (post as GameActionCollection)){
-                        act.Execute();
+                        act.ExecuteActual();
                     }
                 }
 
@@ -242,7 +242,7 @@ namespace ParseTreeIterator
             else if (parseTree is RecycleParser.RawstorageContext){
                 return IntIterator.ProcessRawStorage(parseTree as RecycleParser.RawstorageContext);
             }
-            Console.WriteLine(parseTree.GetText());
+            Console.WriteLine("error: Could not parse " + parseTree.GetText());
             throw new NotSupportedException();
         }
 
@@ -296,6 +296,8 @@ namespace ParseTreeIterator
         {
             string text = strcollectionContext.GetText();
             char[] delimiter = { ',' };
+            text = text.Replace("(", string.Empty) ;
+            text = text.Replace(")", string.Empty) ;
             return text.Split(delimiter);
         }
 
