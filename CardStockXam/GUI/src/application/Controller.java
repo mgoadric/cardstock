@@ -290,102 +290,103 @@ public class Controller {
                 if (line.length() > 1) {
                     line = line.split(":")[1];
                 }
-                if (line.split(":")[0].length() == 1) {
-                    if (lineId == 'T') { //Team
-                        String[] players = line.split(" ");
-                        String team = "";
-                        for (int i = 0; i < players.length; i++) {
-                            team += players[i] + " ";
-                        }
-                        RawStorage stor = new RawStorage("CardEngine.RawStorage", "Team", team.trim());
-                        rawInfo.add(stor);
-                    } else if (lineId == 'C') { //Card
-                        String[] parts = line.split("\\|");
-                        Card newCard = getCard(parts, 1);
-                        String loc = parts[parts.length - 1];
-                        if (loc.charAt(0) == 't') {
-                            newTable.addToTable(newCard, loc.substring(1));
-                        } else {
-                            getLocation(loc, newTable).getHand().add(newCard);
-                        }
-                    } else if (lineId == 'M') { //Move
-                        String[] parts = line.split(" ");
-                        Card card = getCard(parts[0], 0);
-                        Location startLoc = getLocation(parts[1], newTable);
-                        Location endLoc = getLocation(parts[2], newTable);
-                        int currTurn = getTurn(currentMoves, nextMoveTurn);
-                        nextMoveTurn = -1;
-                        Move newMove = new Move(card, startLoc, endLoc, currTurn);
-                        currentMoves.add(newMove);
-                    } else if (lineId == 'm') { //Memory storage
-                        String[] parts = line.split("#");
-                        String key = parts[0];
-                        if (key.charAt(0) == 't') {
-                            key = "Table " + key.substring(1);
-                        }
-                        key = key.replace("{mem}", "");
-                        ArrayList<Card> cards = new ArrayList<>();
-                        if (parts.length > 1) {
-                            for (String cardText : parts[1].split(" ")) {
-                                cards.add(getCard(cardText, 0));
-                            }
-                        }
-                        int currTurn = getTurn(currentMoves, nextMoveTurn);
-                        nextMoveTurn = -1;
-                        currentMoves.add(new Move(memoryTable, new Memory(key, cards), currTurn));
-                    } else if (lineId == 'O') { //Ordering
-                        String[] parts = line.split("#");
-                        Location loc = getLocation(parts[0], newTable);
-                        parts = parts[1].split(" ");
-                        ArrayList<Card> cards = new ArrayList<>();
-                        for (int i = 0; i < parts.length; i++) {
-                            cards.add(getCard(parts[i], 0));
-                        }
-                        int currTurn = getTurn(currentMoves, nextMoveTurn);
-                        nextMoveTurn = -1;
-                        currentMoves.add(new Move(loc, cards, currTurn));
-                    } else if (lineId == 'A') { //Assignment
-                        String[] parts = line.split(" ");
-                        newTable.addValueToCards("reward", parts[0], parts[1]);
-                        //TODO, take in specific name of map instead of 'reward'
-                    } else if (lineId == 'S') { //Storage
-                        String[] parts = line.split(" ");
-                        String loc = parts[0];
-                        String key = parts[1];
-                        String value = parts[2];
-                        RawStorage stor = new RawStorage(loc, key, value);
-                        int currTurn = getTurn(currentMoves, nextMoveTurn);
-                        nextMoveTurn = -1;
-                        Move newMove = new Move(infoTable, stor, currTurn);
-                        currentMoves.add(newMove);
-                    } else if (lineId == 't') { //current player (turn)
-                        nextMoveTurn = Character.getNumericValue(line.charAt(1));
-                    } else if (lineId == 's') { //Score
-                        String[] parts = line.split(" ");
-                        String score = parts[0];
-                        String playerNum = parts[1];
-                        RawStorage stor = new RawStorage("Player " + playerNum, score, "");
-                        int currTurn = getTurn(currentMoves, nextMoveTurn);
-                        nextMoveTurn = -1;
-                        Move newMove = new Move(infoTable, stor, currTurn);
-                        currentMoves.add(newMove);
-                    } else if (lineId == 'E') { //Error
-                        error(line);
-                    } else if (lineId == '|') { //End of game
-                        result.add(new Game(numPlayers, newTable, rawInfo, cardLocs, currentMoves));
-                        cardLocs = new ArrayList<>();
-                        newTable = setupTable();
-                        currentMoves = new ArrayList<>();
-                        rawInfo = FXCollections.observableArrayList();
-                        numGamesRead++;
-                        nextMoveTurn = -1;
-                        if (numGamesRead % 10 == 0) {
-                            errorField.setText("Parsing.. " + numGamesRead + " games read");
-                        }
-                    } else {
-                        error("Could not read line " + lineNum + " " + line);
+                if (lineId == 'T') { //Team
+                    String[] players = line.split(" ");
+                    String team = "";
+                    for (int i = 0; i < players.length; i++) {
+                        team += players[i] + " ";
                     }
+                    RawStorage stor = new RawStorage("CardEngine.RawStorage", "Team", team.trim());
+                    rawInfo.add(stor);
+                } else if (lineId == 'C') { //Card
+                    String[] parts = line.split("\\|");
+                    Card newCard = getCard(parts, 1);
+                    String loc = parts[parts.length - 1];
+                    if (loc.charAt(0) == 't') {
+                        newTable.addToTable(newCard, loc.substring(1));
+                    } else {
+                        getLocation(loc, newTable).getHand().add(newCard);
+                    }
+                } else if (lineId == 'M') { //Move
+                    String[] parts = line.split(" ");
+                    Card card = getCard(parts[0], 0);
+                    Location startLoc = getLocation(parts[1], newTable);
+                    Location endLoc = getLocation(parts[2], newTable);
+                    int currTurn = getTurn(currentMoves, nextMoveTurn);
+                    nextMoveTurn = -1;
+                    Move newMove = new Move(card, startLoc, endLoc, currTurn);
+                    currentMoves.add(newMove);
+                } else if (lineId == 'm') { //Memory storage
+                    String[] parts = line.split("#");
+                    String key = parts[0];
+                    if (key.charAt(0) == 't') {
+                        key = "Table " + key.substring(1);
+                    }
+                    key = key.replace("{mem}", "");
+                    ArrayList<Card> cards = new ArrayList<>();
+                    if (parts.length > 1) {
+                        for (String cardText : parts[1].split(" ")) {
+                            cards.add(getCard(cardText, 0));
+                        }
+                    }
+                    int currTurn = getTurn(currentMoves, nextMoveTurn);
+                    nextMoveTurn = -1;
+                    currentMoves.add(new Move(memoryTable, new Memory(key, cards), currTurn));
+                } else if (lineId == 'O') { //Ordering
+                    String[] parts = line.split("#");
+                    Location loc = getLocation(parts[0], newTable);
+                    parts = parts[1].split(" ");
+                    ArrayList<Card> cards = new ArrayList<>();
+                    for (int i = 0; i < parts.length; i++) {
+                        cards.add(getCard(parts[i], 0));
+                    }
+                    int currTurn = getTurn(currentMoves, nextMoveTurn);
+                    nextMoveTurn = -1;
+                    currentMoves.add(new Move(loc, cards, currTurn));
+                } else if (lineId == 'A') { //Assignment
+                    String[] parts = line.split(" ");
+                    newTable.addValueToCards("reward", parts[0], parts[1]);
+                    //TODO, take in specific name of map instead of 'reward'
+                } else if (lineId == 'S') { //Storage
+                    String[] parts = line.split(" ");
+                    String loc = parts[0];
+                    String key = parts[1];
+                    String value = parts[2];
+                    RawStorage stor = new RawStorage(loc, key, value);
+                    int currTurn = getTurn(currentMoves, nextMoveTurn);
+                    nextMoveTurn = -1;
+                    Move newMove = new Move(infoTable, stor, currTurn);
+                    currentMoves.add(newMove);
+                } else if (lineId == 't') { //current player (turn)
+                    nextMoveTurn = Character.getNumericValue(line.charAt(1));
+                } else if (lineId == 's') { //Score
+                    String[] parts = line.split(" ");
+                    String score = parts[0];
+                    String playerNum = parts[1];
+                    RawStorage stor = new RawStorage("Player " + playerNum, score, "");
+                    int currTurn = getTurn(currentMoves, nextMoveTurn);
+                    nextMoveTurn = -1;
+                    Move newMove = new Move(infoTable, stor, currTurn);
+                    currentMoves.add(newMove);
+                } else if (lineId == 'N') {//Temporary move
+                    //pass
+                } else if (lineId == 'E') { //Error
+                    error(line);
+                } else if (lineId == '|') { //End of game
+                    result.add(new Game(numPlayers, newTable, rawInfo, cardLocs, currentMoves));
+                    cardLocs = new ArrayList<>();
+                    newTable = setupTable();
+                    currentMoves = new ArrayList<>();
+                    rawInfo = FXCollections.observableArrayList();
+                    numGamesRead++;
+                    nextMoveTurn = -1;
+                    if (numGamesRead % 10 == 0) {
+                        errorField.setText("Parsing.. " + numGamesRead + " games read");
+                    }
+                } else {
+                    error("Could not read line " + lineNum + " " + line);
                 }
+
             }
         }
         catch(Exception ex) {

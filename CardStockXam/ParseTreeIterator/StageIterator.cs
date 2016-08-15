@@ -98,13 +98,13 @@ namespace ParseTreeIterator
             stackTrees.Push(stackTree);
             var stackAct = new Stack<GameAction>();
             while (stackTrees.Count != 0) {
-                CardGame.Instance.WriteToFile("prepop: " + stackTrees.Count.ToString());
+                //CardGame.Instance.WriteToFile("prepop: " + stackTrees.Count.ToString());
                 stackTree = stackTrees.Pop();
-                CardGame.Instance.WriteToFile("postpop: " + stackTrees.Count.ToString());
-                foreach (var stack in stackTrees){
-                    CardGame.Instance.WriteToFile(stack.ToString());
-                    CardGame.Instance.WriteToFile("\n");
-                }
+                //CardGame.Instance.WriteToFile("postpop: " + stackTrees.Count.ToString());
+                //foreach (var stack in stackTrees){
+                //    CardGame.Instance.WriteToFile(stack.ToString());
+                //    CardGame.Instance.WriteToFile("\n");
+                //}
                 while (stackTree.Count() != 0) {
                     var current = stackTree.Pop();
                     if (current is RecycleParser.CondactContext) {
@@ -137,23 +137,22 @@ namespace ParseTreeIterator
                         var collection = VarIterator.ProcessCollection(agg.collection());
                         if (agg.GetChild(1).GetText() == "any"){
                             bool first = true;
+                            object firstItem = null;
+
                             stackTree.Push(current.GetChild(4));
                             foreach (object item in collection){
-                                CardGame.Instance.WriteToFile("item: " + item.ToString());
-                                stackAct.Push(new LoopAction(agg.var().GetText(), item));
                                 if (first){
-                                    VarIterator.Put(agg.var().GetText(), item);
+                                    firstItem = item;
+                                    VarIterator.Put(agg.var().GetText(), firstItem);
                                     first = false;
                                 }
                                 else{
-                                    CardGame.Instance.WriteToFile(item.ToString());
-                                    CardGame.Instance.WriteToFile(stackTrees.Count.ToString());
-                                    var newtree = new IteratingTree(stackTree.trees);
-                                    CardGame.Instance.WriteToFile(newtree.ToString());
+                                    var newtree = stackTree.Copy();
                                     stackTrees.Push(newtree);
-                                    CardGame.Instance.WriteToFile(stackTrees.Count.ToString());
+                                    stackAct.Push(new LoopAction(agg.var().GetText(), item));
                                 }
                             }
+                            stackAct.Push(new LoopAction(agg.var().GetText(), firstItem));
                         }
                         else { //all
                             foreach (object item in collection){
@@ -183,6 +182,7 @@ namespace ParseTreeIterator
                     }
                 }
                 coll.Reverse();
+                if (coll.Count > 0) { all.Add(coll); }
                 while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction)) {
                    stackAct.Pop().Undo();
                 }
@@ -197,7 +197,6 @@ namespace ParseTreeIterator
                     var loop = stackAct.Peek() as LoopAction;
                     VarIterator.Put(loop.var, loop.item);
                 }
-                if (coll.Count > 0) { all.Add(coll); }
             }
             return all;
         }

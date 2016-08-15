@@ -66,7 +66,7 @@ namespace CardEngine {
                 if (startLocation.Count() != 0) {
                     Card cardToMove = startLocation.Remove();
                     var prefix = "M:";
-                    if (!actual) { prefix = "TM:"; }
+                    if (!actual) { prefix = "N:"; }
                     if (cardToMove.owner != null) {
                         CardGame.Instance.WriteToFile(prefix + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
                     }

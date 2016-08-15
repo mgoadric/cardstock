@@ -14,9 +14,8 @@ namespace CardStockXam.CardEngine
 
         public IteratingTree(){
             trees = new Stack<IParseTree>();
-        }
-        public IteratingTree (Stack<IParseTree> trees){
-            this.trees = trees;
+            vars = new List<String>();
+            objects = new List<object>();
         }
 
         public void AddVar(String k, Object v){
@@ -25,10 +24,10 @@ namespace CardStockXam.CardEngine
         }
 
         public IteratingTree Copy(){
-            Console.WriteLine(ToString());
-            return new IteratingTree(trees){
-                vars = vars,
-                objects = objects
+            return new IteratingTree() {
+                trees = new Stack<IParseTree>(trees),
+                vars = new List<String>(vars),
+                objects = new List<object>(objects)
             };
         }
 
