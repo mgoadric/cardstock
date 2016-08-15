@@ -23,20 +23,19 @@ namespace CardEngine{
 		public int Count(){
 			return cardList.Count;
 		}
-		public Card Get(){
-            var temp = cardList;		
+		public Card Get(){	
 			if (locIdentifier == "top"){
-				return temp.Peek();
+				return cardList.Peek();
 			}
 			else if (locIdentifier == "bottom"){
-				return temp.AllCards().GetEnumerator().Current;
+				return cardList.AllCards().GetEnumerator().Current;
 			}
             else if (locIdentifier == "-1"){
                 Console.WriteLine(name);
                 throw new NotSupportedException();
             }
             else{
-                return temp.Get(Int32.Parse(locIdentifier));
+                return cardList.Get(Int32.Parse(locIdentifier));
             }
 		}
 		public Card Remove(){

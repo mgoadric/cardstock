@@ -40,9 +40,9 @@
            (move (top ((current player) iloc HAND)) (top (game vloc DISCARD)))
            (any 'PLOCS 'L
 		      (do (
+			     (move (top ((current player) hloc 'L))   (top (game vloc DISCARD)))
                  (move (top ((current player) iloc HAND)) (top ((current player) hloc 'L)))
-			     (move (bottom ((current player) hloc 'L)) (top (game vloc DISCARD)))
-			  ))	 
+			  ))
 		   )
         ))
     )

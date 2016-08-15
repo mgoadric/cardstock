@@ -98,81 +98,87 @@ namespace ParseTreeIterator
             stackTrees.Push(stackTree);
             var stackAct = new Stack<GameAction>();
             while (stackTrees.Count != 0) {
-                //CardGame.Instance.WriteToFile("prepop: " + stackTrees.Count.ToString());
                 stackTree = stackTrees.Pop();
-                //CardGame.Instance.WriteToFile("postpop: " + stackTrees.Count.ToString());
-                //foreach (var stack in stackTrees){
-                //    CardGame.Instance.WriteToFile(stack.ToString());
-                //    CardGame.Instance.WriteToFile("\n");
-                //}
                 while (stackTree.Count() != 0) {
                     var current = stackTree.Pop();
-                    if (current is RecycleParser.CondactContext) {
-                        var condact = current as RecycleParser.CondactContext;
-                        if (condact.boolean() == null || BooleanIterator.ProcessBoolean(condact.boolean())) {
-                            if (condact.action() != null) {
-                                stackTree.Push(condact.action());
-                            }
-                            if (condact.multiaction2() != null) {
-                                stackTree.Push(condact.multiaction2());
-                            }
-                        }
-                    }
-                    else if (current is RecycleParser.Multiaction2Context) {
-                        var multi = current as RecycleParser.Multiaction2Context;
-                        if (multi.agg() != null) {
-                            stackTree.Push(multi.agg());
-                        }
-                        else if (multi.let() != null) {
-                            stackTree.Push(multi.let());
-                        }
-                        else {//do
-                            for (int i = multi.condact().Length - 1; i >= 0; i--) {
-                                stackTree.Push(multi.condact()[i]);
-                            }
-                        }
-                    }
-                    else if (current is RecycleParser.AggContext) {
-                        var agg = current as RecycleParser.AggContext;
-                        var collection = VarIterator.ProcessCollection(agg.collection());
-                        if (agg.GetChild(1).GetText() == "any"){
-                            bool first = true;
-                            object firstItem = null;
-
-                            stackTree.Push(current.GetChild(4));
-                            foreach (object item in collection){
-                                if (first){
-                                    firstItem = item;
-                                    VarIterator.Put(agg.var().GetText(), firstItem);
-                                    first = false;
+                    if (current.tree != null) {
+                        var currentTree = current.tree;
+                        if (currentTree is RecycleParser.CondactContext) {
+                            var condact = currentTree as RecycleParser.CondactContext;
+                            if (condact.boolean() == null || BooleanIterator.ProcessBoolean(condact.boolean())) {
+                                if (condact.action() != null) {
+                                    stackTree.Push(condact.action());
                                 }
-                                else{
-                                    var newtree = stackTree.Copy();
-                                    stackTrees.Push(newtree);
-                                    stackAct.Push(new LoopAction(agg.var().GetText(), item));
+                                if (condact.multiaction2() != null) {
+                                    stackTree.Push(condact.multiaction2());
                                 }
                             }
-                            stackAct.Push(new LoopAction(agg.var().GetText(), firstItem));
                         }
-                        else { //all
-                            foreach (object item in collection){
-                                stackTree.Push(current.GetChild(4));
-                                //need to put and remove var contexts at right times?
+                        else if (currentTree is RecycleParser.Multiaction2Context) {
+                            var multi = currentTree as RecycleParser.Multiaction2Context;
+                            if (multi.agg() != null) {
+                                stackTree.Push(multi.agg());
+                            }
+                            else if (multi.let() != null) {
+                                stackTree.Push(multi.let());
+                            }
+                            else {//do
+                                for (int i = multi.condact().Length - 1; i >= 0; i--) {
+                                    stackTree.Push(multi.condact()[i]);
+                                }
                             }
                         }
-                    }
-                    else if (current is RecycleParser.LetContext) {
+                        else if (currentTree is RecycleParser.AggContext) {
+                            var agg = currentTree as RecycleParser.AggContext;
+                            var collection = VarIterator.ProcessCollection(agg.collection());
+                            if (agg.GetChild(1).GetText() == "any") {
+                                bool first = true;
+                                object firstItem = null;
 
-                    }
-                    else if (current is RecycleParser.ActionContext){
-                        var actions = ActionIterator.ProcessAction(current as RecycleParser.ActionContext);
-                        foreach (GameAction action in actions){
-                            stackAct.Push(action);
-                            action.TempExecute();
+                                stackTree.Push(currentTree.GetChild(4));
+                                foreach (object item in collection) {
+                                    if (first) {
+                                        firstItem = item;
+                                        VarIterator.Put(agg.var().GetText(), firstItem);
+                                        first = false;
+                                    }
+                                    else {
+                                        var newtree = stackTree.Copy();
+                                        stackTrees.Push(newtree);
+                                        stackAct.Push(new LoopAction(agg.var().GetText(), item));
+                                    }
+                                }
+                                stackAct.Push(new LoopAction(agg.var().GetText(), firstItem));
+                            }
+                            else { //all
+                                foreach (object item in collection) {
+                                    currentTree.GetChild(4)
+                                    stackTree.Push(currentTree.GetChild(4));
+
+                                    //need to put and remove var contexts at right times?
+                                }
+                            }
+                        }
+                        else if (currentTree is RecycleParser.LetContext) {
+
+                        }
+                        else if (currentTree is RecycleParser.ActionContext) {
+                            var actions = ActionIterator.ProcessAction(currentTree as RecycleParser.ActionContext);
+                            foreach (GameAction action in actions) {
+                                stackAct.Push(action);
+                                action.TempExecute();
+                            }
+                        }
+                        else {
+                            Console.WriteLine("failed to parse type " + current.GetType());
                         }
                     }
-                    else {
-                        Console.WriteLine("failed to parse type " + current.GetType());
+                    else{
+                        if (current.start){
+                            VarIterator.Put(current.varContext, current.item);
+                        } else{
+                            VarIterator.Remove(current.varContext);
+                        }
                     }
                 }
                 var coll = new GameActionCollection();

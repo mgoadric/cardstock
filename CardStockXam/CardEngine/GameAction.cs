@@ -85,6 +85,7 @@ namespace CardEngine {
             }
             catch
             {
+                Console.WriteLine(startLocation.name);
                 foreach (var card in startLocation.cardList.AllCards())
                 {
                     Console.WriteLine(card);
