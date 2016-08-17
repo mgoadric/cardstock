@@ -125,6 +125,7 @@ public class Cards {
         nameField = new TextField();
         nameField.setPrefWidth(150);
         nameField.setPrefHeight(40);
+        nameField.setEditable(false);
         updateName();
     }
 

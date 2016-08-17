@@ -108,8 +108,6 @@ namespace CardEngine
 							if (!loc.StartsWith ("{mem}")) {
 								toAdd.owner = temp.players [p].cardBins [loc];
 								free.Remove (cardIdxs [card]);
-							} else {
-								//Console.WriteLine (loc);
 							}
 						}
 					}
@@ -124,8 +122,6 @@ namespace CardEngine
 						temp.tableCards [bin].Add (toAdd);
 						if (!bin.StartsWith ("{mem}")) {
 							free.Remove (cardIdxs [card]);
-						} else {
-							//Console.WriteLine (bin);
 						}
 					}
 				}
@@ -289,7 +285,6 @@ namespace CardEngine
 			}
 			j.Append ("]");
 			j.Append("}");
-			//Console.WriteLine (j.ToString ());
 			return (JObject) JsonConvert.DeserializeObject (j.ToString ());
 		}
 		public void SetValue(int idx, int value){
@@ -344,7 +339,6 @@ namespace CardEngine
 			var temp = numberOfChoices;
 			while (temp > 0){
 				var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices,rand);
-				//Console.WriteLine(choice);
 				choices[choice].ExecuteAll();
 				choices.RemoveAt(choice);
 				--temp;

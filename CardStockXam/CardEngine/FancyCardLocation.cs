@@ -16,6 +16,9 @@ namespace CardEngine{
 			else if (locIdentifier == "bottom"){
 				cardList.AddBottom(c);
 			}
+            else if (locIdentifier == "-1"){
+                cardList.Add(c);
+            }
             else{
                 cardList.Add(c, Int32.Parse(locIdentifier));
             }
@@ -31,8 +34,9 @@ namespace CardEngine{
 				return cardList.AllCards().GetEnumerator().Current;
 			}
             else if (locIdentifier == "-1"){
-                Console.WriteLine(name);
-                throw new NotSupportedException();
+                //Console.WriteLine(name);
+                //throw new NotSupportedException();
+                return cardList.Peek();
             }
             else{
                 return cardList.Get(Int32.Parse(locIdentifier));

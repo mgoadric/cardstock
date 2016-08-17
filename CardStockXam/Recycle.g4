@@ -14,7 +14,7 @@ multiaction : OPEN 'choice' OPEN (condact)+? CLOSE CLOSE | OPEN 'do' OPEN (conda
 multiaction2 : OPEN 'do' OPEN (condact)+? CLOSE CLOSE | agg | let ;
 condact : OPEN boolean multiaction2 CLOSE | multiaction2 | OPEN boolean action CLOSE | action ;
 
-agg : OPEN ('any' | 'all') collection var (multiaction2 | action | boolean | cstorage | rawstorage) CLOSE ;
+agg : OPEN ('any' | 'all') collection var (condact | boolean | cstorage | rawstorage) CLOSE ;
 let : OPEN 'let' typed var (multiaction2 | action | condact) CLOSE ;
 declare : OPEN 'declare' typed var CLOSE ;
 

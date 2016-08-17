@@ -34,16 +34,17 @@ namespace ParseTreeIterator
                 Debug.WriteLine("MAX:" + maxCard);
                 var lst = new CardListCollection();
                 lst.Add(maxCard);
-                return new FancyCardLocation
+                var fancy = new FancyCardLocation
                 {
                     cardList = lst,
                     locIdentifier = "top",
                     name=coll.name + "{MAX}"
                 };
+                fancy.cardList.loc = fancy;
+                return fancy;
             }
 
-            if (card.minof() != null)
-            {
+            if (card.minof() != null){
                 var scoring = CardGame.Instance.points[card.minof().var().GetText()];
                 var coll = ProcessLocation(card.minof().cstorage());
                 var min = Int32.MaxValue;
@@ -61,16 +62,17 @@ namespace ParseTreeIterator
                 Debug.WriteLine("MIN:" + minCard);
                 var lst = new CardListCollection();
                 lst.Add(minCard);
-                return new FancyCardLocation
+                var fancy =  new FancyCardLocation
                 {
                     cardList = lst,
                     locIdentifier = "top",
                     name=coll.name + "{MIN}"
                 };
+                fancy.cardList.loc = fancy;
+                return fancy;
             }
 
-            if (card.var() != null)
-            {
+            if (card.var() != null){
                 return VarIterator.ProcessCardVar(card.var());
             }
             if (card.actual() != null){
@@ -82,11 +84,13 @@ namespace ParseTreeIterator
             else if (card.cstorage() != null){//cstorage
                 var loc = ProcessLocation(card.cstorage());
                 //TODO writetofile?
-                return new FancyCardLocation {
+                var fancy = new FancyCardLocation {
                     cardList = loc.cardList,
                     locIdentifier = card.GetChild(1).GetText(),
                     name = loc.name
                 };
+                fancy.cardList.loc = fancy;
+                return fancy;
             }
             throw new NotSupportedException();
         }
@@ -156,12 +160,14 @@ namespace ParseTreeIterator
                     }
                     name.Remove(name.Length - 1);
                 }
-                return new FancyCardLocation
+                var fancy = new FancyCardLocation
                 {
                     cardList = temp,
                     nonPhysical = true,
                     name = name + "{UNION}"
                 };
+                fancy.cardList.loc = fancy;
+                return fancy;
             }
             else if (loc.filter() != null)
             {
@@ -187,7 +193,7 @@ namespace ParseTreeIterator
                 }
             }
             else if (loc.var() != null){
-                return VarIterator.ProcessLocVar(loc.var());
+                return VarIterator.ProcessCardVar(loc.var());
             }
             throw new NotSupportedException();
         }
@@ -213,6 +219,7 @@ namespace ParseTreeIterator
                         nonPhysical = true,
                         name = "{mem}" + memset.tuple().var().GetText() + "{p" + i + "}"
                     };
+                    returnList[i].cardList.loc = returnList[i];
                 }
                 return returnList;
             }
@@ -241,19 +248,25 @@ namespace ParseTreeIterator
             
             if (stor.locpre().GetText() == "game"){
                 if (stor.namegr() != null){
-                    return new FancyCardLocation
+                    var fancy = new FancyCardLocation
                     {
                         cardList = CardGame.Instance.tableCards[prefix + stor.namegr().GetText()],
+                        locIdentifier = "top",
                         name = "t" + prefix + stor.namegr().GetText()
                     };
+                    fancy.cardList.loc = fancy;
+                    return fancy;
                 }
                 else{
                     var name = VarIterator.ProcessStringVar(stor.var());
-                    return new FancyCardLocation
+                    var fancy = new FancyCardLocation
                     {
                         cardList = CardGame.Instance.tableCards[prefix + name],
+                        locIdentifier = "top",
                         name = "t" + prefix + stor.namegr().GetText()
                     };
+                    fancy.cardList.loc = fancy;
+                    return fancy;
                 }
             }
             if (stor.locpre().whop() != null){
@@ -264,19 +277,23 @@ namespace ParseTreeIterator
             }
             if (stor.namegr() != null)
             {
-                return new FancyCardLocation
+                var fancy = new FancyCardLocation
                 {
                     cardList = player.cardBins[ prefix + stor.namegr().GetText()],
                     name = player.name + prefix + stor.namegr().GetText()
                 };
+                fancy.cardList.loc = fancy;
+                return fancy;
             }
             else{
                 var name = VarIterator.ProcessStringVar(stor.var());
-                return new FancyCardLocation
+                var fancy = new FancyCardLocation
                 {
                     cardList = player.cardBins[prefix + name],
                     name = player.name + prefix + name
                 };
+                fancy.cardList.loc = fancy;
+                return fancy;
             }
         }
         public static string ProcessEitherCardatt(IParseTree att)
@@ -309,16 +326,15 @@ namespace ParseTreeIterator
         }
         public static object ProcessWho(RecycleParser.WhoContext who)
         {
-            if (who.whop() == null){
+            if (who.whop() != null){
                 return ProcessWhop(who.whop());
             }
-            else if (who.whot() == null){
+            else if (who.whot() != null){
                 return ProcessWhot(who.whot());
             }
             return null;
         }
-        public static Player ProcessWhop(RecycleParser.WhopContext who)
-        {
+        public static Player ProcessWhop(RecycleParser.WhopContext who){
             if (who.owner() != null) {
                 var loc = ProcessCard(who.owner().card());
                 return loc.Get().owner.container.owner;
@@ -343,8 +359,7 @@ namespace ParseTreeIterator
             }
             return null;
         }
-        public static Team ProcessWhot(RecycleParser.WhotContext who)
-        {
+        public static Team ProcessWhot(RecycleParser.WhotContext who){
             if (who.teamp() != null){
                 return ProcessWhop(who.teamp().whop()).team;
             }

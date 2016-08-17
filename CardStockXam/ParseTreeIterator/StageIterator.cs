@@ -132,35 +132,40 @@ namespace ParseTreeIterator
                             var agg = currentTree as RecycleParser.AggContext;
                             var collection = VarIterator.ProcessCollection(agg.collection());
                             if (agg.GetChild(1).GetText() == "any") {
-                                bool first = true;
-                                object firstItem = null;
+                                if (collection.ToList().Count > 0){
+                                    bool first = true;
+                                    object firstItem = null;
 
-                                stackTree.Push(currentTree.GetChild(4));
-                                foreach (object item in collection) {
-                                    if (first) {
-                                        firstItem = item;
-                                        VarIterator.Put(agg.var().GetText(), firstItem);
-                                        first = false;
+                                    stackTree.Push(currentTree.GetChild(4));
+                                    foreach (object item in collection){
+                                        if (first){
+                                            firstItem = item;
+                                            VarIterator.Put(agg.var().GetText(), firstItem);
+                                            first = false;
+                                        }
+                                        else{
+                                            var newtree = stackTree.Copy();
+                                            stackTrees.Push(newtree);
+                                            stackAct.Push(new LoopAction(agg.var().GetText(), item));
+                                        }
                                     }
-                                    else {
-                                        var newtree = stackTree.Copy();
-                                        stackTrees.Push(newtree);
-                                        stackAct.Push(new LoopAction(agg.var().GetText(), item));
-                                    }
+                                    stackAct.Push(new LoopAction(agg.var().GetText(), firstItem));
                                 }
-                                stackAct.Push(new LoopAction(agg.var().GetText(), firstItem));
                             }
                             else { //all
                                 foreach (object item in collection) {
-                                    currentTree.GetChild(4)
+                                    stackTree.Push(agg.var().GetText());
                                     stackTree.Push(currentTree.GetChild(4));
-
-                                    //need to put and remove var contexts at right times?
+                                    stackTree.Push(agg.var().GetText(), item);
                                 }
                             }
                         }
                         else if (currentTree is RecycleParser.LetContext) {
-
+                            var let = currentTree as RecycleParser.LetContext;
+                            var item = VarIterator.ProcessTyped(let.typed());
+                            stackTree.Push(let.var().GetText());
+                            stackTree.Push(currentTree.GetChild(4));
+                            stackTree.Push(let.var().GetText(), item);
                         }
                         else if (currentTree is RecycleParser.ActionContext) {
                             var actions = ActionIterator.ProcessAction(currentTree as RecycleParser.ActionContext);
@@ -173,8 +178,8 @@ namespace ParseTreeIterator
                             Console.WriteLine("failed to parse type " + current.GetType());
                         }
                     }
-                    else{
-                        if (current.start){
+                    else{//var context
+                        if (current.item != null){
                             VarIterator.Put(current.varContext, current.item);
                         } else{
                             VarIterator.Remove(current.varContext);

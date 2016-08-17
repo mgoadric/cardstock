@@ -207,16 +207,19 @@ namespace CardEngine {
 
         public override void Undo()
         {
-            throw new NotImplementedException();
+            endLocation.Remove();
         }
     }
     public class FancyRemoveAction : GameAction {
         FancyCardLocation endLocation;
         public FancyRemoveAction(FancyCardLocation end) {
-            if (end.name.StartsWith("{mem}")) {
+            if (end.name.Contains("{mem}")) {
                 endLocation = end;
             }
-            else { throw new InvalidOperationException(); }
+            else {
+                Console.WriteLine(end.name);
+                throw new InvalidOperationException();
+            }
         }
         public override void Execute() {
             endLocation.Remove();

@@ -43,15 +43,16 @@ namespace ParseTreeIterator
                 if (BooleanIterator.ProcessBoolean(filter.boolean())){
                     cList.Add(card);
                 }
-
                 Remove(filter.var().GetText());
             }
-            return new FancyCardLocation
+            var fancy = new FancyCardLocation
             {
                 cardList = cList,
                 nonPhysical = true,
                 name = stor.name + "{filter}"
             };
+            fancy.cardList.loc = fancy;
+            return fancy;
         }
 
         public static object ProcessAgg(RecycleParser.AggContext agg){
@@ -310,26 +311,21 @@ namespace ParseTreeIterator
             return (int) temp;
         }
 
-        internal static List<Node> ProcessAttrVar(RecycleParser.VarContext attr)
-        {
-            return Get(attr) as List<Node>;
-        }
-
-        public static FancyCardLocation ProcessCardVar(RecycleParser.VarContext card)
-        {
-            var ret = Get(card) as FancyCardLocation;
-            if (ret.locIdentifier != "-1"){
-                return ret;
-            }
-            return null;
-        }
-        public static FancyCardLocation ProcessLocVar(RecycleParser.VarContext card)
-        {
-            var ret = Get(card) as FancyCardLocation;
-            if (ret.locIdentifier == "-1")
+        public static FancyCardLocation ProcessCardVar(RecycleParser.VarContext card){
+            var ret = Get(card);
+            if (ret is FancyCardLocation)
             {
-                return ret;
+                var loc = ret as FancyCardLocation;
+                if (loc.locIdentifier != "-1")
+                {
+                    return loc;
+                }
             }
+            else if (ret is Card){
+                var c = ret as Card;
+                return c.owner.loc;
+            }
+            Console.WriteLine("error, type is " + ret.GetType());
             return null;
         }
         public static string ProcessStringVar(RecycleParser.VarContext var)

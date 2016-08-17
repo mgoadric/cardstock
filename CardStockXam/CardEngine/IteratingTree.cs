@@ -20,9 +20,13 @@ namespace CardStockXam.CardEngine
         public void Push(IParseTree tree){
             trees.Push(new IterItem(tree));
         }
-        
-        public void Push(string k, object v, bool b){
-            trees.Push(new IterItem(k, v, b));
+
+        public void Push(string k){
+            trees.Push(new IterItem(k));
+        }
+
+        public void Push(string k, object v){
+            trees.Push(new IterItem(k, v));
         }
 
         public IterItem Pop(){

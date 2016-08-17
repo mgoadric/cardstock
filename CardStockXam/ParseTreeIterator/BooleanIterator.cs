@@ -102,7 +102,7 @@ namespace ParseTreeIterator
             }
             throw new NotSupportedException();
 		}
-		public static  string ProcessAtt(RecycleParser.CardattContext cAtt){
+		public static string ProcessAtt(RecycleParser.CardattContext cAtt){
 			if (cAtt.ChildCount == 1){
                 if (cAtt.namegr() != null){
                     return cAtt.GetText();
@@ -111,16 +111,20 @@ namespace ParseTreeIterator
                     return VarIterator.ProcessStringVar(cAtt.var());
                 }
 			}
-			else{//We're ignoring 'each' here, not iterating over a deck
-				var card = CardIterator.ProcessCard(cAtt.card());
-                if (cAtt.namegr() != null) {
-                    return card.Get().ReadAttribute(cAtt.namegr().GetText());
-                }
-                else{
-                    var temp = VarIterator.ProcessStringVar(cAtt.var());
-                    return card.Get().ReadAttribute(temp);
+			else{
+				var loc = CardIterator.ProcessCard(cAtt.card());
+                if (loc.cardList.Count > 0){
+                    var card = loc.Get();
+                    if (cAtt.namegr() != null){
+                        return card.ReadAttribute(cAtt.namegr().GetText());
+                    }
+                    else{
+                        var temp = VarIterator.ProcessStringVar(cAtt.var());
+                        return card.ReadAttribute(temp);
+                    }
                 }		
 			}
+            return "";
 		}
 		
 	}

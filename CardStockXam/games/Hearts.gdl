@@ -21,7 +21,7 @@
                                                          (top (game mem TRUMP)))
          (put points 'SCORE (
                                ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 1)
-                               ((RANK (Q)) (SUIT (spades)) 13)
+                               ((RANK (Q)) (SUIT (SPADES)) 13)
                                ))
          (shuffle (game iloc STOCK))
          (all player 'P

@@ -6,18 +6,19 @@ namespace CardStockXam.CardEngine
 {
     class IterItem{
         public IParseTree tree;
-        public bool start;
         public string varContext;
         public object item;
 
         public IterItem(IParseTree tree){
             this.tree = tree;
         }
-
-        public IterItem(string k, object v, bool b){
+        public IterItem(string k)
+        {
+            varContext = k;
+        }
+        public IterItem(string k, object v){
             varContext = k;
             item = v;
-            start = b;
         }
     }
 }

@@ -62,7 +62,9 @@ namespace CardEngine{
 		}
 	}
 	public abstract class CardCollection{
-		public abstract IEnumerable<Card> AllCards();
+        public string name = "undefined";
+        public FancyCardLocation loc;
+        public abstract IEnumerable<Card> AllCards();
 		public abstract void AddBottom(Card c);
 		public abstract void Add(Card c);
         public abstract void Add(Card c, int idx);
@@ -75,7 +77,6 @@ namespace CardEngine{
 		public abstract int Count {get;}
 		public abstract void Shuffle();
 		public CardStorage container {get; set;}
-        public string name = "undefined";
         public abstract override string ToString();
 		public void Shuffle(List<Card> list)  
 		{  
