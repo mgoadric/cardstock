@@ -14,6 +14,7 @@ namespace ParseTreeIterator
 	public class CardActionIterator{
         public static GameAction ProcessCopy(RecycleParser.CopyactionContext copy) {
             var cardOne = CardIterator.ProcessCard(copy.GetChild(1) as RecycleParser.CardContext);
+            if (cardOne.Count() == 0) { return null; }
             var cardTwo = CardIterator.ProcessCard(copy.GetChild(2) as RecycleParser.CardContext);
             return new FancyCardCopyAction(cardOne, cardTwo);
         }

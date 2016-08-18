@@ -195,13 +195,16 @@ namespace CardEngine {
             endLocation = end;
             if (endLocation.nonPhysical ||
                 !endLocation.name.Contains("{mem}") ||
-                endLocation.name.Contains("{MAX}") ||
+                endLocation.name.Contains("{MAX}")  ||
                 endLocation.name.Contains("{MIN}")) {
                 throw new InvalidOperationException(); }
 
         }
         public override void Execute() {
+            Console.WriteLine("before " + endLocation.cardList.Count);
             endLocation.Add(startLocation.Get());
+            Console.WriteLine(endLocation.cardList.Count);
+            CardGame.Instance.WriteToFile("m:" + endLocation.ToString());
             actual = true;
         }
 

@@ -49,8 +49,9 @@ namespace ParseTreeIterator
             }
             else if (actionNode.copyaction() != null) {
                 Debug.WriteLine("REMEMBER: '" + actionNode.GetText() + "'");
-                var copy = actionNode.copyaction();
-                ret.Add(CardActionIterator.ProcessCopy(copy));
+                var copy = CardActionIterator.ProcessCopy(actionNode.copyaction());
+                if (copy != null) { ret.Add(copy); }
+                else { Console.WriteLine("copying from empty, " + actionNode.copyaction().GetText()); }
             }
             else if (actionNode.removeaction() != null) {
                 Debug.WriteLine("FORGET: '" + actionNode.GetText() + "'");
@@ -145,8 +146,7 @@ namespace ParseTreeIterator
 
         public static void ProcessDo(RecycleParser.CondactContext[] condact){
             foreach (RecycleParser.CondactContext cond in condact){
-                if (cond.boolean() == null){ DoAction(cond); }
-                else if (BooleanIterator.ProcessBoolean(cond.boolean())) { DoAction(cond); }
+                if (cond.boolean() == null || BooleanIterator.ProcessBoolean(cond.boolean())) { DoAction(cond); }
             }
         }
 

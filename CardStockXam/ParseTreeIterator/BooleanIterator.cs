@@ -115,12 +115,15 @@ namespace ParseTreeIterator
 				var loc = CardIterator.ProcessCard(cAtt.card());
                 if (loc.cardList.Count > 0){
                     var card = loc.Get();
-                    if (cAtt.namegr() != null){
-                        return card.ReadAttribute(cAtt.namegr().GetText());
-                    }
-                    else{
-                        var temp = VarIterator.ProcessStringVar(cAtt.var());
-                        return card.ReadAttribute(temp);
+                    if (card != null){
+                        if (cAtt.namegr() != null){
+                            return card.ReadAttribute(cAtt.namegr().GetText());
+                        }
+                        else
+                        {
+                            var temp = VarIterator.ProcessStringVar(cAtt.var());
+                            return card.ReadAttribute(temp);
+                        }
                     }
                 }		
 			}

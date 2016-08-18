@@ -122,7 +122,10 @@ namespace CardEngine{
 			return ret;
 		}
 		public override Card Peek(){
-			return cards.Last();
+            if (cards.Count > 0){
+                return cards.Last();
+            }
+            return null;
 		}
 		public override Card RemoveAt(int idx){
 			var ret = cards[idx];
@@ -139,6 +142,7 @@ namespace CardEngine{
         public override string ToString()
         {
             var ret = name + "#";
+            Console.WriteLine(cards.Count);
             foreach (Card card in cards)
             {
                 ret += card.ToOutputString() + " ";
