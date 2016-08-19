@@ -60,6 +60,8 @@ namespace CardEngine {
             }
             startLocation = start;
             endLocation = end;
+            Console.WriteLine(startLocation.ToString());
+            Console.WriteLine(startLocation.Count());
         }
         public override void Execute() {
             try {
@@ -153,7 +155,6 @@ namespace CardEngine {
         public override void Execute()
         {
             SetupIterator.ProcessTeamCreate(teamcreate);
-            actual = true;
         }
 
         public override void Undo()
@@ -171,12 +172,12 @@ namespace CardEngine {
             deck = d;
         }
         public override void Execute() {
+            Console.WriteLine("executing initialize action " + location.ToString() + " " + deck.ToString());
             foreach (Card c in location.AllCards())
             {
                 before.Add(c);
             }
             CardGame.Instance.SetDeck(deck, location);
-            actual = true;
         }
         public override void Undo()
         {
@@ -205,7 +206,6 @@ namespace CardEngine {
             endLocation.Add(startLocation.Get());
             Console.WriteLine(endLocation.cardList.Count);
             CardGame.Instance.WriteToFile("m:" + endLocation.ToString());
-            actual = true;
         }
 
         public override void Undo()
@@ -226,7 +226,6 @@ namespace CardEngine {
         }
         public override void Execute() {
             endLocation.Remove();
-            actual = true;
         }
 
         public override void Undo()
@@ -262,7 +261,6 @@ namespace CardEngine {
             {
                 CardGame.Instance.WriteToFile("S:" + bucket + " " + bucketKey + " " + value);
             }
-            actual = true;
         }
         public override void Undo() {
             if (complete)

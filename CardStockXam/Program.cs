@@ -9,7 +9,7 @@ namespace CardGames
         public static void Main(string[] args)
         {
             var exp = new Experiment();
-            exp.fileName = "Hearts";
+            exp.fileName = "SpiteMalice";
             exp.numGames = 1;
             exp.numEpochs = 1;
             exp.logging = true;

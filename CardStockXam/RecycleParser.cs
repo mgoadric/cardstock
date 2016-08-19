@@ -1130,8 +1130,8 @@ public partial class RecycleParser : Parser {
 			return GetRuleContext<VarContext>(0);
 		}
 		public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		public Multiaction2Context multiaction2() {
-			return GetRuleContext<Multiaction2Context>(0);
+		public MultiactionContext multiaction() {
+			return GetRuleContext<MultiactionContext>(0);
 		}
 		public ActionContext action() {
 			return GetRuleContext<ActionContext>(0);
@@ -1169,7 +1169,7 @@ public partial class RecycleParser : Parser {
 			switch ( Interpreter.AdaptivePredict(TokenStream,16,Context) ) {
 			case 1:
 				{
-				State = 296; multiaction2();
+				State = 296; multiaction();
 				}
 				break;
 			case 2:
@@ -5110,7 +5110,7 @@ public partial class RecycleParser : Parser {
 		"\x2\x122\x11F\x3\x2\x2\x2\x122\x120\x3\x2\x2\x2\x122\x121\x3\x2\x2\x2"+
 		"\x123\x124\x3\x2\x2\x2\x124\x125\aH\x2\x2\x125\x17\x3\x2\x2\x2\x126\x127"+
 		"\aG\x2\x2\x127\x128\a\x11\x2\x2\x128\x129\x5\x62\x32\x2\x129\x12D\x5\x2"+
-		"\x2\x2\x12A\x12E\x5\x12\n\x2\x12B\x12E\x5\xE\b\x2\x12C\x12E\x5\x14\v\x2"+
+		"\x2\x2\x12A\x12E\x5\x10\t\x2\x12B\x12E\x5\xE\b\x2\x12C\x12E\x5\x14\v\x2"+
 		"\x12D\x12A\x3\x2\x2\x2\x12D\x12B\x3\x2\x2\x2\x12D\x12C\x3\x2\x2\x2\x12E"+
 		"\x12F\x3\x2\x2\x2\x12F\x130\aH\x2\x2\x130\x19\x3\x2\x2\x2\x131\x132\a"+
 		"G\x2\x2\x132\x133\a\x12\x2\x2\x133\x134\x5\x62\x32\x2\x134\x135\x5\x2"+

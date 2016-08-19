@@ -85,8 +85,8 @@ namespace FreezeFrame
 		}
 		public bool ProcessSubStage(){
 			var sub = CurrentNode ();
-            //StageIterator.ProcessMultiaction(sub);
-            if (sub.GetChild(1).GetText() == "choice") { return true; }
+            Console.WriteLine(sub.GetType());
+            if (sub.ChildCount > 1 && sub.GetChild(1).GetText() == "choice") { return true; }
             else if (sub is RecycleParser.StageContext){
                 var allowedToRun = ProcessStage(sub as RecycleParser.StageContext);
                 if (allowedToRun){
@@ -105,7 +105,13 @@ namespace FreezeFrame
                 PopCurrentNode();
                 //SetupIterator.ProcessSetup(sub as RecycleParser.SetupContext);
             }
-            else { throw new NotSupportedException(); }
+            else if (sub is RecycleParser.DeclareContext){
+                PopCurrentNode();
+            }
+            else {
+                Console.WriteLine(sub.GetType());
+                throw new NotSupportedException();
+            }
             return false;
 		}
 		public void ProcessChoice(){

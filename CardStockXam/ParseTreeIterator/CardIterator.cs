@@ -82,7 +82,6 @@ namespace ParseTreeIterator
             }
             else if (card.cstorage() != null){//cstorage
                 var loc = ProcessLocation(card.cstorage());
-                //TODO writetofile?
                 var fancy = new FancyCardLocation {
                     cardList = loc.cardList,
                     locIdentifier = card.GetChild(1).GetText(),
@@ -94,8 +93,7 @@ namespace ParseTreeIterator
             throw new NotSupportedException();
         }
 
-        public static List<object> ProcessOther(RecycleParser.OtherContext other)
-        { //return list of teams or list of players
+        public static List<object> ProcessOther(RecycleParser.OtherContext other){ //return list of teams or list of players
             List<object> lst = new List<object>();
             if (other.GetChild(2).GetText() == "player"){
                 foreach (Player p in CardGame.Instance.players){
