@@ -60,8 +60,6 @@ namespace CardEngine {
             }
             startLocation = start;
             endLocation = end;
-            Console.WriteLine(startLocation.ToString());
-            Console.WriteLine(startLocation.Count());
         }
         public override void Execute() {
             try {
@@ -172,7 +170,6 @@ namespace CardEngine {
             deck = d;
         }
         public override void Execute() {
-            Console.WriteLine("executing initialize action " + location.ToString() + " " + deck.ToString());
             foreach (Card c in location.AllCards())
             {
                 before.Add(c);
@@ -202,9 +199,7 @@ namespace CardEngine {
 
         }
         public override void Execute() {
-            Console.WriteLine("before " + endLocation.cardList.Count);
             endLocation.Add(startLocation.Get());
-            Console.WriteLine(endLocation.cardList.Count);
             CardGame.Instance.WriteToFile("m:" + endLocation.ToString());
         }
 

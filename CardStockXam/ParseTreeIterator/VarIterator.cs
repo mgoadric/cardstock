@@ -61,7 +61,6 @@ namespace ParseTreeIterator
 
         public static IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection)
         {
-            Console.WriteLine(collection.GetText());
              if (collection.var() != null){
                 var stor = Get(collection.var());
                 if (stor is FancyCardLocation){
@@ -131,7 +130,6 @@ namespace ParseTreeIterator
                 return CardIterator.ProcessOther(collection.other());
             }
             else{//var
-                Console.WriteLine(Get(collection.GetText()).GetType());
                 return (IEnumerable<object>) Get(collection.GetText());
             }
             throw new NotSupportedException();
@@ -318,7 +316,6 @@ namespace ParseTreeIterator
 
         public static FancyCardLocation ProcessCardVar(RecycleParser.VarContext card){
             var ret = Get(card);
-            Console.WriteLine(ret.GetType());
             if (ret is FancyCardLocation)
             {
                 var loc = ret as FancyCardLocation;
@@ -329,7 +326,6 @@ namespace ParseTreeIterator
             }
             else if (ret is Card){
                 var c = ret as Card;
-                Console.WriteLine(c);
                 return c.owner.loc;
             }
             Console.WriteLine("error, type is " + ret.GetType());

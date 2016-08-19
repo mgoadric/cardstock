@@ -142,7 +142,6 @@ namespace CardEngine{
         public override string ToString()
         {
             var ret = name + "#";
-            Console.WriteLine(cards.Count);
             foreach (Card card in cards)
             {
                 ret += card.ToOutputString() + " ";

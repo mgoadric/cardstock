@@ -85,7 +85,6 @@ namespace FreezeFrame
 		}
 		public bool ProcessSubStage(){
 			var sub = CurrentNode ();
-            Console.WriteLine(sub.GetType());
             if (sub.ChildCount > 1 && sub.GetChild(1).GetText() == "choice") { return true; }
             else if (sub is RecycleParser.StageContext){
                 var allowedToRun = ProcessStage(sub as RecycleParser.StageContext);
