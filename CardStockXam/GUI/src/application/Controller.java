@@ -3,13 +3,17 @@ package application;
 import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import model.*;
 
+import javax.imageio.ImageIO;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -183,6 +187,22 @@ public class Controller {
         catch (NumberFormatException n) {
             error(percent + " is not a proper value.");
             return interval;
+        }
+    }
+
+    @FXML
+    public void saveAsPng() {
+        WritableImage image = pane.snapshot(new SnapshotParameters(), null);
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Save Image");
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
+                "PNG files (*.png)", "*.png"));
+        File file = chooser.showSaveDialog(null);
+
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+        } catch (IOException e) {
+            // TODO: handle exception here
         }
     }
 

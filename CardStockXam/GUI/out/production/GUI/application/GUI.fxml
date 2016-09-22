@@ -16,6 +16,7 @@
                 <Menu mnemonicParsing="false" text="File">
                   <items>
                         <MenuItem fx:id="openData" mnemonicParsing="false" onAction="#openDataFile" text="Open" />
+                        <MenuItem mnemonicParsing="false" onAction="#saveAsPng" text="Save as PNG" />
                   </items>
                 </Menu>
               </menus>
