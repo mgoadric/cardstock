@@ -15,9 +15,14 @@ namespace ParseTreeIterator
         }
         public static object Get(String text){
             if (CardGame.Instance.vars.ContainsKey(text)){
+                //Console.WriteLine("in get for " + text);
+                //Console.WriteLine(CardGame.Instance.vars[text]);
+                //Console.WriteLine(CardGame.Instance.vars[text].GetType());
+                //Console.WriteLine();
                 return CardGame.Instance.vars[text];
             }
-            return null;
+            Console.WriteLine("Failure");
+            throw new Exception("Object " + text + " could not be found");
         }
         public static void Put(string k, Object v){
             CardGame.Instance.vars[k] = v;
@@ -61,7 +66,8 @@ namespace ParseTreeIterator
 
         public static IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection)
         {
-             if (collection.var() != null){
+            Console.WriteLine(collection.GetText());
+            if (collection.var() != null){
                 var stor = Get(collection.var());
                 if (stor is FancyCardLocation){
                     var card = stor as FancyCardLocation;
@@ -92,6 +98,11 @@ namespace ParseTreeIterator
             }
             else if (collection.strcollection() != null)
             {
+                var coll = ProcessStringCollection(collection.strcollection());
+                for (int idx = 0; idx < coll.Count(); idx++)
+                {
+                    Console.WriteLine(coll[idx]);
+                }
                 return ProcessStringCollection(collection.strcollection());
             }
             else if (collection.cstoragecollection() != null)
@@ -252,7 +263,21 @@ namespace ParseTreeIterator
 
         public static void ProcessDeclare(RecycleParser.DeclareContext declare)
         {
+            var obj = ProcessTyped(declare.typed());
+            if (obj is String[]){
+                var coll = obj as String[];
+                Console.WriteLine("in declare");
+                for (int idx = 0; idx < coll.Count(); idx++)
+                {
+                    Console.WriteLine(coll[idx]);
+                }
+            }
+            else
+            {
+                Console.WriteLine(obj.GetType());
+            }
             Put(declare.var().GetText(), ProcessTyped(declare.typed()));
+            Console.WriteLine(Get(declare.var().GetText()));
         }
 
         public static object ProcessTyped(RecycleParser.TypedContext typed)
@@ -302,7 +327,12 @@ namespace ParseTreeIterator
             char[] delimiter = { ',' };
             text = text.Replace("(", string.Empty) ;
             text = text.Replace(")", string.Empty) ;
-            return text.Split(delimiter);
+            var newlst = text.Split(delimiter);
+            for (int idx = 0; idx < newlst.Count(); idx++)
+            {
+                Console.WriteLine(newlst[idx]);
+            }
+            return newlst;
         }
 
         public static int ProcessIntVar(RecycleParser.VarContext varContext){
@@ -314,19 +344,21 @@ namespace ParseTreeIterator
             return (int) temp;
         }
 
-        public static FancyCardLocation ProcessCardVar(RecycleParser.VarContext card){
+        public static FancyCardLocation ProcessCardVar(RecycleParser.VarContext card){ //TODOOOOOOOOO get card instead of just top card of location when ret is Card
             var ret = Get(card);
             if (ret is FancyCardLocation)
             {
                 var loc = ret as FancyCardLocation;
                 if (loc.locIdentifier != "-1")
                 {
-                    return loc;
+                    return loc.Clone();
                 }
             }
             else if (ret is Card){
                 var c = ret as Card;
-                return c.owner.loc;
+                var loc = c.owner.loc.Clone();                
+                loc.setLocId(c);
+                return loc;
             }
             Console.WriteLine("error, type is " + ret.GetType());
             return null;

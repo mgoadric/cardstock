@@ -326,6 +326,7 @@ public class Controller {
                     ArrayList<Card> cards = new ArrayList<>();
                     if (parts.length > 1) {
                         for (String cardText : parts[1].split(" ")) {
+                            System.out.println(cardText);
                             cards.add(getCard(cardText, 0));
                         }
                     }

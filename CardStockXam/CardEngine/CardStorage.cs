@@ -78,6 +78,7 @@ namespace CardEngine{
 		public abstract void Shuffle();
 		public CardStorage container {get; set;}
         public abstract override string ToString();
+        public abstract CardCollection Clone();
 		public void Shuffle(List<Card> list)  
 		{  
 		    Random rng = new Random();  
@@ -93,7 +94,16 @@ namespace CardEngine{
 	}	
 	
 	public class CardListCollection : CardCollection{
-		public override int Count {get{
+        public override CardCollection Clone()
+        {
+            return new CardListCollection()
+            {
+                name = (string)name.Clone(),
+                loc = loc,
+                cards = cards //Not as deep as we may want
+            };
+        }
+        public override int Count {get{
 			return cards.Count;
 		}}
 		public List<Card> cards = new List<Card>();

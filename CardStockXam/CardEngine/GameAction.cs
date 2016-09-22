@@ -170,6 +170,8 @@ namespace CardEngine {
             deck = d;
         }
         public override void Execute() {
+            Console.WriteLine("init deck");
+            Console.WriteLine(deck);
             foreach (Card c in location.AllCards())
             {
                 before.Add(c);
@@ -200,7 +202,7 @@ namespace CardEngine {
         }
         public override void Execute() {
             endLocation.Add(startLocation.Get());
-            CardGame.Instance.WriteToFile("m:" + endLocation.ToString());
+            CardGame.Instance.WriteToFile("m:" + endLocation.ToOutputString());
         }
 
         public override void Undo()

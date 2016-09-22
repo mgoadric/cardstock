@@ -9,6 +9,19 @@ namespace CardEngine{
 		public bool actual = false;
         public bool nonPhysical = false;
 
+
+        public FancyCardLocation Clone()
+        {
+            return new FancyCardLocation()
+            {
+                cardList = cardList.Clone(),
+                locIdentifier = (string) locIdentifier.Clone(),
+                name = (string) name.Clone(),
+                actual = actual,
+                nonPhysical = nonPhysical
+            };
+        }
+
         public void Add(Card c){
 			if (locIdentifier == "top"){
 				cardList.Add(c);
@@ -58,9 +71,21 @@ namespace CardEngine{
             return card;
 		}
 
+        public void setLocId(Card c){
+            for (int idx = 0; idx < cardList.Count; idx++){
+                if (c.Equals(cardList.Get(idx))){
+                    locIdentifier = idx.ToString();
+                }
+            }
+        }
+
         public override String ToString()
         {
             return cardList.ToString() + " " + locIdentifier + " " + actual + " " + nonPhysical;
+        }
+
+        public String ToOutputString(){
+            return cardList.ToString();
         }
     }	
 }

@@ -83,6 +83,9 @@ namespace ParseTreeIterator
         {
             var locstorage = CardIterator.ProcessLocation(deckinit.cstorage());
             var deckTree = DeckIterator.ProcessDeck(deckinit.deck());
+            Console.WriteLine("\nIn ProcessDeck");
+            Console.WriteLine(locstorage.ToOutputString());
+            Console.WriteLine(deckTree.ToString());
             return new InitializeAction(locstorage.cardList, deckTree);
         }
     }

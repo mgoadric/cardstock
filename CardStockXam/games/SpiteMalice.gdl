@@ -48,7 +48,7 @@
          (repeat 'HANDSIZE
            (move (top (game iloc STOCK)) (top((current player) iloc HAND)))))
      ))
-     (all 'TLOC 'T
+     (all 'TLOCS 'T
         (do (
             ((== (size (game vloc 'T)) 'MAXSIZE)
 

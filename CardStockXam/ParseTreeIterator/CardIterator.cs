@@ -255,10 +255,14 @@ namespace ParseTreeIterator
                     return fancy;
                 }
                 else{
-                    var name = VarIterator.ProcessStringVar(stor.var());
+                    Console.WriteLine("here");
+                    Console.WriteLine(stor.GetText());
+                    var name = VarIterator.Get(stor.var()) as String;
+                    Console.WriteLine(CardGame.Instance.tableCards[prefix + name]);
+                    Console.WriteLine(prefix + stor.namegr().GetText());
                     var fancy = new FancyCardLocation
                     {
-                        cardList = CardGame.Instance.tableCards[prefix + name],
+                        cardList = CardGame.Instance.tableCards[prefix + VarIterator.Get(stor.var())],
                         locIdentifier = "top",
                         name = "t" + prefix + stor.namegr().GetText()
                     };

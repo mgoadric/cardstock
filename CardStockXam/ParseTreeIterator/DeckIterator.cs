@@ -17,6 +17,12 @@ namespace ParseTreeIterator
 			
 			List<Node> childs = new List<Node>();
 			for (int i = 0; i < deck.attribute().Count(); ++i){
+                var att = ProcessAttribute(deck.attribute(i));
+                Console.WriteLine("att " + i + ": " + deck.attribute(i).GetText());
+                Console.WriteLine(att.Count);
+                for (int idx = 0; idx < att.Count; idx++){
+                    Console.WriteLine(att[idx]);
+                }
 				childs.Add(new Node{
 					Value="combo"+i,
 					children=ProcessAttribute(deck.attribute(i))
@@ -30,10 +36,10 @@ namespace ParseTreeIterator
 			};
 		}
 
-        public static List<Node> ProcessAttribute(RecycleParser.AttributeContext attr)
+        public static List<Node> ProcessAttribute(RecycleParser.AttributeContext attr) //TODO make this array!!
         {
             if (attr.var() != null) {
-                return VarIterator.Get(attr.var()) as List<Node>;
+                return (VarIterator.Get(attr.var()) as Node[]).OfType<Node>().ToList();
             }
             else {
                 if (attr.attribute()[0].attribute().Count() == 0)

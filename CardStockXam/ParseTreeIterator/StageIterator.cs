@@ -90,7 +90,7 @@ namespace ParseTreeIterator
             }
             return lst;
 		}
-        public static List<GameActionCollection> RecurseDo(RecycleParser.CondactContext cond, List<GameActionCollection> lst){
+        public static List<GameActionCollection> RecurseDo(RecycleParser.CondactContext cond){
             var all = new List<GameActionCollection>();
             var stackTrees = new Stack<IteratingTree>();
             var stackTree = new IteratingTree();
@@ -99,6 +99,7 @@ namespace ParseTreeIterator
             var stackAct = new Stack<GameAction>();
             while (stackTrees.Count != 0) {
                 stackTree = stackTrees.Pop();
+
                 while (stackTree.Count() != 0) {
                     var current = stackTree.Pop();
                     if (current.tree != null) {
@@ -135,21 +136,24 @@ namespace ParseTreeIterator
                                 if (collection.ToList().Count > 0){
                                     bool first = true;
                                     object firstItem = null;
+                                    var vartext = agg.var().GetText();
 
                                     stackTree.Push(currentTree.GetChild(4));
+                                    var idx = 0;
                                     foreach (object item in collection){
                                         if (first){
                                             firstItem = item;
-                                            VarIterator.Put(agg.var().GetText(), firstItem);
+                                            VarIterator.Put(vartext, firstItem);
                                             first = false;
                                         }
                                         else{
                                             var newtree = stackTree.Copy();
                                             stackTrees.Push(newtree);
-                                            stackAct.Push(new LoopAction(agg.var().GetText(), item));
+                                            stackAct.Push(new LoopAction(vartext, item));
                                         }
+                                        idx++;
                                     }
-                                    stackAct.Push(new LoopAction(agg.var().GetText(), firstItem));
+                                    stackAct.Push(new LoopAction(vartext, firstItem));
                                 }
                             }
                             else { //all
@@ -192,21 +196,72 @@ namespace ParseTreeIterator
                         coll.Add(act);
                     }
                 }
-                coll.Reverse();
-                if (coll.Count > 0) { all.Add(coll); }
+
                 while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction)) {
-                   stackAct.Pop().Undo();
+                    var temp = stackAct.Pop();
+                    temp.Undo();
+                    if (temp is FancyCardMoveAction)
+                    {
+                        Console.WriteLine("adding fancymoveaction");
+                        //Console.WriteLine((temp as FancyCardMoveAction).startLocation);
+                        Console.WriteLine((temp as FancyCardMoveAction).startLocation.Get());
+                        Console.WriteLine((temp as FancyCardMoveAction).startLocation.locIdentifier);
+                        Console.WriteLine("formerly in all:");
+                        foreach (var loop in all)
+                        {
+                            foreach (var act in loop)
+                            {
+                                Console.WriteLine(act.ToString());
+                                if (act is FancyCardMoveAction)
+                                {
+                                    Console.WriteLine("fancymoveaction");
+                                    Console.WriteLine((act as FancyCardMoveAction).startLocation);
+                                    Console.WriteLine((act as FancyCardMoveAction).startLocation.Get());
+                                    Console.WriteLine((act as FancyCardMoveAction).startLocation.locIdentifier);
+                                }
+                            }
+                        }
+                    }
                 }
-                if (stackAct.Count != 0){
+                if (coll.Count > 0)
+                {
+                    coll.Reverse();
+                    foreach (var act in coll)
+                    {
+                        Console.WriteLine(act.ToString());
+                        if (act is FancyCardMoveAction)
+                        {
+                            Console.WriteLine("adding to all");
+                            Console.WriteLine((act as FancyCardMoveAction).startLocation);
+                            Console.WriteLine((act as FancyCardMoveAction).startLocation.Get());
+                            Console.WriteLine((act as FancyCardMoveAction).startLocation.locIdentifier);
+                        }
+                    }
+                    all.Add(coll);
+                }
+                if (stackAct.Count > 0){
                     var loop = stackAct.Pop() as LoopAction;
                     VarIterator.Remove(loop.var);
                 }
                 while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction)){
                     stackAct.Pop().Undo();
                 }
-                if (stackAct.Count != 0){
+                if (stackAct.Count > 0){
                     var loop = stackAct.Peek() as LoopAction;
                     VarIterator.Put(loop.var, loop.item);
+                }
+            }
+            Console.WriteLine("all len " + all.Count + " for " + cond.GetText());
+            foreach (var coll in all)
+            {
+                foreach (var act in coll){
+                    Console.WriteLine(act.ToString());
+                    if (act is FancyCardMoveAction){
+                        Console.WriteLine("fancymoveaction");
+                        Console.WriteLine((act as FancyCardMoveAction).startLocation);
+                        Console.WriteLine((act as FancyCardMoveAction).startLocation.Get());
+                        Console.WriteLine((act as FancyCardMoveAction).startLocation.locIdentifier);
+                    }
                 }
             }
             return all;
@@ -217,7 +272,7 @@ namespace ParseTreeIterator
             var allOptions = new List<GameActionCollection>();
             for (int i = 0; i < choices.Length; ++i)
             {
-                var gacs = RecurseDo(choices[i], new List<GameActionCollection>());
+                var gacs = RecurseDo(choices[i]);
                 if (gacs.Count > 0){
                     allOptions.AddRange(gacs);
                 }
