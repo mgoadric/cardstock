@@ -6,8 +6,8 @@
       (create players 2)
       (create teams (0) (1))
       ;; Create the deck source
-      (create deck (game iloc STOCK) (deck (RANK (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, HS))
-                                                     (COLOR 'COLORS)))
+      (create deck (game iloc STOCK) (deck (RANK  (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, HS))
+                                           (COLOR 'COLORS)))
    )
    (do (
       (set (game sto ROUNDS) 0)

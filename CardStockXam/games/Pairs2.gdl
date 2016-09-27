@@ -1,10 +1,10 @@
 ;; Pairs in the GDL
 (game
-    (declare 4 'NUMP)
+    (declare 2 'NUMP)
     (setup  
      ;; Set up the players, 3 players each on their own team
       (create players 'NUMP)
-      (create teams (0) (1) (2) (3))
+      (create teams (0) (1))
 
       ;; Create the deck source
       (repeat 1 (create deck (game iloc STOCK) (deck (VALUE (ONE)))))         

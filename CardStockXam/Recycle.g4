@@ -23,7 +23,7 @@ teamcreate : 'create' 'teams' teams+? ;
 deckcreate : 'create' 'deck' cstorage deck ;
 deck : OPEN 'deck' attribute+? CLOSE ;
 teams : OPEN (INTNUM ',')*? INTNUM teams*? CLOSE ;
-attribute : var | OPEN (namegr ',')*? namegr attribute*? CLOSE ;
+attribute : OPEN var CLOSE | OPEN (namegr ',')*? namegr attribute*? CLOSE ;
 
 initpoints : 'put' 'points' var OPEN awards+? CLOSE ;
 awards : OPEN subaward+? int CLOSE ;

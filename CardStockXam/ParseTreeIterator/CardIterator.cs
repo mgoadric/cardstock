@@ -257,7 +257,14 @@ namespace ParseTreeIterator
                 else{
                     Console.WriteLine("here");
                     Console.WriteLine(stor.GetText());
-                    var name = VarIterator.Get(stor.var()) as String;
+                    Console.WriteLine(VarIterator.Get(stor.var()));
+                    var name = "";
+                    if (VarIterator.Get(stor.var()) is String){
+                        name = VarIterator.Get(stor.var()) as String;
+                    }
+                    else{
+                        Console.WriteLine("Error, type is: " + VarIterator.Get(stor.var()).GetType());
+                    }
                     Console.WriteLine(CardGame.Instance.tableCards[prefix + name]);
                     Console.WriteLine(prefix + stor.namegr().GetText());
                     var fancy = new FancyCardLocation

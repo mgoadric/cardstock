@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="CardEngine\IterItem.cs" />
     <Compile Include="CardEngine\IteratingTree.cs" />
+    <Compile Include="Scoring\Heuristic.cs" />
+    <Compile Include="Scoring\Scorer.cs" />
     <Compile Include="Experiment.cs" />
     <Compile Include="FreezeFrame\GameIterator.cs" />
     <Compile Include="LessThanPerfectPlayer.cs" />

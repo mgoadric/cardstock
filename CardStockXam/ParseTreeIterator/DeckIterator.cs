@@ -38,32 +38,51 @@ namespace ParseTreeIterator
 
         public static List<Node> ProcessAttribute(RecycleParser.AttributeContext attr) //TODO make this array!!
         {
+            Console.WriteLine(attr.GetText());
+            Console.WriteLine(attr.var() == null);
             if (attr.var() != null) {
+                Console.WriteLine(attr.GetText() + " has var");
                 return (VarIterator.Get(attr.var()) as Node[]).OfType<Node>().ToList();
             }
             else {
+                var ret = new List<Node>();
                 if (attr.attribute()[0].attribute().Count() == 0)
                 {
                     //base case
+                    Console.WriteLine(attr.GetText() + " case 1");
                     var terminalTitle = attr.namegr()[0];
-                    var subNode = attr.attribute()[0] as RecycleParser.AttributeContext;
-                    var ret = new List<Node>();
-                    var trueCount = (subNode.ChildCount - 3) / 2 + 1;
-                    for (int i = 0; i < trueCount; ++i)
+                    var subNode = attr.attribute()[0];
+                    Console.WriteLine("subtext: " + subNode.GetText());
+                    foreach (var temp in subNode.attribute())
                     {
-                        ret.Add(new Node
-                        {
-                            Key = terminalTitle.GetText(),
-                            Value = subNode.namegr(i).GetText()
-                        });
+                        Console.WriteLine("attr: " + attr);
                     }
-                    return ret;
-
-
+                    if (subNode.var() == null)
+                    {
+                        var trueCount = (subNode.ChildCount - 3) / 2 + 1;
+                        for (int i = 0; i < trueCount; ++i)
+                        {
+                            ret.Add(new Node
+                            {
+                                Key = terminalTitle.GetText(),
+                                Value = subNode.namegr(i).GetText()
+                            });
+                        }
+                    }
+                    else{
+                        var strings = VarIterator.Get(subNode.var()) as string[];
+                        foreach (string s in strings){
+                            ret.Add(new Node
+                            {
+                                Key = terminalTitle.GetText(),
+                                Value = s
+                            });
+                        }
+                    }
                 }
                 else
                 {
-                    var ret = new List<Node>();
+                    Console.WriteLine(attr.GetText() + " case 2");
                     var terminalTitle = attr.namegr()[0];
                     var children = attr.attribute();
 
@@ -82,8 +101,8 @@ namespace ParseTreeIterator
                         });
 
                     }
-                    return ret;
                 }
+                return ret;
             }
         }
 	}

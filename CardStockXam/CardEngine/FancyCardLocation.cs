@@ -47,8 +47,6 @@ namespace CardEngine{
 				return cardList.AllCards().GetEnumerator().Current;
 			}
             else if (locIdentifier == "-1"){
-                //Console.WriteLine(name);
-                //throw new NotSupportedException();
                 return cardList.Peek();
             }
             else{

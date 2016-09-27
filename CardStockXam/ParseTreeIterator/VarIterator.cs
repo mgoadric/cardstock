@@ -15,10 +15,6 @@ namespace ParseTreeIterator
         }
         public static object Get(String text){
             if (CardGame.Instance.vars.ContainsKey(text)){
-                //Console.WriteLine("in get for " + text);
-                //Console.WriteLine(CardGame.Instance.vars[text]);
-                //Console.WriteLine(CardGame.Instance.vars[text].GetType());
-                //Console.WriteLine();
                 return CardGame.Instance.vars[text];
             }
             Console.WriteLine("Failure");
@@ -66,7 +62,6 @@ namespace ParseTreeIterator
 
         public static IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection)
         {
-            Console.WriteLine(collection.GetText());
             if (collection.var() != null){
                 var stor = Get(collection.var());
                 if (stor is FancyCardLocation){
@@ -263,21 +258,7 @@ namespace ParseTreeIterator
 
         public static void ProcessDeclare(RecycleParser.DeclareContext declare)
         {
-            var obj = ProcessTyped(declare.typed());
-            if (obj is String[]){
-                var coll = obj as String[];
-                Console.WriteLine("in declare");
-                for (int idx = 0; idx < coll.Count(); idx++)
-                {
-                    Console.WriteLine(coll[idx]);
-                }
-            }
-            else
-            {
-                Console.WriteLine(obj.GetType());
-            }
             Put(declare.var().GetText(), ProcessTyped(declare.typed()));
-            Console.WriteLine(Get(declare.var().GetText()));
         }
 
         public static object ProcessTyped(RecycleParser.TypedContext typed)
