@@ -11,13 +11,22 @@ namespace CardStockXam
     class Scorer{
         private Experiment exp;
         private ParseEngine engine;
+        private int numGames;
 
         // list of heuristic values
         private bool compiles;
 
-        public Scorer(Experiment ex)
+        public Scorer(string fileName)
         {
-            exp = ex;
+            exp = new Experiment()
+            {
+                fileName = fileName,
+                numGames = 1,
+                numEpochs = 1, //?
+                logging = false,
+                evaluating = true,
+                ai = false
+            };
             engine = new ParseEngine(exp);
         }
 
