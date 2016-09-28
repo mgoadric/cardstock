@@ -6,7 +6,7 @@ namespace CardGames
 {
     public class Program
     {
-        public static void Main(string[] args)
+        /*public static void Main(string[] args)
         {
             var exp = new Experiment();
             exp.fileName = "Pairs2";
@@ -16,6 +16,6 @@ namespace CardGames
             exp.ai = false;
 
             var codeGen = new ParseEngine(exp);
-        }
+        }*/
     }
 }

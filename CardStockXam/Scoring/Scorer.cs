@@ -12,7 +12,7 @@ namespace CardStockXam
         private Experiment exp;
         private ParseEngine engine;
 
-        //list of heuristic values
+        // list of heuristic values
         private bool compiles;
 
         public Scorer(Experiment ex)
@@ -21,7 +21,7 @@ namespace CardStockXam
             engine = new ParseEngine(exp);
         }
 
-        //define heuristics here
+        // define heuristics here
         public double Score()
         {
             ProcessFile();
