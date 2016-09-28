@@ -36,7 +36,6 @@ namespace CardStockXam
                     files[idx].Close();
                     idx++;
                 }
-
                 foreach (var parent1 in files){
                     foreach (var parent2 in files){
                         if (parent1 != parent2){
@@ -75,6 +74,13 @@ namespace CardStockXam
                     scores[i] = s.Score();
                     i++;
                 }
+
+
+                //selection in population
+                //option 1 (tournament):
+                    // pick 2 from population
+                    // better score becomes parent
+                //option 2 (roulette)
                 int[] indexes = TopScoreIndexes(scores, numKept);
                 string[] keep = new string[indexes.Count()];
                 for (int k = 0; k < indexes.Count(); k++){
