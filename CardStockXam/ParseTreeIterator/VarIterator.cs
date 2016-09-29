@@ -287,16 +287,27 @@ namespace ParseTreeIterator
         }
 
         public static List<GameActionCollection> ProcessLet(RecycleParser.LetContext let){
+            Console.WriteLine("in processlet: " + let.GetText());
             var ret = new List<GameActionCollection>();
             Put(let.var().GetText(), let.typed());
             if (let.multiaction() != null){
+                Console.WriteLine("multiaction: " + let.multiaction().GetText());
                 ret.AddRange(StageIterator.ProcessMultiaction(let.multiaction()));
+                
             }
             else if (let.action() != null){
+                Console.WriteLine("action: " + let.action().GetText());
                 ret.Add(ActionIterator.ProcessAction(let.action()));
+                
             }
             else if (let.condact() != null){
+                Console.WriteLine("condact: " + let.condact().GetText());
                 ActionIterator.DoAction(let.condact());
+                
+            }
+            else
+            {
+                Console.WriteLine("failed to go in if");
             }
             Remove(let.var().GetText());
             return ret;

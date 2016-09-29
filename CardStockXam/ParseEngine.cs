@@ -165,6 +165,7 @@ public class ParseEngine
             catch(Exception e)
             {
                 toResultFile("C:F");
+                Console.WriteLine("Fatal error, quitting\n" + e.ToString());
             }
         }
         time.Stop();
@@ -302,6 +303,7 @@ public class ParseEngine
             {
                 builder.AppendLine(nodeName + " -- " + newNodeName);
             }
+
         }
     }
 
