@@ -178,7 +178,7 @@ namespace ParseTreeIterator
                             var let = currentTree as RecycleParser.LetContext;
                             Console.WriteLine("let: " + currentTree.GetText());
                             var item = VarIterator.ProcessTyped(let.typed());
-                            Console.WriteLine(item);
+                            Console.WriteLine("let is : " + item);
                             stackTree.Push(let.var().GetText());
                             stackTree.Push(currentTree.GetChild(4));
                             stackTree.Push(let.var().GetText(), item);
@@ -209,7 +209,6 @@ namespace ParseTreeIterator
                         coll.Add(act);
                     }
                 }
-                Console.WriteLine("before stack deconstruction");
                 while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction)) {
                     var temp = stackAct.Pop();
                     temp.Undo();
@@ -230,7 +229,6 @@ namespace ParseTreeIterator
                     var loop = stackAct.Peek() as LoopAction;
                     VarIterator.Put(loop.var, loop.item);
                 }
-                Console.WriteLine("end of loop");
             }
             return all;
         }

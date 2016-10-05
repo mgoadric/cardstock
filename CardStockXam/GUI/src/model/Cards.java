@@ -19,6 +19,7 @@ public class Cards {
         cards = new ArrayList<>();
         this.name = name;
         this.playerOwned = owned;
+        name.
         this.owner = owner;
         setupNameField();
         alignCards();

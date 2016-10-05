@@ -14,6 +14,7 @@ namespace ParseTreeIterator
 	public class IntIterator{
 		
 		public static int ProcessInt(RecycleParser.IntContext intNode){
+            Console.WriteLine("intnode: " + intNode.GetText());
             if (intNode.rawstorage() != null) {
                 var fancy = ProcessRawStorage(intNode.rawstorage());
                 return fancy.Get();
@@ -30,20 +31,28 @@ namespace ParseTreeIterator
                 }
                 else if (intNode.@sizeof().var() != null){
                     var temp = VarIterator.Get(intNode.@sizeof().var());
-                    var temp2 = temp as FancyCardLocation;
-                    if (temp2 != null){
-                        if (temp2.locIdentifier != "-1"){
+                    if (temp is FancyCardLocation){
+                        var temp2 = temp as FancyCardLocation;
+                        //if (temp2.locIdentifier != "-1"){
                             return temp2.Count();
-                        }
-                        throw new TypeAccessException();
+                        //}
+                        //throw new TypeAccessException();
                     }
-                    else{
+                    else if (temp is FancyCardLocation[]){
                         var temp3 = temp as FancyCardLocation[];
                         if (temp3 != null){
                             return temp3.Length;
                         }
+                        Console.WriteLine(intNode.@sizeof().GetText());
+                        Console.WriteLine(temp.GetType());
                         throw new TypeAccessException();
                     }
+                    else if (temp is IEnumerable<object>){
+                        return (temp as IEnumerable<object>).Count();
+                    }
+                    Console.WriteLine(intNode.@sizeof().GetText());
+                    Console.WriteLine(temp.GetType());
+                    throw new TypeAccessException();
                 }
                 else {
                     Debug.WriteLine("failed to find size");
@@ -79,6 +88,8 @@ namespace ParseTreeIterator
             else if (intNode.score() != null) {
                 var scorer = CardGame.Instance.points[intNode.score().var().GetText()];
                 var card = CardIterator.ProcessCard(intNode.score().card());
+                Console.WriteLine("score: " + scorer);
+                Console.WriteLine("card: " +  card);
                 return scorer.GetScore(card.Get());
             }
             else if (intNode.var() != null){

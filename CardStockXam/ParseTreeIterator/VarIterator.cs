@@ -21,23 +21,43 @@ namespace ParseTreeIterator
             throw new Exception("Object " + text + " could not be found");
         }
         public static void Put(string k, Object v){
+            Console.WriteLine("Putting " + k + " " + v.ToString() + " type is " + v.GetType());
             CardGame.Instance.vars[k] = v;
         }
         public static void Remove(string k){
             CardGame.Instance.vars.Remove(k);
         }
         public static FancyCardLocation ProcessCStorageFilter(RecycleParser.FilterContext filter){
+            Console.WriteLine("filter: " + filter.GetText());
             var cList = new CardListCollection();
-            FancyCardLocation stor;
+            FancyCardLocation stor = null;
+            Console.WriteLine("filter is " + filter.GetText());
             if (filter.collection().cstorage() != null){
+                Console.WriteLine("cstorage");
                 stor = CardIterator.ProcessLocation(filter.collection().cstorage());
             }
             else if (filter.collection().var() != null){
-                stor = Get(filter.collection().var()) as FancyCardLocation;
+                Console.WriteLine("var");
+                var temp = Get(filter.collection().var());
+                if (temp is FancyCardLocation)
+                {
+                    stor = temp as FancyCardLocation;
+                }
+                else if (temp is FancyCardLocation[])
+                    //TODO problem with temp is list, should just be FancyCardLoc
+                {
+
+                }
+                else
+                {
+                    Console.WriteLine("type: " + temp.GetType());
+                }
+                new FancyCardLocation();
             }
             else{
                 throw new NotSupportedException();
             }
+            Console.WriteLine(stor);
             foreach (Card card in stor.cardList.AllCards())
             {
                 Put(filter.var().GetText(), card);
@@ -62,34 +82,37 @@ namespace ParseTreeIterator
 
         public static IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection)
         {
+            Console.WriteLine("collection is: " + collection.GetText());
             if (collection.var() != null){
                 var stor = Get(collection.var());
                 if (stor is FancyCardLocation){
                     var card = stor as FancyCardLocation;
                     return card.cardList.AllCards();
                 }
-                if (stor is string[])
+                else if (stor is string[])
                 {
                     return stor as string[];
                 }
-                if (stor is List<FancyCardLocation>)
+                else if (stor is List<FancyCardLocation>)
                 {
                     return stor as List<FancyCardLocation>;
                 }
-                if (stor is Team)
+                else if (stor is Team)
                 {
                     var team = stor as Team;
                     return team.teamPlayers;
                 }
-                if (stor is List<int>)
+                else if (stor is List<int>)
                 {
                     return stor as List<object>;
+                }
+                else {
+                    Console.WriteLine("Failed to identify " + stor + " of type " + stor.GetType());
                 }
             }
             if (collection.cstorage() != null)
             {
-                var stor = CardIterator.ProcessLocation(collection.cstorage());
-                return stor.cardList.AllCards();
+                return CardIterator.ProcessLocation(collection.cstorage()); //TODO
             }
             else if (collection.strcollection() != null)
             {
@@ -289,7 +312,9 @@ namespace ParseTreeIterator
         public static List<GameActionCollection> ProcessLet(RecycleParser.LetContext let){
             Console.WriteLine("in processlet: " + let.GetText());
             var ret = new List<GameActionCollection>();
-            Put(let.var().GetText(), let.typed());
+            var typed = ProcessTyped(let.typed());
+            Console.WriteLine("typed: " + let.typed().GetText() + "\nprocessed type is " + typed + " type is " + typed.GetType());
+            Put(let.var().GetText(), typed);
             if (let.multiaction() != null){
                 Console.WriteLine("multiaction: " + let.multiaction().GetText());
                 ret.AddRange(StageIterator.ProcessMultiaction(let.multiaction()));

@@ -80,7 +80,7 @@ namespace ParseTreeIterator
                 cardLocations.actual = true;
                 return cardLocations;
             }
-            else if (card.cstorage() != null){//cstorage
+            else if (card.cstorage() != null){
                 var loc = ProcessLocation(card.cstorage());
                 var fancy = new FancyCardLocation {
                     cardList = loc.cardList,
@@ -293,7 +293,7 @@ namespace ParseTreeIterator
                 fancy.cardList.loc = fancy;
                 return fancy;
             }
-            else{
+            else{//TODO here, name is WHITE, does not actually correspond to players hand
                 var name = VarIterator.ProcessStringVar(stor.var());
                 var fancy = new FancyCardLocation
                 {

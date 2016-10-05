@@ -100,9 +100,6 @@
     <None Include="games\Golf.gdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="games\HeartsSimple.gdl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="games\SpiteMalice.gdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
