@@ -10,22 +10,28 @@ namespace CardStockXam
 {
     class Genetic
     {
-        private static int repetitions = 1;
+        private static int repetitions = 2;
         private static int numKept = 2;//10;
         private static double crossoverRate = .4;
         private static double mutationRate = .4;
-        private static int minimumChildren = (int) Math.Floor(numKept * 1.5);
+        private static int numMutations = 2;
+        private static int minimumChildren = 2;//(int) Math.Floor(numKept * 1.5);
         private static Random rnd = new Random();
 
 
         public static void Main(string[] args){
-            string pool = "Gamepool/Pool";
-            string intermediate = "Gamepool/Intermediate";
-            deleteFiles(intermediate);
-            moveAllFiles("Initial", "Pool", true);
+            string newPool = "Gamepool/Pool0";
+            var pool = newPool;
+            string intermediate = "Gamepool/Intermediate0";
+            deleteAllOldFiles();
+            moveAllFiles("Gamepool/Initial", newPool, true);
             
-            for (int rep = 0; rep < repetitions; rep++)
-            {
+            for (int rep = 0; rep < repetitions; rep++){
+                pool = newPool;
+                newPool = "Gamepool/Pool" + (rep + 1);
+                intermediate = "Gamepool/Intermediate" + rep;
+                Directory.CreateDirectory(pool);
+                Directory.CreateDirectory(intermediate);
                 string[] fileNames = Directory.GetFiles(pool);
                 Console.WriteLine(fileNames[0]);
                 FileStream[] files = new FileStream[fileNames.Length];
@@ -40,68 +46,121 @@ namespace CardStockXam
                     foreach (var parent2 in files){
                         if (parent1 != parent2){
                             if (rnd.NextDouble() > crossoverRate){
-                                Crossover(parent1, parent2);
+                                Crossover(parent1, parent2, intermediate);
                             }
                         }
                     }
                     if (rnd.NextDouble() > mutationRate) { 
-                        Mutate(parent1);
+                        Mutate(parent1, intermediate);
                     }
                 }
-
                 string[] newFiles = Directory.GetFiles(intermediate);
-                while (newFiles.Count() < minimumChildren){ // if not enough files created, create more
+                Console.WriteLine("Created files in " + intermediate + ":");
+                foreach (string filename in newFiles){
+                    Console.WriteLine(filename);
+                }
+                int numFiles = newFiles.Count();
+                while (numFiles < minimumChildren){ // if not enough files created, create more
                     var parent1 = files[rnd.Next(files.Count())];
                     if (rnd.Next(2) == 0){
                         var parent2 = files[rnd.Next(files.Count())];
                         while (parent2 == parent1){
                             parent2 = files[rnd.Next(files.Count())];
                         }
-                        Crossover(parent1, parent2);
+                        Crossover(parent1, parent2, intermediate);
                     }
                     else{
-                        Mutate(parent1);
+                        Mutate(parent1, intermediate);
                     }
+                    numFiles++;
                 }
                 foreach (FileStream file in files){
                     file.Close();
                 }
-                /*
                 newFiles = Directory.GetFiles(intermediate);
+                /* scoring
                 double[] scores = new double[newFiles.Count()];
                 for (int i = 0; i < newFiles.Count(); i++) { // get scores
                     Scorer s = new Scorer(newFiles[i]);
                     scores[i] = s.Score();
                     i++;
                 }
-
-
-                //selection in population
-                //option 1 (tournament):
-                    // pick 2 from population
-                    // better score becomes parent
-                //option 2 (roulette)
                 int[] indexes = TopScoreIndexes(scores, numKept);
                 string[] keep = new string[indexes.Count()];
                 for (int k = 0; k < indexes.Count(); k++){
                     keep[k] = newFiles[indexes[k]];
+                }*/
+                if (rep + 1 == repetitions) {
+                    moveAllFiles(intermediate, "GamePool/Final", true);
                 }
-                moveAllFiles(intermediate, pool, false, keep);
-                */
+                else{
+                    moveAllFiles(intermediate, newPool, true, newFiles);
+                }   
             }
-            moveAllFiles("Pool", "Final");
         }
 
-        private static void Crossover(FileStream parent1, FileStream parent2)
+        private static void Crossover(FileStream parent1, FileStream parent2, string folder)
         {
+            folder += "/";
             // perform crossover
+            // parse both files
+            // take corresponding elements and switch them
+            // ex switch moves or scoring or end conditions
             // save to file in intermediate
+
+            //string child1Name = GetName(parent1, parent2);
+            //string child2Name = GetName(parent2, parent1);
+            var child1 = parent1.ToString();// TODO
+            var child2 = parent2.ToString();
+            string child1Name = GetName(parent1, parent2);
+            string child2Name = GetName(parent2, parent1);
+
+            MakeFile(child1, folder + child1Name);
+            MakeFile(child2, folder + child2Name);
         }
 
-        private static void Mutate(FileStream file)
+        private static void Mutate(FileStream parent, string folder)
         {
+            folder += "/";
+            Console.WriteLine("folder: " + folder);
             // perform mutation
+                // choose numMutations random mutations
+                // to mutate:
+                    // randomly choose an atom
+                    // perform a random change on that atom
             // save to file in intermediate
+            string childName = Trim(parent.Name) + "M.gdl";
+            string child = parent.ToString();
+            MakeFile(child, folder + childName);
+            File.WriteAllText(folder + childName, child);
+        }
+
+        private static void MakeFile(string file, string name){
+            if (File.Exists(name))
+            {
+                name.Insert(name.Length - 4, "1");
+            }
+            File.WriteAllText(name, file);
+        }
+
+        private static string GetName(FileStream parent1, FileStream parent2){
+            Console.WriteLine("getname: ");
+            var name1 = Trim(parent1.Name);
+            var name2 = Trim(parent2.Name);
+            Console.WriteLine(name1);
+            Console.WriteLine(name2);
+            name1 = name1.Substring(0, name1.Length / 2);
+            name2 = name2.Substring(name2.Length / 2, name2.Length / 2);
+            Console.WriteLine(name1);
+            Console.WriteLine(name2);
+            return name1 + name2 + ".gdl";
+        }
+
+        private static string Trim(string s){
+            var paths = s.Split('\\');
+            s = paths[paths.Count() - 1];
+            s = s.Split('.')[0];
+            return s;
         }
 
         private static int[] TopScoreIndexes(double[] ar, int num)
@@ -140,15 +199,12 @@ namespace CardStockXam
 
         public static void moveAllFiles(string start, string end, bool copy = false, string[] files = null)
         {
-            var startFolder = "Gamepool/" + start;
-            var endFolder   = "Gamepool/" + end;
-            if (files == null) { files = Directory.GetFiles(startFolder); }
-
-            deleteFiles(endFolder);
+            if (!Directory.Exists(end)) { Directory.CreateDirectory(end); }
+            if (files == null) { files = Directory.GetFiles(start); }
 
             foreach (string s in files){
                 var fileName = Path.GetFileName(s);
-                var destFile = Path.Combine(endFolder, fileName);
+                var destFile = Path.Combine(end, fileName);
                 if (copy){
                     File.Copy(s, destFile, true);
                 }
@@ -165,6 +221,23 @@ namespace CardStockXam
             {
                 File.Delete(s);
             }
+        }
+
+        private static void deleteAllOldFiles(){
+            var folders = Directory.GetDirectories("Gamepool");
+            foreach (var folder in folders){
+                Console.WriteLine(folder);
+                if (folder.Contains("Pool") || folder.Contains("Intermediate")){
+                    Console.WriteLine("^deleting");
+                    DeleteDirectory(folder);
+                }
+            }
+        }
+
+        public static void DeleteDirectory(string targetDir)
+        {
+            deleteFiles(targetDir);
+            Directory.Delete(targetDir, false);
         }
     }
 }
