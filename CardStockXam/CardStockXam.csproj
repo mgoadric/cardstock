@@ -96,18 +96,8 @@
     <Compile Include="FreezeFrame\StackState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="GamePool\Final\" />
-    <Folder Include="GamePool\Intermediate\" />
-    <Folder Include="GamePool\Pool\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="GamePool\Initial\Hearts.gdl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="GamePool\Initial\Pairs2.gdl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="games\Golf.gdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -34,10 +34,19 @@ public class ParseEngine
         if (exp.evaluating){
             System.IO.File.WriteAllText(exp.fileName + "_results.txt", string.Empty);
         }
-
         // Load up the game from the .gdl RECYCLE description
-        var f = File.ReadAllText("games/" + exp.fileName + ".gdl");
-        var file = f;
+        string fileName = exp.fileName;
+        if (!exp.evaluating)
+        {
+            fileName = "games/" + fileName + ".gdl";
+        }
+        else
+        {
+            string[] split = new string[] { "Release\\" } ;
+            fileName = fileName.Split(split, StringSplitOptions.RemoveEmptyEntries)[1] + ".gdl";
+        }
+        Console.WriteLine("name: " + fileName);
+        var file = File.ReadAllText(fileName);
         file = regex.Replace(file, "\n");
 
         // Parse the game with the Antlr grammar description

@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Antlr4.Runtime.Tree;
+using Antlr4.Runtime;
 
 namespace CardStockXam
 {
@@ -20,30 +22,22 @@ namespace CardStockXam
 
 
         public static void Main(string[] args){
-            string newPool = "Gamepool/Pool0";
+            string newPool = "Gamepool\\Pool0";
             var pool = newPool;
-            string intermediate = "Gamepool/Intermediate0";
+            string intermediate = "Gamepool\\Intermediate0";
             deleteAllOldFiles();
-            moveAllFiles("Gamepool/Initial", newPool, true);
+            moveAllFiles("Gamepool\\Initial", newPool, true);
             
             for (int rep = 0; rep < repetitions; rep++){
                 pool = newPool;
-                newPool = "Gamepool/Pool" + (rep + 1);
-                intermediate = "Gamepool/Intermediate" + rep;
+                newPool = "Gamepool\\Pool" + (rep + 1);
+                intermediate = "Gamepool\\Intermediate" + rep;
                 Directory.CreateDirectory(pool);
                 Directory.CreateDirectory(intermediate);
                 string[] fileNames = Directory.GetFiles(pool);
-                Console.WriteLine(fileNames[0]);
-                FileStream[] files = new FileStream[fileNames.Length];
-                var idx = 0;
-                foreach (var fileName in fileNames)
-                {
-                    files[idx] = new FileStream(fileName, FileMode.Open);
-                    files[idx].Close();
-                    idx++;
-                }
-                foreach (var parent1 in files){
-                    foreach (var parent2 in files){
+
+                foreach (var parent1 in fileNames){
+                    foreach (var parent2 in fileNames){
                         if (parent1 != parent2){
                             if (rnd.NextDouble() > crossoverRate){
                                 Crossover(parent1, parent2, intermediate);
@@ -61,11 +55,11 @@ namespace CardStockXam
                 }
                 int numFiles = newFiles.Count();
                 while (numFiles < minimumChildren){ // if not enough files created, create more
-                    var parent1 = files[rnd.Next(files.Count())];
+                    var parent1 = fileNames[rnd.Next(fileNames.Count())];
                     if (rnd.Next(2) == 0){
-                        var parent2 = files[rnd.Next(files.Count())];
+                        var parent2 = fileNames[rnd.Next(fileNames.Count())];
                         while (parent2 == parent1){
-                            parent2 = files[rnd.Next(files.Count())];
+                            parent2 = fileNames[rnd.Next(fileNames.Count())];
                         }
                         Crossover(parent1, parent2, intermediate);
                     }
@@ -74,44 +68,48 @@ namespace CardStockXam
                     }
                     numFiles++;
                 }
-                foreach (FileStream file in files){
-                    file.Close();
-                }
                 newFiles = Directory.GetFiles(intermediate);
-                /* scoring
+                
+                // Scoring
                 double[] scores = new double[newFiles.Count()];
                 for (int i = 0; i < newFiles.Count(); i++) { // get scores
-                    Scorer s = new Scorer(newFiles[i]);
+                    newFiles[i] = Path.GetFullPath(newFiles[i]);
+                    Scorer s = new Scorer(newFiles[i].Substring(0, newFiles[i].Length - 4));
                     scores[i] = s.Score();
                     i++;
                 }
-                int[] indexes = TopScoreIndexes(scores, numKept);
-                string[] keep = new string[indexes.Count()];
-                for (int k = 0; k < indexes.Count(); k++){
-                    keep[k] = newFiles[indexes[k]];
-                }*/
+                string[] keep = GetTop(scores, newFiles);
+
+                // Save toKeep
                 if (rep + 1 == repetitions) {
-                    moveAllFiles(intermediate, "GamePool/Final", true);
+                    moveAllFiles(intermediate, "Gamepool/Final", true);
                 }
                 else{
-                    moveAllFiles(intermediate, newPool, true, newFiles);
+                    moveAllFiles(intermediate, newPool, true, newFiles);// keep);
                 }   
             }
         }
 
-        private static void Crossover(FileStream parent1, FileStream parent2, string folder)
+        private static void Crossover(string parent1, string parent2, string folder)
         {
             folder += "/";
+            Console.WriteLine(parent1);
+            var parser1 = OpenParser(parent1);
+            var parser2 = OpenParser(parent2);
+            
             // perform crossover
-            // parse both files
+            // choose feature to crossover
+                // stage
+                // multiaction/multiaction2
+                // deck
+                // setup
             // take corresponding elements and switch them
             // ex switch moves or scoring or end conditions
             // save to file in intermediate
 
-            //string child1Name = GetName(parent1, parent2);
-            //string child2Name = GetName(parent2, parent1);
-            var child1 = parent1.ToString();// TODO
-            var child2 = parent2.ToString();
+            var child1 = parser1.game().GetText();// TODO
+            var child2 = parser2.game().GetText();
+            Console.WriteLine("child1: " + child1);
             string child1Name = GetName(parent1, parent2);
             string child2Name = GetName(parent2, parent1);
 
@@ -119,20 +117,19 @@ namespace CardStockXam
             MakeFile(child2, folder + child2Name);
         }
 
-        private static void Mutate(FileStream parent, string folder)
+        private static void Mutate(string parent, string folder)
         {
             folder += "/";
-            Console.WriteLine("folder: " + folder);
             // perform mutation
                 // choose numMutations random mutations
                 // to mutate:
                     // randomly choose an atom
                     // perform a random change on that atom
             // save to file in intermediate
-            string childName = Trim(parent.Name) + "M.gdl";
+
+            string childName = Trim(parent) + "M.gdl";
             string child = parent.ToString();
             MakeFile(child, folder + childName);
-            File.WriteAllText(folder + childName, child);
         }
 
         private static void MakeFile(string file, string name){
@@ -141,18 +138,32 @@ namespace CardStockXam
                 name.Insert(name.Length - 4, "1");
             }
             File.WriteAllText(name, file);
+            Console.WriteLine("Wrote file " + name);
         }
 
-        private static string GetName(FileStream parent1, FileStream parent2){
-            Console.WriteLine("getname: ");
-            var name1 = Trim(parent1.Name);
-            var name2 = Trim(parent2.Name);
-            Console.WriteLine(name1);
-            Console.WriteLine(name2);
+        private static string[] GetTop(double[] scores, string[] files)
+        {
+            int[] indexes = TopScoreIndexes(scores, numKept);
+            string[] keep = new string[indexes.Count()];
+            for (int k = 0; k < indexes.Count(); k++)
+            {
+                keep[k] = files[indexes[k]];
+            }
+            return keep;
+        }
+
+        private static RecycleParser OpenParser(string file){
+            AntlrInputStream stream = new AntlrInputStream(file);
+            ITokenSource lexer = new RecycleLexer(stream);
+            ITokenStream tokens = new CommonTokenStream(lexer);
+            return new RecycleParser(tokens);
+        }
+
+        private static string GetName(string parent1, string parent2){
+            var name1 = Trim(parent1);
+            var name2 = Trim(parent2);
             name1 = name1.Substring(0, name1.Length / 2);
             name2 = name2.Substring(name2.Length / 2, name2.Length / 2);
-            Console.WriteLine(name1);
-            Console.WriteLine(name2);
             return name1 + name2 + ".gdl";
         }
 
