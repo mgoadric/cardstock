@@ -93,19 +93,41 @@ namespace CardStockXam
         private static void Crossover(string parent1, string parent2, string folder)
         {
             folder += "/";
-            Console.WriteLine(parent1);
             var parser1 = OpenParser(parent1);
             var parser2 = OpenParser(parent2);
-            
-            // perform crossover
-            // choose feature to crossover
-                // stage
-                // multiaction/multiaction2
-                // deck
-                // setup
-            // take corresponding elements and switch them
-            // ex switch moves or scoring or end conditions
-            // save to file in intermediate
+            bool unchanged = true;
+            Type tree = null;
+            while (unchanged){
+                var x = rnd.Next();
+                if (x < .2){
+                    tree = typeof(RecycleParser.StageContext);
+                }
+                else if (.2 < x  && x < .4){
+                    tree = typeof(RecycleParser.MultiactionContext);
+                }
+                else if (.4 < x && x < .6) {
+                    tree = typeof(RecycleParser.Multiaction2Context);
+                }
+                else if (.6 < x && x < .8){
+                    tree = typeof(RecycleParser.DeckContext);
+                }
+                else {
+                    tree = typeof(RecycleParser.SetupContext);
+                }
+                var possible1 = f2(parser1.game(), new List<int>(), tree);
+                var possible2 = f2(parser2.game(), new List<int>(), tree);
+                if (possible1.Count > 0 && possible2.Count > 0){
+                    unchanged = false;
+                    var tree1 = possible1[rnd.Next() * (possible1.Count - 1)];
+                    var tree2 = possible2[rnd.Next() * (possible2.Count - 1)];
+                    var tup1 = GetSubTree(tree1);
+                    var tup2 = GetSubTree(tree2);
+                    tup1.Item1.GetChild(tree1[tree1.Count - 1]) = tup2.Item2;
+                }
+                // take corresponding elements and switch them
+                // ex switch moves or scoring or end conditions
+            }
+
 
             var child1 = parser1.game().GetText();// TODO
             var child2 = parser2.game().GetText();
@@ -117,11 +139,57 @@ namespace CardStockXam
             MakeFile(child2, folder + child2Name);
         }
 
+        private static Tuple<IParseTree, IParseTree> GetSubTree(List<int> path){
+
+        }
+
+        private static Tuple<IParseTree, IParseTree, bool> FindSubTree(RecycleParser parser, Type treeType){
+            List<IParseTree> nodes = new List<IParseTree>();
+            nodes.Add(parser.game());
+            List<IParseTree> parents = new List<IParseTree>();
+            List<IParseTree> all = new List<IParseTree>();
+            while (nodes.Count > 0) {
+                IParseTree current = nodes[0];
+                nodes.RemoveAt(0);
+                for (int i = 0; i < current.ChildCount; i++) {
+                    var child = current.GetChild(i);
+                    if (child.GetType() == treeType){
+                        parents.Add(current);
+                        all.Add(child);
+                    }
+                    nodes.Add(child);
+                }
+            }
+            if (all.Count == 0){
+                return new Tuple<IParseTree, IParseTree, bool>(null, null, false);
+            }
+            int index = rnd.Next() * (all.Count-1);
+            return new Tuple<IParseTree, IParseTree, bool>(parents[index], all[index], true);
+        }
+
+        private static List<List<int>> f2(IParseTree t, List<int> l, Type treeType){
+            List<List<int>> allPaths = new List<List<int>>();
+            for(int i = 0; i < t.ChildCount; i++) {
+                var child = t.GetChild(i);
+                List<int> newl = new List<int>(l);
+                if (child.GetType() == treeType)
+                {
+                    l.Add(i);
+                    allPaths.Add(l);
+                }
+                var temp = f2(child, newl, treeType);
+                foreach (var item in temp){
+                    allPaths.Add(item);
+                }
+            }
+            return allPaths;
+        }
+
         private static void Mutate(string parent, string folder)
         {
             folder += "/";
             // perform mutation
-                // choose numMutations random mutations
+                // choose numMutations random mutations or random permutations
                 // to mutate:
                     // randomly choose an atom
                     // perform a random change on that atom
