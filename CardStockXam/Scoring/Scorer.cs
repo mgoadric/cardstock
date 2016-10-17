@@ -33,11 +33,11 @@ namespace CardStockXam
         // define heuristics here
         public double Score()
         {
-            ProcessFile();
+            //ProcessFile();
             if (!compiles) { return 0.0; }
             
             // for all heuristics, multiply heuristic by weight
-            return 0.0;
+            return 1.0;
         }
 
         public void ProcessFile(){

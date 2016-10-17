@@ -3,22 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using Antlr4.Runtime;
+using System.Text.RegularExpressions;
 
 namespace CardStockXam
 {
     class Genetic
     {
-        private static int repetitions = 2;
+        private static int repetitions = 3;
         private static int numKept = 2;//10;
         private static double crossoverRate = .4;
         private static double mutationRate = .4;
         private static int numMutations = 2;
         private static int minimumChildren = 2;//(int) Math.Floor(numKept * 1.5);
         private static Random rnd = new Random();
+        private static Regex regex = new Regex("(;;)(.*?)(\n)");
 
 
         public static void Main(string[] args){
@@ -78,7 +78,7 @@ namespace CardStockXam
                     scores[i] = s.Score();
                     i++;
                 }
-                string[] keep = GetTop(scores, newFiles);
+                string[] keep = Tournament(scores, newFiles);
 
                 // Save toKeep
                 if (rep + 1 == repetitions) {
@@ -90,15 +90,44 @@ namespace CardStockXam
             }
         }
 
+        private static string[] Tournament(double[] scores, string[] files){
+            string[] ret = new string[numKept];
+            var count = scores.Count();
+
+            if (count < numKept) { throw new ArgumentOutOfRangeException(); }
+
+            for (int i = 0; i < numKept; i++){
+                var ind1 = rnd.Next(count);
+                var ind2 = rnd.Next(count);
+                string add = null;
+                if (scores[ind1] > scores[ind2]) { add = files[ind1]; }
+                else { add = files[ind2]; }
+                if (ret.Contains(add)){
+                    i--;
+                }
+                else{
+                    ret[i] = add;
+                }
+            }
+            return ret;
+        }
+
         private static void Crossover(string parent1, string parent2, string folder)
         {
             folder += "/";
             var parser1 = OpenParser(parent1);
             var parser2 = OpenParser(parent2);
+            var game1 = parser1.game();
+            var game2 = parser2.game();
+            string gametext1 = game1.GetText();
+            string gametext2 = game2.GetText();
             bool unchanged = true;
             Type tree = null;
+            string child1 = "";
+            string child2 = "";
             while (unchanged){
-                var x = rnd.Next();
+                var x = rnd.NextDouble();
+                Console.WriteLine(x);
                 if (x < .2){
                     tree = typeof(RecycleParser.StageContext);
                 }
@@ -111,9 +140,11 @@ namespace CardStockXam
                 else if (.6 < x && x < .8){
                     tree = typeof(RecycleParser.DeckContext);
                 }
-                else {
+                //else {TODO
                     tree = typeof(RecycleParser.SetupContext);
-                }
+                //}
+                Console.WriteLine(tree);
+                /*
                 var possible1 = f2(parser1.game(), new List<int>(), tree);
                 var possible2 = f2(parser2.game(), new List<int>(), tree);
                 if (possible1.Count > 0 && possible2.Count > 0){
@@ -122,16 +153,28 @@ namespace CardStockXam
                     var tree2 = possible2[rnd.Next() * (possible2.Count - 1)];
                     var tup1 = GetSubTree(tree1);
                     var tup2 = GetSubTree(tree2);
-                    tup1.Item1.GetChild(tree1[tree1.Count - 1]) = tup2.Item2;
+                    //tup1.Item1.GetChild(tree1[tree1.Count - 1]) = tup2.Item2;
                 }
-                // take corresponding elements and switch them
-                // ex switch moves or scoring or end conditions
+                */
+                var temp = FindSubTree(game1, tree);
+                var temp2 = FindSubTree(game2, tree);
+                // var temp = f2(parser1.game(), new List<int>(), tree);
+                // var temp2 = f2(parser2.game(), new List<int>(), tree);
+                // temp.Item1.SetChild(0, temp2.Item2); //TODO
+                // temp2.Item1.SetChild(0, temp.Item2);
+
+                /*Console.WriteLine("item1");
+                Console.WriteLine(temp.Item2.GetText());
+                Console.WriteLine("item2");
+                Console.WriteLine(temp2.Item2.GetText());
+                Console.WriteLine(gametext1.Contains(temp.Item2.GetText()));
+                Console.WriteLine(gametext1);*/
+                child1 = gametext1.Replace(temp.Item2.GetText(), temp2.Item2.GetText());
+               /* Console.WriteLine("new gametext");
+                Console.WriteLine(child1);*/
+                child2 = gametext2.Replace(temp.Item2.GetText(), temp2.Item2.GetText());
+                unchanged = false;
             }
-
-
-            var child1 = parser1.game().GetText();// TODO
-            var child2 = parser2.game().GetText();
-            Console.WriteLine("child1: " + child1);
             string child1Name = GetName(parent1, parent2);
             string child2Name = GetName(parent2, parent1);
 
@@ -140,12 +183,13 @@ namespace CardStockXam
         }
 
         private static Tuple<IParseTree, IParseTree> GetSubTree(List<int> path){
-
+            return null; //TODO, maybe
         }
 
-        private static Tuple<IParseTree, IParseTree, bool> FindSubTree(RecycleParser parser, Type treeType){
+        private static Tuple<IParseTree, IParseTree, bool> FindSubTree(IParseTree game, Type treeType){
+            Console.WriteLine("in findsubtree");
             List<IParseTree> nodes = new List<IParseTree>();
-            nodes.Add(parser.game());
+            nodes.Add(game);
             List<IParseTree> parents = new List<IParseTree>();
             List<IParseTree> all = new List<IParseTree>();
             while (nodes.Count > 0) {
@@ -153,17 +197,20 @@ namespace CardStockXam
                 nodes.RemoveAt(0);
                 for (int i = 0; i < current.ChildCount; i++) {
                     var child = current.GetChild(i);
-                    if (child.GetType() == treeType){
-                        parents.Add(current);
-                        all.Add(child);
+                    if (!((child is TerminalNodeImpl) || (child is RecycleParser.NamegrContext))){
+                        if (child.GetType() == treeType){
+                            Console.WriteLine(child.GetText());
+                            parents.Add(current);
+                            all.Add(child);
+                        }
+                        nodes.Add(child);
                     }
-                    nodes.Add(child);
                 }
             }
             if (all.Count == 0){
                 return new Tuple<IParseTree, IParseTree, bool>(null, null, false);
             }
-            int index = rnd.Next() * (all.Count-1);
+            int index = rnd.Next(all.Count);
             return new Tuple<IParseTree, IParseTree, bool>(parents[index], all[index], true);
         }
 
@@ -188,15 +235,15 @@ namespace CardStockXam
         private static void Mutate(string parent, string folder)
         {
             folder += "/";
-            // perform mutation
-                // choose numMutations random mutations or random permutations
-                // to mutate:
-                    // randomly choose an atom
-                    // perform a random change on that atom
-            // save to file in intermediate
-
             string childName = Trim(parent) + "M.gdl";
-            string child = parent.ToString();
+            var parser = OpenParser(parent);
+            string child = parser.game().GetText();
+            // perform mutation
+            // choose numMutations random mutations or random permutations
+            // to mutate:
+            // randomly choose an atom
+            // perform a random change on that atom
+            // save to file in intermediate
             MakeFile(child, folder + childName);
         }
 
@@ -220,7 +267,9 @@ namespace CardStockXam
             return keep;
         }
 
-        private static RecycleParser OpenParser(string file){
+        private static RecycleParser OpenParser(string fileName){
+            var file = File.ReadAllText(fileName);
+            file = regex.Replace(file, "\n");
             AntlrInputStream stream = new AntlrInputStream(file);
             ITokenSource lexer = new RecycleLexer(stream);
             ITokenStream tokens = new CommonTokenStream(lexer);
