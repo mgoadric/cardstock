@@ -20,7 +20,7 @@ public class ParseEngine
 
     public static Experiment expstat;
 
-    public  ParseEngine(Experiment exp)
+    public ParseEngine(Experiment exp)
     {
         expstat = exp;
 
@@ -28,10 +28,10 @@ public class ParseEngine
         var breakOnCycle = false;
         var regex = new Regex("(;;)(.*?)(\n)");
 
-        if (exp.logging){
+        if (exp.logging) {
             System.IO.File.WriteAllText(exp.fileName + ".txt", string.Empty);
         }
-        if (exp.evaluating){
+        if (exp.evaluating) {
             System.IO.File.WriteAllText(exp.fileName + "_results.txt", string.Empty);
         }
         // Load up the game from the .gdl RECYCLE description
@@ -42,7 +42,7 @@ public class ParseEngine
         }
         else
         {
-            string[] split = new string[] { "Release\\" } ;
+            string[] split = new string[] { "Release\\" };
             fileName = fileName.Split(split, StringSplitOptions.RemoveEmptyEntries)[1] + ".gdl";
         }
         Console.WriteLine("name: " + fileName);
@@ -64,19 +64,18 @@ public class ParseEngine
         builder.AppendLine("NODE0 [label=\"Stage\" style=filled fillcolor=\"red\"]");
         DOTMaker(tree, "NODE0");
         builder.Append("}");
-        try
-        {
-            var fs = File.Create("games/" + exp.fileName + ".gv");
-            var bytes = Encoding.UTF8.GetBytes(builder.ToString());
-            fs.Write(bytes, 0, bytes.Length);
-            fs.Close();
-            Console.WriteLine("wrote " + exp.fileName + ".gv");
+        if (!exp.evaluating) { 
+            try{
+                var fs = File.Create("games/" + exp.fileName + ".gv");
+                var bytes = Encoding.UTF8.GetBytes(builder.ToString());
+                fs.Write(bytes, 0, bytes.Length);
+                fs.Close();
+                Console.WriteLine("wrote " + exp.fileName + ".gv");
+            }
+            catch (Exception ex){
+                Console.WriteLine(ex.ToString());
+            }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
-
         int choiceCount = 0;
         var aggregator = new int[5, exp.numEpochs];
         var winaggregator = new int[exp.numEpochs];

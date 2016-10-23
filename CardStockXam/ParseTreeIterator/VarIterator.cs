@@ -93,11 +93,6 @@ namespace ParseTreeIterator
             }
             else if (collection.strcollection() != null)
             {
-                var coll = ProcessStringCollection(collection.strcollection());
-                for (int idx = 0; idx < coll.Count(); idx++)
-                {
-                    Console.WriteLine(coll[idx]);
-                }
                 return ProcessStringCollection(collection.strcollection());
             }
             else if (collection.cstoragecollection() != null)
@@ -309,10 +304,6 @@ namespace ParseTreeIterator
             text = text.Replace("(", string.Empty) ;
             text = text.Replace(")", string.Empty) ;
             var newlst = text.Split(delimiter);
-            for (int idx = 0; idx < newlst.Count(); idx++)
-            {
-                Console.WriteLine(newlst[idx]);
-            }
             return newlst;
         }
 

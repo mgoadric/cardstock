@@ -255,9 +255,6 @@ namespace ParseTreeIterator
                     return fancy;
                 }
                 else{
-                    Console.WriteLine("here");
-                    Console.WriteLine(stor.GetText());
-                    Console.WriteLine(VarIterator.Get(stor.var()));
                     var name = "";
                     if (VarIterator.Get(stor.var()) is String){
                         name = VarIterator.Get(stor.var()) as String;
@@ -265,8 +262,6 @@ namespace ParseTreeIterator
                     else{
                         Console.WriteLine("Error, type is: " + VarIterator.Get(stor.var()).GetType());
                     }
-                    Console.WriteLine(CardGame.Instance.tableCards[prefix + name]);
-                    Console.WriteLine(prefix + stor.namegr().GetText());
                     var fancy = new FancyCardLocation
                     {
                         cardList = CardGame.Instance.tableCards[prefix + VarIterator.Get(stor.var())],

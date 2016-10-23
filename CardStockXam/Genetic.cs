@@ -19,6 +19,8 @@ namespace CardStockXam
         private static int minimumChildren = 2;//(int) Math.Floor(numKept * 1.5);
         private static Random rnd = new Random();
         private static Regex regex = new Regex("(;;)(.*?)(\n)");
+        private static Type[] crossovers = new Type[] { typeof(RecycleParser.StageContext), typeof(RecycleParser.MultiactionContext), typeof(RecycleParser.Multiaction2Context), typeof(RecycleParser.DeckContext), typeof(RecycleParser.SetupContext) };
+        private static Type[] mutations = new Type[] { typeof(RecycleParser.MoveactionContext) }; //, typeof(RecycleParser.ShuffleactionContext), typeof(RecycleParser.RepeatContext), typeof(RecycleParser.MultiactionContext), typeof(RecycleParser.Multiaction2Context), typeof(RecycleParser.EndconditionContext) };
 
 
         public static void Main(string[] args){
@@ -90,28 +92,6 @@ namespace CardStockXam
             }
         }
 
-        private static string[] Tournament(double[] scores, string[] files){
-            string[] ret = new string[numKept];
-            var count = scores.Count();
-
-            if (count < numKept) { throw new ArgumentOutOfRangeException(); }
-
-            for (int i = 0; i < numKept; i++){
-                var ind1 = rnd.Next(count);
-                var ind2 = rnd.Next(count);
-                string add = null;
-                if (scores[ind1] > scores[ind2]) { add = files[ind1]; }
-                else { add = files[ind2]; }
-                if (ret.Contains(add)){
-                    i--;
-                }
-                else{
-                    ret[i] = add;
-                }
-            }
-            return ret;
-        }
-
         private static void Crossover(string parent1, string parent2, string folder)
         {
             folder += "/";
@@ -126,53 +106,12 @@ namespace CardStockXam
             string child1 = "";
             string child2 = "";
             while (unchanged){
-                var x = rnd.NextDouble();
-                Console.WriteLine(x);
-                if (x < .2){
-                    tree = typeof(RecycleParser.StageContext);
-                }
-                else if (.2 < x  && x < .4){
-                    tree = typeof(RecycleParser.MultiactionContext);
-                }
-                else if (.4 < x && x < .6) {
-                    tree = typeof(RecycleParser.Multiaction2Context);
-                }
-                else if (.6 < x && x < .8){
-                    tree = typeof(RecycleParser.DeckContext);
-                }
-                //else {TODO
-                    tree = typeof(RecycleParser.SetupContext);
-                //}
-                Console.WriteLine(tree);
-                /*
-                var possible1 = f2(parser1.game(), new List<int>(), tree);
-                var possible2 = f2(parser2.game(), new List<int>(), tree);
-                if (possible1.Count > 0 && possible2.Count > 0){
-                    unchanged = false;
-                    var tree1 = possible1[rnd.Next() * (possible1.Count - 1)];
-                    var tree2 = possible2[rnd.Next() * (possible2.Count - 1)];
-                    var tup1 = GetSubTree(tree1);
-                    var tup2 = GetSubTree(tree2);
-                    //tup1.Item1.GetChild(tree1[tree1.Count - 1]) = tup2.Item2;
-                }
-                */
-                var temp = FindSubTree(game1, tree);
-                var temp2 = FindSubTree(game2, tree);
-                // var temp = f2(parser1.game(), new List<int>(), tree);
-                // var temp2 = f2(parser2.game(), new List<int>(), tree);
-                // temp.Item1.SetChild(0, temp2.Item2); //TODO
-                // temp2.Item1.SetChild(0, temp.Item2);
-
-                /*Console.WriteLine("item1");
-                Console.WriteLine(temp.Item2.GetText());
-                Console.WriteLine("item2");
-                Console.WriteLine(temp2.Item2.GetText());
-                Console.WriteLine(gametext1.Contains(temp.Item2.GetText()));
-                Console.WriteLine(gametext1);*/
-                child1 = gametext1.Replace(temp.Item2.GetText(), temp2.Item2.GetText());
-               /* Console.WriteLine("new gametext");
-                Console.WriteLine(child1);*/
-                child2 = gametext2.Replace(temp.Item2.GetText(), temp2.Item2.GetText());
+                tree = crossovers[rnd.Next(crossovers.Count())];
+                var subtree1 = FindSubTree(game1, tree);
+                var subtree2 = FindSubTree(game2, tree);
+                child1 = gametext1.Replace(subtree1.GetText(), subtree2.GetText());
+                child2 = gametext2.Replace(subtree2.GetText(), subtree1.GetText());
+                // check that subtrees return non-empty before changing unchanged
                 unchanged = false;
             }
             string child1Name = GetName(parent1, parent2);
@@ -182,16 +121,188 @@ namespace CardStockXam
             MakeFile(child2, folder + child2Name);
         }
 
-        private static Tuple<IParseTree, IParseTree> GetSubTree(List<int> path){
-            return null; //TODO, maybe
+        private static void Mutate(string parent, string folder) {
+            folder += "/";
+            string childName = Trim(parent) + "M.gdl";
+            var parser = OpenParser(parent);
+            var game = parser.game();
+            string child = game.GetText();
+            var locs = FindCStorages(game);
+            for (int i = 0; i < numMutations; i++){
+                var tree = mutations[rnd.Next(mutations.Count())];
+                var subtree = FindSubTree(game, tree); // check subtree
+                var newMutation = GetMutation(subtree, locs);
+                if (newMutation.Count() == 0) { i--; }
+                else { child = child.Replace(subtree.GetText(), newMutation); }
+            }
+            MakeFile(child, folder + childName);
         }
 
-        private static Tuple<IParseTree, IParseTree, bool> FindSubTree(IParseTree game, Type treeType){
-            Console.WriteLine("in findsubtree");
+        private static string ConstructMoveString(string c1, string c2){
+            if (c1 == c2) { return ""; }
+            return "move " + c1 + " " + c2;
+        }
+
+        private static string GetMutation(IParseTree tree, List<RecycleParser.CstorageContext> locs){
+            var ret = "";
+            if (tree is RecycleParser.MoveactionContext){
+                var t = tree as RecycleParser.MoveactionContext;
+                var r = rnd.Next(0, 5);
+                if (r == 0){ // swap beginning and end
+                    var cards = t.card();
+                    var text1 = cards[0].GetText();
+                    var text2 = cards[1].GetText();
+                    ret = "move " + text2 + " " + text1;
+                    Console.WriteLine("reverse of " + t.GetText() + " is ");
+                    Console.WriteLine(ret);
+                    return ret;
+                }
+                else if (r == 1){ // change beginning to random loc
+                    while (ret.Length == 0){
+                        var loc = locs[rnd.Next(0, locs.Count)];
+                        ret = ConstructMoveString("(top" + loc.GetText() + ")", t.card()[1].GetText());
+                    }
+                    Console.WriteLine("beginning of " + t.GetText() + " switched is ");
+                    Console.WriteLine(ret);
+                    return ret;
+                }
+                else if (r == 2){ // change ending to random loc
+                    while (ret.Length == 0){
+                        var loc = locs[rnd.Next(0, locs.Count)];
+                        ret = ConstructMoveString(t.card()[0].GetText(), "(top" + loc.GetText() + ")");
+                    }
+                    Console.WriteLine("end of " + t.GetText() + " switched is ");
+                    Console.WriteLine(ret);
+                    return ret;
+                }
+                else if (r == 3){ // 1 case with bottom
+                    while (ret.Length == 0){
+                        var loc = locs[rnd.Next(0, locs.Count)];
+                        ret = ConstructMoveString("(bottom" + loc.GetText() + ")", t.card()[1].GetText());
+                    }
+                    Console.WriteLine("beginning of " + t.GetText() + " switched is ");
+                    Console.WriteLine(ret);
+                    return ret;
+                }
+                else if (r == 4){ // 2 case with bottom
+                    while (ret.Length == 0){
+                        var loc = locs[rnd.Next(0, locs.Count)];
+                        ret = ConstructMoveString(t.card()[0].GetText(), "(bottom" + loc.GetText() + ")");
+                    }
+                    Console.WriteLine("end of " + t.GetText() + " switched is ");
+                    Console.WriteLine(ret);
+                    return ret;
+                }
+            }
+            else if (tree is RecycleParser.ShuffleactionContext){
+                var t = tree as RecycleParser.ShuffleactionContext;
+                var r = rnd.Next(0, 4);
+                if (r == 0)
+                { // 
+
+                }
+                else if (r == 1)
+                { // 
+
+                }
+                else if (r == 2)
+                { // 
+
+                }
+                else if (r == 3)
+                { // 
+
+                }
+            }
+            else if (tree is RecycleParser.RepeatContext){
+                var t = tree as RecycleParser.MoveactionContext;
+                var r = rnd.Next(0, 4);
+                if (r == 0)
+                { // 
+
+                }
+                else if (r == 1)
+                { // 
+
+                }
+                else if (r == 2)
+                { // 
+
+                }
+                else if (r == 3)
+                { // 
+
+                }
+            }
+            else if (tree is RecycleParser.MultiactionContext){
+                var t = tree as RecycleParser.MoveactionContext;
+                var r = rnd.Next(0, 4);
+                if (r == 0)
+                { // 
+
+                }
+                else if (r == 1)
+                { // 
+
+                }
+                else if (r == 2)
+                { // 
+
+                }
+                else if (r == 3)
+                { // 
+
+                }
+            }
+            else if (tree is RecycleParser.Multiaction2Context){
+                var t = tree as RecycleParser.MoveactionContext;
+                var r = rnd.Next(0, 4);
+                if (r == 0)
+                { // 
+
+                }
+                else if (r == 1)
+                { // 
+
+                }
+                else if (r == 2)
+                { // 
+
+                }
+                else if (r == 3)
+                { // 
+
+                }
+            }
+            else if (tree is RecycleParser.EndconditionContext){
+                var t = tree as RecycleParser.MoveactionContext;
+                var r = rnd.Next(0, 4);
+                if (r == 0)
+                { // 
+
+                }
+                else if (r == 1)
+                { // 
+
+                }
+                else if (r == 2)
+                { // 
+
+                }
+                else if (r == 3)
+                { // 
+
+                }
+            }
+
+            return ret;
+        }
+    
+        private static IParseTree FindSubTree(IParseTree game, Type treeType){
             List<IParseTree> nodes = new List<IParseTree>();
             nodes.Add(game);
-            List<IParseTree> parents = new List<IParseTree>();
             List<IParseTree> all = new List<IParseTree>();
+            List<RecycleParser.CstorageContext> cstorages = new List<RecycleParser.CstorageContext>();
             while (nodes.Count > 0) {
                 IParseTree current = nodes[0];
                 nodes.RemoveAt(0);
@@ -199,52 +310,70 @@ namespace CardStockXam
                     var child = current.GetChild(i);
                     if (!((child is TerminalNodeImpl) || (child is RecycleParser.NamegrContext))){
                         if (child.GetType() == treeType){
-                            Console.WriteLine(child.GetText());
-                            parents.Add(current);
                             all.Add(child);
+                        }
+                        else if (child is RecycleParser.CstorageContext){
+                            cstorages.Add(child as RecycleParser.CstorageContext);
                         }
                         nodes.Add(child);
                     }
                 }
             }
             if (all.Count == 0){
-                return new Tuple<IParseTree, IParseTree, bool>(null, null, false);
+                return null;
             }
             int index = rnd.Next(all.Count);
-            return new Tuple<IParseTree, IParseTree, bool>(parents[index], all[index], true);
+            return all[index];
         }
 
-        private static List<List<int>> f2(IParseTree t, List<int> l, Type treeType){
-            List<List<int>> allPaths = new List<List<int>>();
-            for(int i = 0; i < t.ChildCount; i++) {
-                var child = t.GetChild(i);
-                List<int> newl = new List<int>(l);
-                if (child.GetType() == treeType)
+
+        private static List<RecycleParser.CstorageContext> FindCStorages(IParseTree game)
+        {
+            List<IParseTree> nodes = new List<IParseTree>();
+            nodes.Add(game);
+            List<RecycleParser.CstorageContext> cstorages = new List<RecycleParser.CstorageContext>();
+            while (nodes.Count > 0)
+            {
+                IParseTree current = nodes[0];
+                nodes.RemoveAt(0);
+                for (int i = 0; i < current.ChildCount; i++)
                 {
-                    l.Add(i);
-                    allPaths.Add(l);
-                }
-                var temp = f2(child, newl, treeType);
-                foreach (var item in temp){
-                    allPaths.Add(item);
+                    var child = current.GetChild(i);
+                    if (!((child is TerminalNodeImpl) || (child is RecycleParser.NamegrContext))) {
+                        if (child is RecycleParser.CstorageContext) {
+                            cstorages.Add(child as RecycleParser.CstorageContext);
+                        }
+                        nodes.Add(child);
+                    }
                 }
             }
-            return allPaths;
-        }
+            return cstorages;
+       }
 
-        private static void Mutate(string parent, string folder)
+        private static string[] Tournament(double[] scores, string[] files)
         {
-            folder += "/";
-            string childName = Trim(parent) + "M.gdl";
-            var parser = OpenParser(parent);
-            string child = parser.game().GetText();
-            // perform mutation
-            // choose numMutations random mutations or random permutations
-            // to mutate:
-            // randomly choose an atom
-            // perform a random change on that atom
-            // save to file in intermediate
-            MakeFile(child, folder + childName);
+            string[] ret = new string[numKept];
+            var count = scores.Count();
+
+            if (count < numKept) { throw new ArgumentOutOfRangeException(); }
+
+            for (int i = 0; i < numKept; i++)
+            {
+                var ind1 = rnd.Next(count);
+                var ind2 = rnd.Next(count);
+                string add = null;
+                if (scores[ind1] > scores[ind2]) { add = files[ind1]; }
+                else { add = files[ind2]; }
+                if (ret.Contains(add))
+                {
+                    i--;
+                }
+                else
+                {
+                    ret[i] = add;
+                }
+            }
+            return ret;
         }
 
         private static void MakeFile(string file, string name){
@@ -354,9 +483,8 @@ namespace CardStockXam
         private static void deleteAllOldFiles(){
             var folders = Directory.GetDirectories("Gamepool");
             foreach (var folder in folders){
-                Console.WriteLine(folder);
                 if (folder.Contains("Pool") || folder.Contains("Intermediate")){
-                    Console.WriteLine("^deleting");
+                    Console.WriteLine("Deleting folder " + folder);
                     DeleteDirectory(folder);
                 }
             }
