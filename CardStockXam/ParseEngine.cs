@@ -151,12 +151,12 @@ public class ParseEngine
                 }
                 if (!gameBroke)
                 {
-                    Console.Out.WriteLine("Results: " + i);
+                    if (!exp.evaluating) { Console.Out.WriteLine("Results: " + i); }
                     var results = ScoreIterator.ProcessScore(tree.scoring());
                     for (int j = 0; j < results.Count; ++j)
                     {
                         aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
-                        Console.Out.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1);
+                        if (!exp.evaluating) { Console.Out.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
                         if (results[j].Item2 == 0 && j != results.Count - 1)
                         {
                             winaggregator[i / (exp.numGames / exp.numEpochs)]++;

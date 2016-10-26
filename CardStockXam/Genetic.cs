@@ -20,8 +20,8 @@ namespace CardStockXam
         private static Random rnd = new Random();
         private static Regex regex = new Regex("(;;)(.*?)(\n)");
         private static Type[] crossovers = new Type[] { typeof(RecycleParser.StageContext), typeof(RecycleParser.MultiactionContext), typeof(RecycleParser.Multiaction2Context), typeof(RecycleParser.DeckContext), typeof(RecycleParser.SetupContext) };
-        private static Type[] mutations = new Type[] { typeof(RecycleParser.MoveactionContext) }; //, typeof(RecycleParser.ShuffleactionContext), typeof(RecycleParser.RepeatContext), typeof(RecycleParser.MultiactionContext), typeof(RecycleParser.Multiaction2Context), typeof(RecycleParser.EndconditionContext) };
-
+        private static Type[] mutations = new Type[] { typeof(RecycleParser.MoveactionContext), typeof(RecycleParser.ShuffleactionContext), typeof(RecycleParser.RepeatContext), typeof(RecycleParser.MultiactionContext), typeof(RecycleParser.Multiaction2Context), typeof(RecycleParser.EndconditionContext), typeof(RecycleParser.CondactContext) };
+        //todo add booleans to mutations
 
         public static void Main(string[] args){
             string newPool = "Gamepool\\Pool0";
@@ -90,6 +90,7 @@ namespace CardStockXam
                     moveAllFiles(intermediate, newPool, true, newFiles);// keep);
                 }   
             }
+            Console.Read();
         }
 
         private static void Crossover(string parent1, string parent2, string folder)
@@ -142,6 +143,11 @@ namespace CardStockXam
             if (c1 == c2) { return ""; }
             return "move " + c1 + " " + c2;
         }
+        private static string ConstructShuffleString(string c1, string c2)
+        {
+            if (c1 == c2) { return ""; }
+            return "shuffle " + c2;
+        }
 
         private static string GetMutation(IParseTree tree, List<RecycleParser.CstorageContext> locs){
             var ret = "";
@@ -155,7 +161,6 @@ namespace CardStockXam
                     ret = "move " + text2 + " " + text1;
                     Console.WriteLine("reverse of " + t.GetText() + " is ");
                     Console.WriteLine(ret);
-                    return ret;
                 }
                 else if (r == 1){ // change beginning to random loc
                     while (ret.Length == 0){
@@ -164,7 +169,6 @@ namespace CardStockXam
                     }
                     Console.WriteLine("beginning of " + t.GetText() + " switched is ");
                     Console.WriteLine(ret);
-                    return ret;
                 }
                 else if (r == 2){ // change ending to random loc
                     while (ret.Length == 0){
@@ -173,7 +177,6 @@ namespace CardStockXam
                     }
                     Console.WriteLine("end of " + t.GetText() + " switched is ");
                     Console.WriteLine(ret);
-                    return ret;
                 }
                 else if (r == 3){ // 1 case with bottom
                     while (ret.Length == 0){
@@ -182,7 +185,6 @@ namespace CardStockXam
                     }
                     Console.WriteLine("beginning of " + t.GetText() + " switched is ");
                     Console.WriteLine(ret);
-                    return ret;
                 }
                 else if (r == 4){ // 2 case with bottom
                     while (ret.Length == 0){
@@ -191,110 +193,160 @@ namespace CardStockXam
                     }
                     Console.WriteLine("end of " + t.GetText() + " switched is ");
                     Console.WriteLine(ret);
-                    return ret;
                 }
             }
             else if (tree is RecycleParser.ShuffleactionContext){
                 var t = tree as RecycleParser.ShuffleactionContext;
-                var r = rnd.Next(0, 4);
-                if (r == 0)
-                { // 
-
-                }
-                else if (r == 1)
-                { // 
-
-                }
-                else if (r == 2)
-                { // 
-
-                }
-                else if (r == 3)
-                { // 
-
+                while (ret.Length == 0){ // swap shuffle location with other location
+                    var loc = locs[rnd.Next(0, locs.Count)];
+                    ret = ConstructShuffleString(t.cstorage().GetText(), loc.GetText());
                 }
             }
             else if (tree is RecycleParser.RepeatContext){
-                var t = tree as RecycleParser.MoveactionContext;
-                var r = rnd.Next(0, 4);
-                if (r == 0)
-                { // 
-
+                var t = tree as RecycleParser.RepeatContext;
+                if (t.@int() != null){
+                    var r = rnd.Next(1, 10);
+                    ret = "repeat " + r + " " + t.GetChild(2).GetText();
                 }
-                else if (r == 1)
-                { // 
-
-                }
-                else if (r == 2)
-                { // 
-
-                }
-                else if (r == 3)
-                { // 
-
+                else{
+                    ret = "repeat all (" + GetMutation(t.GetChild(3), locs) + ")";
                 }
             }
             else if (tree is RecycleParser.MultiactionContext){
-                var t = tree as RecycleParser.MoveactionContext;
-                var r = rnd.Next(0, 4);
-                if (r == 0)
-                { // 
-
+                var t = tree as RecycleParser.MultiactionContext;
+                if (t.agg() != null){
+                    var a = t.agg();
+                    var r = rnd.Next(0, 2);
+                    if (r == 0){// swap any and all
+                        var mod = "any";
+                        if (a.GetChild(1).Equals("any")) {
+                            mod = "all"; 
+                        }
+                        ret = "(" + mod + " " + 
+                            a.GetChild(2).GetText() + " " +
+                            a.GetChild(3).GetText() + " " + 
+                            a.GetChild(4).GetText() + ")";
+                    }
+                    else if (r == 1){
+                        var loc = locs[rnd.Next(0, locs.Count)];
+                        ret = "(" + a.GetChild(1).GetText() + " " +
+                            loc.GetText()           + " " +
+                            a.GetChild(3).GetText() + " " +
+                            a.GetChild(4).GetText() + ")";
+                    }
                 }
-                else if (r == 1)
-                { // 
-
+                else if (t.let() != null){
+                    if (t.let().multiaction() != null){
+                        var let = t.let();
+                        ret = "(let " + 
+                            let.GetChild(2).GetText() + " " +
+                            let.GetChild(3).GetText() + " " +
+                            GetMutation(let.multiaction(), locs) + ")";
+                    }
                 }
-                else if (r == 2)
-                { // 
-
-                }
-                else if (r == 3)
-                { // 
-
+                else{ // choice or do
+                    var r = rnd.Next(0, 3);
+                    if (r == 0){ // swap choice/do
+                        var snd = "choice";
+                        if (t.GetChild(1).GetText().Contains("c")){
+                            snd = "do";
+                        }
+                        ret = "(" + snd + " (";
+                        for (int i = 3; i < t.ChildCount - 2; i++){
+                            ret += t.GetChild(i).GetText() + " ";
+                        }
+                        ret += "))";
+                    }
+                    else if (r == 1) { // change condact
+                        var ind = rnd.Next(0, t.condact().Count());
+                        ret = "(" + t.GetChild(1).GetText() + " (";
+                        for (int i = 3; i < t.ChildCount - 2; i++){
+                            if (i - 3 == ind) { ret += GetMutation(t.GetChild(i), locs); }
+                            else { ret += t.GetChild(i).GetText() + " "; }
+                        }
+                        ret += "))";
+                    }
+                    else { // add new modified condact
+                        var ind = rnd.Next(0, t.condact().Count());
+                        ret = "(" + t.GetChild(1).GetText() + " (";
+                        for (int i = 3; i < t.ChildCount - 2; i++){
+                            if (i - 3 == ind) { ret += GetMutation(t.GetChild(i), locs); }
+                            ret += t.GetChild(i).GetText() + " ";
+                        }
+                        ret += "))";
+                    }
                 }
             }
             else if (tree is RecycleParser.Multiaction2Context){
-                var t = tree as RecycleParser.MoveactionContext;
-                var r = rnd.Next(0, 4);
-                if (r == 0)
-                { // 
-
+                var t = tree as RecycleParser.Multiaction2Context;
+                if (t.agg() != null){
+                    var a = t.agg();
+                    var r = rnd.Next(0, 2);
+                    if (r == 0){// swap any and all
+                        var mod = "any";
+                        if (a.GetChild(1).Equals("any")){
+                            mod = "all";
+                        }
+                        ret = "(" + mod + " " +
+                            a.GetChild(2).GetText() + " " +
+                            a.GetChild(3).GetText() + " " +
+                            a.GetChild(4).GetText() + ")";
+                    }
+                    else if (r == 1){
+                        var loc = locs[rnd.Next(0, locs.Count)];
+                        ret = "(" + a.GetChild(1).GetText() + " " +
+                            loc.GetText() + " " +
+                            a.GetChild(3).GetText() + " " +
+                            a.GetChild(4).GetText() + ")";
+                    }
                 }
-                else if (r == 1)
-                { // 
-
+                else if (t.let() != null){
+                    if (t.let().multiaction() != null){
+                        var let = t.let();
+                        ret = "(let " +
+                            let.GetChild(2).GetText() + " " +
+                            let.GetChild(3).GetText() + " " +
+                            GetMutation(let.multiaction(), locs) + ")";
+                    }
                 }
-                else if (r == 2)
-                { // 
-
-                }
-                else if (r == 3)
-                { // 
-
+                else{ // do
+                    var r = rnd.Next(0, 2);
+                    if (r == 0){ // change condact
+                        var ind = rnd.Next(0, t.condact().Count());
+                        ret = "(do (";
+                        for (int i = 3; i < t.ChildCount - 2; i++)
+                        {
+                            if (i - 3 == ind) { ret += GetMutation(t.GetChild(i), locs); }
+                            else { ret += t.GetChild(i).GetText() + " "; }
+                        }
+                        ret += "))";
+                    }
+                    else{ // add new modified condact
+                        var ind = rnd.Next(0, t.condact().Count());
+                        ret = "(do (";
+                        for (int i = 3; i < t.ChildCount - 2; i++)
+                        {
+                            if (i - 3 == ind) { ret += GetMutation(t.GetChild(i), locs); }
+                            ret += t.GetChild(i).GetText() + " ";
+                        }
+                        ret += "))";
+                    }
                 }
             }
             else if (tree is RecycleParser.EndconditionContext){
                 var t = tree as RecycleParser.MoveactionContext;
-                var r = rnd.Next(0, 4);
-                if (r == 0)
-                { // 
-
+                ret = "(scoring not " + t.GetChild(2).GetText() + ")";
+            }
+            else if (tree is RecycleParser.CondactContext){
+                var t = tree as RecycleParser.CondactContext;
+                if (t.boolean() != null) {// not bool
+                    ret = t.GetText().Insert(1, "not");
                 }
-                else if (r == 1)
-                { // 
-
-                }
-                else if (r == 2)
-                { // 
-
-                }
-                else if (r == 3)
-                { // 
-
+                else if (t.multiaction2() != null){
+                    ret = GetMutation(t.multiaction2(), locs);
                 }
             }
-
+            Console.WriteLine("changed " + tree.GetText() + " to " + ret);
             return ret;
         }
     

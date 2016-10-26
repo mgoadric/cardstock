@@ -52,11 +52,6 @@ namespace ParseTreeIterator
                     Console.WriteLine(attr.GetText() + " case 1");
                     var terminalTitle = attr.namegr()[0];
                     var subNode = attr.attribute()[0];
-                    Console.WriteLine("subtext: " + subNode.GetText());
-                    foreach (var temp in subNode.attribute())
-                    {
-                        Console.WriteLine("attr: " + attr);
-                    }
                     if (subNode.var() == null)
                     {
                         var trueCount = (subNode.ChildCount - 3) / 2 + 1;
