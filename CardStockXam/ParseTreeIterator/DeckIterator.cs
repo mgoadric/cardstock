@@ -18,11 +18,6 @@ namespace ParseTreeIterator
 			List<Node> childs = new List<Node>();
 			for (int i = 0; i < deck.attribute().Count(); ++i){
                 var att = ProcessAttribute(deck.attribute(i));
-                Console.WriteLine("att " + i + ": " + deck.attribute(i).GetText());
-                Console.WriteLine(att.Count);
-                for (int idx = 0; idx < att.Count; idx++){
-                    Console.WriteLine(att[idx]);
-                }
 				childs.Add(new Node{
 					Value="combo"+i,
 					children=ProcessAttribute(deck.attribute(i))
@@ -38,10 +33,7 @@ namespace ParseTreeIterator
 
         public static List<Node> ProcessAttribute(RecycleParser.AttributeContext attr) //TODO make this array!!
         {
-            Console.WriteLine(attr.GetText());
-            Console.WriteLine(attr.var() == null);
             if (attr.var() != null) {
-                Console.WriteLine(attr.GetText() + " has var");
                 return (VarIterator.Get(attr.var()) as Node[]).OfType<Node>().ToList();
             }
             else {
@@ -49,14 +41,8 @@ namespace ParseTreeIterator
                 if (attr.attribute()[0].attribute().Count() == 0)
                 {
                     //base case
-                    Console.WriteLine(attr.GetText() + " case 1");
                     var terminalTitle = attr.namegr()[0];
                     var subNode = attr.attribute()[0];
-                    Console.WriteLine("subtext: " + subNode.GetText());
-                    foreach (var temp in subNode.attribute())
-                    {
-                        Console.WriteLine("attr: " + attr);
-                    }
                     if (subNode.var() == null)
                     {
                         var trueCount = (subNode.ChildCount - 3) / 2 + 1;
@@ -82,7 +68,6 @@ namespace ParseTreeIterator
                 }
                 else
                 {
-                    Console.WriteLine(attr.GetText() + " case 2");
                     var terminalTitle = attr.namegr()[0];
                     var children = attr.attribute();
 

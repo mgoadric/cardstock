@@ -21,23 +21,18 @@ namespace ParseTreeIterator
             throw new Exception("Object " + text + " could not be found");
         }
         public static void Put(string k, Object v){
-            Console.WriteLine("Putting " + k + " " + v.ToString() + " type is " + v.GetType());
             CardGame.Instance.vars[k] = v;
         }
         public static void Remove(string k){
             CardGame.Instance.vars.Remove(k);
         }
         public static FancyCardLocation ProcessCStorageFilter(RecycleParser.FilterContext filter){
-            Console.WriteLine("filter: " + filter.GetText());
             var cList = new CardListCollection();
             FancyCardLocation stor = null;
-            Console.WriteLine("filter is " + filter.GetText());
             if (filter.collection().cstorage() != null){
-                Console.WriteLine("cstorage");
                 stor = CardIterator.ProcessLocation(filter.collection().cstorage());
             }
             else if (filter.collection().var() != null){
-                Console.WriteLine("var");
                 var temp = Get(filter.collection().var());
                 if (temp is FancyCardLocation)
                 {
@@ -57,7 +52,6 @@ namespace ParseTreeIterator
             else{
                 throw new NotSupportedException();
             }
-            Console.WriteLine(stor);
             foreach (Card card in stor.cardList.AllCards())
             {
                 Put(filter.var().GetText(), card);
@@ -82,7 +76,6 @@ namespace ParseTreeIterator
 
         public static IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection)
         {
-            Console.WriteLine("collection is: " + collection.GetText());
             if (collection.var() != null){
                 var stor = Get(collection.var());
                 if (stor is FancyCardLocation){
@@ -117,10 +110,6 @@ namespace ParseTreeIterator
             else if (collection.strcollection() != null)
             {
                 var coll = ProcessStringCollection(collection.strcollection());
-                for (int idx = 0; idx < coll.Count(); idx++)
-                {
-                    Console.WriteLine(coll[idx]);
-                }
                 return ProcessStringCollection(collection.strcollection());
             }
             else if (collection.cstoragecollection() != null)
@@ -310,23 +299,18 @@ namespace ParseTreeIterator
         }
 
         public static List<GameActionCollection> ProcessLet(RecycleParser.LetContext let){
-            Console.WriteLine("in processlet: " + let.GetText());
             var ret = new List<GameActionCollection>();
             var typed = ProcessTyped(let.typed());
-            Console.WriteLine("typed: " + let.typed().GetText() + "\nprocessed type is " + typed + " type is " + typed.GetType());
             Put(let.var().GetText(), typed);
             if (let.multiaction() != null){
-                Console.WriteLine("multiaction: " + let.multiaction().GetText());
                 ret.AddRange(StageIterator.ProcessMultiaction(let.multiaction()));
                 
             }
             else if (let.action() != null){
-                Console.WriteLine("action: " + let.action().GetText());
                 ret.Add(ActionIterator.ProcessAction(let.action()));
                 
             }
             else if (let.condact() != null){
-                Console.WriteLine("condact: " + let.condact().GetText());
                 ActionIterator.DoAction(let.condact());
                 
             }
@@ -345,10 +329,6 @@ namespace ParseTreeIterator
             text = text.Replace("(", string.Empty) ;
             text = text.Replace(")", string.Empty) ;
             var newlst = text.Split(delimiter);
-            for (int idx = 0; idx < newlst.Count(); idx++)
-            {
-                Console.WriteLine(newlst[idx]);
-            }
             return newlst;
         }
 

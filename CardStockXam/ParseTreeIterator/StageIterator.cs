@@ -66,7 +66,6 @@ namespace ParseTreeIterator
                     lst.AddRange(VarIterator.ProcessLet(multiaction.let()));
                 }
                 else if (multiaction.GetChild(1).GetText() == "choice") {
-                    Console.WriteLine("inside choice for " + multiaction.GetText());
                     ProcessChoice(multiaction.condact());
                 }
                 else if (multiaction.GetChild(1).GetText() == "do") {
@@ -104,11 +103,8 @@ namespace ParseTreeIterator
             stackTrees.Push(stackTree);
             var stackAct = new Stack<GameAction>();
             while (stackTrees.Count != 0) {
-                Console.WriteLine("in stacktrees loop " + stackTrees.Count);
                 stackTree = stackTrees.Pop();
-
                 while (stackTree.Count() != 0) {
-                    Console.WriteLine("in stacktree loop " + stackTree.Count());
                     var current = stackTree.Pop();
                     if (current.tree != null) {
                         var currentTree = current.tree;
@@ -176,9 +172,7 @@ namespace ParseTreeIterator
                         }
                         else if (currentTree is RecycleParser.LetContext) {
                             var let = currentTree as RecycleParser.LetContext;
-                            Console.WriteLine("let: " + currentTree.GetText());
                             var item = VarIterator.ProcessTyped(let.typed());
-                            Console.WriteLine("let is : " + item);
                             stackTree.Push(let.var().GetText());
                             stackTree.Push(currentTree.GetChild(4));
                             stackTree.Push(let.var().GetText(), item);
@@ -195,7 +189,6 @@ namespace ParseTreeIterator
                         }
                     }
                     else{//var context
-                        Console.WriteLine("in else: " + current.tree.GetText());
                         if (current.item != null){
                             VarIterator.Put(current.varContext, current.item);
                         } else{
@@ -238,13 +231,10 @@ namespace ParseTreeIterator
             var allOptions = new List<GameActionCollection>();
             for (int i = 0; i < choices.Length; ++i)
             {
-                Console.WriteLine("in choice loop " + i);
                 var gacs = RecurseDo(choices[i]);
-                Console.WriteLine(gacs);
                 if (gacs.Count > 0){
                     allOptions.AddRange(gacs);
                 }
-                Console.WriteLine("end of choice loop " + choices[i]);
             }
             //BranchingFactor.Instance.AddCount(allOptions.Count, CardGame.Instance.CurrentPlayer().idx);
             if (allOptions.Count != 0){

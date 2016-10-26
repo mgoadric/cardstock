@@ -255,11 +255,6 @@ namespace ParseTreeIterator
                     return fancy;
                 }
                 else{
-                    Console.WriteLine("here");
-                    Console.WriteLine(stor.GetText());
-                    Console.WriteLine(VarIterator.Get(stor.var()));
-                    Console.WriteLine(VarIterator.Get(stor.var()).GetType());
-                    Console.WriteLine(prefix);
                     var name = "";
                     if (VarIterator.Get(stor.var()) is string){
                         name = VarIterator.Get(stor.var()) as string;

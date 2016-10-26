@@ -14,7 +14,6 @@ namespace ParseTreeIterator
 	public class IntIterator{
 		
 		public static int ProcessInt(RecycleParser.IntContext intNode){
-            Console.WriteLine("intnode: " + intNode.GetText());
             if (intNode.rawstorage() != null) {
                 var fancy = ProcessRawStorage(intNode.rawstorage());
                 return fancy.Get();
@@ -88,8 +87,6 @@ namespace ParseTreeIterator
             else if (intNode.score() != null) {
                 var scorer = CardGame.Instance.points[intNode.score().var().GetText()];
                 var card = CardIterator.ProcessCard(intNode.score().card());
-                Console.WriteLine("score: " + scorer);
-                Console.WriteLine("card: " +  card);
                 return scorer.GetScore(card.Get());
             }
             else if (intNode.var() != null){
