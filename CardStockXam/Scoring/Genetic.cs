@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Antlr4.Runtime.Tree;
-using System.Text.RegularExpressions;
 using CardStockXam.Scoring;
 
 namespace CardStockXam
@@ -16,15 +13,25 @@ namespace CardStockXam
         private static double mutationRate = .4;
         private static int numMutations = 2;
         private static int minimumChildren = 2;//(int) Math.Floor(numKept * 1.5);
+        private static bool testing = true;
 
         private static GeneticFiler filer = new GeneticFiler();
         private static Generator gen = new Generator(filer, numMutations);
         private static Random rnd = new Random();
 
 
-        public static void Main(string[] args){
+        public static void Main(string[] args) {
+            filer.FixInit();
+            if (testing) {
+                Test();
+            }
+            else {
+                GA();
+            }
             filer.Start(repetitions);
-            
+        }
+
+        private static void GA(){
             for (int rep = 0; rep < repetitions; rep++){
                 filer.newIter();
                 string[] fileNames = filer.GetFiles(filer.Pool());
@@ -61,14 +68,13 @@ namespace CardStockXam
                 
                 // Scoring
                 double[] scores = new double[newFiles.Count()];
-                Console.WriteLine("\n\nScoring " + newFiles.Count() + ":");
                 for (int i = 0; i < newFiles.Count(); i++) { // get scores
                     Scorer s = new Scorer(newFiles[i].Substring(0, newFiles[i].Length - 4));
                     scores[i] = s.Score();
                     Console.WriteLine("File " + newFiles[i] + "'s score is " + scores[i]);
                 }
                 string[] keep = Tournament(scores, newFiles);
-                Console.WriteLine("\nKept:");
+                Console.WriteLine("\n\nKept:");
                 foreach (string s in keep){
                     Console.WriteLine(s);
                 }
@@ -158,7 +164,14 @@ namespace CardStockXam
             return highestIndices.Min;
         }
 
-
+        private static void Test(){
+            var files = filer.GetFullPathFiles(filer.Initial());
+            for (int i = 0; i < files.Count(); i++){
+                Scorer s = new Scorer(files[i].Substring(0, files[i].Length - 4));
+                Console.WriteLine("File " + files[i] + "'s score is " + s.Score());
+            }
+            Console.ReadLine();
+        }
 
     }
 }
