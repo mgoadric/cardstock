@@ -13,7 +13,8 @@ namespace CardGames
             exp.numGames = 1;
             exp.numEpochs = 1;
             exp.logging = true;
-            exp.ai = false;
+            exp.ai1 = false;
+            exp.ai2 = false;
 
             var codeGen = new ParseEngine(exp);
         }*/

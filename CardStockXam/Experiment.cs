@@ -9,10 +9,11 @@ namespace CardGames
         public int numEpochs;
         public bool logging;
         public bool evaluating;
-        public bool ai;
+        public bool ai1 = false;
+        public bool ai2 = false;
 
-        public Experiment()
-        {
+        public Experiment(){
+
         }
     }
 }

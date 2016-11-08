@@ -5,7 +5,7 @@ var : '\'' namegr ;
 game : OPEN 'game' declare*? setup (multiaction|stage)+? scoring CLOSE ;
 setup : OPEN 'setup' playercreate OPEN teamcreate CLOSE (OPEN (deckcreate | repeat) CLOSE)+? CLOSE ;
 stage : OPEN 'stage' ('player'|'team') endcondition (multiaction | stage)+? CLOSE ;
-scoring : OPEN 'scoring' ('min' | 'max') int ;
+scoring : OPEN 'scoring' ('min' | 'max') int CLOSE ;
 endcondition : OPEN 'end' boolean CLOSE ;
 
 action : OPEN (initpoints | teamcreate | deckcreate | cycleaction | setaction | moveaction | copyaction

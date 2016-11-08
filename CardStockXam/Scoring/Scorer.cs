@@ -11,7 +11,6 @@ namespace CardStockXam
     class Scorer{
         private Experiment exp;
         private ParseEngine engine;
-        private int numGames;
 
         // list of heuristic values
         private bool compiles;
@@ -25,7 +24,8 @@ namespace CardStockXam
                 numEpochs = 1, //?
                 logging = false,
                 evaluating = true,
-                ai = false
+                ai1 = true,
+                ai2 = true
             };
             engine = new ParseEngine(exp);
         }

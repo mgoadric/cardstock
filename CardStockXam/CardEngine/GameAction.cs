@@ -170,8 +170,6 @@ namespace CardEngine {
             deck = d;
         }
         public override void Execute() {
-            Console.WriteLine("init deck");
-            Console.WriteLine(deck);
             foreach (Card c in location.AllCards())
             {
                 before.Add(c);

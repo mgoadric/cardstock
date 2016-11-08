@@ -29,10 +29,10 @@ public class ParseEngine
         var regex = new Regex("(;;)(.*?)(\n)");
 
         if (exp.logging) {
-            System.IO.File.WriteAllText(exp.fileName + ".txt", string.Empty);
+            File.WriteAllText(exp.fileName + ".txt", string.Empty);
         }
         if (exp.evaluating) {
-            System.IO.File.WriteAllText(exp.fileName + "_results.txt", string.Empty);
+            File.WriteAllText(exp.fileName + "_results.txt", string.Empty);
         }
         // Load up the game from the .gdl RECYCLE description
         string fileName = exp.fileName;
@@ -43,7 +43,12 @@ public class ParseEngine
         else
         {
             string[] split = new string[] { "Release\\" };
-            fileName = fileName.Split(split, StringSplitOptions.RemoveEmptyEntries)[1] + ".gdl";
+            var path = fileName.Split(split, StringSplitOptions.RemoveEmptyEntries);
+            if (path.Count() == 1){
+                split = new string[] { "Debug\\" };
+                path = fileName.Split(split, StringSplitOptions.RemoveEmptyEntries);
+            }
+            fileName = path[1] + ".gdl";
         }
         Console.WriteLine("name: " + fileName);
         var file = File.ReadAllText(fileName);
@@ -104,12 +109,13 @@ public class ParseEngine
                 var manageContext = new FreezeFrame.GameIterator(tree);
                 //manageContext.AdvanceToChoice ();
                 currentIterator = manageContext;
-
-                if (exp.ai)
-                {
+                
+                if (exp.ai1){
                     CardEngine.CardGame.Instance.players[0].decision = new Players.LessThanPerfectPlayer();
                 }
-
+                else if (exp.ai2){
+                    CardEngine.CardGame.Instance.players[1].decision = new Players.LessThanPerfectPlayer();
+                }
                 while (!manageContext.AdvanceToChoice())
                 {
                     choiceCount++;
@@ -176,29 +182,31 @@ public class ParseEngine
             }
         }
         time.Stop();
-        Console.Out.WriteLine(time.Elapsed);
-        Console.Out.WriteLine(choiceCount / (double)(exp.numGames));
-        for (int i = 0; i < 5; ++i)
-        {
-            Console.Out.Write("Player" + (i + 1) + ":\t");
+        if (!exp.evaluating){
+            Console.Out.WriteLine(time.Elapsed);
+            Console.Out.WriteLine(choiceCount / (double)(exp.numGames));
+            for (int i = 0; i < 5; ++i)
+            {
+                Console.Out.Write("Player" + (i + 1) + ":\t");
+                for (int j = 0; j < exp.numEpochs; j++)
+                {
+                    Console.Out.Write(aggregator[i, j] / (double)(exp.numGames / exp.numEpochs) + "\t");
+                }
+                Console.Out.WriteLine();
+            }
+            Console.Out.Write("Wins :\t");
             for (int j = 0; j < exp.numEpochs; j++)
             {
-                Console.Out.Write(aggregator[i, j] / (double)(exp.numGames / exp.numEpochs) + "\t");
+                Console.Out.Write(winaggregator[j] / (double)(exp.numGames / exp.numEpochs) + "\t");
             }
             Console.Out.WriteLine();
-        }
-        Console.Out.Write("Wins :\t");
-        for (int j = 0; j < exp.numEpochs; j++)
-        {
-            Console.Out.Write(winaggregator[j] / (double)(exp.numGames / exp.numEpochs) + "\t");
-        }
-        Console.Out.WriteLine();
-        if (breakOnCycle)
-        {
-            Console.WriteLine("Cycles:" + cycleCount);
-        }
+            if (breakOnCycle)
+            {
+                Console.WriteLine("Cycles:" + cycleCount);
+            }
 
-        Console.Read();
+            Console.Read();
+        }
     }
 
     /*****
