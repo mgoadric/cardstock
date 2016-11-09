@@ -35,7 +35,6 @@ namespace CardStockXam.Scoring
             return files;
         }
 
-        public string Initial() { return "Gamepool\\Initial"; }
         public string Pool() { return Pool(rep); }
         public string NextPool() { return Pool(rep + 1); }
         public string Pool(int i) { return "Gamepool\\Pool" + i; }
@@ -85,25 +84,10 @@ namespace CardStockXam.Scoring
             return Trim(parent) + "M.gdl";
         }
 
-        public void FixInit(){
-            var files = Directory.GetFiles(Initial());
-            foreach (var file in files){
-                if (!file.Contains(".gdl")){
-                    File.Delete(file);
-                }
-            }
-        }
-
-        public void DeleteDirectory(string targetDir){
-            deleteFiles(targetDir);
-            Directory.Delete(targetDir, false);
-        }
-
         private void deleteFiles(string folder)
         {
             string[] toRemove = Directory.GetFiles(folder);
-            foreach (string s in toRemove)
-            {
+            foreach (string s in toRemove){
                 File.Delete(s);
             }
         }
@@ -119,6 +103,12 @@ namespace CardStockXam.Scoring
                     DeleteDirectory(folder);
                 }
             }
+        }
+
+        public void DeleteDirectory(string targetDir)
+        {
+            deleteFiles(targetDir);
+            Directory.Delete(targetDir, false);
         }
 
         private string Trim(string s)

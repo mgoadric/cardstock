@@ -179,7 +179,6 @@ public class ParseEngine
             catch(Exception e)
             {
                 toResultFile("C:F");
-                Console.WriteLine(fileName + " failed from exception: " + e.ToString() + "\n\n\n");
             }
         }
         time.Stop();
