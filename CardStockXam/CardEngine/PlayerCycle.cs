@@ -8,7 +8,6 @@ namespace CardEngine{
 		public int queuedNext = -1;
 		public PlayerCycle(List<Player> pList){
             playerList = pList;
-            var p = pList[0];
             CardGame.Instance.WriteToFile("t:" + playerList[idx].name);
         }
 		public PlayerCycle(PlayerCycle clone){
