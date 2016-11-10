@@ -100,6 +100,7 @@ namespace Players
                     minIdx = i;
                 }
             }
+            ParseEngine.toResultFile("Vm:" + min);
             return minIdx;
         }
         public static int idxOfMaximum(int[] input)
@@ -114,6 +115,7 @@ namespace Players
                     maxIdx = i;
                 }
             }
+            ParseEngine.toResultFile("VM:" + max);
             return maxIdx;
         }
     }
