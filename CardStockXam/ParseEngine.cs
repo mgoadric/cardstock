@@ -113,7 +113,7 @@ public class ParseEngine
                 if (exp.ai1){
                     CardEngine.CardGame.Instance.players[0].decision = new Players.LessThanPerfectPlayer();
                 }
-                else if (exp.ai2){
+                if (exp.ai2){
                     CardEngine.CardGame.Instance.players[1].decision = new Players.LessThanPerfectPlayer();
                 }
                 while (!manageContext.AdvanceToChoice())

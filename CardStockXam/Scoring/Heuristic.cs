@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardStockXam.Scoring
 {
-    class Heuristic{
-        public bool cond;
-        public double val;
-        public double weight;
+    public abstract class Heuristic{
+        public double eval(World w)
+        {
+            return get(w) * weight();
+        }
+
+        public abstract double weight();
+        public abstract double get(World w);
     }
 }
