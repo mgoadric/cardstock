@@ -330,7 +330,7 @@ public class ParseEngine
     {
         if (expstat.logging)
         {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(expstat.fileName + ".txt", true))
+            using (StreamWriter file = new StreamWriter(expstat.fileName + ".txt", true))
             {
                 file.WriteLine(text);
             }
@@ -340,9 +340,10 @@ public class ParseEngine
     {
         if (expstat.evaluating)
         {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(expstat.fileName + "_results.txt", true))
+            using (StreamWriter file = new StreamWriter(expstat.fileName + "_results.txt", true))
             {
                 file.WriteLine(text);
+                Console.WriteLine(expstat.fileName);
             }
         }
     }

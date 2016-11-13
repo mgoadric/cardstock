@@ -233,6 +233,8 @@
     <Compile Include="Scoring\GeneticFiler.cs" />
     <Compile Include="Scoring\Generator.cs" />
     <Compile Include="Scoring\Heuristic.cs" />
+    <Compile Include="Scoring\Heuristics\MeaningfulMoves.cs" />
+    <Compile Include="Scoring\Heuristics\Variance.cs" />
     <Compile Include="Scoring\Scorer.cs" />
     <Compile Include="Experiment.cs" />
     <Compile Include="FreezeFrame\GameIterator.cs" />
@@ -279,6 +281,7 @@
     <Compile Include="RecycleLexer.cs" />
     <Compile Include="RecycleListener.cs" />
     <Compile Include="RecycleParser.cs" />
+    <Compile Include="Scoring\World.cs" />
     <Compile Include="Tree.cs" />
     <Compile Include="Players\GeneralPlayer.cs" />
     <Compile Include="FreezeFrame\StackState.cs" />

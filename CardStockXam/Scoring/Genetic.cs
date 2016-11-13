@@ -167,7 +167,7 @@ namespace CardStockXam
         private static void Test(){
             var files = filer.GetFullPathFiles(filer.Initial());
             for (int i = 0; i < files.Count(); i++){
-                Scorer s = new Scorer(files[i].Substring(0, files[i].Length - 4));
+                Scorer s = new Scorer(files[i].Substring(0, files[i].Length - 4), true);
                 Console.WriteLine("File " + files[i] + "'s score is " + s.Score());
             }
             Console.ReadLine();

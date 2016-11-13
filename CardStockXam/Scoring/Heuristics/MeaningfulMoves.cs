@@ -4,12 +4,12 @@ namespace CardStockXam.Scoring.Heuristics
 {
     class MeaningfulMoves : Heuristic{
 
-        public override double weight()
+        public override double Weight()
         {
             return 0.5;
         }
 
-        public override double get(World w){
+        public override double Get(World w){
             return w.numAIWins / w.numRndWins;
         }
     }

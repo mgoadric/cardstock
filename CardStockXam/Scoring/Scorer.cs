@@ -1,15 +1,15 @@
 ﻿using CardGames;
+using CardStockXam.Scoring;
+using CardStockXam.Scoring.Heuristics;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CardStockXam
 {
     class Scorer{
-        private List<Experiment> exps;
+        private List<Experiment> exps = new List<Experiment>();
         private ParseEngine engine;
 
         private int numRndvRnd = 1;
@@ -17,7 +17,7 @@ namespace CardStockXam
         private int numAIvAI   = 3;
 
         // list of heuristic values
-        private bool compiles;
+        private List<Heuristic> hs = new List<Heuristic>() { new MeaningfulMoves(), new Variance() };
 
         public Scorer(string fileName)
         {
@@ -26,13 +26,12 @@ namespace CardStockXam
                 {
                     fileName = fileName,
                     numGames = 1,
-                    numEpochs = 1, // maybe add one exp, and make numEpochs numRndvRnd??
+                    numEpochs = 1,
                     logging = false,
-                    evaluating = true,
-                    ai1 = true
+                    evaluating = true
                 });
             }
-            /*for (int i = 0; i < numAIvRnd; i++){
+            for (int i = 0; i < numAIvRnd; i++){
                 exps.Add(new Experiment()
                 {
                     fileName = fileName,
@@ -44,8 +43,7 @@ namespace CardStockXam
                 });
             }
             for (int i = 0; i < numAIvAI; i++){
-                exps.Add(new Experiment()
-                {
+                exps.Add(new Experiment(){
                     fileName = fileName,
                     numGames = 1,
                     numEpochs = 1,
@@ -54,7 +52,18 @@ namespace CardStockXam
                     ai1 = true,
                     ai2 = true
                 });
-            }*/
+            }
+        }
+
+        public Scorer(string fileName, bool testing){
+            exps.Add(new Experiment(){
+                fileName = fileName,
+                numGames = 1,
+                numEpochs = 1,
+                logging = true,
+                evaluating = true,
+                ai1 = true
+            });
         }
 
         // define heuristics here
@@ -63,10 +72,12 @@ namespace CardStockXam
                 engine = new ParseEngine(exps[i]);
                 if (!Compiling()) { return 0.0; }
             }
-            ProcessFile();
-            //find value of each heuristic using data from processfile
-            // for all heuristics, multiply heuristic by weight
-            return 1.0;
+            World w = ProcessFile();
+            double total = 0;
+            foreach (var h in hs){
+                total += h.Eval(w);
+            }
+            return total;
         }
 
         private bool Compiling(){
@@ -76,21 +87,30 @@ namespace CardStockXam
             while (fs.Read(b, 0, b.Length) > 0){
                 string line = temp.GetString(b);
                 if (line[0] == 'C'){
-                    if (!parseBool(line)) { return false; }
+                    if (!parseBool(line)) {
+                        fs.Close();
+                        return false;
+                    }
                 }
             }
+            fs.Close();
             return true;
         }
 
-        private void ProcessFile(){
+        private World ProcessFile(){
+            World w = new World();
+
             var fs = new FileStream(exps[0].fileName + "_results.txt", FileMode.Open);
             byte[] b = new byte[1024];
             UTF8Encoding temp = new UTF8Encoding(true);
 
             while (fs.Read(b, 0, b.Length) > 0){
                 string line = temp.GetString(b);
-                // analyze each line here
+
+                // TODO analyze each line here, add to w
             }
+            fs.Close();
+            return w;
         }
         public bool parseBool(string line)
         {

@@ -76,47 +76,38 @@ namespace Players
             }
             Debug.WriteLine("End Monte");
             //Debug.WriteLine ("***Switch Back***");
-            CardEngine.CardGame.Instance = CardEngine.CardGame.preserved;
+            CardGame.Instance = CardGame.preserved;
             var typeOfGame = ParseEngine.currentTree.scoring().GetChild(2).GetText();
+            var tup = MinMaxIdx(results);
             if (typeOfGame == "min")
             {
-                return idxOfMinimum(results);
+                return tup.Item1;
             }
             else
             {
-                return idxOfMaximum(results);
+                return tup.Item2;
             }
-            //return rand.Next (0,items.Count);
         }
-        public static int idxOfMinimum(int[] input)
+
+        public static Tuple<int,int> MinMaxIdx(int[] input)
         {
             int min = int.MaxValue;
+            int max = int.MinValue;
             int minIdx = -1;
-            for (int i = 0; i < input.Length; ++i)
-            {
-                if (input[i] < min)
-                {
+            int maxIdx = -1;
+            for (int i = 0; i < input.Length; ++i){
+                if (input[i] > max){
+                    max = input[i];
+                    maxIdx = i;
+                }
+                if (input[i] < min){
                     min = input[i];
                     minIdx = i;
                 }
             }
             ParseEngine.toResultFile("Vm:" + min);
-            return minIdx;
-        }
-        public static int idxOfMaximum(int[] input)
-        {
-            int max = int.MinValue;
-            int maxIdx = -1;
-            for (int i = 0; i < input.Length; ++i)
-            {
-                if (input[i] > max)
-                {
-                    max = input[i];
-                    maxIdx = i;
-                }
-            }
             ParseEngine.toResultFile("VM:" + max);
-            return maxIdx;
+            return new Tuple<int, int>(minIdx, maxIdx);
         }
     }
 }

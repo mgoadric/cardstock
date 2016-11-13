@@ -2,8 +2,6 @@
 using System.IO;
 using System.Linq;
 
-
-
 namespace CardStockXam.Scoring
 {
     class GeneticFiler

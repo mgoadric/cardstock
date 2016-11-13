@@ -42,10 +42,11 @@ namespace CardEngine
 			
 		}
 		public CardGame(int numPlayers) {
-			currentPlayer.Push(new PlayerCycle(players));
+            AddPlayers(numPlayers);
+			currentPlayer.Push(new PlayerCycle(players)); //TODO call allplayers?
 		}
 		public CardGame CloneCommon(){
-			var temp = new CardGame (this.players.Count);
+			var temp = new CardGame (this.players.Count); //here, players is being initialzed as an empty list of players
 			temp.DeclaredName = "Special";
 			Dictionary<Player, int> playerIdxs = new Dictionary<Player, int>();
 			for (int i = 0; i < this.players.Count; ++i) {

@@ -408,6 +408,9 @@ namespace CardStockXam.Scoring
         private Tuple<String, String> CleanRefs(RecycleParser.GameContext g1, RecycleParser.GameContext g2, IParseTree t1, IParseTree t2)
         {
             //TODO
+            // check for vars and locs
+              // if vars or locs don't exist in rest of context, then switch to something of same type that does exist
+                // if that fails, create a definition based on usage in other game
             return new Tuple<String, String>(t1.ToString(), t2.ToString());
         }
     }
