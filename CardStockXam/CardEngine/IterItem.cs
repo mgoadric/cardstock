@@ -16,7 +16,7 @@ namespace CardStockXam.CardEngine
         {
             varContext = k;
         }
-        public IterItem(string k, object v){
+        public IterItem(string k, ICloneable v){
             varContext = k;
             item = v;
         }

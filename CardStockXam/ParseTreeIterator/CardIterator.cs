@@ -99,7 +99,7 @@ namespace ParseTreeIterator
                 foreach (Player p in CardGame.Instance.players){ //TODOClone this doesn't make sense
                     lst.Add(p);
                 }
-                lst.Remove(CardGame.Instance.currentPlayer);
+                lst.Remove(CardGame.Instance.currentPlayer.ElementAt(0));
             }
             else{
                 foreach (Team t in CardGame.Instance.teams){

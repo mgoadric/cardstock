@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Antlr4.Runtime.Tree;
 using CardEngine;
+using CardStockXam.CardEngine;
 
 namespace ParseTreeIterator
 {
@@ -106,7 +107,7 @@ namespace ParseTreeIterator
                 List<ICloneable> newlst = new List<ICloneable>();
                 foreach (int num in lst)
                 {
-                    newlst.Add((ICloneable)num);
+                    newlst.Add(new Wrapper(num));
                 }
                 return newlst;
             }
@@ -226,13 +227,13 @@ namespace ParseTreeIterator
 
         private static ICloneable ProcessAggPost(IParseTree parseTree){
             if (parseTree is RecycleParser.Multiaction2Context){
-                return StageIterator.ProcessMultiaction(parseTree);
+                return (ICloneable) StageIterator.ProcessMultiaction(parseTree);
             }
             else if (parseTree is RecycleParser.ActionContext){
                 return ActionIterator.ProcessAction(parseTree as RecycleParser.ActionContext);
             }
             else if (parseTree is RecycleParser.BooleanContext){
-                return BooleanIterator.ProcessBoolean(parseTree as RecycleParser.BooleanContext);
+                return new Wrapper(BooleanIterator.ProcessBoolean(parseTree as RecycleParser.BooleanContext));
             }
             else if (parseTree is RecycleParser.CstorageContext){
                 return CardIterator.ProcessLocation(parseTree as RecycleParser.CstorageContext);
@@ -257,11 +258,11 @@ namespace ParseTreeIterator
         {
             if (typed.@int() != null)
             {
-                return IntIterator.ProcessInt(typed.@int());
+                return new Wrapper(IntIterator.ProcessInt(typed.@int()));
             }
             else if (typed.boolean() != null)
             {
-                return BooleanIterator.ProcessBoolean(typed.boolean());
+                return new Wrapper(BooleanIterator.ProcessBoolean(typed.boolean()));
             }
             else if (typed.namegr() != null)
             {
@@ -279,8 +280,8 @@ namespace ParseTreeIterator
         }
 
         public static List<GameActionCollection> ProcessLet(RecycleParser.LetContext let){
-            var ret = new List<GameActionCollection>();
-            Put(let.var().GetText(), let.typed());
+            var ret = new List<GameActionCollection>(); //TODO check this
+            Put(let.var().GetText(), new Wrapper(let.typed()));
             if (let.multiaction() != null){
                 ret.AddRange(StageIterator.ProcessMultiaction(let.multiaction()));
             }
@@ -310,7 +311,8 @@ namespace ParseTreeIterator
                 var raw = temp as FancyRawStorage;
                 return raw.Get();
             }
-            return (int) temp;
+            else if (temp is Wrapper) { return (int)(temp as Wrapper).o; }
+            else { throw new Exception("Temp is " + temp.GetType()); }
         }
 
         public static FancyCardLocation ProcessCardVar(RecycleParser.VarContext card){ //TODOOOOOOOOO get card instead of just top card of location when ret is Card

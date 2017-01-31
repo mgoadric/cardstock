@@ -324,9 +324,9 @@ namespace CardEngine {
 
     public class LoopAction : GameAction{
         public string var;
-        public object item;
+        public ICloneable item;
 
-        public LoopAction(string v, object item){
+        public LoopAction(string v, ICloneable item){
             this.var = v;
             this.item = item;
         }
