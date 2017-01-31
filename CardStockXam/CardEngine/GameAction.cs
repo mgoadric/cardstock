@@ -4,10 +4,16 @@ using System.Diagnostics;
 using ParseTreeIterator;
 
 namespace CardEngine {
-    public class GameActionCollection : List<GameAction> {
+    public class GameActionCollection : List<GameAction>, ICloneable {
         public GameActionCollection() : base() {
 
         }
+
+        public object Clone()
+        {
+            throw new NotImplementedException();//TODOClone
+        }
+
         public void ExecuteAll() {
             foreach (var gameColl in this)
             {
@@ -22,7 +28,7 @@ namespace CardEngine {
             }
         }
     }
-    public abstract class GameAction {
+    public abstract class GameAction : ICloneable {
         public bool actual = true;
         public bool complete;
         public void ExecuteActual(){
@@ -38,6 +44,11 @@ namespace CardEngine {
         public abstract void Undo();
         public String Serialize() {
             return "";
+        }
+
+        public object Clone() //TODOClone
+        {
+            throw new NotImplementedException();
         }
     }
     public class FancyCardMoveAction : GameAction {

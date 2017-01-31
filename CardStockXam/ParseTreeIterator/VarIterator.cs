@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using CardEngine;
 
@@ -10,17 +7,17 @@ namespace ParseTreeIterator
 {
     class VarIterator
     {
-        public static object Get(RecycleParser.VarContext var){
+        public static ICloneable Get(RecycleParser.VarContext var){
             return Get(var.GetText());
         }
-        public static object Get(String text){
+        public static ICloneable Get(String text){
             if (CardGame.Instance.vars.ContainsKey(text)){
                 return CardGame.Instance.vars[text];
             }
             Console.WriteLine("Failure");
             throw new Exception("Object " + text + " could not be found");
         }
-        public static void Put(string k, Object v){
+        public static void Put(string k, ICloneable v){
             CardGame.Instance.vars[k] = v;
         }
         public static void Remove(string k){
@@ -60,7 +57,7 @@ namespace ParseTreeIterator
             return IterateAgg(agg, ProcessCollection(agg.collection()));
         }
 
-        public static IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection)
+        public static IEnumerable<ICloneable> ProcessCollection(RecycleParser.CollectionContext collection)
         {
             if (collection.var() != null){
                 var stor = Get(collection.var());
@@ -83,7 +80,7 @@ namespace ParseTreeIterator
                 }
                 if (stor is List<int>)
                 {
-                    return stor as List<object>;
+                    return stor as List<ICloneable>;
                 }
             }
             if (collection.cstorage() != null)
@@ -106,10 +103,10 @@ namespace ParseTreeIterator
             else if (collection.range() != null)
             {
                 var lst = IntIterator.ProcessRange(collection.range());
-                List<object> newlst = new List<object>();
+                List<ICloneable> newlst = new List<ICloneable>();
                 foreach (int num in lst)
                 {
-                    newlst.Add((object)num);
+                    newlst.Add((ICloneable)num);
                 }
                 return newlst;
             }
@@ -131,14 +128,14 @@ namespace ParseTreeIterator
                 return CardIterator.ProcessOther(collection.other());
             }
             else{//var
-                return (IEnumerable<object>) Get(collection.GetText());
+                return (IEnumerable<ICloneable>) Get(collection.GetText());
             }
             throw new NotSupportedException();
         }
 
-        private static object IterateAgg<T>(RecycleParser.AggContext agg, IEnumerable<T> stor){
-            var ret = new List<object>();
-            foreach (T t in stor)
+        private static object IterateAgg(RecycleParser.AggContext agg, IEnumerable<ICloneable> stor){
+            var ret = new List<ICloneable>();
+            foreach (ICloneable t in stor)
             {
                 Put(agg.var().GetText(), t);
                 var post = ProcessAggPost(agg.GetChild(4));
@@ -227,7 +224,7 @@ namespace ParseTreeIterator
             return ret;
         }
 
-        private static object ProcessAggPost(IParseTree parseTree){
+        private static ICloneable ProcessAggPost(IParseTree parseTree){
             if (parseTree is RecycleParser.Multiaction2Context){
                 return StageIterator.ProcessMultiaction(parseTree);
             }
@@ -256,7 +253,7 @@ namespace ParseTreeIterator
             Put(declare.var().GetText(), ProcessTyped(declare.typed()));
         }
 
-        public static object ProcessTyped(RecycleParser.TypedContext typed)
+        public static ICloneable ProcessTyped(RecycleParser.TypedContext typed)
         {
             if (typed.@int() != null)
             {
@@ -276,7 +273,7 @@ namespace ParseTreeIterator
             }
             else if (typed.collection() != null)
             {
-                return ProcessCollection(typed.collection());
+                return (ICloneable) ProcessCollection(typed.collection());
             }
             throw new NotSupportedException();
         }

@@ -37,27 +37,27 @@ namespace CardEngine
 		public Stack<TeamCycle> currentTeam = new Stack<TeamCycle>();
 		public RawStorage gameStorage = new RawStorage();
 		public PointsStorage points = new PointsStorage();
-        public Dictionary<String, object> vars = new Dictionary<string, object>();
+        public Dictionary<String, ICloneable> vars = new Dictionary<string, ICloneable>();
 		public CardGame(){
+
 			
 		}
-		public CardGame(int numPlayers) {
-            AddPlayers(numPlayers);
-			currentPlayer.Push(new PlayerCycle(players)); //TODO call allplayers?
+		public CardGame(List<Player> ps) {
+            AddPlayers(ps);
 		}
 		public CardGame CloneCommon(){
-			var temp = new CardGame (this.players.Count); //here, players is being initialzed as an empty list of players
+			var temp = new CardGame (this.players);
 			temp.DeclaredName = "Special";
 			Dictionary<Player, int> playerIdxs = new Dictionary<Player, int>();
 			for (int i = 0; i < this.players.Count; ++i) {
-				playerIdxs [players [i]] = i;
+				playerIdxs [players[i]] = i;
 			}
 
 			for (int i = 0; i < this.teams.Count; ++i) {
 				var newTeam = new Team ();
 				for (int j = 0; j < this.teams [i].teamPlayers.Count; ++j) {
-					newTeam.teamPlayers.Add (temp.players [playerIdxs [this.teams [i].teamPlayers [j]]]);
-					temp.players [playerIdxs [this.teams [i].teamPlayers [j]]].team = newTeam;
+					newTeam.teamPlayers.Add (temp.players[playerIdxs [this.teams [i].teamPlayers [j]]]);
+					temp.players[playerIdxs [this.teams [i].teamPlayers [j]]].team = newTeam;
 				}
 				temp.teams.Add (newTeam);
 			}
@@ -161,9 +161,22 @@ namespace CardEngine
 				}
 			}
 			temp.points = points.Clone ();
+            // clone vars
+            temp.vars = CloneDictionary(vars);
 			return temp;
 		}
-		public CardGame Clone(){
+
+        public static Dictionary<String, ICloneable> CloneDictionary
+            (Dictionary<String, ICloneable> original)
+        {
+            Dictionary<String, ICloneable> ret = new Dictionary<String, ICloneable>(original.Count,
+                                                                    original.Comparer);
+            foreach (KeyValuePair<String, ICloneable> entry in original){
+                ret.Add(entry.Key, (ICloneable) entry.Value.Clone());
+            }
+            return ret;
+        }
+        public CardGame Clone(){
 			var temp = CloneCommon ();
 			//Clone Source Deck and Index Cards
 			//*****************
@@ -202,6 +215,15 @@ namespace CardEngine
 			}
             currentPlayer.Push(new PlayerCycle(players));
 		}
+
+        public void AddPlayers(List<Player> ps){
+            for (int i = 0; i < ps.Count; ++i){
+                players.Add(new Player() { name = "p" + i });
+                players[i].decision = players[i].decision;
+            }
+            currentPlayer.Push(new PlayerCycle(players));
+        }
+
 		public void PushPlayer(){
 			currentPlayer.Push(new PlayerCycle(currentPlayer.Peek()));
 		}

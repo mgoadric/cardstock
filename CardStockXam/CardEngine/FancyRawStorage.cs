@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 namespace CardEngine{
-	public class FancyRawStorage{
+	public class FancyRawStorage : ICloneable{
 		public RawStorage storage {get; set;}
 		public string key {get; set;}
 		public FancyRawStorage(RawStorage raw, string key){
@@ -12,5 +12,10 @@ namespace CardEngine{
 		public int Get(){
 			return this.storage[this.key];
 		}
-	}
+
+        public object Clone()
+        {
+            throw new NotImplementedException();//TODOClone
+        }
+    }
 }

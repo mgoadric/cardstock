@@ -93,10 +93,10 @@ namespace ParseTreeIterator
             throw new NotSupportedException();
         }
 
-        public static List<object> ProcessOther(RecycleParser.OtherContext other){ //return list of teams or list of players
-            List<object> lst = new List<object>();
+        public static List<ICloneable> ProcessOther(RecycleParser.OtherContext other){ //return list of teams or list of players
+            List<ICloneable> lst = new List<ICloneable>();
             if (other.GetChild(2).GetText() == "player"){
-                foreach (Player p in CardGame.Instance.players){
+                foreach (Player p in CardGame.Instance.players){ //TODOClone this doesn't make sense
                     lst.Add(p);
                 }
                 lst.Remove(CardGame.Instance.currentPlayer);
@@ -105,7 +105,7 @@ namespace ParseTreeIterator
                 foreach (Team t in CardGame.Instance.teams){
                     lst.Add(t);
                 }
-                lst.Remove(CardGame.Instance.currentTeam);
+                lst.Remove(CardGame.Instance.currentTeam); //I dont think this does either
             }
             return lst;
         }

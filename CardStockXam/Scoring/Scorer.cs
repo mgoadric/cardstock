@@ -69,6 +69,7 @@ namespace CardStockXam
         // define heuristics here
         public double Score(){
             for (int i = 0; i < exps.Count; i++){
+                Console.WriteLine("Exp: " + i + " of " + exps[i].fileName);
                 engine = new ParseEngine(exps[i]);
                 if (!Compiling()) { return 0.0; }
             }

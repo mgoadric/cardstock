@@ -135,12 +135,12 @@ namespace ParseTreeIterator
                             if (agg.GetChild(1).GetText() == "any") {
                                 if (collection.ToList().Count > 0){
                                     bool first = true;
-                                    object firstItem = null;
+                                    ICloneable firstItem = null;
                                     var vartext = agg.var().GetText();
 
                                     stackTree.Push(currentTree.GetChild(4));
                                     var idx = 0;
-                                    foreach (object item in collection){
+                                    foreach (ICloneable item in collection){
                                         if (first){
                                             firstItem = item;
                                             VarIterator.Put(vartext, firstItem);
