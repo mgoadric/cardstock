@@ -110,11 +110,7 @@ namespace ParseTreeIterator
                 List<object> newlst = new List<object>();
                 foreach (int num in lst)
                 {
-<<<<<<< HEAD
-                    newlst.Add(new Wrapper(num));
-=======
                     newlst.Add((object)num);
->>>>>>> parent of d895a44... Cloning Changes Pt. 1
                 }
                 return newlst;
             }
@@ -240,7 +236,7 @@ namespace ParseTreeIterator
                 return ActionIterator.ProcessAction(parseTree as RecycleParser.ActionContext);
             }
             else if (parseTree is RecycleParser.BooleanContext){
-                return new Wrapper(BooleanIterator.ProcessBoolean(parseTree as RecycleParser.BooleanContext));
+                return BooleanIterator.ProcessBoolean(parseTree as RecycleParser.BooleanContext);
             }
             else if (parseTree is RecycleParser.CstorageContext){
                 return CardIterator.ProcessLocation(parseTree as RecycleParser.CstorageContext);
@@ -265,11 +261,11 @@ namespace ParseTreeIterator
         {
             if (typed.@int() != null)
             {
-                return new Wrapper(IntIterator.ProcessInt(typed.@int()));
+                return IntIterator.ProcessInt(typed.@int());
             }
             else if (typed.boolean() != null)
             {
-                return new Wrapper(BooleanIterator.ProcessBoolean(typed.boolean()));
+                return BooleanIterator.ProcessBoolean(typed.boolean());
             }
             else if (typed.namegr() != null)
             {
@@ -288,7 +284,7 @@ namespace ParseTreeIterator
 
         public static List<GameActionCollection> ProcessLet(RecycleParser.LetContext let){
             var ret = new List<GameActionCollection>(); //TODO check this
-            Put(let.var().GetText(), new Wrapper(let.typed()));
+            Put(let.var().GetText(), let.typed());
             if (let.multiaction() != null){
                 ret.AddRange(StageIterator.ProcessMultiaction(let.multiaction()));
             }
@@ -318,7 +314,7 @@ namespace ParseTreeIterator
                 var raw = temp as FancyRawStorage;
                 return raw.Get();
             }
-            else if (temp is Wrapper) { return (int)(temp as Wrapper).o; }
+            else if (temp is int) { return (int)temp; }
             else { throw new Exception("Temp is " + temp.GetType()); }
         }
 
