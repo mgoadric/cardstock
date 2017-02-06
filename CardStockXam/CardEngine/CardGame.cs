@@ -85,8 +85,35 @@ namespace CardEngine
 				temp.currentTeam.Push (newCycle);
 			}
 
+            temp.vars = CloneDictionary(vars);//maybe move this
 			return temp;
 		}
+
+        public Dictionary<String, object> CloneDictionary(Dictionary<String, object> original){
+            Dictionary<String, object> ret = new Dictionary<String, object>();
+            foreach (KeyValuePair<String, object> entry in original)
+            {
+                var key = entry.Key;
+                var o = entry.Value;
+                if (o is int) { o = (int)o; }
+                else if (o is bool) { o = (bool)o; }
+                else if (o is Card)
+                { //TODOClone
+                }
+                else if (o is FancyCardLocation)
+                { //TODOClone
+                }
+                else if (o is FancyRawStorage)
+                { //TODOClone
+                }
+                else if (o is GameActionCollection) { }//TODOClone
+                else if (o is Player) { }//TODOClone
+                else if (o is Team) { }//TODOClone
+                else { Console.WriteLine("object " + o.ToString() + " is  type " + o.GetType()); }
+                ret.Add(key, o);
+            }
+            return ret;
+        }
 
 		public CardGame CloneSecret(int playerIdx){
 			var temp = CloneCommon ();
