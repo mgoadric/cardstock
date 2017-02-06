@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 
 namespace CardEngine{
-	public class Team : ICloneable
-    {
+	public class Team{
 		public List<Player> teamPlayers = new List<Player>();
 		public RawStorage teamStorage = new RawStorage();
 
@@ -17,12 +15,6 @@ namespace CardEngine{
         public void IncrValue(int bin, int value)
         {
             teamStorage.storage[bin] += value;
-        }
-
-        object ICloneable.Clone()
-        {
-            throw new NotImplementedException();
-            //TODOClone
         }
     }
 }

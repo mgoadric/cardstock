@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 
 namespace CardEngine{
-	public class FancyCardLocation : ICloneable{
+	public class FancyCardLocation{
 		public CardCollection cardList;
 		public string locIdentifier = "-1";
         public string name;
@@ -84,12 +84,6 @@ namespace CardEngine{
 
         public String ToOutputString(){
             return cardList.ToString();
-        }
-
-        object ICloneable.Clone()
-        {
-            throw new NotImplementedException();
-            //TODOClone
         }
     }	
 }

@@ -4,13 +4,13 @@ using Players;
 using System.Text;
 namespace CardEngine
 {
-	public class Player : ICloneable{
+	public class Player{
 		public RawStorage storage;
 		public CardStorage cardBins;
 		public Team team;
         public string name;
 		public GeneralPlayer decision;
-		public Player() {
+		public Player(){
 			storage = new RawStorage();
 			cardBins = new CardStorage();
 			cardBins.owner = this;
@@ -40,11 +40,5 @@ namespace CardEngine
 			ret.Append (cardBins.ToString ());
 			return ret.ToString();
 		}
-
-        public object Clone()
-        {
-            throw new NotImplementedException();
-            //TODOClone
-        }
-    }
+	}
 }

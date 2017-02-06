@@ -1,8 +1,8 @@
-using CardStockXam;
 using System;
 using System.Collections.Generic;
+using System.Text;
 namespace CardEngine{
-	public class Card : ICloneable{
+	public class Card{
 		private Dictionary<string,TreeTraversal> mapAttributes = new Dictionary<string,TreeTraversal>();
 		public CardCollection owner {get; set;}
 		public Node attributes;
@@ -59,11 +59,5 @@ namespace CardEngine{
 				throw;
 			}
 		}
-
-        object ICloneable.Clone()
-        {
-            throw new NotImplementedException();
-            //TODOClone
-        }
-    }
+	}
 }

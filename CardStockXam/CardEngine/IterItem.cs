@@ -7,7 +7,7 @@ namespace CardStockXam.CardEngine
     class IterItem{
         public IParseTree tree;
         public string varContext;
-        public ICloneable item;
+        public object item;
 
         public IterItem(IParseTree tree){
             this.tree = tree;
