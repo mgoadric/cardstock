@@ -12,9 +12,13 @@ using CardEngine;
 namespace ParseTreeIterator
 {
 	public class CardActionIterator{
-        public static GameAction ProcessCopy(RecycleParser.CopyactionContext copy) {
+        public static GameAction ProcessCopy(RecycleParser.CopyactionContext copy) { //TODO fix this for real
+            Console.WriteLine(copy.GetText());
             var cardOne = CardIterator.ProcessCard(copy.GetChild(1) as RecycleParser.CardContext);
+            
             if (cardOne.Count() == 0) {
+                Console.WriteLine(copy.GetText());
+                CardIterator.ProcessCard(copy.GetChild(1) as RecycleParser.CardContext);
                 return null;
             }
             var cardTwo = CardIterator.ProcessCard(copy.GetChild(2) as RecycleParser.CardContext);

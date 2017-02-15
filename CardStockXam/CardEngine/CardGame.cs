@@ -64,7 +64,7 @@ namespace CardEngine
 			//recreate player bins
 
 			for (int i = 0; i < this.players.Count; ++i) {
-				this.players [i].CopyStructure (temp.players [i]);
+				this.players [i].CloneToOther (temp.players [i]);
 			}
 
 			//reconstruct team and player cycles
@@ -85,35 +85,8 @@ namespace CardEngine
 				temp.currentTeam.Push (newCycle);
 			}
 
-            temp.vars = CloneDictionary(vars);//maybe move this
 			return temp;
 		}
-
-        public Dictionary<String, object> CloneDictionary(Dictionary<String, object> original){
-            Dictionary<String, object> ret = new Dictionary<String, object>();
-            foreach (KeyValuePair<String, object> entry in original)
-            {
-                var key = entry.Key;
-                var o = entry.Value;
-                if (o is int) { o = (int)o; }
-                else if (o is bool) { o = (bool)o; }
-                else if (o is Card)
-                { //TODOClone
-                }
-                else if (o is FancyCardLocation)
-                { //TODOClone
-                }
-                else if (o is FancyRawStorage)
-                { //TODOClone
-                }
-                else if (o is GameActionCollection) { }//TODOClone
-                else if (o is Player) { }//TODOClone
-                else if (o is Team) { }//TODOClone
-                else { Console.WriteLine("object " + o.ToString() + " is  type " + o.GetType()); }
-                ret.Add(key, o);
-            }
-            return ret;
-        }
 
 		public CardGame CloneSecret(int playerIdx){
 			var temp = CloneCommon ();
@@ -188,7 +161,9 @@ namespace CardEngine
 				}
 			}
 			temp.points = points.Clone ();
-			return temp;
+
+            temp.vars = CloneDictionary(vars, temp);
+            return temp;
 		}
 		public CardGame Clone(){
 			var temp = CloneCommon ();
@@ -222,7 +197,77 @@ namespace CardEngine
 			return temp;
 		}
 
-		public void AddPlayers(int numPlayers){
+        public Dictionary<String, object> CloneDictionary(Dictionary<String, object> original, CardGame g)
+        {
+            Dictionary<String, object> ret = new Dictionary<String, object>();
+            foreach (KeyValuePair<String, object> entry in original)
+            {
+                var key = entry.Key;
+                var o = entry.Value;
+                Console.WriteLine("type: " + o.GetType());
+                if (o is int) { ret.Add(key, (int)o); }
+                else if (o is bool) { ret.Add(key, (bool)o); }
+                else if (o is string) { ret.Add(key, (string)o); }
+                else if (o is Card)
+                {
+                    var c = (o as Card).Clone();
+                    ret.Add(key, c);
+                }
+                else if (o is FancyCardLocation)
+                {
+                    var l = (o as FancyCardLocation).Clone();
+                    ret.Add(key, l);
+                }
+                else if (o is FancyRawStorage)
+                {
+                    var r1 = o as FancyRawStorage;
+                    var r2 = new FancyRawStorage(r1.storage.Clone(), r1.key);
+                    ret.Add(key, r2);
+                }
+                else if (o is GameActionCollection)
+                {
+                    var coll = o as GameActionCollection;
+                    var newcoll = new GameActionCollection();
+                    foreach (GameAction ac in coll)
+                    {
+                        newcoll.Add(ac);
+                    }
+                    ret.Add(key, newcoll);
+                }
+                else if (o is Player)
+                {
+                    var p1 = o as Player;
+                    Console.WriteLine("should assign p");
+                    foreach (Player p in g.players)
+                    {
+                        if (p.Equals(p1))
+                        {
+                            ret.Add(key, p);
+                            Console.WriteLine("assigning p");
+                            break;
+                        }
+                    }
+                }
+                else if (o is Team)
+                {
+                    var t1 = o as Team;
+                    Console.WriteLine("should assign t");
+                    foreach (Team t in g.teams)
+                    {
+                        if (t.Equals(t1))
+                        {
+                            ret.Add(key, t);
+                            Console.WriteLine("assigning t");
+                            break;
+                        }
+                    }
+                }
+                else { Console.WriteLine("Error: object " + o.ToString() + " is  type " + o.GetType()); }
+            }
+            return ret;
+        }
+
+        public void AddPlayers(int numPlayers){
 			for (int i = 0; i < numPlayers; ++i){
 				players.Add(new Player() { name = "p" + i });
 				players [i].decision = i  == 0 ? new GeneralPlayer () : new GeneralPlayer ();

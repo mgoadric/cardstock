@@ -17,7 +17,21 @@ namespace CardStockXam
         private int numAIvAI   = 3;
 
         // list of heuristic values
-        private List<Heuristic> hs = new List<Heuristic>() { new MeaningfulMoves(), new Variance() };
+        private List<Heuristic> hs = new List<Heuristic>() {
+            new MeaningfulMoves(),
+            new Variance()
+        };
+
+        /*
+        private List<Heuristic> hs = new List<Heuristic>() {
+            new MeaningfulMoves(),
+            new Variance(),
+            new Depth(),
+            new ExcessRules(),
+            new Fairness(),
+            new GameLength(),
+            new NoTies()
+        };*/
 
         public Scorer(string fileName)
         {
@@ -73,6 +87,7 @@ namespace CardStockXam
                 if (!Compiling()) { return 0.0; }
             }
             World w = ProcessFile();
+            if (new Reasonable().Eval(w) < 1) { return 0.0; }
             double total = 0;
             foreach (var h in hs){
                 total += h.Eval(w);
