@@ -53,7 +53,14 @@ namespace CardEngine{
 			StringBuilder ret = new StringBuilder ();
 			for (int i = 0; i < binCounter; ++i) {
 				ret.Append (binDict.Where (itm => itm.Value == i).First () +"\n");
-				foreach (var card in storage[i].AllCards()){
+                if (storage == null)
+                {
+                    break;
+                }
+                if (storage[i] == null){
+                    break;
+                }
+                foreach (var card in storage[i].AllCards()){
 					ret.Append("Card:" + card.ToString() + "\n");
 				}
 				ret.Append ("\n");
@@ -94,19 +101,26 @@ namespace CardEngine{
 	}	
 	
 	public class CardListCollection : CardCollection{
+        public List<Card> cards = new List<Card>();
         public override CardCollection Clone()
         {
             return new CardListCollection()
             {
                 name = (string)name.Clone(),
                 loc = loc,
-                cards = cards //Not as deep as we may want
+                cards = CloneCards() //Not as deep as we may want
             };
+        }
+        public List<Card> CloneCards(){
+            List<Card> newlst = new List<Card>();
+            foreach (Card c in cards){
+                newlst.Add(c.Clone());
+            }
+            return newlst;
         }
         public override int Count {get{
 			return cards.Count;
 		}}
-		public List<Card> cards = new List<Card>();
 		public override IEnumerable<Card> AllCards(){
 			return cards;
 		}

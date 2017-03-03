@@ -99,37 +99,43 @@ namespace ParseTreeIterator
             return ret;
         }
 
+        public static FancyRawStorage AddedRaw(FancyRawStorage stor){
+            CardGame.AddToMap(stor);
+            return stor;
+        }
+
         public static FancyRawStorage ProcessRawStorage(RecycleParser.RawstorageContext raw){
             if (raw.GetChild(1).GetText() == "game") {
                 if (raw.var().Length == 1) {
                     String temp = VarIterator.ProcessStringVar(raw.var()[0]);
-                    return new FancyRawStorage(CardGame.Instance.gameStorage, temp);
+                    return AddedRaw(new FancyRawStorage(CardGame.Instance.gameStorage, temp));
                 }
                 else {
-                    return new FancyRawStorage(CardGame.Instance.gameStorage, raw.namegr().GetText());
+                    return AddedRaw(new FancyRawStorage(CardGame.Instance.gameStorage, raw.namegr().GetText()));
+
                 }
             }
             else if(raw.who() != null){
                 if (raw.who().whot() != null){
                     var who = CardIterator.ProcessWho(raw.who()) as Team;
                     if (raw.namegr() != null){
-                        return new FancyRawStorage(who.teamStorage, raw.namegr().GetText());
+                        return AddedRaw(new FancyRawStorage(who.teamStorage, raw.namegr().GetText()));
                     }
                     else{
                         var temp = VarIterator.ProcessStringVar(raw.var()[0]);
-                        return new FancyRawStorage(who.teamStorage, temp);
+                        return AddedRaw(new FancyRawStorage(who.teamStorage, temp));
                     }
                 }
                 else if (raw.who().whop() != null){
                     var who = CardIterator.ProcessWho(raw.who()) as Player;
                     if (raw.namegr() != null)
                     {
-                        return new FancyRawStorage(who.storage, raw.namegr().GetText());
+                        return AddedRaw(new FancyRawStorage(who.storage, raw.namegr().GetText()));
                     }
                     else
                     {
                         var temp = VarIterator.ProcessStringVar(raw.var()[0]);
-                        return new FancyRawStorage(who.storage, temp);
+                        return AddedRaw(new FancyRawStorage(who.storage, temp));
                     }
                 }
             }
@@ -139,24 +145,24 @@ namespace ParseTreeIterator
                     Team temp = who as Team;
                     if (raw.namegr() != null)
                     {
-                        return new FancyRawStorage(temp.teamStorage, raw.namegr().GetText());
+                        return AddedRaw(new FancyRawStorage(temp.teamStorage, raw.namegr().GetText()));
                     }
                     else
                     {
                         var str = VarIterator.ProcessStringVar(raw.var()[1]);
-                        return new FancyRawStorage(temp.teamStorage, str);
+                        return AddedRaw(new FancyRawStorage(temp.teamStorage, str));
                     }
                 }
                 else{
                     Player temp = who as Player;
                     if (raw.namegr() != null)
                     {
-                        return new FancyRawStorage(temp.storage, raw.namegr().GetText());
+                        return AddedRaw(new FancyRawStorage(temp.storage, raw.namegr().GetText()));
                     }
                     else
                     {
                         var str = VarIterator.ProcessStringVar(raw.var()[1]);
-                        return new FancyRawStorage(temp.storage, str);
+                        return AddedRaw(new FancyRawStorage(temp.storage, str));
                     }
                 }
             }

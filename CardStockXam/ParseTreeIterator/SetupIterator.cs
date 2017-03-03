@@ -16,7 +16,7 @@ namespace ParseTreeIterator
         public static void ProcessTeamCreate(RecycleParser.TeamcreateContext teamCreate){
             var numTeams = teamCreate.teams().Count();
             for (int i = 0; i < numTeams; ++i){
-                var newTeam = new Team();
+                var newTeam = new Team(i);
                 var teamStr = "T:";
                 foreach (var p in teamCreate.teams(i).INTNUM()){
                     var j = Int32.Parse(p.GetText());

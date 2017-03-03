@@ -9,6 +9,8 @@ using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using CardGames;
 using ParseTreeIterator;
+using CardStockXam;
+using Players;
 
 public class ParseEngine
 {
@@ -81,6 +83,12 @@ public class ParseEngine
                 Console.WriteLine(ex.ToString());
             }
         }
+        if (exp.first){
+            var tup = HasShuffleAndChoice(tree);
+            if (!(tup.Item1 && tup.Item2)){
+                if (exp.evaluating) { Scorer.gameWorld.compiling = false; }
+            }
+        }
         int choiceCount = 0;
         var aggregator = new int[5, exp.numEpochs];
         var winaggregator = new int[exp.numEpochs];
@@ -111,10 +119,12 @@ public class ParseEngine
                 currentIterator = manageContext;
                 
                 if (exp.ai1){
-                    CardEngine.CardGame.Instance.players[0].decision = new Players.LessThanPerfectPlayer();
+                    //CardEngine.CardGame.Instance.players[0].decision = new LessThanPerfectPlayer();
+                    CardEngine.CardGame.Instance.players[0].decision = new PerfectPlayer();
                 }
                 if (exp.ai2){
-                    CardEngine.CardGame.Instance.players[1].decision = new Players.LessThanPerfectPlayer();
+                    //CardEngine.CardGame.Instance.players[1].decision = new Players.LessThanPerfectPlayer();
+                    CardEngine.CardGame.Instance.players[1].decision = new PerfectPlayer();
                 }
                 while (!manageContext.AdvanceToChoice())
                 {
@@ -163,6 +173,7 @@ public class ParseEngine
                     {
                         aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
                         if (!exp.evaluating) { Console.Out.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
+                        
                         if (results[j].Item2 == 0 && j != results.Count - 1)
                         {
                             winaggregator[i / (exp.numGames / exp.numEpochs)]++;
@@ -174,11 +185,11 @@ public class ParseEngine
                     Console.Out.WriteLine("Results:\nCycle Occurred\n");
                 }
                 WriteToFile("|");
-                toResultFile("C:T");
+                if (exp.evaluating) { Scorer.gameWorld.compiling &= true; }
             }
             catch(Exception e)
             {
-                toResultFile("C:F");
+                if (exp.evaluating) { Scorer.gameWorld.compiling = false; }
                 Console.WriteLine(fileName + " failed from exception: " + e.ToString() + "\n\n\n");
             }
         }
@@ -199,7 +210,20 @@ public class ParseEngine
             for (int j = 0; j < exp.numEpochs; j++)
             {
                 Console.Out.Write(winaggregator[j] / (double)(exp.numGames / exp.numEpochs) + "\t");
+                if (exp.evaluating) { Scorer.gameWorld.wins += 1; }
             }
+            if (exp.evaluating){
+                Scorer.gameWorld.numFirstWins += winaggregator[0];
+                if (exp.ai1 && !exp.ai2){
+                    Scorer.gameWorld.numAIWins += winaggregator[0];
+                    Scorer.gameWorld.numRndWins += winaggregator[1];
+                }
+                else if (!exp.ai1 && exp.ai2){
+                    Scorer.gameWorld.numRndWins += winaggregator[0];
+                    Scorer.gameWorld.numAIWins += winaggregator[1];
+                }
+            }
+
             Console.Out.WriteLine();
             if (breakOnCycle)
             {
@@ -320,6 +344,26 @@ public class ParseEngine
                 builder.AppendLine(nodeName + " -- " + newNodeName);
             }
         }
+    }
+
+    Tuple<bool, bool> HasShuffleAndChoice(IParseTree tree){
+        bool shuffle = false;
+        bool choice = false;
+        if (tree is RecycleParser.ShuffleactionContext){
+            shuffle = true;
+        }
+        else if (tree is RecycleParser.MultiactionContext){
+            if (tree.GetChild(1).GetText().Equals("choice")){
+                choice = true;
+            }
+        }
+        if (shuffle && choice) { return new Tuple<bool, bool>(shuffle, choice); }
+        for (int i = 0; i < tree.ChildCount; i++){
+            var res = HasShuffleAndChoice(tree.GetChild(i));
+            shuffle |= res.Item1;
+            choice |= res.Item2;
+        }
+        return new Tuple<bool, bool>(shuffle, choice);
     }
 
 

@@ -15,13 +15,14 @@ namespace CardEngine
 			cardBins = new CardStorage();
 			cardBins.owner = this;
 		}
-		public void CloneToOther(Player other){
+		public Player Clone(){
+            Player other = new Player();
 			other.storage = storage.Clone ();
 			other.cardBins = cardBins.Clone ();
             other.name = name;
 			other.cardBins.owner = other;
-            // team?
-            // decision?
+            other.decision = decision;
+            return other;
 		}
 		public void IncrValue(int bin, int value){
 			storage.storage[bin] += value;

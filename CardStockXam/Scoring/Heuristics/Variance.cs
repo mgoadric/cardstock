@@ -17,7 +17,7 @@ namespace CardStockXam.Scoring.Heuristics
                 total += d;
                 killerMove = Math.Max(killerMove, d);
             }
-            return total / w.variance.Length;
+            return total / w.variance.Count;
         }
 
         public override double[] Others(){

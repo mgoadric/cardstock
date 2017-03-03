@@ -12,6 +12,8 @@ namespace CardStockXam
         private List<Experiment> exps = new List<Experiment>();
         private ParseEngine engine;
 
+        public static World gameWorld;
+
         private int numRndvRnd = 1;
         private int numAIvRnd  = 3;
         private int numAIvAI   = 3;
@@ -35,6 +37,7 @@ namespace CardStockXam
 
         public Scorer(string fileName)
         {
+            bool first = true;
             for (int i = 0; i < numRndvRnd; i++){
                 exps.Add(new Experiment()
                 {
@@ -42,8 +45,10 @@ namespace CardStockXam
                     numGames = 1,
                     numEpochs = 1,
                     logging = false,
-                    evaluating = true
+                    evaluating = true,
+                    first = first
                 });
+                first = false;
             }
             for (int i = 0; i < numAIvRnd; i++){
                 exps.Add(new Experiment()
@@ -74,44 +79,28 @@ namespace CardStockXam
                 fileName = fileName,
                 numGames = 1,
                 numEpochs = 1,
-                logging = true,
+                logging = testing,
                 evaluating = true,
-                ai1 = true
+                ai1 = true,
+                first = true
             });
         }
 
         // define heuristics here
         public double Score(){
+            gameWorld = new World();
             for (int i = 0; i < exps.Count; i++){
                 engine = new ParseEngine(exps[i]);
-                if (!Compiling()) { return 0.0; }
+                if (new Reasonable().Eval(gameWorld) < 1.0) { return 0.0; }
             }
-            World w = ProcessFile();
-            if (new Reasonable().Eval(w) < 1) { return 0.0; }
             double total = 0;
-            foreach (var h in hs){
-                total += h.Eval(w);
+            foreach (Heuristic h in hs){
+                total += h.Eval(gameWorld);
             }
             return total;
         }
 
-        private bool Compiling(){
-            var fs = new FileStream(exps[0].fileName + "_results.txt", FileMode.Open);
-            byte[] b = new byte[1024];
-            UTF8Encoding temp = new UTF8Encoding(true);
-            while (fs.Read(b, 0, b.Length) > 0){
-                string line = temp.GetString(b);
-                if (line[0] == 'C'){
-                    if (!parseBool(line)) {
-                        fs.Close();
-                        return false;
-                    }
-                }
-            }
-            fs.Close();
-            return true;
-        }
-
+        //deprecated
         private World ProcessFile(){
             World w = new World();
 
@@ -121,7 +110,7 @@ namespace CardStockXam
 
             while (fs.Read(b, 0, b.Length) > 0){
                 string line = temp.GetString(b);
-
+                if (line.Equals("failure")) { return null; }
                 // TODO analyze each line here, add to w
             }
             fs.Close();
@@ -129,7 +118,7 @@ namespace CardStockXam
         }
         public bool parseBool(string line)
         {
-            return line[2] == 'T';
+            return line.Split(':')[1] == "T";
         }
     }
 }

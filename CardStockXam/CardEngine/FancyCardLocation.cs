@@ -9,10 +9,15 @@ namespace CardEngine{
 		public bool actual = false;
         public bool nonPhysical = false;
 
+        public FancyCardLocation(){
+            
+        }
+
 
         public FancyCardLocation Clone()
         {
-            return new FancyCardLocation()
+
+            var loc = new FancyCardLocation()
             {
                 cardList = cardList.Clone(),
                 locIdentifier = (string) locIdentifier.Clone(),
@@ -20,6 +25,8 @@ namespace CardEngine{
                 actual = actual,
                 nonPhysical = nonPhysical
             };
+            CardGame.AddToMap(loc);
+            return loc;
         }
 
         public void Add(Card c){

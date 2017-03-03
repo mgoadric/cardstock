@@ -5,6 +5,8 @@ using Players;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections;
+
 namespace CardEngine
 {
 	
@@ -38,6 +40,11 @@ namespace CardEngine
 		public RawStorage gameStorage = new RawStorage();
 		public PointsStorage points = new PointsStorage();
         public Dictionary<String, object> vars = new Dictionary<string, object>();
+
+        public static Dictionary<string, FancyCardLocation> fancyCardLocMap = new Dictionary<string, FancyCardLocation>();
+        public static Dictionary<string, FancyRawStorage> fancyRawStorMap = new Dictionary<string, FancyRawStorage>();
+        public static Dictionary<string, Player> playerMap = new Dictionary<string, Player>();
+        public static Dictionary<string, Team> teamMap = new Dictionary<string, Team>();
 		public CardGame(){
 			
 		}
@@ -48,13 +55,27 @@ namespace CardEngine
 		public CardGame CloneCommon(){
 			var temp = new CardGame (this.players.Count); //here, players is being initialzed as an empty list of players
 			temp.DeclaredName = "Special";
-			Dictionary<Player, int> playerIdxs = new Dictionary<Player, int>();
+            for (int idx = 0; idx < teams.Count; idx++){
+                Team orig = teamMap[teams[idx].id];
+                Team newTeam = orig.Clone();
+                foreach (Player p in orig.teamPlayers){
+                    Player newPlayer = playerMap[p.name].Clone();
+                    newPlayer.team = newTeam;
+                    temp.players.Add(newPlayer);
+                    newTeam.teamPlayers.Add(newPlayer);
+                }
+                temp.teams.Add(newTeam);
+            }
+            foreach (Player p in players){
+
+            }
+			/*Dictionary<Player, int> playerIdxs = new Dictionary<Player, int>();
 			for (int i = 0; i < this.players.Count; ++i) {
 				playerIdxs [players [i]] = i;
 			}
 
 			for (int i = 0; i < this.teams.Count; ++i) {
-				var newTeam = new Team ();
+				var newTeam = new Team (i);
 				for (int j = 0; j < this.teams [i].teamPlayers.Count; ++j) {
 					newTeam.teamPlayers.Add (temp.players [playerIdxs [this.teams [i].teamPlayers [j]]]);
 					temp.players [playerIdxs [this.teams [i].teamPlayers [j]]].team = newTeam;
@@ -65,7 +86,7 @@ namespace CardEngine
 
 			for (int i = 0; i < this.players.Count; ++i) {
 				this.players [i].CloneToOther (temp.players [i]);
-			}
+			}*/
 
 			//reconstruct team and player cycles
 			temp.currentPlayer.Pop();
@@ -194,11 +215,17 @@ namespace CardEngine
 				}
 			}
 			temp.points = points.Clone ();
+            temp.vars = CloneDictionary(this.vars, temp);
 			return temp;
 		}
 
         public Dictionary<String, object> CloneDictionary(Dictionary<String, object> original, CardGame g)
         {
+
+            //TODO:
+            //remove all non-primitive copies
+            //use hashtables (name/hashcode/whatever -> object)
+
             Dictionary<String, object> ret = new Dictionary<String, object>();
             foreach (KeyValuePair<String, object> entry in original)
             {
@@ -211,20 +238,23 @@ namespace CardEngine
                 else if (o is Card)
                 {
                     var c = (o as Card).Clone();
+                    Console.WriteLine("In card.... Collin should fix this");
+                    //instead
+                    //find card in same location
+                    //add that card instead of c
                     ret.Add(key, c);
                 }
                 else if (o is FancyCardLocation)
                 {
-                    var l = (o as FancyCardLocation).Clone();
+                    var l = fancyCardLocMap[(o as FancyCardLocation).name];
                     ret.Add(key, l);
                 }
                 else if (o is FancyRawStorage)
                 {
-                    var r1 = o as FancyRawStorage;
-                    var r2 = new FancyRawStorage(r1.storage.Clone(), r1.key);
-                    ret.Add(key, r2);
+                    var rs = fancyRawStorMap[(o as FancyRawStorage).key];
+                    ret.Add(key, rs);
                 }
-                else if (o is GameActionCollection)
+                else if (o is GameActionCollection) //TODO what do i do here?
                 {
                     var coll = o as GameActionCollection;
                     var newcoll = new GameActionCollection();
@@ -236,40 +266,34 @@ namespace CardEngine
                 }
                 else if (o is Player)
                 {
-                    var p1 = o as Player;
-                    Console.WriteLine("should assign p");
-                    foreach (Player p in g.players)
-                    {
-                        if (p.Equals(p1))
-                        {
-                            ret.Add(key, p);
-                            Console.WriteLine("assigning p");
-                            break;
-                        }
-                    }
+                    var p = playerMap[(o as Player).name];
+                    ret.Add(key, p);
                 }
                 else if (o is Team)
                 {
-                    var t1 = o as Team;
-                    Console.WriteLine("should assign t");
-                    foreach (Team t in g.teams)
-                    {
-                        if (t.Equals(t1))
-                        {
-                            ret.Add(key, t);
-                            Console.WriteLine("assigning t");
-                            break;
-                        }
-                    }
+                    var t = teamMap[(o as Team).id];
+                    ret.Add(key, t);
                 }
                 else { Console.WriteLine("Error: object " + o.ToString() + " is  type " + o.GetType()); }
             }
+            /*Console.WriteLine("original:");
+            foreach (object o in original){
+                Console.WriteLine(o.ToString());
+            }
+            Console.WriteLine(original.Count);
+            Console.WriteLine("new:");
+            foreach (object o in original){
+                Console.WriteLine(o.ToString());
+            }
+            Console.WriteLine(ret.Count);*/
+
             return ret;
         }
 
         public void AddPlayers(int numPlayers){
 			for (int i = 0; i < numPlayers; ++i){
 				players.Add(new Player() { name = "p" + i });
+                AddToMap(players[i]);
 				players [i].decision = i  == 0 ? new GeneralPlayer () : new GeneralPlayer ();
 			}
             currentPlayer.Push(new PlayerCycle(players));
@@ -417,6 +441,29 @@ namespace CardEngine
 				--temp;
 			}
 		}
+        public static void AddToMap(object o){
+            IDictionary dict = null;
+            string id = "";
+            if (o is FancyCardLocation){
+                dict = fancyCardLocMap;
+                id = (o as FancyCardLocation).name;
+            }
+            else if (o is FancyRawStorage){
+                dict = fancyRawStorMap;
+                id = (o as FancyRawStorage).key;
+            }
+            else if (o is Player){
+                dict = playerMap;
+                id = (o as Player).name;
+            }
+            else if (o is Team){
+                dict = teamMap;
+                id = (o as Team).id;
+            }
+            else { Console.WriteLine("unknown type in AddToMap: " + o.GetType()); }
+            if (!dict.Contains(id)) { dict.Add(id, o); }
+            //else { Console.WriteLine("dict already contains " + id); }
+        }
 		public override string ToString(){
 			var ret = "Table Deck:\n";
 			ret += tableCards.ToString ();

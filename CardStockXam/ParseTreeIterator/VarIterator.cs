@@ -23,6 +23,7 @@ namespace ParseTreeIterator
         }
         public static void Put(string k, Object v){
             CardGame.Instance.vars[k] = v;
+            //Console.WriteLine("putting key " + k + " for " + v);
         }
         public static void Remove(string k){
             CardGame.Instance.vars.Remove(k);
@@ -47,13 +48,14 @@ namespace ParseTreeIterator
                 }
                 Remove(filter.var().GetText());
             }
-            var fancy = new FancyCardLocation
+            var fancy = new FancyCardLocation()
             {
                 cardList = cList,
                 nonPhysical = true,
                 name = stor.name + "{filter}"
             };
             fancy.cardList.loc = fancy;
+            CardGame.AddToMap(fancy);
             return fancy;
         }
 

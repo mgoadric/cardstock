@@ -14,7 +14,7 @@ namespace CardStockXam.Scoring.Heuristics
             foreach (double d in w.deepness){
                 tot += d;
             }
-            return tot / w.deepness.Length;
+            return tot / w.deepness.Count;
         }
 
         public override double Weight()

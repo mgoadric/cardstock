@@ -10,12 +10,8 @@ namespace CardStockXam.Scoring.Heuristics
     {
         public override double Get(World w)
         {
-            if (w.hasShuffle){
-                if (w.hasChoice){
-                    if (w.hasWinner){
-                        return 1.0;
-                    }
-                }
+            if (w.hasShuffle && w.compiling){
+                return 1.0;
             }
             return 0.0;
         }

@@ -34,13 +34,14 @@ namespace ParseTreeIterator
                 Debug.WriteLine("MAX:" + maxCard);
                 var lst = new CardListCollection();
                 lst.Add(maxCard);
-                var fancy = new FancyCardLocation
+                var fancy = new FancyCardLocation()
                 {
                     cardList = lst,
                     locIdentifier = "top",
                     name=coll.name + "{MAX}"
                 };
                 fancy.cardList.loc = fancy;
+                CardGame.AddToMap(fancy);
                 return fancy;
             }
 
@@ -62,13 +63,14 @@ namespace ParseTreeIterator
                 Debug.WriteLine("MIN:" + minCard);
                 var lst = new CardListCollection();
                 lst.Add(minCard);
-                var fancy =  new FancyCardLocation
+                var fancy =  new FancyCardLocation()
                 {
                     cardList = lst,
                     locIdentifier = "top",
                     name=coll.name + "{MIN}"
                 };
                 fancy.cardList.loc = fancy;
+                CardGame.AddToMap(fancy);
                 return fancy;
             }
 
@@ -82,12 +84,13 @@ namespace ParseTreeIterator
             }
             else if (card.cstorage() != null){//cstorage
                 var loc = ProcessLocation(card.cstorage());
-                var fancy = new FancyCardLocation {
+                var fancy = new FancyCardLocation() {
                     cardList = loc.cardList,
                     locIdentifier = card.GetChild(1).GetText(),
                     name = loc.name
                 };
                 fancy.cardList.loc = fancy;
+                CardGame.AddToMap(fancy);
                 return fancy;
             }
             throw new NotSupportedException();
@@ -157,13 +160,14 @@ namespace ParseTreeIterator
                     }
                     name.Remove(name.Length - 1);
                 }
-                var fancy = new FancyCardLocation
+                var fancy = new FancyCardLocation()
                 {
                     cardList = temp,
                     nonPhysical = true,
                     name = name + "{UNION}"
                 };
                 fancy.cardList.loc = fancy;
+                CardGame.AddToMap(fancy);
                 return fancy;
             }
             else if (loc.filter() != null)
@@ -210,13 +214,14 @@ namespace ParseTreeIterator
                 var returnList = new FancyCardLocation[pairs.Count];
                 for (int i = 0; i < pairs.Count; ++i)
                 {
-                    returnList[i] = new FancyCardLocation
+                    returnList[i] = new FancyCardLocation()
                     {
                         cardList = pairs[i],
                         nonPhysical = true,
                         name = "{mem}" + memset.tuple().var().GetText() + "{p" + i + "}"
                     };
                     returnList[i].cardList.loc = returnList[i];
+                    CardGame.AddToMap(returnList[i]);
                 }
                 return returnList;
             }
@@ -245,13 +250,14 @@ namespace ParseTreeIterator
             
             if (stor.locpre().GetText() == "game"){
                 if (stor.namegr() != null){
-                    var fancy = new FancyCardLocation
+                    var fancy = new FancyCardLocation()
                     {
                         cardList = CardGame.Instance.tableCards[prefix + stor.namegr().GetText()],
                         locIdentifier = "top",
                         name = "t" + prefix + stor.namegr().GetText()
                     };
                     fancy.cardList.loc = fancy;
+                    CardGame.AddToMap(fancy);
                     return fancy;
                 }
                 else{
@@ -262,13 +268,14 @@ namespace ParseTreeIterator
                     else{
                         Console.WriteLine("Error, type is: " + VarIterator.Get(stor.var()).GetType());
                     }
-                    var fancy = new FancyCardLocation
+                    var fancy = new FancyCardLocation()
                     {
                         cardList = CardGame.Instance.tableCards[prefix + VarIterator.Get(stor.var())],
                         locIdentifier = "top",
                         name = "t" + prefix + stor.namegr().GetText()
                     };
                     fancy.cardList.loc = fancy;
+                    CardGame.AddToMap(fancy);
                     return fancy;
                 }
             }
@@ -280,22 +287,24 @@ namespace ParseTreeIterator
             }
             if (stor.namegr() != null)
             {
-                var fancy = new FancyCardLocation
+                var fancy = new FancyCardLocation()
                 {
                     cardList = player.cardBins[ prefix + stor.namegr().GetText()],
                     name = player.name + prefix + stor.namegr().GetText()
                 };
                 fancy.cardList.loc = fancy;
+                CardGame.AddToMap(fancy);
                 return fancy;
             }
             else{
                 var name = VarIterator.ProcessStringVar(stor.var());
-                var fancy = new FancyCardLocation
+                var fancy = new FancyCardLocation()
                 {
                     cardList = player.cardBins[prefix + name],
                     name = player.name + prefix + name
                 };
                 fancy.cardList.loc = fancy;
+                CardGame.AddToMap(fancy);
                 return fancy;
             }
         }
