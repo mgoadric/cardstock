@@ -18,6 +18,8 @@ namespace CardStockXam
         private int numAIvRnd  = 3;
         private int numAIvAI   = 3;
 
+        private bool testing = false;
+
         // list of heuristic values
         private List<Heuristic> hs = new List<Heuristic>() {
             new MeaningfulMoves(),
@@ -75,6 +77,7 @@ namespace CardStockXam
         }
 
         public Scorer(string fileName, bool testing){
+            testing = true;
             exps.Add(new Experiment(){
                 fileName = fileName,
                 numGames = 1,
@@ -91,11 +94,15 @@ namespace CardStockXam
             gameWorld = new World();
             for (int i = 0; i < exps.Count; i++){
                 engine = new ParseEngine(exps[i]);
-                if (new Reasonable().Eval(gameWorld) < 1.0) { return 0.0; }
+                if (new Reasonable().Eval(gameWorld) < 1.0) { if (testing) { Console.WriteLine("failed reasonable"); } return 0.0; }
             }
             double total = 0;
             foreach (Heuristic h in hs){
-                total += h.Eval(gameWorld);
+                var score = h.Eval(gameWorld);
+                if (testing){
+                    Console.WriteLine("Heuristic: " + h.ToString() + " returned " + score);
+                }
+                total += score;
             }
             return total;
         }

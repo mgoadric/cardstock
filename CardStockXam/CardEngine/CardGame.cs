@@ -125,8 +125,7 @@ namespace CardEngine
 					if (!loc.StartsWith ("{hidden}") || p == playerIdx) {
 						foreach (var card in players[p].cardBins[loc].AllCards()) {
 							var toAdd = temp.sourceDeck [cardIdxs [card]];
-							temp.players [p].cardBins [loc]
-							.Add (toAdd);
+							temp.players [p].cardBins [loc].Add (toAdd);
 							if (!loc.StartsWith ("{mem}")) {
 								toAdd.owner = temp.players [p].cardBins [loc];
 								free.Remove (cardIdxs [card]);
@@ -174,8 +173,7 @@ namespace CardEngine
 						vals [picked] = last;
 
 						var toAdd = temp.sourceDeck [vals[vals.Count - 1]];
-						temp.tableCards [bin]
-							.Add (toAdd);
+						temp.tableCards [bin].Add (toAdd);
 						
 						vals.RemoveAt (vals.Count - 1);
 					}

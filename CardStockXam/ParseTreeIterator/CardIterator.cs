@@ -247,7 +247,11 @@ namespace ParseTreeIterator
                 prefix = "{mem}";
             }
             Player player;
-            
+            Console.WriteLine("parent: " + stor.Parent.GetText());
+            Console.WriteLine("next parent: " + stor.Parent.Parent.GetText());
+            Console.WriteLine("next next parent " + stor.Parent.Parent.Parent.GetText());
+            Console.WriteLine(stor);
+            Console.WriteLine(stor.GetText());
             if (stor.locpre().GetText() == "game"){
                 if (stor.namegr() != null){
                     var fancy = new FancyCardLocation()

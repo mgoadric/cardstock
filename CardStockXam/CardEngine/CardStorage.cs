@@ -55,9 +55,11 @@ namespace CardEngine{
 				ret.Append (binDict.Where (itm => itm.Value == i).First () +"\n");
                 if (storage == null)
                 {
+                    Console.WriteLine("empty storage " + ret);
                     break;
                 }
                 if (storage[i] == null){
+                    Console.WriteLine("empty storage in storage " + ret + "[" + i + "]");
                     break;
                 }
                 foreach (var card in storage[i].AllCards()){
@@ -108,13 +110,18 @@ namespace CardEngine{
             {
                 name = (string)name.Clone(),
                 loc = loc,
-                cards = CloneCards() //Not as deep as we may want
+                //TODO
+                // find new cards, not clone
+                //cards = CloneCards() 
+                cards = cards
             };
         }
         public List<Card> CloneCards(){
             List<Card> newlst = new List<Card>();
             foreach (Card c in cards){
-                newlst.Add(c.Clone());
+                var clone = c.Clone();
+                clone.owner = c.owner;
+                newlst.Add(clone);
             }
             return newlst;
         }

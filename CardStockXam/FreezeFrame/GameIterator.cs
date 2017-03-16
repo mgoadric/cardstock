@@ -45,7 +45,7 @@ namespace FreezeFrame
 			iteratingSet = new HashSet<IParseTree> ();
 			shouldInc = false;
             
-			iterStack.Push(new Queue<IParseTree>());
+			//iterStack.Push(new Queue<IParseTree>());
 
 		}
 		public GameIterator (RecycleParser.GameContext g)
@@ -65,7 +65,6 @@ namespace FreezeFrame
 		}
 		public bool AdvanceToChoice(){
 			while (iterStack.Count != 0 && !ProcessSubStage()) {
-				
 			}
 			if (iterStack.Count == 0) {
 				return true;//game over

@@ -119,12 +119,12 @@ public class ParseEngine
                 currentIterator = manageContext;
                 
                 if (exp.ai1){
-                    //CardEngine.CardGame.Instance.players[0].decision = new LessThanPerfectPlayer();
-                    CardEngine.CardGame.Instance.players[0].decision = new PerfectPlayer();
+                    CardEngine.CardGame.Instance.players[0].decision = new LessThanPerfectPlayer();
+                    //CardEngine.CardGame.Instance.players[0].decision = new PerfectPlayer();
                 }
                 if (exp.ai2){
-                    //CardEngine.CardGame.Instance.players[1].decision = new Players.LessThanPerfectPlayer();
-                    CardEngine.CardGame.Instance.players[1].decision = new PerfectPlayer();
+                    CardEngine.CardGame.Instance.players[1].decision = new LessThanPerfectPlayer();
+                    //CardEngine.CardGame.Instance.players[1].decision = new PerfectPlayer();
                 }
                 while (!manageContext.AdvanceToChoice())
                 {
