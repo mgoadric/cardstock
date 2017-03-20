@@ -6,8 +6,9 @@ namespace CardStockXam.Scoring
         public double Eval(World w)
         {
             var val = Get(w) * Weight();
+            if (Double.IsNaN(val)) { val = 0; }
             foreach (double d in Others()){
-                val += d;
+                if (!Double.IsNaN(d)) { val += d; }
             }
             return val;
         }

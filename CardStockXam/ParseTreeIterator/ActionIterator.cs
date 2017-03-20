@@ -174,6 +174,7 @@ namespace ParseTreeIterator
                 idx = card1.cardList.Count;
                 for (int i = 0; i < idx; i++){
                     ret.Add(new FancyCardMoveAction(card1, card2));
+
                 }
             }
             return ret;

@@ -6,6 +6,7 @@ namespace CardStockXam.Scoring
     public class World{ // a world contains all pertinent information for heuristics
         public bool compiling = true;
         public bool hasShuffle = false;
+        public bool hasChoice = false;
 
         public int numGames;
 

@@ -10,6 +10,7 @@ namespace CardStockXam.Scoring.Heuristics
     {
         public override double Get(World w)
         {
+            if (w.deepness.Count == 0) { return 0; }
             double tot = 0.0;
             foreach (double d in w.deepness){
                 tot += d;

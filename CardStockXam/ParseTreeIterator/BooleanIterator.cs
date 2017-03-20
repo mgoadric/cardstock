@@ -27,10 +27,7 @@ namespace ParseTreeIterator
                     }
                 }
                 else if (intop.COMPOP() != null) {
-                    if (intop.COMPOP().GetText() == "<=") {
-                        return trueOne <= trueTwo;
-                    }
-                    else if (intop.COMPOP().GetText() == ">") {
+                    if (intop.COMPOP().GetText() == ">") {
                         return trueOne > trueTwo;
                     }
                     else if (intop.COMPOP().GetText() == ">=") {
@@ -38,6 +35,9 @@ namespace ParseTreeIterator
                     }
                     else if (intop.COMPOP().GetText() == "<") {
                         return trueOne < trueTwo;
+                    }
+                    else if (intop.COMPOP().GetText() == "<="){
+                        return trueOne <= trueTwo;
                     }
                 }
             }

@@ -80,6 +80,7 @@ namespace CardEngine {
                 }
                 else {
                     Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString());
+                    Console.WriteLine("moving to " + endLocation.ToString());
                     throw new Exception();
                 }
             }

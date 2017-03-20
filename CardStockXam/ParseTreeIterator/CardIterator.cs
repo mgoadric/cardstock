@@ -1,10 +1,6 @@
-using Antlr4.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.IO;
 using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using CardEngine;
@@ -247,11 +243,12 @@ namespace ParseTreeIterator
                 prefix = "{mem}";
             }
             Player player;
+            /*
             Console.WriteLine("parent: " + stor.Parent.GetText());
             Console.WriteLine("next parent: " + stor.Parent.Parent.GetText());
             Console.WriteLine("next next parent " + stor.Parent.Parent.Parent.GetText());
             Console.WriteLine(stor);
-            Console.WriteLine(stor.GetText());
+            Console.WriteLine(stor.GetText());*/
             if (stor.locpre().GetText() == "game"){
                 if (stor.namegr() != null){
                     var fancy = new FancyCardLocation()

@@ -81,7 +81,10 @@ namespace Players
             CardGame.Instance = CardGame.preserved;
             var typeOfGame = ParseEngine.currentTree.scoring().GetChild(2).GetText();
             var tup = MinMaxIdx(results);
-            if (Scorer.gameWorld != null) { Scorer.gameWorld.variance.Add(tup.Item2 - tup.Item1); }
+            if (Scorer.gameWorld != null) {
+                var variance = Math.Abs(tup.Item2 - tup.Item1);
+                Scorer.gameWorld.variance.Add(variance);
+            }
             if (typeOfGame == "min")
             {
                 return tup.Item1;

@@ -233,8 +233,7 @@ namespace CardEngine
                 if (o is int) { ret.Add(key, (int)o); }
                 else if (o is bool) { ret.Add(key, (bool)o); }
                 else if (o is string) { ret.Add(key, (string)o); }
-                else if (o is Card)
-                {
+                else if (o is Card) {
                     var c = (o as Card).Clone();
                     Console.WriteLine("In card.... Collin should fix this");
                     //instead

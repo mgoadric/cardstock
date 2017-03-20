@@ -23,19 +23,13 @@ namespace CardStockXam
         // list of heuristic values
         private List<Heuristic> hs = new List<Heuristic>() {
             new MeaningfulMoves(),
-            new Variance()
-        };
-
-        /*
-        private List<Heuristic> hs = new List<Heuristic>() {
-            new MeaningfulMoves(),
             new Variance(),
             new Depth(),
             new ExcessRules(),
             new Fairness(),
             new GameLength(),
             new NoTies()
-        };*/
+        };
 
         public Scorer(string fileName)
         {
@@ -76,13 +70,14 @@ namespace CardStockXam
             }
         }
 
-        public Scorer(string fileName, bool testing){
-            testing = true;
+        public Scorer(string fileName, bool b){
+            testing = b;
+            Console.WriteLine(testing);
             exps.Add(new Experiment(){
                 fileName = fileName,
                 numGames = 1,
                 numEpochs = 1,
-                logging = testing,
+                logging = b,
                 evaluating = true,
                 ai1 = true,
                 first = true
@@ -93,14 +88,24 @@ namespace CardStockXam
         public double Score(){
             gameWorld = new World();
             for (int i = 0; i < exps.Count; i++){
+                Console.WriteLine("Experiment " + i);
                 engine = new ParseEngine(exps[i]);
-                if (new Reasonable().Eval(gameWorld) < 1.0) { if (testing) { Console.WriteLine("failed reasonable"); } return 0.0; }
+                if (new Reasonable().Eval(gameWorld) < 1.0){
+                    if (testing){
+                        Console.WriteLine("failed reasonable");
+                        if (!gameWorld.compiling) { Console.WriteLine("not compiling"); }
+                        if (!gameWorld.hasShuffle) { Console.WriteLine("not shuffling"); }
+                    }
+                    return 0.0;
+                }
             }
+            Console.WriteLine("passed reasonable");
             double total = 0;
             foreach (Heuristic h in hs){
                 var score = h.Eval(gameWorld);
                 if (testing){
-                    Console.WriteLine("Heuristic: " + h.ToString() + " returned " + score);
+                    Console.WriteLine("Heuristic: " + h.ToString() + " returned " + (score / h.Weight()) + 
+                        " with weight " + h.Weight() + " for total score: " + score);
                 }
                 total += score;
             }

@@ -85,8 +85,9 @@ public class ParseEngine
         }
         if (exp.first){
             var tup = HasShuffleAndChoice(tree);
-            if (!(tup.Item1 && tup.Item2)){
-                if (exp.evaluating) { Scorer.gameWorld.compiling = false; }
+            if (exp.evaluating){
+                Scorer.gameWorld.hasShuffle = tup.Item1;
+                Scorer.gameWorld.hasChoice = tup.Item2;
             }
         }
         int choiceCount = 0;
@@ -212,17 +213,6 @@ public class ParseEngine
                 Console.Out.Write(winaggregator[j] / (double)(exp.numGames / exp.numEpochs) + "\t");
                 if (exp.evaluating) { Scorer.gameWorld.wins += 1; }
             }
-            if (exp.evaluating){
-                Scorer.gameWorld.numFirstWins += winaggregator[0];
-                if (exp.ai1 && !exp.ai2){
-                    Scorer.gameWorld.numAIWins += winaggregator[0];
-                    Scorer.gameWorld.numRndWins += winaggregator[1];
-                }
-                else if (!exp.ai1 && exp.ai2){
-                    Scorer.gameWorld.numRndWins += winaggregator[0];
-                    Scorer.gameWorld.numAIWins += winaggregator[1];
-                }
-            }
 
             Console.Out.WriteLine();
             if (breakOnCycle)
@@ -231,6 +221,18 @@ public class ParseEngine
             }
 
             Console.Read();
+        }
+        else{
+            Scorer.gameWorld.numFirstWins += winaggregator[0];
+            Scorer.gameWorld.numGames += winaggregator.Sum();
+            if (exp.ai1 && !exp.ai2){
+                Scorer.gameWorld.numAIWins += winaggregator[0]; //TODO does this do what i think it does?
+                if (winaggregator.Length > 1) { Scorer.gameWorld.numRndWins += winaggregator[1]; }
+            }
+            else if (!exp.ai1 && exp.ai2){
+                Scorer.gameWorld.numRndWins += winaggregator[0];
+                if (winaggregator.Length > 1) { Scorer.gameWorld.numAIWins += winaggregator[1]; }
+            }
         }
     }
 
