@@ -10,9 +10,12 @@ namespace CardStockXam.Scoring.Heuristics
 
         public override double Get(World w)
         {
+            Console.WriteLine("Num turns: " + w.numTurns);
             if (w.numTurns > minLength){
                 if (w.numTurns > maxLength){
-                    return Math.Max(1.0 - ((w.numTurns - maxLength) / divisor), 0);
+                    var ret = 1.0 - ((w.numTurns - maxLength) / divisor);
+                    Console.WriteLine("returning " + ret + " from gamelength");
+                    return Math.Max(ret, 0);
                 }
                 return 1.0;
             }

@@ -64,6 +64,15 @@ namespace CardEngine {
         public override void Execute() {
             try {
                 if (startLocation.Count() != 0) {
+                    //DEBUG
+                    /*if (startLocation.ToString().Contains("STOCK")){
+                        Console.WriteLine("Stock size to " + startLocation.Count());
+                    }
+                    if (endLocation.ToString().Contains("STOCK")){
+                        Console.WriteLine("Stock size from " + startLocation.Count());
+                    }*/
+                    //
+
                     Card cardToMove = startLocation.Remove();
                     var prefix = "M:";
                     if (!actual) { prefix = "N:"; }

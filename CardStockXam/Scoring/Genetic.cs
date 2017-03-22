@@ -13,6 +13,9 @@ namespace CardStockXam
         private static double mutationRate = .4;
         private static int numMutations = 2;
         private static int minimumChildren = 2;//(int) Math.Floor(numKept * 1.5);
+
+        private static bool crossingOver = false;
+        private static bool mutating = true; //TODO use
         private static bool testing = true;
 
         private static GeneticFiler filer = new GeneticFiler();
@@ -37,31 +40,48 @@ namespace CardStockXam
                 string[] fileNames = filer.GetFiles(filer.Pool());
 
                 foreach (var parent1 in fileNames){
-                    foreach (var parent2 in fileNames){
-                        if (parent1 != parent2){
-                            if (rnd.NextDouble() > crossoverRate){
-                                gen.Crossover(parent1, parent2);
+                    if (crossingOver){
+                        foreach (var parent2 in fileNames){
+                            if (parent1 != parent2){
+                                if (rnd.NextDouble() > crossoverRate){
+                                    gen.Crossover(parent1, parent2);
+                                }
                             }
                         }
                     }
-                    if (rnd.NextDouble() > mutationRate) { 
-                        gen.Mutate(parent1);
+                    if (mutating) {
+                        if (rnd.NextDouble() > mutationRate) { 
+                            gen.Mutate(parent1);
+                        }
                     }
                 }
                 string[] newFiles = filer.GetFiles(filer.Intermediate());
                 int numFiles = newFiles.Count();
                 while (numFiles < minimumChildren){ // if not enough files created, create more
                     var parent1 = fileNames[rnd.Next(fileNames.Count())];
-                    if (rnd.Next(2) == 0){
+                    if (crossingOver && mutating) {
+                        if (rnd.Next(2) == 0){
+                            var parent2 = fileNames[rnd.Next(fileNames.Count())];
+                            while (parent2 == parent1){
+                                parent2 = fileNames[rnd.Next(fileNames.Count())];
+                            }
+                            gen.Crossover(parent1, parent2);
+                        }
+                        else{
+                            gen.Mutate(parent1);
+                        }
+                    }
+                    else if (crossingOver){
                         var parent2 = fileNames[rnd.Next(fileNames.Count())];
                         while (parent2 == parent1){
                             parent2 = fileNames[rnd.Next(fileNames.Count())];
                         }
                         gen.Crossover(parent1, parent2);
                     }
-                    else{
+                    else if (mutating){
                         gen.Mutate(parent1);
                     }
+                    else { Console.WriteLine("You must mutate or crossover"); break; }
                     numFiles++;
                 }
                 newFiles = filer.GetFullPathFiles(filer.Intermediate());

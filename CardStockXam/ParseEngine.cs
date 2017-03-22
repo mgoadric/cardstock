@@ -33,9 +33,6 @@ public class ParseEngine
         if (exp.logging) {
             File.WriteAllText(exp.fileName + ".txt", string.Empty);
         }
-        if (exp.evaluating) {
-            File.WriteAllText(exp.fileName + "_results.txt", string.Empty);
-        }
         // Load up the game from the .gdl RECYCLE description
         string fileName = exp.fileName;
         if (!exp.evaluating)
@@ -186,7 +183,7 @@ public class ParseEngine
                     Console.Out.WriteLine("Results:\nCycle Occurred\n");
                 }
                 WriteToFile("|");
-                if (exp.evaluating) { Scorer.gameWorld.compiling &= true; }
+                Console.WriteLine("Finished game " + (i + 1) + " of " + exp.numGames);
             }
             catch(Exception e)
             {
@@ -376,20 +373,8 @@ public class ParseEngine
     {
         if (expstat.logging)
         {
-            using (StreamWriter file = new StreamWriter(expstat.fileName + ".txt", true))
-            {
+            using (StreamWriter file = new StreamWriter(expstat.fileName + ".txt", true)){
                 file.WriteLine(text);
-            }
-        }
-    }
-    public static void toResultFile(String text)
-    {
-        if (expstat.evaluating)
-        {
-            using (StreamWriter file = new StreamWriter(expstat.fileName + "_results.txt", true))
-            {
-                file.WriteLine(text);
-                Console.WriteLine(expstat.fileName);
             }
         }
     }

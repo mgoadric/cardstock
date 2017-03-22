@@ -13,10 +13,13 @@ namespace CardStockXam.Scoring.Heuristics
 
         public override double Get(World w){
             var total = 0.0;
+            Console.WriteLine("Start variance");
             foreach (double d in w.variance){
+                Console.WriteLine(d);
                 total += d;
                 killerMove = Math.Max(killerMove, d);
             }
+            Console.WriteLine("End variance");
             return total / w.variance.Count;
         }
 

@@ -72,14 +72,23 @@ namespace CardStockXam
 
         public Scorer(string fileName, bool b){
             testing = b;
-            Console.WriteLine(testing);
             exps.Add(new Experiment(){
                 fileName = fileName,
-                numGames = 1,
+                numGames = 2,
                 numEpochs = 1,
                 logging = b,
                 evaluating = true,
                 ai1 = true,
+                first = true
+            });
+            exps.Add(new Experiment(){
+                fileName = fileName,
+                numGames = 2,
+                numEpochs = 1,
+                logging = b,
+                evaluating = true,
+                ai1 = true,
+                ai2 = true,
                 first = true
             });
         }
@@ -110,23 +119,6 @@ namespace CardStockXam
                 total += score;
             }
             return total;
-        }
-
-        //deprecated
-        private World ProcessFile(){
-            World w = new World();
-
-            var fs = new FileStream(exps[0].fileName + "_results.txt", FileMode.Open);
-            byte[] b = new byte[1024];
-            UTF8Encoding temp = new UTF8Encoding(true);
-
-            while (fs.Read(b, 0, b.Length) > 0){
-                string line = temp.GetString(b);
-                if (line.Equals("failure")) { return null; }
-                // TODO analyze each line here, add to w
-            }
-            fs.Close();
-            return w;
         }
         public bool parseBool(string line)
         {

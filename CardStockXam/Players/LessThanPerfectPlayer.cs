@@ -12,6 +12,8 @@ namespace Players
 {
     public class LessThanPerfectPlayer : GeneralPlayer
     {
+        private static int numTests = 10; //previously 20
+
         public LessThanPerfectPlayer()
         {
         }
@@ -35,7 +37,7 @@ namespace Players
             for (int item = 0; item < items.Count; ++item)
             {
                 results[item] = 0;
-                for (int i = 0; i < 20; ++i)//number of tests for certain decision
+                for (int i = 0; i < numTests; ++i)//number of tests for certain decision
                 {
                     Debug.WriteLine("****Made Switch****");
 
@@ -59,8 +61,7 @@ namespace Players
                     var preservedIterator = ParseEngine.currentIterator;
                     var cloneContext = ParseEngine.currentIterator.Clone();
                     ParseEngine.currentIterator = cloneContext;
-                    while (!cloneContext.AdvanceToChoice())
-                    {
+                    while (!cloneContext.AdvanceToChoice()){
                         cloneContext.ProcessChoice();
                     }
                     var winners = ScoreIterator.ProcessScore(ParseEngine.currentTree.scoring());

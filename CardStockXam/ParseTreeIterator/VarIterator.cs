@@ -31,6 +31,14 @@ namespace ParseTreeIterator
         public static FancyCardLocation ProcessCStorageFilter(RecycleParser.FilterContext filter){
             var cList = new CardListCollection();
             FancyCardLocation stor;
+            /*
+            Console.WriteLine(filter.GetText());
+            Console.WriteLine("parent:\n" + filter.Parent.GetText());
+            Console.WriteLine("parent's parent:\n" + filter.Parent.Parent.GetText());
+            Console.WriteLine("parent 3:\n" + filter.Parent.Parent.Parent.GetText());
+            Console.WriteLine("parent 4:\n" + filter.Parent.Parent.Parent.Parent.GetText());
+            Console.WriteLine("parent 5:\n" + filter.Parent.Parent.Parent.Parent.Parent.GetText());
+            Console.WriteLine("\n\n");*/
             if (filter.collection().cstorage() != null){
                 stor = CardIterator.ProcessLocation(filter.collection().cstorage());
             }
@@ -156,6 +164,7 @@ namespace ParseTreeIterator
                         act.ExecuteActual();
                     }
                 }
+                //else { Console.WriteLine("Unknown type " + post.GetType()); }
 
             }
             if (All(agg)){
@@ -173,7 +182,10 @@ namespace ParseTreeIterator
                 }
                 else if (agg.GetChild(4) is RecycleParser.BooleanContext){
                     var all = true;
+                    Console.WriteLine(agg.GetText());
+                    Console.WriteLine("4: " + agg.GetChild(4).GetText());
                     foreach (object obj in ret){
+                        Console.WriteLine("i: " + obj.ToString());
                         all &= (bool) obj;
                     }
                     return all;
