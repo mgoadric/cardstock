@@ -4,6 +4,8 @@ using System.Collections.Generic;
 namespace CardStockXam.Scoring
 {
     public class World{ // a world contains all pertinent information for heuristics
+        public bool testing = false;
+
         public bool compiling = true;
         public bool hasShuffle = false;
         public bool hasChoice = false;

@@ -12,12 +12,12 @@ namespace CardStockXam.Scoring.Heuristics
         {
             if (w.deepness.Count == 0) { return 0; }
             double tot = 0.0;
-            Console.WriteLine("Start depth");
-            foreach (double d in w.deepness){
-                Console.WriteLine(d);
+            if (w.testing) { Console.WriteLine("Start depth"); }
+            foreach (double d in w.deepness) {
+                if (w.testing) { Console.WriteLine(d); }
                 tot += d;
             }
-            Console.WriteLine("End depth");
+            if (w.testing) { Console.WriteLine("End depth"); }
             return tot / w.deepness.Count;
         }
 

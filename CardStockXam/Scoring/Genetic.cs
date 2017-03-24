@@ -8,18 +8,19 @@ namespace CardStockXam
     class Genetic
     {
         private static int repetitions = 3;
-        private static int numKept = 2;//10;
+        private static int numKept = 3;//10;
         private static double crossoverRate = .4;
         private static double mutationRate = .4;
         private static int numMutations = 2;
-        private static int minimumChildren = 2;//(int) Math.Floor(numKept * 1.5);
+        private static int minimumChildren = 6;//(int) Math.Floor(numKept * 1.5);
 
         private static bool crossingOver = false;
-        private static bool mutating = true; //TODO use
-        private static bool testing = true;
+        private static bool mutating = true;
+        private static bool testing = false;
+        private static bool printingMods = true;
 
         private static GeneticFiler filer = new GeneticFiler();
-        private static Generator gen = new Generator(filer, numMutations);
+        private static Generator gen = new Generator(filer, numMutations, printingMods);
         private static Random rnd = new Random();
 
 
@@ -29,9 +30,9 @@ namespace CardStockXam
                 Test();
             }
             else {
+                filer.Start(repetitions);
                 GA();
             }
-            filer.Start(repetitions);
         }
 
         private static void GA(){
@@ -116,7 +117,7 @@ namespace CardStockXam
 
         private static string[] Tournament(double[] scores, string[] files)
         {
-            string[] ret = new string[numKept];
+            string[] toKeep = new string[numKept];
             var count = scores.Count();
 
             if (count < numKept) { throw new ArgumentOutOfRangeException(); }
@@ -128,16 +129,16 @@ namespace CardStockXam
                 string add = null;
                 if (scores[ind1] > scores[ind2]) { add = files[ind1]; }
                 else { add = files[ind2]; }
-                if (ret.Contains(add))
+                if (toKeep.Contains(add))
                 {
                     i--;
                 }
                 else
                 {
-                    ret[i] = add;
+                    toKeep[i] = add;
                 }
             }
-            return ret;
+            return toKeep;
         }
 
         private static string[] GetTop(double[] scores, string[] files)

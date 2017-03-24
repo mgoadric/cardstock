@@ -15,8 +15,8 @@ namespace CardStockXam
         public static World gameWorld;
 
         private int numRndvRnd = 1;
-        private int numAIvRnd  = 3;
-        private int numAIvAI   = 3;
+        private int numAIvRnd  = 2;
+        private int numAIvAI   = 2;
 
         private bool testing = false;
 
@@ -96,6 +96,7 @@ namespace CardStockXam
         // define heuristics here
         public double Score(){
             gameWorld = new World();
+            gameWorld.testing = testing;
             for (int i = 0; i < exps.Count; i++){
                 Console.WriteLine("Experiment " + i);
                 engine = new ParseEngine(exps[i]);

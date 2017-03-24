@@ -11,8 +11,10 @@ namespace CardStockXam.Scoring
     class Generator
     {
         private int numMutations;
-        private Random rnd = new Random();
         private GeneticFiler filer;
+        private bool printing;
+
+        private Random rnd = new Random();
         private Regex regex = new Regex("(;;)(.*?)(\n)");
         private Type[] crossovers = new Type[] { typeof(RecycleParser.StageContext), typeof(RecycleParser.MultiactionContext), typeof(RecycleParser.Multiaction2Context),
                                                  typeof(RecycleParser.DeckContext), typeof(RecycleParser.SetupContext) };
@@ -20,9 +22,10 @@ namespace CardStockXam.Scoring
                                                  typeof(RecycleParser.MultiactionContext), typeof(RecycleParser.Multiaction2Context), typeof(RecycleParser.EndconditionContext),
                                                  typeof(RecycleParser.CondactContext) };
 
-        public Generator(GeneticFiler f, int numMutations) {
+        public Generator(GeneticFiler f, int numMutations, bool printing) {
             filer = f;
             this.numMutations = numMutations;
+            this.printing = printing;
         }
 
         public void Crossover(string parent1, string parent2)
@@ -72,6 +75,7 @@ namespace CardStockXam.Scoring
                 var tree = mutations[rnd.Next(mutations.Count())];
                 var subtree = FindSubTree(game, tree); // check subtree
                 var newMutation = GetMutation(subtree, info.Item1, info.Item2);
+                printMut(subtree.GetText(), newMutation);
                 if (newMutation.Count() == 0) { i--; }
                 else { child = child.Replace(subtree.GetText(), newMutation); }
             }
@@ -80,12 +84,10 @@ namespace CardStockXam.Scoring
 
         public string GetMutation(IParseTree tree, List<RecycleParser.CstorageContext> locs, List<RecycleParser.VarContext> vars)
         { //TODO add var to random var of same type
-            var ret = "";
-            if (tree is RecycleParser.MoveactionContext)
-            {
-                while (ret.Length == 0)
-                {
-                    var t = tree as RecycleParser.MoveactionContext;
+            string ret = "";
+            if (tree is RecycleParser.MoveactionContext){
+                var t = tree as RecycleParser.MoveactionContext;
+                while (ret.Length == 0){
                     var r = rnd.Next(0, 5);
                     if (r == 0)
                     { // swap beginning and end
@@ -119,10 +121,13 @@ namespace CardStockXam.Scoring
             else if (tree is RecycleParser.ShuffleactionContext)
             {
                 var t = tree as RecycleParser.ShuffleactionContext;
-                while (ret.Length == 0)
-                { // swap shuffle location with other location
+                for (int i = 0; i < locs.Count; i++){ // swap shuffle location with other location
                     var loc = locs[rnd.Next(0, locs.Count)];
-                    ret = ConstructShuffleString(t.cstorage().GetText(), loc.GetText());
+                    var loctext = loc.GetText();
+                    if (loctext.Contains("iloc") && !t.GetChild(1).GetText().Contains(loctext)){
+                        ret = ConstructShuffleString(t.cstorage().GetText(), loc.GetText());
+                        break;
+                    }
                 }
             }
             else if (tree is RecycleParser.RepeatContext)
@@ -138,11 +143,9 @@ namespace CardStockXam.Scoring
                     ret = "repeat all (" + GetMutation(t.GetChild(3), locs, vars) + ")";
                 }
             }
-            else if (tree is RecycleParser.MultiactionContext)
-            {
+            else if (tree is RecycleParser.MultiactionContext){
                 var t = tree as RecycleParser.MultiactionContext;
-                if (t.agg() != null)
-                {
+                if (t.agg() != null){
                     var a = t.agg();
                     var r = rnd.Next(0, 2);
                     if (r == 0)
@@ -166,8 +169,7 @@ namespace CardStockXam.Scoring
                             a.GetChild(4).GetText() + ")";
                     }
                 }
-                else if (t.let() != null)
-                {
+                else if (t.let() != null){
                     if (t.let().multiaction() != null)
                     {
                         var let = t.let();
@@ -177,8 +179,7 @@ namespace CardStockXam.Scoring
                             GetMutation(let.multiaction(), locs, vars) + ")";
                     }
                 }
-                else
-                { // choice or do
+                else{ // choice or do
                     var r = rnd.Next(0, 3);
                     if (r == 0)
                     { // swap choice/do
@@ -218,11 +219,9 @@ namespace CardStockXam.Scoring
                     }
                 }
             }
-            else if (tree is RecycleParser.Multiaction2Context)
-            {
+            else if (tree is RecycleParser.Multiaction2Context){
                 var t = tree as RecycleParser.Multiaction2Context;
-                if (t.agg() != null)
-                {
+                if (t.agg() != null){
                     var a = t.agg();
                     var r = rnd.Next(0, 2);
                     if (r == 0)
@@ -293,14 +292,12 @@ namespace CardStockXam.Scoring
             {
                 var t = tree as RecycleParser.ScoringContext;
                 var r = rnd.Next(0, 2);
-                if (r == 0)
-                { //swap min and max
+                if (r == 0){ //swap min and max
                     var mod = "min";
                     if (t.GetChild(2).GetText().Equals(mod)) { mod = "max"; }
                     ret = "(scoring " + mod + t.GetChild(3).GetText();
                 }
-                else
-                {
+                else{
                     ret = "(scoring " + t.GetChild(2).GetText() + " (not " + t.GetChild(3).GetText() + ")";
                 }
             }
@@ -311,8 +308,7 @@ namespace CardStockXam.Scoring
                 {// not bool
                     ret = "((not " + t.boolean().GetText() + ") " + t.GetChild(2).GetText() + ")";
                 }
-                else if (t.multiaction2() != null)
-                {
+                else if (t.multiaction2() != null){
                     ret = GetMutation(t.multiaction2(), locs, vars);
                 }
             }
@@ -320,6 +316,11 @@ namespace CardStockXam.Scoring
             return ret;
         }
 
+        private void printMut(string orig, string n){
+            if (printing){
+                Console.WriteLine("Changed:\n    " + orig + "\nto:\n    " + n);
+            }
+        }
 
         private string ConstructMoveString(string c1, string c2)
         {

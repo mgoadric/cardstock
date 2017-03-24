@@ -4,10 +4,13 @@ using System.Linq;
 
 namespace CardStockXam.Scoring
 {
-    class GeneticFiler
-    {
+    class GeneticFiler{
         private int rep;
         private int repetitions;
+
+        private string[] endings = new string[] {"'", "!", "#", "$", "%", "^", "&", "+", "="};
+        private Random rnd = new Random();
+
         public GeneticFiler() { }
 
         public void Start(int r)
@@ -61,12 +64,12 @@ namespace CardStockXam.Scoring
 
         public void MakeFile(string file, string name)
         {
-            if (File.Exists(name))
-            {
-                name.Insert(name.Length - 4, "1");
+            while (File.Exists(name)){
+                string ending = endings[rnd.Next(endings.Count())];
+                name = name.Insert(name.Length - 4, ending);
             }
             File.WriteAllText(name, file);
-            //Console.WriteLine("Wrote file " + name);
+            Console.WriteLine("Wrote file " + name + "\n\n");
         }
 
         public string GetName(string parent1, string parent2)

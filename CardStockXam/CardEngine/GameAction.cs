@@ -88,7 +88,7 @@ namespace CardEngine {
                     Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
                 }
                 else {
-                    Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString());
+                    Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
                     Console.WriteLine("moving to " + endLocation.ToString());
                     throw new Exception();
                 }

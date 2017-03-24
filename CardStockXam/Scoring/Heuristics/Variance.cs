@@ -11,15 +11,15 @@ namespace CardStockXam.Scoring.Heuristics
             return 0.5;
         }
 
-        public override double Get(World w){
+        public override double Get(World w) {
             var total = 0.0;
-            Console.WriteLine("Start variance");
-            foreach (double d in w.variance){
-                Console.WriteLine(d);
+            if (w.testing) { Console.WriteLine("Start variance"); }
+            foreach (double d in w.variance) {
+               if (w.testing) { Console.WriteLine(d); }
                 total += d;
                 killerMove = Math.Max(killerMove, d);
             }
-            Console.WriteLine("End variance");
+            if (w.testing) { Console.WriteLine("End variance"); }
             return total / w.variance.Count;
         }
 
