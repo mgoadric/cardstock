@@ -13,6 +13,7 @@ namespace CardStockXam
         private ParseEngine engine;
 
         public static World gameWorld;
+        public string text;
 
         private int numRndvRnd = 1;
         private int numAIvRnd  = 2;
@@ -34,6 +35,7 @@ namespace CardStockXam
         public Scorer(string fileName)
         {
             bool first = true;
+            text = "Scoring " + fileName + ":\n";
             for (int i = 0; i < numRndvRnd; i++){
                 exps.Add(new Experiment()
                 {
@@ -72,6 +74,7 @@ namespace CardStockXam
 
         public Scorer(string fileName, bool b){
             testing = b;
+            text = "Scoring " + fileName + ":\n";
             exps.Add(new Experiment(){
                 fileName = fileName,
                 numGames = 2,
@@ -113,9 +116,11 @@ namespace CardStockXam
             double total = 0;
             foreach (Heuristic h in hs){
                 var score = h.Eval(gameWorld);
+                var output = "Heuristic " + h.ToString() + " returned " + (score / h.Weight()) +
+                        " with weight " + h.Weight() + " for total score: " + score;
+                text += "    " + output;
                 if (testing){
-                    Console.WriteLine("Heuristic: " + h.ToString() + " returned " + (score / h.Weight()) + 
-                        " with weight " + h.Weight() + " for total score: " + score);
+                    Console.WriteLine(output);
                 }
                 total += score;
             }

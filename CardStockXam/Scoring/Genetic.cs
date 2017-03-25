@@ -94,6 +94,7 @@ namespace CardStockXam
                 for (int i = 0; i < newFiles.Count(); i++) { // get scores
                     Scorer s = new Scorer(newFiles[i].Substring(0, newFiles[i].Length - 4));
                     scores[i] = s.Score();
+                    filer.WriteTranscript(s.text);
                     var text = "File " + newFiles[i] + "'s score is " + scores[i];
                     Console.WriteLine(text);
                     transcript += text + "\n";
