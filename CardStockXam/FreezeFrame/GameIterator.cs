@@ -144,7 +144,7 @@ namespace FreezeFrame
 					}
 					for (int i = 4; i < stage.ChildCount - 1; ++i) {
 						//TimeStep.Instance.treeLoc.Push(i - 4);
-						Debug.WriteLine (TimeStep.Instance);
+						//Debug.WriteLine (TimeStep.Instance);
 						//ProcessSubStage(stage.GetChild(i));
 						topLevel.Enqueue (stage.GetChild (i));
 						//TimeStep.Instance.treeLoc.Pop();

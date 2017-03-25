@@ -89,16 +89,22 @@ namespace CardStockXam
                 
                 // Scoring
                 double[] scores = new double[newFiles.Count()];
+                string scoreText = "";
                 for (int i = 0; i < newFiles.Count(); i++) { // get scores
                     Scorer s = new Scorer(newFiles[i].Substring(0, newFiles[i].Length - 4));
                     scores[i] = s.Score();
-                    Console.WriteLine("File " + newFiles[i] + "'s score is " + scores[i]);
+                    var text = "File " + newFiles[i] + "'s score is " + scores[i];
+                    Console.WriteLine(text);
+                    scoreText += text + "\n";
                 }
                 string[] keep = Tournament(scores, newFiles);
                 Console.WriteLine("\n\nKept:");
+                scoreText += "Keeping files:\n";
                 foreach (string s in keep){
                     Console.WriteLine(s);
+                    scoreText += "    " + s + "\n";
                 }
+                filer.WriteTranscript(scoreText);
                 // Save keep
                 if (rep + 1 == repetitions) {
                     filer.moveAllFiles(filer.Intermediate(), "Gamepool/Final", true);

@@ -129,5 +129,11 @@ namespace CardStockXam.Scoring
             s = s.Split('.')[0];
             return s;
         }
+
+        internal void WriteTranscript(string file)
+        {
+            var name = Path.Combine(Intermediate(), "Transcript.txt");
+            File.WriteAllText(name, file);
+        }
     }
 }
