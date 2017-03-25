@@ -10,6 +10,8 @@ namespace CardStockXam.Scoring
 {
     class Generator
     {
+        public string transcript = "";
+
         private int numMutations;
         private GeneticFiler filer;
         private bool printing;
@@ -41,8 +43,8 @@ namespace CardStockXam.Scoring
             Type tree = null;
             string child1 = "";
             string child2 = "";
-            while (unchanged)
-            {
+            string changedText = "";
+            while (unchanged){
                 tree = crossovers[rnd.Next(crossovers.Count())];
                 var subtree1 = FindSubTree(game1, tree);
                 var subtree2 = FindSubTree(game2, tree);
@@ -52,11 +54,14 @@ namespace CardStockXam.Scoring
                     child1 = gametext1.Replace(cleaned.Item1, cleaned.Item2);
                     child2 = gametext2.Replace(cleaned.Item2, cleaned.Item1);
                     // check that subtrees return non-empty before changing unchanged
+                    changedText = "    " + cleaned.Item1 + "\n    " + cleaned.Item2;
                     unchanged = false;
                 }
             }
             string child1Name = filer.GetName(parent1, parent2);
             string child2Name = filer.GetName(parent2, parent1);
+
+            transcript += "Swapped in files " + child1Name + " and " + child2Name + "\n" + changedText + "\n";
 
             filer.MakeFile(child1, folder + child1Name);
             filer.MakeFile(child2, folder + child2Name);
@@ -76,6 +81,7 @@ namespace CardStockXam.Scoring
                 var subtree = FindSubTree(game, tree); // check subtree
                 var newMutation = GetMutation(subtree, info.Item1, info.Item2);
                 printMut(subtree.GetText(), newMutation);
+                transcript += "Changed " + childName + "\n    " + subtree.GetText() + "\nto:\n    " + newMutation + "\n";
                 if (newMutation.Count() == 0) { i--; }
                 else { child = child.Replace(subtree.GetText(), newMutation); }
             }

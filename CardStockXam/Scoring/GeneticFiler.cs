@@ -7,6 +7,7 @@ namespace CardStockXam.Scoring
     class GeneticFiler{
         private int rep;
         private int repetitions;
+        
 
         private string[] endings = new string[] {"'", "!", "#", "$", "%", "^", "&", "+", "="};
         private Random rnd = new Random();
@@ -21,8 +22,7 @@ namespace CardStockXam.Scoring
             moveAllFiles("Gamepool\\Initial", NextPool(), true);
         }
 
-        public void newIter()
-        {
+        public void newIter(){
             rep++;
             Directory.CreateDirectory(Intermediate());
         }
@@ -130,10 +130,17 @@ namespace CardStockXam.Scoring
             return s;
         }
 
-        internal void WriteTranscript(string file)
+        internal void WriteTranscript(string text)
         {
             var name = Path.Combine(Intermediate(), "Transcript.txt");
-            File.WriteAllText(name, file);
+            if (!File.Exists(name)){
+                File.WriteAllText(name, text);
+            }
+            else{ 
+                using (StreamWriter file = new StreamWriter(name, true)){
+                    file.WriteLine(text);
+                }
+            }
         }
     }
 }

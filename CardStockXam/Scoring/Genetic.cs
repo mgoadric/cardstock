@@ -38,6 +38,7 @@ namespace CardStockXam
         private static void GA(){
             for (int rep = 0; rep < repetitions; rep++){
                 filer.newIter();
+                gen.transcript = "";
                 string[] fileNames = filer.GetFiles(filer.Pool());
 
                 foreach (var parent1 in fileNames){
@@ -85,26 +86,27 @@ namespace CardStockXam
                     else { Console.WriteLine("You must mutate or crossover"); break; }
                     numFiles++;
                 }
-                newFiles = filer.GetFullPathFiles(filer.Intermediate());
-                
+                filer.WriteTranscript(gen.transcript);
+                string transcript = "";
                 // Scoring
+                newFiles = filer.GetFullPathFiles(filer.Intermediate());
                 double[] scores = new double[newFiles.Count()];
-                string scoreText = "";
                 for (int i = 0; i < newFiles.Count(); i++) { // get scores
                     Scorer s = new Scorer(newFiles[i].Substring(0, newFiles[i].Length - 4));
                     scores[i] = s.Score();
                     var text = "File " + newFiles[i] + "'s score is " + scores[i];
                     Console.WriteLine(text);
-                    scoreText += text + "\n";
+                    transcript += text + "\n";
                 }
-                string[] keep = Tournament(scores, newFiles);
-                Console.WriteLine("\n\nKept:");
-                scoreText += "Keeping files:\n";
-                foreach (string s in keep){
-                    Console.WriteLine(s);
-                    scoreText += "    " + s + "\n";
+                var tup = Tournament(scores, newFiles);
+                string[] keep = tup.Item1;
+                double[] keepScores = tup.Item2;
+                transcript += "Keeping files:\n";
+                for (int i = 0; i < keep.Count(); i++) { 
+                    Console.WriteLine(keep[i]);
+                    transcript += "    " + keep[i] + " with score " + keepScores[i] + "\n";
                 }
-                filer.WriteTranscript(scoreText);
+                filer.WriteTranscript(transcript);
                 // Save keep
                 if (rep + 1 == repetitions) {
                     filer.moveAllFiles(filer.Intermediate(), "Gamepool/Final", true);
@@ -121,9 +123,10 @@ namespace CardStockXam
 
         // Selection algorithms...
 
-        private static string[] Tournament(double[] scores, string[] files)
+        private static Tuple<string[], double[]> Tournament(double[] scores, string[] files)
         {
             string[] toKeep = new string[numKept];
+            double[] keptScores = new double[numKept];
             var count = scores.Count();
 
             if (count < numKept) { throw new ArgumentOutOfRangeException(); }
@@ -132,19 +135,19 @@ namespace CardStockXam
             {
                 var ind1 = rnd.Next(count);
                 var ind2 = rnd.Next(count);
+                int ind;
                 string add = null;
-                if (scores[ind1] > scores[ind2]) { add = files[ind1]; }
-                else { add = files[ind2]; }
-                if (toKeep.Contains(add))
-                {
+                if (scores[ind1] > scores[ind2]) { ind = ind1; }
+                else { ind = ind2; }
+                if (toKeep.Contains(files[ind])){
                     i--;
                 }
-                else
-                {
-                    toKeep[i] = add;
+                else {
+                    toKeep[i] = files[ind];
+                    keptScores[i] = scores[ind];
                 }
             }
-            return toKeep;
+            return new Tuple<string[], double[]>(toKeep, keptScores);
         }
 
         private static string[] GetTop(double[] scores, string[] files)
