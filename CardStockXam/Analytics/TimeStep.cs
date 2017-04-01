@@ -35,8 +35,9 @@ namespace Analytics{
 			}
 			return tempRet.ToString();
 		}
-		public string GetTimeStep(){
-			var tempRet = new StringBuilder("");
+		public string GetTimeStep(){ //This is ridiculously slow! Don't use unless necessary
+            return "";
+			/*var tempRet = new StringBuilder("");
 			foreach (var i in timeStep){
 				tempRet.Insert(0, "-" + i);
 			}
@@ -44,7 +45,7 @@ namespace Analytics{
 				//tempRet = tempRet.Substring(1);
 				tempRet.Remove(0, 1);
 			}
-			return tempRet.ToString();
+			return tempRet.ToString();*/
 		}
 		public override string ToString(){
 			var ret = new StringBuilder("");

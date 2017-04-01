@@ -11,6 +11,7 @@ namespace CardStockXam.Scoring.Heuristics
         public override double Get(World w)
         {
             Console.WriteLine("Num turns: " + w.numTurns);
+            double avg = w.numTurns / w.numGames;
             if (w.numTurns > minLength){
                 if (w.numTurns > maxLength){
                     var ret = 1.0 - ((w.numTurns - maxLength) / divisor);

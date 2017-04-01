@@ -8,18 +8,15 @@ namespace CardStockXam.Scoring.Heuristics
 
         public override double Weight()
         {
-            return 0.5;
+            return 0.85;
         }
 
         public override double Get(World w) {
-            var total = 0.0;
-            if (w.testing) { Console.WriteLine("Start variance"); }
+            double total = 0.0;
             foreach (double d in w.variance) {
-               if (w.testing) { Console.WriteLine(d); }
                 total += d;
                 killerMove = Math.Max(killerMove, d);
             }
-            if (w.testing) { Console.WriteLine("End variance"); }
             return total / w.variance.Count;
         }
 

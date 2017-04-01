@@ -50,7 +50,7 @@ namespace CardEngine
 		}
 		public CardGame(int numPlayers) {
             AddPlayers(numPlayers);
-			currentPlayer.Push(new PlayerCycle(players)); //TODO call allplayers?
+			//currentPlayer.Push(new PlayerCycle(players)); //TODO call allplayers?
 		}
 		public CardGame CloneCommon(){
 			var temp = new CardGame (this.players.Count); //here, players is being initialzed as an empty list of players
@@ -65,9 +65,6 @@ namespace CardEngine
                     newTeam.teamPlayers.Add(newPlayer);
                 }
                 temp.teams.Add(newTeam);
-            }
-            foreach (Player p in players){
-
             }
 			/*Dictionary<Player, int> playerIdxs = new Dictionary<Player, int>();
 			for (int i = 0; i < this.players.Count; ++i) {
@@ -410,7 +407,7 @@ namespace CardEngine
 		public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
 			var strDescription = SerializeGAC (choices);
 			var json = (JObject) JsonConvert.DeserializeObject (strDescription);
-            var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(json,rand);
+            var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(json, rand);
             choices[choice].ExecuteAll();
 		}
         public String SerializeGAC(List<GameActionCollection> list){

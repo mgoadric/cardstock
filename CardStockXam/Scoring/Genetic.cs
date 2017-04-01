@@ -39,7 +39,7 @@ namespace CardStockXam
             for (int rep = 0; rep < repetitions; rep++){
                 filer.newIter();
                 gen.transcript = "";
-                string[] fileNames = filer.GetFiles(filer.Pool());
+                List<string> fileNames = filer.OnlyExtension(filer.GetFiles(filer.Pool()), ".gdl");
 
                 foreach (var parent1 in fileNames){
                     if (crossingOver){
@@ -88,6 +88,8 @@ namespace CardStockXam
                 }
                 filer.WriteTranscript(gen.transcript);
                 string transcript = "";
+
+
                 // Scoring
                 newFiles = filer.GetFullPathFiles(filer.Intermediate());
                 double[] scores = new double[newFiles.Count()];

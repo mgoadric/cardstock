@@ -233,6 +233,8 @@
     <Compile Include="Scoring\Genetic.cs" />
     <Compile Include="Scoring\GeneticFiler.cs" />
     <Compile Include="Scoring\Generator.cs" />
+    <Compile Include="Scoring\Heuristics\Drama.cs" />
+    <Compile Include="Scoring\Heuristics\Decisiveness.cs" />
     <Compile Include="Scoring\Heuristics\Heuristic.cs" />
     <Compile Include="Scoring\Heuristics\Depth.cs" />
     <Compile Include="Scoring\Heuristics\ExcessRules.cs" />

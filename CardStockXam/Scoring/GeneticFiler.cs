@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -60,6 +61,15 @@ namespace CardStockXam.Scoring
                     File.Move(s, destFile);
                 }
             }
+        }
+
+        internal List<string> OnlyExtension(string[] fileNames, string ext)
+        {
+            var ret = new List<string>();
+            foreach (string s in fileNames){
+                if (s.EndsWith(ext)) { ret.Add(s); }
+            }
+            return ret;
         }
 
         public void MakeFile(string file, string name)
@@ -132,7 +142,7 @@ namespace CardStockXam.Scoring
 
         internal void WriteTranscript(string text)
         {
-            var name = Path.Combine(Intermediate(), "Transcript.txt");
+            var name = "Gamepool\\Transcript" + rep + ".txt";
             if (!File.Exists(name)){
                 File.WriteAllText(name, text);
             }

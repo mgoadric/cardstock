@@ -18,3 +18,4 @@ namespace CardStockXam.Scoring
         public virtual double[] Others() { return new double[0]; }
     }
 }
+

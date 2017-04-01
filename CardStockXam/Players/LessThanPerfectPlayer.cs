@@ -25,36 +25,36 @@ namespace Players
         public override int MakeAction(JObject possibles, Random rand)
         {
             var items = (JArray)possibles["items"];
-            if (items.Count == 1)
-            {
+            if (items.Count == 1){
                 return 0;
             }
             CardEngine.CardGame.preserved = CardEngine.CardGame.Instance;
 
 
             var results = new int[items.Count];
+            var total = new int[items.Count];
+            double[] wrs = new double[items.Count];
             Debug.WriteLine("Start Monte");
             for (int item = 0; item < items.Count; ++item)
             {
+                double numWon = 0;
+                int numTotal = 0;
                 results[item] = 0;
                 for (int i = 0; i < numTests; ++i)//number of tests for certain decision
                 {
                     Debug.WriteLine("****Made Switch****");
 
-                    CardEngine.CardGame.Instance = CardEngine.CardGame.preserved.CloneSecret(0);//What is this??
+                    CardGame.Instance = CardGame.preserved.CloneSecret(0); //Shouldn't this be the playeridx?
 
                     var flag = true;
-                    foreach (var player in CardEngine.CardGame.Instance.players)
-                    {
-                        if (flag)
-                        {
+                    foreach (var player in CardGame.Instance.players){
+                        if (flag){
                             flag = false;
                             player.decision = new PredictablePlayer();
                             ((PredictablePlayer)player.decision).toChoose = item;
 
                         }
-                        else
-                        {
+                        else{
                             player.decision = new Players.GeneralPlayer();
                         }
                     }
@@ -65,17 +65,20 @@ namespace Players
                         cloneContext.ProcessChoice();
                     }
                     var winners = ScoreIterator.ProcessScore(ParseEngine.currentTree.scoring());
-                    for (int j = 0; j < winners.Count; ++j)
-                    {
-                        if (winners[j].Item2 == 0)
-                        {
+                    total[item] = winners.Count;
+                    numTotal++;
+                    for (int j = 0; j < winners.Count; ++j){
+                        if (winners[j].Item2 == 0) {
                             results[item] += j;
+                            int div = winners.Count - j;
+                            double lead = ((double) 1) / div;
+                            numWon += lead;
+                            break;
                         }
                     }
-
                     ParseEngine.currentIterator = preservedIterator;
                 }
-
+                wrs[item] = (double) numWon / numTotal;
             }
             Debug.WriteLine("End Monte");
             //Debug.WriteLine ("***Switch Back***");
@@ -83,11 +86,20 @@ namespace Players
             var typeOfGame = ParseEngine.currentTree.scoring().GetChild(2).GetText();
             var tup = MinMaxIdx(results);
             if (Scorer.gameWorld != null) {
-                var variance = Math.Abs(tup.Item2 - tup.Item1);
+                //var max = results[tup.Item2] / total[tup.Item2];
+                //var min = results[tup.Item1] / total[tup.Item1];
+                var max = 0.0;
+                var min = 1.0;
+                foreach (double d in wrs){
+                    max = Math.Max(max, d);
+                    min = Math.Min(min, d);
+                }
+                var variance = Math.Abs(max - min);
                 Scorer.gameWorld.variance.Add(variance);
+                Scorer.gameWorld.Lead(CardGame.Instance.currentPlayer.Peek().idx).Add(max);
+                
             }
-            if (typeOfGame == "min")
-            {
+            if (typeOfGame == "min"){
                 return tup.Item1;
             }
             else

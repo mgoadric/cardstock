@@ -31,15 +31,33 @@ namespace CardStockXam.Scoring
         //is this even reasonable? probably not
         public int numRules;
 
+        public List<List<double>> leadP1 = new List<List<double>>();
+        public List<List<double>> leadP2 = new List<List<double>>();
+        public List<bool> winners = new List<bool>();
+
         public double numTurns;
 
         //Heuristics to implement, but how?
             //interactivity
             //clarity
 
-        public World() { }
+        public World(){
+            leadP1.Add(new List<double>());
+            leadP2.Add(new List<double>());
+        }
 
-        public void GameEnds() { } //TODO cleanup for next game
+        public void GameOver(int winner){
+            leadP1.Add(new List<double>());
+            leadP2.Add(new List<double>());
+            winners.Add(winner == 0 ? true : false);
+        }
 
+        public void EvalOver(){
+            if (leadP1[leadP1.Count - 1].Count == 0) { leadP1.RemoveAt(leadP1.Count - 1); }
+            if (leadP2[leadP2.Count - 1].Count == 0) { leadP2.RemoveAt(leadP2.Count - 1); }
+        }
+        public List<double> Lead(int idx){
+            var l = idx == 0 ? leadP1 : leadP2;
+            return l[l.Count - 1]; }
     }
 }

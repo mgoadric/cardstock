@@ -25,11 +25,12 @@ namespace CardStockXam
         private List<Heuristic> hs = new List<Heuristic>() {
             new MeaningfulMoves(),
             new Variance(),
-            new Depth(),
+            //new Depth(),
             new ExcessRules(),
             new Fairness(),
             new GameLength(),
-            new NoTies()
+            new NoTies(),
+            new Drama()
         };
 
         public Scorer(string fileName)
@@ -112,6 +113,7 @@ namespace CardStockXam
                     return 0.0;
                 }
             }
+            gameWorld.EvalOver();
             Console.WriteLine("passed reasonable");
             double total = 0;
             foreach (Heuristic h in hs){

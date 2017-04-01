@@ -11,6 +11,7 @@ using CardEngine;
 
 using Analytics;
 using CardStockXam.CardEngine;
+using CardStockXam;
 
 namespace ParseTreeIterator
 {
@@ -27,6 +28,7 @@ namespace ParseTreeIterator
 			if (stage.endcondition().boolean() != null){
 				TimeStep.Instance.timeStep.Push(0);
 				while (!BooleanIterator.ProcessBoolean(stage.endcondition().boolean())){
+                    if (Scorer.gameWorld != null) { Scorer.gameWorld.numTurns++; }
 					StageCount.Instance.IncCount(stage);
 					TimeStep.Instance.timeStep.Push(TimeStep.Instance.timeStep.Pop() + 1);
 					Debug.WriteLine("Current Player: " + CardGame.Instance.CurrentPlayer().idx);

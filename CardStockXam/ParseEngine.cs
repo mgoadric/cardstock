@@ -175,6 +175,7 @@ public class ParseEngine
                         if (results[j].Item2 == 0 && j != results.Count - 1)
                         {
                             winaggregator[i / (exp.numGames / exp.numEpochs)]++;
+                            if (Scorer.gameWorld != null) { Scorer.gameWorld.GameOver(j); }
                         }
                     }
                 }

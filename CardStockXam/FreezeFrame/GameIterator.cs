@@ -6,6 +6,7 @@ using CardEngine;
 using Analytics;
 using System.Collections.Generic;
 using System.Text;
+using CardStockXam;
 
 namespace FreezeFrame
 {
@@ -17,6 +18,7 @@ namespace FreezeFrame
 		bool shouldInc = true;
 		public int decisionBranch = -1;
 		public int decisionIdx = -1;
+        private Random rand;
         //public StringBuilder recorder;
 
 		public GameIterator Clone(){
@@ -82,10 +84,12 @@ namespace FreezeFrame
 			}
 
 		}
+
 		public bool ProcessSubStage(){
 			var sub = CurrentNode ();
             if (sub.ChildCount > 1 && sub.GetChild(1).GetText() == "choice") { return true; }
             else if (sub is RecycleParser.StageContext){
+                //EvalGameLead(); TODO
                 var allowedToRun = ProcessStage(sub as RecycleParser.StageContext);
                 if (allowedToRun){
                     iteratingSet.Add(sub);
@@ -177,6 +181,75 @@ namespace FreezeFrame
         //public override String ToString() {
         //    return recorder.ToString();
         //}
+        /* TODO
+        public void EvalGameLead(){
+            if (Scorer.gameWorld != null){
+                var allOptions = new List<GameActionCollection>();
+                for (int i = 0; i < choices.Length; ++i)
+                {
+                    var gacs = StageIterator.RecurseDo(choices[i]);
+                    if (gacs.Count > 0)
+                    {
+                        allOptions.AddRange(gacs);
+                    }
+                }
+                //BranchingFactor.Instance.AddCount(allOptions.Count, CardGame.Instance.CurrentPlayer().idx);
+                if (allOptions.Count != 0){
+                    Scorer.gameWorld.lead.Add(CheckAction(allOptions));
+                }
+                
+            }
+        }
+
+        public double CheckAction(List<GameActionCollection> items)
+        {
+            if (items.Count == 1)
+            {
+                return 0;
+            }
+            CardEngine.CardGame.preserved = CardEngine.CardGame.Instance;
+
+
+            var results = new int[items.Count];
+            Debug.WriteLine("Start Monte");
+            for (int item = 0; item < items.Count; ++item)
+            {
+                results[item] = 0;
+                CardGame.Instance = CardGame.preserved.Clone();
+                var flag = true;
+                foreach (var player in CardGame.Instance.players){
+                    player.decision = new Players.GeneralPlayer();
+                }
+                    var preservedIterator = ParseEngine.currentIterator;
+                    var cloneContext = ParseEngine.currentIterator.Clone();
+                    ParseEngine.currentIterator = cloneContext;
+                    while (!cloneContext.AdvanceToChoice()){
+                        cloneContext.ProcessChoice();
+                    }
+                    var winners = ScoreIterator.ProcessScore(ParseEngine.currentTree.scoring());
+                    for (int j = 0; j < winners.Count; ++j){
+                        if (winners[j].Item2 == 0){
+                            results[item] += j;
+                        }
+                    }
+
+                    ParseEngine.currentIterator = preservedIterator;
+
+            }
+            Debug.WriteLine("End Monte");
+            //Debug.WriteLine ("***Switch Back***");
+            CardGame.Instance = CardGame.preserved;
+            var typeOfGame = ParseEngine.currentTree.scoring().GetChild(2).GetText();
+            return GetAvg(results);
+        }
+        public static double GetAvg(int[] input)
+        {
+            int tot = 0;
+            foreach (int val in input){
+                tot += val;
+            }
+            return tot / input.Length;
+        }*/
     }
 }
 
