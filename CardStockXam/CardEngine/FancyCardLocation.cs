@@ -51,7 +51,10 @@ namespace CardEngine{
 				return cardList.Peek();
 			}
 			else if (locIdentifier == "bottom"){
-				return cardList.AllCards().GetEnumerator().Current;
+                
+                System.Collections.Generic.IEnumerator<Card> e = cardList.AllCards().GetEnumerator();
+                e.MoveNext();
+                return e.Current;
 			}
             else if (locIdentifier == "-1"){
                 return cardList.Peek();

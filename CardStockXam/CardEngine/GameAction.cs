@@ -74,6 +74,7 @@ namespace CardEngine {
                     //
 
                     Card cardToMove = startLocation.Remove();
+
                     var prefix = "M:";
                     if (!actual) { prefix = "N:"; }
                     if (cardToMove.owner != null) {

@@ -1,5 +1,6 @@
 ;; Lost Cities in the GDL
 (game
+
    (declare (WHITE, BLUE, GREEN, RED, YELLOW) 'COLORS)
    (setup
       ;; Set up the players, 2 teams of 2 players, alternating
@@ -33,8 +34,7 @@
         (shuffle (game iloc STOCK))
         (all player 'P (repeat 8 (move (top (game iloc STOCK))
                                         (top ('P iloc HAND)))))
-        (all 'COLORS 'C
-             (set (game sto 'C) 0))
+       
         
       ))
       
@@ -45,7 +45,9 @@
          ;; Play a card from your hand
          (do (
               (all 'COLORS 'C
-                   ;; ask about filter statements 
+                   ;; ask about filter statements
+                   ;; make sure let works
+                   ;; mycolor is not turning into fancycardlocation 
                    (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR
                      (choice (
                               ((> (size 'MYCOLOR) 0)                    

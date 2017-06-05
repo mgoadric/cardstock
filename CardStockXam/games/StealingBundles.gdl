@@ -12,11 +12,11 @@
   )
  (do (
       (shuffle (game iloc STOCK))
-      (do (
-           (repeat 4
+      
+          (repeat 4
                    (move (top (game iloc STOCK))
                          (top (game vloc POOL))))
-           ))
+           
     
    ))
                       
@@ -29,17 +29,15 @@
         (all player 'P
             (repeat 4
                (move (top (game iloc STOCK))
-                     (top ('P iloc HAND)))))
-        (all player 'P
-            (set ('P sto CURRENT) 0)
-         )))
+                     (top ('P iloc HAND)))))))
+     
                      
           
         (stage player
-               (end (all player 'P (== (size ('P iloc HAND)) 0)))
+              (end (all player 'P (== (size ('P iloc HAND)) 0)))
              
               (do (
-                   (set ((current player) sto CURRENT) 1)
+                 
                    (set ((current player) sto MOVED) 0)))
               (choice (
                    (do (
@@ -49,34 +47,44 @@
               ;; special case - match both pool and bundle, present choice of 1
               ;; match other player's bundle
                (do (
-                   (any player 'P
+                    ;; iterate over all other player 'P to avoid yourself 
+                   (any (other player) 'P
                           ;; check if bundle exists??
                           ;;((> (size ('P vloc BUNDLE)) 0)
                         (do (
-                           ((and (== ('P sto CURRENT) 0)
-                                 (== (cardatt RANK (top ('P vloc BUNDLE)))
-                                 (cardatt RANK (top ((current player) vloc TRICK)))))
+                           ((== (cardatt RANK (top ('P vloc BUNDLE)))
+                                 (cardatt RANK (top ((current player) vloc TRICK))))
                              (do (
-                                  (repeat (size ('P vloc BUNDLE))
+                                  (repeat all
+                                          ;; MAYBE BOTTOM DIDN'T WORK ????????????????????????? 
                                           (move (bottom ('P vloc BUNDLE)) (top ((current player) vloc BUNDLE))))
                                   (set ((current player) sto MOVED) 1)))))))))
                ;; match card(s) in pool
                (do (
                     (set (game sto SIZE) (size (game vloc POOL)))
-                    ;; FIXME NOT PROCESSED 
-                    (repeat (game sto SIZE)
-                            (do (
-                             ((== (cardatt RANK (top (game vloc POOL)))
-                                 (cardatt RANK (top ((current player) vloc TRICK))))
-                                 (do (
-                                      (move (top (game vloc POOL)) (top ((current player) vloc BUNDLE)))
-                                      (set ((current player) sto MOVED) 1))))
-                             ((and (!= (cardatt RANK (top (game vloc POOL)))
-                                  (cardatt RANK (top ((current player) vloc TRICK))))
-                                   (> (size (game vloc POOL)) 0))
-                                (move (top (game vloc POOL)) (bottom (game vloc POOL))))
+                    ;; FIXME NOT PROCESSED
+                    
+                   (all (filter (game vloc POOL) 'PC (== (cardatt RANK 'PC)
+                                                         (cardatt RANK (top ((current player) vloc TRICK))))) 'PCF
+                          (do (
+                                      (move 'PCF (top ((current player) vloc BUNDLE)))
+                                      (set ((current player) sto MOVED) 1))))))
                              
-                     )))))
+
+                    
+;;                    (repeat (game sto SIZE)
+;;                            (do (
+;;                             ((== (cardatt RANK (top (game vloc POOL)))
+;;                                 (cardatt RANK (top ((current player) vloc TRICK))))
+;;                                 (do (
+;;                                      (move (top (game vloc POOL)) (top ((current player) vloc BUNDLE)))
+;;                                      (set ((current player) sto MOVED) 1))))
+;;                             ((and (!= (cardatt RANK (top (game vloc POOL)))
+;;                                  (cardatt RANK (top ((current player) vloc TRICK))))
+;;                                   (> (size (game vloc POOL)) 0))
+;;                                (move (top (game vloc POOL)) (bottom (game vloc POOL))))
+;;                             
+;;                     )))))
                ;; don't think forgetting works? 
                
                ;; move trick card to bundle or pool depending 
@@ -84,18 +92,17 @@
                  ((== ((current player) sto MOVED) 0)
                   
                   (move (top ((current player) vloc TRICK))
-                        (top (game vloc POOL)))))
+                        (top (game vloc POOL))))
 
                  ((== ((current player) sto MOVED) 1)
                      (move (top ((current player) vloc TRICK))
-                             (top ((current player) vloc BUNDLE)))))
+                             (top ((current player) vloc BUNDLE))))))
                    
                                    
                  
               
-               (set ((current player) sto CURRENT) 0)
-                
-               ))))         
+               
+               ))         
  (scoring max (size ((current player) vloc BUNDLE)))
 
  )

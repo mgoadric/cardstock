@@ -29,15 +29,21 @@
           (all 'PLOCS 'L
              (move (top (game iloc STOCK)) (top ('P hloc 'L)))))
     ))
+    
     (stage player
         (end (== (size (game iloc STOCK)) 0))
+        (do (
+             (set ((current player) sto DISCARDED) 0)))
         (choice (
             (move (top (game iloc STOCK)) (top((current player) iloc HAND)))
             ((> (size (game vloc DISCARD)) 0)
-               (move (top (game vloc DISCARD)) (top((current player) iloc HAND))))
+              (do (
+               (move (top (game vloc DISCARD)) (top((current player) iloc HAND)))
+               (set ((current player) sto DISCARDED) 1))))
         ))
         (choice (
-           (move (top ((current player) iloc HAND)) (top (game vloc DISCARD)))
+           ((!= ((current player) sto DISCARDED) 1)
+            (move (top ((current player) iloc HAND)) (top (game vloc DISCARD))))
            (any 'PLOCS 'L
 		      (do (
 			     (move (top ((current player) hloc 'L))   (top (game vloc DISCARD)))

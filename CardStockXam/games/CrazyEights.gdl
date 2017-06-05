@@ -34,7 +34,7 @@
              (repeat 5
                       (move (top (game iloc STOCK))
                             (top ('P iloc HAND)))))
-   
+     ;; add in flip another card if it is an 8!
         (move (top (game iloc STOCK))
               (top (game vloc DISCARD)))  
        )
@@ -87,7 +87,7 @@
       ))
       )
  
-   (scoring min (size ((current player) iloc HAND)))
+   (scoring max (size ((current player) iloc HAND)))
    ;; add in scoring where player gets points from others' hand 
 )
          
