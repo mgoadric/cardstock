@@ -24,7 +24,7 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>full</DebugType>
+    <DebugType></DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -36,6 +36,9 @@
     <Reference Include="System" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.3.7.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -276,7 +279,6 @@
     <Compile Include="CardEngine\CardStorage.cs" />
     <Compile Include="CardEngine\FancyCardLocation.cs" />
     <Compile Include="CardEngine\FancyRawStorage.cs" />
-    <Compile Include="CardEngine\Game.cs" />
     <Compile Include="CardEngine\GameAction.cs" />
     <Compile Include="CardEngine\Player.cs" />
     <Compile Include="CardEngine\PlayerCycle.cs" />
@@ -295,6 +297,8 @@
     <Compile Include="Tree.cs" />
     <Compile Include="Players\GeneralPlayer.cs" />
     <Compile Include="FreezeFrame\StackState.cs" />
+    <Compile Include="CardEngine\CardEngineTest.cs" />
+    <Compile Include="GenericGameTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

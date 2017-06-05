@@ -1,77 +1,104 @@
 ;; Stealing Bundles in the GDL
 (game
-    (setup  
-     ;; Set up the players, 4 players each on their own team
-      (create players 2)
-      (create teams (0) (1))
+ (setup  
+  ;; Set up the players, 4 players each on their own team
+  (create players 4)
+  (create teams (0) (1) (2) (3))
 
-      ;; Create the deck source
-      (create deck (game iloc STOCK) (deck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
-                                          (color (RED (suit (HEARTS, DIAMONDS)))
-                                                 (BLACK (suit (CLUBS, SPADES))))))         
-    )
-    (do (
+  ;; Create the deck source
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (CLUBS, SPADES))))))         
+  )
+ (do (
       (shuffle (game iloc STOCK))
-      (move (top (game iloc STOCK))
-                (top (game vloc POOL)) 4)  
-    ))
-               
-   ;; Stages of the game
-   (stage player
-      (end (== (size (game iloc STOCK)) 0))
       (do (
-         (all player 'P (move (top (game iloc STOCK))
-                              (top ('P iloc HAND)) 4))
-      ))
+           (repeat 4
+                   (move (top (game iloc STOCK))
+                         (top (game vloc POOL))))
+           ))
+    
+   ))
+                      
+               
+ ;; Stages of the game
+(stage player
+      (end (== (size (game iloc STOCK)) 0))
+        
+      (do (
+        (all player 'P
+            (repeat 4
+               (move (top (game iloc STOCK))
+                     (top ('P iloc HAND)))))
+        (all player 'P
+            (set ('P sto CURRENT) 0)
+         )))
                      
-      ;; players play a round      
-      (stage player
-         (end (all player 'P (== (size (P iloc HAND)) 0)))
-                    
-         ;; players play a card
-         (choice (
-           (any ((current player) iloc HAND) 'AC
-              (move 'AC (top ((current player) vloc TRICK))))
-         ))
-              
-         ;; after players play hand, computer wraps up trick
-         (do
-            (any (game vloc POOL) 'L
-                    ((== (cardatt rank 'L)
-                        (cardatt rank (top ((current player) vloc TRICK))))
-                      (do (
-                         (all (top (game vloc POOL where 'C (all (== (cardatt rank 'C) (cardatt rank (top ((current player) vloc TRICK))))))) 'N
-                                  (move 'N (top ((current player) vloc BUNDLE)) all))
-                         (set ((current player) sto MOVED) 1)
-                      ))))
-            (any player 'P
-              (let ('P vloc BUNDLE) 'OB
-                   ((== (cardatt rank (top 'OB))
-		       (cardatt rank (top ((current player) vloc TRICK))))
-		     (repeat (size 'OB)
-                         (move (bottom 'OB))
-                               (top ((current player) loc BUNDLE))
-                     (set ((current player) sto MOVED) 1)))))
-			
-
-              
-             ((== ((current player) sto MOVED) 0)     
-              (move (top ((current player) vloc TRICK))
-                    (top (game vloc POOL))))
-
-             ((== ((current player) sto MOVED) 1)
+          
+        (stage player
+               (end (all player 'P (== (size ('P iloc HAND)) 0)))
+             
               (do (
-                (move (top ((current player) vloc TRICK))
-                      (top ((current player) vloc BUNDLE))))
-                (set ((current player) sto MOVED) 0)))
-                                   
-         )    
-         (do ((cycle next current)))
-      ) 
-   )         
-   (scoring max (size ((current player) vloc BUNDLE)))
+                   (set ((current player) sto CURRENT) 1)
+                   (set ((current player) sto MOVED) 0)))
+              (choice (
+                   (do (
+                       (any ((current player) iloc HAND) 'AC
+                          (move 'AC (top ((current player) vloc TRICK))))))))
+               
+              ;; special case - match both pool and bundle, present choice of 1
+              ;; match other player's bundle
+               (do (
+                   (any player 'P
+                          ;; check if bundle exists??
+                          ;;((> (size ('P vloc BUNDLE)) 0)
+                        (do (
+                           ((and (== ('P sto CURRENT) 0)
+                                 (== (cardatt RANK (top ('P vloc BUNDLE)))
+                                 (cardatt RANK (top ((current player) vloc TRICK)))))
+                             (do (
+                                  (repeat (size ('P vloc BUNDLE))
+                                          (move (bottom ('P vloc BUNDLE)) (top ((current player) vloc BUNDLE))))
+                                  (set ((current player) sto MOVED) 1)))))))))
+               ;; match card(s) in pool
+               (do (
+                    (set (game sto SIZE) (size (game vloc POOL)))
+                    ;; FIXME NOT PROCESSED 
+                    (repeat (game sto SIZE)
+                            (do (
+                             ((== (cardatt RANK (top (game vloc POOL)))
+                                 (cardatt RANK (top ((current player) vloc TRICK))))
+                                 (do (
+                                      (move (top (game vloc POOL)) (top ((current player) vloc BUNDLE)))
+                                      (set ((current player) sto MOVED) 1))))
+                             ((and (!= (cardatt RANK (top (game vloc POOL)))
+                                  (cardatt RANK (top ((current player) vloc TRICK))))
+                                   (> (size (game vloc POOL)) 0))
+                                (move (top (game vloc POOL)) (bottom (game vloc POOL))))
+                             
+                     )))))
+               ;; don't think forgetting works? 
+               
+               ;; move trick card to bundle or pool depending 
+               (do (
+                 ((== ((current player) sto MOVED) 0)
+                  
+                  (move (top ((current player) vloc TRICK))
+                        (top (game vloc POOL)))))
 
-)
+                 ((== ((current player) sto MOVED) 1)
+                     (move (top ((current player) vloc TRICK))
+                             (top ((current player) vloc BUNDLE)))))
+                   
+                                   
+                 
+              
+               (set ((current player) sto CURRENT) 0)
+                
+               ))))         
+ (scoring max (size ((current player) vloc BUNDLE)))
+
+ )
          
          
       

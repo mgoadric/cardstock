@@ -111,6 +111,8 @@ public class ParseEngine
                 System.GC.Collect();
                 bool gameBroke = false;
                 Dictionary<String, int> seenStates = new Dictionary<String, int>();
+                // TODO need access to this CardEngine for unit testing
+                // would be helpful for checking game state in various games 
                 CardEngine.CardGame.Instance = new CardEngine.CardGame();
                 var manageContext = new FreezeFrame.GameIterator(tree);
                 //manageContext.AdvanceToChoice ();

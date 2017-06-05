@@ -7,7 +7,7 @@
       (create teams (0) (1))
       ;; Create the deck source
       (create deck (game iloc STOCK) (deck (RANK  (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, HS))
-                                           (COLOR 'COLORS)))
+                                           (COLOR (WHITE, BLUE, GREEN, RED, YELLOW))))
    )
    (do (
       (set (game sto ROUNDS) 0)
@@ -33,53 +33,60 @@
         (shuffle (game iloc STOCK))
         (all player 'P (repeat 8 (move (top (game iloc STOCK))
                                         (top ('P iloc HAND)))))
+        (all 'COLORS 'C
+             (set (game sto 'C) 0))
+        
       ))
       
       ;; players play a hand once
       (stage player
          (end (== (size (game iloc STOCK)) 0))
-             
-               
+       
          ;; Play a card from your hand
-         (all 'COLORS 'C
-             (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR
-                  (choice (
-                   
-                    ((> (size 'MYCOLOR) 0)                    
-                     (any 'MYCOLOR 'AC
-                        (do (
-                           (move 'AC (top (game vloc 'C)))
-                           (set (game sto 'C) 1)
-                    ))))
-                    ((and (== (size ((current player) vloc 'C)) 0)
-                          (> (size 'MYCOLOR) 0))               
-                     (any 'MYCOLOR 'AC
-                      (move 'AC
-                            (top ((current player) vloc 'C)))))        
+         (do (
+              (all 'COLORS 'C
+                   ;; ask about filter statements 
+                   (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR
+                     (choice (
+                              ((> (size 'MYCOLOR) 0)                    
+                               (any 'MYCOLOR 'AC
+                                    (do (
+                                         (move 'AC (top (game vloc 'C)))
+                                         (set (game sto 'C) 1)
+                                         ))))
+                              ((and (== (size ((current player) vloc 'C)) 0)
+                                    (> (size 'MYCOLOR) 0))               
+                               (any 'MYCOLOR 'AC
+                                    (move 'AC
+                                          (top ((current player) vloc 'C)))))        
  
-                    (let (filter 'MYCOLOR 'MCTWO (> (score 'MCTWO using 'PRECEDENCE)
-                                                 (score (top ((current player) vloc 'C)) using 'PRECEDENCE))) 'MYCOLORBIG
-                     ((and (> (size ((current player) vloc 'C)) 0) 
-                           (> (size 'MYCOLORBIG) 0))
-                      (any 'MYCOLORBIG 'AC 
-                       (move 'AC 
-                             (top ((current player) vloc 'C))))))
+                              (let (filter 'MYCOLOR 'MCTWO (> (score 'MCTWO using 'PRECEDENCE)
+                                                              (score (top ((current player) vloc 'C)) using 'PRECEDENCE))) 'MYCOLORBIG
+                                ((and (> (size ((current player) vloc 'C)) 0) 
+                                      (> (size 'MYCOLORBIG) 0))
+                                 (any 'MYCOLORBIG 'AC 
+                                      (move 'AC 
+                                            (top ((current player) vloc 'C))))))
               
-              ))   
-           )    
-         )
+                              ))   
+                     )    
+         )))
              
              ;; Draw a card
+         
          (choice (
+             
              (move (top (game iloc STOCK))
                    (top ((current player) iloc HAND)))
-             (all 'COLORS 'C
-                 (do (
-                     ((and (> (size (game vloc 'C)) 0)
-                           (!= (game sto 'C) 1))
-                      (move (top (game vloc 'C))
-                            (top ((current player) iloc HAND)))))))   
-         ))
+             (do (
+                  (all 'COLORS 'C
+                       (do (
+                            ((and (> (size (game vloc 'C)) 0)
+                                  (!= (game sto 'C) 1))
+                             ;; do vars like this need to be instantiated ??
+                             (move (top (game vloc 'C))
+                                   (top ((current player) iloc HAND)))))))   
+                  ))))
          
          ;; Reset the marker for what card was played to the table
         (do (

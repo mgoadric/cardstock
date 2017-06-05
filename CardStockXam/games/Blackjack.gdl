@@ -3,10 +3,10 @@
     (setup  
      ;; Set up the players, 4 players each on their own team
       (create players 2)
-      (create teams (0) (1) (2) (3))
+      (create teams (0) (1))
 
       ;; Create the deck source
-      (create deck (game vloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+      (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                              (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                                    (BLACK (SUIT (CLUBS, SPADES))))))          
     )
@@ -61,17 +61,20 @@
          ;;))
      ;;)
       
-      ;; players get cards until FINISHED or BUSTED    
+      ;; players get cards until FINISHED or BUSTED
+      
       (stage player
          (end (all player 'P (== ('P sto FINISHED) 1)))
                     
          (choice (
-             
+   
+                  
             ((or (< (sum ((current player) iloc HAND) using 'POINTSHIGH) 22)
                  (< (sum ((current player) iloc HAND) using 'POINTSLOW) 22))
              (do (
                 (move (top (game iloc STOCK)) 
                       (top ((current player) iloc HAND)))
+                (set ((current player) sto BET) (*(size((current player) iloc HAND)) 10))
                 (cycle next current)
             )))
             
@@ -79,7 +82,12 @@
                  (< (sum ((current player) iloc HAND) using 'POINTSLOW) 22))
              (set ((current player) sto FINISHED) 1))
             
-            ((and (>= (sum ((current player) iloc HAND) using 'POINTSHIGH) 22)
+       
+            
+           
+         ))
+         (do (
+          ((and (>= (sum ((current player) iloc HAND) using 'POINTSHIGH) 22)
                   (>= (sum ((current player) iloc HAND) using 'POINTSLOW) 22))
              (do (
                  (repeat all
@@ -89,29 +97,46 @@
                  (set ((current player) sto BET) 0)
                  (set ((current player) sto FINISHED) 1)
            )))
-   )))
-
-   (stage player
-      (end (all player 'P (== ('P sto BET) 0)))
+          ))
+       )
       
-      ;; WEIRDNESS WITH THE MAX OVER SETS
-      (do ( 
-         ((> (max ((sum ((current player) iloc HAND) using 'POINTSHIGH)
-                  (sum ((current player) iloc HAND) using 'POINTSLOW)))
-            (max ((sum ((other player) iloc HAND) using 'POINTSHIGH)
-                  (sum ((other player) iloc HAND) using 'POINTSLOW)))) 
-          (inc ((current player) sto CHIPS) ((current player) sto BET))
-         )
-         ((<= (max ((sum ((current player) iloc HAND) using 'POINTSHIGH)
-                    (sum ((current player) iloc HAND) using 'POINTSLOW)))
-              (max ((sum ((other player) iloc HAND) using 'POINTSHIGH)
-                    (sum ((other player) iloc HAND) using 'POINTSLOW)))) 
-          (dec ((current player) sto CHIPS) ((current player) sto BET))
-         )
-         (move (top ((current player) iloc HAND)) 
-               (top (game vloc DISCARD)) all)
-         (set ((current player) sto BET) 0)
-      ))
-   )
-   (scoring max ((current player) sto CHIPS))
+       (do (
+            (all player 'P
+                 (do (
+                      ((< (sum ('P iloc HAND) using 'POINTSHIGH)
+                          22)
+                       (set ('P sto SCOREHAND) (sum ('P iloc HAND) using 'POINTSHIGH))
+                       )
+           
+                      ((>= (sum ('P iloc HAND) using 'POINTSHIGH)
+                           22)
+                       (set ('P sto SCOREHAND) (sum ('P iloc HAND) using 'POINTSLOW)))
+       
+                      ))
+                 )
+            ))
+
+      
+      (stage player
+      (end (all player 'P (== ('P sto BET) 0)))
+      ;; get correct scoring hand
+     
+      (do (
+           ((> ((current player) sto SCOREHAND)
+               ((next player) sto SCOREHAND))
+             (inc ((current player) sto CHIPS) ((current player) sto BET))
+             )
+           ((<= ((current player) sto SCOREHAND)
+               ((next player) sto SCOREHAND))
+             (dec ((current player) sto CHIPS) ((current player) sto BET))
+            )
+           (repeat all 
+           (move (top ((current player) iloc HAND)) 
+               (top (game vloc DISCARD))))
+           (set ((current player) sto BET) 0)
+          ))
+      )
+      (scoring max ((current player) sto CHIPS))
 )
+           
+        

@@ -61,16 +61,22 @@ namespace ParseTreeIterator
                 var multiaction = sub as RecycleParser.MultiactionContext;
                 if (multiaction.agg() != null)
                 {
+                    //List<GameAction> test = (List<CardEngine.GameAction>)VarIterator.ProcessAgg(multiaction.agg());
+                    //Console.WriteLine(test[0].GetType());
+                    Console.WriteLine("ur in processing multiaction");
                     lst.AddRange((List<GameActionCollection>)VarIterator.ProcessAgg(multiaction.agg()));
+
                 }
                 else if (multiaction.let() != null)
                 {
                     lst.AddRange(VarIterator.ProcessLet(multiaction.let()));
                 }
-                else if (multiaction.GetChild(1).GetText() == "choice") {
+                else if (multiaction.GetChild(1).GetText() == "choice")
+                {
                     ProcessChoice(multiaction.condact());
                 }
-                else if (multiaction.GetChild(1).GetText() == "do") {
+                else if (multiaction.GetChild(1).GetText() == "do")
+                {
                     ActionIterator.ProcessDo(multiaction.condact());
                 }
             }
@@ -78,20 +84,25 @@ namespace ParseTreeIterator
             {
                 ProcessStage(sub as RecycleParser.StageContext);
             }
-            else if (sub is RecycleParser.Multiaction2Context){
+            else if (sub is RecycleParser.Multiaction2Context)
+            {
+				Console.WriteLine("ur in processing multiaction2");
                 var multi = sub as RecycleParser.Multiaction2Context;
-                if (multi.agg() != null){
+                if (multi.agg() != null)
+                {
                     lst.Add(VarIterator.ProcessAgg(multi.agg()) as GameActionCollection);
                 }
-                else if (multi.let() != null){
+                else if (multi.let() != null)
+                {
                     lst.AddRange(VarIterator.ProcessLet(multi.let()));
                 }
-                else{
+                else
+                {
                     ActionIterator.ProcessDo(multi.condact());
                 }
             }
             return lst;
-		}
+        }
         public static List<GameActionCollection> RecurseDo(RecycleParser.CondactContext cond){
             var all = new List<GameActionCollection>();
             var stackTrees = new Stack<IteratingTree>();

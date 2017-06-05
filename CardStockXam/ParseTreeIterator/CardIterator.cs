@@ -269,6 +269,8 @@ namespace ParseTreeIterator
                     else{
                         Console.WriteLine("Error, type is: " + VarIterator.Get(stor.var()).GetType());
                     }
+
+                    // current error here 
                     var fancy = new FancyCardLocation()
                     {
                         cardList = CardGame.Instance.tableCards[prefix + VarIterator.Get(stor.var())],

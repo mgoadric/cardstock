@@ -7,11 +7,14 @@
       (create teams (0) (1))
       
       ;; Create the deck source
-      ;; WHERE DID THE ACES GO????
+     
       (create deck (game iloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN))
                                           (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                                  (BLACK (SUIT (SPADES, CLUBS)))
                                                  )))
+      (create deck (game iloc STOCK) (deck (RANK (ACE)) (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                               (BLACK (CLUBS))
+                                                               )))
    )
       (do (
          (shuffle (game iloc STOCK))
@@ -67,7 +70,7 @@
                  ;; solidfy card recedence
                  (put points 'PRECEDENCE (
                                ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
-                               ((RANK (A)) 14)
+                               ((RANK (ACE)) 14)
                                ((RANK (TEN)) 10)
                                ((RANK (NINE)) 9)
                                ((RANK (EIGHT)) 8)
@@ -89,8 +92,7 @@
                  (move (top ('P vloc TRICK)) 
                        (top (game vloc DISCARD))))
              
-             ;; if that was the last round, give the winner a point
-            ;; WHY ALL PLAYER P?
+            ;; if that was the last round, give the winner a point
             (all player 'P
                ((== (size ('P iloc HAND)) 0)
                  (inc ((next player) sto SCORE) 1)))      

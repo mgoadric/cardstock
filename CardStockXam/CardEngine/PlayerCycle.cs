@@ -18,11 +18,16 @@ namespace CardEngine{
         }
 		public Player PeekNext(){
 			var saved = idx;
-			if (queuedNext != -1){
-				idx = queuedNext;
-			}
-			else{
-				Next();
+            if (queuedNext != -1)
+            {
+                idx = queuedNext;
+            }
+            else{
+                idx++;
+                //Next();
+                if (idx >= playerList.Count) {
+                    idx = 0;
+                }
 			}
 			var ret = Current();
 			idx = saved;
@@ -42,6 +47,7 @@ namespace CardEngine{
             turnEnded = false;
 			if (queuedNext != -1){
 				idx = queuedNext;
+                queuedNext = -1; //-AH
 			}
 			else{
 				++idx;

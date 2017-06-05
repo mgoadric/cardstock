@@ -19,7 +19,7 @@ namespace CardStockXam.Scoring
         private Random rnd = new Random();
         private Regex regex = new Regex("(;;)(.*?)(\n)");
         private Type[] crossovers = new Type[] { typeof(RecycleParser.StageContext), typeof(RecycleParser.MultiactionContext), typeof(RecycleParser.Multiaction2Context),
-                                                 typeof(RecycleParser.DeckContext), typeof(RecycleParser.SetupContext) };
+            typeof(RecycleParser.DeckContext), typeof(RecycleParser.SetupContext) };
         private Type[] mutations = new Type[]  { typeof(RecycleParser.MoveactionContext), typeof(RecycleParser.ShuffleactionContext), typeof(RecycleParser.RepeatContext),
                                                  typeof(RecycleParser.MultiactionContext), typeof(RecycleParser.Multiaction2Context), typeof(RecycleParser.EndconditionContext),
                                                  typeof(RecycleParser.CondactContext) };

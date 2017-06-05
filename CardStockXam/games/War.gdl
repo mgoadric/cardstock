@@ -27,10 +27,17 @@
                                ((RANK (TWO)) 2)
                                ))      
         (shuffle (game iloc STOCK))
-        (repeat 26
-          (all player 'P
-            (move (top (game iloc STOCK))
-                  (top ('P iloc HAND)))))
+        (all player 'P
+         (do (
+            (repeat 26
+               (move (top (game iloc STOCK))
+                     (top ('P iloc HAND))))
+         ))
+        )
+        ;;(repeat 26
+        ;;  (all player 'P
+        ;;    (move (top (game iloc STOCK))
+        ;;          (top ('P iloc HAND)))))
    ))
                
    ;; Stages of the game
@@ -49,9 +56,9 @@
                  (move (top ((next player) iloc HAND))
                            (top ((next player) vloc TRICK)))
               )))
-              (all player 'P
-                 ((and (== (game sto WAR) 1)
-                       (>= (size ('P iloc HAND)) 4))
+              ;;(all player 'P
+              ;;   ((and (== (game sto WAR) 1)
+              (( and (== (game sto WAR) 1) (all player 'P (>= (size ('P iloc HAND)) 4)))
                (do (
                  (repeat 3 (move (top ((current player) iloc HAND))
                            (top (game iloc BOUNTY))))
@@ -62,7 +69,7 @@
                            (top (game iloc BOUNTY))))
                  (move (top ((next player) iloc HAND))
                            (top ((next player) vloc TRICK)))
-              ))))
+              )))
               ((and (== (game sto WAR) 1) (any player 'P (== (size ('P iloc HAND)) 3)) (all player 'P (!= (size ('P iloc HAND)) 2)) (all player 'P (!= (size ('P iloc HAND)) 1))) ;;TODO
                (do ( 
                  (repeat 2 (move (top ((current player) iloc HAND))

@@ -6,48 +6,69 @@
       (create teams (0) (1) (2) (3))
 
       ;; Create the deck source
-      (create deck (game iloc 
-                         STOCK) (deck (rank (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K))
-                                          (color (red (suit (hearts, diamonds)))
-                                                 (black (suit (clubs, spades))))))         
+      (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                          (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                 (BLACK (SUIT (CLUBS, SPADES))))))         
       )
      
     
-   (comp 
-       (()
+   (do (
+         (put points 'PRECEDENCE (
+                               ((RANK (A)) 1)
+                               ((RANK (K)) 10) 
+                               ((RANK (Q)) 10)
+                               ((RANK (J)) 10)
+                               ((RANK (TEN)) 10)
+                               ((RANK (NINE)) 9)
+                               ((RANK (EIGHT)) 50)
+                               ((RANK (SEVEN)) 7)
+                               ((RANK (SIX)) 6)
+                               ((RANK (FIVE)) 5)
+                               ((RANK (FOUR)) 4)
+                               ((RANK (THREE)) 3)
+                               ((RANK (TWO)) 2)
+                               )
+                 )
         (shuffle (game iloc STOCK))
-        (move (top (game iloc STOCK))
-              (top ((all player) iloc HAND)) 5)  
+        (all player 'P
+             (repeat 5
+                      (move (top (game iloc STOCK))
+                            (top ('P iloc HAND)))))
+     ;; add in flip another card if it is an 8
         (move (top (game iloc STOCK))
               (top (game vloc DISCARD)))  
        )
    )
    ;; Stages of the game
    (stage player
-      (end (== (size ((any player) iloc HAND)) 0))
+       (end (all player 'P (== (size ('P iloc HAND)) 0)))
+
                      
                     
       ;; players play a card
       (choice
-             
-         ((or (== (cardatt rank (any ((current player) iloc HAND)))
-                  (cardatt rank (top (game vloc DISCARD))))
-              (== (cardatt suit (any ((current player) iloc HAND)))
-                  (cardatt suit (top (game vloc DISCARD)))))
-           (move (any ((current player) iloc HAND where (any (== (cardatt rank each)
-                                                                (cardatt rank (top (game vloc DISCARD))))
-                                                            (== (cardatt suit each)
-                                                                (cardatt suit (top (game vloc DISCARD)))))))
-                 (top (game vloc DISCARD)))
-         )
-         (()
+           (do (
+                ;; FIXME HERE 
+                ;; ask about all and filter statements??
+            (all (filter ((current player) iloc HAND) 'NH (or (== (cardatt SUIT 'NH)
+                                                                 (cardatt SUIT (top (game vloc DISCARD))))
+                                                              (== (cardatt RANK 'NH)
+                                                                  (cardatt RANK (top (game vloc DISCARD))))
+                                                              (== (cardatt RANK 'NH) (cardatt RANK (EIGHT)))))'C
+                                                              
+              (move 'C (top (game vloc DISCARD))))))                                                                                                
+                                                                                                              
+       
+                
+          ;; add in draw until able to play 
+         (do (
           (move (top (game iloc STOCK))
                  (top ((current player) iloc HAND)))
           )
-      )
+          ))
       
       ;; if STOCK is empty, resupply from discard
-      (comp
+      (do (
           
           ((== (size (game iloc STOCK)) 0)
            (move (top (game vloc DISCARD))
@@ -59,9 +80,10 @@
            (shuffle (game iloc STOCK)))              
        
       )
-   )
+   ))
  
-   (scoring min (size ((current player) iloc HAND)))
+   (scoring max (size ((current player) iloc HAND)))
+   ;; add in scoring where player gets points from others' hand 
 )
          
          

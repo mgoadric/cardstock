@@ -160,27 +160,34 @@ namespace ParseTreeIterator
                     act.ExecuteActual();
                 }
                 else if (post is GameActionCollection){
+                   
                     foreach (GameAction act in (post as GameActionCollection)){
                         act.ExecuteActual();
                     }
                 }
-                //else { Console.WriteLine("Unknown type " + post.GetType()); }
+
+               // else { Console.WriteLine("Unknown type " + post.GetType()); }
 
             }
+            Console.WriteLine(ret.Count);
             if (All(agg)){
                 //multiaction, action, etc
+                Console.WriteLine(agg.GetChild(4).GetText());
                 if (agg.GetChild(4) is RecycleParser.ActionContext){
                     var coll = new GameActionCollection();
-                    foreach (object obj in ret){
+                    foreach (object obj in ret)
+                    {
                         var gameaction = obj as GameActionCollection;
                         coll.AddRange(gameaction);
                     }
                     return coll;
                 }
-                if (agg.GetChild(4) is RecycleParser.Multiaction2Context){
+                else if (agg.GetChild(4) is RecycleParser.Multiaction2Context){
+                    
                     return ret;
                 }
                 else if (agg.GetChild(4) is RecycleParser.BooleanContext){
+                   
                     var all = true;
                     Console.WriteLine(agg.GetText());
                     Console.WriteLine("4: " + agg.GetChild(4).GetText());
@@ -205,6 +212,7 @@ namespace ParseTreeIterator
                     }
                     return sum;
                 }
+                Console.WriteLine("End of loop");
             }
             else{ //any
                 if (agg.GetChild(4) is RecycleParser.Multiaction2Context){//TODO
@@ -239,6 +247,8 @@ namespace ParseTreeIterator
                     return lst;
                 }
             }
+            Console.WriteLine("end of function");
+			Console.WriteLine(ret.Count);
             return ret;
         }
 
@@ -257,6 +267,7 @@ namespace ParseTreeIterator
             }
             else if (parseTree is RecycleParser.CondactContext){
                 ActionIterator.DoAction(parseTree as RecycleParser.CondactContext);
+				Console.WriteLine("found conditional action");
                 return null;
             }
             else if (parseTree is RecycleParser.RawstorageContext){

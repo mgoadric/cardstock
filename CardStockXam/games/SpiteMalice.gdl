@@ -139,8 +139,7 @@
              (do (
                 ((and
                    (== (size (game vloc 'T)) 0) 
-                   (== 1 (score (top ((current player) vloc CURRENT)) using 'P
-                                RECEDENCE)))
+                   (== 1 (score (top ((current player) vloc CURRENT)) using 'PRECEDENCE)))
                  (do (
                    (move (top ((current player) vloc CURRENT)) (top (game vloc 'T)))
                      ((> (size ((current player) hloc PILE)) 0)
