@@ -266,8 +266,13 @@ namespace ParseTreeIterator
                 return CardIterator.ProcessLocation(parseTree as RecycleParser.CstorageContext);
             }
             else if (parseTree is RecycleParser.CondactContext){
+<<<<<<< Updated upstream
                 ActionIterator.DoAction(parseTree as RecycleParser.CondactContext);
 				//Console.WriteLine("found conditional action");
+=======
+                ActionIterator.ProcessSingleDo(parseTree as RecycleParser.CondactContext);
+			
+>>>>>>> Stashed changes
                 return null;
             }
             else if (parseTree is RecycleParser.RawstorageContext){
@@ -309,15 +314,19 @@ namespace ParseTreeIterator
 
         public static List<GameActionCollection> ProcessLet(RecycleParser.LetContext let){
             var ret = new List<GameActionCollection>(); //TODO check this
-            Put(let.var().GetText(), let.typed());
+            // maybe don't need ProcessTyped ? 
+            Put(let.var().GetText(), ProcessTyped(let.typed()));
             if (let.multiaction() != null){
+                Console.WriteLine("let multiaction");
                 ret.AddRange(StageIterator.ProcessMultiaction(let.multiaction()));
             }
             else if (let.action() != null){
+                Console.WriteLine("let action");
                 ret.Add(ActionIterator.ProcessAction(let.action()));
             }
             else if (let.condact() != null){
-                ActionIterator.DoAction(let.condact());
+                Console.WriteLine("let condaction " + let.condact().GetText());
+                ActionIterator.ProcessSingleDo(let.condact());
             }
             Remove(let.var().GetText());
             return ret;

@@ -1,10 +1,10 @@
 ;; Agram in the GDL
 (game
-   (declare 2 'NUMP)
+   (declare 4 'NUMP)
    (setup 
       ;; Set up the players
       (create players 'NUMP)
-      (create teams (0) (1))
+      (create teams (0) (1) (2) (3))
       
       ;; Create the deck source
      
@@ -13,7 +13,7 @@
                                                  (BLACK (SUIT (SPADES, CLUBS)))
                                                  )))
       (create deck (game iloc STOCK) (deck (RANK (ACE)) (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
-                                                               (BLACK (CLUBS))
+                                                               (BLACK (SUIT (CLUBS)))
                                                                )))
    )
       (do (
@@ -21,8 +21,7 @@
          (all player 'P 
               (repeat 6 (move (top (game iloc STOCK))
                               (top ('P iloc HAND)))))
-         (all player 'P 
-              (set ('P sto SCORE) 0))
+   
       ))
          
       ;; players play a round 6 times     
@@ -85,17 +84,18 @@
                  ;; determine who won the hand, set them first next time
             (forget (top (game mem LEAD)))
                  
-                 ;; FIXME
-            (cycle next (owner (max (union (all player'P ('P vloc TRICK))) using 'PRECEDENCE)))
+                 
+          
+            (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE)))
                  
             (all player 'P 
                  (move (top ('P vloc TRICK)) 
                        (top (game vloc DISCARD))))
              
             ;; if that was the last round, give the winner a point
-            (all player 'P
-               ((== (size ('P iloc HAND)) 0)
-                 (inc ((next player) sto SCORE) 1)))      
+            ((all player 'P
+               (== (size ('P iloc HAND)) 0))
+                 (inc ((next player) sto SCORE) 1))      
          ))
       )
    (scoring max ((current player) sto SCORE))

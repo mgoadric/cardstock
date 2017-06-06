@@ -49,10 +49,6 @@
       (choice (
             (do (
          
-                ;; FIXME HERE 
-                ;; ask about all and filter statements??
-
-            
             (any (filter ((current player) iloc HAND) 'NH (or (== (cardatt SUIT 'NH)
                                                                  (cardatt SUIT (top (game vloc DISCARD))))
                                                               (== (cardatt RANK 'NH)
@@ -88,7 +84,7 @@
       )
  
    (scoring min (size ((current player) iloc HAND)))
-   ;; add in scoring where player gets points from others' hand 
+ 
 )
          
          

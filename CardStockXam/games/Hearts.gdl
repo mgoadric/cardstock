@@ -12,7 +12,7 @@
                  
    ;; Stages of the game
    (stage player
-      (end (any player 'P (!= ('P sto SCORE) 0)))
+      (end (any player 'P (>= ('P sto SCORE) 100)))
       (do (
          (repeat all
              (move (top (game vloc DISCARD)) 
@@ -108,6 +108,7 @@
                                ))
                       
                  ;; determine who won the hand, set them first next time, and give them a point
+              ;; doesn't cycle properly - first player goes first every time
              (forget (top (game mem LEAD)))
              (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE)))
                   
@@ -129,7 +130,7 @@
       (stage player
          (end (all player 'P (== (size ('P vloc TRICKSWON)) 0)))
          (do (
-            ;; ADD REAL SCORING HERE TODO
+           
             ((== (sum ((current player) vloc TRICKSWON) using 'SCORE) 26)
                (dec ((current player) sto SCORE) 26))
             

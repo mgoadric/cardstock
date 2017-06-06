@@ -1,8 +1,9 @@
 ;; Pairs in the GDL
 (game
+    (declare 4 'NUMP)
     (setup  
      ;; Set up the players, 3 players each on their own team
-      (create players 4)
+      (create players 'NUMP)
       (create teams (0) (1) (2) (3))
 
       ;; Create the deck source
@@ -41,16 +42,31 @@
 
          (all player 'P
             (move (top (game iloc STOCK))
-                  (top ('P vloc HAND))))
+                  (top ('P vloc HAND))))))
            
            ;; Stage here, find the player with smallest card
            ;; if tied, deal new card and try again
            ;; Stage, for tied players if dealt a pair, then discard and do it again
-           
-         (cycle current (owner (min (union (all player 'P ('P vloc HAND))) using 'POINTS)))
-   ))
+;;         (stage player
+;;                (end (== (game sto FINISHED) 1))
+;;                ;; how to say this? what does min do with more than 1 value? 
+;;                (let (min (union (all player 'P ('P vloc HAND))) using 'POINTS) 'L
+;;                  ((== (size 'L) 1)
+;;                   (set (game sto FINISHED) 1))
+;;                  ((!= (size 'L) 1)
+;;                   (all player 'P
+;;                        (do (
+;;                             (move (top (game iloc HAND))
+;;                                   (top ('P vloc STOCK)))
+;;                             (shuffle (game iloc STOCK))
+;;                             (move (top (game iloc STOCK))
+;;                                   (top ('P vloc HAND)))))))))
+;;           
+         (do (
+              (cycle current (owner (min (union (all player 'P ('P vloc HAND))) using 'POINTS)))))
+   
    (stage player
-      (end (any player 'P (>= (sum ('P vloc SCORING) using 'POINTS) 16))) ;; 21 really
+      (end (any player 'P (>= (sum ('P vloc SCORING) using 'POINTS) (+ (// 60 'NUMP) 1)))) 
       
       ;; Shuffle and then throw out 5 cards for mystery      
       (do (

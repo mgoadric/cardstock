@@ -1,0 +1,87 @@
+;; Duck Soup in the GDL
+(game
+ (setup
+  (create players 2)
+  (create teams (0) (1))
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN,
+                                               J, Q, K, A))
+                                          (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                 (BLACK (SUIT (SPADES, CLUBS)))
+                                                 )))
+  
+  )
+ (do (
+      (put points 'DUCK (
+             ((RANK (A)) 1)
+             ((RANK (K)) 13) 
+             ((RANK (Q)) 12)
+             ((RANK (J)) 11)
+             ((RANK (TEN)) 10)
+             ((RANK (NINE)) 9)
+             ((RANK (EIGHT)) 8)
+             ((RANK (SEVEN)) 7)
+             ((RANK (SIX)) 6)
+             ((RANK (FIVE)) 5)
+             ((RANK (FOUR)) 4)
+             ((RANK (THREE)) 3)
+             ((RANK (TWO)) 2)))
+      (put points 'SOUP (
+             ((RANK (A)) 14)
+             ((RANK (K)) 13) 
+             ((RANK (Q)) 12)
+             ((RANK (J)) 11)
+             ((RANK (TEN)) 10)
+             ((RANK (NINE)) 9)
+             ((RANK (EIGHT)) 8)
+             ((RANK (SEVEN)) 7)
+             ((RANK (SIX)) 6)
+             ((RANK (FIVE)) 5)
+             ((RANK (FOUR)) 4)
+             ((RANK (THREE)) 3)
+             ((RANK (TWO)) 2)))))
+      (shuffle (game iloc STOCK))
+      (all player 'P
+           (repeat 13
+                   (move (top (game iloc STOCK))
+                         (top ('P iloc HAND)))))
+                    
+                    
+ ;; Duck stage
+ (stage player
+        (end (== (size (game iloc STOCK)) 0))
+       
+        
+        ;; winner of each trick leads next
+        ;; trick is taken by lowest card of suit led
+        ;; do not need to follow suit
+
+        ;; store win of two cards of same suit face down. win of two cards of
+        ;;   different suit face up (because are scored differently
+
+        ;; if cards are same RANK...
+            ;; if non-lead doesn't say quack, lead wins trick & it counts double
+            ;; if non-lead quacks
+               ;; lead either
+                  ;; says duck: non-lead wins trick & it counts double
+                  ;; plays another card of same RANK, says quack-quack:
+                       ;; non-lead must play another card.
+                           ;;if it is same RANK: say duck soup & win both, count double
+                           ;;if is different RANK, lead wins both tricks 
+            
+        
+        ;; draw cards to restore each hand to 13 before next trick
+
+        ;; set aside tricks at end of stage 
+
+ ;; Soup stage
+ (stage player
+        (end (all player 'P (== (size ('P iloc HAND)) 0))))
+        ;; same play, but stock is empty so do not draw
+
+        )
+
+ (scoring ))
+ ;; multiply scores from duck and soup together to get final score 
+
+
+      

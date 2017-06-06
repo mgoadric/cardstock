@@ -25,10 +25,17 @@ namespace CardGames
                 //    System.Console.WriteLine(g);
                 //string sub = g.Substring(6, g.Length - 10);
                 //exp.fileName = sub;
+<<<<<<< Updated upstream
                 exp.fileName = "Pairs2";
                 //System.Console.WriteLine(g.Substring(6, g.Length - 4));
                 exp.numGames = 100;
                 exp.numEpochs = 10;
+=======
+                exp.fileName = "LostCities";
+                //System.Console.WriteLine(g.Substring(6, g.Length - 4));
+                exp.numGames = 1;
+                exp.numEpochs = 1;
+>>>>>>> Stashed changes
                 exp.logging = true;
                 exp.ai1 = false;
                 exp.ai2 = false;

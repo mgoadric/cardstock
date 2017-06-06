@@ -41,7 +41,21 @@
       ;; players play a hand once
       (stage player
          (end (== (size (game iloc STOCK)) 0))
+         ;; this test filter processes correctly & moves all cards to discard with either
+         ;; "any" or "let" - likely there is just an error in the subsequent choice block 
+           (do (
+              (all 'COLORS 'C
+                   
+                   (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR
+                   
+                               ((== (size 'MYCOLOR) 20)
+                                (set (game sto WORKS) 12))))
+                              
+              ))
+           
        
+        (do (
+             (set (game sto CONTINUED) 1)))
          ;; Play a card from your hand
          (do (
               (all 'COLORS 'C
@@ -49,7 +63,9 @@
                    ;; make sure let works
                    ;; mycolor is not turning into fancycardlocation 
                    (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR
+                    
                      (choice (
+                            
                               ((> (size 'MYCOLOR) 0)                    
                                (any 'MYCOLOR 'AC
                                     (do (
@@ -85,7 +101,6 @@
                        (do (
                             ((and (> (size (game vloc 'C)) 0)
                                   (!= (game sto 'C) 1))
-                             ;; do vars like this need to be instantiated ??
                              (move (top (game vloc 'C))
                                    (top ((current player) iloc HAND)))))))   
                   ))))

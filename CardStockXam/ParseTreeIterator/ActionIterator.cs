@@ -13,6 +13,7 @@ namespace ParseTreeIterator
 {
 	public class ActionIterator{
 		public static GameActionCollection ProcessAction(RecycleParser.ActionContext actionNode){
+            Console.WriteLine(actionNode.GetText()); 
 			var ret = new GameActionCollection();
             if (actionNode.teamcreate() != null) {
                 var teamCreate = actionNode.teamcreate() as RecycleParser.TeamcreateContext;
@@ -146,15 +147,23 @@ namespace ParseTreeIterator
 
         public static void ProcessDo(RecycleParser.CondactContext[] condact){
             foreach (RecycleParser.CondactContext cond in condact){
-                if (cond.boolean() == null || BooleanIterator.ProcessBoolean(cond.boolean())) { DoAction(cond); }
+                ProcessSingleDo(cond);
             }
         }
 
+        public static void ProcessSingleDo(RecycleParser.CondactContext cond) {
+			if (cond.boolean() == null || BooleanIterator.ProcessBoolean(cond.boolean())) { DoAction(cond); }
+        }
+
+
+
         public static void DoAction(RecycleParser.CondactContext cond){
             if (cond.multiaction2() != null){
+                
                 StageIterator.ProcessMultiaction(cond.multiaction2());
             }
             else{
+                
                 ProcessAction(cond.action()).ExecuteAll();
             }
         }
