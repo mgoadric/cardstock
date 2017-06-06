@@ -77,14 +77,13 @@
                                (any 'MYCOLOR 'AC
                                     (move 'AC
                                           (top ((current player) vloc 'C)))))        
- 
+                              ((> (size ((current player) vloc 'C)) 0)
                               (let (filter 'MYCOLOR 'MCTWO (> (score 'MCTWO using 'PRECEDENCE)
                                                               (score (top ((current player) vloc 'C)) using 'PRECEDENCE))) 'MYCOLORBIG
-                                ((and (> (size ((current player) vloc 'C)) 0) 
-                                      (> (size 'MYCOLORBIG) 0))
+                                ((> (size 'MYCOLORBIG) 0)
                                  (any 'MYCOLORBIG 'AC 
                                       (move 'AC 
-                                            (top ((current player) vloc 'C))))))
+                                            (top ((current player) vloc 'C)))))))
               
                               ))   
                      )    

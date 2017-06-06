@@ -271,11 +271,12 @@ namespace ParseTreeIterator
                     }
 
                     // current error here 
+                   
                     var fancy = new FancyCardLocation()
                     {
                         cardList = CardGame.Instance.tableCards[prefix + VarIterator.Get(stor.var())],
                         locIdentifier = "top",
-                        name = "t" + prefix + stor.namegr().GetText()
+                        name = "t" + prefix + VarIterator.Get(stor.var())
                     };
                     fancy.cardList.loc = fancy;
                     CardGame.AddToMap(fancy);

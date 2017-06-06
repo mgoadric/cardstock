@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,16 +39,33 @@ namespace ParseTreeIterator
             Console.WriteLine("parent 4:\n" + filter.Parent.Parent.Parent.Parent.GetText());
             Console.WriteLine("parent 5:\n" + filter.Parent.Parent.Parent.Parent.Parent.GetText());
             Console.WriteLine("\n\n");*/
+            IEnumerable<Card> stor2;
+            String name2;
+
             if (filter.collection().cstorage() != null){
+                Console.WriteLine("cstorage collection");
                 stor = CardIterator.ProcessLocation(filter.collection().cstorage());
+                stor2 = stor.cardList.AllCards();
+                name2 = stor.name;
             }
             else if (filter.collection().var() != null){
+                Console.WriteLine("variable collection");
+
                 stor = Get(filter.collection().var()) as FancyCardLocation;
+                if (stor != null)
+                {
+                    stor2 = stor.cardList.AllCards();
+
+                    name2 = stor.name;
+                } else {
+                    stor2 = Get(filter.collection().var()) as List<Card>;
+                    name2 = "blah";
+                }
             }
             else{
                 throw new NotSupportedException();
             }
-            foreach (Card card in stor.cardList.AllCards())
+            foreach (Card card in stor2) 
             {
                 Put(filter.var().GetText(), card);
                 if (BooleanIterator.ProcessBoolean(filter.boolean())){
@@ -60,7 +77,7 @@ namespace ParseTreeIterator
             {
                 cardList = cList,
                 nonPhysical = true,
-                name = stor.name + "{filter}"
+                name = name2 + "{filter}"
             };
             fancy.cardList.loc = fancy;
             CardGame.AddToMap(fancy);
@@ -126,6 +143,7 @@ namespace ParseTreeIterator
             }
             else if (collection.filter() != null)
             {
+
                 var filter = ProcessCStorageFilter(collection.filter());
                 return filter.cardList.AllCards();
             }
@@ -266,13 +284,10 @@ namespace ParseTreeIterator
                 return CardIterator.ProcessLocation(parseTree as RecycleParser.CstorageContext);
             }
             else if (parseTree is RecycleParser.CondactContext){
-<<<<<<< Updated upstream
-                ActionIterator.DoAction(parseTree as RecycleParser.CondactContext);
+                
 				//Console.WriteLine("found conditional action");
-=======
                 ActionIterator.ProcessSingleDo(parseTree as RecycleParser.CondactContext);
 			
->>>>>>> Stashed changes
                 return null;
             }
             else if (parseTree is RecycleParser.RawstorageContext){

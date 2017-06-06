@@ -40,7 +40,7 @@ namespace ParseTreeIterator
                     var temp = VarIterator.Get(intNode.@sizeof().var());
                     Console.WriteLine(temp.GetType());
                     var temp2 = temp as FancyCardLocation;
-					Console.WriteLine("as FancyCardLocation: " + temp2.GetType());
+					
                     if (temp2 != null){
                         if (temp2.locIdentifier != "-1"){
                             return temp2.Count();
@@ -51,6 +51,12 @@ namespace ParseTreeIterator
                         var temp3 = temp as FancyCardLocation[];
                         if (temp3 != null){
                             return temp3.Length;
+                        } else {
+                            var temp4 = temp as List<Card>;
+                            if (temp4 != null)
+                            {
+                                return temp4.Count();
+                            }
                         }
                         throw new TypeAccessException();
                     }
