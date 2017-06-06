@@ -86,7 +86,7 @@ namespace ParseTreeIterator
             }
             else if (sub is RecycleParser.Multiaction2Context)
             {
-				Console.WriteLine("ur in processing multiaction2");
+				//Console.WriteLine("ur in processing multiaction2");
                 var multi = sub as RecycleParser.Multiaction2Context;
                 if (multi.agg() != null)
                 {

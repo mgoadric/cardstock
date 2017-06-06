@@ -41,7 +41,7 @@
         )
    )
    (stage player
-      (end (any player 'P (>= (sum ('P vloc SCORING) using 'POINTS) 16)))      
+      (end (any player 'P (>= (sum ('P vloc SCORING) using 'POINTS) (+ (// 60 'NUMP) 1))))      
       (do (
          ((< (size (game iloc STOCK)) 'NUMP)
             (do (

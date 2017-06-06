@@ -25,10 +25,10 @@ namespace CardGames
                 //    System.Console.WriteLine(g);
                 //string sub = g.Substring(6, g.Length - 10);
                 //exp.fileName = sub;
-                exp.fileName = "Golf";
+                exp.fileName = "Pairs2";
                 //System.Console.WriteLine(g.Substring(6, g.Length - 4));
                 exp.numGames = 100;
-                exp.numEpochs = 1;
+                exp.numEpochs = 10;
                 exp.logging = true;
                 exp.ai1 = false;
                 exp.ai2 = false;

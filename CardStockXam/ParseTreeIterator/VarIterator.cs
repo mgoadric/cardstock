@@ -169,10 +169,10 @@ namespace ParseTreeIterator
                // else { Console.WriteLine("Unknown type " + post.GetType()); }
 
             }
-            Console.WriteLine(ret.Count);
+            //Console.WriteLine(ret.Count);
             if (All(agg)){
                 //multiaction, action, etc
-                Console.WriteLine(agg.GetChild(4).GetText());
+                //Console.WriteLine(agg.GetChild(4).GetText());
                 if (agg.GetChild(4) is RecycleParser.ActionContext){
                     var coll = new GameActionCollection();
                     foreach (object obj in ret)
@@ -189,10 +189,10 @@ namespace ParseTreeIterator
                 else if (agg.GetChild(4) is RecycleParser.BooleanContext){
                    
                     var all = true;
-                    Console.WriteLine(agg.GetText());
-                    Console.WriteLine("4: " + agg.GetChild(4).GetText());
+                    //Console.WriteLine(agg.GetText());
+                    //Console.WriteLine("4: " + agg.GetChild(4).GetText());
                     foreach (object obj in ret){
-                        Console.WriteLine("i: " + obj.ToString());
+                        //Console.WriteLine("i: " + obj.ToString());
                         all &= (bool) obj;
                     }
                     return all;
@@ -212,7 +212,7 @@ namespace ParseTreeIterator
                     }
                     return sum;
                 }
-                Console.WriteLine("End of loop");
+                //Console.WriteLine("End of loop");
             }
             else{ //any
                 if (agg.GetChild(4) is RecycleParser.Multiaction2Context){//TODO
@@ -247,8 +247,8 @@ namespace ParseTreeIterator
                     return lst;
                 }
             }
-            Console.WriteLine("end of function");
-			Console.WriteLine(ret.Count);
+            //Console.WriteLine("end of function");
+			//Console.WriteLine(ret.Count);
             return ret;
         }
 
@@ -267,7 +267,7 @@ namespace ParseTreeIterator
             }
             else if (parseTree is RecycleParser.CondactContext){
                 ActionIterator.DoAction(parseTree as RecycleParser.CondactContext);
-				Console.WriteLine("found conditional action");
+				//Console.WriteLine("found conditional action");
                 return null;
             }
             else if (parseTree is RecycleParser.RawstorageContext){
