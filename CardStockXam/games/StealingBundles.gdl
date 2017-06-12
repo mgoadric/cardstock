@@ -44,7 +44,6 @@
                        (any ((current player) iloc HAND) 'AC
                           (move 'AC (top ((current player) vloc TRICK))))))))
                
-              ;; special case - match both pool and bundle, present choice of 1
               ;; match other player's bundle
                (do (
                     ;; iterate over all other player 'P to avoid yourself 
@@ -56,13 +55,11 @@
                                  (cardatt RANK (top ((current player) vloc TRICK))))
                              (do (
                                   (repeat all
-                                          ;; MAYBE BOTTOM DIDN'T WORK ????????????????????????? 
                                           (move (bottom ('P vloc BUNDLE)) (top ((current player) vloc BUNDLE))))
                                   (set ((current player) sto MOVED) 1)))))))))
                ;; match card(s) in pool
                (do (
                     (set (game sto SIZE) (size (game vloc POOL)))
-                    ;; FIXME NOT PROCESSED
                     
                    (all (filter (game vloc POOL) 'PC (== (cardatt RANK 'PC)
                                                          (cardatt RANK (top ((current player) vloc TRICK))))) 'PCF

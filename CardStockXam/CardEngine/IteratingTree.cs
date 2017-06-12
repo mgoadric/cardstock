@@ -6,14 +6,18 @@ namespace CardStockXam.CardEngine
 {
     class IteratingTree{
         public Stack<IterItem> trees;
+        public int level;
 
         public IteratingTree(){
             trees = new Stack<IterItem>();
+            level = 0;
         }
 
         public IteratingTree Copy(){
-            return new IteratingTree() {
+            return new IteratingTree()
+            {
                 trees = new Stack<IterItem>(trees),
+                level = this.level + 1,
             };
         }
 
@@ -26,7 +30,7 @@ namespace CardStockXam.CardEngine
         }
 
         public void Push(string k, object v){
-            trees.Push(new IterItem(k, v));
+            trees.Push(new  IterItem(k, v));
         }
 
         public IterItem Pop(){

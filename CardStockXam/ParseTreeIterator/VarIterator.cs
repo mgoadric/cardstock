@@ -166,31 +166,37 @@ namespace ParseTreeIterator
         }
 
         private static object IterateAgg<T>(RecycleParser.AggContext agg, IEnumerable<T> stor){
+            Console.WriteLine(agg.GetChild(4).GetType());
             var ret = new List<object>();
             foreach (T t in stor)
             {
+                Console.WriteLine("iterating over: " + t);
                 Put(agg.var().GetText(), t);
                 var post = ProcessAggPost(agg.GetChild(4));
                 ret.Add(post);
                 Remove(agg.var().GetText());
-                if (All(agg) && post is GameAction){
+                if (All(agg) && post is GameAction)
+                {
                     var act = post as GameAction;
                     act.ExecuteActual();
                 }
-                else if (post is GameActionCollection){
-                   
-                    foreach (GameAction act in (post as GameActionCollection)){
+                else if (post is GameActionCollection)
+                {
+
+                    foreach (GameAction act in (post as GameActionCollection))
+                    {
                         act.ExecuteActual();
                     }
                 }
 
-               // else { Console.WriteLine("Unknown type " + post.GetType()); }
+                else { Console.WriteLine("Unknown type "); }
+                   // Console.WriteLine(post.GetType()); }
 
             }
-            //Console.WriteLine(ret.Count);
+            Console.WriteLine(ret.Count);
             if (All(agg)){
                 //multiaction, action, etc
-                //Console.WriteLine(agg.GetChild(4).GetText());
+                Console.WriteLine(agg.GetChild(4).GetText());
                 if (agg.GetChild(4) is RecycleParser.ActionContext){
                     var coll = new GameActionCollection();
                     foreach (object obj in ret)
@@ -207,10 +213,10 @@ namespace ParseTreeIterator
                 else if (agg.GetChild(4) is RecycleParser.BooleanContext){
                    
                     var all = true;
-                    //Console.WriteLine(agg.GetText());
-                    //Console.WriteLine("4: " + agg.GetChild(4).GetText());
+                    Console.WriteLine(agg.GetText());
+                    Console.WriteLine("4: " + agg.GetChild(4).GetText());
                     foreach (object obj in ret){
-                        //Console.WriteLine("i: " + obj.ToString());
+                        Console.WriteLine("i: " + obj.ToString());
                         all &= (bool) obj;
                     }
                     return all;
@@ -230,9 +236,10 @@ namespace ParseTreeIterator
                     }
                     return sum;
                 }
-                //Console.WriteLine("End of loop");
+                Console.WriteLine("End of loop");
             }
             else{ //any
+                
                 if (agg.GetChild(4) is RecycleParser.Multiaction2Context){//TODO
                     return ret;
                 }
@@ -265,8 +272,8 @@ namespace ParseTreeIterator
                     return lst;
                 }
             }
-            //Console.WriteLine("end of function");
-			//Console.WriteLine(ret.Count);
+            Console.WriteLine("end of function");
+			Console.WriteLine(ret.Count);
             return ret;
         }
 
@@ -285,7 +292,7 @@ namespace ParseTreeIterator
             }
             else if (parseTree is RecycleParser.CondactContext){
                 
-				//Console.WriteLine("found conditional action");
+				Console.WriteLine("found conditional action");
                 ActionIterator.ProcessSingleDo(parseTree as RecycleParser.CondactContext);
 			
                 return null;

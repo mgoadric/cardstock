@@ -28,7 +28,7 @@
                                ((RANK (A)) 1)
                                )
                                )
-       (shuffle (game iloc STOCK))
+       ;;(shuffle (game iloc STOCK))
        (all player 'P
             (repeat 'NUMCARDS
                 (move (top (game iloc STOCK)) (top('P hloc PILE)))))
@@ -37,37 +37,50 @@
        (all player 'P
             (repeat 'HANDSIZE
                 (move (top (game iloc STOCK)) (top ('P iloc HAND)))))
-       (set (game sto FINISHED) 0)
+     
    ))
    (stage player
      (end (or (any player 'P (== (size ('P vloc CURRENT)) 0))
               (== (size (game iloc STOCK)) 0)))
      (do (
-         ((and (== (size ((current player) vloc HAND)) 0) ;; if hand is empty, refill hand
+         ((and (== (size ((current player) iloc HAND)) 0) ;; if hand is empty, refill hand (only if last card not played to reserve!!)
                (>= (size (game iloc STOCK)) 'HANDSIZE))
          (repeat 'HANDSIZE
            (move (top (game iloc STOCK)) (top((current player) iloc HAND)))))
      ))
-     (all 'TLOCS 'T
-        (do (
-            ((== (size (game vloc 'T)) 'MAXSIZE)
+     ;; example of aggregation parsing error (found bug a)
+     (do (
+          (all 'TLOCS 'T
+               ((== (size (game vloc 'T)) 'MAXSIZE)
 
-             (do (
-                 (shuffle (game vloc 'T))
-                 (repeat 'MAXSIZE (move (top (game vloc 'T)) (bottom (game iloc STOCK))))
-            )))
-         ))
-     )
+                (do (
+                 
+                     (repeat 'MAXSIZE
+                             (move (top (game vloc 'T))
+                                   (bottom (game iloc STOCK))))
+                     (shuffle (game iloc STOCK))
+                     )))
+         
+               )
+          ))
      (choice ( ;; hand to reserve
-       (any ((current player) iloc HAND) 'DISC 
-             (any 'PLOCS 'L
-               (do (
-                 (move (top 'DISC) (top ((current player) iloc 'L)))
-                   ((>= (- 'HANDSIZE (size ((next player) iloc HAND))) (size (game iloc STOCK)))
-                 (repeat (- 'HANDSIZE (size ((next player) iloc HAND)))
-                   (move (top (game iloc STOCK)) (top ((next player) iloc HAND)))))
-               ))
-        ))
+
+       (all ((current player) iloc HAND) 'DISC
+            (move 'DISC (top ((current player) vloc TEMP))))
+       ;; all then all works fine - any's are the problem
+            
+       (any ((current player) iloc HAND) 'DISC
+           
+        
+            (any 'PLOCS 'L
+                    ;;  (do (
+                           (move 'DISC (top ((current player) vloc 'L)))))
+       ;;                    ((>= (- 'HANDSIZE (size ((next player) iloc HAND))) (size (game iloc STOCK)))
+       ;;                     (do (
+       ;;                     (repeat (- 'HANDSIZE (size ((next player) iloc HAND)))
+       ;;                             (move (top (game iloc STOCK)) (top ((next player) iloc HAND))))))
+       ;;                    )))))
+              
         ;; move card from hand to table
         (any 'TLOCS 'T
           (any ((current player) iloc HAND) 'C
@@ -87,6 +100,7 @@
                (do (
                   ((and
                     (> (size (game vloc 'T)) 0)
+                    (> (size ((current player) vloc 'L)) 0)
                     (== (score (top (game vloc 'T)) using 'PRECEDENCE)
                         (- (score (top ((current player) vloc 'L)) using 'PRECEDENCE) 1)))
                    (do (
@@ -126,10 +140,11 @@
            (any 'PLOCS 'L
              (do (
                 ((and
-                   (== (size (game vloc 'T)) 0) 
+                   (== (size (game vloc 'T)) 0)
+                   (> (size ((current player) vloc 'L)) 0)
                    (== 1 (score (top ((current player) vloc 'L)) using 'PRECEDENCE)))
                  (do (
-                   (move (top ((current player) vloc 'P)) (top (game vloc 'T)))
+                   (move (top ((current player) vloc 'L)) (top (game vloc 'T)))
                    (cycle next current)
                  ))
              )))

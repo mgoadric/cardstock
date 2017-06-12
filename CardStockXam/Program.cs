@@ -26,7 +26,7 @@ namespace CardGames
                 //string sub = g.Substring(6, g.Length - 10);
                 //exp.fileName = sub;
 
-                exp.fileName = "LostCities";
+                exp.fileName = "SpiteMalice";
                 //System.Console.WriteLine(g.Substring(6, g.Length - 4));
                 exp.numGames = 1;
                 exp.numEpochs = 1;

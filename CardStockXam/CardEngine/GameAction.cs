@@ -325,10 +325,12 @@ namespace CardEngine {
     public class LoopAction : GameAction{
         public string var;
         public object item;
+        public int level;
 
-        public LoopAction(string v, object item){
+        public LoopAction(string v, object item, int level){
             this.var = v;
             this.item = item;
+            this.level = level;
         }
 
         public override void Execute()

@@ -108,7 +108,7 @@
                                ))
                       
                  ;; determine who won the hand, set them first next time, and give them a point
-              ;; doesn't cycle properly - first player goes first every time
+             ;; FIXME should these two lines be reversed ? 
              (forget (top (game mem LEAD)))
              (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE)))
                   

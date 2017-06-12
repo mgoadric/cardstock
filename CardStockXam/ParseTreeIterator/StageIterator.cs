@@ -55,10 +55,14 @@ namespace ParseTreeIterator
 			}
 			CardGame.Instance.PopPlayer();
 		}
-		public static List<GameActionCollection> ProcessMultiaction(IParseTree sub){
+        public static List<GameActionCollection> ProcessMultiaction(IParseTree sub)
+        {
             var lst = new List<GameActionCollection>();
-			if (sub is RecycleParser.MultiactionContext){
+
+            if (sub is RecycleParser.MultiactionContext)
+            {
                 var multiaction = sub as RecycleParser.MultiactionContext;
+                Console.WriteLine(multiaction.GetType());
                 if (multiaction.agg() != null)
                 {
                     //List<GameAction> test = (List<CardEngine.GameAction>)VarIterator.ProcessAgg(multiaction.agg());
@@ -86,10 +90,11 @@ namespace ParseTreeIterator
             }
             else if (sub is RecycleParser.Multiaction2Context)
             {
-				//Console.WriteLine("ur in processing multiaction2");
+                //Console.WriteLine("ur in processing multiaction2");
                 var multi = sub as RecycleParser.Multiaction2Context;
                 if (multi.agg() != null)
                 {
+                    Console.WriteLine("multiaction2 aggregation");
                     lst.Add(VarIterator.ProcessAgg(multi.agg()) as GameActionCollection);
                 }
                 else if (multi.let() != null)
@@ -103,133 +108,254 @@ namespace ParseTreeIterator
             }
             return lst;
         }
+
+        // problems with nested aggregation here TODO!
+
+        // look at where "Put" is called 
         public static List<GameActionCollection> RecurseDo(RecycleParser.CondactContext cond){
             var all = new List<GameActionCollection>();
+            // stack of iterating trees
             var stackTrees = new Stack<IteratingTree>();
+            // iteratingtree = stack of iterable items (just has basic stack functionality) 
+            //      -can store another iteratingtree, strings, or a key/value object
+            //      -can copy
             var stackTree = new IteratingTree();
+            // internal loop - where things are actually processed, not stored
             stackTree.Push(cond);
-            stackTrees.Push(stackTree);
+			// overarcing loop - stacktrees (another tree is created 
+            //    for each ALTERNATIVE (any, etc) action
+            //    so that all possible choices can be found
+			stackTrees.Push(stackTree);
             var stackAct = new Stack<GameAction>();
-            while (stackTrees.Count != 0) {
+            // iterate over stack of stacks
+            while (stackTrees.Count != 0)
+            {
                 stackTree = stackTrees.Pop();
 
-                while (stackTree.Count() != 0) {
+                // iterate over stack of iterable items
+                while (stackTree.Count() != 0)
+                {
+
                     var current = stackTree.Pop();
-                    if (current.tree != null) {
+                    if (current.tree != null)
+                    {
                         var currentTree = current.tree;
-                        if (currentTree is RecycleParser.CondactContext) {
+                        if (currentTree is RecycleParser.CondactContext)
+                        {
                             var condact = currentTree as RecycleParser.CondactContext;
-                            if (condact.boolean() == null || BooleanIterator.ProcessBoolean(condact.boolean())) {
-                                if (condact.action() != null) {
+                            // if the boolean returns true (and exists), 
+                            // push the resulting action/multiaction items
+                            // on the current stack of iterable items
+                            if (condact.boolean() == null || BooleanIterator.ProcessBoolean(condact.boolean()))
+                            {
+                                if (condact.action() != null)
+                                {
+
                                     stackTree.Push(condact.action());
                                 }
-                                if (condact.multiaction2() != null) {
+                                if (condact.multiaction2() != null)
+                                {
                                     stackTree.Push(condact.multiaction2());
                                 }
                             }
                         }
-                        else if (currentTree is RecycleParser.Multiaction2Context) {
+
+                        else if (currentTree is RecycleParser.Multiaction2Context)
+                        {
                             var multi = currentTree as RecycleParser.Multiaction2Context;
-                            if (multi.agg() != null) {
+                            // is any or and
+                            if (multi.agg() != null)
+                            {
+                                Console.WriteLine("multiaction context 2 agg pushed to stack");
                                 stackTree.Push(multi.agg());
                             }
-                            else if (multi.let() != null) {
+                            // is let 
+                            else if (multi.let() != null)
+                            {
                                 stackTree.Push(multi.let());
                             }
-                            else {//do
-                                for (int i = multi.condact().Length - 1; i >= 0; i--) {
+                            else
+                            { // is do
+                              // push all condacts onto current stack
+                              // to be processed
+                                for (int i = multi.condact().Length - 1; i >= 0; i--)
+                                {
                                     stackTree.Push(multi.condact()[i]);
                                 }
                             }
                         }
-                        else if (currentTree is RecycleParser.AggContext) {
+                        else if (currentTree is RecycleParser.AggContext)
+                        {
                             var agg = currentTree as RecycleParser.AggContext;
                             var collection = VarIterator.ProcessCollection(agg.collection());
-                            if (agg.GetChild(1).GetText() == "any") {
-                                if (collection.ToList().Count > 0){
+                            if (agg.GetChild(1).GetText() == "any")
+                            {
+                                // if there is something in the collection
+                                if (collection.ToList().Count > 0)
+                                {
                                     bool first = true;
                                     object firstItem = null;
                                     var vartext = agg.var().GetText();
-
+                                    // add collection of obj to current stack 
                                     stackTree.Push(currentTree.GetChild(4));
-                                    var idx = 0;
-                                    foreach (object item in collection){
-                                        if (first){
+
+                                    foreach (object item in collection)
+                                    {
+                                        // for first item in collection only
+                                        if (first)
+                                        {
                                             firstItem = item;
                                             VarIterator.Put(vartext, firstItem);
                                             first = false;
                                         }
-                                        else{
+                                        else
+                                        {
+                                            // push alternatives onto the stack
+                                            // of game actions as 
+                                            // an iterable item  
+                                            //  (they are unexecutable as loop actions)
+                                            // generate a copy of tree to use to
+                                            //  process the results of choosing
+                                            //  the next item in collection
                                             var newtree = stackTree.Copy();
                                             stackTrees.Push(newtree);
-                                            stackAct.Push(new LoopAction(vartext, item));
+                                            Debug.WriteLine("pushed item: " + item);
+                                            stackAct.Push(new LoopAction(vartext, item, newtree.level));
                                         }
-                                        idx++;
+
                                     }
-                                    stackAct.Push(new LoopAction(vartext, firstItem));
+                                    // push first item to be processed (on current
+                                    // Stack of game actions )
+                                    Debug.WriteLine("pushed first item: " + firstItem);
+                                    stackTree.level++;
+                                    stackAct.Push(new LoopAction(vartext, firstItem, stackTree.level));
                                 }
                             }
-                            else { //all
-                                foreach (object item in collection) {
+                            else
+                            { //all
+                                // push
+                                //      "'C" (string)
+                                //      [contents of statement] (contained
+                                //        in another stack tree)
+                                //      "'C", iteritem (key, value)
+
+                                foreach (object item in collection)
+                                {
                                     stackTree.Push(agg.var().GetText());
                                     stackTree.Push(currentTree.GetChild(4));
                                     stackTree.Push(agg.var().GetText(), item);
                                 }
                             }
                         }
-                        else if (currentTree is RecycleParser.LetContext) {
+                        else if (currentTree is RecycleParser.LetContext)
+                        {
+                            // push name of var, statement after var, name/value pair
                             var let = currentTree as RecycleParser.LetContext;
                             var item = VarIterator.ProcessTyped(let.typed());
                             stackTree.Push(let.var().GetText());
                             stackTree.Push(currentTree.GetChild(4));
                             stackTree.Push(let.var().GetText(), item);
                         }
-                        else if (currentTree is RecycleParser.ActionContext) {
+                        else if (currentTree is RecycleParser.ActionContext)
+                        {
                             var actions = ActionIterator.ProcessAction(currentTree as RecycleParser.ActionContext);
-                            foreach (GameAction action in actions) {
+                            foreach (GameAction action in actions)
+                            {
                                 stackAct.Push(action);
                                 action.TempExecute();
                             }
                         }
-                        else {
+                        else
+                        {
                             Console.WriteLine("failed to parse type " + current.GetType());
                         }
                     }
-                    else{//var context
-                        if (current.item != null){
+                    else
+                    {//var context
+                        if (current.item != null)
+                        {
                             VarIterator.Put(current.varContext, current.item);
-                        } else{
+                        }
+                        else
+                        {
                             VarIterator.Remove(current.varContext);
                         }
                     }
                 }
+                // end of loop over current stack of iteritems
                 var coll = new GameActionCollection();
-                foreach (GameAction act in stackAct.ToArray()) {
-                    if (!(act is LoopAction)){
+                foreach (GameAction act in stackAct.ToArray())
+                {
+                    // add everythign but loop actions to coll
+                    if (!(act is LoopAction))
+                    {
                         coll.Add(act);
                     }
                 }
 
-                while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction)) {
+                while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction))
+                {
                     var temp = stackAct.Pop();
                     temp.Undo();
                 }
                 if (coll.Count > 0)
                 {
+                    // puts game action collection back in stack order 
+                    // adds list of actions to overall choice list to be returned 
                     coll.Reverse();
                     all.Add(coll);
                 }
-                if (stackAct.Count > 0){
+
+                // if there are still loopactions,
+                //   remove the current one, 
+                var currentLevel = 0;
+                if (stackAct.Count > 0)
+                {
                     var loop = stackAct.Pop() as LoopAction;
+                    currentLevel = loop.level;
+                    Debug.WriteLine("pop & remove : " + loop.item);
+
                     VarIterator.Remove(loop.var);
                 }
-                while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction)){
-                    stackAct.Pop().Undo();
+                // undo everything (until
+                bool unwinding = true;
+                while (unwinding)
+                {
+                    // "normal" - item before is loopaction & same level
+                    // up one level - item before is loopaction & different level
+                    // up one level - items need to be undone before finding loopaction, but is different level
+                    // up n levels - 
+
+                    while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction))
+                    {
+                        stackAct.Pop().Undo();
+                    }
+                    if (stackAct.Count > 0)
+                    {
+                        var loop = stackAct.Peek() as LoopAction;
+
+                        Debug.WriteLine("peek + add : " + loop.item);
+                        if (loop.level == currentLevel)
+                        {
+                            VarIterator.Put(loop.var, loop.item);
+                            unwinding = false;
+                        }
+                        else
+                        {
+                            stackAct.Pop();
+                            currentLevel = loop.level;
+                        }
+
+                    }
+                    else
+                    {
+                        unwinding = false;
+                    }
+
+
                 }
-                if (stackAct.Count > 0){
-                    var loop = stackAct.Peek() as LoopAction;
-                    VarIterator.Put(loop.var, loop.item);
-                }
+            
+               
             }
             return all;
         }

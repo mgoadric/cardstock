@@ -12,9 +12,7 @@ namespace ParseTreeIterator
 {
 	public class BooleanIterator{
         public static bool ProcessBoolean(RecycleParser.BooleanContext boolNode) {
-            Console.WriteLine("processing boolean" + boolNode.GetText());
             if (boolNode.intop() != null) {
-                Console.WriteLine("in boolNode.intop");
 
                 var intop = boolNode.intop();
                 var intOne = boolNode.@int(0);
