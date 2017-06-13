@@ -64,22 +64,18 @@
                )
           ))
      (choice ( ;; hand to reserve
-
-       (all ((current player) iloc HAND) 'DISC
-            (move 'DISC (top ((current player) vloc TEMP))))
-       ;; all then all works fine - any's are the problem
-            
+       (do (
        (any ((current player) iloc HAND) 'DISC
-           
-        
             (any 'PLOCS 'L
-                    ;;  (do (
-                           (move 'DISC (top ((current player) vloc 'L)))))
-       ;;                    ((>= (- 'HANDSIZE (size ((next player) iloc HAND))) (size (game iloc STOCK)))
-       ;;                     (do (
-       ;;                     (repeat (- 'HANDSIZE (size ((next player) iloc HAND)))
-       ;;                             (move (top (game iloc STOCK)) (top ((next player) iloc HAND))))))
-       ;;                    )))))
+                      (do (
+                           (move 'DISC (top ((current player) vloc 'L)))
+                           ((>= (- 'HANDSIZE (size ((next player) iloc HAND))) (size (game iloc STOCK)))
+                            
+                            (repeat (- 'HANDSIZE (size ((next player) iloc HAND)))
+                                    (move (top (game iloc STOCK)) (top ((next player) iloc HAND))))))
+                           )))))
+
+       (do (
               
         ;; move card from hand to table
         (any 'TLOCS 'T
@@ -92,7 +88,9 @@
                    (cycle next current)
                  ))
             )
-        )) 
+        )) ))
+
+       (do (
       
         ;; move card from reserve to table
         (any 'PLOCS 'L
@@ -107,7 +105,9 @@
                       (move (top ((current player) vloc 'L)) (top (game vloc 'T)))
                       (cycle next current)
                    )))
-        ))))
+        ))))))
+
+       (do (
         
         ;; move card from current to table
         (any 'TLOCS 'T
@@ -121,7 +121,9 @@
                    ((> (size ((current player) hloc PILE)) 0)
                  (move (top ((current player) hloc PILE)) (top ((current player) vloc CURRENT))))
                  (cycle next current))))
-        )))
+        )))))
+
+       (do (
         ;; add ace from hand
         (any 'TLOCS 'T
            (any ((current player) iloc HAND) 'C
@@ -133,7 +135,9 @@
                      (move 'C (top (game vloc 'T)))
                      (cycle next current)
                   ))
-        )))))
+        )))))))
+
+       (do (
         
         ;; add ace from reserve
        (any 'TLOCS 'T
@@ -148,7 +152,9 @@
                    (cycle next current)
                  ))
              )))
-       ))
+       ))))
+
+       (do (
         ;; add ace from current
         (any 'TLOCS 'T
              (do (
@@ -160,7 +166,7 @@
                      ((> (size ((current player) hloc PILE)) 0)
                        (move (top ((current player) hloc PILE)) (top ((current player) vloc CURRENT))))
                    (cycle next current)
-        ))))))
+        ))))))))
         
      ))
    )
