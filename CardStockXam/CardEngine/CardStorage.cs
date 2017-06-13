@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Diagnostics;
 using System.Text;
 namespace CardEngine{
 	
@@ -55,11 +56,11 @@ namespace CardEngine{
 				ret.Append (binDict.Where (itm => itm.Value == i).First () +"\n");
                 if (storage == null)
                 {
-                    Console.WriteLine("empty storage " + ret);
+                    Debug.WriteLine("empty storage " + ret);
                     break;
                 }
                 if (storage[i] == null){
-                    Console.WriteLine("empty storage in storage " + ret + "[" + i + "]");
+                    Debug.WriteLine("empty storage in storage " + ret + "[" + i + "]");
                     break;
                 }
                 foreach (var card in storage[i].AllCards()){

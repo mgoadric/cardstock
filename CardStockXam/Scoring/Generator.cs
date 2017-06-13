@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 using System.IO;
 using Antlr4.Runtime;
 using System.Text.RegularExpressions;
@@ -324,7 +325,7 @@ namespace CardStockXam.Scoring
 
         private void printMut(string orig, string n){
             if (printing){
-                Console.WriteLine("Changed:\n    " + orig + "\nto:\n    " + n);
+                Debug.WriteLine("Changed:\n    " + orig + "\nto:\n    " + n);
             }
         }
 

@@ -9,35 +9,54 @@ namespace CardGames
     {
         public static void Main(string[] args)
         {
-            /*List<string> gameFiles = new List<string>();
-            string[] allFiles = System.IO.Directory.GetFiles("games/");
-            foreach (string s in allFiles)
-            {
-                if (s.EndsWith(".gdl")) {
-                    gameFiles.Add(s);
-                }
-            }*/
-            //foreach (string g in gameFiles)
-            //{
-            //for (int i = 0; i < 20; i++)
-            //{
-                var exp = new Experiment();
-                //    System.Console.WriteLine(g);
-                //string sub = g.Substring(6, g.Length - 10);
-                //exp.fileName = sub;
+           
+            var exp = new Experiment();
+           
+           
+            exp.fileName = "Agram";
+           // System.Console.WriteLine(g.Substring(6, g.Length - 4));
+            exp.numGames = 1;
+            exp.numEpochs = 1;
 
-                exp.fileName = "SpiteMalice";
-                //System.Console.WriteLine(g.Substring(6, g.Length - 4));
-                exp.numGames = 1;
-                exp.numEpochs = 1;
+            exp.logging = true;
+            exp.ai1 = true;
+            exp.ai2 = false;
 
-                exp.logging = true;
-                exp.ai1 = false;
-                exp.ai2 = false;
+            var codeGen = new ParseEngine(exp);
+			
+          
 
-                var codeGen = new ParseEngine(exp);
-                // }
-            //}
+
+			/*List<string> gameFiles = new List<string>();
+			string[] allFiles = System.IO.Directory.GetFiles("games/");
+			foreach (string s in allFiles)
+			{
+				if (s.EndsWith(".gdl") && !(s.Equals("War2") &&
+										   !(s.Equals("Whist"))))
+				{
+					gameFiles.Add(s);
+				}
+			}
+			foreach (string g in gameFiles)
+			{
+				
+				var exp = new Experiment();
+
+				string sub = g.Substring(6, g.Length - 10);
+				exp.fileName = sub;
+
+				exp.numGames = 1;
+				exp.numEpochs = 1;
+
+				exp.logging = true;
+				exp.ai1 = true;
+				exp.ai2 = false;
+
+				var codeGen = new ParseEngine(exp);
+				System.Console.WriteLine(g);
+			} */
+
+
         }
     }
 }

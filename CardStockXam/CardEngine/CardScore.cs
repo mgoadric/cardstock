@@ -27,7 +27,7 @@ namespace CardEngine{
 				var arrAtts = key.Split(',');
 				var attStr = "";
 				foreach (var att in arrAtts){
-                    System.Console.WriteLine("Card: " + c);
+                    System.Diagnostics.Debug.WriteLine("Card: " + c);
 					var val = c.ReadAttribute(att);
 					attStr += val + ",";
 				}

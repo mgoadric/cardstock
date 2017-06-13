@@ -13,7 +13,7 @@ namespace ParseTreeIterator
 {
 	public class ActionIterator{
 		public static GameActionCollection ProcessAction(RecycleParser.ActionContext actionNode){
-            Console.WriteLine(actionNode.GetText()); 
+            Debug.WriteLine(actionNode.GetText()); 
 			var ret = new GameActionCollection();
             if (actionNode.teamcreate() != null) {
                 var teamCreate = actionNode.teamcreate() as RecycleParser.TeamcreateContext;
@@ -52,7 +52,7 @@ namespace ParseTreeIterator
                 Debug.WriteLine("REMEMBER: '" + actionNode.GetText() + "'");
                 var copy = CardActionIterator.ProcessCopy(actionNode.copyaction());
                 if (copy != null) { ret.Add(copy); }
-                else { Console.WriteLine("copying from empty, " + actionNode.copyaction().GetText()); }
+                else { Debug.WriteLine("copying from empty, " + actionNode.copyaction().GetText()); }
             }
             else if (actionNode.removeaction() != null) {
                 Debug.WriteLine("FORGET: '" + actionNode.GetText() + "'");
@@ -93,7 +93,7 @@ namespace ParseTreeIterator
                 ret.AddRange(ProcessRepeat(actionNode.repeat()));
 			}
 			else{
-				Console.WriteLine("Not Processed: '" + actionNode.GetText() + "'");
+				Debug.WriteLine("Not Processed: '" + actionNode.GetText() + "'");
 			}
 			return ret;
 		}

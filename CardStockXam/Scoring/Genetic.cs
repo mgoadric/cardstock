@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 using CardStockXam.Scoring;
 
 namespace CardStockXam
@@ -83,7 +84,7 @@ namespace CardStockXam
                     else if (mutating){
                         gen.Mutate(parent1);
                     }
-                    else { Console.WriteLine("You must mutate or crossover"); break; }
+                    else { Debug.WriteLine("You must mutate or crossover"); break; }
                     numFiles++;
                 }
                 filer.WriteTranscript(gen.transcript);
@@ -98,7 +99,7 @@ namespace CardStockXam
                     scores[i] = s.Score();
                     filer.WriteTranscript(s.text);
                     var text = "File " + newFiles[i] + "'s score is " + scores[i];
-                    Console.WriteLine(text);
+                    Debug.WriteLine(text);
                     transcript += text + "\n";
                 }
                 var tup = Tournament(scores, newFiles);
@@ -106,7 +107,7 @@ namespace CardStockXam
                 double[] keepScores = tup.Item2;
                 transcript += "Keeping files:\n";
                 for (int i = 0; i < keep.Count(); i++) { 
-                    Console.WriteLine(keep[i]);
+                    Debug.WriteLine(keep[i]);
                     transcript += "    " + keep[i] + " with score " + keepScores[i] + "\n";
                 }
                 filer.WriteTranscript(transcript);

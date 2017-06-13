@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace CardStockXam.Scoring.Heuristics
@@ -12,12 +13,12 @@ namespace CardStockXam.Scoring.Heuristics
         {
             if (w.deepness.Count == 0) { return 0; }
             double tot = 0.0;
-            if (w.testing) { Console.WriteLine("Start depth"); }
+            if (w.testing) { Debug.WriteLine("Start depth"); }
             foreach (double d in w.deepness) {
-                if (w.testing) { Console.WriteLine(d); }
+                if (w.testing) { Debug.WriteLine(d); }
                 tot += d;
             }
-            if (w.testing) { Console.WriteLine("End depth"); }
+            if (w.testing) { Debug.WriteLine("End depth"); }
             return tot / w.deepness.Count;
         }
 

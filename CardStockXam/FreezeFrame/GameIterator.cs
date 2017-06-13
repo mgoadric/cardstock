@@ -111,7 +111,7 @@ namespace FreezeFrame
                 PopCurrentNode();
             }
             else {
-                Console.WriteLine(sub.GetType());
+                Debug.WriteLine(sub.GetType());
                 throw new NotSupportedException();
             }
             return false;

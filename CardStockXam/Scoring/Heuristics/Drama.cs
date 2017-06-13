@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace CardStockXam.Scoring.Heuristics
 {
@@ -38,7 +39,7 @@ namespace CardStockXam.Scoring.Heuristics
                 }
             }
             if (numEvaluated == 0){
-                Console.WriteLine("nothing evaluated");
+                Debug.WriteLine("nothing evaluated");
                 return 0.0;
             }
             return tot / numEvaluated * 4;

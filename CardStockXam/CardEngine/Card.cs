@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 namespace CardEngine{
 	public class Card{
 		private Dictionary<string,TreeTraversal> mapAttributes = new Dictionary<string,TreeTraversal>();
@@ -52,9 +53,9 @@ namespace CardEngine{
 				return mapAttributes[attributeName].ReadValue(this);
 			}
 			catch{
-				Console.WriteLine("KEYS");
+				Debug.WriteLine("KEYS");
 				foreach (var key in mapAttributes.Keys){
-					Console.WriteLine(key);
+					Debug.WriteLine(key);
 				}
 				throw;
 			}

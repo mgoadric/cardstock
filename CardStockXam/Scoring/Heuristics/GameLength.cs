@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Diagnostics;
 namespace CardStockXam.Scoring.Heuristics
 {
     class GameLength : Heuristic
@@ -10,12 +10,12 @@ namespace CardStockXam.Scoring.Heuristics
 
         public override double Get(World w)
         {
-            Console.WriteLine("Num turns: " + w.numTurns);
+            Debug.WriteLine("Num turns: " + w.numTurns);
             double avg = w.numTurns / w.numGames;
             if (w.numTurns > minLength){
                 if (w.numTurns > maxLength){
                     var ret = 1.0 - ((w.numTurns - maxLength) / divisor);
-                    Console.WriteLine("returning " + ret + " from gamelength");
+                    Debug.WriteLine("returning " + ret + " from gamelength");
                     return Math.Max(ret, 0);
                 }
                 return 1.0;

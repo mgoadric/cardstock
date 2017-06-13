@@ -13,11 +13,11 @@ namespace ParseTreeIterator
 {
 	public class CardActionIterator{
         public static GameAction ProcessCopy(RecycleParser.CopyactionContext copy) { //TODO fix this for real
-            Console.WriteLine(copy.GetText());
+            Debug.WriteLine(copy.GetText());
             var cardOne = CardIterator.ProcessCard(copy.GetChild(1) as RecycleParser.CardContext);
             
             if (cardOne.Count() == 0) {
-                Console.WriteLine(copy.GetText());
+                Debug.WriteLine(copy.GetText());
                 CardIterator.ProcessCard(copy.GetChild(1) as RecycleParser.CardContext);
                 return null;
             }

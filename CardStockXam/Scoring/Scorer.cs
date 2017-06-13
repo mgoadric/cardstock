@@ -1,5 +1,6 @@
 ﻿using CardGames;
 using CardStockXam.Scoring;
+using System.Diagnostics;
 using CardStockXam.Scoring.Heuristics;
 using System;
 using System.Collections.Generic;
@@ -102,19 +103,19 @@ namespace CardStockXam
             gameWorld = new World();
             gameWorld.testing = testing;
             for (int i = 0; i < exps.Count; i++){
-                Console.WriteLine("Experiment " + i);
+                Debug.WriteLine("Experiment " + i);
                 engine = new ParseEngine(exps[i]);
                 if (new Reasonable().Eval(gameWorld) < 1.0){
                     if (testing){
-                        Console.WriteLine("failed reasonable");
-                        if (!gameWorld.compiling) { Console.WriteLine("not compiling"); }
-                        if (!gameWorld.hasShuffle) { Console.WriteLine("not shuffling"); }
+                        Debug.WriteLine("failed reasonable");
+                        if (!gameWorld.compiling) { Debug.WriteLine("not compiling"); }
+                        if (!gameWorld.hasShuffle) { Debug.WriteLine("not shuffling"); }
                     }
                     return 0.0;
                 }
             }
             gameWorld.EvalOver();
-            Console.WriteLine("passed reasonable");
+            Debug.WriteLine("passed reasonable");
             double total = 0;
             foreach (Heuristic h in hs){
                 var score = h.Eval(gameWorld);

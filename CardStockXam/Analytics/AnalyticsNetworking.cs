@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Diagnostics;
 using System.Text;
 using System.IO;
 namespace Analytics{
@@ -36,7 +37,7 @@ namespace Analytics{
 				send.GameId = 0;
 				send.ExecutionTime = 3.5f;
 				foreach (var playerNum in BranchingFactor.Instance.counter.Keys){
-					Console.WriteLine(BranchingFactor.Instance.counter[playerNum].Count);
+					Debug.WriteLine(BranchingFactor.Instance.counter[playerNum].Count);
 					send.branchingFactor.AddRange(BranchingFactor.Instance.counter[playerNum]);
 				}
 				var request = (HttpWebRequest)WebRequest.Create("https://cards.owl-apps.com/api/Run/");
@@ -48,7 +49,7 @@ namespace Analytics{
 				request.ContentType = "application/json";
 				request.ContentLength = data.Length;
 				request.Headers.Add("token","");
-				Console.WriteLine(data.Length);
+				Debug.WriteLine(data.Length);
 				using (var stream = request.GetRequestStream())
 				{
 				    stream.Write(data, 0, data.Length);
@@ -58,7 +59,7 @@ namespace Analytics{
 				
 				var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
-				Console.WriteLine(responseString);
+				Debug.WriteLine(responseString);
 			}
 		}
 	}

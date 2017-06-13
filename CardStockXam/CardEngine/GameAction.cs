@@ -89,17 +89,17 @@ namespace CardEngine {
                     Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
                 }
                 else {
-                    Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
-                    Console.WriteLine("moving to " + endLocation.ToString());
+                    Debug.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
+                    Debug.WriteLine("moving to " + endLocation.ToString());
                     throw new Exception();
                 }
             }
             catch
             {
-                Console.WriteLine(startLocation.name);
+                Debug.WriteLine(startLocation.name);
                 foreach (var card in startLocation.cardList.AllCards())
                 {
-                    Console.WriteLine(card);
+                    Debug.WriteLine(card);
                 }
                 throw;
             }
@@ -114,7 +114,7 @@ namespace CardEngine {
                 cardToMove.owner = owner;
             }
             else {
-                Console.WriteLine("move has not been executed yet");
+                Debug.WriteLine("move has not been executed yet");
                 throw new NotSupportedException();
             }
         }

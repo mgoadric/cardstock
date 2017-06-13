@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using Players;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections;
+using System.Diagnostics;
 
 namespace CardEngine
 {
@@ -226,13 +228,13 @@ namespace CardEngine
             {
                 var key = entry.Key;
                 var o = entry.Value;
-                Console.WriteLine("type: " + o.GetType());
+                Debug.WriteLine("type: " + o.GetType());
                 if (o is int) { ret.Add(key, (int)o); }
                 else if (o is bool) { ret.Add(key, (bool)o); }
                 else if (o is string) { ret.Add(key, (string)o); }
                 else if (o is Card) {
                     var c = (o as Card).Clone();
-                    Console.WriteLine("In card.... Collin should fix this");
+                    Debug.WriteLine("In card.... Collin should fix this");
                     //instead
                     //find card in same location
                     //add that card instead of c
@@ -268,7 +270,7 @@ namespace CardEngine
                     var t = teamMap[(o as Team).id];
                     ret.Add(key, t);
                 }
-                else { Console.WriteLine("Error: object " + o.ToString() + " is  type " + o.GetType()); }
+                else { Debug.WriteLine("Error: object " + o.ToString() + " is  type " + o.GetType()); }
             }
             /*Console.WriteLine("original:");
             foreach (object o in original){
@@ -394,7 +396,7 @@ namespace CardEngine
 				possibles.Add(new IntAction(p.storage,storageName,i));
 			}
 			var choice = p.MakeAction(possibles,rand);
-			Console.WriteLine("Choice:" + choice);
+			Debug.WriteLine("Choice:" + choice);
 			possibles[choice].ExecuteActual();
 			
 		}
@@ -454,7 +456,7 @@ namespace CardEngine
                 dict = teamMap;
                 id = (o as Team).id;
             }
-            else { Console.WriteLine("unknown type in AddToMap: " + o.GetType()); }
+            else { Debug.WriteLine("unknown type in AddToMap: " + o.GetType()); }
             if (!dict.Contains(id)) { dict.Add(id, o); }
             //else { Console.WriteLine("dict already contains " + id); }
         }

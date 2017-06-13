@@ -120,7 +120,7 @@ namespace ParseTreeIterator
             }
             else if (cstoragecoll.let() != null){
                 VarIterator.ProcessLet(cstoragecoll.let());
-                Console.WriteLine("let, returning nothing");
+                Debug.WriteLine("let, returning nothing");
                 return new List<FancyCardLocation>();
             }
             throw new NotSupportedException();
@@ -267,7 +267,7 @@ namespace ParseTreeIterator
                         name = VarIterator.Get(stor.var()) as String;
                     }
                     else{
-                        Console.WriteLine("Error, type is: " + VarIterator.Get(stor.var()).GetType());
+                        Debug.WriteLine("Error, type is: " + VarIterator.Get(stor.var()).GetType());
                     }
 
                     // current error here 

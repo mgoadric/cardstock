@@ -1,6 +1,7 @@
-﻿﻿using System;
+﻿﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
@@ -43,7 +44,7 @@ namespace ParseTreeIterator
             String name2;
 
             if (filter.collection().cstorage() != null){
-                Console.WriteLine("cstorage collection");
+                Debug.WriteLine("cstorage collection");
                 stor = CardIterator.ProcessLocation(filter.collection().cstorage());
                 stor2 = stor.cardList.AllCards();
                 name2 = stor.name;
