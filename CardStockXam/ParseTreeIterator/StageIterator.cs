@@ -138,7 +138,8 @@ namespace ParseTreeIterator
             while (stackTrees.Count != 0)
             {
                 stackTree = stackTrees.Pop();
-                Console.WriteLine(stackTrees.Count);
+                Console.WriteLine("Moving to next concurrent game tree");
+                Console.WriteLine("Number of concurrent game states: " + stackTrees.Count);
                 // iterate over stack of iterable items
                 while (stackTree.Count() != 0)
                 {
@@ -169,7 +170,9 @@ namespace ParseTreeIterator
 
                         else if (currentTree is RecycleParser.Multiaction2Context)
                         {
-                            var multi = currentTree as RecycleParser.Multiaction2Context;
+							Console.WriteLine("Finding game actions recursively in a multiaction2 statement.");
+
+							var multi = currentTree as RecycleParser.Multiaction2Context;
                             // is any or and
                             if (multi.agg() != null)
                             {
@@ -192,15 +195,14 @@ namespace ParseTreeIterator
                             }
                         }
                         else if (currentTree is RecycleParser.MultiactionContext){
-                            Console.WriteLine("RecurseDo do in let");
-                            // terrible terrible ! someday TODO make this not copy paste
-                            // included to allow multiactions after let statement 
-                            // if rewritten (to be actually recursive etc etc)
-                            // could streamline multi & multi2 to be the same thing
+							Console.WriteLine("Finding game actions recursively in a multiaction.");
+							// terrible terrible ! someday TODO make this not copy paste
+							// included to allow multiactions after let statement 
+							// if rewritten (to be actually recursive etc etc)
+							// could streamline multi & multi2 to be the same thing
 							var multi = currentTree as RecycleParser.MultiactionContext;
 							if (multi.agg() != null)
 							{
-								Debug.WriteLine("multiaction context 2 agg pushed to stack");
 								stackTree.Push(multi.agg());
 							}
 							// is let 
@@ -223,7 +225,9 @@ namespace ParseTreeIterator
 						}
                         else if (currentTree is RecycleParser.AggContext)
                         {
-                            var agg = currentTree as RecycleParser.AggContext;
+							Console.WriteLine("Finding game actions recursively in an aggregation statement.");
+
+							var agg = currentTree as RecycleParser.AggContext;
                             var collection = VarIterator.ProcessCollection(agg.collection());
                             if (agg.GetChild(1).GetText() == "any")
                             {
@@ -254,6 +258,7 @@ namespace ParseTreeIterator
                                             // generate a copy of tree to use to
                                             //  process the results of choosing
                                             //  the next item in collection
+                                         
                                             var newtree = stackTree.Copy();
                                             stackTrees.Push(newtree);
                                             Debug.WriteLine("pushed item: " + item);
@@ -286,9 +291,10 @@ namespace ParseTreeIterator
                         }
                         else if (currentTree is RecycleParser.LetContext)
                         {
-                            // push name of var, statement after var, name/value pair
+							// push name of var, statement after var, name/value pair
+							Console.WriteLine("Finding game actions recursively in a let statement.");
 
-                            var let = currentTree as RecycleParser.LetContext;
+							var let = currentTree as RecycleParser.LetContext;
                             var item = VarIterator.ProcessTyped(let.typed());
                             // old handling of let vars
                             /*stackTree.Push(let.var().GetText());
@@ -304,7 +310,9 @@ namespace ParseTreeIterator
                         }
                         else if (currentTree is RecycleParser.ActionContext)
                         {
-                            var actions = ActionIterator.ProcessAction(currentTree as RecycleParser.ActionContext);
+							Console.WriteLine("Finding game actions recursively in an action. ");
+
+							var actions = ActionIterator.ProcessAction(currentTree as RecycleParser.ActionContext);
                             foreach (GameAction action in actions)
                             {
                                 stackAct.Push(action);
@@ -318,14 +326,15 @@ namespace ParseTreeIterator
                     }
                     else
                     {//var context
+                        
                         if (current.item != null)
                         {
-                            Console.WriteLine("adding var: " + current.varContext);
+                            Console.WriteLine("Adding var in RecurseDo: " + current.varContext);
                             VarIterator.Put(current.varContext, current.item);
                         }
                         else
                         {
-                            Console.WriteLine("removing var from memory: " + current.varContext);
+                            Console.WriteLine("Removing var in RecurseDo: " + current.varContext);
                             VarIterator.Remove(current.varContext);
                         }
                     }
@@ -403,7 +412,6 @@ namespace ParseTreeIterator
 
                 }
             
-               
             }
             return all;
         }
@@ -429,7 +437,9 @@ namespace ParseTreeIterator
 
         public static List<GameActionCollection> ProcessCondactChoice(RecycleParser.CondactContext cond)
         {
-            var allOptions = new List<GameActionCollection>();
+			Console.WriteLine("Processing conditional action choice.");
+
+			var allOptions = new List<GameActionCollection>();
             bool condition = true;
             if (cond.boolean() != null){
                 condition = BooleanIterator.ProcessBoolean(cond.boolean());

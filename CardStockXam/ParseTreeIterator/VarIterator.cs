@@ -49,14 +49,14 @@ namespace ParseTreeIterator
 
             if (filter.collection().cstorage() != null)
             {
-                Debug.WriteLine("cstorage collection");
+                Console.WriteLine("Filter: cstorage collection");
                 stor = CardIterator.ProcessLocation(filter.collection().cstorage());
                 stor2 = stor.cardList.AllCards();
                 name2 = stor.name;
             }
             else if (filter.collection().var() != null)
             {
-                Debug.WriteLine("variable collection");
+                Console.WriteLine("Filter: variable collection");
 
                 stor = Get(filter.collection().var()) as FancyCardLocation;
                 if (stor != null)
@@ -129,34 +129,34 @@ namespace ParseTreeIterator
             }
             if (collection.cstorage() != null)
             {
-				Console.WriteLine("Processing collection type: Cstorage.");
+                Console.WriteLine("Processing collection type: Cstorage.");
 
-				var stor = CardIterator.ProcessLocation(collection.cstorage());
+                var stor = CardIterator.ProcessLocation(collection.cstorage());
                 return stor.cardList.AllCards();
             }
             else if (collection.strcollection() != null)
             {
-				Console.WriteLine("Processing collection type: string collection.");
+                Console.WriteLine("Processing collection type: string collection.");
 
-				return ProcessStringCollection(collection.strcollection());
+                return ProcessStringCollection(collection.strcollection());
             }
             else if (collection.cstoragecollection() != null)
             {
-				Console.WriteLine("Processing collection type: Cstorage collection.");
+                Console.WriteLine("Processing collection type: Cstorage collection.");
 
-				return CardIterator.ProcessCStorageCollection(collection.cstoragecollection());
+                return CardIterator.ProcessCStorageCollection(collection.cstoragecollection());
             }
             else if (collection.whot() != null)
             {
-				Console.WriteLine("Processing collection type: whot.");
+                Console.WriteLine("Processing collection type: whot.");
 
-				return CardIterator.ProcessWhot(collection.whot()).teamPlayers;
+                return CardIterator.ProcessWhot(collection.whot()).teamPlayers;
             }
             else if (collection.range() != null)
             {
-				Console.WriteLine("Processing collection type: range.");
+                Console.WriteLine("Processing collection type: range.");
 
-				var lst = IntIterator.ProcessRange(collection.range());
+                var lst = IntIterator.ProcessRange(collection.range());
                 List<object> newlst = new List<object>();
                 foreach (int num in lst)
                 {
@@ -166,21 +166,20 @@ namespace ParseTreeIterator
             }
             else if (collection.filter() != null)
             {
-				Console.WriteLine("Processing collection type: filter.");
+                Console.WriteLine("Processing collection type: filter.");
 
-				var filter = ProcessCStorageFilter(collection.filter());
+                var filter = ProcessCStorageFilter(collection.filter());
                 return filter.cardList.AllCards();
             }
             else if (collection.GetText() == "player")
             {
-				Console.WriteLine("Processing collection type: players.");
+                Console.WriteLine("Processing collection type: players.");
 
-				return CardGame.Instance.players;
+                return CardGame.Instance.players;
             }
             else if (collection.GetText() == "team")
             {
-				Console.WriteLine("Processing collection type: team.");
-
+                Console.WriteLine("Processing collection type: team.");
 				return CardGame.Instance.teams;
             }
             else if (collection.other() != null)
@@ -189,14 +188,14 @@ namespace ParseTreeIterator
             }
             else{//var
 				Console.WriteLine("Processing collection type: var.");
-
 				return (IEnumerable<object>) Get(collection.GetText());
             }
             throw new NotSupportedException();
         }
 
-        private static object IterateAgg<T>(RecycleParser.AggContext agg, IEnumerable<T> stor){
-            
+        private static object IterateAgg<T>(RecycleParser.AggContext agg, IEnumerable<T> stor)
+        {
+
             var ret = new List<object>();
             foreach (T t in stor)
             {
@@ -205,121 +204,68 @@ namespace ParseTreeIterator
                 var post = ProcessAggPost(agg.GetChild(4));
                 ret.Add(post);
                 Remove(agg.var().GetText());
-                // TODO never see these print statements???
-                if (All(agg) && post is GameAction)
-                {
-					
-					var act = post as GameAction;
-                    Console.WriteLine("Executing game action: " + act.ToString());
-                    act.ExecuteActual();
-                }
-                else if (post is GameActionCollection)
-                {
-
-                    foreach (GameAction act in (post as GameActionCollection))
-                    {
-						Console.WriteLine("Executing game action: " + act.ToString());
-						act.ExecuteActual();
-                    }
-                }
-
-                else { Debug.WriteLine("Unknown type "); }
-                   // Debug.WriteLine(post.GetType()); }
-
             }
             // only difference is really in rawstorage & boolean
             Debug.WriteLine(ret.Count);
             // TODO - MULTIACTIONS & ACTIONS NEVER GET HERE... (any & all)
-			// Multiaction2 & any actions are handled in processMultiaction & processAction respectively 
-			if (All(agg)){
-                //multiaction, action, etc
-                // TODO - likely, these actions have already been processed - could just return "ret" (bc processed in actioniterator)
-                if (agg.GetChild(4) is RecycleParser.ActionContext){
-                    Console.WriteLine("Processing All + Action: " + ((RecycleParser.ActionContext)agg.GetChild(4)).GetText());
-
-                    //var coll = new GameActionCollection();
-                    //foreach (object obj in ret)
-                    //{
-                    //    var gameaction = obj as GameActionCollection;
-                    //    coll.AddRange(gameaction);
-                    //}
-                    //return coll;
-                    return ret;
+            // Multiaction2 & any actions are handled in processMultiaction & processAction respectively 
+            if (agg.GetChild(4) is RecycleParser.CstorageContext)
+            {
+                Console.WriteLine("Processing All/Any + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
+                var coll = new List<FancyCardLocation>();
+                foreach (object obj in ret)
+                {
+                    coll.Add((FancyCardLocation)obj);
                 }
-                else if (agg.GetChild(4) is RecycleParser.Multiaction2Context){
-                    Console.WriteLine("reached useless statement (all multiaction2)");
-
-
-					return ret;
-                }
-                else if (agg.GetChild(4) is RecycleParser.BooleanContext){
+                return coll;
+            }
+            else if (All(agg))
+            {
+                if (agg.GetChild(4) is RecycleParser.BooleanContext)
+                {
                     Console.WriteLine("Processing All + Boolean: " + (((RecycleParser.BooleanContext)agg.GetChild(4)).GetText()));
                     var all = true;
                     Debug.WriteLine(agg.GetText());
                     Debug.WriteLine("4: " + agg.GetChild(4).GetText());
-                    foreach (object obj in ret){
+                    foreach (object obj in ret)
+                    {
                         Debug.WriteLine("i: " + obj.ToString());
-                        all &= (bool) obj;
+                        all &= (bool)obj;
                     }
                     return all;
-                }
-                else if (agg.GetChild(4) is RecycleParser.CstorageContext){
-                    Console.WriteLine("Processing All + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
-					var coll = new List<FancyCardLocation>();
-                    foreach (object obj in ret){
-                        coll.Add((FancyCardLocation)obj);
-                    }
-                    return coll;
-                }
-                else if (agg.GetChild(4) is RecycleParser.RawstorageContext){
-					Console.WriteLine("Processing All + Rawstorage: " + (((RecycleParser.RawstorageContext)agg.GetChild(4)).GetText()));
 
-					var sum = 0;
-                    foreach (object obj in ret){
-                        var raw = (FancyRawStorage) obj;
+                }
+                else if (agg.GetChild(4) is RecycleParser.RawstorageContext)
+                {
+                    Console.WriteLine("Processing All + Rawstorage: " + (((RecycleParser.RawstorageContext)agg.GetChild(4)).GetText()));
+
+                    var sum = 0;
+                    foreach (object obj in ret)
+                    {
+                        var raw = (FancyRawStorage)obj;
                         sum += raw.Get();
                     }
                     return sum;
-
                 }
-                Debug.WriteLine("End of loop");
             }
-            else{ //any
-              
-                if (agg.GetChild(4) is RecycleParser.Multiaction2Context){//TODO 
-                    Console.WriteLine("reached useless statement (any multiaction2)");
-                    return ret;
-                }
-                else if (agg.GetChild(4) is RecycleParser.ActionContext){
-                    Console.WriteLine("reached useless statement (any action)");
+            else // if not an all statement
+            {
+                if (agg.GetChild(4) is RecycleParser.BooleanContext)
+                {
+                    Console.WriteLine("Processing Any + Boolean: " + (((RecycleParser.BooleanContext)agg.GetChild(4)).GetText()));
 
-
-					return ret;
-                }
-                else if (agg.GetChild(4) is RecycleParser.BooleanContext){
-					Console.WriteLine("Processing Any + Boolean: " + (((RecycleParser.BooleanContext)agg.GetChild(4)).GetText()));
-
-					var all = false;
+                    var all = false;
                     foreach (object obj in ret)
                     {
                         all |= (bool)obj;
                     }
                     return all;
                 }
-                else if (agg.GetChild(4) is RecycleParser.CstorageContext){
-					Console.WriteLine("Processing Any + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
-
-					var coll = new List<FancyCardLocation>();
-                    foreach (object obj in ret)
-                    {
-                        coll.Add((FancyCardLocation)obj);
-                    }
-                    return coll;
-                }
-                else if (agg.GetChild(4) is RecycleParser.RawstorageContext){
+                else if (agg.GetChild(4) is RecycleParser.RawstorageContext)
+                {
                     Console.WriteLine("Processing Any + Rawstorage: " + (((RecycleParser.RawstorageContext)agg.GetChild(4)).GetText()));
 
-					var lst = new List<int>();
+                    var lst = new List<int>();
                     foreach (object obj in ret)
                     {
                         var raw = (FancyRawStorage)obj;
@@ -328,8 +274,6 @@ namespace ParseTreeIterator
                     return lst;
                 }
             }
-        
-			Debug.WriteLine(ret.Count);
             return ret;
         }
 

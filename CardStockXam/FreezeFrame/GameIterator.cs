@@ -142,6 +142,8 @@ namespace FreezeFrame
 				}
 
 				if (!BooleanIterator.ProcessBoolean (stage.endcondition ().boolean ())) {
+					Console.WriteLine("Processing end of stage condition.");
+
 					//Console.WriteLine("Hit Boolean while!");
 					if (shouldInc) {
 						StageCount.Instance.IncCount (stage);
