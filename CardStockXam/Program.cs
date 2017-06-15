@@ -9,37 +9,37 @@ namespace CardGames
     {
         public static void Main(string[] args)
         {
-           
-            var exp = new Experiment();
-           
-           
-            exp.fileName = "Agram";
-           // System.Console.WriteLine(g.Substring(6, g.Length - 4));
-            exp.numGames = 1;
-            exp.numEpochs = 1;
+            AllGames();
 
-            exp.logging = true;
-            exp.ai1 = true;
-            exp.ai2 = false;
+        }
 
-            var codeGen = new ParseEngine(exp);
-			
-          
+        static void SingleGame(string game){
+			var exp = new Experiment();
+			exp.fileName = game;
+			// System.Console.WriteLine(g.Substring(6, g.Length - 4));
+			exp.numGames = 1;
+			exp.numEpochs = 1;
 
+			exp.logging = true;
+			exp.ai1 = false;
+			exp.ai2 = false;
 
-			/*List<string> gameFiles = new List<string>();
+			var codeGen = new ParseEngine(exp);
+		}
+
+        static void AllGames(){
+			List<string> gameFiles = new List<string>();
 			string[] allFiles = System.IO.Directory.GetFiles("games/");
 			foreach (string s in allFiles)
 			{
-				if (s.EndsWith(".gdl") && !(s.Equals("War2") &&
-										   !(s.Equals("Whist"))))
+				if (s.EndsWith(".gdl"))
 				{
 					gameFiles.Add(s);
 				}
 			}
 			foreach (string g in gameFiles)
 			{
-				
+
 				var exp = new Experiment();
 
 				string sub = g.Substring(6, g.Length - 10);
@@ -49,14 +49,12 @@ namespace CardGames
 				exp.numEpochs = 1;
 
 				exp.logging = true;
-				exp.ai1 = true;
+				exp.ai1 = false;
 				exp.ai2 = false;
 
 				var codeGen = new ParseEngine(exp);
 				System.Console.WriteLine(g);
-			} */
-
-
-        }
+			}
+		}
     }
 }

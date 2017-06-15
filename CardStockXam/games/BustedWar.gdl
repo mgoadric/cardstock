@@ -108,7 +108,7 @@
       )
 
       (do (
-           ((== (cardatt RANK (top ((current player) vloc TRICK)))
+            ((== (cardatt RANK (top ((current player) vloc TRICK)))
                 (cardatt RANK (top ((next player) vloc TRICK))))
             (do (
                  (all player 'P
@@ -116,26 +116,27 @@
                               (move (top ('P vloc TRICK))
                                     (top (game iloc BOUNTY)))))
                  (set (game sto WAR) 1)
-                 ))
-            )
+                 )))
            ((!= (cardatt RANK (top ((current player) vloc TRICK)))
                 (cardatt RANK (top ((next player) vloc TRICK))))
             (do (
+          
+                 (repeat all
+                         (move (top (game iloc BOUNTY))
+                               (bottom ((owner (max (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE)) iloc HAND))))
                  (all player 'P
-                      (repeat all
-                              (move (top (game iloc BOUNTY))
-                                    (bottom ((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) iloc HAND)))))
-                 (all player 'P
+                      (do (
                       (repeat all
                               (move (top ('P vloc TRICK))
-                                    (bottom ((owner (max (union ('P vloc TRICK)) using 'PRECEDENCE)) iloc HAND)))))
-                 (set (game sto WAR) 0)
-                 ))
-            )
+                                    (bottom ((owner (max (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE)) iloc HAND))))
+                      (set (game sto WAR) 0)
+                      )))
+            ))
           
-     
-           ))
-      )
+          
+         
+      )))
+   )
          
    (scoring max (size ((current player) iloc HAND)))
 )

@@ -19,7 +19,7 @@ namespace ParseTreeIterator
                 return fancy.Get();
             }
             else if (intNode.INTNUM() != null && intNode.INTNUM().Count() != 0) {
-                Console.WriteLine(intNode.GetText());
+                Debug.WriteLine(intNode.GetText());
                 return int.Parse(intNode.GetText());
             }
             else if (intNode.@sizeof() != null) {
@@ -32,7 +32,7 @@ namespace ParseTreeIterator
                 else if (intNode.@sizeof().var() != null){
                    
                     var temp = VarIterator.Get(intNode.@sizeof().var());
-                    Console.WriteLine(temp.GetType());
+                    Debug.WriteLine(temp.GetType());
                     var temp2 = temp as FancyCardLocation;
 					
                     if (temp2 != null){
@@ -87,7 +87,7 @@ namespace ParseTreeIterator
                 return total;
             }
             else if (intNode.score() != null) {
-                Console.WriteLine("trying to score" + intNode.GetText());
+                Debug.WriteLine("trying to score" + intNode.GetText());
                 var scorer = CardGame.Instance.points[intNode.score().var().GetText()];
                 var card = CardIterator.ProcessCard(intNode.score().card());
                 return scorer.GetScore(card.Get());

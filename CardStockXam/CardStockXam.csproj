@@ -340,7 +340,6 @@
     </None>
     <None Include="games\LostCities.gv" />
     <None Include="games\LostCities.pdf" />
-    <None Include="games\NoThanks.gdl" />
     <None Include="games\Pairs.gv" />
     <None Include="games\Pairs.pdf" />
     <None Include="games\SaneEights.gdl">
@@ -348,9 +347,6 @@
     </None>
     <None Include="games\SaneEights.gv" />
     <None Include="games\SaneEights.pdf" />
-    <None Include="games\Spades.gdl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="games\Spades.gv" />
     <None Include="games\Spades.pdf" />
     <None Include="games\StealingBundles.gdl">
@@ -363,23 +359,39 @@
     </None>
     <None Include="games\War.gv" />
     <None Include="games\War.pdf" />
-    <None Include="games\Whist.gdl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="games\Whist.gv" />
     <None Include="games\Whist.pdf" />
-    <None Include="games\War2.gdl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="games\Pairs2.gdl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="games\Pairs3.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="games\ContinuousPairs.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="games\Simon%27sCat.gdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="games\Caterpillar.gdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="games\DuckSoup.gdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="games\BustedJunk\NoThanks.gdl" />
+    <None Include="games\BustedJunk\Pairs3.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="games\BustedJunk\Spades.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="games\BustedJunk\War2.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="games\BustedJunk\Whist.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="games\BustedJunk\" />
+  </ItemGroup>
 </Project>

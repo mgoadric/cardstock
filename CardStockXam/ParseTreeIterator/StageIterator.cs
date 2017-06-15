@@ -62,31 +62,36 @@ namespace ParseTreeIterator
             if (sub is RecycleParser.MultiactionContext)
             {
                 var multiaction = sub as RecycleParser.MultiactionContext;
-                Console.WriteLine(multiaction.GetType());
+                Debug.WriteLine(multiaction.GetType());
                 if (multiaction.agg() != null)
                 {
                     //List<GameAction> test = (List<CardEngine.GameAction>)VarIterator.ProcessAgg(multiaction.agg());
                     //Console.WriteLine(test[0].GetType());
-                    Console.WriteLine("ur in processing multiaction");
-                    lst.AddRange((List<GameActionCollection>)VarIterator.ProcessAgg(multiaction.agg()));
+                    Console.WriteLine("Processing multiaction aggregation.");
+                    lst.Add(VarIterator.ProcessAgg(multiaction.agg()) as GameActionCollection);
+                    //lst.AddRange((List<GameActionCollection>)VarIterator.ProcessAgg(multiaction.agg()));
 
                 }
                 else if (multiaction.let() != null)
                 {
-                    lst.AddRange(VarIterator.ProcessLet(multiaction.let()));
+					Console.WriteLine("Processing multiaction let statement.");
+					lst.AddRange(VarIterator.ProcessLet(multiaction.let()));
                 }
                 else if (multiaction.GetChild(1).GetText() == "choice")
                 {
-                    ProcessChoice(multiaction.condact());
+					Console.WriteLine("Processing multiaction choice block.");
+					ProcessChoice(multiaction.condact());
                 }
                 else if (multiaction.GetChild(1).GetText() == "do")
                 {
-                    ActionIterator.ProcessDo(multiaction.condact());
+					Console.WriteLine("Processing multiaction do statement.");
+					ActionIterator.ProcessDo(multiaction.condact());
                 }
             }
             else if (sub is RecycleParser.StageContext)
             {
-                ProcessStage(sub as RecycleParser.StageContext);
+				Console.WriteLine("Processing stage.");
+				ProcessStage(sub as RecycleParser.StageContext);
             }
             else if (sub is RecycleParser.Multiaction2Context)
             {
@@ -94,22 +99,24 @@ namespace ParseTreeIterator
                 var multi = sub as RecycleParser.Multiaction2Context;
                 if (multi.agg() != null)
                 {
-                    Console.WriteLine("multiaction2 aggregation");
-                    lst.Add(VarIterator.ProcessAgg(multi.agg()) as GameActionCollection);
+					Console.WriteLine("Processing multiaction2 aggregation.");
+					lst.Add(VarIterator.ProcessAgg(multi.agg()) as GameActionCollection);
                 }
                 else if (multi.let() != null)
                 {
-                    lst.AddRange(VarIterator.ProcessLet(multi.let()));
+					Console.WriteLine("Processing multiaction2 let statement.");
+					lst.AddRange(VarIterator.ProcessLet(multi.let()));
                 }
                 else
                 {
-                    ActionIterator.ProcessDo(multi.condact());
+					Console.WriteLine("Processing multiaction2 do statement.");
+					ActionIterator.ProcessDo(multi.condact());
                 }
             }
+            Console.WriteLine("Returning list of game actions.");
             return lst;
         }
 
-        // problems with nested aggregation here TODO!
 
         // look at where "Put" is called 
         public static List<GameActionCollection> RecurseDo(RecycleParser.CondactContext cond){
@@ -131,7 +138,7 @@ namespace ParseTreeIterator
             while (stackTrees.Count != 0)
             {
                 stackTree = stackTrees.Pop();
-
+                Console.WriteLine(stackTrees.Count);
                 // iterate over stack of iterable items
                 while (stackTree.Count() != 0)
                 {
@@ -166,7 +173,7 @@ namespace ParseTreeIterator
                             // is any or and
                             if (multi.agg() != null)
                             {
-                                Console.WriteLine("multiaction context 2 agg pushed to stack");
+                                Debug.WriteLine("multiaction context 2 agg pushed to stack");
                                 stackTree.Push(multi.agg());
                             }
                             // is let 
@@ -184,6 +191,36 @@ namespace ParseTreeIterator
                                 }
                             }
                         }
+                        else if (currentTree is RecycleParser.MultiactionContext){
+                            Console.WriteLine("RecurseDo do in let");
+                            // terrible terrible ! someday TODO make this not copy paste
+                            // included to allow multiactions after let statement 
+                            // if rewritten (to be actually recursive etc etc)
+                            // could streamline multi & multi2 to be the same thing
+							var multi = currentTree as RecycleParser.MultiactionContext;
+							if (multi.agg() != null)
+							{
+								Debug.WriteLine("multiaction context 2 agg pushed to stack");
+								stackTree.Push(multi.agg());
+							}
+							// is let 
+							else if (multi.let() != null)
+							{
+								stackTree.Push(multi.let());
+							}
+							else
+							{ // is do
+							  // push all condacts onto current stack
+							  // to be processed
+
+								for (int i = multi.condact().Length - 1; i >= 0; i--)
+								{
+                                    Console.WriteLine(multi.condact()[i].GetType());
+									stackTree.Push(multi.condact()[i]);
+								}
+							}
+
+						}
                         else if (currentTree is RecycleParser.AggContext)
                         {
                             var agg = currentTree as RecycleParser.AggContext;
@@ -250,11 +287,20 @@ namespace ParseTreeIterator
                         else if (currentTree is RecycleParser.LetContext)
                         {
                             // push name of var, statement after var, name/value pair
+
                             var let = currentTree as RecycleParser.LetContext;
                             var item = VarIterator.ProcessTyped(let.typed());
-                            stackTree.Push(let.var().GetText());
+                            // old handling of let vars
+                            /*stackTree.Push(let.var().GetText());
                             stackTree.Push(currentTree.GetChild(4));
-                            stackTree.Push(let.var().GetText(), item);
+                            stackTree.Push(let.var().GetText(), item);*/
+
+
+
+                            VarIterator.Put(let.var().GetText(), item);
+                            stackTree.Push(currentTree.GetChild(4));
+                            stackTree.level++;
+                            stackAct.Push(new LoopAction(let.var().GetText(), item, stackTree.level));
                         }
                         else if (currentTree is RecycleParser.ActionContext)
                         {
@@ -267,17 +313,19 @@ namespace ParseTreeIterator
                         }
                         else
                         {
-                            Console.WriteLine("failed to parse type " + current.GetType());
+                            Debug.WriteLine("failed to parse type " + current.GetType());
                         }
                     }
                     else
                     {//var context
                         if (current.item != null)
                         {
+                            Console.WriteLine("adding var: " + current.varContext);
                             VarIterator.Put(current.varContext, current.item);
                         }
                         else
                         {
+                            Console.WriteLine("removing var from memory: " + current.varContext);
                             VarIterator.Remove(current.varContext);
                         }
                     }
@@ -362,6 +410,7 @@ namespace ParseTreeIterator
 
         public static void ProcessChoice(RecycleParser.CondactContext[] choices)
         {
+            Console.Out.WriteLine("Processing choice.");
             var allOptions = new List<GameActionCollection>();
             for (int i = 0; i < choices.Length; ++i)
             {

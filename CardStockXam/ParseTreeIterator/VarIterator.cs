@@ -19,38 +19,44 @@ namespace ParseTreeIterator
             if (CardGame.Instance.vars.ContainsKey(text)){
                 return CardGame.Instance.vars[text];
             }
-            Console.WriteLine("Failure");
+            Debug.WriteLine("Failure");
             throw new Exception("Object " + text + " could not be found");
         }
         public static void Put(string k, Object v){
             CardGame.Instance.vars[k] = v;
-            //Console.WriteLine("putting key " + k + " for " + v);
+            //Debug.WriteLine("putting key " + k + " for " + v);
         }
         public static void Remove(string k){
+            if (!CardGame.Instance.vars.ContainsKey(k)) {
+                throw new KeyNotFoundException();
+            }
             CardGame.Instance.vars.Remove(k);
         }
-        public static FancyCardLocation ProcessCStorageFilter(RecycleParser.FilterContext filter){
+        public static FancyCardLocation ProcessCStorageFilter(RecycleParser.FilterContext filter)
+        {
             var cList = new CardListCollection();
             FancyCardLocation stor;
             /*
-            Console.WriteLine(filter.GetText());
-            Console.WriteLine("parent:\n" + filter.Parent.GetText());
-            Console.WriteLine("parent's parent:\n" + filter.Parent.Parent.GetText());
-            Console.WriteLine("parent 3:\n" + filter.Parent.Parent.Parent.GetText());
-            Console.WriteLine("parent 4:\n" + filter.Parent.Parent.Parent.Parent.GetText());
-            Console.WriteLine("parent 5:\n" + filter.Parent.Parent.Parent.Parent.Parent.GetText());
-            Console.WriteLine("\n\n");*/
+            Debug.WriteLine(filter.GetText());
+            Debug.WriteLine("parent:\n" + filter.Parent.GetText());
+            Debug.WriteLine("parent's parent:\n" + filter.Parent.Parent.GetText());
+            Debug.WriteLine("parent 3:\n" + filter.Parent.Parent.Parent.GetText());
+            Debug.WriteLine("parent 4:\n" + filter.Parent.Parent.Parent.Parent.GetText());
+            Debug.WriteLine("parent 5:\n" + filter.Parent.Parent.Parent.Parent.Parent.GetText());
+            Debug.WriteLine("\n\n");*/
             IEnumerable<Card> stor2;
             String name2;
 
-            if (filter.collection().cstorage() != null){
+            if (filter.collection().cstorage() != null)
+            {
                 Debug.WriteLine("cstorage collection");
                 stor = CardIterator.ProcessLocation(filter.collection().cstorage());
                 stor2 = stor.cardList.AllCards();
                 name2 = stor.name;
             }
-            else if (filter.collection().var() != null){
-                Console.WriteLine("variable collection");
+            else if (filter.collection().var() != null)
+            {
+                Debug.WriteLine("variable collection");
 
                 stor = Get(filter.collection().var()) as FancyCardLocation;
                 if (stor != null)
@@ -58,18 +64,22 @@ namespace ParseTreeIterator
                     stor2 = stor.cardList.AllCards();
 
                     name2 = stor.name;
-                } else {
+                }
+                else
+                {
                     stor2 = Get(filter.collection().var()) as List<Card>;
                     name2 = "blah";
                 }
             }
-            else{
+            else
+            {
                 throw new NotSupportedException();
             }
-            foreach (Card card in stor2) 
+            foreach (Card card in stor2)
             {
                 Put(filter.var().GetText(), card);
-                if (BooleanIterator.ProcessBoolean(filter.boolean())){
+                if (BooleanIterator.ProcessBoolean(filter.boolean()))
+                {
                     cList.Add(card);
                 }
                 Remove(filter.var().GetText());
@@ -84,14 +94,16 @@ namespace ParseTreeIterator
             CardGame.AddToMap(fancy);
             return fancy;
         }
-
+        // want to clean up & understand processagg TODO
         public static object ProcessAgg(RecycleParser.AggContext agg){
             return IterateAgg(agg, ProcessCollection(agg.collection()));
         }
 
         public static IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection)
         {
+          
             if (collection.var() != null){
+				Console.WriteLine("Processing collection type: var.");
                 var stor = Get(collection.var());
                 if (stor is FancyCardLocation){
                     var card = stor as FancyCardLocation;
@@ -117,24 +129,34 @@ namespace ParseTreeIterator
             }
             if (collection.cstorage() != null)
             {
-                var stor = CardIterator.ProcessLocation(collection.cstorage());
+				Console.WriteLine("Processing collection type: Cstorage.");
+
+				var stor = CardIterator.ProcessLocation(collection.cstorage());
                 return stor.cardList.AllCards();
             }
             else if (collection.strcollection() != null)
             {
-                return ProcessStringCollection(collection.strcollection());
+				Console.WriteLine("Processing collection type: string collection.");
+
+				return ProcessStringCollection(collection.strcollection());
             }
             else if (collection.cstoragecollection() != null)
             {
-                return CardIterator.ProcessCStorageCollection(collection.cstoragecollection());
+				Console.WriteLine("Processing collection type: Cstorage collection.");
+
+				return CardIterator.ProcessCStorageCollection(collection.cstoragecollection());
             }
             else if (collection.whot() != null)
             {
-                return CardIterator.ProcessWhot(collection.whot()).teamPlayers;
+				Console.WriteLine("Processing collection type: whot.");
+
+				return CardIterator.ProcessWhot(collection.whot()).teamPlayers;
             }
             else if (collection.range() != null)
             {
-                var lst = IntIterator.ProcessRange(collection.range());
+				Console.WriteLine("Processing collection type: range.");
+
+				var lst = IntIterator.ProcessRange(collection.range());
                 List<object> newlst = new List<object>();
                 foreach (int num in lst)
                 {
@@ -144,41 +166,51 @@ namespace ParseTreeIterator
             }
             else if (collection.filter() != null)
             {
+				Console.WriteLine("Processing collection type: filter.");
 
-                var filter = ProcessCStorageFilter(collection.filter());
+				var filter = ProcessCStorageFilter(collection.filter());
                 return filter.cardList.AllCards();
             }
             else if (collection.GetText() == "player")
             {
-                return CardGame.Instance.players;
+				Console.WriteLine("Processing collection type: players.");
+
+				return CardGame.Instance.players;
             }
             else if (collection.GetText() == "team")
             {
-                return CardGame.Instance.teams;
+				Console.WriteLine("Processing collection type: team.");
+
+				return CardGame.Instance.teams;
             }
             else if (collection.other() != null)
             {
                 return CardIterator.ProcessOther(collection.other());
             }
             else{//var
-                return (IEnumerable<object>) Get(collection.GetText());
+				Console.WriteLine("Processing collection type: var.");
+
+				return (IEnumerable<object>) Get(collection.GetText());
             }
             throw new NotSupportedException();
         }
 
         private static object IterateAgg<T>(RecycleParser.AggContext agg, IEnumerable<T> stor){
-            Console.WriteLine(agg.GetChild(4).GetType());
+            
             var ret = new List<object>();
             foreach (T t in stor)
             {
-                Console.WriteLine("iterating over: " + t);
+                Console.WriteLine("Iterating over aggregation of: " + t.GetType());
                 Put(agg.var().GetText(), t);
                 var post = ProcessAggPost(agg.GetChild(4));
                 ret.Add(post);
                 Remove(agg.var().GetText());
+                // TODO never see these print statements???
                 if (All(agg) && post is GameAction)
                 {
-                    var act = post as GameAction;
+					
+					var act = post as GameAction;
+                    Console.WriteLine("Executing game action: " + act.ToString());
                     act.ExecuteActual();
                 }
                 else if (post is GameActionCollection)
@@ -186,69 +218,88 @@ namespace ParseTreeIterator
 
                     foreach (GameAction act in (post as GameActionCollection))
                     {
-                        act.ExecuteActual();
+						Console.WriteLine("Executing game action: " + act.ToString());
+						act.ExecuteActual();
                     }
                 }
 
-                else { Console.WriteLine("Unknown type "); }
-                   // Console.WriteLine(post.GetType()); }
+                else { Debug.WriteLine("Unknown type "); }
+                   // Debug.WriteLine(post.GetType()); }
 
             }
-            Console.WriteLine(ret.Count);
-            if (All(agg)){
+            // only difference is really in rawstorage & boolean
+            Debug.WriteLine(ret.Count);
+            // TODO - MULTIACTIONS & ACTIONS NEVER GET HERE... (any & all)
+			// Multiaction2 & any actions are handled in processMultiaction & processAction respectively 
+			if (All(agg)){
                 //multiaction, action, etc
-                Console.WriteLine(agg.GetChild(4).GetText());
+                // TODO - likely, these actions have already been processed - could just return "ret" (bc processed in actioniterator)
                 if (agg.GetChild(4) is RecycleParser.ActionContext){
-                    var coll = new GameActionCollection();
-                    foreach (object obj in ret)
-                    {
-                        var gameaction = obj as GameActionCollection;
-                        coll.AddRange(gameaction);
-                    }
-                    return coll;
-                }
-                else if (agg.GetChild(4) is RecycleParser.Multiaction2Context){
-                    
+                    Console.WriteLine("Processing All + Action: " + ((RecycleParser.ActionContext)agg.GetChild(4)).GetText());
+
+                    //var coll = new GameActionCollection();
+                    //foreach (object obj in ret)
+                    //{
+                    //    var gameaction = obj as GameActionCollection;
+                    //    coll.AddRange(gameaction);
+                    //}
+                    //return coll;
                     return ret;
                 }
+                else if (agg.GetChild(4) is RecycleParser.Multiaction2Context){
+                    Console.WriteLine("reached useless statement (all multiaction2)");
+
+
+					return ret;
+                }
                 else if (agg.GetChild(4) is RecycleParser.BooleanContext){
-                   
+                    Console.WriteLine("Processing All + Boolean: " + (((RecycleParser.BooleanContext)agg.GetChild(4)).GetText()));
                     var all = true;
-                    Console.WriteLine(agg.GetText());
-                    Console.WriteLine("4: " + agg.GetChild(4).GetText());
+                    Debug.WriteLine(agg.GetText());
+                    Debug.WriteLine("4: " + agg.GetChild(4).GetText());
                     foreach (object obj in ret){
-                        Console.WriteLine("i: " + obj.ToString());
+                        Debug.WriteLine("i: " + obj.ToString());
                         all &= (bool) obj;
                     }
                     return all;
                 }
                 else if (agg.GetChild(4) is RecycleParser.CstorageContext){
-                    var coll = new List<FancyCardLocation>();
+                    Console.WriteLine("Processing All + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
+					var coll = new List<FancyCardLocation>();
                     foreach (object obj in ret){
                         coll.Add((FancyCardLocation)obj);
                     }
                     return coll;
                 }
                 else if (agg.GetChild(4) is RecycleParser.RawstorageContext){
-                    var sum = 0;
+					Console.WriteLine("Processing All + Rawstorage: " + (((RecycleParser.RawstorageContext)agg.GetChild(4)).GetText()));
+
+					var sum = 0;
                     foreach (object obj in ret){
                         var raw = (FancyRawStorage) obj;
                         sum += raw.Get();
                     }
                     return sum;
+
                 }
-                Console.WriteLine("End of loop");
+                Debug.WriteLine("End of loop");
             }
             else{ //any
-                
-                if (agg.GetChild(4) is RecycleParser.Multiaction2Context){//TODO
+              
+                if (agg.GetChild(4) is RecycleParser.Multiaction2Context){//TODO 
+                    Console.WriteLine("reached useless statement (any multiaction2)");
                     return ret;
                 }
                 else if (agg.GetChild(4) is RecycleParser.ActionContext){
-                    return ret;
+                    Console.WriteLine("reached useless statement (any action)");
+
+
+					return ret;
                 }
                 else if (agg.GetChild(4) is RecycleParser.BooleanContext){
-                    var all = false;
+					Console.WriteLine("Processing Any + Boolean: " + (((RecycleParser.BooleanContext)agg.GetChild(4)).GetText()));
+
+					var all = false;
                     foreach (object obj in ret)
                     {
                         all |= (bool)obj;
@@ -256,7 +307,9 @@ namespace ParseTreeIterator
                     return all;
                 }
                 else if (agg.GetChild(4) is RecycleParser.CstorageContext){
-                    var coll = new List<FancyCardLocation>();
+					Console.WriteLine("Processing Any + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
+
+					var coll = new List<FancyCardLocation>();
                     foreach (object obj in ret)
                     {
                         coll.Add((FancyCardLocation)obj);
@@ -264,7 +317,9 @@ namespace ParseTreeIterator
                     return coll;
                 }
                 else if (agg.GetChild(4) is RecycleParser.RawstorageContext){
-                    var lst = new List<int>();
+                    Console.WriteLine("Processing Any + Rawstorage: " + (((RecycleParser.RawstorageContext)agg.GetChild(4)).GetText()));
+
+					var lst = new List<int>();
                     foreach (object obj in ret)
                     {
                         var raw = (FancyRawStorage)obj;
@@ -273,8 +328,8 @@ namespace ParseTreeIterator
                     return lst;
                 }
             }
-            Console.WriteLine("end of function");
-			Console.WriteLine(ret.Count);
+        
+			Debug.WriteLine(ret.Count);
             return ret;
         }
 
@@ -283,17 +338,19 @@ namespace ParseTreeIterator
                 return (ICloneable) StageIterator.ProcessMultiaction(parseTree);
             }
             else if (parseTree is RecycleParser.ActionContext){
+                Console.WriteLine("Processing action.");
                 return ActionIterator.ProcessAction(parseTree as RecycleParser.ActionContext);
             }
             else if (parseTree is RecycleParser.BooleanContext){
+                Console.WriteLine("Processing boolean.");
                 return BooleanIterator.ProcessBoolean(parseTree as RecycleParser.BooleanContext);
             }
             else if (parseTree is RecycleParser.CstorageContext){
+                Console.WriteLine("Finding card.");
                 return CardIterator.ProcessLocation(parseTree as RecycleParser.CstorageContext);
             }
             else if (parseTree is RecycleParser.CondactContext){
-                
-				Console.WriteLine("found conditional action");
+                Console.WriteLine("Processing condition for conditional action(s).");
                 ActionIterator.ProcessSingleDo(parseTree as RecycleParser.CondactContext);
 			
                 return null;
@@ -301,7 +358,7 @@ namespace ParseTreeIterator
             else if (parseTree is RecycleParser.RawstorageContext){
                 return IntIterator.ProcessRawStorage(parseTree as RecycleParser.RawstorageContext);
             }
-            Console.WriteLine("error: Could not parse " + parseTree.GetText());
+            Debug.WriteLine("error: Could not parse " + parseTree.GetText());
             throw new NotSupportedException();
         }
 
@@ -314,23 +371,32 @@ namespace ParseTreeIterator
         {
             if (typed.@int() != null)
             {
-                return IntIterator.ProcessInt(typed.@int());
+                Console.WriteLine("Processing type: int");
+				return IntIterator.ProcessInt(typed.@int());
             }
             else if (typed.boolean() != null)
             {
-                return BooleanIterator.ProcessBoolean(typed.boolean());
+				Console.WriteLine("Processing type: boolean");
+
+				return BooleanIterator.ProcessBoolean(typed.boolean());
             }
             else if (typed.namegr() != null)
             {
-                return typed.namegr().GetText();
+				Console.WriteLine("Processing type: namegr");
+
+				return typed.namegr().GetText();
             }
             else if (typed.var() != null)
             {
-                return Get(typed.var());
+				Console.WriteLine("Processing type: var");
+
+				return Get(typed.var());
             }
             else if (typed.collection() != null)
             {
-                return ProcessCollection(typed.collection());
+				Console.WriteLine("Processing type: collection");
+
+				return ProcessCollection(typed.collection());
             }
             throw new NotSupportedException();
         }
@@ -340,15 +406,15 @@ namespace ParseTreeIterator
             // maybe don't need ProcessTyped ? 
             Put(let.var().GetText(), ProcessTyped(let.typed()));
             if (let.multiaction() != null){
-                Console.WriteLine("let multiaction");
+                Console.WriteLine("Processing let multiaction");
                 ret.AddRange(StageIterator.ProcessMultiaction(let.multiaction()));
             }
             else if (let.action() != null){
-                Console.WriteLine("let action");
+                Console.WriteLine("Processing let action");
                 ret.Add(ActionIterator.ProcessAction(let.action()));
             }
             else if (let.condact() != null){
-                Console.WriteLine("let condaction " + let.condact().GetText());
+                Console.WriteLine("Processing let conditional action " + let.condact().GetText());
                 ActionIterator.ProcessSingleDo(let.condact());
             }
             Remove(let.var().GetText());
@@ -375,7 +441,7 @@ namespace ParseTreeIterator
             else { throw new Exception("Temp is " + temp.GetType()); }
         }
 
-        public static FancyCardLocation ProcessCardVar(RecycleParser.VarContext card){ //TODOOOOOOOOO get card instead of just top card of location when ret is Card
+        public static FancyCardLocation ProcessCardVar(RecycleParser.VarContext card){ //TODO get card instead of just top card of location when ret is Card
             var ret = Get(card);
             if (ret is FancyCardLocation)
             {
@@ -391,7 +457,7 @@ namespace ParseTreeIterator
                 loc.setLocId(c);
                 return loc;
             }
-            Console.WriteLine("error, type is " + ret.GetType());
+            Debug.WriteLine("error, type is " + ret.GetType());
             return null;
         }
         public static string ProcessStringVar(RecycleParser.VarContext var)

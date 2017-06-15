@@ -1,9 +1,9 @@
 ;; Duck Soup in the GDL
-;; can only declare at beginning???
 (game
- 
+ (declare 2 'NUMP)
+
  (setup
-  (create players 2)
+  (create players 'NUMP)
   (create teams (0) (1))
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN,
                                                J, Q, K, A))
@@ -49,89 +49,121 @@
                    (move (top (game iloc STOCK))
                          (top ('P iloc HAND)))))
       (set (game sto ISDUCK) 1)
-      (declare DUCKSCORE 'SCORE)
       ))
  
                     
                     
  
  (stage player
-        (end (all player 'P (== (size ('P iloc HAND)) 0)))
-        (do (
-             (set ((current player) sto FINISHED) 0)
-             (set ((next player) sto FINISHED) 0)))
-
+        (end (and (all player 'P (== (size ('P iloc HAND)) 0))
+                  (== (size (game iloc STOCK)) 0)))
         (stage player
-                (end (all player 'P (== ('P sto FINISHED) 1)))
-               
-                (choice (
-                    ;; handle quacking
-                   (any player 'P (>= (size ('P vloc TRICK)) 1)
-                           (all (filter ((current player) iloc HAND) 'NH
-                                        (== (cardatt RANK 'NH)
-                                            (cardatt RANK (top ((current player) vloc TRICK)))))
-                                ;; QUESTION would this come back as a sequence or still 2 choices without choice block?
-                                (choice (
-                                      (do (
-                                           ;; say quack/quack-quack
-                                           (move 'NH (top ((current player) vloc TRICK)))
-                                           (set ((current player) sto QUACKED) 1)
-                                           (set ((next player) sto QUACKED) 0)))
-                                      (do (
-                                           ;; bow out
-                                           (set ((current player) sto FINISHED) 1)
-                                           (set ((next player) sto FINISHED) 1)))))))
-                                           
-                  ;; play any card (implicitly handles forgetting to quack/playing a diff card when you could play same RANK card)
-                 (do (
-                   (any ((current player) iloc HAND) 'C
-                          (move 'C (top ((current player) vloc TRICK))))
-                   ((== (size (game mem LEAD) 0)
-                        (remember (top ((current player) vloc TRICK)) 
-                                  (top (game mem LEAD)))))
-                   (set ((current player) sto FINISHED) 1)))))
-                ;; draw card if in duck stage
-                ((== (game sto ISDUCK) 1)
-                 (move (top (game iloc STOCK))
-                       (top ((current player) iloc HAND))))
+               (end (all player 'P (== ('P sto FINISHED) 1)))
+               (choice (
+                 
+                        ;; handle quacking  -  maybe doesn't work ?????
+                        ((any player 'P (>= (size ('P vloc TRICK)) 1))
+                              
+                         (all (filter ((current player) iloc HAND) 'NH
+                                      (== (cardatt RANK 'NH)
+                                          (cardatt RANK (top ((current player) vloc TRICK))))) 'C
+                                                                                               (do (
+                                                                                                    ;; say quack/quack-quack
+                                                                                                    (move 'C (top ((current player) vloc TRICK)))
+                                                                                                    (set ((current player) sto QUACKED) 1)
+                                                                                                    (set ((next player) sto QUACKED) 0)))))
+                        ((and (any player 'P (>= (size ('P vloc TRICK)) 1))
+                              (any player 'P (== ('P sto QUACKED) 1)))
+                         (all (filter ((current player) iloc HAND) 'NH
+                                      (== (cardatt RANK 'NH)
+                                          (cardatt RANK (top ((current player) vloc TRICK))))) 'C
+                                                                                               (do (
+                                                                                                    ;; bow out
+                                                                                                    (set ((current player) sto FINISHED) 1)
+                                                                                                    (set ((next player) sto FINISHED) 1)))))
+                                     
+                        (do (
+                             (any ((current player) iloc HAND) 'C
+                                  (move 'C (top ((current player) vloc TRICK))))
+                             ((== (size (game mem LEAD)) 0)
+                              (remember (top ((current player) vloc TRICK)) 
+                                        (top (game mem LEAD))))
+                             (set ((current player) sto FINISHED) 1)))))
+               ;; draw card if in duck stage
+               (do (
+                    ((== (game sto ISDUCK) 1)
+                     (move (top (game iloc STOCK))
+                           (top ((current player) iloc HAND)))))))
+        ;; had to put in do block here for no reason
+        (do (
+             (all player 'P
+                  (set ('P sto FINISHED) 0))
+             ((== (game sto ISDUCK) 1)
+              (do (
                             
-
-                ;; determine winner, set as lead next cycle
-                ((all player 'P (== ('P sto FINISHED) 1))
-                
-                 (do (
-                      ((== (game sto ISDUCK) 1)
-                       (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'DUCK))))
-                      ((== (game sto ISDUCK) 0)
-                       (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'SOUP))))
-                      (forget (top (game mem LEAD)))
-                      ;; score regular hand
-                      (all player 'P (== ('P sto QUACKED) 0)
-                           ((== (cardatt SUIT (top ((current player) vloc TRICK)))
-                                (cardatt SUIT (top ((next player) vloc TRICK))))
-                            (inc ((next player) sto 'SCORE) 1))
-                           ((!= (cardatt SUIT (top ((current player) vloc TRICK)))
-                                (cardatt SUIT (top ((next player) vloc TRICK))))
-                            (inc ((next player) sto 'SCORE) 2)))
-                      ;; score quack hand
-                      (any player 'P (== ('P sto QUACKED) 1)
-                           (do (
-                                (cycle next 'P)
-                                ((all player 'P (== (size ('P vloc TRICK)) 2))
-                                 (inc ((next player) sto 'SCORE) 4))
-                                ((any player 'P (< (size ('P vloc TRICK) 2)))
-                                 (inc ((next player) sto 'SCORE) 2))
-                                (set ('P sto QUACKED) 0))))
-                      ;; change stage if needed
-                      ((== (size (game iloc STOCK)) 0)
-                       (do (
-                       (set (game sto ISDUCK) 0)
-                       ;;(declare SOUPSCORE 'SCORE))))
-                      (all player 'P
-                           (repeat all
-                                   (move (top ('P vloc TRICK))
-                                         (top (game vloc DISCARD))))))))
-                ))
- (scoring max ((* ((current player) sto DUCKSCORE) ((current player) sto SOUPSCORE))))
- )
-     
+                   ;; score regular hand
+                            
+                   ((all player 'P (== ('P sto QUACKED) 0))
+                    (do (
+                         (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'DUCK)))
+                         (forget (top (game mem LEAD)))
+                         ((== (cardatt SUIT (top ((current player) vloc TRICK)))
+                              (cardatt SUIT (top ((next player) vloc TRICK))))
+                          (inc ((next player) sto DUCKSCORE) 1))
+                         ((!= (cardatt SUIT (top ((current player) vloc TRICK)))
+                              (cardatt SUIT (top ((next player) vloc TRICK))))
+                          (inc ((next player) sto DUCKSCORE) 2)))))
+                   ;; score quack hand
+                   (all player 'P
+                        ((== ('P sto QUACKED) 1)
+                         (do (
+                              
+                              (cycle next (owner (top ('P vloc TRICK))))
+                              ((all player 'Q (== (size ('Q vloc TRICK)) 2))
+                               (inc ((next player) sto DUCKSCORE) 4))
+                              ((any player 'Q (< (size ('Q vloc TRICK)) 2))
+                               (inc ((next player) sto DUCKSCORE) 2))
+                              (set ('P sto QUACKED) 0)))))
+                   ;; change stage if needed
+                    
+                   (do (
+                        (all player 'P
+                             (repeat all
+                                     (move (top ('P vloc TRICK))
+                                           (top (game vloc DISCARD))))))))))
+             ((== (game sto ISDUCK) 0)
+              (do (
+                           
+                   ;; score regular hand
+                   ((all player 'P (== ('P sto QUACKED) 0))
+                    (do (
+                         (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'SOUP)))
+                         (forget (top (game mem LEAD)))
+                         ((== (cardatt SUIT (top ((current player) vloc TRICK)))
+                              (cardatt SUIT (top ((next player) vloc TRICK))))
+                          (inc ((next player) sto SOUPSCORE) 1))
+                         ((!= (cardatt SUIT (top ((current player) vloc TRICK)))
+                              (cardatt SUIT (top ((next player) vloc TRICK))))
+                          (inc ((next player) sto SOUPSCORE) 2)))))
+                   ;; score quack hand
+                   (all player 'P
+                        ((== ('P sto QUACKED) 1)
+                         (do (
+                              ;; problem here w cycle next 'p... above too
+                              (cycle next (owner (top ('P vloc TRICK))))
+                              ((all player 'Q (== (size ('Q vloc TRICK)) 2))
+                               (inc ((next player) sto SOUPSCORE) 4))
+                              ((any player 'Q (< (size ('Q vloc TRICK)) 2))
+                               (inc ((next player) sto SOUPSCORE) 2))
+                              (set ('P sto QUACKED) 0)))))
+                   (all player 'P
+                        (repeat all
+                                (move (top ('P vloc TRICK))
+                                      (top (game vloc DISCARD))))))))
+             ((== (size (game iloc STOCK)) 0)
+              (do (
+                   (set (game sto ISDUCK) 0))))
+             )))
+(scoring max (* ((current player) sto DUCKSCORE) ((current player) sto SOUPSCORE)))
+ 
+)

@@ -12,6 +12,7 @@ using ParseTreeIterator;
 using CardStockXam;
 using Players;
 
+// understand what's going on TODO
 public class ParseEngine
 {
     public static FreezeFrame.GameIterator currentIterator;
@@ -111,8 +112,7 @@ public class ParseEngine
                 System.GC.Collect();
                 bool gameBroke = false;
                 Dictionary<String, int> seenStates = new Dictionary<String, int>();
-                // TODO need access to this CardEngine for unit testing
-                // would be helpful for checking game state in various games 
+               
                 CardEngine.CardGame.Instance = new CardEngine.CardGame();
                 var manageContext = new FreezeFrame.GameIterator(tree);
                 //manageContext.AdvanceToChoice ();
@@ -167,7 +167,7 @@ public class ParseEngine
                 }
                 if (!gameBroke)
                 {
-                    if (!exp.evaluating) { Console.Out.WriteLine("Results: " + i); }
+                    if (!exp.evaluating) { Console.Out.WriteLine("Results: Game " + (i + 1)); }
                     var results = ScoreIterator.ProcessScore(tree.scoring());
                     for (int j = 0; j < results.Count; ++j)
                     {
@@ -197,7 +197,8 @@ public class ParseEngine
         time.Stop();
         if (!exp.evaluating){
             Console.Out.WriteLine(time.Elapsed);
-            Console.Out.WriteLine(choiceCount / (double)(exp.numGames));
+            Console.Out.WriteLine("Turns per game: " + choiceCount / (double)(exp.numGames));
+            Console.Out.WriteLine("Average Scores: ");
             for (int i = 0; i < 5; ++i)
             {
                 Console.Out.Write("Player" + (i + 1) + ":\t");
@@ -207,10 +208,12 @@ public class ParseEngine
                 }
                 Console.Out.WriteLine();
             }
-            Console.Out.Write("Wins :\t");
+            // changed to represent % win rate of player 1
+            //Console.Out.Write("Wins :\t");
+
             for (int j = 0; j < exp.numEpochs; j++)
             {
-                Console.Out.Write(winaggregator[j] / (double)(exp.numGames / exp.numEpochs) + "\t");
+                Console.Out.Write("Player2 win percentage: " + ((double) ((winaggregator[j / (exp.numGames / exp.numEpochs)]) * 100)) + "%\t");
                 if (exp.evaluating) { Scorer.gameWorld.wins += 1; }
             }
 

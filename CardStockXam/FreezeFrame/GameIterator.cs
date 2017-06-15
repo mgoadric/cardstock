@@ -53,9 +53,11 @@ namespace FreezeFrame
 		public GameIterator (RecycleParser.GameContext g)
 		{
 			game = g;
+            Console.Out.WriteLine("Processing declarations.");
             foreach (RecycleParser.DeclareContext declare in game.declare()){
                 VarIterator.ProcessDeclare(declare);
             }
+            Console.Out.WriteLine("Setting up game.");
 			SetupIterator.ProcessSetup(game.setup()).ExecuteAll();
 			iterStack = new Stack<Queue<IParseTree>> ();
 			iteratingSet = new HashSet<IParseTree> ();
@@ -86,23 +88,28 @@ namespace FreezeFrame
 		}
 
 		public bool ProcessSubStage(){
+            Console.WriteLine("Processing substage.");
 			var sub = CurrentNode ();
             if (sub.ChildCount > 1 && sub.GetChild(1).GetText() == "choice") { return true; }
             else if (sub is RecycleParser.StageContext){
                 //EvalGameLead(); TODO
                 var allowedToRun = ProcessStage(sub as RecycleParser.StageContext);
                 if (allowedToRun){
+                    Console.WriteLine("Is a stage.");
                     iteratingSet.Add(sub);
                 }
             }
             else if (sub is RecycleParser.MultiactionContext){
                 PopCurrentNode();
+                Console.WriteLine("Is a multiaction.");
                 StageIterator.ProcessMultiaction(sub as RecycleParser.MultiactionContext);
             }
             else if (sub is RecycleParser.Multiaction2Context){
                 PopCurrentNode();
+                Console.WriteLine("Is a multiaction2.");
                 StageIterator.ProcessMultiaction(sub as RecycleParser.Multiaction2Context);
             }
+            //setup and declare already handled
             else if (sub is RecycleParser.SetupContext){
                 PopCurrentNode();
                 //SetupIterator.ProcessSetup(sub as RecycleParser.SetupContext);
@@ -142,9 +149,9 @@ namespace FreezeFrame
 					}
 					iterStack.Push (new Queue<IParseTree> ());
 					var topLevel = iterStack.Peek ();
-					Debug.WriteLine ("Current Player: " + CardGame.Instance.CurrentPlayer ().idx);
+					Console.WriteLine ("Current Player: " + CardGame.Instance.CurrentPlayer ().idx);
 					foreach (var player in CardGame.Instance.players) {
-						Debug.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
+						Console.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
 					}
 					for (int i = 4; i < stage.ChildCount - 1; ++i) {
 						//TimeStep.Instance.treeLoc.Push(i - 4);

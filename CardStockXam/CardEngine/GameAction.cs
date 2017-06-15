@@ -226,7 +226,7 @@ namespace CardEngine {
                 endLocation = end;
             }
             else {
-                Console.WriteLine(end.name);
+                Debug.WriteLine(end.name);
                 throw new InvalidOperationException();
             }
         }

@@ -59,7 +59,6 @@
                                   (set ((current player) sto MOVED) 1)))))))))
                ;; match card(s) in pool
                (do (
-                    (set (game sto SIZE) (size (game vloc POOL)))
                     
                    (all (filter (game vloc POOL) 'PC (== (cardatt RANK 'PC)
                                                          (cardatt RANK (top ((current player) vloc TRICK))))) 'PCF
