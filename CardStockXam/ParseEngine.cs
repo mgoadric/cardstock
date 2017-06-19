@@ -12,7 +12,7 @@ using ParseTreeIterator;
 using CardStockXam;
 using Players;
 
-// understand what's going on TODO
+// add basic stats (% wins)
 public class ParseEngine
 {
     public static FreezeFrame.GameIterator currentIterator;
@@ -28,7 +28,6 @@ public class ParseEngine
         expstat = exp;
 
         Debug.AutoFlush = true;
-        var breakOnCycle = false;
         var regex = new Regex("(;;)(.*?)(\n)");
 
         if (exp.logging) {
@@ -75,10 +74,10 @@ public class ParseEngine
                 var bytes = Encoding.UTF8.GetBytes(builder.ToString());
                 fs.Write(bytes, 0, bytes.Length);
                 fs.Close();
-                Console.WriteLine("wrote " + exp.fileName + ".gv");
+                Debug.WriteLine("wrote " + exp.fileName + ".gv");
             }
             catch (Exception ex){
-                Console.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.ToString());
             }
         }
         if (exp.first){
@@ -91,198 +90,151 @@ public class ParseEngine
         int choiceCount = 0;
         var aggregator = new int[5, exp.numEpochs];
         var winaggregator = new int[exp.numEpochs];
-        var branching = new int[6, 4];
-        int curTBranch = 0;
-        int curPBranch = 0;
-        int cycleCount = 0;
 
+        int[,] playerRank = new int[5, exp.numEpochs];
+        int[,] playerFirst = new int[5, exp.numEpochs];
+       
         Stopwatch time = new Stopwatch();
         time.Start();
+        int numPlayers = 0;
 
         for (int i = 0; i < exp.numGames; ++i)
         {
             try
             {
-                Analytics.BranchingFactor.Instance = new Analytics.BranchingFactor();
-                Analytics.BinCounts.Instance = new Analytics.BinCounts();
-                Analytics.StageCount.Instance = new Analytics.StageCount();
-                Analytics.StorageValues.Instance = new Analytics.StorageValues();
-                Analytics.TimeStep.Instance = new Analytics.TimeStep();
+
 
                 System.GC.Collect();
-                bool gameBroke = false;
+
                 Dictionary<String, int> seenStates = new Dictionary<String, int>();
-               
+
                 CardEngine.CardGame.Instance = new CardEngine.CardGame();
                 var manageContext = new FreezeFrame.GameIterator(tree);
-                //manageContext.AdvanceToChoice ();
+
                 currentIterator = manageContext;
-                
-                if (exp.ai1){
+                // TODO add so can have 4 AI players
+                if (exp.ai1)
+                {
                     CardEngine.CardGame.Instance.players[0].decision = new LessThanPerfectPlayer();
                     //CardEngine.CardGame.Instance.players[0].decision = new PerfectPlayer();
                 }
-                if (exp.ai2){
+                if (exp.ai2)
+                {
                     CardEngine.CardGame.Instance.players[1].decision = new LessThanPerfectPlayer();
                     //CardEngine.CardGame.Instance.players[1].decision = new PerfectPlayer();
                 }
                 while (!manageContext.AdvanceToChoice())
                 {
                     choiceCount++;
-                    if (breakOnCycle)
-                    {
-                        var curr = CardEngine.CardGame.Instance.ToString();
-                        if (seenStates.ContainsKey(curr))
-                        {
-                            if (seenStates[curr] < 3)
-                            {
-                                seenStates[curr] += 1;
-                            }
-                            else
-                            {
-                                cycleCount++;
-                                gameBroke = true;
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            seenStates.Add(curr, 1);
-                        }
-                    }
+
                     manageContext.ProcessChoice();
-                    branching[curPBranch, curTBranch] += reportedBF;
-                    curTBranch++;
-                    if (curTBranch == 4)
-                    {
-                        curTBranch = 0;
-                        curPBranch++;
-                        if (curPBranch == 6)
-                        {
-                            curPBranch = 0;
-                        }
-                    }
 
 
                 }
-                if (!gameBroke)
+
+                if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
+                var results = ScoreIterator.ProcessScore(tree.scoring());
+                numPlayers = results.Count;
+                for (int j = 0; j < results.Count; ++j)
                 {
-                    if (!exp.evaluating) { Console.Out.WriteLine("Results: Game " + (i + 1)); }
-                    var results = ScoreIterator.ProcessScore(tree.scoring());
-                    for (int j = 0; j < results.Count; ++j)
+                    aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
+                    if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
+
+                    playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
+                    // if player was ranked first (could be win or loss)
+                    if (j == 0)
                     {
-                        aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
-                        if (!exp.evaluating) { Console.Out.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
-                        
-                        if (results[j].Item2 == 0 && j != results.Count - 1)
-                        {
-                            winaggregator[i / (exp.numGames / exp.numEpochs)]++;
-                            if (Scorer.gameWorld != null) { Scorer.gameWorld.GameOver(j); }
-                        }
+                        playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
+                    }
+					if (results[j].Item2 == 0 && j != results.Count - 1)
+                    {
+                        winaggregator[i / (exp.numGames / exp.numEpochs)]++;
+                        if (Scorer.gameWorld != null) { Scorer.gameWorld.GameOver(j); }
                     }
                 }
-                else
-                {
-                    Console.Out.WriteLine("Results:\nCycle Occurred\n");
-                }
+
                 WriteToFile("|");
-                Console.WriteLine("Finished game " + (i + 1) + " of " + exp.numGames);
+                Debug.WriteLine("Finished game " + (i + 1) + " of " + exp.numGames);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 if (exp.evaluating) { Scorer.gameWorld.compiling = false; }
-                Console.WriteLine(fileName + " failed from exception: " + e.ToString() + "\n\n\n");
+                Debug.WriteLine(fileName + " failed from exception: " + e.ToString() + "\n\n\n");
             }
         }
         time.Stop();
-        if (!exp.evaluating){
+        if (!exp.evaluating)
+        {
             Console.Out.WriteLine(time.Elapsed);
             Console.Out.WriteLine("Turns per game: " + choiceCount / (double)(exp.numGames));
-            Console.Out.WriteLine("Average Scores: ");
-            for (int i = 0; i < 5; ++i)
+            Console.Out.WriteLine("Score: ");
+            for (int i = 0; i < numPlayers; ++i)
             {
-                Console.Out.Write("Player" + (i + 1) + ":\t");
+                Console.Out.Write("Player" + i  + ":\t");
+
                 for (int j = 0; j < exp.numEpochs; j++)
                 {
                     Console.Out.Write(aggregator[i, j] / (double)(exp.numGames / exp.numEpochs) + "\t");
+
                 }
                 Console.Out.WriteLine();
             }
-            // changed to represent % win rate of player 1
-            //Console.Out.Write("Wins :\t");
+			Console.Out.WriteLine("Rank: ");
 
-            for (int j = 0; j < exp.numEpochs; j++)
-            {
-                Console.Out.Write("Player2 win percentage: " + ((double) ((winaggregator[j / (exp.numGames / exp.numEpochs)]) * 100)) + "%\t");
-                if (exp.evaluating) { Scorer.gameWorld.wins += 1; }
-            }
+			for (int i = 0; i < numPlayers; ++i)
+			{
+				Console.Out.Write("Player" + i + ":\t");
+
+				for (int j = 0; j < exp.numEpochs; j++)
+				{
+					Console.Out.Write(playerRank[i, j] / (double)(exp.numGames / exp.numEpochs) + "\t");
+				}
+				Console.Out.WriteLine();
+			}
+			Console.Out.WriteLine("First: ");
+
+			for (int i = 0; i < numPlayers; ++i)
+			{
+				Console.Out.Write("Player" + i + ":\t");
+
+				for (int j = 0; j < exp.numEpochs; j++)
+				{
+					Console.Out.Write(playerFirst[i, j] / (double)(exp.numGames / exp.numEpochs) + "\t");
+				}
+				Console.Out.WriteLine();
+			}
+
+
+            //for (int j = 0; j < exp.numEpochs; j++)
+            //{
+                
+            //    if (exp.evaluating) { Scorer.gameWorld.wins += 1; }
+            //}
 
             Console.Out.WriteLine();
-            if (breakOnCycle)
-            {
-                Console.WriteLine("Cycles:" + cycleCount);
-            }
 
-            Console.Read();
+
+           // Console.Read();
         }
-        else{
+        else
+        {
             Scorer.gameWorld.numFirstWins += winaggregator[0];
             Scorer.gameWorld.numGames += winaggregator.Sum();
-            if (exp.ai1 && !exp.ai2){
+            if (exp.ai1 && !exp.ai2)
+            {
                 Scorer.gameWorld.numAIWins += winaggregator[0]; //TODO does this do what i think it does?
                 if (winaggregator.Length > 1) { Scorer.gameWorld.numRndWins += winaggregator[1]; }
             }
-            else if (!exp.ai1 && exp.ai2){
+            else if (!exp.ai1 && exp.ai2)
+            {
                 Scorer.gameWorld.numRndWins += winaggregator[0];
                 if (winaggregator.Length > 1) { Scorer.gameWorld.numAIWins += winaggregator[1]; }
             }
         }
     }
 
-    /*****
-	 * Output suitable for use with GraphViz Dot to
-	 * see the parse tree for the game
-    public void NEWMaker(IParseTree node, string nodeName)
+    public void DOTMaker(IParseTree node, string nodeName)
     {
-        for (int i = 0; i < node.ChildCount; ++i)
-        {
-            var dontCreate = false;
-            var newNodeName = nodeName + "_" + i;
-            var contextName = node.GetChild(i).GetType().ToString().Replace("RecycleParser+", "").Replace("Context", "");
-            if (node.GetChild(i).ChildCount > 0 && contextName == "Int")
-            {
-                continue;
-            }
-            else if (node.GetChild(i).ChildCount > 0 && contextName != "Namegr" && contextName != "Name" && contextName != "Trueany")
-            {
-                continue;
-            }
-            else if (node.GetChild(i).ChildCount > 0)
-            {
-                builder.AppendLine(newNodeName + " [fillcolor=\"green\" style=filled label=\"" + node.GetChild(i).GetText() + "\"]");
-            }
-            else if (node.GetChild(i).GetText() == "(" || node.GetChild(i).GetText() == ")" || node.GetChild(i).GetText() == "," ||
-              node.GetChild(i).GetText() == "end" || node.GetChild(i).GetText() == "stage" || node.GetChild(i).GetText() == "comp" ||
-              node.GetChild(i).GetText() == "create" || node.GetChild(i).GetText() == "sto" || node.GetChild(i).GetText() == "loc" ||
-              node.GetChild(i).GetText() == "initialize" || node.GetChild(i).GetText() == "move" || node.GetChild(i).GetText() == "copy" ||
-              node.GetChild(i).GetText() == "inc" || node.GetChild(i).GetText() == "dec" || node.GetChild(i).GetText() == "shuffle" ||
-              node.GetChild(i).GetText() == "remove" ||
-              node.GetChild(i).GetText() == "choice")
-            {
-                dontCreate = true;
-            }
-            else
-            {
-                builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetText() + "\"]");
-            }
-            if (!dontCreate)
-            {
-                builder.AppendLine(nodeName + " -- " + newNodeName);
-            }
-        }
-    }*/
-
-    public void DOTMaker(IParseTree node, string nodeName){
 
         for (int i = 0; i < node.ChildCount; ++i)
         {
@@ -351,19 +303,24 @@ public class ParseEngine
         }
     }
 
-    Tuple<bool, bool> HasShuffleAndChoice(IParseTree tree){
+    Tuple<bool, bool> HasShuffleAndChoice(IParseTree tree)
+    {
         bool shuffle = false;
         bool choice = false;
-        if (tree is RecycleParser.ShuffleactionContext){
+        if (tree is RecycleParser.ShuffleactionContext)
+        {
             shuffle = true;
         }
-        else if (tree is RecycleParser.MultiactionContext){
-            if (tree.GetChild(1).GetText().Equals("choice")){
+        else if (tree is RecycleParser.MultiactionContext)
+        {
+            if (tree.GetChild(1).GetText().Equals("choice"))
+            {
                 choice = true;
             }
         }
         if (shuffle && choice) { return new Tuple<bool, bool>(shuffle, choice); }
-        for (int i = 0; i < tree.ChildCount; i++){
+        for (int i = 0; i < tree.ChildCount; i++)
+        {
             var res = HasShuffleAndChoice(tree.GetChild(i));
             shuffle |= res.Item1;
             choice |= res.Item2;
@@ -379,7 +336,8 @@ public class ParseEngine
     {
         if (expstat.logging)
         {
-            using (StreamWriter file = new StreamWriter(expstat.fileName + ".txt", true)){
+            using (StreamWriter file = new StreamWriter(expstat.fileName + ".txt", true))
+            {
                 file.WriteLine(text);
             }
         }

@@ -159,11 +159,11 @@ namespace ParseTreeIterator
 
         public static void DoAction(RecycleParser.CondactContext cond){
             if (cond.multiaction2() != null){
-                Console.WriteLine("Processing conditional multiaction.");
+                Debug.WriteLine("Processing conditional multiaction.");
                 StageIterator.ProcessMultiaction(cond.multiaction2());
             }
             else{
-                Console.WriteLine("Processing conditional action.");
+                Debug.WriteLine("Processing conditional action.");
 				ProcessAction(cond.action()).ExecuteAll();
             }
         }

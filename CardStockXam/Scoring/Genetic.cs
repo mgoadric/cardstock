@@ -140,7 +140,6 @@ namespace CardStockXam
                 var ind1 = rnd.Next(count);
                 var ind2 = rnd.Next(count);
                 int ind;
-                string add = null;
                 if (scores[ind1] > scores[ind2]) { ind = ind1; }
                 else { ind = ind2; }
                 if (toKeep.Contains(files[ind])){

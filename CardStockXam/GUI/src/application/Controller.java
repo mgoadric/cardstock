@@ -87,6 +87,7 @@ public class Controller {
                 timer = new Timer();
             }
         });
+      
     }
 
     @FXML

@@ -35,7 +35,7 @@ namespace ParseTreeIterator
 		public static GameActionCollection ProcessSetup(RecycleParser.SetupContext setupNode){
 			var ret = new GameActionCollection();
 			if (setupNode.playercreate() != null){
-                Console.WriteLine("Creating players.");
+                Debug.WriteLine("Creating players.");
 				var playerCreate = setupNode.playercreate() as RecycleParser.PlayercreateContext;
                 var numPlayers = 2;
                 if (playerCreate.@int() != null){
@@ -48,12 +48,12 @@ namespace ParseTreeIterator
 				CardGame.Instance.AddPlayers(numPlayers);
 			}
 			if (setupNode.teamcreate() != null){
-                Console.WriteLine("Creating teams.");
+                Debug.WriteLine("Creating teams.");
 				var teamCreate = setupNode.teamcreate() as RecycleParser.TeamcreateContext;
 				ProcessTeamCreate(teamCreate);
 			}
 			if (setupNode.deckcreate() != null){
-                Console.WriteLine("Creating decks.");
+                Debug.WriteLine("Creating decks.");
 				var decks = setupNode.deckcreate();
 				foreach (var deckinit in decks) {
                     ret.Add(ProcessDeck(deckinit));

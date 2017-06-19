@@ -361,7 +361,7 @@
     <None Include="games\War.pdf" />
     <None Include="games\Whist.gv" />
     <None Include="games\Whist.pdf" />
-    <None Include="games\Pairs2.gdl">
+    <None Include="games\Pairs.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="games\ContinuousPairs.gdl">

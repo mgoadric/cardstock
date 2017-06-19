@@ -22,8 +22,11 @@ namespace ParseTreeIterator
 				ret.Add(new Tuple<int,int>(working,i));
 				CardGame.Instance.CurrentPlayer ().Next();
 			}
-			ret.Sort ();
-
+			ret.Sort();
+			if (scoreMethod.GetChild(2).GetText() == "max") {
+                ret.Reverse();
+            }
+			
 			return ret;
 		}
     }

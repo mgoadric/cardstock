@@ -18,7 +18,6 @@ namespace FreezeFrame
 		bool shouldInc = true;
 		public int decisionBranch = -1;
 		public int decisionIdx = -1;
-        private Random rand;
         //public StringBuilder recorder;
 
 		public GameIterator Clone(){
@@ -53,11 +52,11 @@ namespace FreezeFrame
 		public GameIterator (RecycleParser.GameContext g)
 		{
 			game = g;
-            Console.Out.WriteLine("Processing declarations.");
+            Debug.WriteLine("Processing declarations.");
             foreach (RecycleParser.DeclareContext declare in game.declare()){
                 VarIterator.ProcessDeclare(declare);
             }
-            Console.Out.WriteLine("Setting up game.");
+            Debug.WriteLine("Setting up game.");
 			SetupIterator.ProcessSetup(game.setup()).ExecuteAll();
 			iterStack = new Stack<Queue<IParseTree>> ();
 			iteratingSet = new HashSet<IParseTree> ();
@@ -88,25 +87,25 @@ namespace FreezeFrame
 		}
 
 		public bool ProcessSubStage(){
-            Console.WriteLine("Processing substage.");
+            Debug.WriteLine("Processing substage.");
 			var sub = CurrentNode ();
             if (sub.ChildCount > 1 && sub.GetChild(1).GetText() == "choice") { return true; }
             else if (sub is RecycleParser.StageContext){
                 //EvalGameLead(); TODO
                 var allowedToRun = ProcessStage(sub as RecycleParser.StageContext);
                 if (allowedToRun){
-                    Console.WriteLine("Is a stage.");
+                    Debug.WriteLine("Is a stage.");
                     iteratingSet.Add(sub);
                 }
             }
             else if (sub is RecycleParser.MultiactionContext){
                 PopCurrentNode();
-                Console.WriteLine("Is a multiaction.");
+                Debug.WriteLine("Is a multiaction.");
                 StageIterator.ProcessMultiaction(sub as RecycleParser.MultiactionContext);
             }
             else if (sub is RecycleParser.Multiaction2Context){
                 PopCurrentNode();
-                Console.WriteLine("Is a multiaction2.");
+                Debug.WriteLine("Is a multiaction2.");
                 StageIterator.ProcessMultiaction(sub as RecycleParser.Multiaction2Context);
             }
             //setup and declare already handled
@@ -142,18 +141,18 @@ namespace FreezeFrame
 				}
 
 				if (!BooleanIterator.ProcessBoolean (stage.endcondition ().boolean ())) {
-					Console.WriteLine("Processing end of stage condition.");
+					Debug.WriteLine("Processing end of stage condition.");
 
-					//Console.WriteLine("Hit Boolean while!");
+					//Debug.WriteLine("Hit Boolean while!");
 					if (shouldInc) {
 						StageCount.Instance.IncCount (stage);
 						TimeStep.Instance.timeStep.Push (TimeStep.Instance.timeStep.Pop () + 1);
 					}
 					iterStack.Push (new Queue<IParseTree> ());
 					var topLevel = iterStack.Peek ();
-					Console.WriteLine ("Current Player: " + CardGame.Instance.CurrentPlayer ().idx);
+					Debug.WriteLine ("Current Player: " + CardGame.Instance.CurrentPlayer ().idx);
 					foreach (var player in CardGame.Instance.players) {
-						Console.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
+						Debug.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
 					}
 					for (int i = 4; i < stage.ChildCount - 1; ++i) {
 						//TimeStep.Instance.treeLoc.Push(i - 4);

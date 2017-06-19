@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using CardEngine;
 using CardStockXam.CardEngine;
-
+// move all Debug to debug
 namespace ParseTreeIterator
 {
     class VarIterator
@@ -49,14 +49,14 @@ namespace ParseTreeIterator
 
             if (filter.collection().cstorage() != null)
             {
-                Console.WriteLine("Filter: cstorage collection");
+                Debug.WriteLine("Filter: cstorage collection");
                 stor = CardIterator.ProcessLocation(filter.collection().cstorage());
                 stor2 = stor.cardList.AllCards();
                 name2 = stor.name;
             }
             else if (filter.collection().var() != null)
             {
-                Console.WriteLine("Filter: variable collection");
+                Debug.WriteLine("Filter: variable collection");
 
                 stor = Get(filter.collection().var()) as FancyCardLocation;
                 if (stor != null)
@@ -103,7 +103,7 @@ namespace ParseTreeIterator
         {
           
             if (collection.var() != null){
-				Console.WriteLine("Processing collection type: var.");
+				Debug.WriteLine("Processing collection type: var.");
                 var stor = Get(collection.var());
                 if (stor is FancyCardLocation){
                     var card = stor as FancyCardLocation;
@@ -129,32 +129,32 @@ namespace ParseTreeIterator
             }
             if (collection.cstorage() != null)
             {
-                Console.WriteLine("Processing collection type: Cstorage.");
+                Debug.WriteLine("Processing collection type: Cstorage.");
 
                 var stor = CardIterator.ProcessLocation(collection.cstorage());
                 return stor.cardList.AllCards();
             }
             else if (collection.strcollection() != null)
             {
-                Console.WriteLine("Processing collection type: string collection.");
+                Debug.WriteLine("Processing collection type: string collection.");
 
                 return ProcessStringCollection(collection.strcollection());
             }
             else if (collection.cstoragecollection() != null)
             {
-                Console.WriteLine("Processing collection type: Cstorage collection.");
+                Debug.WriteLine("Processing collection type: Cstorage collection.");
 
                 return CardIterator.ProcessCStorageCollection(collection.cstoragecollection());
             }
             else if (collection.whot() != null)
             {
-                Console.WriteLine("Processing collection type: whot.");
+                Debug.WriteLine("Processing collection type: whot.");
 
                 return CardIterator.ProcessWhot(collection.whot()).teamPlayers;
             }
             else if (collection.range() != null)
             {
-                Console.WriteLine("Processing collection type: range.");
+                Debug.WriteLine("Processing collection type: range.");
 
                 var lst = IntIterator.ProcessRange(collection.range());
                 List<object> newlst = new List<object>();
@@ -166,20 +166,20 @@ namespace ParseTreeIterator
             }
             else if (collection.filter() != null)
             {
-                Console.WriteLine("Processing collection type: filter.");
+                Debug.WriteLine("Processing collection type: filter.");
 
                 var filter = ProcessCStorageFilter(collection.filter());
                 return filter.cardList.AllCards();
             }
             else if (collection.GetText() == "player")
             {
-                Console.WriteLine("Processing collection type: players.");
+                Debug.WriteLine("Processing collection type: players.");
 
                 return CardGame.Instance.players;
             }
             else if (collection.GetText() == "team")
             {
-                Console.WriteLine("Processing collection type: team.");
+                Debug.WriteLine("Processing collection type: team.");
 				return CardGame.Instance.teams;
             }
             else if (collection.other() != null)
@@ -187,7 +187,7 @@ namespace ParseTreeIterator
                 return CardIterator.ProcessOther(collection.other());
             }
             else{//var
-				Console.WriteLine("Processing collection type: var.");
+				Debug.WriteLine("Processing collection type: var.");
 				return (IEnumerable<object>) Get(collection.GetText());
             }
             throw new NotSupportedException();
@@ -199,7 +199,7 @@ namespace ParseTreeIterator
             var ret = new List<object>();
             foreach (T t in stor)
             {
-                Console.WriteLine("Iterating over aggregation of: " + t.GetType());
+                Debug.WriteLine("Iterating over aggregation of: " + t.GetType());
                 Put(agg.var().GetText(), t);
                 var post = ProcessAggPost(agg.GetChild(4));
                 ret.Add(post);
@@ -211,7 +211,7 @@ namespace ParseTreeIterator
             // Multiaction2 & any actions are handled in processMultiaction & processAction respectively 
             if (agg.GetChild(4) is RecycleParser.CstorageContext)
             {
-                Console.WriteLine("Processing All/Any + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
+                Debug.WriteLine("Processing All/Any + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
                 var coll = new List<FancyCardLocation>();
                 foreach (object obj in ret)
                 {
@@ -223,7 +223,7 @@ namespace ParseTreeIterator
             {
                 if (agg.GetChild(4) is RecycleParser.BooleanContext)
                 {
-                    Console.WriteLine("Processing All + Boolean: " + (((RecycleParser.BooleanContext)agg.GetChild(4)).GetText()));
+                    Debug.WriteLine("Processing All + Boolean: " + (((RecycleParser.BooleanContext)agg.GetChild(4)).GetText()));
                     var all = true;
                     Debug.WriteLine(agg.GetText());
                     Debug.WriteLine("4: " + agg.GetChild(4).GetText());
@@ -237,7 +237,7 @@ namespace ParseTreeIterator
                 }
                 else if (agg.GetChild(4) is RecycleParser.RawstorageContext)
                 {
-                    Console.WriteLine("Processing All + Rawstorage: " + (((RecycleParser.RawstorageContext)agg.GetChild(4)).GetText()));
+                    Debug.WriteLine("Processing All + Rawstorage: " + (((RecycleParser.RawstorageContext)agg.GetChild(4)).GetText()));
 
                     var sum = 0;
                     foreach (object obj in ret)
@@ -252,7 +252,7 @@ namespace ParseTreeIterator
             {
                 if (agg.GetChild(4) is RecycleParser.BooleanContext)
                 {
-                    Console.WriteLine("Processing Any + Boolean: " + (((RecycleParser.BooleanContext)agg.GetChild(4)).GetText()));
+                    Debug.WriteLine("Processing Any + Boolean: " + (((RecycleParser.BooleanContext)agg.GetChild(4)).GetText()));
 
                     var all = false;
                     foreach (object obj in ret)
@@ -263,7 +263,7 @@ namespace ParseTreeIterator
                 }
                 else if (agg.GetChild(4) is RecycleParser.RawstorageContext)
                 {
-                    Console.WriteLine("Processing Any + Rawstorage: " + (((RecycleParser.RawstorageContext)agg.GetChild(4)).GetText()));
+                    Debug.WriteLine("Processing Any + Rawstorage: " + (((RecycleParser.RawstorageContext)agg.GetChild(4)).GetText()));
 
                     var lst = new List<int>();
                     foreach (object obj in ret)
@@ -282,19 +282,19 @@ namespace ParseTreeIterator
                 return (ICloneable) StageIterator.ProcessMultiaction(parseTree);
             }
             else if (parseTree is RecycleParser.ActionContext){
-                Console.WriteLine("Processing action.");
+                Debug.WriteLine("Processing action.");
                 return ActionIterator.ProcessAction(parseTree as RecycleParser.ActionContext);
             }
             else if (parseTree is RecycleParser.BooleanContext){
-                Console.WriteLine("Processing boolean.");
+                Debug.WriteLine("Processing boolean.");
                 return BooleanIterator.ProcessBoolean(parseTree as RecycleParser.BooleanContext);
             }
             else if (parseTree is RecycleParser.CstorageContext){
-                Console.WriteLine("Finding card.");
+                Debug.WriteLine("Finding card.");
                 return CardIterator.ProcessLocation(parseTree as RecycleParser.CstorageContext);
             }
             else if (parseTree is RecycleParser.CondactContext){
-                Console.WriteLine("Processing condition for conditional action(s).");
+                Debug.WriteLine("Processing condition for conditional action(s).");
                 ActionIterator.ProcessSingleDo(parseTree as RecycleParser.CondactContext);
 			
                 return null;
@@ -315,30 +315,30 @@ namespace ParseTreeIterator
         {
             if (typed.@int() != null)
             {
-                Console.WriteLine("Processing type: int");
+                Debug.WriteLine("Processing type: int");
 				return IntIterator.ProcessInt(typed.@int());
             }
             else if (typed.boolean() != null)
             {
-				Console.WriteLine("Processing type: boolean");
+				Debug.WriteLine("Processing type: boolean");
 
 				return BooleanIterator.ProcessBoolean(typed.boolean());
             }
             else if (typed.namegr() != null)
             {
-				Console.WriteLine("Processing type: namegr");
+				Debug.WriteLine("Processing type: namegr");
 
 				return typed.namegr().GetText();
             }
             else if (typed.var() != null)
             {
-				Console.WriteLine("Processing type: var");
+				Debug.WriteLine("Processing type: var");
 
 				return Get(typed.var());
             }
             else if (typed.collection() != null)
             {
-				Console.WriteLine("Processing type: collection");
+				Debug.WriteLine("Processing type: collection");
 
 				return ProcessCollection(typed.collection());
             }
@@ -350,15 +350,15 @@ namespace ParseTreeIterator
             // maybe don't need ProcessTyped ? 
             Put(let.var().GetText(), ProcessTyped(let.typed()));
             if (let.multiaction() != null){
-                Console.WriteLine("Processing let multiaction");
+                Debug.WriteLine("Processing let multiaction");
                 ret.AddRange(StageIterator.ProcessMultiaction(let.multiaction()));
             }
             else if (let.action() != null){
-                Console.WriteLine("Processing let action");
+                Debug.WriteLine("Processing let action");
                 ret.Add(ActionIterator.ProcessAction(let.action()));
             }
             else if (let.condact() != null){
-                Console.WriteLine("Processing let conditional action " + let.condact().GetText());
+                Debug.WriteLine("Processing let conditional action " + let.condact().GetText());
                 ActionIterator.ProcessSingleDo(let.condact());
             }
             Remove(let.var().GetText());

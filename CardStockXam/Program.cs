@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using CardEngine;
 using Players;
 using System.IO;
+using System.Threading;
 
 namespace CardGames
 {
@@ -9,52 +10,56 @@ namespace CardGames
     {
         public static void Main(string[] args)
         {
-            AllGames();
-
+            var p = new Program();
+            p.SingleGame("Blackjack");
         }
 
-        static void SingleGame(string game){
+        void SingleGame(string game){
 			var exp = new Experiment();
 			exp.fileName = game;
-			// System.Console.WriteLine(g.Substring(6, g.Length - 4));
-			exp.numGames = 1;
+            // System.Console.WriteLine(g.Substring(6, g.Length - 4));
+            exp.numGames = 10;
 			exp.numEpochs = 1;
 
 			exp.logging = true;
-			exp.ai1 = false;
-			exp.ai2 = false;
+            // TODO make for as many players as in game 
+            // one AI vs everyone else is helpful
+            exp.ai1 = true;
+            exp.ai2 = false;
 
 			var codeGen = new ParseEngine(exp);
 		}
 
-        static void AllGames(){
+        void AllGames(){
 			List<string> gameFiles = new List<string>();
 			string[] allFiles = System.IO.Directory.GetFiles("games/");
+
 			foreach (string s in allFiles)
 			{
 				if (s.EndsWith(".gdl"))
 				{
 					gameFiles.Add(s);
+                    
 				}
 			}
-			foreach (string g in gameFiles)
-			{
+            // TODO CardGame.Instance is a singleton ;/
+            //gameFiles.Add("Blackjack");
+            //gameFiles.Add("SaneEights");
+            //System.Threading.Tasks.Parallel.ForEach(gameFiles, SingleGame); 
+               //print stuff
+               //System.Console.WriteLine("this is a disaster" + g);
 
-				var exp = new Experiment();
 
-				string sub = g.Substring(6, g.Length - 10);
-				exp.fileName = sub;
 
-				exp.numGames = 1;
-				exp.numEpochs = 1;
 
-				exp.logging = true;
-				exp.ai1 = false;
-				exp.ai2 = false;
+                // TODO write each game to file instead of console to avoid
+                // multithreading problems 
 
-				var codeGen = new ParseEngine(exp);
-				System.Console.WriteLine(g);
-			}
+
+                //string copy = g.Substring(6, g.Length - 10);
+               // Thread myThread = new Thread(() => this.SingleGame(copy));
+                //myThread.Start();
+              
 		}
     }
 }

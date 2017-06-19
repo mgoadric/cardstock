@@ -28,7 +28,7 @@
                                ((RANK (A)) 1)
                                )
                                )
-       ;;(shuffle (game iloc STOCK))
+       (shuffle (game iloc STOCK))
        (all player 'P
             (repeat 'NUMCARDS
                 (move (top (game iloc STOCK)) (top('P hloc PILE)))))
