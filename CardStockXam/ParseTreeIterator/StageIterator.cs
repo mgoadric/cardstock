@@ -419,24 +419,24 @@ namespace ParseTreeIterator
 
         public static void ProcessChoice(RecycleParser.CondactContext[] choices)
         {
-            Console.WriteLine("Processing choice.");
+            Debug.WriteLine("Processing choice.");
             var allOptions = new List<GameActionCollection>();
             for (int i = 0; i < choices.Length; ++i)
             {
-                Console.WriteLine("in for loop");
+                Debug.WriteLine("in for loop");
                 var gacs = RecurseDo(choices[i]);
                 if (gacs.Count > 0){
-                    Console.WriteLine("gacs.count > 0");
+                    Debug.WriteLine("gacs.count > 0");
                     allOptions.AddRange(gacs);
                 }
             }
             //BranchingFactor.Instance.AddCount(allOptions.Count, CardGame.Instance.CurrentPlayer().idx);
             if (allOptions.Count != 0){
-                Console.WriteLine("processed choices");
+                Debug.WriteLine("processed choices");
                 Debug.WriteLine("Choice count:" + allOptions.Count);
                 CardGame.Instance.PlayerMakeChoice(allOptions, CardGame.Instance.CurrentPlayer().idx);
-                Console.WriteLine("player choice made");
-                Console.WriteLine(CardGame.Instance.CurrentPlayer().playerList.Count);
+                Debug.WriteLine("player choice made");
+                Debug.WriteLine(CardGame.Instance.CurrentPlayer().playerList.Count);
             }
             else{ Debug.WriteLine("NO Choice Available");}
 		}

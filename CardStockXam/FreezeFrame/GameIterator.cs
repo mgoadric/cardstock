@@ -74,7 +74,7 @@ namespace FreezeFrame
 				return true;//game over
 			}
             // TODO choices stop getting processed ? this never decrements
-            Console.WriteLine(iterStack.Count);
+            Debug.WriteLine(iterStack.Count);
 			return false;//interupted by player decision
 		}
 		public IParseTree CurrentNode(){
@@ -85,11 +85,11 @@ namespace FreezeFrame
             
 			iterStack.Peek ().Dequeue ();
 			if (iterStack.Peek ().Count == 0) {
-                Console.WriteLine("Popped current node");
+                Debug.WriteLine("Popped current node");
                 // TODO only popped here
 				iterStack.Pop ();
-                Console.WriteLine(iterStack.Peek());
-                Console.WriteLine(iterStack.Count);
+                //Console.WriteLine(iterStack.Peek());
+                Debug.WriteLine(iterStack.Count);
 			}
 
 		}
@@ -133,7 +133,7 @@ namespace FreezeFrame
 		public void ProcessChoice(){
 			var sub = CurrentNode ();
 			var choice = sub as RecycleParser.MultiactionContext;
-            Console.WriteLine("trying to process choice (in processchoice)");
+			Debug.WriteLine("trying to process choice (in processchoice)");
 			StageIterator.ProcessChoice(choice.condact());
 			PopCurrentNode ();
 		}
@@ -159,8 +159,8 @@ namespace FreezeFrame
 					}
 					iterStack.Push (new Queue<IParseTree> ());
 					var topLevel = iterStack.Peek ();
-                    Console.WriteLine ("Current Player: " + CardGame.Instance.CurrentPlayer ().idx + ", " + CardGame.Instance.players[CardGame.Instance.CurrentPlayer().idx]);
-                    Console.WriteLine("Num players (gameiterator): " + CardGame.Instance.CurrentPlayer().playerList.Count);
+                    Debug.WriteLine ("Current Player: " + CardGame.Instance.CurrentPlayer ().idx + ", " + CardGame.Instance.players[CardGame.Instance.CurrentPlayer().idx]);
+                    Debug.WriteLine("Num players (gameiterator): " + CardGame.Instance.CurrentPlayer().playerList.Count);
                     foreach (var player in CardGame.Instance.players) {
 						//Console.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
 					}
@@ -169,7 +169,7 @@ namespace FreezeFrame
 						//Debug.WriteLine (TimeStep.Instance);
 						//ProcessSubStage(stage.GetChild(i));
 						topLevel.Enqueue (stage.GetChild (i));
-                        Console.WriteLine("Child enqueued: " + stage.GetChild(i).GetText());
+                        Debug.WriteLine("Child enqueued: " + stage.GetChild(i).GetText());
 						//TimeStep.Instance.treeLoc.Pop();
 					}
 					if (iteratingSet.Contains (stage)) {

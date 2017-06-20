@@ -11,7 +11,7 @@ namespace CardGames
         public static void Main(string[] args)
         {
             var p = new Program();
-            p.SingleGame("Agram");
+            p.SingleGame("Pairs");
         }
 
         void SingleGame(string game){

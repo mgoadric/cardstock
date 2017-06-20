@@ -113,12 +113,12 @@ namespace CardEngine
         // know everyone's cards (bc need some numbers to make decisions)
 		public CardGame CloneSecret(int playerIdx){
             // can get through here (at least once)
-            Console.WriteLine("clonesecret player:" + playerIdx);
+            Debug.WriteLine("clonesecret player:" + playerIdx);
 
 			var temp = CloneCommon ();
-            Console.WriteLine("Playerlist: " + temp.CurrentPlayer().playerList.Count());
-            Console.WriteLine(playerIdx);
-            Console.WriteLine("Num players in clone secret: " + temp.players.Count());
+            Debug.WriteLine("Playerlist: " + temp.CurrentPlayer().playerList.Count());
+            Debug.WriteLine(playerIdx);
+            Debug.WriteLine("Num players in clone secret: " + temp.players.Count());
 			//Clone Source Deck and Index Cards
 			//*****************
 			HashSet<int> free = new HashSet<int>();
@@ -194,8 +194,8 @@ namespace CardEngine
 			temp.points = points.Clone ();
 
             temp.vars = CloneDictionary(vars, temp);
-            Console.WriteLine("Numplayers at end of clonesecret: " + temp.CurrentPlayer().playerList.Count);
-			Console.WriteLine("returning from clonesecret");
+            Debug.WriteLine("Numplayers at end of clonesecret: " + temp.CurrentPlayer().playerList.Count);
+			Debug.WriteLine("returning from clonesecret");
 
 			return temp;
 		}
@@ -426,9 +426,9 @@ namespace CardEngine
             // just keep choices ! just pass in choices
 			//var strDescription = SerializeGAC (choices);
 			//var json = (JObject) JsonConvert.DeserializeObject (strDescription);
-            Console.WriteLine("In player make choice");
+            Debug.WriteLine("In player make choice");
             var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices, rand, playerIdx);
-            Console.WriteLine("Executing choices");
+            Debug.WriteLine("Executing choices");
             choices[choice].ExecuteAll();
 		}
         // in lessthanperfectplayer - dependent on jobject for no reason - just needs a number,

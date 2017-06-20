@@ -15,12 +15,13 @@ namespace Players
         private static int numTests = 10; //previously 20
 
         public int NumChoices(int items, Random rand, int idx){
-            if (items == 1)
+			Console.WriteLine("AI making choice.");
+
+			if (items == 1)
 			{
 				return 0;
 			}
 			CardEngine.CardGame.preserved = CardEngine.CardGame.Instance;
-
 
 			var results = new int[items];
 			var total = new int[items];
@@ -34,13 +35,14 @@ namespace Players
 				results[item] = 0;
 				for (int i = 0; i < numTests; ++i)//number of tests for certain decision
 				{
-					Console.WriteLine("****Made Switch****");
+					Debug.WriteLine("****Made Switch**** : " + i);
+
                     // gets through clonesecret
 					CardGame.Instance = CardGame.preserved.CloneSecret(idx);
 
                     for (int j = 0; j < CardGame.Instance.players.Count; j++)
                     {
-                        Console.WriteLine("in lpp for loop:" + j);
+                        Debug.WriteLine("in lpp for loop:" + j);
                         if (j == idx) {
                             CardGame.Instance.players[j].decision = new PredictablePlayer()
                             {
@@ -54,12 +56,12 @@ namespace Players
                     }
                     
 					
-					Console.WriteLine("in lpp");
+					Debug.WriteLine("in lpp");
 
 					var preservedIterator = ParseEngine.currentIterator;
 					var cloneContext = ParseEngine.currentIterator.Clone();
 					ParseEngine.currentIterator = cloneContext;
-                    Console.WriteLine("in lpp");
+                    Debug.WriteLine("in lpp");
 					while (!cloneContext.AdvanceToChoice())
 					{
                         // caught here for sure
@@ -67,10 +69,10 @@ namespace Players
 					}
                     // TODO make sure changes to processscore didn't screw this up
                     // figure this chunk out 
-                    Console.WriteLine("after advance to choice");
+                    Debug.WriteLine("after advance to choice");
 
 					var winners = ScoreIterator.ProcessScore(ParseEngine.currentTree.scoring());
-                    Console.WriteLine("past processscore");
+                    Debug.WriteLine("past processscore");
 					total[item] = winners.Count;
 					numTotal++;
 
@@ -89,7 +91,7 @@ namespace Players
 							break;
 						}
 					}
-					Console.WriteLine("in lpp");
+					Debug.WriteLine("in lpp");
 
 					ParseEngine.currentIterator = preservedIterator;
 				}
@@ -98,7 +100,7 @@ namespace Players
 			Debug.WriteLine("End Monte");
 			//Debug.WriteLine ("***Switch Back***");
 			CardGame.Instance = CardGame.preserved;
-			Console.WriteLine("resetting game state");
+			Debug.WriteLine("resetting game state");
 
 			var typeOfGame = ParseEngine.currentTree.scoring().GetChild(2).GetText();
 			var tup = MinMaxIdx(results);
