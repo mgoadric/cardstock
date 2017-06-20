@@ -79,7 +79,8 @@ namespace ParseTreeIterator
                 }
                 else if (multiaction.GetChild(1).GetText() == "choice")
                 {
-					Debug.WriteLine("Processing multiaction choice block.");
+					Console.WriteLine("Processing multiaction choice block.");
+
 					ProcessChoice(multiaction.condact());
                 }
                 else if (multiaction.GetChild(1).GetText() == "do")
@@ -418,12 +419,14 @@ namespace ParseTreeIterator
 
         public static void ProcessChoice(RecycleParser.CondactContext[] choices)
         {
-            Debug.WriteLine("Processing choice.");
+            Console.WriteLine("Processing choice.");
             var allOptions = new List<GameActionCollection>();
             for (int i = 0; i < choices.Length; ++i)
             {
+                Console.WriteLine("in for loop");
                 var gacs = RecurseDo(choices[i]);
                 if (gacs.Count > 0){
+                    Console.WriteLine("gacs.count > 0");
                     allOptions.AddRange(gacs);
                 }
             }
@@ -433,6 +436,7 @@ namespace ParseTreeIterator
                 Debug.WriteLine("Choice count:" + allOptions.Count);
                 CardGame.Instance.PlayerMakeChoice(allOptions, CardGame.Instance.CurrentPlayer().idx);
                 Console.WriteLine("player choice made");
+                Console.WriteLine(CardGame.Instance.CurrentPlayer().playerList.Count);
             }
             else{ Debug.WriteLine("NO Choice Available");}
 		}

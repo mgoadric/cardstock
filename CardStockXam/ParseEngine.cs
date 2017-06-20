@@ -159,7 +159,7 @@ public class ParseEngine
             catch (Exception e)
             {
                 if (exp.evaluating) { Scorer.gameWorld.compiling = false; }
-                Debug.WriteLine(fileName + " failed from exception: " + e.ToString() + "\n\n\n");
+                Console.WriteLine(fileName + " failed from exception: " + e.ToString() + "\n\n\n");
             }
         }
         time.Stop();

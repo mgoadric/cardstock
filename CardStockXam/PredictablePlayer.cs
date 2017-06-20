@@ -12,12 +12,18 @@ namespace Players
         public PredictablePlayer()
         {
         }
-        public override int MakeAction(List<GameActionCollection> possibles, Random rand)
+        public override int MakeAction(List<GameActionCollection> possibles, Random rand, int idx)
         {
+            // Bad fix TODO :(
+			if (firstMove)
+			{
+				firstMove = false;
+				return toChoose;
+			}
 
             return rand.Next(0, possibles.Count);
         }
-        public override int MakeAction(JObject possibles, Random rand)
+        public override int MakeAction(JObject possibles, Random rand, int idx)
         {
             if (firstMove)
             {

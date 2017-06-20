@@ -13,12 +13,12 @@ namespace Players
 		public PerfectPlayer ()
 		{
 		}
-		public override int MakeAction(List<GameActionCollection> possibles,Random rand){
+		public override int MakeAction(List<GameActionCollection> possibles,Random rand, int idx){
 
 			return rand.Next(0,possibles.Count);
 		}
 
-		public override int MakeAction(JObject possibles, Random rand){
+		public override int MakeAction(JObject possibles, Random rand, int idx){
 			var items = (JArray)possibles ["items"];
 			CardEngine.CardGame.preserved = CardEngine.CardGame.Instance;
 

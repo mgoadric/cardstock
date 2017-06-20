@@ -31,6 +31,7 @@ namespace FreezeFrame
 				foreach (var thing in queue) {
 					newQueue.Enqueue (thing);
 				}
+
 				ret.iterStack.Push (newQueue);
 			}
 			foreach (var node in iteratingSet) {
@@ -81,10 +82,14 @@ namespace FreezeFrame
 			return ret;
 		}
 		public void PopCurrentNode(){
+            
 			iterStack.Peek ().Dequeue ();
 			if (iterStack.Peek ().Count == 0) {
+                Console.WriteLine("Popped current node");
                 // TODO only popped here
 				iterStack.Pop ();
+                Console.WriteLine(iterStack.Peek());
+                Console.WriteLine(iterStack.Count);
 			}
 
 		}
@@ -128,6 +133,7 @@ namespace FreezeFrame
 		public void ProcessChoice(){
 			var sub = CurrentNode ();
 			var choice = sub as RecycleParser.MultiactionContext;
+            Console.WriteLine("trying to process choice (in processchoice)");
 			StageIterator.ProcessChoice(choice.condact());
 			PopCurrentNode ();
 		}
@@ -153,15 +159,17 @@ namespace FreezeFrame
 					}
 					iterStack.Push (new Queue<IParseTree> ());
 					var topLevel = iterStack.Peek ();
-					Debug.WriteLine ("Current Player: " + CardGame.Instance.CurrentPlayer ().idx);
-					foreach (var player in CardGame.Instance.players) {
-						Debug.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
+                    Console.WriteLine ("Current Player: " + CardGame.Instance.CurrentPlayer ().idx + ", " + CardGame.Instance.players[CardGame.Instance.CurrentPlayer().idx]);
+                    Console.WriteLine("Num players (gameiterator): " + CardGame.Instance.CurrentPlayer().playerList.Count);
+                    foreach (var player in CardGame.Instance.players) {
+						//Console.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
 					}
 					for (int i = 4; i < stage.ChildCount - 1; ++i) {
 						//TimeStep.Instance.treeLoc.Push(i - 4);
 						//Debug.WriteLine (TimeStep.Instance);
 						//ProcessSubStage(stage.GetChild(i));
 						topLevel.Enqueue (stage.GetChild (i));
+                        Console.WriteLine("Child enqueued: " + stage.GetChild(i).GetText());
 						//TimeStep.Instance.treeLoc.Pop();
 					}
 					if (iteratingSet.Contains (stage)) {

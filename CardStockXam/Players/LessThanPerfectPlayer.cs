@@ -34,38 +34,40 @@ namespace Players
 				results[item] = 0;
 				for (int i = 0; i < numTests; ++i)//number of tests for certain decision
 				{
-					Debug.WriteLine("****Made Switch****");
+					Console.WriteLine("****Made Switch****");
                     // gets through clonesecret
 					CardGame.Instance = CardGame.preserved.CloneSecret(idx);
 
-					var flag = true;
-					foreach (var player in CardGame.Instance.players)
-					{
-						if (flag)
-						{
-							flag = false;
-							player.decision = new PredictablePlayer();
-							((PredictablePlayer)player.decision).toChoose = item;
+                    for (int j = 0; j < CardGame.Instance.players.Count; j++)
+                    {
+                        Console.WriteLine("in lpp for loop:" + j);
+                        if (j == idx) {
+                            CardGame.Instance.players[j].decision = new PredictablePlayer()
+                            {
+                                toChoose = item
+                            };
+                        }
+                         else {
+							CardGame.Instance.players[j].decision = new Players.GeneralPlayer();
 
 						}
-						else
-						{
-							player.decision = new Players.GeneralPlayer();
-						}
-					}
+                    }
+                    
+					
 					Console.WriteLine("in lpp");
 
 					var preservedIterator = ParseEngine.currentIterator;
 					var cloneContext = ParseEngine.currentIterator.Clone();
 					ParseEngine.currentIterator = cloneContext;
+                    Console.WriteLine("in lpp");
 					while (!cloneContext.AdvanceToChoice())
 					{
                         // caught here for sure
 						cloneContext.ProcessChoice();
 					}
-					// TODO make sure changes to processscore didn't screw this up
-					// figure this chunk out 
-					Console.WriteLine("in lpp");
+                    // TODO make sure changes to processscore didn't screw this up
+                    // figure this chunk out 
+                    Console.WriteLine("after advance to choice");
 
 					var winners = ScoreIterator.ProcessScore(ParseEngine.currentTree.scoring());
                     Console.WriteLine("past processscore");

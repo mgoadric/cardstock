@@ -55,7 +55,7 @@ namespace CardEngine
 			//currentPlayer.Push(new PlayerCycle(players)); //TODO call allplayers?
 		}
 		public CardGame CloneCommon(){
-			var temp = new CardGame (this.players.Count); //here, players is being initialzed as an empty list of players
+			var temp = new CardGame (); //here, players is being initialzed as an empty list of players
 			temp.DeclaredName = "Special";
             for (int idx = 0; idx < teams.Count; idx++){
                 Team orig = teamMap[teams[idx].id];
@@ -88,7 +88,7 @@ namespace CardEngine
 			}*/
 
 			//reconstruct team and player cycles
-			temp.currentPlayer.Pop();
+			//temp.currentPlayer.Pop();
 			foreach (var cycle in this.currentPlayer.Reverse()){
 				var newCycle = new PlayerCycle (temp.players);
 				newCycle.idx = cycle.idx;
@@ -113,8 +113,12 @@ namespace CardEngine
         // know everyone's cards (bc need some numbers to make decisions)
 		public CardGame CloneSecret(int playerIdx){
             // can get through here (at least once)
+            Console.WriteLine("clonesecret player:" + playerIdx);
+
 			var temp = CloneCommon ();
+            Console.WriteLine("Playerlist: " + temp.CurrentPlayer().playerList.Count());
             Console.WriteLine(playerIdx);
+            Console.WriteLine("Num players in clone secret: " + temp.players.Count());
 			//Clone Source Deck and Index Cards
 			//*****************
 			HashSet<int> free = new HashSet<int>();
@@ -190,6 +194,7 @@ namespace CardEngine
 			temp.points = points.Clone ();
 
             temp.vars = CloneDictionary(vars, temp);
+            Console.WriteLine("Numplayers at end of clonesecret: " + temp.CurrentPlayer().playerList.Count);
 			Console.WriteLine("returning from clonesecret");
 
 			return temp;
@@ -301,7 +306,7 @@ namespace CardEngine
 			for (int i = 0; i < numPlayers; ++i){
 				players.Add(new Player() { name = "p" + i });
                 AddToMap(players[i]);
-				players [i].decision = i  == 0 ? new GeneralPlayer () : new GeneralPlayer ();
+				players [i].decision = new GeneralPlayer ();
 			}
             currentPlayer.Push(new PlayerCycle(players));
 		}
@@ -421,7 +426,9 @@ namespace CardEngine
             // just keep choices ! just pass in choices
 			//var strDescription = SerializeGAC (choices);
 			//var json = (JObject) JsonConvert.DeserializeObject (strDescription);
-            var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices, rand);
+            Console.WriteLine("In player make choice");
+            var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices, rand, playerIdx);
+            Console.WriteLine("Executing choices");
             choices[choice].ExecuteAll();
 		}
         // in lessthanperfectplayer - dependent on jobject for no reason - just needs a number,
@@ -445,15 +452,7 @@ namespace CardEngine
             b.Append("]}");
             return b.ToString();
         }
-        public void PlayerMakeChoices(List<GameActionCollection> choices, int playerIdx, int numberOfChoices){
-			var temp = numberOfChoices;
-			while (temp > 0){
-				var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices,rand);
-				choices[choice].ExecuteAll();
-				choices.RemoveAt(choice);
-				--temp;
-			}
-		}
+
         public static void AddToMap(object o){
             IDictionary dict = null;
             string id = "";

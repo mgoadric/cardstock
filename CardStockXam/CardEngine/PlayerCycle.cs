@@ -15,6 +15,8 @@ namespace CardEngine{
 			playerList = clone.playerList;
 			idx = clone.idx;
 			turnEnded = clone.turnEnded;
+          
+
         }
 		public Player PeekNext(){
 			var saved = idx;
