@@ -429,8 +429,10 @@ namespace ParseTreeIterator
             }
             //BranchingFactor.Instance.AddCount(allOptions.Count, CardGame.Instance.CurrentPlayer().idx);
             if (allOptions.Count != 0){
+                Console.WriteLine("processed choices");
                 Debug.WriteLine("Choice count:" + allOptions.Count);
                 CardGame.Instance.PlayerMakeChoice(allOptions, CardGame.Instance.CurrentPlayer().idx);
+                Console.WriteLine("player choice made");
             }
             else{ Debug.WriteLine("NO Choice Available");}
 		}

@@ -10,11 +10,11 @@ namespace Players
 		public GeneralPlayer ()
 		{
 		}
-		public virtual int MakeAction(List<GameActionCollection> possibles,Random rand){
+        public virtual int MakeAction(List<GameActionCollection> possibles,Random rand, int idx){
 
 			return rand.Next(0,possibles.Count);
 		}
-		public virtual int MakeAction(JObject possibles, Random rand){
+		public virtual int MakeAction(JObject possibles, Random rand,int idx){
 			var items = (JArray)possibles ["items"];
 			ParseEngine.reportedBF = items.Count;
 			return rand.Next (0,items.Count);

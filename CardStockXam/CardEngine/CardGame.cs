@@ -107,9 +107,14 @@ namespace CardEngine
 
 			return temp;
 		}
-
+        // TODO likely what is causing some games to crash 
+        // keeps your hand and visible cards the same, but all other hidden cards
+        // are randomized (for each possible run) - so that AI players don't just
+        // know everyone's cards (bc need some numbers to make decisions)
 		public CardGame CloneSecret(int playerIdx){
+            // can get through here (at least once)
 			var temp = CloneCommon ();
+            Console.WriteLine(playerIdx);
 			//Clone Source Deck and Index Cards
 			//*****************
 			HashSet<int> free = new HashSet<int>();
@@ -133,6 +138,7 @@ namespace CardEngine
 					}
 				}
 			}
+
 			temp.gameStorage = gameStorage.Clone ();
 			temp.tableCards = tableCards.Clone ();
 			foreach (var bin in tableCards.Keys()) {
@@ -146,6 +152,7 @@ namespace CardEngine
 					}
 				}
 			}
+
 			List<int> vals = free.ToList<int> ();
 			for (int p = 0; p < players.Count; ++p) {
 				foreach (var loc in players[p].cardBins.Keys()) {
@@ -163,6 +170,7 @@ namespace CardEngine
 					}
 				}
 			}
+
 			foreach (var bin in tableCards.Keys()) {
 				if (bin.StartsWith ("{hidden}")) {
 					foreach (var card in tableCards[bin].AllCards()) {
@@ -178,10 +186,13 @@ namespace CardEngine
 					}
 				}
 			}
+
 			temp.points = points.Clone ();
 
             temp.vars = CloneDictionary(vars, temp);
-            return temp;
+			Console.WriteLine("returning from clonesecret");
+
+			return temp;
 		}
 		public CardGame Clone(){
 			var temp = CloneCommon ();
@@ -407,11 +418,17 @@ namespace CardEngine
 			return new IntAction(players[playerIdx].storage,bucket,value);
 		}
 		public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
-			var strDescription = SerializeGAC (choices);
-			var json = (JObject) JsonConvert.DeserializeObject (strDescription);
-            var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(json, rand);
+            // just keep choices ! just pass in choices
+			//var strDescription = SerializeGAC (choices);
+			//var json = (JObject) JsonConvert.DeserializeObject (strDescription);
+            var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices, rand);
             choices[choice].ExecuteAll();
 		}
+        // in lessthanperfectplayer - dependent on jobject for no reason - just needs a number,
+        // not a list of serialized gameactions (because it just needs the count to make 
+        // decisions)
+
+
         public String SerializeGAC(List<GameActionCollection> list){
             StringBuilder b = new StringBuilder();
             b.Append("{ items:[");

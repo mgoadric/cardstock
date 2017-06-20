@@ -72,6 +72,8 @@ namespace FreezeFrame
 			if (iterStack.Count == 0) {
 				return true;//game over
 			}
+            // TODO choices stop getting processed ? this never decrements
+            Console.WriteLine(iterStack.Count);
 			return false;//interupted by player decision
 		}
 		public IParseTree CurrentNode(){
@@ -81,6 +83,7 @@ namespace FreezeFrame
 		public void PopCurrentNode(){
 			iterStack.Peek ().Dequeue ();
 			if (iterStack.Peek ().Count == 0) {
+                // TODO only popped here
 				iterStack.Pop ();
 			}
 
