@@ -282,12 +282,15 @@ namespace ParseTreeIterator
                                 //        in another stack tree)
                                 //      "'C", iteritem (key, value)
 
+
+
                                 foreach (object item in collection)
                                 {
                                     stackTree.Push(agg.var().GetText());
                                     stackTree.Push(currentTree.GetChild(4));
                                     stackTree.Push(agg.var().GetText(), item);
                                 }
+
                             }
                         }
                         else if (currentTree is RecycleParser.LetContext)

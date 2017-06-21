@@ -17,12 +17,12 @@ branching factor, average game length, game complexity, etc.
 
 ## Requirements
 
-* Xamarin Studio (https://www.xamarin.com/download)
+* Visual Studio (tested on Mac in https://www.visualstudio.com/vs/visual-studio-mac/)
 
 ## Setup
 
 1. Open "CardStockXam" project.
 2. Write up your game in RECYCLE.
-3. Create an instance of the Experiment class.
-4. Pass the above object to ParseEngine.
+3. Alter the Program.cs class to create an Experiment object for your game.
+4. Run the program in either Release or Debug mode.
 5. Choose "Release Mode" to only see the results, or "Debug Mode" to see all game actions (better logs in the future).
