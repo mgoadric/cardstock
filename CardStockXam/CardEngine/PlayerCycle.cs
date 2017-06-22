@@ -15,7 +15,7 @@ namespace CardEngine{
 			playerList = clone.playerList;
 			idx = clone.idx;
 			turnEnded = clone.turnEnded;
-          
+            
 
         }
 		public Player PeekNext(){
@@ -46,6 +46,7 @@ namespace CardEngine{
 			return ret;
 		}
 		public void Next(){
+            System.Console.WriteLine("CYCLE current is " + idx);
             turnEnded = false;
 			if (queuedNext != -1){
 				idx = queuedNext;
@@ -57,6 +58,7 @@ namespace CardEngine{
             if (idx >= playerList.Count){
                 idx = 0;
 			}
+            System.Console.WriteLine("CYCLE up next is " + idx);
             CardGame.Instance.WriteToFile("t:" + Current().name);
         }
 		public void Previous(){
@@ -74,6 +76,11 @@ namespace CardEngine{
         }
 		public void SetNext(int index){
 			queuedNext = index;
+            System.Console.WriteLine("CYCLE Queing up " + queuedNext);
+		}
+        public void RevertNext(int index){
+			queuedNext = index;
+			System.Console.WriteLine("CYCLE Reverting to " + queuedNext);
 		}
 		public void EndTurn(){
 			turnEnded = true;

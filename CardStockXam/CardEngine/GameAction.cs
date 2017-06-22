@@ -250,7 +250,9 @@ namespace CardEngine {
             if (endLocation.nonPhysical ||
                 !endLocation.name.Contains("{mem}") ||
                 endLocation.name.Contains("{MAX}")  ||
-                endLocation.name.Contains("{MIN}")) {
+                endLocation.name.Contains("{MIN}") ||
+                endLocation.name.Contains("{filter}") ||
+                endLocation.name.Contains("{UNION}")) {
                 throw new InvalidOperationException(); }
 
         }
@@ -357,7 +359,7 @@ namespace CardEngine {
 
         public override void Undo()
         {
-            playerCycle.SetNext(former);
+            playerCycle.RevertNext(former);
         }
 		public override string ToString()
 		{

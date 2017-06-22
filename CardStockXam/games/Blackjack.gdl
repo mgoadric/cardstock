@@ -53,13 +53,17 @@
      ))
                
      ;; bidding
-     ;;(stage player
-         ;;(end (all player 'P (> ('P sto BET) 0)))
+     (stage player
+         (end (all player 'P (> ('P sto BET) 0)))
          ;;TODO
+         (choice (
+                  (any (range 1..5) 'B
+                       (set ((current player) sto BET) 'B))
+         ))
          ;;(choice (
          ;;   (set ((current player) sto BET) (any (range (1) ((current player) sto CHIPS))))
          ;;))
-     ;;)
+     )
       
       ;; players get cards until FINISHED or BUSTED
       
@@ -74,7 +78,7 @@
              (do (
                 (move (top (game iloc STOCK)) 
                       (top ((current player) iloc HAND)))
-                (set ((current player) sto BET) (*(size((current player) iloc HAND)) 10))
+               ;; (set ((current player) sto BET) (*(size((current player) iloc HAND)) 10))
                 (cycle next current)
             )))
             

@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using CardEngine;
 using Newtonsoft.Json;
@@ -15,6 +15,7 @@ namespace Players
         private static int numTests = 10; //previously 20
 
         public int NumChoices(int items, Random rand, int idx){
+            ParseEngine.expstat.logging = false;
 			Debug.WriteLine("AI making choice. items: " + items);
 
 			if (items == 1)
@@ -125,6 +126,8 @@ namespace Players
 				Scorer.gameWorld.Lead(CardGame.Instance.currentPlayer.Peek().idx).Add(max);
 
 			}
+            ParseEngine.expstat.logging = true;
+            Console.WriteLine("AI Finished.");
 			if (typeOfGame == "min")
 			{
 				return tup.Item1;
