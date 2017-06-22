@@ -427,8 +427,18 @@ namespace CardEngine
 			//var strDescription = SerializeGAC (choices);
 			//var json = (JObject) JsonConvert.DeserializeObject (strDescription);
             Debug.WriteLine("In player make choice");
-            var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices, rand, playerIdx);
+			Debug.WriteLine("Num choices: " + choices.Count());
+            /*foreach (GameActionCollection c in choices)
+            {
+               Debug.WriteLine("Choices: " + c);
+            }*/
+			Debug.WriteLine("Player turn: " + CardGame.Instance.CurrentPlayer().idx);
+
+
+			var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices, rand, playerIdx);
             Debug.WriteLine("Executing choices");
+            Debug.WriteLine("Num choices: " + choices.Count());
+            Debug.WriteLine("Choice: " + choice);
             choices[choice].ExecuteAll();
 		}
         // in lessthanperfectplayer - dependent on jobject for no reason - just needs a number,

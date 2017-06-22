@@ -35,6 +35,7 @@ namespace Players
 						if (flag) {
 							flag = false;
 							player.decision = new PredictablePlayer ();
+                            Debug.WriteLine("Predictable player choice set: " + item);
 							((PredictablePlayer)player.decision).toChoose = item;
 
 						} else {

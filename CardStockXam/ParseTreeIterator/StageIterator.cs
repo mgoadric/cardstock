@@ -79,7 +79,7 @@ namespace ParseTreeIterator
                 }
                 else if (multiaction.GetChild(1).GetText() == "choice")
                 {
-					Console.WriteLine("Processing multiaction choice block.");
+					Debug.WriteLine("Processing multiaction choice block.");
 
 					ProcessChoice(multiaction.condact());
                 }
@@ -262,14 +262,14 @@ namespace ParseTreeIterator
                                          
                                             var newtree = stackTree.Copy();
                                             stackTrees.Push(newtree);
-                                            Debug.WriteLine("pushed item: " + item);
+                                            Console.WriteLine("pushed non-first any item: " + item);
                                             stackAct.Push(new LoopAction(vartext, item, newtree.level));
                                         }
 
                                     }
                                     // push first item to be processed (on current
                                     // Stack of game actions )
-                                    Debug.WriteLine("pushed first item: " + firstItem);
+                                    Debug.WriteLine("pushed first any item: " + firstItem);
                                     stackTree.level++;
                                     stackAct.Push(new LoopAction(vartext, firstItem, stackTree.level));
                                 }
@@ -305,7 +305,7 @@ namespace ParseTreeIterator
                             stackTree.Push(currentTree.GetChild(4));
                             stackTree.Push(let.var().GetText(), item);*/
 
-
+                            Debug.WriteLine("pushed let context");
 
                             VarIterator.Put(let.var().GetText(), item);
                             stackTree.Push(currentTree.GetChild(4));
@@ -318,8 +318,9 @@ namespace ParseTreeIterator
 
 							var actions = ActionIterator.ProcessAction(currentTree as RecycleParser.ActionContext);
                             foreach (GameAction action in actions)
-                            {
-                                stackAct.Push(action);
+							{
+                                Debug.WriteLine("pushed action");
+								stackAct.Push(action);
                                 action.TempExecute();
                             }
                         }
@@ -350,6 +351,8 @@ namespace ParseTreeIterator
                     // add everythign but loop actions to coll
                     if (!(act is LoopAction))
                     {
+                        Debug.WriteLine(act);
+                        Debug.WriteLine("Adding non-loop action to collection.");
                         coll.Add(act);
                     }
                 }
@@ -422,10 +425,14 @@ namespace ParseTreeIterator
 
         public static void ProcessChoice(RecycleParser.CondactContext[] choices)
         {
+            Debug.WriteLine("Player turn: " + CardGame.Instance.CurrentPlayer().idx);
             Debug.WriteLine("Processing choice.");
             var allOptions = new List<GameActionCollection>();
             for (int i = 0; i < choices.Length; ++i)
             {
+                Debug.WriteLine("choice info: " + choices[i].GetType() + choices[i].GetText());
+                // PROBLEM! TODO when gets through for loop here without pushing any actions (specifically actions)
+                //  then throws off number of choices, indexing choices[1] becomes impossible. 
                 Debug.WriteLine("in for loop");
                 var gacs = RecurseDo(choices[i]);
                 if (gacs.Count > 0){

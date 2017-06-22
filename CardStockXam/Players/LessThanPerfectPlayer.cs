@@ -15,7 +15,7 @@ namespace Players
         private static int numTests = 10; //previously 20
 
         public int NumChoices(int items, Random rand, int idx){
-			Console.WriteLine("AI making choice.");
+			Debug.WriteLine("AI making choice. items: " + items);
 
 			if (items == 1)
 			{
@@ -27,9 +27,9 @@ namespace Players
 			var total = new int[items];
 			double[] wrs = new double[items];
 			Debug.WriteLine("Start Monte");
-            // CAUGHT IN LOOP HERE TODO 
 			for (int item = 0; item < items; ++item)
 			{
+                Debug.WriteLine("iterating over item: " + item);
 				double numWon = 0;
 				int numTotal = 0;
 				results[item] = 0;
@@ -42,11 +42,16 @@ namespace Players
 
                     for (int j = 0; j < CardGame.Instance.players.Count; j++)
                     {
+                        
                         Debug.WriteLine("in lpp for loop:" + j);
                         if (j == idx) {
+							Debug.WriteLine("Player turn: " + CardGame.Instance.CurrentPlayer().idx);
+
+							Debug.WriteLine("Predictable player choice set: " + item);
+
                             CardGame.Instance.players[j].decision = new PredictablePlayer()
                             {
-                                toChoose = item
+							toChoose = item
                             };
                         }
                          else {

@@ -96,8 +96,10 @@
                     (move (top ((current player) vloc HAND))
                           (top (game vloc DISCARD))))
             )))
+     
+            (do (
             (move (top (game iloc STOCK))
-                  (top ((current player) vloc HAND)))
+                  (top ((current player) vloc HAND)))))
        ))
          
          ;; if pair, end the round

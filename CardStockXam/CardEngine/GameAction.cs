@@ -21,7 +21,17 @@ namespace CardEngine {
                 gameColl.Undo();
             }
         }
-    }
+		public override string ToString()
+		{
+            string toReturn = "";
+			foreach (var g in this)
+			{
+                toReturn += g.ToString();
+			}
+            return toReturn;
+		}
+
+	}
     public abstract class GameAction {
         public bool actual = true;
         public bool complete;
@@ -39,11 +49,14 @@ namespace CardEngine {
         public String Serialize() {
             return "";
         }
+       
+
     }
     public class FancyCardMoveAction : GameAction {
         public FancyCardLocation startLocation;
         public FancyCardLocation endLocation;
         public CardCollection owner;
+        public bool actual;
         public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end) {
             if (start.name != null) {
                 if (start.name.Contains("{mem}") && !start.actual) {
@@ -61,6 +74,7 @@ namespace CardEngine {
             startLocation = start;
             endLocation = end;
         }
+
         public override void Execute() {
             try {
                 if (startLocation.Count() != 0) {
@@ -74,7 +88,10 @@ namespace CardEngine {
                     //
 
                     Card cardToMove = startLocation.Remove();
-
+                    if (startLocation.actual) {
+                        
+                        actual = true;
+                    }
                     var prefix = "M:";
                     if (!actual) { prefix = "N:"; }
                     if (cardToMove.owner != null) {
@@ -109,14 +126,24 @@ namespace CardEngine {
         public override void Undo()
         {
             if (complete) {
+                Debug.WriteLine("Undoing FancyCardMoveAction. Putting back in: " + startLocation.name); 
                 var cardToMove = endLocation.Remove();
                 startLocation.Add(cardToMove);
+                if (actual) {
+                    owner.Add(cardToMove);
+                }
                 cardToMove.owner = owner;
             }
             else {
                 Debug.WriteLine("move has not been executed yet");
                 throw new NotSupportedException();
             }
+        }
+        public override string ToString()
+        {
+            return "FancyCardMoveAction: StartLocation: "
+                                                         + startLocation.name + "; EndLocation: " + endLocation.name;
+            
         }
     }
     public class ShuffleAction : GameAction
@@ -145,7 +172,13 @@ namespace CardEngine {
                 locations.Add(c);
             }
         }
+		public override string ToString()
+		{
+            return "ShuffleAction. Location: " + locations.name;
+		}
     }
+
+
     public class TurnAction : GameAction {
         public TurnAction() { }
 
@@ -154,6 +187,10 @@ namespace CardEngine {
         public override void Undo() {
 
         }
+		public override string ToString()
+		{
+            return "TurnAction";
+		}
     }
     public class TeamCreateAction : GameAction {
         private RecycleParser.TeamcreateContext teamcreate;
@@ -170,6 +207,10 @@ namespace CardEngine {
         {
             throw new NotImplementedException();
         }
+		public override string ToString()
+		{
+            return "TeamCreateAction: " + teamcreate.GetText();
+		}
     }
     public class InitializeAction : GameAction {
         CardCollection location;
@@ -195,6 +236,10 @@ namespace CardEngine {
                 location.Add(c);
             }
         }
+		public override string ToString()
+		{
+            return "InitializeAction: " + "Location: " + location.name + "; Cards: " + location.AllCards();
+		}
     }
     public class FancyCardCopyAction : GameAction {
         FancyCardLocation startLocation;
@@ -218,6 +263,12 @@ namespace CardEngine {
         {
             endLocation.Remove();
         }
+		public override string ToString()
+		{
+            return "FancyCardCopyAction: Starting location: " + startLocation.name 
+                                                                             + "; Ending location: " + endLocation.name;
+                                                                           
+		}
     }
     public class FancyRemoveAction : GameAction {
         FancyCardLocation endLocation;
@@ -238,6 +289,10 @@ namespace CardEngine {
         {
             throw new NotImplementedException();
         }
+		public override string ToString()
+		{
+            return "FancyRemoveAction: To be removed: " + endLocation.name;
+		}
     }
     public class IntAction : GameAction {
 
@@ -278,6 +333,10 @@ namespace CardEngine {
                 throw new UnauthorizedAccessException();
             }
         }
+		public override string ToString()
+		{
+            return "IntAction: value: " + value.ToString();
+		}
     }
     public class NextAction : GameAction
     {
@@ -300,6 +359,10 @@ namespace CardEngine {
         {
             playerCycle.SetNext(former);
         }
+		public override string ToString()
+		{
+            return "NextAction: Next player: " + idx.ToString();
+		}
     }
     public class SetPlayerAction : GameAction
     {
@@ -320,6 +383,10 @@ namespace CardEngine {
         {
             CardGame.Instance.CurrentPlayer().SetPlayer(former);
         }
+		public override string ToString()
+		{
+            return "SetPlayerAction: Set player: " + idx.ToString();
+		}
     }
 
     public class LoopAction : GameAction{
@@ -342,5 +409,9 @@ namespace CardEngine {
         {
             throw new Exception();
         }
+		public override string ToString()
+		{
+            return "LoopAction: " + var;
+		}
     }
 }
