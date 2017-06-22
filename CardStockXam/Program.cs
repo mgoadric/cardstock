@@ -11,14 +11,14 @@ namespace CardGames
         public static void Main(string[] args)
         {
             var p = new Program();
-            p.SingleGame("ContinuousPairs");
+            p.SingleGame("LostCities");
         }
 
         void SingleGame(string game){
 			var exp = new Experiment();
 			exp.fileName = game;
             // System.Console.WriteLine(g.Substring(6, g.Length - 4));
-            exp.numGames = 101;
+            exp.numGames = 1;
 			exp.numEpochs = 1;
 
 			exp.logging = true;

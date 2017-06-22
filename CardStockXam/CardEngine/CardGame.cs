@@ -268,6 +268,7 @@ namespace CardEngine
                 }
                 else if (o is GameActionCollection) //TODO what do i do here?
                 {
+                    Console.WriteLine("You're copying a GameActionCollection???");
                     var coll = o as GameActionCollection;
                     var newcoll = new GameActionCollection();
                     foreach (GameAction ac in coll)
@@ -286,7 +287,24 @@ namespace CardEngine
                     var t = teamMap[(o as Team).id];
                     ret.Add(key, t);
                 }
-                else { Debug.WriteLine("Error: object " + o.ToString() + " is  type " + o.GetType()); }
+                else if (o is string[]) 
+                {
+                    string[] str = new string[(o as string[]).Length];
+                    str = (string[])(o as string[]).Clone();
+
+                    ret.Add(key, str);
+                }
+                else if (o is List<Card>) 
+                {
+                    List<Card> l = new List<Card>();
+                    foreach (Card c in o as List<Card>){
+                        var cardCopy = c.Clone();
+                        l.Add(cardCopy);
+                    }
+                    ret.Add(key, l);
+                    
+                }
+                else { Console.WriteLine("Error: object " + o.ToString() + " is  type " + o.GetType()); }
             }
             /*Console.WriteLine("original:");
             foreach (object o in original){

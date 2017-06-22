@@ -247,7 +247,9 @@ namespace ParseTreeIterator
                                         if (first)
                                         {
                                             firstItem = item;
-                                            VarIterator.Put(vartext, firstItem);
+											Console.WriteLine("Put " + firstItem + "in " + vartext);
+
+											VarIterator.Put(vartext, firstItem);
                                             first = false;
                                         }
                                         else
@@ -306,7 +308,7 @@ namespace ParseTreeIterator
                             stackTree.Push(let.var().GetText(), item);*/
 
                             Debug.WriteLine("pushed let context");
-
+                            Console.WriteLine("Put " + item + "in " + let.var().GetText());
                             VarIterator.Put(let.var().GetText(), item);
                             stackTree.Push(currentTree.GetChild(4));
                             stackTree.level++;
@@ -335,11 +337,14 @@ namespace ParseTreeIterator
                         if (current.item != null)
                         {
                             Debug.WriteLine("Adding var in RecurseDo: " + current.varContext);
-                            VarIterator.Put(current.varContext, current.item);
+                            Console.WriteLine("Put " + current.item + "in " + current.varContext);
+
+							VarIterator.Put(current.varContext, current.item);
                         }
                         else
                         {
-                            Debug.WriteLine("Removing var in RecurseDo: " + current.varContext);
+                            Console.WriteLine("Removing var in RecurseDo: " + current.varContext);
+
                             VarIterator.Remove(current.varContext);
                         }
                     }
@@ -377,7 +382,7 @@ namespace ParseTreeIterator
                 {
                     var loop = stackAct.Pop() as LoopAction;
                     currentLevel = loop.level;
-                    Debug.WriteLine("pop & remove : " + loop.item);
+                    Console.WriteLine("pop & remove : " + loop.item);
 
                     VarIterator.Remove(loop.var);
                 }
@@ -401,7 +406,9 @@ namespace ParseTreeIterator
                         Debug.WriteLine("peek + add : " + loop.item);
                         if (loop.level == currentLevel)
                         {
-                            VarIterator.Put(loop.var, loop.item);
+							Console.WriteLine("Put " + loop.item + "in " + loop.var);
+
+							VarIterator.Put(loop.var, loop.item);
                             unwinding = false;
                         }
                         else

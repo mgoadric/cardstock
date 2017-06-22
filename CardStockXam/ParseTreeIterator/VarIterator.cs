@@ -17,6 +17,7 @@ namespace ParseTreeIterator
         }
         public static object Get(String text){
             if (CardGame.Instance.vars.ContainsKey(text)){
+                
                 return CardGame.Instance.vars[text];
             }
             Debug.WriteLine("Failure");
@@ -24,12 +25,13 @@ namespace ParseTreeIterator
         }
         public static void Put(string k, Object v){
             CardGame.Instance.vars[k] = v;
-            //Debug.WriteLine("putting key " + k + " for " + v);
+           // Console.WriteLine("putting key " + k + " for " + v);
         }
         public static void Remove(string k){
             if (!CardGame.Instance.vars.ContainsKey(k)) {
                 throw new KeyNotFoundException();
             }
+            Console.WriteLine("Removing item from dictionary: " + k + " " + CardGame.Instance.vars[k]);
             CardGame.Instance.vars.Remove(k);
         }
         public static FancyCardLocation ProcessCStorageFilter(RecycleParser.FilterContext filter)
