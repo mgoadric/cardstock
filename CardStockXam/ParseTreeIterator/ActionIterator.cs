@@ -33,6 +33,7 @@ namespace ParseTreeIterator
                     int reward = IntIterator.ProcessInt(award.@int());
                     var iter = award.subaward();
                     foreach (RecycleParser.SubawardContext i in iter) {
+                        // TODO Is this working properly? I don't think so!
                         key += i.namegr()[0].GetText() + ",";
                         if (i.namegr().Length > 1) {
                             value += i.namegr()[1].GetText() + ",";
