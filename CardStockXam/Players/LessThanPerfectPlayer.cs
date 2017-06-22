@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿﻿﻿using System;
 using System.Collections.Generic;
 using CardEngine;
 using Newtonsoft.Json;
@@ -20,6 +20,7 @@ namespace Players
 
 			if (items == 1)
 			{
+                ParseEngine.expstat.logging = true;
 				return 0;
 			}
 			CardEngine.CardGame.preserved = CardEngine.CardGame.Instance;
@@ -127,7 +128,7 @@ namespace Players
 
 			}
             ParseEngine.expstat.logging = true;
-            Console.WriteLine("AI Finished.");
+            Debug.WriteLine("AI Finished.");
 			if (typeOfGame == "min")
 			{
 				return tup.Item1;

@@ -264,7 +264,7 @@ namespace ParseTreeIterator
                                          
                                             var newtree = stackTree.Copy();
                                             stackTrees.Push(newtree);
-                                            Console.WriteLine("pushed non-first any item: " + item);
+                                            Debug.WriteLine("pushed non-first any item: " + item);
                                             stackAct.Push(new LoopAction(vartext, item, newtree.level));
                                         }
 
