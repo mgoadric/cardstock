@@ -2,8 +2,8 @@
    (declare 5 'HANDSIZE)
    (declare 20 'NUMCARDS)
    (declare 12 'MAXSIZE)
-   (declare (ONE, TWO, THREE, FOUR) 'PLOCS)
-   (declare (ONE, TWO, THREE) 'TLOCS)
+   (declare (ONE) 'PLOCS)
+   (declare (ONE) 'TLOCS)
    (setup
       (create players 2)
       (create teams (0) (1))
@@ -44,9 +44,8 @@
               (== (size (game iloc STOCK)) 0)))
      (do (
           ((== (size ((current player) iloc HAND)) 0) ;; if hand is empty, refill hand (only if last card not played to reserve!!)
-           (do (
-           ((>= (size (game iloc STOCK)) 'HANDSIZE)
-            (repeat 'HANDSIZE
+           ((<= (- 'HANDSIZE (size ((current player) iloc HAND))) (size (game iloc STOCK)))
+            (repeat (- 'HANDSIZE (size ((current player) iloc HAND)))
                     (move (top (game iloc STOCK)) (top ((current player) iloc HAND)))))
                            
            ;; if next player needs cards & stock < 'HANDSIZE
@@ -58,7 +57,7 @@
                             (move (top (game iloc STOCK)) (top ((current player) iloc HAND)))))
                    ((>= 'SIZE 0)
                     (repeat (- 'HANDSIZE (size ((next player) iloc HAND)))
-                            (move (top (game iloc STOCK)) (top ((current player) iloc HAND))))))))))))
+                            (move (top (game iloc STOCK)) (top ((current player) iloc HAND))))))))))
                              
          
      ))

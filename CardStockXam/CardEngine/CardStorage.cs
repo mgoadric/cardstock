@@ -88,7 +88,7 @@ namespace CardEngine{
 		public abstract void Shuffle();
 		public CardStorage container {get; set;}
         public abstract override string ToString();
-        public abstract CardCollection Clone();
+        public abstract CardCollection ShallowCopy();
 		public void Shuffle(List<Card> list)  
 		{  
 		    Random rng = new Random();  
@@ -105,7 +105,7 @@ namespace CardEngine{
 	
 	public class CardListCollection : CardCollection{
         public List<Card> cards = new List<Card>();
-        public override CardCollection Clone()
+        public override CardCollection ShallowCopy()
         {
             return new CardListCollection()
             {

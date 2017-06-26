@@ -15,7 +15,9 @@ namespace Players
         private static int numTests = 10; //previously 20
 
         public int NumChoices(int items, Random rand, int idx){
-            ParseEngine.expstat.logging = false;
+			Console.WriteLine("Passing new choice to LPP");
+
+			ParseEngine.expstat.logging = false;
 			Debug.WriteLine("AI making choice. items: " + items);
 
 			if (items == 1)

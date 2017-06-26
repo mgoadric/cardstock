@@ -43,6 +43,10 @@ namespace CardEngine
 		public PointsStorage points = new PointsStorage();
         public Dictionary<String, object> vars = new Dictionary<string, object>();
 
+
+        // TODO should have card map
+        //  public static Dictionary 
+        public static Dictionary<string, Card> fancyCardMap = new Dictionary<string, Card>();
         public static Dictionary<string, FancyCardLocation> fancyCardLocMap = new Dictionary<string, FancyCardLocation>();
         public static Dictionary<string, FancyRawStorage> fancyRawStorMap = new Dictionary<string, FancyRawStorage>();
         public static Dictionary<string, Player> playerMap = new Dictionary<string, Player>();
@@ -107,7 +111,7 @@ namespace CardEngine
 
 			return temp;
 		}
-        // TODO likely what is causing some games to crash 
+       
         // keeps your hand and visible cards the same, but all other hidden cards
         // are randomized (for each possible run) - so that AI players don't just
         // know everyone's cards (bc need some numbers to make decisions)
@@ -128,6 +132,7 @@ namespace CardEngine
 				temp.sourceDeck.Add (sourceDeck[i].Clone ());
 				free.Add (i);
 			}
+           
 			for (int p = 0; p < players.Count; ++p) {
 				foreach (var loc in players[p].cardBins.Keys()) {
 					if (!loc.StartsWith ("{hidden}") || p == playerIdx) {
@@ -142,13 +147,14 @@ namespace CardEngine
 					}
 				}
 			}
-
+       
 			temp.gameStorage = gameStorage.Clone ();
 			temp.tableCards = tableCards.Clone ();
 			foreach (var bin in tableCards.Keys()) {
 				if (!bin.StartsWith ("{hidden}")) {
 					foreach (var card in tableCards[bin].AllCards()) {
 						var toAdd = temp.sourceDeck [cardIdxs [card]];
+                        toAdd.owner = temp.tableCards[bin];
 						temp.tableCards [bin].Add (toAdd);
 						if (!bin.StartsWith ("{mem}")) {
 							free.Remove (cardIdxs [card]);
@@ -156,7 +162,7 @@ namespace CardEngine
 					}
 				}
 			}
-
+          
 			List<int> vals = free.ToList<int> ();
 			for (int p = 0; p < players.Count; ++p) {
 				foreach (var loc in players[p].cardBins.Keys()) {
@@ -184,6 +190,7 @@ namespace CardEngine
 						vals [picked] = last;
 
 						var toAdd = temp.sourceDeck [vals[vals.Count - 1]];
+                        toAdd.owner = temp.tableCards[bin];
 						temp.tableCards [bin].Add (toAdd);
 						
 						vals.RemoveAt (vals.Count - 1);
@@ -249,8 +256,12 @@ namespace CardEngine
                 else if (o is bool) { ret.Add(key, (bool)o); }
                 else if (o is string) { ret.Add(key, (string)o); }
                 else if (o is Card) {
-                    var c = (o as Card).Clone();
-                    Debug.WriteLine("In card.... Collin should fix this");
+                    // same question here? TODO
+                    //var c = fancyCardMap[(o as Card).attributes.Key];
+                    var save = (o as Card);
+                    Card c = save.Clone();
+                    c.owner = fancyCardLocMap[save.owner.loc.name].cardList;
+
                     //instead
                     //find card in same location
                     //add that card instead of c
@@ -298,8 +309,11 @@ namespace CardEngine
                 {
                     List<Card> l = new List<Card>();
                     foreach (Card c in o as List<Card>){
-                        var cardCopy = c.Clone();
-                        l.Add(cardCopy);
+                        Card copy = c.Clone();
+					
+						copy.owner = fancyCardLocMap[c.owner.loc.name].cardList;
+                      
+                        l.Add(c);
                     }
                     ret.Add(key, l);
                     
@@ -499,6 +513,14 @@ namespace CardEngine
             else if (o is Team){
                 dict = teamMap;
                 id = (o as Team).id;
+                // TODO changed here - what should id be to make it generalized??????
+            //} else if (o is Card) {
+            //     dict = fancyCardMap;
+            //    Console.WriteLine((o as Card).attributes.Key);
+                //id = (o as Card).attributes.Key;
+                // should be suit + rank? but not always exists...
+                // should be 
+                //id = (o as Card).ReadAttributes(
             }
             else { Debug.WriteLine("unknown type in AddToMap: " + o.GetType()); }
             if (!dict.Contains(id)) { dict.Add(id, o); }

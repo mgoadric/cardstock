@@ -31,7 +31,6 @@ namespace ParseTreeIterator
             if (!CardGame.Instance.vars.ContainsKey(k)) {
                 throw new KeyNotFoundException();
             }
-            Console.WriteLine("Removing item from dictionary: " + k + " " + CardGame.Instance.vars[k]);
             CardGame.Instance.vars.Remove(k);
         }
         public static FancyCardLocation ProcessCStorageFilter(RecycleParser.FilterContext filter)
@@ -70,7 +69,7 @@ namespace ParseTreeIterator
                 else
                 {
                     stor2 = Get(filter.collection().var()) as List<Card>;
-                    name2 = "blah";
+                    name2 = "FilteredCardListWithoutName";
                 }
             }
             else
@@ -90,7 +89,7 @@ namespace ParseTreeIterator
             {
                 cardList = cList,
                 nonPhysical = true,
-                name = name2 + "{filter}"
+                name = name2 + "{filter}" + filter.boolean().GetText(),
             };
             fancy.cardList.loc = fancy;
             CardGame.AddToMap(fancy);
@@ -394,12 +393,13 @@ namespace ParseTreeIterator
                 var loc = ret as FancyCardLocation;
                 if (loc.locIdentifier != "-1")
                 {
-                    return loc.Clone();
+                    return loc.ShallowCopy();
                 }
             }
             else if (ret is Card){
                 var c = ret as Card;
-                var loc = c.owner.loc.Clone();                
+                Console.WriteLine(c);
+                var loc = c.owner.loc.ShallowCopy();                
                 loc.setLocId(c);
                 return loc;
             }

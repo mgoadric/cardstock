@@ -14,7 +14,7 @@ namespace CardGames
             p.SingleGame("Hearts");
         }
 
-        void SingleGame(string game){
+        void SingleGame(string game) {
 			var exp = new Experiment();
 			exp.fileName = game;
             // System.Console.WriteLine(g.Substring(6, g.Length - 4));
@@ -30,7 +30,7 @@ namespace CardGames
 			var codeGen = new ParseEngine(exp);
 		}
 
-        void AllGames(){
+        void AllGames() {
 			List<string> gameFiles = new List<string>();
 			string[] allFiles = System.IO.Directory.GetFiles("games/");
 

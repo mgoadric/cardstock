@@ -6,7 +6,7 @@
   (create players 'NUMP)
   (create teams (0) (1))
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN,
-                                               J, Q, K, A))
+                                               J, Q, K))
                                           (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                                  (BLACK (SUIT (SPADES, CLUBS)))
                                                  )))

@@ -14,14 +14,13 @@ namespace CardEngine{
         }
 
 
-        public FancyCardLocation Clone()
+        public FancyCardLocation ShallowCopy()
         {
-
             var loc = new FancyCardLocation()
             {
-                cardList = cardList.Clone(),
-                locIdentifier = (string) locIdentifier.Clone(),
-                name = (string) name.Clone(),
+                cardList = cardList.ShallowCopy(),
+                locIdentifier = String.Copy(locIdentifier),
+                name = String.Copy(name) + " - Copy",
                 actual = actual,
                 nonPhysical = nonPhysical
             };

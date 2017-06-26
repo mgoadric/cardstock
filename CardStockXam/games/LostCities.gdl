@@ -29,7 +29,7 @@
    ;; Stages of the game
    
    (stage player
-      (end (== (game sto ROUNDS) 3))
+      (end (== (game sto ROUNDS) 1))
       (do ( 
         (shuffle (game iloc STOCK))
         (all player 'P (repeat 8 (move (top (game iloc STOCK))
