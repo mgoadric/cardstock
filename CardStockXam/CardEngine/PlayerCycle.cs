@@ -11,10 +11,10 @@ namespace CardEngine{
             var p = pList[0];
             CardGame.Instance.WriteToFile("t:" + playerList[idx].name);
         }
-		public PlayerCycle(PlayerCycle clone){
-			playerList = clone.playerList;
-			idx = clone.idx;
-			turnEnded = clone.turnEnded;
+        public PlayerCycle(PlayerCycle source){
+			playerList = source.playerList;
+			idx = source.idx;
+			turnEnded = source.turnEnded;
             
 
         }
@@ -76,11 +76,11 @@ namespace CardEngine{
         }
 		public void SetNext(int index){
 			queuedNext = index;
-            //System.Console.WriteLine("CYCLE Queing up " + queuedNext);
+            System.Console.WriteLine("CYCLE Queing up " + queuedNext);
 		}
-        public void RevertNext(int index){
-			queuedNext = index;
-			//System.Console.WriteLine("CYCLE Reverting to " + queuedNext);
+        public void RevertNext(){
+			queuedNext = -1;
+			System.Console.WriteLine("CYCLE Reverting to " + idx);
 		}
 		public void EndTurn(){
 			turnEnded = true;

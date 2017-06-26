@@ -344,7 +344,7 @@ namespace CardEngine {
     {
         private PlayerCycle playerCycle;
         private int idx;
-        private int former;
+        private int former = -1;
 
         public NextAction(PlayerCycle playerCycle, int idx) {
             this.playerCycle = playerCycle;
@@ -353,13 +353,21 @@ namespace CardEngine {
 
         public override void Execute()
         {
-            former = CardGame.Instance.players.IndexOf(playerCycle.PeekNext());
+            // someone already in the queue
+            if (playerCycle.queuedNext != -1) {
+                former = playerCycle.queuedNext;
+			} 
             playerCycle.SetNext(idx);
         }
 
         public override void Undo()
         {
-            playerCycle.RevertNext(former);
+            if (former != -1)
+            {
+                playerCycle.SetNext(former);
+            } else {
+                playerCycle.RevertNext();
+            }
         }
 		public override string ToString()
 		{
