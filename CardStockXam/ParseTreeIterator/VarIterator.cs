@@ -398,7 +398,6 @@ namespace ParseTreeIterator
             }
             else if (ret is Card){
                 var c = ret as Card;
-                Console.WriteLine(c);
                 var loc = c.owner.loc.ShallowCopy();                
                 loc.setLocId(c);
                 return loc;
