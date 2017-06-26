@@ -12,7 +12,7 @@
                  
    ;; Stages of the game
    (stage player
-      (end (any player 'P (>= ('P sto SCORE) 1)))
+      (end (any player 'P (>= ('P sto SCORE) 1))) ;; ONE ROUND ONLY, NOT THE FULL 100
       (do (
          (repeat all
              (move (top (game vloc DISCARD)) 

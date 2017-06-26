@@ -318,7 +318,7 @@ namespace ParseTreeIterator
             {
                 if (cardatt.namegr() != null)
                 {
-                    Console.WriteLine("Att1 is " + cardatt.GetText());
+                    Debug.WriteLine("Att1 is " + cardatt.GetText());
                     return cardatt.GetText();
                 }
                 else if (cardatt.var() != null && cardatt.ChildCount == 1)
@@ -336,19 +336,19 @@ namespace ParseTreeIterator
                     {
                         if (cardatt.namegr() != null)
                         {
-                            Console.WriteLine("Att2 is " + card.ReadAttribute(cardatt.namegr().GetText()));
+                            Debug.WriteLine("Att2 is " + card.ReadAttribute(cardatt.namegr().GetText()));
                             return card.ReadAttribute(cardatt.namegr().GetText());
                         }
                         else
                         {
                             var str = VarIterator.ProcessStringVar(cardatt.var());
-                            Console.WriteLine("Att3 is " + card.ReadAttribute(str));
+                            Debug.WriteLine("Att3 is " + card.ReadAttribute(str));
                             return card.ReadAttribute(str);
                         }
                     }
                 }
             }
-            Console.WriteLine("Why is this empty?");
+            Debug.WriteLine("Empty Attribute, no cards found");
 			//throw new NotSupportedException();
 			return "";
         }
