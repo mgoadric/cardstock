@@ -312,33 +312,45 @@ namespace ParseTreeIterator
                 return fancy;
             }
         }
-        public static string ProcessEitherCardatt(IParseTree att)
-        {
-            return ProcessCardatt(att as RecycleParser.CardattContext);
-        }
         public static string ProcessCardatt(RecycleParser.CardattContext cardatt)
         {
-            if (cardatt.namegr() != null)
+            if (cardatt.ChildCount == 1)
             {
-                return cardatt.GetText();
-            }
-            else if (cardatt.var() != null && cardatt.ChildCount == 1)
-            {
-                return VarIterator.ProcessStringVar(cardatt.var());
+                if (cardatt.namegr() != null)
+                {
+                    Console.WriteLine("Att1 is " + cardatt.GetText());
+                    return cardatt.GetText();
+                }
+                else if (cardatt.var() != null && cardatt.ChildCount == 1)
+                {
+                    return VarIterator.ProcessStringVar(cardatt.var());
+                }
             }
             else
             {
                 var loc = ProcessCard(cardatt.card());
-                if (cardatt.namegr() != null)
+                if (loc.cardList.Count > 0)
                 {
-                    return loc.Get().ReadAttribute(cardatt.namegr().GetText());
-                }
-                else
-                {
-                    var str = VarIterator.ProcessStringVar(cardatt.var());
-                    return loc.Get().ReadAttribute(str);
+                    var card = loc.Get();
+                    if (card != null)
+                    {
+                        if (cardatt.namegr() != null)
+                        {
+                            Console.WriteLine("Att2 is " + card.ReadAttribute(cardatt.namegr().GetText()));
+                            return card.ReadAttribute(cardatt.namegr().GetText());
+                        }
+                        else
+                        {
+                            var str = VarIterator.ProcessStringVar(cardatt.var());
+                            Console.WriteLine("Att3 is " + card.ReadAttribute(str));
+                            return card.ReadAttribute(str);
+                        }
+                    }
                 }
             }
+            Console.WriteLine("Why is this empty?");
+			//throw new NotSupportedException();
+			return "";
         }
         public static object ProcessWho(RecycleParser.WhoContext who)
         {

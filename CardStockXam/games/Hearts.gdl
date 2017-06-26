@@ -20,8 +20,8 @@
          (remember (top (filter (game iloc STOCK) 'H (== (cardatt SUIT 'H) HEARTS)))
                                                          (top (game mem TRUMP)))
          (put points 'SCORE (
-                               ;;((SUIT (cardatt SUIT (top (game mem TRUMP)))) 1) ;; SHOULD WORK BUT DOESNT?????
-                               ((SUIT (HEARTS)) 1)
+                               ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 1) ;; SHOULD WORK BUT DOESNT?????
+                               ;;((SUIT (HEARTS)) 1)
                                ((RANK (Q)) (SUIT (SPADES)) 13)
                                ))
          (shuffle (game iloc STOCK))

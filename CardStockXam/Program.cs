@@ -11,7 +11,7 @@ namespace CardGames
         public static void Main(string[] args)
         {
             var p = new Program();
-            p.SingleGame("LostCities");
+            p.SingleGame("Hearts");
         }
 
         void SingleGame(string game){

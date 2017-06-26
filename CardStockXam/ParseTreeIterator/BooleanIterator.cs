@@ -68,8 +68,8 @@ namespace ParseTreeIterator
 				}
 			}
 			else if (boolNode.attrcomp() != null){
-				var str1 = ProcessAtt(boolNode.attrcomp().cardatt(0));
-				var str2 = ProcessAtt(boolNode.attrcomp().cardatt(1));
+				var str1 = CardIterator.ProcessCardatt(boolNode.attrcomp().cardatt(0));
+				var str2 = CardIterator.ProcessCardatt(boolNode.attrcomp().cardatt(1));
 				if (boolNode.attrcomp().EQOP().GetText() == "=="){
                     return str1 == str2;
 				}
@@ -102,33 +102,6 @@ namespace ParseTreeIterator
                 return (bool) VarIterator.ProcessAgg(boolNode.agg());
             }
             throw new NotSupportedException();
-		}
-		public static string ProcessAtt(RecycleParser.CardattContext cAtt){
-			if (cAtt.ChildCount == 1){
-                if (cAtt.namegr() != null){
-                    return cAtt.GetText();
-                }
-                else{
-                    return VarIterator.ProcessStringVar(cAtt.var());
-                }
-			}
-			else{
-				var loc = CardIterator.ProcessCard(cAtt.card());
-                if (loc.cardList.Count > 0){
-                    var card = loc.Get();
-                    if (card != null){
-                        if (cAtt.namegr() != null){
-                            return card.ReadAttribute(cAtt.namegr().GetText());
-                        }
-                        else
-                        {
-                            var temp = VarIterator.ProcessStringVar(cAtt.var());
-                            return card.ReadAttribute(temp);
-                        }
-                    }
-                }		
-			}
-            return "";
 		}
 		
 	}
