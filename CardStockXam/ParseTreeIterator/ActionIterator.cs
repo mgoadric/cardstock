@@ -36,12 +36,12 @@ namespace ParseTreeIterator
                         // TODO Is this working properly? I don't think so!
                         key += i.namegr()[0].GetText() + ",";
                         if (i.namegr().Length > 1) {
-							Console.WriteLine("*** Found a namegr...)" + i.namegr()[1].GetText());
+							Debug.WriteLine("*** Found a namegr...)" + i.namegr()[1].GetText());
 
 							value += i.namegr()[1].GetText() + ",";
                         }
                         else {
-                            Console.WriteLine("*** Card Att parsing...)");
+                            Debug.WriteLine("*** Card Att parsing...)");
                             value += CardIterator.ProcessCardatt(i.cardatt()) + ",";
                         }
                     }
