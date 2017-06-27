@@ -1,4 +1,4 @@
-﻿﻿﻿using System;
+﻿﻿﻿﻿using System;
 using System.Collections.Generic;
 using CardEngine;
 using Newtonsoft.Json;
@@ -18,7 +18,7 @@ namespace Players
 			Console.WriteLine("Passing new choice to LPP");
 
 			ParseEngine.expstat.logging = false;
-			Debug.WriteLine("AI making choice. items: " + items);
+			Console.WriteLine("AI making choice. items: " + items);
 
 			if (items == 1)
 			{
@@ -33,7 +33,7 @@ namespace Players
 			Debug.WriteLine("Start Monte");
 			for (int item = 0; item < items; ++item)
 			{
-                Debug.WriteLine("iterating over item: " + item);
+                Console.WriteLine("iterating over item: " + item);
 				double numWon = 0;
 				int numTotal = 0;
 				results[item] = 0;
@@ -51,7 +51,7 @@ namespace Players
                         if (j == idx) {
 							Debug.WriteLine("Player turn: " + CardGame.Instance.CurrentPlayer().idx);
 
-							Debug.WriteLine("Predictable player choice set: " + item);
+							Console.WriteLine("Predictable player choice set: " + item);
 
                             CardGame.Instance.players[j].decision = new PredictablePlayer()
                             {

@@ -18,6 +18,7 @@ namespace CardEngine {
         {
             foreach (var gameColl in this)
             {
+                Console.WriteLine("Undoing actions in gameActionCollection" + gameColl);
                 gameColl.Undo();
             }
         }
@@ -368,6 +369,8 @@ namespace CardEngine {
             } else {
                 playerCycle.RevertNext();
             }
+            //Console.WriteLine("Reverting: " + former);
+         
         }
 		public override string ToString()
 		{

@@ -263,14 +263,14 @@ namespace ParseTreeIterator
                                          
                                             var newtree = stackTree.Copy();
                                             stackTrees.Push(newtree);
-                                            Debug.WriteLine("pushed non-first any item: " + item);
+                                            Console.WriteLine("pushed non-first any item: " + item);
                                             stackAct.Push(new LoopAction(vartext, item, newtree.level));
                                         }
 
                                     }
                                     // push first item to be processed (on current
                                     // Stack of game actions )
-                                    Debug.WriteLine("pushed first any item: " + firstItem);
+                                    Console.WriteLine("pushed first any item: " + firstItem);
                                     stackTree.level++;
                                     stackAct.Push(new LoopAction(vartext, firstItem, stackTree.level));
                                 }
@@ -310,6 +310,7 @@ namespace ParseTreeIterator
                             VarIterator.Put(let.var().GetText(), item);
                             stackTree.Push(currentTree.GetChild(4));
                             stackTree.level++;
+                            Console.WriteLine("Pushing loop action" + item);
                             stackAct.Push(new LoopAction(let.var().GetText(), item, stackTree.level));
                         }
                         else if (currentTree is RecycleParser.ActionContext)
@@ -319,7 +320,8 @@ namespace ParseTreeIterator
 							var actions = ActionIterator.ProcessAction(currentTree as RecycleParser.ActionContext);
                             foreach (GameAction action in actions)
 							{
-                                Debug.WriteLine("pushed action");
+                                // TODO where cycle actions are pushed 
+                                Console.WriteLine("pushed action" + action);
 								stackAct.Push(action);
                                 action.TempExecute();
                             }
@@ -360,7 +362,9 @@ namespace ParseTreeIterator
 
                 while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction))
                 {
+                    
                     var temp = stackAct.Pop();
+                    Console.WriteLine("Popping non-loop action off (first time)" + temp);
                     temp.Undo();
                 }
                 if (coll.Count > 0)
@@ -391,6 +395,7 @@ namespace ParseTreeIterator
 
                     while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction))
                     {
+                        Console.WriteLine("popping off non-loop action (second time)" + stackAct.Peek());
                         stackAct.Pop().Undo();
                     }
                     if (stackAct.Count > 0)

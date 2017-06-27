@@ -55,7 +55,9 @@
      ;; bidding
      (stage player
          (end (all player 'P (> ('P sto BET) 0)))
-         ;;TODO
+      
+       ;;TODO
+         
          (choice (
                   (any (range 1..5) 'B
                        (set ((current player) sto BET) 'B))
@@ -79,7 +81,9 @@
                 (move (top (game iloc STOCK)) 
                       (top ((current player) iloc HAND)))
                ;; (set ((current player) sto BET) (*(size((current player) iloc HAND)) 10))
-                (cycle next current)
+                ((or (< (sum ((current player) iloc HAND) using 'POINTSHIGH) 22)
+                 (< (sum ((current player) iloc HAND) using 'POINTSLOW) 22))
+                (cycle next current))
             )))
             
             ((or (< (sum ((current player) iloc HAND) using 'POINTSHIGH) 22)
@@ -100,9 +104,11 @@
                  (dec ((current player) sto CHIPS) ((current player) sto BET))
                  (set ((current player) sto BET) 0)
                  (set ((current player) sto FINISHED) 1)
+                 
            )))
           ))
-       )
+         )
+       
       
        (do (
             (all player 'P
