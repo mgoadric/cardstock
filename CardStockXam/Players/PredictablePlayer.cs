@@ -19,7 +19,7 @@ namespace Players
 			{
 				firstMove = false;
                 System.Diagnostics.Debug.WriteLine("here is choice: " + toChoose);
-                System.Console.WriteLine("here is choice: " + toChoose);
+                System.Diagnostics.Debug.WriteLine("here is choice: " + toChoose);
 				return toChoose;
 			}
 

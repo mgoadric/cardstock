@@ -43,10 +43,11 @@ namespace ParseTreeIterator
 						ProcessMultiaction(stage.GetChild(i));
 						TimeStep.Instance.treeLoc.Pop();
 					}
-					if (stage.GetChild(2).GetText() == "player"){
+                    string text = stage.GetChild(2).GetText();
+					if (text == "player"){
 						CardGame.Instance.CurrentPlayer().Next();
 					}
-					else if (stage.GetChild(2).GetText() == "team"){
+					else if (text == "team"){
 						CardGame.Instance.CurrentTeam().Next();
 					}
 					
@@ -263,14 +264,14 @@ namespace ParseTreeIterator
                                          
                                             var newtree = stackTree.Copy();
                                             stackTrees.Push(newtree);
-                                            Console.WriteLine("pushed non-first any item: " + item);
+                                            Debug.WriteLine("pushed non-first any item: " + item);
                                             stackAct.Push(new LoopAction(vartext, item, newtree.level));
                                         }
 
                                     }
                                     // push first item to be processed (on current
                                     // Stack of game actions )
-                                    Console.WriteLine("pushed first any item: " + firstItem);
+                                    Debug.WriteLine("pushed first any item: " + firstItem);
                                     stackTree.level++;
                                     stackAct.Push(new LoopAction(vartext, firstItem, stackTree.level));
                                 }
@@ -310,7 +311,7 @@ namespace ParseTreeIterator
                             VarIterator.Put(let.var().GetText(), item);
                             stackTree.Push(currentTree.GetChild(4));
                             stackTree.level++;
-                            Console.WriteLine("Pushing loop action" + item);
+                            Debug.WriteLine("Pushing loop action" + item);
                             stackAct.Push(new LoopAction(let.var().GetText(), item, stackTree.level));
                         }
                         else if (currentTree is RecycleParser.ActionContext)
@@ -321,7 +322,7 @@ namespace ParseTreeIterator
                             foreach (GameAction action in actions)
 							{
                                 // TODO where cycle actions are pushed 
-                                Console.WriteLine("pushed action" + action);
+                                Debug.WriteLine("pushed action" + action);
 								stackAct.Push(action);
                                 action.TempExecute();
                             }
@@ -364,7 +365,7 @@ namespace ParseTreeIterator
                 {
                     
                     var temp = stackAct.Pop();
-                    Console.WriteLine("Popping non-loop action off (first time)" + temp);
+                    Debug.WriteLine("Popping non-loop action off (first time)" + temp);
                     temp.Undo();
                 }
                 if (coll.Count > 0)
@@ -395,7 +396,7 @@ namespace ParseTreeIterator
 
                     while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction))
                     {
-                        Console.WriteLine("popping off non-loop action (second time)" + stackAct.Peek());
+                        Debug.WriteLine("popping off non-loop action (second time)" + stackAct.Peek());
                         stackAct.Pop().Undo();
                     }
                     if (stackAct.Count > 0)

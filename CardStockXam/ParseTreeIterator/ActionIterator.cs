@@ -104,7 +104,9 @@ namespace ParseTreeIterator
 
         private static GameAction CycleAction(RecycleParser.CycleactionContext cycle)
         {
-            if (cycle.GetChild(1).GetText() == "next")
+            string text1 = cycle.GetChild(1).GetText();
+            string text2 = cycle.GetChild(2).GetText();
+            if (text1 == "next")
             {
                 //Set next player
                 if (cycle.owner() != null)
@@ -112,20 +114,20 @@ namespace ParseTreeIterator
                     var idx = ProcessOwner(cycle.owner());
                     return new NextAction(CardGame.Instance.CurrentPlayer(), idx);
                 }
-                else if (cycle.GetChild(2).GetText() == "next")
+                else if (text2 == "next")
                 {
                     return new NextAction(CardGame.Instance.CurrentPlayer(), CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekNext()));
                 }
-                else if (cycle.GetChild(2).GetText() == "current")
+                else if (text2 == "current")
                 {
                     return new NextAction(CardGame.Instance.CurrentPlayer(), CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().Current()));
                 }
-                else if (cycle.GetChild(2).GetText() == "previous")
+                else if (text2 == "previous")
                 {
                     return new NextAction(CardGame.Instance.CurrentPlayer(), CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekPrevious()));
                 }
             }
-            else if (cycle.GetChild(1).GetText() == "current")
+            else if (text1 == "current")
             {
                 //Set next player
                 if (cycle.owner() != null)
@@ -133,15 +135,15 @@ namespace ParseTreeIterator
                     var idx = ProcessOwner(cycle.owner());
                     return new SetPlayerAction(idx);
                 }
-                else if (cycle.GetChild(2).GetText() == "next")
+                else if (text2 == "next")
                 {
                     return new SetPlayerAction(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekNext()));
                 }
-                else if (cycle.GetChild(2).GetText() == "current")
+                else if (text2 == "current")
                 {
                     return new SetPlayerAction(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().Current()));
                 }
-                else if (cycle.GetChild(2).GetText() == "previous")
+                else if (text2 == "previous")
                 {
                     return new SetPlayerAction(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekPrevious()));
                 }

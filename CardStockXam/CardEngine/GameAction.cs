@@ -18,7 +18,7 @@ namespace CardEngine {
         {
             foreach (var gameColl in this)
             {
-                Console.WriteLine("Undoing actions in gameActionCollection" + gameColl);
+                Debug.WriteLine("Undoing actions in gameActionCollection" + gameColl);
                 gameColl.Undo();
             }
         }

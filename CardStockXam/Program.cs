@@ -11,15 +11,15 @@ namespace CardGames
         public static void Main(string[] args)
         {
             var p = new Program();
-            p.SingleGame("Blackjack");
+            p.AllGames();
         }
 
         void SingleGame(string game) {
 			var exp = new Experiment();
 			exp.fileName = game;
             // System.Console.WriteLine(g.Substring(6, g.Length - 4));
-            exp.numGames = 101;
-			exp.numEpochs = 1;
+            exp.numGames = 100;
+			exp.numEpochs = 10;
 
 			exp.logging = true;
             // TODO make for as many players as in game 
@@ -42,6 +42,9 @@ namespace CardGames
                     
 				}
 			}
+            foreach (string g in gameFiles) {
+                SingleGame(g.Substring(6, g.Length - 10));
+            }
 
             // TODO CardGame.Instance is a singleton ;/
             //gameFiles.Add("Blackjack");

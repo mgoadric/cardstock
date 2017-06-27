@@ -78,12 +78,13 @@ namespace ParseTreeIterator
             }
             foreach (Card card in stor2)
             {
-                Put(filter.var().GetText(), card);
+                string text = filter.var().GetText()
+                Put(text, card);
                 if (BooleanIterator.ProcessBoolean(filter.boolean()))
                 {
                     cList.Add(card);
                 }
-                Remove(filter.var().GetText());
+                Remove(text);
             }
             var fancy = new FancyCardLocation()
             {
@@ -128,6 +129,7 @@ namespace ParseTreeIterator
                     return stor as List<object>;
                 }
             }
+            string text = collection.GetText();
             if (collection.cstorage() != null)
             {
                 Debug.WriteLine("Processing collection type: Cstorage.");
@@ -172,13 +174,13 @@ namespace ParseTreeIterator
                 var filter = ProcessCStorageFilter(collection.filter());
                 return filter.cardList.AllCards();
             }
-            else if (collection.GetText() == "player")
+            else if (text == "player")
             {
                 Debug.WriteLine("Processing collection type: players.");
 
                 return CardGame.Instance.players;
             }
-            else if (collection.GetText() == "team")
+            else if (text == "team")
             {
                 Debug.WriteLine("Processing collection type: team.");
 				return CardGame.Instance.teams;

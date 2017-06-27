@@ -8,6 +8,7 @@ namespace CardStockXam.Scoring.Heuristics
 {
     class Reasonable : Heuristic //criteria that must be true for games
     {
+        
         public override double Get(World w)
         {
             if (w.compiling && w.hasShuffle && w.hasChoice){

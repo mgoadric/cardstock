@@ -4,6 +4,7 @@ namespace CardStockXam.Scoring.Heuristics
 {
     class GameLength : Heuristic
     {
+        // Anna should fix this 
         int minLength = 5; //TODO
         int maxLength = 100; //TODO, idk what right number is
         int divisor = 25; //TODO this either

@@ -368,15 +368,16 @@ namespace ParseTreeIterator
                 return loc.Get().owner.container.owner;
             }
             else{
-                if (who.GetChild(1).GetText() == "current")
+                string text = who.GetChild(1).GetText();
+                if (text == "current")
                 {
                     return CardGame.Instance.CurrentPlayer().Current();
                 }
-                else if (who.GetChild(1).GetText() == "next")
+                else if (text == "next")
                 {
                     return CardGame.Instance.CurrentPlayer().PeekNext();
                 }
-                else if (who.GetChild(1).GetText() == "previous")
+                else if (text == "previous")
                 {
                     return CardGame.Instance.CurrentPlayer().PeekPrevious();
                 }
@@ -392,15 +393,16 @@ namespace ParseTreeIterator
                 return ProcessWhop(who.teamp().whop()).team;
             }
             else{
-                if (who.GetChild(1).GetText() == "current")
+                string text = who.GetChild(1).GetText();
+                if (text == "current")
                 {
                     return CardGame.Instance.CurrentPlayer().Current().team;
                 }
-                else if (who.GetChild(1).GetText() == "next")
+                else if (text == "next")
                 {
                     return CardGame.Instance.CurrentPlayer().PeekNext().team;
                 }
-                else if (who.GetChild(1).GetText() == "previous")
+                else if (text == "previous")
                 {
                     return CardGame.Instance.CurrentPlayer().PeekPrevious().team;
                 }

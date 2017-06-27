@@ -18,7 +18,7 @@ namespace Players
 			Console.WriteLine("Passing new choice to LPP");
 
 			ParseEngine.expstat.logging = false;
-			Console.WriteLine("AI making choice. items: " + items);
+			Debug.WriteLine("AI making choice. items: " + items);
 
 			if (items == 1)
 			{
@@ -33,9 +33,8 @@ namespace Players
 			Debug.WriteLine("Start Monte");
 			for (int item = 0; item < items; ++item)
 			{
-                Console.WriteLine("iterating over item: " + item);
+                Debug.WriteLine("iterating over item: " + item);
 				double numWon = 0;
-				int numTotal = 0;
 				results[item] = 0;
 				for (int i = 0; i < numTests; ++i)//number of tests for certain decision
 				{
@@ -51,11 +50,11 @@ namespace Players
                         if (j == idx) {
 							Debug.WriteLine("Player turn: " + CardGame.Instance.CurrentPlayer().idx);
 
-							Console.WriteLine("Predictable player choice set: " + item);
+							Debug.WriteLine("Predictable player choice set: " + item);
 
                             CardGame.Instance.players[j].decision = new PredictablePlayer()
                             {
-							toChoose = item
+						     	toChoose = item
                             };
                         }
                          else {
@@ -83,7 +82,7 @@ namespace Players
 					var winners = ScoreIterator.ProcessScore(ParseEngine.currentTree.scoring());
                     Debug.WriteLine("past processscore");
 					total[item] = winners.Count;
-					numTotal++;
+					
 
 					for (int j = 0; j < winners.Count; ++j)
 					{
@@ -92,6 +91,7 @@ namespace Players
 						{
                             // add your rank to the results of this choice
 							results[item] += j;
+
 							int div = winners.Count - j;
                             // adds a smaller number to numWon as 
                             // you come ahead of more players 
@@ -104,7 +104,10 @@ namespace Players
 
 					ParseEngine.currentIterator = preservedIterator;
 				}
-				wrs[item] = (double)numWon / numTotal;
+                Debug.WriteLine("Aggregated rank: " + results[item]);
+				wrs[item] = (double)numWon / numTests;
+                //Console.WriteLine(wrs[item]);
+
 			}
 			Debug.WriteLine("End Monte");
 			//Debug.WriteLine ("***Switch Back***");
@@ -131,14 +134,11 @@ namespace Players
 			}
             ParseEngine.expstat.logging = true;
             Debug.WriteLine("AI Finished.");
-			if (typeOfGame == "min")
-			{
-				return tup.Item1;
-			}
-			else
-			{
-				return tup.Item2;
-			}
+
+            // This just returns item1 because ProcessScore returns a sorted list 
+            // where the winner is rank 0 for either min/max games so don't change this.
+            Debug.WriteLine("Item1: " + tup.Item1);
+            return tup.Item1;
         }
 
         public LessThanPerfectPlayer()

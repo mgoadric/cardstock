@@ -13,31 +13,33 @@ namespace ParseTreeIterator
 	public class BooleanIterator{
         public static bool ProcessBoolean(RecycleParser.BooleanContext boolNode) {
             if (boolNode.intop() != null) {
-
+        
                 var intop = boolNode.intop();
                 var intOne = boolNode.@int(0);
                 var intTwo = boolNode.@int(1);
                 int trueOne = IntIterator.ProcessInt(intOne);
                 int trueTwo = IntIterator.ProcessInt(intTwo);
                 if (intop.EQOP() != null) {
-                    if (intop.EQOP().GetText() == "==") {
+                    string text = intop.EQOP().GetText();
+                    if (text == "==") {
                         return trueOne == trueTwo;
                     }
-                    else if (intop.EQOP().GetText() == "!=") {
+                    else if (text == "!=") {
                         return trueOne != trueTwo;
                     }
                 }
                 else if (intop.COMPOP() != null) {
-                    if (intop.COMPOP().GetText() == ">") {
+                    string text = intop.COMPOP().GetText();
+                    if (text == ">") {
                         return trueOne > trueTwo;
                     }
-                    else if (intop.COMPOP().GetText() == ">=") {
+                    else if (text == ">=") {
                         return trueOne >= trueTwo;
                     }
-                    else if (intop.COMPOP().GetText() == "<") {
+                    else if (text == "<") {
                         return trueOne < trueTwo;
                     }
-                    else if (intop.COMPOP().GetText() == "<="){
+                    else if (text == "<="){
                         return trueOne <= trueTwo;
                     }
                 }
@@ -46,7 +48,8 @@ namespace ParseTreeIterator
 				return ! ProcessBoolean(boolNode.boolean(0));
 			}
 			else if (boolNode.BOOLOP() != null){
-				if (boolNode.BOOLOP().GetText() == "or"){
+                string text = boolNode.BOOLOP().GetText();
+				if (text == "or"){
 					bool flag = false;
 					foreach (var boolean in boolNode.boolean()){
 						flag |= ProcessBoolean(boolean);
@@ -56,7 +59,7 @@ namespace ParseTreeIterator
 					}
 					return flag;
 				}
-				else if (boolNode.BOOLOP().GetText() == "and"){
+				else if (text == "and"){
 					bool flag = true;
 					foreach (var boolean in boolNode.boolean()){
 						flag &= ProcessBoolean(boolean);
