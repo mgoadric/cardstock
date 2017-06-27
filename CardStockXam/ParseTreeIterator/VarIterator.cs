@@ -1,4 +1,4 @@
-﻿﻿﻿using System;
+﻿﻿﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
@@ -78,7 +78,7 @@ namespace ParseTreeIterator
             }
             foreach (Card card in stor2)
             {
-                string text = filter.var().GetText()
+                string text = filter.var().GetText();
                 Put(text, card);
                 if (BooleanIterator.ProcessBoolean(filter.boolean()))
                 {
