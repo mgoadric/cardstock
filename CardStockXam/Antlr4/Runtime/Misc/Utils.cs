@@ -87,7 +87,7 @@ namespace Antlr4.Runtime.Misc
         public static string EscapeWhitespace(string s, bool escapeSpaces)
         {
             StringBuilder buf = new StringBuilder();
-            foreach (char c in s.ToCharArray())
+            foreach (char c in s)
             {
                 if (c == ' ' && escapeSpaces)
                 {

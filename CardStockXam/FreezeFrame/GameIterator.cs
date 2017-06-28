@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿﻿﻿using System;
 using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using ParseTreeIterator;
@@ -21,7 +21,7 @@ namespace FreezeFrame
         //public StringBuilder recorder;
 
 		public GameIterator Clone(){
-			var ret = new GameIterator (game,false);
+            var ret = new GameIterator (game,false);
 			var revStack = new Stack<Queue<IParseTree>> ();
 			foreach (var i in iterStack) {
 				revStack.Push (i);
@@ -41,31 +41,30 @@ namespace FreezeFrame
 			ret.decisionIdx = decisionIdx;
 			return ret;
 		}
-		public GameIterator(RecycleParser.GameContext g, Boolean f){
-			game = g;
-			iterStack = new Stack<Queue<IParseTree>> ();
-			iteratingSet = new HashSet<IParseTree> ();
-			shouldInc = false;
-            
-			//iterStack.Push(new Queue<IParseTree>());
-
-		}
-		public GameIterator (RecycleParser.GameContext g)
+		public GameIterator (RecycleParser.GameContext g, bool fresh = true)
 		{
 			game = g;
-            Debug.WriteLine("Processing declarations.");
-            foreach (RecycleParser.DeclareContext declare in game.declare()){
-                VarIterator.ProcessDeclare(declare);
+			iterStack = new Stack<Queue<IParseTree>>();
+			iteratingSet = new HashSet<IParseTree>();
+
+            if (fresh)
+            {
+                Debug.WriteLine("Processing declarations.");
+                foreach (RecycleParser.DeclareContext declare in game.declare())
+                {
+                    VarIterator.ProcessDeclare(declare);
+                }
+                Debug.WriteLine("Setting up game.");
+                SetupIterator.ProcessSetup(game.setup()).ExecuteAll();
+                iterStack.Push(new Queue<IParseTree>());
+                var topLevel = iterStack.Peek();
+                for (int i = 3; i < game.ChildCount - 2; ++i)
+                {
+                    topLevel.Enqueue(game.GetChild(i));
+                }
+            } else {
+                shouldInc = false;
             }
-            Debug.WriteLine("Setting up game.");
-			SetupIterator.ProcessSetup(game.setup()).ExecuteAll();
-			iterStack = new Stack<Queue<IParseTree>> ();
-			iteratingSet = new HashSet<IParseTree> ();
-			iterStack.Push(new Queue<IParseTree>());
-			var topLevel = iterStack.Peek ();
-			for (int i = 3; i < game.ChildCount - 2; ++i){
-				topLevel.Enqueue (game.GetChild (i));
-			}
 		}
 		public bool AdvanceToChoice(){
 			while (iterStack.Count != 0 && !ProcessSubStage()) {
@@ -98,6 +97,8 @@ namespace FreezeFrame
             Debug.WriteLine("Processing substage.");
 			var sub = CurrentNode ();
             if (sub.ChildCount > 1 && sub.GetChild(1).GetText() == "choice") { return true; }
+
+            // Time to parse it
             else if (sub is RecycleParser.StageContext){
                 //EvalGameLead(); TODO
                 var allowedToRun = ProcessStage(sub as RecycleParser.StageContext);

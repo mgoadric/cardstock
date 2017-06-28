@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using CardEngine;
 using Newtonsoft.Json;
@@ -7,9 +7,7 @@ namespace Players
 {
 	public class GeneralPlayer
 	{
-		public GeneralPlayer ()
-		{
-		}
+		
         public virtual int MakeAction(List<GameActionCollection> possibles,Random rand, int idx){
 
 			return rand.Next(0,possibles.Count);

@@ -269,7 +269,6 @@
     <Compile Include="Analytics\StageCount.cs" />
     <Compile Include="Analytics\StorageValues.cs" />
     <Compile Include="Analytics\TimeStep.cs" />
-    <Compile Include="CardEngine\BooleanFilter.cs" />
     <Compile Include="CardEngine\Card.cs" />
     <Compile Include="CardEngine\CardFilter.cs" />
     <Compile Include="CardEngine\CardGame.cs" />

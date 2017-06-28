@@ -10,9 +10,7 @@ namespace Players
 {
 	public class PerfectPlayer : GeneralPlayer
 	{
-		public PerfectPlayer ()
-		{
-		}
+		
 		public override int MakeAction(List<GameActionCollection> possibles,Random rand, int idx){
 
 			return rand.Next(0,possibles.Count);

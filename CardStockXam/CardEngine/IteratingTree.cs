@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using Antlr4.Runtime.Tree;
 
@@ -14,10 +14,10 @@ namespace CardStockXam.CardEngine
         }
 
         public IteratingTree Copy(){
-            return new IteratingTree()
+            return new IteratingTree
             {
                 trees = new Stack<IterItem>(trees),
-                level = this.level + 1,
+                level = this.level + 1
             };
         }
 

@@ -83,7 +83,7 @@ namespace CardStockXam.Scoring
                 var newMutation = GetMutation(subtree, info.Item1, info.Item2);
                 printMut(subtree.GetText(), newMutation);
                 transcript += "Changed " + childName + "\n    " + subtree.GetText() + "\nto:\n    " + newMutation + "\n";
-                if (newMutation.Count() == 0) { i--; }
+                if (!newMutation.Any()) { i--; }
                 else { child = child.Replace(subtree.GetText(), newMutation); }
             }
             filer.MakeFile(child, folder + childName);

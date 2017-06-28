@@ -57,7 +57,7 @@ namespace CardEngine {
         public FancyCardLocation startLocation;
         public FancyCardLocation endLocation;
         public CardCollection owner;
-        public bool actual;
+        public bool actualloc;
         public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end) {
             if (start.name != null) {
                 if (start.name.Contains("{mem}") && !start.actual) {
@@ -91,7 +91,7 @@ namespace CardEngine {
                     Card cardToMove = startLocation.Remove();
                     if (startLocation.actual) {
                         
-                        actual = true;
+                        actualloc = true;
                     }
                     var prefix = "M:";
                     if (!actual) { prefix = "N:"; }
@@ -107,8 +107,8 @@ namespace CardEngine {
                     Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
                 }
                 else {
-                    Debug.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
-                    Debug.WriteLine("moving to " + endLocation.ToString());
+                    Debug.WriteLine("error: attempting to move from empty location " + startLocation); //TODO debug here
+                    Debug.WriteLine("moving to " + endLocation);
                     throw new Exception();
                 }
             }
@@ -130,7 +130,7 @@ namespace CardEngine {
                 Debug.WriteLine("Undoing FancyCardMoveAction. Putting back in: " + startLocation.name); 
                 var cardToMove = endLocation.Remove();
                 startLocation.Add(cardToMove);
-                if (actual) {
+                if (actualloc) {
                     owner.Add(cardToMove);
                 }
                 cardToMove.owner = owner;
@@ -319,7 +319,7 @@ namespace CardEngine {
             }
             else if (bucket.teamOwner != null)
             {
-                CardGame.Instance.WriteToFile("S:" + bucket.teamOwner.ToString() + " " + bucketKey + " " + value);
+                CardGame.Instance.WriteToFile("S:" + bucket.teamOwner + " " + bucketKey + " " + value);
             }
             else
             {

@@ -18,7 +18,7 @@ namespace ParseTreeIterator
                 var fancy = ProcessRawStorage(intNode.rawstorage());
                 return fancy.Get();
             }
-            else if (intNode.INTNUM() != null && intNode.INTNUM().Count() != 0) {
+            else if (intNode.INTNUM() != null && intNode.INTNUM().Any()) {
                 Debug.WriteLine(intNode.GetText());
                 return int.Parse(intNode.GetText());
             }
