@@ -32,8 +32,8 @@ namespace ParseTreeIterator
         public static GameAction ProcessMove(RecycleParser.MoveactionContext move) {
             var cardOne = CardIterator.ProcessCard(move.GetChild(1) as RecycleParser.CardContext);
             var cardTwo = CardIterator.ProcessCard(move.GetChild(2) as RecycleParser.CardContext);
-            Console.WriteLine("Card one: " + CardIterator.ProcessCard(move.GetChild(1) as RecycleParser.CardContext));
-            Console.WriteLine("Card two: " + CardIterator.ProcessCard(move.GetChild(2) as RecycleParser.CardContext));
+            //Console.WriteLine("Card one: " + CardIterator.ProcessCard(move.GetChild(1) as RecycleParser.CardContext));
+            //Console.WriteLine("Card two: " + CardIterator.ProcessCard(move.GetChild(2) as RecycleParser.CardContext));
 			return new FancyCardMoveAction(cardOne, cardTwo);
         }
 

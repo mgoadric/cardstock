@@ -18,7 +18,7 @@ namespace Players
 			Debug.WriteLine("Passing new choice to LPP");
 
 			ParseEngine.expstat.logging = false;
-			Debug.WriteLine("AI making choice. items: " + items);
+			Console.WriteLine("AI making choice. items: " + items);
 
 			if (items == 1)
 			{
