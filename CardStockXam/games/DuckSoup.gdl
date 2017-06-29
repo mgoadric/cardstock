@@ -64,9 +64,10 @@
                         ;; handle quacking  -  maybe doesn't work ?????
                         ((any player 'P (>= (size ('P vloc TRICK)) 1))
                               
-                         (all (filter ((current player) iloc HAND) 'NH
+                         (any (filter ((current player) iloc HAND) 'NH
                                       (== (cardatt RANK 'NH)
                                           (cardatt RANK (top ((current player) vloc TRICK))))) 'C
+                                                                                               
                                                                                                (do (
                                                                                                     ;; say quack/quack-quack
                                                                                                     (move 'C (top ((current player) vloc TRICK)))
@@ -74,7 +75,7 @@
                                                                                                     (set ((next player) sto QUACKED) 0)))))
                         ((and (any player 'P (>= (size ('P vloc TRICK)) 1))
                               (any player 'P (== ('P sto QUACKED) 1)))
-                         (all (filter ((current player) iloc HAND) 'NH
+                         (any (filter ((current player) iloc HAND) 'NH
                                       (== (cardatt RANK 'NH)
                                           (cardatt RANK (top ((current player) vloc TRICK))))) 'C
                                                                                                (do (

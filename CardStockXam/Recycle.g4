@@ -2,9 +2,9 @@
 
 grammar Recycle;
 var : '\'' namegr ;
-game : OPEN 'game' declare*? setup (multiaction|stage)+? scoring CLOSE ;
+game : OPEN 'game' declare*? setup (multiaction | stage)+? scoring CLOSE ;
 setup : OPEN 'setup' playercreate OPEN teamcreate CLOSE (OPEN (deckcreate | repeat) CLOSE)+? CLOSE ;
-stage : OPEN 'stage' ('player'|'team') endcondition (multiaction | stage)+? CLOSE ;
+stage : OPEN 'stage' ('player' | 'team') endcondition (multiaction | stage)+? CLOSE ;
 scoring : OPEN 'scoring' ('min' | 'max') int CLOSE ;
 endcondition : OPEN 'end' boolean CLOSE ;
 
@@ -27,7 +27,7 @@ attribute : OPEN var CLOSE | OPEN (namegr ',')*? namegr attribute*? CLOSE ;
 
 initpoints : 'put' 'points' var OPEN awards+? CLOSE ;
 awards : OPEN subaward+? int CLOSE ;
-subaward : OPEN namegr ((OPEN namegr CLOSE) | (cardatt)) CLOSE ;
+subaward : OPEN namegr (OPEN namegr CLOSE | cardatt) CLOSE ;
 
 cycleaction : 'cycle' ('next' | 'current') (owner | 'current' | 'next' | 'previous') ;
 
@@ -42,7 +42,7 @@ shuffleaction : 'shuffle' cstorage ;
 turnaction : 'turn' 'pass' ;
 repeat : 'repeat' int action | 'repeat' 'all' OPEN moveaction CLOSE ;
 
-card : var | maxof | minof | actual | (OPEN ('top' | 'bottom' | int) cstorage CLOSE) ;
+card : var | maxof | minof | actual | OPEN ('top' | 'bottom' | int) cstorage CLOSE ;
 actual : OPEN 'actual' card CLOSE ;
 
 rawstorage : OPEN (var | 'game' | who) 'sto' (namegr | var) CLOSE ;
@@ -73,12 +73,12 @@ range : OPEN 'range' int '..' int CLOSE ;
 filter : OPEN 'filter' collection var boolean CLOSE ;
 
 attrcomp : EQOP cardatt cardatt ;
-cardatt : var | namegr | (OPEN 'cardatt' (var | namegr) card CLOSE) ;
+cardatt : var | namegr | OPEN 'cardatt' (var | namegr) card CLOSE ;
 
-boolean : (OPEN ((BOOLOP boolean boolean+?) | (intop int int ) | attrcomp | (EQOP card card)
-          | (UNOP boolean) | (EQOP whop whop) | (EQOP whot whot)) CLOSE) | agg ;
+boolean : OPEN (BOOLOP boolean boolean+? | intop int int  | attrcomp | EQOP card card
+          | UNOP boolean | EQOP whop whop | EQOP whot whot) CLOSE | agg ;
 BOOLOP : 'and' | 'or' ;
-intop : (COMPOP | EQOP) ;
+intop : COMPOP | EQOP ;
 COMPOP : '<' | '>' | '>=' | '<=' ;
 EQOP : '!=' | '==' ;
 UNOP : 'not' ;
@@ -89,7 +89,7 @@ subtract : OPEN '-' int int CLOSE ;
 mod : OPEN '%' int int CLOSE ;
 divide : OPEN '//' int int CLOSE ;
 
-sizeof : OPEN 'size' (var |cstorage | memset) CLOSE ;
+sizeof : OPEN 'size' (var | cstorage | memset) CLOSE ;
 maxof : OPEN 'max' cstorage 'using' var CLOSE ;
 minof : OPEN 'min' cstorage 'using' var CLOSE ;
 unionof : OPEN 'union' (agg | cstorage+?) CLOSE ;

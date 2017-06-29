@@ -7,6 +7,12 @@ using System.Threading;
 namespace CardGames
 {
     public class Program
+
+    // todo: Hearts - check if any statement fixed issue
+    //        SaneEights - run 100 times, look at fancycardmoveaction print stamenets
+    //          to see where it's trying to move from empty location
+    //       lostCities - check if removing duplicate declare statements fixed it
+    //       DuckSoup - ? i think is also trying to move from empty location?
     {
         public static void Main(string[] args)
         {
@@ -42,7 +48,7 @@ namespace CardGames
                     
 				}
 			}
-            foreach (string g in gameFiles) {
+            foreach (string g in gameFiles.GetRange(5, gameFiles.Count - 5)) {
                 SingleGame(g.Substring(6, g.Length - 10));
             }
 

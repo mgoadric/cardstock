@@ -2,7 +2,6 @@
 (game
 
    (declare (WHITE, BLUE, GREEN, RED, YELLOW) 'COLORS)
-   (declare (WHITE, BLUE, YELLOW, RED, GREEN) 'COLORS)
    (setup
       ;; Set up the players, 2 teams of 2 players, alternating
       (create players 2)
@@ -10,7 +9,7 @@
       ;; Create the deck source
       (create deck (game iloc STOCK) (deck (RANK  (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, HS))
                                            (COLOR (WHITE, BLUE, GREEN, RED, YELLOW))))
-                                           (COLOR (WHITE, BLUE, YELLOW, RED, GREEN))))
+                                           )
    )
    (do (
       (set (game sto ROUNDS) 0)

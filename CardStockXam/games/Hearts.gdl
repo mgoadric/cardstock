@@ -43,11 +43,14 @@
             (choice  (         
                ;; if first player and hearts not broken and have non-hearts cards
                ;;   play one of these, remember it in the lead spot, and end your turn
-               (all (filter ((current player) iloc HAND) 'NH (!= (cardatt SUIT 'NH)
+              ;; CHANGED THIS TO ANY
+               (any (filter ((current player) iloc HAND) 'NH (!= (cardatt SUIT 'NH)
                                                             (cardatt SUIT (top (game mem TRUMP))))) 'C
                  ((and (== (size (game mem LEAD)) 0)
                        (== (game sto BROKEN) 0))
+                
                    (do (
+                     
                      (move 'C  (top ((current player) vloc TRICK)))
                      (remember (top ((current player) vloc TRICK)) 
                                (top (game mem LEAD)))))))
