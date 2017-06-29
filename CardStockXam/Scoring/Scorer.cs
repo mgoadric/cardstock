@@ -16,7 +16,7 @@ namespace CardStockXam
         public static World gameWorld;
         public string text;
 
-        private int numRndvRnd = 1;
+        private int numRndvRnd = 10;
         private int numAIvRnd  = 2;
         private int numAIvAI   = 2;
 

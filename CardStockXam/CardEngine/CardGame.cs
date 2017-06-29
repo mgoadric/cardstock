@@ -200,7 +200,7 @@ namespace CardEngine
 
 			temp.points = points.Clone ();
 
-            temp.vars = CloneDictionary(vars, temp);
+            temp.vars = CloneDictionary(vars);
             Debug.WriteLine("Numplayers at end of clonesecret: " + temp.CurrentPlayer().playerList.Count);
 			Debug.WriteLine("returning from clonesecret");
 
@@ -235,11 +235,11 @@ namespace CardEngine
 				}
 			}
 			temp.points = points.Clone ();
-            temp.vars = CloneDictionary(this.vars, temp);
+            temp.vars = CloneDictionary(this.vars);
 			return temp;
 		}
 
-        public Dictionary<String, object> CloneDictionary(Dictionary<String, object> original, CardGame g)
+        public Dictionary<String, object> CloneDictionary(Dictionary<String, object> original)
         {
 
             //TODO:
@@ -318,7 +318,7 @@ namespace CardEngine
                     ret.Add(key, l);
                     
                 }
-                else { Console.WriteLine("Error: object " + o.ToString() + " is  type " + o.GetType()); }
+                else { Console.WriteLine("Error: object " + o + " is  type " + o.GetType()); }
             }
             /*Console.WriteLine("original:");
             foreach (object o in original){
@@ -372,62 +372,62 @@ namespace CardEngine
             }
 			//Console.ReadKey();
 		}
-		public JObject GameState(int requestingPlayer){
-			StringBuilder j = new StringBuilder ("{ players:[");
-			bool first = true;
-			foreach (var player in players) {
-				if (!first) {
-					j.Append (",");
-				}
-				j.Append ("{");
-				j.Append("cards:[");
-				bool innerFirst = true;
-				foreach (var cardBin in player.cardBins.Keys()) {
-					if (!innerFirst) {
-						j.Append (",");
-					}
-					j.Append ("{name:\"" + cardBin + "\",");
-					j.Append ("contents:[");
-					bool innerinnerFirst = true;
-					foreach (var card in player.cardBins[cardBin].AllCards()) {
-						if (!innerinnerFirst) {
-							j.Append (",\n");
-						}
-						j.Append (card.Serialize());
+		//public JObject GameState(int requestingPlayer){
+		//	StringBuilder j = new StringBuilder ("{ players:[");
+		//	bool first = true;
+		//	foreach (var player in players) {
+		//		if (!first) {
+		//			j.Append (",");
+		//		}
+		//		j.Append ("{");
+		//		j.Append("cards:[");
+		//		bool innerFirst = true;
+		//		foreach (var cardBin in player.cardBins.Keys()) {
+		//			if (!innerFirst) {
+		//				j.Append (",");
+		//			}
+		//			j.Append ("{name:\"" + cardBin + "\",");
+		//			j.Append ("contents:[");
+		//			bool innerinnerFirst = true;
+		//			foreach (var card in player.cardBins[cardBin].AllCards()) {
+		//				if (!innerinnerFirst) {
+		//					j.Append (",\n");
+		//				}
+		//				j.Append (card.Serialize());
 
-						innerinnerFirst = false;
-					}
-					innerFirst = false;
-					j.Append ("]}");
-				}
-				j.Append ("]}\n");
-				first = false;
-			}
-			j.Append ("],");
-			j.Append("gamecards:[");
-			bool outterFirst = true;
-			foreach (var cardBin in tableCards.Keys()) {
-				if (!outterFirst) {
-					j.Append (",");
-				}
-				j.Append ("{name:\"" + cardBin + "\",");
-				j.Append ("contents:[");
-				bool innerinnerFirst = true;
-				foreach (var card in tableCards[cardBin].AllCards()) {
-					if (!innerinnerFirst) {
-						j.Append (",\n");
-					}
-					j.Append (card.Serialize());
+		//				innerinnerFirst = false;
+		//			}
+		//			innerFirst = false;
+		//			j.Append ("]}");
+		//		}
+		//		j.Append ("]}\n");
+		//		first = false;
+		//	}
+		//	j.Append ("],");
+		//	j.Append("gamecards:[");
+		//	bool outterFirst = true;
+		//	foreach (var cardBin in tableCards.Keys()) {
+		//		if (!outterFirst) {
+		//			j.Append (",");
+		//		}
+		//		j.Append ("{name:\"" + cardBin + "\",");
+		//		j.Append ("contents:[");
+		//		bool innerinnerFirst = true;
+		//		foreach (var card in tableCards[cardBin].AllCards()) {
+		//			if (!innerinnerFirst) {
+		//				j.Append (",\n");
+		//			}
+		//			j.Append (card.Serialize());
 
-					innerinnerFirst = false;
-				}
-				outterFirst = false;
-				j.Append ("]}");
-			}
-			j.Append ("]");
-			j.Append("}");
-			return (JObject) JsonConvert.DeserializeObject (j.ToString ());
-		}
+		//			innerinnerFirst = false;
+		//		}
+		//		outterFirst = false;
+		//		j.Append ("]}");
+		//	}
+		//	j.Append ("]");
+		//	j.Append("}");
+		//	return (JObject) JsonConvert.DeserializeObject (j.ToString ());
+		//}
 		public void SetValue(int idx, int value){
 			gameStorage.storage[idx] = value;
 		}
@@ -531,7 +531,7 @@ namespace CardEngine
 			ret += tableCards.ToString ();
 			ret += "Players:\n";
 			foreach (var player in players){
-				ret += player.ToString() + "\n";
+				ret += player + "\n";
 			}
 			return ret;
 		}

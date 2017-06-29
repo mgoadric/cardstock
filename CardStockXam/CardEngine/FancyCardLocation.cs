@@ -88,7 +88,7 @@ namespace CardEngine{
 
         public override String ToString()
         {
-            return cardList.ToString() + " " + locIdentifier + " " + actual + " " + nonPhysical;
+            return cardList + " " + locIdentifier + " " + actual + " " + nonPhysical;
         }
 
         public String ToOutputString(){

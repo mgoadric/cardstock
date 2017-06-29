@@ -38,7 +38,7 @@ namespace ParseTreeIterator
             }
             else {
                 var ret = new List<Node>();
-                if (attr.attribute()[0].attribute().Count() == 0)
+                if (!attr.attribute()[0].attribute().Any())
                 {
                     var terminalTitle = attr.namegr()[0];
                     var subNode = attr.attribute()[0];

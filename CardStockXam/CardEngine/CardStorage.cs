@@ -33,9 +33,7 @@ namespace CardEngine{
 		public int binCounter = 0;
 		Dictionary<string,int> binDict = new Dictionary<string,int>();
 		public CardCollection[] storage = new CardCollection[32];
-		public CardStorage(){
-			
-		}
+		
 		public IEnumerable<string> Keys(){
 			return binDict.Keys;
 		}
@@ -64,7 +62,7 @@ namespace CardEngine{
                     break;
                 }
                 foreach (var card in storage[i].AllCards()){
-					ret.Append("Card:" + card.ToString() + "\n");
+					ret.Append("Card:" + card + "\n");
 				}
 				ret.Append ("\n");
 			}

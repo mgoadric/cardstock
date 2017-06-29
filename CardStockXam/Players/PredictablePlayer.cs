@@ -9,9 +9,7 @@ namespace Players
     {
         bool firstMove = true;
         public int toChoose = -1;
-        public PredictablePlayer()
-        {
-        }
+
         public override int MakeAction(List<GameActionCollection> possibles, Random rand, int idx)
         {
             // Bad fix TODO :(

@@ -1,4 +1,4 @@
-﻿﻿﻿﻿using System;
+﻿﻿﻿﻿﻿using System;
 using System.Collections.Generic;
 using CardEngine;
 using Newtonsoft.Json;
@@ -15,7 +15,7 @@ namespace Players
         private static int numTests = 10; //previously 20
 
         public int NumChoices(int items, Random rand, int idx){
-			Console.WriteLine("Passing new choice to LPP");
+			Debug.WriteLine("Passing new choice to LPP");
 
 			ParseEngine.expstat.logging = false;
 			Debug.WriteLine("AI making choice. items: " + items);
@@ -92,9 +92,7 @@ namespace Players
                             // add your rank to the results of this choice
 							results[item] += j;
 
-							int div = winners.Count - j;
-                            // adds a smaller number to numWon as 
-                            // you come ahead of more players 
+                            int div = j + 1;
 							double lead = ((double)1) / div;
 							numWon += lead;
 							break;
@@ -106,7 +104,7 @@ namespace Players
 				}
                 Debug.WriteLine("Aggregated rank: " + results[item]);
 				wrs[item] = (double)numWon / numTests;
-                //Console.WriteLine(wrs[item]);
+                Debug.WriteLine("wrs " + wrs[item]);
 
 			}
 			Debug.WriteLine("End Monte");

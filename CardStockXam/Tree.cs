@@ -11,11 +11,11 @@ public class Tree{
 	public List<List<Node>> uniqueOptions(){
 		var retList = new List<List<Node>>();
 		foreach (var node in rootNode.children){
-			retList.Add(recurse(node,true));
+			retList.Add(recurse(node));
 		}
 		return retList;
 	}
-	public List<Node> recurse(Node parent, bool level1){
+	public List<Node> recurse(Node parent){
 		var ret = new List<Node>();
 		foreach (var node in parent.children){
 			if (node.children == null || node.children.Count == 0){
@@ -28,7 +28,7 @@ public class Tree{
 			}
 			else{
 				
-				var temp = recurse(node,false);
+				var temp = recurse(node);
 				foreach (var tempChild in temp){
 					tempChild.AddLeaf(new Node(parent,false));
 					/*if (level1){
@@ -68,21 +68,21 @@ public class Tree{
 	}
 	public List<Node> perm(List<Node> thingOne, List<Node> thingTwo,bool first){
 		
-		var perm = new List<Node>();
+		var permu = new List<Node>();
 		foreach (var node1 in thingOne){
 			foreach (var node2 in thingTwo){
 				if (first){
 					var tempNode = new Node{Value="treeRoot",children = new List<Node>{node1,node2}};
-					perm.Add(tempNode);
+					permu.Add(tempNode);
 				}
 				else{
 					var tempNode = new Node(node1);
 					tempNode.children.Add(new Node(node2));
-					perm.Add(tempNode);
+					permu.Add(tempNode);
 				}
 			}
 		}
-		return perm;
+		return permu;
 	}
 }
 public class Node{
@@ -92,19 +92,17 @@ public class Node{
 	public Node(){
 		
 	}
-	public Node(Node copy){
+	public Node(Node copy, bool useChildren = true){
 		Value = copy.Value;
 		Key = copy.Key;
 		children = new List<Node>();
-		foreach (var c in copy.children){
-			children.Add(new Node(c));
-		}
-	}
-	public Node(Node copy, bool useChildren){
-		Value = copy.Value;
-		Key = copy.Key;
-		children = new List<Node>();
-		
+        if (useChildren)
+        {
+            foreach (var c in copy.children)
+            {
+                children.Add(new Node(c));
+            }
+        }
 	}
 	public void AddLeaf(Node n){
 		Node temp = this;
@@ -146,7 +144,7 @@ public class Node{
 		if (children != null){
 			foreach (var node in children){
 				
-				ret.Append(node.ToString() + " ");
+				ret.Append(node + " ");
 			}
 		}
 		if (Value != null){

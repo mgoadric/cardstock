@@ -17,7 +17,7 @@ namespace CardGames
         public static void Main(string[] args)
         {
             var p = new Program();
-            p.AllGames();
+            p.SingleGame("Agram");
         }
 
         void SingleGame(string game) {
@@ -30,7 +30,7 @@ namespace CardGames
 			exp.logging = true;
             // TODO make for as many players as in game 
             // one AI vs everyone else is helpful
-            exp.ai1 = true;
+            exp.ai1 = false;
             exp.ai2 = false;
 
 			var codeGen = new ParseEngine(exp);

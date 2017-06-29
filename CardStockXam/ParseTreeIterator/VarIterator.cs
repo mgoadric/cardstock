@@ -1,4 +1,4 @@
-﻿﻿﻿using System;
+﻿﻿﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
@@ -232,7 +232,7 @@ namespace ParseTreeIterator
                     Debug.WriteLine("4: " + agg.GetChild(4).GetText());
                     foreach (object obj in ret)
                     {
-                        Debug.WriteLine("i: " + obj.ToString());
+                        Debug.WriteLine("i: " + obj);
                         all &= (bool)obj;
                     }
                     return all;
