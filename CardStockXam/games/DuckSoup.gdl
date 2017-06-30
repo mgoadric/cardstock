@@ -55,19 +55,20 @@
                                                                                                     ;; bow out
                                                                                                     (set ((current player) sto FINISHED) 1)
                                                                                                     (set ((next player) sto FINISHED) 1))))
-                                     
+                        
                         ((== ((current player) sto QUACKED)
                              ((next player) sto QUACKED))
-                         (do (
-                             (any ((current player) iloc HAND) 'C
-                                  (move 'C (top ((current player) vloc TRICK))))
-                             ;; THIS IS NOT WORKING RIGHT!!!
-                             ((== (size (game mem LEAD)) 0)
-                              (remember (top ((current player) vloc TRICK)) 
-                                        (top (game mem LEAD))))
-                             (set ((current player) sto FINISHED) 1))))
-               ))
-               ;; draw card if in duck stage
+                         
+                         (any ((current player) iloc HAND) 'C
+                              (do (
+                                   (move 'C (top ((current player) vloc TRICK)))
+                                   ;; FIXED BY REARRANGING, BUT STILL A PROBLEM IN ENGINE FOR OLD VERSION
+                                   ((== (size (game mem LEAD)) 0)
+                                    (remember (top ((current player) vloc TRICK)) 
+                                              (top (game mem LEAD))))
+                                   (set ((current player) sto FINISHED) 1))))
+                         )))
+                       ;; draw card if in duck stage
                (do (
                     ((and (== (game sto ISDUCK) 1)
                           (> (size (game iloc STOCK)) 0))

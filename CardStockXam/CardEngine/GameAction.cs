@@ -265,7 +265,7 @@ namespace CardEngine {
         public override void Undo()
         {
             endLocation.Remove();
-        }
+ 		}
 		public override string ToString()
 		{
             return "FancyCardCopyAction: Starting location: " + startLocation.name 
