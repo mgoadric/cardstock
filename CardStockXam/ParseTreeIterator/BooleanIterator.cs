@@ -73,6 +73,8 @@ namespace ParseTreeIterator
 			else if (boolNode.attrcomp() != null){
 				var str1 = CardIterator.ProcessCardatt(boolNode.attrcomp().cardatt(0));
 				var str2 = CardIterator.ProcessCardatt(boolNode.attrcomp().cardatt(1));
+                Debug.WriteLine(boolNode.GetText());
+                Debug.WriteLine(str1 + ", " + str2);
 				if (boolNode.attrcomp().EQOP().GetText() == "=="){
                     return str1 == str2;
 				}

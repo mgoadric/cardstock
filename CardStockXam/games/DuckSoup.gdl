@@ -105,16 +105,18 @@
                             
                    ((all player 'P (== ('P sto QUACKED) 0))
                     (do (
-                         (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'DUCK)))
-                         (forget (top (game mem LEAD)))
                          ((== (cardatt SUIT (top ((current player) vloc TRICK)))
                               (cardatt SUIT (top ((next player) vloc TRICK))))
-                          (inc ((next player) sto DUCKSCORE) 1))
+                          (set (game sto TRICKSCORE) 1))
                          ((!= (cardatt SUIT (top ((current player) vloc TRICK)))
                               (cardatt SUIT (top ((next player) vloc TRICK))))
-                          (inc ((next player) sto DUCKSCORE) 2)))))
+                          (set (game sto TRICKSCORE) 2))
+                         
+                         (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'DUCK)))
+                         (forget (top (game mem LEAD)))
+                         (inc ((next player) sto DUCKSCORE)
+                              (game sto TRICKSCORE)))))
                    ;; score quack hand
-                    ;; score quack hand
                    ((any player 'P (>= ('P sto QUACKED) 1))
                       (do (
                       (cycle next (owner (top (game mem QUACK))))
@@ -156,14 +158,18 @@
                    ;; score regular hand
                    ((all player 'P (== ('P sto QUACKED) 0))
                     (do (
-                         (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'SOUP)))
-                         (forget (top (game mem LEAD)))
                          ((== (cardatt SUIT (top ((current player) vloc TRICK)))
                               (cardatt SUIT (top ((next player) vloc TRICK))))
-                          (inc ((next player) sto SOUPSCORE) 1))
+                          (set (game sto TRICKSCORE) 1))
                          ((!= (cardatt SUIT (top ((current player) vloc TRICK)))
                               (cardatt SUIT (top ((next player) vloc TRICK))))
-                          (inc ((next player) sto SOUPSCORE) 2)))))
+                          (set (game sto TRICKSCORE) 2))
+                         
+                         (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'SOUP)))
+                         (forget (top (game mem LEAD)))
+                         
+                         (inc ((next player) sto SOUPSCORE) 
+                              (game sto TRICKSCORE)))))
                    ;; score quack hand
                    ((any player 'P (>= ('P sto QUACKED) 1))
                     (do (
