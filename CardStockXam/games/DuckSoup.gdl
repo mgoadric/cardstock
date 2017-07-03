@@ -31,30 +31,34 @@
         (stage player
                (end (all player 'P (== ('P sto FINISHED) 1)))
                (choice (
-                 
+                        
                         ;; handle quacking  -  maybe doesn't work ?????
                         ((any player 'P (== (size ('P vloc TRICK)) 1))
-                              
+                         
                          (any (filter ((current player) iloc HAND) 'NH
                                       (== (cardatt RANK 'NH)
-                                          (cardatt RANK (top ((current player) vloc TRICK))))) 'C
-                                                                                               
-                                                                                               (do (
-                                                                                                    ;; say quack/quack-quack
-                                                                                                    (move 'C (top ((current player) vloc TRICK)))
-                                                                                                    (remember (top ((current player) vloc TRICK))
-                                                                                                              (top (game mem QUACK)))
-                                                                                                    (inc ((current player) sto QUACKED) 1)
-                                                                                                    ((== ((current player) sto QUACKED) 2)
-                                                                                                     (set ((current player) sto FINISHED) 1))))))
+                                          (cardatt RANK (top ((next player) vloc TRICK))))) 'C
+                                                                                            
+                                                                                            (do (
+                                                                                                 ;; say quack/quack-quack
+                                                                                                 (move 'C (top ((current player) vloc TRICK)))
+                                                                                                 ((and (== (game sto ISDUCK) 1)
+                                                                                                       (> (size (game iloc STOCK)) 0))
+                                                                                                  (move (top (game iloc STOCK))
+                                                                                                        (top ((current player) hloc TEMP))))
+                                                                                                 (remember (top ((current player) vloc TRICK))
+                                                                                                           (top (game mem QUACK)))
+                                                                                                 (inc ((current player) sto QUACKED) 1)
+                                                                                                 ((== ((current player) sto QUACKED) 2)
+                                                                                                  (set ((current player) sto FINISHED) 1))))))
                         ((and (any player 'P (== (size ('P vloc TRICK)) 1))
                               (!= ((current player) sto QUACKED)
                                   ((next player) sto QUACKED)))
                          
-                                                                                               (do (
-                                                                                                    ;; bow out
-                                                                                                    (set ((current player) sto FINISHED) 1)
-                                                                                                    (set ((next player) sto FINISHED) 1))))
+                         (do (
+                              ;; bow out
+                              (set ((current player) sto FINISHED) 1)
+                              (set ((next player) sto FINISHED) 1))))
                         
                         ((== ((current player) sto QUACKED)
                              ((next player) sto QUACKED))
@@ -63,17 +67,17 @@
                               (do (
                                    (move 'C (top ((current player) vloc TRICK)))
                                    ;; FIXED BY REARRANGING, BUT STILL A PROBLEM IN ENGINE FOR OLD VERSION
+                                   ((and (== (game sto ISDUCK) 1)
+                                         (> (size (game iloc STOCK)) 0))
+                                    (move (top (game iloc STOCK))
+                                          (top ((current player) hloc TEMP))))
                                    ((== (size (game mem LEAD)) 0)
                                     (remember (top ((current player) vloc TRICK)) 
                                               (top (game mem LEAD))))
                                    (set ((current player) sto FINISHED) 1))))
                          )))
-                       ;; draw card if in duck stage
-               (do (
-                    ((and (== (game sto ISDUCK) 1)
-                          (> (size (game iloc STOCK)) 0))
-                     (move (top (game iloc STOCK))
-                           (top ((current player) hloc TEMP)))))))
+               ;; draw card if in duck stage
+               )
         ;; had to put in do block here for no reason
         (do (
              
