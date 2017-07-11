@@ -98,6 +98,7 @@ namespace ParseTreeIterator
 			}
 			else{
 				Debug.WriteLine("Not Processed: '" + actionNode.GetText() + "'");
+                throw new NotImplementedException();
 			}
 			return ret;
 		}

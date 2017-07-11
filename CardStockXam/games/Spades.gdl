@@ -17,31 +17,32 @@
       (end (any team 'T (!= ('T sto SCORE) 0)))
       (do (
           (repeat all
-              (move (top (game iloc DISCARD)) 
+              (move (top (game vloc DISCARD)) 
                     (top (game iloc STOCK))))
           (remember (top (filter (game iloc STOCK) 'S (== (cardatt SUIT 'S) SPADES)))
                           (top (game mem TRUMP)))
           (shuffle (game iloc STOCK))
-          (repeat 13
-             (all player 'P
-               (move (top (game iloc STOCK))
-                     (top ('P iloc HAND)))))
           (set (game sto BROKEN) 0)
           (all player 'P
-             (set ('P sto TRICKSWON) 0))
-          (all player 'P
-             (set ('P sto BID) 14))
-      ))
+               (do (
+                    (repeat 13
+                            (move (top (game iloc STOCK))
+                                  (top ('P iloc HAND))))
+                    (set ('P sto TRICKSWON) 0)
+                    (set ('P sto BID) 14))
+                 ))
+          ))
       
       ;; bidding for number of tricks expected
       (stage player
-         (end (all player 'P (<= ('P sto BID) 13)))
-         (any (range 1..13) 'B
-            (choice (
-              (set ((current player) sto BID) 'B)
-         )))
-      )
-         
+             (end (all player 'P (<= ('P sto BID) 13)))
+             (choice (
+                      (any (range 1..13) 'B
+                           
+                           (set ((current player) sto BID) 'B)
+                           )))
+             )
+      
       ;; players play a round 13 times     
       (stage player
          (end (all player 'P (== (size ('P iloc HAND)) 0)))
@@ -61,17 +62,18 @@
 
                ;; if following player and can follow SUIT
                ;;   play any card that follows SUIT, and end your turn
-               (all (filter ((current player) iloc HAND) 'S (== (cardatt SUIT 'S)
+               ((== (size (game mem LEAD)) 1)
+                (all (filter ((current player) iloc HAND) 'S (== (cardatt SUIT 'S)
                                                                (cardatt SUIT (top (game mem LEAD))))) 'C
-                 ((== (size (game mem LEAD)) 1)
                     (move 'C (top ((current player) vloc TRICK)))))
                       
                ;; if first player and spades not broken and have non-spades cards
                ;;   play one of these, remember it in the lead spot, and end your turn
-               (all (filter ((current player) iloc HAND) 'S (!= (cardatt SUIT 'S)
-                                                               (cardatt SUIT (top (game mem TRUMP))))) 'C
-                 ((and (== (size (game mem LEAD)) 0)
+               ((and (== (size (game mem LEAD)) 0)
                      (== (game sto BROKEN) 0))
+               (any (filter ((current player) iloc HAND) 'S (!= (cardatt SUIT 'S)
+                                                               (cardatt SUIT (top (game mem TRUMP))))) 'C
+                 
                   (do (
                     (move 'C (top ((current player) vloc TRICK)))
                     (remember (top ((current player) vloc TRICK)) 
@@ -91,7 +93,7 @@
                      (== (game sto BROKEN) 0)
                      (== (size (filter ((current player) iloc HAND) 'S (!= (cardatt SUIT 'S) 
                                                                     (cardatt SUIT (top (game mem TRUMP)))))) 0))
-                 (all ((current player) vloc TRICK) 'C
+                 (any ((current player) iloc HAND) 'C
                     (do (
                        (move 'C
                              (top ((current player) vloc TRICK)))
@@ -99,7 +101,7 @@
                                  (top (game mem LEAD)))
                  ))))
             )))
-         )
+         
               
          ;; after players play hand, computer wraps up trick
          (do (
@@ -137,13 +139,13 @@
              ;; discard all the played cards
               (all player 'P
                  (move (top ('P vloc TRICK)) 
-                       (top (game iloc DISCARD)))
+                       (top (game vloc DISCARD)))
          ))
-      )
+      ))
          
       ;; determine team score
       (stage team
-         (end (all player 'P(== ('P sto TRICKSWON) 0)))
+         (end (all player 'P (== ('P sto TRICKSWON) 0)))
          (let (all (current team) 'P ('P sto TRICKSWON)) 'TEAMTRICKS
            (let (all (current team) 'Q ('Q sto BID)) 'TEAMBIDS
              (do (
