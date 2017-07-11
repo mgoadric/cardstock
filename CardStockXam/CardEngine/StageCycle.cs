@@ -1,24 +1,24 @@
 using System.Collections.Generic;
 
 namespace CardEngine{
-	public class PlayerCycle{
-		public List<Player> playerList;
+	public class StageCycle<T>{
+		public List<T> playerList;
 		public bool turnEnded;
 		public int idx = 0;
 		public int queuedNext = -1;
-		public PlayerCycle(List<Player> pList){
+
+		public StageCycle(List<T> pList){
             playerList = pList;
             var p = pList[0];
-            CardGame.Instance.WriteToFile("t:" + playerList[idx].name);
-        }
-        public PlayerCycle(PlayerCycle source){
+			WritePlayer();
+		}
+        public StageCycle(StageCycle<T> source){
 			playerList = source.playerList;
 			idx = source.idx;
 			turnEnded = source.turnEnded;
-            
-
         }
-		public Player PeekNext(){
+
+		public T PeekNext(){
 			var saved = idx;
             if (queuedNext != -1)
             {
@@ -35,7 +35,7 @@ namespace CardEngine{
 			idx = saved;
 			return ret; 
 		}
-		public Player PeekPrevious(){
+		public T PeekPrevious(){
 			var saved = idx;
 			idx--;
 			if (idx < 0){
@@ -46,7 +46,6 @@ namespace CardEngine{
 			return ret;
 		}
 		public void Next(){
-            //System.Console.WriteLine("CYCLE current is " + idx);
             turnEnded = false;
 			if (queuedNext != -1){
 				idx = queuedNext;
@@ -58,35 +57,39 @@ namespace CardEngine{
             if (idx >= playerList.Count){
                 idx = 0;
 			}
-            // System.Console.WriteLine("CYCLE up next is " + idx);
-            CardGame.Instance.WriteToFile("t:" + Current().name);
-        }
+			WritePlayer();
+		}
 		public void Previous(){
 			turnEnded = false;
 			--idx;
 			if (idx < 0){
 				idx = playerList.Count - 1;
 			}
-            CardGame.Instance.WriteToFile("t:" + playerList[idx].name);
+			WritePlayer();
         }
 		public void SetPlayer(int index){
 			turnEnded = false;
 			idx = index;
-            CardGame.Instance.WriteToFile("t:" + playerList[idx].name);
+            WritePlayer();
         }
 		public void SetNext(int index){
 			queuedNext = index;
-            //System.Console.WriteLine("CYCLE Queing up " + queuedNext);
 		}
         public void RevertNext(){
 			queuedNext = -1;
-			//System.Console.WriteLine("CYCLE Reverting to " + idx);
 		}
 		public void EndTurn(){
 			turnEnded = true;
 		}
-		public Player Current(){
+		public T Current(){
 			return playerList[idx];
+		}
+        private void WritePlayer() {
+			var who = playerList[idx] as Player;
+            if (who != null)
+            {
+                CardGame.Instance.WriteToFile("t:" + who.name);
+            }			
 		}
 	}
 }

@@ -343,11 +343,11 @@ namespace CardEngine {
     }
     public class NextAction : GameAction
     {
-        private PlayerCycle playerCycle;
+        private StageCycle<Player> playerCycle;
         private int idx;
         private int former = -1;
 
-        public NextAction(PlayerCycle playerCycle, int idx) {
+        public NextAction(StageCycle<Player> playerCycle, int idx) {
             this.playerCycle = playerCycle;
             this.idx = idx;
         }

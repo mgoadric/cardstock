@@ -279,11 +279,9 @@
     <Compile Include="CardEngine\FancyRawStorage.cs" />
     <Compile Include="CardEngine\GameAction.cs" />
     <Compile Include="CardEngine\Player.cs" />
-    <Compile Include="CardEngine\PlayerCycle.cs" />
     <Compile Include="CardEngine\PointsStorage.cs" />
     <Compile Include="CardEngine\RawStorage.cs" />
     <Compile Include="CardEngine\Team.cs" />
-    <Compile Include="CardEngine\TeamCycle.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="ParseEngine.cs" />
     <Compile Include="Program.cs" />
@@ -298,6 +296,7 @@
     <Compile Include="CardEngine\CardEngineTest.cs" />
     <Compile Include="GenericGameTests.cs" />
     <Compile Include="Players\PredictablePlayer.cs" />
+    <Compile Include="CardEngine\StageCycle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -37,8 +37,8 @@ namespace CardEngine
 		public List<Player> players = new List<Player>();
 		public List<GeneralPlayer> decisionPlayers = new List<GeneralPlayer> ();
 		public List<Team> teams = new List<Team>();
-		public Stack<PlayerCycle> currentPlayer = new Stack<PlayerCycle>();
-		public Stack<TeamCycle> currentTeam = new Stack<TeamCycle>();
+		public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>();
+		public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
 		public RawStorage gameStorage = new RawStorage();
 		public PointsStorage points = new PointsStorage();
         public Dictionary<String, object> vars = new Dictionary<string, object>();
@@ -94,7 +94,7 @@ namespace CardEngine
 			//reconstruct team and player cycles
 			//temp.currentPlayer.Pop();
 			foreach (var cycle in this.currentPlayer.Reverse()){
-				var newCycle = new PlayerCycle (temp.players);
+				var newCycle = new StageCycle<Player> (temp.players);
 				newCycle.idx = cycle.idx;
 				newCycle.turnEnded = cycle.turnEnded;
 				newCycle.queuedNext = cycle.queuedNext;
@@ -102,7 +102,7 @@ namespace CardEngine
 			}
 			temp.currentTeam.Clear();
 			foreach (var cycle in this.currentTeam.Reverse()){
-				var newCycle = new TeamCycle (temp.teams);
+				var newCycle = new StageCycle<Team> (temp.teams);
 				newCycle.idx = cycle.idx;
 				newCycle.turnEnded = cycle.turnEnded;
 
@@ -340,26 +340,26 @@ namespace CardEngine
                 AddToMap(players[i]);
 				players [i].decision = new GeneralPlayer ();
 			}
-            currentPlayer.Push(new PlayerCycle(players));
+            currentPlayer.Push(new StageCycle<Player>(players));
 		}
 		public void PushPlayer(){
-			currentPlayer.Push(new PlayerCycle(currentPlayer.Peek()));
+			currentPlayer.Push(new StageCycle<Player>(currentPlayer.Peek()));
 		}
 		public void PopPlayer(){
 			currentPlayer.Pop();
 		}
 		
-		public TeamCycle CurrentTeam(){
+		public StageCycle<Team> CurrentTeam(){
 			return currentTeam.Peek();
 		}
 		public void PushTeam(){
-			currentTeam.Push(new TeamCycle(currentTeam.Peek()));
+			currentTeam.Push(new StageCycle<Team>(currentTeam.Peek()));
 		}
 		public void PopTeam(){
 			currentTeam.Pop();
 		}
 		
-		public PlayerCycle CurrentPlayer(){
+		public StageCycle<Player> CurrentPlayer(){
 			return currentPlayer.Peek();
 		}
 		public void SetDeck(Tree cardAttributes,CardCollection loc){

@@ -28,7 +28,7 @@ namespace ParseTreeIterator
                 CardGame.Instance.WriteToFile(teamStr);
             }
 
-            CardGame.Instance.currentTeam.Push(new TeamCycle(CardGame.Instance.teams));
+            CardGame.Instance.currentTeam.Push(new StageCycle<Team>(CardGame.Instance.teams));
             Debug.WriteLine("NUMTEAMS:" + CardGame.Instance.teams.Count);
 
         }
