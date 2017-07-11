@@ -396,19 +396,21 @@ namespace ParseTreeIterator
                 string text = who.GetChild(1).GetText();
                 if (text == "current")
                 {
-                    return CardGame.Instance.CurrentPlayer().Current().team;
+                    return CardGame.Instance.CurrentTeam().Current();
                 }
                 else if (text == "next")
                 {
-                    return CardGame.Instance.CurrentPlayer().PeekNext().team;
+                    throw new NotImplementedException();
+                    //return CardGame.Instance.CurrentTeam().PeekNext();
                 }
                 else if (text == "previous")
                 {
-                    return CardGame.Instance.CurrentPlayer().PeekPrevious().team;
-                }
+                    throw new NotImplementedException();
+					//return CardGame.Instance.CurrentTeam().PeekPrevious();
+				}
                 else if (who.whodesc().@int() != null)
                 {
-                    return CardGame.Instance.players[IntIterator.ProcessInt(who.whodesc().@int())].team;
+                    return CardGame.Instance.teams[IntIterator.ProcessInt(who.whodesc().@int())];
                 }
             }
             return null;

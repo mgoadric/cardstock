@@ -16,46 +16,7 @@ using CardStockXam;
 namespace ParseTreeIterator
 {
 	public class StageIterator{
-		public static void ProcessGame(RecycleParser.GameContext game){
-			SetupIterator.ProcessSetup(game.setup()).ExecuteAll();
-			
-			for (int i = 3; i < game.ChildCount - 2; ++i){
-				ProcessMultiaction(game.GetChild(i));
-			}
-		}
-		public static void ProcessStage(RecycleParser.StageContext stage){
-			CardGame.Instance.PushPlayer();
-			if (stage.endcondition().boolean() != null){
-				TimeStep.Instance.timeStep.Push(0);
-				while (!BooleanIterator.ProcessBoolean(stage.endcondition().boolean())){
-                    if (Scorer.gameWorld != null) { Scorer.gameWorld.numTurns++; }
-					StageCount.Instance.IncCount(stage);
-					TimeStep.Instance.timeStep.Push(TimeStep.Instance.timeStep.Pop() + 1);
-					Debug.WriteLine("Current Player: " + CardGame.Instance.CurrentPlayer().idx);
-                    
-                    CardGame.Instance.WriteToFile("t:" + CardGame.Instance.CurrentPlayer().idx);
-                    foreach (var player in CardGame.Instance.players) {
-						Debug.WriteLine("HANDSIZE: " + player.cardBins["HAND"].Count);
-					}
-					for (int i = 4; i < stage.ChildCount - 1; ++i){
-						TimeStep.Instance.treeLoc.Push(i - 4);
-						Debug.WriteLine(TimeStep.Instance);
-						ProcessMultiaction(stage.GetChild(i));
-						TimeStep.Instance.treeLoc.Pop();
-					}
-                    string text = stage.GetChild(2).GetText();
-					if (text == "player"){
-						CardGame.Instance.CurrentPlayer().Next();
-					}
-					else if (text == "team"){
-						CardGame.Instance.CurrentTeam().Next();
-					}
-					
-				}
-				TimeStep.Instance.timeStep.Pop();
-			}
-			CardGame.Instance.PopPlayer();
-		}
+
         public static List<GameActionCollection> ProcessMultiaction(IParseTree sub)
         {
             var lst = new List<GameActionCollection>();
@@ -92,12 +53,13 @@ namespace ParseTreeIterator
             }
             else if (sub is RecycleParser.StageContext)
             {
+                // NEVER HAPPENS, PROCESSED ELSEWHERE
 				Debug.WriteLine("Processing stage.");
-				ProcessStage(sub as RecycleParser.StageContext);
+				//ProcessStage(sub as RecycleParser.StageContext);
             }
             else if (sub is RecycleParser.Multiaction2Context)
             {
-                //Debug.WriteLine("ur in processing multiaction2");
+                Debug.WriteLine("ur in processing multiaction2");
                 var multi = sub as RecycleParser.Multiaction2Context;
                 if (multi.agg() != null)
                 {
@@ -114,6 +76,9 @@ namespace ParseTreeIterator
 					Debug.WriteLine("Processing multiaction2 do statement.");
 					ActionIterator.ProcessDo(multi.condact());
                 }
+            }
+            else {
+                Console.WriteLine("What is happening???");
             }
             Debug.WriteLine("Returning list of game actions.");
             return lst;

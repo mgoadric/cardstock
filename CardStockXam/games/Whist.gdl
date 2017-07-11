@@ -51,20 +51,22 @@
 
                ;; if following player and can follow SUIT
                ;;   play any card that follows SUIT, and end your turn
-               (any (filter ((current player) iloc HAND) 'L (== (cardatt SUIT 'L)
+               ((== (size (game mem LEAD)) 1)
+                (any (filter ((current player) iloc HAND) 'L (== (cardatt SUIT 'L)
                                                                (cardatt SUIT (top (game mem LEAD))))) 'C
-                ((== (size (game mem LEAD)) 1)
+                
                    (move 'C (top ((current player) vloc TRICK)))))
                       
                ;; if first player, play any card, remember it in the lead spot, and end your turn
                ((== (size (game mem LEAD)) 0)
-                 (do (
-                    (any ((current player) iloc HAND) 'C
-                           (move 'C (top ((current player) vloc TRICK))))
-                    (remember (top ((current player) vloc TRICK)) 
-                          (top (game mem LEAD))))))  
-           ))
-         )
+                
+                (any ((current player) iloc HAND) 'C
+                     (do (
+                          (move 'C (top ((current player) vloc TRICK)))
+                          (remember (top ((current player) vloc TRICK)) 
+                                    (top (game mem LEAD)))))) ) 
+               ))
+            )
               
          ;; after players play hand, computer wraps up trick
          (do (
@@ -102,20 +104,23 @@
          
       ;; determine team score
       (stage team
-         (end (all player 'P(== ('P sto TRICKSWON) 0)))
-         (do (
-          
-            ;; team made their cumulative bid, score positive points
-           (set ((current team) sto TRICKSWON) 0)
-           (all (current team) 'T
-               (inc ((current team) sto TRICKSWON) ('T sto TRICKSWON)))
-             ((> ((current team) sto TRICKSWON) 6)
-               (inc ((current team) sto SCORE) (- ((current team) sto TRICKSWON) 6)))
-           (all (current team) 'T
-            (set ('T sto TRICKSWON) 0))
-         ))
+             (end (all player 'P (== ('P sto TRICKSWON) 0)))
+             (do (
+                  
+                  ;; team made their cumulative bid, score positive points
+                  (set ((current team) sto TRICKSWON) 0)
+                  (all (current team) 'TP
+                       (do (
+                            (inc ((current team) sto TRICKSWON) ('TP sto TRICKSWON))
+                            (set ('TP sto TRICKSWON) 0)
+                            )))
+                  ((> ((current team) sto TRICKSWON) 6)
+                   (inc ((current team) sto SCORE) (- ((current team) sto TRICKSWON) 6)))
+                  (set (game sto TESTING) 1)
+                  )
+               )
+             )
       )
-   )
    (scoring max ((team (current player)) sto SCORE))
 )
          

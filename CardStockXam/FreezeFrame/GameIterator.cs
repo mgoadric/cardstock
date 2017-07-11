@@ -41,6 +41,7 @@ namespace FreezeFrame
 			ret.decisionIdx = decisionIdx;
 			return ret;
 		}
+
 		public GameIterator (RecycleParser.GameContext g, bool fresh = true)
 		{
 			game = g;
@@ -70,11 +71,10 @@ namespace FreezeFrame
 			while (iterStack.Count != 0 && !ProcessSubStage()) {
 			}
 			if (iterStack.Count == 0) {
-				return true;//game over
+				return true; //game over
 			}
-            // TODO choices stop getting processed ? this never decrements
             Debug.WriteLine(iterStack.Count);
-			return false;//interupted by player decision
+			return false; //interupted by player decision
 		}
 		public IParseTree CurrentNode(){
 			var ret =  iterStack.Peek ().Peek ();
@@ -140,11 +140,16 @@ namespace FreezeFrame
 		}
 		//this just queues the appropriate actions if condition is met, doesn't execute
 		public bool ProcessStage(RecycleParser.StageContext stage){
-
+            string text = stage.GetChild(2).GetText();
 			if (stage.endcondition().boolean() != null){
 
 				if (!iteratingSet.Contains (stage)) {
-					CardGame.Instance.PushPlayer ();
+                    if (text == "player")
+                    {
+                        CardGame.Instance.PushPlayer();
+                    } else if (text == "team") {
+                        CardGame.Instance.PushTeam();
+                    }
 					if (shouldInc) {
 						TimeStep.Instance.timeStep.Push (0);
 					}
@@ -174,10 +179,11 @@ namespace FreezeFrame
 						//TimeStep.Instance.treeLoc.Pop();
 					}
 					if (iteratingSet.Contains (stage)) {
-						if (stage.GetChild (2).GetText () == "player") {
+						if (text == "player") {
 							CardGame.Instance.CurrentPlayer ().Next ();
-						} else if (stage.GetChild (2).GetText () == "team") {
+						} else if (text == "team") {
 							CardGame.Instance.CurrentTeam ().Next ();
+                            Debug.WriteLine("Next team is " + CardGame.Instance.CurrentTeam().Current());
 						}
 					}
 
@@ -189,7 +195,12 @@ namespace FreezeFrame
 						if (shouldInc) {
 							TimeStep.Instance.timeStep.Pop ();
 						}
-						CardGame.Instance.PopPlayer ();
+                        if (text == "player") {
+                            CardGame.Instance.PopPlayer();
+                        } else if (text == "team") {
+                            CardGame.Instance.PopTeam();
+                        }
+						
 					}
 					return false;
 				}

@@ -365,7 +365,7 @@
     <None Include="games\BustedJunk\War2.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="games\BustedJunk\Whist.gdl">
+    <None Include="games\Whist.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
