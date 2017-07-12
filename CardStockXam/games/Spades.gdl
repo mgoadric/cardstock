@@ -37,10 +37,12 @@
       (stage player
              (end (all player 'P (<= ('P sto BID) 13)))
              (choice (
-                      (any (range 1..13) 'B
-                           
-                           (set ((current player) sto BID) 'B)
-                           )))
+                      (any (range 1..5) 'B
+                           (do (
+                                (set ((current player) sto BID) 'B)
+                                (inc ((team (current player)) sto BID) 'B)
+                                
+                                )))))
              )
       
       ;; players play a round 13 times     
@@ -129,6 +131,7 @@
               (forget (top (game mem LEAD)))
               (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE)))
               (inc ((next player) sto TRICKSWON) 1)
+              (inc ((team (next player)) sto TRICKSWON) 1)
                   
              ;; if winner played trump and trump not broken, trump is now broken
               ((and (== (cardatt SUIT (top ((next player) vloc TRICK))) 
@@ -145,34 +148,35 @@
          
       ;; determine team score
       (stage team
-         (end (all player 'P (== ('P sto TRICKSWON) 0)))
-         (let (all (current team) 'P ('P sto TRICKSWON)) 'TEAMTRICKS
-           (let (all (current team) 'Q ('Q sto BID)) 'TEAMBIDS
-             (do (
-          
-            ;; team made their cumulative bid, score positive points
-            ((>= 'TEAMTRICKS 
-                 'TEAMBIDS)
-              (do (
-                (inc ((current team) sto SCORE) (* 10 'TEAMBIDS))
-                (inc ((current team) sto BAGS) (- 'TEAMTRICKS 
-                                               'TEAMBIDS))
-             )))
-            
-            ;; team did not make their cumulative bid, score negative points
-            ((< 'TEAMTRICKS
-                'TEAMBIDS)
-             (dec ((current team) sto SCORE) (* 10 'TEAMBIDS))
-            )
-            
-            ;; record bags if over 10
-            (dec ((current team) sto SCORE) (* 100 (// ((current team) sto BAGS) 10)))
-            (set ((current team) sto BAGS) (% ((current team) sto BAGS) 10))
-            (all (current team) 'R
-               (set ('R sto TRICKSWON) 0))
-           ))))
+             (end (all player 'P (== ('P sto TRICKSWON) 0)))
+                 (do (
+                      
+                      
+                      ;; team made their cumulative bid, score positive points
+                      ((>= ((current team) sto TRICKSWON) 
+                           ((current team) sto BID))
+                       (do (
+                            (inc ((current team) sto SCORE) (* 10 ((current team) sto BID)))
+                            (inc ((current team) sto BAGS) (- ((current team) sto TRICKSWON) 
+                                                              ((current team) sto BID)))
+                            )))
+                      
+                      ;; team did not make their cumulative bid, score negative points
+                      ((< ((current team) sto TRICKSWON)
+                          ((current team) sto BID))
+                       (dec ((current team) sto SCORE) (* 10 ((current team) sto BID)))
+                       )
+                      
+                      ;; record bags if over 10
+                      (dec ((current team) sto SCORE) (* 100 (// ((current team) sto BAGS) 10)))
+                      (set ((current team) sto BAGS) (% ((current team) sto BAGS) 10))
+                      (set ((current team) sto TRICKSWON) 0)
+                      (set ((current team) sto BID) 0)
+                      (all (current team) 'R
+                           (set ('R sto TRICKSWON) 0))
+                      ))
+             )
       )
-   )
    (scoring max ((team (current player)) sto SCORE))
 )
          

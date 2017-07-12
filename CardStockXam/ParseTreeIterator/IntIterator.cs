@@ -104,7 +104,7 @@ namespace ParseTreeIterator
             int int1 = ProcessInt(range.GetChild(2) as RecycleParser.IntContext);
             int int2 = ProcessInt(range.GetChild(4) as RecycleParser.IntContext);
             List<int> ret = new List<int>();
-            for (int idx = int1; idx < int2; idx++){
+            for (int idx = int1; idx <= int2; idx++){
                 ret.Add(idx);
             }
             return ret;
