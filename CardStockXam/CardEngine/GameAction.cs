@@ -60,6 +60,7 @@ namespace CardEngine {
         public bool actualloc;
         public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end) {
             if (start.name != null) {
+                //Console.WriteLine(start.name);
                 if (start.name.Contains("{mem}") && !start.actual) {
                     throw new NotSupportedException();
                 }

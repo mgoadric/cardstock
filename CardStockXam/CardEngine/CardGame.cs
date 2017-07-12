@@ -154,10 +154,10 @@ namespace CardEngine
 				if (!bin.StartsWith ("{hidden}")) {
 					foreach (var card in tableCards[bin].AllCards()) {
 						var toAdd = temp.sourceDeck [cardIdxs [card]];
-                        toAdd.owner = temp.tableCards[bin];
 						temp.tableCards [bin].Add (toAdd);
 						if (!bin.StartsWith ("{mem}")) {
 							free.Remove (cardIdxs [card]);
+							toAdd.owner = temp.tableCards[bin];
 						}
 					}
 				}
@@ -190,7 +190,10 @@ namespace CardEngine
 						vals [picked] = last;
 
 						var toAdd = temp.sourceDeck [vals[vals.Count - 1]];
-                        toAdd.owner = temp.tableCards[bin];
+                        if (!bin.StartsWith("{mem}"))
+                        {
+                            toAdd.owner = temp.tableCards[bin];
+                        }
 						temp.tableCards [bin].Add (toAdd);
 						
 						vals.RemoveAt (vals.Count - 1);

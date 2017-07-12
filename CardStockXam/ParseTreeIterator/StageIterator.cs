@@ -419,7 +419,11 @@ namespace ParseTreeIterator
                 Debug.WriteLine("player choice made");
                 Debug.WriteLine(CardGame.Instance.CurrentPlayer().playerList.Count);
             }
-            else{ Debug.WriteLine("NO Choice Available");}
+            else
+            { 
+                Console.WriteLine("NO Choice Available");
+                throw new InvalidOperationException();
+            }
 		}
 
         public static List<GameActionCollection> ProcessCondactChoice(RecycleParser.CondactContext cond)

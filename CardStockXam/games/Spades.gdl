@@ -65,7 +65,7 @@
                ;; if following player and can follow SUIT
                ;;   play any card that follows SUIT, and end your turn
                ((== (size (game mem LEAD)) 1)
-                (all (filter ((current player) iloc HAND) 'S (== (cardatt SUIT 'S)
+                (any (filter ((current player) iloc HAND) 'S (== (cardatt SUIT 'S)
                                                                (cardatt SUIT (top (game mem LEAD))))) 'C
                     (move 'C (top ((current player) vloc TRICK)))))
                       
