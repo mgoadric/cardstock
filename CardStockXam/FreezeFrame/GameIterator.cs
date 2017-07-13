@@ -14,9 +14,6 @@ namespace FreezeFrame
 		HashSet<IParseTree> iteratingSet;
         public ParseOOPIterator parseoop;
 
-		public int decisionBranch = -1;
-		public int decisionIdx = -1;
-
 		public GameIterator Clone(){
             var ret = new GameIterator (game,false);
 			var revStack = new Stack<Queue<IParseTree>> ();
@@ -34,8 +31,6 @@ namespace FreezeFrame
 			foreach (var node in iteratingSet) {
 				ret.iteratingSet.Add (node);
 			}
-			ret.decisionBranch = decisionBranch;
-			ret.decisionIdx = decisionIdx;
 			return ret;
 		}
 

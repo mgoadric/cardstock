@@ -17,20 +17,21 @@ namespace CardGames
         public static void Main(string[] args)
         {
             var p = new Program();
-            p.SingleGame("Agram");
+            //p.SingleGame("ContinuousPairs");
+            p.AllGames();
         }
 
         void SingleGame(string game) {
 			var exp = new Experiment();
 			exp.fileName = game;
             // System.Console.WriteLine(g.Substring(6, g.Length - 4));
-            exp.numGames = 100;
-			exp.numEpochs = 10;
+            exp.numGames = 10;
+			exp.numEpochs = 1;
 
-			exp.logging = true;
+            exp.logging = true;
             // TODO make for as many players as in game 
             // one AI vs everyone else is helpful
-            exp.ai1 = false;
+            exp.ai1 = true;
             exp.ai2 = false;
 
 			var codeGen = new ParseEngine(exp);
@@ -48,7 +49,7 @@ namespace CardGames
                     
 				}
 			}
-            foreach (string g in gameFiles.GetRange(5, gameFiles.Count - 5)) {
+            foreach (string g in gameFiles.GetRange(0, gameFiles.Count - 5)) {
                 SingleGame(g.Substring(6, g.Length - 10));
             }
 

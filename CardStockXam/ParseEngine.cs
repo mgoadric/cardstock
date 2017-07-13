@@ -17,10 +17,6 @@ public class ParseEngine
 {
     public static FreezeFrame.GameIterator currentIterator;
     public static RecycleParser.GameContext currentTree;
-    StringBuilder builder = new StringBuilder();
-
-    public static int reportedBF = 0;
-
     public static Experiment expstat;
 
     public ParseEngine(Experiment exp)
@@ -63,23 +59,12 @@ public class ParseEngine
         var tree = parser.game();
         currentTree = tree;
 
+
         // Make the parse tree visualizations
-        builder.Append("graph tree{");
-        builder.AppendLine("NODE0 [label=\"Stage\" style=filled fillcolor=\"red\"]");
-        DOTMaker(tree, "NODE0");
-        builder.Append("}");
-        if (!exp.evaluating) { 
-            try{
-                var fs = File.Create("games/" + exp.fileName + ".gv");
-                var bytes = Encoding.UTF8.GetBytes(builder.ToString());
-                fs.Write(bytes, 0, bytes.Length);
-                fs.Close();
-                Debug.WriteLine("wrote " + exp.fileName + ".gv");
-            }
-            catch (Exception ex){
-                Debug.WriteLine(ex.ToString());
-            }
+        if (!exp.evaluating) {
+            DOTMakerTop(tree, exp.fileName);
         }
+
         if (exp.first){
             var tup = HasShuffleAndChoice(tree);
             if (exp.evaluating){
@@ -87,6 +72,7 @@ public class ParseEngine
                 Scorer.gameWorld.hasChoice = tup.Item2;
             }
         }
+
         int choiceCount = 0;
         var aggregator = new int[5, exp.numEpochs];
         var winaggregator = new int[exp.numEpochs];
@@ -123,13 +109,12 @@ public class ParseEngine
                     CardEngine.CardGame.Instance.players[1].decision = new LessThanPerfectPlayer();
                     //CardEngine.CardGame.Instance.players[1].decision = new PerfectPlayer();
                 }
+
+                // PLAY THE GAME
                 while (!manageContext.AdvanceToChoice())
                 {
                     choiceCount++;
-
                     manageContext.ProcessChoice();
-
-
                 }
 
                 if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
@@ -233,7 +218,27 @@ public class ParseEngine
         }
     }
 
-    public void DOTMaker(IParseTree node, string nodeName)
+    public void DOTMakerTop(IParseTree node, string fileName) {
+		StringBuilder builder = new StringBuilder();
+		builder.Append("graph tree{");
+		builder.AppendLine("NODE0 [label=\"Stage\" style=filled fillcolor=\"red\"]");
+		DOTMaker(node, "NODE0", builder);
+		builder.Append("}");
+		try
+		{
+			var fs = File.Create("games/" + fileName + ".gv");
+			var bytes = Encoding.UTF8.GetBytes(builder.ToString());
+			fs.Write(bytes, 0, bytes.Length);
+			fs.Close();
+			Debug.WriteLine("wrote " + fileName + ".gv");
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex.ToString());
+		}
+	}
+
+    public void DOTMaker(IParseTree node, string nodeName, StringBuilder builder)
     {
 
         for (int i = 0; i < node.ChildCount; ++i)
@@ -252,7 +257,7 @@ public class ParseEngine
                 if (myi != text.Length)
                 {
                     builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("RecycleParser+", "").Replace("Context", "") + "\" ]");
-                    DOTMaker(node.GetChild(i), newNodeName);
+                    DOTMaker(node.GetChild(i), newNodeName, builder);
                 }
                 else
                 {
@@ -275,7 +280,7 @@ public class ParseEngine
                     extra = " style=filled shape=diamond fillcolor=\"orange\"";
                 }
                 builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("RecycleParser+", "").Replace("Context", "") + "\" " + extra + "]");
-                DOTMaker(node.GetChild(i), newNodeName);
+                DOTMaker(node.GetChild(i), newNodeName, builder);
             }
             else if (node.GetChild(i).ChildCount > 0)
             {
