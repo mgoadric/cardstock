@@ -253,7 +253,6 @@
     <Compile Include="FreezeFrame\GameIterator.cs" />
     <Compile Include="Players\LessThanPerfectPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Analytics\AnalyticsNetworking.cs" />
     <Compile Include="Analytics\BinCounts.cs" />
     <Compile Include="Analytics\BranchingFactor.cs" />
     <Compile Include="Analytics\StageCount.cs" />
