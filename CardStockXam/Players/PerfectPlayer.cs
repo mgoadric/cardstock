@@ -45,7 +45,7 @@ namespace Players
 					while (!cloneContext.AdvanceToChoice ()) {
 						cloneContext.ProcessChoice ();
 					}
-					var winners = ScoreIterator.ProcessScore (ParseEngine.currentTree.scoring ());
+					var winners = cloneContext.parseoop.ProcessScore (ParseEngine.currentTree.scoring ());
 					for (int j = 0; j < winners.Count; ++j) {
 						if (winners [j].Item2 == 0) {
 							results [item] += j;

@@ -79,7 +79,7 @@ namespace Players
                     // figure this chunk out 
                     Debug.WriteLine("after advance to choice");
 
-					var winners = ScoreIterator.ProcessScore(ParseEngine.currentTree.scoring());
+					var winners = cloneContext.parseoop.ProcessScore(ParseEngine.currentTree.scoring());
                     Debug.WriteLine("past processscore");
 					total[item] = winners.Count;
 					

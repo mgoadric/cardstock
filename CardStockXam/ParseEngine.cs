@@ -133,7 +133,7 @@ public class ParseEngine
                 }
 
                 if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
-                var results = ScoreIterator.ProcessScore(tree.scoring());
+                var results = manageContext.parseoop.ProcessScore(tree.scoring());
                 numPlayers = results.Count;
                 for (int j = 0; j < results.Count; ++j)
                 {

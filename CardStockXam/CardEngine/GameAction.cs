@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using ParseTreeIterator;
 
 namespace CardEngine {
@@ -202,8 +203,25 @@ namespace CardEngine {
 
         public override void Execute()
         {
-            SetupIterator.ProcessTeamCreate(teamcreate);
-        }
+			var numTeams = teamcreate.teams().Count();
+			for (int i = 0; i < numTeams; ++i)
+			{
+				var newTeam = new Team(i);
+				var teamStr = "T:";
+				foreach (var p in teamcreate.teams(i).INTNUM())
+				{
+					var j = Int32.Parse(p.GetText());
+					newTeam.teamPlayers.Add(CardGame.Instance.players[j]);
+					CardGame.Instance.players[j].team = newTeam;
+					teamStr += j + " ";
+				}
+				CardGame.Instance.teams.Add(newTeam);
+				CardGame.Instance.WriteToFile(teamStr);
+			}
+
+			CardGame.Instance.currentTeam.Push(new StageCycle<Team>(CardGame.Instance.teams));
+			Debug.WriteLine("NUMTEAMS:" + CardGame.Instance.teams.Count);
+		}
 
         public override void Undo()
         {

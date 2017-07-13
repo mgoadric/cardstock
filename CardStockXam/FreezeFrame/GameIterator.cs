@@ -15,6 +15,8 @@ namespace FreezeFrame
 		RecycleParser.GameContext game;
 		Stack<Queue<IParseTree>> iterStack;
 		HashSet<IParseTree> iteratingSet;
+        public ParseOOPIterator parseoop;
+
 		bool shouldInc = true;
 		public int decisionBranch = -1;
 		public int decisionIdx = -1;
@@ -47,16 +49,17 @@ namespace FreezeFrame
 			game = g;
 			iterStack = new Stack<Queue<IParseTree>>();
 			iteratingSet = new HashSet<IParseTree>();
+            parseoop = new ParseOOPIterator();
 
             if (fresh)
             {
                 Debug.WriteLine("Processing declarations.");
                 foreach (RecycleParser.DeclareContext declare in game.declare())
                 {
-                    VarIterator.ProcessDeclare(declare);
+                    parseoop.ProcessDeclare(declare);
                 }
                 Debug.WriteLine("Setting up game.");
-                SetupIterator.ProcessSetup(game.setup()).ExecuteAll();
+                parseoop.ProcessSetup(game.setup()).ExecuteAll();
                 iterStack.Push(new Queue<IParseTree>());
                 var topLevel = iterStack.Peek();
                 for (int i = 3; i < game.ChildCount - 2; ++i)
@@ -67,6 +70,7 @@ namespace FreezeFrame
                 shouldInc = false;
             }
 		}
+
 		public bool AdvanceToChoice(){
 			while (iterStack.Count != 0 && !ProcessSubStage()) {
 			}
@@ -110,12 +114,12 @@ namespace FreezeFrame
             else if (sub is RecycleParser.MultiactionContext){
                 PopCurrentNode();
                 Debug.WriteLine("Is a multiaction.");
-                StageIterator.ProcessMultiaction(sub as RecycleParser.MultiactionContext);
+                parseoop.ProcessMultiaction(sub as RecycleParser.MultiactionContext);
             }
             else if (sub is RecycleParser.Multiaction2Context){
                 PopCurrentNode();
                 Debug.WriteLine("Is a multiaction2.");
-                StageIterator.ProcessMultiaction(sub as RecycleParser.Multiaction2Context);
+                parseoop.ProcessMultiaction(sub as RecycleParser.Multiaction2Context);
             }
             //setup and declare already handled
             else if (sub is RecycleParser.SetupContext){
@@ -135,7 +139,7 @@ namespace FreezeFrame
 			var sub = CurrentNode ();
 			var choice = sub as RecycleParser.MultiactionContext;
 			Debug.WriteLine("trying to process choice (in processchoice)");
-			StageIterator.ProcessChoice(choice.condact());
+			parseoop.ProcessChoice(choice.condact());
 			PopCurrentNode ();
 		}
 		//this just queues the appropriate actions if condition is met, doesn't execute
@@ -155,7 +159,7 @@ namespace FreezeFrame
 					}
 				}
 
-				if (!BooleanIterator.ProcessBoolean (stage.endcondition ().boolean ())) {
+				if (!parseoop.ProcessBoolean (stage.endcondition ().boolean ())) {
 					Debug.WriteLine("Processing end of stage condition.");
 
 					//Debug.WriteLine("Hit Boolean while!");
@@ -209,6 +213,10 @@ namespace FreezeFrame
 			return true;
 			//CardGame.Instance.PopPlayer();
 		}
+
+
+
+
         //public override String ToString() {
         //    return recorder.ToString();
         //}
