@@ -166,7 +166,9 @@ namespace CardEngine {
                 unshuffled.Add(c);
             }
             locations.cardList.Shuffle();
-        }
+			CardGame.Instance.WriteToFile("O:" + locations.cardList);
+
+		}
         public override void Undo()
         {
             locations.cardList.Clear();

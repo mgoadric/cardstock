@@ -13,8 +13,14 @@ namespace Players
     public class LessThanPerfectPlayer : GeneralPlayer
     {
         private static int numTests = 10; //previously 20
+        private GameIterator gameContext;
 
-        public int NumChoices(int items, Random rand, int idx){
+		public LessThanPerfectPlayer(GameIterator m)
+		{
+			gameContext = m;
+		}
+
+		public int NumChoices(int items, Random rand, int idx){
 			Debug.WriteLine("Passing new choice to LPP");
 
 			ParseEngine.expstat.logging = false;
@@ -65,9 +71,7 @@ namespace Players
 					
 					Debug.WriteLine("in lpp");
 
-					var preservedIterator = ParseEngine.currentIterator;
-					var cloneContext = ParseEngine.currentIterator.Clone(cg);
-					ParseEngine.currentIterator = cloneContext;
+					var cloneContext = gameContext.Clone(cg);
                     Debug.WriteLine("in lpp");
 					while (!cloneContext.AdvanceToChoice())
 					{
@@ -85,7 +89,7 @@ namespace Players
 
 					for (int j = 0; j < winners.Count; ++j)
 					{
-                        // if player is player 0 (me)
+                        // if player is me
 						if (winners[j].Item2 == idx)
 						{
                             // add your rank to the results of this choice
@@ -99,7 +103,6 @@ namespace Players
 					}
 					Debug.WriteLine("in lpp");
 
-					ParseEngine.currentIterator = preservedIterator;
 				}
                 Debug.WriteLine("Aggregated rank: " + results[item]);
 				wrs[item] = (double)numWon / numTests;
@@ -111,7 +114,6 @@ namespace Players
 			CardGame.Instance = preserved;
 			Debug.WriteLine("resetting game state");
 
-			var typeOfGame = ParseEngine.currentTree.scoring().GetChild(2).GetText();
 			var tup = MinMaxIdx(results);
 			if (Scorer.gameWorld != null)
 			{
@@ -138,14 +140,12 @@ namespace Players
             return tup.Item1;
         }
 
-        public LessThanPerfectPlayer()
-        {
-        }
         public override int MakeAction(List<GameActionCollection> possibles, Random rand, int idx)
         {
 
             return NumChoices(possibles.Count, rand, idx);
         }
+
         public override int MakeAction(JObject possibles, Random rand, int idx)
         {
             var items = (JArray)possibles["items"];

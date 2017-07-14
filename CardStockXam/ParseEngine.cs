@@ -14,7 +14,6 @@ using Players;
 // add basic stats (% wins)
 public class ParseEngine
 {
-    public static FreezeFrame.GameIterator currentIterator;
     public static RecycleParser.GameContext currentTree;
     public static Experiment expstat;
 
@@ -101,16 +100,15 @@ public class ParseEngine
 
                 CardEngine.CardGame.Instance = new CardEngine.CardGame();
                 var manageContext = new FreezeFrame.GameIterator(tree, CardEngine.CardGame.Instance);
-                currentIterator = manageContext;
 
                 // TODO add so can have 4 AI players
                 if (exp.ai1)
                 {
-                    CardEngine.CardGame.Instance.players[0].decision = new LessThanPerfectPlayer();
+                    CardEngine.CardGame.Instance.players[0].decision = new LessThanPerfectPlayer(manageContext);
                 }
                 if (exp.ai2)
                 {
-                    CardEngine.CardGame.Instance.players[1].decision = new LessThanPerfectPlayer();
+                    CardEngine.CardGame.Instance.players[1].decision = new LessThanPerfectPlayer(manageContext);
                 }
 
                 // PLAY THE GAME

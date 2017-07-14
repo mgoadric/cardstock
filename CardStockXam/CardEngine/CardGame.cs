@@ -467,7 +467,7 @@ namespace CardEngine
             {
                Debug.WriteLine("Choices: " + c);
             }*/
-			Debug.WriteLine("Player turn: " + CardGame.Instance.CurrentPlayer().idx);
+			Debug.WriteLine("Player turn: " + CurrentPlayer().idx);
 
 
 			var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices, rand, playerIdx);

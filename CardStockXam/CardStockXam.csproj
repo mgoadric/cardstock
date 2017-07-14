@@ -233,7 +233,6 @@
     <Compile Include="Antlr4\Runtime\Vocabulary.cs" />
     <Compile Include="CardEngine\IterItem.cs" />
     <Compile Include="CardEngine\IteratingTree.cs" />
-    <Compile Include="Players\PerfectPlayer.cs" />
     <Compile Include="Scoring\Genetic.cs" />
     <Compile Include="Scoring\GeneticFiler.cs" />
     <Compile Include="Scoring\Generator.cs" />
