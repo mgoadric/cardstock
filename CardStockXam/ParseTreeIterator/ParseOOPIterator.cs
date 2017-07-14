@@ -1,4 +1,4 @@
-using Antlr4.Runtime;
+using FreezeFrame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +13,13 @@ using CardStockXam.CardEngine;
 namespace ParseTreeIterator
 {
 	public class ParseOOPIterator{
+
+        GameIterator parent;
+
+        public ParseOOPIterator(GameIterator p) {
+            parent = p;
+        }
+
 		public GameActionCollection ProcessAction(RecycleParser.ActionContext actionNode){
             Debug.WriteLine(actionNode.GetText()); 
 			var ret = new GameActionCollection();
@@ -23,8 +30,8 @@ namespace ParseTreeIterator
             else if (actionNode.initpoints() != null) {
                 var points = actionNode.initpoints();
                 var name = points.var().GetText();
-                if (!CardGame.Instance.points.binDict.ContainsKey(name)) {
-                    CardGame.Instance.points.AddKey(name);
+                if (!parent.instance.points.binDict.ContainsKey(name)) {
+                    parent.instance.points.AddKey(name);
                 }
                 List<PointAwards> temp = new List<PointAwards>();
                 var awards = points.awards();
@@ -49,10 +56,10 @@ namespace ParseTreeIterator
                     }
                     key = key.Substring(0, key.Length - 1);
                     value = value.Substring(0, value.Length - 1);
-                    CardGame.Instance.WriteToFile("A:" + value + " " + reward);
+                    parent.instance.WriteToFile("A:" + value + " " + reward);
                     temp.Add(new PointAwards(key, value, reward));
                 }
-                CardGame.Instance.points[name] = new CardScore(temp);
+                parent.instance.points[name] = new CardScore(temp);
             }
             else if (actionNode.copyaction() != null) {
                 Debug.WriteLine("REMEMBER: '" + actionNode.GetText() + "'");
@@ -115,19 +122,19 @@ namespace ParseTreeIterator
                 if (cycle.owner() != null)
                 {
                     var idx = ProcessOwner(cycle.owner());
-                    return new NextAction(CardGame.Instance.CurrentPlayer(), idx);
+                    return new NextAction(parent.instance.CurrentPlayer(), idx);
                 }
                 else if (text2 == "next")
                 {
-                    return new NextAction(CardGame.Instance.CurrentPlayer(), CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekNext()));
+                    return new NextAction(parent.instance.CurrentPlayer(), parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekNext()));
                 }
                 else if (text2 == "current")
                 {
-                    return new NextAction(CardGame.Instance.CurrentPlayer(), CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().Current()));
+                    return new NextAction(parent.instance.CurrentPlayer(), parent.instance.players.IndexOf(parent.instance.CurrentPlayer().Current()));
                 }
                 else if (text2 == "previous")
                 {
-                    return new NextAction(CardGame.Instance.CurrentPlayer(), CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekPrevious()));
+                    return new NextAction(parent.instance.CurrentPlayer(), parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekPrevious()));
                 }
             }
             else if (text1 == "current")
@@ -140,15 +147,15 @@ namespace ParseTreeIterator
                 }
                 else if (text2 == "next")
                 {
-                    return new SetPlayerAction(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekNext()));
+                    return new SetPlayerAction(parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekNext()));
                 }
                 else if (text2 == "current")
                 {
-                    return new SetPlayerAction(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().Current()));
+                    return new SetPlayerAction(parent.instance.players.IndexOf(parent.instance.CurrentPlayer().Current()));
                 }
                 else if (text2 == "previous")
                 {
-                    return new SetPlayerAction(CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().PeekPrevious()));
+                    return new SetPlayerAction(parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekPrevious()));
                 }
             }
             return null;
@@ -202,7 +209,7 @@ namespace ParseTreeIterator
             Debug.WriteLine("Got to OWNER");
             var resultingCard = ProcessCard(owner.card()).Get();
             Debug.WriteLine("Result :" + resultingCard);
-            return CardGame.Instance.CurrentPlayer().playerList.IndexOf(resultingCard.owner.container.owner);
+            return parent.instance.CurrentPlayer().playerList.IndexOf(resultingCard.owner.container.owner);
         }
 
         public  bool ProcessBoolean(RecycleParser.BooleanContext boolNode) {
@@ -337,7 +344,7 @@ namespace ParseTreeIterator
         {
             if (card.maxof() != null)
             {
-                var scoring = CardGame.Instance.points[card.maxof().var().GetText()];
+                var scoring = parent.instance.points[card.maxof().var().GetText()];
                 var coll = ProcessLocation(card.maxof().cstorage());
                 var max = 0;
                 Card maxCard = null;
@@ -366,7 +373,7 @@ namespace ParseTreeIterator
             }
 
             if (card.minof() != null){
-                var scoring = CardGame.Instance.points[card.minof().var().GetText()];
+                var scoring = parent.instance.points[card.minof().var().GetText()];
                 var coll = ProcessLocation(card.minof().cstorage());
                 var min = Int32.MaxValue;
                 Card minCard = null;
@@ -419,16 +426,16 @@ namespace ParseTreeIterator
         public  List<object> ProcessOther(RecycleParser.OtherContext other){ //return list of teams or list of players
             List<object> lst = new List<object>();
             if (other.GetChild(2).GetText() == "player"){
-                foreach (Player p in CardGame.Instance.players){
+                foreach (Player p in parent.instance.players){
                     lst.Add(p);
                 }
-                lst.Remove(CardGame.Instance.currentPlayer.ElementAt(0));
+                lst.Remove(parent.instance.currentPlayer.ElementAt(0));
             }
             else{
-                foreach (Team t in CardGame.Instance.teams){
+                foreach (Team t in parent.instance.teams){
                     lst.Add(t);
                 }
-                lst.Remove(CardGame.Instance.currentTeam);
+                lst.Remove(parent.instance.currentTeam);
             }
             return lst;
         }
@@ -523,7 +530,7 @@ namespace ParseTreeIterator
         {
             if (memset.tuple() != null)
             {
-                var findEm = new CardGrouping(13, CardGame.Instance.points[memset.tuple().var().GetText()]);
+                var findEm = new CardGrouping(13, parent.instance.points[memset.tuple().var().GetText()]);
                 var cardsToScore = new CardListCollection();
                 var stor = ProcessLocation(memset.tuple().cstorage());
                 foreach (var card in stor.cardList.AllCards())
@@ -577,7 +584,7 @@ namespace ParseTreeIterator
                 if (stor.namegr() != null){
                     var fancy = new FancyCardLocation()
                     {
-                        cardList = CardGame.Instance.tableCards[prefix + stor.namegr().GetText()],
+                        cardList = parent.instance.tableCards[prefix + stor.namegr().GetText()],
                         locIdentifier = "top",
                         name = "t" + prefix + stor.namegr().GetText()
                     };
@@ -598,7 +605,7 @@ namespace ParseTreeIterator
                    
                     var fancy = new FancyCardLocation()
                     {
-                        cardList = CardGame.Instance.tableCards[prefix + Get(stor.var())],
+                        cardList = parent.instance.tableCards[prefix + Get(stor.var())],
                         locIdentifier = "top",
                         name = "t" + prefix + Get(stor.var())
                     };
@@ -695,19 +702,19 @@ namespace ParseTreeIterator
                 string text = who.GetChild(1).GetText();
                 if (text == "current")
                 {
-                    return CardGame.Instance.CurrentPlayer().Current();
+                    return parent.instance.CurrentPlayer().Current();
                 }
                 else if (text == "next")
                 {
-                    return CardGame.Instance.CurrentPlayer().PeekNext();
+                    return parent.instance.CurrentPlayer().PeekNext();
                 }
                 else if (text == "previous")
                 {
-                    return CardGame.Instance.CurrentPlayer().PeekPrevious();
+                    return parent.instance.CurrentPlayer().PeekPrevious();
                 }
                 else if (who.whodesc().@int() != null)
                 {
-                    return CardGame.Instance.players[ProcessInt(who.whodesc().@int())];
+                    return parent.instance.players[ProcessInt(who.whodesc().@int())];
                 }
             }
             return null;
@@ -720,21 +727,21 @@ namespace ParseTreeIterator
                 string text = who.GetChild(1).GetText();
                 if (text == "current")
                 {
-                    return CardGame.Instance.CurrentTeam().Current();
+                    return parent.instance.CurrentTeam().Current();
                 }
                 else if (text == "next")
                 {
                     throw new NotImplementedException();
-                    //return CardGame.Instance.CurrentTeam().PeekNext();
+                    //return parent.instance.CurrentTeam().PeekNext();
                 }
                 else if (text == "previous")
                 {
                     throw new NotImplementedException();
-					//return CardGame.Instance.CurrentTeam().PeekPrevious();
+					//return parent.instance.CurrentTeam().PeekPrevious();
 				}
                 else if (who.whodesc().@int() != null)
                 {
-                    return CardGame.Instance.teams[ProcessInt(who.whodesc().@int())];
+                    return parent.instance.teams[ProcessInt(who.whodesc().@int())];
                 }
             }
             return null;
@@ -887,7 +894,7 @@ namespace ParseTreeIterator
             }
             else if (intNode.sum() != null) {
                 var sum = intNode.sum();
-                var scoring = CardGame.Instance.points[sum.var().GetText()];
+                var scoring = parent.instance.points[sum.var().GetText()];
                 var coll = ProcessLocation(sum.cstorage());
                 int total = 0;
                 foreach (var c in coll.cardList.AllCards()) {
@@ -898,7 +905,7 @@ namespace ParseTreeIterator
             }
             else if (intNode.score() != null) {
                 Debug.WriteLine("trying to score" + intNode.GetText());
-                var scorer = CardGame.Instance.points[intNode.score().var().GetText()];
+                var scorer = parent.instance.points[intNode.score().var().GetText()];
                 var card = ProcessCard(intNode.score().card());
                 return scorer.GetScore(card.Get());
             }
@@ -929,10 +936,10 @@ namespace ParseTreeIterator
             if (raw.GetChild(1).GetText() == "game") {
                 if (raw.var().Length == 1) {
                     String temp = ProcessStringVar(raw.var()[0]);
-                    return AddedRaw(new FancyRawStorage(CardGame.Instance.gameStorage, temp));
+                    return AddedRaw(new FancyRawStorage(parent.instance.gameStorage, temp));
                 }
                 else {
-                    return AddedRaw(new FancyRawStorage(CardGame.Instance.gameStorage, raw.namegr().GetText()));
+                    return AddedRaw(new FancyRawStorage(parent.instance.gameStorage, raw.namegr().GetText()));
 
                 }
             }
@@ -1011,13 +1018,13 @@ namespace ParseTreeIterator
         public  List<Tuple<int,int>> ProcessScore(RecycleParser.ScoringContext scoreMethod){
 			var ret = new List<Tuple<int, int>>();
 
-			CardGame.Instance.PushPlayer();
-			CardGame.Instance.CurrentPlayer().idx = 0;
-			for (int i = 0; i < CardGame.Instance.players.Count; ++i) {
+			parent.instance.PushPlayer();
+			parent.instance.CurrentPlayer().idx = 0;
+			for (int i = 0; i < parent.instance.players.Count; ++i) {
 				var working = ProcessInt (scoreMethod.@int ());
-                CardGame.Instance.WriteToFile("s:" + working + " " + i);
+                parent.instance.WriteToFile("s:" + working + " " + i);
 				ret.Add(new Tuple<int,int>(working,i));
-				CardGame.Instance.CurrentPlayer ().Next();
+				parent.instance.CurrentPlayer ().Next();
 			}
 
 			ret.Sort();
@@ -1035,16 +1042,16 @@ namespace ParseTreeIterator
                 var teamStr = "T:";
                 foreach (var p in teamCreate.teams(i).INTNUM()){
                     var j = Int32.Parse(p.GetText());
-                    newTeam.teamPlayers.Add(CardGame.Instance.players[j]);
-                    CardGame.Instance.players[j].team = newTeam;
+                    newTeam.teamPlayers.Add(parent.instance.players[j]);
+                    parent.instance.players[j].team = newTeam;
                     teamStr += j + " ";
                 }
-                CardGame.Instance.teams.Add(newTeam);
-                CardGame.Instance.WriteToFile(teamStr);
+                parent.instance.teams.Add(newTeam);
+                parent.instance.WriteToFile(teamStr);
             }
 
-            CardGame.Instance.currentTeam.Push(new StageCycle<Team>(CardGame.Instance.teams));
-            Debug.WriteLine("NUMTEAMS:" + CardGame.Instance.teams.Count);
+            parent.instance.currentTeam.Push(new StageCycle<Team>(parent.instance.teams));
+            Debug.WriteLine("NUMTEAMS:" + parent.instance.teams.Count);
 
         }
 
@@ -1060,8 +1067,8 @@ namespace ParseTreeIterator
                 else{
                     numPlayers = ProcessIntVar(playerCreate.var());
                 }
-                CardGame.Instance.WriteToFile("nump:" + numPlayers);
-				CardGame.Instance.AddPlayers(numPlayers);
+                parent.instance.WriteToFile("nump:" + numPlayers);
+				parent.instance.AddPlayers(numPlayers);
 			}
 			if (setupNode.teamcreate() != null){
                 Debug.WriteLine("Creating teams.");
@@ -1485,7 +1492,7 @@ namespace ParseTreeIterator
 
         public  void ProcessChoice(RecycleParser.CondactContext[] choices)
         {
-            Debug.WriteLine("Player turn: " + CardGame.Instance.CurrentPlayer().idx);
+            Debug.WriteLine("Player turn: " + parent.instance.CurrentPlayer().idx);
             Debug.WriteLine("Processing choice.");
             var allOptions = new List<GameActionCollection>();
             for (int i = 0; i < choices.Length; ++i)
@@ -1500,13 +1507,13 @@ namespace ParseTreeIterator
                     allOptions.AddRange(gacs);
                 }
             }
-            //BranchingFactor.Instance.AddCount(allOptions.Count, CardGame.Instance.CurrentPlayer().idx);
+            //BranchingFactor.Instance.AddCount(allOptions.Count, parent.instance.CurrentPlayer().idx);
             if (allOptions.Count != 0){
                 Debug.WriteLine("processed choices");
                 Debug.WriteLine("Choice count:" + allOptions.Count);
-                CardGame.Instance.PlayerMakeChoice(allOptions, CardGame.Instance.CurrentPlayer().idx);
+                parent.instance.PlayerMakeChoice(allOptions, parent.instance.CurrentPlayer().idx);
                 Debug.WriteLine("player choice made");
-                Debug.WriteLine(CardGame.Instance.CurrentPlayer().playerList.Count);
+                Debug.WriteLine(parent.instance.CurrentPlayer().playerList.Count);
             }
             else
             { 
@@ -1541,22 +1548,22 @@ namespace ParseTreeIterator
             return Get(var.GetText());
         }
         public  object Get(String text){
-            if (CardGame.Instance.vars.ContainsKey(text)){
+            if (parent.instance.vars.ContainsKey(text)){
                 
-                return CardGame.Instance.vars[text];
+                return parent.instance.vars[text];
             }
             Debug.WriteLine("Failure");
             throw new Exception("Object " + text + " could not be found");
         }
         public  void Put(string k, Object v){
-            CardGame.Instance.vars[k] = v;
+            parent.instance.vars[k] = v;
            // Console.WriteLine("putting key " + k + " for " + v);
         }
         public  void Remove(string k){
-            if (!CardGame.Instance.vars.ContainsKey(k)) {
+            if (!parent.instance.vars.ContainsKey(k)) {
                 throw new KeyNotFoundException();
             }
-            CardGame.Instance.vars.Remove(k);
+            parent.instance.vars.Remove(k);
         }
         public  FancyCardLocation ProcessCStorageFilter(RecycleParser.FilterContext filter)
         {
@@ -1703,12 +1710,12 @@ namespace ParseTreeIterator
             {
                 Debug.WriteLine("Processing collection type: players.");
 
-                return CardGame.Instance.players;
+                return parent.instance.players;
             }
             else if (text == "team")
             {
                 Debug.WriteLine("Processing collection type: team.");
-				return CardGame.Instance.teams;
+				return parent.instance.teams;
             }
             else if (collection.other() != null)
             {

@@ -25,7 +25,7 @@ namespace Players
                 ParseEngine.expstat.logging = true;
 				return 0;
 			}
-			CardEngine.CardGame.preserved = CardEngine.CardGame.Instance;
+			CardGame preserved = CardEngine.CardGame.Instance;
 
 			var results = new int[items];
 			var total = new int[items];
@@ -41,24 +41,23 @@ namespace Players
 					Debug.WriteLine("****Made Switch**** : " + i);
 
                     // gets through clonesecret
-					CardGame.Instance = CardGame.preserved.CloneSecret(idx);
+					CardGame cg = preserved.CloneSecret(idx);
 
-                    for (int j = 0; j < CardGame.Instance.players.Count; j++)
+                    for (int j = 0; j < cg.players.Count; j++)
                     {
                         
                         Debug.WriteLine("in lpp for loop:" + j);
                         if (j == idx) {
 							Debug.WriteLine("Player turn: " + CardGame.Instance.CurrentPlayer().idx);
-
 							Debug.WriteLine("Predictable player choice set: " + item);
 
-                            CardGame.Instance.players[j].decision = new PredictablePlayer()
+                            cg.players[j].decision = new PredictablePlayer()
                             {
 						     	toChoose = item
                             };
                         }
                          else {
-							CardGame.Instance.players[j].decision = new Players.GeneralPlayer();
+							cg.players[j].decision = new Players.GeneralPlayer();
 
 						}
                     }
@@ -67,7 +66,7 @@ namespace Players
 					Debug.WriteLine("in lpp");
 
 					var preservedIterator = ParseEngine.currentIterator;
-					var cloneContext = ParseEngine.currentIterator.Clone();
+					var cloneContext = ParseEngine.currentIterator.Clone(cg);
 					ParseEngine.currentIterator = cloneContext;
                     Debug.WriteLine("in lpp");
 					while (!cloneContext.AdvanceToChoice())
@@ -109,7 +108,7 @@ namespace Players
 			}
 			Debug.WriteLine("End Monte");
 			//Debug.WriteLine ("***Switch Back***");
-			CardGame.Instance = CardGame.preserved;
+			CardGame.Instance = preserved;
 			Debug.WriteLine("resetting game state");
 
 			var typeOfGame = ParseEngine.currentTree.scoring().GetChild(2).GetText();

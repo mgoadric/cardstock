@@ -18,7 +18,7 @@ namespace Players
 
 		public override int MakeAction(JObject possibles, Random rand, int idx){
 			var items = (JArray)possibles ["items"];
-			CardEngine.CardGame.preserved = CardEngine.CardGame.Instance;
+			CardGame preserved = CardEngine.CardGame.Instance;
 
 
 			var results = new int[items.Count];
@@ -27,9 +27,9 @@ namespace Players
 				for (int i = 0; i < 20; ++i) {
 					Debug.WriteLine ("****Made Switch****");
 
-					CardEngine.CardGame.Instance = CardEngine.CardGame.preserved.Clone ();
+					CardGame cg = preserved.Clone ();
 					var flag = true;
-					foreach (var player in CardEngine.CardGame.Instance.players) {
+					foreach (var player in cg.players) {
 						if (flag) {
 							flag = false;
 							player.decision = new PredictablePlayer ();
@@ -41,7 +41,7 @@ namespace Players
 						}
 					}
 
-					var cloneContext = ParseEngine.currentIterator.Clone ();
+					var cloneContext = ParseEngine.currentIterator.Clone (cg);
 					while (!cloneContext.AdvanceToChoice ()) {
 						cloneContext.ProcessChoice ();
 					}
@@ -55,7 +55,7 @@ namespace Players
 
 			}
 			//Debug.WriteLine ("***Switch Back***");
-			CardEngine.CardGame.Instance = CardEngine.CardGame.preserved;
+			CardEngine.CardGame.Instance = preserved;
 			var typeOfGame = ParseEngine.currentTree.scoring ().GetChild (2).GetText ();
 			if (typeOfGame == "min") {
 				return idxOfMinimum (results);

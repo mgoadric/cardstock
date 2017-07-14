@@ -95,7 +95,7 @@ public class ParseEngine
                 Dictionary<String, int> seenStates = new Dictionary<String, int>();
 
                 CardEngine.CardGame.Instance = new CardEngine.CardGame();
-                var manageContext = new FreezeFrame.GameIterator(tree);
+                var manageContext = new FreezeFrame.GameIterator(tree, CardEngine.CardGame.Instance);
 
                 currentIterator = manageContext;
                 // TODO add so can have 4 AI players

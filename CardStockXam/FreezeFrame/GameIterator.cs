@@ -13,9 +13,10 @@ namespace FreezeFrame
 		Stack<Queue<IParseTree>> iterStack;
 		HashSet<IParseTree> iteratingSet;
         public ParseOOPIterator parseoop;
+        public CardGame instance;
 
-		public GameIterator Clone(){
-            var ret = new GameIterator (game,false);
+		public GameIterator Clone(CardGame cg){
+            var ret = new GameIterator (game, cg, false);
 			var revStack = new Stack<Queue<IParseTree>> ();
 			foreach (var i in iterStack) {
 				revStack.Push (i);
@@ -34,12 +35,13 @@ namespace FreezeFrame
 			return ret;
 		}
 
-		public GameIterator (RecycleParser.GameContext g, bool fresh = true)
+		public GameIterator (RecycleParser.GameContext g, CardGame mygame, bool fresh = true)
 		{
 			game = g;
+            instance = mygame;
 			iterStack = new Stack<Queue<IParseTree>>();
 			iteratingSet = new HashSet<IParseTree>();
-            parseoop = new ParseOOPIterator();
+            parseoop = new ParseOOPIterator(this);
 
             if (fresh)
             {
@@ -124,6 +126,7 @@ namespace FreezeFrame
             }
             return false;
 		}
+
 		public void ProcessChoice(){
 			var sub = CurrentNode ();
 			var choice = sub as RecycleParser.MultiactionContext;
@@ -140,9 +143,9 @@ namespace FreezeFrame
 				if (!iteratingSet.Contains (stage)) {
                     if (text == "player")
                     {
-                        CardGame.Instance.PushPlayer();
+                        instance.PushPlayer();
                     } else if (text == "team") {
-                        CardGame.Instance.PushTeam();
+                        instance.PushTeam();
                     }
 				}
 
@@ -152,9 +155,9 @@ namespace FreezeFrame
 					//Debug.WriteLine("Hit Boolean while!");
 					iterStack.Push (new Queue<IParseTree> ());
 					var topLevel = iterStack.Peek ();
-                    Debug.WriteLine ("Current Player: " + CardGame.Instance.CurrentPlayer ().idx + ", " + CardGame.Instance.players[CardGame.Instance.CurrentPlayer().idx]);
-                    Debug.WriteLine("Num players (gameiterator): " + CardGame.Instance.CurrentPlayer().playerList.Count);
-                    foreach (var player in CardGame.Instance.players) {
+                    Debug.WriteLine ("Current Player: " + instance.CurrentPlayer ().idx + ", " + instance.players[instance.CurrentPlayer().idx]);
+                    Debug.WriteLine("Num players (gameiterator): " + instance.CurrentPlayer().playerList.Count);
+                    foreach (var player in instance.players) {
 						//Console.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
 					}
 					for (int i = 4; i < stage.ChildCount - 1; ++i) {
@@ -167,10 +170,10 @@ namespace FreezeFrame
 					}
 					if (iteratingSet.Contains (stage)) {
 						if (text == "player") {
-							CardGame.Instance.CurrentPlayer ().Next ();
+							instance.CurrentPlayer ().Next ();
 						} else if (text == "team") {
-							CardGame.Instance.CurrentTeam ().Next ();
-                            Debug.WriteLine("Next team is " + CardGame.Instance.CurrentTeam().Current());
+							instance.CurrentTeam ().Next ();
+                            Debug.WriteLine("Next team is " + instance.CurrentTeam().Current());
 						}
 					}
 
@@ -180,9 +183,9 @@ namespace FreezeFrame
 					if (iteratingSet.Contains (stage)) {
 						iteratingSet.Remove (stage);
                         if (text == "player") {
-                            CardGame.Instance.PopPlayer();
+                            instance.PopPlayer();
                         } else if (text == "team") {
-                            CardGame.Instance.PopTeam();
+                            instance.PopTeam();
                         }
 						
 					}
@@ -190,7 +193,7 @@ namespace FreezeFrame
 				}
 			}
 			return true;
-			//CardGame.Instance.PopPlayer();
+			//instance.PopPlayer();
 		}
     }
 }
