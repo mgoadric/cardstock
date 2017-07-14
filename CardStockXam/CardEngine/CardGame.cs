@@ -13,7 +13,7 @@ namespace CardEngine
 {
 	
 	public class CardGame{
-		public static CardGame preserved;
+
 		private static CardGame instance;
 		public string DeclaredName = "Default";
 		public static CardGame Instance

@@ -8,7 +8,6 @@ using System.IO;
 using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using CardGames;
-using ParseTreeIterator;
 using CardStockXam;
 using Players;
 
@@ -29,7 +28,10 @@ public class ParseEngine
         if (exp.logging) {
             File.WriteAllText(exp.fileName + ".txt", string.Empty);
         }
-        // Load up the game from the .gdl RECYCLE description
+
+        /************
+         * Load up the game from the .gdl RECYCLE description
+         ************/
         string fileName = exp.fileName;
         if (!exp.evaluating)
         {
@@ -49,7 +51,9 @@ public class ParseEngine
         var file = File.ReadAllText(fileName);
         file = regex.Replace(file, "\n");
 
-        // Parse the game with the Antlr grammar description
+        /***********
+         * Parse the game with the Antlr grammar description
+         ***********/
         AntlrInputStream stream = new AntlrInputStream(file);
         ITokenSource lexer = new RecycleLexer(stream);
         ITokenStream tokens = new CommonTokenStream(lexer);
@@ -60,7 +64,9 @@ public class ParseEngine
         currentTree = tree;
 
 
-        // Make the parse tree visualizations
+        /***********
+         * Make the parse tree visualization
+         ***********/
         if (!exp.evaluating) {
             DOTMakerTop(tree, exp.fileName);
         }
@@ -74,7 +80,8 @@ public class ParseEngine
         }
 
         int choiceCount = 0;
-        var aggregator = new int[5, exp.numEpochs];
+		int numPlayers = 0;
+		var aggregator = new int[5, exp.numEpochs];
         var winaggregator = new int[exp.numEpochs];
 
         int[,] playerRank = new int[5, exp.numEpochs];
@@ -82,32 +89,28 @@ public class ParseEngine
        
         Stopwatch time = new Stopwatch();
         time.Start();
-        int numPlayers = 0;
 
+        /***********
+         * Run the experiments
+         ***********/
         for (int i = 0; i < exp.numGames; ++i)
         {
             try
             {
-
-
                 System.GC.Collect();
-
-                Dictionary<String, int> seenStates = new Dictionary<String, int>();
 
                 CardEngine.CardGame.Instance = new CardEngine.CardGame();
                 var manageContext = new FreezeFrame.GameIterator(tree, CardEngine.CardGame.Instance);
-
                 currentIterator = manageContext;
+
                 // TODO add so can have 4 AI players
                 if (exp.ai1)
                 {
                     CardEngine.CardGame.Instance.players[0].decision = new LessThanPerfectPlayer();
-                    //CardEngine.CardGame.Instance.players[0].decision = new PerfectPlayer();
                 }
                 if (exp.ai2)
                 {
                     CardEngine.CardGame.Instance.players[1].decision = new LessThanPerfectPlayer();
-                    //CardEngine.CardGame.Instance.players[1].decision = new PerfectPlayer();
                 }
 
                 // PLAY THE GAME
@@ -117,6 +120,7 @@ public class ParseEngine
                     manageContext.ProcessChoice();
                 }
 
+                // SORT OUT RESULTS
                 if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
                 var results = manageContext.parseoop.ProcessScore(tree.scoring());
                 numPlayers = results.Count;
@@ -148,8 +152,11 @@ public class ParseEngine
             }
         }
         time.Stop();
+
+
         if (!exp.evaluating)
         {
+            // SHOW RESULTS TO CONSOLE
             Console.Out.WriteLine(time.Elapsed);
             Console.Out.WriteLine("Turns per game: " + choiceCount / (double)(exp.numGames));
             Console.Out.WriteLine("Score: ");
@@ -188,21 +195,12 @@ public class ParseEngine
 				}
 				Console.Out.WriteLine();
 			}
-
-
-            //for (int j = 0; j < exp.numEpochs; j++)
-            //{
-                
-            //    if (exp.evaluating) { Scorer.gameWorld.wins += 1; }
-            //}
-
             Console.Out.WriteLine();
-
-
-           // Console.Read();
+            // Console.Read();
         }
         else
         {
+            // USE RESULTS IN GENETIC ALGORITHM
             Scorer.gameWorld.numFirstWins += winaggregator[0];
             Scorer.gameWorld.numGames += winaggregator.Sum();
             if (exp.ai1 && !exp.ai2)
@@ -218,7 +216,10 @@ public class ParseEngine
         }
     }
 
-    public void DOTMakerTop(IParseTree node, string fileName) {
+	/*********
+     * Output the parsed game for graphviz dot
+     *********/
+	public void DOTMakerTop(IParseTree node, string fileName) {
 		StringBuilder builder = new StringBuilder();
 		builder.Append("graph tree{");
 		builder.AppendLine("NODE0 [label=\"Stage\" style=filled fillcolor=\"red\"]");
@@ -238,9 +239,11 @@ public class ParseEngine
 		}
 	}
 
+    /*********
+     * Output the parsed game for graphviz dot
+     *********/
     public void DOTMaker(IParseTree node, string nodeName, StringBuilder builder)
     {
-
         for (int i = 0; i < node.ChildCount; ++i)
         {
             var dontCreate = false;
