@@ -14,22 +14,7 @@ namespace CardEngine
 	
 	public class CardGame{
 
-		private static CardGame instance;
 		public string DeclaredName = "Default";
-		public static CardGame Instance
-   		{
-	  		get 
-	  		{
-		         if (instance == null)
-		         {
-		            instance = new CardGame();
-		         }
-		         return instance;
-		     }
-			set{
-				instance = value;
-			}
-		}
 		public static Random rand = new Random();
 		public List<Card> sourceDeck = new List<Card>();
 		public CardStorage tableCards = new CardStorage();
@@ -94,7 +79,7 @@ namespace CardEngine
 			//reconstruct team and player cycles
 			//temp.currentPlayer.Pop();
 			foreach (var cycle in this.currentPlayer.Reverse()){
-				var newCycle = new StageCycle<Player> (temp.players);
+				var newCycle = new StageCycle<Player> (temp.players, temp);
 				newCycle.idx = cycle.idx;
 				newCycle.turnEnded = cycle.turnEnded;
 				newCycle.queuedNext = cycle.queuedNext;
@@ -102,7 +87,7 @@ namespace CardEngine
 			}
 			temp.currentTeam.Clear();
 			foreach (var cycle in this.currentTeam.Reverse()){
-				var newCycle = new StageCycle<Team> (temp.teams);
+				var newCycle = new StageCycle<Team> (temp.teams, temp);
 				newCycle.idx = cycle.idx;
 				newCycle.turnEnded = cycle.turnEnded;
 
@@ -343,7 +328,7 @@ namespace CardEngine
                 AddToMap(players[i]);
 				players [i].decision = new GeneralPlayer ();
 			}
-            currentPlayer.Push(new StageCycle<Player>(players));
+            currentPlayer.Push(new StageCycle<Player>(players, this));
 		}
 		public void PushPlayer(){
 			currentPlayer.Push(new StageCycle<Player>(currentPlayer.Peek()));
@@ -431,33 +416,8 @@ namespace CardEngine
 		//	j.Append("}");
 		//	return (JObject) JsonConvert.DeserializeObject (j.ToString ());
 		//}
-		public void SetValue(int idx, int value){
-			gameStorage.storage[idx] = value;
-		}
-		public int GetValue(int idx){
-			return gameStorage.storage[idx];
-		}
-		public void IncrValue(int idx, int incr){
-			gameStorage.storage[idx] += incr;
-		}
-		public void PromptPlayer(Player p, string storageName, int minValue, int maxValue){
-			
-			var possibles = new List<GameAction>();
-			for (int i = minValue; i < maxValue; ++i){
-				possibles.Add(new IntAction(p.storage,storageName,i));
-			}
-			var choice = p.MakeAction(possibles,rand);
-			Debug.WriteLine("Choice:" + choice);
-			possibles[choice].ExecuteActual();
-			
-		}
-		public GameAction ChangeGameState(string bucket, int value){
-			return new IntAction(this.gameStorage,bucket,value);
-		}
-		public GameAction ChangePlayerState(int playerIdx, string bucket, int value){
-			return new IntAction(players[playerIdx].storage,bucket,value);
-		}
-		public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
+
+        public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
             // just keep choices ! just pass in choices
 			//var strDescription = SerializeGAC (choices);
 			//var json = (JObject) JsonConvert.DeserializeObject (strDescription);

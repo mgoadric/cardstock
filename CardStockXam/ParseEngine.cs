@@ -98,17 +98,17 @@ public class ParseEngine
             {
                 System.GC.Collect();
 
-                CardEngine.CardGame.Instance = new CardEngine.CardGame();
-                var manageContext = new FreezeFrame.GameIterator(tree, CardEngine.CardGame.Instance);
+                CardEngine.CardGame instance = new CardEngine.CardGame();
+                var manageContext = new FreezeFrame.GameIterator(tree, instance);
 
                 // TODO add so can have 4 AI players
                 if (exp.ai1)
                 {
-                    CardEngine.CardGame.Instance.players[0].decision = new LessThanPerfectPlayer(manageContext);
+                    instance.players[0].decision = new LessThanPerfectPlayer(manageContext);
                 }
                 if (exp.ai2)
                 {
-                    CardEngine.CardGame.Instance.players[1].decision = new LessThanPerfectPlayer(manageContext);
+                    instance.players[1].decision = new LessThanPerfectPlayer(manageContext);
                 }
 
                 // PLAY THE GAME

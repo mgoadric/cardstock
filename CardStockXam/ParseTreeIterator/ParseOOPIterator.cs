@@ -25,7 +25,7 @@ namespace ParseTreeIterator
 			var ret = new GameActionCollection();
             if (actionNode.teamcreate() != null) {
                 var teamCreate = actionNode.teamcreate() as RecycleParser.TeamcreateContext;
-                ret.Add(new TeamCreateAction(teamCreate));
+                ret.Add(new TeamCreateAction(teamCreate, parent.instance));
             }
             else if (actionNode.initpoints() != null) {
                 var points = actionNode.initpoints();
@@ -122,19 +122,19 @@ namespace ParseTreeIterator
                 if (cycle.owner() != null)
                 {
                     var idx = ProcessOwner(cycle.owner());
-                    return new NextAction(parent.instance.CurrentPlayer(), idx);
+                    return new NextAction(parent.instance.CurrentPlayer(), idx, parent.instance);
                 }
                 else if (text2 == "next")
                 {
-                    return new NextAction(parent.instance.CurrentPlayer(), parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekNext()));
+                    return new NextAction(parent.instance.CurrentPlayer(), parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekNext()), parent.instance);
                 }
                 else if (text2 == "current")
                 {
-                    return new NextAction(parent.instance.CurrentPlayer(), parent.instance.players.IndexOf(parent.instance.CurrentPlayer().Current()));
+                    return new NextAction(parent.instance.CurrentPlayer(), parent.instance.players.IndexOf(parent.instance.CurrentPlayer().Current()), parent.instance);
                 }
                 else if (text2 == "previous")
                 {
-                    return new NextAction(parent.instance.CurrentPlayer(), parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekPrevious()));
+                    return new NextAction(parent.instance.CurrentPlayer(), parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekPrevious()), parent.instance);
                 }
             }
             else if (text1 == "current")
@@ -143,19 +143,19 @@ namespace ParseTreeIterator
                 if (cycle.owner() != null)
                 {
                     var idx = ProcessOwner(cycle.owner());
-                    return new SetPlayerAction(idx);
+                    return new SetPlayerAction(idx, parent.instance);
                 }
                 else if (text2 == "next")
                 {
-                    return new SetPlayerAction(parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekNext()));
+                    return new SetPlayerAction(parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekNext()), parent.instance);
                 }
                 else if (text2 == "current")
                 {
-                    return new SetPlayerAction(parent.instance.players.IndexOf(parent.instance.CurrentPlayer().Current()));
+                    return new SetPlayerAction(parent.instance.players.IndexOf(parent.instance.CurrentPlayer().Current()), parent.instance);
                 }
                 else if (text2 == "previous")
                 {
-                    return new SetPlayerAction(parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekPrevious()));
+                    return new SetPlayerAction(parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekPrevious()), parent.instance);
                 }
             }
             return null;
@@ -198,7 +198,7 @@ namespace ParseTreeIterator
                 var card2 = ProcessCard(rep.moveaction().card()[1]);
                 idx = card1.cardList.Count;
                 for (int i = 0; i < idx; i++){
-                    ret.Add(new FancyCardMoveAction(card1, card2));
+                    ret.Add(new FancyCardMoveAction(card1, card2, parent.instance));
 
                 }
             }
@@ -320,24 +320,24 @@ namespace ParseTreeIterator
                 return null;
             }
             var cardTwo = ProcessCard(copy.GetChild(2) as RecycleParser.CardContext);
-            return new FancyCardCopyAction(cardOne, cardTwo);
+            return new FancyCardCopyAction(cardOne, cardTwo, parent.instance);
         }
 
 		public  GameAction ProcessRemove(RecycleParser.RemoveactionContext removeAction){
 			var cardOne = ProcessCard(removeAction.card());
-			return new FancyRemoveAction(cardOne);
+			return new FancyRemoveAction(cardOne, parent.instance);
 		}
         public  GameAction ProcessMove(RecycleParser.MoveactionContext move) {
             var cardOne = ProcessCard(move.GetChild(1) as RecycleParser.CardContext);
             var cardTwo = ProcessCard(move.GetChild(2) as RecycleParser.CardContext);
             //Console.WriteLine("Card one: " + ProcessCard(move.GetChild(1) as RecycleParser.CardContext));
             //Console.WriteLine("Card two: " + ProcessCard(move.GetChild(2) as RecycleParser.CardContext));
-			return new FancyCardMoveAction(cardOne, cardTwo);
+			return new FancyCardMoveAction(cardOne, cardTwo, parent.instance);
         }
 
         internal  GameAction ProcessShuffle(FancyCardLocation locations)
         {
-            return new ShuffleAction(locations);
+            return new ShuffleAction(locations, parent.instance);
         }
 
         public  FancyCardLocation ProcessCard(RecycleParser.CardContext card)
@@ -1000,19 +1000,19 @@ namespace ParseTreeIterator
         public  GameAction SetAction(RecycleParser.SetactionContext setAction){
             var bin = ProcessRawStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
-            return new IntAction(bin.storage, bin.key, setValue);
+            return new IntAction(bin.storage, bin.key, setValue, parent.instance);
         }
 		public  GameAction IncAction(RecycleParser.IncactionContext setAction){
             var bin = ProcessRawStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             var newVal = bin.Get() + setValue;
-            return new IntAction(bin.storage, bin.key, newVal);
+            return new IntAction(bin.storage, bin.key, newVal, parent.instance);
         }
         public  GameAction DecAction(RecycleParser.DecactionContext setAction) {
             var bin = ProcessRawStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             var newVal = bin.Get() - setValue;
-            return new IntAction(bin.storage, bin.key, newVal);
+            return new IntAction(bin.storage, bin.key, newVal, parent.instance);
         }
 
         public  List<Tuple<int,int>> ProcessScore(RecycleParser.ScoringContext scoreMethod){
@@ -1050,7 +1050,7 @@ namespace ParseTreeIterator
                 parent.instance.WriteToFile(teamStr);
             }
 
-            parent.instance.currentTeam.Push(new StageCycle<Team>(parent.instance.teams));
+            parent.instance.currentTeam.Push(new StageCycle<Team>(parent.instance.teams, parent.instance));
             Debug.WriteLine("NUMTEAMS:" + parent.instance.teams.Count);
 
         }
@@ -1110,7 +1110,7 @@ namespace ParseTreeIterator
         {
             var locstorage = ProcessLocation(deckinit.cstorage());
             var deckTree = ProcessDeck(deckinit.deck());
-            return new InitializeAction(locstorage.cardList, deckTree);
+            return new InitializeAction(locstorage.cardList, deckTree, parent.instance);
         }
                 
         public  List<GameActionCollection> ProcessMultiaction(IParseTree sub)

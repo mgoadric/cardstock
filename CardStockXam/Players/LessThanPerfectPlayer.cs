@@ -31,7 +31,6 @@ namespace Players
                 ParseEngine.expstat.logging = true;
 				return 0;
 			}
-			CardGame preserved = CardEngine.CardGame.Instance;
 
 			var results = new int[items];
 			var total = new int[items];
@@ -47,14 +46,14 @@ namespace Players
 					Debug.WriteLine("****Made Switch**** : " + i);
 
                     // gets through clonesecret
-					CardGame cg = preserved.CloneSecret(idx);
+					CardGame cg = gameContext.instance.CloneSecret(idx);
 
                     for (int j = 0; j < cg.players.Count; j++)
                     {
                         
                         Debug.WriteLine("in lpp for loop:" + j);
                         if (j == idx) {
-							Debug.WriteLine("Player turn: " + CardGame.Instance.CurrentPlayer().idx);
+							Debug.WriteLine("Player turn: " + cg.CurrentPlayer().idx);
 							Debug.WriteLine("Predictable player choice set: " + item);
 
                             cg.players[j].decision = new PredictablePlayer()
@@ -111,7 +110,7 @@ namespace Players
 			}
 			Debug.WriteLine("End Monte");
 			//Debug.WriteLine ("***Switch Back***");
-			CardGame.Instance = preserved;
+
 			Debug.WriteLine("resetting game state");
 
 			var tup = MinMaxIdx(results);
@@ -128,7 +127,7 @@ namespace Players
 				}
 				var variance = Math.Abs(max - min);
 				Scorer.gameWorld.variance.Add(variance);
-				Scorer.gameWorld.Lead(CardGame.Instance.currentPlayer.Peek().idx).Add(max);
+				Scorer.gameWorld.Lead(gameContext.instance.currentPlayer.Peek().idx).Add(max);
 
 			}
             ParseEngine.expstat.logging = true;

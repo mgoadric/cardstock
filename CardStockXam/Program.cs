@@ -25,13 +25,13 @@ namespace CardGames
 			var exp = new Experiment();
 			exp.fileName = game;
             // System.Console.WriteLine(g.Substring(6, g.Length - 4));
-            exp.numGames = 10;
-			exp.numEpochs = 1;
+            exp.numGames = 100;
+			exp.numEpochs = 10;
 
             exp.logging = true;
             // TODO make for as many players as in game 
             // one AI vs everyone else is helpful
-            exp.ai1 = true;
+            exp.ai1 = false;
             exp.ai2 = false;
 
 			var codeGen = new ParseEngine(exp);
@@ -53,7 +53,6 @@ namespace CardGames
                 SingleGame(g.Substring(6, g.Length - 10));
             }
 
-            // TODO CardGame.Instance is a singleton ;/
             //gameFiles.Add("Blackjack");
             //gameFiles.Add("SaneEights");
             //System.Threading.Tasks.Parallel.ForEach(gameFiles, SingleGame); 

@@ -37,6 +37,7 @@ namespace CardEngine {
     public abstract class GameAction {
         public bool actual = true;
         public bool complete;
+        public CardGame cg;
         public void ExecuteActual(){
             actual = true;
             Execute();
@@ -59,7 +60,7 @@ namespace CardEngine {
         public FancyCardLocation endLocation;
         public CardCollection owner;
         public bool actualloc;
-        public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end) {
+        public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end, CardGame cg) {
             if (start.name != null) {
                 //Console.WriteLine(start.name);
                 if (start.name.Contains("{mem}") && !start.actual) {
@@ -76,6 +77,7 @@ namespace CardEngine {
             }
             startLocation = start;
             endLocation = end;
+            this.cg = cg;
         }
 
         public override void Execute() {
@@ -98,10 +100,10 @@ namespace CardEngine {
                     var prefix = "M:";
                     if (!actual) { prefix = "N:"; }
                     if (cardToMove.owner != null) {
-                        CardGame.Instance.WriteToFile(prefix + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
+                        cg.WriteToFile(prefix + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
                     }
                     else {
-                        CardGame.Instance.WriteToFile(prefix + cardToMove.ToOutputString() + " " + startLocation.name + " " + endLocation.name);
+                       cg.WriteToFile(prefix + cardToMove.ToOutputString() + " " + startLocation.name + " " + endLocation.name);
                     }
                     endLocation.Add(cardToMove);
                     owner = cardToMove.owner;
@@ -154,10 +156,11 @@ namespace CardEngine {
         private FancyCardLocation locations;
         private CardCollection unshuffled;
 
-        public ShuffleAction(FancyCardLocation locations)
+        public ShuffleAction(FancyCardLocation locations, CardGame cg)
         {
             this.locations = locations;
             unshuffled = new CardListCollection();
+            this.cg = cg;
         }
 
         public override void Execute() {
@@ -166,7 +169,7 @@ namespace CardEngine {
                 unshuffled.Add(c);
             }
             locations.cardList.Shuffle();
-			CardGame.Instance.WriteToFile("O:" + locations.cardList);
+			cg.WriteToFile("O:" + locations.cardList);
 
 		}
         public override void Undo()
@@ -197,10 +200,12 @@ namespace CardEngine {
             return "TurnAction";
 		}
     }
+
     public class TeamCreateAction : GameAction {
         private RecycleParser.TeamcreateContext teamcreate;
-        public TeamCreateAction(RecycleParser.TeamcreateContext teamcreate) {
+        public TeamCreateAction(RecycleParser.TeamcreateContext teamcreate, CardGame cg) {
             this.teamcreate = teamcreate;
+            this.cg = cg;
         }
 
         public override void Execute()
@@ -213,16 +218,16 @@ namespace CardEngine {
 				foreach (var p in teamcreate.teams(i).INTNUM())
 				{
 					var j = Int32.Parse(p.GetText());
-					newTeam.teamPlayers.Add(CardGame.Instance.players[j]);
-					CardGame.Instance.players[j].team = newTeam;
+					newTeam.teamPlayers.Add(cg.players[j]);
+					cg.players[j].team = newTeam;
 					teamStr += j + " ";
 				}
-				CardGame.Instance.teams.Add(newTeam);
-				CardGame.Instance.WriteToFile(teamStr);
+				cg.teams.Add(newTeam);
+				cg.WriteToFile(teamStr);
 			}
 
-			CardGame.Instance.currentTeam.Push(new StageCycle<Team>(CardGame.Instance.teams));
-			Debug.WriteLine("NUMTEAMS:" + CardGame.Instance.teams.Count);
+			cg.currentTeam.Push(new StageCycle<Team>(cg.teams, cg));
+			Debug.WriteLine("NUMTEAMS:" + cg.teams.Count);
 		}
 
         public override void Undo()
@@ -238,17 +243,18 @@ namespace CardEngine {
         CardCollection location;
         CardCollection before;
         Tree deck;
-        public InitializeAction(CardCollection loc, Tree d) {
+        public InitializeAction(CardCollection loc, Tree d, CardGame cg) {
             location = loc;
             before = new CardListCollection();
             deck = d;
+            this.cg = cg;
         }
         public override void Execute() {
             foreach (Card c in location.AllCards())
             {
                 before.Add(c);
             }
-            CardGame.Instance.SetDeck(deck, location);
+            cg.SetDeck(deck, location);
         }
         public override void Undo()
         {
@@ -266,9 +272,10 @@ namespace CardEngine {
     public class FancyCardCopyAction : GameAction {
         FancyCardLocation startLocation;
         FancyCardLocation endLocation;
-        public FancyCardCopyAction(FancyCardLocation start, FancyCardLocation end) {
+        public FancyCardCopyAction(FancyCardLocation start, FancyCardLocation end, CardGame cg) {
             startLocation = start;
             endLocation = end;
+            this.cg = cg;
             if (endLocation.nonPhysical ||
                 !endLocation.name.Contains("{mem}") ||
                 endLocation.name.Contains("{MAX}")  ||
@@ -280,7 +287,7 @@ namespace CardEngine {
         }
         public override void Execute() {
             endLocation.Add(startLocation.Get());
-            CardGame.Instance.WriteToFile("m:" + endLocation.ToOutputString());
+            cg.WriteToFile("m:" + endLocation.ToOutputString());
         }
 
         public override void Undo()
@@ -296,7 +303,8 @@ namespace CardEngine {
     }
     public class FancyRemoveAction : GameAction {
         FancyCardLocation endLocation;
-        public FancyRemoveAction(FancyCardLocation end) {
+        public FancyRemoveAction(FancyCardLocation end, CardGame cg) {
+            this.cg = cg;
             if (end.name.Contains("{mem}")) {
                 endLocation = end;
             }
@@ -325,10 +333,11 @@ namespace CardEngine {
         int value;
         int oldValue;
 
-        public IntAction(RawStorage storage, string bKey, int v) {
+        public IntAction(RawStorage storage, string bKey, int v, CardGame cg) {
             bucket = storage;
             bucketKey = bKey;
             value = v;
+            this.cg = cg;
         }
         public override void Execute() {
             oldValue = bucket[bucketKey];
@@ -336,15 +345,15 @@ namespace CardEngine {
             complete = true;
             if (bucket.owner != null)
             {
-                CardGame.Instance.WriteToFile("S:" + bucket.owner.name + " " + bucketKey + " " + value);
+                cg.WriteToFile("S:" + bucket.owner.name + " " + bucketKey + " " + value);
             }
             else if (bucket.teamOwner != null)
             {
-                CardGame.Instance.WriteToFile("S:" + bucket.teamOwner + " " + bucketKey + " " + value);
+                cg.WriteToFile("S:" + bucket.teamOwner + " " + bucketKey + " " + value);
             }
             else
             {
-                CardGame.Instance.WriteToFile("S:" + bucket + " " + bucketKey + " " + value);
+                cg.WriteToFile("S:" + bucket + " " + bucketKey + " " + value);
             }
         }
         public override void Undo() {
@@ -368,9 +377,10 @@ namespace CardEngine {
         private int idx;
         private int former = -1;
 
-        public NextAction(StageCycle<Player> playerCycle, int idx) {
+        public NextAction(StageCycle<Player> playerCycle, int idx, CardGame cg) {
             this.playerCycle = playerCycle;
             this.idx = idx;
+            this.cg = cg;
         }
 
         public override void Execute()
@@ -402,21 +412,22 @@ namespace CardEngine {
     {
         private int idx;
         private int former;
-        public SetPlayerAction(int idx) {
+        public SetPlayerAction(int idx, CardGame cg) {
             this.idx = idx;
+            this.cg = cg;
         }
 
         public override void Execute()
         {
-            former = CardGame.Instance.players.IndexOf(CardGame.Instance.CurrentPlayer().Current());
-            CardGame.Instance.CurrentPlayer().SetPlayer(idx);
-
+            former = cg.players.IndexOf(cg.CurrentPlayer().Current());
+            cg.CurrentPlayer().SetPlayer(idx);
         }
 
         public override void Undo()
         {
-            CardGame.Instance.CurrentPlayer().SetPlayer(former);
+            cg.CurrentPlayer().SetPlayer(former);
         }
+
 		public override string ToString()
 		{
             return "SetPlayerAction: Set player: " + idx.ToString();

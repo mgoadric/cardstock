@@ -6,16 +6,19 @@ namespace CardEngine{
 		public bool turnEnded;
 		public int idx = 0;
 		public int queuedNext = -1;
+        public CardGame cg;
 
-		public StageCycle(List<T> pList){
+		public StageCycle(List<T> pList, CardGame cg){
             playerList = pList;
             var p = pList[0];
+            this.cg = cg;
 			WritePlayer();
 		}
         public StageCycle(StageCycle<T> source){
 			playerList = source.playerList;
 			idx = source.idx;
 			turnEnded = source.turnEnded;
+            cg = source.cg;
         }
 
 		public T PeekNext(){
@@ -88,7 +91,7 @@ namespace CardEngine{
 			var who = playerList[idx] as Player;
             if (who != null)
             {
-                CardGame.Instance.WriteToFile("t:" + who.name);
+                cg.WriteToFile("t:" + who.name);
             }			
 		}
 	}
