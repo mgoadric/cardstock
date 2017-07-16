@@ -6,21 +6,16 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using CardGames;
-using ParseTreeIterator;
 using CardStockXam;
 using Players;
 
 // add basic stats (% wins)
 public class ParseEngine
 {
-    public static FreezeFrame.GameIterator currentIterator;
     public static RecycleParser.GameContext currentTree;
-    StringBuilder builder = new StringBuilder();
-
-    public static int reportedBF = 0;
-
     public static Experiment expstat;
 
     public ParseEngine(Experiment exp)
@@ -33,7 +28,10 @@ public class ParseEngine
         if (exp.logging) {
             File.WriteAllText(exp.fileName + ".txt", string.Empty);
         }
-        // Load up the game from the .gdl RECYCLE description
+
+        /************
+         * Load up the game from the .gdl RECYCLE description
+         ************/
         string fileName = exp.fileName;
         if (!exp.evaluating)
         {
@@ -53,7 +51,9 @@ public class ParseEngine
         var file = File.ReadAllText(fileName);
         file = regex.Replace(file, "\n");
 
-        // Parse the game with the Antlr grammar description
+        /***********
+         * Parse the game with the Antlr grammar description
+         ***********/
         AntlrInputStream stream = new AntlrInputStream(file);
         ITokenSource lexer = new RecycleLexer(stream);
         ITokenStream tokens = new CommonTokenStream(lexer);
@@ -63,23 +63,14 @@ public class ParseEngine
         var tree = parser.game();
         currentTree = tree;
 
-        // Make the parse tree visualizations
-        builder.Append("graph tree{");
-        builder.AppendLine("NODE0 [label=\"Stage\" style=filled fillcolor=\"red\"]");
-        DOTMaker(tree, "NODE0");
-        builder.Append("}");
-        if (!exp.evaluating) { 
-            try{
-                var fs = File.Create("games/" + exp.fileName + ".gv");
-                var bytes = Encoding.UTF8.GetBytes(builder.ToString());
-                fs.Write(bytes, 0, bytes.Length);
-                fs.Close();
-                Debug.WriteLine("wrote " + exp.fileName + ".gv");
-            }
-            catch (Exception ex){
-                Debug.WriteLine(ex.ToString());
-            }
+
+        /***********
+         * Make the parse tree visualization
+         ***********/
+        if (!exp.evaluating) {
+            DOTMakerTop(tree, exp.fileName);
         }
+
         if (exp.first){
             var tup = HasShuffleAndChoice(tree);
             if (exp.evaluating){
@@ -87,8 +78,10 @@ public class ParseEngine
                 Scorer.gameWorld.hasChoice = tup.Item2;
             }
         }
+
         int choiceCount = 0;
-        var aggregator = new int[5, exp.numEpochs];
+		int numPlayers = 0;
+		var aggregator = new int[5, exp.numEpochs];
         var winaggregator = new int[exp.numEpochs];
 
         int[,] playerRank = new int[5, exp.numEpochs];
@@ -96,44 +89,41 @@ public class ParseEngine
        
         Stopwatch time = new Stopwatch();
         time.Start();
-        int numPlayers = 0;
 
-        for (int i = 0; i < exp.numGames; ++i)
+        /***********
+         * Run the experiments
+         ***********/
+
+        //for (int i = 0; i < exp.numGames; i++)
+        Parallel.For(0, exp.numGames, i =>
         {
             try
             {
-
-
                 System.GC.Collect();
 
-                Dictionary<String, int> seenStates = new Dictionary<String, int>();
+                CardEngine.CardGame instance = new CardEngine.CardGame(true, exp.fileName + i);
+                var manageContext = new FreezeFrame.GameIterator(tree, instance);
 
-                CardEngine.CardGame.Instance = new CardEngine.CardGame();
-                var manageContext = new FreezeFrame.GameIterator(tree);
-
-                currentIterator = manageContext;
                 // TODO add so can have 4 AI players
                 if (exp.ai1)
                 {
-                    CardEngine.CardGame.Instance.players[0].decision = new LessThanPerfectPlayer();
-                    //CardEngine.CardGame.Instance.players[0].decision = new PerfectPlayer();
+                    instance.players[0].decision = new LessThanPerfectPlayer(manageContext);
                 }
                 if (exp.ai2)
                 {
-                    CardEngine.CardGame.Instance.players[1].decision = new LessThanPerfectPlayer();
-                    //CardEngine.CardGame.Instance.players[1].decision = new PerfectPlayer();
+                    instance.players[1].decision = new LessThanPerfectPlayer(manageContext);
                 }
+
+                // PLAY THE GAME
                 while (!manageContext.AdvanceToChoice())
                 {
                     choiceCount++;
-
                     manageContext.ProcessChoice();
-
-
                 }
 
+                // SORT OUT RESULTS
                 if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
-                var results = ScoreIterator.ProcessScore(tree.scoring());
+                var results = manageContext.parseoop.ProcessScore(tree.scoring());
                 numPlayers = results.Count;
                 for (int j = 0; j < results.Count; ++j)
                 {
@@ -146,14 +136,13 @@ public class ParseEngine
                     {
                         playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
                     }
-					if (results[j].Item2 == 0 && j != results.Count - 1)
+                    if (results[j].Item2 == 0 && j != results.Count - 1)
                     {
                         winaggregator[i / (exp.numGames / exp.numEpochs)]++;
                         if (Scorer.gameWorld != null) { Scorer.gameWorld.GameOver(j); }
                     }
                 }
 
-                WriteToFile("|");
                 Debug.WriteLine("Finished game " + (i + 1) + " of " + exp.numGames);
             }
             catch (Exception e)
@@ -162,9 +151,14 @@ public class ParseEngine
                 Console.WriteLine(fileName + " failed from exception: " + e + "\n\n\n");
             }
         }
+        );
+
         time.Stop();
+
+
         if (!exp.evaluating)
         {
+            // SHOW RESULTS TO CONSOLE
             Console.Out.WriteLine(time.Elapsed);
             Console.Out.WriteLine("Turns per game: " + choiceCount / (double)(exp.numGames));
             Console.Out.WriteLine("Score: ");
@@ -203,21 +197,12 @@ public class ParseEngine
 				}
 				Console.Out.WriteLine();
 			}
-
-
-            //for (int j = 0; j < exp.numEpochs; j++)
-            //{
-                
-            //    if (exp.evaluating) { Scorer.gameWorld.wins += 1; }
-            //}
-
             Console.Out.WriteLine();
-
-
-           // Console.Read();
+            // Console.Read();
         }
         else
         {
+            // USE RESULTS IN GENETIC ALGORITHM
             Scorer.gameWorld.numFirstWins += winaggregator[0];
             Scorer.gameWorld.numGames += winaggregator.Sum();
             if (exp.ai1 && !exp.ai2)
@@ -233,9 +218,34 @@ public class ParseEngine
         }
     }
 
-    public void DOTMaker(IParseTree node, string nodeName)
-    {
+	/*********
+     * Output the parsed game for graphviz dot
+     *********/
+	public void DOTMakerTop(IParseTree node, string fileName) {
+		StringBuilder builder = new StringBuilder();
+		builder.Append("graph tree{");
+		builder.AppendLine("NODE0 [label=\"Stage\" style=filled fillcolor=\"red\"]");
+		DOTMaker(node, "NODE0", builder);
+		builder.Append("}");
+		try
+		{
+			var fs = File.Create("games/" + fileName + ".gv");
+			var bytes = Encoding.UTF8.GetBytes(builder.ToString());
+			fs.Write(bytes, 0, bytes.Length);
+			fs.Close();
+			Debug.WriteLine("wrote " + fileName + ".gv");
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex.ToString());
+		}
+	}
 
+    /*********
+     * Output the parsed game for graphviz dot
+     *********/
+    public void DOTMaker(IParseTree node, string nodeName, StringBuilder builder)
+    {
         for (int i = 0; i < node.ChildCount; ++i)
         {
             var dontCreate = false;
@@ -252,7 +262,7 @@ public class ParseEngine
                 if (myi != text.Length)
                 {
                     builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("RecycleParser+", "").Replace("Context", "") + "\" ]");
-                    DOTMaker(node.GetChild(i), newNodeName);
+                    DOTMaker(node.GetChild(i), newNodeName, builder);
                 }
                 else
                 {
@@ -275,7 +285,7 @@ public class ParseEngine
                     extra = " style=filled shape=diamond fillcolor=\"orange\"";
                 }
                 builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("RecycleParser+", "").Replace("Context", "") + "\" " + extra + "]");
-                DOTMaker(node.GetChild(i), newNodeName);
+                DOTMaker(node.GetChild(i), newNodeName, builder);
             }
             else if (node.GetChild(i).ChildCount > 0)
             {
@@ -326,20 +336,5 @@ public class ParseEngine
             choice |= res.Item2;
         }
         return new Tuple<bool, bool>(shuffle, choice);
-    }
-
-
-    /*******
-	 * Logging for the visualization of games in play
-	 */
-    public static void WriteToFile(String text)
-    {
-        if (expstat.logging)
-        {
-            using (StreamWriter file = new StreamWriter(expstat.fileName + ".txt", true))
-            {
-                file.WriteLine(text);
-            }
-        }
     }
 }

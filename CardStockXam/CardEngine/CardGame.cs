@@ -13,23 +13,8 @@ namespace CardEngine
 {
 	
 	public class CardGame{
-		public static CardGame preserved;
-		private static CardGame instance;
+
 		public string DeclaredName = "Default";
-		public static CardGame Instance
-   		{
-	  		get 
-	  		{
-		         if (instance == null)
-		         {
-		            instance = new CardGame();
-		         }
-		         return instance;
-		     }
-			set{
-				instance = value;
-			}
-		}
 		public static Random rand = new Random();
 		public List<Card> sourceDeck = new List<Card>();
 		public CardStorage tableCards = new CardStorage();
@@ -43,23 +28,27 @@ namespace CardEngine
 		public PointsStorage points = new PointsStorage();
         public Dictionary<String, object> vars = new Dictionary<string, object>();
 
+        public bool logging;
+        public string fileName;
 
-        // TODO should have card map
+        // TODO should have card map?
         //  public static Dictionary 
-        public static Dictionary<string, Card> fancyCardMap = new Dictionary<string, Card>();
-        public static Dictionary<string, FancyCardLocation> fancyCardLocMap = new Dictionary<string, FancyCardLocation>();
-        public static Dictionary<string, FancyRawStorage> fancyRawStorMap = new Dictionary<string, FancyRawStorage>();
-        public static Dictionary<string, Player> playerMap = new Dictionary<string, Player>();
-        public static Dictionary<string, Team> teamMap = new Dictionary<string, Team>();
-		public CardGame(){
-			
+        public Dictionary<string, Card> fancyCardMap = new Dictionary<string, Card>();
+        public Dictionary<string, FancyCardLocation> fancyCardLocMap = new Dictionary<string, FancyCardLocation>();
+        public Dictionary<string, FancyRawStorage> fancyRawStorMap = new Dictionary<string, FancyRawStorage>();
+        public Dictionary<string, Player> playerMap = new Dictionary<string, Player>();
+        public Dictionary<string, Team> teamMap = new Dictionary<string, Team>();
+
+        public CardGame(bool logging, string fileName){
+            this.logging = logging;
+            this.fileName = fileName;
 		}
 		public CardGame(int numPlayers) {
             AddPlayers(numPlayers);
 			//currentPlayer.Push(new PlayerCycle(players)); //TODO call allplayers?
 		}
 		public CardGame CloneCommon(){
-			var temp = new CardGame (); //here, players is being initialzed as an empty list of players
+			var temp = new CardGame (false, null); //here, players is being initialzed as an empty list of players
 			temp.DeclaredName = "Special";
             for (int idx = 0; idx < teams.Count; idx++){
                 Team orig = teamMap[teams[idx].id];
@@ -94,7 +83,7 @@ namespace CardEngine
 			//reconstruct team and player cycles
 			//temp.currentPlayer.Pop();
 			foreach (var cycle in this.currentPlayer.Reverse()){
-				var newCycle = new StageCycle<Player> (temp.players);
+				var newCycle = new StageCycle<Player> (temp.players, temp);
 				newCycle.idx = cycle.idx;
 				newCycle.turnEnded = cycle.turnEnded;
 				newCycle.queuedNext = cycle.queuedNext;
@@ -102,7 +91,7 @@ namespace CardEngine
 			}
 			temp.currentTeam.Clear();
 			foreach (var cycle in this.currentTeam.Reverse()){
-				var newCycle = new StageCycle<Team> (temp.teams);
+				var newCycle = new StageCycle<Team> (temp.teams, temp);
 				newCycle.idx = cycle.idx;
 				newCycle.turnEnded = cycle.turnEnded;
 
@@ -343,7 +332,7 @@ namespace CardEngine
                 AddToMap(players[i]);
 				players [i].decision = new GeneralPlayer ();
 			}
-            currentPlayer.Push(new StageCycle<Player>(players));
+            currentPlayer.Push(new StageCycle<Player>(players, this));
 		}
 		public void PushPlayer(){
 			currentPlayer.Push(new StageCycle<Player>(currentPlayer.Peek()));
@@ -431,33 +420,8 @@ namespace CardEngine
 		//	j.Append("}");
 		//	return (JObject) JsonConvert.DeserializeObject (j.ToString ());
 		//}
-		public void SetValue(int idx, int value){
-			gameStorage.storage[idx] = value;
-		}
-		public int GetValue(int idx){
-			return gameStorage.storage[idx];
-		}
-		public void IncrValue(int idx, int incr){
-			gameStorage.storage[idx] += incr;
-		}
-		public void PromptPlayer(Player p, string storageName, int minValue, int maxValue){
-			
-			var possibles = new List<GameAction>();
-			for (int i = minValue; i < maxValue; ++i){
-				possibles.Add(new IntAction(p.storage,storageName,i));
-			}
-			var choice = p.MakeAction(possibles,rand);
-			Debug.WriteLine("Choice:" + choice);
-			possibles[choice].ExecuteActual();
-			
-		}
-		public GameAction ChangeGameState(string bucket, int value){
-			return new IntAction(this.gameStorage,bucket,value);
-		}
-		public GameAction ChangePlayerState(int playerIdx, string bucket, int value){
-			return new IntAction(players[playerIdx].storage,bucket,value);
-		}
-		public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
+
+        public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
             // just keep choices ! just pass in choices
 			//var strDescription = SerializeGAC (choices);
 			//var json = (JObject) JsonConvert.DeserializeObject (strDescription);
@@ -467,7 +431,7 @@ namespace CardEngine
             {
                Debug.WriteLine("Choices: " + c);
             }*/
-			Debug.WriteLine("Player turn: " + CardGame.Instance.CurrentPlayer().idx);
+			Debug.WriteLine("Player turn: " + CurrentPlayer().idx);
 
 
 			var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices, rand, playerIdx);
@@ -498,7 +462,7 @@ namespace CardEngine
             return b.ToString();
         }
 
-        public static void AddToMap(object o){
+        public void AddToMap(object o){
             IDictionary dict = null;
             string id = "";
             if (o is FancyCardLocation){
@@ -540,7 +504,13 @@ namespace CardEngine
 		}
         public void WriteToFile(string text)
         {
-            ParseEngine.WriteToFile(text);
-        }
+			if (logging)
+			{
+				using (StreamWriter file = new StreamWriter(fileName + ".txt", true))
+				{
+					file.WriteLine(text);
+				}
+			}
+		}
     }
 }

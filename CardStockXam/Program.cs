@@ -17,7 +17,8 @@ namespace CardGames
         public static void Main(string[] args)
         {
             var p = new Program();
-            p.SingleGame("Agram");
+            p.SingleGame("Hearts");
+            //p.AllGames();
         }
 
         void SingleGame(string game) {
@@ -27,10 +28,10 @@ namespace CardGames
             exp.numGames = 100;
 			exp.numEpochs = 10;
 
-			exp.logging = true;
+            exp.logging = true;
             // TODO make for as many players as in game 
             // one AI vs everyone else is helpful
-            exp.ai1 = false;
+            exp.ai1 = true;
             exp.ai2 = false;
 
 			var codeGen = new ParseEngine(exp);
@@ -45,31 +46,11 @@ namespace CardGames
 				if (s.EndsWith(".gdl"))
 				{
 					gameFiles.Add(s);
-                    
 				}
 			}
-            foreach (string g in gameFiles.GetRange(5, gameFiles.Count - 5)) {
+            foreach (string g in gameFiles.GetRange(0, gameFiles.Count)) {
                 SingleGame(g.Substring(6, g.Length - 10));
             }
-
-            // TODO CardGame.Instance is a singleton ;/
-            //gameFiles.Add("Blackjack");
-            //gameFiles.Add("SaneEights");
-            //System.Threading.Tasks.Parallel.ForEach(gameFiles, SingleGame); 
-               //print stuff
-               //System.Console.WriteLine("this is a disaster" + g);
-
-
-
-
-                // TODO write each game to file instead of console to avoid
-                // multithreading problems 
-
-
-                //string copy = g.Substring(6, g.Length - 10);
-               // Thread myThread = new Thread(() => this.SingleGame(copy));
-                //myThread.Start();
-              
-		}
+   		}
     }
 }

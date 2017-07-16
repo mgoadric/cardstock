@@ -7,9 +7,9 @@ namespace CardEngine{
         public string id;
 
         public Team() { }
-		public Team(int id){
+		public Team(int id, CardGame cg){
             this.id = id.ToString();
-            CardGame.AddToMap(this);
+            cg.AddToMap(this);
 		}
         public Team Clone()
         {

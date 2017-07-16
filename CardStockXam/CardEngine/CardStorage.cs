@@ -167,7 +167,6 @@ namespace CardEngine{
 		}
 		public override void Shuffle(){
 			Shuffle(cards);
-            CardGame.Instance.WriteToFile("O:" + ToString());
         }
         public override string ToString()
         {
