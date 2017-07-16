@@ -7,6 +7,7 @@ using System.Diagnostics;
 using FreezeFrame;
 using ParseTreeIterator;
 using CardStockXam;
+using System.Threading.Tasks;
 
 namespace Players
 {
@@ -34,73 +35,78 @@ namespace Players
 			var total = new int[items];
 			double[] wrs = new double[items];
 			Debug.WriteLine("Start Monte");
+
 			for (int item = 0; item < items; ++item)
 			{
                 Debug.WriteLine("iterating over item: " + item);
 				double numWon = 0;
 				results[item] = 0;
-				for (int i = 0; i < numTests; ++i)//number of tests for certain decision
-				{
-					Debug.WriteLine("****Made Switch**** : " + i);
+                Parallel.For(0, numTests, i =>
+
+                //for (int i = 0; i < numTests; ++i)//number of tests for certain decision
+                {
+                    Debug.WriteLine("****Made Switch**** : " + i);
 
                     // gets through clonesecret
-					CardGame cg = gameContext.instance.CloneSecret(idx);
+                    CardGame cg = gameContext.instance.CloneSecret(idx);
 
                     for (int j = 0; j < cg.players.Count; j++)
                     {
-                        
+
                         Debug.WriteLine("in lpp for loop:" + j);
-                        if (j == idx) {
-							Debug.WriteLine("Player turn: " + cg.CurrentPlayer().idx);
-							Debug.WriteLine("Predictable player choice set: " + item);
+                        if (j == idx)
+                        {
+                            Debug.WriteLine("Player turn: " + cg.CurrentPlayer().idx);
+                            Debug.WriteLine("Predictable player choice set: " + item);
 
                             cg.players[j].decision = new PredictablePlayer()
                             {
-						     	toChoose = item
+                                toChoose = item
                             };
                         }
-                         else {
-							cg.players[j].decision = new Players.GeneralPlayer();
+                        else
+                        {
+                            cg.players[j].decision = new Players.GeneralPlayer();
 
-						}
+                        }
                     }
-                    
-					
-					Debug.WriteLine("in lpp");
 
-					var cloneContext = gameContext.Clone(cg);
+
                     Debug.WriteLine("in lpp");
-					while (!cloneContext.AdvanceToChoice())
-					{
+
+                    var cloneContext = gameContext.Clone(cg);
+                    Debug.WriteLine("in lpp");
+                    while (!cloneContext.AdvanceToChoice())
+                    {
                         // caught here for sure
-						cloneContext.ProcessChoice();
-					}
+                        cloneContext.ProcessChoice();
+                    }
                     // TODO make sure changes to processscore didn't screw this up
                     // figure this chunk out 
                     Debug.WriteLine("after advance to choice");
 
-					var winners = cloneContext.parseoop.ProcessScore(cloneContext.game.scoring());
+                    var winners = cloneContext.parseoop.ProcessScore(cloneContext.game.scoring());
                     Debug.WriteLine("past processscore");
-					total[item] = winners.Count;
-					
+                    total[item] = winners.Count;
 
-					for (int j = 0; j < winners.Count; ++j)
-					{
+
+                    for (int j = 0; j < winners.Count; ++j)
+                    {
                         // if player is me
-						if (winners[j].Item2 == idx)
-						{
+                        if (winners[j].Item2 == idx)
+                        {
                             // add your rank to the results of this choice
-							results[item] += j;
+                            results[item] += j;
 
                             int div = j + 1;
-							double lead = ((double)1) / div;
-							numWon += lead;
-							break;
-						}
-					}
-					Debug.WriteLine("in lpp");
+                            double lead = ((double)1) / div;
+                            numWon += lead;
+                            break;
+                        }
+                    }
+                    Debug.WriteLine("in lpp");
 
-				}
+                });
                 Debug.WriteLine("Aggregated rank: " + results[item]);
 				wrs[item] = (double)numWon / numTests;
                 Debug.WriteLine("wrs " + wrs[item]);
