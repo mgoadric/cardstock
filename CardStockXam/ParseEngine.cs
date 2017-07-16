@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using CardGames;
 using CardStockXam;
@@ -92,7 +93,9 @@ public class ParseEngine
         /***********
          * Run the experiments
          ***********/
-        for (int i = 0; i < exp.numGames; ++i)
+
+        //for (int i = 0; i < exp.numGames; i++)
+        Parallel.For(0, exp.numGames, i =>
         {
             try
             {
@@ -133,14 +136,13 @@ public class ParseEngine
                     {
                         playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
                     }
-					if (results[j].Item2 == 0 && j != results.Count - 1)
+                    if (results[j].Item2 == 0 && j != results.Count - 1)
                     {
                         winaggregator[i / (exp.numGames / exp.numEpochs)]++;
                         if (Scorer.gameWorld != null) { Scorer.gameWorld.GameOver(j); }
                     }
                 }
 
-                WriteToFile("|");
                 Debug.WriteLine("Finished game " + (i + 1) + " of " + exp.numGames);
             }
             catch (Exception e)
@@ -149,6 +151,8 @@ public class ParseEngine
                 Console.WriteLine(fileName + " failed from exception: " + e + "\n\n\n");
             }
         }
+        );
+
         time.Stop();
 
 
@@ -332,20 +336,5 @@ public class ParseEngine
             choice |= res.Item2;
         }
         return new Tuple<bool, bool>(shuffle, choice);
-    }
-
-
-    /*******
-	 * Logging for the visualization of games in play
-	 */
-    public static void WriteToFile(String text)
-    {
-        if (expstat.logging)
-        {
-            using (StreamWriter file = new StreamWriter(expstat.fileName + ".txt", true))
-            {
-                file.WriteLine(text);
-            }
-        }
     }
 }

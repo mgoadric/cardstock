@@ -368,7 +368,7 @@ namespace ParseTreeIterator
                     name=coll.name + "{MAX}"
                 };
                 fancy.cardList.loc = fancy;
-                CardGame.AddToMap(fancy);
+                parent.instance.AddToMap(fancy);
                 return fancy;
             }
 
@@ -397,7 +397,7 @@ namespace ParseTreeIterator
                     name=coll.name + "{MIN}"
                 };
                 fancy.cardList.loc = fancy;
-                CardGame.AddToMap(fancy);
+                parent.instance.AddToMap(fancy);
                 return fancy;
             }
 
@@ -417,7 +417,7 @@ namespace ParseTreeIterator
                     name = loc.name
                 };
                 fancy.cardList.loc = fancy;
-                CardGame.AddToMap(fancy);
+                parent.instance.AddToMap(fancy);
                 return fancy;
             }
             throw new NotSupportedException();
@@ -494,7 +494,7 @@ namespace ParseTreeIterator
                     name = name + "{UNION}"
                 };
                 fancy.cardList.loc = fancy;
-                CardGame.AddToMap(fancy);
+                parent.instance.AddToMap(fancy);
                 return fancy;
             }
             else if (loc.filter() != null)
@@ -548,7 +548,7 @@ namespace ParseTreeIterator
                         name = "{mem}" + memset.tuple().var().GetText() + "{p" + i + "}"
                     };
                     returnList[i].cardList.loc = returnList[i];
-                    CardGame.AddToMap(returnList[i]);
+                    parent.instance.AddToMap(returnList[i]);
                 }
                 return returnList;
             }
@@ -589,7 +589,7 @@ namespace ParseTreeIterator
                         name = "t" + prefix + stor.namegr().GetText()
                     };
                     fancy.cardList.loc = fancy;
-                    CardGame.AddToMap(fancy);
+                    parent.instance.AddToMap(fancy);
                     return fancy;
                 }
                 else{
@@ -610,7 +610,7 @@ namespace ParseTreeIterator
                         name = "t" + prefix + Get(stor.var())
                     };
                     fancy.cardList.loc = fancy;
-                    CardGame.AddToMap(fancy);
+                    parent.instance.AddToMap(fancy);
                     return fancy;
                 }
             }
@@ -628,7 +628,7 @@ namespace ParseTreeIterator
                     name = player.name + prefix + stor.namegr().GetText()
                 };
                 fancy.cardList.loc = fancy;
-                CardGame.AddToMap(fancy);
+                parent.instance.AddToMap(fancy);
                 return fancy;
             }
             else{
@@ -639,7 +639,7 @@ namespace ParseTreeIterator
                     name = player.name + prefix + name
                 };
                 fancy.cardList.loc = fancy;
-                CardGame.AddToMap(fancy);
+                parent.instance.AddToMap(fancy);
                 return fancy;
             }
         }
@@ -928,7 +928,7 @@ namespace ParseTreeIterator
         }
 
         public  FancyRawStorage AddedRaw(FancyRawStorage stor){
-            CardGame.AddToMap(stor);
+            parent.instance.AddToMap(stor);
             return stor;
         }
 
@@ -1038,7 +1038,7 @@ namespace ParseTreeIterator
         public  void ProcessTeamCreate(RecycleParser.TeamcreateContext teamCreate){
             var numTeams = teamCreate.teams().Count();
             for (int i = 0; i < numTeams; ++i){
-                var newTeam = new Team(i);
+                var newTeam = new Team(i, parent.instance);
                 var teamStr = "T:";
                 foreach (var p in teamCreate.teams(i).INTNUM()){
                     var j = Int32.Parse(p.GetText());
@@ -1625,7 +1625,7 @@ namespace ParseTreeIterator
                 name = name2 + "{filter}" + filter.boolean().GetText(),
             };
             fancy.cardList.loc = fancy;
-            CardGame.AddToMap(fancy);
+            parent.instance.AddToMap(fancy);
             return fancy;
         }
         // want to clean up & understand processagg TODO
@@ -1927,12 +1927,12 @@ namespace ParseTreeIterator
                 var loc = ret as FancyCardLocation;
                 if (loc.locIdentifier != "-1")
                 {
-                    return loc.ShallowCopy();
+                    return loc.ShallowCopy(parent.instance);
                 }
             }
             else if (ret is Card){
                 var c = ret as Card;
-                var loc = c.owner.loc.ShallowCopy();                
+                var loc = c.owner.loc.ShallowCopy(parent.instance);                
                 loc.setLocId(c);
                 return loc;
             }

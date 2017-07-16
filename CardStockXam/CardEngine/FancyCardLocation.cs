@@ -14,7 +14,7 @@ namespace CardEngine{
         }
 
 
-        public FancyCardLocation ShallowCopy()
+        public FancyCardLocation ShallowCopy(CardGame cg)
         {
             var loc = new FancyCardLocation()
             {
@@ -24,7 +24,7 @@ namespace CardEngine{
                 actual = actual,
                 nonPhysical = nonPhysical
             };
-            CardGame.AddToMap(loc);
+            cg.AddToMap(loc);
             return loc;
         }
 

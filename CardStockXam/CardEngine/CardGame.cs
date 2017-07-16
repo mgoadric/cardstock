@@ -33,11 +33,11 @@ namespace CardEngine
 
         // TODO should have card map?
         //  public static Dictionary 
-        public static Dictionary<string, Card> fancyCardMap = new Dictionary<string, Card>();
-        public static Dictionary<string, FancyCardLocation> fancyCardLocMap = new Dictionary<string, FancyCardLocation>();
-        public static Dictionary<string, FancyRawStorage> fancyRawStorMap = new Dictionary<string, FancyRawStorage>();
-        public static Dictionary<string, Player> playerMap = new Dictionary<string, Player>();
-        public static Dictionary<string, Team> teamMap = new Dictionary<string, Team>();
+        public Dictionary<string, Card> fancyCardMap = new Dictionary<string, Card>();
+        public Dictionary<string, FancyCardLocation> fancyCardLocMap = new Dictionary<string, FancyCardLocation>();
+        public Dictionary<string, FancyRawStorage> fancyRawStorMap = new Dictionary<string, FancyRawStorage>();
+        public Dictionary<string, Player> playerMap = new Dictionary<string, Player>();
+        public Dictionary<string, Team> teamMap = new Dictionary<string, Team>();
 
         public CardGame(bool logging, string fileName){
             this.logging = logging;
@@ -462,7 +462,7 @@ namespace CardEngine
             return b.ToString();
         }
 
-        public static void AddToMap(object o){
+        public void AddToMap(object o){
             IDictionary dict = null;
             string id = "";
             if (o is FancyCardLocation){
