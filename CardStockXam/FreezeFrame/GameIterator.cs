@@ -9,7 +9,7 @@ namespace FreezeFrame
 {
 	public class GameIterator
 	{
-		RecycleParser.GameContext game;
+		public RecycleParser.GameContext game;
 		Stack<Queue<IParseTree>> iterStack;
 		HashSet<IParseTree> iteratingSet;
         public ParseOOPIterator parseoop;

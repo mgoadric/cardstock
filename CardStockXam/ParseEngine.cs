@@ -98,7 +98,7 @@ public class ParseEngine
             {
                 System.GC.Collect();
 
-                CardEngine.CardGame instance = new CardEngine.CardGame();
+                CardEngine.CardGame instance = new CardEngine.CardGame(true, exp.fileName + i);
                 var manageContext = new FreezeFrame.GameIterator(tree, instance);
 
                 // TODO add so can have 4 AI players

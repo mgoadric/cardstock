@@ -31,7 +31,7 @@ namespace CardGames
             exp.logging = true;
             // TODO make for as many players as in game 
             // one AI vs everyone else is helpful
-            exp.ai1 = false;
+            exp.ai1 = true;
             exp.ai2 = false;
 
 			var codeGen = new ParseEngine(exp);

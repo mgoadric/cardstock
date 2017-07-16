@@ -23,12 +23,10 @@ namespace Players
 		public int NumChoices(int items, Random rand, int idx){
 			Debug.WriteLine("Passing new choice to LPP");
 
-			ParseEngine.expstat.logging = false;
 			Console.WriteLine("AI making choice. items: " + items);
 
 			if (items == 1)
 			{
-                ParseEngine.expstat.logging = true;
 				return 0;
 			}
 
@@ -81,7 +79,7 @@ namespace Players
                     // figure this chunk out 
                     Debug.WriteLine("after advance to choice");
 
-					var winners = cloneContext.parseoop.ProcessScore(ParseEngine.currentTree.scoring());
+					var winners = cloneContext.parseoop.ProcessScore(cloneContext.game.scoring());
                     Debug.WriteLine("past processscore");
 					total[item] = winners.Count;
 					
@@ -130,7 +128,6 @@ namespace Players
 				Scorer.gameWorld.Lead(gameContext.instance.currentPlayer.Peek().idx).Add(max);
 
 			}
-            ParseEngine.expstat.logging = true;
             Debug.WriteLine("AI Finished.");
 
             // This just returns item1 because ProcessScore returns a sorted list 

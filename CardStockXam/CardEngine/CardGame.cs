@@ -28,23 +28,27 @@ namespace CardEngine
 		public PointsStorage points = new PointsStorage();
         public Dictionary<String, object> vars = new Dictionary<string, object>();
 
+        public bool logging;
+        public string fileName;
 
-        // TODO should have card map
+        // TODO should have card map?
         //  public static Dictionary 
         public static Dictionary<string, Card> fancyCardMap = new Dictionary<string, Card>();
         public static Dictionary<string, FancyCardLocation> fancyCardLocMap = new Dictionary<string, FancyCardLocation>();
         public static Dictionary<string, FancyRawStorage> fancyRawStorMap = new Dictionary<string, FancyRawStorage>();
         public static Dictionary<string, Player> playerMap = new Dictionary<string, Player>();
         public static Dictionary<string, Team> teamMap = new Dictionary<string, Team>();
-		public CardGame(){
-			
+
+        public CardGame(bool logging, string fileName){
+            this.logging = logging;
+            this.fileName = fileName;
 		}
 		public CardGame(int numPlayers) {
             AddPlayers(numPlayers);
 			//currentPlayer.Push(new PlayerCycle(players)); //TODO call allplayers?
 		}
 		public CardGame CloneCommon(){
-			var temp = new CardGame (); //here, players is being initialzed as an empty list of players
+			var temp = new CardGame (false, null); //here, players is being initialzed as an empty list of players
 			temp.DeclaredName = "Special";
             for (int idx = 0; idx < teams.Count; idx++){
                 Team orig = teamMap[teams[idx].id];
@@ -500,7 +504,13 @@ namespace CardEngine
 		}
         public void WriteToFile(string text)
         {
-            ParseEngine.WriteToFile(text);
-        }
+			if (logging)
+			{
+				using (StreamWriter file = new StreamWriter(fileName + ".txt", true))
+				{
+					file.WriteLine(text);
+				}
+			}
+		}
     }
 }
