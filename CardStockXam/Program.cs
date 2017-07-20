@@ -17,7 +17,7 @@ namespace CardGames
         public static void Main(string[] args)
         {
             var p = new Program();
-            p.SingleGame("Hearts");
+            p.SingleGame("Pairs");
             //p.AllGames();
         }
 
@@ -28,7 +28,7 @@ namespace CardGames
             exp.numGames = 100;
 			exp.numEpochs = 10;
 
-            exp.logging = true;
+            exp.logging = false;
             // TODO make for as many players as in game 
             // one AI vs everyone else is helpful
             exp.ai1 = true;

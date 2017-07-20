@@ -15,13 +15,9 @@ using Players;
 // add basic stats (% wins)
 public class ParseEngine
 {
-    public static RecycleParser.GameContext currentTree;
-    public static Experiment expstat;
 
     public ParseEngine(Experiment exp)
     {
-        expstat = exp;
-
         Debug.AutoFlush = true;
         var regex = new Regex("(;;)(.*?)(\n)");
 
@@ -61,7 +57,6 @@ public class ParseEngine
 
         parser.BuildParseTree = true;
         var tree = parser.game();
-        currentTree = tree;
 
 
         /***********
