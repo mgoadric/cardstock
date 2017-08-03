@@ -12,7 +12,7 @@ namespace CardStockXam
     class Scorer{
         private List<Experiment> exps = new List<Experiment>();
         private ParseEngine engine;
-
+        // Static here TODO 
         public static World gameWorld;
         public string text;
 
@@ -21,6 +21,8 @@ namespace CardStockXam
         private int numAIvAI   = 2;
 
         private bool testing = false;
+
+       
 
         // list of heuristic values
         private List<Heuristic> hs = new List<Heuristic>() {
@@ -100,20 +102,23 @@ namespace CardStockXam
 
         // define heuristics here
         public double Score(){
+            // static world here 
             gameWorld = new World();
             gameWorld.testing = testing;
             for (int i = 0; i < exps.Count; i++){
                 Debug.WriteLine("Experiment " + i);
                 engine = new ParseEngine(exps[i]);
-                if (new Reasonable().Eval(gameWorld) < 1.0){
-                    if (testing){
-                        Debug.WriteLine("failed reasonable");
-                        if (!gameWorld.compiling) { Debug.WriteLine("not compiling"); }
-                        if (!gameWorld.hasShuffle) { Debug.WriteLine("not shuffling"); }
-                    }
-                    return 0.0;
-                }
+                var tup = engine.Loader();
+
+           
+               
+                if (!tup.Item1) { Debug.WriteLine("not shuffling"); return 0.0; }
+                if (!tup.Item2) { Debug.WriteLine("no choice"); return 0.0; }
+
+                var compiling = engine.Experimenter();
+                if (!compiling) {Debug.WriteLine("not compiling"); return 0.0; }
             }
+
             gameWorld.EvalOver();
             Debug.WriteLine("passed reasonable");
             double total = 0;

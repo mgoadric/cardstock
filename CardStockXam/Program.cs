@@ -8,25 +8,21 @@ namespace CardGames
 {
     public class Program
 
-    // todo: Hearts - check if any statement fixed issue
-    //        SaneEights - run 100 times, look at fancycardmoveaction print stamenets
-    //          to see where it's trying to move from empty location
-    //       lostCities - check if removing duplicate declare statements fixed it
-    //       DuckSoup - ? i think is also trying to move from empty location?
+   
     {
         public static void Main(string[] args)
         {
             var p = new Program();
-            p.SingleGame("Pairs");
-            //p.AllGames();
+            //p.SingleGame("Pairs");
+            p.AllGames();
         }
 
         void SingleGame(string game) {
 			var exp = new Experiment();
 			exp.fileName = game;
             // System.Console.WriteLine(g.Substring(6, g.Length - 4));
-            exp.numGames = 1;
-			exp.numEpochs = 1;
+            exp.numGames = 100;
+			exp.numEpochs = 10;
 
             exp.logging = false;
             // TODO make for as many players as in game 
@@ -35,6 +31,8 @@ namespace CardGames
             exp.ai2 = false;
 
 			var codeGen = new ParseEngine(exp);
+            codeGen.Loader();
+            codeGen.Experimenter();
 		}
 
         void AllGames() {
@@ -43,7 +41,7 @@ namespace CardGames
 
 			foreach (string s in allFiles)
 			{
-				if (s.EndsWith(".gdl"))
+                if (s.EndsWith(".gdl") && string.Compare(s[6].ToString(), "L") > 0)
 				{
 					gameFiles.Add(s);
 				}

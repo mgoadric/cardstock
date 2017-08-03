@@ -16,19 +16,31 @@ using Players;
 public class ParseEngine
 {
 
+    public Experiment exp;
+    public RecycleParser.GameContext tree;
+    public string fileName;
+
     public ParseEngine(Experiment exp)
     {
+        this.exp = exp;
+    }
+
+
+    public Tuple<bool, bool> Loader() {
+
         Debug.AutoFlush = true;
         var regex = new Regex("(;;)(.*?)(\n)");
 
-        if (exp.logging) {
+        if (exp.logging)
+        {
             File.WriteAllText(exp.fileName + ".txt", string.Empty);
         }
+
 
         /************
          * Load up the game from the .gdl RECYCLE description
          ************/
-        string fileName = exp.fileName;
+        fileName = exp.fileName;
         if (!exp.evaluating)
         {
             fileName = "games/" + fileName + ".gdl";
@@ -37,7 +49,8 @@ public class ParseEngine
         {
             string[] split = new string[] { "Release\\" };
             var path = fileName.Split(split, StringSplitOptions.RemoveEmptyEntries);
-            if (path.Count() == 1){
+            if (path.Count() == 1)
+            {
                 split = new string[] { "Debug\\" };
                 path = fileName.Split(split, StringSplitOptions.RemoveEmptyEntries);
             }
@@ -56,34 +69,34 @@ public class ParseEngine
         var parser = new RecycleParser(tokens);
 
         parser.BuildParseTree = true;
-        var tree = parser.game();
+        this.tree = parser.game();
 
 
         /***********
          * Make the parse tree visualization
          ***********/
-        if (!exp.evaluating) {
+        if (!exp.evaluating)
+        {
             DOTMakerTop(tree, exp.fileName);
         }
 
-        if (exp.first){
-            var tup = HasShuffleAndChoice(tree);
-            if (exp.evaluating){
-                Scorer.gameWorld.hasShuffle = tup.Item1;
-                Scorer.gameWorld.hasChoice = tup.Item2;
-            }
-        }
+        return HasShuffleAndChoice(tree);
 
+    }
+
+    public bool Experimenter() {
         int choiceCount = 0;
 		int numPlayers = 0;
 		var aggregator = new int[5, exp.numEpochs];
         var winaggregator = new int[exp.numEpochs];
-
+        bool compiling = true;
         int[,] playerRank = new int[5, exp.numEpochs];
         int[,] playerFirst = new int[5, exp.numEpochs];
        
         Stopwatch time = new Stopwatch();
         time.Start();
+       
+
 
         /***********
          * Run the experiments
@@ -94,6 +107,7 @@ public class ParseEngine
         {
             try
             {
+                
                 System.GC.Collect();
 
                 CardEngine.CardGame instance = new CardEngine.CardGame(true, exp.fileName + i);
@@ -142,12 +156,16 @@ public class ParseEngine
             }
             catch (Exception e)
             {
-                if (exp.evaluating) { Scorer.gameWorld.compiling = false; }
                 Console.WriteLine(fileName + " failed from exception: " + e + "\n\n\n");
+                compiling = false;
             }
         }
         );
-
+        // should fail as soon as a game stops compiling, not after all threads are finished TODO 
+        if (!compiling)
+        {
+            return false;
+        }
         time.Stop();
 
 
@@ -211,6 +229,7 @@ public class ParseEngine
                 if (winaggregator.Length > 1) { Scorer.gameWorld.numAIWins += winaggregator[1]; }
             }
         }
+        return true;
     }
 
 	/*********

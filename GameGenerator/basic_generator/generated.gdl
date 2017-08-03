@@ -1,0 +1,9849 @@
+
+( game
+ 
+( declare
+ ( // ( - 
+( game
+ sto C ) ' C ) 
+( size
+ ' D ) ) ' E ) 
+( setup
+ 
+( create
+ players ( * 
+( size
+ ' B ) ( + 
+( score
+ 
+( top
+ 
+( union
+ 
+( any
+ 
+( filter
+ 
+( other
+ player ) ' E 
+( and
+ 
+( any
+ 
+( B
+ , E ) ' D 
+( put
+ points ' E ( ( 
+( E
+ 
+( A
+ ) ) 
+( size
+ ' B ) ) ) ) ) 
+( any
+ 
+( team
+ 
+( owner
+ 
+( actual
+ 
+( max
+ ' C using ' B ) ) ) ) ' D ( 
+( any
+ team ' B ( 
+( or
+ 
+( any
+ team ' E 
+( put
+ points ' D ( ( 
+( B
+ 
+( C
+ ) ) ( % 2 
+( size
+ ' D ) ) ) ) ) ) 
+( or
+ 
+( any
+ ' E ' B 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( C
+ 
+( D
+ ) ) ( - ( // ' E 
+( size
+ ' C ) ) 
+( size
+ ' E ) ) ) ) ) ) ) ) 
+( any
+ player ' B 
+( let
+ ( // 
+( size
+ ' C ) ' A ) ' D 
+( choice
+ ( 
+( do
+ ( 
+( put
+ points ' B ( ( 
+( E
+ 
+( D
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( A
+ 
+( E
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( E
+ 
+( C
+ ) ) 
+( game
+ sto D ) ) ) ) ) ) ) ) ' A 
+( put
+ points ' E ( ( 
+( D
+ 
+( E
+ ) ) ( - ' D 
+( sum
+ 
+( top
+ 
+( tuples
+ ( % 1 ( // 
+( game
+ sto A ) 
+( size
+ ' D ) ) ) ' D using ' D ) ) using ' A ) ) ) ) ) ) ) ) using ' A ) 
+( game
+ sto D ) ) ) ) 
+( create
+ teams ( 0 , 3 ) ) 
+( create
+ deck ' B 
+( deck
+ ( ' D ) ) ) ) 
+( choice
+ ( ( 
+( and
+ 
+( any
+ CSTORAGAE ' B 
+( any
+ 
+( team
+ 
+( owner
+ ' D ) ) ' A ( 
+( and
+ 
+( any
+ player ' B 
+( put
+ points ' D ( ( 
+( B
+ 
+( D
+ ) ) 
+( sum
+ 
+( top
+ 
+( tuples
+ 1 
+( filter
+ CSTORAGAE ' B 
+( or
+ 
+( any
+ 
+( other
+ player ) ' A ( 
+( and
+ 
+( any
+ player ' C ( 
+( and
+ 
+( or
+ 
+( any
+ 
+( let
+ 
+( any
+ 
+( A
+ , C ) ' E 
+( put
+ points ' A ( ( 
+( B
+ 
+( E
+ ) ) 2 ) ) ) ) ' A 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( E
+ 
+( E
+ ) ) 
+( size
+ ' E ) ) ) ) ) ) ) ' C ( 
+( any
+ 
+( let
+ C ' B 
+( do
+ ( 
+( let
+ ' C ' C 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( E
+ 
+( E
+ ) ) ( + 5 
+( game
+ sto D ) ) ) ) ) ) ) ) ) ) ) ' D 
+( let
+ 
+( or
+ 
+( or
+ 
+( any
+ ' B ' D ( 
+( or
+ 
+( any
+ player ' A 
+( put
+ points ' B ( ( 
+( D
+ 
+( E
+ ) ) 
+( game
+ sto E ) ) ) ) ) 
+( any
+ ' E ' A 
+( put
+ points ' D ( ( 
+( E
+ 
+( B
+ ) ) ( // 
+( score
+ 
+( min
+ ( 'GAME mem A ) using ' A ) using ' B ) ' D ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( C
+ 
+( E
+ ) ) ( * 
+( size
+ ' B ) ' C ) ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ ' E .. 
+( size
+ ' D ) ) ' A 
+( put
+ points ' C ( ( 
+( C
+ 
+( D
+ ) ) ( - 
+( score
+ 
+( top
+ 
+( union
+ 
+( any
+ 
+( range
+ 
+( size
+ ' D ) .. 3 ) ' D 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( D
+ 
+( D
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) ) ) ) using ' D ) ' A ) ) ) ) ) ) 
+( any
+ player ' B 
+( put
+ points ' D ( ( 
+( D
+ 
+( A
+ ) ) ' D ) ) ) ) ) ' A 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( A
+ 
+( C
+ ) ) ( + ( // ' B 
+( score
+ 
+( top
+ ( 'GAME hloc D ) ) using ' C ) ) 
+( score
+ 
+( actual
+ 
+( min
+ ' D using ' B ) ) using ' D ) ) ) ) ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( C
+ 
+( D
+ ) ) 
+( score
+ 
+( top
+ 
+( top
+ 
+( tuples
+ ( + ( - ( % ( // 
+( size
+ ' B ) 
+( size
+ ' E ) ) 
+( size
+ ' B ) ) 
+( sum
+ ( 'GAME iloc B ) using ' B ) ) ( - ( // 
+( game
+ sto C ) ( * 
+( size
+ ' B ) ( % 
+( game
+ sto E ) 1 ) ) ) 5 ) ) 
+( union
+ 
+( any
+ 
+( range
+ 
+( game
+ sto C ) .. ' B ) ' B 
+( put
+ points ' A ( ( 
+( C
+ 
+( A
+ ) ) ' A ) ) ) ) ) using ' E ) ) ) using ' D ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' C 
+( put
+ points ' D ( ( 
+( D
+ 
+( D
+ ) ) ( // ' A ( % ( * 
+( size
+ ' E ) ( - 
+( game
+ sto E ) 
+( game
+ sto C ) ) ) 
+( score
+ 
+( actual
+ 
+( top
+ ' E ) ) using ' E ) ) ) ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( next
+ team ) ' C 
+( let
+ ' B ' A 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( A
+ 
+( A
+ ) ) 
+( score
+ 
+( max
+ 
+( union
+ 
+( any
+ 
+( range
+ 
+( game
+ sto D ) .. 
+( size
+ ' E ) ) ' A ( 
+( and
+ 
+( any
+ 
+( other
+ player ) ' A 
+( do
+ ( ( 
+( any
+ CSTORAGAE ' E 
+( put
+ points ' E ( ( 
+( B
+ 
+( C
+ ) ) ( + 
+( game
+ sto A ) ( * ' C ' A ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( C
+ 
+( C
+ ) ) ( + 4 ( * ( % 3 4 ) 
+( size
+ ' D ) ) ) ) ) ) ) ) ) ) 
+( any
+ team ' C 
+( do
+ ( ( 
+( or
+ 
+( any
+ CSTORAGAE ' A 
+( put
+ points ' D ( ( 
+( D
+ 
+( A
+ ) ) ' B ) ) ) ) 
+( any
+ 
+( range
+ ( * 2 4 ) .. ( + ( * 
+( sum
+ 
+( top
+ 
+( tuples
+ ( * 
+( size
+ ' A ) 5 ) ' C using ' B ) ) using ' B ) 
+( game
+ sto D ) ) 
+( size
+ ' A ) ) ) ' E 
+( put
+ points ' B ( ( 
+( D
+ 
+( E
+ ) ) 4 ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( C
+ 
+( B
+ ) ) ' C ) ) ) ) ) ) ) ) 
+( let
+ ' A ' E 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( D
+ 
+( A
+ ) ) 2 ) ) ) ) ) ) ) ) ) using ' D ) using ' E ) ) ) ) ) ) ) ) 
+( any
+ 
+( previous
+ team ) ' D 
+( put
+ points ' E ( ( 
+( B
+ 
+( B
+ ) ) ( % ( - ( * 0 ' D ) ' E ) ( * ( + ( // 
+( score
+ 
+( top
+ ( 'GAME vloc D ) ) using ' D ) ( - 
+( game
+ sto E ) ' A ) ) 3 ) 
+( score
+ 
+( top
+ ' C ) using ' C ) ) ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( D
+ 
+( C
+ ) ) ( + ( * 
+( score
+ ' D using ' C ) ' B ) ( // ( % ( * ( - 
+( game
+ sto E ) ' B ) 
+( size
+ ' E ) ) 
+( game
+ sto C ) ) 
+( size
+ ' D ) ) ) ) ) ) ) ) 
+( any
+ 
+( let
+ C ' C 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( E
+ 
+( C
+ ) ) 2 ) ) ) ) ) ) ' C ( 
+( and
+ 
+( and
+ 
+( any
+ 
+( previous
+ team ) ' A 
+( put
+ points ' E ( ( 
+( D
+ 
+( E
+ ) ) ( // ( * 4 ( - 4 4 ) ) 
+( score
+ 
+( top
+ ( 'GAME mem E ) ) using ' E ) ) ) ) ) ) 
+( any
+ 
+( range
+ 4 .. 5 ) ' E 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( A
+ 
+( D
+ ) ) ( * ' A 
+( score
+ 
+( max
+ 
+( union
+ 
+( any
+ 
+( other
+ player ) ' E 
+( put
+ points ' B ( ( 
+( C
+ 
+( E
+ ) ) 
+( game
+ sto E ) ) ) ) ) ) using ' C ) using ' B ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ 
+( score
+ ' B using ' A ) 
+( top
+ 
+( tuples
+ ( - 
+( size
+ ' A ) ( + 
+( game
+ sto D ) 
+( game
+ sto B ) ) ) ' D using ' B ) ) using ' D ) ' B 
+( put
+ points ' D ( ( 
+( D
+ 
+( E
+ ) ) ' E ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( B
+ 
+( C
+ ) ) ( + ( // ( % 
+( size
+ ' D ) ' A ) ' D ) ( - 
+( game
+ sto B ) ( * 
+( size
+ ' E ) 
+( game
+ sto C ) ) ) ) ) ) ) ) ) ) 
+( let
+ ( * 1 
+( size
+ ' E ) ) ' D 
+( do
+ ( ( 
+( and
+ 
+( any
+ 
+( current
+ team ) ' D 
+( put
+ points ' A ( ( 
+( E
+ 
+( E
+ ) ) ( + 
+( size
+ ' C ) ( // ( - 
+( score
+ 
+( top
+ ( 'GAME vloc A ) ) using ' B ) ' B ) ' A ) ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( team
+ 
+( owner
+ ' D ) ) ' D 
+( put
+ points ' B ( ( 
+( C
+ 
+( A
+ ) ) ( % 3 2 ) ) ) ) ) 
+( any
+ CSTORAGAE ' B 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( C
+ 
+( D
+ ) ) ( // ' A ( * 
+( score
+ 
+( actual
+ 
+( min
+ ' C using ' B ) ) using ' D ) 
+( game
+ sto B ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( D
+ 
+( E
+ ) ) 
+( game
+ sto D ) ) ) ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ ' E ' D 
+( do
+ ( ( 
+( any
+ CSTORAGAE ' C ( 
+( and
+ 
+( or
+ 
+( any
+ player ' E 
+( put
+ points ' E ( ( 
+( A
+ 
+( E
+ ) ) ' A ) ) ) ) 
+( any
+ 
+( B
+ , D ) ' E 
+( put
+ points ' A ( ( 
+( D
+ 
+( E
+ ) ) ( % 
+( score
+ 
+( max
+ ( 'GAME iloc B ) using ' A ) using ' A ) 
+( score
+ 
+( actual
+ 
+( min
+ ' B using ' B ) ) using ' B ) ) ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( B
+ , B ) ' D 
+( put
+ points ' E ( ( 
+( E
+ 
+( E
+ ) ) ' A ) ) ) ) 
+( any
+ ' C ' B 
+( let
+ CSTORAGAE ' E 
+( let
+ team ' A 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( B
+ 
+( D
+ ) ) 1 ) ) ) ) ) ) ) ) ) ) 
+( let
+ 
+( or
+ 
+( any
+ 
+( E
+ , B ) ' D 
+( put
+ points ' B ( ( 
+( A
+ 
+( A
+ ) ) ' D ) ) ) ) 
+( and
+ 
+( any
+ ' B ' C 
+( put
+ points ' C ( ( 
+( A
+ 
+( A
+ ) ) 4 ) ) ) ) 
+( any
+ 
+( range
+ ( - ' E 
+( score
+ 
+( top
+ ' A ) using ' A ) ) .. ( * ( + ' A ' D ) ( + 
+( size
+ ' A ) 
+( score
+ 
+( min
+ 
+( union
+ 
+( any
+ team ' C 
+( put
+ points ' D ( ( 
+( D
+ 
+( B
+ ) ) ( // ( % ' E 
+( size
+ ' B ) ) ( % 
+( game
+ sto C ) 4 ) ) ) ) ) ) ) using ' B ) using ' A ) ) ) ) ' A 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( E
+ 
+( C
+ ) ) ( % ( * ( + ' E ( // 0 ' A ) ) ' B ) 
+( game
+ sto E ) ) ) ) ) ) ) ) ) ) ' E 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( E
+ 
+( B
+ ) ) ( % ( + ' A ' C ) 
+( size
+ ' E ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( D
+ 
+( A
+ ) ) ' D ) ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' E ( 
+( or
+ 
+( any
+ CSTORAGAE ' E ( 
+( any
+ 
+( other
+ player ) ' B 
+( let
+ 
+( and
+ 
+( any
+ 
+( team
+ 
+( current
+ player ) ) ' A 
+( put
+ points ' A ( ( 
+( C
+ 
+( B
+ ) ) ( // 0 ( - 
+( size
+ ' D ) ( + 
+( game
+ sto D ) ( % 
+( size
+ ' E ) 
+( game
+ sto B ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ 
+( score
+ 
+( top
+ 
+( union
+ 
+( any
+ player ' E 
+( put
+ points ' E ( ( 
+( B
+ 
+( C
+ ) ) ( + ( * ' C ( // 
+( game
+ sto A ) 
+( game
+ sto A ) ) ) ( % 
+( game
+ sto B ) ( - 5 
+( game
+ sto C ) ) ) ) ) ) ) ) ) ) using ' C ) .. ( % ( // 0 ( + 
+( score
+ ' E using ' D ) 
+( score
+ 
+( top
+ 
+( union
+ 
+( any
+ CSTORAGAE ' D 
+( put
+ points ' A ( ( 
+( C
+ 
+( E
+ ) ) 
+( game
+ sto C ) ) ) ) ) ) ) using ' A ) ) ) 4 ) ) ' B 
+( put
+ points ' C ( ( 
+( D
+ 
+( A
+ ) ) 1 ) ) ) ) ) ' A 
+( do
+ ( 
+( put
+ points ' B ( ( 
+( B
+ 
+( B
+ ) ) ' E ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( B
+ 
+( A
+ ) ) ' A ) ) ) ) ) 
+( any
+ 
+( let
+ B ' B 
+( do
+ ( 
+( let
+ ( % ( + 
+( size
+ ' E ) ' C ) ( + ( // ( - ' B 3 ) ( - 
+( size
+ ' D ) 
+( score
+ 
+( top
+ ( 'GAME hloc E ) ) using ' C ) ) ) 5 ) ) ' E 
+( choice
+ ( ( 
+( any
+ 
+( A
+ , A ) ' B 
+( put
+ points ' A ( ( 
+( E
+ 
+( D
+ ) ) 
+( score
+ ' D using ' C ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( A
+ 
+( C
+ ) ) ( - ' E 0 ) ) ) ) ) ) ) ) ) ) ) ' D 
+( do
+ ( ( 
+( or
+ 
+( any
+ 
+( let
+ 
+( and
+ 
+( any
+ 
+( D
+ , D ) ' B 
+( do
+ ( ( 
+( any
+ player ' B 
+( put
+ points ' C ( ( 
+( A
+ 
+( A
+ ) ) ( % ( // 
+( game
+ sto B ) ( + ( - 1 ' E ) ( * ( - 1 
+( game
+ sto E ) ) ' E ) ) ) ( - ' B ( // 5 
+( game
+ sto A ) ) ) ) ) ) ) ) 
+( let
+ D ' E 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( D
+ 
+( B
+ ) ) ' A ) ) ) ) ) ) ) ) ) ) 
+( any
+ ' C ' A 
+( put
+ points ' B ( ( 
+( A
+ 
+( B
+ ) ) 
+( score
+ 
+( actual
+ 
+( min
+ ( 'GAME iloc C ) using ' B ) ) using ' C ) ) ) ) ) ) ' D 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( C
+ 
+( A
+ ) ) ( * 
+( size
+ ' A ) ( + 
+( score
+ 
+( max
+ ' D using ' A ) using ' B ) ( - ( % ' C 
+( size
+ ' C ) ) ( % ( // 4 ' E ) 3 ) ) ) ) ) ) ) ) ) ) ' E 
+( put
+ points ' E ( ( 
+( D
+ 
+( A
+ ) ) 
+( game
+ sto D ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' C ( 
+( or
+ 
+( any
+ 
+( range
+ ( - 
+( size
+ ' D ) ( + ( * 
+( score
+ 
+( min
+ ' C using ' C ) using ' B ) 2 ) 1 ) ) .. ' B ) ' C 
+( put
+ points ' D ( ( 
+( E
+ 
+( B
+ ) ) 
+( size
+ ' B ) ) ) ) ) 
+( any
+ team ' B 
+( put
+ points ' C ( ( 
+( A
+ 
+( D
+ ) ) 
+( score
+ ' D using ' A ) ) ) ) ) ) 
+( let
+ 
+( range
+ 
+( game
+ sto D ) .. ( + ( - 
+( size
+ ' C ) ( // ( * 5 ' A ) 
+( game
+ sto C ) ) ) 
+( game
+ sto B ) ) ) ' E 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( C
+ 
+( D
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( D
+ 
+( A
+ ) ) 
+( size
+ ' E ) ) ) ) ) ) ) ) ) 
+( let
+ ' A ' E 
+( do
+ ( 
+( let
+ D ' C 
+( do
+ ( ( 
+( and
+ 
+( any
+ CSTORAGAE ' E 
+( put
+ points ' C ( ( 
+( D
+ 
+( A
+ ) ) ( // ( * ( % 
+( game
+ sto B ) ' B ) ( * ( + 
+( score
+ 
+( top
+ 
+( union
+ 
+( any
+ 
+( team
+ 
+( current
+ player ) ) ' E 
+( put
+ points ' C ( ( 
+( D
+ 
+( E
+ ) ) 
+( game
+ sto E ) ) ) ) ) ) ) using ' B ) 
+( score
+ 
+( min
+ ( 'GAME iloc C ) using ' E ) using ' D ) ) ' E ) ) ( * ' A 
+( game
+ sto C ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ 
+( score
+ 
+( max
+ ( 'GAME iloc A ) using ' A ) using ' C ) .. ' C ) ' C 
+( put
+ points ' E ( ( 
+( A
+ 
+( A
+ ) ) ( // 
+( size
+ ' E ) 3 ) ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( C
+ 
+( E
+ ) ) 
+( size
+ ' C ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) using ' D ) ) using ' B ) ) ) ) ) 
+( any
+ 
+( previous
+ team ) ' B ( 
+( and
+ 
+( any
+ ' D ' D 
+( put
+ points ' B ( ( 
+( D
+ 
+( C
+ ) ) ( * 
+( game
+ sto A ) 
+( score
+ 
+( min
+ 
+( filter
+ team ' A 
+( and
+ 
+( or
+ 
+( any
+ 
+( other
+ player ) ' C 
+( let
+ ( - 
+( game
+ sto D ) ( - 1 5 ) ) ' B 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( E
+ 
+( B
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ ( + ( // 
+( game
+ sto A ) ( - 
+( sum
+ 
+( top
+ 
+( tuples
+ 1 
+( union
+ 
+( any
+ 
+( E
+ , E ) ' A 
+( put
+ points ' A ( ( 
+( D
+ 
+( E
+ ) ) 2 ) ) ) ) ) using ' A ) ) using ' E ) 0 ) ) ' D ) .. ( // 
+( game
+ sto D ) 
+( game
+ sto B ) ) ) ' A ( 
+( any
+ CSTORAGAE ' B ( 
+( or
+ 
+( any
+ 
+( team
+ 
+( previous
+ player ) ) ' A 
+( let
+ C ' D 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( A
+ 
+( C
+ ) ) 2 ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ team ' D 
+( put
+ points ' A ( ( 
+( A
+ 
+( B
+ ) ) 
+( size
+ ' C ) ) ) ) ) 
+( any
+ CSTORAGAE ' B 
+( put
+ points ' D ( ( 
+( E
+ 
+( C
+ ) ) 
+( sum
+ 
+( top
+ 
+( tuples
+ ' A 
+( union
+ 
+( any
+ 
+( C
+ , E ) ' A 
+( do
+ ( ( 
+( or
+ 
+( and
+ 
+( any
+ team ' E 
+( put
+ points ' B ( ( 
+( A
+ 
+( A
+ ) ) 
+( size
+ ' D ) ) ) ) ) 
+( any
+ ' E ' A 
+( put
+ points ' C ( ( 
+( B
+ 
+( D
+ ) ) ( // ( + 
+( game
+ sto A ) 
+( game
+ sto B ) ) ' A ) ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( previous
+ team ) ' A ( 
+( and
+ 
+( any
+ CSTORAGAE ' A 
+( put
+ points ' A ( ( 
+( B
+ 
+( C
+ ) ) 
+( size
+ ' B ) ) ) ) ) 
+( any
+ team ' A 
+( let
+ C ' C 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( B
+ 
+( A
+ ) ) 0 ) ) ) ) ) ) ) ) 
+( let
+ ' A ' A 
+( choice
+ ( 
+( put
+ points ' E ( ( 
+( B
+ 
+( E
+ ) ) 
+( size
+ ' A ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ ' E .. 
+( size
+ ' B ) ) ' C 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( B
+ 
+( B
+ ) ) ( - ( // 
+( game
+ sto C ) ( + ' B ( % 
+( game
+ sto D ) 
+( size
+ ' D ) ) ) ) ( + ' B 
+( size
+ ' B ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( B
+ 
+( B
+ ) ) ( + 
+( game
+ sto C ) 
+( size
+ ' A ) ) ) ) ) ) ) ) ) ) using ' A ) ) using ' B ) ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( C
+ 
+( C
+ ) ) ' D ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( E
+ 
+( E
+ ) ) 
+( size
+ ' E ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ ( - ' A 2 ) .. ' A ) ' E 
+( put
+ points ' D ( ( 
+( A
+ 
+( C
+ ) ) 
+( sum
+ ' E using ' D ) ) ) ) ) ) ) using ' E ) using ' A ) ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( D
+ , D ) ' A 
+( put
+ points ' C ( ( 
+( B
+ 
+( B
+ ) ) ( + 
+( sum
+ 
+( filter
+ 
+( B
+ , A ) ' B 
+( any
+ 
+( let
+ 
+( team
+ 
+( previous
+ player ) ) ' D 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( A
+ 
+( C
+ ) ) 1 ) ) ) ) ) ) ' B 
+( let
+ ' B ' D 
+( do
+ ( ( 
+( or
+ 
+( or
+ 
+( any
+ CSTORAGAE ' C 
+( put
+ points ' A ( ( 
+( E
+ 
+( A
+ ) ) 3 ) ) ) ) 
+( any
+ 
+( tuples
+ ( % 
+( size
+ ' C ) ( * ( - 4 
+( game
+ sto D ) ) 5 ) ) ' B using ' C ) ' B 
+( put
+ points ' C ( ( 
+( A
+ 
+( C
+ ) ) 0 ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( other
+ player ) ' B 
+( put
+ points ' A ( ( 
+( E
+ 
+( B
+ ) ) 
+( game
+ sto A ) ) ) ) ) 
+( any
+ 
+( range
+ ( - ' E 
+( sum
+ 
+( top
+ 
+( tuples
+ 
+( size
+ ' C ) 
+( union
+ 
+( any
+ 
+( tuples
+ 3 ' E using ' B ) ' A 
+( put
+ points ' A ( ( 
+( A
+ 
+( B
+ ) ) 
+( game
+ sto A ) ) ) ) ) ) using ' A ) ) using ' D ) ) .. 
+( size
+ ' D ) ) ' E 
+( put
+ points ' C ( ( 
+( E
+ 
+( C
+ ) ) ( - 
+( game
+ sto B ) ( % ( * 
+( sum
+ ( 'GAME vloc C ) using ' D ) ' C ) ( * ( // 1 ' D ) ' D ) ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( B
+ 
+( A
+ ) ) ( * ( % 5 ' D ) ' B ) ) ) ) ) ) ) ) ) ) using ' B ) 
+( sum
+ 
+( top
+ 
+( tuples
+ ( - 
+( score
+ 
+( min
+ 
+( union
+ 
+( any
+ 
+( filter
+ 
+( C
+ , D ) ' C 
+( or
+ 
+( any
+ CSTORAGAE ' B 
+( let
+ 
+( and
+ 
+( any
+ 
+( other
+ player ) ' E 
+( put
+ points ' E ( ( 
+( A
+ 
+( E
+ ) ) 5 ) ) ) ) 
+( any
+ 
+( D
+ , D ) ' C ( 
+( any
+ 
+( team
+ 
+( current
+ player ) ) ' E 
+( put
+ points ' E ( ( 
+( C
+ 
+( B
+ ) ) ( // ' A ( % 
+( size
+ ' E ) ( * 
+( game
+ sto B ) 0 ) ) ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( C
+ 
+( E
+ ) ) 
+( score
+ 
+( max
+ ( 'GAME mem E ) using ' D ) using ' E ) ) ) ) ) ) ) ' C 
+( do
+ ( ( 
+( or
+ 
+( any
+ 
+( other
+ player ) ' E 
+( put
+ points ' D ( ( 
+( A
+ 
+( E
+ ) ) 4 ) ) ) ) 
+( any
+ 
+( team
+ 
+( owner
+ 
+( actual
+ 
+( top
+ ( 'GAME mem E ) ) ) ) ) ' D ( 
+( any
+ 
+( E
+ , C ) ' D 
+( put
+ points ' C ( ( 
+( E
+ 
+( B
+ ) ) ( % ' D 
+( game
+ sto C ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( C
+ 
+( E
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( B
+ 
+( C
+ ) ) ( // ( * ( % 
+( size
+ ' D ) ' A ) ' B ) ( % 
+( game
+ sto D ) ( * 0 ' A ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ player ' C 
+( let
+ C ' A 
+( do
+ ( ( 
+( any
+ team ' D 
+( put
+ points ' E ( ( 
+( A
+ 
+( C
+ ) ) 
+( size
+ ' B ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( E
+ 
+( A
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) ) ) ) ) ) ' B 
+( let
+ CSTORAGAE ' C 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( A
+ 
+( B
+ ) ) 
+( size
+ ' A ) ) ) ) ) ) ) ) ) using ' C ) using ' E ) 
+( game
+ sto B ) ) ( 'GAME vloc A ) using ' A ) ) using ' B ) ) ) ) ) ) 
+( any
+ 
+( filter
+ ' A ' E 
+( any
+ 
+( B
+ , E ) ' C 
+( put
+ points ' B ( ( 
+( A
+ 
+( E
+ ) ) 
+( score
+ 
+( max
+ ' C using ' D ) using ' C ) ) ) ) ) ) ' D 
+( put
+ points ' D ( ( 
+( D
+ 
+( C
+ ) ) 
+( sum
+ 
+( union
+ 
+( any
+ ' C ' D 
+( do
+ ( ( 
+( any
+ 
+( tuples
+ ( + ( - ( // 
+( size
+ ' D ) 
+( game
+ sto B ) ) 4 ) 3 ) ( 'GAME iloc A ) using ' E ) ' B 
+( put
+ points ' D ( ( 
+( E
+ 
+( C
+ ) ) ( // 
+( score
+ 
+( max
+ ' D using ' D ) using ' C ) 
+( score
+ 
+( max
+ 
+( top
+ 
+( tuples
+ ( + ' A ( - 3 
+( size
+ ' A ) ) ) 
+( filter
+ 
+( range
+ 
+( size
+ ' C ) .. 
+( game
+ sto E ) ) ' D 
+( and
+ 
+( or
+ 
+( any
+ ' D ' D 
+( let
+ 
+( and
+ 
+( any
+ player ' A 
+( put
+ points ' B ( ( 
+( C
+ 
+( A
+ ) ) ( - 1 
+( size
+ ' A ) ) ) ) ) ) 
+( any
+ team ' A ( 
+( any
+ team ' B 
+( let
+ ' B ' D 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( C
+ 
+( D
+ ) ) ( % ( + ( * ' E ' B ) ( - 
+( size
+ ' E ) 2 ) ) ( * 3 ' E ) ) ) ) ) ) ) ) ) 
+( let
+ C ' C 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( C
+ 
+( E
+ ) ) ( - ( + 
+( game
+ sto A ) 
+( size
+ ' D ) ) 4 ) ) ) ) ) ) ) ) ) ) ' C 
+( let
+ 
+( range
+ ( + ( - ' D 
+( size
+ ' D ) ) ( * ' C 1 ) ) .. ( % ' B 
+( size
+ ' C ) ) ) ' D 
+( do
+ ( ( 
+( any
+ ' B ' A ( 
+( and
+ 
+( or
+ 
+( any
+ 
+( range
+ ( // 
+( game
+ sto B ) 
+( game
+ sto C ) ) .. ( + ' B 
+( game
+ sto C ) ) ) ' E 
+( put
+ points ' A ( ( 
+( A
+ 
+( C
+ ) ) 
+( game
+ sto C ) ) ) ) ) 
+( any
+ player ' E 
+( put
+ points ' B ( ( 
+( B
+ 
+( C
+ ) ) ( % ' D 2 ) ) ) ) ) ) 
+( any
+ 
+( range
+ 0 .. 
+( game
+ sto B ) ) ' E 
+( put
+ points ' A ( ( 
+( A
+ 
+( B
+ ) ) 5 ) ) ) ) ) 
+( let
+ ' E ' C 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( A
+ 
+( A
+ ) ) ( * ( % ( - ' B ( + 
+( size
+ ' D ) 
+( size
+ ' C ) ) ) 
+( game
+ sto C ) ) ( - ( + 
+( game
+ sto B ) 
+( size
+ ' A ) ) ( % 
+( game
+ sto A ) ' A ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( B
+ 
+( B
+ ) ) ( * ( % 
+( game
+ sto B ) ' E ) 
+( game
+ sto A ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ ( - ( * 
+( score
+ 
+( actual
+ ' C ) using ' C ) ( + 
+( score
+ 
+( top
+ ' A ) using ' D ) 
+( game
+ sto B ) ) ) ( + 2 ( * 
+( size
+ ' A ) 
+( size
+ ' A ) ) ) ) .. 
+( game
+ sto E ) ) ' D 
+( let
+ 
+( or
+ 
+( any
+ ' E ' D ( 
+( any
+ 
+( C
+ , A ) ' E 
+( put
+ points ' D ( ( 
+( C
+ 
+( A
+ ) ) ( - 
+( game
+ sto A ) ( + ( % 
+( game
+ sto D ) 
+( size
+ ' A ) ) 
+( sum
+ ( 'GAME vloc B ) using ' B ) ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( D
+ 
+( B
+ ) ) ( % 
+( game
+ sto A ) 
+( game
+ sto C ) ) ) ) ) ) ) ) ) 
+( any
+ team ' C ( 
+( any
+ 
+( other
+ player ) ' B ( 
+( or
+ 
+( or
+ 
+( any
+ 
+( filter
+ team ' D 
+( and
+ 
+( any
+ 
+( range
+ ( - ' C 
+( game
+ sto A ) ) .. ( * 1 
+( game
+ sto E ) ) ) ' A 
+( put
+ points ' D ( ( 
+( E
+ 
+( D
+ ) ) 4 ) ) ) ) 
+( any
+ 
+( C
+ , A ) ' C 
+( put
+ points ' E ( ( 
+( D
+ 
+( D
+ ) ) ' A ) ) ) ) ) ) ' E 
+( put
+ points ' D ( ( 
+( D
+ 
+( E
+ ) ) ( * ( + ( - ( % ' B 4 ) ( % 
+( size
+ ' B ) ' D ) ) 
+( size
+ ' A ) ) ( - 
+( size
+ ' D ) 2 ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' D 
+( put
+ points ' A ( ( 
+( A
+ 
+( A
+ ) ) 
+( score
+ 
+( top
+ ( 'GAME mem B ) ) using ' A ) ) ) ) ) ) 
+( or
+ 
+( any
+ team ' E 
+( let
+ ' E ' A 
+( do
+ ( ( 
+( any
+ 
+( E
+ , D ) ' A 
+( put
+ points ' B ( ( 
+( B
+ 
+( C
+ ) ) 
+( size
+ ' E ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( D
+ 
+( A
+ ) ) 3 ) ) ) ) ) ) ) ) 
+( any
+ team ' D ( 
+( any
+ 
+( team
+ 
+( next
+ player ) ) ' C 
+( put
+ points ' C ( ( 
+( C
+ 
+( E
+ ) ) ' E ) ) ) ) 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( B
+ 
+( E
+ ) ) ( - 
+( game
+ sto B ) ( + ( * 5 ' B ) ' A ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( E
+ 
+( D
+ ) ) ( - 
+( size
+ ' C ) ' D ) ) ) ) ) ) 
+( let
+ E ' A 
+( choice
+ ( ( 
+( or
+ 
+( any
+ 
+( tuples
+ 
+( size
+ ' B ) ' E using ' C ) ' D 
+( put
+ points ' E ( ( 
+( A
+ 
+( D
+ ) ) 
+( game
+ sto B ) ) ) ) ) 
+( any
+ player ' D 
+( put
+ points ' E ( ( 
+( B
+ 
+( D
+ ) ) 
+( size
+ ' C ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( A
+ 
+( A
+ ) ) ( % 4 ( - 
+( size
+ ' C ) 
+( size
+ ' D ) ) ) ) ) ) ) ) ) ) ) ) ) ' E 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( A
+ 
+( C
+ ) ) ( % 
+( game
+ sto C ) ' B ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' C 
+( put
+ points ' B ( ( 
+( C
+ 
+( C
+ ) ) ( * 
+( size
+ ' B ) ( % ( - ( + ' E 
+( size
+ ' D ) ) ( + ' B ' D ) ) 
+( game
+ sto C ) ) ) ) ) ) ) ) ) using ' A ) ) using ' D ) using ' E ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( A
+ 
+( B
+ ) ) 
+( score
+ 
+( top
+ ' B ) using ' B ) ) ) ) ) ) ) ) ) using ' A ) ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( E
+ 
+( D
+ ) ) 1 ) ) ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( E
+ 
+( E
+ ) ) ( + 
+( score
+ 
+( min
+ 
+( union
+ 
+( any
+ team ' B ( 
+( or
+ 
+( any
+ CSTORAGAE ' C 
+( put
+ points ' B ( ( 
+( E
+ 
+( C
+ ) ) 
+( sum
+ 
+( top
+ 
+( tuples
+ ( // ' D ' C ) ( 'GAME iloc A ) using ' A ) ) using ' C ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( tuples
+ 0 ' B using ' C ) ' E 
+( put
+ points ' C ( ( 
+( C
+ 
+( C
+ ) ) ( - ' B 5 ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( C
+ , D ) ' E 
+( let
+ 
+( size
+ ' E ) ' C 
+( choice
+ ( ( 
+( any
+ 
+( current
+ team ) ' E ( 
+( any
+ player ' B 
+( put
+ points ' A ( ( 
+( A
+ 
+( B
+ ) ) ( * 4 ' D ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( B
+ 
+( B
+ ) ) 
+( game
+ sto A ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( D
+ 
+( A
+ ) ) ( // 
+( game
+ sto D ) ( - 
+( game
+ sto D ) 
+( game
+ sto B ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ ( - 0 
+( game
+ sto D ) ) ( 'GAME iloc E ) using ' B ) ' E ( 
+( any
+ 
+( D
+ , B ) ' E 
+( let
+ ' D ' C 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( E
+ 
+( E
+ ) ) ( - 5 
+( size
+ ' D ) ) ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( C
+ 
+( C
+ ) ) 
+( sum
+ ' E using ' A ) ) ) ) ) ) ) ) ) 
+( let
+ D ' D 
+( let
+ ' A ' E 
+( do
+ ( ( 
+( and
+ 
+( any
+ ' D ' E 
+( let
+ A ' A 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( E
+ 
+( C
+ ) ) ' D ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( other
+ player ) ' B 
+( put
+ points ' A ( ( 
+( B
+ 
+( D
+ ) ) ( * 
+( size
+ ' A ) 
+( sum
+ 
+( filter
+ 
+( other
+ player ) ' C 
+( any
+ 
+( range
+ 
+( game
+ sto A ) .. ( - 0 ( % 
+( size
+ ' D ) 
+( game
+ sto E ) ) ) ) ' B 
+( let
+ ( // 
+( game
+ sto B ) ( - 
+( size
+ ' B ) 1 ) ) ' E 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( A
+ 
+( C
+ ) ) ' D ) ) ) ) ) ) ) ) using ' E ) ) ) ) ) ) 
+( any
+ 
+( range
+ ( // 
+( sum
+ 
+( filter
+ 
+( tuples
+ ( - 
+( size
+ ' B ) 0 ) ( 'GAME iloc D ) using ' E ) ' B 
+( and
+ 
+( any
+ 
+( tuples
+ 
+( size
+ ' E ) ' C using ' A ) ' B 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( C
+ 
+( C
+ ) ) ( - ' A ( % 
+( game
+ sto E ) 
+( size
+ ' A ) ) ) ) ) ) ) ) ) 
+( any
+ ' A ' C 
+( put
+ points ' B ( ( 
+( C
+ 
+( A
+ ) ) ( % 
+( game
+ sto E ) ' D ) ) ) ) ) ) ) using ' D ) 
+( sum
+ 
+( top
+ 
+( tuples
+ ( * ( % ( + 3 ( - 
+( game
+ sto A ) ' D ) ) 
+( game
+ sto C ) ) ( - ' C 
+( game
+ sto D ) ) ) 
+( filter
+ 
+( D
+ , B ) ' A 
+( any
+ 
+( B
+ , B ) ' E 
+( put
+ points ' D ( ( 
+( D
+ 
+( C
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) using ' C ) ) using ' E ) ) .. 
+( size
+ ' C ) ) ' B 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( B
+ 
+( E
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( B
+ 
+( C
+ ) ) ( - ( * 4 ' E ) 0 ) ) ) ) ) ) ) ) ) ) ) ) using ' D ) using ' D ) ( % 1 
+( score
+ 
+( min
+ ' A using ' D ) using ' D ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' C 
+( let
+ 0 ' E 
+( do
+ ( ( 
+( any
+ 
+( B
+ , C ) ' A ( 
+( and
+ 
+( any
+ 
+( B
+ , D ) ' E 
+( put
+ points ' B ( ( 
+( E
+ 
+( C
+ ) ) ( + ' D 
+( size
+ ' A ) ) ) ) ) ) 
+( any
+ player ' D 
+( put
+ points ' D ( ( 
+( D
+ 
+( E
+ ) ) 
+( size
+ ' E ) ) ) ) ) ) 
+( let
+ ' C ' B 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( D
+ 
+( D
+ ) ) 
+( game
+ sto C ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ ' E .. 
+( sum
+ ' D using ' C ) ) ' D 
+( put
+ points ' E ( ( 
+( D
+ 
+( E
+ ) ) ' B ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( D
+ 
+( C
+ ) ) ( % 
+( size
+ ' B ) 
+( score
+ 
+( top
+ 
+( union
+ 
+( any
+ CSTORAGAE ' A 
+( do
+ ( ( 
+( any
+ player ' C 
+( any
+ ' A ' D ( 
+( and
+ 
+( and
+ 
+( or
+ 
+( any
+ 
+( range
+ ( - 
+( game
+ sto A ) 
+( sum
+ 
+( top
+ 
+( tuples
+ 
+( size
+ ' C ) ( 'GAME vloc B ) using ' C ) ) using ' A ) ) .. 
+( sum
+ 
+( union
+ 
+( any
+ ' D ' B ( 
+( any
+ 
+( tuples
+ 2 ' E using ' E ) ' C ( 
+( and
+ 
+( any
+ CSTORAGAE ' E 
+( put
+ points ' A ( ( 
+( A
+ 
+( B
+ ) ) ( * 
+( game
+ sto C ) ( // 2 1 ) ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( current
+ team ) ' D 
+( let
+ team ' D 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( E
+ 
+( A
+ ) ) 
+( game
+ sto E ) ) ) ) ) ) ) ) 
+( any
+ player ' B 
+( let
+ ' B ' C 
+( let
+ ' E ' D 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( A
+ 
+( C
+ ) ) ' C ) ) ) ) ) ) ) ) ) ) 
+( let
+ 
+( and
+ 
+( or
+ 
+( any
+ player ' A 
+( put
+ points ' C ( ( 
+( E
+ 
+( C
+ ) ) 
+( size
+ ' C ) ) ) ) ) 
+( any
+ 
+( team
+ 
+( owner
+ ' E ) ) ' B 
+( put
+ points ' B ( ( 
+( E
+ 
+( E
+ ) ) ( // ( + 
+( size
+ ' D ) 
+( game
+ sto C ) ) 
+( game
+ sto E ) ) ) ) ) ) ) 
+( and
+ 
+( any
+ team ' C 
+( put
+ points ' B ( ( 
+( C
+ 
+( A
+ ) ) ( + 
+( size
+ ' D ) 
+( size
+ ' A ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' D 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( B
+ 
+( B
+ ) ) ( // 2 ( * 
+( size
+ ' C ) ( + 2 3 ) ) ) ) ) ) ) ) ) ) ) ' D 
+( let
+ ' E ' B 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( B
+ 
+( E
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) ) ) ) ) 
+( let
+ 
+( any
+ team ' E 
+( put
+ points ' D ( ( 
+( D
+ 
+( C
+ ) ) ( - 
+( game
+ sto B ) ( * ( // 
+( game
+ sto A ) ' E ) ' D ) ) ) ) ) ) ' D 
+( let
+ ' D ' D 
+( choice
+ ( ( 
+( any
+ 
+( filter
+ 
+( other
+ player ) ' E 
+( or
+ 
+( and
+ 
+( any
+ 
+( E
+ , A ) ' C 
+( do
+ ( ( 
+( or
+ 
+( any
+ player ' E 
+( put
+ points ' A ( ( 
+( B
+ 
+( B
+ ) ) 3 ) ) ) ) 
+( and
+ 
+( any
+ player ' E 
+( put
+ points ' B ( ( 
+( E
+ 
+( D
+ ) ) 
+( size
+ ' B ) ) ) ) ) 
+( any
+ 
+( previous
+ team ) ' A 
+( put
+ points ' B ( ( 
+( E
+ 
+( A
+ ) ) ( - ( + ' A ( // 
+( size
+ ' E ) ' C ) ) 2 ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( E
+ 
+( E
+ ) ) ( % ( * ( // ' B 3 ) ( - 3 4 ) ) 
+( game
+ sto D ) ) ) ) ) ) ) ) ) 
+( any
+ ' D ' D 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( B
+ 
+( E
+ ) ) 
+( score
+ ' B using ' A ) ) ) ) ) ) ) ) 
+( any
+ team ' D 
+( put
+ points ' D ( ( 
+( D
+ 
+( A
+ ) ) ( // ( + 
+( size
+ ' D ) ' E ) 
+( size
+ ' B ) ) ) ) ) ) ) ) ' D 
+( put
+ points ' E ( ( 
+( B
+ 
+( A
+ ) ) ( // ( + ( - 
+( game
+ sto E ) 2 ) 
+( game
+ sto A ) ) ' A ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( A
+ 
+( E
+ ) ) ( + ( // 
+( size
+ ' A ) ' A ) 3 ) ) ) ) ) ) ) ) ) ) ) ) ) ) using ' B ) ) ' D 
+( let
+ ' A ' B 
+( choice
+ ( 
+( let
+ 
+( or
+ 
+( any
+ 
+( tuples
+ ( // 3 ( + ' E 
+( sum
+ ( 'GAME hloc B ) using ' E ) ) ) 
+( filter
+ CSTORAGAE ' C 
+( and
+ 
+( any
+ 
+( D
+ , C ) ' C 
+( put
+ points ' D ( ( 
+( B
+ 
+( A
+ ) ) 
+( size
+ ' C ) ) ) ) ) 
+( any
+ CSTORAGAE ' D ( 
+( any
+ 
+( B
+ , C ) ' C 
+( put
+ points ' A ( ( 
+( B
+ 
+( E
+ ) ) ' A ) ) ) ) 
+( do
+ ( ( 
+( any
+ ' A ' B 
+( put
+ points ' A ( ( 
+( A
+ 
+( D
+ ) ) ( * 
+( sum
+ ( 'GAME iloc D ) using ' B ) 
+( size
+ ' C ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( A
+ 
+( E
+ ) ) ( // 
+( game
+ sto B ) 
+( game
+ sto D ) ) ) ) ) ) ) ) ) ) ) ) using ' B ) ' C ( 
+( any
+ ' C ' D 
+( put
+ points ' A ( ( 
+( C
+ 
+( A
+ ) ) 
+( game
+ sto E ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( A
+ 
+( C
+ ) ) ( - ' C 
+( game
+ sto C ) ) ) ) ) ) ) ) ) 
+( any
+ ( ( + 
+( size
+ ' C ) 4 ) team ) ' B 
+( put
+ points ' C ( ( 
+( D
+ 
+( A
+ ) ) ' B ) ) ) ) ) ' E 
+( do
+ ( ( 
+( any
+ CSTORAGAE ' B 
+( put
+ points ' D ( ( 
+( D
+ 
+( E
+ ) ) ( * ' E 3 ) ) ) ) ) 
+( any
+ 
+( tuples
+ ( * ( // 
+( game
+ sto C ) ( - 2 ( + 
+( game
+ sto C ) 
+( size
+ ' D ) ) ) ) ( - 5 ' C ) ) ' C using ' D ) ' E 
+( put
+ points ' D ( ( 
+( A
+ 
+( B
+ ) ) 
+( size
+ ' C ) ) ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ CSTORAGAE ' D 
+( put
+ points ' E ( ( 
+( D
+ 
+( E
+ ) ) 
+( game
+ sto C ) ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( range
+ ( + 
+( sum
+ 
+( filter
+ 
+( other
+ player ) ' D 
+( or
+ 
+( any
+ 
+( let
+ ' D ' D 
+( let
+ 
+( size
+ ' C ) ' C 
+( do
+ ( ( 
+( and
+ 
+( any
+ 
+( C
+ , E ) ' A 
+( put
+ points ' C ( ( 
+( D
+ 
+( E
+ ) ) ' D ) ) ) ) 
+( any
+ 
+( other
+ player ) ' E 
+( let
+ 
+( any
+ CSTORAGAE ' E ( 
+( and
+ 
+( any
+ player ' B ( 
+( or
+ 
+( any
+ ' E ' D 
+( put
+ points ' D ( ( 
+( E
+ 
+( A
+ ) ) 0 ) ) ) ) 
+( any
+ player ' A 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( D
+ 
+( D
+ ) ) ' A ) ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( D
+ 
+( D
+ ) ) ( // 
+( game
+ sto E ) ( + 
+( size
+ ' E ) 
+( size
+ ' A ) ) ) ) ) ) ) ) ) ) 
+( any
+ CSTORAGAE ' D 
+( put
+ points ' B ( ( 
+( E
+ 
+( C
+ ) ) ( // ' B ' A ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( A
+ 
+( B
+ ) ) ( * 
+( game
+ sto D ) ( - 
+( game
+ sto D ) ' E ) ) ) ) ) ) ) ) ) ' D 
+( choice
+ ( ( 
+( and
+ 
+( any
+ player ' B 
+( put
+ points ' D ( ( 
+( A
+ 
+( E
+ ) ) ( - 
+( game
+ sto B ) ( * ( // 
+( sum
+ 
+( top
+ 
+( tuples
+ 
+( game
+ sto A ) ( 'GAME mem D ) using ' C ) ) using ' E ) 
+( game
+ sto B ) ) ' B ) ) ) ) ) ) 
+( any
+ 
+( D
+ , B ) ' A 
+( put
+ points ' E ( ( 
+( D
+ 
+( C
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( B
+ 
+( D
+ ) ) ( + 
+( game
+ sto D ) ( * 
+( game
+ sto B ) ( - 
+( game
+ sto B ) ( // 
+( game
+ sto B ) 
+( game
+ sto E ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( A
+ 
+( C
+ ) ) ( * 0 
+( size
+ ' C ) ) ) ) ) ) ) ) ) ) ' D 
+( let
+ 
+( other
+ player ) ' A 
+( choice
+ ( ( 
+( any
+ ' B ' C ( 
+( or
+ 
+( and
+ 
+( any
+ 
+( other
+ player ) ' D ( 
+( and
+ 
+( any
+ 
+( tuples
+ 
+( size
+ ' D ) ' D using ' A ) ' D 
+( put
+ points ' E ( ( 
+( B
+ 
+( E
+ ) ) 3 ) ) ) ) 
+( any
+ player ' D 
+( put
+ points ' E ( ( 
+( B
+ 
+( C
+ ) ) ( // 3 
+( game
+ sto E ) ) ) ) ) ) ) 
+( let
+ ' C ' C 
+( do
+ ( 
+( let
+ 
+( previous
+ team ) ' B 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( D
+ 
+( E
+ ) ) ( // ( - 0 ( * 2 
+( size
+ ' E ) ) ) 1 ) ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( B
+ , D ) ' E 
+( put
+ points ' D ( ( 
+( A
+ 
+( E
+ ) ) ' B ) ) ) ) ) 
+( and
+ 
+( any
+ player ' E 
+( put
+ points ' C ( ( 
+( E
+ 
+( B
+ ) ) 
+( game
+ sto D ) ) ) ) ) 
+( any
+ 
+( A
+ , A ) ' C 
+( put
+ points ' D ( ( 
+( D
+ 
+( E
+ ) ) 2 ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( D
+ 
+( C
+ ) ) ' E ) ) ) ) ) 
+( do
+ ( 
+( let
+ ' D ' D 
+( let
+ 
+( and
+ 
+( any
+ 
+( D
+ , E ) ' E 
+( put
+ points ' E ( ( 
+( C
+ 
+( A
+ ) ) 
+( game
+ sto E ) ) ) ) ) 
+( any
+ 
+( tuples
+ ( * ( // 
+( size
+ ' B ) ' C ) ' E ) 
+( top
+ 
+( tuples
+ ( // 
+( size
+ ' B ) 
+( game
+ sto D ) ) ( 'GAME vloc D ) using ' C ) ) using ' A ) ' A 
+( put
+ points ' C ( ( 
+( A
+ 
+( A
+ ) ) ( * ( // ' D 0 ) 
+( game
+ sto E ) ) ) ) ) ) ) ' D 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( C
+ 
+( C
+ ) ) 
+( size
+ ' C ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' B 
+( put
+ points ' E ( ( 
+( D
+ 
+( B
+ ) ) ' D ) ) ) ) ) ) using ' B ) 2 ) .. 5 ) ' A ( 
+( any
+ CSTORAGAE ' D 
+( let
+ ' B ' E 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( E
+ 
+( E
+ ) ) ( * 
+( size
+ ' C ) 
+( size
+ ' E ) ) ) ) ) ) ) ) ) 
+( let
+ 
+( range
+ ( + ( - ( * ' A ( // ' C 
+( size
+ ' B ) ) ) ' C ) 
+( size
+ ' A ) ) .. 
+( game
+ sto A ) ) ' E 
+( let
+ 
+( any
+ 
+( range
+ 
+( sum
+ 
+( top
+ 
+( tuples
+ ( - 
+( size
+ ' D ) ( * ( // ' D 2 ) 
+( game
+ sto B ) ) ) ( 'GAME mem C ) using ' E ) ) using ' C ) .. ( * ( - ( + 4 
+( sum
+ ( 'GAME mem A ) using ' A ) ) 
+( game
+ sto B ) ) 
+( size
+ ' C ) ) ) ' D 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( D
+ 
+( B
+ ) ) ( * 
+( game
+ sto C ) ' A ) ) ) ) ) ) ) ' C 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( D
+ 
+( D
+ ) ) 4 ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' E 
+( put
+ points ' B ( ( 
+( B
+ 
+( E
+ ) ) ( + ( - 
+( game
+ sto B ) ' C ) 
+( sum
+ 
+( filter
+ 
+( let
+ ' E ' D 
+( let
+ 
+( range
+ ' E .. ( - 
+( game
+ sto D ) ( * 
+( size
+ ' B ) 
+( size
+ ' B ) ) ) ) ' A 
+( choice
+ ( ( 
+( any
+ 
+( next
+ team ) ' A 
+( do
+ ( 
+( let
+ D ' C 
+( do
+ ( 
+( put
+ points ' B ( ( 
+( E
+ 
+( A
+ ) ) ( // ( * 
+( size
+ ' D ) 
+( game
+ sto B ) ) 
+( game
+ sto D ) ) ) ) ) ) ) ) ) ) ) 
+( do
+ ( 
+( let
+ D ' E 
+( do
+ ( ( 
+( any
+ 
+( D
+ , C ) ' E 
+( put
+ points ' E ( ( 
+( A
+ 
+( C
+ ) ) 
+( game
+ sto B ) ) ) ) ) 
+( any
+ player ' D ( 
+( and
+ 
+( any
+ 
+( team
+ 
+( previous
+ player ) ) ' D 
+( put
+ points ' C ( ( 
+( D
+ 
+( C
+ ) ) ' B ) ) ) ) 
+( and
+ 
+( any
+ 
+( other
+ player ) ' A 
+( put
+ points ' B ( ( 
+( B
+ 
+( A
+ ) ) ( // 
+( game
+ sto A ) ( * 2 ( - 
+( size
+ ' E ) ' A ) ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ 
+( game
+ sto C ) ( 'GAME mem C ) using ' E ) ' A 
+( put
+ points ' E ( ( 
+( B
+ 
+( E
+ ) ) ( - 
+( game
+ sto D ) ( * 4 ( // 
+( game
+ sto D ) ' B ) ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( A
+ 
+( B
+ ) ) ( // 
+( game
+ sto C ) 
+( size
+ ' C ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ' E 
+( any
+ 
+( next
+ team ) ' D 
+( let
+ 
+( score
+ ' A using ' C ) ' B 
+( do
+ ( ( 
+( and
+ 
+( any
+ CSTORAGAE ' A ( 
+( and
+ 
+( any
+ 
+( tuples
+ ( // 
+( game
+ sto C ) 2 ) 
+( top
+ 
+( tuples
+ ( // 1 3 ) ( 'GAME hloc A ) using ' C ) ) using ' A ) ' D 
+( let
+ ' C ' B 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( B
+ 
+( A
+ ) ) ( // 3 
+( size
+ ' D ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' E 
+( let
+ ' E ' A 
+( choice
+ ( ( 
+( and
+ 
+( or
+ 
+( any
+ CSTORAGAE ' A 
+( put
+ points ' A ( ( 
+( C
+ 
+( C
+ ) ) 5 ) ) ) ) 
+( any
+ 
+( tuples
+ ( - 0 ( * ( // 
+( game
+ sto E ) ' E ) 
+( size
+ ' D ) ) ) ' C using ' C ) ' B 
+( put
+ points ' B ( ( 
+( D
+ 
+( D
+ ) ) ( - 
+( score
+ ' A using ' E ) 
+( size
+ ' C ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ 
+( size
+ ' D ) .. ( // 3 ' A ) ) ' B 
+( put
+ points ' E ( ( 
+( C
+ 
+( E
+ ) ) 
+( game
+ sto C ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( D
+ 
+( B
+ ) ) ( * 
+( game
+ sto D ) ' A ) ) ) ) ) ) ) ) ) ) 
+( let
+ ' A ' C 
+( choice
+ ( ( 
+( or
+ 
+( any
+ 
+( tuples
+ 
+( size
+ ' B ) ( 'GAME hloc E ) using ' A ) ' B 
+( do
+ ( 
+( put
+ points ' B ( ( 
+( E
+ 
+( E
+ ) ) ( - ( * ( // 
+( size
+ ' C ) 3 ) 3 ) 
+( size
+ ' C ) ) ) ) ) ) ) ) 
+( any
+ 
+( team
+ 
+( owner
+ 
+( min
+ ' D using ' E ) ) ) ' D 
+( put
+ points ' B ( ( 
+( A
+ 
+( D
+ ) ) ( // ( * 3 ' D ) ( - ( * 
+( size
+ ' E ) ( + 4 ' E ) ) ( * 
+( size
+ ' C ) 
+( size
+ ' C ) ) ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( E
+ 
+( B
+ ) ) 
+( size
+ ' C ) ) ) ) ) ) ) ) ) ) 
+( and
+ 
+( or
+ 
+( any
+ ' B ' B 
+( let
+ C ' C 
+( choice
+ ( 
+( put
+ points ' A ( ( 
+( A
+ 
+( D
+ ) ) ( * ' C 3 ) ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ ' D .. ( * ( - 3 ( // ( % 5 ' C ) ' E ) ) 
+( size
+ ' C ) ) ) ' B 
+( let
+ ( % 
+( size
+ ' C ) 
+( size
+ ' B ) ) ' E 
+( choice
+ ( ( 
+( any
+ 
+( team
+ 
+( next
+ player ) ) ' C ( 
+( or
+ 
+( any
+ 
+( tuples
+ ( - 
+( game
+ sto A ) ( // 2 
+( size
+ ' C ) ) ) ' B using ' E ) ' C 
+( put
+ points ' E ( ( 
+( A
+ 
+( D
+ ) ) ' B ) ) ) ) 
+( any
+ 
+( next
+ team ) ' D ( 
+( any
+ 
+( tuples
+ 0 ( 'GAME hloc B ) using ' D ) ' E 
+( put
+ points ' E ( ( 
+( C
+ 
+( C
+ ) ) ( // 
+( size
+ ' D ) 
+( size
+ ' A ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( C
+ 
+( E
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( E
+ 
+( A
+ ) ) 0 ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( C
+ 
+( D
+ ) ) 1 ) ) ) ) ) ) ) ) ) 
+( any
+ CSTORAGAE ' E ( 
+( or
+ 
+( any
+ player ' A 
+( put
+ points ' C ( ( 
+( E
+ 
+( B
+ ) ) ( * ( // 0 ( - 
+( size
+ ' B ) ' D ) ) 
+( sum
+ 
+( filter
+ 
+( other
+ player ) ' E 
+( any
+ 
+( tuples
+ 2 ( 'GAME vloc D ) using ' D ) ' E 
+( let
+ 
+( game
+ sto B ) ' E 
+( let
+ 
+( E
+ , A ) ' E 
+( do
+ ( ( 
+( and
+ 
+( any
+ ' B ' B 
+( put
+ points ' D ( ( 
+( D
+ 
+( B
+ ) ) ' E ) ) ) ) 
+( any
+ 
+( tuples
+ 
+( size
+ ' C ) 
+( top
+ 
+( tuples
+ ( - ( // 3 ' D ) 
+( game
+ sto D ) ) ( 'GAME hloc C ) using ' E ) ) using ' E ) ' C ( 
+( and
+ 
+( or
+ 
+( any
+ 
+( range
+ 
+( size
+ ' B ) .. 
+( size
+ ' B ) ) ' B 
+( do
+ ( ( 
+( and
+ 
+( any
+ 
+( team
+ 
+( previous
+ player ) ) ' A 
+( put
+ points ' A ( ( 
+( A
+ 
+( B
+ ) ) ' A ) ) ) ) 
+( any
+ 
+( A
+ , A ) ' D 
+( put
+ points ' B ( ( 
+( B
+ 
+( B
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) 
+( let
+ ' A ' E 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( C
+ 
+( B
+ ) ) 
+( size
+ ' E ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ player ' C 
+( do
+ ( 
+( put
+ points ' B ( ( 
+( A
+ 
+( B
+ ) ) ( // ( - ' C ( // 
+( size
+ ' A ) 
+( size
+ ' D ) ) ) ' E ) ) ) ) ) ) ) ) 
+( and
+ 
+( any
+ team ' B 
+( let
+ E ' C 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( D
+ 
+( C
+ ) ) ( // ( - ( + 2 
+( game
+ sto E ) ) ' D ) 
+( game
+ sto E ) ) ) ) ) ) ) ) ) 
+( any
+ player ' D 
+( put
+ points ' A ( ( 
+( D
+ 
+( E
+ ) ) ( - 4 ( // 3 
+( game
+ sto B ) ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( D
+ 
+( D
+ ) ) ( // ( % 0 
+( size
+ ' E ) ) 
+( game
+ sto E ) ) ) ) ) ) ) ) 
+( do
+ ( 
+( let
+ 
+( tuples
+ 5 
+( top
+ 
+( tuples
+ 3 ' D using ' C ) ) using ' E ) ' A 
+( choice
+ ( ( 
+( and
+ 
+( or
+ 
+( any
+ 
+( team
+ ( ( - 3 
+( size
+ ' B ) ) player ) ) ' C 
+( put
+ points ' A ( ( 
+( D
+ 
+( A
+ ) ) ( - 
+( game
+ sto D ) ( // 
+( game
+ sto A ) 
+( game
+ sto B ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ 
+( size
+ ' C ) .. ( - 
+( size
+ ' B ) 
+( size
+ ' B ) ) ) ' B ( 
+( or
+ 
+( any
+ player ' D 
+( put
+ points ' E ( ( 
+( A
+ 
+( D
+ ) ) 
+( game
+ sto A ) ) ) ) ) 
+( any
+ 
+( range
+ 
+( game
+ sto D ) .. 5 ) ' C 
+( put
+ points ' C ( ( 
+( B
+ 
+( D
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( D
+ 
+( B
+ ) ) ' E ) ) ) ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( A
+ , B ) ' A 
+( put
+ points ' A ( ( 
+( E
+ 
+( E
+ ) ) ( - 1 
+( game
+ sto E ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ 5 
+( top
+ 
+( tuples
+ ' C ' D using ' C ) ) using ' C ) ' B ( 
+( or
+ 
+( any
+ team ' C 
+( put
+ points ' E ( ( 
+( C
+ 
+( E
+ ) ) ( + 
+( size
+ ' B ) ' A ) ) ) ) ) 
+( any
+ ' A ' A 
+( put
+ points ' A ( ( 
+( C
+ 
+( D
+ ) ) 
+( game
+ sto C ) ) ) ) ) ) 
+( let
+ 
+( or
+ 
+( any
+ ( 
+( game
+ sto C ) team ) ' C 
+( put
+ points ' E ( ( 
+( D
+ 
+( B
+ ) ) 
+( game
+ sto E ) ) ) ) ) 
+( any
+ team ' D 
+( put
+ points ' A ( ( 
+( A
+ 
+( E
+ ) ) ' C ) ) ) ) ) ' A 
+( choice
+ ( ( 
+( and
+ 
+( any
+ 
+( other
+ player ) ' C 
+( put
+ points ' E ( ( 
+( B
+ 
+( B
+ ) ) ' B ) ) ) ) 
+( any
+ 
+( tuples
+ 
+( size
+ ' B ) 
+( top
+ 
+( tuples
+ ( // 
+( size
+ ' E ) ' A ) ' C using ' B ) ) using ' E ) ' A 
+( put
+ points ' C ( ( 
+( E
+ 
+( E
+ ) ) 2 ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( A
+ 
+( E
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( B
+ 
+( B
+ ) ) ' D ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) using ' C ) ) ) ) ) ) 
+( any
+ 
+( team
+ 
+( owner
+ 
+( min
+ ' E using ' C ) ) ) ' C 
+( put
+ points ' C ( ( 
+( A
+ 
+( A
+ ) ) ( * ' B ( - 
+( game
+ sto C ) 
+( size
+ ' C ) ) ) ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( A
+ 
+( A
+ ) ) 
+( game
+ sto A ) ) ) ) ) ) ) ) 
+( let
+ 
+( and
+ 
+( or
+ 
+( and
+ 
+( any
+ 
+( tuples
+ 
+( size
+ ' A ) 
+( top
+ 
+( tuples
+ ( * ( % ( - 3 
+( game
+ sto E ) ) ( + ' A ' D ) ) ' B ) ( 'GAME iloc E ) using ' D ) ) using ' A ) ' A 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( C
+ 
+( B
+ ) ) ( * 0 ( // ' E ( - 0 
+( size
+ ' A ) ) ) ) ) ) ) ) ) ) 
+( any
+ ' B ' C ( 
+( any
+ ' E ' B 
+( let
+ E ' C 
+( choice
+ ( 
+( put
+ points ' E ( ( 
+( D
+ 
+( D
+ ) ) ( * ( // ' A 
+( size
+ ' A ) ) 
+( game
+ sto C ) ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( D
+ 
+( A
+ ) ) 2 ) ) ) ) ) ) 
+( any
+ player ' A ( 
+( or
+ 
+( any
+ team ' D ( 
+( or
+ 
+( any
+ 
+( tuples
+ 2 ' A using ' A ) ' D 
+( let
+ ' B ' B 
+( choice
+ ( 
+( put
+ points ' A ( ( 
+( D
+ 
+( C
+ ) ) ( - ' E ' E ) ) ) ) ) ) ) ) 
+( any
+ team ' E 
+( let
+ 1 ' D 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( C
+ 
+( C
+ ) ) ' E ) ) ) ) ) ) ) ) 
+( let
+ ( - ( % ( - ( * 
+( game
+ sto B ) 
+( size
+ ' C ) ) 
+( game
+ sto A ) ) ' C ) ( * ( // 
+( game
+ sto B ) ' A ) ( // ' D 3 ) ) ) ' D 
+( choice
+ ( 
+( put
+ points ' E ( ( 
+( C
+ 
+( B
+ ) ) ( - ' C ' A ) ) ) ) ) ) ) ) ) 
+( any
+ player ' C ( 
+( any
+ 
+( next
+ team ) ' C 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( A
+ 
+( E
+ ) ) ' E ) ) ) ) ) ) 
+( let
+ ' C ' B 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( C
+ 
+( B
+ ) ) 3 ) ) ) ) ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( B
+ 
+( D
+ ) ) ( - 
+( game
+ sto D ) ( * 
+( game
+ sto C ) ' C ) ) ) ) ) ) ) ) 
+( any
+ player ' B 
+( do
+ ( ( 
+( and
+ 
+( or
+ 
+( any
+ player ' C 
+( put
+ points ' A ( ( 
+( C
+ 
+( E
+ ) ) 
+( size
+ ' A ) ) ) ) ) 
+( any
+ team ' C ( 
+( and
+ 
+( any
+ 
+( other
+ player ) ' E 
+( put
+ points ' A ( ( 
+( C
+ 
+( E
+ ) ) ( - ' D ' E ) ) ) ) ) 
+( any
+ 
+( range
+ ( * ( - ( // 
+( game
+ sto D ) ( + 
+( size
+ ' E ) ( - 
+( game
+ sto A ) 
+( sum
+ 
+( top
+ 
+( tuples
+ 
+( size
+ ' A ) ' B using ' B ) ) using ' C ) ) ) ) ' E ) ( - 
+( size
+ ' E ) ' D ) ) .. 
+( game
+ sto C ) ) ' C 
+( put
+ points ' E ( ( 
+( A
+ 
+( B
+ ) ) 
+( size
+ ' A ) ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( A
+ 
+( E
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( range
+ ' D .. ( - ( * 2 1 ) ( - ( // ( * 
+( size
+ ' B ) 
+( game
+ sto A ) ) ( * 1 5 ) ) ( // 3 ' C ) ) ) ) ' D ( 
+( and
+ 
+( any
+ player ' E 
+( put
+ points ' E ( ( 
+( E
+ 
+( E
+ ) ) 
+( size
+ ' A ) ) ) ) ) 
+( any
+ 
+( tuples
+ ' E ' D using ' C ) ' E 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( A
+ 
+( C
+ ) ) ( * ' B 0 ) ) ) ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( B
+ 
+( E
+ ) ) ( * 
+( game
+ sto C ) 2 ) ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( filter
+ 
+( tuples
+ ' C 
+( top
+ 
+( tuples
+ ( * ( // 
+( size
+ ' C ) 
+( game
+ sto D ) ) 
+( size
+ ' B ) ) ( 'GAME vloc C ) using ' C ) ) using ' E ) ' B 
+( any
+ 
+( range
+ ( // 
+( size
+ ' B ) ' D ) .. 
+( size
+ ' A ) ) ' C 
+( put
+ points ' C ( ( 
+( B
+ 
+( E
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) ' C ( 
+( any
+ 
+( team
+ 
+( owner
+ 
+( min
+ ( 'GAME mem E ) using ' B ) ) ) ' D 
+( put
+ points ' B ( ( 
+( B
+ 
+( D
+ ) ) ( // 
+( game
+ sto D ) ( - 
+( sum
+ 
+( top
+ 
+( tuples
+ 1 ' A using ' D ) ) using ' B ) ' D ) ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( A
+ 
+( C
+ ) ) 
+( game
+ sto C ) ) ) ) ) ) 
+( any
+ team ' A 
+( put
+ points ' C ( ( 
+( A
+ 
+( A
+ ) ) ( * 4 
+( size
+ ' C ) ) ) ) ) ) ) ) ) 
+( let
+ 
+( team
+ ( ( * 1 ' D ) player ) ) ' E 
+( choice
+ ( ( 
+( any
+ 
+( previous
+ team ) ' B 
+( let
+ ( * ( - 
+( game
+ sto B ) 
+( size
+ ' C ) ) ( // 
+( game
+ sto B ) 5 ) ) ' B 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( B
+ 
+( E
+ ) ) ( - 
+( size
+ ' D ) ' A ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( A
+ 
+( A
+ ) ) 3 ) ) ) ) ) ) ) ) ) ) ) ) ' E 
+( do
+ ( ( 
+( and
+ 
+( and
+ 
+( any
+ 
+( tuples
+ ' E 
+( top
+ 
+( tuples
+ 
+( size
+ ' B ) ' E using ' C ) ) using ' B ) ' C 
+( let
+ 
+( any
+ 
+( other
+ player ) ' B 
+( put
+ points ' E ( ( 
+( E
+ 
+( A
+ ) ) 
+( game
+ sto E ) ) ) ) ) ' D 
+( choice
+ ( ( 
+( and
+ 
+( any
+ 
+( other
+ player ) ' D 
+( put
+ points ' C ( ( 
+( B
+ 
+( B
+ ) ) ' B ) ) ) ) 
+( any
+ 
+( other
+ player ) ' B 
+( put
+ points ' A ( ( 
+( B
+ 
+( B
+ ) ) ( - 
+( game
+ sto B ) ' E ) ) ) ) ) ) 
+( do
+ ( ( 
+( any
+ ' B ' D 
+( put
+ points ' D ( ( 
+( E
+ 
+( B
+ ) ) ( - ' B ( // ' E ' A ) ) ) ) ) ) 
+( let
+ ' C ' B 
+( choice
+ ( 
+( put
+ points ' A ( ( 
+( E
+ 
+( E
+ ) ) 
+( size
+ ' A ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ player ' E ( 
+( or
+ 
+( any
+ 
+( range
+ 4 .. ( - 
+( game
+ sto E ) ( // 2 3 ) ) ) ' B 
+( let
+ CSTORAGAE ' A 
+( choice
+ ( 
+( put
+ points ' E ( ( 
+( A
+ 
+( B
+ ) ) ( * 
+( game
+ sto D ) ( // 
+( game
+ sto D ) ( - 
+( size
+ ' E ) 0 ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ 
+( size
+ ' A ) ' C using ' A ) ' E 
+( put
+ points ' D ( ( 
+( E
+ 
+( B
+ ) ) 2 ) ) ) ) ) 
+( let
+ ( * 
+( game
+ sto E ) ' C ) ' B 
+( choice
+ ( 
+( let
+ ' D ' E 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( D
+ 
+( B
+ ) ) 5 ) ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' E ( 
+( and
+ 
+( any
+ 
+( range
+ 0 .. 
+( game
+ sto B ) ) ' B 
+( let
+ CSTORAGAE ' C 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( E
+ 
+( C
+ ) ) ( // 0 ( * ( - 0 
+( game
+ sto B ) ) ( * ' C 
+( game
+ sto D ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ CSTORAGAE ' D 
+( put
+ points ' A ( ( 
+( C
+ 
+( A
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) 
+( let
+ ' E ' C 
+( choice
+ ( 
+( let
+ E ' C 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( A
+ 
+( C
+ ) ) ' D ) ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( E
+ 
+( D
+ ) ) 0 ) ) ) ) ) ) ) ) ) ) ) ) ) using ' D ) ) ) ) ) ) ) ) 
+( and
+ 
+( and
+ 
+( any
+ 
+( range
+ 2 .. ( * 
+( game
+ sto C ) 3 ) ) ' A 
+( let
+ team ' C 
+( do
+ ( ( 
+( and
+ 
+( any
+ CSTORAGAE ' E 
+( put
+ points ' E ( ( 
+( C
+ 
+( C
+ ) ) ( - ' A ( * 2 ( * 
+( game
+ sto C ) 
+( sum
+ ( 'GAME hloc C ) using ' A ) ) ) ) ) ) ) ) 
+( any
+ team ' C 
+( put
+ points ' A ( ( 
+( C
+ 
+( D
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) 
+( let
+ CSTORAGAE ' C 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( B
+ 
+( C
+ ) ) 3 ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( A
+ , E ) ' B 
+( let
+ C ' C 
+( let
+ 
+( or
+ 
+( any
+ 
+( team
+ 
+( current
+ player ) ) ' A ( 
+( any
+ team ' A 
+( put
+ points ' E ( ( 
+( E
+ 
+( D
+ ) ) ' C ) ) ) ) 
+( do
+ ( 
+( put
+ points ' B ( ( 
+( C
+ 
+( E
+ ) ) ( + ( - ' A 
+( game
+ sto E ) ) 
+( size
+ ' E ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( B
+ , D ) ' A 
+( put
+ points ' A ( ( 
+( C
+ 
+( B
+ ) ) ( // 
+( score
+ ' C using ' D ) 
+( sum
+ ' B using ' C ) ) ) ) ) ) ) ' C 
+( choice
+ ( ( 
+( or
+ 
+( any
+ 
+( current
+ team ) ' A 
+( do
+ ( 
+( put
+ points ' B ( ( 
+( E
+ 
+( A
+ ) ) ( + 
+( game
+ sto B ) ' A ) ) ) ) ) ) ) 
+( any
+ player ' B 
+( put
+ points ' A ( ( 
+( D
+ 
+( B
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) 
+( do
+ ( ( 
+( and
+ 
+( any
+ team ' C 
+( put
+ points ' A ( ( 
+( E
+ 
+( D
+ ) ) 
+( sum
+ ( 'GAME hloc E ) using ' C ) ) ) ) ) 
+( any
+ team ' D 
+( put
+ points ' B ( ( 
+( B
+ 
+( E
+ ) ) ( - ( + ' D 
+( game
+ sto D ) ) 
+( game
+ sto E ) ) ) ) ) ) ) 
+( let
+ 
+( any
+ 
+( team
+ ( 
+( game
+ sto D ) player ) ) ' B 
+( put
+ points ' D ( ( 
+( E
+ 
+( C
+ ) ) ( - 3 ( // 
+( size
+ ' D ) ( * 
+( game
+ sto B ) 
+( size
+ ' C ) ) ) ) ) ) ) ) ' A 
+( choice
+ ( 
+( do
+ ( ( 
+( any
+ 
+( team
+ 
+( owner
+ 
+( max
+ ( 'GAME mem A ) using ' E ) ) ) ' C 
+( put
+ points ' B ( ( 
+( A
+ 
+( A
+ ) ) ( - ( // 
+( sum
+ 
+( filter
+ CSTORAGAE ' E 
+( and
+ 
+( or
+ 
+( any
+ player ' C 
+( put
+ points ' D ( ( 
+( E
+ 
+( C
+ ) ) ( + ' E ( * 1 1 ) ) ) ) ) ) 
+( any
+ ' C ' E 
+( put
+ points ' C ( ( 
+( A
+ 
+( A
+ ) ) ' A ) ) ) ) ) 
+( any
+ CSTORAGAE ' D 
+( put
+ points ' B ( ( 
+( B
+ 
+( A
+ ) ) 
+( game
+ sto C ) ) ) ) ) ) ) using ' E ) 
+( size
+ ' A ) ) 2 ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( D
+ 
+( D
+ ) ) ( + ( - ' E 
+( game
+ sto A ) ) 3 ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( range
+ 
+( size
+ ' D ) .. ( - ( + 
+( sum
+ ( 'GAME iloc B ) using ' C ) 
+( game
+ sto E ) ) 
+( size
+ ' C ) ) ) ' D ( 
+( any
+ 
+( B
+ , B ) ' B ( 
+( or
+ 
+( and
+ 
+( any
+ team ' E 
+( let
+ ( + ( - ( * 1 
+( size
+ ' C ) ) 5 ) 
+( size
+ ' D ) ) ' B 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( E
+ 
+( D
+ ) ) 
+( size
+ ' A ) ) ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' C 
+( put
+ points ' E ( ( 
+( B
+ 
+( C
+ ) ) ( // 
+( size
+ ' B ) ( + ( - 1 5 ) 5 ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( range
+ 
+( size
+ ' B ) .. ( * 
+( sum
+ 
+( filter
+ CSTORAGAE ' B 
+( any
+ 
+( team
+ 
+( owner
+ 
+( max
+ 
+( top
+ 
+( tuples
+ 1 ' A using ' A ) ) using ' D ) ) ) ' B 
+( let
+ B ' A 
+( choice
+ ( 
+( put
+ points ' A ( ( 
+( E
+ 
+( C
+ ) ) ( + 
+( size
+ ' C ) ( // 
+( game
+ sto C ) ( % 1 
+( game
+ sto C ) ) ) ) ) ) ) ) ) ) ) ) using ' D ) ( - 
+( game
+ sto C ) 0 ) ) ) ' D 
+( put
+ points ' E ( ( 
+( B
+ 
+( D
+ ) ) 
+( sum
+ ( 'GAME mem B ) using ' C ) ) ) ) ) 
+( any
+ 
+( E
+ , C ) ' B 
+( let
+ E ' C 
+( let
+ ' C ' C 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( C
+ 
+( D
+ ) ) 
+( sum
+ ' D using ' E ) ) ) ) ) ) ) ) ) ) ) 
+( let
+ 
+( range
+ ' D .. 
+( size
+ ' A ) ) ' A 
+( let
+ ' C ' A 
+( do
+ ( 
+( put
+ points ' B ( ( 
+( B
+ 
+( D
+ ) ) ( // ( - ' A 
+( game
+ sto C ) ) ( - ( + ' E 
+( game
+ sto D ) ) ( * ' E ' E ) ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( A
+ 
+( B
+ ) ) ( // 
+( sum
+ ' D using ' A ) ( * 
+( score
+ 
+( actual
+ ' A ) using ' B ) ' C ) ) ) ) ) ) ) 
+( any
+ team ' C 
+( do
+ ( ( 
+( any
+ 
+( filter
+ 
+( tuples
+ ' E ( 'GAME vloc A ) using ' D ) ' B 
+( and
+ 
+( or
+ 
+( any
+ 
+( other
+ player ) ' B ( 
+( or
+ 
+( any
+ 
+( E
+ , A ) ' C 
+( put
+ points ' E ( ( 
+( A
+ 
+( C
+ ) ) ( // ' A ( + 
+( sum
+ ( 'GAME iloc C ) using ' C ) 
+( game
+ sto C ) ) ) ) ) ) ) 
+( any
+ 
+( let
+ E ' A 
+( choice
+ ( ( 
+( any
+ CSTORAGAE ' C 
+( put
+ points ' E ( ( 
+( C
+ 
+( E
+ ) ) ( // ( - ' A ( + 
+( game
+ sto D ) 0 ) ) 
+( size
+ ' C ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( B
+ 
+( E
+ ) ) 5 ) ) ) ) ) ) ) ' C 
+( put
+ points ' D ( ( 
+( C
+ 
+( C
+ ) ) ' D ) ) ) ) ) 
+( let
+ 
+( E
+ , C ) ' C 
+( let
+ 
+( game
+ sto E ) ' C 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( A
+ 
+( B
+ ) ) 
+( sum
+ ' A using ' A ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( team
+ 
+( current
+ player ) ) ' C 
+( put
+ points ' D ( ( 
+( C
+ 
+( C
+ ) ) 
+( size
+ ' E ) ) ) ) ) ) 
+( any
+ team ' C 
+( put
+ points ' B ( ( 
+( E
+ 
+( B
+ ) ) ( + 
+( game
+ sto D ) ( // ( - 
+( game
+ sto C ) 
+( game
+ sto C ) ) ' E ) ) ) ) ) ) ) ) ' C 
+( put
+ points ' B ( ( 
+( E
+ 
+( E
+ ) ) ( + 
+( sum
+ 
+( top
+ 
+( tuples
+ ( - ( // 
+( size
+ ' E ) 
+( game
+ sto E ) ) 2 ) 
+( filter
+ 
+( other
+ player ) ' B 
+( or
+ 
+( any
+ 
+( range
+ ( // 
+( game
+ sto C ) ( * 
+( game
+ sto E ) 
+( size
+ ' C ) ) ) .. ' A ) ' A 
+( let
+ ' C ' C 
+( choice
+ ( ( 
+( any
+ 
+( other
+ player ) ' B ( 
+( and
+ 
+( or
+ 
+( any
+ 
+( tuples
+ ( * ' B 
+( game
+ sto E ) ) ' C using ' D ) ' B 
+( put
+ points ' E ( ( 
+( B
+ 
+( A
+ ) ) 
+( game
+ sto B ) ) ) ) ) 
+( any
+ 
+( let
+ ( * 
+( game
+ sto C ) ( - 
+( game
+ sto A ) 
+( size
+ ' C ) ) ) ' C 
+( let
+ ' A ' C 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( E
+ 
+( C
+ ) ) ' A ) ) ) ) ) ) ) ' C 
+( put
+ points ' C ( ( 
+( E
+ 
+( B
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) 
+( and
+ 
+( and
+ 
+( any
+ 
+( team
+ ( ( - 5 
+( game
+ sto E ) ) player ) ) ' E 
+( put
+ points ' A ( ( 
+( D
+ 
+( C
+ ) ) ( - 3 0 ) ) ) ) ) 
+( any
+ 
+( range
+ 2 .. ( // 
+( game
+ sto D ) ' C ) ) ' A 
+( put
+ points ' C ( ( 
+( B
+ 
+( E
+ ) ) 3 ) ) ) ) ) 
+( any
+ ' A ' C 
+( put
+ points ' C ( ( 
+( D
+ 
+( A
+ ) ) ( - ( // 2 ( + 
+( game
+ sto A ) 
+( size
+ ' D ) ) ) 
+( game
+ sto E ) ) ) ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( B
+ 
+( D
+ ) ) 
+( size
+ ' E ) ) ) ) ) ) 
+( let
+ ' A ' A 
+( let
+ 
+( tuples
+ ( - ' E 1 ) ( 'GAME vloc B ) using ' C ) ' A 
+( do
+ ( ( 
+( and
+ 
+( any
+ 
+( A
+ , D ) ' B 
+( put
+ points ' C ( ( 
+( D
+ 
+( B
+ ) ) ( - 
+( size
+ ' A ) ' D ) ) ) ) ) 
+( any
+ ' E ' C 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( C
+ 
+( E
+ ) ) ( * ( - ' E 
+( size
+ ' A ) ) ' C ) ) ) ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( E
+ 
+( A
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) ) ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ CSTORAGAE ' C 
+( let
+ 
+( other
+ player ) ' D 
+( let
+ ' A ' D 
+( choice
+ ( 
+( put
+ points ' E ( ( 
+( C
+ 
+( A
+ ) ) 3 ) ) ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' C 
+( put
+ points ' E ( ( 
+( A
+ 
+( D
+ ) ) 
+( game
+ sto C ) ) ) ) ) ) ) ) using ' C ) ) using ' B ) 
+( sum
+ ( 'GAME mem D ) using ' C ) ) ) ) ) ) 
+( let
+ 
+( any
+ player ' E 
+( put
+ points ' D ( ( 
+( E
+ 
+( A
+ ) ) ( * 
+( size
+ ' E ) ( - ( // ( + 
+( size
+ ' B ) 
+( size
+ ' A ) ) 
+( game
+ sto C ) ) 
+( game
+ sto E ) ) ) ) ) ) ) ' B 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( C
+ 
+( E
+ ) ) ( + ( * 
+( game
+ sto B ) 
+( sum
+ ' A using ' B ) ) ( % ' D ' E ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( A
+ 
+( C
+ ) ) 
+( size
+ ' A ) ) ) ) ) ) ) 
+( let
+ 
+( other
+ player ) ' E 
+( any
+ 
+( team
+ 
+( previous
+ player ) ) ' D 
+( any
+ 
+( filter
+ player ' B 
+( or
+ 
+( or
+ 
+( any
+ ' A ' B 
+( do
+ ( ( 
+( or
+ 
+( any
+ player ' A ( 
+( or
+ 
+( any
+ 
+( filter
+ 
+( C
+ , E ) ' A 
+( or
+ 
+( any
+ CSTORAGAE ' E 
+( put
+ points ' C ( ( 
+( C
+ 
+( B
+ ) ) 
+( size
+ ' D ) ) ) ) ) 
+( any
+ player ' D 
+( put
+ points ' B ( ( 
+( C
+ 
+( D
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) ) ' D 
+( put
+ points ' D ( ( 
+( E
+ 
+( D
+ ) ) 
+( size
+ ' B ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( next
+ team ) ' B 
+( let
+ 
+( tuples
+ ' E ( 'GAME iloc D ) using ' B ) ' D 
+( choice
+ ( 
+( put
+ points ' E ( ( 
+( B
+ 
+( D
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) ) ) 
+( any
+ 
+( D
+ , D ) ' B 
+( put
+ points ' B ( ( 
+( E
+ 
+( E
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) ) 
+( let
+ ' A ' D 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( C
+ 
+( C
+ ) ) 
+( sum
+ ( 'GAME iloc A ) using ' D ) ) ) ) ) ) ) ) ) 
+( any
+ player ' D ( 
+( and
+ 
+( and
+ 
+( any
+ 
+( D
+ , C ) ' A 
+( let
+ 
+( or
+ 
+( or
+ 
+( any
+ 
+( range
+ ( - ( * ' B ( // 
+( sum
+ ' E using ' B ) 
+( game
+ sto C ) ) ) ( * ' E 2 ) ) .. 3 ) ' C 
+( put
+ points ' B ( ( 
+( E
+ 
+( D
+ ) ) 5 ) ) ) ) 
+( any
+ 
+( other
+ player ) ' D 
+( put
+ points ' E ( ( 
+( A
+ 
+( B
+ ) ) 
+( score
+ 
+( actual
+ 
+( max
+ ( 'GAME iloc E ) using ' C ) ) using ' E ) ) ) ) ) ) 
+( any
+ player ' D 
+( put
+ points ' C ( ( 
+( E
+ 
+( C
+ ) ) 
+( size
+ ' A ) ) ) ) ) ) ' E 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( C
+ 
+( E
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) ) ) 
+( any
+ 
+( team
+ 
+( previous
+ player ) ) ' D 
+( put
+ points ' E ( ( 
+( D
+ 
+( D
+ ) ) ( * ' C 
+( sum
+ 
+( top
+ 
+( tuples
+ 
+( game
+ sto D ) ' A using ' E ) ) using ' E ) ) ) ) ) ) ) 
+( any
+ 
+( team
+ ( 
+( game
+ sto C ) player ) ) ' C 
+( put
+ points ' D ( ( 
+( A
+ 
+( C
+ ) ) ( // ( * ( - 0 
+( size
+ ' E ) ) ' E ) ( * 
+( game
+ sto B ) 
+( game
+ sto C ) ) ) ) ) ) ) ) 
+( let
+ 
+( other
+ player ) ' E 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( E
+ 
+( B
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( B
+ 
+( A
+ ) ) 
+( sum
+ ' A using ' C ) ) ) ) ) ) ) ) 
+( any
+ CSTORAGAE ' C ( 
+( or
+ 
+( or
+ 
+( any
+ 
+( range
+ 
+( game
+ sto C ) .. 
+( sum
+ ( 'GAME hloc D ) using ' C ) ) ' B ( 
+( or
+ 
+( any
+ ( ( // 
+( size
+ ' C ) 
+( sum
+ 
+( top
+ 
+( tuples
+ 
+( size
+ ' A ) ( 'GAME iloc D ) using ' B ) ) using ' B ) ) team ) ' A 
+( let
+ ' D ' D 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( A
+ 
+( E
+ ) ) ( * 1 
+( sum
+ ' A using ' E ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ 
+( sum
+ ' B using ' E ) 
+( top
+ 
+( tuples
+ 
+( sum
+ 
+( filter
+ 
+( range
+ ( // ' D ' D ) .. 
+( size
+ ' D ) ) ' D 
+( or
+ 
+( any
+ player ' A 
+( put
+ points ' A ( ( 
+( A
+ 
+( C
+ ) ) ( - ' A ' A ) ) ) ) ) 
+( any
+ ' B ' A 
+( put
+ points ' C ( ( 
+( C
+ 
+( E
+ ) ) ' C ) ) ) ) ) ) using ' E ) ( 'GAME iloc C ) using ' B ) ) using ' C ) ' C 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( E
+ 
+( E
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) ) ) 
+( let
+ ( - ' B 
+( sum
+ 
+( top
+ 
+( tuples
+ 
+( size
+ ' E ) ' A using ' B ) ) using ' B ) ) ' C 
+( choice
+ ( 
+( put
+ points ' E ( ( 
+( B
+ 
+( E
+ ) ) ( - 
+( sum
+ ' D using ' C ) ( * ( // ( + 
+( size
+ ' C ) 5 ) 3 ) 
+( size
+ ' E ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ CSTORAGAE ' A 
+( put
+ points ' A ( ( 
+( D
+ 
+( D
+ ) ) 
+( game
+ sto D ) ) ) ) ) ) 
+( any
+ team ' E 
+( put
+ points ' A ( ( 
+( C
+ 
+( D
+ ) ) 2 ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( C
+ 
+( D
+ ) ) ( // 
+( sum
+ 
+( top
+ 
+( tuples
+ ( * 
+( size
+ ' E ) ' D ) ' D using ' E ) ) using ' C ) 
+( size
+ ' B ) ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( team
+ 
+( owner
+ 
+( max
+ 
+( top
+ 
+( tuples
+ 
+( sum
+ ' A using ' C ) ( 'GAME iloc C ) using ' B ) ) using ' E ) ) ) ' E ( 
+( and
+ 
+( any
+ CSTORAGAE ' E ( 
+( or
+ 
+( any
+ 
+( other
+ player ) ' B 
+( put
+ points ' C ( ( 
+( D
+ 
+( C
+ ) ) ( * ( + 4 
+( sum
+ ' B using ' D ) ) 
+( size
+ ' E ) ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( other
+ player ) ' E 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( D
+ 
+( D
+ ) ) ( // 
+( size
+ ' C ) ( - ' D 
+( size
+ ' E ) ) ) ) ) ) ) ) ) 
+( any
+ player ' E 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( E
+ 
+( E
+ ) ) ( - 4 
+( size
+ ' D ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( B
+ 
+( B
+ ) ) ( * ( + ( // 
+( game
+ sto B ) 
+( size
+ ' E ) ) ( - ( // ( * 
+( game
+ sto B ) ' D ) 
+( sum
+ ( 'GAME mem D ) using ' D ) ) ' B ) ) 5 ) ) ) ) ) ) 
+( and
+ 
+( any
+ ( ' A team ) ' B ( 
+( any
+ ' B ' D 
+( let
+ ' D ' D 
+( do
+ ( ( 
+( and
+ 
+( any
+ 
+( filter
+ CSTORAGAE ' A 
+( or
+ 
+( and
+ 
+( any
+ 
+( other
+ player ) ' A 
+( put
+ points ' E ( ( 
+( C
+ 
+( B
+ ) ) 
+( sum
+ ( 'GAME iloc A ) using ' A ) ) ) ) ) 
+( any
+ player ' E 
+( do
+ ( 
+( put
+ points ' B ( ( 
+( C
+ 
+( E
+ ) ) 
+( size
+ ' E ) ) ) ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( other
+ player ) ' E 
+( put
+ points ' E ( ( 
+( B
+ 
+( D
+ ) ) ( * 2 1 ) ) ) ) ) 
+( any
+ ' C ' B 
+( put
+ points ' B ( ( 
+( B
+ 
+( A
+ ) ) 0 ) ) ) ) ) ) ) ' A 
+( put
+ points ' B ( ( 
+( A
+ 
+( E
+ ) ) ' E ) ) ) ) 
+( any
+ 
+( other
+ player ) ' C 
+( put
+ points ' B ( ( 
+( E
+ 
+( C
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( D
+ 
+( D
+ ) ) 
+( sum
+ 
+( top
+ 
+( tuples
+ ( // ' C ( * 4 ( + 
+( game
+ sto B ) 4 ) ) ) ( 'GAME vloc C ) using ' B ) ) using ' E ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( B
+ 
+( E
+ ) ) ( - ' B ( + ' E ( // 
+( game
+ sto A ) ( * 4 3 ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( next
+ team ) ' C 
+( put
+ points ' B ( ( 
+( E
+ 
+( D
+ ) ) 
+( sum
+ ' C using ' B ) ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( C
+ 
+( E
+ ) ) 
+( game
+ sto A ) ) ) ) ) ) ) ) 
+( and
+ 
+( any
+ team ' D ( 
+( or
+ 
+( any
+ ( 0 team ) ' E ( 
+( any
+ team ' B 
+( put
+ points ' D ( ( 
+( A
+ 
+( C
+ ) ) 
+( game
+ sto A ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( C
+ 
+( D
+ ) ) ' B ) ) ) ) ) ) ) 
+( any
+ team ' A 
+( do
+ ( ( 
+( and
+ 
+( or
+ 
+( any
+ 
+( D
+ , B ) ' E 
+( put
+ points ' D ( ( 
+( E
+ 
+( B
+ ) ) ( // 2 
+( sum
+ 
+( top
+ 
+( tuples
+ ' E ( 'GAME hloc A ) using ' A ) ) using ' D ) ) ) ) ) ) 
+( any
+ 
+( filter
+ 
+( range
+ 
+( size
+ ' E ) .. 
+( game
+ sto D ) ) ' E 
+( any
+ team ' C 
+( put
+ points ' B ( ( 
+( D
+ 
+( E
+ ) ) ( * 
+( sum
+ 
+( top
+ 
+( tuples
+ 5 ' B using ' D ) ) using ' E ) 
+( size
+ ' B ) ) ) ) ) ) ) ' D 
+( put
+ points ' E ( ( 
+( A
+ 
+( C
+ ) ) ( // ( - 4 3 ) ( + 
+( game
+ sto C ) ' B ) ) ) ) ) ) ) 
+( any
+ ' A ' A ( 
+( and
+ 
+( any
+ 
+( tuples
+ ' D ( 'GAME vloc E ) using ' A ) ' C 
+( put
+ points ' C ( ( 
+( E
+ 
+( A
+ ) ) 4 ) ) ) ) 
+( any
+ 
+( range
+ ' B .. ( + ( - 
+( size
+ ' B ) 
+( game
+ sto D ) ) ( - ( * ' D ( // ' B ' E ) ) ' B ) ) ) ' B 
+( put
+ points ' C ( ( 
+( A
+ 
+( C
+ ) ) ( * 
+( sum
+ ' D using ' E ) ( // 
+( size
+ ' C ) 
+( size
+ ' C ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( D
+ 
+( D
+ ) ) ( // 
+( size
+ ' A ) ( * 
+( game
+ sto D ) 
+( game
+ sto C ) ) ) ) ) ) ) ) ) 
+( let
+ ' A ' B 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( B
+ 
+( C
+ ) ) 
+( game
+ sto A ) ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( A
+ 
+( D
+ ) ) ( * ' B ( + ' A ( // 
+( sum
+ ( 'GAME mem C ) using ' C ) 3 ) ) ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' D ( 
+( any
+ 
+( E
+ , E ) ' D 
+( put
+ points ' E ( ( 
+( B
+ 
+( C
+ ) ) ( * ( // ' C 
+( game
+ sto C ) ) ' E ) ) ) ) ) 
+( let
+ E ' B 
+( choice
+ ( 
+( do
+ ( ( 
+( any
+ 
+( E
+ , C ) ' B 
+( put
+ points ' B ( ( 
+( C
+ 
+( D
+ ) ) 5 ) ) ) ) 
+( put
+ points ' B ( ( 
+( D
+ 
+( E
+ ) ) ( + 
+( sum
+ ' B using ' E ) ' D ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ' C 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( D
+ 
+( E
+ ) ) ( // ( + 
+( sum
+ ' B using ' C ) 0 ) 
+( sum
+ 
+( filter
+ 
+( other
+ player ) ' A 
+( or
+ 
+( any
+ ' A ' A ( 
+( and
+ 
+( and
+ 
+( any
+ team ' D ( 
+( and
+ 
+( any
+ 
+( C
+ , E ) ' D 
+( put
+ points ' D ( ( 
+( E
+ 
+( D
+ ) ) ( - 
+( game
+ sto E ) 
+( game
+ sto C ) ) ) ) ) ) 
+( and
+ 
+( any
+ ' B ' D ( 
+( or
+ 
+( any
+ ' B ' D 
+( put
+ points ' C ( ( 
+( B
+ 
+( D
+ ) ) 3 ) ) ) ) 
+( any
+ team ' B 
+( put
+ points ' B ( ( 
+( A
+ 
+( E
+ ) ) ' D ) ) ) ) ) 
+( let
+ ' B ' C 
+( choice
+ ( 
+( put
+ points ' A ( ( 
+( B
+ 
+( D
+ ) ) 4 ) ) ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ 
+( game
+ sto A ) ( 'GAME mem A ) using ' C ) ' A ( 
+( any
+ 
+( other
+ player ) ' C 
+( let
+ ( - ( + 4 
+( game
+ sto E ) ) 0 ) ' B 
+( choice
+ ( ( 
+( and
+ 
+( and
+ 
+( any
+ 
+( other
+ player ) ' E 
+( put
+ points ' E ( ( 
+( D
+ 
+( D
+ ) ) 
+( size
+ ' E ) ) ) ) ) 
+( or
+ 
+( any
+ player ' A 
+( put
+ points ' D ( ( 
+( D
+ 
+( E
+ ) ) 
+( sum
+ ' D using ' D ) ) ) ) ) 
+( any
+ player ' E 
+( put
+ points ' D ( ( 
+( E
+ 
+( E
+ ) ) 
+( game
+ sto A ) ) ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( tuples
+ ( * 
+( game
+ sto B ) 
+( score
+ 
+( min
+ ' C using ' D ) using ' B ) ) 
+( top
+ 
+( tuples
+ ( + 1 
+( game
+ sto E ) ) ( 'GAME hloc C ) using ' A ) ) using ' D ) ' D 
+( put
+ points ' E ( ( 
+( E
+ 
+( B
+ ) ) 
+( size
+ ' C ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' D 
+( put
+ points ' A ( ( 
+( C
+ 
+( A
+ ) ) 
+( size
+ ' E ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( B
+ 
+( A
+ ) ) ( * 4 
+( score
+ 
+( min
+ ' E using ' C ) using ' B ) ) ) ) ) ) ) ) ) ) 
+( let
+ ' A ' E 
+( choice
+ ( 
+( do
+ ( ( 
+( any
+ 
+( tuples
+ 
+( size
+ ' C ) ' A using ' A ) ' D 
+( put
+ points ' C ( ( 
+( E
+ 
+( B
+ ) ) ( * 
+( game
+ sto A ) 
+( size
+ ' B ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( C
+ 
+( E
+ ) ) ( * ' C 3 ) ) ) ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( A
+ 
+( B
+ ) ) ( + 
+( game
+ sto E ) ( - ' B 
+( game
+ sto C ) ) ) ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( tuples
+ ( % ' B ( - 
+( size
+ ' D ) 
+( size
+ ' E ) ) ) 
+( top
+ 
+( tuples
+ 
+( size
+ ' E ) ' C using ' D ) ) using ' D ) ' E ( 
+( or
+ 
+( any
+ 
+( other
+ player ) ' C ( 
+( any
+ player ' C 
+( let
+ ' D ' D 
+( let
+ ' E ' B 
+( choice
+ ( ( 
+( or
+ 
+( or
+ 
+( any
+ 
+( previous
+ team ) ' C 
+( put
+ points ' B ( ( 
+( E
+ 
+( A
+ ) ) ( * 0 ( + 2 
+( size
+ ' C ) ) ) ) ) ) ) 
+( any
+ 
+( B
+ , E ) ' E 
+( put
+ points ' E ( ( 
+( B
+ 
+( C
+ ) ) 4 ) ) ) ) ) 
+( any
+ 
+( team
+ 
+( previous
+ player ) ) ' C 
+( put
+ points ' C ( ( 
+( E
+ 
+( D
+ ) ) ( - ( * 
+( game
+ sto A ) 
+( game
+ sto A ) ) 
+( size
+ ' C ) ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( A
+ 
+( E
+ ) ) 
+( game
+ sto A ) ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( D
+ 
+( A
+ ) ) 
+( size
+ ' C ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' B ( 
+( any
+ 
+( team
+ 
+( previous
+ player ) ) ' C ( 
+( or
+ 
+( or
+ 
+( any
+ 
+( other
+ player ) ' D 
+( put
+ points ' E ( ( 
+( A
+ 
+( B
+ ) ) ( - ( - ( * 0 3 ) ' E ) ( * 
+( size
+ ' D ) ' C ) ) ) ) ) ) 
+( any
+ 
+( D
+ , D ) ' B 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( B
+ 
+( C
+ ) ) ( - 
+( game
+ sto D ) ( * 5 
+( game
+ sto D ) ) ) ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( filter
+ team ' E 
+( or
+ 
+( any
+ 
+( other
+ player ) ' E 
+( put
+ points ' A ( ( 
+( A
+ 
+( A
+ ) ) ( + 2 ' D ) ) ) ) ) 
+( any
+ team ' B 
+( let
+ ( ( * 
+( game
+ sto A ) 
+( size
+ ' D ) ) team ) ' B 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( B
+ 
+( D
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) ) ) ) ) ' B 
+( put
+ points ' D ( ( 
+( C
+ 
+( B
+ ) ) ( - 
+( size
+ ' D ) 
+( size
+ ' D ) ) ) ) ) ) 
+( any
+ team ' A 
+( let
+ ' B ' D 
+( let
+ ' D ' A 
+( choice
+ ( 
+( put
+ points ' E ( ( 
+( E
+ 
+( D
+ ) ) ( + 0 
+( size
+ ' A ) ) ) ) ) ) ) ) ) ) ) ) 
+( do
+ ( 
+( let
+ ( + 2 
+( size
+ ' B ) ) ' B 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( A
+ 
+( D
+ ) ) ( + ' B ' B ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( A
+ 
+( A
+ ) ) 5 ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( E
+ 
+( C
+ ) ) 
+( size
+ ' C ) ) ) ) ) ) 
+( any
+ 
+( A
+ , C ) ' D ( 
+( and
+ 
+( any
+ ' B ' D ( 
+( any
+ CSTORAGAE ' B 
+( let
+ 
+( or
+ 
+( and
+ 
+( any
+ player ' A 
+( put
+ points ' D ( ( 
+( C
+ 
+( C
+ ) ) ( - 
+( size
+ ' A ) 
+( size
+ ' A ) ) ) ) ) ) 
+( any
+ CSTORAGAE ' C ( 
+( or
+ 
+( any
+ ' D ' A 
+( put
+ points ' D ( ( 
+( E
+ 
+( D
+ ) ) ( + 2 ( - ( * 
+( size
+ ' E ) 2 ) ( * 5 
+( size
+ ' B ) ) ) ) ) ) ) ) 
+( any
+ 
+( E
+ , A ) ' D 
+( put
+ points ' A ( ( 
+( B
+ 
+( C
+ ) ) 
+( game
+ sto E ) ) ) ) ) ) 
+( let
+ ' C ' E 
+( choice
+ ( 
+( put
+ points ' A ( ( 
+( A
+ 
+( C
+ ) ) 
+( size
+ ' A ) ) ) ) ) ) ) ) ) ) 
+( and
+ 
+( any
+ CSTORAGAE ' D 
+( put
+ points ' B ( ( 
+( E
+ 
+( D
+ ) ) 
+( game
+ sto A ) ) ) ) ) 
+( or
+ 
+( any
+ CSTORAGAE ' A 
+( put
+ points ' A ( ( 
+( C
+ 
+( E
+ ) ) 
+( game
+ sto E ) ) ) ) ) 
+( any
+ 
+( range
+ ' A .. 
+( game
+ sto C ) ) ' C ( 
+( any
+ team ' C 
+( put
+ points ' A ( ( 
+( D
+ 
+( B
+ ) ) ( * 
+( game
+ sto B ) ( - 
+( size
+ ' E ) 
+( game
+ sto D ) ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( D
+ 
+( E
+ ) ) ( - 3 ( + 5 ( * ' A 1 ) ) ) ) ) ) ) ) ) ) ) ) ) ' E 
+( let
+ 
+( size
+ ' E ) ' B 
+( choice
+ ( ( 
+( and
+ 
+( any
+ team ' B 
+( put
+ points ' E ( ( 
+( D
+ 
+( E
+ ) ) 
+( sum
+ ( 'GAME iloc D ) using ' B ) ) ) ) ) 
+( any
+ CSTORAGAE ' C 
+( put
+ points ' C ( ( 
+( B
+ 
+( E
+ ) ) ( + 
+( game
+ sto A ) ( * 
+( size
+ ' C ) 
+( game
+ sto C ) ) ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( E
+ 
+( B
+ ) ) 
+( game
+ sto D ) ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( E
+ 
+( C
+ ) ) ' A ) ) ) ) ) 
+( any
+ ' E ' B 
+( let
+ 
+( tuples
+ 
+( size
+ ' E ) 
+( top
+ 
+( tuples
+ ( // 1 ' A ) ( 'GAME mem E ) using ' D ) ) using ' E ) ' B 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( A
+ 
+( E
+ ) ) ( * ( + 4 
+( size
+ ' D ) ) 5 ) ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( B
+ 
+( A
+ ) ) ' A ) ) ) ) ) ) ) 
+( or
+ 
+( or
+ 
+( any
+ 
+( range
+ 
+( size
+ ' B ) .. 
+( score
+ ' B using ' B ) ) ' C ( 
+( and
+ 
+( any
+ 
+( D
+ , E ) ' A 
+( let
+ player ' C 
+( choice
+ ( ( 
+( or
+ 
+( and
+ 
+( any
+ ' B ' C 
+( put
+ points ' E ( ( 
+( D
+ 
+( B
+ ) ) ' D ) ) ) ) 
+( any
+ ' A ' C ( 
+( any
+ player ' A 
+( put
+ points ' C ( ( 
+( E
+ 
+( D
+ ) ) ' B ) ) ) ) 
+( let
+ 
+( game
+ sto E ) ' B 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( A
+ 
+( E
+ ) ) ( - 1 2 ) ) ) ) ) ) ) ) ) ) 
+( any
+ ' B ' E ( 
+( any
+ player ' D 
+( put
+ points ' A ( ( 
+( B
+ 
+( A
+ ) ) 
+( score
+ 
+( min
+ ( 'GAME mem D ) using ' A ) using ' E ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( B
+ 
+( A
+ ) ) 3 ) ) ) ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( B
+ 
+( E
+ ) ) 0 ) ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ ( - 5 0 ) .. ( + 
+( size
+ ' E ) 
+( game
+ sto B ) ) ) ' E ( 
+( or
+ 
+( any
+ ' C ' A 
+( put
+ points ' B ( ( 
+( B
+ 
+( A
+ ) ) ' B ) ) ) ) 
+( any
+ 
+( A
+ , A ) ' E 
+( put
+ points ' A ( ( 
+( A
+ 
+( B
+ ) ) 
+( game
+ sto C ) ) ) ) ) ) 
+( let
+ 
+( size
+ ' C ) ' E 
+( choice
+ ( 
+( let
+ E ' D 
+( do
+ ( ( 
+( or
+ 
+( any
+ team ' C 
+( put
+ points ' D ( ( 
+( A
+ 
+( C
+ ) ) 
+( size
+ ' E ) ) ) ) ) 
+( any
+ ' E ' C 
+( put
+ points ' B ( ( 
+( E
+ 
+( C
+ ) ) 
+( game
+ sto A ) ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( E
+ 
+( B
+ ) ) ' E ) ) ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( C
+ 
+( E
+ ) ) ( + ' E ' B ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ 4 
+( top
+ 
+( tuples
+ 3 ' E using ' E ) ) using ' C ) ' C ( 
+( any
+ player ' A ( 
+( and
+ 
+( any
+ player ' E 
+( put
+ points ' B ( ( 
+( A
+ 
+( A
+ ) ) 
+( size
+ ' D ) ) ) ) ) 
+( any
+ 
+( tuples
+ ( - 
+( sum
+ 
+( top
+ 
+( tuples
+ ' C ' E using ' E ) ) using ' A ) ( * 
+( size
+ ' A ) ' D ) ) ( 'GAME mem A ) using ' C ) ' B ( 
+( and
+ 
+( any
+ 
+( range
+ ( - 
+( game
+ sto A ) 0 ) .. ( * 
+( size
+ ' D ) 2 ) ) ' A 
+( let
+ 
+( and
+ 
+( and
+ 
+( any
+ ( 1 team ) ' C 
+( put
+ points ' A ( ( 
+( A
+ 
+( A
+ ) ) 
+( game
+ sto C ) ) ) ) ) 
+( any
+ CSTORAGAE ' C 
+( put
+ points ' E ( ( 
+( E
+ 
+( C
+ ) ) 4 ) ) ) ) ) 
+( or
+ 
+( any
+ player ' D 
+( put
+ points ' E ( ( 
+( A
+ 
+( C
+ ) ) 
+( game
+ sto C ) ) ) ) ) 
+( any
+ 
+( tuples
+ 2 
+( top
+ 
+( tuples
+ ( - 
+( size
+ ' B ) 
+( game
+ sto E ) ) ' E using ' D ) ) using ' E ) ' D 
+( put
+ points ' E ( ( 
+( D
+ 
+( E
+ ) ) 
+( size
+ ' A ) ) ) ) ) ) ) ' C 
+( do
+ ( 
+( put
+ points ' B ( ( 
+( E
+ 
+( C
+ ) ) 
+( game
+ sto E ) ) ) ) ) ) ) ) 
+( any
+ ' C ' E ( 
+( or
+ 
+( any
+ 
+( team
+ 
+( previous
+ player ) ) ' A 
+( put
+ points ' A ( ( 
+( C
+ 
+( D
+ ) ) 3 ) ) ) ) 
+( any
+ 
+( tuples
+ ( - 
+( size
+ ' D ) 
+( game
+ sto A ) ) ' D using ' D ) ' A 
+( do
+ ( ( 
+( or
+ 
+( any
+ 
+( range
+ ' C .. 
+( size
+ ' A ) ) ' C 
+( put
+ points ' C ( ( 
+( C
+ 
+( A
+ ) ) ( - ( * ( + 0 ' A ) ( + 
+( game
+ sto E ) 5 ) ) 
+( size
+ ' B ) ) ) ) ) ) 
+( any
+ 
+( current
+ team ) ' D 
+( put
+ points ' C ( ( 
+( A
+ 
+( E
+ ) ) 
+( game
+ sto E ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( E
+ 
+( E
+ ) ) 
+( game
+ sto A ) ) ) ) ) ) ) ) ) 
+( let
+ A ' B 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( D
+ 
+( D
+ ) ) ( - 0 
+( game
+ sto D ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( A
+ 
+( C
+ ) ) 
+( size
+ ' E ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( E
+ 
+( C
+ ) ) ' C ) ) ) ) ) 
+( let
+ 
+( any
+ team ' B ( 
+( or
+ 
+( any
+ 
+( tuples
+ ( - 0 ( * 1 4 ) ) ' D using ' A ) ' A 
+( let
+ ( + ' D 
+( size
+ ' C ) ) ' A 
+( choice
+ ( ( 
+( any
+ 
+( C
+ , D ) ' E 
+( put
+ points ' B ( ( 
+( B
+ 
+( A
+ ) ) 
+( game
+ sto C ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( B
+ 
+( D
+ ) ) 1 ) ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( tuples
+ ( * 
+( game
+ sto A ) 0 ) ' A using ' D ) ' D 
+( let
+ 4 ' A 
+( choice
+ ( ( 
+( and
+ 
+( any
+ 
+( other
+ player ) ' B 
+( put
+ points ' A ( ( 
+( A
+ 
+( C
+ ) ) ( - 
+( size
+ ' A ) ( * ' D 1 ) ) ) ) ) ) 
+( any
+ 
+( range
+ ( * ( - ( + 3 3 ) ( + 
+( size
+ ' E ) 
+( size
+ ' C ) ) ) 
+( size
+ ' C ) ) .. 
+( size
+ ' E ) ) ' B 
+( put
+ points ' E ( ( 
+( B
+ 
+( B
+ ) ) ( * ( - ( + 
+( game
+ sto E ) 
+( score
+ 
+( actual
+ 
+( min
+ 
+( top
+ 
+( tuples
+ ' A ' C using ' B ) ) using ' E ) ) using ' E ) ) 4 ) ( - ( + ' C 
+( game
+ sto D ) ) 
+( size
+ ' A ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( A
+ 
+( B
+ ) ) 
+( game
+ sto A ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( A
+ , B ) ' D ( 
+( or
+ 
+( any
+ 
+( previous
+ team ) ' A 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( D
+ 
+( B
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) ) 
+( any
+ ' D ' C 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( D
+ 
+( A
+ ) ) ( - ' E 
+( game
+ sto A ) ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( E
+ 
+( B
+ ) ) ' C ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( D
+ 
+( C
+ ) ) 4 ) ) ) ) ) ' B 
+( choice
+ ( ( 
+( any
+ CSTORAGAE ' B 
+( put
+ points ' B ( ( 
+( E
+ 
+( A
+ ) ) ' D ) ) ) ) 
+( put
+ points ' D ( ( 
+( A
+ 
+( C
+ ) ) ( - ( + 
+( score
+ 
+( actual
+ 
+( max
+ 
+( top
+ 
+( tuples
+ ( * 
+( game
+ sto E ) 
+( game
+ sto E ) ) ( 'GAME vloc B ) using ' E ) ) using ' C ) ) using ' B ) 
+( size
+ ' D ) ) 
+( size
+ ' B ) ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' D ( 
+( or
+ 
+( any
+ 
+( tuples
+ ' A ' B using ' A ) ' A 
+( put
+ points ' B ( ( 
+( C
+ 
+( E
+ ) ) ( + ' E ' C ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( team
+ 
+( next
+ player ) ) ' E 
+( put
+ points ' A ( ( 
+( E
+ 
+( E
+ ) ) ( * ' B 
+( size
+ ' C ) ) ) ) ) ) 
+( any
+ 
+( team
+ 
+( owner
+ 
+( min
+ ( 'GAME hloc E ) using ' B ) ) ) ' D ( 
+( and
+ 
+( any
+ team ' A 
+( put
+ points ' C ( ( 
+( D
+ 
+( D
+ ) ) ' E ) ) ) ) 
+( any
+ 
+( E
+ , B ) ' A 
+( put
+ points ' D ( ( 
+( B
+ 
+( A
+ ) ) 
+( game
+ sto E ) ) ) ) ) ) 
+( let
+ ' A ' C 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( B
+ 
+( C
+ ) ) ' D ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( D
+ 
+( A
+ ) ) ( - 
+( size
+ ' C ) ( * 
+( game
+ sto E ) 
+( size
+ ' C ) ) ) ) ) ) ) ) ) ) 
+( let
+ A ' C 
+( choice
+ ( ( 
+( or
+ 
+( and
+ 
+( and
+ 
+( any
+ 
+( tuples
+ ( + ( - 
+( size
+ ' D ) 
+( game
+ sto B ) ) 
+( size
+ ' A ) ) 
+( union
+ 
+( any
+ 
+( other
+ player ) ' B 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( D
+ 
+( A
+ ) ) ( * 5 1 ) ) ) ) ) ) ) ) using ' A ) ' B ( 
+( any
+ team ' B ( 
+( or
+ 
+( any
+ player ' D 
+( put
+ points ' B ( ( 
+( E
+ 
+( A
+ ) ) ( + ( * 5 3 ) 0 ) ) ) ) ) 
+( any
+ ' D ' D 
+( put
+ points ' C ( ( 
+( B
+ 
+( A
+ ) ) 
+( game
+ sto E ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( E
+ 
+( D
+ ) ) ( - 
+( size
+ ' C ) 5 ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( B
+ 
+( E
+ ) ) ' D ) ) ) ) ) 
+( any
+ 
+( C
+ , C ) ' E 
+( put
+ points ' D ( ( 
+( A
+ 
+( C
+ ) ) ' D ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( range
+ 
+( game
+ sto E ) .. 
+( size
+ ' A ) ) ' C ( 
+( or
+ 
+( any
+ 
+( team
+ 
+( owner
+ 
+( actual
+ 
+( min
+ ( 'GAME hloc C ) using ' A ) ) ) ) ' D ( 
+( any
+ 
+( range
+ 
+( game
+ sto E ) .. 
+( game
+ sto C ) ) ' C 
+( put
+ points ' A ( ( 
+( B
+ 
+( B
+ ) ) ( - 
+( game
+ sto A ) 
+( game
+ sto D ) ) ) ) ) ) 
+( do
+ ( 
+( let
+ 
+( other
+ player ) ' E 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( C
+ 
+( B
+ ) ) ( + 0 ' B ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ 
+( game
+ sto A ) 
+( top
+ 
+( tuples
+ 
+( size
+ ' A ) ' C using ' A ) ) using ' A ) ' D ( 
+( or
+ 
+( any
+ CSTORAGAE ' E 
+( put
+ points ' D ( ( 
+( C
+ 
+( C
+ ) ) ' A ) ) ) ) 
+( any
+ CSTORAGAE ' D 
+( put
+ points ' D ( ( 
+( D
+ 
+( D
+ ) ) ( + ( - ' B ' B ) 
+( size
+ ' D ) ) ) ) ) ) ) 
+( let
+ 
+( and
+ 
+( any
+ team ' C 
+( put
+ points ' D ( ( 
+( D
+ 
+( A
+ ) ) 
+( game
+ sto C ) ) ) ) ) 
+( any
+ 
+( team
+ ( ( - ( * 
+( game
+ sto C ) ( + 
+( size
+ ' D ) ' E ) ) 
+( game
+ sto D ) ) player ) ) ' E 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( E
+ 
+( B
+ ) ) 4 ) ) ) ) ) ) ) ' A 
+( choice
+ ( 
+( put
+ points ' E ( ( 
+( D
+ 
+( D
+ ) ) ( - ' E 
+( size
+ ' E ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( B
+ 
+( C
+ ) ) ( + 3 
+( size
+ ' B ) ) ) ) ) ) ) 
+( any
+ 
+( A
+ , C ) ' C 
+( put
+ points ' E ( ( 
+( E
+ 
+( B
+ ) ) ( * 
+( game
+ sto E ) 
+( size
+ ' C ) ) ) ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( C
+ , D ) ' A ( 
+( or
+ 
+( any
+ CSTORAGAE ' C 
+( put
+ points ' B ( ( 
+( D
+ 
+( B
+ ) ) 
+( game
+ sto A ) ) ) ) ) 
+( any
+ ' A ' E ( 
+( and
+ 
+( any
+ 
+( other
+ player ) ' E ( 
+( and
+ 
+( any
+ player ' B 
+( let
+ ( + ( * 2 ' D ) ( - ( % 
+( game
+ sto D ) 
+( score
+ 
+( min
+ ( 'GAME mem C ) using ' A ) using ' E ) ) ( * 
+( game
+ sto D ) 3 ) ) ) ' B 
+( do
+ ( 
+( put
+ points ' B ( ( 
+( A
+ 
+( D
+ ) ) ( - 
+( size
+ ' D ) 3 ) ) ) ) ) ) ) ) 
+( any
+ team ' E 
+( put
+ points ' E ( ( 
+( B
+ 
+( D
+ ) ) ( - 
+( size
+ ' D ) 
+( size
+ ' E ) ) ) ) ) ) ) 
+( do
+ ( 
+( let
+ ' A ' A 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( E
+ 
+( A
+ ) ) 5 ) ) ) ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ team ' E 
+( let
+ ' A ' C 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( D
+ 
+( E
+ ) ) ( + 
+( score
+ 
+( actual
+ ' D ) using ' E ) 
+( game
+ sto E ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ 
+( game
+ sto D ) ' B using ' D ) ' E ( 
+( and
+ 
+( any
+ 
+( range
+ 5 .. ( + ( * ( * 
+( size
+ ' C ) 3 ) 
+( size
+ ' D ) ) 
+( size
+ ' A ) ) ) ' A 
+( put
+ points ' B ( ( 
+( E
+ 
+( C
+ ) ) 
+( game
+ sto A ) ) ) ) ) 
+( any
+ 
+( tuples
+ ( - 
+( game
+ sto C ) 
+( size
+ ' D ) ) 
+( top
+ 
+( tuples
+ ' B 
+( filter
+ ' B ' B 
+( any
+ 
+( D
+ , E ) ' C 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( B
+ 
+( D
+ ) ) ( + ( - ( * 1 ' A ) ( * 
+( game
+ sto B ) 
+( size
+ ' C ) ) ) 4 ) ) ) ) ) ) ) ) using ' E ) ) using ' D ) ' B 
+( let
+ B ' D 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( A
+ 
+( A
+ ) ) ' B ) ) ) ) ) ) ) ) 
+( let
+ ' D ' A 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( D
+ 
+( C
+ ) ) 4 ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( B
+ 
+( D
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( B
+ 
+( B
+ ) ) ' E ) ) ) ) ) 
+( any
+ player ' E 
+( put
+ points ' C ( ( 
+( B
+ 
+( B
+ ) ) ' B ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( B
+ 
+( E
+ ) ) 3 ) ) ) ) ) ) ) ) ) 
+( and
+ 
+( or
+ 
+( any
+ CSTORAGAE ' D ( 
+( and
+ 
+( any
+ 
+( tuples
+ ( - ( * 
+( size
+ ' B ) 4 ) 
+( size
+ ' C ) ) 
+( top
+ 
+( tuples
+ ( * ( - ' A 
+( size
+ ' E ) ) ' D ) ' B using ' D ) ) using ' D ) ' E ( 
+( or
+ 
+( any
+ 
+( range
+ ( * 3 ( - ( + 
+( game
+ sto D ) 
+( size
+ ' C ) ) ( + 1 ' A ) ) ) .. ( * 
+( size
+ ' C ) ' A ) ) ' C 
+( let
+ D ' A 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( C
+ 
+( A
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' D ( 
+( or
+ 
+( any
+ team ' A ( 
+( or
+ 
+( any
+ CSTORAGAE ' A 
+( let
+ ' B ' D 
+( choice
+ ( 
+( put
+ points ' E ( ( 
+( E
+ 
+( A
+ ) ) ( - 
+( size
+ ' C ) ( * ' C ( + 
+( size
+ ' B ) 2 ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ ( + ( - 
+( size
+ ' B ) 
+( game
+ sto B ) ) 
+( game
+ sto E ) ) 
+( top
+ 
+( tuples
+ 4 ( 'GAME mem E ) using ' C ) ) using ' B ) ' B 
+( let
+ 1 ' D 
+( choice
+ ( 
+( put
+ points ' A ( ( 
+( B
+ 
+( A
+ ) ) ' A ) ) ) ) ) ) ) ) 
+( let
+ ( - 5 
+( size
+ ' A ) ) ' C 
+( choice
+ ( 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( E
+ 
+( A
+ ) ) ' E ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( current
+ team ) ' E 
+( let
+ ' C ' C 
+( choice
+ ( 
+( put
+ points ' A ( ( 
+( C
+ 
+( C
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( E
+ 
+( B
+ ) ) ( * ' E ( % 
+( size
+ ' D ) 
+( sum
+ ( 'GAME mem C ) using ' B ) ) ) ) ) ) ) ) ) 
+( let
+ D ' D 
+( choice
+ ( ( 
+( and
+ 
+( any
+ 
+( other
+ player ) ' B ( 
+( any
+ 
+( other
+ player ) ' E 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( E
+ 
+( E
+ ) ) ( * ( - ( + 
+( size
+ ' D ) 
+( size
+ ' B ) ) 
+( size
+ ' D ) ) ( // 
+( size
+ ' D ) 
+( size
+ ' E ) ) ) ) ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( B
+ 
+( A
+ ) ) 1 ) ) ) ) ) 
+( any
+ 
+( previous
+ team ) ' B 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( B
+ 
+( A
+ ) ) 5 ) ) ) ) ) ) ) 
+( do
+ ( ( 
+( or
+ 
+( any
+ 
+( next
+ team ) ' B 
+( put
+ points ' B ( ( 
+( E
+ 
+( A
+ ) ) 
+( game
+ sto C ) ) ) ) ) 
+( any
+ ' C ' A 
+( put
+ points ' E ( ( 
+( E
+ 
+( D
+ ) ) ' B ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( A
+ 
+( D
+ ) ) 
+( game
+ sto A ) ) ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ 
+( size
+ ' B ) ( 'GAME hloc E ) using ' B ) ' D ( 
+( and
+ 
+( any
+ team ' D 
+( let
+ 0 ' B 
+( choice
+ ( 
+( put
+ points ' E ( ( 
+( E
+ 
+( C
+ ) ) 
+( game
+ sto E ) ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ 5 .. 
+( size
+ ' D ) ) ' D 
+( put
+ points ' A ( ( 
+( A
+ 
+( E
+ ) ) 
+( game
+ sto E ) ) ) ) ) ) 
+( let
+ 
+( B
+ , B ) ' C 
+( choice
+ ( 
+( do
+ ( ( 
+( any
+ 
+( range
+ ( - 4 ' C ) .. ( - ' B 
+( game
+ sto A ) ) ) ' E 
+( put
+ points ' D ( ( 
+( A
+ 
+( C
+ ) ) 2 ) ) ) ) 
+( put
+ points ' D ( ( 
+( D
+ 
+( E
+ ) ) ( + ( - ( * 3 
+( size
+ ' D ) ) 5 ) 
+( size
+ ' B ) ) ) ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( E
+ 
+( B
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) 
+( any
+ 
+( range
+ ( - ( + 4 
+( game
+ sto A ) ) 
+( game
+ sto E ) ) .. 1 ) ' B ( 
+( any
+ player ' C ( 
+( and
+ 
+( any
+ 
+( current
+ team ) ' B ( 
+( and
+ 
+( and
+ 
+( any
+ team ' A 
+( let
+ 
+( game
+ sto D ) ' C 
+( choice
+ ( 
+( put
+ points ' E ( ( 
+( A
+ 
+( A
+ ) ) ( * 1 ' E ) ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ ( * ( + 
+( game
+ sto D ) ' A ) 
+( size
+ ' C ) ) .. ( + 1 
+( size
+ ' C ) ) ) ' E ( 
+( any
+ ' B ' D 
+( put
+ points ' C ( ( 
+( E
+ 
+( A
+ ) ) ' A ) ) ) ) 
+( let
+ 
+( game
+ sto B ) ' A 
+( choice
+ ( ( 
+( or
+ 
+( any
+ 
+( other
+ player ) ' A 
+( let
+ ' C ' D 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( B
+ 
+( E
+ ) ) 1 ) ) ) ) ) ) ) 
+( any
+ team ' C 
+( put
+ points ' B ( ( 
+( E
+ 
+( E
+ ) ) ( + 5 ( * ' E ( - ' E 
+( game
+ sto E ) ) ) ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( B
+ 
+( C
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( range
+ 
+( size
+ ' B ) .. 
+( size
+ ' D ) ) ' C 
+( put
+ points ' E ( ( 
+( B
+ 
+( B
+ ) ) ( * 
+( size
+ ' B ) ( - ( % 
+( size
+ ' D ) ( + ' A 
+( game
+ sto D ) ) ) 
+( sum
+ 
+( top
+ 
+( tuples
+ 5 ' D using ' C ) ) using ' D ) ) ) ) ) ) ) 
+( any
+ ' E ' E 
+( put
+ points ' B ( ( 
+( E
+ 
+( E
+ ) ) ( - 0 ( * 
+( size
+ ' E ) ' C ) ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( C
+ 
+( D
+ ) ) 
+( game
+ sto D ) ) ) ) ) ) 
+( or
+ 
+( any
+ CSTORAGAE ' C 
+( put
+ points ' D ( ( 
+( A
+ 
+( E
+ ) ) 3 ) ) ) ) 
+( any
+ 
+( range
+ 5 .. ( - 5 ' C ) ) ' E ( 
+( and
+ 
+( any
+ 
+( other
+ player ) ' E 
+( put
+ points ' C ( ( 
+( A
+ 
+( A
+ ) ) 
+( size
+ ' B ) ) ) ) ) 
+( any
+ ' E ' A ( 
+( and
+ 
+( any
+ 
+( B
+ , A ) ' D 
+( let
+ 
+( any
+ 
+( tuples
+ ( + 
+( size
+ ' E ) ( - 5 ( * 
+( size
+ ' C ) 
+( game
+ sto E ) ) ) ) ' B using ' D ) ' B 
+( put
+ points ' C ( ( 
+( B
+ 
+( A
+ ) ) 
+( size
+ ' B ) ) ) ) ) ' D 
+( choice
+ ( 
+( put
+ points ' A ( ( 
+( C
+ 
+( D
+ ) ) 0 ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ 
+( game
+ sto C ) .. ( * 1 
+( sum
+ ' A using ' B ) ) ) ' D 
+( let
+ 
+( E
+ , A ) ' A 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( D
+ 
+( C
+ ) ) 
+( game
+ sto E ) ) ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( D
+ 
+( B
+ ) ) 
+( size
+ ' C ) ) ) ) ) ) ) 
+( let
+ ' D ' D 
+( choice
+ ( ( 
+( and
+ 
+( any
+ 
+( tuples
+ ( - 
+( game
+ sto E ) 
+( game
+ sto C ) ) ' A using ' D ) ' E 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( E
+ 
+( D
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) ) 
+( any
+ CSTORAGAE ' A 
+( put
+ points ' D ( ( 
+( B
+ 
+( B
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( E
+ 
+( C
+ ) ) ' C ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( B
+ 
+( E
+ ) ) 3 ) ) ) ) ) 
+( let
+ E ' A 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( C
+ 
+( E
+ ) ) ' E ) ) ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( team
+ 
+( owner
+ 
+( actual
+ ' E ) ) ) ' B ( 
+( any
+ ( ' B team ) ' B 
+( do
+ ( ( 
+( or
+ 
+( and
+ 
+( any
+ ' E ' E ( 
+( and
+ 
+( any
+ 
+( E
+ , A ) ' A 
+( put
+ points ' D ( ( 
+( E
+ 
+( A
+ ) ) ( - 
+( size
+ ' E ) 
+( size
+ ' C ) ) ) ) ) ) 
+( any
+ 
+( team
+ 
+( owner
+ 
+( max
+ 
+( top
+ 
+( tuples
+ ( + ( - 
+( game
+ sto B ) 2 ) 
+( size
+ ' A ) ) ( 'GAME iloc B ) using ' C ) ) using ' E ) ) ) ' D ( 
+( any
+ team ' B 
+( put
+ points ' D ( ( 
+( D
+ 
+( B
+ ) ) 
+( score
+ 
+( min
+ 
+( top
+ 
+( tuples
+ ' D ' B using ' D ) ) using ' A ) using ' E ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( B
+ 
+( C
+ ) ) 
+( size
+ ' C ) ) ) ) ) ) ) 
+( let
+ ' B ' C 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( A
+ 
+( D
+ ) ) 
+( game
+ sto A ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( team
+ ( ( - ' D ' B ) player ) ) ' A ( 
+( or
+ 
+( any
+ 
+( range
+ 
+( game
+ sto A ) .. ( - 
+( size
+ ' A ) 
+( size
+ ' A ) ) ) ' C ( 
+( and
+ 
+( any
+ 
+( other
+ player ) ' A 
+( put
+ points ' D ( ( 
+( A
+ 
+( A
+ ) ) 
+( game
+ sto C ) ) ) ) ) 
+( any
+ CSTORAGAE ' E 
+( put
+ points ' D ( ( 
+( B
+ 
+( B
+ ) ) 2 ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( B
+ 
+( C
+ ) ) ' E ) ) ) ) ) 
+( any
+ team ' D ( 
+( or
+ 
+( any
+ 
+( other
+ player ) ' E 
+( put
+ points ' A ( ( 
+( A
+ 
+( B
+ ) ) ( + 5 
+( size
+ ' B ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ 5 ' B using ' B ) ' D 
+( put
+ points ' D ( ( 
+( E
+ 
+( A
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( E
+ 
+( E
+ ) ) 2 ) ) ) ) ) ) 
+( let
+ 
+( any
+ team ' A ( 
+( and
+ 
+( any
+ CSTORAGAE ' E 
+( put
+ points ' E ( ( 
+( B
+ 
+( B
+ ) ) 
+( size
+ ' E ) ) ) ) ) 
+( any
+ team ' D 
+( put
+ points ' D ( ( 
+( C
+ 
+( C
+ ) ) 
+( size
+ ' C ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( D
+ 
+( D
+ ) ) 
+( size
+ ' A ) ) ) ) ) ) ' A 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( C
+ 
+( C
+ ) ) ( - ( * 0 
+( size
+ ' C ) ) 
+( size
+ ' E ) ) ) ) ) ) ) ) ) ) ) 
+( and
+ 
+( or
+ 
+( any
+ 
+( range
+ ' D .. ( - 
+( game
+ sto A ) ( + 
+( game
+ sto C ) 
+( score
+ ' A using ' A ) ) ) ) ' E ( 
+( any
+ CSTORAGAE ' B ( 
+( and
+ 
+( or
+ 
+( any
+ 
+( other
+ player ) ' E 
+( put
+ points ' D ( ( 
+( C
+ 
+( E
+ ) ) 5 ) ) ) ) 
+( any
+ ' A ' A 
+( put
+ points ' E ( ( 
+( A
+ 
+( A
+ ) ) ( * ' A ( - 
+( game
+ sto E ) 
+( size
+ ' C ) ) ) ) ) ) ) ) 
+( any
+ team ' D 
+( put
+ points ' A ( ( 
+( C
+ 
+( C
+ ) ) ( * ' D ( + ( % 
+( size
+ ' E ) 1 ) 
+( game
+ sto E ) ) ) ) ) ) ) ) 
+( let
+ CSTORAGAE ' D 
+( choice
+ ( 
+( put
+ points ' D ( ( 
+( E
+ 
+( C
+ ) ) ( + ( * 
+( size
+ ' D ) 0 ) ( * 
+( game
+ sto B ) 
+( size
+ ' C ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( D
+ 
+( A
+ ) ) ' C ) ) ) ) ) 
+( any
+ 
+( tuples
+ 
+( size
+ ' E ) 
+( top
+ 
+( tuples
+ ( + 
+( game
+ sto E ) ' D ) ( 'GAME iloc C ) using ' C ) ) using ' B ) ' E 
+( put
+ points ' E ( ( 
+( B
+ 
+( B
+ ) ) 
+( game
+ sto A ) ) ) ) ) ) 
+( any
+ 
+( B
+ , D ) ' A ( 
+( any
+ 
+( B
+ , E ) ' A ( 
+( or
+ 
+( and
+ 
+( any
+ team ' E 
+( put
+ points ' D ( ( 
+( D
+ 
+( A
+ ) ) ( + ( * ' C 
+( size
+ ' A ) ) ( - 
+( game
+ sto D ) 
+( game
+ sto A ) ) ) ) ) ) ) 
+( any
+ 
+( team
+ 
+( previous
+ player ) ) ' E 
+( put
+ points ' E ( ( 
+( B
+ 
+( C
+ ) ) ' A ) ) ) ) ) 
+( or
+ 
+( any
+ player ' B 
+( put
+ points ' E ( ( 
+( B
+ 
+( A
+ ) ) ( * 
+( game
+ sto A ) 
+( size
+ ' A ) ) ) ) ) ) 
+( any
+ 
+( other
+ player ) ' A 
+( put
+ points ' A ( ( 
+( A
+ 
+( A
+ ) ) ( + 
+( game
+ sto D ) 1 ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( A
+ 
+( A
+ ) ) 
+( size
+ ' E ) ) ) ) ) ) 
+( let
+ 
+( or
+ 
+( any
+ 
+( range
+ 
+( size
+ ' A ) .. ' A ) ' A ( 
+( any
+ 
+( other
+ player ) ' A 
+( put
+ points ' D ( ( 
+( C
+ 
+( D
+ ) ) ( * ' B 
+( size
+ ' A ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( C
+ 
+( D
+ ) ) ( - ( - 
+( size
+ ' D ) ' B ) 
+( game
+ sto A ) ) ) ) ) ) ) 
+( any
+ player ' B 
+( put
+ points ' E ( ( 
+( C
+ 
+( E
+ ) ) 
+( game
+ sto A ) ) ) ) ) ) ' E 
+( choice
+ ( 
+( put
+ points ' E ( ( 
+( B
+ 
+( A
+ ) ) ' C ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( B
+ 
+( C
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) ) ) 
+( let
+ 
+( size
+ ' D ) ' A 
+( choice
+ ( ( 
+( and
+ 
+( any
+ CSTORAGAE ' B ( 
+( and
+ 
+( any
+ CSTORAGAE ' D 
+( do
+ ( ( 
+( any
+ player ' C 
+( put
+ points ' C ( ( 
+( E
+ 
+( B
+ ) ) 
+( size
+ ' D ) ) ) ) ) 
+( let
+ 
+( and
+ 
+( any
+ 
+( other
+ player ) ' E 
+( put
+ points ' E ( ( 
+( C
+ 
+( D
+ ) ) 
+( game
+ sto A ) ) ) ) ) 
+( any
+ 
+( tuples
+ ( * 
+( size
+ ' A ) 4 ) ' B using ' E ) ' B 
+( put
+ points ' E ( ( 
+( A
+ 
+( C
+ ) ) ( - ( + 5 ( * 
+( size
+ ' E ) ' E ) ) ' B ) ) ) ) ) ) ' D 
+( choice
+ ( 
+( put
+ points ' A ( ( 
+( B
+ 
+( A
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( range
+ ( - 
+( game
+ sto A ) 5 ) .. 
+( game
+ sto D ) ) ' D ( 
+( or
+ 
+( any
+ 
+( tuples
+ ( + ( - 
+( game
+ sto B ) 5 ) 3 ) ( 'GAME vloc D ) using ' D ) ' C 
+( let
+ ' C ' B 
+( do
+ ( 
+( put
+ points ' B ( ( 
+( A
+ 
+( B
+ ) ) ( - ' C ( * 
+( size
+ ' A ) ( + ( % ' A ' E ) 
+( size
+ ' D ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ player ' B 
+( put
+ points ' C ( ( 
+( D
+ 
+( A
+ ) ) ( - 
+( game
+ sto C ) 1 ) ) ) ) ) ) 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( A
+ 
+( D
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( B
+ 
+( B
+ ) ) ( - ( + ' B 
+( game
+ sto B ) ) 
+( game
+ sto B ) ) ) ) ) ) ) 
+( any
+ 
+( team
+ 
+( owner
+ 
+( min
+ ' D using ' B ) ) ) ' D 
+( put
+ points ' D ( ( 
+( E
+ 
+( B
+ ) ) ( // ( - ( + 
+( game
+ sto C ) ( * ' C 
+( game
+ sto C ) ) ) ' D ) ( - 2 
+( size
+ ' E ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( E
+ 
+( A
+ ) ) 4 ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ ( * 5 3 ) 
+( union
+ 
+( any
+ ' E ' D ( 
+( or
+ 
+( any
+ 
+( range
+ ( + 
+( game
+ sto B ) ( - 1 
+( game
+ sto E ) ) ) .. 
+( size
+ ' A ) ) ' B ( 
+( any
+ player ' A 
+( do
+ ( 
+( put
+ points ' C ( ( 
+( E
+ 
+( B
+ ) ) 
+( size
+ ' D ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( D
+ 
+( B
+ ) ) ( + ( * 
+( size
+ ' B ) 3 ) ' C ) ) ) ) ) ) 
+( any
+ CSTORAGAE ' D 
+( let
+ C ' D 
+( choice
+ ( ( 
+( any
+ 
+( previous
+ team ) ' D ( 
+( and
+ 
+( any
+ player ' A ( 
+( and
+ 
+( or
+ 
+( any
+ 
+( range
+ ( - 
+( size
+ ' D ) ( % 5 ( + ' A ( * 3 
+( game
+ sto C ) ) ) ) ) .. 
+( game
+ sto A ) ) ' C 
+( put
+ points ' C ( ( 
+( A
+ 
+( C
+ ) ) ( * ( + 
+( size
+ ' B ) 
+( game
+ sto E ) ) ( - 
+( sum
+ ' C using ' D ) 
+( game
+ sto D ) ) ) ) ) ) ) 
+( any
+ ' A ' C 
+( put
+ points ' D ( ( 
+( C
+ 
+( E
+ ) ) ( - 1 
+( size
+ ' E ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( previous
+ team ) ' D 
+( put
+ points ' C ( ( 
+( E
+ 
+( C
+ ) ) 
+( sum
+ ( 'GAME mem A ) using ' E ) ) ) ) ) 
+( any
+ 
+( range
+ ( + 
+( game
+ sto B ) ( - 
+( game
+ sto C ) ( * 3 
+( size
+ ' D ) ) ) ) .. ' D ) ' D 
+( put
+ points ' E ( ( 
+( C
+ 
+( A
+ ) ) 
+( game
+ sto D ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( B
+ 
+( B
+ ) ) 4 ) ) ) ) ) 
+( any
+ 
+( D
+ , E ) ' A ( 
+( and
+ 
+( and
+ 
+( any
+ CSTORAGAE ' B 
+( put
+ points ' C ( ( 
+( B
+ 
+( A
+ ) ) ( * 
+( size
+ ' B ) 
+( size
+ ' E ) ) ) ) ) ) 
+( any
+ 
+( team
+ 
+( current
+ player ) ) ' B 
+( put
+ points ' C ( ( 
+( A
+ 
+( C
+ ) ) ( + 
+( size
+ ' C ) 
+( game
+ sto D ) ) ) ) ) ) ) 
+( any
+ CSTORAGAE ' A 
+( put
+ points ' E ( ( 
+( C
+ 
+( E
+ ) ) ( * 
+( size
+ ' D ) ' C ) ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( C
+ 
+( C
+ ) ) ' D ) ) ) ) ) ) 
+( let
+ ' D ' D 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( A
+ 
+( A
+ ) ) ' A ) ) ) ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( A
+ 
+( D
+ ) ) ' A ) ) ) ) ) ) ) ) ) 
+( let
+ 
+( any
+ 
+( other
+ player ) ' A ( 
+( and
+ 
+( any
+ CSTORAGAE ' D 
+( put
+ points ' B ( ( 
+( E
+ 
+( B
+ ) ) ( - ( * ( * 
+( sum
+ ' A using ' C ) 
+( size
+ ' B ) ) 5 ) 
+( score
+ ' B using ' B ) ) ) ) ) ) 
+( any
+ team ' D 
+( let
+ ( ' B team ) ' A 
+( choice
+ ( ( 
+( or
+ 
+( and
+ 
+( any
+ ' B ' A 
+( put
+ points ' E ( ( 
+( A
+ 
+( A
+ ) ) 1 ) ) ) ) 
+( any
+ 
+( C
+ , D ) ' E 
+( put
+ points ' D ( ( 
+( B
+ 
+( D
+ ) ) 
+( game
+ sto E ) ) ) ) ) ) 
+( any
+ ' C ' D 
+( put
+ points ' B ( ( 
+( A
+ 
+( B
+ ) ) ( * ( + 
+( game
+ sto B ) 
+( game
+ sto E ) ) ( - 5 ( + 
+( game
+ sto B ) 
+( size
+ ' D ) ) ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( C
+ 
+( B
+ ) ) 
+( game
+ sto C ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( D
+ 
+( A
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) ' A 
+( do
+ ( ( 
+( or
+ 
+( any
+ CSTORAGAE ' C 
+( let
+ ' A ' C 
+( choice
+ ( ( 
+( any
+ CSTORAGAE ' A 
+( put
+ points ' C ( ( 
+( D
+ 
+( C
+ ) ) ' D ) ) ) ) 
+( put
+ points ' B ( ( 
+( A
+ 
+( A
+ ) ) ( + ( * 
+( size
+ ' E ) ' E ) ' A ) ) ) ) ) ) ) ) ) 
+( any
+ ' C ' D ( 
+( and
+ 
+( any
+ team ' B ( 
+( any
+ CSTORAGAE ' B 
+( put
+ points ' D ( ( 
+( A
+ 
+( E
+ ) ) 
+( game
+ sto A ) ) ) ) ) 
+( put
+ points ' D ( ( 
+( B
+ 
+( B
+ ) ) 
+( size
+ ' A ) ) ) ) ) ) 
+( any
+ 
+( B
+ , A ) ' E ( 
+( or
+ 
+( any
+ CSTORAGAE ' D 
+( let
+ ' B ' D 
+( choice
+ ( ( 
+( and
+ 
+( any
+ 
+( other
+ player ) ' D 
+( put
+ points ' B ( ( 
+( D
+ 
+( E
+ ) ) ( + ' B 
+( game
+ sto E ) ) ) ) ) ) 
+( any
+ 
+( previous
+ team ) ' C 
+( put
+ points ' A ( ( 
+( A
+ 
+( C
+ ) ) 
+( game
+ sto C ) ) ) ) ) ) 
+( let
+ 
+( any
+ CSTORAGAE ' A 
+( put
+ points ' D ( ( 
+( D
+ 
+( B
+ ) ) ( + ' D 
+( size
+ ' D ) ) ) ) ) ) ' A 
+( choice
+ ( 
+( put
+ points ' A ( ( 
+( D
+ 
+( B
+ ) ) 
+( size
+ ' E ) ) ) ) ) ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ 
+( previous
+ team ) ' C 
+( put
+ points ' C ( ( 
+( D
+ 
+( C
+ ) ) 
+( score
+ 
+( min
+ ' E using ' A ) using ' C ) ) ) ) ) 
+( any
+ 
+( team
+ 
+( next
+ player ) ) ' B 
+( put
+ points ' A ( ( 
+( A
+ 
+( D
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( B
+ 
+( B
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) ) 
+( let
+ ' E ' E 
+( choice
+ ( 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( B
+ 
+( D
+ ) ) ' E ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' A ( ( 
+( E
+ 
+( B
+ ) ) ( * ( + 
+( size
+ ' D ) ' E ) 2 ) ) ) ) ) ) ) ) ) ) ) using ' C ) ' C ( 
+( or
+ 
+( any
+ 
+( tuples
+ ( - ' E 
+( score
+ 
+( top
+ ( 'GAME hloc D ) ) using ' D ) ) 
+( top
+ 
+( tuples
+ ( * 
+( game
+ sto C ) 
+( size
+ ' E ) ) ( 'GAME vloc D ) using ' C ) ) using ' A ) ' C ( 
+( any
+ team ' B ( 
+( and
+ 
+( any
+ player ' E 
+( let
+ ' A ' E 
+( choice
+ ( 
+( put
+ points ' E ( ( 
+( B
+ 
+( C
+ ) ) ( * 3 ( + ' B ( + ' B 5 ) ) ) ) ) ) ) ) ) ) 
+( any
+ 
+( team
+ ( 
+( size
+ ' A ) player ) ) ' A ( 
+( or
+ 
+( and
+ 
+( or
+ 
+( any
+ 
+( other
+ player ) ' C 
+( let
+ E ' E 
+( choice
+ ( 
+( put
+ points ' B ( ( 
+( B
+ 
+( D
+ ) ) ' D ) ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ 3 ( 'GAME hloc C ) using ' A ) ' C 
+( put
+ points ' D ( ( 
+( E
+ 
+( E
+ ) ) ( - ' B 1 ) ) ) ) ) ) 
+( any
+ 
+( range
+ ( - 
+( game
+ sto D ) ( * 
+( game
+ sto C ) 5 ) ) .. ( * ' A 2 ) ) ' B 
+( let
+ ' E ' C 
+( choice
+ ( 
+( put
+ points ' A ( ( 
+( E
+ 
+( C
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) ) ) ) 
+( or
+ 
+( any
+ CSTORAGAE ' A 
+( put
+ points ' E ( ( 
+( C
+ 
+( E
+ ) ) ( + ( * ( - 0 
+( game
+ sto A ) ) 1 ) 
+( game
+ sto A ) ) ) ) ) ) 
+( any
+ 
+( C
+ , A ) ' D 
+( put
+ points ' A ( ( 
+( E
+ 
+( C
+ ) ) 
+( size
+ ' B ) ) ) ) ) ) ) 
+( put
+ points ' C ( ( 
+( B
+ 
+( C
+ ) ) ( - 3 ' D ) ) ) ) ) ) ) 
+( let
+ ' E ' A 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( E
+ 
+( E
+ ) ) ( * ( - 3 ' B ) 
+( game
+ sto A ) ) ) ) ) ) ) ) ) ) 
+( let
+ player ' D 
+( let
+ 
+( size
+ ' A ) ' A 
+( choice
+ ( ( 
+( any
+ 
+( other
+ player ) ' B 
+( put
+ points ' B ( ( 
+( C
+ 
+( B
+ ) ) 
+( game
+ sto D ) ) ) ) ) 
+( do
+ ( 
+( do
+ ( 
+( put
+ points ' B ( ( 
+( A
+ 
+( C
+ ) ) 5 ) ) ) ) ) ) ) ) ) ) ) ) ) ) 
+( any
+ player ' D ( 
+( any
+ player ' D 
+( let
+ 
+( other
+ player ) ' A 
+( choice
+ ( ( 
+( or
+ 
+( or
+ 
+( any
+ 
+( filter
+ ' A ' E 
+( and
+ 
+( any
+ 
+( A
+ , E ) ' B ( 
+( and
+ 
+( any
+ player ' A ( 
+( or
+ 
+( any
+ player ' E 
+( do
+ ( 
+( put
+ points ' D ( ( 
+( D
+ 
+( D
+ ) ) ( * ( + 
+( game
+ sto D ) 
+( size
+ ' D ) ) 
+( game
+ sto E ) ) ) ) ) ) ) ) 
+( any
+ CSTORAGAE ' B 
+( put
+ points ' D ( ( 
+( E
+ 
+( D
+ ) ) 
+( game
+ sto B ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( A
+ 
+( A
+ ) ) ( - 1 ( * ( + 5 
+( game
+ sto A ) ) 1 ) ) ) ) ) ) ) 
+( any
+ 
+( tuples
+ ( * ' A ( - 
+( size
+ ' B ) ( + 1 2 ) ) ) 
+( top
+ 
+( tuples
+ 
+( game
+ sto C ) ( 'GAME mem D ) using ' E ) ) using ' B ) ' D 
+( put
+ points ' B ( ( 
+( D
+ 
+( C
+ ) ) ( // ' C 
+( game
+ sto A ) ) ) ) ) ) ) 
+( let
+ ' C ' A 
+( do
+ ( 
+( put
+ points ' A ( ( 
+( E
+ 
+( B
+ ) ) ' E ) ) ) ) ) ) ) ) 
+( any
+ 
+( previous
+ team ) ' D 
+( put
+ points ' C ( ( 
+( A
+ 
+( E
+ ) ) ( + 
+( size
+ ' E ) ( - 0 ( * 
+( size
+ ' E ) 
+( size
+ ' D ) ) ) ) ) ) ) ) ) ) ' E 
+( put
+ points ' C ( ( 
+( E
+ 
+( B
+ ) ) ( + 
+( game
+ sto B ) ( * 
+( game
+ sto C ) ( - ' A 
+( sum
+ 
+( top
+ 
+( tuples
+ ' D ' D using ' A ) ) using ' B ) ) ) ) ) ) ) ) 
+( any
+ team ' E ( 
+( any
+ team ' D 
+( put
+ points ' B ( ( 
+( E
+ 
+( C
+ ) ) ( + 
+( game
+ sto E ) ' A ) ) ) ) ) 
+( let
+ ' C ' E 
+( do
+ ( 
+( put
+ points ' E ( ( 
+( C
+ 
+( C
+ ) ) ( - ( + 
+( size
+ ' D ) ( * 
+( game
+ sto C ) 2 ) ) 
+( size
+ ' D ) ) ) ) ) ) ) ) ) ) ) 
+( and
+ 
+( any
+ 
+( tuples
+ 
+( game
+ sto D ) ( 'GAME vloc C ) using ' A ) ' B 
+( put
+ points ' E ( ( 
+( E
+ 
+( D
+ ) ) ( * ( + ' A ' E ) ( + ( + ' B ' B ) ( - 3 ' C ) ) ) ) ) ) ) 
+( any
+ player ' D 
+( put
+ points ' A ( ( 
+( A
+ 
+( E
+ ) ) ( * ' B 4 ) ) ) ) ) ) ) 
+( put
+ points ' B ( ( 
+( E
+ 
+( C
+ ) ) 
+( size
+ ' C ) ) ) ) ) ) ) ) ) 
+( let
+ ' D ' E 
+( choice
+ ( 
+( put
+ points ' C ( ( 
+( C
+ 
+( D
+ ) ) ( * ' A 
+( game
+ sto A ) ) ) ) ) ) ) ) ) ) ) 
+( put
+ points ' E ( ( 
+( C
+ 
+( B
+ ) ) ( * 
+( game
+ sto B ) ( % 4 ' E ) ) ) ) ) ) ) ) ) ) ) using ' C ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) using ' D ) ) ) ) ) ) ) ) 
+( scoring
+ min ( + ( // ( * 
+( game
+ sto A ) 
+( sum
+ 
+( top
+ 
+( tuples
+ ( + 1 ( % 
+( game
+ sto A ) 
+( size
+ ' B ) ) ) ' E using ' B ) ) using ' D ) ) 
+( size
+ ' C ) ) 
+( game
+ sto C ) ) ) ) 

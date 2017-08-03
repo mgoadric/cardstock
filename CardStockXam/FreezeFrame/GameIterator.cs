@@ -4,7 +4,7 @@ using Antlr4.Runtime.Tree;
 using ParseTreeIterator;
 using CardEngine;
 using System.Collections.Generic;
-
+using CardStockXam.Scoring;
 namespace FreezeFrame
 {
 	public class GameIterator
@@ -14,6 +14,7 @@ namespace FreezeFrame
 		HashSet<IParseTree> iteratingSet;
         public ParseOOPIterator parseoop;
         public CardGame instance;
+        public World gameWorld;
 
 		public GameIterator Clone(CardGame cg){
             var ret = new GameIterator (game, cg, false);
@@ -37,6 +38,7 @@ namespace FreezeFrame
 
 		public GameIterator (RecycleParser.GameContext g, CardGame mygame, bool fresh = true)
 		{
+            gameWorld = new World();
 			game = g;
             instance = mygame;
 			iterStack = new Stack<Queue<IParseTree>>();

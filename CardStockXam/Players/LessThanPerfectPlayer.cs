@@ -24,7 +24,7 @@ namespace Players
 		public int NumChoices(int items, Random rand, int idx){
 			Debug.WriteLine("Passing new choice to LPP");
 
-			Console.WriteLine("AI making choice. items: " + items);
+			Debug.WriteLine("AI making choice. items: " + items);
 
 			if (items == 1)
 			{
@@ -35,6 +35,10 @@ namespace Players
 			var total = new int[items];
 			double[] wrs = new double[items];
 			Debug.WriteLine("Start Monte");
+
+
+            // can parallellize here TODO 
+
 
 			for (int item = 0; item < items; ++item)
 			{
@@ -118,7 +122,7 @@ namespace Players
 			Debug.WriteLine("resetting game state");
 
 			var tup = MinMaxIdx(results);
-			if (Scorer.gameWorld != null)
+			if (gameContext.gameWorld != null)
 			{
 				//var max = results[tup.Item2] / total[tup.Item2];
 				//var min = results[tup.Item1] / total[tup.Item1];
@@ -130,8 +134,8 @@ namespace Players
 					min = Math.Min(min, d);
 				}
 				var variance = Math.Abs(max - min);
-				Scorer.gameWorld.variance.Add(variance);
-				Scorer.gameWorld.Lead(gameContext.instance.currentPlayer.Peek().idx).Add(max);
+				gameContext.gameWorld.variance.Add(variance);
+				gameContext.gameWorld.Lead(gameContext.instance.currentPlayer.Peek().idx).Add(max);
 
 			}
             Debug.WriteLine("AI Finished.");

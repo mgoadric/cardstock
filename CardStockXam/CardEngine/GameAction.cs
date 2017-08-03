@@ -64,18 +64,18 @@ namespace CardEngine {
             if (start.name != null) {
                 //Console.WriteLine(start.name);
                 if (start.name.Contains("{mem}") && !start.actual) {
-                    Console.WriteLine(start.name + ", " + end.name);
+                    Debug.WriteLine(start.name + ", " + end.name);
                     throw new NotSupportedException();
                 }
             }
             else if (end.nonPhysical) {
-				Console.WriteLine("end is not physical");
+				Debug.WriteLine("end is not physical");
 
 				throw new NotSupportedException();
             }
             else if (end.name != null) {
                 if (end.name.Contains("{mem}")) {
-					Console.WriteLine("end name is mem loc");
+					Debug.WriteLine("end name is mem loc");
 
 					throw new NotSupportedException();
                 }
