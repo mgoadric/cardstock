@@ -42,53 +42,42 @@
       ;; players play a hand once
       (stage player
          (end (== (size (game iloc STOCK)) 0))
-         ;; this test filter processes correctly & moves all cards to discard with either
-         ;; "any" or "let" - likely there is just an error in the subsequent choice block 
-           (do (
-              (all 'COLORS 'C
-                   
-                   (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR
-                   
-                               ((== (size 'MYCOLOR) 20)
-                                (set (game sto WORKS) 12))))
-                              
-              ))
+       
            
        
-        (do (
-             (set (game sto CONTINUED) 1)))
+       
          ;; Play a card from your hand
-         (do (
-              (all 'COLORS 'C
-                   ;; ask about filter statements
-                   ;; make sure let works
-                   ;; mycolor is not turning into fancycardlocation 
-                   (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR
-                    
-                     (choice (
-                            
-                              ((> (size 'MYCOLOR) 0)                    
-                               (any 'MYCOLOR 'AC
-                                    (do (
-                                         (move 'AC (top (game vloc 'C)))
-                                         (set (game sto 'C) 1)
-                                         ))))
-                              ((and (== (size ((current player) vloc 'C)) 0)
-                                    (> (size 'MYCOLOR) 0))               
-                               (any 'MYCOLOR 'AC
-                                    (move 'AC
-                                          (top ((current player) vloc 'C)))))        
-                              ((> (size ((current player) vloc 'C)) 0)
-                              (let (filter 'MYCOLOR 'MCTWO (> (score 'MCTWO using 'PRECEDENCE)
-                                                              (score (top ((current player) vloc 'C)) using 'PRECEDENCE))) 'MYCOLORBIG
-                                ((> (size 'MYCOLORBIG) 0)
-                                 (any 'MYCOLORBIG 'AC 
-                                      (move 'AC 
-                                            (top ((current player) vloc 'C)))))))
+         (choice (
+             (any 'COLORS 'C 
+
+              (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR 
+              ((> (size 'MYCOLOR) 0)
+               
+               (any 'MYCOLOR 'AC
+                    (do (
+                         (move 'AC (top (game vloc 'C)))
+                         (set (game sto 'C) 1)
+                         ))))))
+
+             (any 'COLORS 'C 
+              (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR
+              ((and (== (size ((current player) vloc 'C)) 0)
+                    (> (size 'MYCOLOR) 0))               
+               (any 'MYCOLOR 'AC
+                    (move 'AC
+                          (top ((current player) vloc 'C)))))))
+              (any 'COLORS 'C 
+              (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR
+              ((> (size ((current player) vloc 'C)) 0)
+               (let (filter 'MYCOLOR 'MCTWO (> (score 'MCTWO using 'PRECEDENCE)
+                                               (score (top ((current player) vloc 'C)) using 'PRECEDENCE))) 'MYCOLORBIG
+                 ((> (size 'MYCOLORBIG) 0)
+                  (any 'MYCOLORBIG 'AC 
+                       (move 'AC 
+                             (top ((current player) vloc 'C)))))))))
               
-                              ))   
-                     )    
-         )))
+           
+         ))
              
              ;; Draw a card
          
