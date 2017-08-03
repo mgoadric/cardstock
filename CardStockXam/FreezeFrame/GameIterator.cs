@@ -17,7 +17,8 @@ namespace FreezeFrame
         public World gameWorld;
 
 		public GameIterator Clone(CardGame cg){
-            var ret = new GameIterator (game, cg, false);
+            // CHANGED HERE TODO 
+            var ret = new GameIterator (game, cg, gameWorld, false);
 			var revStack = new Stack<Queue<IParseTree>> ();
 			foreach (var i in iterStack) {
 				revStack.Push (i);
@@ -36,9 +37,9 @@ namespace FreezeFrame
 			return ret;
 		}
 
-		public GameIterator (RecycleParser.GameContext g, CardGame mygame, bool fresh = true)
+		public GameIterator (RecycleParser.GameContext g, CardGame mygame, World gameWorld, bool fresh = true)
 		{
-            gameWorld = new World();
+            this.gameWorld = gameWorld;
 			game = g;
             instance = mygame;
 			iterStack = new Stack<Queue<IParseTree>>();

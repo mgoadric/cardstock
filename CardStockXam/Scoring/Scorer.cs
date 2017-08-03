@@ -102,12 +102,14 @@ namespace CardStockXam
 
         // define heuristics here
         public double Score(){
-            // static world here 
+            
             gameWorld = new World();
             gameWorld.testing = testing;
             for (int i = 0; i < exps.Count; i++){
+                // TODO CHANGED HERE 
                 Debug.WriteLine("Experiment " + i);
                 engine = new ParseEngine(exps[i]);
+                engine.setWorld(gameWorld);
                 var tup = engine.Loader();
 
            
@@ -130,6 +132,7 @@ namespace CardStockXam
                 if (testing){
                     Console.WriteLine(output);
                 }
+                Console.WriteLine(output);
                 total += score;
             }
             return total;

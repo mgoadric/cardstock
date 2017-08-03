@@ -37,7 +37,6 @@ namespace CardStockXam.Scoring
             return files;
         }
 
-        public string Initial() { return "Gamepool\\Initial"; }
         public string Pool() { return Pool(rep); }
         public string NextPool() { return Pool(rep + 1); }
         public string Pool(int i) { return "Gamepool\\Pool" + i; }

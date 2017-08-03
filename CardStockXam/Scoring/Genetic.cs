@@ -8,7 +8,6 @@ namespace CardStockXam
 {
     class Genetic
     {
-        // static mostly here TODO 
         private static int repetitions = 3;
         private static int numKept = 3;//10;
         private static double crossoverRate = .4;

@@ -11,6 +11,7 @@ using Antlr4.Runtime.Tree;
 using CardGames;
 using CardStockXam;
 using Players;
+using CardStockXam.Scoring;
 
 // add basic stats (% wins)
 public class ParseEngine
@@ -18,6 +19,8 @@ public class ParseEngine
 
     public Experiment exp;
     public RecycleParser.GameContext tree;
+    // TODO CHANGED HERE
+    public World gameWorld;
     public string fileName;
 
     public ParseEngine(Experiment exp)
@@ -83,6 +86,10 @@ public class ParseEngine
         return HasShuffleAndChoice(tree);
 
     }
+    // CHANGED HERE TODO 
+    public void setWorld(World gameWorld) {
+        this.gameWorld = gameWorld;
+    }
 
     public bool Experimenter() {
         int choiceCount = 0;
@@ -95,6 +102,9 @@ public class ParseEngine
        
         Stopwatch time = new Stopwatch();
         time.Start();
+
+
+
        
 
 
@@ -111,7 +121,8 @@ public class ParseEngine
                 System.GC.Collect();
 
                 CardEngine.CardGame instance = new CardEngine.CardGame(true, exp.fileName + i);
-                var manageContext = new FreezeFrame.GameIterator(tree, instance);
+                // TODO CHANGED HERE
+                var manageContext = new FreezeFrame.GameIterator(tree, instance, gameWorld);
 
                 // TODO add so can have 4 AI players
                 if (exp.ai1)
@@ -148,7 +159,7 @@ public class ParseEngine
                     if (results[j].Item2 == 0 && j != results.Count - 1)
                     {
                         winaggregator[i / (exp.numGames / exp.numEpochs)]++;
-                        if (Scorer.gameWorld != null) { Scorer.gameWorld.GameOver(j); }
+                        if (manageContext.gameWorld != null) { manageContext.gameWorld.GameOver(j); }
                     }
                 }
 
@@ -216,17 +227,21 @@ public class ParseEngine
         else
         {
             // USE RESULTS IN GENETIC ALGORITHM
-            Scorer.gameWorld.numFirstWins += winaggregator[0];
-            Scorer.gameWorld.numGames += winaggregator.Sum();
+            gameWorld.numFirstWins += winaggregator[0];
+            gameWorld.numGames += winaggregator.Sum();
+            //Scorer.gameWorld.numFirstWins += winaggregator[0];
+            //Scorer.gameWorld.numGames += winaggregator.Sum();
             if (exp.ai1 && !exp.ai2)
             {
-                Scorer.gameWorld.numAIWins += winaggregator[0]; //TODO does this do what i think it does?
-                if (winaggregator.Length > 1) { Scorer.gameWorld.numRndWins += winaggregator[1]; }
+                gameWorld.numAIWins += winaggregator[0];
+                //Scorer.gameWorld.numAIWins += winaggregator[0]; //TODO does this do what i think it does?
+                if (winaggregator.Length > 1) { gameWorld.numRndWins += winaggregator[1]; }//Scorer.gameWorld.numRndWins += winaggregator[1]; }
             }
             else if (!exp.ai1 && exp.ai2)
             {
-                Scorer.gameWorld.numRndWins += winaggregator[0];
-                if (winaggregator.Length > 1) { Scorer.gameWorld.numAIWins += winaggregator[1]; }
+                gameWorld.numRndWins += winaggregator[0];
+                //Scorer.gameWorld.numRndWins += winaggregator[0];
+                if (winaggregator.Length > 1) { gameWorld.numAIWins += winaggregator[1]; }//Scorer.gameWorld.numAIWins += winaggregator[1]; }
             }
         }
         return true;

@@ -13,16 +13,16 @@ namespace CardGames
         public static void Main(string[] args)
         {
             var p = new Program();
-            //p.SingleGame("Pairs");
-            p.AllGames();
+            p.SingleGame("Pairs");
+            //p.AllGames();
         }
 
         void SingleGame(string game) {
 			var exp = new Experiment();
 			exp.fileName = game;
             // System.Console.WriteLine(g.Substring(6, g.Length - 4));
-            exp.numGames = 100;
-			exp.numEpochs = 10;
+            exp.numGames = 10;
+			exp.numEpochs = 1;
 
             exp.logging = false;
             // TODO make for as many players as in game 
