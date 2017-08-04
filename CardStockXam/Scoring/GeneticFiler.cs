@@ -20,7 +20,7 @@ namespace CardStockXam.Scoring
             repetitions = r;
             rep = -1;
             deleteAllOldFiles();
-            moveAllFiles("Gamepool\\Initial", NextPool(), true);
+            moveAllFiles(Path.Combine("Gamepool", "Initial"), NextPool(), true);
         }
 
         public void newIter(){
@@ -37,10 +37,11 @@ namespace CardStockXam.Scoring
             return files;
         }
 
+        public string Initial() { return Path.Combine("Gamepool", "Initial"); }        
         public string Pool() { return Pool(rep); }
         public string NextPool() { return Pool(rep + 1); }
-        public string Pool(int i) { return "Gamepool\\Pool" + i; }
-        public string Intermediate() { return "Gamepool\\Intermediate" + rep; }
+        public string Pool(int i) { return Path.Combine("Gamepool", "Pool" + i); } 
+        public string Intermediate() { return Path.Combine("Gamepool", "Intermediate" + rep); }
 
         public void moveAllFiles(string start, string end, bool copy = false, string[] files = null)
         {
@@ -133,7 +134,7 @@ namespace CardStockXam.Scoring
 
         private string Trim(string s)
         {
-            var paths = s.Split('\\');
+            var paths = s.Split(Path.DirectorySeparatorChar);
             s = paths[paths.Count() - 1];
             s = s.Split('.')[0];
             return s;
@@ -141,7 +142,7 @@ namespace CardStockXam.Scoring
 
         internal void WriteTranscript(string text)
         {
-            var name = "Gamepool\\Transcript" + rep + ".txt";
+            var name = Path.Combine("Gamepool", "Transcript" + rep + ".txt");
             if (!File.Exists(name)){
                 File.WriteAllText(name, text);
             }

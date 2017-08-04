@@ -50,11 +50,11 @@ public class ParseEngine
         }
         else
         {
-            string[] split = new string[] { "Release\\" };
+            string[] split = new string[] { "Release" + Path.DirectorySeparatorChar };
             var path = fileName.Split(split, StringSplitOptions.RemoveEmptyEntries);
             if (path.Count() == 1)
             {
-                split = new string[] { "Debug\\" };
+                split = new string[] { "Debug" + Path.DirectorySeparatorChar };
                 path = fileName.Split(split, StringSplitOptions.RemoveEmptyEntries);
             }
             fileName = path[1] + ".gdl";
@@ -92,21 +92,17 @@ public class ParseEngine
     }
 
     public bool Experimenter() {
-        int choiceCount = 0;
+      
 		int numPlayers = 0;
 		var aggregator = new int[5, exp.numEpochs];
         var winaggregator = new int[exp.numEpochs];
         bool compiling = true;
+        int choiceAgg = 0;
         int[,] playerRank = new int[5, exp.numEpochs];
         int[,] playerFirst = new int[5, exp.numEpochs];
        
         Stopwatch time = new Stopwatch();
         time.Start();
-
-
-
-       
-
 
         /***********
          * Run the experiments
@@ -117,7 +113,7 @@ public class ParseEngine
         {
             try
             {
-                
+                int choiceCount = 0;
                 System.GC.Collect();
 
                 CardEngine.CardGame instance = new CardEngine.CardGame(true, exp.fileName + i);
@@ -138,7 +134,12 @@ public class ParseEngine
                 while (!manageContext.AdvanceToChoice())
                 {
                     choiceCount++;
+                    choiceAgg++;
                     manageContext.ProcessChoice();
+                    if (choiceCount > 5000) {
+                        Console.WriteLine("Choices not processed (probably infinite loop)");
+						compiling = false;
+                    }
                 }
 
                 // SORT OUT RESULTS
@@ -184,7 +185,7 @@ public class ParseEngine
         {
             // SHOW RESULTS TO CONSOLE
             Console.Out.WriteLine(time.Elapsed);
-            Console.Out.WriteLine("Turns per game: " + choiceCount / (double)(exp.numGames));
+            Console.Out.WriteLine("Turns per game: " + choiceAgg / (double)(exp.numGames));
             Console.Out.WriteLine("Score: ");
             for (int i = 0; i < numPlayers; ++i)
             {
