@@ -44,6 +44,7 @@ public class ParseEngine
          * Load up the game from the .gdl RECYCLE description
          ************/
         fileName = exp.fileName;
+        /*
         if (!exp.evaluating)
         {
             fileName = "games/" + fileName + ".gdl";
@@ -58,7 +59,7 @@ public class ParseEngine
                 path = fileName.Split(split, StringSplitOptions.RemoveEmptyEntries);
             }
             fileName = path[1] + ".gdl";
-        }
+        }*/
         Console.WriteLine("name: " + fileName);
         var file = File.ReadAllText(fileName);
         file = regex.Replace(file, "\n");
@@ -136,9 +137,10 @@ public class ParseEngine
                     choiceCount++;
                     choiceAgg++;
                     manageContext.ProcessChoice();
-                    if (choiceCount > 5000) {
+                    if (choiceCount > 500) {
                         Console.WriteLine("Choices not processed (probably infinite loop)");
 						compiling = false;
+                        break;
                     }
                 }
 

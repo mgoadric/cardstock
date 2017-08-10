@@ -4,9 +4,9 @@ using System.Linq;
 using System.Diagnostics;
 using CardStockXam.Scoring;
 
-namespace CardStockXam
+namespace CardStockXam.Scoring
 {
-    class Genetic
+    public class Genetic
     {
         private static int repetitions = 3;
         private static int numKept = 3;//10;
@@ -14,6 +14,7 @@ namespace CardStockXam
         private static double mutationRate = .4;
         private static int numMutations = 2;
         private static int minimumChildren = 6;//(int) Math.Floor(numKept * 1.5);
+
 
         private static bool crossingOver = false;
         private static bool mutating = true;
@@ -95,9 +96,14 @@ namespace CardStockXam
                 newFiles = filer.GetFullPathFiles(filer.Intermediate());
                 double[] scores = new double[newFiles.Count()];
                 for (int i = 0; i < newFiles.Count(); i++) { // get scores
-                    Scorer s = new Scorer(newFiles[i].Substring(0, newFiles[i].Length - 3));
-                    scores[i] = s.Score();
+                    Scorer s = new Scorer(newFiles[i].Substring(0, newFiles[i].Length - 4));
+
+                    List<double> temp = s.Score();
+
                     filer.WriteTranscript(s.text);
+                    foreach (double d in temp) {
+                        scores[i] += d;
+                    }
                     var text = "File " + newFiles[i] + "'s score is " + scores[i];
                     Debug.WriteLine(text);
                     transcript += text + "\n";

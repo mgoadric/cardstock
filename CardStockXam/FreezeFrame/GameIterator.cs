@@ -65,7 +65,13 @@ namespace FreezeFrame
 		}
 
 		public bool AdvanceToChoice(){
+            int count = 0;
 			while (iterStack.Count != 0 && !ProcessSubStage()) {
+                count++;
+                if (count > 500) {
+                    Console.WriteLine("Game stuck in loop");
+                    return true; // game stuck in loop
+                }
 			}
 			if (iterStack.Count == 0) {
 				return true; // game over

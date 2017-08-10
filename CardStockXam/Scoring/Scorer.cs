@@ -12,16 +12,50 @@ namespace CardStockXam
     class Scorer{
         private List<Experiment> exps = new List<Experiment>();
         private ParseEngine engine;
+        public string name = "temp";
         // Static here TODO 
         public static World gameWorld;
         public string text;
 
-        private int numRndvRnd = 10;
-        private int numAIvRnd  = 2;
-        private int numAIvAI   = 2;
+        private int numRndvRnd = 5;
+        private int numAIvRnd  = 1;
+        private int numAIvAI   = 1;
 
         private bool testing = false;
 
+
+        public static void Main(string[] args) {
+			List<string> gameFiles = new List<string>();
+			string[] allFiles = System.IO.Directory.GetFiles("games/");
+            List<Tuple<string, List<double>>> scores = new List<Tuple<string, List<double>>>();
+			foreach (string s in allFiles)
+			{
+				if (s.EndsWith(".gdl"))
+				{
+					gameFiles.Add(s);
+				}
+			}
+            foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
+            {
+
+                Console.WriteLine(name);
+                var p = new Scorer(name);
+                var score = p.Score();
+                var tupl = Tuple.Create(name.Substring(6, name.Length - 10), score);
+                scores.Add(tupl);
+            }
+            foreach (Tuple<string, List<double>> t in scores.GetRange(0, scores.Count)) {
+                Console.WriteLine(t.Item1 + "\t");
+                foreach (double d in t.Item2) {
+                    Console.Write(d + "\t");
+                }
+                Console.Write("\n");
+            }
+
+        }
+
+
+       
        
 
         // list of heuristic values
@@ -38,47 +72,50 @@ namespace CardStockXam
 
         public Scorer(string fileName)
         {
-            bool first = true;
+          
             text = "Scoring " + fileName + ":\n";
-            for (int i = 0; i < numRndvRnd; i++){
-                exps.Add(new Experiment()
-                {
-                    fileName = fileName,
-                    numGames = 1,
-                    numEpochs = 1,
-                    logging = false,
-                    evaluating = true,
-                    first = first
-                });
-                first = false;
-            }
-            for (int i = 0; i < numAIvRnd; i++){
-                exps.Add(new Experiment()
-                {
-                    fileName = fileName,
-                    numGames = 1,
-                    numEpochs = 1,
-                    logging = false,
-                    evaluating = true,
-                    ai1 = true
-                });
-            }
-            for (int i = 0; i < numAIvAI; i++){
-                exps.Add(new Experiment(){
-                    fileName = fileName,
-                    numGames = 1,
-                    numEpochs = 1,
-                    logging = false,
-                    evaluating = true,
-                    ai1 = true,
-                    ai2 = true
-                });
-            }
+
+
+
+            exps.Add(new Experiment()
+            {
+                fileName = fileName,
+                numGames = numRndvRnd,
+                numEpochs = 1,
+                logging = false,
+                evaluating = true,
+
+            });
+           
+
+
+            exps.Add(new Experiment()
+            {
+                fileName = fileName,
+                numGames = numAIvRnd,
+                numEpochs = 1,
+                logging = false,
+                evaluating = true,
+                ai1 = true
+            });
+        
+
+            exps.Add(new Experiment(){
+                fileName = fileName,
+                numGames = numAIvAI,
+                numEpochs = 1,
+                logging = false,
+                evaluating = true,
+                ai1 = true,
+                ai2 = true
+            });
+
         }
 
         public Scorer(string fileName, bool b){
             testing = b;
             text = "Scoring " + fileName + ":\n";
+
             exps.Add(new Experiment(){
                 fileName = fileName,
                 numGames = 2,
@@ -86,7 +123,6 @@ namespace CardStockXam
                 logging = b,
                 evaluating = true,
                 ai1 = true,
-                first = true
             });
             exps.Add(new Experiment(){
                 fileName = fileName,
@@ -96,17 +132,18 @@ namespace CardStockXam
                 evaluating = true,
                 ai1 = true,
                 ai2 = true,
-                first = true
             });
         }
 
         // define heuristics here
-        public double Score(){
+        public List<double> Score(){
             
+            //var path = Path.Combine("Gamepool", "Scoring" + name + ".txt");
             gameWorld = new World();
+            List<double> empty = new List<double>();
+            empty.Add(0.0);
             gameWorld.testing = testing;
             for (int i = 0; i < exps.Count; i++){
-                // TODO CHANGED HERE 
                 Debug.WriteLine("Experiment " + i);
                 engine = new ParseEngine(exps[i]);
                 engine.setWorld(gameWorld);
@@ -114,27 +151,45 @@ namespace CardStockXam
 
            
                
-                if (!tup.Item1) { Debug.WriteLine("not shuffling"); return 0.0; }
-                if (!tup.Item2) { Debug.WriteLine("no choice"); return 0.0; }
+                if (!tup.Item1) { Debug.WriteLine("not shuffling"); return empty; }
+                if (!tup.Item2) { Debug.WriteLine("no choice"); return empty; }
 
                 var compiling = engine.Experimenter();
-                if (!compiling) {Debug.WriteLine("not compiling"); return 0.0; }
+                if (!compiling) {Debug.WriteLine("not compiling"); return empty; }
             }
 
             gameWorld.EvalOver();
             Debug.WriteLine("passed reasonable");
-            double total = 0;
+            List<double> total = new List<double>();
+            var cleanoutput = "";
             foreach (Heuristic h in hs){
                 var score = h.Eval(gameWorld);
                 var output = "Heuristic " + h.ToString() + " returned " + (score / h.Weight()) +
                         " with weight " + h.Weight() + " for total score: " + score;
+                var split = h.ToString().Split('.');
+                var heuristic = split[split.Length - 1];
+                cleanoutput += heuristic + ": " + score + "\n";
                 text += "    " + output;
                 if (testing){
                     Console.WriteLine(output);
                 }
+				
                 Console.WriteLine(output);
-                total += score;
+                total.Add(score);
             }
+            /*
+			if (!File.Exists(path))
+			{
+				File.WriteAllText(path, cleanoutput + "\n\n----\n\n\t");
+			}
+			else
+			{
+				using (StreamWriter file = new StreamWriter(path, true))
+				{
+					file.WriteLine(cleanoutput + "\n\n----\n\n");
+				}
+			}*/
+			
             return total;
         }
         public bool parseBool(string line)

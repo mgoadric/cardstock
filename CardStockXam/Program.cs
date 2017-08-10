@@ -3,6 +3,7 @@ using CardEngine;
 using Players;
 using System.IO;
 using System.Threading;
+using CardStockXam.Scoring;
 
 namespace CardGames
 {
@@ -12,10 +13,15 @@ namespace CardGames
     {
         public static void Main(string[] args)
         {
-            var p = new Program();
-            p.SingleGame("Pairs");
-            //p.AllGames();
+            CardStockXam.Scorer.Main(args);
+            //var p = new Program();
+            //p.SingleGame("generated2");
+            // p.AllGames();
+
+
         }
+
+
 
         void SingleGame(string game) {
 			var exp = new Experiment();

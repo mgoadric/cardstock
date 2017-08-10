@@ -16,6 +16,7 @@ namespace CardStockXam.Scoring
         private int numMutations;
         private GeneticFiler filer;
         private bool printing;
+        public int numFile;
 
         private Random rnd = new Random();
         private Regex regex = new Regex("(;;)(.*?)(\n)");
@@ -27,6 +28,7 @@ namespace CardStockXam.Scoring
 
         public Generator(GeneticFiler f, int numMutations, bool printing) {
             filer = f;
+            numFile = 0;
             this.numMutations = numMutations;
             this.printing = printing;
         }
@@ -71,7 +73,8 @@ namespace CardStockXam.Scoring
         public void Mutate(string parent)
         {
             var folder = filer.Intermediate() + "/";
-            string childName = filer.MutName(parent); 
+            string childName = numFile.ToString() + filer.MutName(parent);
+            numFile++;
             var parser = OpenParser(parent);
             var game = parser.game();
             string child = game.GetText();

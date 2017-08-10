@@ -1,0 +1,149 @@
+(game
+    (declare 5 'A)
+    (setup
+      (create players 2)
+      (create teams (0) (1))
+      (create deck (game vloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                             (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                   (BLACK (SUIT (CLUBS, SPADES))))))
+   )
+   (do (
+        (put points 'POINTS (
+
+                               ((RANK (A)) 14)
+                               ((RANK (K)) 13)
+                               ((RANK (Q)) 12)
+                               ((RANK (J)) 11)
+                               ((RANK (TEN)) 10)
+                               ((RANK (NINE)) 9)
+                               ((RANK (EIGHT)) 8)
+                               ((RANK (SEVEN)) 7)
+                               ((RANK (SIX)) 6)
+                               ((RANK (FIVE)) 5)
+                               ((RANK (FOUR)) 4)
+                               ((RANK (THREE)) 3)
+                               ((RANK (TWO)) 2)
+                               ))
+
+
+      (all player 'P
+            (repeat 10
+               (move (top (game iloc STOCK))
+                     (top ('P iloc HAND))))
+
+         ))
+      )
+
+
+( stage player ( end ( and ( all ( other team )
+ 'J 
+( bottom ( tuples ( - ( ( team ( previous player )
+ ) sto STOCK ) 
+( game sto HAND )
+ ) 
+( union ( any player 'N ( != ( game sto HAND )
+ 
+( game sto YCNWQ )
+ ) ) ) using 'POINTS) ) ) 
+( any ( other player )
+ 'I 
+( ( any ( STOCK )
+ 'F 
+( ' N vloc STOCK )
+ ) 
+( do ( ( let 2 'E ( dec ( sto STOCK )
+ ' E ) ) 
+( let YCNWQ 'A ( do ( ( move ( actual ( actual ( min ( filter player 'R ( == ( max ( ( ( sto STOCK )
+ player ) vloc HAND ) using 'POINTS) 
+( bottom ( top ( tuples ( + ' E ( % ( ( owner ( max ( ' R hloc HAND )
+ using 'POINTS) ) sto ' A ) 
+( size ( tuples ( // ( - ' E ( - 3 ' E )
+ ) 
+( * ( score ( max ( union ( ( next player )
+ mem ' A ) ) using 'POINTS) using 'POINTS) 
+( - ( score ( max ( union ( filter team 'B ( all ( team ( current player )
+ ) 'I 
+( ( owner ( min ( game hloc ICQAW )
+ using 'POINTS) ) sto YCNWQ ) ) ) ) using 'POINTS) using 'POINTS) 
+( // ( sto ' A )
+ 
+( + ' E ( sum ( game vloc HAND )
+ using 'POINTS) ) ) ) ) ) 
+( union ( ( * ' E ' E )
+ 
+( tuples ( * ( - ( game sto DLCID )
+ 
+( // 3 3 )
+ ) 4 ) 
+( ( owner ( max ( union ( any team 'Y ( filter ( range ( // ' E ' E )
+ .. 
+( score ( max ( ' R hloc STOCK )
+ using 'POINTS) using 'POINTS) ) 'C 
+( any ' U 'U ( game sto HAND )
+ ) ) ) ) using 'POINTS) ) iloc ' A ) using 'POINTS) ) ) using 'POINTS) ) ) ) 
+( union ' U )
+ using 'POINTS) ) ) ) ) using 'POINTS) ) ) 
+( actual ( bottom ( top ( tuples ( score ( min ' U using 'POINTS)
+ using 'POINTS) 
+( filter player 'L ( == ( owner ( max ' U using 'POINTS)
+ ) 
+( ( sum ( game vloc ' A )
+ using 'POINTS) player ) ) ) using 'POINTS) ) ) ) ) ) ) ) ) ) ) ) ) ) 
+( any team 'D ( union ( filter ( range ( * ( % ( ( team ( owner ( max ( ( previous player )
+ vloc STOCK ) using 'POINTS) ) ) sto PTREM ) ' E ) 
+( + ( // 2 8 )
+ 
+( // 4 ( sum ' U using 'POINTS)
+ ) ) ) .. 
+( sum ' U using 'POINTS)
+ ) 'J 
+( == ( previous player )
+ 
+( current player )
+ ) ) ) ) 
+( stage player ( end ( any player 'A ( filter player 'C ( != ( owner ( top ( ( % ( ( next player )
+ sto ' A ) 
+( - ( ( ( // 4 5 )
+ player ) sto DLCID ) 8 ) ) 
+( tuples ( score ( max ' U using 'POINTS)
+ using 'POINTS) 
+( game mem DFIAZ )
+ using 'POINTS) ) ) ) 
+( owner ( ( sum ( union ( top ( tuples ( // ( % ( score ( max ( ( previous player )
+ iloc ' A ) using 'POINTS) using 'POINTS) 
+( game sto ' A )
+ ) 
+( size ' U )
+ ) 
+( ( next player )
+ iloc ' A ) using 'POINTS) ) ) using 'POINTS) 
+( union ( ( ( previous player )
+ sto ' A ) 
+( tuples ( sum ' U using 'POINTS)
+ 
+( filter ( let ( == ( current team )
+ 
+( ( sum ( ' L iloc DLCID )
+ using 'POINTS) team ) ) 'G 
+( remember ( actual ( min ' U using 'POINTS)
+ ) 
+( min ' U using 'POINTS)
+ ) ) 'L 
+( == ( min ( ( next player )
+ iloc PZSYR ) using 'POINTS) 
+( max ' U using 'POINTS)
+ ) ) using 'POINTS) ) ) ) ) ) ) ) ) 
+( choice ( ( ( any ( DLCID )
+ 'U 
+( != ( % ( score ( min ( filter player 'J ( all player 'K ( sto ' A )
+ ) ) using 'POINTS) using 'POINTS) ' E ) 
+( game sto ' A )
+ ) ) 
+( turn pass )
+ ) 
+( any ( ICQAW )
+ 'V 
+( game sto ' A )
+ ) ) ) ) ) 
+ (scoring min ((current player) sto A))
+   )
