@@ -14,7 +14,7 @@ namespace CardStockXam.Scoring
 
         public int numAIWins;
         public int numRndWins;
-
+        public int numPlayers;
         //parseengine 208
         public int wins;
         public int numFirstWins;

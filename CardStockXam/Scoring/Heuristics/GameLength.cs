@@ -9,6 +9,8 @@ namespace CardStockXam.Scoring.Heuristics
         int maxLength = 100; //TODO, idk what right number is
         int divisor = 25; //TODO this either
 
+        //
+
         public override double Get(World w)
         {
             Debug.WriteLine("Num turns: " + w.numTurns);

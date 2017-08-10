@@ -101,7 +101,7 @@ public class ParseEngine
         int choiceAgg = 0;
         int[,] playerRank = new int[5, exp.numEpochs];
         int[,] playerFirst = new int[5, exp.numEpochs];
-       
+
         Stopwatch time = new Stopwatch();
         time.Start();
 
@@ -148,6 +148,7 @@ public class ParseEngine
                 if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
                 var results = manageContext.parseoop.ProcessScore(tree.scoring());
                 numPlayers = results.Count;
+                gameWorld.numPlayers = numPlayers;
                 for (int j = 0; j < results.Count; ++j)
                 {
                     aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
@@ -230,8 +231,17 @@ public class ParseEngine
         else
         {
             // USE RESULTS IN GENETIC ALGORITHM
-            gameWorld.numFirstWins += winaggregator[0];
-            gameWorld.numGames += winaggregator.Sum();
+
+            if (!exp.ai1 && !exp.ai2)
+            {
+                var sum = 0;
+                for (int i = 0; i < exp.numEpochs; i++) {
+                    sum += playerFirst[0, i];
+                }
+                gameWorld.numFirstWins += sum;
+
+				gameWorld.numGames += exp.numGames;
+            }
             //Scorer.gameWorld.numFirstWins += winaggregator[0];
             //Scorer.gameWorld.numGames += winaggregator.Sum();
             if (exp.ai1 && !exp.ai2)
