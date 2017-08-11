@@ -135,6 +135,7 @@ namespace Players
                 gameContext.gameWorld.variance.Add(variance);
                 if (type == CardGames.GameType.AllAI)
                 {
+                    Console.WriteLine("works " + max.ToString());
                     gameContext.gameWorld.Lead(gameContext.instance.currentPlayer.Peek().idx, max);
                 }
 			}

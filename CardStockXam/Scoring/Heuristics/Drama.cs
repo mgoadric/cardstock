@@ -3,14 +3,22 @@ using System.Diagnostics;
 
 namespace CardStockXam.Scoring.Heuristics
 {
-    class Drama : Heuristic{
+    class Drama : Heuristic
+    {
 
 
+        // TODO check this out 
+
+
+        /* threshold is .5
+        * if the winner's choices never drop below .5, drama should be 0
+        * otherwise, use function in phd paper to find drama */
 
         public override double Get(World w)
 
         {
             return 0;
+        }
             /*
 
 			// todo difficult to balance drama & decisiveness 
@@ -54,11 +62,12 @@ namespace CardStockXam.Scoring.Heuristics
                 return 0.0;
             }
             return tot / numEvaluated * 4;*/
-        }
+    
 
-        public override double Weight()
+    public override double Weight()
         {
             return 0.25;
         }
+
     }
 }
