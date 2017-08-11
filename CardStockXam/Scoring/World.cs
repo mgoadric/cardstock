@@ -3,15 +3,16 @@ using System.Collections.Generic;
 
 namespace CardStockXam.Scoring
 {
-    public class World{ // a world contains all pertinent information for heuristics
+    public class World
+    { // a world contains all pertinent information for heuristics
         public bool testing = false;
 
         public bool compiling = true;
         public bool hasShuffle = false;
         public bool hasChoice = false;
-
+        public int numAIvsRnd = 0;
         public int numGames;
-
+        public int numAIvsAI = 0;
         public int numAIWins;
         public int numRndWins;
         public int numPlayers;
@@ -31,33 +32,62 @@ namespace CardStockXam.Scoring
         //is this even reasonable? probably not
         public int numRules;
 
-        public List<List<double>> leadP1 = new List<List<double>>();
-        public List<List<double>> leadP2 = new List<List<double>>();
-        public List<bool> winners = new List<bool>();
+        //public List<List<double>>[] lead = new List<List<double>>[numPlayers]();
+        public List<int> winners = new List<int>();
+        public List<List<double>>[] lead;
+
 
         public double numTurns;
 
         //Heuristics to implement, but how?
-            //interactivity
-            //clarity
+        //interactivity
+        //clarity
 
-        public World(){
-            leadP1.Add(new List<double>());
-            leadP2.Add(new List<double>());
+        public void PopulateLead()
+        {
+            if (lead == null)
+            {
+                lead = new List<List<double>>[numPlayers];
+                for (int i = 0; i < lead.Length; i++)
+                {
+                    lead[i] = new List<List<double>>();
+                    lead[i].Add(new List<double>());
+                }
+            }
+
         }
 
-        public void GameOver(int winner){
-            leadP1.Add(new List<double>());
-            leadP2.Add(new List<double>());
-            winners.Add(winner == 0 ? true : false);
+
+
+        public void GameOver(int winner)
+        {
+            winners.Add(winner);
+            // getting ready for next game! i promise this makes sense 
+            for (int i = 0; i < lead.Length; i++)
+            {
+                lead[i].Add(new List<double>());
+            }
+
         }
 
-        public void EvalOver(){
-            if (leadP1[leadP1.Count - 1].Count == 0) { leadP1.RemoveAt(leadP1.Count - 1); }
-            if (leadP2[leadP2.Count - 1].Count == 0) { leadP2.RemoveAt(leadP2.Count - 1); }
+
+
+        public void EvalOver()
+        {
+            // getting rid of one extra lead lists 
+            for (int i = 0; i < lead.Length; i++)
+            {
+                if (lead[i][lead[i].Count - 1].Count == 0)
+                {
+                    lead[i].RemoveAt(lead[i].Count - 1);
+                }
+            }
+
         }
-        public List<double> Lead(int idx){
-            var l = idx == 0 ? leadP1 : leadP2;
-            return l[l.Count - 1]; }
+        public void Lead(int idx, double score)
+        {
+            lead[idx][lead[idx].Count - 1].Add(score);
+
+        }
     }
 }

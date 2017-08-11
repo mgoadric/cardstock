@@ -17,8 +17,8 @@ namespace CardStockXam
         public static World gameWorld;
         public string text;
 
-        private int numRndvRnd = 50;
-        private int numAIvRnd  = 0;
+        private int numRndvRnd = 0;
+        private int numAIvRnd  = 10;
         private int numAIvAI   = 0;
 
         private bool testing = false;
@@ -55,8 +55,8 @@ namespace CardStockXam
         }
 
 
-       
-       
+
+
 
         // list of heuristic values
         private List<Heuristic> hs = new List<Heuristic>() {
@@ -67,7 +67,8 @@ namespace CardStockXam
             new Fairness(),
             new GameLength(),
             new NoTies(),
-            new Drama()
+            new Drama(),
+            new Decisiveness()
         };
 
         public Scorer(string fileName)

@@ -19,7 +19,6 @@ public class ParseEngine
 
     public Experiment exp;
     public RecycleParser.GameContext tree;
-    // TODO CHANGED HERE
     public World gameWorld;
     public string fileName;
 
@@ -76,6 +75,7 @@ public class ParseEngine
         this.tree = parser.game();
 
 
+
         /***********
          * Make the parse tree visualization
          ***********/
@@ -93,15 +93,19 @@ public class ParseEngine
     }
 
     public bool Experimenter() {
-      
-		int numPlayers = 0;
+
+        int numPlayers = 0;
+
 		var aggregator = new int[5, exp.numEpochs];
         var winaggregator = new int[exp.numEpochs];
         bool compiling = true;
         int choiceAgg = 0;
         int[,] playerRank = new int[5, exp.numEpochs];
         int[,] playerFirst = new int[5, exp.numEpochs];
-
+        if (exp.ai1 && exp.ai2)
+        {
+            gameWorld.numAIvsAI = exp.numGames;
+        }
         Stopwatch time = new Stopwatch();
         time.Start();
 
@@ -112,63 +116,67 @@ public class ParseEngine
         //for (int i = 0; i < exp.numGames; i++)
         Parallel.For(0, exp.numGames, i =>
         {
-            try
-            {
-                int choiceCount = 0;
-                System.GC.Collect();
+	        try
+	        {
+	            int choiceCount = 0;
+	            System.GC.Collect();
 
-                CardEngine.CardGame instance = new CardEngine.CardGame(true, exp.fileName + i);
-                // TODO CHANGED HERE
-                var manageContext = new FreezeFrame.GameIterator(tree, instance, gameWorld);
+	            CardEngine.CardGame instance = new CardEngine.CardGame(true, exp.fileName + i);
+	            // TODO CHANGED HERE
+	            var manageContext = new FreezeFrame.GameIterator(tree, instance, gameWorld);
 
-                // TODO add so can have 4 AI players
-                if (exp.ai1)
-                {
-                    instance.players[0].decision = new LessThanPerfectPlayer(manageContext);
-                }
-                if (exp.ai2)
-                {
-                    instance.players[1].decision = new LessThanPerfectPlayer(manageContext);
-                }
+	            // TODO add so can have 4 AI players
+	            if (exp.ai1)
+	            {
+	                instance.players[0].decision = new LessThanPerfectPlayer(manageContext);
+	            }
+	            if (exp.ai2)
+	            {
+	                instance.players[1].decision = new LessThanPerfectPlayer(manageContext);
+	            }
 
-                // PLAY THE GAME
-                while (!manageContext.AdvanceToChoice())
-                {
-                    choiceCount++;
-                    choiceAgg++;
-                    manageContext.ProcessChoice();
-                    if (choiceCount > 500) {
-                        Console.WriteLine("Choices not processed (probably infinite loop)");
-						compiling = false;
-                        break;
-                    }
-                }
+	            // PLAY THE GAME
+	            while (!manageContext.AdvanceToChoice())
+	            {
+	                choiceCount++;
+	                choiceAgg++;
+	                manageContext.ProcessChoice();
+	                if (choiceCount > 500)
+	                {
+	                    Console.WriteLine("Choices not processed (probably infinite loop)");
+	                    compiling = false;
+	                    break;
+	                }
+	            }
 
-                // SORT OUT RESULTS
-                if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
-                var results = manageContext.parseoop.ProcessScore(tree.scoring());
-                numPlayers = results.Count;
-                gameWorld.numPlayers = numPlayers;
-                for (int j = 0; j < results.Count; ++j)
-                {
-                    aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
-                    if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
+	            // SORT OUT RESULTS
+	            if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
+	            var results = manageContext.parseoop.ProcessScore(tree.scoring());
+	            numPlayers = results.Count();
+	            for (int j = 0; j < results.Count; ++j)
+	            {
+	                aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
+	                if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
 
-                    playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
-                    // if player was ranked first (could be win or loss)
-                    if (j == 0)
-                    {
-                        playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
-                    }
-                    if (results[j].Item2 == 0 && j != results.Count - 1)
-                    {
-                        winaggregator[i / (exp.numGames / exp.numEpochs)]++;
-                        if (manageContext.gameWorld != null) { manageContext.gameWorld.GameOver(j); }
-                    }
-                }
+	                playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
+	                // if player was ranked first (could be win or loss)
+	                if (j == 0)
+	                {
+	                    playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
+	                }
+	                if (results[j].Item2 == 0 && j != results.Count - 1)
+	                {
+	                    winaggregator[i / (exp.numGames / exp.numEpochs)]++;
+
+	                }
+
+	            }
+	            if (gameWorld != null) { gameWorld.GameOver(results[0].Item2); }
+
 
                 Debug.WriteLine("Finished game " + (i + 1) + " of " + exp.numGames);
             }
+        
             catch (Exception e)
             {
                 Console.WriteLine(fileName + " failed from exception: " + e + "\n\n\n");
@@ -231,13 +239,15 @@ public class ParseEngine
         else
         {
             // USE RESULTS IN GENETIC ALGORITHM
-
+            var sum = 0;
+			for (int i = 0; i < exp.numEpochs; i++)
+			{
+				sum += playerFirst[0, i];
+			}
             if (!exp.ai1 && !exp.ai2)
             {
-                var sum = 0;
-                for (int i = 0; i < exp.numEpochs; i++) {
-                    sum += playerFirst[0, i];
-                }
+                
+
                 gameWorld.numFirstWins += sum;
 
 				gameWorld.numGames += exp.numGames;
@@ -246,15 +256,18 @@ public class ParseEngine
             //Scorer.gameWorld.numGames += winaggregator.Sum();
             if (exp.ai1 && !exp.ai2)
             {
-                gameWorld.numAIWins += winaggregator[0];
+                gameWorld.numAIvsRnd += exp.numGames;
+                gameWorld.numAIWins += sum;
                 //Scorer.gameWorld.numAIWins += winaggregator[0]; //TODO does this do what i think it does?
-                if (winaggregator.Length > 1) { gameWorld.numRndWins += winaggregator[1]; }//Scorer.gameWorld.numRndWins += winaggregator[1]; }
+                //if (winaggregator.Length > 1) { gameWorld.numRndWins += winaggregator[1]; }//Scorer.gameWorld.numRndWins += winaggregator[1]; }
             }
             else if (!exp.ai1 && exp.ai2)
             {
-                gameWorld.numRndWins += winaggregator[0];
+                gameWorld.numAIvsRnd += exp.numGames;
+                // TODO need to change to work with 4 players
+                gameWorld.numRndWins += sum;
                 //Scorer.gameWorld.numRndWins += winaggregator[0];
-                if (winaggregator.Length > 1) { gameWorld.numAIWins += winaggregator[1]; }//Scorer.gameWorld.numAIWins += winaggregator[1]; }
+                //if (winaggregator.Length > 1) { gameWorld.numAIWins += winaggregator[1]; }//Scorer.gameWorld.numAIWins += winaggregator[1]; }
             }
         }
         return true;

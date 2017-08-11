@@ -126,16 +126,13 @@ namespace Players
 			{
 				//var max = results[tup.Item2] / total[tup.Item2];
 				//var min = results[tup.Item1] / total[tup.Item1];
-				var max = 0.0;
-				var min = 1.0;
-				foreach (double d in wrs)
-				{
-					max = Math.Max(max, d);
-					min = Math.Min(min, d);
-				}
+                var max = wrs[tup.Item1];
+                var min = wrs[tup.Item2];
+				
 				var variance = Math.Abs(max - min);
 				gameContext.gameWorld.variance.Add(variance);
-				gameContext.gameWorld.Lead(gameContext.instance.currentPlayer.Peek().idx).Add(max);
+
+                gameContext.gameWorld.Lead(gameContext.instance.currentPlayer.Peek().idx, max);
 
 			}
             Debug.WriteLine("AI Finished.");
