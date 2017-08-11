@@ -15,9 +15,11 @@ namespace Players
     {
         private static int numTests = 10; //previously 20
         private GameIterator gameContext;
+        public CardGames.GameType type;
 
-		public LessThanPerfectPlayer(GameIterator m)
+		public LessThanPerfectPlayer(GameIterator m, CardGames.GameType type)
 		{
+            this.type = type;
 			gameContext = m;
 		}
 
@@ -122,18 +124,19 @@ namespace Players
 			Debug.WriteLine("resetting game state");
 
 			var tup = MinMaxIdx(results);
-			if (gameContext.gameWorld != null)
-			{
-				//var max = results[tup.Item2] / total[tup.Item2];
-				//var min = results[tup.Item1] / total[tup.Item1];
+            if (gameContext.gameWorld != null)
+            {
+                //var max = results[tup.Item2] / total[tup.Item2];
+                //var min = results[tup.Item1] / total[tup.Item1];
                 var max = wrs[tup.Item1];
                 var min = wrs[tup.Item2];
-				
-				var variance = Math.Abs(max - min);
-				gameContext.gameWorld.variance.Add(variance);
 
-                gameContext.gameWorld.Lead(gameContext.instance.currentPlayer.Peek().idx, max);
-
+                var variance = Math.Abs(max - min);
+                gameContext.gameWorld.variance.Add(variance);
+                if (type == CardGames.GameType.AllAI)
+                {
+                    gameContext.gameWorld.Lead(gameContext.instance.currentPlayer.Peek().idx, max);
+                }
 			}
             Debug.WriteLine("AI Finished.");
 

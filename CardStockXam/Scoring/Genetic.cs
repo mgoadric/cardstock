@@ -18,7 +18,6 @@ namespace CardStockXam.Scoring
 
         private static bool crossingOver = false;
         private static bool mutating = true;
-        private static bool testing = false;
         private static bool printingMods = true;
 
         private static GeneticFiler filer = new GeneticFiler();
@@ -28,13 +27,10 @@ namespace CardStockXam.Scoring
 
         public static void Main(string[] args) {
             filer.FixInit();
-            if (testing) {
-                Test();
-            }
-            else {
-                filer.Start(repetitions);
-                GA();
-            }
+
+            filer.Start(repetitions);
+            GA();
+
         }
 
         private static void GA(){
@@ -203,14 +199,7 @@ namespace CardStockXam.Scoring
             return highestIndices.Min;
         }
 
-        private static void Test(){
-            var files = filer.GetFullPathFiles(filer.Initial());
-            for (int i = 0; i < files.Count(); i++){
-                Scorer s = new Scorer(files[i].Substring(0, files[i].Length - 4), true);
-                Console.WriteLine("File " + files[i] + "'s score is " + s.Score());
-            }
-            Console.ReadLine();
-        }
+     
 
     }
 }

@@ -17,11 +17,10 @@ namespace CardStockXam
         public static World gameWorld;
         public string text;
 
-        private int numRndvRnd = 0;
+        private int numRndvRnd = 100;
         private int numAIvRnd  = 10;
-        private int numAIvAI   = 0;
+        private int numAIvAI   = 10;
 
-        private bool testing = false;
 
 
         public static void Main(string[] args) {
@@ -63,11 +62,11 @@ namespace CardStockXam
             new MeaningfulMoves(),
             new Variance(),
             //new Depth(),
-            new ExcessRules(),
+            //new ExcessRules(),
             new Fairness(),
-            new GameLength(),
-            new NoTies(),
-            new Drama(),
+            //new GameLength(),
+            //new NoTies(),
+            //new Drama(),
             new Decisiveness()
         };
 
@@ -87,7 +86,7 @@ namespace CardStockXam
                 evaluating = true,
 
             });
-           
+
 
 
             exps.Add(new Experiment()
@@ -97,44 +96,24 @@ namespace CardStockXam
                 numEpochs = 1,
                 logging = false,
                 evaluating = true,
-                ai1 = true
+                type = GameType.RndandAI
+                    
             });
-        
 
-            exps.Add(new Experiment(){
+
+            exps.Add(new Experiment()
+            {
                 fileName = fileName,
                 numGames = numAIvAI,
                 numEpochs = 1,
                 logging = false,
                 evaluating = true,
-                ai1 = true,
-                ai2 = true
+                type = GameType.AllAI
             });
 
         }
 
-        public Scorer(string fileName, bool b){
-            testing = b;
-            text = "Scoring " + fileName + ":\n";
-
-            exps.Add(new Experiment(){
-                fileName = fileName,
-                numGames = 2,
-                numEpochs = 1,
-                logging = b,
-                evaluating = true,
-                ai1 = true,
-            });
-            exps.Add(new Experiment(){
-                fileName = fileName,
-                numGames = 2,
-                numEpochs = 1,
-                logging = b,
-                evaluating = true,
-                ai1 = true,
-                ai2 = true,
-            });
-        }
+     
 
         // define heuristics here
         public List<double> Score(){
@@ -143,7 +122,6 @@ namespace CardStockXam
             gameWorld = new World();
             List<double> empty = new List<double>();
             empty.Add(0.0);
-            gameWorld.testing = testing;
             for (int i = 0; i < exps.Count; i++){
                 Debug.WriteLine("Experiment " + i);
                 engine = new ParseEngine(exps[i]);
@@ -171,9 +149,7 @@ namespace CardStockXam
                 var heuristic = split[split.Length - 1];
                 cleanoutput += heuristic + ": " + score + "\n";
                 text += "    " + output;
-                if (testing){
-                    Console.WriteLine(output);
-                }
+               
 				
                 Console.WriteLine(output);
                 total.Add(score);

@@ -102,7 +102,7 @@ public class ParseEngine
         int choiceAgg = 0;
         int[,] playerRank = new int[5, exp.numEpochs];
         int[,] playerFirst = new int[5, exp.numEpochs];
-        if (exp.ai1 && exp.ai2)
+        if (exp.type == CardGames.GameType.AllAI)
         {
             gameWorld.numAIvsAI = exp.numGames;
         }
@@ -125,16 +125,15 @@ public class ParseEngine
 	            // TODO CHANGED HERE
 	            var manageContext = new FreezeFrame.GameIterator(tree, instance, gameWorld);
 
-	            // TODO add so can have 4 AI players
-	            if (exp.ai1)
-	            {
-	                instance.players[0].decision = new LessThanPerfectPlayer(manageContext);
-	            }
-	            if (exp.ai2)
-	            {
-	                instance.players[1].decision = new LessThanPerfectPlayer(manageContext);
-	            }
-
+                // TODO add so can have 4 AI players
+                if (exp.type == GameType.AllAI) {
+                    for (int j = 0; j < instance.players.Count; j++) {
+                        instance.players[j].decision = new LessThanPerfectPlayer(manageContext, GameType.AllAI);
+                    }
+                } else if (exp.type == GameType.RndandAI) {
+                    instance.players[0].decision = new LessThanPerfectPlayer(manageContext, GameType.RndandAI);
+                }
+	            
 	            // PLAY THE GAME
 	            while (!manageContext.AdvanceToChoice())
 	            {
@@ -244,7 +243,7 @@ public class ParseEngine
 			{
 				sum += playerFirst[0, i];
 			}
-            if (!exp.ai1 && !exp.ai2)
+            if (exp.type == GameType.AllRnd)
             {
                 
 
@@ -254,21 +253,14 @@ public class ParseEngine
             }
             //Scorer.gameWorld.numFirstWins += winaggregator[0];
             //Scorer.gameWorld.numGames += winaggregator.Sum();
-            if (exp.ai1 && !exp.ai2)
+            else if (exp.type == GameType.RndandAI)
             {
                 gameWorld.numAIvsRnd += exp.numGames;
                 gameWorld.numAIWins += sum;
                 //Scorer.gameWorld.numAIWins += winaggregator[0]; //TODO does this do what i think it does?
                 //if (winaggregator.Length > 1) { gameWorld.numRndWins += winaggregator[1]; }//Scorer.gameWorld.numRndWins += winaggregator[1]; }
             }
-            else if (!exp.ai1 && exp.ai2)
-            {
-                gameWorld.numAIvsRnd += exp.numGames;
-                // TODO need to change to work with 4 players
-                gameWorld.numRndWins += sum;
-                //Scorer.gameWorld.numRndWins += winaggregator[0];
-                //if (winaggregator.Length > 1) { gameWorld.numAIWins += winaggregator[1]; }//Scorer.gameWorld.numAIWins += winaggregator[1]; }
-            }
+
         }
         return true;
     }

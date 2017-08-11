@@ -12,17 +12,18 @@ namespace CardStockXam.Scoring.Heuristics
         {
             return 0.4;
         }
+        // TODO hey this assumes that turns are taken one after another
+        // whereas in games like blackjack several turns can be taken at once 
 
         public override double Get(World w){
             if (w.numAIvsAI == 0) {
+                Console.WriteLine("num: " + w.numAIvsAI);
                 return 0;
             }
             double threshold = 0.8;
             double total = 0;
             int numEvaluated = 0;
-            // lead is never added to - needs to say:
-            // after it is clear this person will win, 
-            // they should just win 
+          
 
 
             for (int i = 0; i < w.lead.Count(); i++){
@@ -35,7 +36,7 @@ namespace CardStockXam.Scoring.Heuristics
                     }
                 }
                 if (current.Count != 0){
-                    total += (mgd - current.Count) / current.Count;
+                    total += (current.Count - mgd) / current.Count;
                     numEvaluated++;
                 }
             }
