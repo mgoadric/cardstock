@@ -87,7 +87,6 @@ public class ParseEngine
         return HasShuffleAndChoice(tree);
 
     }
-    // CHANGED HERE TODO 
     public void setWorld(World gameWorld) {
         this.gameWorld = gameWorld;
     }
@@ -97,7 +96,6 @@ public class ParseEngine
         int numPlayers = 0;
 
 		var aggregator = new int[5, exp.numEpochs];
-        var winaggregator = new int[exp.numEpochs];
         bool compiling = true;
         int choiceAgg = 0;
         int[,] playerRank = new int[5, exp.numEpochs];
@@ -108,11 +106,13 @@ public class ParseEngine
         }
         Stopwatch time = new Stopwatch();
         time.Start();
-
+        //List<List<double>>[] lead = new List<List<double>>[numPlayers];
         /***********
          * Run the experiments
          ***********/
-
+        List<List<double>>[] lead = new List<List<double>>[exp.numGames];
+        int[] winners = new int[exp.numGames];
+        int numTurns = 0;
         //for (int i = 0; i < exp.numGames; i++)
         Parallel.For(0, exp.numGames, i =>
         {
@@ -122,15 +122,17 @@ public class ParseEngine
 	            System.GC.Collect();
 
 	            CardEngine.CardGame instance = new CardEngine.CardGame(true, exp.fileName + i);
-	            // TODO CHANGED HERE
-	            var manageContext = new FreezeFrame.GameIterator(tree, instance, gameWorld);
+				
 
-                // TODO add so can have 4 AI players
+				var manageContext = new FreezeFrame.GameIterator(tree, instance, gameWorld);
+
                 if (exp.type == GameType.AllAI) {
                     for (int j = 0; j < instance.players.Count; j++) {
-                        instance.players[j].decision = new LessThanPerfectPlayer(manageContext, GameType.AllAI);
+                        instance.players[j].decision  = new LessThanPerfectPlayer(manageContext, GameType.AllAI);
                     }
-                } else if (exp.type == GameType.RndandAI) {
+
+
+				} else if (exp.type == GameType.RndandAI) {
                     instance.players[0].decision = new LessThanPerfectPlayer(manageContext, GameType.RndandAI);
                 }
 	            
@@ -140,6 +142,7 @@ public class ParseEngine
 	                choiceCount++;
 	                choiceAgg++;
 	                manageContext.ProcessChoice();
+
 	                if (choiceCount > 500)
 	                {
 	                    Console.WriteLine("Choices not processed (probably infinite loop)");
@@ -148,8 +151,11 @@ public class ParseEngine
 	                }
 	            }
 
-	            // SORT OUT RESULTS
-	            if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
+				
+
+
+				// SORT OUT RESULTS
+				if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
 	            var results = manageContext.parseoop.ProcessScore(tree.scoring());
 	            numPlayers = results.Count();
 	            for (int j = 0; j < results.Count; ++j)
@@ -163,14 +169,36 @@ public class ParseEngine
 	                {
 	                    playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
 	                }
-	                if (results[j].Item2 == 0 && j != results.Count - 1)
-	                {
-	                    winaggregator[i / (exp.numGames / exp.numEpochs)]++;
-
-	                }
+	                
 
 	            }
-	            if (gameWorld != null) { gameWorld.GameOver(results[0].Item2); }
+
+				
+
+	            if (gameWorld != null) {
+					// also go get lessthanperfectplayer and get the chunk of data here about winners/choices
+					// also lock this in the gameover method so that it's safe for multiple games to access 
+					if (exp.type == GameType.AllAI)
+					{
+                        lead[i] = new List<List<double>>();
+						for (int j = 0; j < instance.players.Count; j++)
+						{
+                            
+                            lead[i].Add(instance.players[j].decision.GetLead());
+						}
+
+					}
+					else if (exp.type == GameType.RndandAI)
+					{
+						lead[i] = new List<List<double>>();
+						lead[i].Add(instance.players[0].decision.GetLead());
+					}
+                    winners[i] = results[0].Item2;
+                    //gameWorld.GameOver(results[0].Item2);
+                    // also lock this one
+                    numTurns += choiceCount;
+                    //gameWorld.IncNumTurns(choiceCount);
+                }
 
 
                 Debug.WriteLine("Finished game " + (i + 1) + " of " + exp.numGames);
@@ -183,6 +211,9 @@ public class ParseEngine
             }
         }
         );
+
+
+
         // should fail as soon as a game stops compiling, not after all threads are finished TODO 
         if (!compiling)
         {
@@ -237,6 +268,9 @@ public class ParseEngine
         }
         else
         {
+
+            gameWorld.SetWinners(winners);
+            gameWorld.IncNumTurns(numTurns);
             // USE RESULTS IN GENETIC ALGORITHM
             var sum = 0;
 			for (int i = 0; i < exp.numEpochs; i++)
@@ -244,21 +278,22 @@ public class ParseEngine
 				sum += playerFirst[0, i];
 			}
             if (exp.type == GameType.AllRnd)
-            {
-                
-
+            {          
                 gameWorld.numFirstWins += sum;
 
 				gameWorld.numGames += exp.numGames;
             }
-            //Scorer.gameWorld.numFirstWins += winaggregator[0];
-            //Scorer.gameWorld.numGames += winaggregator.Sum();
+
             else if (exp.type == GameType.RndandAI)
             {
                 gameWorld.numAIvsRnd += exp.numGames;
                 gameWorld.numAIWins += sum;
-                //Scorer.gameWorld.numAIWins += winaggregator[0]; //TODO does this do what i think it does?
-                //if (winaggregator.Length > 1) { gameWorld.numRndWins += winaggregator[1]; }//Scorer.gameWorld.numRndWins += winaggregator[1]; }
+                gameWorld.SetRndVsAI(lead);
+
+
+            }
+            else {
+                gameWorld.SetAIVsAI(lead);
             }
 
         }

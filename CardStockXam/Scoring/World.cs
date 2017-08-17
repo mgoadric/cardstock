@@ -20,6 +20,8 @@ namespace CardStockXam.Scoring
         public int numFirstWins;
         public int numTies;
 
+        private Object thisLock = new Object();
+
         //lessthanperfectplayers 82
         public List<double> variance = new List<double>(); // difference between worst move and best move
         //could record individual values instead
@@ -32,17 +34,20 @@ namespace CardStockXam.Scoring
         public int numRules;
 
         //public List<List<double>>[] lead = new List<List<double>>[numPlayers]();
-        public List<int> winners = new List<int>();
+        public int[] winners;
         public List<List<double>>[] lead;
 
+        public List<List<double>>[] AIvAI;
+        public List<List<double>>[] AIvRnd;
 
-        public double numTurns;
+
+        public int numTurns;
 
         //Heuristics to implement, but how?
         //interactivity
         //clarity
 
-        public void PopulateLead()
+        /*public void PopulateLead()
         {
             if (lead == null)
             {
@@ -54,24 +59,33 @@ namespace CardStockXam.Scoring
                 }
             }
 
+        }*/
+
+        public void IncNumTurns(int i)
+        {
+
+            numTurns = i;
+
         }
 
 
-
-        public void GameOver(int winner)
+        /*public void GameOver(int winner)
         {
-            winners.Add(winner);
-            // getting ready for next game! i promise this makes sense 
-            for (int i = 0; i < lead.Length; i++)
+            lock (thisLock)
             {
-                lead[i].Add(new List<double>());
+                winners.Add(winner);
+                // getting ready for next game! i promise this makes sense 
+                for (int i = 0; i < lead.Length; i++)
+                {
+                    lead[i].Add(new List<double>());
+                }
             }
 
-        }
+        }*/
 
 
 
-        public void EvalOver()
+        /*public void EvalOver()
         {
             // getting rid of one extra lead lists 
             for (int i = 0; i < lead.Length; i++)
@@ -82,11 +96,23 @@ namespace CardStockXam.Scoring
                 }
             }
 
-        }
-        public void Lead(int idx, double score)
+        }*/
+        /*public void Lead(int idx, List<double> l)
         {
-            lead[idx][lead[idx].Count - 1].Add(score);
+            lead[idx][lead[idx].Count - 1] = l;
 
+        }*/
+
+        public void SetRndVsAI(List<List<double>>[] l) {
+            AIvRnd = l;
+        }
+
+        public void SetAIVsAI(List<List<double>>[] l) {
+            AIvAI = l;
+        }
+
+        public void SetWinners(int[] w) {
+            winners = w;
         }
     }
 }

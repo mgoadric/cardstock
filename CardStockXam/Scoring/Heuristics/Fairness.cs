@@ -13,7 +13,9 @@ namespace CardStockXam.Scoring.Heuristics
         // wont work for random vs AI 
         public override double Get(World w)
         {
-
+            if (w.numFirstWins == 0) {
+                return 0;
+            }
             double fair = 1.0 / w.numPlayers;
             double result = (double)w.numFirstWins / w.numGames;
             double slope;

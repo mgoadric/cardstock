@@ -137,7 +137,7 @@ namespace CardStockXam
                 if (!compiling) {Debug.WriteLine("not compiling"); return empty; }
             }
 
-            gameWorld.EvalOver();
+            //gameWorld.EvalOver();
             Debug.WriteLine("passed reasonable");
             List<double> total = new List<double>();
             var cleanoutput = "";

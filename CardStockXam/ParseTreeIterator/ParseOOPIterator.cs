@@ -1070,7 +1070,7 @@ namespace ParseTreeIterator
                 parent.instance.WriteToFile("nump:" + numPlayers);
 				parent.instance.AddPlayers(numPlayers);
                 parent.gameWorld.numPlayers = numPlayers;
-                parent.gameWorld.PopulateLead();
+                //parent.gameWorld.PopulateLead();
 			}
 			if (setupNode.teamcreate() != null){
                 Debug.WriteLine("Creating teams.");

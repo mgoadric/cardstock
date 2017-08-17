@@ -27,16 +27,27 @@ namespace CardStockXam.Scoring.Heuristics
             int numEvaluated = 0;
 
 
-            Console.WriteLine("size: " + w.lead.Count());
-            for (int i = 0; i < w.winners.Count; i++)
+            Console.WriteLine("size: " + w.numAIvsAI);
+            for (int i = 0; i < w.winners.Length; i++)
             {
-                List<double> current = w.lead[w.winners[i]][i];
+                for (int j = 0; j < w.AIvAI[i].Count; j++) {
+                    Console.Write("Player: " + j + "\t");
+                    for (int x = 0; x < w.AIvAI[i][j].Count; x++)
+                    {
+                        Console.Write(w.AIvAI[i][j][x] + "\t");
+                    }
+                    Console.Write("\n");
+
+                           
+                }
+                Console.WriteLine("Winner: " + w.winners[i] + "\n");
+                List<double> current = w.AIvAI[i][w.winners[i]];
                 int mgd = current.Count - 1;
-                for (int j = 0; j < current.Count; j++)
+                /*for (int j = 0; j < current.Count; j++)
                 {
                     
-                    Console.WriteLine(current[j]);
-                }
+                    //Console.WriteLine(current[j]);
+                }*/
                 for (int j = 0; j < current.Count; j++)
                 {
 

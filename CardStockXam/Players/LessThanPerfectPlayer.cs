@@ -13,14 +13,16 @@ namespace Players
 {
     public class LessThanPerfectPlayer : GeneralPlayer
     {
-        private static int numTests = 10; //previously 20
-        private GameIterator gameContext;
-        public CardGames.GameType type;
+		private static int numTests = 10; //previously 20
+		private GameIterator gameContext;
+		private List<double> leadList;
+		public CardGames.GameType type;
 
 		public LessThanPerfectPlayer(GameIterator m, CardGames.GameType type)
 		{
-            this.type = type;
+			this.type = type;
 			gameContext = m;
+			this.leadList = new List<double>();
 		}
 
 		public int NumChoices(int items, Random rand, int idx){
@@ -28,10 +30,10 @@ namespace Players
 
 			Debug.WriteLine("AI making choice. items: " + items);
 
-			if (items == 1)
+			/*if (items == 1)
 			{
 				return 0;
-			}
+			}*/
 
 			var results = new int[items];
 			var total = new int[items];
@@ -106,7 +108,10 @@ namespace Players
 
                             int div = j + 1;
                             double lead = ((double)1) / div;
-                            numWon += lead;
+                            lock (this)
+                            {
+                                numWon += lead;
+                            }
                             break;
                         }
                     }
@@ -114,8 +119,13 @@ namespace Players
 
                 });
                 Debug.WriteLine("Aggregated rank: " + results[item]);
-				wrs[item] = (double)numWon / numTests;
-                Debug.WriteLine("wrs " + wrs[item]);
+                // stretch & shift this number depending on number of players
+
+                // 
+                wrs[item] = (((numWon) / (numTests)) * ((double)total[item] / (total[item] - 1))) - ((double)1 / ((total[item] - 1)));
+
+
+				Debug.WriteLine("wrs " + wrs[item]);
 
 			}
 			Debug.WriteLine("End Monte");
@@ -132,11 +142,12 @@ namespace Players
                 var min = wrs[tup.Item2];
 
                 var variance = Math.Abs(max - min);
+                // TODO t
                 gameContext.gameWorld.variance.Add(variance);
                 if (type == CardGames.GameType.AllAI)
                 {
-                    Console.WriteLine("works " + max.ToString());
-                    gameContext.gameWorld.Lead(gameContext.instance.currentPlayer.Peek().idx, max);
+                    
+                    leadList.Add(max);
                 }
 			}
             Debug.WriteLine("AI Finished.");
@@ -145,6 +156,10 @@ namespace Players
             // where the winner is rank 0 for either min/max games so don't change this.
             Debug.WriteLine("Item1: " + tup.Item1);
             return tup.Item1;
+        }
+
+        public override List<double> GetLead() {
+            return leadList;
         }
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand, int idx)
