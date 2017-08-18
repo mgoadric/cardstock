@@ -17,12 +17,12 @@ namespace CardStockXam
         public static World gameWorld;
         public string text;
 
-        private int numRndvRnd = 0;
-        private int numAIvRnd  = 0;
-        private int numAIvAI   = 1;
+        private int numRndvRnd = 10;
+        private int numAIvRnd  = 10;
+        private int numAIvAI   = 5;
 
 
-
+        // TODO run everything with one game and make a big chart with all 5 working heuristics 
         public static void Main(string[] args) {
 			List<string> gameFiles = new List<string>();
 			string[] allFiles = System.IO.Directory.GetFiles("games/");
@@ -38,18 +38,18 @@ namespace CardStockXam
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
 
-                Console.WriteLine(name);
+                Debug.WriteLine(name);
                 var p = new Scorer(name);
                 var score = p.Score();
                 var tupl = Tuple.Create(name.Substring(6, name.Length - 10), score);
                 scores.Add(tupl);
             }
             foreach (Tuple<string, List<double>> t in scores.GetRange(0, scores.Count)) {
-                Console.WriteLine(t.Item1 + "\t");
+                Debug.WriteLine(t.Item1 + "\t");
                 foreach (double d in t.Item2) {
-                    Console.Write(d + "\t");
+                    Debug.Write(d + "\t");
                 }
-                Console.Write("\n");
+                Debug.Write("\n");
             }
 
         }
@@ -67,7 +67,7 @@ namespace CardStockXam
             new Fairness(),
             //new GameLength(),
             //new NoTies(),
-            //new Drama(),
+            new Drama(),
             new Decisiveness()
         };
 
@@ -144,8 +144,8 @@ namespace CardStockXam
             var cleanoutput = "";
             foreach (Heuristic h in hs){
                 var score = h.Eval(gameWorld);
-                var output = "Heuristic " + h.ToString() + " returned " + (score / h.Weight()) +
-                        " with weight " + h.Weight() + " for total score: " + score;
+                var output = h.ToString().Substring(32) + "\t" + (score / h.Weight()) +
+                        "\t" + h.Weight() + "\t" + score;
                 var split = h.ToString().Split('.');
                 var heuristic = split[split.Length - 1];
                 cleanoutput += heuristic + ": " + score + "\n";
