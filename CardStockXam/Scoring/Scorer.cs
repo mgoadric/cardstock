@@ -17,9 +17,9 @@ namespace CardStockXam
         public static World gameWorld;
         public string text;
 
-        private int numRndvRnd = 10;
-        private int numAIvRnd  = 10;
-        private int numAIvAI   = 5;
+        private int numRndvRnd = 0;
+        private int numAIvRnd  = 0;
+        private int numAIvAI   = 20;
 
 
         // TODO run everything with one game and make a big chart with all 5 working heuristics 
@@ -27,14 +27,14 @@ namespace CardStockXam
 			List<string> gameFiles = new List<string>();
 			string[] allFiles = System.IO.Directory.GetFiles("games");
             List<Tuple<string, List<double>>> scores = new List<Tuple<string, List<double>>>();
-            foreach (string s in allFiles)
-            {
-            	if (s.EndsWith(".gdl"))
-            	{
-            		gameFiles.Add(s);
-            	}
-            }
-            //gameFiles.Add("games/Caterpillar.gdl");
+            //foreach (string s in allFiles)
+            //{
+            //	if (s.EndsWith(".gdl"))
+            //	{
+            //		gameFiles.Add(s);
+            //	}
+            //}
+            gameFiles.Add("games/Caterpillar.gdl");
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
 

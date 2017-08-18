@@ -1512,7 +1512,7 @@ namespace ParseTreeIterator
             //BranchingFactor.Instance.AddCount(allOptions.Count, parent.instance.CurrentPlayer().idx);
             if (allOptions.Count != 0){
                 Debug.WriteLine("processed choices");
-                Debug.WriteLine("Choice count:" + allOptions.Count);
+                Debug.WriteLine("Choice count for P" + parent.instance.CurrentPlayer().idx + ":" + allOptions.Count);
                 parent.instance.PlayerMakeChoice(allOptions, parent.instance.CurrentPlayer().idx);
                 Debug.WriteLine("player choice made");
                 Debug.WriteLine(parent.instance.CurrentPlayer().playerList.Count);
