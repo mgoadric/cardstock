@@ -26,6 +26,7 @@ namespace CardStockXam
         public static void Main(string[] args) {
 			List<string> gameFiles = new List<string>();
 			string[] allFiles = System.IO.Directory.GetFiles("games/");
+			string[] allFiles = System.IO.Directory.GetFiles("games");
             List<Tuple<string, List<double>>> scores = new List<Tuple<string, List<double>>>();
 			foreach (string s in allFiles)
 			{

@@ -35,8 +35,11 @@ namespace CardGames
             // one AI vs everyone else is helpful
             exp.ai1 = true;
             exp.ai2 = false;
+            exp.logging = true;
+            exp.type = GameType.AllAI;
 
 			var codeGen = new ParseEngine(exp);
+            codeGen.setWorld(new World());
             codeGen.Loader();
             codeGen.Experimenter();
 		}

@@ -5,7 +5,7 @@
   (create players 'NUMP)
   (create teams (0) (1))
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN,
-                                               J, Q, K, A))
+                                               J, Q, K))
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                               (BLACK (SUIT (SPADES, CLUBS)))
                                               )))
@@ -43,7 +43,8 @@
          (let (filter ((current player) iloc HAND) 'NH (or (== (score 'NH using 'POINTS) 0)
                                                            (== (cardatt SUIT 'NH)
                                                                (cardatt SUIT (top (game vloc CAT)))))) 'C
-           ((== (size 'C) 0) 
+           ((and (== (size 'C) 0) 
+                 (== (size (game vloc CAT)) 0))
             (set ((current player) sto COURTSHORT) 1)
             ))
            
@@ -62,6 +63,9 @@
         (do (
         ((> (size (game vloc TOPCAT)) 0)
          (do (
+              
+              ;;(set (game sto NUMCARDS) (size (game iloc STOCK)))
+
              ;; determine score from last played card
              
              (let (sum (union (game vloc CAT) (game vloc TOPCAT)) using 'POINTS) 'SUM
