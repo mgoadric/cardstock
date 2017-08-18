@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -79,7 +80,7 @@ namespace CardStockXam.Scoring
                 name = name.Insert(name.Length - 4, ending);
             }
             File.WriteAllText(name, file);
-            Console.WriteLine("Wrote file " + name + "\n\n");
+            Debug.WriteLine("Wrote file " + name + "\n\n");
         }
 
         public string GetName(string parent1, string parent2)

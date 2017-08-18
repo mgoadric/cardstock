@@ -142,8 +142,10 @@ namespace Players
                 var min = wrs[tup.Item2];
 
                 var variance = Math.Abs(max - min);
-                // TODO t
-                gameContext.gameWorld.variance.Add(variance);
+                lock (this)
+                {
+                    gameContext.gameWorld.variance.Add(variance);
+                }
                 if (type == CardGames.GameType.AllAI)
                 {
                     
