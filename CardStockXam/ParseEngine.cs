@@ -139,8 +139,11 @@ public class ParseEngine
 	            // PLAY THE GAME
 	            while (!manageContext.AdvanceToChoice())
 	            {
-	                choiceCount++;
-	                choiceAgg++;
+                    lock (this)
+                    {
+                        choiceCount++;
+                        choiceAgg++;
+                    }
 	                manageContext.ProcessChoice();
 
 	                if (choiceCount > 500)
@@ -196,7 +199,10 @@ public class ParseEngine
                     winners[i] = results[0].Item2;
                     //gameWorld.GameOver(results[0].Item2);
                     // also lock this one
-                    numTurns += choiceCount;
+                    lock (this)
+                    {
+                        numTurns += choiceCount;
+                    }
                     //gameWorld.IncNumTurns(choiceCount);
                 }
 
@@ -270,7 +276,7 @@ public class ParseEngine
         {
 
             gameWorld.SetWinners(winners);
-            gameWorld.IncNumTurns(numTurns);
+            gameWorld.AddNumTurns(choiceAgg);
             // USE RESULTS IN GENETIC ALGORITHM
             var sum = 0;
 			for (int i = 0; i < exp.numEpochs; i++)

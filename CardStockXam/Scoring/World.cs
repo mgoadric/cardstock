@@ -25,7 +25,7 @@ namespace CardStockXam.Scoring
         //lessthanperfectplayers 82
         public List<double> variance = new List<double>(); // difference between worst move and best move
         //could record individual values instead
-
+        public List<double> moveScores = new List<double>(); // raw movescores in order
         //lessthanperfectplayers 33-76
         public List<double> deepness = new List<double>(); // difference between shallow eval and deep eval
         //currently lessthanperfect runs with deepness of 1
@@ -39,9 +39,9 @@ namespace CardStockXam.Scoring
 
         public List<List<double>>[] AIvAI;
         public List<List<double>>[] AIvRnd;
+        public List<double> average = new List<double>(); //average move score
 
-
-        public int numTurns;
+        public List<int> numTurns = new List<int>();
 
         //Heuristics to implement, but how?
         //interactivity
@@ -61,12 +61,24 @@ namespace CardStockXam.Scoring
 
         }*/
 
-        public void IncNumTurns(int i)
+        public void AddNumTurns(int i)
         {
-
-            numTurns = i;
+            lock (thisLock)
+            {
+                numTurns.Add(i);
+            }
 
         }
+
+        public void AddInfo(double vari, double avg, double mS){
+            lock (thisLock) {
+                variance.Add(vari);
+                average.Add(avg);
+                moveScores.Add(mS);
+            }
+        }
+
+
 
 
         /*public void GameOver(int winner)

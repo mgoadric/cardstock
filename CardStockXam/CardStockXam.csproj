@@ -281,6 +281,11 @@
     <Compile Include="Players\PredictablePlayer.cs" />
     <Compile Include="CardEngine\StageCycle.cs" />
     <Compile Include="ParseTreeIterator\ParseOOPIterator.cs" />
+    <Compile Include="Scoring\Heuristics\Stability.cs" />
+    <Compile Include="Scoring\Heuristics\Coolness.cs" />
+    <Compile Include="Scoring\Heuristics\Clarity.cs" />
+    <Compile Include="Scoring\Heuristics\Randomness.cs" />
+    <Compile Include="Scoring\ScoreTracker.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -348,10 +353,10 @@
     <None Include="games\Spades.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="games\generated2.gdl">
+    <None Include="games\BustedJunk\War.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="games\BustedJunk\War.gdl">
+    <None Include="games\BustedJunk\generated2.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 namespace CardStockXam.Scoring.Heuristics
 {
     class GameLength : Heuristic
@@ -9,21 +10,18 @@ namespace CardStockXam.Scoring.Heuristics
         int maxLength = 100; //TODO, idk what right number is
         int divisor = 25; //TODO this either
 
-        //
+        // if you figure out complexity,
+        // you can figure out how long a game should be and then 
+        // determine if it is too long/short
+        // use the formula in the phd paper 
 
         public override double Get(World w)
         {
             Debug.WriteLine("Num turns: " + w.numTurns);
-            double avg = w.numTurns / w.numGames;
-            if (w.numTurns > minLength){
-                if (w.numTurns > maxLength){
-                    var ret = 1.0 - ((w.numTurns - maxLength) / divisor);
-                    Debug.WriteLine("returning " + ret + " from gamelength");
-                    return Math.Max(ret, 0);
-                }
-                return 1.0;
-            }
-            return 1.0 - ((minLength - w.numTurns) / minLength);
+            int sum = w.numTurns.Sum();
+            double avg = sum / w.numGames;
+
+            return 1.0 - ((minLength - sum) / minLength);
         }
 
         public override double Weight()
