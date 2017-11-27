@@ -20,6 +20,7 @@ namespace CardStockXam.Scoring
         public int numFirstWins;
         public int numTies;
 
+
         private Object thisLock = new Object();
 
         //lessthanperfectplayers 82
@@ -42,10 +43,9 @@ namespace CardStockXam.Scoring
         public List<double> average = new List<double>(); //average move score
 
         public List<int> numTurns = new List<int>();
+        public ScoreTracker tracker;
 
-        //Heuristics to implement, but how?
-        //interactivity
-        //clarity
+
 
         /*public void PopulateLead()
         {
@@ -60,6 +60,19 @@ namespace CardStockXam.Scoring
             }
 
         }*/
+
+        public void AddScores(List<double> scores, int game) {
+            lock (thisLock)
+            {
+                if (tracker == null)
+                {
+                    tracker.Fill(numGames, numPlayers);
+                }
+                tracker.StoreRanks(scores, game);
+            }
+        }
+
+
 
         public void AddNumTurns(int i)
         {

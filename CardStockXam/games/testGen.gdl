@@ -1,0 +1,105 @@
+(game
+    (declare 5 'A)
+    (setup
+      (create players 2)
+      (create teams (0) (1))
+      (create deck (game vloc A) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                             (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                   (BLACK (SUIT (CLUBS, SPADES))))))
+   )
+   (do (
+        (put points 'POINTS (
+
+                               ((RANK (A)) 14)
+                               ((RANK (K)) 13)
+                               ((RANK (Q)) 12)
+                               ((RANK (J)) 11)
+                               ((RANK (TEN)) 10)
+                               ((RANK (NINE)) 9)
+                               ((RANK (EIGHT)) 8)
+                               ((RANK (SEVEN)) 7)
+                               ((RANK (SIX)) 6)
+                               ((RANK (FIVE)) 5)
+                               ((RANK (FOUR)) 4)
+                               ((RANK (THREE)) 3)
+                               ((RANK (TWO)) 2)
+                               ))
+
+
+      (shuffle (game vloc A))
+
+      (all player 'P
+            (repeat 10
+               (move (top (game vloc A))
+                     (top ('P vloc B))))
+
+         ))
+      )
+
+
+( stage player 
+	( end 
+		( == 
+			( top 
+				( game vloc B ) ) 
+			( top 
+				( 
+					( next player ) vloc C ) ) ) ) 
+	( do 
+		( 
+			( move ( bottom ( game vloc B ) ) ( top ( ( next player ) vloc B ) ) ) 
+			( 
+				( == 
+					( next player ) 
+					( current player ) ) 
+				( do 
+					( 
+						( let 
+							( 
+								( next player ) vloc B ) 'YTHTR 
+							( 
+								( != 
+									( current player ) 
+									( current player ) ) 
+								( any 
+									( 
+										( next player ) vloc C ) 'FURQP 
+									( game sto POINTS ) ) ) ) ) ) ) ) ) 
+	( do 
+		( 
+			( move ( bottom ( game vloc B ) ) ( bottom ( game vloc A ) ) ) 
+			( 
+				( != 
+					( current player ) 
+					( current player ) ) 
+				( do 
+					( 
+						( any 
+							( 
+								( next player ) vloc B ) 'IEGEI 
+							( 
+								( != 
+									( bottom 'IEGEI ) 
+									( bottom 
+										( 
+											( next player ) vloc A ) ) ) 
+								( set 
+									( game sto POINTS ) 8 ) ) ) 
+						( all player 'JADBS 
+							( 
+								( current player ) vloc B ) ) ) ) ) ) ) 
+	( any player 'SRTTX 
+		( game vloc C ) ) 
+	( let 
+		( size 
+			( 
+				( current player ) vloc C ) ) 'FVCKN 
+		( set 
+			( 
+				( current player ) sto POINTS ) 
+			( size 
+				( game vloc B ) ) ) ) 
+	( let player 'OHHNM 
+		( move ( top ( game vloc A ) ) ( top ( ( next player ) vloc C ) ) ) ) ) 
+(scoring min ((current player) sto A))
+   )

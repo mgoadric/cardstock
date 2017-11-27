@@ -13,9 +13,9 @@ namespace CardGames
     {
         public static void Main(string[] args)
         {
-            CardStockXam.Scorer.Main(args);
-            //var p = new Program();
-            //p.SingleGame("games/Caterpillar.gdl");
+            //CardStockXam.Scorer.Main(args);
+            var p = new Program();
+            p.SingleGame("games/testGen.gdl");
             // p.AllGames();
 
 
@@ -53,6 +53,7 @@ namespace CardGames
             foreach (string g in gameFiles.GetRange(0, gameFiles.Count)) {
                 SingleGame(g.Substring(6, g.Length - 10));
             }
+
    		}
     }
 }

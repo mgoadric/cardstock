@@ -41,11 +41,22 @@ namespace CardStockXam.Scoring.Heuristics
 
 				}
 			}
-			// needs to return this where 
-			// if diff / total = .5 return 1 and as approaches
-			// either end return 0
-			return 1 - ((double)diff / total);
-
+			// threshold so that approaches 1 as diff/total approaches .5 & approaches 0 as diff/total approaches 0 or 1
+			double threshold = .5;
+            double result = (double)diff / total;
+            double slope;
+            double score;
+            
+            if (result <= threshold) {
+                slope = (double)(1.0 / threshold);
+                score = slope * result;
+            } else {
+                slope = (double)(0 - 1) / (1 - threshold);
+                score = (slope * result) - slope;
+            }
+            return score;
+			
+			
 
         }
 

@@ -411,7 +411,11 @@ public class ParseEngine
         }
         else if (tree is RecycleParser.MultiactionContext)
         {
-            if (tree.GetChild(1).GetText().Equals("choice"))
+            if (tree.GetChild(1) == null) {
+                Console.WriteLine("its null :(");
+
+            }
+            else if (tree.GetChild(1).GetText().Equals("choice"))
             {
                 choice = true;
             }

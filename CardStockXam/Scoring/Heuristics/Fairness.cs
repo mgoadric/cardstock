@@ -11,7 +11,7 @@ namespace CardStockXam.Scoring.Heuristics
     {
 
         // determine if player in first spot has advantage & wins more games
-        // wont work for random vs AI 
+        // only for rand vs rand
         public override double Get(World w)
         {
             if (w.numFirstWins == 0) {
@@ -32,7 +32,6 @@ namespace CardStockXam.Scoring.Heuristics
 
             Debug.WriteLine("Numfirstwins: " + w.numFirstWins + 
                               "Numgames" + w.numGames);
-
             return score;
 
         }

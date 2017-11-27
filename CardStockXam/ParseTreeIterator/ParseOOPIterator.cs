@@ -289,9 +289,15 @@ namespace ParseTreeIterator
                     eq = true;
                 }
                 if (boolNode.card() != null){
-                    var card1 = ProcessCard(boolNode.card()[0]);
-                    var card2 = ProcessCard(boolNode.card()[1]);
-                    return eq == card1.Equals(card2);
+                    if (ProcessCard(boolNode.card()[0]).Count() >= 2)
+                    {
+                        Console.Out.Write("comparing empty card");
+                        var card1 = ProcessCard(boolNode.card()[0]);
+                        var card2 = ProcessCard(boolNode.card()[1]);
+                        return eq == card1.Equals(card2);
+                    } else {
+                        return eq == false;
+                    }
                 }
                 else if (boolNode.whop() != null){
                     var p1 = ProcessWhop(boolNode.whop()[0]);
