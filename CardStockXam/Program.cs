@@ -4,6 +4,7 @@ using Players;
 using System.IO;
 using System.Threading;
 using CardStockXam.Scoring;
+using System.Text;
 
 namespace CardGames
 {
@@ -15,8 +16,8 @@ namespace CardGames
         {
             //CardStockXam.Scorer.Main(args);
             var p = new Program();
-            p.SingleGame("games/testGen.gdl");
-            // p.AllGames();
+            p.SingleGame("/Users/anna/Desktop/cardstock/CardStockXam/games/Agram.gdl");
+            //p.AllGames();
 
 
         }
@@ -30,28 +31,48 @@ namespace CardGames
             exp.numGames = 1;
 			exp.numEpochs = 1;
 
-            exp.logging = true;
-            exp.type = GameType.AllAI;
+            exp.logging = false;
+            exp.type = GameType.AllRnd;
 
 			var codeGen = new ParseEngine(exp);
-            codeGen.setWorld(new World());
+            codeGen.exp.builder.Append("strict digraph{");
+
+			codeGen.setWorld(new World());
             codeGen.Loader();
             codeGen.Experimenter();
+
+			codeGen.exp.builder.Append("}");
+			
+			
+            /*var fs = File.Create(exp.fileName.Substring(0, exp.fileName.Length - 4) + "Connections.gv");
+			var bytes = Encoding.UTF8.GetBytes(exp.builder.ToString());
+			fs.Write(bytes, 0, bytes.Length);
+			fs.Close();
+			System.Debug.WriteLine("wrote " + exp.fileName + ".gv");
+            System.Console.WriteLine(exp.fileName.Substring(0, exp.fileName.Length - 4) + "Connections.gv");*/
+
+		
+		
+
+
 		}
 
         void AllGames() {
 			List<string> gameFiles = new List<string>();
 			string[] allFiles = System.IO.Directory.GetFiles("games/");
-
+            System.Console.Write("hi");
 			foreach (string s in allFiles)
 			{
-                if (s.EndsWith(".gdl") && string.Compare(s[6].ToString(), "L") > 0)
+                System.Console.WriteLine(s);
+
+                if (s.EndsWith(".gdl")) // && string.Compare(s[6].ToString(), "L") > 0)
 				{
 					gameFiles.Add(s);
 				}
 			}
             foreach (string g in gameFiles.GetRange(0, gameFiles.Count)) {
-                SingleGame(g.Substring(6, g.Length - 10));
+                //SingleGame(g.Substring(16, g.Length - 20));
+                SingleGame(g);
             }
 
    		}

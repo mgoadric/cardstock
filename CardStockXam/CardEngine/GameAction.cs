@@ -60,7 +60,9 @@ namespace CardEngine {
         public FancyCardLocation endLocation;
         public CardCollection owner;
         public bool actualloc;
+
         public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end, CardGame cg) {
+            
             if (start.name != null) {
                 //Console.WriteLine(start.name);
                 if (start.name.Contains("{mem}") && !start.actual) {
@@ -80,10 +82,25 @@ namespace CardEngine {
 					throw new NotSupportedException();
                 }
             }
+            this.cg = cg;
             startLocation = start;
             endLocation = end;
-            this.cg = cg;
-        }
+            //Console.WriteLine(startLocation.name);
+            //Console.WriteLine(endLocation.name);
+            // writes graph file in the bin/Debug/graphs folder  
+            var moveString = startLocation.name.Split('{')[0] + "_" + startLocation.name.Substring(startLocation.name.IndexOf("}") + 1).Split(' ')[0]
+                                          + " -> " + endLocation.name.Split('{')[0] + "_" + endLocation.name.Substring(endLocation.name.IndexOf("}") + 1).Split(' ')[0];
+            //Debug.WriteLine(moveString);
+            // dumb case to handle pairs & continuous pairs error 
+            if (moveString.Contains("POINTS")) {
+                moveString = "POINTS ->" + moveString.Split('>')[1];
+            }
+            cg.builder.AppendLine(moveString);
+            
+           
+		}
+
+
 
         public override void Execute() {
             try {
@@ -108,7 +125,7 @@ namespace CardEngine {
                         cg.WriteToFile(prefix + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
                     }
                     else {
-                       cg.WriteToFile(prefix + cardToMove.ToOutputString() + " " + startLocation.name + " " + endLocation.name);
+                        cg.WriteToFile(prefix + cardToMove.ToOutputString() + " " + startLocation.name + " " + endLocation.name);
                     }
                     endLocation.Add(cardToMove);
                     owner = cardToMove.owner;
@@ -116,8 +133,8 @@ namespace CardEngine {
                     Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
                 }
                 else {
-                    Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
-                    Console.WriteLine("moving to " + endLocation.ToString());
+                    Debug.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
+                    Debug.WriteLine("moving to " + endLocation.ToString());
                     //throw new Exception();
                 }
             }

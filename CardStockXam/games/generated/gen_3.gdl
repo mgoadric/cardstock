@@ -1,0 +1,143 @@
+(game
+    (declare 5 'A)
+    (setup
+      (create players 2)
+      (create teams (0) (1))
+      (create deck (game vloc A) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                             (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                   (BLACK (SUIT (CLUBS, SPADES))))))
+   )
+   (do (
+        (put points 'POINTS (
+
+                               ((RANK (A)) 14)
+                               ((RANK (K)) 13)
+                               ((RANK (Q)) 12)
+                               ((RANK (J)) 11)
+                               ((RANK (TEN)) 10)
+                               ((RANK (NINE)) 9)
+                               ((RANK (EIGHT)) 8)
+                               ((RANK (SEVEN)) 7)
+                               ((RANK (SIX)) 6)
+                               ((RANK (FIVE)) 5)
+                               ((RANK (FOUR)) 4)
+                               ((RANK (THREE)) 3)
+                               ((RANK (TWO)) 2)
+                               ))
+
+
+      (shuffle (game vloc A))
+
+      (all player 'P
+            (repeat 10
+               (move (top (game vloc A))
+                     (top ('P vloc B))))
+
+         ))
+      )
+
+
+( stage player 
+	( end 
+		( == 
+			( current player ) 
+			( current player ) ) ) 
+	( stage player 
+		( end 
+			( != 
+				( next player ) 
+				( current player ) ) ) 
+		( do 
+			( 
+				( 
+					( != 
+						( current player ) 
+						( current player ) ) 
+					( move ( top ( game vloc A ) )( top ( ( current player ) vloc B ) )) ) 
+				( all 
+					( game vloc A ) 'QTGXZ 
+					( game vloc B ) ) 
+				( 
+					( == 
+						( top 
+							( 
+								( current player ) vloc C ) ) 
+						( bottom 
+							( game vloc A ) ) ) 
+					( let player 'XXVYO 
+						( do 
+							( 
+								( 
+									( != 
+										( next player ) 
+										( next player ) ) 
+									( do 
+										( 
+											( do 
+												( 
+													( all 
+														( 
+															( current player ) vloc B ) 'XDMKP 
+														( 
+															( next player ) sto POINTS ) ) 
+													( let 4 'YKSFO 
+														( let 'YKSFO 'JBVSE 
+															( all player 'JJGOU 
+																( 'JJGOU vloc C ) ) ) ) ) ) 
+											( 
+												( != 
+													( next player ) 
+													( current player ) ) 
+												( set 
+													( 
+														( current player ) sto POINTS ) 
+													( game sto POINTS ) ) ) 
+											( 
+												( == 
+													( bottom 
+														( game vloc A ) ) 
+													( top 
+														( 'JJGOU vloc B ) ) ) 
+												( all 
+													( game vloc A ) 'ODTSW 
+													( == 
+														( top 
+															( 'JJGOU vloc A ) ) 
+														( bottom 'ODTSW ) ) ) ) 
+											( 
+												( == 
+													( top 
+														( 
+															( next player ) vloc A ) ) 
+													( bottom 
+														( 'XXVYO vloc B ) ) ) 
+												( any player 'TCZHJ 
+													( game vloc B ) ) ) ) ) ) ) ) ) ) ) ) ) 
+	( choice 
+		( 
+			( 
+				( != 
+					( next player ) 
+					( next player ) ) 
+				( do 
+					( 
+						( 
+							( == 
+								( next player ) 
+								( current player ) ) 
+							( set 
+								( 
+									( next player ) sto POINTS ) 9 ) ) 
+						( all player 'SJBSS 
+							( == 
+								( current player ) 
+								( current player ) ) ) 
+						( 
+							( == 
+								( bottom 
+									( game vloc B ) ) 
+								( bottom 
+									( game vloc C ) ) ) 
+							( move ( top ( game vloc A ) )( top ( ( current player ) vloc B ) )) ) ) ) ) ) ) ) 
+(scoring min ((current player) sto A))
+   )

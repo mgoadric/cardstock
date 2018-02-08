@@ -39,67 +39,192 @@
 
 ( stage player 
 	( end 
-		( == 
-			( top 
+		( != 
+			( bottom 
 				( game vloc B ) ) 
 			( top 
 				( 
 					( next player ) vloc C ) ) ) ) 
 	( do 
 		( 
-			( move ( bottom ( game vloc B ) ) ( top ( ( next player ) vloc B ) ) ) 
+			( 
+				( == 
+					( top 
+						( 
+							( next player ) vloc A ) ) 
+					( top 
+						( 
+							( next player ) vloc A ) ) ) 
+				( any 
+					( game vloc A ) 'MPTTS 
+					( == 
+						( next player ) 
+						( next player ) ) ) ) 
 			( 
 				( == 
 					( next player ) 
 					( current player ) ) 
-				( do 
+				( move ( top ( game vloc A ) )( top ( ( current player ) vloc B ) )) ) ) ) 
+	( stage player 
+		( end 
+			( == 
+				( bottom 
 					( 
-						( let 
-							( 
-								( next player ) vloc B ) 'YTHTR 
-							( 
-								( != 
-									( current player ) 
-									( current player ) ) 
-								( any 
-									( 
-										( next player ) vloc C ) 'FURQP 
-									( game sto POINTS ) ) ) ) ) ) ) ) ) 
-	( do 
-		( 
-			( move ( bottom ( game vloc B ) ) ( bottom ( game vloc A ) ) ) 
-			( 
+						( current player ) vloc A ) ) 
+				( top 
+					( game vloc B ) ) ) ) 
+		( stage player 
+			( end 
+				( == 
+					( next player ) 
+					( current player ) ) ) 
+			( any 
+				( 
+					( next player ) vloc C ) 'XRIWK 
+				( 
+					( != 
+						( current player ) 
+						( next player ) ) 
+					( move ( top ( ( current player ) vloc B ) )( bottom ( ( next player ) vloc C ) ) ) ) ) ) 
+		( stage player 
+			( end 
 				( != 
-					( current player ) 
-					( current player ) ) 
+					( top 
+						( game vloc A ) ) 
+					( bottom 
+						( game vloc B ) ) ) ) 
+			( stage player 
+				( end 
+					( == 
+						( current player ) 
+						( current player ) ) ) 
+				( stage player 
+					( end 
+						( != 
+							( current player ) 
+							( current player ) ) ) 
+					( stage player 
+						( end 
+							( == 
+								( next player ) 
+								( next player ) ) ) 
+						( stage player 
+							( end 
+								( == 
+									( next player ) 
+									( current player ) ) ) 
+							( do 
+								( 
+									( 
+										( != 
+											( top 
+												( 
+													( current player ) vloc C ) ) 
+											( bottom 
+												( game vloc A ) ) ) 
+										( all 
+											( game vloc A ) 'MCSZY 
+											( 
+												( current player ) sto POINTS ) ) ) 
+									( all 
+										( game vloc B ) 'ZPXHH 
+										( game sto POINTS ) ) ) ) ) ) ) 
+				( choice 
+					( 
+						( any player 'JAQPM 
+							( 'JAQPM vloc C ) ) ) ) ) ) 
+		( let 7 'NWCHI 
+			( choice 
+				( 
+					( 
+						( == 
+							( next player ) 
+							( next player ) ) 
+						( set 
+							( game sto POINTS ) 'NWCHI ) ) ) ) ) 
+		( do 
+			( 
+				( 
+					( == 
+						( bottom 
+							( 
+								( current player ) vloc C ) ) 
+						( top 
+							( game vloc B ) ) ) 
+					( all 
+						( 
+							( current player ) vloc C ) 'KUNFZ 
+						( all 
+							( game vloc C ) 'BXZJD 
+							( game vloc A ) ) ) ) 
+				( 
+					( == 
+						( next player ) 
+						( current player ) ) 
+					( let 
+						( 
+							( current player ) sto POINTS ) 'GZKVJ 
+						( all 
+							( 
+								( next player ) vloc B ) 'CAAGB 
+							( move ( top ( game vloc A ) )( top ( ( current player ) vloc B ) )) ) ) ) ) ) ) 
+	( stage player 
+		( end 
+			( != 
+				( bottom 
+					( 
+						( current player ) vloc C ) ) 
+				( bottom 
+					( 
+						( current player ) vloc C ) ) ) ) 
+		( any 
+			( game vloc C ) 'VKFZA 
+			( != 
+				( bottom 'VKFZA ) 
+				( top 'VKFZA ) ) ) 
+		( choice 
+			( 
+				( 
+					( != 
+						( top 
+							( game vloc B ) ) 
+						( top 
+							( game vloc B ) ) ) 
+					( move ( top ( ( current player ) vloc B ) )( top ( game vloc B ) ) ) ) 
+				( 
+					( != 
+						( bottom 
+							( 
+								( next player ) vloc C ) ) 
+						( top 
+							( game vloc A ) ) ) 
+					( do 
+						( 
+							( 
+								( == 
+									( current player ) 
+									( next player ) ) 
+								( all player 'XNFEB 
+									( all player 'WYQZA 
+										( 'XNFEB vloc A ) ) ) ) ) ) ) 
+				( let 
+					( game sto POINTS ) 'QLWNW 
+					( all 
+						( game vloc B ) 'AMRJT 
+						( 
+							( current player ) vloc B ) ) ) 
+				( any player 'NLRMF 
+					( game sto POINTS ) ) ) ) 
+		( choice 
+			( 
 				( do 
 					( 
-						( any 
-							( 
-								( next player ) vloc B ) 'IEGEI 
-							( 
-								( != 
-									( bottom 'IEGEI ) 
-									( bottom 
-										( 
-											( next player ) vloc A ) ) ) 
-								( set 
-									( game sto POINTS ) 8 ) ) ) 
-						( all player 'JADBS 
-							( 
-								( current player ) vloc B ) ) ) ) ) ) ) 
-	( any player 'SRTTX 
-		( game vloc C ) ) 
-	( let 
-		( size 
-			( 
-				( current player ) vloc C ) ) 'FVCKN 
-		( set 
-			( 
-				( current player ) sto POINTS ) 
-			( size 
-				( game vloc B ) ) ) ) 
-	( let player 'OHHNM 
-		( move ( top ( game vloc A ) ) ( top ( ( next player ) vloc C ) ) ) ) ) 
+						( 
+							( == 
+								( current player ) 
+								( current player ) ) 
+							( all player 'EYDGP 
+								( game sto POINTS ) ) ) ) ) 
+				( move ( top ( game vloc A ) )( top ( ( current player ) vloc B ) )) ) ) ) ) 
 (scoring min ((current player) sto A))
    )

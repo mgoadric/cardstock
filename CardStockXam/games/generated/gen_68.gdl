@@ -1,0 +1,179 @@
+(game
+    (declare 5 'A)
+    (setup
+      (create players 2)
+      (create teams (0) (1))
+      (create deck (game vloc A) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                             (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                   (BLACK (SUIT (CLUBS, SPADES))))))
+   )
+   (do (
+        (put points 'POINTS (
+
+                               ((RANK (A)) 14)
+                               ((RANK (K)) 13)
+                               ((RANK (Q)) 12)
+                               ((RANK (J)) 11)
+                               ((RANK (TEN)) 10)
+                               ((RANK (NINE)) 9)
+                               ((RANK (EIGHT)) 8)
+                               ((RANK (SEVEN)) 7)
+                               ((RANK (SIX)) 6)
+                               ((RANK (FIVE)) 5)
+                               ((RANK (FOUR)) 4)
+                               ((RANK (THREE)) 3)
+                               ((RANK (TWO)) 2)
+                               ))
+
+
+      (shuffle (game vloc A))
+
+      (all player 'P
+            (repeat 10
+               (move (top (game vloc A))
+                     (top ('P vloc B))))
+
+         ))
+      )
+
+
+( stage player 
+	( end 
+		( != 
+			( top 
+				( game vloc B ) ) 
+			( bottom 
+				( game vloc A ) ) ) ) 
+	( choice 
+		( 
+			( move ( top ( game vloc A ) )( top ( game vloc B ) ) ) ) ) 
+	( let 7 'URJQO 
+		( any 
+			( 
+				( next player ) vloc A ) 'VXZNQ 
+			( 
+				( next player ) sto POINTS ) ) ) 
+	( do 
+		( 
+			( any player 'VAXSW 
+				( 
+					( next player ) sto POINTS ) ) ) ) 
+	( let 
+		( game sto POINTS ) 'KLRXR 
+		( set 
+			( 
+				( next player ) sto POINTS ) 'KLRXR ) ) 
+	( stage player 
+		( end 
+			( == 
+				( top 
+					( 
+						( current player ) vloc B ) ) 
+				( bottom 
+					( game vloc A ) ) ) ) 
+		( stage player 
+			( end 
+				( == 
+					( top 
+						( game vloc B ) ) 
+					( bottom 
+						( 
+							( current player ) vloc A ) ) ) ) 
+			( stage player 
+				( end 
+					( != 
+						( top 
+							( game vloc B ) ) 
+						( bottom 
+							( game vloc B ) ) ) ) 
+				( choice 
+					( 
+						( 
+							( == 
+								( top 
+									( 
+										( current player ) vloc A ) ) 
+								( bottom 
+									( 
+										( next player ) vloc C ) ) ) 
+							( all 
+								( 
+									( next player ) vloc C ) 'YEMSU 
+								( do 
+									( 
+										( set 
+											( 
+												( current player ) sto POINTS ) 
+											( game sto POINTS ) ) ) ) ) ) ) ) 
+				( choice 
+					( 
+						( 
+							( == 
+								( top 
+									( 
+										( current player ) vloc B ) ) 
+								( bottom 
+									( game vloc B ) ) ) 
+							( do 
+								( 
+									( 
+										( != 
+											( next player ) 
+											( current player ) ) 
+										( any player 'EAVZX 
+											( game sto POINTS ) ) ) ) ) ) ) ) 
+				( choice 
+					( 
+						( move ( top ( game vloc A ) )( top ( game vloc B ) ) ) 
+						( let 0 'CHYJI 
+							( do 
+								( 
+									( 
+										( != 
+											( top 
+												( 
+													( current player ) vloc C ) ) 
+											( bottom 
+												( game vloc A ) ) ) 
+										( all player 'LEWAE 
+											( game sto POINTS ) ) ) ) ) ) ) ) ) 
+			( choice 
+				( 
+					( 
+						( != 
+							( current player ) 
+							( next player ) ) 
+						( set 
+							( 
+								( current player ) sto POINTS ) 
+							( size 
+								( 
+									( next player ) vloc C ) ) ) ) ) ) ) 
+		( choice 
+			( 
+				( 
+					( == 
+						( top 
+							( 
+								( next player ) vloc B ) ) 
+						( top 
+							( 
+								( current player ) vloc A ) ) ) 
+					( set 
+						( 
+							( next player ) sto POINTS ) 
+						( size 
+							( game vloc A ) ) ) ) ) ) ) 
+	( let player 'IMCQJ 
+		( 
+			( != 
+				( top 
+					( 
+						( current player ) vloc C ) ) 
+				( bottom 
+					( game vloc C ) ) ) 
+			( all player 'YVNWG 
+				( 
+					( current player ) sto POINTS ) ) ) ) ) 
+(scoring min ((current player) sto A))
+   )

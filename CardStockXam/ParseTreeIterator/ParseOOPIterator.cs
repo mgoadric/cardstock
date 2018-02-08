@@ -289,9 +289,9 @@ namespace ParseTreeIterator
                     eq = true;
                 }
                 if (boolNode.card() != null){
-                    if (ProcessCard(boolNode.card()[0]).Count() >= 2)
+                    if (boolNode.card().Count() >= 2)
                     {
-                        Console.Out.Write("comparing empty card");
+                        Debug.WriteLine("comparing empty card");
                         var card1 = ProcessCard(boolNode.card()[0]);
                         var card2 = ProcessCard(boolNode.card()[1]);
                         return eq == card1.Equals(card2);
@@ -336,8 +336,9 @@ namespace ParseTreeIterator
         public  GameAction ProcessMove(RecycleParser.MoveactionContext move) {
             var cardOne = ProcessCard(move.GetChild(1) as RecycleParser.CardContext);
             var cardTwo = ProcessCard(move.GetChild(2) as RecycleParser.CardContext);
-            //Console.WriteLine("Card one: " + ProcessCard(move.GetChild(1) as RecycleParser.CardContext));
-            //Console.WriteLine("Card two: " + ProcessCard(move.GetChild(2) as RecycleParser.CardContext));
+			//Console.WriteLine("Card one: " + ProcessCard(move.GetChild(1) as RecycleParser.CardContext));
+			//Console.WriteLine("Card two: " + ProcessCard(move.GetChild(2) as RecycleParser.CardContext));
+
 			return new FancyCardMoveAction(cardOne, cardTwo, parent.instance);
         }
 

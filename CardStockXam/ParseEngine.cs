@@ -21,6 +21,7 @@ public class ParseEngine
     public RecycleParser.GameContext tree;
     public World gameWorld;
     public string fileName;
+    public Dictionary<String, String> nodes;
 
     public ParseEngine(Experiment exp)
     {
@@ -28,7 +29,8 @@ public class ParseEngine
     }
 
 
-    public Tuple<bool, bool> Loader() {
+    public Tuple<bool, bool> Loader()
+    {
 
         Debug.AutoFlush = true;
         var regex = new Regex("(;;)(.*?)(\n)");
@@ -74,6 +76,7 @@ public class ParseEngine
         parser.BuildParseTree = true;
         this.tree = parser.game();
 
+        //DOTConnectionMakerTop(tree, exp.fileName);
 
 
         /***********
@@ -87,15 +90,17 @@ public class ParseEngine
         return HasShuffleAndChoice(tree);
 
     }
-    public void setWorld(World gameWorld) {
+    public void setWorld(World gameWorld)
+    {
         this.gameWorld = gameWorld;
     }
 
-    public bool Experimenter() {
+    public bool Experimenter()
+    {
 
         int numPlayers = 0;
 
-		var aggregator = new int[5, exp.numEpochs];
+        var aggregator = new int[5, exp.numEpochs];
         bool compiling = true;
         int choiceAgg = 0;
         int[,] playerRank = new int[5, exp.numEpochs];
@@ -116,86 +121,91 @@ public class ParseEngine
         //for (int i = 0; i < exp.numGames; i++)
         Parallel.For(0, exp.numGames, i =>
         {
-	        try
-	        {
-	            int choiceCount = 0;
-	            System.GC.Collect();
+            try
+            {
+                int choiceCount = 0;
+                System.GC.Collect();
 
-	            CardEngine.CardGame instance = new CardEngine.CardGame(true, exp.fileName + i);
-				
+                CardEngine.CardGame instance = new CardEngine.CardGame(true, exp.fileName + i);
 
-				var manageContext = new FreezeFrame.GameIterator(tree, instance, gameWorld);
 
-                if (exp.type == GameType.AllAI) {
-                    for (int j = 0; j < instance.players.Count; j++) {
-                        instance.players[j].decision  = new LessThanPerfectPlayer(manageContext, GameType.AllAI);
+                var manageContext = new FreezeFrame.GameIterator(tree, instance, gameWorld);
+
+                if (exp.type == GameType.AllAI)
+                {
+                    for (int j = 0; j < instance.players.Count; j++)
+                    {
+                        instance.players[j].decision = new LessThanPerfectPlayer(manageContext, GameType.AllAI);
                     }
 
 
-				} else if (exp.type == GameType.RndandAI) {
+                }
+                else if (exp.type == GameType.RndandAI)
+                {
                     instance.players[0].decision = new LessThanPerfectPlayer(manageContext, GameType.RndandAI);
                 }
-	            
-	            // PLAY THE GAME
-	            while (!manageContext.AdvanceToChoice())
-	            {
+
+                // PLAY THE GAME
+                while (!manageContext.AdvanceToChoice())
+                {
                     lock (this)
                     {
                         choiceCount++;
                         choiceAgg++;
                     }
-	                manageContext.ProcessChoice();
+                    manageContext.ProcessChoice();
 
-	                if (choiceCount > 500)
-	                {
-	                    Console.WriteLine("Choices not processed (probably infinite loop)");
-	                    compiling = false;
-	                    break;
-	                }
-	            }
-
-				
+                    if (choiceCount > 500)
+                    {
+                        Console.WriteLine("Choices not processed (probably infinite loop)");
+                        compiling = false;
+                        break;
+                    }
+                }
 
 
-				// SORT OUT RESULTS
-				if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
-	            var results = manageContext.parseoop.ProcessScore(tree.scoring());
-	            numPlayers = results.Count();
-	            for (int j = 0; j < results.Count; ++j)
-	            {
-	                aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
-	                if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
 
-	                playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
-	                // if player was ranked first (could be win or loss)
-	                if (j == 0)
-	                {
-	                    playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
-	                }
-	                
 
-	            }
+                // SORT OUT RESULTS
+                if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
+                var results = manageContext.parseoop.ProcessScore(tree.scoring());
+                numPlayers = results.Count();
+                for (int j = 0; j < results.Count; ++j)
+                {
+                    aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
+                    if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
 
-				
+                    playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
+                    // if player was ranked first (could be win or loss)
+                    if (j == 0)
+                    {
+                        playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
+                    }
 
-	            if (gameWorld != null) {
-					// also go get lessthanperfectplayer and get the chunk of data here about winners/choices
-					// also lock this in the gameover method so that it's safe for multiple games to access 
-					if (exp.type == GameType.AllAI)
-					{
+
+                }
+
+
+
+                if (gameWorld != null)
+                {
+                    // also go get lessthanperfectplayer and get the chunk of data here about winners/choices
+                    // also lock this in the gameover method so that it's safe for multiple games to access 
+                    if (exp.type == GameType.AllAI)
+                    {
                         lead[i] = new List<List<double>>();
-						for (int j = 0; j < instance.players.Count; j++)
-						{
-                            
-                            lead[i].Add(instance.players[j].decision.GetLead());
-						}
+                        for (int j = 0; j < instance.players.Count; j++)
+                        {
 
-					}
-					else if (exp.type == GameType.RndandAI)
-					{
-						lead[i] = new List<List<double>>();
-						lead[i].Add(instance.players[0].decision.GetLead());
-					}
+                            lead[i].Add(instance.players[j].decision.GetLead());
+                        }
+
+                    }
+                    else if (exp.type == GameType.RndandAI)
+                    {
+                        lead[i] = new List<List<double>>();
+                        lead[i].Add(instance.players[0].decision.GetLead());
+                    }
                     winners[i] = results[0].Item2;
                     //gameWorld.GameOver(results[0].Item2);
                     // also lock this one
@@ -203,13 +213,15 @@ public class ParseEngine
                     {
                         numTurns += choiceCount;
                     }
+                    writeGraph(instance);
+
                     //gameWorld.IncNumTurns(choiceCount);
                 }
 
 
                 Debug.WriteLine("Finished game " + (i + 1) + " of " + exp.numGames);
             }
-        
+
             catch (Exception e)
             {
                 Console.WriteLine(fileName + " failed from exception: " + e + "\n\n\n");
@@ -236,7 +248,7 @@ public class ParseEngine
             Console.Out.WriteLine("Score: ");
             for (int i = 0; i < numPlayers; ++i)
             {
-                Console.Out.Write("Player" + i  + ":\t");
+                Console.Out.Write("Player" + i + ":\t");
 
                 for (int j = 0; j < exp.numEpochs; j++)
                 {
@@ -245,30 +257,30 @@ public class ParseEngine
                 }
                 Console.Out.WriteLine();
             }
-			Console.Out.WriteLine("Rank: ");
+            Console.Out.WriteLine("Rank: ");
 
-			for (int i = 0; i < numPlayers; ++i)
-			{
-				Console.Out.Write("Player" + i + ":\t");
+            for (int i = 0; i < numPlayers; ++i)
+            {
+                Console.Out.Write("Player" + i + ":\t");
 
-				for (int j = 0; j < exp.numEpochs; j++)
-				{
-					Console.Out.Write(playerRank[i, j] / (double)(exp.numGames / exp.numEpochs) + "\t");
-				}
-				Console.Out.WriteLine();
-			}
-			Console.Out.WriteLine("First: ");
+                for (int j = 0; j < exp.numEpochs; j++)
+                {
+                    Console.Out.Write(playerRank[i, j] / (double)(exp.numGames / exp.numEpochs) + "\t");
+                }
+                Console.Out.WriteLine();
+            }
+            Console.Out.WriteLine("First: ");
 
-			for (int i = 0; i < numPlayers; ++i)
-			{
-				Console.Out.Write("Player" + i + ":\t");
+            for (int i = 0; i < numPlayers; ++i)
+            {
+                Console.Out.Write("Player" + i + ":\t");
 
-				for (int j = 0; j < exp.numEpochs; j++)
-				{
-					Console.Out.Write(playerFirst[i, j] / (double)(exp.numGames / exp.numEpochs) + "\t");
-				}
-				Console.Out.WriteLine();
-			}
+                for (int j = 0; j < exp.numEpochs; j++)
+                {
+                    Console.Out.Write(playerFirst[i, j] / (double)(exp.numGames / exp.numEpochs) + "\t");
+                }
+                Console.Out.WriteLine();
+            }
             Console.Out.WriteLine();
             // Console.Read();
         }
@@ -279,15 +291,15 @@ public class ParseEngine
             gameWorld.AddNumTurns(choiceAgg);
             // USE RESULTS IN GENETIC ALGORITHM
             var sum = 0;
-			for (int i = 0; i < exp.numEpochs; i++)
-			{
-				sum += playerFirst[0, i];
-			}
+            for (int i = 0; i < exp.numEpochs; i++)
+            {
+                sum += playerFirst[0, i];
+            }
             if (exp.type == GameType.AllRnd)
-            {          
+            {
                 gameWorld.numFirstWins += sum;
 
-				gameWorld.numGames += exp.numGames;
+                gameWorld.numGames += exp.numGames;
             }
 
             else if (exp.type == GameType.RndandAI)
@@ -298,7 +310,8 @@ public class ParseEngine
 
 
             }
-            else {
+            else
+            {
                 gameWorld.SetAIVsAI(lead);
             }
 
@@ -306,28 +319,56 @@ public class ParseEngine
         return true;
     }
 
-	/*********
+
+    public void writeGraph(CardEngine.CardGame instance) {
+        Dictionary<string, int> moveDict = new Dictionary<string, int>();
+        foreach (string s in instance.builder.ToString().Split('\n')) 
+        {
+            if (moveDict.ContainsKey(s)) {
+                moveDict[s] += 1;
+            } else {
+                moveDict[s] = 0;
+            }
+        }
+        StringBuilder toWrite = new StringBuilder();//.Append("strict digraph {\n");
+        foreach (string s in moveDict.Keys) {
+            toWrite.Append(s + " [penwidth=" + moveDict[s] + "];\n");
+        }
+        toWrite.Append("\n}");
+        string gameName = exp.fileName.Split('/')[exp.fileName.Split('/').Count() - 1].Split('.')[0] + "Graph.gv";
+		var fs = File.Create("graphs_weighted/" + gameName);
+		//var fs = File.Create(exp.fileName.Substring(0, exp.fileName.Count() - 4) + "Graph.gv");
+		//instance.builder.Append("\n}");
+
+		var bytes = Encoding.UTF8.GetBytes(toWrite.ToString());
+		fs.Write(bytes, 0, bytes.Length);
+		fs.Close();
+    }
+
+    /*********
      * Output the parsed game for graphviz dot
      *********/
-	public void DOTMakerTop(IParseTree node, string fileName) {
-		StringBuilder builder = new StringBuilder();
-		builder.Append("graph tree{");
-		builder.AppendLine("NODE0 [label=\"Stage\" style=filled fillcolor=\"red\"]");
-		DOTMaker(node, "NODE0", builder);
-		builder.Append("}");
-		try
-		{
-			var fs = File.Create("games/" + fileName + ".gv");
-			var bytes = Encoding.UTF8.GetBytes(builder.ToString());
-			fs.Write(bytes, 0, bytes.Length);
-			fs.Close();
-			Debug.WriteLine("wrote " + fileName + ".gv");
-		}
-		catch (Exception ex)
-		{
-			Debug.WriteLine(ex.ToString());
-		}
-	}
+    public void DOTMakerTop(IParseTree node, string fileName)
+    {
+        nodes = new Dictionary<string, string>();
+        StringBuilder builder = new StringBuilder();
+        builder.Append("graph tree{");
+        builder.AppendLine("NODE0 [label=\"Stage\" style=filled fillcolor=\"red\"]");
+        DOTMaker(node, "NODE0", builder);
+        builder.Append("}");
+        try
+        {
+            var fs = File.Create("games/" + fileName + ".gv");
+            var bytes = Encoding.UTF8.GetBytes(builder.ToString());
+            fs.Write(bytes, 0, bytes.Length);
+            fs.Close();
+            Debug.WriteLine("wrote " + fileName + ".gv");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.ToString());
+        }
+    }
 
     /*********
      * Output the parsed game for graphviz dot
@@ -400,6 +441,165 @@ public class ParseEngine
             }
         }
     }
+
+    /*********
+     * Output the connected locations for graphviz dot
+     *********/
+    public void DOTConnectionMakerTop(IParseTree node, string fileName)
+    {
+        nodes = new Dictionary<string, string>();
+        StringBuilder builder = new StringBuilder();
+        builder.Append("strict digraph{");
+        DOTConnectionMaker(node, "NODE0", builder);
+        builder.Append("}");
+        try
+        {
+            var fs = File.Create(fileName.Substring(0, fileName.Count() - 4) + "RuleConnections.gv");
+            var bytes = Encoding.UTF8.GetBytes(builder.ToString());
+            fs.Write(bytes, 0, bytes.Length);
+            fs.Close();
+            Debug.WriteLine("wrote " + fileName + ".gv");
+            Console.WriteLine(fileName.Substring(0, fileName.Count() - 4) + "Connections.gv");
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("failed: " + ex.ToString());
+            Debug.WriteLine(ex.ToString());
+        }
+    }
+
+    /*********
+     * Output the connected locations for graphviz dot
+     *********/
+    public void DOTConnectionMaker(IParseTree node, string nodeName, StringBuilder builder) 
+    {
+        for (int i = 0; i < node.ChildCount; ++i)
+        {
+            var newNodeName = nodeName + "_" + i;
+            var contextName = node.GetChild(i).GetType().ToString().Replace("RecycleParser+", "").Replace("Context", "");
+            //Console.WriteLine("Child " + i + ": " + node.GetChild(i) + "; Context: " + contextName + "\n");
+            if (node.GetChild(i).GetText() == "move")
+            {
+                string[] nodeNames = { "", "" };
+               
+                // store node names as string of numbers assoc w a card location
+                for (int j = i + 1; j < i + 3; j++)
+                {
+					Console.WriteLine("entire node: " + node.GetChild(j).GetText());
+                    //Console.WriteLine(node.GetChild(j).GetText());
+                    if (node.GetChild(j).GetText()[0] == '\'') {
+
+						// if is var
+						//Console.WriteLine("hi " + "NODE_" + node.GetChild(j).GetChild(0).ToString().Replace(" ", "").Replace("[", "").Replace("]", ""));
+						//nodeNames[j - i - 1] = "NODE_" + node.GetChild(j).GetChild(0).ToString().Replace(" ", "").Replace("[", "").Replace("]", "");
+                        nodeNames[j - i - 1] = node.GetChild(j).GetText().Replace("'", "");
+
+					} else {
+                        // if is regular (game iloc STOCK etc)
+                        //Console.WriteLine("hi2 " + "NODE_" + node.GetChild(j).GetChild(2).ToString().Replace(" ", ""));
+
+                        //nodeNames[j - i - 1] = "NODE_" + node.GetChild(j).GetChild(2).ToString().Replace(" ", "").Replace("[", "").Replace("]", "");
+                        nodeNames[j - i - 1] = node.GetChild(j).GetText().Replace("(", "").Replace(")", "").Replace("'", "");
+
+						//nodes.Add(nodeNames[j - i - 1], node.GetChild(j).GetText());
+                    }
+                }
+                //Console.WriteLine(node.GetChild(i + 1).GetChild(2));
+
+
+				//var nodeName2 = "NODE_" + node.GetChild(i + 2).GetText().Replace("(", "").Replace(")", "").Replace("'", "var_");
+
+
+
+				/*if (nodes.ContainsKey(node.GetChild(i + 1).GetText())) {
+                    nodeName1 = nodes[node.GetChild(i + 1).GetText()];
+                } else {
+                    nodes.Add(node.GetChild(i + 1).GetText(), nodeName1);
+
+                }
+                if (nodes.ContainsKey(node.GetChild(i + 2).GetText())) {
+			
+					nodeName2 = nodes[node.GetChild(i + 2).GetText()];
+                } else {
+					nodes.Add(node.GetChild(i + 2).GetText(), nodeName2);
+				}*/
+                //builder.AppendLine(nodeNames[0] + " [fillcolor=\"green\" style=filled label=\"" + nodeNames[0] + "\"]");
+                //builder.AppendLine(nodeNames[1] + " [fillcolor=\"green\" style=filled label=\"" + nodeNames[1] + "\"]");
+
+                builder.AppendLine(nodeNames[0] + " -> " + nodeNames[1]);
+        
+				Console.WriteLine("movetext: " + node.GetChild(i + 1).GetText() + " to " + node.GetChild(i + 2).GetText());
+            }
+            if (node.GetChild(i).ChildCount > 0) {
+                DOTConnectionMaker(node.GetChild(i), newNodeName, builder);
+            }
+
+
+
+
+			/*
+			if (node.GetChild(i).ChildCount > 0 && contextName == "Int")
+			{
+				var text = node.GetChild(i).GetText();
+				int myi = 0;
+				while (myi < text.Length && Char.IsDigit(text[myi]))
+				{
+					myi++;
+				}
+				if (myi != text.Length)
+				{
+					builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("RecycleParser+", "").Replace("Context", "") + "\" ]");
+					DOTMaker(node.GetChild(i), newNodeName, builder);
+				}
+				else
+				{
+					builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetText() + "\" style=filled fillcolor=\"lightblue\"]");
+				}
+			}
+			else if (node.GetChild(i).ChildCount > 0 && contextName != "Namegr" && contextName != "Name" && contextName != "Trueany")
+			{
+				var extra = "";
+				if (contextName == "Stage")
+				{
+					extra = " style=filled fillcolor=\"red\"";
+				}
+				else if (contextName == "Computermoves")
+				{
+					extra = " style=filled shape=box fillcolor=\"yellow\"";
+				}
+				else if (contextName == "Playermoves")
+				{
+					extra = " style=filled shape=diamond fillcolor=\"orange\"";
+				}
+				builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetType().ToString().Replace("RecycleParser+", "").Replace("Context", "") + "\" " + extra + "]");
+				DOTMaker(node.GetChild(i), newNodeName, builder);
+			}
+			else if (node.GetChild(i).ChildCount > 0)
+			{
+				builder.AppendLine(newNodeName + " [fillcolor=\"green\" style=filled label=\"" + node.GetChild(i).GetText() + "\"]");
+			}
+			else if (node.GetChild(i).GetText() == "(" || node.GetChild(i).GetText() == ")" || node.GetChild(i).GetText() == "," ||
+										node.GetChild(i).GetText() == "end" || node.GetChild(i).GetText() == "stage" || node.GetChild(i).GetText() == "comp" ||
+										node.GetChild(i).GetText() == "create" || node.GetChild(i).GetText() == "sto" || node.GetChild(i).GetText() == "loc" ||
+										node.GetChild(i).GetText() == "initialize" || node.GetChild(i).GetText() == "move" || node.GetChild(i).GetText() == "copy" ||
+										node.GetChild(i).GetText() == "inc" || node.GetChild(i).GetText() == "dec" || node.GetChild(i).GetText() == "shuffle" ||
+										node.GetChild(i).GetText() == "remove" ||
+										node.GetChild(i).GetText() == "choice")
+			{
+				dontCreate = true;
+			}
+			else
+			{
+				builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetText() + "\"]");
+				//DOTMaker(node.GetChild(i),newNodeName);
+			}
+			if (!dontCreate)
+			{
+				builder.AppendLine(nodeName + " -- " + newNodeName);
+			}*/
+		}
+	}
 
     Tuple<bool, bool> HasShuffleAndChoice(IParseTree tree)
     {

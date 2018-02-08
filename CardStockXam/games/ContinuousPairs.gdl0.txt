@@ -1,0 +1,335 @@
+nump:4
+t:p0
+T:0 
+T:1 
+T:2 
+T:3 
+C:ONE-VALUE|t{invisible}STOCK
+C:TWO-VALUE|t{invisible}STOCK
+C:TWO-VALUE|t{invisible}STOCK
+C:THREE-VALUE|t{invisible}STOCK
+C:THREE-VALUE|t{invisible}STOCK
+C:THREE-VALUE|t{invisible}STOCK
+C:FOUR-VALUE|t{invisible}STOCK
+C:FOUR-VALUE|t{invisible}STOCK
+C:FOUR-VALUE|t{invisible}STOCK
+C:FOUR-VALUE|t{invisible}STOCK
+C:FIVE-VALUE|t{invisible}STOCK
+C:FIVE-VALUE|t{invisible}STOCK
+C:FIVE-VALUE|t{invisible}STOCK
+C:FIVE-VALUE|t{invisible}STOCK
+C:FIVE-VALUE|t{invisible}STOCK
+C:SIX-VALUE|t{invisible}STOCK
+C:SIX-VALUE|t{invisible}STOCK
+C:SIX-VALUE|t{invisible}STOCK
+C:SIX-VALUE|t{invisible}STOCK
+C:SIX-VALUE|t{invisible}STOCK
+C:SIX-VALUE|t{invisible}STOCK
+C:SEVEN-VALUE|t{invisible}STOCK
+C:SEVEN-VALUE|t{invisible}STOCK
+C:SEVEN-VALUE|t{invisible}STOCK
+C:SEVEN-VALUE|t{invisible}STOCK
+C:SEVEN-VALUE|t{invisible}STOCK
+C:SEVEN-VALUE|t{invisible}STOCK
+C:SEVEN-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+A:TEN 10
+A:NINE 9
+A:EIGHT 8
+A:SEVEN 7
+A:SIX 6
+A:FIVE 5
+A:FOUR 4
+A:THREE 3
+A:TWO 2
+A:ONE 1
+S:CardEngine.RawStorage NUMP 4
+O:t{invisible}STOCK#FIVE-VALUE| TEN-VALUE| NINE-VALUE| NINE-VALUE| EIGHT-VALUE| SEVEN-VALUE| FIVE-VALUE| EIGHT-VALUE| SEVEN-VALUE| SIX-VALUE| EIGHT-VALUE| NINE-VALUE| SEVEN-VALUE| TEN-VALUE| SEVEN-VALUE| TEN-VALUE| THREE-VALUE| TEN-VALUE| ONE-VALUE| EIGHT-VALUE| TEN-VALUE| THREE-VALUE| NINE-VALUE| EIGHT-VALUE| FIVE-VALUE| EIGHT-VALUE| SEVEN-VALUE| TWO-VALUE| TEN-VALUE| SIX-VALUE| TEN-VALUE| NINE-VALUE| EIGHT-VALUE| TEN-VALUE| SIX-VALUE| FOUR-VALUE| SEVEN-VALUE| EIGHT-VALUE| SIX-VALUE| FIVE-VALUE| TWO-VALUE| FOUR-VALUE| SIX-VALUE| SEVEN-VALUE| SIX-VALUE| FOUR-VALUE| TEN-VALUE| FIVE-VALUE| NINE-VALUE| NINE-VALUE| THREE-VALUE| TEN-VALUE| NINE-VALUE| FOUR-VALUE| NINE-VALUE|
+M:NINE-VALUE| t{invisible}STOCK t{invisible}THROWOUT
+M:FOUR-VALUE| t{invisible}STOCK t{invisible}THROWOUT
+M:NINE-VALUE| t{invisible}STOCK t{invisible}THROWOUT
+M:TEN-VALUE| t{invisible}STOCK t{invisible}THROWOUT
+M:THREE-VALUE| t{invisible}STOCK t{invisible}THROWOUT
+M:NINE-VALUE| t{invisible}STOCK p0{visible}HAND
+M:NINE-VALUE| t{invisible}STOCK p1{visible}HAND
+M:FIVE-VALUE| t{invisible}STOCK p2{visible}HAND
+M:TEN-VALUE| t{invisible}STOCK p3{visible}HAND
+t:p2
+N:FIVE-VALUE| p2{visible}HAND p2{visible}SCORING
+N:FOUR-VALUE| t{invisible}STOCK p2{visible}HAND
+M:FIVE-VALUE| p2{visible}HAND p2{visible}SCORING
+t:p3
+N:NINE-VALUE| p1{visible}HAND p3{visible}SCORING
+N:TEN-VALUE| p3{visible}HAND t{visible}DISCARD
+N:FOUR-VALUE| t{invisible}STOCK p3{visible}HAND
+M:NINE-VALUE| p1{visible}HAND p3{visible}SCORING
+M:TEN-VALUE| p3{visible}HAND t{visible}DISCARD
+t:p0
+N:NINE-VALUE| p0{visible}HAND p0{visible}SCORING
+N:FOUR-VALUE| t{invisible}STOCK p0{visible}HAND
+M:FOUR-VALUE| t{invisible}STOCK p0{visible}HAND
+t:p1
+N:SIX-VALUE| t{invisible}STOCK p1{visible}HAND
+M:SIX-VALUE| t{invisible}STOCK p1{visible}HAND
+t:p2
+N:SEVEN-VALUE| t{invisible}STOCK p2{visible}HAND
+M:SEVEN-VALUE| t{invisible}STOCK p2{visible}HAND
+t:p3
+N:SIX-VALUE| t{invisible}STOCK p3{visible}HAND
+M:SIX-VALUE| t{invisible}STOCK p3{visible}HAND
+t:p0
+N:FOUR-VALUE| p0{visible}HAND p0{visible}SCORING
+N:NINE-VALUE| p0{visible}HAND t{visible}DISCARD
+N:FOUR-VALUE| t{invisible}STOCK p0{visible}HAND
+M:FOUR-VALUE| p0{visible}HAND p0{visible}SCORING
+M:NINE-VALUE| p0{visible}HAND t{visible}DISCARD
+t:p1
+N:SIX-VALUE| p1{visible}HAND p1{visible}SCORING
+N:FOUR-VALUE| t{invisible}STOCK p1{visible}HAND
+M:SIX-VALUE| p1{visible}HAND p1{visible}SCORING
+t:p2
+N:SIX-VALUE| p3{visible}HAND p2{visible}SCORING
+N:SEVEN-VALUE| p2{visible}HAND t{visible}DISCARD
+N:FOUR-VALUE| t{invisible}STOCK p2{visible}HAND
+M:SIX-VALUE| p3{visible}HAND p2{visible}SCORING
+M:SEVEN-VALUE| p2{visible}HAND t{visible}DISCARD
+t:p3
+N:FOUR-VALUE| t{invisible}STOCK p3{visible}HAND
+M:FOUR-VALUE| t{invisible}STOCK p3{visible}HAND
+t:p0
+N:TWO-VALUE| t{invisible}STOCK p0{visible}HAND
+M:TWO-VALUE| t{invisible}STOCK p0{visible}HAND
+t:p1
+N:FIVE-VALUE| t{invisible}STOCK p1{visible}HAND
+M:FIVE-VALUE| t{invisible}STOCK p1{visible}HAND
+t:p2
+N:SIX-VALUE| t{invisible}STOCK p2{visible}HAND
+M:SIX-VALUE| t{invisible}STOCK p2{visible}HAND
+t:p3
+N:TWO-VALUE| p0{visible}HAND p3{visible}SCORING
+N:FOUR-VALUE| p3{visible}HAND t{visible}DISCARD
+N:EIGHT-VALUE| t{invisible}STOCK p3{visible}HAND
+M:TWO-VALUE| p0{visible}HAND p3{visible}SCORING
+M:FOUR-VALUE| p3{visible}HAND t{visible}DISCARD
+t:p0
+N:EIGHT-VALUE| t{invisible}STOCK p0{visible}HAND
+M:EIGHT-VALUE| t{invisible}STOCK p0{visible}HAND
+t:p1
+N:FIVE-VALUE| p1{visible}HAND p1{visible}SCORING
+N:SEVEN-VALUE| t{invisible}STOCK p1{visible}HAND
+M:FIVE-VALUE| p1{visible}HAND p1{visible}SCORING
+t:p2
+N:SIX-VALUE| p2{visible}HAND p2{visible}SCORING
+N:SEVEN-VALUE| t{invisible}STOCK p2{visible}HAND
+M:SIX-VALUE| p2{visible}HAND p2{visible}SCORING
+s:4 0
+t:p1
+s:11 1
+t:p2
+s:17 2
+t:p3
+s:11 3
+t:p0
+nump:4
+t:p0
+T:0 
+T:1 
+T:2 
+T:3 
+C:ONE-VALUE|t{invisible}STOCK
+C:TWO-VALUE|t{invisible}STOCK
+C:TWO-VALUE|t{invisible}STOCK
+C:THREE-VALUE|t{invisible}STOCK
+C:THREE-VALUE|t{invisible}STOCK
+C:THREE-VALUE|t{invisible}STOCK
+C:FOUR-VALUE|t{invisible}STOCK
+C:FOUR-VALUE|t{invisible}STOCK
+C:FOUR-VALUE|t{invisible}STOCK
+C:FOUR-VALUE|t{invisible}STOCK
+C:FIVE-VALUE|t{invisible}STOCK
+C:FIVE-VALUE|t{invisible}STOCK
+C:FIVE-VALUE|t{invisible}STOCK
+C:FIVE-VALUE|t{invisible}STOCK
+C:FIVE-VALUE|t{invisible}STOCK
+C:SIX-VALUE|t{invisible}STOCK
+C:SIX-VALUE|t{invisible}STOCK
+C:SIX-VALUE|t{invisible}STOCK
+C:SIX-VALUE|t{invisible}STOCK
+C:SIX-VALUE|t{invisible}STOCK
+C:SIX-VALUE|t{invisible}STOCK
+C:SEVEN-VALUE|t{invisible}STOCK
+C:SEVEN-VALUE|t{invisible}STOCK
+C:SEVEN-VALUE|t{invisible}STOCK
+C:SEVEN-VALUE|t{invisible}STOCK
+C:SEVEN-VALUE|t{invisible}STOCK
+C:SEVEN-VALUE|t{invisible}STOCK
+C:SEVEN-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:EIGHT-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:NINE-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+C:TEN-VALUE|t{invisible}STOCK
+A:TEN 10
+A:NINE 9
+A:EIGHT 8
+A:SEVEN 7
+A:SIX 6
+A:FIVE 5
+A:FOUR 4
+A:THREE 3
+A:TWO 2
+A:ONE 1
+S:CardEngine.RawStorage NUMP 4
+O:t{invisible}STOCK#NINE-VALUE| FOUR-VALUE| FIVE-VALUE| TEN-VALUE| EIGHT-VALUE| SIX-VALUE| NINE-VALUE| SIX-VALUE| SIX-VALUE| THREE-VALUE| THREE-VALUE| TEN-VALUE| SEVEN-VALUE| TWO-VALUE| EIGHT-VALUE| SEVEN-VALUE| NINE-VALUE| SEVEN-VALUE| FIVE-VALUE| FOUR-VALUE| TEN-VALUE| NINE-VALUE| FIVE-VALUE| SIX-VALUE| NINE-VALUE| FOUR-VALUE| NINE-VALUE| SEVEN-VALUE| EIGHT-VALUE| THREE-VALUE| ONE-VALUE| SEVEN-VALUE| EIGHT-VALUE| TEN-VALUE| TEN-VALUE| TEN-VALUE| EIGHT-VALUE| EIGHT-VALUE| TEN-VALUE| SIX-VALUE| TEN-VALUE| TEN-VALUE| TEN-VALUE| NINE-VALUE| SEVEN-VALUE| FOUR-VALUE| TWO-VALUE| SEVEN-VALUE| FIVE-VALUE| EIGHT-VALUE| SIX-VALUE| NINE-VALUE| FIVE-VALUE| NINE-VALUE| EIGHT-VALUE|
+M:EIGHT-VALUE| t{invisible}STOCK t{invisible}THROWOUT
+M:NINE-VALUE| t{invisible}STOCK t{invisible}THROWOUT
+M:FIVE-VALUE| t{invisible}STOCK t{invisible}THROWOUT
+M:NINE-VALUE| t{invisible}STOCK t{invisible}THROWOUT
+M:SIX-VALUE| t{invisible}STOCK t{invisible}THROWOUT
+M:EIGHT-VALUE| t{invisible}STOCK p0{visible}HAND
+M:FIVE-VALUE| t{invisible}STOCK p1{visible}HAND
+M:SEVEN-VALUE| t{invisible}STOCK p2{visible}HAND
+M:TWO-VALUE| t{invisible}STOCK p3{visible}HAND
+t:p3
+N:TWO-VALUE| p3{visible}HAND p3{visible}SCORING
+N:FOUR-VALUE| t{invisible}STOCK p3{visible}HAND
+M:FOUR-VALUE| t{invisible}STOCK p3{visible}HAND
+t:p0
+N:TWO-VALUE| p3{visible}HAND p0{visible}SCORING
+N:EIGHT-VALUE| p0{visible}HAND t{visible}DISCARD
+N:SEVEN-VALUE| t{invisible}STOCK p0{visible}HAND
+M:SEVEN-VALUE| t{invisible}STOCK p0{visible}HAND
+t:p1
+N:TWO-VALUE| p3{visible}HAND p1{visible}SCORING
+N:FIVE-VALUE| p1{visible}HAND t{visible}DISCARD
+N:NINE-VALUE| t{invisible}STOCK p1{visible}HAND
+M:NINE-VALUE| t{invisible}STOCK p1{visible}HAND
+t:p2
+N:TWO-VALUE| p3{visible}HAND p2{visible}SCORING
+N:SEVEN-VALUE| p2{visible}HAND t{visible}DISCARD
+N:TEN-VALUE| t{invisible}STOCK p2{visible}HAND
+M:TEN-VALUE| t{invisible}STOCK p2{visible}HAND
+t:p3
+N:TWO-VALUE| p3{visible}HAND p3{visible}SCORING
+N:FOUR-VALUE| p3{visible}HAND t{visible}DISCARD
+N:TEN-VALUE| t{invisible}STOCK p3{visible}HAND
+M:TEN-VALUE| t{invisible}STOCK p3{visible}HAND
+t:p0
+N:TWO-VALUE| p3{visible}HAND p0{visible}SCORING
+N:SEVEN-VALUE| p0{visible}HAND t{visible}DISCARD
+N:EIGHT-VALUE| p0{visible}HAND t{visible}DISCARD
+N:TEN-VALUE| t{invisible}STOCK p0{visible}HAND
+M:TWO-VALUE| p3{visible}HAND p0{visible}SCORING
+M:SEVEN-VALUE| p0{visible}HAND t{visible}DISCARD
+M:EIGHT-VALUE| p0{visible}HAND t{visible}DISCARD
+t:p1
+N:FOUR-VALUE| p3{visible}HAND p1{visible}SCORING
+N:NINE-VALUE| p1{visible}HAND t{visible}DISCARD
+N:FIVE-VALUE| p1{visible}HAND t{visible}DISCARD
+N:TEN-VALUE| t{invisible}STOCK p1{visible}HAND
+M:FOUR-VALUE| p3{visible}HAND p1{visible}SCORING
+M:NINE-VALUE| p1{visible}HAND t{visible}DISCARD
+M:FIVE-VALUE| p1{visible}HAND t{visible}DISCARD
+t:p2
+N:SEVEN-VALUE| p2{visible}HAND p2{visible}SCORING
+N:TEN-VALUE| p2{visible}HAND t{visible}DISCARD
+N:TEN-VALUE| t{invisible}STOCK p2{visible}HAND
+M:TEN-VALUE| t{invisible}STOCK p2{visible}HAND
+M:TEN-VALUE| p2{visible}HAND p2{visible}SCORING
+M:SEVEN-VALUE| p2{visible}HAND t{visible}DISCARD
+M:TEN-VALUE| p2{visible}HAND t{visible}DISCARD
+t:p3
+N:TEN-VALUE| p3{visible}HAND p3{visible}SCORING
+N:SIX-VALUE| t{invisible}STOCK p3{visible}HAND
+M:TEN-VALUE| p3{visible}HAND p3{visible}SCORING
+t:p0
+N:SIX-VALUE| t{invisible}STOCK p0{visible}HAND
+M:SIX-VALUE| t{invisible}STOCK p0{visible}HAND
+t:p1
+N:TEN-VALUE| t{invisible}STOCK p1{visible}HAND
+M:TEN-VALUE| t{invisible}STOCK p1{visible}HAND
+t:p2
+N:EIGHT-VALUE| t{invisible}STOCK p2{visible}HAND
+M:EIGHT-VALUE| t{invisible}STOCK p2{visible}HAND
+t:p3
+N:EIGHT-VALUE| t{invisible}STOCK p3{visible}HAND
+M:EIGHT-VALUE| t{invisible}STOCK p3{visible}HAND
+t:p0
+N:SIX-VALUE| p0{visible}HAND p0{visible}SCORING
+N:TEN-VALUE| t{invisible}STOCK p0{visible}HAND
+M:TEN-VALUE| t{invisible}STOCK p0{visible}HAND
+t:p1
+N:SIX-VALUE| p0{visible}HAND p1{visible}SCORING
+N:TEN-VALUE| p1{visible}HAND t{visible}DISCARD
+N:TEN-VALUE| t{invisible}STOCK p1{visible}HAND
+M:TEN-VALUE| t{invisible}STOCK p1{visible}HAND
+M:TEN-VALUE| p1{visible}HAND p1{visible}SCORING
+M:TEN-VALUE| p1{visible}HAND t{visible}DISCARD
+t:p2
+N:SIX-VALUE| p0{visible}HAND p2{visible}SCORING
+N:EIGHT-VALUE| p2{visible}HAND t{visible}DISCARD
+N:TEN-VALUE| t{invisible}STOCK p2{visible}HAND
+M:TEN-VALUE| t{invisible}STOCK p2{visible}HAND
+t:p3
+N:SIX-VALUE| p0{visible}HAND p3{visible}SCORING
+N:EIGHT-VALUE| p3{visible}HAND t{visible}DISCARD
+N:EIGHT-VALUE| t{invisible}STOCK p3{visible}HAND
+M:EIGHT-VALUE| t{invisible}STOCK p3{visible}HAND
+M:EIGHT-VALUE| p3{visible}HAND p3{visible}SCORING
+M:EIGHT-VALUE| p3{visible}HAND t{visible}DISCARD
+s:2 0
+t:p1
+s:14 1
+t:p2
+s:10 2
+t:p3
+s:18 3
+t:p0

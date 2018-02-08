@@ -13,6 +13,8 @@ namespace CardEngine
 {
 	
 	public class CardGame{
+        public StringBuilder builder = new StringBuilder().Append("strict digraph{");
+
 
 		public string DeclaredName = "Default";
 		public static Random rand = new Random();

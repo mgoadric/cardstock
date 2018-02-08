@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
+using System.Text;
 
 namespace CardStockXam.Scoring
 {
@@ -91,6 +93,7 @@ namespace CardStockXam.Scoring
             }
         }
 
+      
 
 
 

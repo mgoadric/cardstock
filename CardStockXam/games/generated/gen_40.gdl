@@ -1,0 +1,67 @@
+(game
+    (declare 5 'A)
+    (setup
+      (create players 2)
+      (create teams (0) (1))
+      (create deck (game vloc A) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                             (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                   (BLACK (SUIT (CLUBS, SPADES))))))
+   )
+   (do (
+        (put points 'POINTS (
+
+                               ((RANK (A)) 14)
+                               ((RANK (K)) 13)
+                               ((RANK (Q)) 12)
+                               ((RANK (J)) 11)
+                               ((RANK (TEN)) 10)
+                               ((RANK (NINE)) 9)
+                               ((RANK (EIGHT)) 8)
+                               ((RANK (SEVEN)) 7)
+                               ((RANK (SIX)) 6)
+                               ((RANK (FIVE)) 5)
+                               ((RANK (FOUR)) 4)
+                               ((RANK (THREE)) 3)
+                               ((RANK (TWO)) 2)
+                               ))
+
+
+      (shuffle (game vloc A))
+
+      (all player 'P
+            (repeat 10
+               (move (top (game vloc A))
+                     (top ('P vloc B))))
+
+         ))
+      )
+
+
+( stage player 
+	( end 
+		( == 
+			( bottom 
+				( game vloc A ) ) 
+			( bottom 
+				( game vloc A ) ) ) ) 
+	( choice 
+		( 
+			( 
+				( == 
+					( top 
+						( 
+							( current player ) vloc B ) ) 
+					( top 
+						( 
+							( next player ) vloc B ) ) ) 
+				( any 
+					( 
+						( next player ) vloc A ) 'NEIMY 
+					( != 
+						( bottom 'NEIMY ) 
+						( top 'NEIMY ) ) ) ) 
+			( do 
+				( 
+					( move ( top ( game vloc A ) )( bottom ( ( next player ) vloc B ) ) ) ) ) ) ) ) 
+(scoring min ((current player) sto A))
+   )
