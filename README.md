@@ -29,7 +29,9 @@ branching factor, average game length, game complexity, etc.
 
 ## References
 
-Automated Playtesting with RECYCLEd CardStock
+(Automated Playtesting with RECYCLEd CardStock)[http://mark.goadrich.com/articles/issue-2-1-09-recycled.pdf]
+
 Connor Bell and Mark Goadrich
+
 Game & Puzzle Design Journal, Vol 2, Issue 1, July 2016
-http://mark.goadrich.com/articles/issue-2-1-09-recycled.pdf
+
