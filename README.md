@@ -26,3 +26,10 @@ branching factor, average game length, game complexity, etc.
 3. Alter the Program.cs class to create an Experiment object for your game.
 4. Run the program in either Release or Debug mode.
 5. Choose "Release Mode" to only see the results, or "Debug Mode" to see all game actions (better logs in the future).
+
+## References
+
+Automated Playtesting with RECYCLEd CardStock
+Connor Bell and Mark Goadrich
+Game & Puzzle Design Journal, Vol 2, Issue 1, July 2016
+http://mark.goadrich.com/articles/issue-2-1-09-recycled.pdf
