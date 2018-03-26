@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace CardGames
 {
     public class Experiment
@@ -12,6 +14,8 @@ namespace CardGames
         public bool ai2 = false;
         public GameType type = GameType.AllRnd;
         public System.Text.StringBuilder builder = new System.Text.StringBuilder();
+
+
     }
 
     public enum GameType {

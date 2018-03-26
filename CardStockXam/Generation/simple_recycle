@@ -1,0 +1,51 @@
+stage : OPEN 'stage' 'player' endcondition ( multiaction | stage )+? CLOSE ;
+endcondition : OPEN 'end' boolean CLOSE ;
+
+action : OPEN ( setaction | moveaction ) CLOSE | agg ;
+multiaction : OPEN 'choice' OPEN ( condact )+? CLOSE CLOSE | OPEN 'do' OPEN ( condact )+? CLOSE CLOSE | agg | let ;
+multiaction2 : OPEN 'do' OPEN ( condact )+? CLOSE CLOSE | agg | let ;
+condact : OPEN boolean multiaction2 CLOSE | multiaction2 | OPEN boolean action CLOSE | action ;
+
+agg : OPEN ( 'any' | 'all' ) collection var ( condact | boolean | cstorage | rawstorage ) CLOSE ;
+let : OPEN 'let' typed var ( multiaction | action | condact ) CLOSE ;
+filter : OPEN 'filter' collection var boolean CLOSE ;
+
+setaction : 'set' rawstorage int ;
+moveaction : 'move' card card ;
+
+card : OPEN ( 'top' | 'bottom' ) cstorage CLOSE ;
+
+rawstorage : OPEN ( 'game' | whop ) 'sto' ( rawname ) CLOSE ;
+cstorage : varcard | OPEN locpre locdesc ( cstoname ) CLOSE ;
+
+
+
+locpre : varwhop | 'game' | whop ;
+locdesc : 'vloc' ;
+whop : OPEN whodesc 'player' CLOSE ;
+
+whodesc : 'next' | 'current' ;
+owner : OPEN 'owner' card CLOSE ;
+
+typed : int | collection ;
+collection : cstorage | 'player' ;
+
+boolean : OPEN ( EQOP card card | EQOP whop whop ) CLOSE ;
+BOOLOP : 'and' | 'or' ;
+EQOP : '!=' | '==' ;
+UNOP : 'not' ;
+
+add : OPEN '+' int int CLOSE ;
+mult : OPEN '*' int int CLOSE ;
+subtract : OPEN '-' int int CLOSE ;
+mod : OPEN '%' int int CLOSE ;
+divide : OPEN '//' int int CLOSE ;
+
+sizeof : OPEN 'size' cstorage CLOSE ;
+int : sizeof | rawstorage | INTNUM | varint ;
+
+INTNUM : 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9  ;
+
+OPEN : '(' ;
+CLOSE : ')' ;
+

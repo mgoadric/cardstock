@@ -84,7 +84,7 @@ public class ParseEngine
          ***********/
         if (!exp.evaluating)
         {
-            DOTMakerTop(tree, exp.fileName);
+            //DOTMakerTop(tree, exp.fileName);
         }
 
         return HasShuffleAndChoice(tree);
@@ -213,8 +213,8 @@ public class ParseEngine
                     {
                         numTurns += choiceCount;
                     }
-                    writeGraph(instance);
-
+                    //writeGraph(instance);
+                    writeDegreeGraph(instance);
                     //gameWorld.IncNumTurns(choiceCount);
                 }
 
@@ -336,14 +336,31 @@ public class ParseEngine
         }
         toWrite.Append("\n}");
         string gameName = exp.fileName.Split('/')[exp.fileName.Split('/').Count() - 1].Split('.')[0] + "Graph.gv";
-		var fs = File.Create("graphs_weighted/" + gameName);
-		//var fs = File.Create(exp.fileName.Substring(0, exp.fileName.Count() - 4) + "Graph.gv");
-		//instance.builder.Append("\n}");
+		
 
-		var bytes = Encoding.UTF8.GetBytes(toWrite.ToString());
-		fs.Write(bytes, 0, bytes.Length);
-		fs.Close();
+
+        //var fs = File.Create("graphs_weighted/" + gameName);
+		
+
+		//var bytes = Encoding.UTF8.GetBytes(toWrite.ToString());
+		//fs.Write(bytes, 0, bytes.Length);
+		//fs.Close();
     }
+
+    public void writeDegreeGraph(CardEngine.CardGame instance) {
+        StringBuilder sb = new StringBuilder();
+        foreach (String item in instance.locOrder) {
+            sb.Append(item + "\t" + instance.locDegrees[item] + "\n");
+        }
+        string fn = exp.fileName.Split('/')[exp.fileName.Split('/').Count() - 1].Split('.')[0] + "_DegreeVals.txt";
+		var file = File.Create("degreeGraphs/" + fn);
+
+
+		var bytes = Encoding.UTF8.GetBytes(sb.ToString());
+		file.Write(bytes, 0, bytes.Length);
+		file.Close();
+
+	}
 
     /*********
      * Output the parsed game for graphviz dot

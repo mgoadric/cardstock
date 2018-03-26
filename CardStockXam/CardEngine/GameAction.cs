@@ -88,6 +88,8 @@ namespace CardEngine {
             //Console.WriteLine(startLocation.name);
             //Console.WriteLine(endLocation.name);
             // writes graph file in the bin/Debug/graphs folder  
+            String cleanStart = startLocation.name.Split('{')[0] + "_" + startLocation.name.Substring(startLocation.name.IndexOf("}") + 1).Split(' ')[0];
+            String cleanEnd = endLocation.name.Split('{')[0] + "_" + endLocation.name.Substring(endLocation.name.IndexOf("}") + 1).Split(' ')[0];
             var moveString = startLocation.name.Split('{')[0] + "_" + startLocation.name.Substring(startLocation.name.IndexOf("}") + 1).Split(' ')[0]
                                           + " -> " + endLocation.name.Split('{')[0] + "_" + endLocation.name.Substring(endLocation.name.IndexOf("}") + 1).Split(' ')[0];
             //Debug.WriteLine(moveString);
@@ -96,6 +98,24 @@ namespace CardEngine {
                 moveString = "POINTS ->" + moveString.Split('>')[1];
             }
             cg.builder.AppendLine(moveString);
+            string key = cleanStart + " " + cleanEnd;
+            if (!cg.locDegrees.ContainsKey(key)) {
+                cg.locDegrees[key] = -1;
+                if (!cg.locDegrees.ContainsKey(cleanStart)) {
+                    cg.locDegrees[cleanStart] = 0;
+                }
+                cg.locDegrees[cleanStart] += 1;
+            } else if (!cg.locDegrees.ContainsKey(cleanEnd)) {
+                cg.locDegrees[cleanEnd] = 0;
+            }
+
+            if (!cg.locOrder.Contains(cleanStart)) {
+                cg.locOrder.Add(cleanStart);
+            }
+            if (!cg.locOrder.Contains(cleanEnd)) {
+                cg.locOrder.Add(cleanEnd);
+            }
+
             
            
 		}

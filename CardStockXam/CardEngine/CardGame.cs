@@ -14,7 +14,8 @@ namespace CardEngine
 	
 	public class CardGame{
         public StringBuilder builder = new StringBuilder().Append("strict digraph{");
-
+		public Dictionary<string, int> locDegrees = new Dictionary<String, int>();
+		public List<string> locOrder = new List<string>();
 
 		public string DeclaredName = "Default";
 		public static Random rand = new Random();

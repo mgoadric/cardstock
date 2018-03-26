@@ -1,0 +1,110 @@
+var : ' namegr ;
+game : OPEN 'game' declare setup ( multiaction | stage )+? scoring CLOSE ;
+setup : OPEN 'setup' playercreate OPEN teamcreate CLOSE ( OPEN deckcreate CLOSE | OPEN repeat CLOSE )+? CLOSE ;
+stage : OPEN 'stage' ( 'player' ) endcondition ( multiaction | stage )+? CLOSE ;
+scoring : OPEN 'scoring' ( 'min' | 'max' ) int CLOSE ;
+endcondition : OPEN 'end' boolean CLOSE ;
+
+action : OPEN ( initpoints | cycleaction | setaction | moveaction | copyaction | incaction | decaction | removeaction | turnaction | shuffleaction | repeat ) CLOSE | agg ;
+multiaction : OPEN 'choice' OPEN ( condact )+? CLOSE CLOSE | OPEN 'do' OPEN ( condact )+? CLOSE CLOSE | agg | let ;
+multiaction2 : OPEN 'do' OPEN ( condact )+? CLOSE CLOSE | agg | let ;
+condact : OPEN boolean multiaction2 CLOSE | multiaction2 | OPEN boolean action CLOSE | action ;
+
+agg : OPEN ( 'any' | 'all' ) collection var ( condact | boolean | cstorage | rawstorage ) CLOSE ;
+let : OPEN 'let' typed var ( multiaction | action | condact ) CLOSE ;
+declare : OPEN 'declare' typed var CLOSE ;
+
+deck : OPEN 'deck' attribute CLOSE ;
+
+attribute : OPEN varnamegr CLOSE | OPEN ( namegr ',' )*? namegr attribute CLOSE ;
+
+
+
+cycleaction : 'cycle' ( 'next' | 'current' ) ( owner | 'current' | 'next' | 'previous' ) ;
+
+setaction : 'set' rawstorage int ;
+incaction : 'inc' rawstorage int ;
+decaction : 'dec' rawstorage int ;
+
+moveaction : 'move' card card ;
+copyaction : 'remember' card card ;
+removeaction : 'forget' card ;
+shuffleaction : 'shuffle' cstorage ;
+turnaction : 'turn' 'pass' ;
+repeat : 'repeat' int action | 'repeat' 'all' OPEN moveaction CLOSE ;
+
+card : maxof | minof | actual | OPEN ( 'top' | 'bottom' | int ) cstorage CLOSE ;
+actual : OPEN 'actual' card CLOSE ;
+
+rawstorage : OPEN ( varwhop | 'game' | who ) 'sto' ( varnamegr ) CLOSE ;
+cstorage : varcstorage | unionof | filter | OPEN locpre locdesc ( varnamegr ) CLOSE | memstorage ;
+memstorage :  OPEN ( 'top' | 'bottom' | int ) memset CLOSE ;
+
+memset : tuple ;
+tuple : OPEN 'tuples' int cstorage 'using' varinitpoints CLOSE ;
+
+locpre : varwhop | 'game' | whop  ;
+locdesc : 'vloc' | 'iloc' | 'hloc' | 'mem' ;
+who : whot | whop ;
+whop : OPEN whodesc 'player' CLOSE | owner ;
+
+whodesc : int | 'previous' | 'next' | 'current' ;
+owner : OPEN 'owner' card CLOSE ;
+
+
+other : OPEN 'other' ( 'player') CLOSE ;
+
+typed : int | boolean | collection ;
+collection : cstorage | strcollection | cstoragecollection | 'player' | other | range ;
+strcollection : OPEN ( namegr ',' )*? namegr CLOSE ;
+cstoragecollection : memset | agg | let ;
+range : OPEN 'range' int '..' int CLOSE ;
+
+filter : OPEN 'filter' collection var boolean CLOSE ;
+
+attrcomp : EQOP cardatt cardatt ;
+cardatt : varcardatt | OPEN 'cardatt' ( varcardatt ) card CLOSE ;
+
+boolean : OPEN (BOOLOP boolean boolean | intop int int | attrcomp | EQOP card card | UNOP boolean | EQOP whop whop | EQOP whot whot) CLOSE | agg ;
+BOOLOP : 'and' | 'or' ;
+intop : COMPOP | EQOP ;
+COMPOP : '<' | '>' | '>=' | '<=' ;
+EQOP : '!=' | '==' ;
+UNOP : 'not' ;
+
+add : OPEN '+' int int CLOSE ;
+mult : OPEN '*' int int CLOSE ;
+subtract : OPEN '-' int int CLOSE ;
+mod : OPEN '%' int int CLOSE ;
+divide : OPEN '//' int int CLOSE ;
+
+sizeof : OPEN 'size' ( varcstorage | cstorage | memset ) CLOSE ;
+maxof : OPEN 'max' cstorage 'using' varinitpoints CLOSE ;
+minof : OPEN 'min' cstorage 'using' varinitpoints CLOSE ;
+unionof : OPEN 'union' ( agg | cstorage ) CLOSE ;
+sum : OPEN 'sum' cstorage 'using' varinitpoints CLOSE ;
+score : OPEN 'score' card 'using' varinitpoints CLOSE ;
+
+int : varint | sizeof | mult | subtract | mod | add | divide | sum | rawstorage | score | INTNUM ;
+INTNUM : 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9  ;
+
+namegr : LETT ;
+LETT : A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z ;
+
+OPEN : '(' ;
+CLOSE : ')' ;
+
+
+
+let, agg, cstoname & rawstoname are only things that
+can create variables
+
+simple_recycle notes:
+
+let - assign variable for int, player collection or card collection
+    varint, varwhop, varcstorage
+agg - create player or card collection
+    varwhop, varcstorage
+
+cstoname & rawname - same as above - gen strings if
+dont exist, try to stick to same names if do exist

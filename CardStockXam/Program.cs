@@ -5,7 +5,6 @@ using System.IO;
 using System.Threading;
 using CardStockXam.Scoring;
 using System.Text;
-
 namespace CardGames
 {
     public class Program
@@ -14,10 +13,30 @@ namespace CardGames
     {
         public static void Main(string[] args)
         {
+            
+
             //CardStockXam.Scorer.Main(args);
+
+
+            //PythonController python = new PythonController();
+            //python.run_cmd();
             var p = new Program();
-            p.SingleGame("/Users/anna/Desktop/cardstock/CardStockXam/games/Agram.gdl");
-            //p.AllGames();
+			/*if (args.Length > 0)
+			{
+                p.SingleGame(args[0]);
+			}
+            else {
+			    p.SingleGame("/Users/anna/Desktop/cardstock/CardStockXam/games/Hearts.gdl");
+
+			}*/
+
+            p.AllGames();
+			//System.IO.DirectoryInfo di = new DirectoryInfo("/Users/anna/Desktop/cardstock/CardStockXam/games/generated/");
+
+			//foreach (FileInfo file in di.GetFiles())
+			//{
+			//	file.Delete();
+			//}
 
 
         }
@@ -59,7 +78,8 @@ namespace CardGames
 
         void AllGames() {
 			List<string> gameFiles = new List<string>();
-			string[] allFiles = System.IO.Directory.GetFiles("games/");
+
+			string[] allFiles = System.IO.Directory.GetFiles("/Users/anna/Desktop/cardstock/CardStockXam/games/");
             System.Console.Write("hi");
 			foreach (string s in allFiles)
 			{
@@ -76,5 +96,6 @@ namespace CardGames
             }
 
    		}
+
     }
 }
