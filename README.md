@@ -36,4 +36,4 @@ Connor Bell and Mark Goadrich
 Game & Puzzle Design Journal, Vol 2, Issue 1, July 2016
 
 
-Hello
+Goodbye
