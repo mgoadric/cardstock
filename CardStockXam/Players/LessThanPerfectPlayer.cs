@@ -152,7 +152,7 @@ namespace Players
 
                 if (type == CardGames.GameType.AllAI)
                 {
-                   
+                    Console.WriteLine("P" + idx + ":" + max);
                     leadList.Add(max);
 
                 }       

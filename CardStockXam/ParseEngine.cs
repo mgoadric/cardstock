@@ -186,7 +186,7 @@ public class ParseEngine
                         lead[i] = new List<List<double>>();
 						for (int j = 0; j < instance.players.Count; j++)
 						{
-                            
+                            Console.WriteLine("Adding leads for P" + j + ", count of " + instance.players[j].decision.GetLead().Count);
                             lead[i].Add(instance.players[j].decision.GetLead());
 						}
 

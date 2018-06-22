@@ -44,7 +44,7 @@
                                                            (== (cardatt SUIT 'NH)
                                                                (cardatt SUIT (top (game vloc CAT)))))) 'C
            ((and (== (size 'C) 0) 
-                 (== (size (game vloc CAT)) 0))
+                 (> (size (game vloc CAT)) 0))
             (set ((current player) sto COURTSHORT) 1)
             ))
            
