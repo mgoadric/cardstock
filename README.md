@@ -1,4 +1,4 @@
-# Abstract Card Game Design and Analysis
+﻿# Abstract Card Game Design and Analysis
 
 ## Project Goals
 
@@ -35,3 +35,5 @@ Connor Bell and Mark Goadrich
 
 Game & Puzzle Design Journal, Vol 2, Issue 1, July 2016
 
+
+Hello
