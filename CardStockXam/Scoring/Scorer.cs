@@ -1,4 +1,4 @@
-﻿using CardGames;
+﻿﻿using CardGames;
 using CardStockXam.Scoring;
 using System.Diagnostics;
 using CardStockXam.Scoring.Heuristics;
@@ -12,29 +12,28 @@ namespace CardStockXam
     class Scorer{
         private List<Experiment> exps = new List<Experiment>();
         private ParseEngine engine;
-        public string name = "temp";
-        // Static here TODO 
+
         public static World gameWorld;
         public string text;
 
-        private int numRndvRnd = 0;
-        private int numAIvRnd  = 0;
-        private int numAIvAI   = 20;
+        private int numRndvRnd = 1;
+        private int numAIvRnd  = 1;
+        private int numAIvAI   = 1;
 
 
-        // TODO run everything with one game and make a big chart with all 5 working heuristics 
         public static void Main(string[] args) {
 			List<string> gameFiles = new List<string>();
 			string[] allFiles = System.IO.Directory.GetFiles("games");
             List<Tuple<string, List<double>>> scores = new List<Tuple<string, List<double>>>();
-            //foreach (string s in allFiles)
-            //{
-            //	if (s.EndsWith(".gdl"))
-            //	{
-            //		gameFiles.Add(s);
-            //	}
-            //}
-            gameFiles.Add("games/Caterpillar.gdl");
+           /* foreach (string s in allFiles)
+            {
+            	if (s.EndsWith(".gdl"))
+            	{
+            		gameFiles.Add(s);
+            	}
+            }
+            */
+            gameFiles.Add("games/Pairs.gdl");
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
 
@@ -68,7 +67,10 @@ namespace CardStockXam
             //new GameLength(),
             //new NoTies(),
             new Drama(),
-            new Decisiveness()
+            new Decisiveness(),
+            new Stability(),
+            new Clarity(),
+            new Coolness()
         };
 
         public Scorer(string fileName)

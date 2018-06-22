@@ -86,26 +86,25 @@ namespace Players
                     Debug.WriteLine("in lpp");
                     while (!cloneContext.AdvanceToChoice())
                     {
-                        // caught here for sure
+                        
                         cloneContext.ProcessChoice();
                     }
-                    // TODO make sure changes to processscore didn't screw this up
-                    // figure this chunk out 
+                     
                     Debug.WriteLine("after advance to choice");
 
                     var winners = cloneContext.parseoop.ProcessScore(cloneContext.game.scoring());
                     Debug.WriteLine("past processscore");
                     total[item] = winners.Count;
 
-
+                    // TODO record everyone's ranks at all potential moves so can give to scoretracker
                     for (int j = 0; j < winners.Count; ++j)
                     {
                         // if player is me
                         if (winners[j].Item2 == idx)
                         {
-                            // add your rank to the results of this choice
-                            results[item] += j;
-
+							// add your rank to the results of this choice
+							// TODO find out stuff about ranks here! this is where they're added
+							results[item] += j;
                             int div = j + 1;
                             double lead = ((double)1) / div;
                             lock (this)
@@ -118,14 +117,14 @@ namespace Players
                     Debug.WriteLine("in lpp");
 
                 });
-                Debug.WriteLine("Aggregated rank: " + results[item]);
-                // stretch & shift this number depending on number of players
+               
+               
 
-                // 
-                wrs[item] = (((numWon) / (numTests)) * ((double)total[item] / (total[item] - 1))) - ((double)1 / ((total[item] - 1)));
+                                                        
+
+				wrs[item] = (((numWon) / (numTests)) * ((double)total[item] / (total[item] - 1))) - ((double)1 / ((total[item] - 1)));
 
 
-				Debug.WriteLine("wrs " + wrs[item]);
 
 			}
 			Debug.WriteLine("End Monte");
@@ -140,17 +139,23 @@ namespace Players
                 //var min = results[tup.Item1] / total[tup.Item1];
                 var max = wrs[tup.Item1];
                 var min = wrs[tup.Item2];
+                double avg = 0;
+                for (int i = 0; i < wrs.Length; i++) {
+                    avg += wrs[i];
+                }
+                avg /= (double)wrs.Length;
 
                 var variance = Math.Abs(max - min);
-                lock (this)
-                {
-                    gameContext.gameWorld.variance.Add(variance);
-                }
+
+                gameContext.gameWorld.AddInfo(variance, avg, wrs[tup.Item1]);
+
+
                 if (type == CardGames.GameType.AllAI)
                 {
                     Console.WriteLine("P" + idx + ":" + max);
                     leadList.Add(max);
-                }
+
+                }       
 			}
             Debug.WriteLine("AI Finished.");
 

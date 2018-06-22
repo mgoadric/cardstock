@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace CardStockXam.Scoring.Heuristics
 {
@@ -7,13 +8,16 @@ namespace CardStockXam.Scoring.Heuristics
         public override double Weight(){
             return 0.5;
         }
-        // expect AI to win 100% of time, just calculate how much out of 100 they won
-        public override double Get(World w){
-            if (w.numAIvsRnd == 0) {
-                return 0;
-            } else {
-                return (double) w.numAIWins / w.numAIvsRnd;
-            }
+
+        // w.variance is a list of the difference between
+        // the highest and lowest scored moves for each AI 
+        // player (in a random order)
+
+
+      
+        public override double Get(World w)
+        {
+            return ((double)w.variance.Sum() / w.variance.Count);
 
         }
     }

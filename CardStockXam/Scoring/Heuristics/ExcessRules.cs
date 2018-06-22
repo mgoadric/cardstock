@@ -8,6 +8,7 @@ namespace CardStockXam.Scoring.Heuristics
 {
     class ExcessRules : Heuristic
     {
+        // could measure number of turns vs amount of time it takes per turn to measure complexity in some way 
         int maxRules = 100; //TODO, idk what right number is
         int divisor = 25; //TODO this either
 
