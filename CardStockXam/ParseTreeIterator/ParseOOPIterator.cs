@@ -429,7 +429,7 @@ namespace ParseTreeIterator
                 foreach (Player p in parent.instance.players){
                     lst.Add(p);
                 }
-                lst.Remove(parent.instance.currentPlayer.ElementAt(0));
+                lst.Remove(parent.instance.currentPlayer.Peek().playerList[parent.instance.currentPlayer.Peek().idx]);
             }
             else{
                 foreach (Team t in parent.instance.teams){
