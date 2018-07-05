@@ -23,17 +23,18 @@
 	
 	(stage player  ;; TURN LOOP START
 
-	(end (or (== (size (game iloc STOCK)) 0) (any player 'P (== (size ('P iloc HAND) 0)))))	
+	(end (or (== (size (game iloc STOCK)) 0) (any player 'P (== (size ('P iloc HAND)) 0))))	
 		
 		;; Go through all the ranks looking for tricks
 		(all 'RANKS 'R
 			(let (filter ((current player) iloc HAND) 'MR (== (cardatt RANK 'MR) 'R)) 'MYRANK 
-				(== (size 'MYRANK) 4)
+				((== (size 'MYRANK) 4)
 				(do (
 					(inc ((current player) sto SCORE) 1)
 					(all 'MYRANK 'C
 						(move 'C (player iloc 'TRICKSTACK)))
 				)	)
+                                )
 			)
                  )
 

@@ -37,6 +37,7 @@ namespace CardGames
             codeGen.setWorld(new World());
             codeGen.Loader();
             codeGen.Experimenter();
+            System.Console.ReadLine();
 		}
 
         void AllGames() {
