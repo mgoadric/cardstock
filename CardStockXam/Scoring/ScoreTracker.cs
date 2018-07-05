@@ -10,8 +10,8 @@ namespace CardStockXam.Scoring
         // access who put in ranks in at particular point
 
 
-        public EmptyClass()
-        {
-        }
+        //public EmptyClass()
+        //{
+        //}
     }
 }

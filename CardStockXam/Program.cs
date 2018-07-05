@@ -13,9 +13,9 @@ namespace CardGames
     {
         public static void Main(string[] args)
         {
-            CardStockXam.Scorer.Main(args);
-            //var p = new Program();
-            //p.SingleGame("games/Caterpillar.gdl");
+            //CardStockXam.Scorer.Main(args);
+            var p = new Program();
+            p.SingleGame("games/GoFish.gdl");
             // p.AllGames();
 
 
@@ -31,7 +31,7 @@ namespace CardGames
 			exp.numEpochs = 1;
 
             exp.logging = true;
-            exp.type = GameType.AllAI;
+            exp.type = GameType.AllRnd;
 
 			var codeGen = new ParseEngine(exp);
             codeGen.setWorld(new World());
