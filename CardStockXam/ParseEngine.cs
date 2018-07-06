@@ -317,7 +317,7 @@ public class ParseEngine
 		builder.Append("}");
 		try
 		{
-			var fs = File.Create("games/" + fileName + ".gv");
+			var fs = File.Create(fileName + ".gv");
 			var bytes = Encoding.UTF8.GetBytes(builder.ToString());
 			fs.Write(bytes, 0, bytes.Length);
 			fs.Close();
@@ -410,6 +410,7 @@ public class ParseEngine
             shuffle = true;
         }
         else if (tree is RecycleParser.MultiactionContext)
+
         {
             if (tree.GetChild(1).GetText().Equals("choice"))
             {

@@ -2,7 +2,7 @@
 
 (game ;; MATCH START
 
-(declare (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K) 'RANKS)
+ (declare (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K) 'RANKS)
     (setup  
      ;; Set up the players
       (create players 2)
@@ -18,24 +18,26 @@
 	
 	(do ( ;; DEALING START
 		(shuffle (game iloc STOCK))
-		(all player 'P (repeat 5 (move (top (game iloc STOCK)) (top ('P iloc HAND))))) 
-        )) ;; DEALING END
-	
+		(all player 'P (do (
+                                    (repeat 5 (move (top (game iloc STOCK)) (top ('P iloc HAND))))
+                                 (all 'RANKS 'R
+			(let (filter ('P iloc HAND) 'MR (== (cardatt RANK 'MR) 'R)) 'MYRANK 
+				((== (size 'MYRANK) 4)
+				(do (
+					(inc ('P sto SCORE) 1)
+					(all 'MYRANK 'C
+						(move 'C (top ('P iloc TRICKSTACK))))
+				)	)
+                                )
+			)
+                        )
+                                 )
+                                 )
+                 ))) ;; DEALING END
+        
 	(stage player  ;; TURN LOOP START
 
-	(end (or (== (size (game iloc STOCK)) 0) (any player 'P (== (size ('P iloc HAND) 0)))))	
-		
-		;; Go through all the ranks looking for tricks
-		(all 'RANKS 'R
-			(let (filter ((current player) iloc HAND) 'MR (== (cardatt RANK 'MR) 'R)) 'MYRANK 
-				(== (size 'MYRANK) 4)
-				(do (
-					(inc ((current player) sto SCORE) 1)
-					(all 'MYRANK 'C
-						(move 'C (player iloc 'TRICKSTACK)))
-				)	)
-			)
-                 )
+	(end (or (== (size (game iloc STOCK)) 0) (any player 'P (== (size ('P iloc HAND)) 0))))	
 
 		(choice (
 		(any 'RANKS 'R    ;; CHOICE GENERATION START
@@ -43,38 +45,49 @@
 			(let (filter ((current player) iloc HAND) 'MR (== (cardatt RANK 'MR) 'R)) 'MYRANK ;; save each card we have in rank R
 				((> (size 'MYRANK) 0)
 											
-					(any (other player) 'P (
-						(let (filter ('P iloc HAND) 'TR (== (cardatt RANK 'TR) 'R)) 'THEIRRANK ;; Makes a collection of cards that player X has in rank R
-							(	
+					(any (other player) 'P
+                                             
+						(let (filter ('P iloc HAND) 'TR (== (cardatt RANK 'TR) 'R)) 'THEIRRANK ;; Makes a collection of cards that player X has in rank R	
 							(do (						
 								
 								;; If they don't have cards in rank R -- Draw
-								(== (size 'THEIRRANK) 0)
+								((== (size 'THEIRRANK) 0)
 								(do (
-									(move (top (game iloc STOCK)) (top (current player) iloc HAND)) 
+									(move (top (game iloc STOCK)) (top ((current player) iloc HAND))) 
 									
 									;; If the drawn card has rank R -- play another turn
-									(== ((top (current player) iloc HAND) cardatt RANK) 'R)
-									(do (
-										(cycle next current)
-									)	)
+									((== (cardatt RANK (top ((current player) iloc HAND))) 'R)
+									(cycle next current)
+									)
 								)	)
-								
+								)
 								;; If they have cards in rank R -- Take their cards and play another turn
-								(> (size 'THEIRRANK) 0) 
+								((> (size 'THEIRRANK) 0) 
 								(do ( 
-									(all 'THEIRRANK 'TRC (
-										(move 'TRC (top (current player iloc HAND)))
-									))
+									(all 'THEIRRANK 'TRC 
+										(move 'TRC (top ((current player) iloc HAND)))
+									)
 									(cycle next current)
 								)	)				
-							)	)
+							)	))
                                                         )
                                                   )
-					))
-                                  ))
+					)
+                                  )
                                              
-		))) ;; CHOICE GENERATION END
+		)))
+        ;; Go through all the ranks looking for tricks
+		(do ( (all 'RANKS 'R
+			(let (filter ((current player) iloc HAND) 'MR (== (cardatt RANK 'MR) 'R)) 'MYRANK 
+				((== (size 'MYRANK) 4)
+				(do (
+					(inc ((current player) sto SCORE) 1)
+					(all 'MYRANK 'C
+						(move 'C (top ((current player) iloc TRICKSTACK))))
+				)	)
+                                )
+			)
+                 )))        ;; CHOICE GENERATION END
 	) ;; TURN LOOP END
 	 
 	

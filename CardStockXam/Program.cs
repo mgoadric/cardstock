@@ -15,7 +15,7 @@ namespace CardGames
         {
             //CardStockXam.Scorer.Main(args);
             var p = new Program();
-            p.SingleGame("games/GoFish.gdl");
+            p.SingleGame("games/Gofish.gdl");
             // p.AllGames();
 
 
@@ -31,12 +31,14 @@ namespace CardGames
 			exp.numEpochs = 1;
 
             exp.logging = true;
+            exp.evaluating = false;
             exp.type = GameType.AllRnd;
 
 			var codeGen = new ParseEngine(exp);
             codeGen.setWorld(new World());
             codeGen.Loader();
             codeGen.Experimenter();
+            System.Console.ReadLine();
 		}
 
         void AllGames() {
