@@ -2,13 +2,13 @@
 
 (game ;; MATCH START
 
- (declare (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K) 'RANKS)
+ (declare (A, TWO, THREE, FOUR, FIVE, SIX) 'RANKS) ;;SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K
     (setup  
      ;; Set up the players
       (create players 2)
       (create teams (0) (1))
       ;; Create the deck source
-      (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+      (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX))
                                              (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                                    (BLACK (SUIT (CLUBS, SPADES))))))
       )
@@ -27,13 +27,7 @@
 					(inc ('P sto SCORE) 1)
 					(all 'MYRANK 'C
 						(move 'C (top ('P iloc TRICKSTACK))))
-				)	)
-                                )
-			)
-                        )
-                                 )
-                                 )
-                 ))) ;; DEALING END
+	)))))))))) ;; DEALING END
         
 	(stage player  ;; TURN LOOP START
 
@@ -42,8 +36,8 @@
 		(choice (
 		(any 'RANKS 'R    ;; CHOICE GENERATION START
 		
-			(let (filter ((current player) iloc HAND) 'MR (== (cardatt RANK 'MR) 'R)) 'MYRANK ;; save each card we have in rank R
-				((> (size 'MYRANK) 0)
+		(let (filter ((current player) iloc HAND) 'MR (== (cardatt RANK 'MR) 'R)) 'MYRANK ;; save each card we have in rank R
+			((> (size 'MYRANK) 0)
 											
 					(any (other player) 'P
                                              
