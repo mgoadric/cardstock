@@ -17,33 +17,49 @@ namespace Players
 		private GameIterator gameContext;
 		private List<double> leadList;
 		public CardGames.GameType type;
+        private int numPlayers;
+        private int idx;
 
-		public PIPMCPlayer(GameIterator m, CardGames.GameType type)
+		public PIPMCPlayer(GameIterator m, CardGames.GameType type, int idx)
 		{
 			this.type = type;
 			gameContext = m;
 			this.leadList = new List<double>();
+            numPlayers = gameContext.instance.players.Count;
+            this.idx = idx;
 		}
 
-		public int NumChoices(int items, Random rand, int idx){
+        public override int MakeAction(List<GameActionCollection> possibles, Random rand)
+        {
+            
+            return NumChoices(possibles.Count, rand);
+        }
+
+        public override int MakeAction(JObject possibles, Random rand)
+        {
+            var items = (JArray)possibles["items"];
+            return NumChoices(items.Count, rand);
+        }
+
+		public int NumChoices(int items, Random rand){
             
 			Debug.WriteLine("Passing new choice to LPP");
 			Debug.WriteLine("AI making choice. items: " + items);
 
-            var results = new int[items];
-            int numPlayers = gameContext.instance.players.Count;
-			double[] wrs = new double[items];
+            var rankSum = new int[items];
+            var inverseRankSum = new double[items];
 
-			Debug.WriteLine("Start Monte");
+            Debug.WriteLine("Start Monte");
 
             // can parallellize here TODO 
+            // FOR EACH POSSIBLE MOVE
 
-			for (int item = 0; item < items; ++item)
-			{
+            for (int item = 0; item < items; ++item)
+            {
                 Debug.WriteLine("iterating over item: " + item);
 
-				double numWon = 0;
-				results[item] = 0;
+                inverseRankSum[item] = 0;
+                rankSum[item] = 0;
 
                 Parallel.For(0, numTests, i =>   //number of tests for certain decision
                 {
@@ -80,10 +96,10 @@ namespace Players
                     Debug.WriteLine("in lpp");
                     while (!cloneContext.AdvanceToChoice())
                     {
-                        
+
                         cloneContext.ProcessChoice();
                     }
-                     
+
                     Debug.WriteLine("after advance to choice");
 
                     // ProcessScore returns a sorted list 
@@ -94,102 +110,111 @@ namespace Players
                     Debug.WriteLine("past processscore");
 
                     // TODO record everyone's ranks at all potential moves so can give to scoretracker
-                    for (int j = 0; j < winners.Count; ++j)
+                    for (int j = 0; j < numPlayers; ++j)
                     {
                         // if player is me
                         if (winners[j].Item2 == idx)
                         {
-							// add your rank to the results of this choice
-							results[item] += j;
 
-                            int div = j + 1;
-                            double lead = ((double)1) / div;
+                            // add your rank to the results of this choice
                             lock (this)
                             {
-                                numWon += lead;
+                                rankSum[item] += j;
+                                inverseRankSum[item] += ((double)1) / (j + 1);
                             }
+
                             break;
                         }
                     }
                     Debug.WriteLine("in lpp");
 
                 });
- 
-                wrs[item] = (((numWon) / (numTests)) * ((double)numPlayers / (numPlayers - 1))) - 
-                    ((double)1 / ((numPlayers - 1)));
 
-   			}
+            }
 
 			Debug.WriteLine("End Monte");
-
 			Debug.WriteLine("resetting game state");
 
-			var tup = MinMaxIdx(results);
-            if (gameContext.gameWorld != null)
-            {
-                //var max = results[tup.Item2] / total[tup.Item2];
-                //var min = results[tup.Item1] / total[tup.Item1];
-                var max = wrs[tup.Item1];
-                var min = wrs[tup.Item2];
-                double avg = 0;
-                for (int i = 0; i < wrs.Length; i++) {
-                    avg += wrs[i];
-                }
-                avg /= (double)wrs.Length;
+            // FIND BEST (and worst) MOVE TO MAKE
+            var tup = MinMaxIdx(rankSum);
 
-                var variance = Math.Abs(max - min);
+            Debug.WriteLine("Item1: " + tup.Item1);
 
-                gameContext.gameWorld.AddInfo(variance, avg, wrs[tup.Item1]);
-
-
-                if (type == CardGames.GameType.AllAI)
-                {
-                    Console.WriteLine("P" + idx + ":" + max);
-                    leadList.Add(max);
-
-                }       
-			}
+            RecordHeuristics(items, inverseRankSum, tup.Item1, tup.Item2);
+ 
             Debug.WriteLine("AI Finished.");
 
             // This just returns item1 because ProcessScore returns a sorted list 
             // where the winner is rank 0 for either min/max games so don't change this.
-            Debug.WriteLine("Item1: " + tup.Item1);
+
             return tup.Item1;
         }
 
-        public override List<double> GetLead() {
-            return leadList;
-        }
-
-        public override int MakeAction(List<GameActionCollection> possibles, Random rand, int idx)
-        {
-
-            return NumChoices(possibles.Count, rand, idx);
-        }
-
-        public override int MakeAction(JObject possibles, Random rand, int idx)
-        {
-            var items = (JArray)possibles["items"];
-            return NumChoices(items.Count, rand, idx);
-        }
-
-        public static Tuple<int,int> MinMaxIdx(int[] input)
+        public static Tuple<int, int> MinMaxIdx(int[] input)
         {
             int min = int.MaxValue;
             int max = int.MinValue;
             int minIdx = -1;
             int maxIdx = -1;
-            for (int i = 0; i < input.Length; ++i){
-                if (input[i] > max){
+            for (int i = 0; i < input.Length; ++i)
+            {
+                if (input[i] > max)
+                {
                     max = input[i];
                     maxIdx = i;
                 }
-                if (input[i] < min){
+                if (input[i] < min)
+                {
                     min = input[i];
                     minIdx = i;
                 }
             }
             return new Tuple<int, int>(minIdx, maxIdx);
         }
+
+        // CODE FOR UPDATING STATISTICS FOR HEURISTICS
+        public void RecordHeuristics(int items, double[] inverseRankSum, int bestIndex, int worstIndex) {
+            double[] wrs = new double[items];
+
+            for (int item = 0; item < items; ++item)
+            {
+                wrs[item] = (((inverseRankSum[item]) / (numTests)) * ((double)numPlayers / (numPlayers - 1))) -
+                    ((double)1 / ((numPlayers - 1)));
+            }
+
+            if (gameContext.gameWorld != null)
+            {
+                var max = wrs[bestIndex];
+                var min = wrs[worstIndex];
+
+                double avg = 0;
+                for (int i = 0; i < wrs.Length; i++)
+                {
+                    avg += wrs[i];
+                }
+                avg /= (double)wrs.Length;
+
+                var variance = Math.Abs(max - min);
+
+                gameContext.gameWorld.AddInfo(variance, avg, wrs[bestIndex]);
+
+                if (type == CardGames.GameType.AllAI)
+                {
+                    leadList.Add(max);
+
+                    Debug.WriteLine("P" + idx + ":" + max);
+                }
+            }
+        }
+
+        // Used by the Heuristic Scorer to track the AI's heuristic rank throughout the game
+        public override List<double> GetLead()
+        {
+            return leadList;
+        }
+
+
     }
+
+
 }

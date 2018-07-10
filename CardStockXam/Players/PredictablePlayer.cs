@@ -10,7 +10,7 @@ namespace Players
         bool firstMove = true;
         public int toChoose = -1;
 
-        public override int MakeAction(List<GameActionCollection> possibles, Random rand, int idx)
+        public override int MakeAction(List<GameActionCollection> possibles, Random rand)
         {
             // Bad fix TODO :(
 			if (firstMove)
@@ -23,7 +23,7 @@ namespace Players
 
             return rand.Next(0, possibles.Count);
         }
-        public override int MakeAction(JObject possibles, Random rand, int idx)
+        public override int MakeAction(JObject possibles, Random rand)
         {
             if (firstMove)
             {
