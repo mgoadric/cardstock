@@ -25,15 +25,15 @@ namespace CardStockXam
 			List<string> gameFiles = new List<string>();
 			string[] allFiles = System.IO.Directory.GetFiles("games");
             List<Tuple<string, List<double>>> scores = new List<Tuple<string, List<double>>>();
-           /* foreach (string s in allFiles)
+            foreach (string s in allFiles)
             {
             	if (s.EndsWith(".gdl"))
             	{
             		gameFiles.Add(s);
             	}
             }
-            */
-            gameFiles.Add("games/Pairs.gdl");
+            
+            //gameFiles.Add("games/Pairs.gdl");
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
 

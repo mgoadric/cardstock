@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace Players
 {
-    public class LessThanPerfectPlayer : GeneralPlayer
+    public class PIPMCPlayer : GeneralPlayer
     {
 		private static int numTests = 10; //previously 20
 		private GameIterator gameContext;
 		private List<double> leadList;
 		public CardGames.GameType type;
 
-		public LessThanPerfectPlayer(GameIterator m, CardGames.GameType type)
+		public PIPMCPlayer(GameIterator m, CardGames.GameType type)
 		{
 			this.type = type;
 			gameContext = m;
