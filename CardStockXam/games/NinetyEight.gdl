@@ -1,0 +1,71 @@
+﻿;; NinetyEight
+
+
+(game
+
+ (setup
+  
+       (create players 2)
+       (create teams (0) (1))
+       (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                          (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                 (BLACK (SUIT (CLUBS, SPADES))))))
+    )
+
+ (do (
+      (put points 'PRECEDENCE (
+            ((RANK (NINE)) 9)
+            ((RANK (EIGHT)) 8)
+            ((RANK (SEVEN)) 7)
+            ((RANK (SIX)) 6)
+            ((RANK (FIVE)) 5)
+            ((RANK (FOUR)) 4)
+            ((RANK (THREE)) 3)
+            ((RANK (TWO)) 2)
+            ((RANK (A)) 1)
+            )
+  )))
+
+ (do ((put points 'SPECIALE (
+              ((RANK (J)) 0)
+              ((RANK (Q)) 0)
+              ))))
+
+
+ (do ( ;; DEALING START
+		(shuffle (game iloc STOCK))
+		(all player 'P (do (
+                                    (repeat 4 (move (top (game iloc STOCK)) (top ('P iloc HAND))))
+                                    ))))) ;; DEALING OVER
+
+
+ (stage player
+        (end (> (game sto POINTS) 98))
+        (choice (
+                (any ((current player) iloc HAND) 'C
+                  (do (
+                       (inc (game sto POINTS) (score 'C using 'PRECEDENCE)) ;;(score 'C using 'PRECEDENCE)
+                       ((== (cardatt RANK 'C) K)
+                       (set (game sto POINTS) 98))
+                       ((== (cardatt RANK 'C) TEN)
+                        (dec (game sto POINTS) 10))
+                       ((== (cardatt RANK 'C) J)
+                        (inc (game sto POINTS) (score 'C using 'SPECIALE)))
+                       ((== (cardatt RANK 'C) Q)
+                        (inc (game sto POINTS) (score 'C using 'SPECIALE)))
+                       (move 'C (top (game iloc PILE)))
+
+                  (do ((move (top (game iloc STOCK)) (top ((current player) iloc HAND)))))
+
+             ((> (game sto POINTS) 98) 
+		(do ( 	(inc ((current player) sto SCORE) 1)				
+		)	)
+             )
+                  )))))
+             
+             
+             )
+
+        
+ (scoring min ((current player) sto SCORE))
+ )
