@@ -26,32 +26,26 @@ namespace Players
 		}
 
 		public int NumChoices(int items, Random rand, int idx){
+            
 			Debug.WriteLine("Passing new choice to LPP");
-
 			Debug.WriteLine("AI making choice. items: " + items);
 
-			/*if (items == 1)
-			{
-				return 0;
-			}*/
-
-			var results = new int[items];
-			var total = new int[items];
+            var results = new int[items];
+            int numPlayers = gameContext.instance.players.Count;
 			double[] wrs = new double[items];
+
 			Debug.WriteLine("Start Monte");
 
-
             // can parallellize here TODO 
-
 
 			for (int item = 0; item < items; ++item)
 			{
                 Debug.WriteLine("iterating over item: " + item);
+
 				double numWon = 0;
 				results[item] = 0;
-                Parallel.For(0, numTests, i =>
 
-                //for (int i = 0; i < numTests; ++i)//number of tests for certain decision
+                Parallel.For(0, numTests, i =>   //number of tests for certain decision
                 {
                     Debug.WriteLine("****Made Switch**** : " + i);
 
@@ -92,9 +86,12 @@ namespace Players
                      
                     Debug.WriteLine("after advance to choice");
 
+                    // ProcessScore returns a sorted list 
+                    // where the winner is rank 0 for either min/max games.
+
                     var winners = cloneContext.parseoop.ProcessScore(cloneContext.game.scoring());
+
                     Debug.WriteLine("past processscore");
-                    total[item] = winners.Count;
 
                     // TODO record everyone's ranks at all potential moves so can give to scoretracker
                     for (int j = 0; j < winners.Count; ++j)
@@ -103,8 +100,8 @@ namespace Players
                         if (winners[j].Item2 == idx)
                         {
 							// add your rank to the results of this choice
-							// TODO find out stuff about ranks here! this is where they're added
 							results[item] += j;
+
                             int div = j + 1;
                             double lead = ((double)1) / div;
                             lock (this)
@@ -117,18 +114,13 @@ namespace Players
                     Debug.WriteLine("in lpp");
 
                 });
-               
-               
+ 
+                wrs[item] = (((numWon) / (numTests)) * ((double)numPlayers / (numPlayers - 1))) - 
+                    ((double)1 / ((numPlayers - 1)));
 
-                                                        
+   			}
 
-				wrs[item] = (((numWon) / (numTests)) * ((double)total[item] / (total[item] - 1))) - ((double)1 / ((total[item] - 1)));
-
-
-
-			}
 			Debug.WriteLine("End Monte");
-			//Debug.WriteLine ("***Switch Back***");
 
 			Debug.WriteLine("resetting game state");
 
