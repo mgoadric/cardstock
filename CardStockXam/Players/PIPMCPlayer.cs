@@ -13,21 +13,24 @@ namespace Players
 {
     public class PIPMCPlayer : GeneralPlayer
     {
-		private static int numTests = 10; //previously 20
+        private static int NUMTESTS = 10; //previously 20
+
 		private GameIterator gameContext;
-		private List<double> leadList;
-		public CardGames.GameType type;
         private int numPlayers;
         private int idx;
 
+        private List<double> leadList;
+        private CardGames.GameType type;
+ 
 		public PIPMCPlayer(GameIterator m, CardGames.GameType type, int idx)
 		{
-			this.type = type;
 			gameContext = m;
-			this.leadList = new List<double>();
             numPlayers = gameContext.instance.players.Count;
             this.idx = idx;
-		}
+
+            this.leadList = new List<double>();
+            this.type = type;
+        }
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
         {
@@ -43,7 +46,7 @@ namespace Players
 
 		public int NumChoices(int items, Random rand){
             
-			Debug.WriteLine("Passing new choice to LPP");
+			Debug.WriteLine("Passing new choice to PIPMC");
 			Debug.WriteLine("AI making choice. items: " + items);
 
             var rankSum = new int[items];
@@ -61,7 +64,7 @@ namespace Players
                 inverseRankSum[item] = 0;
                 rankSum[item] = 0;
 
-                Parallel.For(0, numTests, i =>   //number of tests for certain decision
+                Parallel.For(0, NUMTESTS, i =>   //number of tests for certain decision
                 {
                     Debug.WriteLine("****Made Switch**** : " + i);
 
@@ -71,7 +74,7 @@ namespace Players
                     for (int j = 0; j < cg.players.Count; j++)
                     {
 
-                        Debug.WriteLine("in lpp for loop:" + j);
+                        Debug.WriteLine("in PIPMC for loop:" + j);
                         if (j == idx)
                         {
                             Debug.WriteLine("Player turn: " + cg.CurrentPlayer().idx);
@@ -90,17 +93,18 @@ namespace Players
                     }
 
 
-                    Debug.WriteLine("in lpp");
+                    Debug.WriteLine("in PIPMC");
 
                     var cloneContext = gameContext.Clone(cg);
-                    Debug.WriteLine("in lpp");
+
+                    Debug.WriteLine("Playing a simulated game");
                     while (!cloneContext.AdvanceToChoice())
                     {
 
                         cloneContext.ProcessChoice();
                     }
 
-                    Debug.WriteLine("after advance to choice");
+                    Debug.WriteLine("Simulated Game is Over");
 
                     // ProcessScore returns a sorted list 
                     // where the winner is rank 0 for either min/max games.
@@ -126,7 +130,7 @@ namespace Players
                             break;
                         }
                     }
-                    Debug.WriteLine("in lpp");
+                    Debug.WriteLine("in PIPMC");
 
                 });
 
@@ -178,7 +182,7 @@ namespace Players
 
             for (int item = 0; item < items; ++item)
             {
-                wrs[item] = (((inverseRankSum[item]) / (numTests)) * ((double)numPlayers / (numPlayers - 1))) -
+                wrs[item] = (((inverseRankSum[item]) / (NUMTESTS)) * ((double)numPlayers / (numPlayers - 1))) -
                     ((double)1 / ((numPlayers - 1)));
             }
 
