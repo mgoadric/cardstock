@@ -20,7 +20,6 @@ namespace CardEngine
 		public CardStorage tableCards = new CardStorage();
 		
 		public List<Player> players = new List<Player>();
-		public List<GeneralPlayer> decisionPlayers = new List<GeneralPlayer> ();
 		public List<Team> teams = new List<Team>();
 		public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>();
 		public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
@@ -440,7 +439,7 @@ namespace CardEngine
             Debug.WriteLine("Choice: " + choice);
             choices[choice].ExecuteAll();
 		}
-        // in lessthanperfectplayer - dependent on jobject for no reason - just needs a number,
+        // in PIPMCPlayer - dependent on jobject for no reason - just needs a number,
         // not a list of serialized gameactions (because it just needs the count to make 
         // decisions)
 
