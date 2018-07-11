@@ -46,15 +46,13 @@ namespace Players
 
 		public int NumChoices(int items, Random rand){
             
-			Debug.WriteLine("Passing new choice to PIPMC");
-			Debug.WriteLine("AI making choice. items: " + items);
+			Debug.WriteLine("PIPMC making choice. items: " + items);
 
-            var rankSum = new int[items];
             var inverseRankSum = new double[items];
 
             Debug.WriteLine("Start Monte");
 
-            // can parallellize here TODO 
+            // can parallellize here TODO ?
             // FOR EACH POSSIBLE MOVE
 
             for (int item = 0; item < items; ++item)
@@ -62,19 +60,21 @@ namespace Players
                 Debug.WriteLine("iterating over item: " + item);
 
                 inverseRankSum[item] = 0;
-                rankSum[item] = 0;
 
                 Parallel.For(0, NUMTESTS, i =>   //number of tests for certain decision
                 {
                     Debug.WriteLine("****Made Switch**** : " + i);
 
-                    // gets through clonesecret
+                    // get new possible world through clonesecret
                     CardGame cg = gameContext.instance.CloneSecret(idx);
 
+                    // Assign the AI players for rollout game, with the 
+                    // selected item chosen first when you get your turn
                     for (int j = 0; j < cg.players.Count; j++)
                     {
 
                         Debug.WriteLine("in PIPMC for loop:" + j);
+
                         if (j == idx)
                         {
                             Debug.WriteLine("Player turn: " + cg.CurrentPlayer().idx);
@@ -88,19 +88,17 @@ namespace Players
                         else
                         {
                             cg.players[j].decision = new Players.GeneralPlayer();
-
                         }
                     }
-
 
                     Debug.WriteLine("in PIPMC");
 
                     var cloneContext = gameContext.Clone(cg);
 
                     Debug.WriteLine("Playing a simulated game");
+
                     while (!cloneContext.AdvanceToChoice())
                     {
-
                         cloneContext.ProcessChoice();
                     }
 
@@ -113,7 +111,8 @@ namespace Players
 
                     Debug.WriteLine("past processscore");
 
-                    // TODO record everyone's ranks at all potential moves so can give to scoretracker
+                    // TODO record everyone's ranks at all potential moves 
+                    // so can give to scoretracker ??
                     for (int j = 0; j < numPlayers; ++j)
                     {
                         // if player is me
@@ -123,41 +122,40 @@ namespace Players
                             // add your rank to the results of this choice
                             lock (this)
                             {
-                                rankSum[item] += j;
                                 inverseRankSum[item] += ((double)1) / (j + 1);
                             }
 
                             break;
                         }
                     }
-                    Debug.WriteLine("in PIPMC");
+
+                    Debug.WriteLine("saved the inverseRankSum");
 
                 });
-
             }
 
 			Debug.WriteLine("End Monte");
 			Debug.WriteLine("resetting game state");
 
             // FIND BEST (and worst) MOVE TO MAKE
-            var tup = MinMaxIdx(rankSum);
+            var tup = MinMaxIdx(inverseRankSum);
 
-            Debug.WriteLine("Item1: " + tup.Item1);
+            Debug.WriteLine("Max invRankSum: " + tup.Item2);
 
-            RecordHeuristics(items, inverseRankSum, tup.Item1, tup.Item2);
+            RecordHeuristics(items, inverseRankSum, tup.Item2, tup.Item1);
  
             Debug.WriteLine("AI Finished.");
 
             // This just returns item1 because ProcessScore returns a sorted list 
             // where the winner is rank 0 for either min/max games so don't change this.
 
-            return tup.Item1;
+            return tup.Item2;
         }
 
-        public static Tuple<int, int> MinMaxIdx(int[] input)
+        public static Tuple<int, int> MinMaxIdx(double[] input)
         {
-            int min = int.MaxValue;
-            int max = int.MinValue;
+            double min = double.MaxValue;
+            double max = double.MinValue;
             int minIdx = -1;
             int maxIdx = -1;
             for (int i = 0; i < input.Length; ++i)
@@ -178,6 +176,7 @@ namespace Players
 
         // CODE FOR UPDATING STATISTICS FOR HEURISTICS
         public void RecordHeuristics(int items, double[] inverseRankSum, int bestIndex, int worstIndex) {
+            // WHAT DOES WRS stand for?
             double[] wrs = new double[items];
 
             for (int item = 0; item < items; ++item)
@@ -205,8 +204,6 @@ namespace Players
                 if (type == CardGames.GameType.AllAI)
                 {
                     leadList.Add(max);
-
-                    Debug.WriteLine("P" + idx + ":" + max);
                 }
             }
         }
@@ -216,9 +213,5 @@ namespace Players
         {
             return leadList;
         }
-
-
     }
-
-
 }

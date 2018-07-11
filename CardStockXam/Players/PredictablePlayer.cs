@@ -12,12 +12,9 @@ namespace Players
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
         {
-            // Bad fix TODO :(
 			if (firstMove)
 			{
 				firstMove = false;
-                System.Diagnostics.Debug.WriteLine("here is choice: " + toChoose);
-                System.Diagnostics.Debug.WriteLine("here is choice: " + toChoose);
 				return toChoose;
 			}
 
@@ -30,6 +27,7 @@ namespace Players
                 firstMove = false;
                 return toChoose;
             }
+
             var items = (JArray)possibles["items"];
             return rand.Next(0, items.Count);
         }
