@@ -25,13 +25,13 @@ namespace ParseTreeIterator
 			var ret = new GameActionCollection();
             if (actionNode.teamcreate() != null) {
                 var teamCreate = actionNode.teamcreate() as RecycleParser.TeamcreateContext;
-                ret.Add(new TeamCreateAction(teamCreate, parent.instance));
+                ret.Add(new TeamCreateAction(teamCreate, parent.game));
             }
             else if (actionNode.initpoints() != null) {
                 var points = actionNode.initpoints();
                 var name = points.var().GetText();
-                if (!parent.instance.points.binDict.ContainsKey(name)) {
-                    parent.instance.points.AddKey(name);
+                if (!parent.game.points.binDict.ContainsKey(name)) {
+                    parent.game.points.AddKey(name);
                 }
                 List<PointAwards> temp = new List<PointAwards>();
                 var awards = points.awards();
@@ -56,10 +56,10 @@ namespace ParseTreeIterator
                     }
                     key = key.Substring(0, key.Length - 1);
                     value = value.Substring(0, value.Length - 1);
-                    parent.instance.WriteToFile("A:" + value + " " + reward);
+                    parent.game.WriteToFile("A:" + value + " " + reward);
                     temp.Add(new PointAwards(key, value, reward));
                 }
-                parent.instance.points[name] = new CardScore(temp);
+                parent.game.points[name] = new CardScore(temp);
             }
             else if (actionNode.copyaction() != null) {
                 Debug.WriteLine("REMEMBER: '" + actionNode.GetText() + "'");
@@ -122,19 +122,19 @@ namespace ParseTreeIterator
                 if (cycle.owner() != null)
                 {
                     var idx = ProcessOwner(cycle.owner());
-                    return new NextAction(parent.instance.CurrentPlayer(), idx, parent.instance);
+                    return new NextAction(parent.game.CurrentPlayer(), idx, parent.game);
                 }
                 else if (text2 == "next")
                 {
-                    return new NextAction(parent.instance.CurrentPlayer(), parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekNext()), parent.instance);
+                    return new NextAction(parent.game.CurrentPlayer(), parent.game.players.IndexOf(parent.game.CurrentPlayer().PeekNext()), parent.game);
                 }
                 else if (text2 == "current")
                 {
-                    return new NextAction(parent.instance.CurrentPlayer(), parent.instance.players.IndexOf(parent.instance.CurrentPlayer().Current()), parent.instance);
+                    return new NextAction(parent.game.CurrentPlayer(), parent.game.players.IndexOf(parent.game.CurrentPlayer().Current()), parent.game);
                 }
                 else if (text2 == "previous")
                 {
-                    return new NextAction(parent.instance.CurrentPlayer(), parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekPrevious()), parent.instance);
+                    return new NextAction(parent.game.CurrentPlayer(), parent.game.players.IndexOf(parent.game.CurrentPlayer().PeekPrevious()), parent.game);
                 }
             }
             else if (text1 == "current")
@@ -143,19 +143,19 @@ namespace ParseTreeIterator
                 if (cycle.owner() != null)
                 {
                     var idx = ProcessOwner(cycle.owner());
-                    return new SetPlayerAction(idx, parent.instance);
+                    return new SetPlayerAction(idx, parent.game);
                 }
                 else if (text2 == "next")
                 {
-                    return new SetPlayerAction(parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekNext()), parent.instance);
+                    return new SetPlayerAction(parent.game.players.IndexOf(parent.game.CurrentPlayer().PeekNext()), parent.game);
                 }
                 else if (text2 == "current")
                 {
-                    return new SetPlayerAction(parent.instance.players.IndexOf(parent.instance.CurrentPlayer().Current()), parent.instance);
+                    return new SetPlayerAction(parent.game.players.IndexOf(parent.game.CurrentPlayer().Current()), parent.game);
                 }
                 else if (text2 == "previous")
                 {
-                    return new SetPlayerAction(parent.instance.players.IndexOf(parent.instance.CurrentPlayer().PeekPrevious()), parent.instance);
+                    return new SetPlayerAction(parent.game.players.IndexOf(parent.game.CurrentPlayer().PeekPrevious()), parent.game);
                 }
             }
             return null;
@@ -198,7 +198,7 @@ namespace ParseTreeIterator
                 var card2 = ProcessCard(rep.moveaction().card()[1]);
                 idx = card1.cardList.Count;
                 for (int i = 0; i < idx; i++){
-                    ret.Add(new FancyCardMoveAction(card1, card2, parent.instance));
+                    ret.Add(new FancyCardMoveAction(card1, card2, parent.game));
 
                 }
             }
@@ -209,7 +209,7 @@ namespace ParseTreeIterator
             Debug.WriteLine("Got to OWNER");
             var resultingCard = ProcessCard(owner.card()).Get();
             Debug.WriteLine("Result :" + resultingCard);
-            return parent.instance.CurrentPlayer().playerList.IndexOf(resultingCard.owner.container.owner);
+            return parent.game.CurrentPlayer().playerList.IndexOf(resultingCard.owner.container.owner);
         }
 
         public  bool ProcessBoolean(RecycleParser.BooleanContext boolNode) {
@@ -320,31 +320,31 @@ namespace ParseTreeIterator
                 return null;
             }
             var cardTwo = ProcessCard(copy.GetChild(2) as RecycleParser.CardContext);
-            return new FancyCardCopyAction(cardOne, cardTwo, parent.instance);
+            return new FancyCardCopyAction(cardOne, cardTwo, parent.game);
         }
 
 		public  GameAction ProcessRemove(RecycleParser.RemoveactionContext removeAction){
 			var cardOne = ProcessCard(removeAction.card());
-			return new FancyRemoveAction(cardOne, parent.instance);
+			return new FancyRemoveAction(cardOne, parent.game);
 		}
         public  GameAction ProcessMove(RecycleParser.MoveactionContext move) {
             var cardOne = ProcessCard(move.GetChild(1) as RecycleParser.CardContext);
             var cardTwo = ProcessCard(move.GetChild(2) as RecycleParser.CardContext);
             //Console.WriteLine("Card one: " + ProcessCard(move.GetChild(1) as RecycleParser.CardContext));
             //Console.WriteLine("Card two: " + ProcessCard(move.GetChild(2) as RecycleParser.CardContext));
-			return new FancyCardMoveAction(cardOne, cardTwo, parent.instance);
+			return new FancyCardMoveAction(cardOne, cardTwo, parent.game);
         }
 
         internal  GameAction ProcessShuffle(FancyCardLocation locations)
         {
-            return new ShuffleAction(locations, parent.instance);
+            return new ShuffleAction(locations, parent.game);
         }
 
         public  FancyCardLocation ProcessCard(RecycleParser.CardContext card)
         {
             if (card.maxof() != null)
             {
-                var scoring = parent.instance.points[card.maxof().var().GetText()];
+                var scoring = parent.game.points[card.maxof().var().GetText()];
                 var coll = ProcessLocation(card.maxof().cstorage());
                 var max = 0;
                 Card maxCard = null;
@@ -368,12 +368,12 @@ namespace ParseTreeIterator
                     name=coll.name + "{MAX}"
                 };
                 fancy.cardList.loc = fancy;
-                parent.instance.AddToMap(fancy);
+                parent.game.AddToMap(fancy);
                 return fancy;
             }
 
             if (card.minof() != null){
-                var scoring = parent.instance.points[card.minof().var().GetText()];
+                var scoring = parent.game.points[card.minof().var().GetText()];
                 var coll = ProcessLocation(card.minof().cstorage());
                 var min = Int32.MaxValue;
                 Card minCard = null;
@@ -397,7 +397,7 @@ namespace ParseTreeIterator
                     name=coll.name + "{MIN}"
                 };
                 fancy.cardList.loc = fancy;
-                parent.instance.AddToMap(fancy);
+                parent.game.AddToMap(fancy);
                 return fancy;
             }
 
@@ -417,7 +417,7 @@ namespace ParseTreeIterator
                     name = loc.name
                 };
                 fancy.cardList.loc = fancy;
-                parent.instance.AddToMap(fancy);
+                parent.game.AddToMap(fancy);
                 return fancy;
             }
             throw new NotSupportedException();
@@ -426,16 +426,16 @@ namespace ParseTreeIterator
         public  List<object> ProcessOther(RecycleParser.OtherContext other){ //return list of teams or list of players
             List<object> lst = new List<object>();
             if (other.GetChild(2).GetText() == "player"){
-                foreach (Player p in parent.instance.players){
+                foreach (Player p in parent.game.players){
                     lst.Add(p);
                 }
-                lst.Remove(parent.instance.currentPlayer.Peek().playerList[parent.instance.currentPlayer.Peek().idx]);
+                lst.Remove(parent.game.currentPlayer.Peek().playerList[parent.game.currentPlayer.Peek().idx]);
             }
             else{
-                foreach (Team t in parent.instance.teams){
+                foreach (Team t in parent.game.teams){
                     lst.Add(t);
                 }
-                lst.Remove(parent.instance.currentTeam);
+                lst.Remove(parent.game.currentTeam);
             }
             return lst;
         }
@@ -494,7 +494,7 @@ namespace ParseTreeIterator
                     name = name + "{UNION}"
                 };
                 fancy.cardList.loc = fancy;
-                parent.instance.AddToMap(fancy);
+                parent.game.AddToMap(fancy);
                 return fancy;
             }
             else if (loc.filter() != null)
@@ -530,7 +530,7 @@ namespace ParseTreeIterator
         {
             if (memset.tuple() != null)
             {
-                var findEm = new CardGrouping(13, parent.instance.points[memset.tuple().var().GetText()]);
+                var findEm = new CardGrouping(13, parent.game.points[memset.tuple().var().GetText()]);
                 var cardsToScore = new CardListCollection();
                 var stor = ProcessLocation(memset.tuple().cstorage());
                 foreach (var card in stor.cardList.AllCards())
@@ -548,7 +548,7 @@ namespace ParseTreeIterator
                         name = "{mem}" + memset.tuple().var().GetText() + "{p" + i + "}"
                     };
                     returnList[i].cardList.loc = returnList[i];
-                    parent.instance.AddToMap(returnList[i]);
+                    parent.game.AddToMap(returnList[i]);
                 }
                 return returnList;
             }
@@ -584,12 +584,12 @@ namespace ParseTreeIterator
                 if (stor.namegr() != null){
                     var fancy = new FancyCardLocation()
                     {
-                        cardList = parent.instance.tableCards[prefix + stor.namegr().GetText()],
+                        cardList = parent.game.tableCards[prefix + stor.namegr().GetText()],
                         locIdentifier = "top",
                         name = "t" + prefix + stor.namegr().GetText()
                     };
                     fancy.cardList.loc = fancy;
-                    parent.instance.AddToMap(fancy);
+                    parent.game.AddToMap(fancy);
                     return fancy;
                 }
                 else{
@@ -605,12 +605,12 @@ namespace ParseTreeIterator
                    
                     var fancy = new FancyCardLocation()
                     {
-                        cardList = parent.instance.tableCards[prefix + Get(stor.var())],
+                        cardList = parent.game.tableCards[prefix + Get(stor.var())],
                         locIdentifier = "top",
                         name = "t" + prefix + Get(stor.var())
                     };
                     fancy.cardList.loc = fancy;
-                    parent.instance.AddToMap(fancy);
+                    parent.game.AddToMap(fancy);
                     return fancy;
                 }
             }
@@ -628,7 +628,7 @@ namespace ParseTreeIterator
                     name = player.name + prefix + stor.namegr().GetText()
                 };
                 fancy.cardList.loc = fancy;
-                parent.instance.AddToMap(fancy);
+                parent.game.AddToMap(fancy);
                 return fancy;
             }
             else{
@@ -639,7 +639,7 @@ namespace ParseTreeIterator
                     name = player.name + prefix + name
                 };
                 fancy.cardList.loc = fancy;
-                parent.instance.AddToMap(fancy);
+                parent.game.AddToMap(fancy);
                 return fancy;
             }
         }
@@ -702,19 +702,19 @@ namespace ParseTreeIterator
                 string text = who.GetChild(1).GetText();
                 if (text == "current")
                 {
-                    return parent.instance.CurrentPlayer().Current();
+                    return parent.game.CurrentPlayer().Current();
                 }
                 else if (text == "next")
                 {
-                    return parent.instance.CurrentPlayer().PeekNext();
+                    return parent.game.CurrentPlayer().PeekNext();
                 }
                 else if (text == "previous")
                 {
-                    return parent.instance.CurrentPlayer().PeekPrevious();
+                    return parent.game.CurrentPlayer().PeekPrevious();
                 }
                 else if (who.whodesc().@int() != null)
                 {
-                    return parent.instance.players[ProcessInt(who.whodesc().@int())];
+                    return parent.game.players[ProcessInt(who.whodesc().@int())];
                 }
             }
             return null;
@@ -727,7 +727,7 @@ namespace ParseTreeIterator
                 string text = who.GetChild(1).GetText();
                 if (text == "current")
                 {
-                    return parent.instance.CurrentTeam().Current();
+                    return parent.game.CurrentTeam().Current();
                 }
                 else if (text == "next")
                 {
@@ -741,7 +741,7 @@ namespace ParseTreeIterator
 				}
                 else if (who.whodesc().@int() != null)
                 {
-                    return parent.instance.teams[ProcessInt(who.whodesc().@int())];
+                    return parent.game.teams[ProcessInt(who.whodesc().@int())];
                 }
             }
             return null;
@@ -894,7 +894,7 @@ namespace ParseTreeIterator
             }
             else if (intNode.sum() != null) {
                 var sum = intNode.sum();
-                var scoring = parent.instance.points[sum.var().GetText()];
+                var scoring = parent.game.points[sum.var().GetText()];
                 var coll = ProcessLocation(sum.cstorage());
                 int total = 0;
                 foreach (var c in coll.cardList.AllCards()) {
@@ -905,7 +905,7 @@ namespace ParseTreeIterator
             }
             else if (intNode.score() != null) {
                 Debug.WriteLine("trying to score" + intNode.GetText());
-                var scorer = parent.instance.points[intNode.score().var().GetText()];
+                var scorer = parent.game.points[intNode.score().var().GetText()];
                 var card = ProcessCard(intNode.score().card());
                 return scorer.GetScore(card.Get());
             }
@@ -928,7 +928,7 @@ namespace ParseTreeIterator
         }
 
         public  FancyRawStorage AddedRaw(FancyRawStorage stor){
-            parent.instance.AddToMap(stor);
+            parent.game.AddToMap(stor);
             return stor;
         }
 
@@ -936,10 +936,10 @@ namespace ParseTreeIterator
             if (raw.GetChild(1).GetText() == "game") {
                 if (raw.var().Length == 1) {
                     String temp = ProcessStringVar(raw.var()[0]);
-                    return AddedRaw(new FancyRawStorage(parent.instance.gameStorage, temp));
+                    return AddedRaw(new FancyRawStorage(parent.game.gameStorage, temp));
                 }
                 else {
-                    return AddedRaw(new FancyRawStorage(parent.instance.gameStorage, raw.namegr().GetText()));
+                    return AddedRaw(new FancyRawStorage(parent.game.gameStorage, raw.namegr().GetText()));
 
                 }
             }
@@ -1000,31 +1000,31 @@ namespace ParseTreeIterator
         public  GameAction SetAction(RecycleParser.SetactionContext setAction){
             var bin = ProcessRawStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
-            return new IntAction(bin.storage, bin.key, setValue, parent.instance);
+            return new IntAction(bin.storage, bin.key, setValue, parent.game);
         }
 		public  GameAction IncAction(RecycleParser.IncactionContext setAction){
             var bin = ProcessRawStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             var newVal = bin.Get() + setValue;
-            return new IntAction(bin.storage, bin.key, newVal, parent.instance);
+            return new IntAction(bin.storage, bin.key, newVal, parent.game);
         }
         public  GameAction DecAction(RecycleParser.DecactionContext setAction) {
             var bin = ProcessRawStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             var newVal = bin.Get() - setValue;
-            return new IntAction(bin.storage, bin.key, newVal, parent.instance);
+            return new IntAction(bin.storage, bin.key, newVal, parent.game);
         }
 
         public  List<Tuple<int,int>> ProcessScore(RecycleParser.ScoringContext scoreMethod){
 			var ret = new List<Tuple<int, int>>();
 
-			parent.instance.PushPlayer();
-			parent.instance.CurrentPlayer().idx = 0;
-			for (int i = 0; i < parent.instance.players.Count; ++i) {
+			parent.game.PushPlayer();
+			parent.game.CurrentPlayer().idx = 0;
+			for (int i = 0; i < parent.game.players.Count; ++i) {
 				var working = ProcessInt (scoreMethod.@int ());
-                parent.instance.WriteToFile("s:" + working + " " + i);
+                parent.game.WriteToFile("s:" + working + " " + i);
 				ret.Add(new Tuple<int,int>(working,i));
-				parent.instance.CurrentPlayer ().Next();
+				parent.game.CurrentPlayer ().Next();
 			}
 
 			ret.Sort();
@@ -1038,20 +1038,20 @@ namespace ParseTreeIterator
         public  void ProcessTeamCreate(RecycleParser.TeamcreateContext teamCreate){
             var numTeams = teamCreate.teams().Count();
             for (int i = 0; i < numTeams; ++i){
-                var newTeam = new Team(i, parent.instance);
+                var newTeam = new Team(i, parent.game);
                 var teamStr = "T:";
                 foreach (var p in teamCreate.teams(i).INTNUM()){
                     var j = Int32.Parse(p.GetText());
-                    newTeam.teamPlayers.Add(parent.instance.players[j]);
-                    parent.instance.players[j].team = newTeam;
+                    newTeam.teamPlayers.Add(parent.game.players[j]);
+                    parent.game.players[j].team = newTeam;
                     teamStr += j + " ";
                 }
-                parent.instance.teams.Add(newTeam);
-                parent.instance.WriteToFile(teamStr);
+                parent.game.teams.Add(newTeam);
+                parent.game.WriteToFile(teamStr);
             }
 
-            parent.instance.currentTeam.Push(new StageCycle<Team>(parent.instance.teams, parent.instance));
-            Debug.WriteLine("NUMTEAMS:" + parent.instance.teams.Count);
+            parent.game.currentTeam.Push(new StageCycle<Team>(parent.game.teams, parent.game));
+            Debug.WriteLine("NUMTEAMS:" + parent.game.teams.Count);
 
         }
 
@@ -1067,8 +1067,8 @@ namespace ParseTreeIterator
                 else{
                     numPlayers = ProcessIntVar(playerCreate.var());
                 }
-                parent.instance.WriteToFile("nump:" + numPlayers);
-				parent.instance.AddPlayers(numPlayers);
+                parent.game.WriteToFile("nump:" + numPlayers);
+				parent.game.AddPlayers(numPlayers, parent);
                 parent.gameWorld.numPlayers = numPlayers;
                 //parent.gameWorld.PopulateLead();
 			}
@@ -1112,7 +1112,7 @@ namespace ParseTreeIterator
         {
             var locstorage = ProcessLocation(deckinit.cstorage());
             var deckTree = ProcessDeck(deckinit.deck());
-            return new InitializeAction(locstorage.cardList, deckTree, parent.instance);
+            return new InitializeAction(locstorage.cardList, deckTree, parent.game);
         }
                 
         public  List<GameActionCollection> ProcessMultiaction(IParseTree sub)
@@ -1494,7 +1494,7 @@ namespace ParseTreeIterator
 
         public  void ProcessChoice(RecycleParser.CondactContext[] choices)
         {
-            Debug.WriteLine("Player turn: " + parent.instance.CurrentPlayer().idx);
+            Debug.WriteLine("Player turn: " + parent.game.CurrentPlayer().idx);
             Debug.WriteLine("Processing choice.");
             var allOptions = new List<GameActionCollection>();
             for (int i = 0; i < choices.Length; ++i)
@@ -1512,10 +1512,10 @@ namespace ParseTreeIterator
             //BranchingFactor.Instance.AddCount(allOptions.Count, parent.instance.CurrentPlayer().idx);
             if (allOptions.Count != 0){
                 Debug.WriteLine("processed choices");
-                Debug.WriteLine("Choice count for P" + parent.instance.CurrentPlayer().idx + ":" + allOptions.Count);
-                parent.instance.PlayerMakeChoice(allOptions, parent.instance.CurrentPlayer().idx);
+                Debug.WriteLine("Choice count for P" + parent.game.CurrentPlayer().idx + ":" + allOptions.Count);
+                parent.game.PlayerMakeChoice(allOptions, parent.game.CurrentPlayer().idx);
                 Debug.WriteLine("player choice made");
-                Debug.WriteLine(parent.instance.CurrentPlayer().playerList.Count);
+                Debug.WriteLine(parent.game.CurrentPlayer().playerList.Count);
             }
             else
             { 
@@ -1550,22 +1550,22 @@ namespace ParseTreeIterator
             return Get(var.GetText());
         }
         public  object Get(String text){
-            if (parent.instance.vars.ContainsKey(text)){
+            if (parent.game.vars.ContainsKey(text)){
                 
-                return parent.instance.vars[text];
+                return parent.game.vars[text];
             }
             Debug.WriteLine("Failure");
             throw new Exception("Object " + text + " could not be found");
         }
         public  void Put(string k, Object v){
-            parent.instance.vars[k] = v;
+            parent.game.vars[k] = v;
            // Console.WriteLine("putting key " + k + " for " + v);
         }
         public  void Remove(string k){
-            if (!parent.instance.vars.ContainsKey(k)) {
+            if (!parent.game.vars.ContainsKey(k)) {
                 throw new KeyNotFoundException();
             }
-            parent.instance.vars.Remove(k);
+            parent.game.vars.Remove(k);
         }
         public  FancyCardLocation ProcessCStorageFilter(RecycleParser.FilterContext filter)
         {
@@ -1627,7 +1627,7 @@ namespace ParseTreeIterator
                 name = name2 + "{filter}" + filter.boolean().GetText(),
             };
             fancy.cardList.loc = fancy;
-            parent.instance.AddToMap(fancy);
+            parent.game.AddToMap(fancy);
             return fancy;
         }
         // want to clean up & understand processagg TODO
@@ -1712,12 +1712,12 @@ namespace ParseTreeIterator
             {
                 Debug.WriteLine("Processing collection type: players.");
 
-                return parent.instance.players;
+                return parent.game.players;
             }
             else if (text == "team")
             {
                 Debug.WriteLine("Processing collection type: team.");
-				return parent.instance.teams;
+				return parent.game.teams;
             }
             else if (collection.other() != null)
             {
@@ -1929,12 +1929,12 @@ namespace ParseTreeIterator
                 var loc = ret as FancyCardLocation;
                 if (loc.locIdentifier != "-1")
                 {
-                    return loc.ShallowCopy(parent.instance);
+                    return loc.ShallowCopy(parent.game);
                 }
             }
             else if (ret is Card){
                 var c = ret as Card;
-                var loc = c.owner.loc.ShallowCopy(parent.instance);                
+                var loc = c.owner.loc.ShallowCopy(parent.game);                
                 loc.setLocId(c);
                 return loc;
             }

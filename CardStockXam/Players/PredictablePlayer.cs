@@ -1,14 +1,20 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using CardEngine;
+using FreezeFrame;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 namespace Players
 {
     public class PredictablePlayer : GeneralPlayer
     {
-        bool firstMove = true;
-        public int toChoose = -1;
+        private bool firstMove = true;
+        private int toChoose = -1;
+
+        public PredictablePlayer(GameIterator m, int toChoose) : base(m)
+        {
+            this.toChoose = toChoose;
+        }
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
         {

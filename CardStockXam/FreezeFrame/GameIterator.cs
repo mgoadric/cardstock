@@ -9,16 +9,16 @@ namespace FreezeFrame
 {
 	public class GameIterator
 	{
-		public RecycleParser.GameContext game;
+		public RecycleParser.GameContext rules;
 		Stack<Queue<IParseTree>> iterStack;
 		HashSet<IParseTree> iteratingSet;
         public ParseOOPIterator parseoop;
-        public CardGame instance;
+        public CardGame game;
         public World gameWorld;
 
 		public GameIterator Clone(CardGame cg){
             // CHANGED HERE TODO 
-            var ret = new GameIterator (game, cg, gameWorld, false);
+            var ret = new GameIterator (rules, cg, gameWorld, false);
 			var revStack = new Stack<Queue<IParseTree>> ();
 			foreach (var i in iterStack) {
 				revStack.Push (i);
@@ -37,11 +37,11 @@ namespace FreezeFrame
 			return ret;
 		}
 
-		public GameIterator (RecycleParser.GameContext g, CardGame mygame, World gameWorld, bool fresh = true)
+		public GameIterator (RecycleParser.GameContext context, CardGame mygame, World gameWorld, bool fresh = true)
 		{
             this.gameWorld = gameWorld;
-			game = g;
-            instance = mygame;
+			rules = context;
+            game = mygame;
 			iterStack = new Stack<Queue<IParseTree>>();
 			iteratingSet = new HashSet<IParseTree>();
             parseoop = new ParseOOPIterator(this);
@@ -49,17 +49,17 @@ namespace FreezeFrame
             if (fresh)
             {
                 Debug.WriteLine("Processing declarations.");
-                foreach (RecycleParser.DeclareContext declare in game.declare())
+                foreach (RecycleParser.DeclareContext declare in rules.declare())
                 {
                     parseoop.ProcessDeclare(declare);
                 }
                 Debug.WriteLine("Setting up game.");
-                parseoop.ProcessSetup(game.setup()).ExecuteAll();
+                parseoop.ProcessSetup(rules.setup()).ExecuteAll();
                 iterStack.Push(new Queue<IParseTree>());
                 var topLevel = iterStack.Peek();
-                for (int i = 3; i < game.ChildCount - 2; ++i)
+                for (int i = 3; i < rules.ChildCount - 2; ++i)
                 {
-                    topLevel.Enqueue(game.GetChild(i));
+                    topLevel.Enqueue(rules.GetChild(i));
                 }
             } 
 		}
@@ -152,9 +152,9 @@ namespace FreezeFrame
 				if (!iteratingSet.Contains (stage)) {
                     if (text == "player")
                     {
-                        instance.PushPlayer();
+                        game.PushPlayer();
                     } else if (text == "team") {
-                        instance.PushTeam();
+                        game.PushTeam();
                     }
 				}
 
@@ -164,9 +164,9 @@ namespace FreezeFrame
 					//Debug.WriteLine("Hit Boolean while!");
 					iterStack.Push (new Queue<IParseTree> ());
 					var topLevel = iterStack.Peek ();
-                    Debug.WriteLine ("Current Player: " + instance.CurrentPlayer ().idx + ", " + instance.players[instance.CurrentPlayer().idx]);
-                    Debug.WriteLine("Num players (gameiterator): " + instance.CurrentPlayer().playerList.Count);
-                    foreach (var player in instance.players) {
+                    Debug.WriteLine ("Current Player: " + game.CurrentPlayer().idx + ", " + game.players[game.CurrentPlayer().idx]);
+                    Debug.WriteLine("Num players (gameiterator): " + game.CurrentPlayer().playerList.Count);
+                    foreach (var player in game.players) {
 						//Console.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
 					}
 					for (int i = 4; i < stage.ChildCount - 1; ++i) {
@@ -179,10 +179,10 @@ namespace FreezeFrame
 					}
 					if (iteratingSet.Contains (stage)) {
 						if (text == "player") {
-							instance.CurrentPlayer ().Next ();
+							game.CurrentPlayer ().Next ();
 						} else if (text == "team") {
-							instance.CurrentTeam ().Next ();
-                            Debug.WriteLine("Next team is " + instance.CurrentTeam().Current());
+							game.CurrentTeam ().Next ();
+                            Debug.WriteLine("Next team is " + game.CurrentTeam().Current());
 						}
 					}
 
@@ -192,9 +192,9 @@ namespace FreezeFrame
 					if (iteratingSet.Contains (stage)) {
 						iteratingSet.Remove (stage);
                         if (text == "player") {
-                            instance.PopPlayer();
+                            game.PopPlayer();
                         } else if (text == "team") {
-                            instance.PopTeam();
+                            game.PopTeam();
                         }
 						
 					}
