@@ -31,7 +31,6 @@ namespace CardEngine
         public string fileName;
 
         // TODO should have card map?
-        //  public static Dictionary 
         public Dictionary<string, Card> fancyCardMap = new Dictionary<string, Card>();
         public Dictionary<string, FancyCardLocation> fancyCardLocMap = new Dictionary<string, FancyCardLocation>();
         public Dictionary<string, FancyRawStorage> fancyRawStorMap = new Dictionary<string, FancyRawStorage>();
@@ -42,11 +41,8 @@ namespace CardEngine
             this.logging = logging;
             this.fileName = fileName;
 		}
-		public CardGame(int numPlayers) {
-            AddPlayers(numPlayers);
-			//currentPlayer.Push(new PlayerCycle(players)); //TODO call allplayers?
-		}
-		public CardGame CloneCommon(){
+
+        public CardGame CloneCommon(){
 			var temp = new CardGame (false, null); //here, players is being initialzed as an empty list of players
 			temp.DeclaredName = "Special";
             for (int idx = 0; idx < teams.Count; idx++){
