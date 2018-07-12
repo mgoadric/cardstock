@@ -108,10 +108,10 @@ public class ParseEngine
 
                 if (exp.type == GameType.AllAI) {
                     for (int j = 0; j < instance.players.Count; j++) {
-                        instance.players[j].decision  = new PIPMCPlayer(manageContext, GameType.AllAI, j);
+                        instance.players[j].decision  = new PIPMCPlayer(manageContext, j);
                     }
 				} else if (exp.type == GameType.RndandAI) {
-                    instance.players[0].decision = new PIPMCPlayer(manageContext, GameType.RndandAI, 0);
+                    instance.players[0].decision = new PIPMCPlayer(manageContext, 0);
                 }
 	            
                 /*********

@@ -6,7 +6,6 @@ using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using FreezeFrame;
 using ParseTreeIterator;
-using CardStockXam;
 using System.Threading.Tasks;
 
 namespace Players
@@ -14,20 +13,11 @@ namespace Players
     public class PIPMCPlayer : GeneralPlayer
     {
         private static int NUMTESTS = 10; //previously 20
-
-		private GameIterator gameContext;
-        private int numPlayers;
         private int idx;
-
-        private CardGames.GameType type;
- 
-		public PIPMCPlayer(GameIterator m, CardGames.GameType type, int idx)
+         
+        public PIPMCPlayer(GameIterator m, int idx) : base(m)
 		{
-			gameContext = m;
-            numPlayers = gameContext.instance.players.Count;
             this.idx = idx;
-
-            this.type = type;
         }
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
@@ -64,7 +54,8 @@ namespace Players
                     Debug.WriteLine("****Made Switch**** : " + i);
 
                     // get new possible world through clonesecret
-                    CardGame cg = gameContext.instance.CloneSecret(idx);
+                    CardGame cg = gameContext.game.CloneSecret(idx);
+                    var cloneContext = gameContext.Clone(cg);
 
                     // Assign the AI players for rollout game, with the 
                     // selected item chosen first when you get your turn
@@ -78,20 +69,13 @@ namespace Players
                             Debug.WriteLine("Player turn: " + cg.CurrentPlayer().idx);
                             Debug.WriteLine("Predictable player choice set: " + item);
 
-                            cg.players[j].decision = new PredictablePlayer()
-                            {
-                                toChoose = item
-                            };
+                            cg.players[j].decision = new PredictablePlayer(cloneContext, item);
                         }
                         else
                         {
-                            cg.players[j].decision = new Players.GeneralPlayer();
+                            cg.players[j].decision = new Players.GeneralPlayer(cloneContext);
                         }
                     }
-
-                    Debug.WriteLine("in PIPMC");
-
-                    var cloneContext = gameContext.Clone(cg);
 
                     Debug.WriteLine("Playing a simulated game");
 
@@ -104,7 +88,7 @@ namespace Players
 
                     // ProcessScore returns a sorted list 
                     // where the winner is rank 0 for either min/max games.
-                    var winners = cloneContext.parseoop.ProcessScore(cloneContext.game.scoring());
+                    var winners = cloneContext.parseoop.ProcessScore(cloneContext.rules.scoring());
 
                     Debug.WriteLine("past ProcessScore");
 
@@ -119,7 +103,7 @@ namespace Players
                             // add your rank to the results of this choice
                             lock (this)
                             {
-                                inverseRankSum[item] += ((double)1) / (j + 1);
+                                inverseRankSum[item] += (((double)1) / (j + 1)) / NUMTESTS;
                             }
 
                             break;
@@ -142,59 +126,6 @@ namespace Players
             RecordHeuristics(inverseRankSum);
 
             return tup.Item2;
-        }
-
-        public static Tuple<int, int> MinMaxIdx(double[] input)
-        {
-            double min = double.MaxValue;
-            double max = double.MinValue;
-            int minIdx = -1;
-            int maxIdx = -1;
-            for (int i = 0; i < input.Length; ++i)
-            {
-                if (input[i] > max)
-                {
-                    max = input[i];
-                    maxIdx = i;
-                }
-                if (input[i] < min)
-                {
-                    min = input[i];
-                    minIdx = i;
-                }
-            }
-            return new Tuple<int, int>(minIdx, maxIdx);
-        }
-
-        // CODE FOR UPDATING STATISTICS FOR HEURISTICS
-        public void RecordHeuristics(double[] inverseRankSum) {
-            if (gameContext.gameWorld != null)
-            {
-                // WHAT DOES WRS stand for?
-                double[] wrs = new double[inverseRankSum.Length];
-
-                for (int item = 0; item < inverseRankSum.Length; ++item)
-                {
-                    wrs[item] = (((inverseRankSum[item]) / (NUMTESTS)) * ((double)numPlayers / (numPlayers - 1))) -
-                        ((double)1 / ((numPlayers - 1)));
-                }
-
-                var tup = MinMaxIdx(inverseRankSum);
-                var max = wrs[tup.Item2];
-                var min = wrs[tup.Item1];
-
-                double avg = 0;
-                for (int i = 0; i < wrs.Length; i++)
-                {
-                    avg += wrs[i];
-                }
-                avg /= (double)wrs.Length;
-
-                var variance = Math.Abs(max - min);
-
-                gameContext.gameWorld.AddInfo(variance, avg, wrs[tup.Item2]);
-                leadList.Add(max);
-            }
         }
     }
 }

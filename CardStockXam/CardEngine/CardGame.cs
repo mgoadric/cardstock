@@ -6,6 +6,7 @@ using Players;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using FreezeFrame;
 using System.Collections;
 using System.Diagnostics;
 
@@ -321,11 +322,11 @@ namespace CardEngine
             return ret;
         }
 
-        public void AddPlayers(int numPlayers){
+        public void AddPlayers(int numPlayers, GameIterator gameContext){
 			for (int i = 0; i < numPlayers; ++i){
 				players.Add(new Player() { name = "p" + i });
                 AddToMap(players[i]);
-				players [i].decision = new GeneralPlayer ();
+				players [i].decision = new GeneralPlayer (gameContext);
 			}
             currentPlayer.Push(new StageCycle<Player>(players, this));
 		}
