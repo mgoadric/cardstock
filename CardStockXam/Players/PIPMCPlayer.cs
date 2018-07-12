@@ -19,7 +19,6 @@ namespace Players
         private int numPlayers;
         private int idx;
 
-        private List<double> leadList;
         private CardGames.GameType type;
  
 		public PIPMCPlayer(GameIterator m, CardGames.GameType type, int idx)
@@ -28,7 +27,6 @@ namespace Players
             numPlayers = gameContext.instance.players.Count;
             this.idx = idx;
 
-            this.leadList = new List<double>();
             this.type = type;
         }
 
@@ -106,10 +104,9 @@ namespace Players
 
                     // ProcessScore returns a sorted list 
                     // where the winner is rank 0 for either min/max games.
-
                     var winners = cloneContext.parseoop.ProcessScore(cloneContext.game.scoring());
 
-                    Debug.WriteLine("past processscore");
+                    Debug.WriteLine("past ProcessScore");
 
                     // TODO record everyone's ranks at all potential moves 
                     // so can give to scoretracker ??
@@ -130,24 +127,19 @@ namespace Players
                     }
 
                     Debug.WriteLine("saved the inverseRankSum");
-
                 });
             }
 
 			Debug.WriteLine("End Monte");
-			Debug.WriteLine("resetting game state");
 
             // FIND BEST (and worst) MOVE TO MAKE
             var tup = MinMaxIdx(inverseRankSum);
 
             Debug.WriteLine("Max invRankSum: " + tup.Item2);
-
-            RecordHeuristics(items, inverseRankSum, tup.Item2, tup.Item1);
- 
             Debug.WriteLine("AI Finished.");
 
-            // This just returns item1 because ProcessScore returns a sorted list 
-            // where the winner is rank 0 for either min/max games so don't change this.
+            // Record info for heuristic evaluation
+            RecordHeuristics(inverseRankSum);
 
             return tup.Item2;
         }
@@ -175,20 +167,21 @@ namespace Players
         }
 
         // CODE FOR UPDATING STATISTICS FOR HEURISTICS
-        public void RecordHeuristics(int items, double[] inverseRankSum, int bestIndex, int worstIndex) {
-            // WHAT DOES WRS stand for?
-            double[] wrs = new double[items];
-
-            for (int item = 0; item < items; ++item)
-            {
-                wrs[item] = (((inverseRankSum[item]) / (NUMTESTS)) * ((double)numPlayers / (numPlayers - 1))) -
-                    ((double)1 / ((numPlayers - 1)));
-            }
-
+        public void RecordHeuristics(double[] inverseRankSum) {
             if (gameContext.gameWorld != null)
             {
-                var max = wrs[bestIndex];
-                var min = wrs[worstIndex];
+                // WHAT DOES WRS stand for?
+                double[] wrs = new double[inverseRankSum.Length];
+
+                for (int item = 0; item < inverseRankSum.Length; ++item)
+                {
+                    wrs[item] = (((inverseRankSum[item]) / (NUMTESTS)) * ((double)numPlayers / (numPlayers - 1))) -
+                        ((double)1 / ((numPlayers - 1)));
+                }
+
+                var tup = MinMaxIdx(inverseRankSum);
+                var max = wrs[tup.Item2];
+                var min = wrs[tup.Item1];
 
                 double avg = 0;
                 for (int i = 0; i < wrs.Length; i++)
@@ -199,19 +192,9 @@ namespace Players
 
                 var variance = Math.Abs(max - min);
 
-                gameContext.gameWorld.AddInfo(variance, avg, wrs[bestIndex]);
-
-                if (type == CardGames.GameType.AllAI)
-                {
-                    leadList.Add(max);
-                }
+                gameContext.gameWorld.AddInfo(variance, avg, wrs[tup.Item2]);
+                leadList.Add(max);
             }
-        }
-
-        // Used by the Heuristic Scorer to track the AI's heuristic rank throughout the game
-        public override List<double> GetLead()
-        {
-            return leadList;
         }
     }
 }

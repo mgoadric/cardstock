@@ -8,8 +8,10 @@ namespace Players
 	public class GeneralPlayer
 	{
 		
+        protected List<double> leadList = new List<double>();
+
         public virtual List<double> GetLead() {
-            return new List<double>();
+            return leadList;
         }
 
         public virtual int MakeAction(List<GameActionCollection> possibles,Random rand){
