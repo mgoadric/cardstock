@@ -75,7 +75,22 @@ namespace CardEngine{
 
         }
 
-	}
+        public override int GetHashCode()
+        {
+            int hash = 0;
+            foreach (string key in pointLookups.Keys)
+            {
+                hash ^= key.GetHashCode();
+                foreach (string key2 in pointLookups[key].Keys)
+                {
+                    hash ^= key2.GetHashCode();
+                    hash ^= pointLookups[key][key2].GetHashCode();
+                }
+            }
+            return hash;
+        }
+
+    }
 	public class PointAwards{
 		public string identifier;
 		public string value;
@@ -108,7 +123,7 @@ namespace CardEngine{
 
         public override int GetHashCode()
         {
-            return base.GetHashCode() ^ value.GetHashCode() ^ pointsToAward;
+            return identifier.GetHashCode() ^ value.GetHashCode() ^ pointsToAward;
         }
 
     }
