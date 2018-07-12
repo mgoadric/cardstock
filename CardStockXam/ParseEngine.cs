@@ -9,11 +9,9 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using CardGames;
-using CardStockXam;
 using Players;
 using CardStockXam.Scoring;
 
-// add basic stats (% wins)
 public class ParseEngine
 {
 
@@ -27,40 +25,24 @@ public class ParseEngine
         this.exp = exp;
     }
 
-
     public Tuple<bool, bool> Loader() {
 
         Debug.AutoFlush = true;
-        var regex = new Regex("(;;)(.*?)(\n)");
 
         if (exp.logging)
         {
             File.WriteAllText(exp.fileName + ".txt", string.Empty);
         }
 
-
         /************
          * Load up the game from the .gdl RECYCLE description
          ************/
         fileName = exp.fileName;
-        /*
-        if (!exp.evaluating)
-        {
-            fileName = "games/" + fileName + ".gdl";
-        }
-        else
-        {
-            string[] split = new string[] { "Release" + Path.DirectorySeparatorChar };
-            var path = fileName.Split(split, StringSplitOptions.RemoveEmptyEntries);
-            if (path.Count() == 1)
-            {
-                split = new string[] { "Debug" + Path.DirectorySeparatorChar };
-                path = fileName.Split(split, StringSplitOptions.RemoveEmptyEntries);
-            }
-            fileName = path[1] + ".gdl";
-        }*/
+
         Console.WriteLine("name: " + fileName);
+
         var file = File.ReadAllText(fileName);
+        var regex = new Regex("(;;)(.*?)(\n)");
         file = regex.Replace(file, "\n");
 
         /***********
@@ -73,8 +55,6 @@ public class ParseEngine
 
         parser.BuildParseTree = true;
         this.tree = parser.game();
-
-
 
         /***********
          * Make the parse tree visualization
@@ -100,20 +80,22 @@ public class ParseEngine
         int choiceAgg = 0;
         int[,] playerRank = new int[5, exp.numEpochs];
         int[,] playerFirst = new int[5, exp.numEpochs];
+
         if (exp.type == CardGames.GameType.AllAI)
         {
             gameWorld.numAIvsAI = exp.numGames;
         }
+
         Stopwatch time = new Stopwatch();
         time.Start();
-        //List<List<double>>[] lead = new List<List<double>>[numPlayers];
+
         /***********
          * Run the experiments
          ***********/
         List<List<double>>[] lead = new List<List<double>>[exp.numGames];
         int[] winners = new int[exp.numGames];
         int numTurns = 0;
-        //for (int i = 0; i < exp.numGames; i++)
+
         Parallel.For(0, exp.numGames, i =>
         {
 	        try
@@ -122,21 +104,19 @@ public class ParseEngine
 	            System.GC.Collect();
 
 	            CardEngine.CardGame instance = new CardEngine.CardGame(true, exp.fileName + i);
-				
-
 				var manageContext = new FreezeFrame.GameIterator(tree, instance, gameWorld);
 
                 if (exp.type == GameType.AllAI) {
                     for (int j = 0; j < instance.players.Count; j++) {
                         instance.players[j].decision  = new PIPMCPlayer(manageContext, GameType.AllAI, j);
                     }
-
-
 				} else if (exp.type == GameType.RndandAI) {
                     instance.players[0].decision = new PIPMCPlayer(manageContext, GameType.RndandAI, 0);
                 }
 	            
-	            // PLAY THE GAME
+                /*********
+	             * PLAY THE GAME
+                 ***********/
 	            while (!manageContext.AdvanceToChoice())
 	            {
                     lock (this)
@@ -154,10 +134,9 @@ public class ParseEngine
 	                }
 	            }
 
-				
-
-
-				// SORT OUT RESULTS
+                /************
+				 * SORT OUT RESULTS
+				 *************/
 				if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
 	            var results = manageContext.parseoop.ProcessScore(tree.scoring());
 	            numPlayers = results.Count();
@@ -171,15 +150,11 @@ public class ParseEngine
 	                if (j == 0)
 	                {
 	                    playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
-	                }
-	                
-
+	                }	              
 	            }
 
-				
-
 	            if (gameWorld != null) {
-					// also go get lessthanperfectplayer and get the chunk of data here about winners/choices
+					// also go get PIPMCPlayer and get the chunk of data here about winners/choices
 					// also lock this in the gameover method so that it's safe for multiple games to access 
 					if (exp.type == GameType.AllAI)
 					{
@@ -217,23 +192,22 @@ public class ParseEngine
             }
         }
         );
-
-
+        
 
         // should fail as soon as a game stops compiling, not after all threads are finished TODO 
         if (!compiling)
         {
             return false;
         }
-        time.Stop();
 
+        time.Stop();
 
         if (!exp.evaluating)
         {
             // SHOW RESULTS TO CONSOLE
-            Console.Out.WriteLine(time.Elapsed);
-            Console.Out.WriteLine("Turns per game: " + choiceAgg / (double)(exp.numGames));
-            Console.Out.WriteLine("Score: ");
+            Console.WriteLine(time.Elapsed);
+            Console.WriteLine("Turns per game: " + choiceAgg / (double)(exp.numGames));
+            Console.WriteLine("Score: ");
             for (int i = 0; i < numPlayers; ++i)
             {
                 Console.Out.Write("Player" + i  + ":\t");
@@ -243,9 +217,9 @@ public class ParseEngine
                     Console.Out.Write(aggregator[i, j] / (double)(exp.numGames / exp.numEpochs) + "\t");
 
                 }
-                Console.Out.WriteLine();
+                Console.WriteLine();
             }
-			Console.Out.WriteLine("Rank: ");
+			Console.WriteLine("Rank: ");
 
 			for (int i = 0; i < numPlayers; ++i)
 			{
@@ -255,9 +229,9 @@ public class ParseEngine
 				{
 					Console.Out.Write(playerRank[i, j] / (double)(exp.numGames / exp.numEpochs) + "\t");
 				}
-				Console.Out.WriteLine();
+				Console.WriteLine();
 			}
-			Console.Out.WriteLine("First: ");
+			Console.WriteLine("First: ");
 
 			for (int i = 0; i < numPlayers; ++i)
 			{
@@ -267,41 +241,37 @@ public class ParseEngine
 				{
 					Console.Out.Write(playerFirst[i, j] / (double)(exp.numGames / exp.numEpochs) + "\t");
 				}
-				Console.Out.WriteLine();
+				Console.WriteLine();
 			}
-            Console.Out.WriteLine();
+            Console.WriteLine();
             // Console.Read();
         }
         else
         {
-
             gameWorld.SetWinners(winners);
             gameWorld.AddNumTurns(choiceAgg);
+
             // USE RESULTS IN GENETIC ALGORITHM
             var sum = 0;
 			for (int i = 0; i < exp.numEpochs; i++)
 			{
 				sum += playerFirst[0, i];
 			}
+
             if (exp.type == GameType.AllRnd)
             {          
                 gameWorld.numFirstWins += sum;
-
 				gameWorld.numGames += exp.numGames;
             }
-
             else if (exp.type == GameType.RndandAI)
             {
                 gameWorld.numAIvsRnd += exp.numGames;
                 gameWorld.numAIWins += sum;
                 gameWorld.SetRndVsAI(lead);
-
-
             }
             else {
                 gameWorld.SetAIVsAI(lead);
             }
-
         }
         return true;
     }
@@ -392,7 +362,6 @@ public class ParseEngine
             else
             {
                 builder.AppendLine(newNodeName + " [label=\"" + node.GetChild(i).GetText() + "\"]");
-                //DOTMaker(node.GetChild(i),newNodeName);
             }
             if (!dontCreate)
             {
