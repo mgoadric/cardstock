@@ -20,6 +20,7 @@ namespace Players
 
             return rand.Next(0, possibles.Count);
         }
+
         public override int MakeAction(JObject possibles, Random rand)
         {
             if (firstMove)
