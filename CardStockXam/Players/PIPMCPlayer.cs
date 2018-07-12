@@ -1,8 +1,6 @@
 ﻿﻿﻿﻿﻿using System;
 using System.Collections.Generic;
 using CardEngine;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using FreezeFrame;
 using ParseTreeIterator;

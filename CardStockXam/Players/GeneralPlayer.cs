@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using CardEngine;
 using FreezeFrame;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Players
 {
