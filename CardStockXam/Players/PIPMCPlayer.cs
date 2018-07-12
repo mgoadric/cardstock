@@ -1,8 +1,6 @@
 ﻿﻿﻿﻿﻿using System;
 using System.Collections.Generic;
 using CardEngine;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using FreezeFrame;
 using ParseTreeIterator;
@@ -24,12 +22,6 @@ namespace Players
         {
             
             return NumChoices(possibles.Count, rand);
-        }
-
-        public override int MakeAction(JObject possibles, Random rand)
-        {
-            var items = (JArray)possibles["items"];
-            return NumChoices(items.Count, rand);
         }
 
 		public int NumChoices(int items, Random rand){

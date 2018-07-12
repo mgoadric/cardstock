@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using CardEngine;
 using FreezeFrame;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Players
 {
@@ -22,11 +20,6 @@ namespace Players
 
         public virtual int MakeAction(List<GameActionCollection> possibles,Random rand){
 			return rand.Next(0,possibles.Count);
-		}
-
-		public virtual int MakeAction(JObject possibles, Random rand){
-			var items = (JArray)possibles ["items"];
-			return rand.Next (0,items.Count);
 		}
 
         public static Tuple<int, int> MinMaxIdx(double[] input)

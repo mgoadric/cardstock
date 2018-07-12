@@ -251,7 +251,6 @@
     <Compile Include="Scoring\Scorer.cs" />
     <Compile Include="Experiment.cs" />
     <Compile Include="FreezeFrame\GameIterator.cs" />
-    <Compile Include="Players\PIPMCPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CardEngine\Card.cs" />
     <Compile Include="CardEngine\CardFilter.cs" />

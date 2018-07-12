@@ -4,8 +4,6 @@ using System.Linq;
 using System.IO;
 using Players;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using FreezeFrame;
 using System.Collections;
 using System.Diagnostics;
@@ -360,67 +358,8 @@ namespace CardEngine
             }
 			//Console.ReadKey();
 		}
-		//public JObject GameState(int requestingPlayer){
-		//	StringBuilder j = new StringBuilder ("{ players:[");
-		//	bool first = true;
-		//	foreach (var player in players) {
-		//		if (!first) {
-		//			j.Append (",");
-		//		}
-		//		j.Append ("{");
-		//		j.Append("cards:[");
-		//		bool innerFirst = true;
-		//		foreach (var cardBin in player.cardBins.Keys()) {
-		//			if (!innerFirst) {
-		//				j.Append (",");
-		//			}
-		//			j.Append ("{name:\"" + cardBin + "\",");
-		//			j.Append ("contents:[");
-		//			bool innerinnerFirst = true;
-		//			foreach (var card in player.cardBins[cardBin].AllCards()) {
-		//				if (!innerinnerFirst) {
-		//					j.Append (",\n");
-		//				}
-		//				j.Append (card.Serialize());
-
-		//				innerinnerFirst = false;
-		//			}
-		//			innerFirst = false;
-		//			j.Append ("]}");
-		//		}
-		//		j.Append ("]}\n");
-		//		first = false;
-		//	}
-		//	j.Append ("],");
-		//	j.Append("gamecards:[");
-		//	bool outterFirst = true;
-		//	foreach (var cardBin in tableCards.Keys()) {
-		//		if (!outterFirst) {
-		//			j.Append (",");
-		//		}
-		//		j.Append ("{name:\"" + cardBin + "\",");
-		//		j.Append ("contents:[");
-		//		bool innerinnerFirst = true;
-		//		foreach (var card in tableCards[cardBin].AllCards()) {
-		//			if (!innerinnerFirst) {
-		//				j.Append (",\n");
-		//			}
-		//			j.Append (card.Serialize());
-
-		//			innerinnerFirst = false;
-		//		}
-		//		outterFirst = false;
-		//		j.Append ("]}");
-		//	}
-		//	j.Append ("]");
-		//	j.Append("}");
-		//	return (JObject) JsonConvert.DeserializeObject (j.ToString ());
-		//}
 
         public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
-            // just keep choices ! just pass in choices
-			//var strDescription = SerializeGAC (choices);
-			//var json = (JObject) JsonConvert.DeserializeObject (strDescription);
             Debug.WriteLine("In player make choice");
 			Debug.WriteLine("Num choices: " + choices.Count());
             /*foreach (GameActionCollection c in choices)
@@ -436,27 +375,6 @@ namespace CardEngine
             Debug.WriteLine("Choice: " + choice);
             choices[choice].ExecuteAll();
 		}
-        // in PIPMCPlayer - dependent on jobject for no reason - just needs a number,
-        // not a list of serialized gameactions (because it just needs the count to make 
-        // decisions)
-
-
-        public String SerializeGAC(List<GameActionCollection> list){
-            StringBuilder b = new StringBuilder();
-            b.Append("{ items:[");
-            foreach (var item in list){
-                b.Append("[");
-                foreach (var ga in item){
-                    b.Append(ga.Serialize());
-                    b.Append(",");
-                }
-                b.Remove(b.Length - 1, 1);
-                b.Append("],");
-            }
-            b.Remove(b.Length - 1, 1);
-            b.Append("]}");
-            return b.ToString();
-        }
 
         public void AddToMap(object o){
             IDictionary dict = null;
@@ -499,55 +417,55 @@ namespace CardEngine
 			return ret;
 		}
 
-        public bool EqualsTo(CardGame othergame) // In Progress
-        {
-            // Check Game Name and player/team number
-            if ((othergame.fileName == this.fileName) & (othergame.players.Count() == this.players.Count()) & 
-                (othergame.teams.Count() == this.teams.Count()))
-                {
-                Debug.WriteLine("Same game and number of players and teams: True");
+        //public bool EqualsTo(CardGame othergame) // In Progress
+        //{
+        //    // Check Game Name and player/team number
+        //    if ((othergame.fileName == this.fileName) & (othergame.players.Count() == this.players.Count()) & 
+        //        (othergame.teams.Count() == this.teams.Count()))
+        //        {
+        //        Debug.WriteLine("Same game and number of players and teams: True");
 
                 
                 
-                // Check that it is the same player's turn 
-                // Think I need a CompareTo method for player's -- can't just use IDX.
-                if (!(this.currentPlayer.Peek().Current().CompareTo(othergame.currentPlayer.Peek().Current())))
-                {
-                    return false;
-                }
+        //        // Check that it is the same player's turn 
+        //        // Think I need a CompareTo method for player's -- can't just use IDX.
+        //        if (!(this.currentPlayer.Peek().Current().CompareTo(othergame.currentPlayer.Peek().Current())))
+        //        {
+        //            return false;
+        //        }
 
-                // Should cycle through Stage Player list and keep selecting the next in both 
-
-
-                // Check that the scores are the same 
-                foreach (var bin in othergame.points.binDict.Keys) 
-                    if (!(othergame.points.binDict[bin] == points.binDict[bin])) // unclear if there is a certain way these are added
-                    { return false; }
-                }
+        //        // Should cycle through Stage Player list and keep selecting the next in both 
 
 
+        //        // Check that the scores are the same 
+        //        foreach (var bin in othergame.points.binDict.Keys) 
+        //            if (!(othergame.points.binDict[bin] == points.binDict[bin])) // unclear if there is a certain way these are added
+        //            { return false; }
+        //        }
 
 
 
-                for (int idx = 0; idx < teams.Count; idx++)
-                {
-                    Team orig = teamMap[teams[idx].id];
-                    Team newTeam = orig.Clone();
-                    foreach (Player p in orig.teamPlayers)
-                    {
-                        Player newPlayer = playerMap[p.name].Clone();
-                        newPlayer.team = newTeam;
-                        temp.players.Add(newPlayer);
-                        newTeam.teamPlayers.Add(newPlayer);
-                    }
-                    temp.teams.Add(newTeam);
-                }
+
+
+        //        for (int idx = 0; idx < teams.Count; idx++)
+        //        {
+        //            Team orig = teamMap[teams[idx].id];
+        //            Team newTeam = orig.Clone();
+        //            foreach (Player p in orig.teamPlayers)
+        //            {
+        //                Player newPlayer = playerMap[p.name].Clone();
+        //                newPlayer.team = newTeam;
+        //                temp.players.Add(newPlayer);
+        //                newTeam.teamPlayers.Add(newPlayer);
+        //            }
+        //            temp.teams.Add(newTeam);
+        //        }
                     
 
-            }
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
         public void WriteToFile(string text)
         {
 			if (logging)
