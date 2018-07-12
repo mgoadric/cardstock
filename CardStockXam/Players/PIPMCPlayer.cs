@@ -59,16 +59,13 @@ namespace Players
 
                     // Assign the AI players for rollout game, with the 
                     // selected item chosen first when you get your turn
-                    for (int j = 0; j < cg.players.Count; j++)
+                    for (int j = 0; j < numPlayers; j++)
                     {
 
                         Debug.WriteLine("in PIPMC for loop:" + j);
 
                         if (j == idx)
                         {
-                            Debug.WriteLine("Player turn: " + cg.CurrentPlayer().idx);
-                            Debug.WriteLine("Predictable player choice set: " + item);
-
                             cg.players[j].decision = new PredictablePlayer(cloneContext, item);
                         }
                         else
@@ -120,7 +117,7 @@ namespace Players
             var tup = MinMaxIdx(inverseRankSum);
 
             Debug.WriteLine("Max invRankSum: " + tup.Item2);
-            Debug.WriteLine("AI Finished.");
+            Debug.WriteLine("PIPMC Finished.");
 
             // Record info for heuristic evaluation
             RecordHeuristics(inverseRankSum);

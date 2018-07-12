@@ -276,7 +276,6 @@
     <Compile Include="Scoring\World.cs" />
     <Compile Include="Tree.cs" />
     <Compile Include="Players\GeneralPlayer.cs" />
-    <Compile Include="FreezeFrame\StackState.cs" />
     <Compile Include="Players\PredictablePlayer.cs" />
     <Compile Include="CardEngine\StageCycle.cs" />
     <Compile Include="ParseTreeIterator\ParseOOPIterator.cs" />
@@ -285,6 +284,7 @@
     <Compile Include="Scoring\Heuristics\Clarity.cs" />
     <Compile Include="Scoring\Heuristics\Randomness.cs" />
     <Compile Include="Scoring\ScoreTracker.cs" />
+    <Compile Include="Players\PIPMCPlayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -365,6 +365,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="games\GoFish.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="games\NinetyEight.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
