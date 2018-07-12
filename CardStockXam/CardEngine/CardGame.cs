@@ -360,67 +360,8 @@ namespace CardEngine
             }
 			//Console.ReadKey();
 		}
-		//public JObject GameState(int requestingPlayer){
-		//	StringBuilder j = new StringBuilder ("{ players:[");
-		//	bool first = true;
-		//	foreach (var player in players) {
-		//		if (!first) {
-		//			j.Append (",");
-		//		}
-		//		j.Append ("{");
-		//		j.Append("cards:[");
-		//		bool innerFirst = true;
-		//		foreach (var cardBin in player.cardBins.Keys()) {
-		//			if (!innerFirst) {
-		//				j.Append (",");
-		//			}
-		//			j.Append ("{name:\"" + cardBin + "\",");
-		//			j.Append ("contents:[");
-		//			bool innerinnerFirst = true;
-		//			foreach (var card in player.cardBins[cardBin].AllCards()) {
-		//				if (!innerinnerFirst) {
-		//					j.Append (",\n");
-		//				}
-		//				j.Append (card.Serialize());
-
-		//				innerinnerFirst = false;
-		//			}
-		//			innerFirst = false;
-		//			j.Append ("]}");
-		//		}
-		//		j.Append ("]}\n");
-		//		first = false;
-		//	}
-		//	j.Append ("],");
-		//	j.Append("gamecards:[");
-		//	bool outterFirst = true;
-		//	foreach (var cardBin in tableCards.Keys()) {
-		//		if (!outterFirst) {
-		//			j.Append (",");
-		//		}
-		//		j.Append ("{name:\"" + cardBin + "\",");
-		//		j.Append ("contents:[");
-		//		bool innerinnerFirst = true;
-		//		foreach (var card in tableCards[cardBin].AllCards()) {
-		//			if (!innerinnerFirst) {
-		//				j.Append (",\n");
-		//			}
-		//			j.Append (card.Serialize());
-
-		//			innerinnerFirst = false;
-		//		}
-		//		outterFirst = false;
-		//		j.Append ("]}");
-		//	}
-		//	j.Append ("]");
-		//	j.Append("}");
-		//	return (JObject) JsonConvert.DeserializeObject (j.ToString ());
-		//}
 
         public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
-            // just keep choices ! just pass in choices
-			//var strDescription = SerializeGAC (choices);
-			//var json = (JObject) JsonConvert.DeserializeObject (strDescription);
             Debug.WriteLine("In player make choice");
 			Debug.WriteLine("Num choices: " + choices.Count());
             /*foreach (GameActionCollection c in choices)
@@ -436,27 +377,6 @@ namespace CardEngine
             Debug.WriteLine("Choice: " + choice);
             choices[choice].ExecuteAll();
 		}
-        // in PIPMCPlayer - dependent on jobject for no reason - just needs a number,
-        // not a list of serialized gameactions (because it just needs the count to make 
-        // decisions)
-
-
-        public String SerializeGAC(List<GameActionCollection> list){
-            StringBuilder b = new StringBuilder();
-            b.Append("{ items:[");
-            foreach (var item in list){
-                b.Append("[");
-                foreach (var ga in item){
-                    b.Append(ga.Serialize());
-                    b.Append(",");
-                }
-                b.Remove(b.Length - 1, 1);
-                b.Append("],");
-            }
-            b.Remove(b.Length - 1, 1);
-            b.Append("]}");
-            return b.ToString();
-        }
 
         public void AddToMap(object o){
             IDictionary dict = null;

@@ -26,17 +26,5 @@ namespace Players
 
             return rand.Next(0, possibles.Count);
         }
-
-        public override int MakeAction(JObject possibles, Random rand)
-        {
-            if (firstMove)
-            {
-                firstMove = false;
-                return toChoose;
-            }
-
-            var items = (JArray)possibles["items"];
-            return rand.Next(0, items.Count);
-        }
     }
 }
