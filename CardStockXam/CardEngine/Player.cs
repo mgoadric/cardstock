@@ -5,13 +5,13 @@ using System.Text;
 namespace CardEngine
 {
 	public class Player{
-		public RawStorage storage;
+		public IntStorage storage;
 		public CardStorage cardBins; 
-		public Team team; // Don't Include this in compare method
-        public string name; // Don't Include this
+		public Team team; 
+        public string name; 
 		public GeneralPlayer decision; // Don't include this
 		public Player(){
-			storage = new RawStorage();
+			storage = new IntStorage();
 			cardBins = new CardStorage();
 			cardBins.owner = this;
 		}

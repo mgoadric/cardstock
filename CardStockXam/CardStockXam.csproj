@@ -259,11 +259,11 @@
     <Compile Include="CardEngine\CardScore.cs" />
     <Compile Include="CardEngine\CardStorage.cs" />
     <Compile Include="CardEngine\FancyCardLocation.cs" />
-    <Compile Include="CardEngine\FancyRawStorage.cs" />
+    <Compile Include="CardEngine\FancyIntStorage.cs" />
     <Compile Include="CardEngine\GameAction.cs" />
     <Compile Include="CardEngine\Player.cs" />
     <Compile Include="CardEngine\PointsStorage.cs" />
-    <Compile Include="CardEngine\RawStorage.cs" />
+    <Compile Include="CardEngine\IntStorage.cs" />
     <Compile Include="CardEngine\Team.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="ParseEngine.cs" />

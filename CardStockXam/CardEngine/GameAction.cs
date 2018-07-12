@@ -333,12 +333,12 @@ namespace CardEngine {
     }
     public class IntAction : GameAction {
 
-        RawStorage bucket;
+        IntStorage bucket;
         string bucketKey;
         int value;
         int oldValue;
 
-        public IntAction(RawStorage storage, string bKey, int v, CardGame cg) {
+        public IntAction(IntStorage storage, string bKey, int v, CardGame cg) {
             bucket = storage;
             bucketKey = bKey;
             value = v;

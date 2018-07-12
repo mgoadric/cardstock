@@ -15,15 +15,17 @@ namespace CardEngine
 
 		public string DeclaredName = "Default";
 		public static Random rand = new Random();
+
+        // THESE ARE NEEDED FOR EQUALITY
 		public List<Card> sourceDeck = new List<Card>();
 		public CardStorage tableCards = new CardStorage();
-		
+        public IntStorage tableIntStorage = new IntStorage();		
 		public List<Player> players = new List<Player>();
 		public List<Team> teams = new List<Team>();
 		public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>();
 		public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
-		public RawStorage gameStorage = new RawStorage();
-		public PointsStorage points = new PointsStorage();
+        public PointsStorage points = new PointsStorage();  //DONE
+
         public Dictionary<String, object> vars = new Dictionary<string, object>();
 
         public bool logging;
@@ -32,7 +34,7 @@ namespace CardEngine
         // TODO should have card map?
         public Dictionary<string, Card> fancyCardMap = new Dictionary<string, Card>();
         public Dictionary<string, FancyCardLocation> fancyCardLocMap = new Dictionary<string, FancyCardLocation>();
-        public Dictionary<string, FancyRawStorage> fancyRawStorMap = new Dictionary<string, FancyRawStorage>();
+        public Dictionary<string, FancyIntStorage> fancyRawStorMap = new Dictionary<string, FancyIntStorage>();
         public Dictionary<string, Player> playerMap = new Dictionary<string, Player>();
         public Dictionary<string, Team> teamMap = new Dictionary<string, Team>();
 
@@ -131,7 +133,7 @@ namespace CardEngine
 				}
 			}
        
-			temp.gameStorage = gameStorage.Clone ();
+			temp.tableIntStorage = tableIntStorage.Clone ();
 			temp.tableCards = tableCards.Clone ();
 			foreach (var bin in tableCards.Keys()) {
 				if (!bin.StartsWith ("{hidden}")) {
@@ -211,7 +213,7 @@ namespace CardEngine
 					}
 				}
 			}
-			temp.gameStorage = gameStorage.Clone ();
+			temp.tableIntStorage = tableIntStorage.Clone ();
 			temp.tableCards = tableCards.Clone ();
 			foreach (var bin in tableCards.Keys()) {
 				foreach (var card in tableCards[bin].AllCards()) {
@@ -258,9 +260,9 @@ namespace CardEngine
                     var l = fancyCardLocMap[(o as FancyCardLocation).name];
                     ret.Add(key, l);
                 }
-                else if (o is FancyRawStorage)
+                else if (o is FancyIntStorage)
                 {
-                    var rs = fancyRawStorMap[(o as FancyRawStorage).key];
+                    var rs = fancyRawStorMap[(o as FancyIntStorage).key];
                     ret.Add(key, rs);
                 }
                 else if (o is GameActionCollection) //TODO what do i do here?
@@ -383,9 +385,9 @@ namespace CardEngine
                 dict = fancyCardLocMap;
                 id = (o as FancyCardLocation).name;
             }
-            else if (o is FancyRawStorage){
+            else if (o is FancyIntStorage){
                 dict = fancyRawStorMap;
-                id = (o as FancyRawStorage).key;
+                id = (o as FancyIntStorage).key;
             }
             else if (o is Player){
                 dict = playerMap;

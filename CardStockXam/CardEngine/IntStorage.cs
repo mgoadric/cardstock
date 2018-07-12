@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System;
 
 namespace CardEngine{
-	public class RawStorage{
+	public class IntStorage{
 		public int this[string key]
 		{
 		    get
@@ -32,11 +32,11 @@ namespace CardEngine{
 		public int binCounter = 0;
 		Dictionary<string,List<Trigger>> triggerDict = new Dictionary<string, List<Trigger>>();
 		public Dictionary<string,int> binDict = new Dictionary<string,int>();
-		public RawStorage(){
+		public IntStorage(){
 			storage = new int[32];
 		}
-		public RawStorage Clone(){
-			var raw = new RawStorage ();
+		public IntStorage Clone(){
+			var raw = new IntStorage ();
 			raw.storage = storage.Clone () as int[];
 			foreach (var key in binDict.Keys) {
 				raw.AddKey (key);
