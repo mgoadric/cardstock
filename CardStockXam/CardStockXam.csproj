@@ -24,7 +24,8 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType></DebugType>
+    <DebugType>
+    </DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -250,7 +251,7 @@
     <Compile Include="Scoring\Scorer.cs" />
     <Compile Include="Experiment.cs" />
     <Compile Include="FreezeFrame\GameIterator.cs" />
-    <Compile Include="Players\LessThanPerfectPlayer.cs" />
+    <Compile Include="Players\PIPMCPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CardEngine\Card.cs" />
     <Compile Include="CardEngine\CardFilter.cs" />
@@ -276,8 +277,6 @@
     <Compile Include="Tree.cs" />
     <Compile Include="Players\GeneralPlayer.cs" />
     <Compile Include="FreezeFrame\StackState.cs" />
-    <Compile Include="CardEngine\CardEngineTest.cs" />
-    <Compile Include="GenericGameTests.cs" />
     <Compile Include="Players\PredictablePlayer.cs" />
     <Compile Include="CardEngine\StageCycle.cs" />
     <Compile Include="ParseTreeIterator\ParseOOPIterator.cs" />
@@ -295,8 +294,14 @@
   <ItemGroup>
     <None Include="Antlr4\Runtime\Tree\Xpath\XPathLexer.g4" />
     <None Include="Antlr4\Runtime\Tree\Xpath\XPathLexer.tokens" />
+    <None Include="games\GoFish.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="games\Golf.gdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="games\NinetyEight.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="games\SpiteMalice.gdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -364,7 +369,5 @@
     </None>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="games\BustedJunk\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
