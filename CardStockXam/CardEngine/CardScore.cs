@@ -38,6 +38,43 @@ namespace CardEngine{
 			}
 			return total;
 		}
+
+        public override bool Equals(System.Object obj)
+        {
+
+            if (obj == null)
+            {
+                return false;
+            }
+            CardScore p = obj as CardScore;
+            if ((System.Object)p == null)
+            {
+                return false;
+            }
+
+            if (pointLookups.Count != p.pointLookups.Count)
+            {
+                return false;
+            }
+
+            foreach (string key in pointLookups.Keys)
+            {
+                var otherscores = p.pointLookups[key];
+                if (otherscores.Count != p.pointLookups[key].Count)
+                {
+                    return false;
+                }
+                foreach (string key2 in pointLookups[key].Keys)
+                {
+                    if (otherscores[key2] != pointLookups[key][key2]) 
+                        { return false; }  
+                }
+            }
+
+            return true;
+
+        }
+
 	}
 	public class PointAwards{
 		public string identifier;
@@ -53,5 +90,26 @@ namespace CardEngine{
 			return pointsToAward;
 			
 		}
-	}
+
+        public override bool Equals(System.Object obj)
+        {
+            if (obj ==null)
+            {
+                return false;
+            }
+            PointAwards p = obj as PointAwards;
+            if ((System.Object)p == null)
+            {
+                return false;
+            }
+
+            return ((identifier == p.identifier) && (value == p.value) && (pointsToAward == p.pointsToAward));
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() ^ value.GetHashCode() ^ pointsToAward;
+        }
+
+    }
 }
