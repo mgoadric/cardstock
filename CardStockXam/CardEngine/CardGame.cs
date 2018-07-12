@@ -360,7 +360,7 @@ namespace CardEngine
 				var newCard = new Card (combo);
 				sourceDeck.Add (newCard);
 				loc.Add(newCard);
-                WriteToFile("C:" + newCard.ToOutputString() + loc.name);
+                WriteToFile("C:" + newCard.ToOutputString() + loc.name); // What happened?
             }
 			//Console.ReadKey();
 		}
@@ -502,6 +502,56 @@ namespace CardEngine
 			}
 			return ret;
 		}
+
+        public bool EqualsTo(CardGame othergame) // In Progress
+        {
+            // Check Game Name and player/team number
+            if ((othergame.fileName == this.fileName) & (othergame.players.Count() == this.players.Count()) & 
+                (othergame.teams.Count() == this.teams.Count()))
+                {
+                Debug.WriteLine("Same game and number of players and teams: True");
+
+                
+                
+                // Check that it is the same player's turn 
+                // Think I need a CompareTo method for player's -- can't just use IDX.
+                if (!(this.currentPlayer.Peek().Current().CompareTo(othergame.currentPlayer.Peek().Current())))
+                {
+                    return false;
+                }
+
+                // Should cycle through Stage Player list and keep selecting the next in both 
+
+
+                // Check that the scores are the same 
+                foreach (var bin in othergame.points.binDict.Keys) 
+                    if (!(othergame.points.binDict[bin] == points.binDict[bin])) // unclear if there is a certain way these are added
+                    { return false; }
+                }
+
+
+
+
+
+                for (int idx = 0; idx < teams.Count; idx++)
+                {
+                    Team orig = teamMap[teams[idx].id];
+                    Team newTeam = orig.Clone();
+                    foreach (Player p in orig.teamPlayers)
+                    {
+                        Player newPlayer = playerMap[p.name].Clone();
+                        newPlayer.team = newTeam;
+                        temp.players.Add(newPlayer);
+                        newTeam.teamPlayers.Add(newPlayer);
+                    }
+                    temp.teams.Add(newTeam);
+                }
+                    
+
+            }
+
+            return true;
+        }
         public void WriteToFile(string text)
         {
 			if (logging)

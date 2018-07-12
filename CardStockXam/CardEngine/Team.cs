@@ -22,5 +22,15 @@ namespace CardEngine{
         {
             teamStorage.storage[bin] += value;
         }
+
+     /*  public bool EqualsTo(Team otherteam) { // TODO
+            if (otherteam.teamStorage.binCounter == teamStorage.binCounter) {
+                for (int i = 0; i <= teamStorage.storage.Length;)
+                    if (this.teamStorage.storage[i] == teamStorage.storage[] // Is there an easier way to cross reference without using 2 for loops?
+                     }
+
+
+    */
+
     }
 }
