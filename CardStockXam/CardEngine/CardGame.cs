@@ -419,13 +419,34 @@ namespace CardEngine
 			return ret;
 		}
 
-        //public bool EqualsTo(CardGame othergame) // In Progress
-        //{
-        //    // Check Game Name and player/team number
-        //    if ((othergame.fileName == this.fileName) & (othergame.players.Count() == this.players.Count()) & 
-        //        (othergame.teams.Count() == this.teams.Count()))
-        //        {
-        //        Debug.WriteLine("Same game and number of players and teams: True");
+       
+
+        public bool EqualsTo(CardGame othergame) // In Progress
+        {
+        //Check Game Name and player/team number
+            if ((othergame.fileName == this.fileName) & (othergame.players.Count() == this.players.Count()) & 
+                (othergame.teams.Count() == this.teams.Count()))
+                {
+                Debug.WriteLine("Same game and number of players and teams: True");
+
+                if (othergame.sourceDeck.Count() != this.sourceDeck.Count())
+                {
+                    return false;
+                } else {
+                    for (int i = 0; i < sourceDeck.Count(); i++)
+                    {
+                        if (!sourceDeck[i].Equals(othergame.sourceDeck[i]))
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+
+
+              
+
+
 
                 
                 
