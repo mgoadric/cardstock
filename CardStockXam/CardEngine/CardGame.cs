@@ -419,7 +419,24 @@ namespace CardEngine
 			return ret;
 		}
 
-       
+       public bool sourceDeckIsTheSame(List<Card> othersourcedeck)
+        {
+            if (othersourcedeck.Count() != this.sourceDeck.Count())
+            {
+                return false;
+            }
+            else
+            {
+                for (int i = 0; i < sourceDeck.Count(); i++)
+                {
+                    if (!sourceDeck[i].Equals(othersourcedeck[i]))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
 
         public bool EqualsTo(CardGame othergame) // In Progress
         {
@@ -429,17 +446,8 @@ namespace CardEngine
                 {
                 Debug.WriteLine("Same game and number of players and teams: True");
 
-                if (othergame.sourceDeck.Count() != this.sourceDeck.Count())
-                {
+                if (!sourceDeckIsTheSame(othergame.sourceDeck)) {
                     return false;
-                } else {
-                    for (int i = 0; i < sourceDeck.Count(); i++)
-                    {
-                        if (!sourceDeck[i].Equals(othergame.sourceDeck[i]))
-                        {
-                            return false;
-                        }
-                    }
                 }
 
 
