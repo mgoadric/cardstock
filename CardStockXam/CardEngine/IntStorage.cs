@@ -54,10 +54,53 @@ namespace CardEngine{
 			}
 			triggerDict[key].Add(trig);
 		}
-		public void AddKey(string key){
-			binDict.Add(key,binCounter);
-			binCounter++;
-		}
+        public void AddKey(string key)
+        {
+            binDict.Add(key, binCounter);
+            binCounter++;
+        }
+        public override bool Equals(System.Object obj)
+        {
+
+            if (obj == null)
+            {
+                return false;
+            }
+            IntStorage p = obj as IntStorage;
+            if ((System.Object)p == null)
+            {
+                return false;
+            }
+
+            if (p.binCounter != binCounter) // if storage locations are not the same size
+            {
+                return false;
+            }
+
+            foreach (var bin in binDict.Keys)
+            {
+                {
+                    if ((storage[binDict[bin]] !=(p.storage[binDict[bin]]))) // For each storage location, points must be equal
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+
+        public override int GetHashCode()
+            {
+            int hash = 0;
+            foreach (var bin in binDict.Keys)
+            {
+                hash ^= storage[binDict[bin]].GetHashCode();
+            }
+            return hash;
+            }
+    
 	}
 	public class Trigger{
 		public TriggerException exception;

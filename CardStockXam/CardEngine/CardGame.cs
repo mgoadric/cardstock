@@ -17,8 +17,8 @@ namespace CardEngine
 		public static Random rand = new Random();
 
         // THESE ARE NEEDED FOR EQUALITY
-		public List<Card> sourceDeck = new List<Card>();
-		public CardStorage tableCards = new CardStorage();
+		public List<Card> sourceDeck = new List<Card>(); // DONE
+		public CardStorage tableCards = new CardStorage(); 
         public IntStorage tableIntStorage = new IntStorage();		
 		public List<Player> players = new List<Player>();
 		public List<Team> teams = new List<Team>();
