@@ -18,10 +18,10 @@ namespace CardEngine
 
         // THESE ARE NEEDED FOR EQUALITY
 		public List<Card> sourceDeck = new List<Card>(); // DONE
-		public CardStorage tableCards = new CardStorage(); 
-        public IntStorage tableIntStorage = new IntStorage();		
-		public List<Player> players = new List<Player>();
-		public List<Team> teams = new List<Team>();
+		public CardStorage tableCards = new CardStorage(); // DONE
+        public IntStorage tableIntStorage = new IntStorage(); // DONE	
+		public List<Player> players = new List<Player>(); // DONE
+		public List<Team> teams = new List<Team>(); // DONE
 		public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>();
 		public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
         public PointsStorage points = new PointsStorage();  //DONE

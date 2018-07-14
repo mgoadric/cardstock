@@ -23,14 +23,22 @@ namespace CardEngine{
             teamStorage.storage[bin] += value;
         }
 
-     /*  public bool EqualsTo(Team otherteam) { // TODO
-            if (otherteam.teamStorage.binCounter == teamStorage.binCounter) {
-                for (int i = 0; i <= teamStorage.storage.Length;)
-                    if (this.teamStorage.storage[i] == teamStorage.storage[] // Is there an easier way to cross reference without using 2 for loops?
-                     }
+     public override bool Equals(System.Object obj)  { // TODO
+            if (obj == null)
+            { return false; }
 
+            Team otherteam = obj as Team;
+            if ((System.Object)otherteam == null)
+            { return false; }
+                
+            if (id != otherteam.id || !teamStorage.Equals(otherteam)) // if ids or storage are not same, equals is false
+            { return false; }
 
-    */
-
-    }
+            for (int i = 0; i < teamPlayers.Count; i++)
+            {
+                if (!teamPlayers[i].Equals(otherteam.teamPlayers[i]))
+                    { return false; }
+            }
+            return true;
+        }
 }

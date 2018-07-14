@@ -38,36 +38,28 @@ namespace CardEngine
 			ret.Append (cardBins.ToString ());
 			return ret.ToString();
 		}
-        public bool CompareTo(Player other) // Needs to be tested
+        public override bool Equals(System.Object obj)
         {
-            for (int i = 0; i <= storage.storage.Length; i++) // Compare their "Storage Locations"
-                if (storage.storage[i] != other.storage.storage[i])
-                {
-                    return false;
-                }
+            if (obj == null)
+            { return false; }
 
-            if (!CountCompare(other.cardBins.binCounter)) { return false; } // Compare Card Collection Size
+            Player otherplayer = obj as Player;
+            if ((System.Object)otherplayer == null)
+            { return false; }
 
-            for (int i = 0; i <= cardBins.binCounter; i++) // Compare Cards // storage is probably 32 long
-            {
-                bool missing = true;
-                for (int j = 0; j <= other.cardBins.storage.Length; j++)
-                {
-                    if (cardBins.storage[i].ToString() == other.cardBins.storage[j].ToString())
-                        { missing = false; }
-                }
+            if (!storage.Equals(otherplayer.storage) || !cardBins.Equals(otherplayer.cardBins)) 
+            { return false; }
 
-                if (missing)
-                { return false; }
-            }
-            // If we didn't return false, then the cards are all there, and same
+            if (name != otherplayer.name || team != otherplayer.team)
+            { return false; }
+
             return true;
         }
 
-        public bool CountCompare(int othercount) // Compares card collection size
+        public override int GetHashCode() // XORs relevant hashcodes
         {
-            return cardBins.binCounter == othercount;
+            return name.GetHashCode() ^ team.GetHashCode() ^ storage.GetHashCode() ^ cardBins.GetHashCode();
         }
 
-	}
+    }
 }
