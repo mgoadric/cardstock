@@ -11,7 +11,7 @@ namespace CardEngine{
 		public StageCycle(List<T> pList, CardGame cg){
             playerList = pList;
             var p = pList[0];
-            this.cg = cg; // Not checked in the equals or hashmethod
+            this.cg = cg; // Unchecked in the equals and hash methods
 			WritePlayer();
 		}
         public StageCycle(StageCycle<T> source){
@@ -105,6 +105,9 @@ namespace CardEngine{
             { return false; }
 
             // Compare the StageCycles
+            if (!(playerList[0].GetType().Equals(othercycle.playerList[0].GetType())))
+            { return false; }
+
             if (idx != othercycle.idx)
             { return false; }
 
@@ -116,7 +119,7 @@ namespace CardEngine{
 
             for (int i = 0; i < playerList.Count; i++)
             {
-                if (!(playerList[i].Equals(othercycle.playerList[i])))
+                if (!(playerList[i].Equals(othercycle.playerList[i]))) // Should work for teams/players
                     { return false; }
             }
 

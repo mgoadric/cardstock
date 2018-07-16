@@ -22,8 +22,8 @@ namespace CardEngine
         public IntStorage tableIntStorage = new IntStorage(); // DONE	
 		public List<Player> players = new List<Player>(); // DONE
 		public List<Team> teams = new List<Team>(); // DONE
-		public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>();
-		public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
+		public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>(); //DONE
+		public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>(); // DONE
         public PointsStorage points = new PointsStorage();  //DONE
 
         public Dictionary<String, object> vars = new Dictionary<string, object>();
@@ -438,6 +438,28 @@ namespace CardEngine
             return true;
         }
 
+        public bool StageCompare(Stack<StageCycle<System.Object>> stack1, Stack<StageCycle<System.Object>> stack2)
+        {
+            if (stack1 == null || stack2 == null)
+            { return false; }
+
+            Stack<StageCycle<System.Object>> copy1 = stack1;
+            Stack<StageCycle<System.Object>> copy2 = stack2;
+
+            if (copy1.Count != copy2.Count)
+            { return false; }
+
+            while (copy1.Count != 0)
+            {
+                if (!(copy1.Pop().Equals(copy2.Pop())))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public bool EqualsTo(CardGame othergame) // In Progress
         {
         //Check Game Name and player/team number
@@ -446,10 +468,11 @@ namespace CardEngine
                 {
                 Debug.WriteLine("Same game and number of players and teams: True");
 
-                if (!sourceDeckIsTheSame(othergame.sourceDeck)) {
+                if (!sourceDeckIsTheSame(othergame.sourceDeck)) { 
                     return false;
                 }
 
+                if ()
 
 
               
