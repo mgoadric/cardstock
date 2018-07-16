@@ -10,20 +10,20 @@ using System.Diagnostics;
 
 namespace CardEngine
 {
-	
-	public class CardGame{
 
-		public string DeclaredName = "Default";
-		public static Random rand = new Random();
+    public class CardGame {
+
+        public string DeclaredName = "Default";
+        public static Random rand = new Random();
 
         // THESE ARE NEEDED FOR EQUALITY
-		public List<Card> sourceDeck = new List<Card>(); // DONE
-		public CardStorage tableCards = new CardStorage(); // DONE
+        public List<Card> sourceDeck = new List<Card>(); // DONE
+        public CardStorage tableCards = new CardStorage(); // DONE
         public IntStorage tableIntStorage = new IntStorage(); // DONE	
-		public List<Player> players = new List<Player>(); // DONE
-		public List<Team> teams = new List<Team>(); // DONE
-		public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>(); //DONE
-		public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>(); // DONE
+        public List<Player> players = new List<Player>(); // DONE
+        public List<Team> teams = new List<Team>(); // DONE
+        public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>(); //DONE
+        public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>(); // DONE
         public PointsStorage points = new PointsStorage();  //DONE
 
         public Dictionary<String, object> vars = new Dictionary<string, object>();
@@ -38,18 +38,18 @@ namespace CardEngine
         public Dictionary<string, Player> playerMap = new Dictionary<string, Player>();
         public Dictionary<string, Team> teamMap = new Dictionary<string, Team>();
 
-        public CardGame(bool logging, string fileName){
+        public CardGame(bool logging, string fileName) {
             this.logging = logging;
             this.fileName = fileName;
-		}
+        }
 
-        public CardGame CloneCommon(){
-			var temp = new CardGame (false, null); //here, players is being initialzed as an empty list of players
-			temp.DeclaredName = "Special";
-            for (int idx = 0; idx < teams.Count; idx++){
+        public CardGame CloneCommon() {
+            var temp = new CardGame(false, null); //here, players is being initialzed as an empty list of players
+            temp.DeclaredName = "Special";
+            for (int idx = 0; idx < teams.Count; idx++) {
                 Team orig = teamMap[teams[idx].id];
                 Team newTeam = orig.Clone();
-                foreach (Player p in orig.teamPlayers){
+                foreach (Player p in orig.teamPlayers) {
                     Player newPlayer = playerMap[p.name].Clone();
                     newPlayer.team = newTeam;
                     temp.players.Add(newPlayer);
@@ -57,7 +57,7 @@ namespace CardEngine
                 }
                 temp.teams.Add(newTeam);
             }
-			/*Dictionary<Player, int> playerIdxs = new Dictionary<Player, int>();
+            /*Dictionary<Player, int> playerIdxs = new Dictionary<Player, int>();
 			for (int i = 0; i < this.players.Count; ++i) {
 				playerIdxs [players [i]] = i;
 			}
@@ -76,156 +76,156 @@ namespace CardEngine
 				this.players [i].CloneToOther (temp.players [i]);
 			}*/
 
-			//reconstruct team and player cycles
-			//temp.currentPlayer.Pop();
-			foreach (var cycle in this.currentPlayer.Reverse()){
-				var newCycle = new StageCycle<Player> (temp.players, temp);
-				newCycle.idx = cycle.idx;
-				newCycle.turnEnded = cycle.turnEnded;
-				newCycle.queuedNext = cycle.queuedNext;
-				temp.currentPlayer.Push (newCycle);
-			}
-			temp.currentTeam.Clear();
-			foreach (var cycle in this.currentTeam.Reverse()){
-				var newCycle = new StageCycle<Team> (temp.teams, temp);
-				newCycle.idx = cycle.idx;
-				newCycle.turnEnded = cycle.turnEnded;
+            //reconstruct team and player cycles
+            //temp.currentPlayer.Pop();
+            foreach (var cycle in this.currentPlayer.Reverse()) {
+                var newCycle = new StageCycle<Player>(temp.players, temp);
+                newCycle.idx = cycle.idx;
+                newCycle.turnEnded = cycle.turnEnded;
+                newCycle.queuedNext = cycle.queuedNext;
+                temp.currentPlayer.Push(newCycle);
+            }
+            temp.currentTeam.Clear();
+            foreach (var cycle in this.currentTeam.Reverse()) {
+                var newCycle = new StageCycle<Team>(temp.teams, temp);
+                newCycle.idx = cycle.idx;
+                newCycle.turnEnded = cycle.turnEnded;
 
-				temp.currentTeam.Push (newCycle);
-			}
+                temp.currentTeam.Push(newCycle);
+            }
 
-			return temp;
-		}
-       
+            return temp;
+        }
+
         // keeps your hand and visible cards the same, but all other hidden cards
         // are randomized (for each possible run) - so that AI players don't just
         // know everyone's cards (bc need some numbers to make decisions)
-		public CardGame CloneSecret(int playerIdx){
+        public CardGame CloneSecret(int playerIdx) {
             // can get through here (at least once)
             Debug.WriteLine("clonesecret player:" + playerIdx);
 
-			var temp = CloneCommon ();
+            var temp = CloneCommon();
             Debug.WriteLine("Playerlist: " + temp.CurrentPlayer().playerList.Count());
             Debug.WriteLine(playerIdx);
             Debug.WriteLine("Num players in clone secret: " + temp.players.Count());
-			//Clone Source Deck and Index Cards
-			//*****************
-			HashSet<int> free = new HashSet<int>();
-			Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>();
-			for (int i = 0; i < sourceDeck.Count; ++i) {
-				cardIdxs [sourceDeck [i]] = i;
-				temp.sourceDeck.Add (sourceDeck[i].Clone ());
-				free.Add (i);
-			}
-           
-			for (int p = 0; p < players.Count; ++p) {
-				foreach (var loc in players[p].cardBins.Keys()) {
-					if (!loc.StartsWith ("{hidden}") || p == playerIdx) {
-						foreach (var card in players[p].cardBins[loc].AllCards()) {
-							var toAdd = temp.sourceDeck [cardIdxs [card]];
-							temp.players [p].cardBins [loc].Add (toAdd);
-							if (!loc.StartsWith ("{mem}")) {
-								toAdd.owner = temp.players [p].cardBins [loc];
-								free.Remove (cardIdxs [card]);
-							}
-						}
-					}
-				}
-			}
-       
-			temp.tableIntStorage = tableIntStorage.Clone ();
-			temp.tableCards = tableCards.Clone ();
-			foreach (var bin in tableCards.Keys()) {
-				if (!bin.StartsWith ("{hidden}")) {
-					foreach (var card in tableCards[bin].AllCards()) {
-						var toAdd = temp.sourceDeck [cardIdxs [card]];
-						temp.tableCards [bin].Add (toAdd);
-						if (!bin.StartsWith ("{mem}")) {
-							free.Remove (cardIdxs [card]);
-							toAdd.owner = temp.tableCards[bin];
-						}
-					}
-				}
-			}
-          
-			List<int> vals = free.ToList<int> ();
-			for (int p = 0; p < players.Count; ++p) {
-				foreach (var loc in players[p].cardBins.Keys()) {
-					if (loc.StartsWith ("{hidden}") && p != playerIdx) {
-						foreach (var card in players[p].cardBins[loc].AllCards()) {
-							var picked = rand.Next (0,vals.Count);
-							var last = vals [vals.Count - 1];
-							vals [vals.Count - 1] = vals [picked];
-							vals [picked] = last;
-							var toAdd = temp.sourceDeck [vals[vals.Count - 1]];
-							temp.players [p].cardBins [loc].Add (toAdd);
-							toAdd.owner = temp.players [p].cardBins [loc];
-							vals.RemoveAt (vals.Count - 1);
-						}
-					}
-				}
-			}
+            //Clone Source Deck and Index Cards
+            //*****************
+            HashSet<int> free = new HashSet<int>();
+            Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>();
+            for (int i = 0; i < sourceDeck.Count; ++i) {
+                cardIdxs[sourceDeck[i]] = i;
+                temp.sourceDeck.Add(sourceDeck[i].Clone());
+                free.Add(i);
+            }
 
-			foreach (var bin in tableCards.Keys()) {
-				if (bin.StartsWith ("{hidden}")) {
-					foreach (var card in tableCards[bin].AllCards()) {
-						var picked = rand.Next (0,vals.Count);
-						var last = vals [vals.Count - 1];
-						vals [vals.Count - 1] = vals [picked];
-						vals [picked] = last;
+            for (int p = 0; p < players.Count; ++p) {
+                foreach (var loc in players[p].cardBins.Keys()) {
+                    if (!loc.StartsWith("{hidden}") || p == playerIdx) {
+                        foreach (var card in players[p].cardBins[loc].AllCards()) {
+                            var toAdd = temp.sourceDeck[cardIdxs[card]];
+                            temp.players[p].cardBins[loc].Add(toAdd);
+                            if (!loc.StartsWith("{mem}")) {
+                                toAdd.owner = temp.players[p].cardBins[loc];
+                                free.Remove(cardIdxs[card]);
+                            }
+                        }
+                    }
+                }
+            }
 
-						var toAdd = temp.sourceDeck [vals[vals.Count - 1]];
+            temp.tableIntStorage = tableIntStorage.Clone();
+            temp.tableCards = tableCards.Clone();
+            foreach (var bin in tableCards.Keys()) {
+                if (!bin.StartsWith("{hidden}")) {
+                    foreach (var card in tableCards[bin].AllCards()) {
+                        var toAdd = temp.sourceDeck[cardIdxs[card]];
+                        temp.tableCards[bin].Add(toAdd);
+                        if (!bin.StartsWith("{mem}")) {
+                            free.Remove(cardIdxs[card]);
+                            toAdd.owner = temp.tableCards[bin];
+                        }
+                    }
+                }
+            }
+
+            List<int> vals = free.ToList<int>();
+            for (int p = 0; p < players.Count; ++p) {
+                foreach (var loc in players[p].cardBins.Keys()) {
+                    if (loc.StartsWith("{hidden}") && p != playerIdx) {
+                        foreach (var card in players[p].cardBins[loc].AllCards()) {
+                            var picked = rand.Next(0, vals.Count);
+                            var last = vals[vals.Count - 1];
+                            vals[vals.Count - 1] = vals[picked];
+                            vals[picked] = last;
+                            var toAdd = temp.sourceDeck[vals[vals.Count - 1]];
+                            temp.players[p].cardBins[loc].Add(toAdd);
+                            toAdd.owner = temp.players[p].cardBins[loc];
+                            vals.RemoveAt(vals.Count - 1);
+                        }
+                    }
+                }
+            }
+
+            foreach (var bin in tableCards.Keys()) {
+                if (bin.StartsWith("{hidden}")) {
+                    foreach (var card in tableCards[bin].AllCards()) {
+                        var picked = rand.Next(0, vals.Count);
+                        var last = vals[vals.Count - 1];
+                        vals[vals.Count - 1] = vals[picked];
+                        vals[picked] = last;
+
+                        var toAdd = temp.sourceDeck[vals[vals.Count - 1]];
                         if (!bin.StartsWith("{mem}"))
                         {
                             toAdd.owner = temp.tableCards[bin];
                         }
-						temp.tableCards [bin].Add (toAdd);
-						
-						vals.RemoveAt (vals.Count - 1);
-					}
-				}
-			}
+                        temp.tableCards[bin].Add(toAdd);
 
-			temp.points = points.Clone ();
+                        vals.RemoveAt(vals.Count - 1);
+                    }
+                }
+            }
+
+            temp.points = points.Clone();
 
             temp.vars = CloneDictionary(vars);
             Debug.WriteLine("Numplayers at end of clonesecret: " + temp.CurrentPlayer().playerList.Count);
-			Debug.WriteLine("returning from clonesecret");
+            Debug.WriteLine("returning from clonesecret");
 
-			return temp;
-		}
-		public CardGame Clone(){
-			var temp = CloneCommon ();
-			//Clone Source Deck and Index Cards
-			//*****************
-			Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>();
-			for (int i = 0; i < sourceDeck.Count; ++i) {
-				cardIdxs [sourceDeck [i]] = i;
-				temp.sourceDeck.Add (sourceDeck[i].Clone ());
-			}
-			for (int p = 0; p < players.Count; ++p) {
-				foreach (var loc in players[p].cardBins.Keys()) {
-					foreach (var card in players[p].cardBins[loc].AllCards()) {
-						var toAdd = temp.sourceDeck [cardIdxs [card]];
-						temp.players [p].cardBins [loc]
-							.Add (toAdd);
-						toAdd.owner = temp.players [p].cardBins [loc];
-					}
-				}
-			}
-			temp.tableIntStorage = tableIntStorage.Clone ();
-			temp.tableCards = tableCards.Clone ();
-			foreach (var bin in tableCards.Keys()) {
-				foreach (var card in tableCards[bin].AllCards()) {
-					var toAdd = temp.sourceDeck [cardIdxs [card]];
-					temp.tableCards[bin]
-						.Add (toAdd);
-				}
-			}
-			temp.points = points.Clone ();
+            return temp;
+        }
+        public CardGame Clone() {
+            var temp = CloneCommon();
+            //Clone Source Deck and Index Cards
+            //*****************
+            Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>();
+            for (int i = 0; i < sourceDeck.Count; ++i) {
+                cardIdxs[sourceDeck[i]] = i;
+                temp.sourceDeck.Add(sourceDeck[i].Clone());
+            }
+            for (int p = 0; p < players.Count; ++p) {
+                foreach (var loc in players[p].cardBins.Keys()) {
+                    foreach (var card in players[p].cardBins[loc].AllCards()) {
+                        var toAdd = temp.sourceDeck[cardIdxs[card]];
+                        temp.players[p].cardBins[loc]
+                            .Add(toAdd);
+                        toAdd.owner = temp.players[p].cardBins[loc];
+                    }
+                }
+            }
+            temp.tableIntStorage = tableIntStorage.Clone();
+            temp.tableCards = tableCards.Clone();
+            foreach (var bin in tableCards.Keys()) {
+                foreach (var card in tableCards[bin].AllCards()) {
+                    var toAdd = temp.sourceDeck[cardIdxs[card]];
+                    temp.tableCards[bin]
+                        .Add(toAdd);
+                }
+            }
+            temp.points = points.Clone();
             temp.vars = CloneDictionary(this.vars);
-			return temp;
-		}
+            return temp;
+        }
 
         public Dictionary<String, object> CloneDictionary(Dictionary<String, object> original)
         {
@@ -286,25 +286,25 @@ namespace CardEngine
                     var t = teamMap[(o as Team).id];
                     ret.Add(key, t);
                 }
-                else if (o is string[]) 
+                else if (o is string[])
                 {
                     string[] str = new string[(o as string[]).Length];
                     str = (string[])(o as string[]).Clone();
 
                     ret.Add(key, str);
                 }
-                else if (o is List<Card>) 
+                else if (o is List<Card>)
                 {
                     List<Card> l = new List<Card>();
-                    foreach (Card c in o as List<Card>){
+                    foreach (Card c in o as List<Card>) {
                         Card copy = c.Clone();
-					
-						copy.owner = fancyCardLocMap[c.owner.loc.name].cardList;
-                      
+
+                        copy.owner = fancyCardLocMap[c.owner.loc.name].cardList;
+
                         l.Add(c);
                     }
                     ret.Add(key, l);
-                    
+
                 }
                 else { Console.WriteLine("Error: object " + o + " is  type " + o.GetType()); }
             }
@@ -322,84 +322,84 @@ namespace CardEngine
             return ret;
         }
 
-        public void AddPlayers(int numPlayers, GameIterator gameContext){
-			for (int i = 0; i < numPlayers; ++i){
-				players.Add(new Player() { name = "p" + i });
+        public void AddPlayers(int numPlayers, GameIterator gameContext) {
+            for (int i = 0; i < numPlayers; ++i) {
+                players.Add(new Player() { name = "p" + i });
                 AddToMap(players[i]);
-				players [i].decision = new GeneralPlayer (gameContext);
-			}
+                players[i].decision = new GeneralPlayer(gameContext);
+            }
             currentPlayer.Push(new StageCycle<Player>(players, this));
-		}
-		public void PushPlayer(){
-			currentPlayer.Push(new StageCycle<Player>(currentPlayer.Peek()));
-		}
-		public void PopPlayer(){
-			currentPlayer.Pop();
-		}
-		
-		public StageCycle<Team> CurrentTeam(){
-			return currentTeam.Peek();
-		}
-		public void PushTeam(){
-			currentTeam.Push(new StageCycle<Team>(currentTeam.Peek()));
-		}
-		public void PopTeam(){
-			currentTeam.Pop();
-		}
-		
-		public StageCycle<Player> CurrentPlayer(){
-			return currentPlayer.Peek();
-		}
-		public void SetDeck(Tree cardAttributes,CardCollection loc){
-			var combos = cardAttributes.combinations();
-			foreach (var combo in combos){
-				var newCard = new Card (combo);
-				sourceDeck.Add (newCard);
-				loc.Add(newCard);
+        }
+        public void PushPlayer() {
+            currentPlayer.Push(new StageCycle<Player>(currentPlayer.Peek()));
+        }
+        public void PopPlayer() {
+            currentPlayer.Pop();
+        }
+
+        public StageCycle<Team> CurrentTeam() {
+            return currentTeam.Peek();
+        }
+        public void PushTeam() {
+            currentTeam.Push(new StageCycle<Team>(currentTeam.Peek()));
+        }
+        public void PopTeam() {
+            currentTeam.Pop();
+        }
+
+        public StageCycle<Player> CurrentPlayer() {
+            return currentPlayer.Peek();
+        }
+        public void SetDeck(Tree cardAttributes, CardCollection loc) {
+            var combos = cardAttributes.combinations();
+            foreach (var combo in combos) {
+                var newCard = new Card(combo);
+                sourceDeck.Add(newCard);
+                loc.Add(newCard);
                 WriteToFile("C:" + newCard.ToOutputString() + loc.name); // What happened?
             }
-			//Console.ReadKey();
-		}
+            //Console.ReadKey();
+        }
 
-        public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx){
+        public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx) {
             Debug.WriteLine("In player make choice");
-			Debug.WriteLine("Num choices: " + choices.Count());
+            Debug.WriteLine("Num choices: " + choices.Count());
             /*foreach (GameActionCollection c in choices)
             {
                Debug.WriteLine("Choices: " + c);
             }*/
-			Debug.WriteLine("Player turn: " + CurrentPlayer().idx);
+            Debug.WriteLine("Player turn: " + CurrentPlayer().idx);
 
 
-			var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices, rand);
+            var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices, rand);
             Debug.WriteLine("Executing choices");
             Debug.WriteLine("Num choices: " + choices.Count());
             Debug.WriteLine("Choice: " + choice);
             choices[choice].ExecuteAll();
-		}
+        }
 
-        public void AddToMap(object o){
+        public void AddToMap(object o) {
             IDictionary dict = null;
             string id = "";
-            if (o is FancyCardLocation){
+            if (o is FancyCardLocation) {
                 dict = fancyCardLocMap;
                 id = (o as FancyCardLocation).name;
             }
-            else if (o is FancyIntStorage){
+            else if (o is FancyIntStorage) {
                 dict = fancyRawStorMap;
                 id = (o as FancyIntStorage).key;
             }
-            else if (o is Player){
+            else if (o is Player) {
                 dict = playerMap;
                 id = (o as Player).name;
             }
-            else if (o is Team){
+            else if (o is Team) {
                 dict = teamMap;
                 id = (o as Team).id;
                 // TODO changed here - what should id be to make it generalized??????
-            //} else if (o is Card) {
-            //     dict = fancyCardMap;
-            //    Console.WriteLine((o as Card).attributes.Key);
+                //} else if (o is Card) {
+                //     dict = fancyCardMap;
+                //    Console.WriteLine((o as Card).attributes.Key);
                 //id = (o as Card).attributes.Key;
                 // should be suit + rank? but not always exists...
                 // should be 
@@ -409,17 +409,17 @@ namespace CardEngine
             if (!dict.Contains(id)) { dict.Add(id, o); }
             //else { Console.WriteLine("dict already contains " + id); }
         }
-		public override string ToString(){
-			var ret = "Table Deck:\n";
-			ret += tableCards.ToString ();
-			ret += "Players:\n";
-			foreach (var player in players){
-				ret += player + "\n";
-			}
-			return ret;
-		}
+        public override string ToString() {
+            var ret = "Table Deck:\n";
+            ret += tableCards.ToString();
+            ret += "Players:\n";
+            foreach (var player in players) {
+                ret += player + "\n";
+            }
+            return ret;
+        }
 
-       public bool sourceDeckIsTheSame(List<Card> othersourcedeck)
+        public bool sourceDeckIsTheSame(List<Card> othersourcedeck)
         {
             if (othersourcedeck.Count() != this.sourceDeck.Count())
             {
@@ -460,66 +460,72 @@ namespace CardEngine
             return true;
         }
 
-        public bool EqualsTo(CardGame othergame) // In Progress
+        public bool EqualsTo(System.Object obj) // In Progress
         {
-        //Check Game Name and player/team number
-            if ((othergame.fileName == this.fileName) & (othergame.players.Count() == this.players.Count()) & 
-                (othergame.teams.Count() == this.teams.Count()))
-                {
-                Debug.WriteLine("Same game and number of players and teams: True");
+            // CHECK OBJECT IS CARDGAME
+            if (obj == null)
+            { return false; }
 
-                if (!sourceDeckIsTheSame(othergame.sourceDeck)) { 
-                    return false;
-                }
+            CardGame othergame = obj as CardGame;
+            if ((System.Object)othergame == null)
+            { return false; }
 
-                if ()
+            // CHECK SET-UP AND BOARD CONDITIONS
+            if (!(othergame.fileName == this.fileName) || !(othergame.players.Count() == this.players.Count()) ||
+                                        !(othergame.teams.Count() == this.teams.Count()))
+            { return false; }
 
+            if (!(sourceDeckIsTheSame(othergame.sourceDeck)))
+            { return false; }
 
-              
+            if (!(tableCards.Equals(othergame.tableCards)) || !(tableIntStorage.Equals(othergame.tableIntStorage)))
+            { return false; }
 
+            if (points.Equals(othergame.points))
+            { return false; }
 
+            if (!(currentPlayer.Equals(othergame.currentPlayer)))
+            { return false; }
 
-                
-                
-        //        // Check that it is the same player's turn 
-        //        // Think I need a CompareTo method for player's -- can't just use IDX.
-        //        if (!(this.currentPlayer.Peek().Current().CompareTo(othergame.currentPlayer.Peek().Current())))
-        //        {
-        //            return false;
-        //        }
+            if (!(currentTeam.Equals(othergame.currentTeam)))
+            { return false; }
 
-        //        // Should cycle through Stage Player list and keep selecting the next in both 
+            // CYCLE THROUGH PLAYERS LIST
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (!(players[i].Equals(othergame.players[i])))
+                { return false; }
+            }
 
+            // CYCLE THROUGH TEAMS LIST
+            for (int i = 0; i < teams.Count; i++)
+            {
+                if (!(teams[i].Equals(othergame.teams[i])))
+                { return false; }
+            }
 
-        //        // Check that the scores are the same 
-        //        foreach (var bin in othergame.points.binDict.Keys) 
-        //            if (!(othergame.points.binDict[bin] == points.binDict[bin])) // unclear if there is a certain way these are added
-        //            { return false; }
-        //        }
+            return true;
+        }
 
+        public override int GetHashCode()
+        {
+            int hash = 0;
+            foreach (var card in sourceDeck) { hash ^= card.GetHashCode(); }
+            foreach (var player in players) { hash ^= player.GetHashCode(); }
+            foreach (var team in teams) { hash ^= team.GetHashCode(); }
+            hash ^= tableCards.GetHashCode();
+            hash ^= tableIntStorage.GetHashCode();
+            hash ^= points.GetHashCode();
 
+            Stack<StageCycle<Player>> playercopy = currentPlayer;
+            Stack<StageCycle<Team>> teamcopy = currentTeam;
 
+            while (playercopy.Count != 0) { hash ^= playercopy.Pop().GetHashCode(); }
+            while (teamcopy.Count != 0) { hash ^= teamcopy.Pop().GetHashCode(); }
 
+            return hash;
+        }
 
-        //        for (int idx = 0; idx < teams.Count; idx++)
-        //        {
-        //            Team orig = teamMap[teams[idx].id];
-        //            Team newTeam = orig.Clone();
-        //            foreach (Player p in orig.teamPlayers)
-        //            {
-        //                Player newPlayer = playerMap[p.name].Clone();
-        //                newPlayer.team = newTeam;
-        //                temp.players.Add(newPlayer);
-        //                newTeam.teamPlayers.Add(newPlayer);
-        //            }
-        //            temp.teams.Add(newTeam);
-        //        }
-                    
-
-        //    }
-
-        //    return true;
-        //}
         public void WriteToFile(string text)
         {
 			if (logging)
