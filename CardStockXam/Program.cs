@@ -32,7 +32,7 @@ namespace CardGames
 
             exp.logging = true;
             exp.evaluating = false;
-            exp.type = GameType.AllRnd;
+            exp.type = GameType.RndandAI;
 
 			var codeGen = new ParseEngine(exp);
             codeGen.setWorld(new World());

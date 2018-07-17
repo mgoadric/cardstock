@@ -12,16 +12,10 @@ namespace Players
     public class MCTSPLayer : GeneralPlayer
     {
         private int idx;
-        private MonteTree choicetree;
 
         public MCTSPLayer(GameIterator m, int idx) : base(m) // ??
 		{
             this.idx = idx;
-        }
-
-        public void TreeTrim()
-        {
-
         }
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
@@ -29,15 +23,24 @@ namespace Players
             return Choice(possibles.Count, rand);
         }
 
-        public int Choice(int optioncount, Random random) // FOR NOW, USE A NEW BOARD EACH TIME
+        public int Choice(int optioncount, Random random) //
         {
+            CardGame cg = gameContext.game.CloneSecret(idx);
+            var cloneContext = gameContext.Clone(cg);
 
-            choicetree = new MonteTree();
-            choicetree.rootNode.AddChoices(optioncount);
+            if (cg.Equals(gameContext.game))
+            {
+                Console.WriteLine("CardGame equals Clone");
+            }
 
+            Dictionary<CardGame, Int32> plays = new Dictionary<CardGame, Int32>();
 
+            Environment.Exit(0);
             return 0;
         }
+
+
+
 
         public Node SelectNodeUsingUCT(List<Node> moves)
         {

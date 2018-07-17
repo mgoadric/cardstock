@@ -111,7 +111,7 @@ public class ParseEngine
                         instance.players[j].decision  = new PIPMCPlayer(manageContext, j);
                     }
 				} else if (exp.type == GameType.RndandAI) {
-                    instance.players[0].decision = new PIPMCPlayer(manageContext, 0);
+                    instance.players[0].decision = new MCTSPLayer(manageContext, 0);
                 }
 	            
                 /*********
