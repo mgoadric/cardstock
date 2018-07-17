@@ -209,7 +209,7 @@ namespace ParseTreeIterator
             Debug.WriteLine("Got to OWNER");
             var resultingCard = ProcessCard(owner.card()).Get();
             Debug.WriteLine("Result :" + resultingCard);
-            return parent.game.CurrentPlayer().playerList.IndexOf(resultingCard.owner.container.owner);
+            return parent.game.CurrentPlayer().memberList.IndexOf(resultingCard.owner.container.owner);
         }
 
         public  bool ProcessBoolean(RecycleParser.BooleanContext boolNode) {
@@ -429,7 +429,7 @@ namespace ParseTreeIterator
                 foreach (Player p in parent.game.players){
                     lst.Add(p);
                 }
-                lst.Remove(parent.game.currentPlayer.Peek().playerList[parent.game.currentPlayer.Peek().idx]);
+                lst.Remove(parent.game.currentPlayer.Peek().memberList[parent.game.currentPlayer.Peek().idx]);
             }
             else{
                 foreach (Team t in parent.game.teams){
@@ -1515,7 +1515,7 @@ namespace ParseTreeIterator
                 Debug.WriteLine("Choice count for P" + parent.game.CurrentPlayer().idx + ":" + allOptions.Count);
                 parent.game.PlayerMakeChoice(allOptions, parent.game.CurrentPlayer().idx);
                 Debug.WriteLine("player choice made");
-                Debug.WriteLine(parent.game.CurrentPlayer().playerList.Count);
+                Debug.WriteLine(parent.game.CurrentPlayer().memberList.Count);
             }
             else
             { 

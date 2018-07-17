@@ -1,21 +1,22 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CardEngine{
 	public class StageCycle<T>{
-		public List<T> playerList;
+		public List<T> memberList;
 		public bool turnEnded;
 		public int idx = 0;
 		public int queuedNext = -1;
         public CardGame cg;
 
 		public StageCycle(List<T> pList, CardGame cg){
-            playerList = pList;
+            memberList = pList;
             var p = pList[0];
-            this.cg = cg; // Unchecked in the equals and hash methods
-			WritePlayer();
+            this.cg = cg; 
+			WriteMember();
 		}
         public StageCycle(StageCycle<T> source){
-			playerList = source.playerList;
+			memberList = source.memberList;
 			idx = source.idx;
 			turnEnded = source.turnEnded;
             cg = source.cg;
@@ -30,7 +31,7 @@ namespace CardEngine{
             else{
                 idx++;
                 //Next();
-                if (idx >= playerList.Count) {
+                if (idx >= memberList.Count) {
                     idx = 0;
                 }
 			}
@@ -42,7 +43,7 @@ namespace CardEngine{
 			var saved = idx;
 			idx--;
 			if (idx < 0){
-				idx = playerList.Count - 1;
+				idx = memberList.Count - 1;
 			}
 			var ret = Current();
 			idx = saved;
@@ -57,23 +58,23 @@ namespace CardEngine{
 			else{
 				++idx;
 			}
-            if (idx >= playerList.Count){
+            if (idx >= memberList.Count){
                 idx = 0;
 			}
-			WritePlayer();
+			WriteMember();
 		}
 		public void Previous(){
 			turnEnded = false;
 			--idx;
 			if (idx < 0){
-				idx = playerList.Count - 1;
+				idx = memberList.Count - 1;
 			}
-			WritePlayer();
+			WriteMember();
         }
-		public void SetPlayer(int index){
+		public void SetMember(int index){
 			turnEnded = false;
 			idx = index;
-            WritePlayer();
+            WriteMember();
         }
 		public void SetNext(int index){
 			queuedNext = index;
@@ -85,10 +86,10 @@ namespace CardEngine{
 			turnEnded = true;
 		}
 		public T Current(){
-			return playerList[idx];
+			return memberList[idx];
 		}
-        private void WritePlayer() {
-			var who = playerList[idx] as Player;
+        private void WriteMember() {
+			var who = memberList[idx] as Player; // TODO MAKE THIS GENERIC
             if (who != null)
             {
                 cg.WriteToFile("t:" + who.name);
@@ -97,7 +98,7 @@ namespace CardEngine{
 
         public override bool Equals(System.Object obj)
         {
-            if (obj == null )
+            if (obj == null)
             { return false; }
 
             StageCycle<T> othercycle = obj as StageCycle<T>;
@@ -105,32 +106,24 @@ namespace CardEngine{
             { return false; }
 
             // Compare the StageCycles
-            if (!(playerList[0].GetType().Equals(othercycle.playerList[0].GetType())))
-            { return false; }
-
             if (idx != othercycle.idx)
             { return false; }
 
             if (queuedNext != othercycle.queuedNext)
             { return false; }
 
-            if (playerList.Count != othercycle.playerList.Count)
+            if (!(memberList.SequenceEqual(othercycle.memberList)))
             { return false; }
 
-            for (int i = 0; i < playerList.Count; i++)
-            {
-                if (!(playerList[i].Equals(othercycle.playerList[i]))) // COULD BE TEAMS OR PLAYERS
-                    { return false; }
-            }
-
             return true;
-            }
+        }
+
         public override int GetHashCode()
         {
             int hash = 0;
-            foreach (var player in playerList)
+            foreach (var member in memberList)
             {
-                hash ^= player.GetHashCode();
+                hash ^= member.GetHashCode();
             }
             return idx.GetHashCode() ^ hash ^ queuedNext.GetHashCode();
         }

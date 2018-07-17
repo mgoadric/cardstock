@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CardEngine{
     public class Team
@@ -37,11 +38,9 @@ namespace CardEngine{
             if (id != otherteam.id || !(teamStorage.Equals(otherteam))) // if ids or storage are not same, equals is false
             { return false; }
 
-            for (int i = 0; i < teamPlayers.Count; i++)
-            {
-                if (!(teamPlayers[i].Equals(otherteam.teamPlayers[i])))
-                { return false; }
-            }
+            if (!(teamPlayers.SequenceEqual(otherteam.teamPlayers)))
+            { return false; }
+
             return true;
         }
 
