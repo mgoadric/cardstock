@@ -11,7 +11,7 @@ namespace CardEngine{
 		public StageCycle(List<T> pList, CardGame cg){
             playerList = pList;
             var p = pList[0];
-            this.cg = cg;
+            this.cg = cg; // Unchecked in the equals and hash methods
 			WritePlayer();
 		}
         public StageCycle(StageCycle<T> source){
@@ -94,5 +94,46 @@ namespace CardEngine{
                 cg.WriteToFile("t:" + who.name);
             }			
 		}
-	}
+
+        public override bool Equals(System.Object obj)
+        {
+            if (obj == null )
+            { return false; }
+
+            StageCycle<T> othercycle = obj as StageCycle<T>;
+            if ((System.Object)othercycle == null)
+            { return false; }
+
+            // Compare the StageCycles
+            if (!(playerList[0].GetType().Equals(othercycle.playerList[0].GetType())))
+            { return false; }
+
+            if (idx != othercycle.idx)
+            { return false; }
+
+            if (queuedNext != othercycle.queuedNext)
+            { return false; }
+
+            if (playerList.Count != othercycle.playerList.Count)
+            { return false; }
+
+            for (int i = 0; i < playerList.Count; i++)
+            {
+                if (!(playerList[i].Equals(othercycle.playerList[i]))) // COULD BE TEAMS OR PLAYERS
+                    { return false; }
+            }
+
+            return true;
+            }
+        public override int GetHashCode()
+        {
+            int hash = 0;
+            foreach (var player in playerList)
+            {
+                hash ^= player.GetHashCode();
+            }
+            return idx.GetHashCode() ^ hash ^ queuedNext.GetHashCode();
+        }
+
+    }
 }

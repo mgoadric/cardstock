@@ -40,6 +40,33 @@ namespace CardEngine{
 			string ret = attributes.ToString();
 			return ret;
 		}
+
+        public override bool Equals(System.Object obj)
+        {
+            if(obj == null)
+            {
+                return false;
+            }
+            PointsStorage p = obj as PointsStorage;
+            if ((System.Object)p == null)
+            {
+                return false;
+            }
+
+
+            if (p.ToString() != this.ToString()) 
+            {
+                return false;
+            }
+
+            return true; // Returns that strings are equal
+        }
+
+        public override int GetHashCode() 
+        {
+            return this.ToString().GetHashCode(); // unless the attributes.toString() causes some problem
+        }
+
         public string ToOutputString()
         {
             return attributes.ToOutputString();

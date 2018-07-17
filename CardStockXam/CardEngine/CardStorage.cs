@@ -177,5 +177,40 @@ namespace CardEngine{
             }
             return ret.Substring(0, ret.Length - 1);
         }
+
+        public override bool Equals(System.Object obj) // For CardListCollection
+        {
+            if (obj == null)
+            { return false; }
+
+            CardListCollection othercardcollection = obj as CardListCollection;
+            if ((System.Object)othercardcollection == null)
+            { return false; }
+
+            if (this.Count != othercardcollection.Count)
+            { return false; }
+            else
+            {
+                for (int i = 0; i < this.Count; i++)
+                {
+                    if (!this.Get(i).Equals(othercardcollection.Get(i)))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 0;
+            for (int i = 0; i < this.Count; i++)
+            {
+                hash ^= this.Get(i).GetHashCode();
+            }
+            return hash;
+        }
     }
 }
