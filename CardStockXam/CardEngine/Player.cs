@@ -47,7 +47,7 @@ namespace CardEngine
             if ((System.Object)otherplayer == null)
             { return false; }
 
-            if (!storage.Equals(otherplayer.storage) || !cardBins.Equals(otherplayer.cardBins)) 
+            if (!(storage.Equals(otherplayer.storage)) || !(cardBins.Equals(otherplayer.cardBins))) 
             { return false; }
 
             if (name != otherplayer.name || team != otherplayer.team)

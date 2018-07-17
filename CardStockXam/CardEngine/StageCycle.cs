@@ -119,7 +119,7 @@ namespace CardEngine{
 
             for (int i = 0; i < playerList.Count; i++)
             {
-                if (!(playerList[i].Equals(othercycle.playerList[i]))) // Should work for teams/players
+                if (!(playerList[i].Equals(othercycle.playerList[i]))) // COULD BE TEAMS OR PLAYERS
                     { return false; }
             }
 

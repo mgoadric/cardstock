@@ -26,7 +26,7 @@ namespace CardEngine{
         }
 
         public override bool Equals(System.Object obj)
-        { // TODO
+        { 
             if (obj == null)
             { return false; }
 
@@ -34,12 +34,12 @@ namespace CardEngine{
             if ((System.Object)otherteam == null)
             { return false; }
 
-            if (id != otherteam.id || !teamStorage.Equals(otherteam)) // if ids or storage are not same, equals is false
+            if (id != otherteam.id || !(teamStorage.Equals(otherteam))) // if ids or storage are not same, equals is false
             { return false; }
 
             for (int i = 0; i < teamPlayers.Count; i++)
             {
-                if (!teamPlayers[i].Equals(otherteam.teamPlayers[i]))
+                if (!(teamPlayers[i].Equals(otherteam.teamPlayers[i])))
                 { return false; }
             }
             return true;

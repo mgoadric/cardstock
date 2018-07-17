@@ -429,7 +429,7 @@ namespace CardEngine
             {
                 for (int i = 0; i < sourceDeck.Count(); i++)
                 {
-                    if (!sourceDeck[i].Equals(othersourcedeck[i]))
+                    if (!(sourceDeck[i].Equals(othersourcedeck[i])))
                     {
                         return false;
                     }
@@ -481,7 +481,7 @@ namespace CardEngine
             if (!(tableCards.Equals(othergame.tableCards)) || !(tableIntStorage.Equals(othergame.tableIntStorage)))
             { return false; }
 
-            if (points.Equals(othergame.points))
+            if (!(points.Equals(othergame.points)))
             { return false; }
 
             if (!(currentPlayer.Equals(othergame.currentPlayer)))
