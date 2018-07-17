@@ -20,7 +20,6 @@ namespace Players
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
         {
-            
             return NumChoices(possibles.Count, rand);
         }
 

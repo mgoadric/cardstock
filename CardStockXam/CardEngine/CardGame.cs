@@ -16,15 +16,14 @@ namespace CardEngine
         public string DeclaredName = "Default";
         public static Random rand = new Random();
 
-        // THESE ARE NEEDED FOR EQUALITY
-        public List<Card> sourceDeck = new List<Card>(); // DONE
-        public CardStorage tableCards = new CardStorage(); // DONE
-        public IntStorage tableIntStorage = new IntStorage(); // DONE	
-        public List<Player> players = new List<Player>(); // DONE
-        public List<Team> teams = new List<Team>(); // DONE
-        public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>(); //DONE
-        public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>(); // DONE
-        public PointsStorage points = new PointsStorage();  //DONE
+        public List<Card> sourceDeck = new List<Card>(); 
+        public CardStorage tableCards = new CardStorage();
+        public IntStorage tableIntStorage = new IntStorage(); 	
+        public List<Player> players = new List<Player>(); 
+        public List<Team> teams = new List<Team>();
+        public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>(); 
+        public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
+        public PointsStorage points = new PointsStorage(); 
 
         public Dictionary<String, object> vars = new Dictionary<string, object>();
 
@@ -460,7 +459,7 @@ namespace CardEngine
             return true;
         }
 
-        public bool EqualsTo(System.Object obj) // In Progress
+        public bool EqualsTo(System.Object obj) 
         {
             // CHECK OBJECT IS CARDGAME
             if (obj == null)
