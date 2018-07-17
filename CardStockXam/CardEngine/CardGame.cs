@@ -104,7 +104,7 @@ namespace CardEngine
             Debug.WriteLine("clonesecret player:" + playerIdx);
 
             var temp = CloneCommon();
-            Debug.WriteLine("Playerlist: " + temp.CurrentPlayer().playerList.Count());
+            Debug.WriteLine("Playerlist: " + temp.CurrentPlayer().memberList.Count());
             Debug.WriteLine(playerIdx);
             Debug.WriteLine("Num players in clone secret: " + temp.players.Count());
             //Clone Source Deck and Index Cards
@@ -188,7 +188,7 @@ namespace CardEngine
             temp.points = points.Clone();
 
             temp.vars = CloneDictionary(vars);
-            Debug.WriteLine("Numplayers at end of clonesecret: " + temp.CurrentPlayer().playerList.Count);
+            Debug.WriteLine("Numplayers at end of clonesecret: " + temp.CurrentPlayer().memberList.Count);
             Debug.WriteLine("returning from clonesecret");
 
             return temp;
@@ -370,7 +370,7 @@ namespace CardEngine
             Debug.WriteLine("Player turn: " + CurrentPlayer().idx);
 
 
-            var choice = currentPlayer.Peek().playerList[playerIdx].decision.MakeAction(choices, rand);
+            var choice = currentPlayer.Peek().memberList[playerIdx].decision.MakeAction(choices, rand);
             Debug.WriteLine("Executing choices");
             Debug.WriteLine("Num choices: " + choices.Count());
             Debug.WriteLine("Choice: " + choice);
@@ -418,26 +418,7 @@ namespace CardEngine
             return ret;
         }
 
-        public bool sourceDeckIsTheSame(List<Card> othersourcedeck)
-        {
-            if (othersourcedeck.Count() != this.sourceDeck.Count())
-            {
-                return false;
-            }
-            else
-            {
-                for (int i = 0; i < sourceDeck.Count(); i++)
-                {
-                    if (!(sourceDeck[i].Equals(othersourcedeck[i])))
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-        public bool StageCompare(Stack<StageCycle<System.Object>> stack1, Stack<StageCycle<System.Object>> stack2)
+        public override bool Equals(System.Object obj) // In Progress
         {
             if (stack1 == null || stack2 == null)
             { return false; }
@@ -459,7 +440,7 @@ namespace CardEngine
             return true;
         }
 
-        public bool EqualsTo(System.Object obj) 
+        public bool EqualsTo(System.Object obj) // In Progress
         {
             // CHECK OBJECT IS CARDGAME
             if (obj == null)
@@ -469,12 +450,12 @@ namespace CardEngine
             if ((System.Object)othergame == null)
             { return false; }
 
-            // CHECK SET-UP AND BOARD CONDITIONS
+            // CHECK NECESSARY PARTS OF CARD GAME
             if (!(othergame.fileName == this.fileName) || !(othergame.players.Count() == this.players.Count()) ||
                                         !(othergame.teams.Count() == this.teams.Count()))
             { return false; }
 
-            if (!(sourceDeckIsTheSame(othergame.sourceDeck)))
+            if (!(sourceDeck.SequenceEqual(othergame.sourceDeck)))
             { return false; }
 
             if (!(tableCards.Equals(othergame.tableCards)) || !(tableIntStorage.Equals(othergame.tableIntStorage)))
@@ -483,25 +464,17 @@ namespace CardEngine
             if (!(points.Equals(othergame.points)))
             { return false; }
 
-            if (!(currentPlayer.Equals(othergame.currentPlayer)))
+            if (!(currentPlayer.SequenceEqual(othergame.currentPlayer)))
             { return false; }
 
-            if (!(currentTeam.Equals(othergame.currentTeam)))
+            if (!(currentTeam.SequenceEqual(othergame.currentTeam)))
             { return false; }
 
-            // CYCLE THROUGH PLAYERS LIST
-            for (int i = 0; i < players.Count; i++)
-            {
-                if (!(players[i].Equals(othergame.players[i])))
-                { return false; }
-            }
+            if (!(players.SequenceEqual(othergame.players)))
+            { return false; }
 
-            // CYCLE THROUGH TEAMS LIST
-            for (int i = 0; i < teams.Count; i++)
-            {
-                if (!(teams[i].Equals(othergame.teams[i])))
-                { return false; }
-            }
+            if (!(teams.SequenceEqual(othergame.teams)))
+            { return false; }
 
             return true;
         }

@@ -165,7 +165,7 @@ namespace FreezeFrame
 					iterStack.Push (new Queue<IParseTree> ());
 					var topLevel = iterStack.Peek ();
                     Debug.WriteLine ("Current Player: " + game.CurrentPlayer().idx + ", " + game.players[game.CurrentPlayer().idx]);
-                    Debug.WriteLine("Num players (gameiterator): " + game.CurrentPlayer().playerList.Count);
+                    Debug.WriteLine("Num players (gameiterator): " + game.CurrentPlayer().memberList.Count);
                     foreach (var player in game.players) {
 						//Console.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
 					}

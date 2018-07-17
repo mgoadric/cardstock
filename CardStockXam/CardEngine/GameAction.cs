@@ -425,12 +425,12 @@ namespace CardEngine {
         public override void Execute()
         {
             former = cg.players.IndexOf(cg.CurrentPlayer().Current());
-            cg.CurrentPlayer().SetPlayer(idx);
+            cg.CurrentPlayer().SetMember(idx);
         }
 
         public override void Undo()
         {
-            cg.CurrentPlayer().SetPlayer(former);
+            cg.CurrentPlayer().SetMember(former);
         }
 
 		public override string ToString()
