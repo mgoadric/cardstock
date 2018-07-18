@@ -35,6 +35,7 @@ namespace Players
 
             Dictionary<CardGame, Int32> plays = new Dictionary<CardGame, Int32>();
 
+            Console.ReadLine();
             Environment.Exit(0);
             return 0;
         }
