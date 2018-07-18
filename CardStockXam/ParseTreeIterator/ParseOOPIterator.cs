@@ -426,10 +426,13 @@ namespace ParseTreeIterator
         public  List<object> ProcessOther(RecycleParser.OtherContext other){ //return list of teams or list of players
             List<object> lst = new List<object>();
             if (other.GetChild(2).GetText() == "player"){
-                foreach (Player p in parent.game.players){
-                    lst.Add(p);
+                int me = parent.game.currentPlayer.Peek().idx;
+                for(int i = 0; i < parent.game.players.Count; i++)
+                {
+                    if (i != me)
+                    { lst.Add(parent.game.players[i]); }
                 }
-                lst.Remove(parent.game.currentPlayer.Peek().memberList[parent.game.currentPlayer.Peek().idx]);
+             
             }
             else{
                 foreach (Team t in parent.game.teams){

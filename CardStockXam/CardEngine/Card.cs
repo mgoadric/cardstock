@@ -47,7 +47,7 @@ namespace CardEngine{
             {
                 return false;
             }
-            PointsStorage p = obj as PointsStorage;
+            Card p = obj as Card;
             if ((System.Object)p == null)
             {
                 return false;

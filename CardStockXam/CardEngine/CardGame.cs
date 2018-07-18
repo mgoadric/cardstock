@@ -7,6 +7,7 @@ using System.Text;
 using FreezeFrame;
 using System.Collections;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace CardEngine
 {
@@ -110,7 +111,7 @@ namespace CardEngine
             //Clone Source Deck and Index Cards
             //*****************
             HashSet<int> free = new HashSet<int>();
-            Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>();
+            Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>(new IdentityEqualityComparer<Card>()); ;
             for (int i = 0; i < sourceDeck.Count; ++i) {
                 cardIdxs[sourceDeck[i]] = i;
                 temp.sourceDeck.Add(sourceDeck[i].Clone());
@@ -197,7 +198,7 @@ namespace CardEngine
             var temp = CloneCommon();
             //Clone Source Deck and Index Cards
             //*****************
-            Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>();
+            Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>(new IdentityEqualityComparer<Card>()); ;
             for (int i = 0; i < sourceDeck.Count; ++i) {
                 cardIdxs[sourceDeck[i]] = i;
                 temp.sourceDeck.Add(sourceDeck[i].Clone());
@@ -420,62 +421,47 @@ namespace CardEngine
 
         public override bool Equals(System.Object obj) // In Progress
         {
-            if (stack1 == null || stack2 == null)
-            { return false; }
-
-            Stack<StageCycle<System.Object>> copy1 = stack1;
-            Stack<StageCycle<System.Object>> copy2 = stack2;
-
-            if (copy1.Count != copy2.Count)
-            { return false; }
-
-            while (copy1.Count != 0)
-            {
-                if (!(copy1.Pop().Equals(copy2.Pop())))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public bool EqualsTo(System.Object obj) // In Progress
-        {
+            Console.WriteLine("CALLING CARDGAME EQUALITY");
+            
             // CHECK OBJECT IS CARDGAME
             if (obj == null)
             { return false; }
-
+            Console.WriteLine("1");
             CardGame othergame = obj as CardGame;
             if ((System.Object)othergame == null)
             { return false; }
-
+            Console.WriteLine("2");
             // CHECK NECESSARY PARTS OF CARD GAME
-            if (!(othergame.fileName == this.fileName) || !(othergame.players.Count() == this.players.Count()) ||
+            if (!(othergame.players.Count() == this.players.Count()) ||
                                         !(othergame.teams.Count() == this.teams.Count()))
             { return false; }
-
+            Console.WriteLine("3");
             if (!(sourceDeck.SequenceEqual(othergame.sourceDeck)))
             { return false; }
-
-            if (!(tableCards.Equals(othergame.tableCards)) || !(tableIntStorage.Equals(othergame.tableIntStorage)))
+            Console.WriteLine("4");
+            if (!(tableCards.Equals(othergame.tableCards))) 
+            {
+                Console.WriteLine("?");
+                return false; }
+            Console.WriteLine("4.5");
+            if (!(tableIntStorage.Equals(othergame.tableIntStorage)))
             { return false; }
-
+            Console.WriteLine("5");
             if (!(points.Equals(othergame.points)))
             { return false; }
-
+            Console.WriteLine("6");
             if (!(currentPlayer.SequenceEqual(othergame.currentPlayer)))
             { return false; }
-
+            Console.WriteLine("7");
             if (!(currentTeam.SequenceEqual(othergame.currentTeam)))
             { return false; }
-
+            Console.WriteLine("8");
             if (!(players.SequenceEqual(othergame.players)))
             { return false; }
-
+            Console.WriteLine("9");
             if (!(teams.SequenceEqual(othergame.teams)))
             { return false; }
-
+            Console.WriteLine("10");
             return true;
         }
 
@@ -508,5 +494,18 @@ namespace CardEngine
 				}
 			}
 		}
+    }
+    public sealed class IdentityEqualityComparer<T> : IEqualityComparer<T>
+    where T : class
+    {
+        public int GetHashCode(T value)
+        {
+            return RuntimeHelpers.GetHashCode(value);
+        }
+
+        public bool Equals(T left, T right)
+        {
+            return left == right; // Reference identity comparison
+        }
     }
 }
