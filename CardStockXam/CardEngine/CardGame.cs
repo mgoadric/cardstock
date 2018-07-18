@@ -111,7 +111,7 @@ namespace CardEngine
             //Clone Source Deck and Index Cards
             //*****************
             HashSet<int> free = new HashSet<int>();
-            Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>(new IdentityEqualityComparer<Card>()); ;
+            Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>(new IdentityEqualityComparer<Card>());
             for (int i = 0; i < sourceDeck.Count; ++i) {
                 cardIdxs[sourceDeck[i]] = i;
                 temp.sourceDeck.Add(sourceDeck[i].Clone());
@@ -120,7 +120,7 @@ namespace CardEngine
 
             for (int p = 0; p < players.Count; ++p) {
                 foreach (var loc in players[p].cardBins.Keys()) {
-                    if (!loc.StartsWith("{hidden}") || p == playerIdx) {
+                    if (loc.StartsWith("{visible}") || loc.StartsWith("{mem}") || (loc.StartsWith("{invisible}") && p == playerIdx)) {
                         foreach (var card in players[p].cardBins[loc].AllCards()) {
                             var toAdd = temp.sourceDeck[cardIdxs[card]];
                             temp.players[p].cardBins[loc].Add(toAdd);
@@ -136,7 +136,7 @@ namespace CardEngine
             temp.tableIntStorage = tableIntStorage.Clone();
             temp.tableCards = tableCards.Clone();
             foreach (var bin in tableCards.Keys()) {
-                if (!bin.StartsWith("{hidden}")) {
+                if (!bin.StartsWith("{hidden}") && !bin.StartsWith("{invisible}")) {
                     foreach (var card in tableCards[bin].AllCards()) {
                         var toAdd = temp.sourceDeck[cardIdxs[card]];
                         temp.tableCards[bin].Add(toAdd);
@@ -150,9 +150,10 @@ namespace CardEngine
 
             List<int> vals = free.ToList<int>();
             for (int p = 0; p < players.Count; ++p) {
-                foreach (var loc in players[p].cardBins.Keys()) {
-                    if (loc.StartsWith("{hidden}") && p != playerIdx) {
-                        foreach (var card in players[p].cardBins[loc].AllCards()) {
+                foreach (var loc in players[p].cardBins.Keys()) { 
+                    if (loc.StartsWith("{hidden}") || (loc.StartsWith("{invisible}") && p != playerIdx)) {
+                       
+                        foreach (var card in players[p].cardBins[loc].AllCards()) { 
                             var picked = rand.Next(0, vals.Count);
                             var last = vals[vals.Count - 1];
                             vals[vals.Count - 1] = vals[picked];
@@ -167,7 +168,7 @@ namespace CardEngine
             }
 
             foreach (var bin in tableCards.Keys()) {
-                if (bin.StartsWith("{hidden}")) {
+                if (bin.StartsWith("{hidden}") || bin.StartsWith("{invisible}")) {
                     foreach (var card in tableCards[bin].AllCards()) {
                         var picked = rand.Next(0, vals.Count);
                         var last = vals[vals.Count - 1];
@@ -422,6 +423,7 @@ namespace CardEngine
         public override bool Equals(System.Object obj) // In Progress
         {
             Console.WriteLine("CALLING CARDGAME EQUALITY");
+
             
             // CHECK OBJECT IS CARDGAME
             if (obj == null)
@@ -430,6 +432,7 @@ namespace CardEngine
             CardGame othergame = obj as CardGame;
             if ((System.Object)othergame == null)
             { return false; }
+
             Console.WriteLine("2");
             // CHECK NECESSARY PARTS OF CARD GAME
             if (!(othergame.players.Count() == this.players.Count()) ||
@@ -438,20 +441,23 @@ namespace CardEngine
             Console.WriteLine("3");
             if (!(sourceDeck.SequenceEqual(othergame.sourceDeck)))
             { return false; }
+
             Console.WriteLine("4");
+           
             if (!(tableCards.Equals(othergame.tableCards))) 
-            {
-                Console.WriteLine("?");
-                return false; }
+            { return false; }
             Console.WriteLine("4.5");
+
             if (!(tableIntStorage.Equals(othergame.tableIntStorage)))
             { return false; }
             Console.WriteLine("5");
             if (!(points.Equals(othergame.points)))
             { return false; }
             Console.WriteLine("6");
+
             if (!(currentPlayer.SequenceEqual(othergame.currentPlayer)))
             { return false; }
+            
             Console.WriteLine("7");
             if (!(currentTeam.SequenceEqual(othergame.currentTeam)))
             { return false; }
@@ -462,6 +468,7 @@ namespace CardEngine
             if (!(teams.SequenceEqual(othergame.teams)))
             { return false; }
             Console.WriteLine("10");
+           
             return true;
         }
 

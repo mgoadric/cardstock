@@ -64,7 +64,7 @@ namespace CardEngine{
 
         public override int GetHashCode() 
         {
-            return this.ToString().GetHashCode(); // unless the attributes.toString() causes some problem
+            return this.ToString().GetHashCode(); 
         }
 
         public string ToOutputString()

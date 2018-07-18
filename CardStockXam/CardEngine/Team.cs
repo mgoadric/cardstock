@@ -34,10 +34,13 @@ namespace CardEngine{
             Team otherteam = obj as Team;
             if ((System.Object)otherteam == null)
             { return false; }
-
-            if (id != otherteam.id || !(teamStorage.Equals(otherteam))) // if ids or storage are not same, equals is false
+            
+            if (!(id.Equals(otherteam.id)))
             { return false; }
 
+            if (!(teamStorage.Equals(otherteam.teamStorage))) 
+            { return false; }
+            
             if (!(teamPlayers.SequenceEqual(otherteam.teamPlayers)))
             { return false; }
 

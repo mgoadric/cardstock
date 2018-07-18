@@ -76,7 +76,7 @@ namespace CardEngine {
             if ((System.Object)p == null)
             { return false; }
 
-            if (p.binCounter != binCounter) // if dictionary lists are not the same size
+            if (p.binCounter != binCounter) 
             { return false; }
 
             foreach (var bin in binDict.Keys)
@@ -86,7 +86,7 @@ namespace CardEngine {
                     { return false; }
                 }
             }
-
+            
             return true;
         }
         public override int GetHashCode()
@@ -211,17 +211,15 @@ namespace CardEngine {
         }
 
         public override bool Equals(System.Object obj) // For CardListCollection
-        {
-            throw new Exception();
-            Console.WriteLine("x");
+        {                 
             if (obj == null)
             { return false; }
-            Console.WriteLine("a");
+            
             CardListCollection othercardcollection = obj as CardListCollection;
             if ((System.Object)othercardcollection == null)
             { return false; }
-            Console.WriteLine("b");
-            if(!this.cards.SequenceEqual(othercardcollection.cards))
+            
+            if(!cards.SequenceEqual(othercardcollection.cards))
             { return false; }
 
             return true;
