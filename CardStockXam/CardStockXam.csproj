@@ -273,7 +273,7 @@
     <Compile Include="RecycleListener.cs" />
     <Compile Include="RecycleParser.cs" />
     <Compile Include="Scoring\World.cs" />
-    <Compile Include="Tree.cs" />
+    <Compile Include="CardEngine\Tree.cs" />
     <Compile Include="Players\AIPlayer.cs" />
     <Compile Include="Players\PredictablePlayer.cs" />
     <Compile Include="CardEngine\StageCycle.cs" />
