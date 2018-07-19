@@ -277,7 +277,6 @@
     <Compile Include="Players\AIPlayer.cs" />
     <Compile Include="Players\PredictablePlayer.cs" />
     <Compile Include="CardEngine\StageCycle.cs" />
-    <Compile Include="FreezeFrame\ParseOOPIterator.cs" />
     <Compile Include="Scoring\Heuristics\Stability.cs" />
     <Compile Include="Scoring\Heuristics\Coolness.cs" />
     <Compile Include="Scoring\Heuristics\Clarity.cs" />

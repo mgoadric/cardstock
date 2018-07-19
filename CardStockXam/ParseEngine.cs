@@ -138,7 +138,7 @@ public class ParseEngine
 				 * SORT OUT RESULTS
 				 *************/
 				if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
-	            var results = manageContext.parseoop.ProcessScore(tree.scoring());
+	            var results = manageContext.ProcessScore(tree.scoring());
 	            numPlayers = results.Count();
 	            for (int j = 0; j < results.Count; ++j)
 	            {
