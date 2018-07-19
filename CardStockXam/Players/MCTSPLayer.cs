@@ -35,6 +35,18 @@ namespace Players
 
             Dictionary<CardGame, Int32> plays = new Dictionary<CardGame, Int32>();
 
+            Console.WriteLine("Playing a simulated game");
+
+            while (!cloneContext.AdvanceToChoice())
+            {
+                CardGame simgame = cloneContext.game.Clone();
+                plays.Add(simgame, 1);
+                cloneContext.ProcessChoice();
+            }
+
+            Console.WriteLine("Simulated Game is Over");
+            Console.WriteLine(plays.Count);
+
             Console.ReadLine();
             Environment.Exit(0);
             return 0;

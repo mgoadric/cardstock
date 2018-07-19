@@ -30,7 +30,7 @@ namespace CardEngine {
             }
         }
         public Player owner { get; set; }
-        public int binCounter = 0; // could this tell me how many entries are in it?
+        public int binCounter = 0; 
         Dictionary<string, int> binDict = new Dictionary<string, int>();
         public CardCollection[] storage = new CardCollection[32];
 

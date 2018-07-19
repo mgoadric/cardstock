@@ -12,5 +12,10 @@ namespace CardEngine{
 		public int Get(){
 			return this.storage[this.key];
 		}
+
+        public string GetName()
+        {
+            return storage.GetOwnerName() + ":" + key;
+        }
 	}
 }

@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 namespace CardEngine{
 	public class CardScore{
-		List<PointAwards> awards;
+		
 		public Dictionary<string,Dictionary<string,int>> pointLookups = new Dictionary<string,Dictionary<string,int>>();
 		public CardScore(List<PointAwards> input){
-			awards = input;
-			foreach (var award in awards){
+			
+			foreach (var award in input){
 				if (pointLookups.ContainsKey(award.identifier)){
 					if (pointLookups[award.identifier].ContainsKey(award.value)){
 						pointLookups[award.identifier][award.value] += award.pointsToAward;
@@ -43,27 +44,21 @@ namespace CardEngine{
         {
 
             if (obj == null)
-            {
-                return false;
-            }
+            { return false; }
+
             CardScore p = obj as CardScore;
             if ((System.Object)p == null)
-            {
-                return false;
-            }
+            { return false; }
 
             if (pointLookups.Count != p.pointLookups.Count)
-            {
-                return false;
-            }
+            { return false; }
 
             foreach (string key in pointLookups.Keys)
             {
                 var otherscores = p.pointLookups[key];
                 if (otherscores.Count != p.pointLookups[key].Count)
-                {
-                    return false;
-                }
+                { return false; }
+
                 foreach (string key2 in pointLookups[key].Keys)
                 {
                     if (otherscores[key2] != pointLookups[key][key2]) 

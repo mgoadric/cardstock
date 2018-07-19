@@ -5,7 +5,7 @@ using FreezeFrame;
 
 namespace Players
 {
-	public class GeneralPlayer
+	public class GeneralPlayer //TODO Make this an interface
 	{
         protected GameIterator gameContext;
         protected int numPlayers;

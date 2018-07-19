@@ -15,7 +15,7 @@ namespace CardGames
         {
             //CardStockXam.Scorer.Main(args);
             var p = new Program();
-            p.SingleGame("games/Gofish.gdl");
+            p.SingleGame("games/Blackjack.gdl");
             // p.AllGames();
 
 

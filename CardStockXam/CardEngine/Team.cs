@@ -13,12 +13,14 @@ namespace CardEngine{
         {
             this.id = id.ToString();
             cg.AddToMap(this);
+            teamStorage.teamOwner = this;
         }
         public Team Clone()
         {
             Team other = new Team();
             other.id = id;
             other.teamStorage = teamStorage.Clone();
+            other.teamStorage.teamOwner = other;
             return other;
         }
         public void IncrValue(int bin, int value)

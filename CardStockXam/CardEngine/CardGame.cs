@@ -34,7 +34,7 @@ namespace CardEngine
         // TODO should have card map?
         public Dictionary<string, Card> fancyCardMap = new Dictionary<string, Card>();
         public Dictionary<string, FancyCardLocation> fancyCardLocMap = new Dictionary<string, FancyCardLocation>();
-        public Dictionary<string, FancyIntStorage> fancyRawStorMap = new Dictionary<string, FancyIntStorage>();
+        public Dictionary<string, FancyIntStorage> FancyIntStorageMap = new Dictionary<string, FancyIntStorage>();
         public Dictionary<string, Player> playerMap = new Dictionary<string, Player>();
         public Dictionary<string, Team> teamMap = new Dictionary<string, Team>();
 
@@ -49,11 +49,13 @@ namespace CardEngine
             for (int idx = 0; idx < teams.Count; idx++) {
                 Team orig = teamMap[teams[idx].id];
                 Team newTeam = orig.Clone();
+                temp.teamMap[teams[idx].id] = newTeam;
                 foreach (Player p in orig.teamPlayers) {
                     Player newPlayer = playerMap[p.name].Clone();
                     newPlayer.team = newTeam;
                     temp.players.Add(newPlayer);
                     newTeam.teamPlayers.Add(newPlayer);
+                    temp.playerMap[p.name] = newPlayer;
                 }
                 temp.teams.Add(newTeam);
             }
@@ -94,6 +96,14 @@ namespace CardEngine
                 temp.currentTeam.Push(newCycle);
             }
 
+            temp.tableIntStorage = tableIntStorage.Clone();
+            temp.points = points.Clone();
+            foreach (string intmap in FancyIntStorageMap.Keys)
+            {
+                System.Console.WriteLine(intmap);
+            } 
+
+
             return temp;
         }
 
@@ -133,7 +143,6 @@ namespace CardEngine
                 }
             }
 
-            temp.tableIntStorage = tableIntStorage.Clone();
             temp.tableCards = tableCards.Clone();
             foreach (var bin in tableCards.Keys()) {
                 if (!bin.StartsWith("{hidden}") && !bin.StartsWith("{invisible}")) {
@@ -187,8 +196,6 @@ namespace CardEngine
                 }
             }
 
-            temp.points = points.Clone();
-
             temp.vars = CloneDictionary(vars);
             Debug.WriteLine("Numplayers at end of clonesecret: " + temp.CurrentPlayer().memberList.Count);
             Debug.WriteLine("returning from clonesecret");
@@ -214,7 +221,7 @@ namespace CardEngine
                     }
                 }
             }
-            temp.tableIntStorage = tableIntStorage.Clone();
+           
             temp.tableCards = tableCards.Clone();
             foreach (var bin in tableCards.Keys()) {
                 foreach (var card in tableCards[bin].AllCards()) {
@@ -223,7 +230,7 @@ namespace CardEngine
                         .Add(toAdd);
                 }
             }
-            temp.points = points.Clone();
+            
             temp.vars = CloneDictionary(this.vars);
             return temp;
         }
@@ -263,7 +270,7 @@ namespace CardEngine
                 }
                 else if (o is FancyIntStorage)
                 {
-                    var rs = fancyRawStorMap[(o as FancyIntStorage).key];
+                    var rs = FancyIntStorageMap[(o as FancyIntStorage).key];
                     ret.Add(key, rs);
                 }
                 else if (o is GameActionCollection) //TODO what do i do here?
@@ -387,8 +394,9 @@ namespace CardEngine
                 id = (o as FancyCardLocation).name;
             }
             else if (o is FancyIntStorage) {
-                dict = fancyRawStorMap;
-                id = (o as FancyIntStorage).key;
+                dict = FancyIntStorageMap;
+                id = (o as FancyIntStorage).GetName();
+                Console.WriteLine(id);
             }
             else if (o is Player) {
                 dict = playerMap;

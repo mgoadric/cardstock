@@ -48,6 +48,15 @@ namespace CardEngine{
 			}
 			return raw;
 		}
+        public string GetOwnerName()
+        {
+            if (owner != null)
+            { return owner.name; }
+            else if (teamOwner != null)
+            { return "t" + teamOwner.id; }
+            else { return "Table"; }      
+        }
+
 		public void AddTrigger(Trigger trig, string key){
 			if (!triggerDict.ContainsKey(key)){
 				triggerDict[key] = new List<Trigger>();
