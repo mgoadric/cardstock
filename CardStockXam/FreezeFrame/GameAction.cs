@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using ParseTreeIterator;
+using CardEngine;
 
-namespace CardEngine {
+namespace FreezeFrame {
     public class GameActionCollection : List<GameAction> {
         public GameActionCollection() : base() {
 

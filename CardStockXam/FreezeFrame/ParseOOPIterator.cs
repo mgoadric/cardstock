@@ -1,4 +1,4 @@
-using FreezeFrame;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +8,8 @@ using System.IO;
 using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using CardEngine;
-using CardStockXam.CardEngine;
 
-namespace ParseTreeIterator
+namespace FreezeFrame
 {
 	public class ParseOOPIterator{
 

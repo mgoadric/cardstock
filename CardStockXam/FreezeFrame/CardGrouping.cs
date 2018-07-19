@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace CardEngine{
+using CardEngine;
+namespace FreezeFrame{
 	public static class ListExtension{
 		public static IEnumerable<IEnumerable<T>> Combinations<T>(this IEnumerable<T> elements, int k)
 		{
