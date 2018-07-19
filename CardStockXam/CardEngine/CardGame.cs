@@ -334,7 +334,7 @@ namespace CardEngine
             for (int i = 0; i < numPlayers; ++i) {
                 players.Add(new Player() { name = "p" + i });
                 AddToMap(players[i]);
-                players[i].decision = new GeneralPlayer(gameContext);
+                players[i].decision = new RandomPlayer(gameContext);
             }
             currentPlayer.Push(new StageCycle<Player>(players, this));
         }

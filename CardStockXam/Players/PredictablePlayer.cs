@@ -4,7 +4,7 @@ using CardEngine;
 using FreezeFrame;
 namespace Players
 {
-    public class PredictablePlayer : GeneralPlayer
+    public class PredictablePlayer : AIPlayer
     {
         private bool firstMove = true;
         private int toChoose = -1;

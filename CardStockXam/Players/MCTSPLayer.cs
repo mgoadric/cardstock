@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Players
 {
-    public class MCTSPLayer : GeneralPlayer
+    public class MCTSPLayer : AIPlayer
     {
         private int idx;
 

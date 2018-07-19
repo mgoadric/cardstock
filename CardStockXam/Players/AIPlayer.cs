@@ -5,22 +5,20 @@ using FreezeFrame;
 
 namespace Players
 {
-	public class GeneralPlayer //TODO Make this an interface
+	public abstract class AIPlayer 
 	{
         protected GameIterator gameContext;
         protected int numPlayers;
 
         protected List<double> leadList = new List<double>();
 
-        public GeneralPlayer(GameIterator m)
+        public AIPlayer(GameIterator m)
         {
             gameContext = m;
             numPlayers = gameContext.game.players.Count;
         }
 
-        public virtual int MakeAction(List<GameActionCollection> possibles,Random rand){
-			return rand.Next(0,possibles.Count);
-		}
+        public abstract int MakeAction(List<GameActionCollection> possibles, Random rand);
 
         public static Tuple<int, int> MinMaxIdx(double[] input)
         {

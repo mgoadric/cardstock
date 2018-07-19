@@ -235,6 +235,7 @@
     <Compile Include="FreezeFrame\IterItem.cs" />
     <Compile Include="FreezeFrame\IteratingTree.cs" />
     <Compile Include="Players\MCTSPLayer.cs" />
+    <Compile Include="Players\RandomPlayer.cs" />
     <Compile Include="Scoring\Genetic.cs" />
     <Compile Include="Scoring\GeneticFiler.cs" />
     <Compile Include="Scoring\Generator.cs" />
@@ -273,7 +274,7 @@
     <Compile Include="RecycleParser.cs" />
     <Compile Include="Scoring\World.cs" />
     <Compile Include="Tree.cs" />
-    <Compile Include="Players\GeneralPlayer.cs" />
+    <Compile Include="Players\AIPlayer.cs" />
     <Compile Include="Players\PredictablePlayer.cs" />
     <Compile Include="CardEngine\StageCycle.cs" />
     <Compile Include="FreezeFrame\ParseOOPIterator.cs" />

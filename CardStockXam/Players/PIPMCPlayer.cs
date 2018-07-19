@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Players
 {
-    public class PIPMCPlayer : GeneralPlayer
+    public class PIPMCPlayer : AIPlayer
     {
         private static int NUMTESTS = 10; //previously 20
         private int idx;
@@ -60,7 +60,7 @@ namespace Players
                         }
                         else
                         {
-                            cg.players[j].decision = new Players.GeneralPlayer(cloneContext);
+                            cg.players[j].decision = new RandomPlayer(cloneContext);
                         }
                     }
 
