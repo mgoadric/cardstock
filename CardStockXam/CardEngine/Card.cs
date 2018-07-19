@@ -87,5 +87,24 @@ namespace CardEngine{
 				throw;
 			}
 		}
-	}
+        
+    }
+    public class TreeTraversal
+    {
+        public List<int> traversals;
+        public TreeTraversal(List<int> t)
+        {
+            traversals = t;
+        }
+        public string ReadValue(Card c)
+        {
+            var desiredNode = c.attributes;
+            foreach (var childNum in traversals)
+            {
+                desiredNode = desiredNode.children[childNum];
+            }
+            return desiredNode.Value;
+        }
+    }
+
 }
