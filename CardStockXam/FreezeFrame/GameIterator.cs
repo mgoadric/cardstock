@@ -668,7 +668,7 @@ namespace FreezeFrame
                     game.WriteToFile("A:" + value + " " + reward);
                     temp.Add(new PointAwards(key, value, reward));
                 }
-                game.points[name] = new CardScore(temp);
+                game.points[name] = new PointMap(temp);
             }
             else if (actionNode.copyaction() != null)
             {
@@ -2322,6 +2322,7 @@ namespace FreezeFrame
             else if (ret is Card)
             {
                 var c = ret as Card;
+                // THIS LOOKS LIKE ONLY REALLY USEFUL PLACE FOR .loc???
                 var loc = c.owner.loc.ShallowCopy(game);
                 loc.setLocId(c);
                 return loc;

@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 namespace CardEngine{
-	public class CardScore{
-		
-		public Dictionary<string,Dictionary<string,int>> pointLookups = new Dictionary<string,Dictionary<string,int>>();
-		public CardScore(List<PointAwards> input){
-			
+    public class PointMap : ICloneable{
+
+        public readonly List<PointAwards> pointAwards;
+		public readonly Dictionary<string,Dictionary<string,int>> pointLookups = new Dictionary<string,Dictionary<string,int>>();
+		public PointMap(List<PointAwards> input){
+
+            pointAwards = input;
 			foreach (var award in input){
 				if (pointLookups.ContainsKey(award.identifier)){
 					if (pointLookups[award.identifier].ContainsKey(award.value)){
@@ -40,14 +42,18 @@ namespace CardEngine{
 			return total;
 		}
 
+        public object Clone() {
+            return new PointMap(pointAwards);
+        }
+
         public override bool Equals(System.Object obj)
         {
 
             if (obj == null)
             { return false; }
 
-            CardScore p = obj as CardScore;
-            if ((System.Object)p == null)
+            var p = obj as PointMap;
+            if (p == null)
             { return false; }
 
             if (pointLookups.Count != p.pointLookups.Count)

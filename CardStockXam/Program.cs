@@ -42,18 +42,19 @@ namespace CardGames
 		}
 
         void AllGames() {
+            System.Console.WriteLine("All Games!");
 			List<string> gameFiles = new List<string>();
 			string[] allFiles = System.IO.Directory.GetFiles("games/");
 
 			foreach (string s in allFiles)
 			{
-                if (s.EndsWith(".gdl") && string.Compare(s[6].ToString(), "L") > 0)
+                if (s.EndsWith(".gdl"))
 				{
 					gameFiles.Add(s);
 				}
 			}
             foreach (string g in gameFiles.GetRange(0, gameFiles.Count)) {
-                SingleGame(g.Substring(6, g.Length - 10));
+                SingleGame(g);
             }
    		}
     }

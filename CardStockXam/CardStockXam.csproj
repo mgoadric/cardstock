@@ -257,13 +257,12 @@
     <Compile Include="CardEngine\Card.cs" />
     <Compile Include="CardEngine\CardGame.cs" />
     <Compile Include="FreezeFrame\CardGrouping.cs" />
-    <Compile Include="CardEngine\CardScore.cs" />
+    <Compile Include="CardEngine\PointMap.cs" />
     <Compile Include="CardEngine\CardStorage.cs" />
     <Compile Include="CardEngine\FancyCardLocation.cs" />
     <Compile Include="CardEngine\FancyIntStorage.cs" />
     <Compile Include="FreezeFrame\GameAction.cs" />
     <Compile Include="CardEngine\Player.cs" />
-    <Compile Include="CardEngine\PointsStorage.cs" />
     <Compile Include="CardEngine\IntStorage.cs" />
     <Compile Include="CardEngine\Team.cs" />
     <Compile Include="ParseEngine.cs" />
@@ -283,6 +282,9 @@
     <Compile Include="Scoring\Heuristics\Randomness.cs" />
     <Compile Include="Scoring\ScoreTracker.cs" />
     <Compile Include="Players\PIPMCPlayer.cs" />
+    <Compile Include="CardEngine\DefaultStorage.cs" />
+    <Compile Include="CardEngine\CardCollection.cs" />
+    <Compile Include="CardEngine\Owner.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

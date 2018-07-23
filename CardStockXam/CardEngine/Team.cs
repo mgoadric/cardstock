@@ -5,10 +5,12 @@ namespace CardEngine{
     public class Team
     {
         public List<Player> teamPlayers = new List<Player>();
+
         public IntStorage teamStorage = new IntStorage();
         public string id;
 
         public Team() { }
+
         public Team(int id, CardGame cg)
         {
             this.id = id.ToString();
@@ -22,10 +24,6 @@ namespace CardEngine{
             other.teamStorage = teamStorage.Clone();
             other.teamStorage.teamOwner = other;
             return other;
-        }
-        public void IncrValue(int bin, int value)
-        {
-            teamStorage.storage[bin] += value;
         }
 
         public override bool Equals(System.Object obj)
