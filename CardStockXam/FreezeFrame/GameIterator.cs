@@ -634,10 +634,7 @@ namespace FreezeFrame
             {
                 var points = actionNode.initpoints();
                 var name = points.var().GetText();
-                if (!game.points.binDict.ContainsKey(name))
-                {
-                    game.points.AddKey(name);
-                }
+
                 List<PointAwards> temp = new List<PointAwards>();
                 var awards = points.awards();
                 foreach (RecycleParser.AwardsContext award in awards)
@@ -1216,7 +1213,7 @@ namespace FreezeFrame
             if (memset.tuple() != null)
             {
                 var findEm = new CardGrouping(13, game.points[memset.tuple().var().GetText()]);
-                var cardsToScore = new CardListCollection();
+                var cardsToScore = new CardListCollection(CCType.MEMORY);
                 var stor = ProcessLocation(memset.tuple().cstorage());
                 foreach (var card in stor.cardList.AllCards())
                 {
@@ -1541,7 +1538,7 @@ namespace FreezeFrame
         {
             if (intNode.rawstorage() != null)
             {
-                var fancy = ProcessRawStorage(intNode.rawstorage());
+                var fancy = ProcessIntStorage(intNode.rawstorage());
                 return fancy.Get();
             }
             else if (intNode.INTNUM() != null && intNode.INTNUM().Any())
@@ -1666,77 +1663,77 @@ namespace FreezeFrame
             return stor;
         }
 
-        public FancyIntStorage ProcessRawStorage(RecycleParser.RawstorageContext raw)
+        public FancyIntStorage ProcessIntStorage(RecycleParser.RawstorageContext intSto)
         {
-            if (raw.GetChild(1).GetText() == "game")
+            if (intSto.GetChild(1).GetText() == "game")
             {
-                if (raw.var().Length == 1)
+                if (intSto.var().Length == 1)
                 {
-                    String temp = ProcessStringVar(raw.var()[0]);
+                    String temp = ProcessStringVar(intSto.var()[0]);
                     return AddedRaw(new FancyIntStorage(game.tableIntStorage, temp));
                 }
                 else
                 {
-                    return AddedRaw(new FancyIntStorage(game.tableIntStorage, raw.namegr().GetText()));
+                    return AddedRaw(new FancyIntStorage(game.tableIntStorage, intSto.namegr().GetText()));
 
                 }
             }
-            else if (raw.who() != null)
+            else if (intSto.who() != null)
             {
-                if (raw.who().whot() != null)
+                if (intSto.who().whot() != null)
                 {
-                    var who = ProcessWho(raw.who()) as Team;
-                    if (raw.namegr() != null)
+                    var who = ProcessWho(intSto.who()) as Team;
+                    if (intSto.namegr() != null)
                     {
-                        return AddedRaw(new FancyIntStorage(who.teamStorage, raw.namegr().GetText()));
+                        return AddedRaw(new FancyIntStorage(who.teamStorage, intSto.namegr().GetText()));
                     }
                     else
                     {
-                        var temp = ProcessStringVar(raw.var()[0]);
+                        var temp = ProcessStringVar(intSto.var()[0]);
                         return AddedRaw(new FancyIntStorage(who.teamStorage, temp));
                     }
                 }
-                else if (raw.who().whop() != null)
+                else if (intSto.who().whop() != null)
                 {
-                    var who = ProcessWho(raw.who()) as Player;
-                    if (raw.namegr() != null)
+                    var who = ProcessWho(intSto.who()) as Player;
+                    if (intSto.namegr() != null)
                     {
-                        return AddedRaw(new FancyIntStorage(who.storage, raw.namegr().GetText()));
+                        return AddedRaw(new FancyIntStorage(who.intBins, intSto.namegr().GetText()));
                     }
                     else
                     {
-                        var temp = ProcessStringVar(raw.var()[0]);
-                        return AddedRaw(new FancyIntStorage(who.storage, temp));
+                        var temp = ProcessStringVar(intSto.var()[0]);
+                        return AddedRaw(new FancyIntStorage(who.intBins, temp));
                     }
                 }
             }
             else
             {
-                var who = Get(raw.var()[0]);
+                var who = Get(intSto.var()[0]);
                 if (who.GetType().Name == "Team")
                 {
                     Team temp = who as Team;
-                    if (raw.namegr() != null)
+                    if (intSto.namegr() != null)
                     {
-                        return AddedRaw(new FancyIntStorage(temp.teamStorage, raw.namegr().GetText()));
+                        return AddedRaw(new FancyIntStorage(temp.teamStorage, intSto.namegr().GetText()));
                     }
                     else
                     {
-                        var str = ProcessStringVar(raw.var()[1]);
+                        var str = ProcessStringVar(intSto.var()[1]);
                         return AddedRaw(new FancyIntStorage(temp.teamStorage, str));
                     }
                 }
                 else
                 {
                     Player temp = who as Player;
-                    if (raw.namegr() != null)
+                    if (intSto.namegr() != null)
                     {
-                        return AddedRaw(new FancyIntStorage(temp.storage, raw.namegr().GetText()));
+                        return AddedRaw(new FancyIntStorage(temp.intBins, intSto.namegr().GetText()));
                     }
                     else
                     {
-                        var str = ProcessStringVar(raw.var()[1]);
-                        return AddedRaw(new FancyIntStorage(temp.storage, str));
+                        var str = ProcessStringVar(intSto.var()[1]);
+                        return AddedRaw(new FancyIntStorage(temp.intBins, str));
                     }
                 }
             }
@@ -1745,20 +1742,20 @@ namespace FreezeFrame
 
         public GameAction SetAction(RecycleParser.SetactionContext setAction)
         {
-            var bin = ProcessRawStorage(setAction.rawstorage());
+            var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             return new IntAction(bin.storage, bin.key, setValue, game);
         }
         public GameAction IncAction(RecycleParser.IncactionContext setAction)
         {
-            var bin = ProcessRawStorage(setAction.rawstorage());
+            var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             var newVal = bin.Get() + setValue;
             return new IntAction(bin.storage, bin.key, newVal, game);
         }
         public GameAction DecAction(RecycleParser.DecactionContext setAction)
         {
-            var bin = ProcessRawStorage(setAction.rawstorage());
+            var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             var newVal = bin.Get() - setValue;
             return new IntAction(bin.storage, bin.key, newVal, game);
@@ -2217,7 +2214,7 @@ namespace FreezeFrame
             }
             else if (parseTree is RecycleParser.RawstorageContext)
             {
-                return ProcessRawStorage(parseTree as RecycleParser.RawstorageContext);
+                return ProcessIntStorage(parseTree as RecycleParser.RawstorageContext);
             }
             Debug.WriteLine("error: Could not parse " + parseTree.GetText());
             throw new NotSupportedException();

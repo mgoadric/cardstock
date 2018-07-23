@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace CardEngine{
 	public class FancyIntStorage{
-		public IntStorage storage {get; set;}
+        public DefaultStorage<int> storage {get; set;}
 		public string key {get; set;}
-		public FancyIntStorage(IntStorage raw, string key){
+        public FancyIntStorage(DefaultStorage<int> raw, string key){
 			this.storage = raw;
 			this.key = key;
 		}
@@ -15,7 +15,7 @@ namespace CardEngine{
 
         public string GetName()
         {
-            return storage.GetOwnerName() + ":" + key;
+            return storage.owner.name + ":" + key;
         }
 	}
 }

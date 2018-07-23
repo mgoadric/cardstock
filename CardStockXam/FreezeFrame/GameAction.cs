@@ -333,38 +333,27 @@ namespace FreezeFrame {
     }
     public class IntAction : GameAction {
 
-        IntStorage bucket;
-        string bucketKey;
+        DefaultStorage<int> bins;
+        string key;
         int value;
         int oldValue;
 
-        public IntAction(IntStorage storage, string bKey, int v, CardGame cg) {
-            bucket = storage;
-            bucketKey = bKey;
+        public IntAction(DefaultStorage<int> storage, string bKey, int v, CardGame cg) {
+            bins = storage;
+            key = bKey;
             value = v;
             this.cg = cg;
         }
         public override void Execute() {
-            oldValue = bucket[bucketKey];
-            bucket[bucketKey] = value;
+            oldValue = bins[key];
+            bins[key] = value;
             complete = true;
-            if (bucket.owner != null)
-            {
-                cg.WriteToFile("S:" + bucket.owner.name + " " + bucketKey + " " + value);
-            }
-            else if (bucket.teamOwner != null)
-            {
-                cg.WriteToFile("S:" + bucket.teamOwner + " " + bucketKey + " " + value);
-            }
-            else
-            {
-                cg.WriteToFile("S:" + bucket + " " + bucketKey + " " + value);
-            }
+            cg.WriteToFile("S:" + bins.owner.name + " " + key + " " + value);
         }
         public override void Undo() {
             if (complete)
             {
-                bucket[bucketKey] = oldValue;
+                bins[key] = oldValue;
                 complete = false;
             }
             else {

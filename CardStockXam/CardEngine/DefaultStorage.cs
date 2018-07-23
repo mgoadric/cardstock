@@ -6,19 +6,21 @@ namespace CardEngine
 {
     /********
      * A Dictionary with a default value provided. Useful for
-     * storing ScoreMaps, integers, strings, and CardCollections
+     * storing PointMaps, integers, strings, and CardCollections
      */
-    public class DefaultStorage<T> where T : ICloneable
+    public class DefaultStorage<T>
     {
-        private T defaultT;
         private readonly Dictionary<string, T> dict = new Dictionary<string, T>();
+        private T defaultT;
+        public Owner owner;
 
         /*******
          * Save the default value given in the constructor
          */
-        public DefaultStorage(T defaultT)
+        public DefaultStorage(T defaultT, Owner owner)
         {
             this.defaultT = defaultT;
+            this.owner = owner;
         }
 
         /*******
@@ -46,16 +48,39 @@ namespace CardEngine
         {
             if (!dict.ContainsKey(key))
             {
-                dict[key] = (T)defaultT.Clone();
+                dict[key] = GetDefault();
             }
+        }
+
+        private T GetDefault() {
+            if (defaultT is ICloneable dt)
+            {
+                return (T)dt.Clone();
+            }
+            else
+            {
+                return default(T);
+            }
+        }
+
+        public IEnumerable<string> Keys()
+        {
+            return dict.Keys;
         }
 
         public DefaultStorage<T> Clone()
         {
-            var ret = new DefaultStorage<T>(defaultT);
+            var ret = new DefaultStorage<T>(defaultT, owner);
             foreach (var bin in dict.Keys)
             {
-                ret[bin] = (T)dict[bin].Clone();
+                if (defaultT is ICloneable dt)
+                {
+                    ret[bin] = (T)dt.Clone();
+                }
+                else
+                {
+                    ret[bin] = dict[bin];
+                }
             }
             return ret;
         }
@@ -84,5 +109,54 @@ namespace CardEngine
             return hash;
         }
 
+    }
+
+    /**********
+     **********
+     * Triggers are meant for a way to exit a stage without completing it,
+     * a break for the Recycle language. Implemented but never fully
+     * connected, and need to be expanded to be truly useful. Created 
+     * for trying to implement Cribbage. RETURN TO THIS SOMEDAY.
+     */
+    public class Trigger
+    {
+        public TriggerException exception;
+        public string op;
+        public int value;
+        public void Evaluate(int v)
+        {
+            var shouldTrigger = false;
+            // Need many more op choices to be truly flexible...
+            if (op == ">=")
+            {
+                if (v >= value)
+                {
+                    shouldTrigger = true;
+                }
+            }
+            if (shouldTrigger)
+            {
+                throw exception;
+            }
+        }
+
+    }
+    public class TriggerException : Exception
+    {
+        public string Level { get; set; }
+        public TriggerException()
+            : base() { }
+
+        public TriggerException(string message)
+            : base(message) { }
+
+        public TriggerException(string format, params object[] args)
+            : base(string.Format(format, args)) { }
+
+        public TriggerException(string message, Exception innerException)
+            : base(message, innerException) { }
+
+        public TriggerException(string format, Exception innerException, params object[] args)
+            : base(string.Format(format, args), innerException) { }
     }
 }

@@ -19,6 +19,8 @@ namespace CardEngine{
 					AddKey(key);
 				}
 	       		storage[binDict[key]] = value;
+
+                ////
 				if (triggerDict.ContainsKey(key)){
 					foreach (var trigger in triggerDict[key]){
 						trigger.Evaluate(storage[binDict[key]]);
@@ -28,6 +30,7 @@ namespace CardEngine{
 		}
         public Player owner;
         public Team teamOwner;
+
         public int[] storage;
 		public int binCounter = 0;
 		Dictionary<string,List<Trigger>> triggerDict = new Dictionary<string, List<Trigger>>();
@@ -53,16 +56,10 @@ namespace CardEngine{
             if (owner != null)
             { return owner.name; }
             else if (teamOwner != null)
-            { return "t" + teamOwner.id; }
+            { return "t" + teamOwner.name; }
             else { return "Table"; }      
         }
 
-		public void AddTrigger(Trigger trig, string key){
-			if (!triggerDict.ContainsKey(key)){
-				triggerDict[key] = new List<Trigger>();
-			}
-			triggerDict[key].Add(trig);
-		}
         public void AddKey(string key)
         {
             binDict.Add(key, binCounter);
@@ -110,40 +107,13 @@ namespace CardEngine{
             return hash;
             }
     
+        public void AddTrigger(Trigger trig, string key)
+        {
+            if (!triggerDict.ContainsKey(key))
+            {
+                triggerDict[key] = new List<Trigger>();
+            }
+            triggerDict[key].Add(trig);
+        }
 	}
-	public class Trigger{
-		public TriggerException exception;
-		public string op;
-		public int value;
-		public void Evaluate(int v){
-			var shouldTrigger = false;
-			if (op == ">="){
-				if (v >= value){
-					shouldTrigger = true;
-				}
-			}
-			if (shouldTrigger){
-				throw exception;
-			}
-		}
-		
-	}
-	public class TriggerException : Exception
-    {
-		public string Level {get; set;}
-        public TriggerException()
-            : base() { }
-
-        public TriggerException(string message)
-            : base(message) { }
-
-        public TriggerException(string format, params object[] args)
-            : base(string.Format(format, args)) { }
-
-        public TriggerException(string message, Exception innerException)
-            : base(message, innerException) { }
-
-        public TriggerException(string format, Exception innerException, params object[] args)
-            : base(string.Format(format, args), innerException) { }
-    }
 }

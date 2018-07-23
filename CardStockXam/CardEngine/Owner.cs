@@ -1,32 +1,49 @@
 ﻿using System;
 using System.Text;
-using Players;
+using System.Collections.Generic;
 namespace CardEngine
 {
     public class Owner
     {
-        public IntStorage storage;
-        public CardStorage cardBins;
+        public DefaultStorage<int> intBins;
+        public Dictionary<CCType, DefaultStorage<CardCollection>> cardBins;
+        public DefaultStorage<string> stringBins;
         public string name;
 
         public Owner()
         {
-            storage = new IntStorage();
-            cardBins = new CardStorage();
-            cardBins.owner = this;
+            intBins = new DefaultStorage<int>(0, this);
+            cardBins = new Dictionary<CCType, DefaultStorage<CardCollection>>();
+            foreach (CCType type in Enum.GetValues(typeof(CCType))) {
+                if (type != CCType.VIRTUAL)
+                {
+                    cardBins[type] = new DefaultStorage<CardCollection>(
+                          new CardListCollection(type), this);
+                }
+            }
+            stringBins = new DefaultStorage<string>("", this);
         }
         public Owner Clone()
         {
-            Owner other = new Owner();
-            other.storage = storage.Clone();
-            other.cardBins = cardBins.Clone();
-            other.name = name;
-            other.cardBins.owner = other;
+            Owner other = new Owner
+            {
+                intBins = intBins.Clone(),
+                cardBins = new Dictionary<CCType, DefaultStorage<CardCollection>>(),
+                name = name
+            };
+            foreach (CCType type in Enum.GetValues(typeof(CCType)))
+            {
+                if (type != CCType.VIRTUAL)
+                {
+                    other.cardBins[type] = cardBins[type].Clone();
+                    other.cardBins[type].owner = other;
+                }
+            }
             return other;
         }
         public override string ToString()
         {
-            StringBuilder ret = new StringBuilder("Owner:\n");
+            StringBuilder ret = new StringBuilder(GetType().ToString() + ":\n");
             ret.Append(cardBins.ToString());
             return ret.ToString();
         }
@@ -39,10 +56,10 @@ namespace CardEngine
             if ((System.Object)otherplayer == null)
             { return false; }
 
-            if (!(storage.Equals(otherplayer.storage)) || !(cardBins.Equals(otherplayer.cardBins)))
+            if (!(intBins.Equals(otherplayer.intBins)) || !(cardBins.Equals(otherplayer.cardBins)))
             { return false; }
 
-            if (name != otherplayer.name || team.id != otherplayer.team.id)
+            if (name != otherplayer.name)
             { return false; }
 
             return true;
@@ -50,7 +67,7 @@ namespace CardEngine
 
         public override int GetHashCode() // XORs relevant hashcodes
         {
-            return name.GetHashCode() ^ team.GetHashCode() ^ storage.GetHashCode() ^ cardBins.GetHashCode();
+            return name.GetHashCode() ^ team.GetHashCode() ^ intBins.GetHashCode() ^ cardBins.GetHashCode();
         }
 
     }

@@ -2,27 +2,26 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace CardEngine{
-    public class Team
+    public class Team : Owner
     {
         public List<Player> teamPlayers = new List<Player>();
-
-        public IntStorage teamStorage = new IntStorage();
-        public string id;
 
         public Team() { }
 
         public Team(int id, CardGame cg)
         {
-            this.id = id.ToString();
+            this.name = id.ToString();
             cg.AddToMap(this);
-            teamStorage.teamOwner = this;
+            intBins.owner = this;
         }
-        public Team Clone()
+        public Team CloneNoCards()
         {
-            Team other = new Team();
-            other.id = id;
-            other.teamStorage = teamStorage.Clone();
-            other.teamStorage.teamOwner = other;
+            Team other = new Team
+            {
+                name = name,
+                intBins = intBins.Clone()
+            };
+            other.intBins.owner = other;
             return other;
         }
 
@@ -35,10 +34,10 @@ namespace CardEngine{
             if ((System.Object)otherteam == null)
             { return false; }
             
-            if (!(id.Equals(otherteam.id)))
+            if (!(name.Equals(otherteam.name)))
             { return false; }
 
-            if (!(teamStorage.Equals(otherteam.teamStorage))) 
+            if (!(intBins.Equals(otherteam.intBins))) 
             { return false; }
             
             if (!(teamPlayers.SequenceEqual(otherteam.teamPlayers)))
@@ -50,7 +49,7 @@ namespace CardEngine{
         public override int GetHashCode()
         {
             int hash = 0;
-            hash ^= id.GetHashCode() ^ teamStorage.GetHashCode();
+            hash ^= name.GetHashCode() ^ intBins.GetHashCode();
             foreach(var player in teamPlayers)
             {
                 hash ^= player.GetHashCode();
