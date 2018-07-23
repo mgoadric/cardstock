@@ -24,7 +24,7 @@ namespace CardEngine
         public List<Team> teams = new List<Team>();
         public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>(); 
         public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
-        public PointsStorage points = new PointsStorage(); 
+        public DefaultStorage<PointMap> points = new DefaultStorage<PointMap>(new PointMap(new List<PointAwards>())); 
 
         public Dictionary<String, object> vars = new Dictionary<string, object>();
 
