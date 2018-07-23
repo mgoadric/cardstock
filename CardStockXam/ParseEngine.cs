@@ -106,12 +106,16 @@ public class ParseEngine
 	            CardEngine.CardGame instance = new CardEngine.CardGame(true, exp.fileName + i);
 				var manageContext = new FreezeFrame.GameIterator(tree, instance, gameWorld);
 
+               
+
                 if (exp.type == GameType.AllAI) {
                     for (int j = 0; j < instance.players.Count; j++) {
-                        instance.players[j].decision  = new PIPMCPlayer(manageContext, j);
+                        Perspective perspective = new Perspective(j, instance, manageContext);
+                        instance.players[j].decision  = new PIPMCPlayer(perspective, gameWorld);
                     }
 				} else if (exp.type == GameType.RndandAI) {
-                    instance.players[0].decision = new PIPMCPlayer(manageContext, 0);
+                    Perspective perspective = new Perspective(0, instance, manageContext);
+                    instance.players[0].decision = new PIPMCPlayer(perspective, gameWorld);
                 }
 	            
                 /*********

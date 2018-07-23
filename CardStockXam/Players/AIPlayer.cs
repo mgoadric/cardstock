@@ -1,22 +1,29 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using CardEngine;
+using CardStockXam.Scoring;
 using FreezeFrame;
 
 namespace Players
 {
 	public abstract class AIPlayer 
 	{
-        protected GameIterator gameContext;
         protected int numPlayers;
+        protected CardGame privategame;
+        protected GameIterator privateiterator;
+        protected Perspective perspective;
+        protected World gameWorld;
+        
 
         protected List<double> leadList = new List<double>();
 
-        public AIPlayer(GameIterator m)
+        public AIPlayer(Perspective perspective, World gameWorld)
         {
-            gameContext = m;
-            numPlayers = gameContext.game.players.Count;
+            this.gameWorld = gameWorld;
+            this.perspective = perspective;
+            numPlayers = perspective.numberofPlayers();
         }
+
 
         public abstract int MakeAction(List<GameActionCollection> possibles, Random rand);
 
@@ -43,9 +50,9 @@ namespace Players
         }
 
         // CODE FOR UPDATING STATISTICS FOR HEURISTICS
-        public void RecordHeuristics(double[] inverseRankSum)
+        public void RecordHeuristics(double[] inverseRankSum) // NOT SURE THIS SHOULD BE IN THE PLAYER
         {
-            if (gameContext.gameWorld != null)
+            if (gameWorld != null)
             {
                 // WHAT DOES WRS stand for?
                 double[] wrs = new double[inverseRankSum.Length];
@@ -69,7 +76,7 @@ namespace Players
 
                 var variance = Math.Abs(max - min);
 
-                gameContext.gameWorld.AddInfo(variance, avg, wrs[tup.Item2]);
+                gameWorld.AddInfo(variance, avg, wrs[tup.Item2]);
                 leadList.Add(max);
             }
         }
@@ -77,6 +84,13 @@ namespace Players
         public virtual List<double> GetLead()
         {
             return leadList;
+        }
+
+        protected void SetupPrivateGame()
+        {
+            Tuple<CardGame, GameIterator> myprivategame = perspective.GetPrivateGame();
+            privategame = myprivategame.Item1;
+            privateiterator = myprivategame.Item2;
         }
 	}
 }

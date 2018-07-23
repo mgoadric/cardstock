@@ -4,18 +4,16 @@ using CardEngine;
 using System.Diagnostics;
 using FreezeFrame;
 using System.Threading.Tasks;
+using CardStockXam.Scoring;
 
 namespace Players
 {
     public class PIPMCPlayer : AIPlayer
     {
         private static int NUMTESTS = 10; //previously 20
-        private int idx;
-         
-        public PIPMCPlayer(GameIterator m, int idx) : base(m)
-		{
-            this.idx = idx;
-        }
+
+        public PIPMCPlayer(Perspective perspective, World gameWorld) : base(perspective, gameWorld) { }
+		
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
         {
@@ -23,8 +21,12 @@ namespace Players
         }
 
 		public int NumChoices(int items, Random rand){
-            
-			Debug.WriteLine("PIPMC making choice. items: " + items);
+            // SetupPrivateGame sets "privategame" equal to actualgame.clonesecret(idx) and
+            // sets "privateiterator" equal to actualgameiterator.clone()
+            SetupPrivateGame();
+            int idx = perspective.GetIdx();
+
+            Debug.WriteLine("PIPMC making choice. items: " + items);
 
             var inverseRankSum = new double[items];
 
@@ -32,6 +34,7 @@ namespace Players
 
             // can parallellize here TODO ?
             // FOR EACH POSSIBLE MOVE
+           
 
             for (int item = 0; item < items; ++item)
             {
@@ -44,8 +47,12 @@ namespace Players
                     Debug.WriteLine("****Made Switch**** : " + i);
 
                     // get new possible world through clonesecret
-                    CardGame cg = gameContext.game.CloneSecret(idx);
-                    var cloneContext = gameContext.Clone(cg);
+                    //CardGame cg = gameContext.game.CloneSecret(idx);
+                    //var cloneContext = gameContext.Clone(cg);
+
+                    // JUST USING ONE CLONE SECRETGAME, CLONED FOR EACH MOVE
+                    CardGame cg = privategame.Clone();
+                    var cloneContext = privateiterator.Clone(cg);
 
                     // Assign the AI players for rollout game, with the 
                     // selected item chosen first when you get your turn
@@ -56,11 +63,11 @@ namespace Players
 
                         if (j == idx)
                         {
-                            cg.players[j].decision = new PredictablePlayer(cloneContext, item);
+                            cg.players[j].decision = new PredictablePlayer(perspective, gameWorld, item);
                         }
                         else
                         {
-                            cg.players[j].decision = new RandomPlayer(cloneContext);
+                            cg.players[j].decision = new RandomPlayer(perspective, gameWorld);
                         }
                     }
 

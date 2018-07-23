@@ -18,7 +18,7 @@ namespace FreezeFrame
 
 		public GameIterator Clone(CardGame cg){
             // CHANGED HERE TODO 
-            var ret = new GameIterator (rules, cg, gameWorld, false);
+            var ret = new GameIterator (rules, cg, gameWorld, false); // 
 			var revStack = new Stack<Queue<IParseTree>> ();
 			foreach (var i in iterStack) {
 				revStack.Push (i);
