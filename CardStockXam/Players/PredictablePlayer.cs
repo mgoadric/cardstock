@@ -1,6 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using CardEngine;
+using CardStockXam.Scoring;
 using FreezeFrame;
 namespace Players
 {
@@ -9,10 +10,8 @@ namespace Players
         private bool firstMove = true;
         private int toChoose = -1;
 
-        public PredictablePlayer(GameIterator m, int toChoose) : base(m)
-        {
-            this.toChoose = toChoose;
-        }
+        public PredictablePlayer (Perspective perspective, World gameWorld, int choice) : base(perspective, gameWorld)
+        { toChoose = choice; }
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
         {

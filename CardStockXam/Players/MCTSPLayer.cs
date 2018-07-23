@@ -1,5 +1,6 @@
 ﻿using CardEngine;
 using CardStockXam;
+using CardStockXam.Scoring;
 using FreezeFrame;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,8 @@ namespace Players
 {
     public class MCTSPLayer : AIPlayer
     {
-        private int idx;
+        public MCTSPLayer(Perspective perspective, World gameWorld) : base(perspective, gameWorld) { }
 
-        public MCTSPLayer(GameIterator m, int idx) : base(m) // ??
-		{
-            this.idx = idx;
-        }
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
         {
@@ -25,10 +22,9 @@ namespace Players
 
         public int Choice(int optioncount, Random random) //
         {
-            CardGame cg = gameContext.game.CloneSecret(idx);
-            var cloneContext = gameContext.Clone(cg);
+            SetupPrivateGame();
 
-            if (cg.Equals(gameContext.game))
+            if (privategame.Equals(privateiterator.game))
             {
                 Console.WriteLine("CardGame equals Clone");
             }
@@ -37,11 +33,11 @@ namespace Players
 
             Console.WriteLine("Playing a simulated game");
 
-            while (!cloneContext.AdvanceToChoice())
+            while (!privateiterator.AdvanceToChoice())
             {
-                CardGame simgame = cloneContext.game.Clone();
+                CardGame simgame = privateiterator.game.Clone();
                 plays.Add(simgame, 1);
-                cloneContext.ProcessChoice();
+                privateiterator.ProcessChoice();
             }
 
             Console.WriteLine("Simulated Game is Over");

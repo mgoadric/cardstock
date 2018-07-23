@@ -100,7 +100,7 @@ namespace CardEngine
             temp.points = points.Clone();
             foreach (string intmap in FancyIntStorageMap.Keys)
             {
-                System.Console.WriteLine(intmap);
+                //System.Console.WriteLine(intmap);
             } 
 
 
@@ -334,7 +334,8 @@ namespace CardEngine
             for (int i = 0; i < numPlayers; ++i) {
                 players.Add(new Player() { name = "p" + i });
                 AddToMap(players[i]);
-                players[i].decision = new RandomPlayer(gameContext);
+                Perspective perspective = new Perspective(i, this, gameContext);
+                players[i].decision = new RandomPlayer(perspective, gameContext.gameWorld);
             }
             currentPlayer.Push(new StageCycle<Player>(players, this));
         }
@@ -396,7 +397,7 @@ namespace CardEngine
             else if (o is FancyIntStorage) {
                 dict = FancyIntStorageMap;
                 id = (o as FancyIntStorage).GetName();
-                Console.WriteLine(id);
+                //Console.WriteLine(id);
             }
             else if (o is Player) {
                 dict = playerMap;
@@ -436,46 +437,46 @@ namespace CardEngine
             // CHECK OBJECT IS CARDGAME
             if (obj == null)
             { return false; }
-            Console.WriteLine("1");
+            //Console.WriteLine("1");
             CardGame othergame = obj as CardGame;
             if ((System.Object)othergame == null)
             { return false; }
 
-            Console.WriteLine("2");
+            //Console.WriteLine("2");
             // CHECK NECESSARY PARTS OF CARD GAME
             if (!(othergame.players.Count() == this.players.Count()) ||
                                         !(othergame.teams.Count() == this.teams.Count()))
             { return false; }
-            Console.WriteLine("3");
+            //Console.WriteLine("3");
             if (!(sourceDeck.SequenceEqual(othergame.sourceDeck)))
             { return false; }
 
-            Console.WriteLine("4");
+            //Console.WriteLine("4");
            
             if (!(tableCards.Equals(othergame.tableCards))) 
             { return false; }
-            Console.WriteLine("4.5");
+            //Console.WriteLine("4.5");
 
             if (!(tableIntStorage.Equals(othergame.tableIntStorage)))
             { return false; }
-            Console.WriteLine("5");
+            //Console.WriteLine("5");
             if (!(points.Equals(othergame.points)))
             { return false; }
-            Console.WriteLine("6");
+            //Console.WriteLine("6");
 
             if (!(currentPlayer.SequenceEqual(othergame.currentPlayer)))
             { return false; }
             
-            Console.WriteLine("7");
+            //Console.WriteLine("7");
             if (!(currentTeam.SequenceEqual(othergame.currentTeam)))
             { return false; }
-            Console.WriteLine("8");
+            //Console.WriteLine("8");
             if (!(players.SequenceEqual(othergame.players)))
             { return false; }
-            Console.WriteLine("9");
+            //Console.WriteLine("9");
             if (!(teams.SequenceEqual(othergame.teams)))
             { return false; }
-            Console.WriteLine("10");
+            //Console.WriteLine("10");
            
             return true;
         }
@@ -520,7 +521,7 @@ namespace CardEngine
 
         public bool Equals(T left, T right)
         {
-            return left == right; // Reference identity comparison
+            return left == right; 
         }
     }
 }
