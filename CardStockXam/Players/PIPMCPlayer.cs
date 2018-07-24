@@ -10,6 +10,8 @@ namespace Players
 {
     public class PIPMCPlayer : AIPlayer
     {
+        private CardGame privategame;
+        private GameIterator privateiterator;
         private static int NUMTESTS = 10; //previously 20
 
         public PIPMCPlayer(Perspective perspective, World gameWorld) : base(perspective, gameWorld) { }
@@ -23,7 +25,9 @@ namespace Players
 		public int NumChoices(int items, Random rand){
             // SetupPrivateGame sets "privategame" equal to actualgame.clonesecret(idx) and
             // sets "privateiterator" equal to actualgameiterator.clone()
-            SetupPrivateGame();
+            Tuple<CardGame, GameIterator> gameinfo = perspective.GetPrivateGame();
+            privategame = gameinfo.Item1;
+            privateiterator = gameinfo.Item2;
             int idx = perspective.GetIdx();
 
             Debug.WriteLine("PIPMC making choice. items: " + items);

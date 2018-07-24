@@ -23,7 +23,6 @@ namespace CardEngine
         public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>(); 
         public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
 
-        // NEEDS TO MOVE INTO SEPARATE CLASS AND BE A MEMBER OF GAMEITERATOR
         public Dictionary<String, object> vars = new Dictionary<string, object>();
 
         public bool logging;
@@ -525,3 +524,5 @@ namespace CardEngine
         }
     }
 }
+        // NEEDS TO MOVE INTO SEPARATE CLASS AND BE A MEMBER OF GAMEITERATOR
+        public Dictionary<String, object> vars = new Dictionary<string, object>();

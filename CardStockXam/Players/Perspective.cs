@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CardEngine;
+using CardStockXam.Scoring;
 using FreezeFrame;
 namespace Players
 {
@@ -24,7 +25,6 @@ namespace Players
             this.actualgameiterator = actualgameiterator;
         }
 
-
         public Tuple<CardGame, GameIterator> GetPrivateGame()
         {
             CardGame privategame = cardgame.CloneSecret(idx);
@@ -32,11 +32,13 @@ namespace Players
             return new Tuple<CardGame, GameIterator> (privategame, privategameiterator);
         }
 
-        public int numberofPlayers() // RETURNS NUMBER OF PLAYERS IN GAME
-        {
-            return cardgame.players.Count;
-        }
+        public int numberofPlayers()
+        { return cardgame.players.Count; }
+
         public int GetIdx()
         { return idx; }
+
+        public World GetWorld()
+        { return actualgameiterator.gameWorld; }
     }
 }
