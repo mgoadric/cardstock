@@ -68,7 +68,7 @@ namespace CardEngine
             }
 
             // Reconstruct team and player cycles
-            // SHOULD THIS BE IN THE STAGECYCLE CLASS???
+            // SHOULD THIS BE IN THE STAGECYCLE CLASS??? DUPLICATE CODE!!!
             foreach (var cycle in this.currentPlayer.Reverse()) {
                 var newCycle = new StageCycle<Player>(temp.players, temp);
                 newCycle.idx = cycle.idx;
@@ -109,36 +109,26 @@ namespace CardEngine
                 free.Add(i);
             }
 
-            for (int p = 0; p < players.Count; p++) {
-                foreach (var loc in players[p].cardBins.Keys()) {
-                    if (loc.StartsWith("{visible}") || loc.StartsWith("{mem}") || (loc.StartsWith("{invisible}") && p == playerIdx)) {
-                        foreach (var card in players[p].cardBins[loc].AllCards()) {
-                            var toAdd = temp.sourceDeck[cardIdxs[card]];
-                            temp.players[p].cardBins[loc].Add(toAdd);
-                            if (!loc.StartsWith("{mem}")) {
-                                toAdd.owner = temp.players[p].cardBins[loc];
-                                free.Remove(cardIdxs[card]);
-                            }
-                        }
-                    }
-                }
-            }
-
-            temp.tableCards = tableCards.Clone();
-            foreach (var bin in tableCards.Keys()) {
-                if (!bin.StartsWith("{hidden}") && !bin.StartsWith("{invisible}")) {
-                    foreach (var card in tableCards[bin].AllCards()) {
-                        var toAdd = temp.sourceDeck[cardIdxs[card]];
-                        temp.tableCards[bin].Add(toAdd);
-                        if (!bin.StartsWith("{mem}")) {
-                            free.Remove(cardIdxs[card]);
-                            toAdd.owner = temp.tableCards[bin];
-                        }
-                    }
-                }
-            }
+            CloneVisibleCards(players, temp.players, temp.sourceDeck, cardIdxs, free, playerIdx);
+            CloneVisibleCards(teams, temp.teams, temp.sourceDeck, cardIdxs, free, -1);
+            CloneVisibleCards(table, temp.table, temp.sourceDeck, cardIdxs, free, -1);
 
             List<int> vals = free.ToList<int>();
+
+            // SHUFFLE HERE??
+
+            int n = vals.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rand.Next(n + 1);
+                int value = vals[k];
+                vals[k] = vals[n];
+                vals[n] = vals;
+            }
+
+            IEnumerator<int> cardsLeft = vals.GetEnumerator();
+
             for (int p = 0; p < players.Count; ++p) {
                 foreach (var loc in players[p].cardBins.Keys()) { 
                     if (loc.StartsWith("{hidden}") || (loc.StartsWith("{invisible}") && p != playerIdx)) {
@@ -202,11 +192,13 @@ namespace CardEngine
             CloneCards(teams, temp.teams, temp.sourceDeck, cardIdxs);
             CloneCards(table, temp.table, temp.sourceDeck, cardIdxs);
 
+            temp.vars = CloneDictionary(vars);
             return temp;
         }
 
-        public void CloneCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners, 
-                               List<Card> tempsourceDeck, Dictionary<Card, int> cardIdxs) {
+        public void CloneCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
+                               List<Card> tempsourceDeck, Dictionary<Card, int> cardIdxs)
+        {
             foreach (Owner owner in owners)
             {
                 foreach (CCType type in Enum.GetValues(typeof(CCType)))
@@ -233,6 +225,62 @@ namespace CardEngine
             }
         }
 
+        public void CloneVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
+                                      List<Card> tempsourceDeck, Dictionary<Card, int> cardIdxs,
+                                      HashSet<int> free, int playerIdx)
+        {
+            foreach (Owner owner in owners)
+            {
+                foreach (CCType type in Enum.GetValues(typeof(CCType)))
+                {
+                    if (type == CCType.VISIBLE || type == CCType.MEMORY || (type == CCType.INVISIBLE && owner.id == playerIdx))
+                    {
+                        foreach (var loc in owner.cardBins[type].Keys())
+                        {
+                            var collection = owner.cardBins[type][loc];
+                            foreach (var card in collection.AllCards())
+                            {
+                                // Look up card by index, and reference the new cloned card
+                                var toAdd = tempsourceDeck[cardIdxs[card]];
+                                var tempCollection = tempowners[owner.id].cardBins[type][loc];
+                                tempCollection.Add(toAdd);
+                                if (type != CCType.MEMORY)
+                                {
+                                    toAdd.owner = tempCollection;
+                                    free.Remove(cardIdxs[card]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void AssignNonVisibleCards(IEnumerator cardsLeft) {
+            for (int p = 0; p < players.Count; ++p)
+            {
+                foreach (var loc in players[p].cardBins.Keys())
+                {
+                    if (loc.StartsWith("{hidden}") || (loc.StartsWith("{invisible}") && p != playerIdx))
+                    {
+
+                        foreach (var card in players[p].cardBins[loc].AllCards())
+                        {
+                            var picked = rand.Next(0, vals.Count);
+                            var last = vals[vals.Count - 1];
+                            vals[vals.Count - 1] = vals[picked];
+                            vals[picked] = last;
+                            var toAdd = temp.sourceDeck[vals[vals.Count - 1]];
+                            temp.players[p].cardBins[loc].Add(toAdd);
+                            toAdd.owner = temp.players[p].cardBins[loc];
+                            vals.RemoveAt(vals.Count - 1);
+                        }
+                    }
+                }
+            }
+
+        }
+
         public Dictionary<String, object> CloneDictionary(Dictionary<String, object> original)
         {
 
@@ -241,6 +289,7 @@ namespace CardEngine
             //use hashtables (name/hashcode/whatever -> object)
 
             Dictionary<String, object> ret = new Dictionary<String, object>();
+
             foreach (KeyValuePair<String, object> entry in original)
             {
                 var key = entry.Key;
@@ -326,63 +375,7 @@ namespace CardEngine
             Console.WriteLine(ret.Count);*/
 
             return ret;
-        }
 
-        public void AddPlayers(int numPlayers, GameIterator gameContext) {
-            for (int i = 0; i < numPlayers; ++i) {
-                players.Add(new Player("p" + i);
-                AddToMap(players[i]);
-                Perspective perspective = new Perspective(i, this, gameContext);
-                players[i].decision = new RandomPlayer(perspective, gameContext.gameWorld);
-            }
-            currentPlayer.Push(new StageCycle<Player>(players, this));
-        }
-        public void PushPlayer() {
-            currentPlayer.Push(new StageCycle<Player>(currentPlayer.Peek()));
-        }
-        public void PopPlayer() {
-            currentPlayer.Pop();
-        }
-
-        public StageCycle<Team> CurrentTeam() {
-            return currentTeam.Peek();
-        }
-        public void PushTeam() {
-            currentTeam.Push(new StageCycle<Team>(currentTeam.Peek()));
-        }
-        public void PopTeam() {
-            currentTeam.Pop();
-        }
-
-        public StageCycle<Player> CurrentPlayer() {
-            return currentPlayer.Peek();
-        }
-        public void SetDeck(Tree cardAttributes, CardCollection loc) {
-            var combos = cardAttributes.combinations();
-            foreach (var combo in combos) {
-                var newCard = new Card(combo);
-                sourceDeck.Add(newCard);
-                loc.Add(newCard);
-                WriteToFile("C:" + newCard.ToOutputString() + loc.name); // What happened?
-            }
-            //Console.ReadKey();
-        }
-
-        public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx) {
-            Debug.WriteLine("In player make choice");
-            Debug.WriteLine("Num choices: " + choices.Count());
-            /*foreach (GameActionCollection c in choices)
-            {
-               Debug.WriteLine("Choices: " + c);
-            }*/
-            Debug.WriteLine("Player turn: " + CurrentPlayer().idx);
-
-
-            var choice = currentPlayer.Peek().memberList[playerIdx].decision.MakeAction(choices, rand);
-            Debug.WriteLine("Executing choices");
-            Debug.WriteLine("Num choices: " + choices.Count());
-            Debug.WriteLine("Choice: " + choice);
-            choices[choice].ExecuteAll();
         }
 
         public void AddToMap(object o) {
@@ -417,6 +410,66 @@ namespace CardEngine
             if (!dict.Contains(id)) { dict.Add(id, o); }
             //else { Console.WriteLine("dict already contains " + id); }
         }
+                            
+        public void AddPlayers(int numPlayers, GameIterator gameContext) {
+            for (int i = 0; i < numPlayers; ++i) {
+                players.Add(new Player("p" + i, i);
+                AddToMap(players[i]);
+                Perspective perspective = new Perspective(i, this, gameContext);
+                players[i].decision = new RandomPlayer(perspective, gameContext.gameWorld);
+            }
+            currentPlayer.Push(new StageCycle<Player>(players, this));
+
+        }
+
+        public StageCycle<Player> CurrentPlayer() {
+            return currentPlayer.Peek();
+        }
+        public void PushPlayer() {
+            currentPlayer.Push(new StageCycle<Player>(currentPlayer.Peek()));
+        }
+        public void PopPlayer() {
+            currentPlayer.Pop();
+        }
+
+        public StageCycle<Team> CurrentTeam() {
+            return currentTeam.Peek();
+        }
+        public void PushTeam() {
+            currentTeam.Push(new StageCycle<Team>(currentTeam.Peek()));
+        }
+        public void PopTeam() {
+            currentTeam.Pop();
+        }
+
+        public void SetDeck(Tree cardAttributes, CardCollection loc) {
+            var combos = cardAttributes.combinations();
+            foreach (var combo in combos) {
+                var newCard = new Card(combo);
+                sourceDeck.Add(newCard);
+                loc.Add(newCard);
+                WriteToFile("C:" + newCard.ToOutputString() + loc.name); // What happened?
+            }
+            //Console.ReadKey();
+        }
+
+        public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx) {
+            Debug.WriteLine("In player make choice");
+            Debug.WriteLine("Num choices: " + choices.Count());
+            /*foreach (GameActionCollection c in choices)
+            {
+               Debug.WriteLine("Choices: " + c);
+            }*/
+            Debug.WriteLine("Player turn: " + CurrentPlayer().idx);
+
+
+            var choice = currentPlayer.Peek().memberList[playerIdx].decision.MakeAction(choices, rand);
+            Debug.WriteLine("Executing choices");
+            Debug.WriteLine("Num choices: " + choices.Count());
+            Debug.WriteLine("Choice: " + choice);
+            choices[choice].ExecuteAll();
+        }
+
         public override string ToString() {
             var ret = "Table Deck:\n";
             ret += tableCards.ToString();
