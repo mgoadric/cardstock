@@ -2,72 +2,71 @@ using System;
 using System.Diagnostics;
 
 namespace CardEngine{
-	public class FancyCardLocation{
+	public class CardLocReference{
 		public CardCollection cardList;
+        // Can't remember why we need the default -1 here...
 		public string locIdentifier = "-1";
         public string name;
 		public bool actual = false;
-        public bool nonPhysical = false;
 
-        public FancyCardLocation(){
+        public CardLocReference(){
             
         }
 
-
-        public FancyCardLocation ShallowCopy(CardGame cg)
+        public CardLocReference ShallowCopy(CardGame cg)
         {
-            var loc = new FancyCardLocation()
+            var loc = new CardLocReference()
             {
                 cardList = cardList.ShallowCopy(),
                 locIdentifier = String.Copy(locIdentifier),
                 name = String.Copy(name) + " - Copy",
                 actual = actual,
-                nonPhysical = nonPhysical
             };
             cg.AddToMap(loc);
             return loc;
         }
 
         public void Add(Card c){
-			if (locIdentifier == "top"){
-				cardList.Add(c);
-			}
-			else if (locIdentifier == "bottom"){
-				cardList.AddBottom(c);
-			}
-            else if (locIdentifier == "-1"){
-                cardList.Add(c);
+            switch (locIdentifier)
+            {
+                case "top":
+                    cardList.Add(c);
+                    break;
+                case "bottom":
+                    cardList.AddBottom(c);
+                    break;
+                case "-1":
+                    cardList.Add(c);
+                    break;
+                default:
+                    cardList.Add(c, Int32.Parse(locIdentifier));
+                    break;
             }
-            else{
-                cardList.Add(c, Int32.Parse(locIdentifier));
-            }
-		}
+        }
 		public int Count(){
 			return cardList.Count;
 		}
-		public Card Get(){	
-			if (locIdentifier == "top"){
-				return cardList.Peek();
-			}
-			else if (locIdentifier == "bottom"){
-                
-                System.Collections.Generic.IEnumerator<Card> e = cardList.AllCards().GetEnumerator();
-                e.MoveNext();
-                return e.Current;
-			}
-            else if (locIdentifier == "-1"){
-                return cardList.Peek();
+		public Card Get(){
+            switch (locIdentifier)
+            {
+                case "top":
+                    return cardList.Peek();
+                case "bottom":
+                    System.Collections.Generic.IEnumerator<Card> e = cardList.AllCards().GetEnumerator();
+                    e.MoveNext();
+                    return e.Current;
+                case "-1":
+                    return cardList.Peek();
+                default:
+                    return cardList.Get(Int32.Parse(locIdentifier));
             }
-            else{
-                return cardList.Get(Int32.Parse(locIdentifier));
-            }
-		}
+        }
 		public Card Remove(){
             var card = Get();
             if (actual){
                 card.owner.Remove(card);
             }
-            else if (nonPhysical){
+            else if (cardList.type == CCType.VIRTUAL){
                 cardList.Remove(card);
                 card.owner.Remove(card);
             }
@@ -78,7 +77,7 @@ namespace CardEngine{
             return card;
 		}
 
-        public void setLocId(Card c){
+        public void SetLocId(Card c){
             for (int idx = 0; idx < cardList.Count; idx++){
                 if (c.Equals(cardList.Get(idx))){
                     locIdentifier = idx.ToString();
@@ -88,7 +87,7 @@ namespace CardEngine{
 
         public override String ToString()
         {
-            return cardList + " " + locIdentifier + " " + actual + " " + nonPhysical;
+            return cardList + " " + locIdentifier + " " + actual;
         }
 
         public String ToOutputString(){

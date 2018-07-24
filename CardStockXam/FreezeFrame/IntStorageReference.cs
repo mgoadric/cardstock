@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 
 namespace CardEngine{
-	public class FancyIntStorage{
+	public class IntStorageReference{
         public DefaultStorage<int> storage {get; set;}
 		public string key {get; set;}
-        public FancyIntStorage(DefaultStorage<int> raw, string key){
+        public IntStorageReference(DefaultStorage<int> raw, string key){
 			this.storage = raw;
 			this.key = key;
 		}
