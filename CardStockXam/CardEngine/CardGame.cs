@@ -123,7 +123,7 @@ namespace CardEngine
                 int k = rand.Next(n + 1);
                 int value = vals[k];
                 vals[k] = vals[n];
-                vals[n] = vals;
+                vals[n] = value;
             }
             IEnumerator<int> cardsLeft = vals.GetEnumerator();
             cardsLeft.MoveNext();
