@@ -29,7 +29,13 @@ namespace CardEngine
             this.name = name;
         }
 
+        // http://blog.chrishowie.com/2013/01/22/object-copying-in-c/
         public Owner Clone()
+        {
+            return CloneImpl();
+        }
+
+        protected virtual Owner CloneImpl() 
         {
             Owner other = new Owner(name);
             other.intBins = intBins.Clone(other);

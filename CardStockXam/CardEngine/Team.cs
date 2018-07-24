@@ -6,22 +6,17 @@ namespace CardEngine{
     {
         public List<Player> teamPlayers = new List<Player>();
 
-        public Team() { }
+        public Team(string name) : base(name) { }
 
-        public Team(int id, CardGame cg)
+        new public Team Clone()
         {
-            this.name = id.ToString();
-            cg.AddToMap(this);
-            intBins.owner = this;
+            return (Team)CloneImpl();
         }
-        public Team CloneNoCards()
+
+        protected override Owner CloneImpl()
         {
-            Team other = new Team
-            {
-                name = name,
-                intBins = intBins.Clone()
-            };
-            other.intBins.owner = other;
+            Team other = (Team)base.CloneImpl();
+            other.teamPlayers = new List<Player>();
             return other;
         }
 
