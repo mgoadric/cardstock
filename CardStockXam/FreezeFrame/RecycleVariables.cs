@@ -9,7 +9,10 @@ namespace FreezeFrame
 {
     class RecycleVariables
     {
-        private Dictionary<String, object> vars;
+        private Dictionary<String, object> vars; 
+        public Dictionary<string, Card> fancyCardMap = new Dictionary<string, Card>();
+        public Dictionary<string, CardLocReference> fancyCardLocMap = new Dictionary<string, CardLocReference>();
+        public Dictionary<string, IntStorageReference> FancyIntStorageMap = new Dictionary<string, IntStorageReference>();
 
         public RecycleVariables()
         {
@@ -42,7 +45,7 @@ namespace FreezeFrame
             vars.Remove(k);
         }
 
-        public Dictionary<String, object> CloneDictionary(Dictionary<String, object> original)
+        public Dictionary<String, object> CloneDictionary(Dictionary<String, object> original, CardGame newgame)
         {
             //TODO:
             //remove all non-primitive copies
@@ -54,22 +57,36 @@ namespace FreezeFrame
             {
                 var key = entry.Key;
                 var o = entry.Value;
-                if (o is int) { ret.Add(key, (int)o); }
-                else if (o is bool) { ret.Add(key, (bool)o); }
-                else if (o is string) { ret.Add(key, (string)o); }
-                else if (o is Card)
+                if (o is int i) { ret.Add(key, i); }
+                else if (o is bool b) { ret.Add(key, b); }
+                else if (o is string s) { ret.Add(key, s); }
+                else if (o is string[] sa)
                 {
-                    // same question here? TODO
-                    //var c = fancyCardMap[(o as Card).attributes.Key];
-                    var save = (o as Card);
-                    Card c = save.Clone();
-                    c.owner = save.owner; // SAME OWNER ? OR OWNER CLONE?
-
-                    //instead
-                    //find card in same location
-                    //add that card instead of c
-                    ret.Add(key, c);
+                    string[] str = (string[])sa.Clone();
+                    ret.Add(key, str);
                 }
+                else if (o is Player p)
+                {
+                    ret.Add(key, newgame.players[p.id]);
+                }
+                else if (o is Team t)
+                {
+                    ret.Add(key, newgame.teams[t.id]);
+                }
+
+                /* else if (o is Card)
+                 {
+                     // same question here? TODO
+                     //var c = fancyCardMap[(o as Card).attributes.Key];
+                     var save = (o as Card);
+                     Card c = save.Clone();
+                     c.owner = save.owner; // SAME OWNER ? OR OWNER CLONE?
+
+                     //instead
+                     //find card in same location
+                     //add that card instead of c
+                     ret.Add(key, c);
+                 }*/
                 else if (o is CardLocReference)
                 {
                     var l = fancyCardLocMap[(o as CardLocReference).name];
@@ -91,23 +108,7 @@ namespace FreezeFrame
                     }
                     ret.Add(key, newcoll);
                 }
-                else if (o is Player)
-                {
-                    var p = playerMap[(o as Player).name];
-                    ret.Add(key, p);
-                }
-                else if (o is Team)
-                {
-                    var t = teamMap[(o as Team).id];
-                    ret.Add(key, t);
-                }
-                else if (o is string[])
-                {
-                    string[] str = new string[(o as string[]).Length];
-                    str = (string[])(o as string[]).Clone();
-
-                    ret.Add(key, str);
-                }
+    
                 else if (o is List<Card>)
                 {
                     List<Card> l = new List<Card>();
@@ -122,7 +123,7 @@ namespace FreezeFrame
                     ret.Add(key, l);
 
                 }
-                else { Console.WriteLine("Error: object " + o + " is  type " + o.GetType()); }
+                else { Console.WriteLine("Error: object " + o + " is  type " + o.GetType()); throw new Exception(); }
             }
             /*Console.WriteLine("original:");
             foreach (object o in original){
