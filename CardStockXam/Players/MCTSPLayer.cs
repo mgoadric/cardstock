@@ -12,7 +12,7 @@ namespace Players
 {
     public class MCTSPLayer : AIPlayer
     {
-        public MCTSPLayer(Perspective perspective, World gameWorld) : base(perspective, gameWorld) { }
+        public MCTSPLayer(Perspective perspective) : base(perspective) { }
 
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
@@ -22,7 +22,6 @@ namespace Players
 
         public int Choice(int optioncount, Random random) //
         {
-            SetupPrivateGame();
 
             if (privategame.Equals(privateiterator.game))
             {

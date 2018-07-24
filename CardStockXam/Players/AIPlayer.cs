@@ -10,9 +10,8 @@ namespace Players
 	{
         protected int numPlayers;
         protected Perspective perspective;
-
         protected List<double> leadList = new List<double>();
-
+ 
         public AIPlayer(Perspective perspective)
         {
             this.perspective = perspective;

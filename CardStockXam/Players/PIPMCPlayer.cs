@@ -14,7 +14,7 @@ namespace Players
         private GameIterator privateiterator;
         private static int NUMTESTS = 10; //previously 20
 
-        public PIPMCPlayer(Perspective perspective, World gameWorld) : base(perspective, gameWorld) { }
+        public PIPMCPlayer(Perspective perspective) : base(perspective) { }
 		
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)

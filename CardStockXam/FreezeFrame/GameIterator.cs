@@ -15,7 +15,6 @@ namespace FreezeFrame
         HashSet<IParseTree> iteratingSet;
         public CardGame game;
         public World gameWorld;
-        public Dictionary<String, object> vars = new Dictionary<string, object>();
 
         public GameIterator Clone(CardGame cg) {
             // CHANGED HERE TODO 
@@ -35,89 +34,10 @@ namespace FreezeFrame
             foreach (var node in iteratingSet) {
                 ret.iteratingSet.Add(node);
             }
-            ret.vars = CloneDictionary(); // THINK THIS BELONGS IN GAME ITERATOR
+            
             return ret;
         }
-        public Dictionary<String, object> CloneDictionary() // ADOPTED FROM CLONE DICTIONARY IN CARD GAME, WHICH ONLY USED FOR VARS
-        { 
-            Dictionary<String, object> ret = new Dictionary<String, object>();
-            foreach (KeyValuePair<String, object> entry in vars)
-            {
-                var key = entry.Key;
-                var o = entry.Value;
-                Debug.WriteLine("type: " + o.GetType());
-                if (o is int) { ret.Add(key, (int)o); }
-                else if (o is bool) { ret.Add(key, (bool)o); }
-                else if (o is string) { ret.Add(key, (string)o); }
-                else if (o is Card)
-                {
-                    // same question here? TODO
-                    //var c = fancyCardMap[(o as Card).attributes.Key];
-                    var save = (o as Card);
-                    Card c = save.Clone();
-                    c.owner = game.fancyCardLocMap[save.owner.loc.name].cardList;
-
-                    //instead
-                    //find card in same location
-                    //add that card instead of c
-                    ret.Add(key, c);
-                }
-                else if (o is FancyCardLocation)
-                {
-                    var l = game.fancyCardLocMap[(o as FancyCardLocation).name]; // This sends us to the same FANCYCARDLOCATION
-                    ret.Add(key, l);
-                }
-                else if (o is FancyIntStorage)
-                {
-                    var rs = game.FancyIntStorageMap[(o as FancyIntStorage).key];
-                    ret.Add(key, rs);
-                }
-                else if (o is GameActionCollection) //TODO what do i do here?
-                {
-                    Console.WriteLine("You're copying a GameActionCollection???");
-                    var coll = o as GameActionCollection;
-                    var newcoll = new GameActionCollection();
-                    foreach (GameAction ac in coll)
-                    {
-                        newcoll.Add(ac);
-                    }
-                    ret.Add(key, newcoll);
-                }
-                else if (o is Player)
-                {
-                    var p = game.playerMap[(o as Player).name];
-                    ret.Add(key, p);
-                }
-                else if (o is Team)
-                {
-                    var t = game.teamMap[(o as Team).id];
-                    ret.Add(key, t);
-                }
-                else if (o is string[])
-                {
-                    string[] str = new string[(o as string[]).Length];
-                    str = (string[])(o as string[]).Clone();
-
-                    ret.Add(key, str);
-                }
-                else if (o is List<Card>)
-                {
-                    List<Card> l = new List<Card>();
-                    foreach (Card c in o as List<Card>)
-                    {
-                        Card copy = c.Clone();
-
-                        copy.owner = game.fancyCardLocMap[c.owner.loc.name].cardList;
-
-                        l.Add(c);
-                    }
-                    ret.Add(key, l);
-
-                }
-                else { Console.WriteLine("Error: object " + o + " is  type " + o.GetType()); }
-            }
-            return ret;
-        }
+        
 
         public GameIterator (RecycleParser.GameContext context, CardGame mygame, World gameWorld, bool fresh = true)
 		{
