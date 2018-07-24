@@ -115,8 +115,7 @@ namespace CardEngine
 
             List<int> vals = free.ToList<int>();
 
-            // SHUFFLE HERE??
-
+            // Shuffle the free list
             int n = vals.Count;
             while (n > 1)
             {
@@ -126,47 +125,13 @@ namespace CardEngine
                 vals[k] = vals[n];
                 vals[n] = vals;
             }
-
             IEnumerator<int> cardsLeft = vals.GetEnumerator();
+            cardsLeft.MoveNext();
 
-            for (int p = 0; p < players.Count; ++p) {
-                foreach (var loc in players[p].cardBins.Keys()) { 
-                    if (loc.StartsWith("{hidden}") || (loc.StartsWith("{invisible}") && p != playerIdx)) {
-                       
-                        foreach (var card in players[p].cardBins[loc].AllCards()) { 
-                            var picked = rand.Next(0, vals.Count);
-                            var last = vals[vals.Count - 1];
-                            vals[vals.Count - 1] = vals[picked];
-                            vals[picked] = last;
-                            var toAdd = temp.sourceDeck[vals[vals.Count - 1]];
-                            temp.players[p].cardBins[loc].Add(toAdd);
-                            toAdd.owner = temp.players[p].cardBins[loc];
-                            vals.RemoveAt(vals.Count - 1);
-                        }
-                    }
-                }
-            }
-
-            foreach (var bin in tableCards.Keys()) {
-                if (bin.StartsWith("{hidden}") || bin.StartsWith("{invisible}")) {
-                    foreach (var card in tableCards[bin].AllCards()) {
-                        var picked = rand.Next(0, vals.Count);
-                        var last = vals[vals.Count - 1];
-                        vals[vals.Count - 1] = vals[picked];
-                        vals[picked] = last;
-
-                        var toAdd = temp.sourceDeck[vals[vals.Count - 1]];
-                        if (!bin.StartsWith("{mem}"))
-                        {
-                            toAdd.owner = temp.tableCards[bin];
-                        }
-                        temp.tableCards[bin].Add(toAdd);
-
-                        vals.RemoveAt(vals.Count - 1);
-                    }
-                }
-            }
-
+            AssignNonVisibleCards(players, temp.players, temp.sourceDeck, cardIdxs, cardsLeft, playerIdx);
+            AssignNonVisibleCards(teams, temp.teams, temp.sourceDeck, cardIdxs, cardsLeft, playerIdx);
+            AssignNonVisibleCards(table, temp.table, temp.sourceDeck, cardIdxs, cardsLeft, playerIdx);
+ 
             temp.vars = CloneDictionary(vars);
             Debug.WriteLine("Numplayers at end of clonesecret: " + temp.CurrentPlayer().memberList.Count);
             Debug.WriteLine("returning from clonesecret");
@@ -256,29 +221,33 @@ namespace CardEngine
             }
         }
 
-        public void AssignNonVisibleCards(IEnumerator cardsLeft) {
-            for (int p = 0; p < players.Count; ++p)
-            {
-                foreach (var loc in players[p].cardBins.Keys())
-                {
-                    if (loc.StartsWith("{hidden}") || (loc.StartsWith("{invisible}") && p != playerIdx))
-                    {
+        public void AssignNonVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
+                                          List<Card> tempsourceDeck, Dictionary<Card, int> cardIdxs,
+                                          IEnumerator<int> cardsLeft, int playerIdx)
+        {
 
-                        foreach (var card in players[p].cardBins[loc].AllCards())
+            foreach (Owner owner in owners)
+            {
+                foreach (CCType type in Enum.GetValues(typeof(CCType)))
+                {
+                    if (type == CCType.HIDDEN || (type == CCType.INVISIBLE && owner.id != playerIdx))
+                    {
+                        foreach (var loc in owner.cardBins[type].Keys())
                         {
-                            var picked = rand.Next(0, vals.Count);
-                            var last = vals[vals.Count - 1];
-                            vals[vals.Count - 1] = vals[picked];
-                            vals[picked] = last;
-                            var toAdd = temp.sourceDeck[vals[vals.Count - 1]];
-                            temp.players[p].cardBins[loc].Add(toAdd);
-                            toAdd.owner = temp.players[p].cardBins[loc];
-                            vals.RemoveAt(vals.Count - 1);
+                            var collection = owner.cardBins[type][loc];
+                            for (int i = 0; i < collection.Count; i++)
+                            {
+                                // Look up card by index, and reference the new cloned card
+                                var toAdd = tempsourceDeck[cardsLeft.Current];
+                                cardsLeft.MoveNext();
+                                var tempCollection = tempowners[owner.id].cardBins[type][loc];
+                                tempCollection.Add(toAdd);
+                                toAdd.owner = tempCollection;
+                            }
                         }
                     }
                 }
             }
-
         }
 
         public Dictionary<String, object> CloneDictionary(Dictionary<String, object> original)
