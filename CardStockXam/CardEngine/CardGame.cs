@@ -382,7 +382,7 @@ namespace CardEngine
                             
         public void AddPlayers(int numPlayers, GameIterator gameContext) {
             for (int i = 0; i < numPlayers; ++i) {
-                players.Add(new Player("p" + i, i);
+                players.Add(new Player("p" + i, i));
                 AddToMap(players[i]);
                 Perspective perspective = new Perspective(i, this, gameContext);
                 players[i].decision = new RandomPlayer(perspective, gameContext.gameWorld);

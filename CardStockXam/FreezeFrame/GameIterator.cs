@@ -1007,7 +1007,7 @@ namespace FreezeFrame
         {
             if (card.maxof() != null)
             {
-                var scoring = game.table.pointBins[card.maxof().var().GetText()];
+                var scoring = game.table[0].pointBins[card.maxof().var().GetText()];
                 var coll = ProcessLocation(card.maxof().cstorage());
                 var max = 0;
                 Card maxCard = null;
