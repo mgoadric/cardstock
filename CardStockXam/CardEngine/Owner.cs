@@ -10,11 +10,13 @@ namespace CardEngine
         public DefaultStorage<string> stringBins;
         public DefaultStorage<PointMap> pointBins; 
 
-        public string name;
+        public readonly string name;
 
         public Owner(string name)
         {
             intBins = new DefaultStorage<int>(0, this);
+            stringBins = new DefaultStorage<string>("", this);
+            pointBins = new DefaultStorage<PointMap>(new PointMap(new List<PointAwards>()), this); 
             cardBins = new Dictionary<CCType, DefaultStorage<CardCollection>>();
             foreach (CCType type in Enum.GetValues(typeof(CCType))) {
                 if (type != CCType.VIRTUAL)
@@ -23,38 +25,34 @@ namespace CardEngine
                           new CardListCollection(type), this);
                 }
             }
-            stringBins = new DefaultStorage<string>("", this);
-            pointBins = new DefaultStorage<PointMap>(new PointMap(new List<PointAwards>()), this); 
 
             this.name = name;
         }
+
         public Owner Clone()
         {
-            // FIXME
-            Owner other = new Owner(name)
-            {
-                intBins = intBins.Clone(),
-                cardBins = new Dictionary<CCType, DefaultStorage<CardCollection>>(),
-            };
+            Owner other = new Owner(name);
+            other.intBins = intBins.Clone(other);
+            other.stringBins = stringBins.Clone(other);
+            other.pointBins = pointBins.Clone(other);
+            other.cardBins = new Dictionary<CCType, DefaultStorage<CardCollection>>();
             foreach (CCType type in Enum.GetValues(typeof(CCType)))
             {
                 if (type != CCType.VIRTUAL)
                 {
-                    other.cardBins[type] = cardBins[type].Clone();
-                    other.cardBins[type].owner = other;
+                    other.cardBins[type] = cardBins[type].HollowClone(other);
                 }
             }
-
-            // POINTS TOO
-
             return other;
         }
+
         public override string ToString()
         {
             StringBuilder ret = new StringBuilder(GetType().ToString() + ":\n");
             ret.Append(cardBins.ToString());
             return ret.ToString();
         }
+
         public override bool Equals(System.Object obj)
         {
             if (obj == null)

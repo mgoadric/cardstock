@@ -48,10 +48,15 @@ namespace CardEngine
         {
             if (!dict.ContainsKey(key))
             {
+                // WE LOST THE NAME OF THE CARDCOLLECTIONS!!!!
                 dict[key] = GetDefault();
             }
         }
 
+        /**********
+         * Int32 is not ICloneable, grrrr, so we need to do this hack
+         * to get a default value of 0 for int storage.
+         */
         private T GetDefault() {
             if (defaultT is ICloneable dt)
             {
@@ -63,24 +68,44 @@ namespace CardEngine
             }
         }
 
+        /*******
+         * Returns the keys from the internal dictionary
+         */
         public IEnumerable<string> Keys()
         {
             return dict.Keys;
         }
 
-        public DefaultStorage<T> Clone()
+        /*******
+         * Actually try to clone the objects to make a complete copy
+         */
+        public DefaultStorage<T> Clone(Owner other)
         {
             var ret = new DefaultStorage<T>(defaultT, owner);
             foreach (var bin in dict.Keys)
             {
-                if (defaultT is ICloneable dt)
+                if (dict[bin] is ICloneable c)
                 {
-                    ret[bin] = (T)dt.Clone();
+                    ret[bin] = (T)c.Clone();
                 }
                 else
                 {
                     ret[bin] = dict[bin];
                 }
+            }
+            return ret;
+        }
+
+        /*******
+         * Get a hollow shell of the dictionary with keys pointing to 
+         * new objects. Useful for the CardCollections
+         */
+        public DefaultStorage<T> HollowClone(Owner other)
+        {
+            var ret = new DefaultStorage<T>(defaultT, owner);
+            foreach (var bin in dict.Keys)
+            {
+                ret[bin] = GetDefault();
             }
             return ret;
         }

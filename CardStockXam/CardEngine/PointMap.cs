@@ -3,11 +3,11 @@ using System.Collections.Generic;
 namespace CardEngine{
     public class PointMap : ICloneable{
 
-        public readonly List<PointAwards> pointAwards;
+        //public readonly List<PointAwards> pointAwards;
 		public readonly Dictionary<string,Dictionary<string,int>> pointLookups = new Dictionary<string,Dictionary<string,int>>();
 		public PointMap(List<PointAwards> input){
 
-            pointAwards = input;
+            //pointAwards = input;
 			foreach (var award in input){
 				if (pointLookups.ContainsKey(award.identifier)){
 					if (pointLookups[award.identifier].ContainsKey(award.value)){
@@ -24,6 +24,7 @@ namespace CardEngine{
 				}
 			}
 		}
+
 		public int GetScore(Card c){
 			int total = 0;
 			foreach (var key in pointLookups.Keys){
@@ -42,8 +43,10 @@ namespace CardEngine{
 			return total;
 		}
 
+        // This is a readonly object, so no cloning necessary.
         public object Clone() {
-            return new PointMap(pointAwards);
+            // return new PointMap(pointAwards);
+            return this;
         }
 
         public override bool Equals(System.Object obj)
@@ -93,20 +96,15 @@ namespace CardEngine{
 
     }
 	public class PointAwards{
-		public string identifier;
-		public string value;
-		public int pointsToAward;
+		public readonly string identifier;
+		public readonly string value;
+		public readonly int pointsToAward;
 		public PointAwards(string identifier, string value, int p){
 			this.identifier = identifier;
 			this.value = value;
 			pointsToAward = p;
 		}
 		
-		public int ScoreCard(){
-			return pointsToAward;
-			
-		}
-
         public override bool Equals(System.Object obj)
         {
             if (obj ==null)
