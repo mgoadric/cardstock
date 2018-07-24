@@ -17,14 +17,12 @@ namespace CardEngine
         public string DeclaredName = "Default";
         public static Random rand = new Random();
 
-        public List<Card> sourceDeck = new List<Card>(); 
-        public CardStorage tableCards = new CardStorage();
-        public IntStorage tableIntStorage = new IntStorage(); 	
+        public List<Card> sourceDeck = new List<Card>();
+        public Owner table = new Owner("table");	
         public List<Player> players = new List<Player>(); 
         public List<Team> teams = new List<Team>();
         public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>(); 
         public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
-        public DefaultStorage<PointMap> points = new DefaultStorage<PointMap>(new PointMap(new List<PointAwards>())); 
 
         public Dictionary<String, object> vars = new Dictionary<string, object>();
 
@@ -33,8 +31,8 @@ namespace CardEngine
 
         // TODO should have card map?
         public Dictionary<string, Card> fancyCardMap = new Dictionary<string, Card>();
-        public Dictionary<string, FancyCardLocation> fancyCardLocMap = new Dictionary<string, FancyCardLocation>();
-        public Dictionary<string, FancyIntStorage> FancyIntStorageMap = new Dictionary<string, FancyIntStorage>();
+        public Dictionary<string, CardLocReference> fancyCardLocMap = new Dictionary<string, CardLocReference>();
+        public Dictionary<string, IntStorageReference> FancyIntStorageMap = new Dictionary<string, IntStorageReference>();
         public Dictionary<string, Player> playerMap = new Dictionary<string, Player>();
         public Dictionary<string, Team> teamMap = new Dictionary<string, Team>();
 
@@ -263,14 +261,14 @@ namespace CardEngine
                     //add that card instead of c
                     ret.Add(key, c);
                 }
-                else if (o is FancyCardLocation)
+                else if (o is CardLocReference)
                 {
-                    var l = fancyCardLocMap[(o as FancyCardLocation).name];
+                    var l = fancyCardLocMap[(o as CardLocReference).name];
                     ret.Add(key, l);
                 }
-                else if (o is FancyIntStorage)
+                else if (o is IntStorageReference)
                 {
-                    var rs = FancyIntStorageMap[(o as FancyIntStorage).key];
+                    var rs = FancyIntStorageMap[(o as IntStorageReference).key];
                     ret.Add(key, rs);
                 }
                 else if (o is GameActionCollection) //TODO what do i do here?
@@ -390,13 +388,13 @@ namespace CardEngine
         public void AddToMap(object o) {
             IDictionary dict = null;
             string id = "";
-            if (o is FancyCardLocation) {
+            if (o is CardLocReference) {
                 dict = fancyCardLocMap;
-                id = (o as FancyCardLocation).name;
+                id = (o as CardLocReference).name;
             }
-            else if (o is FancyIntStorage) {
+            else if (o is IntStorageReference) {
                 dict = FancyIntStorageMap;
-                id = (o as FancyIntStorage).GetName();
+                id = (o as IntStorageReference).GetName();
                 //Console.WriteLine(id);
             }
             else if (o is Player) {

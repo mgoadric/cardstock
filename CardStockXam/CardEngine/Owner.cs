@@ -8,9 +8,11 @@ namespace CardEngine
         public DefaultStorage<int> intBins;
         public Dictionary<CCType, DefaultStorage<CardCollection>> cardBins;
         public DefaultStorage<string> stringBins;
+        public DefaultStorage<PointMap> pointBins; 
+
         public string name;
 
-        public Owner()
+        public Owner(string name)
         {
             intBins = new DefaultStorage<int>(0, this);
             cardBins = new Dictionary<CCType, DefaultStorage<CardCollection>>();
@@ -22,14 +24,17 @@ namespace CardEngine
                 }
             }
             stringBins = new DefaultStorage<string>("", this);
+            pointBins = new DefaultStorage<PointMap>(new PointMap(new List<PointAwards>()), this); 
+
+            this.name = name;
         }
         public Owner Clone()
         {
-            Owner other = new Owner
+            // FIXME
+            Owner other = new Owner(name)
             {
                 intBins = intBins.Clone(),
                 cardBins = new Dictionary<CCType, DefaultStorage<CardCollection>>(),
-                name = name
             };
             foreach (CCType type in Enum.GetValues(typeof(CCType)))
             {
@@ -39,6 +44,9 @@ namespace CardEngine
                     other.cardBins[type].owner = other;
                 }
             }
+
+            // POINTS TOO
+
             return other;
         }
         public override string ToString()

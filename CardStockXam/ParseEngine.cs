@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using CardGames;
+using CardEngine;
 using Players;
 using CardStockXam.Scoring;
 
@@ -103,7 +104,7 @@ public class ParseEngine
 	            int choiceCount = 0;
 	            System.GC.Collect();
 
-	            CardEngine.CardGame instance = new CardEngine.CardGame(true, exp.fileName + i);
+	            CardGame instance = new CardGame(true, exp.fileName + i);
 				var manageContext = new FreezeFrame.GameIterator(tree, instance, gameWorld);
 
                

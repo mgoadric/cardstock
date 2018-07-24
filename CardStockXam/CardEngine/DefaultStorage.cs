@@ -113,6 +113,7 @@ namespace CardEngine
 
     /**********
      **********
+     **********
      * Triggers are meant for a way to exit a stage without completing it,
      * a break for the Recycle language. Implemented but never fully
      * connected, and need to be expanded to be truly useful. Created 

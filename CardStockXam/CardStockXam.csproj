@@ -260,11 +260,8 @@
     <Compile Include="FreezeFrame\CardGrouping.cs" />
     <Compile Include="CardEngine\PointMap.cs" />
     <Compile Include="CardEngine\CardStorage.cs" />
-    <Compile Include="CardEngine\FancyCardLocation.cs" />
-    <Compile Include="CardEngine\FancyIntStorage.cs" />
     <Compile Include="FreezeFrame\GameAction.cs" />
     <Compile Include="CardEngine\Player.cs" />
-    <Compile Include="CardEngine\IntStorage.cs" />
     <Compile Include="CardEngine\Team.cs" />
     <Compile Include="ParseEngine.cs" />
     <Compile Include="Program.cs" />
@@ -286,6 +283,8 @@
     <Compile Include="CardEngine\DefaultStorage.cs" />
     <Compile Include="CardEngine\CardCollection.cs" />
     <Compile Include="CardEngine\Owner.cs" />
+    <Compile Include="FreezeFrame\CardLocReference.cs" />
+    <Compile Include="FreezeFrame\IntStorageReference.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FreezeFrame;
 
 namespace CardEngine
 {
@@ -12,7 +13,10 @@ namespace CardEngine
     {
         public string name = "undefined";
         public CardStorage container { get; set; }
-        public FancyCardLocation loc;
+
+        // HOPE WE CAN GET RID OF THIS....
+        public CardLocReference loc;
+
         public CCType type;
 
         public abstract IEnumerable<Card> AllCards();

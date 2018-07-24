@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CardEngine{
+namespace FreezeFrame{
 	public class IntStorageReference{
         public DefaultStorage<int> storage {get; set;}
 		public string key {get; set;}

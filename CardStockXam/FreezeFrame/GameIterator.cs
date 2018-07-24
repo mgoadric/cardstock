@@ -665,7 +665,7 @@ namespace FreezeFrame
                     game.WriteToFile("A:" + value + " " + reward);
                     temp.Add(new PointAwards(key, value, reward));
                 }
-                game.points[name] = new PointMap(temp);
+                game.table.pointBins[name] = new PointMap(temp);
             }
             else if (actionNode.copyaction() != null)
             {
@@ -827,7 +827,7 @@ namespace FreezeFrame
                 idx = card1.cardList.Count;
                 for (int i = 0; i < idx; i++)
                 {
-                    ret.Add(new FancyCardMoveAction(card1, card2, game));
+                    ret.Add(new CardMoveAction(card1, card2, game));
 
                 }
             }
@@ -979,13 +979,13 @@ namespace FreezeFrame
                 return null;
             }
             var cardTwo = ProcessCard(copy.GetChild(2) as RecycleParser.CardContext);
-            return new FancyCardCopyAction(cardOne, cardTwo, game);
+            return new CardRememberAction(cardOne, cardTwo, game);
         }
 
         public GameAction ProcessRemove(RecycleParser.RemoveactionContext removeAction)
         {
             var cardOne = ProcessCard(removeAction.card());
-            return new FancyRemoveAction(cardOne, game);
+            return new CardForgetAction(cardOne, game);
         }
         public GameAction ProcessMove(RecycleParser.MoveactionContext move)
         {
@@ -993,19 +993,19 @@ namespace FreezeFrame
             var cardTwo = ProcessCard(move.GetChild(2) as RecycleParser.CardContext);
             //Console.WriteLine("Card one: " + ProcessCard(move.GetChild(1) as RecycleParser.CardContext));
             //Console.WriteLine("Card two: " + ProcessCard(move.GetChild(2) as RecycleParser.CardContext));
-            return new FancyCardMoveAction(cardOne, cardTwo, game);
+            return new CardMoveAction(cardOne, cardTwo, game);
         }
 
-        internal GameAction ProcessShuffle(FancyCardLocation locations)
+        internal GameAction ProcessShuffle(CardLocReference locations)
         {
             return new ShuffleAction(locations, game);
         }
 
-        public FancyCardLocation ProcessCard(RecycleParser.CardContext card)
+        public CardLocReference ProcessCard(RecycleParser.CardContext card)
         {
             if (card.maxof() != null)
             {
-                var scoring = game.points[card.maxof().var().GetText()];
+                var scoring = game..table.pointBins[card.maxof().var().GetText()];
                 var coll = ProcessLocation(card.maxof().cstorage());
                 var max = 0;
                 Card maxCard = null;
@@ -1020,9 +1020,9 @@ namespace FreezeFrame
                     }
                 }
                 Debug.WriteLine("MAX:" + maxCard);
-                var lst = new CardListCollection();
+                var lst = new CardListCollection(CCType.VIRTUAL);
                 lst.Add(maxCard);
-                var fancy = new FancyCardLocation()
+                var fancy = new CardLocReference()
                 {
                     cardList = lst,
                     locIdentifier = "top",
@@ -1035,7 +1035,7 @@ namespace FreezeFrame
 
             if (card.minof() != null)
             {
-                var scoring = game.points[card.minof().var().GetText()];
+                var scoring = game.table.pointBins[card.minof().var().GetText()];
                 var coll = ProcessLocation(card.minof().cstorage());
                 var min = Int32.MaxValue;
                 Card minCard = null;
@@ -1050,9 +1050,9 @@ namespace FreezeFrame
                     }
                 }
                 Debug.WriteLine("MIN:" + minCard);
-                var lst = new CardListCollection();
+                var lst = new CardListCollection(CCType.VIRTUAL);
                 lst.Add(minCard);
-                var fancy = new FancyCardLocation()
+                var fancy = new CardLocReference()
                 {
                     cardList = lst,
                     locIdentifier = "top",
@@ -1076,7 +1076,7 @@ namespace FreezeFrame
             else if (card.cstorage() != null)
             {//cstorage
                 var loc = ProcessLocation(card.cstorage());
-                var fancy = new FancyCardLocation()
+                var fancy = new CardLocReference()
                 {
                     cardList = loc.cardList,
                     locIdentifier = card.GetChild(1).GetText(),
@@ -1113,32 +1113,32 @@ namespace FreezeFrame
             return lst;
         }
 
-        public List<FancyCardLocation> ProcessCStorageCollection(RecycleParser.CstoragecollectionContext cstoragecoll)
+        public List<CardLocReference> ProcessCStorageCollection(RecycleParser.CstoragecollectionContext cstoragecoll)
         {
             if (cstoragecoll.memset() != null)
             {
                 var lst = ProcessMemset(cstoragecoll.memset());
-                return new List<FancyCardLocation>(lst);
+                return new List<CardLocReference>(lst);
             }
             else if (cstoragecoll.agg() != null)
             {
-                return ProcessAgg(cstoragecoll.agg()) as List<FancyCardLocation>;
+                return ProcessAgg(cstoragecoll.agg()) as List<CardLocReference>;
             }
             else if (cstoragecoll.let() != null)
             {
                 ProcessLet(cstoragecoll.let());
                 Debug.WriteLine("let, returning nothing");
-                return new List<FancyCardLocation>();
+                return new List<CardLocReference>();
             }
             throw new NotSupportedException();
         }
 
-        public FancyCardLocation ProcessLocation(RecycleParser.CstorageContext loc)
+        public CardLocReference ProcessLocation(RecycleParser.CstorageContext loc)
         {
             string name = "";
             if (loc.unionof() != null)
             {
-                CardListCollection temp = new CardListCollection();
+                CardListCollection temp = new CardListCollection(CCType.VIRTUAL);
                 if (loc.unionof().cstorage().Length > 0)
                 {
                     foreach (var locChild in loc.unionof().cstorage())
@@ -1154,7 +1154,7 @@ namespace FreezeFrame
                 }
                 else
                 { //agg
-                    foreach (var locs in (ProcessAgg(loc.unionof().agg()) as List<FancyCardLocation>))
+                    foreach (var locs in (ProcessAgg(loc.unionof().agg()) as List<CardLocReference>))
                     {
                         name += locs.name + " ";
                         foreach (var card in locs.cardList.AllCards())
@@ -1164,10 +1164,9 @@ namespace FreezeFrame
                     }
                     name.Remove(name.Length - 1);
                 }
-                var fancy = new FancyCardLocation()
+                var fancy = new CardLocReference()
                 {
                     cardList = temp,
-                    nonPhysical = true,
                     name = name + "{UNION}"
                 };
                 fancy.cardList.loc = fancy;
@@ -1208,11 +1207,11 @@ namespace FreezeFrame
             throw new NotSupportedException();
         }
 
-        public FancyCardLocation[] ProcessMemset(RecycleParser.MemsetContext memset)
+        public CardLocReference[] ProcessMemset(RecycleParser.MemsetContext memset)
         {
             if (memset.tuple() != null)
             {
-                var findEm = new CardGrouping(13, game.points[memset.tuple().var().GetText()]);
+                var findEm = new CardGrouping(13, game..table.pointBins[memset.tuple().var().GetText()]);
                 var cardsToScore = new CardListCollection(CCType.MEMORY);
                 var stor = ProcessLocation(memset.tuple().cstorage());
                 foreach (var card in stor.cardList.AllCards())
@@ -1220,13 +1219,12 @@ namespace FreezeFrame
                     cardsToScore.Add(card);
                 }
                 var pairs = findEm.TuplesOfSize(cardsToScore, ProcessInt(memset.tuple().@int()));
-                var returnList = new FancyCardLocation[pairs.Count];
+                var returnList = new CardLocReference[pairs.Count];
                 for (int i = 0; i < pairs.Count; ++i)
                 {
-                    returnList[i] = new FancyCardLocation()
+                    returnList[i] = new CardLocReference()
                     {
                         cardList = pairs[i],
-                        nonPhysical = true,
                         name = "{mem}" + memset.tuple().var().GetText() + "{p" + i + "}"
                     };
                     returnList[i].cardList.loc = returnList[i];
@@ -1236,25 +1234,25 @@ namespace FreezeFrame
             }
             return null;
         }
-        public FancyCardLocation ProcessSubLocation(RecycleParser.CstorageContext stor)
+        public CardLocReference ProcessSubLocation(RecycleParser.CstorageContext stor)
         {
             string desc = stor.locdesc().GetText();
-            string prefix = "";
+            CCType prefix;
             if (desc == "vloc")
             {
-                prefix = "{visible}";
+                prefix = CCType.VISIBLE;
             }
             else if (desc == "iloc")
             {
-                prefix = "{invisible}";
+                prefix = CCType.INVISIBLE;
             }
             else if (desc == "hloc")
             {
-                prefix = "{hidden}";
+                prefix = CCType.HIDDEN;
             }
             else
             {
-                prefix = "{mem}";
+                prefix = CCType.MEMORY;
             }
             Player player;
             /*
@@ -1267,9 +1265,9 @@ namespace FreezeFrame
             {
                 if (stor.namegr() != null)
                 {
-                    var fancy = new FancyCardLocation()
+                    var fancy = new CardLocReference()
                     {
-                        cardList = game.tableCards[prefix + stor.namegr().GetText()],
+                        cardList = game.table.cardBins[prefix][stor.namegr().GetText()],
                         locIdentifier = "top",
                         name = "t" + prefix + stor.namegr().GetText()
                     };
@@ -1279,23 +1277,16 @@ namespace FreezeFrame
                 }
                 else
                 {
-                    var name = "";
-                    if (Get(stor.var()) is String)
-                    {
-                        name = Get(stor.var()) as String;
-                    }
-                    else
-                    {
-                        Debug.WriteLine("Error, type is: " + Get(stor.var()).GetType());
-                    }
+                    string name = "";
+
 
                     // current error here 
 
-                    var fancy = new FancyCardLocation()
+                    var fancy = new CardLocReference()
                     {
-                        cardList = game.tableCards[prefix + Get(stor.var())],
+                        cardList = game.table.cardBins[prefix][name],
                         locIdentifier = "top",
-                        name = "t" + prefix + Get(stor.var())
+                        name = "t" + prefix + name
                     };
                     fancy.cardList.loc = fancy;
                     game.AddToMap(fancy);
@@ -1312,9 +1303,9 @@ namespace FreezeFrame
             }
             if (stor.namegr() != null)
             {
-                var fancy = new FancyCardLocation()
+                var fancy = new CardLocReference()
                 {
-                    cardList = player.cardBins[prefix + stor.namegr().GetText()],
+                    cardList = player.cardBins[prefix][stor.namegr().GetText()],
                     name = player.name + prefix + stor.namegr().GetText()
                 };
                 fancy.cardList.loc = fancy;
@@ -1324,9 +1315,9 @@ namespace FreezeFrame
             else
             {
                 var name = ProcessStringVar(stor.var());
-                var fancy = new FancyCardLocation()
+                var fancy = new CardLocReference()
                 {
-                    cardList = player.cardBins[prefix + name],
+                    cardList = player.cardBins[prefix][name],
                     name = player.name + prefix + name
                 };
                 fancy.cardList.loc = fancy;
@@ -1561,7 +1552,7 @@ namespace FreezeFrame
 
                     var temp = Get(intNode.@sizeof().var());
                     Debug.WriteLine(temp.GetType());
-                    var temp2 = temp as FancyCardLocation;
+                    var temp2 = temp as CardLocReference;
 
                     if (temp2 != null)
                     {
@@ -1573,7 +1564,7 @@ namespace FreezeFrame
                     }
                     else
                     {
-                        var temp3 = temp as FancyCardLocation[];
+                        var temp3 = temp as CardLocReference[];
                         if (temp3 != null)
                         {
                             return temp3.Length;
@@ -1618,7 +1609,7 @@ namespace FreezeFrame
             else if (intNode.sum() != null)
             {
                 var sum = intNode.sum();
-                var scoring = game.points[sum.var().GetText()];
+                var scoring = game.table.pointBins[sum.var().GetText()];
                 var coll = ProcessLocation(sum.cstorage());
                 int total = 0;
                 foreach (var c in coll.cardList.AllCards())
@@ -1631,7 +1622,7 @@ namespace FreezeFrame
             else if (intNode.score() != null)
             {
                 Debug.WriteLine("trying to score" + intNode.GetText());
-                var scorer = game.points[intNode.score().var().GetText()];
+                var scorer = game.table.pointBins[intNode.score().var().GetText()];
                 var card = ProcessCard(intNode.score().card());
                 return scorer.GetScore(card.Get());
             }
@@ -1657,24 +1648,24 @@ namespace FreezeFrame
             return ret;
         }
 
-        public FancyIntStorage AddedRaw(FancyIntStorage stor)
+        public IntStorageReference AddedRaw(IntStorageReference stor)
         {
             game.AddToMap(stor);
             return stor;
         }
 
-        public FancyIntStorage ProcessIntStorage(RecycleParser.RawstorageContext intSto)
+        public IntStorageReference ProcessIntStorage(RecycleParser.RawstorageContext intSto)
         {
             if (intSto.GetChild(1).GetText() == "game")
             {
                 if (intSto.var().Length == 1)
                 {
                     String temp = ProcessStringVar(intSto.var()[0]);
-                    return AddedRaw(new FancyIntStorage(game.tableIntStorage, temp));
+                    return AddedRaw(new IntStorageReference(game.table.intBins, temp));
                 }
                 else
                 {
-                    return AddedRaw(new FancyIntStorage(game.tableIntStorage, intSto.namegr().GetText()));
+                    return AddedRaw(new IntStorageReference(game.table.intBins, intSto.namegr().GetText()));
 
                 }
             }
@@ -1685,12 +1676,12 @@ namespace FreezeFrame
                     var who = ProcessWho(intSto.who()) as Team;
                     if (intSto.namegr() != null)
                     {
-                        return AddedRaw(new FancyIntStorage(who.teamStorage, intSto.namegr().GetText()));
+                        return AddedRaw(new IntStorageReference(who.intBins, intSto.namegr().GetText()));
                     }
                     else
                     {
                         var temp = ProcessStringVar(intSto.var()[0]);
-                        return AddedRaw(new FancyIntStorage(who.teamStorage, temp));
+                        return AddedRaw(new IntStorageReference(who.intBins, temp));
                     }
                 }
                 else if (intSto.who().whop() != null)
@@ -1698,12 +1689,12 @@ namespace FreezeFrame
                     var who = ProcessWho(intSto.who()) as Player;
                     if (intSto.namegr() != null)
                     {
-                        return AddedRaw(new FancyIntStorage(who.intBins, intSto.namegr().GetText()));
+                        return AddedRaw(new IntStorageReference(who.intBins, intSto.namegr().GetText()));
                     }
                     else
                     {
                         var temp = ProcessStringVar(intSto.var()[0]);
-                        return AddedRaw(new FancyIntStorage(who.intBins, temp));
+                        return AddedRaw(new IntStorageReference(who.intBins, temp));
                     }
                 }
             }
@@ -1715,12 +1706,12 @@ namespace FreezeFrame
                     Team temp = who as Team;
                     if (intSto.namegr() != null)
                     {
-                        return AddedRaw(new FancyIntStorage(temp.teamStorage, intSto.namegr().GetText()));
+                        return AddedRaw(new IntStorageReference(temp.intBins, intSto.namegr().GetText()));
                     }
                     else
                     {
                         var str = ProcessStringVar(intSto.var()[1]);
-                        return AddedRaw(new FancyIntStorage(temp.teamStorage, str));
+                        return AddedRaw(new IntStorageReference(temp.intBins, str));
                     }
                 }
                 else
@@ -1728,12 +1719,12 @@ namespace FreezeFrame
                     Player temp = who as Player;
                     if (intSto.namegr() != null)
                     {
-                        return AddedRaw(new FancyIntStorage(temp.intBins, intSto.namegr().GetText()));
+                        return AddedRaw(new IntStorageReference(temp.intBins, intSto.namegr().GetText()));
                     }
                     else
                     {
                         var str = ProcessStringVar(intSto.var()[1]);
-                        return AddedRaw(new FancyIntStorage(temp.intBins, str));
+                        return AddedRaw(new IntStorageReference(temp.intBins, str));
                     }
                 }
             }
@@ -1933,10 +1924,10 @@ namespace FreezeFrame
             }
             game.vars.Remove(k);
         }
-        public FancyCardLocation ProcessCStorageFilter(RecycleParser.FilterContext filter)
+        public CardLocReference ProcessCStorageFilter(RecycleParser.FilterContext filter)
         {
-            var cList = new CardListCollection();
-            FancyCardLocation stor;
+            var cList = new CardListCollection(CCType.VIRTUAL);
+            CardLocReference stor;
             /*
             Debug.WriteLine(filter.GetText());
             Debug.WriteLine("parent:\n" + filter.GetText());
@@ -1959,7 +1950,7 @@ namespace FreezeFrame
             {
                 Debug.WriteLine("Filter: variable collection");
 
-                stor = Get(filter.collection().var()) as FancyCardLocation;
+                stor = Get(filter.collection().var()) as CardLocReference;
                 if (stor != null)
                 {
                     stor2 = stor.cardList.AllCards();
@@ -1986,10 +1977,9 @@ namespace FreezeFrame
                 }
                 Remove(text);
             }
-            var fancy = new FancyCardLocation()
+            var fancy = new CardLocReference()
             {
                 cardList = cList,
-                nonPhysical = true,
                 name = name2 + "{filter}" + filter.boolean().GetText(),
             };
             fancy.cardList.loc = fancy;
@@ -2009,18 +1999,18 @@ namespace FreezeFrame
             {
                 Debug.WriteLine("Processing collection type: var.");
                 var stor = Get(collection.var());
-                if (stor is FancyCardLocation)
+                if (stor is CardLocReference)
                 {
-                    var card = stor as FancyCardLocation;
+                    var card = stor as CardLocReference;
                     return card.cardList.AllCards();
                 }
                 if (stor is string[])
                 {
                     return stor as string[];
                 }
-                if (stor is List<FancyCardLocation>)
+                if (stor is List<CardLocReference>)
                 {
-                    return stor as List<FancyCardLocation>;
+                    return stor as List<CardLocReference>;
                 }
                 if (stor is Team)
                 {
@@ -2119,10 +2109,10 @@ namespace FreezeFrame
             if (agg.GetChild(4) is RecycleParser.CstorageContext)
             {
                 Debug.WriteLine("Processing All/Any + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
-                var coll = new List<FancyCardLocation>();
+                var coll = new List<CardLocReference>();
                 foreach (object obj in ret)
                 {
-                    coll.Add((FancyCardLocation)obj);
+                    coll.Add((CardLocReference)obj);
                 }
                 return coll;
             }
@@ -2149,7 +2139,7 @@ namespace FreezeFrame
                     var sum = 0;
                     foreach (object obj in ret)
                     {
-                        var raw = (FancyIntStorage)obj;
+                        var raw = (IntStorageReference)obj;
                         sum += raw.Get();
                     }
                     return sum;
@@ -2175,7 +2165,7 @@ namespace FreezeFrame
                     var lst = new List<int>();
                     foreach (object obj in ret)
                     {
-                        var raw = (FancyIntStorage)obj;
+                        var raw = (IntStorageReference)obj;
                         lst.Add(raw.Get());
                     }
                     return lst;
@@ -2296,21 +2286,21 @@ namespace FreezeFrame
         public int ProcessIntVar(RecycleParser.VarContext varContext)
         {
             var temp = Get(varContext.GetText());
-            if (temp is FancyIntStorage)
+            if (temp is IntStorageReference)
             {
-                var raw = temp as FancyIntStorage;
+                var raw = temp as IntStorageReference;
                 return raw.Get();
             }
             else if (temp is int) { return (int)temp; }
             else { throw new Exception("Temp is " + temp.GetType()); }
         }
 
-        public FancyCardLocation ProcessCardVar(RecycleParser.VarContext card)
+        public CardLocReference ProcessCardVar(RecycleParser.VarContext card)
         { //TODO get card instead of just top card of location when ret is Card
             var ret = Get(card);
-            if (ret is FancyCardLocation)
+            if (ret is CardLocReference)
             {
-                var loc = ret as FancyCardLocation;
+                var loc = ret as CardLocReference;
                 if (loc.locIdentifier != "-1")
                 {
                     return loc.ShallowCopy(game);
@@ -2321,7 +2311,7 @@ namespace FreezeFrame
                 var c = ret as Card;
                 // THIS LOOKS LIKE ONLY REALLY USEFUL PLACE FOR .loc???
                 var loc = c.owner.loc.ShallowCopy(game);
-                loc.setLocId(c);
+                loc.SetLocId(c);
                 return loc;
             }
             Debug.WriteLine("error, type is " + ret.GetType());
@@ -2329,7 +2319,15 @@ namespace FreezeFrame
         }
         public string ProcessStringVar(RecycleParser.VarContext var)
         {
-            return Get(var) as string;
+            if (Get(var) is String)
+            {
+                return Get(var) as String;
+            }
+            else
+            {
+                Debug.WriteLine("Error, type is: " + Get(var).GetType());
+                throw new NotImplementedException();
+            }
         }
         public bool All(RecycleParser.AggContext agg)
         {

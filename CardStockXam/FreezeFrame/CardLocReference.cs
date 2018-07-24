@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace CardEngine{
+namespace FreezeFrame{
 	public class CardLocReference{
 		public CardCollection cardList;
         // Can't remember why we need the default -1 here...

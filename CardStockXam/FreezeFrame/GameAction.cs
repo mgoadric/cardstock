@@ -55,30 +55,23 @@ namespace FreezeFrame {
        
 
     }
-    public class FancyCardMoveAction : GameAction {
-        public FancyCardLocation startLocation;
-        public FancyCardLocation endLocation;
+    public class CardMoveAction : GameAction {
+        public CardLocReference startLocation;
+        public CardLocReference endLocation;
         public CardCollection owner;
         public bool actualloc;
-        public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end, CardGame cg) {
-            if (start.name != null) {
-                //Console.WriteLine(start.name);
-                if (start.name.Contains("{mem}") && !start.actual) {
-                    Debug.WriteLine(start.name + ", " + end.name);
-                    throw new NotSupportedException();
-                }
+        public CardMoveAction(CardLocReference start, CardLocReference end, CardGame cg) {
+            if (start.cardList.type == CCType.MEMORY && !start.actual) {
+                Debug.WriteLine("start is mem loc: " + start.name + ", " + end.name);
+                throw new NotSupportedException();
             }
-            else if (end.nonPhysical) {
+            else if (end.cardList.type == CCType.VIRTUAL) {
 				Debug.WriteLine("end is not physical");
-
 				throw new NotSupportedException();
             }
-            else if (end.name != null) {
-                if (end.name.Contains("{mem}")) {
-					Debug.WriteLine("end name is mem loc");
-
-					throw new NotSupportedException();
-                }
+            else if (end.cardList.type == CCType.MEMORY) {
+ 				Debug.WriteLine("end is mem loc");
+				throw new NotSupportedException();
             }
             startLocation = start;
             endLocation = end;
@@ -99,7 +92,6 @@ namespace FreezeFrame {
 
                     Card cardToMove = startLocation.Remove();
                     if (startLocation.actual) {
-                        
                         actualloc = true;
                     }
                     var prefix = "M:";
@@ -151,20 +143,20 @@ namespace FreezeFrame {
         }
         public override string ToString()
         {
-            return "FancyCardMoveAction: StartLocation: "
+            return "CardMoveAction: StartLocation: "
                                                          + startLocation.name + "; EndLocation: " + endLocation.name;
             
         }
     }
     public class ShuffleAction : GameAction
     {
-        private FancyCardLocation locations;
+        private CardLocReference locations;
         private CardCollection unshuffled;
 
-        public ShuffleAction(FancyCardLocation locations, CardGame cg)
+        public ShuffleAction(CardLocReference locations, CardGame cg)
         {
             this.locations = locations;
-            unshuffled = new CardListCollection();
+            unshuffled = new CardListCollection(CCType.VIRTUAL);
             this.cg = cg;
         }
 
@@ -250,7 +242,7 @@ namespace FreezeFrame {
         Tree deck;
         public InitializeAction(CardCollection loc, Tree d, CardGame cg) {
             location = loc;
-            before = new CardListCollection();
+            before = new CardListCollection(CCType.VIRTUAL);
             deck = d;
             this.cg = cg;
         }
@@ -274,20 +266,16 @@ namespace FreezeFrame {
             return "InitializeAction: " + "Location: " + location.name + "; Cards: " + location.AllCards();
 		}
     }
-    public class FancyCardCopyAction : GameAction {
-        FancyCardLocation startLocation;
-        FancyCardLocation endLocation;
-        public FancyCardCopyAction(FancyCardLocation start, FancyCardLocation end, CardGame cg) {
+    public class CardRememberAction : GameAction {
+        CardLocReference startLocation;
+        CardLocReference endLocation;
+        public CardRememberAction(CardLocReference start, CardLocReference end, CardGame cg) {
             startLocation = start;
             endLocation = end;
             this.cg = cg;
-            if (endLocation.nonPhysical ||
-                !endLocation.name.Contains("{mem}") ||
-                endLocation.name.Contains("{MAX}")  ||
-                endLocation.name.Contains("{MIN}") ||
-                endLocation.name.Contains("{filter}") ||
-                endLocation.name.Contains("{UNION}")) {
-                throw new InvalidOperationException(); }
+            if (endLocation.cardList.type != CCType.MEMORY) {
+                throw new InvalidOperationException(); 
+            }
 
         }
         public override void Execute() {
@@ -301,16 +289,16 @@ namespace FreezeFrame {
  		}
 		public override string ToString()
 		{
-            return "FancyCardCopyAction: Starting location: " + startLocation.name 
+            return "CardRememberAction: Starting location: " + startLocation.name 
                                                                              + "; Ending location: " + endLocation.name;
                                                                            
 		}
     }
-    public class FancyRemoveAction : GameAction {
-        FancyCardLocation endLocation;
-        public FancyRemoveAction(FancyCardLocation end, CardGame cg) {
+    public class CardForgetAction : GameAction {
+        CardLocReference endLocation;
+        public CardForgetAction(CardLocReference end, CardGame cg) {
             this.cg = cg;
-            if (end.name.Contains("{mem}")) {
+            if (end.cardList.type == CCType.MEMORY) {
                 endLocation = end;
             }
             else {
@@ -328,7 +316,7 @@ namespace FreezeFrame {
         }
 		public override string ToString()
 		{
-            return "FancyRemoveAction: To be removed: " + endLocation.name;
+            return "CardForgetAction: To be removed: " + endLocation.name;
 		}
     }
     public class IntAction : GameAction {
