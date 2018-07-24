@@ -210,7 +210,7 @@ namespace FreezeFrame {
 			var numTeams = teamcreate.teams().Count();
 			for (int i = 0; i < numTeams; ++i)
 			{
-				var newTeam = new Team("" + i, cg);
+				var newTeam = new Team("" + i, i);
 				var teamStr = "T:";
 				foreach (var p in teamcreate.teams(i).INTNUM())
 				{

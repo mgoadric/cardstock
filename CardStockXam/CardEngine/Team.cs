@@ -6,7 +6,7 @@ namespace CardEngine{
     {
         public List<Player> teamPlayers = new List<Player>();
 
-        public Team(string name) : base(name) { }
+        public Team(string name, int id) : base(name, id) { }
 
         new public Team Clone()
         {

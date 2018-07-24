@@ -665,7 +665,7 @@ namespace FreezeFrame
                     game.WriteToFile("A:" + value + " " + reward);
                     temp.Add(new PointAwards(key, value, reward));
                 }
-                game.table.pointBins[name] = new PointMap(temp);
+                game.table[0].pointBins[name] = new PointMap(temp);
             }
             else if (actionNode.copyaction() != null)
             {
@@ -1035,7 +1035,7 @@ namespace FreezeFrame
 
             if (card.minof() != null)
             {
-                var scoring = game.table.pointBins[card.minof().var().GetText()];
+                var scoring = game.table[0].pointBins[card.minof().var().GetText()];
                 var coll = ProcessLocation(card.minof().cstorage());
                 var min = Int32.MaxValue;
                 Card minCard = null;
@@ -1104,6 +1104,9 @@ namespace FreezeFrame
             }
             else
             {
+                // BROKEN!!! NOT IMPLEMENTED!!!
+                throw new NotImplementedException();
+
                 foreach (Team t in game.teams)
                 {
                     lst.Add(t);
@@ -1267,7 +1270,7 @@ namespace FreezeFrame
                 {
                     var fancy = new CardLocReference()
                     {
-                        cardList = game.table.cardBins[prefix][stor.namegr().GetText()],
+                        cardList = game.table[0].cardBins[prefix][stor.namegr().GetText()],
                         locIdentifier = "top",
                         name = "t" + prefix + stor.namegr().GetText()
                     };
@@ -1284,7 +1287,7 @@ namespace FreezeFrame
 
                     var fancy = new CardLocReference()
                     {
-                        cardList = game.table.cardBins[prefix][name],
+                        cardList = game.table[0].cardBins[prefix][name],
                         locIdentifier = "top",
                         name = "t" + prefix + name
                     };
@@ -1609,7 +1612,7 @@ namespace FreezeFrame
             else if (intNode.sum() != null)
             {
                 var sum = intNode.sum();
-                var scoring = game.table.pointBins[sum.var().GetText()];
+                var scoring = game.table[0].pointBins[sum.var().GetText()];
                 var coll = ProcessLocation(sum.cstorage());
                 int total = 0;
                 foreach (var c in coll.cardList.AllCards())
@@ -1622,7 +1625,7 @@ namespace FreezeFrame
             else if (intNode.score() != null)
             {
                 Debug.WriteLine("trying to score" + intNode.GetText());
-                var scorer = game.table.pointBins[intNode.score().var().GetText()];
+                var scorer = game.table[0].pointBins[intNode.score().var().GetText()];
                 var card = ProcessCard(intNode.score().card());
                 return scorer.GetScore(card.Get());
             }
@@ -1661,11 +1664,11 @@ namespace FreezeFrame
                 if (intSto.var().Length == 1)
                 {
                     String temp = ProcessStringVar(intSto.var()[0]);
-                    return AddedRaw(new IntStorageReference(game.table.intBins, temp));
+                    return AddedRaw(new IntStorageReference(game.table[0].intBins, temp));
                 }
                 else
                 {
-                    return AddedRaw(new IntStorageReference(game.table.intBins, intSto.namegr().GetText()));
+                    return AddedRaw(new IntStorageReference(game.table[0].intBins, intSto.namegr().GetText()));
 
                 }
             }
@@ -1780,7 +1783,7 @@ namespace FreezeFrame
             var numTeams = teamCreate.teams().Count();
             for (int i = 0; i < numTeams; ++i)
             {
-                var newTeam = new Team(i, game);
+                var newTeam = new Team("" + i, i);
                 var teamStr = "T:";
                 foreach (var p in teamCreate.teams(i).INTNUM())
                 {

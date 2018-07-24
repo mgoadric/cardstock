@@ -11,8 +11,9 @@ namespace CardEngine
         public DefaultStorage<PointMap> pointBins; 
 
         public readonly string name;
+        public readonly int id;
 
-        public Owner(string name)
+        public Owner(string name, int id)
         {
             intBins = new DefaultStorage<int>(0, this);
             stringBins = new DefaultStorage<string>("", this);
@@ -27,6 +28,7 @@ namespace CardEngine
             }
 
             this.name = name;
+            this.id = id;
         }
 
         // http://blog.chrishowie.com/2013/01/22/object-copying-in-c/
@@ -37,7 +39,7 @@ namespace CardEngine
 
         protected virtual Owner CloneImpl() 
         {
-            Owner other = new Owner(name);
+            Owner other = new Owner(name, id);
             other.intBins = intBins.Clone(other);
             other.stringBins = stringBins.Clone(other);
             other.pointBins = pointBins.Clone(other);
