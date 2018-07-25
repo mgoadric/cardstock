@@ -732,6 +732,7 @@ namespace FreezeFrame
             return ret;
         }
 
+        // TODO What about teams????
         private GameAction CycleAction(RecycleParser.CycleactionContext cycle)
         {
             string text1 = cycle.GetChild(1).GetText();

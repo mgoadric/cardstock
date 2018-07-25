@@ -23,6 +23,7 @@ namespace CardEngine
         public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>(); 
         public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
 
+        // For writing the game transcript. DOES THIS BELONG HERE???
         public bool logging;
         public string fileName;
 
@@ -378,6 +379,7 @@ namespace CardEngine
             return hash;
         }
 
+        // TODO Can we move this to another location and call it a Logging class?
         public void WriteToFile(string text)
         {
 			if (logging)
