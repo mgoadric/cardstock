@@ -59,6 +59,7 @@ namespace CardEngine
 
         public CardListCollection(CCType type) {
             this.type = type;
+
         }
 
         public override CardCollection ShallowCopy()

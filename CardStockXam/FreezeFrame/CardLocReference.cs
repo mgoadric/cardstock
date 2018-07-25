@@ -1,3 +1,4 @@
+using CardEngine;
 using System;
 using System.Diagnostics;
 using CardEngine;
@@ -14,7 +15,7 @@ namespace FreezeFrame{
             
         }
 
-        public CardLocReference ShallowCopy(CardGame cg)
+        public CardLocReference ShallowCopy()
         {
             var loc = new CardLocReference()
             {
@@ -23,7 +24,7 @@ namespace FreezeFrame{
                 name = String.Copy(name) + " - Copy",
                 actual = actual,
             };
-            cg.AddToMap(loc);
+            // NEED TO AddToMap(loc); TODO
             return loc;
         }
 

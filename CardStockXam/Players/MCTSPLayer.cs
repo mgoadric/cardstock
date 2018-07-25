@@ -12,6 +12,8 @@ namespace Players
 {
     public class MCTSPLayer : AIPlayer
     {
+        private CardGame privategame;
+        private GameIterator privateiterator;
         public MCTSPLayer(Perspective perspective) : base(perspective) { }
 
 
@@ -22,7 +24,9 @@ namespace Players
 
         public int Choice(int optioncount, Random random) //
         {
-
+            Tuple<CardGame, GameIterator> game = perspective.GetPrivateGame();
+            privategame = game.Item1;
+            privateiterator = game.Item2;
             if (privategame.Equals(privateiterator.game))
             {
                 Console.WriteLine("CardGame equals Clone");

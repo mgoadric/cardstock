@@ -234,6 +234,7 @@
     <Compile Include="Antlr4\Runtime\Vocabulary.cs" />
     <Compile Include="FreezeFrame\IterItem.cs" />
     <Compile Include="FreezeFrame\IteratingTree.cs" />
+    <Compile Include="FreezeFrame\RecycleVariables.cs" />
     <Compile Include="Players\MCTSPLayer.cs" />
     <Compile Include="Players\Perspective.cs" />
     <Compile Include="Players\RandomPlayer.cs" />

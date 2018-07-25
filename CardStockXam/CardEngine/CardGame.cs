@@ -300,14 +300,14 @@ namespace CardEngine
 
         public override string ToString() {
             var ret = "Table Deck:\n";
-            ret += tableCards.ToString();
+            ret += table[0].cardBins.ToString();
             ret += "Players:\n";
             foreach (var player in players) {
                 ret += player + "\n";
             }
             return ret;
         }
-
+        /*
         public override bool Equals(System.Object obj) // In Progress
         {
             Console.WriteLine("CALLING CARDGAME EQUALITY");
@@ -377,7 +377,7 @@ namespace CardEngine
             while (teamcopy.Count != 0) { hash ^= teamcopy.Pop().GetHashCode(); }
 
             return hash;
-        }
+        }*/
 
         // TODO Can we move this to another location and call it a Logging class?
         public void WriteToFile(string text)

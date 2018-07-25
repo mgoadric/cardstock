@@ -110,7 +110,7 @@ namespace CardEngine
 
             return true;
         }
-
+/*
         public override int GetHashCode() // XORs relevant hashcodes
         {
             return name.GetHashCode() ^ id.GetHashCode() ^ intBins.GetHashCode() ^ cardBins.GetHashCode();
@@ -121,5 +121,5 @@ namespace CardEngine
 
         }
 
-    }
+*/  }
 }

@@ -67,11 +67,11 @@ namespace Players
 
                         if (j == idx)
                         {
-                            cg.players[j].decision = new PredictablePlayer(perspective, gameWorld, item);
+                            cg.players[j].decision = new PredictablePlayer(perspective, item);
                         }
                         else
                         {
-                            cg.players[j].decision = new RandomPlayer(perspective, gameWorld);
+                            cg.players[j].decision = new RandomPlayer(perspective);
                         }
                     }
 

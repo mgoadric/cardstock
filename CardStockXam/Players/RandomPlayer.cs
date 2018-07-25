@@ -10,7 +10,7 @@ namespace Players
 {
     public class RandomPlayer : AIPlayer
     {
-        public RandomPlayer(Perspective perspective, World gameWorld) : base(perspective, gameWorld) { }
+        public RandomPlayer(Perspective perspective) : base(perspective) { }
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
         {

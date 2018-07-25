@@ -10,7 +10,7 @@ namespace Players
         private bool firstMove = true;
         private int toChoose = -1;
 
-        public PredictablePlayer (Perspective perspective, World gameWorld, int choice) : base(perspective, gameWorld)
+        public PredictablePlayer (Perspective perspective, int choice) : base(perspective)
         { toChoose = choice; }
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
