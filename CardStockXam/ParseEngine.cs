@@ -108,16 +108,16 @@ public class ParseEngine
 				var manageContext = new FreezeFrame.GameIterator(tree, instance, gameWorld);
 
                
-
+                
                 if (exp.type == GameType.AllAI) {
                     for (int j = 0; j < instance.players.Count; j++) {
                         Perspective perspective = new Perspective(j, instance, manageContext);
-                        instance.players[j].decision  = new PIPMCPlayer(perspective, gameWorld);
+                        instance.players[j].decision  = new PIPMCPlayer(perspective);
                     }
 				} else if (exp.type == GameType.RndandAI) {
                     Perspective perspective = new Perspective(0, instance, manageContext);
-                    instance.players[0].decision = new PIPMCPlayer(perspective, gameWorld);
-                }
+                    instance.players[0].decision = new PIPMCPlayer(perspective);
+                } 
 	            
                 /*********
 	             * PLAY THE GAME

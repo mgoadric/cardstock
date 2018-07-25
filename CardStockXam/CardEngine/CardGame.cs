@@ -241,7 +241,7 @@ namespace CardEngine
                
         public void AddPlayers(int numPlayers, GameIterator gameContext) {
             for (int i = 0; i < numPlayers; ++i) {
-                players.Add(new Player("p" + i, i);
+                players.Add(new Player("p" + i, i));
                 Perspective perspective = new Perspective(i, this, gameContext);
                 players[i].decision = new RandomPlayer(perspective);
             }
@@ -299,14 +299,14 @@ namespace CardEngine
 
         public override string ToString() {
             var ret = "Table Deck:\n";
-            ret += tableCards.ToString();
+            ret += table[0].cardBins.ToString();
             ret += "Players:\n";
             foreach (var player in players) {
                 ret += player + "\n";
             }
             return ret;
         }
-
+        /*
         public override bool Equals(System.Object obj) // In Progress
         {
             Console.WriteLine("CALLING CARDGAME EQUALITY");
@@ -376,7 +376,7 @@ namespace CardEngine
             while (teamcopy.Count != 0) { hash ^= teamcopy.Pop().GetHashCode(); }
 
             return hash;
-        }
+        }*/
 
         public void WriteToFile(string text)
         {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;using System;using Players;using System.Text;namespace CardEngine{    public class Player : Owner {        public int id;        public Team team; 		public AIPlayer decision; // Don't include this
 
-        public Player(string name, int id) : base(name){            this.id = id;        }
+        public Player(string name, int id) : base(name, id){            this.id = id;        }
 
         new public Player Clone()
         {            return (Player)CloneImpl();        }        protected override Owner CloneImpl()         {            Player other = (Player)base.CloneImpl();            other.id = id;

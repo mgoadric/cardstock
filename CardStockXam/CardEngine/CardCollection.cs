@@ -12,10 +12,13 @@ namespace CardEngine
     public abstract class CardCollection
     {
         public string name = "undefined";
-        public CardStorage container { get; set; }
+        //public CardStorage container { get; set; }
 
         // HOPE WE CAN GET RID OF THIS....
         public CardLocReference loc;
+
+        // NEED SOMEHOW TO GET OWNERS 
+        public Owner owner { get; set; }
 
         public CCType type;
 
@@ -53,13 +56,15 @@ namespace CardEngine
     {
         public List<Card> cards = new List<Card>();
 
-        public CardListCollection(CCType type) {
+        public CardListCollection(CCType type, Owner owner) {
             this.type = type;
+            if (owner != null)
+            { this.owner = owner; }
         }
 
         public override CardCollection ShallowCopy()
         {
-            return new CardListCollection(type)
+            return new CardListCollection(type, owner)
             {
                 name = (string)name.Clone(),
                 loc = loc,
@@ -70,7 +75,7 @@ namespace CardEngine
             };
         }
         public object Clone() {
-            return new CardListCollection(type)
+            return new CardListCollection(type, owner)
             {
                 name = (string)name.Clone(),
                 loc = loc,

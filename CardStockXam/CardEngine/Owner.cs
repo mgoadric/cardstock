@@ -23,7 +23,7 @@ namespace CardEngine
                 if (type != CCType.VIRTUAL)
                 {
                     cardBins[type] = new DefaultStorage<CardCollection>(
-                          new CardListCollection(type), this);
+                          new CardListCollection(type, this), this);
                 }
             }
 
@@ -78,11 +78,11 @@ namespace CardEngine
 
             return true;
         }
-
+/*
         public override int GetHashCode() // XORs relevant hashcodes
         {
             return name.GetHashCode() ^ team.GetHashCode() ^ intBins.GetHashCode() ^ cardBins.GetHashCode();
         }
 
-    }
+*/  }
 }

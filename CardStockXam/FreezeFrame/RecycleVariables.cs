@@ -1,5 +1,6 @@
 ﻿using CardEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,8 @@ namespace FreezeFrame
         public Dictionary<string, Card> fancyCardMap = new Dictionary<string, Card>();
         public Dictionary<string, CardLocReference> fancyCardLocMap = new Dictionary<string, CardLocReference>();
         public Dictionary<string, IntStorageReference> FancyIntStorageMap = new Dictionary<string, IntStorageReference>();
+        private Dictionary<string, Player> playerMap;
+        private Dictionary<string, Team> teamMap; // ADDED THESE DICTIONARIES TO MAKE THINGS WORK
 
         public RecycleVariables()
         {
@@ -155,15 +158,15 @@ namespace FreezeFrame
                 id = (o as IntStorageReference).GetName();
                 //Console.WriteLine(id);
             }
-            else if (o is Player)
+            else if (o is Player p)
             {
                 dict = playerMap;
-                id = (o as Player).name;
+                id = p.name;
             }
-            else if (o is Team)
+            else if (o is Team t)
             {
                 dict = teamMap;
-                id = (o as Team).id;
+                id = t.name;
                 // TODO changed here - what should id be to make it generalized??????
                 //} else if (o is Card) {
                 //     dict = fancyCardMap;
@@ -173,7 +176,7 @@ namespace FreezeFrame
                 // should be 
                 //id = (o as Card).ReadAttributes(
             }
-            else { Debug.WriteLine("unknown type in AddToMap: " + o.GetType()); }
+            else { Console.WriteLine("unknown type in AddToMap: " + o.GetType()); }
             if (!dict.Contains(id)) { dict.Add(id, o); }
             //else { Console.WriteLine("dict already contains " + id); }
         }

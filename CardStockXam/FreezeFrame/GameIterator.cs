@@ -15,6 +15,7 @@ namespace FreezeFrame
         HashSet<IParseTree> iteratingSet;
         public CardGame game;
         public World gameWorld;
+        private RecycleVariables variables;
 
         public GameIterator Clone(CardGame cg) {
             // CHANGED HERE TODO 
@@ -46,7 +47,7 @@ namespace FreezeFrame
             game = mygame;
 			iterStack = new Stack<Queue<IParseTree>>();
 			iteratingSet = new HashSet<IParseTree>();
-           
+            variables = new RecycleVariables();
 
             if (fresh)
             {
@@ -382,7 +383,7 @@ namespace FreezeFrame
                                         {
                                             firstItem = item;
 
-                                            Put(vartext, firstItem);
+                                            variables.Put(vartext, firstItem);
                                             first = false;
                                         }
                                         else
@@ -441,7 +442,7 @@ namespace FreezeFrame
                             stackTree.Push(let.var().GetText(), item);*/
 
                             Debug.WriteLine("pushed let context");
-                            Put(let.var().GetText(), item);
+                            variables.Put(let.var().GetText(), item);
                             stackTree.Push(currentTree.GetChild(4));
                             stackTree.level++;
                             Debug.WriteLine("Pushing loop action" + item);
@@ -472,12 +473,11 @@ namespace FreezeFrame
                         {
                             Debug.WriteLine("Adding var in RecurseDo: " + current.varContext);
 
-                            Put(current.varContext, current.item);
+                            variables.Put(current.varContext, current.item);
                         }
                         else
                         {
-
-                            Remove(current.varContext);
+                            variables.Remove(current.varContext);
                         }
                     }
                 }
@@ -516,7 +516,7 @@ namespace FreezeFrame
                 {
                     var loop = stackAct.Pop() as LoopAction;
                     currentLevel = loop.level;
-                    Remove(loop.var);
+                    variables.Remove(loop.var);
                 }
                 // undo everything (until
                 bool unwinding = true;
@@ -540,7 +540,7 @@ namespace FreezeFrame
                         if (loop.level == currentLevel)
                         {
 
-                            Put(loop.var, loop.item);
+                            variables.Put(loop.var, loop.item);
                             unwinding = false;
                         }
                         else
@@ -841,7 +841,7 @@ namespace FreezeFrame
             Debug.WriteLine("Got to OWNER");
             var resultingCard = ProcessCard(owner.card()).Get();
             Debug.WriteLine("Result :" + resultingCard);
-            return game.CurrentPlayer().memberList.IndexOf(resultingCard.owner.container.owner);
+            return game.CurrentPlayer().memberList.IndexOf((Player)resultingCard.owner.owner); // DODGY
         }
 
         public bool ProcessBoolean(RecycleParser.BooleanContext boolNode)
@@ -1007,7 +1007,7 @@ namespace FreezeFrame
         {
             if (card.maxof() != null)
             {
-                var scoring = game.table.pointBins[card.maxof().var().GetText()];
+                var scoring = game.table[0].pointBins[card.maxof().var().GetText()]; // ADDED 0
                 var coll = ProcessLocation(card.maxof().cstorage());
                 var max = 0;
                 Card maxCard = null;
@@ -1022,7 +1022,7 @@ namespace FreezeFrame
                     }
                 }
                 Debug.WriteLine("MAX:" + maxCard);
-                var lst = new CardListCollection(CCType.VIRTUAL);
+                var lst = new CardListCollection(CCType.VIRTUAL, null);
                 lst.Add(maxCard);
                 var fancy = new CardLocReference()
                 {
@@ -1031,7 +1031,7 @@ namespace FreezeFrame
                     name = coll.name + "{MAX}"
                 };
                 fancy.cardList.loc = fancy;
-                game.AddToMap(fancy);
+                variables.AddToMap(fancy);
                 return fancy;
             }
 
@@ -1052,7 +1052,7 @@ namespace FreezeFrame
                     }
                 }
                 Debug.WriteLine("MIN:" + minCard);
-                var lst = new CardListCollection(CCType.VIRTUAL);
+                var lst = new CardListCollection(CCType.VIRTUAL, null);
                 lst.Add(minCard);
                 var fancy = new CardLocReference()
                 {
@@ -1061,7 +1061,7 @@ namespace FreezeFrame
                     name = coll.name + "{MIN}"
                 };
                 fancy.cardList.loc = fancy;
-                game.AddToMap(fancy);
+                variables.AddToMap(fancy);
                 return fancy;
             }
 
@@ -1085,7 +1085,7 @@ namespace FreezeFrame
                     name = loc.name
                 };
                 fancy.cardList.loc = fancy;
-                game.AddToMap(fancy);
+                variables.AddToMap(fancy);
                 return fancy;
             }
             throw new NotSupportedException();
@@ -1143,7 +1143,7 @@ namespace FreezeFrame
             string name = "";
             if (loc.unionof() != null)
             {
-                CardListCollection temp = new CardListCollection(CCType.VIRTUAL);
+                CardListCollection temp = new CardListCollection(CCType.VIRTUAL, null);
                 if (loc.unionof().cstorage().Length > 0)
                 {
                     foreach (var locChild in loc.unionof().cstorage())
@@ -1175,7 +1175,7 @@ namespace FreezeFrame
                     name = name + "{UNION}"
                 };
                 fancy.cardList.loc = fancy;
-                game.AddToMap(fancy);
+                variables.AddToMap(fancy);
                 return fancy;
             }
             else if (loc.filter() != null)
@@ -1216,8 +1216,8 @@ namespace FreezeFrame
         {
             if (memset.tuple() != null)
             {
-                var findEm = new CardGrouping(13, game..table.pointBins[memset.tuple().var().GetText()]);
-                var cardsToScore = new CardListCollection(CCType.MEMORY);
+                var findEm = new CardGrouping(13, game.table[0].pointBins[memset.tuple().var().GetText()]);
+                var cardsToScore = new CardListCollection(CCType.MEMORY, null);
                 var stor = ProcessLocation(memset.tuple().cstorage());
                 foreach (var card in stor.cardList.AllCards())
                 {
@@ -1233,7 +1233,7 @@ namespace FreezeFrame
                         name = "{mem}" + memset.tuple().var().GetText() + "{p" + i + "}"
                     };
                     returnList[i].cardList.loc = returnList[i];
-                    game.AddToMap(returnList[i]);
+                    variables.AddToMap(returnList[i]);
                 }
                 return returnList;
             }
@@ -1277,7 +1277,7 @@ namespace FreezeFrame
                         name = "t" + prefix + stor.namegr().GetText()
                     };
                     fancy.cardList.loc = fancy;
-                    game.AddToMap(fancy);
+                    variables.AddToMap(fancy);
                     return fancy;
                 }
                 else
@@ -1294,7 +1294,7 @@ namespace FreezeFrame
                         name = "t" + prefix + name
                     };
                     fancy.cardList.loc = fancy;
-                    game.AddToMap(fancy);
+                    variables.AddToMap(fancy);
                     return fancy;
                 }
             }
@@ -1304,7 +1304,7 @@ namespace FreezeFrame
             }
             else
             {
-                player = Get(stor.locpre().var()) as Player;
+                player = variables.Get(stor.locpre().var()) as Player;
             }
             if (stor.namegr() != null)
             {
@@ -1314,7 +1314,7 @@ namespace FreezeFrame
                     name = player.name + prefix + stor.namegr().GetText()
                 };
                 fancy.cardList.loc = fancy;
-                game.AddToMap(fancy);
+                variables.AddToMap(fancy);
                 return fancy;
             }
             else
@@ -1326,7 +1326,7 @@ namespace FreezeFrame
                     name = player.name + prefix + name
                 };
                 fancy.cardList.loc = fancy;
-                game.AddToMap(fancy);
+                variables.AddToMap(fancy);
                 return fancy;
             }
         }
@@ -1387,7 +1387,7 @@ namespace FreezeFrame
             if (who.owner() != null)
             {
                 var loc = ProcessCard(who.owner().card());
-                return loc.Get().owner.container.owner;
+                return (Player)loc.Get().owner.owner; // THIS IS REASON TO IMPLEMENT WIDE CHANGE FOR CARDCOLLECTIONS HAVING OWNERS, DONT KNOW BETTER WAY
             }
             else
             {
@@ -1471,7 +1471,7 @@ namespace FreezeFrame
         {
             if (attr.var() != null)
             {
-                return (Get(attr.var()) as Node[]).OfType<Node>().ToList();
+                return (variables.Get(attr.var()) as Node[]).OfType<Node>().ToList();
             }
             else
             {
@@ -1494,7 +1494,7 @@ namespace FreezeFrame
                     }
                     else
                     {
-                        var strings = Get(subNode.var()) as string[];
+                        var strings = variables.Get(subNode.var()) as string[];
                         foreach (string s in strings)
                         {
                             ret.Add(new Node
@@ -1555,7 +1555,7 @@ namespace FreezeFrame
                 else if (intNode.@sizeof().var() != null)
                 {
 
-                    var temp = Get(intNode.@sizeof().var());
+                    var temp = variables.Get(intNode.@sizeof().var());
                     Debug.WriteLine(temp.GetType());
                     var temp2 = temp as CardLocReference;
 
@@ -1655,7 +1655,7 @@ namespace FreezeFrame
 
         public IntStorageReference AddedRaw(IntStorageReference stor)
         {
-            game.AddToMap(stor);
+            variables.AddToMap(stor);
             return stor;
         }
 
@@ -1705,7 +1705,7 @@ namespace FreezeFrame
             }
             else
             {
-                var who = Get(intSto.var()[0]);
+                var who = variables.Get(intSto.var()[0]);
                 if (who.GetType().Name == "Team")
                 {
                     Team temp = who as Team;
@@ -1902,36 +1902,10 @@ namespace FreezeFrame
             return allOptions;
         }
 
-        public object Get(RecycleParser.VarContext var)
-        {
-            return Get(var.GetText());
-        }
-        public object Get(String text)
-        {
-            if (game.vars.ContainsKey(text))
-            {
-
-                return game.vars[text];
-            }
-            Debug.WriteLine("Failure");
-            throw new Exception("Object " + text + " could not be found");
-        }
-        public void Put(string k, Object v)
-        {
-            game.vars[k] = v;
-            // Console.WriteLine("putting key " + k + " for " + v);
-        }
-        public void Remove(string k)
-        {
-            if (!game.vars.ContainsKey(k))
-            {
-                throw new KeyNotFoundException();
-            }
-            game.vars.Remove(k);
-        }
+      
         public CardLocReference ProcessCStorageFilter(RecycleParser.FilterContext filter)
         {
-            var cList = new CardListCollection(CCType.VIRTUAL);
+            var cList = new CardListCollection(CCType.VIRTUAL, null);
             CardLocReference stor;
             /*
             Debug.WriteLine(filter.GetText());
@@ -1955,7 +1929,7 @@ namespace FreezeFrame
             {
                 Debug.WriteLine("Filter: variable collection");
 
-                stor = Get(filter.collection().var()) as CardLocReference;
+                stor = variables.Get(filter.collection().var()) as CardLocReference;
                 if (stor != null)
                 {
                     stor2 = stor.cardList.AllCards();
@@ -1964,7 +1938,7 @@ namespace FreezeFrame
                 }
                 else
                 {
-                    stor2 = Get(filter.collection().var()) as List<Card>;
+                    stor2 = variables.Get(filter.collection().var()) as List<Card>;
                     name2 = "FilteredCardListWithoutName";
                 }
             }
@@ -1975,12 +1949,12 @@ namespace FreezeFrame
             foreach (Card card in stor2)
             {
                 string text = filter.var().GetText();
-                Put(text, card);
+                variables.Put(text, card);
                 if (ProcessBoolean(filter.boolean()))
                 {
                     cList.Add(card);
                 }
-                Remove(text);
+                variables.Remove(text);
             }
             var fancy = new CardLocReference()
             {
@@ -1988,7 +1962,7 @@ namespace FreezeFrame
                 name = name2 + "{filter}" + filter.boolean().GetText(),
             };
             fancy.cardList.loc = fancy;
-            game.AddToMap(fancy);
+            variables.AddToMap(fancy);
             return fancy;
         }
         // want to clean up & understand processagg TODO
@@ -2003,29 +1977,28 @@ namespace FreezeFrame
             if (collection.var() != null)
             {
                 Debug.WriteLine("Processing collection type: var.");
-                var stor = Get(collection.var());
-                if (stor is CardLocReference)
+                var stor = variables.Get(collection.var());
+                if (stor is CardLocReference clr)
                 {
-                    var card = stor as CardLocReference;
-                    return card.cardList.AllCards();
+                    return clr.cardList.AllCards();
                 }
-                if (stor is string[])
+                else if (stor is string[] sa)
                 {
-                    return stor as string[];
+                    return sa;
                 }
-                if (stor is List<CardLocReference>)
+                else if (stor is List<CardLocReference> clocr)
                 {
-                    return stor as List<CardLocReference>;
+                    return clocr;
                 }
-                if (stor is Team)
+                else if (stor is Team t)
                 {
-                    var team = stor as Team;
-                    return team.teamPlayers;
+                    return t.teamPlayers;
                 }
-                if (stor is List<int>)
+                else if (stor is List<int>)
                 {
                     return stor as List<object>;
                 }
+                else { throw new Exception(); }
             }
             string text = collection.GetText();
             if (collection.cstorage() != null)
@@ -2089,8 +2062,9 @@ namespace FreezeFrame
             }
             else
             {//var
-                Debug.WriteLine("Processing collection type: var.");
-                return (IEnumerable<object>)Get(collection.GetText());
+                Console.WriteLine("Processing collection type: var.");
+                throw new Exception();
+                //return (IEnumerable<object>)Get(collection.GetText());
             }
             throw new NotSupportedException();
         }
@@ -2102,10 +2076,10 @@ namespace FreezeFrame
             foreach (T t in stor)
             {
                 Debug.WriteLine("Iterating over aggregation of: " + t.GetType());
-                Put(agg.var().GetText(), t);
+                variables.Put(agg.var().GetText(), t);
                 var post = ProcessAggPost(agg.GetChild(4));
                 ret.Add(post);
-                Remove(agg.var().GetText());
+                variables.Remove(agg.var().GetText());
             }
             // only difference is really in rawstorage & boolean
             Debug.WriteLine(ret.Count);
@@ -2217,7 +2191,7 @@ namespace FreezeFrame
 
         public void ProcessDeclare(RecycleParser.DeclareContext declare)
         {
-            Put(declare.var().GetText(), ProcessTyped(declare.typed()));
+            variables.Put(declare.var().GetText(), ProcessTyped(declare.typed()));
         }
 
         public object ProcessTyped(RecycleParser.TypedContext typed)
@@ -2243,7 +2217,7 @@ namespace FreezeFrame
             {
                 Debug.WriteLine("Processing type: var");
 
-                return Get(typed.var());
+                return variables.Get(typed.var());
             }
             else if (typed.collection() != null)
             {
@@ -2258,7 +2232,7 @@ namespace FreezeFrame
         {
             var ret = new List<GameActionCollection>(); //TODO check this
             // maybe don't need ProcessTyped ? 
-            Put(let.var().GetText(), ProcessTyped(let.typed()));
+            variables.Put(let.var().GetText(), ProcessTyped(let.typed()));
             if (let.multiaction() != null)
             {
                 Debug.WriteLine("Processing let multiaction");
@@ -2274,7 +2248,7 @@ namespace FreezeFrame
                 Debug.WriteLine("Processing let conditional action " + let.condact().GetText());
                 ProcessSingleDo(let.condact());
             }
-            Remove(let.var().GetText());
+            variables.Remove(let.var().GetText());
             return ret;
         }
 
@@ -2290,7 +2264,7 @@ namespace FreezeFrame
 
         public int ProcessIntVar(RecycleParser.VarContext varContext)
         {
-            var temp = Get(varContext.GetText());
+            var temp = variables.Get(varContext.GetText());
             if (temp is IntStorageReference)
             {
                 var raw = temp as IntStorageReference;
@@ -2302,20 +2276,20 @@ namespace FreezeFrame
 
         public CardLocReference ProcessCardVar(RecycleParser.VarContext card)
         { //TODO get card instead of just top card of location when ret is Card
-            var ret = Get(card);
+            var ret = variables.Get(card);
             if (ret is CardLocReference)
             {
                 var loc = ret as CardLocReference;
                 if (loc.locIdentifier != "-1")
                 {
-                    return loc.ShallowCopy(game);
+                    return loc.ShallowCopy();
                 }
             }
             else if (ret is Card)
             {
                 var c = ret as Card;
                 // THIS LOOKS LIKE ONLY REALLY USEFUL PLACE FOR .loc???
-                var loc = c.owner.loc.ShallowCopy(game);
+                var loc = c.owner.loc.ShallowCopy();
                 loc.SetLocId(c);
                 return loc;
             }
@@ -2324,13 +2298,13 @@ namespace FreezeFrame
         }
         public string ProcessStringVar(RecycleParser.VarContext var)
         {
-            if (Get(var) is String)
+            if (variables.Get(var) is String s)
             {
-                return Get(var) as String;
+                return s;
             }
             else
             {
-                Debug.WriteLine("Error, type is: " + Get(var).GetType());
+                Debug.WriteLine("Error, type is: " + variables.Get(var).GetType());
                 throw new NotImplementedException();
             }
         }
