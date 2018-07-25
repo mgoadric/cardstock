@@ -732,6 +732,7 @@ namespace FreezeFrame
             return ret;
         }
 
+        // TODO What about teams????
         private GameAction CycleAction(RecycleParser.CycleactionContext cycle)
         {
             string text1 = cycle.GetChild(1).GetText();
@@ -1007,7 +1008,7 @@ namespace FreezeFrame
         {
             if (card.maxof() != null)
             {
-                var scoring = game.table[0].pointBins[card.maxof().var().GetText()]; // ADDED 0
+                var scoring = game.table.pointBins[card.maxof().var().GetText()];
                 var coll = ProcessLocation(card.maxof().cstorage());
                 var max = 0;
                 Card maxCard = null;
@@ -2315,3 +2316,5 @@ namespace FreezeFrame
     }
 }
 
+
+                var scoring = game.table[0].pointBins[card.maxof().var().GetText()];

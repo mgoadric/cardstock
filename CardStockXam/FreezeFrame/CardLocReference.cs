@@ -1,6 +1,7 @@
 using CardEngine;
 using System;
 using System.Diagnostics;
+using CardEngine;
 
 namespace FreezeFrame{
 	public class CardLocReference{

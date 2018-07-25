@@ -2,11 +2,29 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace CardEngine{
+
+    /********
+     * A StageCycle lets you iterate repeatedly through the Players or
+     * Teams as part of a Stage in the game. The language in these 
+     * comments will assume a clockwise order to the players, so 
+     * that the person to your left is next to play, and the person
+     * to your right is the previous player.
+     */
 	public class StageCycle<T>{
-		public List<T> memberList;
+
+        // Who is in your cycle
+		public readonly List<T> memberList;
+
+        // TODO Why is this here?
 		public bool turnEnded;
+
+        // The current player
 		public int idx = 0;
+
+        // The index of a player queued up to go next instead of idx++
 		public int queuedNext = -1;
+
+        // For Logging of the turn cycle in the transcript
         public CardGame cg;
 
 		public StageCycle(List<T> pList, CardGame cg){
@@ -15,6 +33,10 @@ namespace CardEngine{
             this.cg = cg; 
 			WriteMember();
 		}
+
+        /********
+         * A way to ShallowCopy the given source StageCycle
+         */
         public StageCycle(StageCycle<T> source){
 			memberList = source.memberList;
 			idx = source.idx;
@@ -22,6 +44,17 @@ namespace CardEngine{
             cg = source.cg;
         }
 
+        /*******
+         * Return the current player based on the index into the Cycle
+         */
+        public T Current()
+        {
+            return memberList[idx];
+        }
+
+        /******
+         * Who is currently scheduled to play next?
+         */
 		public T PeekNext(){
 			var saved = idx;
             if (queuedNext != -1)
@@ -39,6 +72,10 @@ namespace CardEngine{
 			idx = saved;
 			return ret; 
 		}
+
+        /******
+         * Who is the right of the current player?
+         */
 		public T PeekPrevious(){
 			var saved = idx;
 			idx--;
@@ -49,6 +86,7 @@ namespace CardEngine{
 			idx = saved;
 			return ret;
 		}
+
 		public void Next(){
             turnEnded = false;
 			if (queuedNext != -1){
@@ -63,30 +101,33 @@ namespace CardEngine{
 			}
 			WriteMember();
 		}
-		public void Previous(){
-			turnEnded = false;
-			--idx;
-			if (idx < 0){
-				idx = memberList.Count - 1;
-			}
-			WriteMember();
-        }
+
 		public void SetMember(int index){
 			turnEnded = false;
 			idx = index;
             WriteMember();
         }
+
 		public void SetNext(int index){
 			queuedNext = index;
 		}
+
         public void RevertNext(){
 			queuedNext = -1;
 		}
+
+        // TODO Never used?
+        public void Previous(){
+            turnEnded = false;
+            --idx;
+            if (idx < 0){
+                idx = memberList.Count - 1;
+            }
+            WriteMember();
+        }
+        // TODO Never used?
 		public void EndTurn(){
 			turnEnded = true;
-		}
-		public T Current(){
-			return memberList[idx];
 		}
         private void WriteMember() {
 			var who = memberList[idx] as Player; // TODO MAKE THIS GENERIC
