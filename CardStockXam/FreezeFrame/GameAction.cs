@@ -156,7 +156,7 @@ namespace FreezeFrame {
         public ShuffleAction(CardLocReference locations, CardGame cg)
         {
             this.locations = locations;
-            unshuffled = new CardListCollection(CCType.VIRTUAL, null);
+            unshuffled = new CardListCollection(CCType.VIRTUAL);
             this.cg = cg;
         }
 
@@ -242,7 +242,7 @@ namespace FreezeFrame {
         Tree deck;
         public InitializeAction(CardCollection loc, Tree d, CardGame cg) {
             location = loc;
-            before = new CardListCollection(CCType.VIRTUAL, null);
+            before = new CardListCollection(CCType.VIRTUAL);
             deck = d;
             this.cg = cg;
         }

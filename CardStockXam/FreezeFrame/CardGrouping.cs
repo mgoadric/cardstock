@@ -21,7 +21,7 @@ namespace FreezeFrame{
 		private void Reset(){
 			array = new CardCollection[array.Count()];
 			for (int i = 0; i < array.Count(); ++i){
-				array[i] = new CardListCollection(CCType.VIRTUAL, null);
+				array[i] = new CardListCollection(CCType.VIRTUAL);
 			}
 		}
 		private void SortCards(CardCollection source){
@@ -38,7 +38,7 @@ namespace FreezeFrame{
 			for (int i = 0; i < array.Count(); ++i){
 				var combos = ListExtension.Combinations<Card>(array[i].AllCards(),setSize);
 				foreach (var combo in combos){
-					var newAdd = new CardListCollection(CCType.VIRTUAL, null);
+					var newAdd = new CardListCollection(CCType.VIRTUAL);
 					foreach (var card in combo){
 						newAdd.Add(card);
 					}		
@@ -60,7 +60,7 @@ namespace FreezeFrame{
 			return ret;
 		}
 		private CardCollection Clone(CardCollection source){
-            var recurseList = new CardListCollection(CCType.VIRTUAL, source.owner);
+            var recurseList = new CardListCollection(CCType.VIRTUAL);
 			foreach (var card in source.AllCards()){
 				recurseList.Add(card);
 			}
@@ -68,7 +68,7 @@ namespace FreezeFrame{
 		}
 		public List<CardCollection> AllCombos(CardCollection source){
 			var ret = new List<CardCollection>();
-            var option = new CardListCollection(CCType.VIRTUAL, null);
+            var option = new CardListCollection(CCType.VIRTUAL);
 			option.Add(source.Peek());
 			ret.Add(option);
 			if (source.Count > 1){
@@ -94,7 +94,7 @@ namespace FreezeFrame{
 					var ret = new List<CardCollection>();
 					foreach (var card in array[idx].AllCards()){
 						foreach (var downLine in recurs){
-                            var tempList = new CardListCollection(CCType.VIRTUAL, null);
+                            var tempList = new CardListCollection(CCType.VIRTUAL);
 							tempList.Add(card);
 							foreach (var innerCard in downLine.AllCards()){
 								tempList.Add(innerCard);
@@ -108,7 +108,7 @@ namespace FreezeFrame{
 				else{
 					var ret = new List<CardCollection>();
 					foreach (var card in array[idx].AllCards()){
-                        var tempList = new CardListCollection(CCType.VIRTUAL, null);
+                        var tempList = new CardListCollection(CCType.VIRTUAL);
 						tempList.Add(card);
 						ret.Add(tempList);
 						

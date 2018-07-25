@@ -17,9 +17,6 @@ namespace CardEngine
         // HOPE WE CAN GET RID OF THIS....
         public CardLocReference loc;
 
-        // NEED SOMEHOW TO GET OWNERS 
-        public Owner owner { get; set; }
-
         public CCType type;
 
         public abstract IEnumerable<Card> AllCards();
@@ -56,15 +53,14 @@ namespace CardEngine
     {
         public List<Card> cards = new List<Card>();
 
-        public CardListCollection(CCType type, Owner owner) {
+        public CardListCollection(CCType type) {
             this.type = type;
-            if (owner != null)
-            { this.owner = owner; }
+
         }
 
         public override CardCollection ShallowCopy()
         {
-            return new CardListCollection(type, owner)
+            return new CardListCollection(type)
             {
                 name = (string)name.Clone(),
                 loc = loc,
@@ -75,7 +71,7 @@ namespace CardEngine
             };
         }
         public object Clone() {
-            return new CardListCollection(type, owner)
+            return new CardListCollection(type)
             {
                 name = (string)name.Clone(),
                 loc = loc,

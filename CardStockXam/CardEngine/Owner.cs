@@ -41,7 +41,7 @@ namespace CardEngine
                 if (type != CCType.VIRTUAL)
                 {
                     cardBins[type] = new DefaultStorage<CardCollection>(
-                          new CardListCollection(type, this), this);
+                          new CardListCollection(type), this);
                 }
             }
 
