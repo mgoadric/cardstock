@@ -1998,6 +1998,8 @@ namespace FreezeFrame
                 {
                     return stor as List<object>;
                 }
+                else if (stor is List<Card>)
+                { return stor as List<Card>; }
                 else { throw new Exception(); }
             }
             string text = collection.GetText();
