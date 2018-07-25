@@ -842,7 +842,7 @@ namespace FreezeFrame
             Debug.WriteLine("Got to OWNER");
             var resultingCard = ProcessCard(owner.card()).Get();
             Debug.WriteLine("Result :" + resultingCard);
-            return game.CurrentPlayer().memberList.IndexOf((Player)resultingCard.owner.owner); // DODGY
+            return game.CurrentPlayer().memberList.IndexOf((Player)resultingCard.owner.owner.owner); 
         }
 
         public bool ProcessBoolean(RecycleParser.BooleanContext boolNode)
@@ -1023,7 +1023,7 @@ namespace FreezeFrame
                     }
                 }
                 Debug.WriteLine("MAX:" + maxCard);
-                var lst = new CardListCollection(CCType.VIRTUAL);
+                var lst = new CardListCollection(CCType.VIRTUAL, null);
                 lst.Add(maxCard);
                 var fancy = new CardLocReference()
                 {
@@ -1053,7 +1053,7 @@ namespace FreezeFrame
                     }
                 }
                 Debug.WriteLine("MIN:" + minCard);
-                var lst = new CardListCollection(CCType.VIRTUAL);
+                var lst = new CardListCollection(CCType.VIRTUAL, null);
                 lst.Add(minCard);
                 var fancy = new CardLocReference()
                 {
@@ -1144,7 +1144,7 @@ namespace FreezeFrame
             string name = "";
             if (loc.unionof() != null)
             {
-                CardListCollection temp = new CardListCollection(CCType.VIRTUAL);
+                CardListCollection temp = new CardListCollection(CCType.VIRTUAL, null);
                 if (loc.unionof().cstorage().Length > 0)
                 {
                     foreach (var locChild in loc.unionof().cstorage())
@@ -1218,7 +1218,7 @@ namespace FreezeFrame
             if (memset.tuple() != null)
             {
                 var findEm = new CardGrouping(13, game.table[0].pointBins[memset.tuple().var().GetText()]);
-                var cardsToScore = new CardListCollection(CCType.MEMORY);
+                var cardsToScore = new CardListCollection(CCType.VIRTUAL, null);
                 var stor = ProcessLocation(memset.tuple().cstorage());
                 foreach (var card in stor.cardList.AllCards())
                 {
@@ -1366,8 +1366,7 @@ namespace FreezeFrame
                         }
                     }
                 }
-            }
-            Debug.WriteLine("Empty Attribute, no cards found");
+            }           Debug.WriteLine("Empty Attribute, no cards found");
             //throw new NotSupportedException();
             return "";
         }
@@ -1388,8 +1387,7 @@ namespace FreezeFrame
             if (who.owner() != null)
             {
                 var loc = ProcessCard(who.owner().card());
-                throw new Exception();
-                //return (Player)loc.Get().owner.owner; // THIS IS REASON TO IMPLEMENT WIDE CHANGE FOR CARDCOLLECTIONS HAVING OWNERS, DONT KNOW BETTER WAY
+                return (Player)loc.Get().owner.owner.owner; 
             }
             else
             {
@@ -1563,7 +1561,7 @@ namespace FreezeFrame
 
                     if (temp2 != null)
                     {
-                        if (temp2.locIdentifier != "-1")
+                        if (temp2.locIdentifier != "-1") // Why can't this be either top or 'empty'?
                         {
                             return temp2.Count();
                         }
@@ -1907,7 +1905,7 @@ namespace FreezeFrame
       
         public CardLocReference ProcessCStorageFilter(RecycleParser.FilterContext filter)
         {
-            var cList = new CardListCollection(CCType.VIRTUAL);
+            var cList = new CardListCollection(CCType.VIRTUAL, null);
             CardLocReference stor;
             /*
             Debug.WriteLine(filter.GetText());
