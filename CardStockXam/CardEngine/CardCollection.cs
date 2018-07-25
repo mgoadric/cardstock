@@ -12,7 +12,6 @@ namespace CardEngine
     public abstract class CardCollection
     {
         public string name = "undefined";
-        public CardStorage container { get; set; }
 
         // HOPE WE CAN GET RID OF THIS....
         public CardLocReference loc;
@@ -49,7 +48,12 @@ namespace CardEngine
         }
     }
 
-    public class CardListCollection : CardCollection, ICloneable
+    public interface ISettable {
+        void SetOwner(Owner owner);
+        void SetName(string name);
+    }
+
+    public class CardListCollection : CardCollection, ICloneable, ISettable
     {
         public List<Card> cards = new List<Card>();
 
@@ -69,13 +73,24 @@ namespace CardEngine
                 cards = cards
             };
         }
-        public object Clone() {
+        public object Clone()
+        {
             return new CardListCollection(type)
             {
                 name = (string)name.Clone(),
                 loc = loc,
                 cards = new List<Card>()
             };
+        }
+
+
+        public void SetOwner(Owner owner)
+        {
+            this.owner = owner;
+        }
+
+        public void SetName(string name){
+            this.name = name;
         }
 
         public override int Count
