@@ -1023,7 +1023,7 @@ namespace FreezeFrame
                     }
                 }
                 Debug.WriteLine("MAX:" + maxCard);
-                var lst = new CardListCollection(CCType.VIRTUAL, null);
+                var lst = new CardCollection(CCType.VIRTUAL);
                 lst.Add(maxCard);
                 var fancy = new CardLocReference()
                 {
@@ -1053,7 +1053,7 @@ namespace FreezeFrame
                     }
                 }
                 Debug.WriteLine("MIN:" + minCard);
-                var lst = new CardListCollection(CCType.VIRTUAL, null);
+                var lst = new CardCollection(CCType.VIRTUAL);
                 lst.Add(minCard);
                 var fancy = new CardLocReference()
                 {
@@ -1144,7 +1144,7 @@ namespace FreezeFrame
             string name = "";
             if (loc.unionof() != null)
             {
-                CardListCollection temp = new CardListCollection(CCType.VIRTUAL, null);
+                CardCollection temp = new CardCollection(CCType.VIRTUAL);
                 if (loc.unionof().cstorage().Length > 0)
                 {
                     foreach (var locChild in loc.unionof().cstorage())
@@ -1218,7 +1218,7 @@ namespace FreezeFrame
             if (memset.tuple() != null)
             {
                 var findEm = new CardGrouping(13, game.table[0].pointBins[memset.tuple().var().GetText()]);
-                var cardsToScore = new CardListCollection(CCType.VIRTUAL, null);
+                var cardsToScore = new CardCollection(CCType.VIRTUAL);
                 var stor = ProcessLocation(memset.tuple().cstorage());
                 foreach (var card in stor.cardList.AllCards())
                 {
@@ -1905,7 +1905,7 @@ namespace FreezeFrame
       
         public CardLocReference ProcessCStorageFilter(RecycleParser.FilterContext filter)
         {
-            var cList = new CardListCollection(CCType.VIRTUAL, null);
+            var cList = new CardCollection(CCType.VIRTUAL);
             CardLocReference stor;
             /*
             Debug.WriteLine(filter.GetText());

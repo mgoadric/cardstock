@@ -24,7 +24,7 @@ namespace CardEngine
 
         // Set up four default dictionaries, one for each type of card
         // an Owner can have, VISIBLE, INVISIBLE, HIDDEN, and MEMORY
-        public Dictionary<CCType, DefaultStorage<CardCollection>> cardBins;
+        public Dictionary<CCType, CardStorage> cardBins;
 
         public readonly string name;  // A string for easy printing
         public readonly int id;   // index of Owner in the CardGame list for its type
@@ -36,12 +36,12 @@ namespace CardEngine
             stringBins = new DefaultStorage<string>("", this);
             pointBins = new DefaultStorage<PointMap>(new PointMap(new List<PointAwards>()), this); 
 
-            cardBins = new Dictionary<CCType, DefaultStorage<CardCollection>>();
+            cardBins = new Dictionary<CCType, CardStorage>();
             foreach (CCType type in Enum.GetValues(typeof(CCType))) {
                 if (type != CCType.VIRTUAL)
                 {
-                    cardBins[type] = new DefaultStorage<CardCollection>(
-                          new CardListCollection(type), this);
+                    cardBins[type] = new CardStorage(
+                          new CardCollection(type), this);
                 }
             }
 
@@ -67,12 +67,12 @@ namespace CardEngine
             other.intBins = intBins.Clone(other);
             other.stringBins = stringBins.Clone(other);
             other.pointBins = pointBins.Clone(other);
-            other.cardBins = new Dictionary<CCType, DefaultStorage<CardCollection>>();
+            other.cardBins = new Dictionary<CCType, CardStorage>();
             foreach (CCType type in Enum.GetValues(typeof(CCType)))
             {
                 if (type != CCType.VIRTUAL)
                 {
-                    other.cardBins[type] = cardBins[type].HollowClone(other);
+                    other.cardBins[type] = cardBins[type].Clone(other);
                 }
             }
             return other;

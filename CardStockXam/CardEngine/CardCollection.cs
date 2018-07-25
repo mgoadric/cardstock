@@ -9,7 +9,7 @@ namespace CardEngine
         VISIBLE, INVISIBLE, HIDDEN, MEMORY, VIRTUAL
     }
 
-    public abstract class CardCollection
+    public class CardCollection
     {
         public string name = "undefined";
 
@@ -17,66 +17,44 @@ namespace CardEngine
         public CardLocReference loc;
 
         public CCType type;
-        public DefaultStorage<CardCollection> owner;
-        public abstract IEnumerable<Card> AllCards();
-        public abstract void AddBottom(Card c);
-        public abstract void Add(Card c);
-        public abstract void Add(Card c, int idx);
-        public abstract Card Get(int idx);
-        public abstract Card Remove();
-        public abstract Card Peek();
-        public abstract void Clear();
-        public abstract Card RemoveAt(int idx);
-        public abstract void Remove(Card c);
-        public abstract int Count { get; }
-        public abstract void Shuffle();
-        public abstract override string ToString();
-        public abstract CardCollection ShallowCopy();
+        public CardStorage owner;
 
-        public void Shuffle(List<Card> list)
+        public void Shuffle()
         {
             Random rng = new Random();
-            int n = list.Count;
+            int n = cards.Count;
             while (n > 1)
             {
                 n--;
                 int k = rng.Next(n + 1);
-                Card value = list[k];
-                list[k] = list[n];
-                list[n] = value;
+                Card value = cards[k];
+                cards[k] = cards[n];
+                cards[n] = value;
             }
         }
-    }
+    
 
-    public interface ISettable {
-        void SetOwner(Owner owner);
-        void SetName(string name);
-    }
-
-    public class CardListCollection : CardCollection, ICloneable, ISettable
-    {
+    
         public List<Card> cards = new List<Card>();
 
-        public CardListCollection(CCType type, DefaultStorage<CardCollection> owner) {
+        public CardCollection(CCType type) {
             this.type = type;
-            this.owner = owner;
         }
 
-        public override CardCollection ShallowCopy()
+        public CardCollection ShallowCopy()
         {
-            return new CardListCollection(type, owner)
+            return new CardCollection(type)
             {
                 name = (string)name.Clone(),
                 loc = loc,
                 //TODO
                 // find new cards, not clone
                 //cards = CloneCards() 
-                owner = owner,
                 cards = cards
             };
         }
-        public object Clone() {
-            return new CardListCollection(type, owner)
+        public CardCollection Clone() {
+            return new CardCollection(type)
             {
                 name = (string)name.Clone(),
                 loc = loc,
@@ -85,54 +63,44 @@ namespace CardEngine
             };
         }
 
-
-        public void SetOwner(Owner owner)
-        {
-            this.owner = owner;
-        }
-
-        public void SetName(string name){
-            this.name = name;
-        }
-
-        public override int Count
+        public int Count
         {
             get
             {
                 return cards.Count;
             }
         }
-        public override IEnumerable<Card> AllCards()
+        public IEnumerable<Card> AllCards()
         {
             return cards;
         }
-        public override void Add(Card c)
+        public void Add(Card c)
         {
             cards.Add(c);
         }
-        public override void Add(Card c, int idx)
+        public void Add(Card c, int idx)
         {
             cards.Insert(idx, c);
         }
-        public override void AddBottom(Card c)
+        public void AddBottom(Card c)
         {
             cards.Insert(0, c);
         }
-        public override void Clear()
+        public void Clear()
         {
             cards.Clear();
         }
-        public override Card Get(int idx)
+        public Card Get(int idx)
         {
             return cards[idx];
         }
-        public override Card Remove()
+        public Card Remove()
         {
             var ret = cards.Last();
             cards.RemoveAt(cards.Count - 1);
             return ret;
         }
-        public override Card Peek()
+        public Card Peek()
         {
             if (cards.Count > 0)
             {
@@ -140,19 +108,15 @@ namespace CardEngine
             }
             return null;
         }
-        public override Card RemoveAt(int idx)
+        public Card RemoveAt(int idx)
         {
             var ret = cards[idx];
             cards.RemoveAt(idx);
             return ret;
         }
-        public override void Remove(Card c)
+        public void Remove(Card c)
         {
             cards.Remove(c);
-        }
-        public override void Shuffle()
-        {
-            Shuffle(cards);
         }
         public override string ToString()
         {
@@ -169,7 +133,7 @@ namespace CardEngine
             if (obj == null)
             { return false; }
 
-            CardListCollection othercardcollection = obj as CardListCollection;
+            CardCollection othercardcollection = obj as CardCollection;
             if ((System.Object)othercardcollection == null)
             { return false; }
 

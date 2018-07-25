@@ -49,9 +49,6 @@ namespace CardEngine
             if (!dict.ContainsKey(key))
             {
                 dict[key] = GetDefault();
-                if (dict[key] is ISettable iset) {
-                    iset.SetName(key);
-                }
             }
         }
 
@@ -84,17 +81,11 @@ namespace CardEngine
         public DefaultStorage<T> Clone(Owner other)
         {
             var cloneDefaultT = GetDefault();
-            if (cloneDefaultT is ISettable cdt) {
-                cdt.SetOwner(other);
-            }
-
             var ret = new DefaultStorage<T>(cloneDefaultT, other);
+           
             foreach (var bin in dict.Keys)
             {
-                if (dict[bin] is CardListCollection) {
-                    ret.KeyCheck(bin);
-                }
-                else if (dict[bin] is ICloneable c)
+                if (dict[bin] is ICloneable c)
                 {
                     ret[bin] = (T)c.Clone();
                 }

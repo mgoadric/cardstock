@@ -1,103 +1,113 @@
-//using System.Collections.Generic;
-//using System.Linq;
-//using System;
-//using System.Diagnostics;
-//using System.Text;
-//namespace CardEngine {
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-//    public class CardStorage {
-//        public CardCollection this[string key]
-//        {
-//            get
-//            {
-//                if (!binDict.ContainsKey(key)) {
-//                    AddKey(key);
-//                    storage[binDict[key]] = new CardListCollection() { name = (owner == null ? "t" : owner.name) + key };
-//                    storage[binDict[key]].container = this;
-//                } else if (storage[binDict[key]] == null) {
-//                    storage[binDict[key]] = new CardListCollection() { name = (owner == null ? "t" : owner.name) + key };
-//                    storage[binDict[key]].container = this;
-//                }
-//                return storage[binDict[key]];
-//            }
-//            set
-//            {
-//                if (!binDict.ContainsKey(key)) {
-//                    AddKey(key);
-//                }
-//                storage[binDict[key]] = value;
-//                value.container = this;
-//            }
-//        }
+namespace CardEngine
+{
+    /********
+     * A Dictionary with a default value provided. Useful for
+     * storing PointMaps, integers, strings, and CardCollections
+     */
+    public class CardStorage
+    {
+        private readonly Dictionary<string, CardCollection> dict = new Dictionary<string, CardCollection>();
+        private CardCollection defaultCC;
+        public Owner owner;
 
-//        public Player owner { get; set; }
-//        public int binCounter = 0; 
-//        Dictionary<string, int> binDict = new Dictionary<string, int>();
-//        public CardCollection[] storage = new CardCollection[32];
+        /*******
+         * Save the default value given in the constructor
+         */
+        public CardStorage(CardCollection defaultCC, Owner owner)
+        {
+            this.defaultCC = defaultCC;
+            this.owner = owner;
+            defaultCC.owner = this;
+        }
 
-//        public IEnumerable<string> Keys() {
-//            return binDict.Keys;
-//        }
-//        public void AddKey(string key) {
-//            binDict.Add(key, binCounter);
-//            binCounter++;
-//        }
-//        public CardStorage Clone() {
-//            var ret = new CardStorage();
-//            foreach (var key in binDict) {
-//                ret.AddKey(key.Key);
-//            }
-//            return ret;
-//        }
-//        public override String ToString() {
-//            StringBuilder ret = new StringBuilder();
-//            for (int i = 0; i < binCounter; ++i) {
-//                ret.Append(binDict.Where(itm => itm.Value == i).First() + "\n");
-//                if (storage == null)
-//                {
-//                    Debug.WriteLine("empty storage " + ret);
-//                    break;
-//                }
-//                if (storage[i] == null) {
-//                    Debug.WriteLine("empty storage in storage " + ret + "[" + i + "]");
-//                    break;
-//                }
-//                foreach (var card in storage[i].AllCards()) {
-//                    ret.Append("Card:" + card + "\n");
-//                }
-//                ret.Append("\n");
-//            }
-//            return ret.ToString();
-//        }
-//        public override bool Equals(System.Object obj)
-//        {
-//            if (obj == null)
-//            { return false; }
-//            CardStorage p = obj as CardStorage;
-//            if ((System.Object)p == null)
-//            { return false; }
+        /*******
+         * Access methods, that have the KeyCheck
+         */
+        public CardCollection this[string key]
+        {
+            get
+            {
+                KeyCheck(key);
+                return dict[key];
+            }
+            set
+            {
+                KeyCheck(key);
+                dict[key] = value;
+            }
+        }
 
-//            if (p.binCounter != binCounter) 
-//            { return false; }
+        /********
+         * Checks that the key is valid. If not, a clone of the
+         * default value is added to the dictionary
+         */
+        private void KeyCheck(string key)
+        {
+            if (!dict.ContainsKey(key))
+            {
+                dict[key] = GetDefault();
+            }
+        }
 
-//            foreach (var bin in binDict.Keys)
-//            {
-//                {
-//                    if (!(storage[binDict[bin]].Equals(p.storage[binDict[bin]])))
-//                    { return false; }
-//                }
-//            }
-            
-//            return true;
-//        }
-//        public override int GetHashCode()
-//        {
-//            int hash = 0;
-//            foreach (var bin in binDict.Keys)
-//            {
-//                hash ^= storage[binDict[bin]].GetHashCode();
-//            }
-//            return hash;
-//        } 
-//    }
-//}
+        /**********
+         * Int32 is not ICloneable, grrrr, so we need to do this hack
+         * to get a default value of 0 for int storage.
+         */
+        private CardCollection GetDefault()
+        { return defaultCC.Clone(); }
+
+        /*******
+         * Returns the keys from the internal dictionary
+         */
+        public IEnumerable<string> Keys()
+        {
+            return dict.Keys;
+        }
+
+        /*******
+         * Actually try to clone the objects to make a complete copy
+         */
+        public CardStorage Clone(Owner other)
+        {
+            var cloneDefaultCC = GetDefault();
+            var ret = new CardStorage(cloneDefaultCC, other);
+            cloneDefaultCC.owner = ret;
+
+            foreach (var bin in dict.Keys)
+            {
+                ret.KeyCheck(bin);
+            }
+            return ret;
+
+        }
+
+        public override bool Equals(System.Object obj)
+        {
+
+            if (obj == null)
+            {
+                return false;
+            }
+            if (obj is CardStorage p)
+            {
+                return dict.SequenceEqual(p.dict);
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 0;
+            foreach (var k in dict.Keys)
+            {
+                hash ^= dict[k].GetHashCode();
+            }
+            return hash;
+        }
+
+    }
+}
