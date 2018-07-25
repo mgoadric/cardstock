@@ -17,7 +17,7 @@ namespace CardEngine
         public static Random rand = new Random();
 
         public List<Card> sourceDeck = new List<Card>();
-        public List<Owner> table = new List<Owner>();
+        public Owner[] table = new Owner[1];
         public List<Player> players = new List<Player>(); 
         public List<Team> teams = new List<Team>();
         public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>(); 
@@ -30,7 +30,7 @@ namespace CardEngine
         public CardGame(bool logging, string fileName) {
             this.logging = logging;
             this.fileName = fileName;
-            table.Add(new Owner("table", 0));
+            table[0] = new Owner("table", 0);
 
         }
 
@@ -39,8 +39,7 @@ namespace CardEngine
             temp.DeclaredName = "Special";
 
             // Clone table
-            temp.table.Clear();
-            temp.table.Add(table[0].Clone());
+            temp.table[0] = table[0].Clone();
 
             // Clone players in the same play order
             foreach (Player op in players) {
@@ -64,7 +63,6 @@ namespace CardEngine
             foreach (var cycle in this.currentPlayer.Reverse()) {
                 var newCycle = new StageCycle<Player>(temp.players, temp);
                 newCycle.idx = cycle.idx;
-                newCycle.turnEnded = cycle.turnEnded;
                 newCycle.queuedNext = cycle.queuedNext;
                 temp.currentPlayer.Push(newCycle);
             }
@@ -72,7 +70,6 @@ namespace CardEngine
             foreach (var cycle in this.currentTeam.Reverse()) {
                 var newCycle = new StageCycle<Team>(temp.teams, temp);
                 newCycle.idx = cycle.idx;
-                newCycle.turnEnded = cycle.turnEnded;
                 newCycle.queuedNext = cycle.queuedNext;
                 temp.currentTeam.Push(newCycle);
             }

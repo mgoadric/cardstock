@@ -15,9 +15,6 @@ namespace CardEngine{
         // Who is in your cycle
 		public readonly List<T> memberList;
 
-        // TODO Why is this here?
-		public bool turnEnded;
-
         // The current player
 		public int idx = 0;
 
@@ -40,7 +37,6 @@ namespace CardEngine{
         public StageCycle(StageCycle<T> source){
 			memberList = source.memberList;
 			idx = source.idx;
-			turnEnded = source.turnEnded;
             cg = source.cg;
         }
 
@@ -88,7 +84,6 @@ namespace CardEngine{
 		}
 
 		public void Next(){
-            turnEnded = false;
 			if (queuedNext != -1){
 				idx = queuedNext;
                 queuedNext = -1; //-AH
@@ -103,7 +98,6 @@ namespace CardEngine{
 		}
 
 		public void SetMember(int index){
-			turnEnded = false;
 			idx = index;
             WriteMember();
         }
@@ -116,19 +110,6 @@ namespace CardEngine{
 			queuedNext = -1;
 		}
 
-        // TODO Never used?
-        public void Previous(){
-            turnEnded = false;
-            --idx;
-            if (idx < 0){
-                idx = memberList.Count - 1;
-            }
-            WriteMember();
-        }
-        // TODO Never used?
-		public void EndTurn(){
-			turnEnded = true;
-		}
         private void WriteMember() {
 			var who = memberList[idx] as Player; // TODO MAKE THIS GENERIC
             if (who != null)
