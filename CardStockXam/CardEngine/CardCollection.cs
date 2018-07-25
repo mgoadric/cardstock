@@ -17,7 +17,7 @@ namespace CardEngine
         public CardLocReference loc;
 
         public CCType type;
-
+        public DefaultStorage<CardCollection> owner;
         public abstract IEnumerable<Card> AllCards();
         public abstract void AddBottom(Card c);
         public abstract void Add(Card c);
@@ -57,30 +57,31 @@ namespace CardEngine
     {
         public List<Card> cards = new List<Card>();
 
-        public CardListCollection(CCType type) {
+        public CardListCollection(CCType type, DefaultStorage<CardCollection> owner) {
             this.type = type;
-
+            this.owner = owner;
         }
 
         public override CardCollection ShallowCopy()
         {
-            return new CardListCollection(type)
+            return new CardListCollection(type, owner)
             {
                 name = (string)name.Clone(),
                 loc = loc,
                 //TODO
                 // find new cards, not clone
                 //cards = CloneCards() 
+                owner = owner,
                 cards = cards
             };
         }
-        public object Clone()
-        {
-            return new CardListCollection(type)
+        public object Clone() {
+            return new CardListCollection(type, owner)
             {
                 name = (string)name.Clone(),
                 loc = loc,
-                cards = new List<Card>()
+                cards = new List<Card>(),
+                owner = owner
             };
         }
 
