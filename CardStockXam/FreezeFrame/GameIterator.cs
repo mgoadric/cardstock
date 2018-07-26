@@ -747,15 +747,15 @@ namespace FreezeFrame
                 }
                 else if (text2 == "next")
                 {
-                    return new NextAction(game.CurrentPlayer(), game.players.IndexOf(game.CurrentPlayer().PeekNext()), game);
+                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().PeekNext().id, game);
                 }
                 else if (text2 == "current")
                 {
-                    return new NextAction(game.CurrentPlayer(), game.players.IndexOf(game.CurrentPlayer().Current()), game);
+                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().Current().id, game);
                 }
                 else if (text2 == "previous")
                 {
-                    return new NextAction(game.CurrentPlayer(), game.players.IndexOf(game.CurrentPlayer().PeekPrevious()), game);
+                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().PeekPrevious().id, game);
                 }
             }
             else if (text1 == "current")
@@ -768,15 +768,15 @@ namespace FreezeFrame
                 }
                 else if (text2 == "next")
                 {
-                    return new SetPlayerAction(game.players.IndexOf(game.CurrentPlayer().PeekNext()), game);
+                    return new SetPlayerAction(game.CurrentPlayer().PeekNext().id, game);
                 }
                 else if (text2 == "current")
                 {
-                    return new SetPlayerAction(game.players.IndexOf(game.CurrentPlayer().Current()), game);
+                    return new SetPlayerAction(game.CurrentPlayer().Current().id, game);
                 }
                 else if (text2 == "previous")
                 {
-                    return new SetPlayerAction(game.players.IndexOf(game.CurrentPlayer().PeekPrevious()), game);
+                    return new SetPlayerAction(game.CurrentPlayer().PeekPrevious().id, game);
                 }
             }
             return null;
@@ -837,12 +837,14 @@ namespace FreezeFrame
             return ret;
         }
 
+        // TODO if cards can belong to the table or teams, need more cases
         private int ProcessOwner(RecycleParser.OwnerContext owner)
         {
             Debug.WriteLine("Got to OWNER");
             var resultingCard = ProcessCard(owner.card()).Get();
             Debug.WriteLine("Result :" + resultingCard);
-            return game.CurrentPlayer().memberList.IndexOf((Player)resultingCard.owner.owner.owner); 
+            return ((Player)resultingCard.owner.owner.owner).id; 
+            // Will this crash if not owned by a player?
         }
 
         public bool ProcessBoolean(RecycleParser.BooleanContext boolNode)
@@ -1098,7 +1100,7 @@ namespace FreezeFrame
             if (other.GetChild(2).GetText() == "player")
             {
                 int me = game.currentPlayer.Peek().idx;
-                for (int i = 0; i < game.players.Count; i++)
+                for (int i = 0; i < game.players.Length; i++)
                 {
                     if (i != me)
                     { lst.Add(game.players[i]); }
@@ -1763,7 +1765,7 @@ namespace FreezeFrame
 
             game.PushPlayer();
             game.CurrentPlayer().idx = 0;
-            for (int i = 0; i < game.players.Count; ++i)
+            for (int i = 0; i < game.players.Length; ++i)
             {
                 var working = ProcessInt(scoreMethod.@int());
                 game.WriteToFile("s:" + working + " " + i);
@@ -1780,6 +1782,7 @@ namespace FreezeFrame
             return ret;
         }
 
+        // TODO WHY IS THIS DUPLICATED in a GAMEACTION??
         public void ProcessTeamCreate(RecycleParser.TeamcreateContext teamCreate)
         {
             var numTeams = teamCreate.teams().Count();

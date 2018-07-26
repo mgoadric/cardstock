@@ -13,7 +13,7 @@ namespace CardEngine{
 	public class StageCycle<T>{
 
         // Who is in your cycle
-		public readonly List<T> memberList;
+        public readonly IReadOnlyList<T> memberList;
 
         // The current player
 		public int idx = 0;
@@ -24,9 +24,8 @@ namespace CardEngine{
         // For Logging of the turn cycle in the transcript
         public CardGame cg;
 
-		public StageCycle(List<T> pList, CardGame cg){
+		public StageCycle(IReadOnlyList<T> pList, CardGame cg){
             memberList = pList;
-            var p = pList[0];
             this.cg = cg; 
 			WriteMember();
 		}
@@ -111,7 +110,7 @@ namespace CardEngine{
 		}
 
         private void WriteMember() {
-			var who = memberList[idx] as Player; // TODO MAKE THIS GENERIC
+			var who = memberList[idx] as Owner;
             if (who != null)
             {
                 cg.WriteToFile("t:" + who.name);

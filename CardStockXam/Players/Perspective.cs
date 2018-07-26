@@ -33,7 +33,7 @@ namespace Players
         }
 
         public int numberofPlayers()
-        { return cardgame.players.Count; }
+        { return cardgame.players.Length; }
 
         public int GetIdx()
         { return idx; }

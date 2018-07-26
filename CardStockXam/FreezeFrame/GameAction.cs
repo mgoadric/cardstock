@@ -401,7 +401,7 @@ namespace FreezeFrame {
 
         public override void Execute()
         {
-            former = cg.players.IndexOf(cg.CurrentPlayer().Current());
+            former = cg.CurrentPlayer().Current().id;
             cg.CurrentPlayer().SetMember(idx);
         }
 

@@ -110,7 +110,7 @@ public class ParseEngine
                
                 
                 if (exp.type == GameType.AllAI) {
-                    for (int j = 0; j < instance.players.Count; j++) {
+                    for (int j = 0; j < instance.players.Length; j++) {
                         Perspective perspective = new Perspective(j, instance, manageContext);
                         instance.players[j].decision  = new PIPMCPlayer(perspective);
                     }
@@ -164,7 +164,7 @@ public class ParseEngine
 					if (exp.type == GameType.AllAI)
 					{
                         lead[i] = new List<List<double>>();
-						for (int j = 0; j < instance.players.Count; j++)
+						for (int j = 0; j < instance.players.Length; j++)
 						{
                             Console.WriteLine("Adding leads for P" + j + ", count of " + instance.players[j].decision.GetLead().Count);
                             lead[i].Add(instance.players[j].decision.GetLead());

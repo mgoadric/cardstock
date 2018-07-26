@@ -18,7 +18,7 @@ namespace CardEngine
 
         public List<Card> sourceDeck = new List<Card>();
         public Owner[] table = new Owner[1];
-        public List<Player> players = new List<Player>(); 
+        public Player[] players; 
         public List<Team> teams = new List<Team>();
         public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>(); 
         public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
@@ -42,9 +42,11 @@ namespace CardEngine
             temp.table[0] = table[0].Clone();
 
             // Clone players in the same play order
-            foreach (Player op in players) {
+            temp.players = new Player[players.Length];
+            for (int i = 0; i < players.Length; i++) {
+                Player op = players[i];
                 Player newPlayer = op.Clone();
-                temp.players.Add(newPlayer);
+                temp.players[i] = newPlayer;
             }
 
             // Clone teams in the same team order, look up their players
@@ -238,8 +240,9 @@ namespace CardEngine
         }
                
         public void AddPlayers(int numPlayers, GameIterator gameContext) {
+            players = new Player[numPlayers];
             for (int i = 0; i < numPlayers; ++i) {
-                players.Add(new Player("p" + i, i));
+                players[i] = new Player("p" + i, i);
                 Perspective perspective = new Perspective(i, this, gameContext);
                 players[i].decision = new RandomPlayer(perspective);
             }
@@ -379,7 +382,7 @@ namespace CardEngine
         // TODO Can we move this to another location and call it a Logging class?
         public void WriteToFile(string text)
         {
-			if (logging)
+			if (false)
 			{
 				using (StreamWriter file = new StreamWriter(fileName + ".txt", true))
 				{
