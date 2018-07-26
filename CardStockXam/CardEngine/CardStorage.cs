@@ -5,8 +5,8 @@ using System.Linq;
 namespace CardEngine
 {
     /********
-     * A Dictionary with a default value provided. Useful for
-     * storing PointMaps, integers, strings, and CardCollections
+     * A Dictionary with a default value provided, specific to
+     * CardCollections because they act differently
      */
     public class CardStorage
     {
@@ -54,8 +54,8 @@ namespace CardEngine
         }
 
         /**********
-         * Int32 is not ICloneable, grrrr, so we need to do this hack
-         * to get a default value of 0 for int storage.
+         * Abstracts this in case we need to do something else
+         * when getting the default value
          */
         private CardCollection GetDefault()
         { return defaultCC.Clone(); }
@@ -69,7 +69,7 @@ namespace CardEngine
         }
 
         /*******
-         * Actually try to clone the objects to make a complete copy
+         * Make a hollow clone of keys
          */
         public CardStorage Clone(Owner other)
         {

@@ -24,14 +24,21 @@ namespace CardEngine{
         // For Logging of the turn cycle in the transcript
         public CardGame cg;
 
+        /********
+         * Create a new StageCycle from a list of Teams or Players,
+         * keep the cg for logging the transcript.
+         */
 		public StageCycle(IReadOnlyList<T> pList, CardGame cg){
             memberList = pList;
-            this.cg = cg; 
+            this.cg = cg;
+
+            // When the game starts, tell us who is the first player
 			WriteMember();
 		}
 
         /********
-         * A way to ShallowCopy the given source StageCycle
+         * A way to ShallowCopy the given source StageCycle when going into
+         * a deeper stage
          */
         public StageCycle(StageCycle<T> source){
 			memberList = source.memberList;
@@ -51,64 +58,67 @@ namespace CardEngine{
          * Who is currently scheduled to play next?
          */
 		public T PeekNext(){
-			var saved = idx;
-            if (queuedNext != -1)
-            {
-                idx = queuedNext;
+            if (queuedNext != -1) {
+                return memberList[queuedNext];
+            } else {
+                int next = idx++;
+                next %= memberList.Count;
+                return memberList[next];
             }
-            else{
-                idx++;
-                //Next();
-                if (idx >= memberList.Count) {
-                    idx = 0;
-                }
-			}
-			var ret = Current();
-			idx = saved;
-			return ret; 
-		}
+        }
 
         /******
-         * Who is the right of the current player?
+         * Who is to the right of the current player? NOT WHO WENT BEFORE
          */
 		public T PeekPrevious(){
-			var saved = idx;
-			idx--;
-			if (idx < 0){
-				idx = memberList.Count - 1;
+            int prev = idx - 1;
+			if (prev < 0){
+				prev = memberList.Count - 1;
 			}
-			var ret = Current();
-			idx = saved;
-			return ret;
+            return memberList[prev];
 		}
 
+        /*******
+         * Iterate to the next player, and log it to the transcript
+         */
 		public void Next(){
 			if (queuedNext != -1){
 				idx = queuedNext;
                 queuedNext = -1; //-AH
 			}
 			else{
-				++idx;
+				idx++;
+                idx %= memberList.Count;
 			}
-            if (idx >= memberList.Count){
-                idx = 0;
-			}
+
 			WriteMember();
 		}
 
+        /******
+         * Immediately change the current player within the current turn
+         */
 		public void SetMember(int index){
 			idx = index;
             WriteMember();
         }
 
+        /*******
+         * Queues up the next player for when the the cycle iterates
+         */
 		public void SetNext(int index){
 			queuedNext = index;
 		}
 
+        /******
+         * A way to Undo the GameAction that queued up the next player
+         */
         public void RevertNext(){
 			queuedNext = -1;
 		}
 
+        /******
+         * For logging the current player when their turn starts
+         */
         private void WriteMember() {
 			var who = memberList[idx] as Owner;
             if (who != null)

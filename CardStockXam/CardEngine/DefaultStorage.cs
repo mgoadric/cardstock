@@ -6,7 +6,7 @@ namespace CardEngine
 {
     /********
      * A Dictionary with a default value provided. Useful for
-     * storing PointMaps, integers, strings, and CardCollections
+     * storing PointMaps, integers, strings
      */
     public class DefaultStorage<T>
     {
@@ -76,7 +76,7 @@ namespace CardEngine
         }
 
         /*******
-         * Actually try to clone the objects to make a complete copy
+         * Clone the objects to make a complete copy
          */
         public DefaultStorage<T> Clone(Owner other)
         {
