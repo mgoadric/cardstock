@@ -98,13 +98,13 @@ namespace FreezeFrame {
                         actualloc = true;
                     }
                     var prefix = "M:";
-                    if (inChoice) { prefix = "N:"; }
+                    var arrow = " -> ";
+                    if (inChoice) { prefix = "N:"; arrow = " ?-> "; }
                     // TODO they will always have an owner now since table is an Owner?
                     if (cardToMove.owner != null) {
                         cg.WriteToFile(prefix + cardToMove.ToOutputString() + " " + cardToMove.owner.loc.name + arrow + endLocation.name); 
                     }
                     else {
-                        
                        cg.WriteToFile(prefix + cardToMove.ToOutputString() + " " + startLocation.name + arrow + endLocation.name);
                     }
                     endLocation.Add(cardToMove);
@@ -381,7 +381,7 @@ namespace FreezeFrame {
             // someone already in the queue
             if (playerCycle.queuedNext != -1) {
                 former = playerCycle.queuedNext;
-			} 
+			}
             playerCycle.SetNext(idx);
         }
 
@@ -394,7 +394,7 @@ namespace FreezeFrame {
                 playerCycle.RevertNext();
             }
             //Console.WriteLine("Reverting: " + former);
-         
+
         }
 		public override string ToString()
 		{

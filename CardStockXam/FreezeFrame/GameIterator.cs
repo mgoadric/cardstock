@@ -1285,7 +1285,7 @@ namespace FreezeFrame
                 }
                 else
                 {
-                    string name = stor.var().GetText(); // WE CAN GET VAR TEXT, BUT NOT SURE HOW TO TRACE BACK TO WHAT VAR REPRESENTS
+                    string name = ProcessStringVar(stor.var()); // WE CAN GET VAR TEXT, BUT NOT SURE HOW TO TRACE BACK TO WHAT VAR REPRESENTS
                     // ALSO, IS THIS SLOWING ME DOWN??
 
                     var fancy = new CardLocReference()

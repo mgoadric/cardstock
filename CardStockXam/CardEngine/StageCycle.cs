@@ -12,11 +12,10 @@ namespace CardEngine{
      */
 	public class StageCycle<T>{
 
-        // Who is in your cycle
-		public readonly List<T> memberList;
+        public readonly IReadOnlyList<T> memberList;
 
         // The current player
-		public int idx = 0;
+        public int idx = 0;
 
         // The index of a player queued up to go next instead of idx++
 		public int queuedNext = -1;
@@ -61,7 +60,7 @@ namespace CardEngine{
             if (queuedNext != -1) {
                 return memberList[queuedNext];
             } else {
-                int next = idx++;
+                int next = idx + 1;
                 next %= memberList.Count;
                 return memberList[next];
             }
@@ -82,7 +81,7 @@ namespace CardEngine{
          * Iterate to the next player, and log it to the transcript
          */
 		public void Next(){
-			if (queuedNext != -1){
+            if (queuedNext != -1){
 				idx = queuedNext;
                 queuedNext = -1; //-AH
 			}
@@ -98,7 +97,7 @@ namespace CardEngine{
          * Immediately change the current player within the current turn
          */
 		public void SetMember(int index){
-			idx = index;
+            idx = index;
             WriteMember();
         }
 
@@ -106,7 +105,7 @@ namespace CardEngine{
          * Queues up the next player for when the the cycle iterates
          */
 		public void SetNext(int index){
-			queuedNext = index;
+            queuedNext = index;
 		}
 
         /******
@@ -117,11 +116,10 @@ namespace CardEngine{
 		}
 
         private void WriteMember() {
-			var who = memberList[idx] as Player; // TODO MAKE THIS GENERIC
+            var who = memberList[idx] as Owner;
             if (who != null)
             {
                 cg.WriteToFile("t: " + who.name);
-                currentp = who;
             }
 		}
 
@@ -159,9 +157,3 @@ namespace CardEngine{
 
     }
 }
-        public readonly IReadOnlyList<T> memberList;
-        /******
-         * For logging the current player when their turn starts
-         */
-        private void WriteMember() {
-			var who = memberList[idx] as Owner;
