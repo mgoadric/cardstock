@@ -6,6 +6,13 @@ using FreezeFrame;
 
 namespace Players
 {
+    /********
+     * An abstract class to be subclassed for all of the AIPlayers. It will 
+     * know the number of players in the game, have a Perspective which
+     * privatizes the hidden aspects of the game from this player, and 
+     * a List that can track the player's estimates of their current
+     * game position
+     */
 	public abstract class AIPlayer 
 	{
         protected int numPlayers;
@@ -18,7 +25,12 @@ namespace Players
             numPlayers = perspective.numberofPlayers();
         }
 
-
+        /********
+         * This is the critical method that needs to be overridden in any subclass
+         * of AIPlayer. When a choice is found in the game, the potential 
+         * GameActions will be passed in along with a global RNG. The AIPlayer
+         * is expected to return an int which is the index of their chosen move.
+         */
         public abstract int MakeAction(List<GameActionCollection> possibles, Random rand);
 
         public static Tuple<int, int> MinMaxIdx(double[] input)

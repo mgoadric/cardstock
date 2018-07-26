@@ -1,10 +1,12 @@
 ﻿﻿using System;
 using System.Collections.Generic;
-using CardEngine;
-using CardStockXam.Scoring;
 using FreezeFrame;
 namespace Players
 {
+    /********
+     * An AIPlayer that will make one defined move, and then player
+     * randomly thereafter. Used by the PIPMCPlayer.
+     */
     public class PredictablePlayer : AIPlayer
     {
         private bool firstMove = true;
@@ -13,6 +15,10 @@ namespace Players
         public PredictablePlayer (Perspective perspective, int choice) : base(perspective)
         { toChoose = choice; }
 
+        /*********
+         * The first time it is asked for a choice, it will know what to do,
+         * then set its boolean flag false and be random
+         */
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
         {
 			if (firstMove)
