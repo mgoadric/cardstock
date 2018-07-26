@@ -14,13 +14,18 @@ namespace FreezeFrame
         public Dictionary<string, Card> fancyCardMap = new Dictionary<string, Card>();
         public Dictionary<string, CardLocReference> fancyCardLocMap = new Dictionary<string, CardLocReference>();
         public Dictionary<string, IntStorageReference> FancyIntStorageMap = new Dictionary<string, IntStorageReference>();
-        private Dictionary<string, Player> playerMap;
-        private Dictionary<string, Team> teamMap; // ADDED THESE DICTIONARIES TO MAKE THINGS WORK
 
         public RecycleVariables()
         {
             vars = new Dictionary<string, object>();
         }
+
+        public RecycleVariables Clone(CardGame cg)
+        {
+            var ret = new RecycleVariables();
+            ret.vars = CloneDictionary(cg);
+            return ret;
+        } // TODO
 
         public object Get(RecycleParser.VarContext var)
         {
@@ -48,7 +53,7 @@ namespace FreezeFrame
             vars.Remove(k);
         }
 
-        public Dictionary<String, object> CloneDictionary(Dictionary<String, object> original, CardGame newgame)
+        public Dictionary<String, object> CloneDictionary(CardGame newgame)
         {
             //TODO:
             //remove all non-primitive copies
@@ -56,7 +61,7 @@ namespace FreezeFrame
 
             Dictionary<String, object> ret = new Dictionary<String, object>();
 
-            foreach (KeyValuePair<String, object> entry in original)
+            foreach (KeyValuePair<String, object> entry in vars)
             {
                 var key = entry.Key;
                 var o = entry.Value;
@@ -77,19 +82,11 @@ namespace FreezeFrame
                     ret.Add(key, newgame.teams[t.id]);
                 }
 
-                /* else if (o is Card)
+                else if (o is Card c)
                  {
-                     // same question here? TODO
-                     //var c = fancyCardMap[(o as Card).attributes.Key];
-                     var save = (o as Card);
-                     Card c = save.Clone();
-                     c.owner = save.owner; // SAME OWNER ? OR OWNER CLONE?
-
-                     //instead
-                     //find card in same location
-                     //add that card instead of c
-                     ret.Add(key, c);
-                 }*/
+                     var idx = newgame.cardIdxs[c];
+                     ret.Add(key, newgame.sourceDeck[idx]);
+                 }
                 else if (o is CardLocReference)
                 {
                     var l = fancyCardLocMap[(o as CardLocReference).name];
@@ -115,13 +112,10 @@ namespace FreezeFrame
                 else if (o is List<Card>)
                 {
                     List<Card> l = new List<Card>();
-                    foreach (Card c in o as List<Card>)
+                    foreach (Card card in o as List<Card>)
                     {
-                        Card copy = c.Clone();
-
-                        copy.owner = fancyCardLocMap[c.owner.loc.name].cardList;
-
-                        l.Add(c);
+                        var idx = newgame.cardIdxs[card];
+                        l.Add(newgame.sourceDeck[idx]);
                     }
                     ret.Add(key, l);
 
@@ -157,24 +151,6 @@ namespace FreezeFrame
                 dict = FancyIntStorageMap;
                 id = (o as IntStorageReference).GetName();
                 //Console.WriteLine(id);
-            }
-            else if (o is Player p)
-            {
-                dict = playerMap;
-                id = p.name;
-            }
-            else if (o is Team t)
-            {
-                dict = teamMap;
-                id = t.name;
-                // TODO changed here - what should id be to make it generalized??????
-                //} else if (o is Card) {
-                //     dict = fancyCardMap;
-                //    Console.WriteLine((o as Card).attributes.Key);
-                //id = (o as Card).attributes.Key;
-                // should be suit + rank? but not always exists...
-                // should be 
-                //id = (o as Card).ReadAttributes(
             }
             else { Console.WriteLine("unknown type in AddToMap: " + o.GetType()); }
             if (!dict.Contains(id)) { dict.Add(id, o); }

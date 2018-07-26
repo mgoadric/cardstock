@@ -17,9 +17,9 @@ namespace FreezeFrame
         public World gameWorld;
         private RecycleVariables variables;
 
-        public GameIterator Clone(CardGame cg) {
+        public GameIterator Clone(CardGame newgame) { 
             // CHANGED HERE TODO 
-            var ret = new GameIterator(rules, cg, gameWorld, false); // 
+            var ret = new GameIterator(rules, newgame, gameWorld, false); // 
             var revStack = new Stack<Queue<IParseTree>>();
             foreach (var i in iterStack) {
                 revStack.Push(i);
@@ -35,7 +35,7 @@ namespace FreezeFrame
             foreach (var node in iteratingSet) {
                 ret.iteratingSet.Add(node);
             }
-            
+            ret.variables = variables.Clone(newgame);
             return ret;
         }
         
@@ -1033,7 +1033,6 @@ namespace FreezeFrame
                     locIdentifier = "top",
                     name = coll.name + "{MAX}"
                 };
-                fancy.cardList.loc = fancy;
                 variables.AddToMap(fancy);
                 return fancy;
             }
@@ -1063,7 +1062,6 @@ namespace FreezeFrame
                     locIdentifier = "top",
                     name = coll.name + "{MIN}"
                 };
-                fancy.cardList.loc = fancy;
                 variables.AddToMap(fancy);
                 return fancy;
             }
@@ -1087,7 +1085,6 @@ namespace FreezeFrame
                     locIdentifier = card.GetChild(1).GetText(),
                     name = loc.name
                 };
-                fancy.cardList.loc = fancy;
                 variables.AddToMap(fancy);
                 return fancy;
             }
@@ -1177,7 +1174,6 @@ namespace FreezeFrame
                     cardList = temp,
                     name = name + "{UNION}"
                 };
-                fancy.cardList.loc = fancy;
                 variables.AddToMap(fancy);
                 return fancy;
             }
@@ -1235,7 +1231,6 @@ namespace FreezeFrame
                         cardList = pairs[i],
                         name = "{mem}" + memset.tuple().var().GetText() + "{p" + i + "}"
                     };
-                    returnList[i].cardList.loc = returnList[i];
                     variables.AddToMap(returnList[i]);
                 }
                 return returnList;
@@ -1277,24 +1272,20 @@ namespace FreezeFrame
                     {
                         cardList = game.table[0].cardBins[prefix][stor.namegr().GetText()],
                         locIdentifier = "top",
-                        name = "t " + prefix + " " + stor.namegr().GetText()
+                        name = "table " + prefix + " " + stor.namegr().GetText()
                     };
-                    fancy.cardList.loc = fancy;
                     variables.AddToMap(fancy);
                     return fancy;
                 }
                 else
                 {
-                    string name = ProcessStringVar(stor.var()); // WE CAN GET VAR TEXT, BUT NOT SURE HOW TO TRACE BACK TO WHAT VAR REPRESENTS
-                    // ALSO, IS THIS SLOWING ME DOWN??
-
+                    string name = ProcessStringVar(stor.var()); 
                     var fancy = new CardLocReference()
                     {
                         cardList = game.table[0].cardBins[prefix][name],
                         locIdentifier = "top",
                         name = "t " + prefix + " " + name
                     };
-                    fancy.cardList.loc = fancy;
                     variables.AddToMap(fancy);
                     return fancy;
                 }
@@ -1314,7 +1305,6 @@ namespace FreezeFrame
                     cardList = player.cardBins[prefix][stor.namegr().GetText()],
                     name = player.name + " "  + prefix + " " +  stor.namegr().GetText()
                 };
-                fancy.cardList.loc = fancy;
                 variables.AddToMap(fancy);
                 return fancy;
             }
@@ -1326,7 +1316,6 @@ namespace FreezeFrame
                     cardList = player.cardBins[prefix][name],
                     name = player.name + " " +  prefix + " " + name
                 };
-                fancy.cardList.loc = fancy;
                 variables.AddToMap(fancy);
                 return fancy;
             }
@@ -1962,7 +1951,6 @@ namespace FreezeFrame
                 cardList = cList,
                 name = name2 + "{filter}" + filter.boolean().GetText(),
             };
-            fancy.cardList.loc = fancy;
             variables.AddToMap(fancy);
             return fancy;
         }
@@ -2291,10 +2279,10 @@ namespace FreezeFrame
             else if (ret is Card)
             {
                 var c = ret as Card;
-                // THIS LOOKS LIKE ONLY REALLY USEFUL PLACE FOR .loc???
-                var loc = c.owner.loc.ShallowCopy();
-                loc.SetLocId(c);
-                return loc;
+                CardCollection cardl = c.owner.ShallowCopy();
+                CardLocReference clr = new CardLocReference() { cardList = cardl, name = "manufactured variable" };
+                clr.SetLocId(c);
+                return clr;
             }
             Debug.WriteLine("error, type is " + ret.GetType());
             return null;

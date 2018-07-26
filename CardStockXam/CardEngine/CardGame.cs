@@ -17,6 +17,7 @@ namespace CardEngine
         public static Random rand = new Random();
 
         public List<Card> sourceDeck = new List<Card>();
+        public Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>(new IdentityEqualityComparer<Card>());
         public Owner[] table = new Owner[1];
         public Player[] players; 
         public List<Team> teams = new List<Team>();
@@ -37,6 +38,15 @@ namespace CardEngine
         public CardGame CloneCommon() {
             var temp = new CardGame(false, null); //here, players is being initialzed as an empty list of players
             temp.DeclaredName = "Special";
+
+            // Clone Source Deck and Index Cards
+            //*****************
+            for (int i = 0; i < sourceDeck.Count; ++i)
+            {
+                Card c = sourceDeck[i].Clone();
+                temp.cardIdxs[c] = temp.sourceDeck.Count;
+                temp.sourceDeck.Add(c);
+            }
 
             // Clone table
             temp.table[0] = table[0].Clone();
@@ -90,13 +100,10 @@ namespace CardEngine
             Debug.WriteLine("Playerlist: " + temp.CurrentPlayer().memberList.Count());
             Debug.WriteLine(playerIdx);
             Debug.WriteLine("Num players in clone secret: " + temp.players.Count());
-
             // Clone Source Deck and Index Cards
             HashSet<int> free = new HashSet<int>();
-            Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>(new IdentityEqualityComparer<Card>());
+     
             for (int i = 0; i < sourceDeck.Count; ++i) {
-                cardIdxs[sourceDeck[i]] = i;
-                temp.sourceDeck.Add(sourceDeck[i].Clone());
                 free.Add(i);
             }
 
@@ -133,15 +140,6 @@ namespace CardEngine
         {
 
             var temp = CloneCommon();
-
-            // Clone Source Deck and Index Cards
-            //*****************
-            Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>(new IdentityEqualityComparer<Card>()); ;
-            for (int i = 0; i < sourceDeck.Count; ++i)
-            {
-                cardIdxs[sourceDeck[i]] = i;
-                temp.sourceDeck.Add(sourceDeck[i].Clone());
-            }
 
             CloneCards(players, temp.players, temp.sourceDeck, cardIdxs);
             CloneCards(teams, temp.teams, temp.sourceDeck, cardIdxs);
@@ -274,9 +272,11 @@ namespace CardEngine
             var combos = cardAttributes.combinations();
             foreach (var combo in combos) {
                 var newCard = new Card(combo);
+                cardIdxs[newCard] = sourceDeck.Count;
                 sourceDeck.Add(newCard);
                 loc.Add(newCard);
-                WriteToFile("C:" + newCard.ToOutputString() + loc.owner.owner.name); 
+                WriteToFile("C:" + newCard.ToOutputString() + loc.owner.owner.name + " " + loc.type +
+                    " " + loc.name); 
             }
             //Console.ReadKey();
         }

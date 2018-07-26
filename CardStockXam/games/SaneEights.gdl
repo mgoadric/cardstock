@@ -1,4 +1,4 @@
-;; Crazy Eights in the GDL -- DONT THINK THIS WORKS
+;; Crazy Eights in the GDL 
 (game
     (setup  
      ;; Set up the players, 4 players each on their own team
@@ -39,7 +39,7 @@
               (top (game vloc DISCARD)))  
        )
    )
-   ;; Stages of the game ---- INFINITE LOOP HERE
+   ;; Stages of the game 
    (stage player
        (end (any player 'P (== (size ('P iloc HAND)) 0)))
 

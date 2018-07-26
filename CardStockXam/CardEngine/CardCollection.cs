@@ -13,9 +13,6 @@ namespace CardEngine
     {
         public string name;
 
-        // HOPE WE CAN GET RID OF THIS....
-        public CardLocReference loc;
-
         public CCType type;
         public CardStorage owner;
 
@@ -46,15 +43,10 @@ namespace CardEngine
 
         public CardCollection ShallowCopy()
         {
-            string name1;
-            if (name != null)
-            { name1 = (string)name.Clone(); }
-            else
-            { name1 = null; }
+
             return new CardCollection(type)
             {
-               name = name1,
-                loc = loc,
+                name = name,
                 //TODO
                 // find new cards, not clone
                 //cards = CloneCards() 
@@ -62,15 +54,10 @@ namespace CardEngine
             };
         }
         public CardCollection Clone() {
-            string name1;
-            if (name != null)
-            { name1 = (string)name.Clone(); }
-            else
-            { name1 = null; }
+
             return new CardCollection(type)
             {
-                name = name1,
-                loc = loc,
+                name = name,
                 cards = new List<Card>(),
                 owner = owner
             };

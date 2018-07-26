@@ -8,18 +8,14 @@ using CardStockXam.Scoring;
 namespace CardGames
 {
     public class Program
-
-   
     {
         public static void Main(string[] args)
         {
             //CardStockXam.Scorer.Main(args);
             var p = new Program();
-            p.SingleGame("games/Whist.gdl");
+            p.SingleGame("games/Blackjack.gdl");
             // p.AllGames();
         }
-
-
 
         void SingleGame(string game) {
 			var exp = new Experiment();

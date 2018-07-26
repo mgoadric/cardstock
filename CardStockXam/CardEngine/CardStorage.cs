@@ -49,7 +49,10 @@ namespace CardEngine
         {
             if (!dict.ContainsKey(key))
             {
-                dict[key] = GetDefault();
+                CardCollection ncc = GetDefault();
+                ncc.name = key;
+                dict[key] = ncc;
+
             }
         }
 
