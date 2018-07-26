@@ -5,11 +5,35 @@ using System.Linq;
 using CardEngine;
 
 namespace FreezeFrame {
-    public class GameActionCollection : List<GameAction> {
-        public GameActionCollection() : base() {
+
+    public abstract class GameAction {
+        public bool inChoice = false;
+        public bool complete;
+        public CardGame cg;
+        public void ExecuteActual(){
+            inChoice = false;
+            Execute();
+        }
+        public void TempExecute()
+        {
+            inChoice = true;
+            Execute();
+        }
+        public abstract void Execute();
+        public abstract void Undo();
+        public String Serialize() {
+            return "";
+        }
+    }
+
+    public class GameActionCollection : List<GameAction>
+    {
+        public GameActionCollection() : base()
+        {
 
         }
-        public void ExecuteAll() {
+        public void ExecuteAll()
+        {
             foreach (var gameColl in this)
             {
                 gameColl.ExecuteActual();
@@ -23,38 +47,17 @@ namespace FreezeFrame {
                 gameColl.Undo();
             }
         }
-		public override string ToString()
-		{
-            string toReturn = "";
-			foreach (var g in this)
-			{
-                toReturn += g.ToString();
-			}
-            return toReturn;
-		}
-
-	}
-    public abstract class GameAction {
-        public bool actual = true;
-        public bool complete;
-        public CardGame cg;
-        public void ExecuteActual(){
-            actual = true;
-            Execute();
-        }
-        public void TempExecute()
+        public override string ToString()
         {
-            actual = false;
-            Execute();
+            string toReturn = "";
+            foreach (var g in this)
+            {
+                toReturn += g.ToString();
+            }
+            return toReturn;
         }
-        public abstract void Execute();
-        public abstract void Undo();
-        public String Serialize() {
-            return "";
-        }
-       
-
     }
+
     public class CardMoveAction : GameAction {
         public CardLocReference startLocation;
         public CardLocReference endLocation;
@@ -95,7 +98,8 @@ namespace FreezeFrame {
                         actualloc = true;
                     }
                     var prefix = "M:";
-                    if (!actual) { prefix = "N:"; }
+                    if (inChoice) { prefix = "N:"; }
+                    // TODO they will always have an owner now since table is an Owner?
                     if (cardToMove.owner != null) {
                         cg.WriteToFile(prefix + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
                     }
@@ -148,6 +152,7 @@ namespace FreezeFrame {
             
         }
     }
+
     public class ShuffleAction : GameAction
     {
         private CardLocReference locations;
@@ -236,6 +241,7 @@ namespace FreezeFrame {
             return "TeamCreateAction: " + teamcreate.GetText();
 		}
     }
+
     public class InitializeAction : GameAction {
         CardCollection location;
         CardCollection before;
@@ -266,6 +272,7 @@ namespace FreezeFrame {
             return "InitializeAction: " + "Location: " + location.name + "; Cards: " + location.AllCards();
 		}
     }
+
     public class CardRememberAction : GameAction {
         CardLocReference startLocation;
         CardLocReference endLocation;
@@ -294,6 +301,7 @@ namespace FreezeFrame {
                                                                            
 		}
     }
+
     public class CardForgetAction : GameAction {
         CardLocReference endLocation;
         public CardForgetAction(CardLocReference end, CardGame cg) {
@@ -319,6 +327,7 @@ namespace FreezeFrame {
             return "CardForgetAction: To be removed: " + endLocation.name;
 		}
     }
+
     public class IntAction : GameAction {
 
         DefaultStorage<int> bins;
@@ -353,6 +362,7 @@ namespace FreezeFrame {
             return "IntAction: value: " + value.ToString();
 		}
     }
+
     public class NextAction : GameAction
     {
         private StageCycle<Player> playerCycle;
@@ -390,6 +400,7 @@ namespace FreezeFrame {
             return "NextAction: Next player: " + idx.ToString();
 		}
     }
+
     public class SetPlayerAction : GameAction
     {
         private int idx;
