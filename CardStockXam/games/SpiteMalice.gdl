@@ -1,4 +1,4 @@
-(game
+(game ;; POSSIBLY INFINITE LOOP 
    (declare 5 'HANDSIZE)
    (declare 20 'NUMCARDS)
    (declare 12 'MAXSIZE)

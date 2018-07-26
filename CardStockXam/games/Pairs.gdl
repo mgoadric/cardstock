@@ -1,6 +1,6 @@
 ;; Pairs in the GDL
 (game
-    (declare 2 'NUMP)
+    (declare 2 'NUMP) ;; THIS GAME MIGHT BE BROKEN???
     (setup  
      ;; Set up the players, 3 players each on their own team
       (create players 'NUMP)

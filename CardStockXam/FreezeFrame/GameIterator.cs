@@ -1277,7 +1277,7 @@ namespace FreezeFrame
                     {
                         cardList = game.table[0].cardBins[prefix][stor.namegr().GetText()],
                         locIdentifier = "top",
-                        name = "t" + prefix + stor.namegr().GetText()
+                        name = "t " + prefix + " " + stor.namegr().GetText()
                     };
                     fancy.cardList.loc = fancy;
                     variables.AddToMap(fancy);
@@ -1285,16 +1285,14 @@ namespace FreezeFrame
                 }
                 else
                 {
-                    string name = "";
-
-
-                    // current error here 
+                    string name = stor.var().GetText(); // WE CAN GET VAR TEXT, BUT NOT SURE HOW TO TRACE BACK TO WHAT VAR REPRESENTS
+                    // ALSO, IS THIS SLOWING ME DOWN??
 
                     var fancy = new CardLocReference()
                     {
                         cardList = game.table[0].cardBins[prefix][name],
                         locIdentifier = "top",
-                        name = "t" + prefix + name
+                        name = "t " + prefix + " " + name
                     };
                     fancy.cardList.loc = fancy;
                     variables.AddToMap(fancy);
@@ -1314,7 +1312,7 @@ namespace FreezeFrame
                 var fancy = new CardLocReference()
                 {
                     cardList = player.cardBins[prefix][stor.namegr().GetText()],
-                    name = player.name + prefix + stor.namegr().GetText()
+                    name = player.name + " "  + prefix + " " +  stor.namegr().GetText()
                 };
                 fancy.cardList.loc = fancy;
                 variables.AddToMap(fancy);
@@ -1326,7 +1324,7 @@ namespace FreezeFrame
                 var fancy = new CardLocReference()
                 {
                     cardList = player.cardBins[prefix][name],
-                    name = player.name + prefix + name
+                    name = player.name + " " +  prefix + " " + name
                 };
                 fancy.cardList.loc = fancy;
                 variables.AddToMap(fancy);
@@ -1563,7 +1561,7 @@ namespace FreezeFrame
 
                     if (temp2 != null)
                     {
-                        if (temp2.locIdentifier != "-1") // Why can't this be either top or 'empty'?
+                        if (temp2.locIdentifier != "-1") 
                         {
                             return temp2.Count();
                         }

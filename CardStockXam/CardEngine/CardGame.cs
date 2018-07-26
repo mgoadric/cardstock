@@ -276,7 +276,7 @@ namespace CardEngine
                 var newCard = new Card(combo);
                 sourceDeck.Add(newCard);
                 loc.Add(newCard);
-                WriteToFile("C:" + newCard.ToOutputString() + loc.name); // What happened?
+                WriteToFile("C:" + newCard.ToOutputString() + loc.owner.owner.name); 
             }
             //Console.ReadKey();
         }
@@ -382,7 +382,7 @@ namespace CardEngine
         // TODO Can we move this to another location and call it a Logging class?
         public void WriteToFile(string text)
         {
-			if (false)
+			if (logging) //logging
 			{
 				using (StreamWriter file = new StreamWriter(fileName + ".txt", true))
 				{

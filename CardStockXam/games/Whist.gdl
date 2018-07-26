@@ -1,4 +1,4 @@
-;; Whist in the GDL
+;; Whist in the GDL --- LOOP?
 (game
 
    (setup 

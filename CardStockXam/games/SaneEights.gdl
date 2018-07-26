@@ -1,4 +1,4 @@
-;; Crazy Eights in the GDL
+;; Crazy Eights in the GDL -- DONT THINK THIS WORKS
 (game
     (setup  
      ;; Set up the players, 4 players each on their own team
@@ -39,7 +39,7 @@
               (top (game vloc DISCARD)))  
        )
    )
-   ;; Stages of the game
+   ;; Stages of the game ---- INFINITE LOOP HERE
    (stage player
        (end (any player 'P (== (size ('P iloc HAND)) 0)))
 
@@ -64,8 +64,8 @@
                 (move (top (game iloc STOCK))
                       (top ((current player) iloc HAND)))
                 )
-           ((== (size (game iloc STOCK)) 0)
-            (turn pass))))
+          ((== (size (game iloc STOCK)) 0)
+		(turn pass))))
           
       
       ;; if STOCK is empty, resupply from discard
@@ -80,7 +80,7 @@
                               (top (game iloc STOCK))))
                 (move (top (game vloc TEMP))
                       (top (game vloc DISCARD)))
-                (shuffle (game iloc STOCK)))))         
+                (shuffle (game iloc STOCK)))))        
        
       ))
       )

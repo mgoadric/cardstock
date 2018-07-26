@@ -15,7 +15,7 @@ namespace CardGames
         {
             //CardStockXam.Scorer.Main(args);
             var p = new Program();
-            p.SingleGame("games/LostCities.gdl");
+            p.SingleGame("games/Whist.gdl");
             // p.AllGames();
         }
 

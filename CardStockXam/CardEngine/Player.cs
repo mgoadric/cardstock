@@ -58,6 +58,5 @@ namespace CardEngine
         {
             return name.GetHashCode() ^ team.GetHashCode() ^ intBins.GetHashCode() ^ cardBins.GetHashCode();
         }
-
     }
 }

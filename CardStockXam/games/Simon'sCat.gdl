@@ -1,4 +1,4 @@
-;; Simon's Cat in the GDL
+;; Simon's Cat in the GDL -- NOT SURE THIS WORKS
 
 (game
  (declare 4 'NUMP)

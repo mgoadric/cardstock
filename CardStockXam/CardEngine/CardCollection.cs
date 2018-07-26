@@ -11,7 +11,7 @@ namespace CardEngine
 
     public class CardCollection
     {
-        public string name = "undefined";
+        public string name;
 
         // HOPE WE CAN GET RID OF THIS....
         public CardLocReference loc;
@@ -41,11 +41,19 @@ namespace CardEngine
             this.type = type;
         }
 
+        public void SetName(String name)
+        { this.name = name; }
+
         public CardCollection ShallowCopy()
         {
+            string name1;
+            if (name != null)
+            { name1 = (string)name.Clone(); }
+            else
+            { name1 = null; }
             return new CardCollection(type)
             {
-                name = (string)name.Clone(),
+               name = name1,
                 loc = loc,
                 //TODO
                 // find new cards, not clone
@@ -54,9 +62,14 @@ namespace CardEngine
             };
         }
         public CardCollection Clone() {
+            string name1;
+            if (name != null)
+            { name1 = (string)name.Clone(); }
+            else
+            { name1 = null; }
             return new CardCollection(type)
             {
-                name = (string)name.Clone(),
+                name = name1,
                 loc = loc,
                 cards = new List<Card>(),
                 owner = owner

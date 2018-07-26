@@ -15,16 +15,16 @@ namespace FreezeFrame{
 		CardCollection[] array;
 		PointMap score;
 		public CardGrouping(int numBins, PointMap scoring){
+            array = new CardCollection[numBins];
             Reset();
 			score = scoring;
 		}
-		private void Reset(){
-			array = new CardCollection[array.Count()];
+		private void Reset(){ 
 			for (int i = 0; i < array.Count(); ++i){
 				array[i] = new CardCollection(CCType.VIRTUAL);
 			}
 		}
-		private void SortCards(CardCollection source){
+		private void SortCards(CardCollection source){ 
 			Reset();
 			foreach (var card in source.AllCards()){
 				var curScore = score.GetScore(card);

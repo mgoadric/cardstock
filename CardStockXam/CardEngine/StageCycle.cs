@@ -13,7 +13,7 @@ namespace CardEngine{
 	public class StageCycle<T>{
 
         // Who is in your cycle
-        public readonly IReadOnlyList<T> memberList;
+		public readonly List<T> memberList;
 
         // The current player
 		public int idx = 0;
@@ -116,15 +116,13 @@ namespace CardEngine{
 			queuedNext = -1;
 		}
 
-        /******
-         * For logging the current player when their turn starts
-         */
         private void WriteMember() {
-			var who = memberList[idx] as Owner;
+			var who = memberList[idx] as Player; // TODO MAKE THIS GENERIC
             if (who != null)
             {
-                cg.WriteToFile("t:" + who.name);
-            }			
+                cg.WriteToFile("t: " + who.name);
+                currentp = who;
+            }
 		}
 
         public override bool Equals(System.Object obj)
@@ -161,3 +159,9 @@ namespace CardEngine{
 
     }
 }
+        public readonly IReadOnlyList<T> memberList;
+        /******
+         * For logging the current player when their turn starts
+         */
+        private void WriteMember() {
+			var who = memberList[idx] as Owner;
