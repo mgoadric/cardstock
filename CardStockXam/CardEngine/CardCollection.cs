@@ -128,15 +128,25 @@ namespace CardEngine
             return ret.Substring(0, ret.Length - 1);
         }
 
-        public override bool Equals(System.Object obj) // For CardListCollection
+        public override bool Equals(System.Object obj) 
         {
+            //System.Console.WriteLine("COMPARING CARDCOLLECTIONS...");
             if (obj == null)
             { return false; }
-
+         
             CardCollection othercardcollection = obj as CardCollection;
-            if ((System.Object)othercardcollection == null)
+            if (othercardcollection == null)
+            { return false; }
+          
+            if (owner.owner.GetType() != othercardcollection.owner.owner.GetType())
+            { return false; }
+           
+            if (owner.owner.id != othercardcollection.owner.owner.id)
             { return false; }
 
+            if (type != othercardcollection.type)
+            { return false; }
+            
             if (!cards.SequenceEqual(othercardcollection.cards))
             { return false; }
 

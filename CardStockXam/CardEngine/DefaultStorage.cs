@@ -100,16 +100,25 @@ namespace CardEngine
 
         public override bool Equals(System.Object obj)
         {
-
             if (obj == null)
-            {
-                return false;
-            }
-            if (obj is DefaultStorage<T> p)
-            {
-                return dict.SequenceEqual(p.dict);
-            }
-            return false;
+            { return false; }
+            DefaultStorage<T> ds = obj as DefaultStorage<T>;
+            if (ds == null)
+            { return false; }
+
+            if (ds.GetDefault().GetType() != GetDefault().GetType())
+            { return false; }
+
+            if (ds.owner.GetType() != owner.GetType())
+            { return false; }
+
+            if (ds.owner.id != owner.id)
+            { return false; }
+
+            if (!ds.dict.SequenceEqual(dict))
+            { return false; }
+
+            return true;
         }
 
         public override int GetHashCode()

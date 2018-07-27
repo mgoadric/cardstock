@@ -138,7 +138,7 @@ namespace CardEngine{
 
             if (queuedNext != othercycle.queuedNext)
             { return false; }
-
+            
             if (!(memberList.SequenceEqual(othercycle.memberList)))
             { return false; }
 

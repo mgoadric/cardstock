@@ -24,15 +24,24 @@ namespace Players
 
         public int Choice(int optioncount, Random random) //
         {
+            // TEST CLONE 
+            if (perspective.TestingClone())
+            { Console.WriteLine("Clone Equals"); }
+            else { Console.WriteLine(("5 year plan")); }
+            
+
+            // TEST CLONESECRET
+            if (perspective.TestingCloneSecret())
+            { Console.WriteLine("CloneSecret Equals -- BAD"); }
+            else { Console.WriteLine("CloneSecret Different -- GOOD"); }
+
+            //
             Tuple<CardGame, GameIterator> game = perspective.GetPrivateGame();
             privategame = game.Item1;
             privateiterator = game.Item2;
-            if (privategame.Equals(privateiterator.game))
-            {
-                Console.WriteLine("CardGame equals Clone");
-            }
 
-            Dictionary<CardGame, Int32> plays = new Dictionary<CardGame, Int32>();
+            // PLAY GAME SIMULATION TEST
+            /*Dictionary<CardGame, Int32> plays = new Dictionary<CardGame, Int32>();
 
             Console.WriteLine("Playing a simulated game");
 
@@ -44,7 +53,7 @@ namespace Players
             }
 
             Console.WriteLine("Simulated Game is Over");
-            Console.WriteLine(plays.Count);
+            Console.WriteLine(plays.Count);*/
 
             Console.ReadLine();
             Environment.Exit(0);

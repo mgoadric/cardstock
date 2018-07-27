@@ -29,7 +29,7 @@ namespace Players
         {
             CardGame privategame = cardgame.CloneSecret(idx);
             GameIterator privategameiterator = actualgameiterator.Clone(privategame);
-            return new Tuple<CardGame, GameIterator> (privategame, privategameiterator);
+            return new Tuple<CardGame, GameIterator>(privategame, privategameiterator);
         }
 
         public int numberofPlayers()
@@ -40,5 +40,32 @@ namespace Players
 
         public World GetWorld()
         { return actualgameiterator.gameWorld; }
+
+        public bool TestingClone()
+        {
+            CardGame cg = cardgame.Clone();
+            if (!cg.Equals(cardgame))
+            { Console.WriteLine("Clone CardGame Not Equal -- Returning false"); return false; }
+
+            GameIterator g1 = new GameIterator(actualgameiterator.rules, cg, actualgameiterator.gameWorld, false);
+            GameIterator g2 = actualgameiterator.Clone(cg);
+            if (!g2.Equals(actualgameiterator))
+            { Console.WriteLine("Clone GameIterator Not Equal -- Returning false"); return false; }
+
+            return true;
+        }
+        public bool TestingCloneSecret()
+        {
+            CardGame cg = cardgame.CloneSecret(0);
+            if (!cg.Equals(cardgame))
+            { Console.WriteLine("CloneSecret CardGame not equal -- Returning False"); return false; }
+
+            GameIterator g1 = new GameIterator(actualgameiterator.rules, cg, actualgameiterator.gameWorld, false);
+            GameIterator g2 = actualgameiterator.Clone(cg);
+            if (!g2.Equals(actualgameiterator))
+            { Console.WriteLine("CloneSecret GameIterator not equal -- Returning False"); return false; }
+
+            return true;
+        }
     }
 }

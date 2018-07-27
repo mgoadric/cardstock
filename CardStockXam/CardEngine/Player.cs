@@ -13,12 +13,12 @@ namespace CardEngine
 
         // Players can be part of Teams of Players, and can access
         // their shared storage
-        public Team team; 
+        public Team team;
 
         // The particular AI is supplied by the GameIterator later
-		public AIPlayer decision;
+        public AIPlayer decision;
 
-        public Player(string name, int id) : base(name, id){
+        public Player(string name, int id) : base(name, id) {
         }
 
         // Not much happening here, everything taken care of in the 
@@ -30,33 +30,24 @@ namespace CardEngine
             return (Player)CloneImpl();
         }
 
-        protected override Owner CloneImpl() 
+        protected override Owner CloneImpl() // COULDN'T FIGURE OUT CASTING AND EXCEPTION HERE TODO
         {
-            Player other = (Player)base.CloneImpl();
+            Player other = new Player(name, id);
+            other.intBins = intBins.Clone(other);
+            other.stringBins = stringBins.Clone(other);
+            other.pointBins = pointBins.Clone(other);
+            other.cardBins = new Dictionary<CCType, CardStorage>();
+            foreach (CCType type in Enum.GetValues(typeof(CCType)))
+            {
+                if (type != CCType.VIRTUAL)
+                {
+                    other.cardBins[type] = cardBins[type].Clone(other);
+                }
+            }
+            other.team = team;
             return other;
+            
         }
 
-        public override bool Equals(System.Object obj)
-        {
-            if (obj == null)
-            { return false; }
-
-            Player otherplayer = obj as Player;
-            if ((System.Object)otherplayer == null)
-            { return false; }
-
-            if (!(intBins.Equals(otherplayer.intBins)) || !(cardBins.Equals(otherplayer.cardBins))) 
-            { return false; }
-
-            if (name != otherplayer.name || team.name != otherplayer.team.name)
-            { return false; }
-
-            return true;
-        }
-
-        public override int GetHashCode() // XORs relevant hashcodes
-        {
-            return name.GetHashCode() ^ team.GetHashCode() ^ intBins.GetHashCode() ^ cardBins.GetHashCode();
-        }
     }
 }

@@ -18,44 +18,20 @@ namespace CardEngine{
 
         protected override Owner CloneImpl()
         {
-            Team other = (Team)base.CloneImpl();
+            Team other = new Team(name, id);
+            other.intBins = intBins.Clone(other);
+            other.stringBins = stringBins.Clone(other);
+            other.pointBins = pointBins.Clone(other);
+            other.cardBins = new Dictionary<CCType, CardStorage>();
+            foreach (CCType type in System.Enum.GetValues(typeof(CCType)))
+            {
+                if (type != CCType.VIRTUAL)
+                {
+                    other.cardBins[type] = cardBins[type].Clone(other);
+                }
+            }
             other.teamPlayers = new List<Player>();
             return other;
         }
-
-        public override bool Equals(System.Object obj)
-        { 
-            if (obj == null)
-            { return false; }
-
-            Team otherteam = obj as Team;
-            if ((System.Object)otherteam == null)
-            { return false; }
-            
-            if (!(name.Equals(otherteam.name)))
-            { return false; }
-
-            if (!(intBins.Equals(otherteam.intBins))) 
-            { return false; }
-            
-            if (!(teamPlayers.SequenceEqual(otherteam.teamPlayers)))
-            { return false; }
-
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            int hash = 0;
-            hash ^= name.GetHashCode() ^ intBins.GetHashCode();
-            foreach(var player in teamPlayers)
-            {
-                hash ^= player.GetHashCode();
-            }
-            return hash;
-        }
     }
-
-   
-
 }

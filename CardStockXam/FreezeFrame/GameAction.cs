@@ -105,7 +105,6 @@ namespace FreezeFrame {
                         cg.WriteToFile(prefix + cardToMove.ToOutputString() + " " + cardToMove.owner.owner.owner.name + " " +
                             cardToMove.owner.type + " " + cardToMove.owner.name + " "  + 
                             arrow + endLocation.name); 
-                         
                     }
                     else {
                        cg.WriteToFile(prefix + cardToMove.ToOutputString() + " " + startLocation.name + arrow + endLocation.name);

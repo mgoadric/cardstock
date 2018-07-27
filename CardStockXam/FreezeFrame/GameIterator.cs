@@ -64,7 +64,9 @@ namespace FreezeFrame
                 {
                     topLevel.Enqueue(rules.GetChild(i));
                 }
-            } 
+            }
+            // CHANGE IT FROM BEING FRESH ST WE CAN COMPARE EQUALITY?
+            fresh = false;
 		}
 
 		public bool AdvanceToChoice(){
@@ -2302,6 +2304,30 @@ namespace FreezeFrame
         public bool All(RecycleParser.AggContext agg)
         {
             return agg.GetChild(1).GetText() == "all";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            { Console.WriteLine("obj is null"); return false; }
+
+            GameIterator other = obj as GameIterator;
+            if (obj == null)
+            { Console.WriteLine("obj as gameiterator is null"); return false; }
+
+            if (other.gameWorld != gameWorld)
+            { Console.WriteLine("gameworlds not equal"); return false; }
+
+            if (other.rules != rules)
+            { Console.WriteLine("rules not equal"); return false; }
+
+            if (!other.variables.Equals(variables))
+            { Console.WriteLine("variables not equal"); return false; }
+
+            if (!other.game.Equals(game))
+            { Console.WriteLine("Games not equal"); return false; }
+
+            return true;
         }
     }
 }

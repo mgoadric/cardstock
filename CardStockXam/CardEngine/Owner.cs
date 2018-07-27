@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Linq;
+
 namespace CardEngine
 {
     /**********
@@ -63,14 +65,14 @@ namespace CardEngine
         // so the cards can be filled in from the sourceDeck of the CardGame
         protected virtual Owner CloneImpl() 
         {
-            Owner other = new Owner(name, id);
+            var other = new Owner(name, id);
             other.intBins = intBins.Clone(other);
             other.stringBins = stringBins.Clone(other);
             other.pointBins = pointBins.Clone(other);
             other.cardBins = new Dictionary<CCType, CardStorage>();
             foreach (CCType type in Enum.GetValues(typeof(CCType)))
             {
-                if (type != CCType.VIRTUAL)
+                if (type != CCType.VIRTUAL) // EITHER NEED TO CHANGE THIS OR CHANGE EQUALITY -- NOT SURE WHY NOT COPY VIRTUALS?
                 {
                     other.cardBins[type] = cardBins[type].Clone(other);
                 }
@@ -78,7 +80,7 @@ namespace CardEngine
             return other;
         }
 
-        public override string ToString()
+        public override string ToString() // TODO
         {
             StringBuilder ret = new StringBuilder(GetType().ToString() + ":\n");
             ret.Append(cardBins.ToString());
@@ -89,24 +91,51 @@ namespace CardEngine
             return ret.ToString();
         }
 
-        public override bool Equals(System.Object obj)
+        public override bool Equals(System.Object obj) // USE THIS AS GENERAL OWNER CHECK --
         {
+            
             if (obj == null)
-            { return false; }
+            { Console.WriteLine("owner is null"); return false; }
+           
+            Owner otherowner = obj as Owner;
+            if (otherowner == null)
+            { Console.WriteLine("owner as owner is null"); return false; }
 
-            Owner otherplayer = obj as Owner;
-            if ((System.Object)otherplayer == null)
-            { return false; }
+            if (GetType() != otherowner.GetType())
+            { Console.WriteLine("Types not equal"); return false; }
 
-            if (!(intBins.Equals(otherplayer.intBins)) || !(cardBins.Equals(otherplayer.cardBins)))
-            { return false; }
+            if (this as Player != null && otherowner as Player != null)
+            {
+                Player thisplayer = this as Player; Player otherplayer = otherowner as Player;
+                if (thisplayer.team.id != otherplayer.team.id)
+                { Console.WriteLine("Player Specific Owner failure"); return false; }
+            }
 
-            // TODO
-            // stringBins
-            // pointBins
+            if (this as Team != null && otherowner as Team != null)
+            {
+                Team thisteam = this as Team; Team otherteam = otherowner as Team;
+                if (!thisteam.teamPlayers.SequenceEqual(otherteam.teamPlayers))
+                { Console.WriteLine("Team specific owner failure"); return false; }
+            }
+            //SPECIAL THINGS FOR OTHER OWNERS??
 
-            if (name != otherplayer.name)
-            { return false; }
+            if (!(intBins.Equals(otherowner.intBins)))
+            { Console.WriteLine("owner intBins not equal"); return false; }
+            
+            if (!(stringBins.Equals(otherowner.stringBins)))
+            { Console.WriteLine("owner stringbins not equal"); return false; }
+           
+            if (!(cardBins.SequenceEqual(otherowner.cardBins)))
+            { Console.WriteLine("owner cardbins not equal"); return false; }
+            
+            if (!(pointBins.Equals(otherowner.pointBins)))
+            { Console.WriteLine("owner pointbins not equal"); return false; }
+            
+            if (name != otherowner.name)
+            { Console.WriteLine("owner names not equal"); return false; }
+            
+            if (id != otherowner.id)
+            { Console.WriteLine("owner ids not equal"); return false; }
 
             return true;
         }

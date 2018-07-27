@@ -17,7 +17,7 @@ namespace CardEngine
         public static Random rand = new Random();
 
         public List<Card> sourceDeck = new List<Card>();
-        public Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>(new IdentityEqualityComparer<Card>());
+        public Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>(new EqualityComparer<Card>());
         public Owner[] table = new Owner[1];
         public Player[] players; 
         public List<Team> teams = new List<Team>();
@@ -27,6 +27,20 @@ namespace CardEngine
         // For writing the game transcript. DOES THIS BELONG HERE???
         public bool logging;
         public string fileName;
+
+        public sealed class EqualityComparer<T> : IEqualityComparer<T>
+        where T : class
+        {
+            public int GetHashCode(T value)
+            {
+                return RuntimeHelpers.GetHashCode(value);
+            }
+
+            public bool Equals(T left, T right)
+            {
+                return left.Equals(right); //  identity comparison
+            }
+        }
 
         public CardGame(bool logging, string fileName) {
             this.logging = logging;
@@ -307,68 +321,70 @@ namespace CardEngine
             }
             return ret;
         }
-        /*
+        
         public override bool Equals(System.Object obj) // In Progress
         {
-            Console.WriteLine("CALLING CARDGAME EQUALITY");
+            //Console.WriteLine("CALLING CARDGAME EQUALITY");
 
-            
             // CHECK OBJECT IS CARDGAME
             if (obj == null)
-            { return false; }
-            //Console.WriteLine("1");
+            { Console.WriteLine("obj is null"); return false; }
+            
             CardGame othergame = obj as CardGame;
             if ((System.Object)othergame == null)
-            { return false; }
+            { Console.WriteLine("obj as cardgame is null"); return false; }
 
-            //Console.WriteLine("2");
-            // CHECK NECESSARY PARTS OF CARD GAME
-            if (!(othergame.players.Count() == this.players.Count()) ||
-                                        !(othergame.teams.Count() == this.teams.Count()))
-            { return false; }
-            //Console.WriteLine("3");
-            if (!(sourceDeck.SequenceEqual(othergame.sourceDeck)))
-            { return false; }
-
-            //Console.WriteLine("4");
-           
-            if (!(tableCards.Equals(othergame.tableCards))) 
-            { return false; }
-            //Console.WriteLine("4.5");
-
-            if (!(tableIntStorage.Equals(othergame.tableIntStorage)))
-            { return false; }
-            //Console.WriteLine("5");
-            if (!(points.Equals(othergame.points)))
-            { return false; }
-            //Console.WriteLine("6");
-
-            if (!(currentPlayer.SequenceEqual(othergame.currentPlayer)))
-            { return false; }
             
-            //Console.WriteLine("7");
-            if (!(currentTeam.SequenceEqual(othergame.currentTeam)))
-            { return false; }
-            //Console.WriteLine("8");
-            if (!(players.SequenceEqual(othergame.players)))
-            { return false; }
-            //Console.WriteLine("9");
-            if (!(teams.SequenceEqual(othergame.teams)))
-            { return false; }
-            //Console.WriteLine("10");
+            // CHECK NECESSARY PARTS OF CARD GAME (COULD BE MISSING SOME NOW)
+            if (!(othergame.players.Count() == players.Count()) ||
+                                        !(othergame.teams.Count() == teams.Count()))
+            { Console.WriteLine("Player count or team count not equal"); return false; }
+
+            if (!cardIdxs.SequenceEqual(othergame.cardIdxs))
+            { Console.WriteLine("Cardidxs not equal"); return false; }
+
+            if (!(sourceDeck.SequenceEqual(othergame.sourceDeck)))
+            { Console.WriteLine("Source Deck not equal"); return false; }
+
+            if (!(table[0].intBins.Equals(othergame.table[0].intBins)))
+            { Console.WriteLine("table int bins not equal"); return false; }
+            
+            if (!(table[0].pointBins.Equals(othergame.table[0].pointBins)))
+            { Console.WriteLine("Table pointBins not equal"); return false; }
+
+            if (!(table[0].stringBins.Equals(othergame.table[0].stringBins)))
+            { Console.WriteLine("table Stringbins not equal"); return false; }
+            
+            if (!(table[0].cardBins.SequenceEqual(othergame.table[0].cardBins)))
+            { Console.WriteLine("table cardbins not equal"); return false; }
+        
+            if (!(currentPlayer.SequenceEqual(othergame.currentPlayer)))
+            { Console.WriteLine("Stack of player StageCycles not equal"); return false; }
            
+            if (!(currentTeam.SequenceEqual(othergame.currentTeam)))
+            { Console.WriteLine("Stack of team StageCycles not equal"); return false; }
+
+            if (!(players.SequenceEqual(othergame.players)))
+            { Console.WriteLine("Player list not equal"); return false; }
+
+            if (!(teams.SequenceEqual(othergame.teams)))
+            { Console.WriteLine("Team List not equal"); return false; }
+
             return true;
         }
 
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() // TODO
+        {/*
             int hash = 0;
             foreach (var card in sourceDeck) { hash ^= card.GetHashCode(); }
             foreach (var player in players) { hash ^= player.GetHashCode(); }
             foreach (var team in teams) { hash ^= team.GetHashCode(); }
-            hash ^= tableCards.GetHashCode();
-            hash ^= tableIntStorage.GetHashCode();
-            hash ^= points.GetHashCode();
+            hash ^= sourceDeck.GetHashCode();
+            hash ^= table[0].intBins.GetHashCode();
+            hash ^= table[0].pointBins.GetHashCode();
+            hash ^= table[0].stringBins.GetHashCode();
+            hash ^= table[0].
+         
 
             Stack<StageCycle<Player>> playercopy = currentPlayer;
             Stack<StageCycle<Team>> teamcopy = currentTeam;
@@ -376,8 +392,9 @@ namespace CardEngine
             while (playercopy.Count != 0) { hash ^= playercopy.Pop().GetHashCode(); }
             while (teamcopy.Count != 0) { hash ^= teamcopy.Pop().GetHashCode(); }
 
-            return hash;
-        }*/
+            return hash;*/
+            return 0;
+        }
 
         // TODO Can we move this to another location and call it a Logging class?
         public void WriteToFile(string text)

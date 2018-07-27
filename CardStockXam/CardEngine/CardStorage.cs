@@ -90,16 +90,27 @@ namespace CardEngine
 
         public override bool Equals(System.Object obj)
         {
-
+            //System.Console.WriteLine("INTO CARDSTORAGE EQUALITY");
             if (obj == null)
-            {
-                return false;
-            }
-            if (obj is CardStorage p)
-            {
-                return dict.SequenceEqual(p.dict);
-            }
-            return false;
+            { return false; }
+
+            CardStorage cs = obj as CardStorage;
+            if (cs == null)
+            { return false; }
+
+            if (cs.owner.GetType() != owner.GetType())
+            { Console.WriteLine("Owner types not equal"); return false; }
+            
+            if (cs.owner.id != owner.id)
+            { Console.WriteLine("Owner names not equal"); return false; }
+            
+            if (!cs.defaultCC.Equals(defaultCC))
+            { Console.WriteLine("DefaultCC not equal"); return false; }
+            
+            if (!cs.dict.SequenceEqual(dict))
+            { Console.WriteLine("Dictionary of Card Collections not equal"); return false; }
+        
+            return true;
         }
 
         public override int GetHashCode()

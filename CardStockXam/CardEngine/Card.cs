@@ -43,30 +43,28 @@ namespace CardEngine{
 			return ret;
 		}
 
-        public override bool Equals(System.Object obj)
+        public override bool Equals(object obj)
         {
-            if(obj == null)
-            {
-                return false;
-            }
+            return this.Equals(obj as Card);
+        }
+
+        public bool Equals(Card p)
+        {
+            /*if(obj == null)
+            { return false; }
             Card p = obj as Card;
-            if ((System.Object)p == null)
-            {
-                return false;
-            }
+            if (p == null)
+            { return false; }*/
 
+            if (p.ToOutputString() != ToOutputString()) 
+            { return false; }
 
-            if (p.ToString() != this.ToString()) 
-            {
-                return false;
-            }
-
-            return true; // Returns that strings are equal
+            return true; 
         }
 
         public override int GetHashCode() 
         {
-            return this.ToString().GetHashCode(); 
+            return ToOutputString().GetHashCode(); 
         }
 
         public string ToOutputString()
