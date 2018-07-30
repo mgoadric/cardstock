@@ -67,5 +67,18 @@ namespace Players
 
             return true;
         }
+        public bool TestCloneSecretClone()
+        {
+            CardGame cg = cardgame.CloneSecret(0);
+            CardGame clone = cg.Clone();
+            CardGame clone2 = clone.Clone();
+            if (clone.Equals(cg))
+            { Console.WriteLine("Clonesecret equals Cloned CloneSecret"); }
+            else { Console.WriteLine("cry"); }
+            if (clone2.Equals(clone))
+            { Console.WriteLine("CloneSecret's Clone Clone equals CloneSecret's Clone"); }
+            return true;
+        }
+       
     }
 }

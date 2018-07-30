@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using FreezeFrame;
 
 namespace CardEngine
@@ -120,12 +121,14 @@ namespace CardEngine
         }
         public override string ToString()
         {
-            var ret = name + "#";
+            StringBuilder ret = new StringBuilder();
+            ret.Append("CardCollection " + name + " | CC TYPE: " + type.ToString() + "\r\n");
             foreach (Card card in cards)
             {
-                ret += card.ToString() + " ";
+                ret += card.ToOutputString() + " ";
             }
-            return ret.Substring(0, ret.Length - 1);
+            ret.Append("END OF CARDCOLLECTION\n");
+            return ret.ToString();
         }
 
         public override bool Equals(System.Object obj) 
@@ -164,3 +167,5 @@ namespace CardEngine
         }
     }
 }
+
+                ret += card.ToString() + " ";

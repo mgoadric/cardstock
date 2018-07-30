@@ -13,8 +13,8 @@ namespace CardGames
         {
             //CardStockXam.Scorer.Main(args);
             var p = new Program();
-            p.SingleGame("games/Whist.gdl");
-            // p.AllGames();
+            p.SingleGame("games/BlackJack.gdl");
+            //p.AllGames();
         }
 
         void SingleGame(string game) {
@@ -26,7 +26,7 @@ namespace CardGames
 
             exp.logging = true;
             exp.evaluating = false;
-            exp.type = GameType.RndandAI;
+            exp.type = GameType.AllRnd;
 
 			var codeGen = new ParseEngine(exp);
             codeGen.setWorld(new World());

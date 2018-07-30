@@ -46,8 +46,6 @@ namespace CardEngine
             }
             other.team = team;
             return other;
-            
         }
-
     }
 }

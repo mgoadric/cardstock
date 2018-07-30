@@ -174,7 +174,7 @@ namespace FreezeFrame {
                 unshuffled.Add(c);
             }
             locations.cardList.Shuffle();
-			cg.WriteToFile("O:" + locations.cardList);
+			//cg.WriteToFile("O:" + locations.cardList); LINE THAT PRINTS THE ENTIRE DECK COLLECTION
 
 		}
         public override void Undo()

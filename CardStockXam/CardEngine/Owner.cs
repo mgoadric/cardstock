@@ -80,14 +80,17 @@ namespace CardEngine
             return other;
         }
 
-        public override string ToString() // TODO
+        public override string ToString()
         {
-            StringBuilder ret = new StringBuilder(GetType().ToString() + ":\n");
-            ret.Append(cardBins.ToString());
-            // TODO
-            // intBins
-            // stringBins
-            // pointBins
+            StringBuilder ret = new StringBuilder(); // GetType().ToString() + ":\n");
+            ret.Append("Name: " + name + " | ID: " + id.ToString() + "\r\n");
+            ret.Append("Listing Storages...\r\n");
+            foreach(CCType type in cardBins.Keys)
+            {
+                ret.Append(cardBins[type].ToString());
+            }
+            ret.Append(intBins.ToString());
+            ret.Append(pointBins.ToString());
             return ret.ToString();
         }
 
@@ -139,16 +142,13 @@ namespace CardEngine
 
             return true;
         }
-/*
-        public override int GetHashCode() // XORs relevant hashcodes
+
+        public override int GetHashCode() 
         {
-            return name.GetHashCode() ^ id.GetHashCode() ^ intBins.GetHashCode() ^ cardBins.GetHashCode();
-            // TODO
-            // stringBins
-            // pointBins
-
-
+            int hash = 0;
+            hash ^= name.GetHashCode() ^ id.GetHashCode() ^ intBins.GetHashCode() ^ cardBins.GetHashCode();
+            hash ^= stringBins.GetHashCode() ^ pointBins.GetHashCode();
+            return hash;
         }
-
-*/  }
+    }
 }

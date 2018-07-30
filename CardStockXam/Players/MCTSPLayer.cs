@@ -24,16 +24,24 @@ namespace Players
 
         public int Choice(int optioncount, Random random) //
         {
+            /*Tuple<CardGame, GameIterator> temp =  perspective.GetPrivateGame();
+            privategame = temp.Item1;
+            privateiterator = temp.Item2;*/
+
             // TEST CLONE 
             if (perspective.TestingClone())
             { Console.WriteLine("Clone Equals"); }
             else { Console.WriteLine(("5 year plan")); }
-            
+
 
             // TEST CLONESECRET
-            if (perspective.TestingCloneSecret())
-            { Console.WriteLine("CloneSecret Equals -- BAD"); }
-            else { Console.WriteLine("CloneSecret Different -- GOOD"); }
+            perspective.TestingCloneSecret();
+
+            // TEST CLONESECRETCLONE
+            perspective.TestCloneSecretClone();
+
+
+
 
             //
             Tuple<CardGame, GameIterator> game = perspective.GetPrivateGame();

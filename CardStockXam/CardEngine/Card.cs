@@ -25,10 +25,10 @@ namespace CardEngine{
 
         public override bool Equals(object obj)
         {
-            return this.Equals(obj as Card);
+            return Equals(obj as Card);
         }
 
-        public bool Equals(Card p)
+        public bool Equals(Card c)
         {
             /*if(obj == null)
             { return false; }
@@ -36,7 +36,7 @@ namespace CardEngine{
             if (p == null)
             { return false; }*/
 
-            if (p.ToString() != this.ToString()) 
+            if (p.ToOutputString() != ToOutputString()) 
             { return false; }
 
             return true; 
@@ -62,3 +62,4 @@ namespace CardEngine{
 		} 
     }
 }
+            if (p.ToString() != this.ToString()) 

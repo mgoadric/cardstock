@@ -374,7 +374,7 @@ namespace CardEngine
         }
 
         public override int GetHashCode() // TODO
-        {/*
+        {
             int hash = 0;
             foreach (var card in sourceDeck) { hash ^= card.GetHashCode(); }
             foreach (var player in players) { hash ^= player.GetHashCode(); }
@@ -383,7 +383,7 @@ namespace CardEngine
             hash ^= table[0].intBins.GetHashCode();
             hash ^= table[0].pointBins.GetHashCode();
             hash ^= table[0].stringBins.GetHashCode();
-            hash ^= table[0].
+            hash ^= table[0].cardBins.GetHashCode();
          
 
             Stack<StageCycle<Player>> playercopy = currentPlayer;
@@ -392,8 +392,7 @@ namespace CardEngine
             while (playercopy.Count != 0) { hash ^= playercopy.Pop().GetHashCode(); }
             while (teamcopy.Count != 0) { hash ^= teamcopy.Pop().GetHashCode(); }
 
-            return hash;*/
-            return 0;
+            return hash;
         }
 
         // TODO Can we move this to another location and call it a Logging class?

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace CardEngine
 {
@@ -129,6 +130,17 @@ namespace CardEngine
                 hash ^= dict[k].GetHashCode();
             }
             return hash;
+        }
+        public override string ToString()
+        {
+            StringBuilder ret = new StringBuilder();
+            int i = 0;
+            foreach (string s in dict.Keys)
+            {
+                ret.Append("Storage " + s + ":\r\n" + dict[s].ToString() + "\r\n");
+                i++;
+            }
+            return ret.ToString();
         }
 
     }
