@@ -285,11 +285,11 @@ namespace CardEngine
         public void SetDeck(Tree cardAttributes, CardCollection loc) {
             var combos = cardAttributes.combinations();
             foreach (var combo in combos) {
-                var newCard = new Card(combo);
+                var newCard = new Card(combo.Flatten());
                 cardIdxs[newCard] = sourceDeck.Count;
                 sourceDeck.Add(newCard);
                 loc.Add(newCard);
-                WriteToFile("C:" + newCard.ToOutputString() + loc.owner.owner.name + " " + loc.type +
+                WriteToFile("C:" + newCard.ToString() + loc.owner.owner.name + " " + loc.type +
                     " " + loc.name); 
             }
             //Console.ReadKey();

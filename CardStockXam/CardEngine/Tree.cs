@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 namespace CardEngine
@@ -12,6 +13,10 @@ namespace CardEngine
         public override string ToString()
         {
             return rootNode.ToString();
+        }
+
+        public Dictionary<string, string> Flatten() {
+            return rootNode.Flatten();
         }
         public List<List<Node>> uniqueOptions()
         {
@@ -56,6 +61,7 @@ namespace CardEngine
 
             return ret;
         }
+
         public List<Node> combinations()
         {
 
@@ -137,6 +143,28 @@ namespace CardEngine
                 temp = temp.children[0];
             }
             temp.children = new List<Node> { n };
+        }
+
+        private void FlattenHelper(Dictionary<string, string> ret) {
+            if (children != null)
+            {
+                foreach (var node in children)
+                {
+                    node.FlattenHelper(ret);
+                }
+            }
+            if (Value != null && !Value.Contains("Root") && !Value.Contains("combo"))
+            {
+                //Console.WriteLine("flat." + Key + ":" + Value);
+                ret[Key] = Value;
+            }
+        }
+
+        public Dictionary<string, string> Flatten() 
+        {
+            Dictionary<string, string> ret = new Dictionary<string, string>();
+            FlattenHelper(ret);
+            return ret;
         }
 
         public string Serialize()

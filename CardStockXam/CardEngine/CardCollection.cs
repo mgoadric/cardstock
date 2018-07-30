@@ -123,7 +123,7 @@ namespace CardEngine
             var ret = name + "#";
             foreach (Card card in cards)
             {
-                ret += card.ToOutputString() + " ";
+                ret += card.ToString() + " ";
             }
             return ret.Substring(0, ret.Length - 1);
         }
