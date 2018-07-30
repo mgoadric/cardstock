@@ -74,7 +74,7 @@ namespace Players
             CardGame clone2 = clone.Clone();
             if (clone.Equals(cg))
             { Console.WriteLine("Clonesecret equals Cloned CloneSecret"); }
-            else { Console.WriteLine("cry"); }
+            else { Console.WriteLine("Clonesecret Clone fail"); }
             if (clone2.Equals(clone))
             { Console.WriteLine("CloneSecret's Clone Clone equals CloneSecret's Clone"); }
             return true;

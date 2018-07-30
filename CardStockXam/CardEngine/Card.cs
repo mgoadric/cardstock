@@ -36,7 +36,7 @@ namespace CardEngine{
             if (p == null)
             { return false; }*/
 
-            if (p.ToOutputString() != ToOutputString()) 
+            if (c.ToString() != ToString()) 
             { return false; }
 
             return true; 
@@ -61,5 +61,4 @@ namespace CardEngine{
 			}
 		} 
     }
-}
-            if (p.ToString() != this.ToString()) 
+}

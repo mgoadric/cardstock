@@ -996,11 +996,11 @@ namespace FreezeFrame
         }
         public GameAction ProcessMove(RecycleParser.MoveactionContext move)
         {
-            var cardOne = ProcessCard(move.GetChild(1) as RecycleParser.CardContext);
-            var cardTwo = ProcessCard(move.GetChild(2) as RecycleParser.CardContext);
+            var locOne = ProcessCard(move.GetChild(1) as RecycleParser.CardContext);
+            var locTwo = ProcessCard(move.GetChild(2) as RecycleParser.CardContext);
             //Console.WriteLine("Card one: " + ProcessCard(move.GetChild(1) as RecycleParser.CardContext));
             //Console.WriteLine("Card two: " + ProcessCard(move.GetChild(2) as RecycleParser.CardContext));
-            return new CardMoveAction(cardOne, cardTwo, game);
+            return new CardMoveAction(locOne, locTwo, game);
         }
 
         internal GameAction ProcessShuffle(CardLocReference locations)

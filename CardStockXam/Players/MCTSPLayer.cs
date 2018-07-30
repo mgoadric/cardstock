@@ -31,7 +31,7 @@ namespace Players
             // TEST CLONE 
             if (perspective.TestingClone())
             { Console.WriteLine("Clone Equals"); }
-            else { Console.WriteLine(("5 year plan")); }
+            else { Console.WriteLine(("Doesn't Equal")); }
 
 
             // TEST CLONESECRET

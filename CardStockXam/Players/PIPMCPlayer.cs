@@ -12,7 +12,7 @@ namespace Players
     {
         private CardGame privategame;
         private GameIterator privateiterator;
-        private static int NUMTESTS = 10; //previously 20
+        private static int NUMTESTS = 1; //previously 20
 
         public PIPMCPlayer(Perspective perspective) : base(perspective) { }
 		
@@ -56,7 +56,7 @@ namespace Players
 
                     // JUST USING ONE CLONE SECRETGAME, CLONED FOR EACH MOVE
                     CardGame cg = privategame.Clone();
-                    var cloneContext = privateiterator.Clone(cg);
+                    GameIterator cloneContext = privateiterator.Clone(cg);
 
                     // Assign the AI players for rollout game, with the 
                     // selected item chosen first when you get your turn

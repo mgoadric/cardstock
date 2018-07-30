@@ -122,18 +122,18 @@ namespace CardEngine
         public override string ToString()
         {
             StringBuilder ret = new StringBuilder();
-            ret.Append("CardCollection " + name + " | CC TYPE: " + type.ToString() + "\r\n");
+            ret.Append("CardCollection " + name + " (CC TYPE: " + type.ToString() + ")\r\n");
+            if (cards.Count == 0) { ret.Append("|CardCollection is empty|"); }
             foreach (Card card in cards)
             {
-                ret += card.ToOutputString() + " ";
+                ret.Append(card.ToString() + "\r\n");
             }
-            ret.Append("END OF CARDCOLLECTION\n");
             return ret.ToString();
         }
 
         public override bool Equals(System.Object obj) 
         {
-            //System.Console.WriteLine("COMPARING CARDCOLLECTIONS...");
+            System.Console.WriteLine("COMPARING CARDCOLLECTIONS...");
             if (obj == null)
             { return false; }
          
@@ -168,4 +168,3 @@ namespace CardEngine
     }
 }
 
-                ret += card.ToString() + " ";

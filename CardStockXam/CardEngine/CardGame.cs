@@ -289,7 +289,7 @@ namespace CardEngine
                 cardIdxs[newCard] = sourceDeck.Count;
                 sourceDeck.Add(newCard);
                 loc.Add(newCard);
-                WriteToFile("C:" + newCard.ToString() + loc.owner.owner.name + " " + loc.type +
+                WriteToFile("C:" + newCard.ToString() + " " + loc.owner.owner.name + " " + loc.type +
                     " " + loc.name); 
             }
             //Console.ReadKey();
