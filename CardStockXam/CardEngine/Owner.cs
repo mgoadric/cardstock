@@ -53,17 +53,10 @@ namespace CardEngine
         }
 
 
-        // Trying to make the Clone useful in the subclasses of Player and Team
-        // http://blog.chrishowie.com/2013/01/22/object-copying-in-c/
-        public Owner Clone()
-        {
-            return CloneImpl();
-        }
-
         // We only want to clone the actual values for the int, string, and 
         // PointMap bins, the CardCollection bins should be hollow
         // so the cards can be filled in from the sourceDeck of the CardGame
-        protected virtual Owner CloneImpl() 
+        public Owner Clone()
         {
             var other = new Owner(name, id);
             other.intBins = intBins.Clone(other);

@@ -11,12 +11,7 @@ namespace CardEngine{
 
         public Team(string name, int id) : base(name, id) { }
 
-        new public Team Clone()
-        {
-            return (Team)CloneImpl();
-        }
-
-        protected override Owner CloneImpl()
+        public Team Clone()
         {
             Team other = new Team(name, id);
             other.intBins = intBins.Clone(other);

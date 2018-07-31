@@ -25,12 +25,7 @@ namespace CardEngine
         // Owner class, again decisions are handled later 
         // with the GameIterator for this CardGame
 
-        new public Player Clone()
-        {
-            return (Player)CloneImpl();
-        }
-
-        protected override Owner CloneImpl() // COULDN'T FIGURE OUT CASTING AND EXCEPTION HERE TODO
+        public Player Clone()
         {
             Player other = new Player(name, id);
             other.intBins = intBins.Clone(other);
@@ -44,7 +39,6 @@ namespace CardEngine
                     other.cardBins[type] = cardBins[type].Clone(other);
                 }
             }
-            other.team = team;
             return other;
         }
     }
