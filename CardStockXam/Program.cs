@@ -13,7 +13,7 @@ namespace CardGames
         {
             //CardStockXam.Scorer.Main(args);
             var p = new Program();
-            p.SingleGame("games/Pairs.gdl");
+            p.SingleGame("games/Blackjack.gdl");
             //p.AllGames();
         }
 
@@ -21,7 +21,7 @@ namespace CardGames
 			var exp = new Experiment();
 			exp.fileName = game;
             // System.Console.WriteLine(g.Substring(6, g.Length - 4));
-            exp.numGames = 10;
+            exp.numGames = 1;
 			exp.numEpochs = 1;
 
             exp.logging = true;

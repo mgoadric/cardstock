@@ -28,7 +28,7 @@ namespace Players
             privategame = temp.Item1;
             privateiterator = temp.Item2;*/
 
-            // TEST CLONE 
+            /*/ TEST CLONE 
             if (perspective.TestingClone())
             { Console.WriteLine("Clone Equals"); }
             else { Console.WriteLine(("Doesn't Equal")); }
@@ -39,7 +39,7 @@ namespace Players
 
             // TEST CLONESECRETCLONE
             perspective.TestCloneSecretClone();
-
+            */
 
 
 
@@ -47,9 +47,14 @@ namespace Players
             Tuple<CardGame, GameIterator> game = perspective.GetPrivateGame();
             privategame = game.Item1;
             privateiterator = game.Item2;
+            for (int j = 0; j < numPlayers; j++)
+            {
+                privategame.players[j].decision = new RandomPlayer(perspective);
+            }
+
 
             // PLAY GAME SIMULATION TEST
-            /*Dictionary<CardGame, Int32> plays = new Dictionary<CardGame, Int32>();
+            Dictionary<CardGame, Int32> plays = new Dictionary<CardGame, Int32>();
 
             Console.WriteLine("Playing a simulated game");
 
@@ -61,7 +66,7 @@ namespace Players
             }
 
             Console.WriteLine("Simulated Game is Over");
-            Console.WriteLine(plays.Count);*/
+            Console.WriteLine(plays.Count);
 
             Console.ReadLine();
             Environment.Exit(0);
