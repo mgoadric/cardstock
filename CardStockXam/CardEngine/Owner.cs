@@ -72,7 +72,7 @@ namespace CardEngine
             other.cardBins = new Dictionary<CCType, CardStorage>();
             foreach (CCType type in Enum.GetValues(typeof(CCType)))
             {
-                if (type != CCType.VIRTUAL) // EITHER NEED TO CHANGE THIS OR CHANGE EQUALITY -- NOT SURE WHY NOT COPY VIRTUALS?
+                if (type != CCType.VIRTUAL) 
                 {
                     other.cardBins[type] = cardBins[type].Clone(other);
                 }
@@ -127,9 +127,15 @@ namespace CardEngine
             
             if (!(stringBins.Equals(otherowner.stringBins)))
             { Console.WriteLine("owner stringbins not equal"); return false; }
-           
-            if (!(cardBins.SequenceEqual(otherowner.cardBins)))
-            { Console.WriteLine("owner cardbins not equal"); return false; }
+
+            foreach (CCType type in Enum.GetValues(typeof(CCType)))
+            {
+                if (type != CCType.VIRTUAL)
+                {
+                    if (!otherowner.cardBins[type].Equals(cardBins[type]))
+                    { Console.WriteLine("Owner Cardbin " + type.ToString() + " not equal."); return false; }
+                }
+            }
             
             if (!(pointBins.Equals(otherowner.pointBins)))
             { Console.WriteLine("owner pointbins not equal"); return false; }
