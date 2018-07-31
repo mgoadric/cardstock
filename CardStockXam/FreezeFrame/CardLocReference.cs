@@ -88,10 +88,7 @@ namespace FreezeFrame{
 
         public override String ToString()
         {
-            string actuals = "";
-            if (actual) { actuals = "physical"; } 
-            else { actuals = "virtual";}
-            return cardList + " " + locIdentifier + " " + actuals;
+            return cardList + " " + locIdentifier + " " + actual;
         }
 
         public String ToOutputString(){

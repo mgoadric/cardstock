@@ -100,15 +100,9 @@ namespace FreezeFrame {
                     var prefix = "M:";
                     var arrow = " -> ";
                     if (inChoice) { prefix = "N:"; arrow = " ?-> "; }
-                    // TODO they will always have an owner now since table is an Owner?
-                    if (cardToMove.owner != null) {
-                        cg.WriteToFile(prefix + cardToMove.ToString() + " " + cardToMove.owner.owner.owner.name + " " +
-                            cardToMove.owner.type + " " + cardToMove.owner.name + " "  + 
-                            arrow + endLocation.name); 
-                    }
-                    else {
-                       cg.WriteToFile(prefix + cardToMove.ToString() + " " + startLocation.name + arrow + endLocation.name);
-                    }
+
+                    cg.WriteToFile(prefix + cardToMove.ToString() + " " + startLocation.name + arrow + endLocation.name);
+
                     endLocation.Add(cardToMove);
                     owner = cardToMove.owner;
                     cardToMove.owner = endLocation.cardList;

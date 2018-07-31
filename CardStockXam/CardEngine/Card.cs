@@ -9,13 +9,16 @@ namespace CardEngine{
 
         private readonly Dictionary<string, string> cardAtts;
 		public CardCollection owner {get; set;}
+        public int id;
+
 		public Card(Dictionary<string, string> atts){
             cardAtts = atts;
 		}
 
 		public Card Clone(){
 			Card ret = new Card (cardAtts);
-			return ret;
+            ret.id = id;
+            return ret;
 		}
 
 		public override string ToString(){
@@ -36,7 +39,7 @@ namespace CardEngine{
             if (p == null)
             { return false; }*/
 
-            if (c.ToString() != ToString()) 
+            if (c.ToString() != this.ToString() || c.id != this.id) 
             { return false; }
 
             return true; 

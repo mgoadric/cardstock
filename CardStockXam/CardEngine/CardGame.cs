@@ -286,6 +286,9 @@ namespace CardEngine
             var combos = cardAttributes.combinations();
             foreach (var combo in combos) {
                 var newCard = new Card(combo.Flatten());
+                newCard.owner = loc;
+                newCard.id = sourceDeck.Count;
+                // TODO Don't need this any more....
                 cardIdxs[newCard] = sourceDeck.Count;
                 sourceDeck.Add(newCard);
                 loc.Add(newCard);
