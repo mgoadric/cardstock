@@ -13,9 +13,9 @@ namespace CardEngine
     public class CardCollection
     {
         public string name;
-
         public CCType type;
         public CardStorage owner;
+        public List<Card> cards = new List<Card>();
 
         public void Shuffle()
         {
@@ -30,11 +30,7 @@ namespace CardEngine
                 cards[n] = value;
             }
         }
-    
-
-    
-        public List<Card> cards = new List<Card>();
-
+ 
         public CardCollection(CCType type) {
             this.type = type;
         }

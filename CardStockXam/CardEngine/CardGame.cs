@@ -98,16 +98,20 @@ namespace CardEngine
             Debug.WriteLine("Playerlist: " + temp.CurrentPlayer().memberList.Count());
             Debug.WriteLine(playerIdx);
             Debug.WriteLine("Num players in clone secret: " + temp.players.Count());
-            // Clone Source Deck and Index Cards
-            HashSet<int> free = new HashSet<int>();
-     
+
+            // Make set of indicies for all the cards, to be removed when they are seen
+            HashSet<int> free = new HashSet<int>();     
             for (int i = 0; i < sourceDeck.Count; ++i) {
                 free.Add(i);
             }
 
+            Debug.WriteLine("Calling CloneVisibleCardsfor Players");
             CloneVisibleCards(players, temp.players, temp.sourceDeck, free, playerIdx);
+            Debug.WriteLine("Calling CloneVisibleCardsfor Teams");
             CloneVisibleCards(teams, temp.teams, temp.sourceDeck, free, -1);
+            Debug.WriteLine("Calling CloneVisibleCardsfor Table");
             CloneVisibleCards(table, temp.table, temp.sourceDeck, free, -1);
+            Debug.WriteLine("Finished Visible Cloning");
 
             List<int> vals = free.ToList<int>();
 
@@ -124,9 +128,13 @@ namespace CardEngine
             IEnumerator<int> cardsLeft = vals.GetEnumerator();
             cardsLeft.MoveNext();
 
+            Debug.WriteLine("Calling AssignNonVisibleCards for Players");
             AssignNonVisibleCards(players, temp.players, temp.sourceDeck, cardsLeft, playerIdx);
+            Debug.WriteLine("Calling AssignNonVisibleCards for Teams");
             AssignNonVisibleCards(teams, temp.teams, temp.sourceDeck, cardsLeft, playerIdx);
+            Debug.WriteLine("Calling AssignNonVisibleCards for Table");
             AssignNonVisibleCards(table, temp.table, temp.sourceDeck, cardsLeft, playerIdx);
+            Debug.WriteLine("Finished AssignNonVisibleCards");
  
             Debug.WriteLine("Numplayers at end of clonesecret: " + temp.CurrentPlayer().memberList.Count);
             Debug.WriteLine("returning from clonesecret");
@@ -139,9 +147,13 @@ namespace CardEngine
 
             var temp = CloneCommon();
 
+            Debug.WriteLine("Calling for Players");
             CloneCards(players, temp.players, temp.sourceDeck);
+            Debug.WriteLine("Calling for Teams");
             CloneCards(teams, temp.teams, temp.sourceDeck);
+            Debug.WriteLine("Calling for Table");
             CloneCards(table, temp.table, temp.sourceDeck);
+            Debug.WriteLine("Finished Cloning");
 
             return temp;
         }
@@ -158,11 +170,12 @@ namespace CardEngine
                         foreach (var loc in owner.cardBins[type].Keys())
                         {
                             var collection = owner.cardBins[type][loc];
+                            var tempCollection = tempowners[owner.id].cardBins[type][loc];
+
                             foreach (var card in collection.AllCards())
                             {
                                 // Look up card by index, and reference the new cloned card
                                 var toAdd = tempsourceDeck[card.id];
-                                var tempCollection = tempowners[owner.id].cardBins[type][loc];
                                 tempCollection.Add(toAdd);
                                 if (type != CCType.MEMORY)
                                 {
@@ -182,16 +195,22 @@ namespace CardEngine
             {
                 foreach (CCType type in Enum.GetValues(typeof(CCType)))
                 {
-                    if (type == CCType.VISIBLE || type == CCType.MEMORY || (type == CCType.INVISIBLE && owner.id == playerIdx))
+                    // WHAT ABOUT TEAMS???
+                    if (type == CCType.VISIBLE || type == CCType.MEMORY || (type == CCType.INVISIBLE
+                                                                            && owner.GetType() == typeof(Player)
+                                                                            && owner.id == playerIdx))
                     {
                         foreach (var loc in owner.cardBins[type].Keys())
                         {
                             var collection = owner.cardBins[type][loc];
+
+                            Debug.WriteLine("Initial Collection:" + collection);
+
+                            var tempCollection = tempowners[owner.id].cardBins[type][loc];
                             foreach (var card in collection.AllCards())
                             {
                                 // Look up card by index, and reference the new cloned card
                                 var toAdd = tempsourceDeck[card.id];
-                                var tempCollection = tempowners[owner.id].cardBins[type][loc];
                                 tempCollection.Add(toAdd);
                                 if (type != CCType.MEMORY)
                                 {
@@ -199,6 +218,9 @@ namespace CardEngine
                                     free.Remove(card.id);
                                 }
                             }
+
+                            Debug.WriteLine("Cloned Collection:" + tempCollection);
+
                         }
                     }
                 }
@@ -213,20 +235,30 @@ namespace CardEngine
             {
                 foreach (CCType type in Enum.GetValues(typeof(CCType)))
                 {
-                    if (type == CCType.HIDDEN || (type == CCType.INVISIBLE && owner.id != playerIdx))
+                    // WHAT ABOUT TEAMS
+                    if (type == CCType.HIDDEN || (type == CCType.INVISIBLE 
+                                                  && (owner.GetType() != typeof(Player) 
+                                                      || owner.id != playerIdx)))
                     {
                         foreach (var loc in owner.cardBins[type].Keys())
                         {
                             var collection = owner.cardBins[type][loc];
+
+                            Debug.WriteLine("Initial Collection:" + collection);
+
+                            var tempCollection = tempowners[owner.id].cardBins[type][loc];
+
                             for (int i = 0; i < collection.Count; i++)
                             {
                                 // Look up card by index, and reference the new cloned card
                                 var toAdd = tempsourceDeck[cardsLeft.Current];
                                 cardsLeft.MoveNext();
-                                var tempCollection = tempowners[owner.id].cardBins[type][loc];
                                 tempCollection.Add(toAdd);
                                 toAdd.owner = tempCollection;
                             }
+
+                            Debug.WriteLine("Reconstructed Collection:" + tempCollection);
+
                         }
                     }
                 }

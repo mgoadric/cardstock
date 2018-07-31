@@ -51,9 +51,6 @@ namespace FreezeFrame
 
         public Dictionary<String, object> CloneDictionary(CardGame newgame)
         {
-            //TODO:
-            //remove all non-primitive copies
-            //use hashtables (name/hashcode/whatever -> object)
 
             Dictionary<String, object> ret = new Dictionary<String, object>();
 
@@ -73,7 +70,7 @@ namespace FreezeFrame
                 {
                     ret.Add(key, newgame.players[p.id]);
                 }
-                else if (o is List<Player> lp) 
+                else if (o is List<Player> lp)
                 {
                     List<Player> newlist = new List<Player>();
                     foreach (Player player in lp)
@@ -99,9 +96,9 @@ namespace FreezeFrame
                 }
 
                 else if (o is Card c)
-                 {
-                     ret.Add(key, newgame.sourceDeck[c.id]);
-                 }
+                {
+                    ret.Add(key, newgame.sourceDeck[c.id]);
+                }
                 else if (o is List<Card>)
                 {
                     List<Card> l = new List<Card>();
@@ -116,22 +113,37 @@ namespace FreezeFrame
                 {
                     string tempcc = cc.name;
                     CCType temptype = cc.type;
-                    CardStorage collectionowner = cc.owner;
-                    Owner owner = collectionowner.owner;
-                    int idx = owner.id;
 
-                    Owner newowner;
-                    if (owner as Player != null)
-                    { newowner = newgame.players[owner.id]; }
-                    else if (owner as Team != null)
-                    { newowner = newgame.teams[owner.id]; }
-                    else {
-                        if (idx == 0)
-                            { newowner = newgame.table[0]; }
-                        else { throw new Exception(); } // NOT IMPLEMENTED OTHER TYPES OF OWNER
+                    if (temptype == CCType.VIRTUAL)
+                    {
+                        CardCollection ccclone = cc.Clone();
+                        foreach (Card oldc in cc.AllCards())
+                        {
+                            ccclone.Add(newgame.sourceDeck[oldc.id]);
+                        }
+                        ret.Add(key, ccclone);
+
                     }
-                    newowner.cardBins[temptype][tempcc] = cc;
-                    ret.Add(key, newowner.cardBins[temptype][tempcc]);      
+                    else
+                    {
+
+                        CardStorage collectionowner = cc.owner;
+                        Owner owner = collectionowner.owner;
+                        int idx = owner.id;
+
+                        Owner newowner;
+                        if (owner as Player != null)
+                        { newowner = newgame.players[owner.id]; }
+                        else if (owner as Team != null)
+                        { newowner = newgame.teams[owner.id]; }
+                        else
+                        {
+                            if (idx == 0)
+                            { newowner = newgame.table[0]; }
+                            else { throw new Exception(); } // NOT IMPLEMENTED OTHER TYPES OF OWNER
+                        }
+                        ret.Add(key, newowner.cardBins[temptype][tempcc]);
+                    }
                 }
                 /*else if (o is CardLocReference)
                 {

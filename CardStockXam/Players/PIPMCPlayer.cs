@@ -12,7 +12,7 @@ namespace Players
     {
         private CardGame privategame;
         private GameIterator privateiterator;
-        private static int NUMTESTS = 1; //previously 20
+        private static int NUMTESTS = 10; //previously 20
 
         public PIPMCPlayer(Perspective perspective) : base(perspective) { }
 		
