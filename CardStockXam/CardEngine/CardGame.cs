@@ -17,7 +17,6 @@ namespace CardEngine
         public static Random rand = new Random();
 
         public List<Card> sourceDeck = new List<Card>();
-        public Dictionary<Card, int> cardIdxs = new Dictionary<Card, int>(new EqualityComparer<Card>());
         public Owner[] table = new Owner[1];
         public Player[] players; 
         public List<Team> teams = new List<Team>();
@@ -27,20 +26,6 @@ namespace CardEngine
         // For writing the game transcript. DOES THIS BELONG HERE???
         public bool logging;
         public string fileName;
-
-        public sealed class EqualityComparer<T> : IEqualityComparer<T>
-        where T : class
-        {
-            public int GetHashCode(T value)
-            {
-                return RuntimeHelpers.GetHashCode(value);
-            }
-
-            public bool Equals(T left, T right)
-            {
-                return left.Equals(right); //  identity comparison
-            }
-        }
 
         public CardGame(bool logging, string fileName) {
             this.logging = logging;
@@ -58,7 +43,6 @@ namespace CardEngine
             for (int i = 0; i < sourceDeck.Count; ++i)
             {
                 Card c = sourceDeck[i].Clone();
-                temp.cardIdxs[c] = temp.sourceDeck.Count;
                 temp.sourceDeck.Add(c);
             }
 
@@ -121,9 +105,9 @@ namespace CardEngine
                 free.Add(i);
             }
 
-            CloneVisibleCards(players, temp.players, temp.sourceDeck, cardIdxs, free, playerIdx);
-            CloneVisibleCards(teams, temp.teams, temp.sourceDeck, cardIdxs, free, -1);
-            CloneVisibleCards(table, temp.table, temp.sourceDeck, cardIdxs, free, -1);
+            CloneVisibleCards(players, temp.players, temp.sourceDeck, free, playerIdx);
+            CloneVisibleCards(teams, temp.teams, temp.sourceDeck, free, -1);
+            CloneVisibleCards(table, temp.table, temp.sourceDeck, free, -1);
 
             List<int> vals = free.ToList<int>();
 
@@ -140,9 +124,9 @@ namespace CardEngine
             IEnumerator<int> cardsLeft = vals.GetEnumerator();
             cardsLeft.MoveNext();
 
-            AssignNonVisibleCards(players, temp.players, temp.sourceDeck, cardIdxs, cardsLeft, playerIdx);
-            AssignNonVisibleCards(teams, temp.teams, temp.sourceDeck, cardIdxs, cardsLeft, playerIdx);
-            AssignNonVisibleCards(table, temp.table, temp.sourceDeck, cardIdxs, cardsLeft, playerIdx);
+            AssignNonVisibleCards(players, temp.players, temp.sourceDeck, cardsLeft, playerIdx);
+            AssignNonVisibleCards(teams, temp.teams, temp.sourceDeck, cardsLeft, playerIdx);
+            AssignNonVisibleCards(table, temp.table, temp.sourceDeck, cardsLeft, playerIdx);
  
             Debug.WriteLine("Numplayers at end of clonesecret: " + temp.CurrentPlayer().memberList.Count);
             Debug.WriteLine("returning from clonesecret");
@@ -155,15 +139,15 @@ namespace CardEngine
 
             var temp = CloneCommon();
 
-            CloneCards(players, temp.players, temp.sourceDeck, cardIdxs);
-            CloneCards(teams, temp.teams, temp.sourceDeck, cardIdxs);
-            CloneCards(table, temp.table, temp.sourceDeck, cardIdxs);
+            CloneCards(players, temp.players, temp.sourceDeck);
+            CloneCards(teams, temp.teams, temp.sourceDeck);
+            CloneCards(table, temp.table, temp.sourceDeck);
 
             return temp;
         }
 
         public void CloneCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
-                               List<Card> tempsourceDeck, Dictionary<Card, int> cardIdxs)
+                               List<Card> tempsourceDeck)
         {
             foreach (Owner owner in owners)
             {
@@ -177,7 +161,7 @@ namespace CardEngine
                             foreach (var card in collection.AllCards())
                             {
                                 // Look up card by index, and reference the new cloned card
-                                var toAdd = tempsourceDeck[cardIdxs[card]];
+                                var toAdd = tempsourceDeck[card.id];
                                 var tempCollection = tempowners[owner.id].cardBins[type][loc];
                                 tempCollection.Add(toAdd);
                                 if (type != CCType.MEMORY)
@@ -192,8 +176,7 @@ namespace CardEngine
         }
 
         public void CloneVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
-                                      List<Card> tempsourceDeck, Dictionary<Card, int> cardIdxs,
-                                      HashSet<int> free, int playerIdx)
+                                      List<Card> tempsourceDeck, HashSet<int> free, int playerIdx)
         {
             foreach (Owner owner in owners)
             {
@@ -207,13 +190,13 @@ namespace CardEngine
                             foreach (var card in collection.AllCards())
                             {
                                 // Look up card by index, and reference the new cloned card
-                                var toAdd = tempsourceDeck[cardIdxs[card]];
+                                var toAdd = tempsourceDeck[card.id];
                                 var tempCollection = tempowners[owner.id].cardBins[type][loc];
                                 tempCollection.Add(toAdd);
                                 if (type != CCType.MEMORY)
                                 {
                                     toAdd.owner = tempCollection;
-                                    free.Remove(cardIdxs[card]);
+                                    free.Remove(card.id);
                                 }
                             }
                         }
@@ -223,8 +206,7 @@ namespace CardEngine
         }
 
         public void AssignNonVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
-                                          List<Card> tempsourceDeck, Dictionary<Card, int> cardIdxs,
-                                          IEnumerator<int> cardsLeft, int playerIdx)
+                                          List<Card> tempsourceDeck, IEnumerator<int> cardsLeft, int playerIdx)
         {
 
             foreach (Owner owner in owners)
@@ -288,8 +270,6 @@ namespace CardEngine
                 var newCard = new Card(combo.Flatten());
                 newCard.owner = loc;
                 newCard.id = sourceDeck.Count;
-                // TODO Don't need this any more....
-                cardIdxs[newCard] = sourceDeck.Count;
                 sourceDeck.Add(newCard);
                 loc.Add(newCard);
                 WriteToFile("C:" + newCard.ToString() + " " + loc.owner.owner.name + " " + loc.type +
@@ -342,9 +322,6 @@ namespace CardEngine
             if (!(othergame.players.Count() == players.Count()) ||
                                         !(othergame.teams.Count() == teams.Count()))
             { Console.WriteLine("Player count or team count not equal"); return false; }
-
-            if (!cardIdxs.SequenceEqual(othergame.cardIdxs))
-            { Console.WriteLine("Cardidxs not equal"); return false; }
 
             if (!(sourceDeck.SequenceEqual(othergame.sourceDeck)))
             { Console.WriteLine("Source Deck not equal"); return false; }

@@ -103,18 +103,14 @@ namespace FreezeFrame
 
                 else if (o is Card c)
                  {
-                     // foreach(var k in newgame.cardIdxs.Keys) { if (k.Equals(c)) { Console.WriteLine("k equals c"); };} Keys not unique in SpiteMalice
-                     int idx = newgame.cardIdxs[c];
-                     ret.Add(key, newgame.sourceDeck[idx]);
+                     ret.Add(key, newgame.sourceDeck[c.id]);
                  }
                 else if (o is List<Card>)
                 {
                     List<Card> l = new List<Card>();
                     foreach (Card card in o as List<Card>)
                     {
-                    
-                        var idx = newgame.cardIdxs[card];
-                        l.Add(newgame.sourceDeck[idx]);
+                        l.Add(newgame.sourceDeck[card.id]);
                     }
                     ret.Add(key, l);
 
