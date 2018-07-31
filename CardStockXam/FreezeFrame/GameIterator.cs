@@ -65,8 +65,6 @@ namespace FreezeFrame
                     topLevel.Enqueue(rules.GetChild(i));
                 }
             }
-            // CHANGE IT FROM BEING FRESH ST WE CAN COMPARE EQUALITY?
-            fresh = false;
 		}
 
 		public bool AdvanceToChoice(){
@@ -1035,7 +1033,6 @@ namespace FreezeFrame
                     locIdentifier = "top",
                     name = coll.name + "{MAX}"
                 };
-                variables.AddToMap(fancy);
                 return fancy;
             }
 
@@ -1064,7 +1061,6 @@ namespace FreezeFrame
                     locIdentifier = "top",
                     name = coll.name + "{MIN}"
                 };
-                variables.AddToMap(fancy);
                 return fancy;
             }
 
@@ -1087,7 +1083,6 @@ namespace FreezeFrame
                     locIdentifier = card.GetChild(1).GetText(),
                     name = loc.name
                 };
-                variables.AddToMap(fancy);
                 return fancy;
             }
             throw new NotSupportedException();
@@ -1176,7 +1171,6 @@ namespace FreezeFrame
                     cardList = temp,
                     name = name + "{UNION}"
                 };
-                variables.AddToMap(fancy);
                 return fancy;
             }
             else if (loc.filter() != null)
@@ -1233,7 +1227,6 @@ namespace FreezeFrame
                         cardList = pairs[i],
                         name = "{mem}" + memset.tuple().var().GetText() + "{p" + i + "}"
                     };
-                    variables.AddToMap(returnList[i]);
                 }
                 return returnList;
             }
@@ -1276,7 +1269,6 @@ namespace FreezeFrame
                         locIdentifier = "top",
                         name = "table " + prefix + " " + stor.namegr().GetText()
                     };
-                    variables.AddToMap(fancy);
                     return fancy;
                 }
                 else
@@ -1288,7 +1280,6 @@ namespace FreezeFrame
                         locIdentifier = "top",
                         name = "t " + prefix + " " + name
                     };
-                    variables.AddToMap(fancy);
                     return fancy;
                 }
             }
@@ -1307,7 +1298,6 @@ namespace FreezeFrame
                     cardList = player.cardBins[prefix][stor.namegr().GetText()],
                     name = player.name + " "  + prefix + " " +  stor.namegr().GetText()
                 };
-                variables.AddToMap(fancy);
                 return fancy;
             }
             else
@@ -1318,7 +1308,6 @@ namespace FreezeFrame
                     cardList = player.cardBins[prefix][name],
                     name = player.name + " " +  prefix + " " + name
                 };
-                variables.AddToMap(fancy);
                 return fancy;
             }
         }
@@ -1644,11 +1633,6 @@ namespace FreezeFrame
             return ret;
         }
 
-        public IntStorageReference AddedRaw(IntStorageReference stor)
-        {
-            variables.AddToMap(stor);
-            return stor;
-        }
 
         public IntStorageReference ProcessIntStorage(RecycleParser.RawstorageContext intSto)
         {
@@ -1657,11 +1641,11 @@ namespace FreezeFrame
                 if (intSto.var().Length == 1)
                 {
                     String temp = ProcessStringVar(intSto.var()[0]);
-                    return AddedRaw(new IntStorageReference(game.table[0].intBins, temp));
+                    return new IntStorageReference(game.table[0].intBins, temp);
                 }
                 else
                 {
-                    return AddedRaw(new IntStorageReference(game.table[0].intBins, intSto.namegr().GetText()));
+                    return new IntStorageReference(game.table[0].intBins, intSto.namegr().GetText());
 
                 }
             }
@@ -1672,12 +1656,12 @@ namespace FreezeFrame
                     var who = ProcessWho(intSto.who()) as Team;
                     if (intSto.namegr() != null)
                     {
-                        return AddedRaw(new IntStorageReference(who.intBins, intSto.namegr().GetText()));
+                        return new IntStorageReference(who.intBins, intSto.namegr().GetText());
                     }
                     else
                     {
                         var temp = ProcessStringVar(intSto.var()[0]);
-                        return AddedRaw(new IntStorageReference(who.intBins, temp));
+                        return new IntStorageReference(who.intBins, temp);
                     }
                 }
                 else if (intSto.who().whop() != null)
@@ -1685,12 +1669,12 @@ namespace FreezeFrame
                     var who = ProcessWho(intSto.who()) as Player;
                     if (intSto.namegr() != null)
                     {
-                        return AddedRaw(new IntStorageReference(who.intBins, intSto.namegr().GetText()));
+                        return new IntStorageReference(who.intBins, intSto.namegr().GetText());
                     }
                     else
                     {
                         var temp = ProcessStringVar(intSto.var()[0]);
-                        return AddedRaw(new IntStorageReference(who.intBins, temp));
+                        return new IntStorageReference(who.intBins, temp);
                     }
                 }
             }
@@ -1702,12 +1686,12 @@ namespace FreezeFrame
                     Team temp = who as Team;
                     if (intSto.namegr() != null)
                     {
-                        return AddedRaw(new IntStorageReference(temp.intBins, intSto.namegr().GetText()));
+                        return new IntStorageReference(temp.intBins, intSto.namegr().GetText());
                     }
                     else
                     {
                         var str = ProcessStringVar(intSto.var()[1]);
-                        return AddedRaw(new IntStorageReference(temp.intBins, str));
+                        return new IntStorageReference(temp.intBins, str);
                     }
                 }
                 else
@@ -1715,12 +1699,12 @@ namespace FreezeFrame
                     Player temp = who as Player;
                     if (intSto.namegr() != null)
                     {
-                        return AddedRaw(new IntStorageReference(temp.intBins, intSto.namegr().GetText()));
+                        return new IntStorageReference(temp.intBins, intSto.namegr().GetText());
                     }
                     else
                     {
                         var str = ProcessStringVar(intSto.var()[1]);
-                        return AddedRaw(new IntStorageReference(temp.intBins, str));
+                        return new IntStorageReference(temp.intBins, str);
                     }
                 }
             }
@@ -1953,7 +1937,6 @@ namespace FreezeFrame
                 cardList = cList,
                 name = name2 + "{filter}" + filter.boolean().GetText(),
             };
-            variables.AddToMap(fancy);
             return fancy;
         }
         // want to clean up & understand processagg TODO

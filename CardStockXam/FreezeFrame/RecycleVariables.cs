@@ -11,9 +11,6 @@ namespace FreezeFrame
     class RecycleVariables
     {
         private Dictionary<String, object> vars; 
-        public Dictionary<string, Card> fancyCardMap = new Dictionary<string, Card>();
-        public Dictionary<string, CardLocReference> fancyCardLocMap = new Dictionary<string, CardLocReference>();
-        public Dictionary<string, IntStorageReference> FancyIntStorageMap = new Dictionary<string, IntStorageReference>();
 
         public RecycleVariables()
         {
@@ -176,26 +173,6 @@ namespace FreezeFrame
 
             return ret;
 
-        }
-
-        public void AddToMap(object o)
-        {
-            IDictionary dict = null;
-            string id = "";
-            if (o is CardLocReference)
-            {
-                dict = fancyCardLocMap;
-                id = (o as CardLocReference).name;
-            }
-            else if (o is IntStorageReference)
-            {
-                dict = FancyIntStorageMap;
-                id = (o as IntStorageReference).GetName();
-                //Console.WriteLine(id);
-            }
-            else { Console.WriteLine("unknown type in AddToMap: " + o.GetType()); }
-            if (!dict.Contains(id)) { dict.Add(id, o); }
-            //else { Console.WriteLine("dict already contains " + id); }
         }
 
         public override bool Equals(object obj)
