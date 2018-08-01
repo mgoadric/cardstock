@@ -13,7 +13,7 @@ namespace CardGames
         {
             //CardStockXam.Scorer.Main(args);
             var p = new Program();
-            p.SingleGame("games/Pairs.gdl");
+            p.SingleGame("games/NinetyEight.gdl");
             //p.AllGames();
         }
 

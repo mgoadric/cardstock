@@ -129,7 +129,6 @@ namespace CardEngine
 
         public override bool Equals(System.Object obj) 
         {
-            System.Console.WriteLine("COMPARING CARDCOLLECTIONS...");
             if (obj == null)
             { return false; }
          

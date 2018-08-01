@@ -138,17 +138,19 @@ namespace FreezeFrame
             }
             return false;
 		}
-        public void ProcessChoice()
+        public int ProcessChoice()
         {
             var sub = CurrentNode();
             var choice = sub as RecycleParser.MultiactionContext;
             var choices = choice.condact();
-            ProcessSubChoice(choices);
+            int ret = ProcessSubChoice(choices);
             PopCurrentNode();
+            return ret;
         }
 
-        public void ProcessSubChoice(RecycleParser.CondactContext[] choices)
+        public int ProcessSubChoice(RecycleParser.CondactContext[] choices)
         {
+            int ret = 0;
             Debug.WriteLine("trying to process choice (in processchoice)");
             Debug.WriteLine("Player turn: " + game.CurrentPlayer().idx);
             Debug.WriteLine("Processing choice.");
@@ -171,7 +173,7 @@ namespace FreezeFrame
             {
                 Debug.WriteLine("processed choices");
                 Debug.WriteLine("Choice count for P" + game.CurrentPlayer().idx + ":" + allOptions.Count);
-                game.PlayerMakeChoice(allOptions, game.CurrentPlayer().idx);
+                ret = game.PlayerMakeChoice(allOptions, game.CurrentPlayer().idx);
                 Debug.WriteLine("player choice made");
                 Debug.WriteLine(game.CurrentPlayer().memberList.Count);
             }
@@ -180,6 +182,7 @@ namespace FreezeFrame
                 Console.WriteLine("NO Choice Available");
                 throw new InvalidOperationException();
             }
+            return ret;
 		}
 
         public List<GameActionCollection> ProcessMultiaction(IParseTree sub)

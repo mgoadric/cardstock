@@ -31,7 +31,9 @@ namespace CardEngine
             this.logging = logging;
             this.fileName = fileName;
             table[0] = new Owner("table", 0);
-
+            // ADDING HERE TO MAKE HASHCODE NOT FAIL
+            players = new Player[0];
+            
         }
 
         public CardGame CloneCommon() {
@@ -310,7 +312,7 @@ namespace CardEngine
             //Console.ReadKey();
         }
 
-        public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx) {
+        public int PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx) {
             Debug.WriteLine("In player make choice");
             Debug.WriteLine("Num choices: " + choices.Count());
             /*foreach (GameActionCollection c in choices)
@@ -325,11 +327,12 @@ namespace CardEngine
             Debug.WriteLine("Num choices: " + choices.Count());
             Debug.WriteLine("Choice: " + choice);
             choices[choice].ExecuteAll();
+            return choice;
         }
 
         public override string ToString() {
-            var ret = "Table Deck:\n";
-            ret += table[0].cardBins.ToString();
+            var ret = "\r\n" + "Table: \r\n";
+            ret += table[0].ToString() + "\r\n";
             ret += "Players:\n";
             foreach (var player in players) {
                 ret += player + "\n";
@@ -340,6 +343,7 @@ namespace CardEngine
         public override bool Equals(System.Object obj) // In Progress
         {
             //Console.WriteLine("CALLING CARDGAME EQUALITY");
+            // COMMENTED OUT ALL WRITELINES EXCEPT ONES THAT SHOULD ALMOST NEVER SHOW UP
 
             // CHECK OBJECT IS CARDGAME
             if (obj == null)
@@ -359,50 +363,55 @@ namespace CardEngine
             { Console.WriteLine("Source Deck not equal"); return false; }
 
             if (!(table[0].intBins.Equals(othergame.table[0].intBins)))
-            { Console.WriteLine("table int bins not equal"); return false; }
+            { //Console.WriteLine("table int bins not equal");
+                return false; }
             
-            if (!(table[0].pointBins.Equals(othergame.table[0].pointBins)))
-            { Console.WriteLine("Table pointBins not equal"); return false; }
+            //if (!(table[0].pointBins.Equals(othergame.table[0].pointBins))) // IF POINT MAPS NEVER CHANGE;; IF THEY DO, NEED DIFFERENT CLONE
+            //{ Console.WriteLine("Table pointBins not equal"); return false; }
 
             if (!(table[0].stringBins.Equals(othergame.table[0].stringBins)))
             { Console.WriteLine("table Stringbins not equal"); return false; }
             
             if (!(table[0].cardBins.SequenceEqual(othergame.table[0].cardBins)))
-            { Console.WriteLine("table cardbins not equal"); return false; }
-        
+            { //Console.WriteLine("table cardbins not equal"); 
+                return false; }
+
+            if (!(players.SequenceEqual(othergame.players)))
+            { //Console.WriteLine("Player list not equal");
+                return false;
+            }
+
+            if (!(teams.SequenceEqual(othergame.teams)))
+            { Console.WriteLine("Team List not equal"); return false; }
+
             if (!(currentPlayer.SequenceEqual(othergame.currentPlayer)))
             { Console.WriteLine("Stack of player StageCycles not equal"); return false; }
            
             if (!(currentTeam.SequenceEqual(othergame.currentTeam)))
             { Console.WriteLine("Stack of team StageCycles not equal"); return false; }
 
-            if (!(players.SequenceEqual(othergame.players)))
-            { Console.WriteLine("Player list not equal"); return false; }
-
-            if (!(teams.SequenceEqual(othergame.teams)))
-            { Console.WriteLine("Team List not equal"); return false; }
-
             return true;
         }
 
-        public override int GetHashCode() // TODO
+        public override int GetHashCode() // TESTING
         {
             int hash = 0;
             foreach (var card in sourceDeck) { hash ^= card.GetHashCode(); }
             foreach (var player in players) { hash ^= player.GetHashCode(); }
             foreach (var team in teams) { hash ^= team.GetHashCode(); }
-            hash ^= sourceDeck.GetHashCode();
             hash ^= table[0].intBins.GetHashCode();
-            hash ^= table[0].pointBins.GetHashCode();
+            //hash ^= table[0].pointBins.GetHashCode();
             hash ^= table[0].stringBins.GetHashCode();
-            hash ^= table[0].cardBins.GetHashCode();
-         
+            foreach(CCType type in Enum.GetValues(typeof(CCType)))
+            {
+                if (type != CCType.VIRTUAL) { hash ^= table[0].cardBins[type].GetHashCode(); }
+            }
 
-            Stack<StageCycle<Player>> playercopy = currentPlayer;
-            Stack<StageCycle<Team>> teamcopy = currentTeam;
-
-            while (playercopy.Count != 0) { hash ^= playercopy.Pop().GetHashCode(); }
-            while (teamcopy.Count != 0) { hash ^= teamcopy.Pop().GetHashCode(); }
+            foreach(StageCycle<Player> scp in currentPlayer)
+            { hash ^= scp.GetHashCode(); }
+            foreach (StageCycle<Team> sct in currentTeam)
+            { hash ^= sct.GetHashCode(); }
+          
 
             return hash;
         }
