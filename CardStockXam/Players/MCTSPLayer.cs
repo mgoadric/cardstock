@@ -15,6 +15,7 @@ namespace Players
     {
         public Dictionary<Tuple<CardGame, int>, int> plays = new Dictionary<Tuple<CardGame, int>, int>();
         public Dictionary<Tuple<CardGame, int>, double> wins = new Dictionary<Tuple<CardGame, int>, double>();
+        public Dictionary<int, CardGame> movestates = new Dictionary<int, CardGame>();
         private CardGame privategame;
         private GameIterator privateiterator;
         public MCTSPLayer(Perspective perspective) : base(perspective) { }
@@ -28,35 +29,14 @@ namespace Players
         public int Choice(int optioncount, Random random) //
         {
 
-            /*
-            Tuple<CardGame, GameIterator> temp =  perspective.GetPrivateGame();
-            privategame = temp.Item1;
-            privateiterator = temp.Item2;
-            
-            // TEST CLONE 
-            if (perspective.TestingClone())
-            { Console.WriteLine("Clone Equals"); }
-            else { Console.WriteLine(("Doesn't Equal")); }
-
-            // TEST CLONESECRET
-            perspective.TestingCloneSecret();
-
-            // TEST CLONESECRETCLONE
-            perspective.TestCloneSecretClone();
-            
-            //HASHCODE TESTING
-            CardGame simgame = privateiterator.game.Clone();
-            CardGame test = simgame.Clone();
-            if (simgame.Equals(test)) { Console.WriteLine("equality check"); }
-            Console.WriteLine("simgame hash: " + simgame.GetHashCode() + " vs. test hash: " + test.GetHashCode());
-            */
-
             // GAME SIMULATIONS TEST
-           
             Tuple<CardGame, GameIterator> game = perspective.GetPrivateGame();
             privategame = game.Item1;
             privateiterator = game.Item2;
-            for (int i = 0; i < 100; i++)
+            int myidx = perspective.GetIdx();
+            movestates = new Dictionary<int, CardGame>();
+
+            for (int i = 0; i < 10; i++)
             {
                 RunSimulation();
             }
@@ -65,15 +45,27 @@ namespace Players
             int j = 0;
             foreach(var k in plays.Keys)
             {
-                Console.WriteLine(j + " --> " + plays[k] + " --> " + wins[k]);
+                //Console.WriteLine(j + " --> " + plays[k] + " --> " + wins[k]);
                 j++;
             }
 
-            Console.WriteLine("Simulated Game is Over");
-            Console.WriteLine(plays.Count);
-            Console.ReadLine();
-            Environment.Exit(0);
-            return 0;
+            double[] moverankingarray = new double[optioncount];
+            for (int x = 0; x < optioncount; x++)
+            {
+                if (movestates.Keys.Contains(x))
+                {
+                    Tuple<CardGame,int> stateandplayer = new Tuple<CardGame, int>(movestates[x], myidx);
+                    moverankingarray[x] = wins[stateandplayer] / plays[stateandplayer];
+                    Console.WriteLine(moverankingarray[x]);
+                }
+            }
+            Tuple<int, int> worstandbest = MinMaxIdx(moverankingarray);
+
+            //Console.WriteLine("Simulated Game is Over");
+            
+            //Console.ReadLine();
+            //Environment.Exit(0);
+            return worstandbest.Item2;
         }
 
         public void RunSimulation()
@@ -88,14 +80,20 @@ namespace Players
             int idx = cg.currentPlayer.Peek().idx;
 
             bool expand = true;
+            bool first = true;
+
             // "Playing a simulated game"
             while (!gameIterator.AdvanceToChoice())
             {
-                gameIterator.ProcessChoice();
+                int c = gameIterator.ProcessChoice();
                 CardGame savestate = gameIterator.game.Clone();
+                if (first)
+                {
+                    if (!movestates.Keys.Contains(c))
+                    { movestates[c] = savestate; }
+                    first = false;
+                }
                 Tuple<CardGame, int> stateandplayer = Tuple.Create<CardGame, int>(savestate, idx);
-
-
                 if (expand && (!plays.Keys.Contains(stateandplayer)))
                 {
                     expand = false;
@@ -140,3 +138,29 @@ namespace Players
 
     }
 }
+
+
+
+
+/*
+Tuple<CardGame, GameIterator> temp =  perspective.GetPrivateGame();
+privategame = temp.Item1;
+privateiterator = temp.Item2;
+
+// TEST CLONE 
+if (perspective.TestingClone())
+{ Console.WriteLine("Clone Equals"); }
+else { Console.WriteLine(("Doesn't Equal")); }
+
+// TEST CLONESECRET
+perspective.TestingCloneSecret();
+
+// TEST CLONESECRETCLONE
+perspective.TestCloneSecretClone();
+
+//HASHCODE TESTING
+CardGame simgame = privateiterator.game.Clone();
+CardGame test = simgame.Clone();
+if (simgame.Equals(test)) { Console.WriteLine("equality check"); }
+Console.WriteLine("simgame hash: " + simgame.GetHashCode() + " vs. test hash: " + test.GetHashCode());
+*/

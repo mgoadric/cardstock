@@ -312,7 +312,7 @@ namespace CardEngine
             //Console.ReadKey();
         }
 
-        public void PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx) {
+        public int PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx) {
             Debug.WriteLine("In player make choice");
             Debug.WriteLine("Num choices: " + choices.Count());
             /*foreach (GameActionCollection c in choices)
@@ -327,6 +327,7 @@ namespace CardEngine
             Debug.WriteLine("Num choices: " + choices.Count());
             Debug.WriteLine("Choice: " + choice);
             choices[choice].ExecuteAll();
+            return choice;
         }
 
         public override string ToString() {
