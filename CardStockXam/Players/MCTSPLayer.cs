@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 
 namespace Players
 {
+    //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
     public class MCTSPLayer : AIPlayer
     {
         public Dictionary<Tuple<CardGame, int>, int> plays = new Dictionary<Tuple<CardGame, int>, int>();
+        public Dictionary<Tuple<CardGame, int>, double> wins = new Dictionary<Tuple<CardGame, int>, double>();
         private CardGame privategame;
         private GameIterator privateiterator;
         public MCTSPLayer(Perspective perspective) : base(perspective) { }
@@ -54,11 +56,18 @@ namespace Players
             Tuple<CardGame, GameIterator> game = perspective.GetPrivateGame();
             privategame = game.Item1;
             privateiterator = game.Item2;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
                 RunSimulation();
             }
             //Console.WriteLine("Game after: " + cardGamesx[0]);
+
+            int j = 0;
+            foreach(var k in plays.Keys)
+            {
+                Console.WriteLine(j + " --> " + plays[k] + " --> " + wins[k]);
+                j++;
+            }
 
             Console.WriteLine("Simulated Game is Over");
             Console.WriteLine(plays.Count);
@@ -88,12 +97,36 @@ namespace Players
 
 
                 if (expand && (!plays.Keys.Contains(stateandplayer)))
-                { expand = false; plays[stateandplayer] = 0; }
+                {
+                    expand = false;
+                    plays[stateandplayer] = 0;
+                    wins[stateandplayer] = 0;
+                }
                
                 visitedstates.Add(stateandplayer);
                 idx = cg.currentPlayer.Peek().idx;
             }
-            // Find winner TODO
+
+            // ProcessScore returns a sorted list 
+            // where the winner is rank 0 for either min/max games.
+            var winners = gameIterator.ProcessScore(gameIterator.rules.scoring());
+            double[] inverseRankSum = new double[numPlayers];
+
+            int p = 0;
+            foreach (Tuple<int, int> scoreandidx in winners)
+            {
+                inverseRankSum[scoreandidx.Item2] = ((double)1) / (p + 1);
+                p++;   
+            }
+            // GO THROUGH VISITED STATES
+            foreach (Tuple<CardGame, int> stateandplayer in visitedstates)
+            {
+                if (plays.Keys.Contains(stateandplayer))
+                {
+                    plays[stateandplayer] += 1;
+                    wins[stateandplayer] += inverseRankSum[stateandplayer.Item2];
+                }
+            }
         }
 
         public Node SelectNodeUsingUCT(List<Node> moves)
