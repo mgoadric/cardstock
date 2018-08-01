@@ -140,20 +140,20 @@ namespace FreezeFrame
 		}
         public int ProcessChoice()
         {
-            var sub = CurrentNode();
-            var choice = sub as RecycleParser.MultiactionContext;
-            var choices = choice.condact();
-            int ret = ProcessSubChoice(choices);
+            var allOptions = BuildOptions();
+            int ret = ProcessSubChoice(allOptions);
             PopCurrentNode();
             return ret;
         }
 
-        public int ProcessSubChoice(RecycleParser.CondactContext[] choices)
+        public List<GameActionCollection> BuildOptions()
         {
-            int ret = 0;
             Debug.WriteLine("trying to process choice (in processchoice)");
             Debug.WriteLine("Player turn: " + game.CurrentPlayer().idx);
             Debug.WriteLine("Processing choice.");
+            var sub = CurrentNode();
+            var choice = sub as RecycleParser.MultiactionContext;
+            var choices = choice.condact();            
             var allOptions = new List<GameActionCollection>();
             for (int i = 0; i < choices.Length; ++i)
             {
@@ -168,6 +168,14 @@ namespace FreezeFrame
                     allOptions.AddRange(gacs);
                 }
             }
+            return allOptions;
+        }
+
+        // THIS METHOD FEELS A LITTLE DEAD NOW...
+        public int ProcessSubChoice(List<GameActionCollection> allOptions)
+        {
+            int ret = 0;
+
             //BranchingFactor.Instance.AddCount(allOptions.Count, instance.CurrentPlayer().idx);
             if (allOptions.Count != 0)
             {
@@ -209,9 +217,9 @@ namespace FreezeFrame
                 }
                 else if (multiaction.GetChild(1).GetText() == "choice")
                 {
-                    Debug.WriteLine("Processing multiaction choice block.");
-
-                    ProcessSubChoice(multiaction.condact());
+                    Debug.WriteLine("Processing multiaction choice block in PROCESSMULTIACTION????.");
+                    throw new NotImplementedException();
+                    //ProcessSubChoice(multiaction.condact());
                 }
                 else if (multiaction.GetChild(1).GetText() == "do")
                 {
