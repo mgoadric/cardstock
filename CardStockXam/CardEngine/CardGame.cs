@@ -374,24 +374,25 @@ namespace CardEngine
             if (!(table[0].cardBins.SequenceEqual(othergame.table[0].cardBins)))
             { //Console.WriteLine("table cardbins not equal"); 
                 return false; }
-        
+
+            if (!(players.SequenceEqual(othergame.players)))
+            { //Console.WriteLine("Player list not equal");
+                return false;
+            }
+
+            if (!(teams.SequenceEqual(othergame.teams)))
+            { Console.WriteLine("Team List not equal"); return false; }
+
             if (!(currentPlayer.SequenceEqual(othergame.currentPlayer)))
             { Console.WriteLine("Stack of player StageCycles not equal"); return false; }
            
             if (!(currentTeam.SequenceEqual(othergame.currentTeam)))
             { Console.WriteLine("Stack of team StageCycles not equal"); return false; }
 
-            if (!(players.SequenceEqual(othergame.players)))
-            { //Console.WriteLine("Player list not equal");
-                return false; }
-
-            if (!(teams.SequenceEqual(othergame.teams)))
-            { Console.WriteLine("Team List not equal"); return false; }
-
             return true;
         }
 
-        public override int GetHashCode() // TODO
+        public override int GetHashCode() // TESTING
         {
             int hash = 0;
             foreach (var card in sourceDeck) { hash ^= card.GetHashCode(); }
@@ -405,13 +406,14 @@ namespace CardEngine
                 if (type != CCType.VIRTUAL) { hash ^= table[0].cardBins[type].GetHashCode(); }
             }
          
-           
+           /* STAGECYCLE HASHING OR CLONING NOT IMPLEMENTED, NOT SAFE TO USE THIS (SMASHES THE ACTUAL GAME)
             Stack<StageCycle<Player>> playercopy = currentPlayer;
             Stack<StageCycle<Team>> teamcopy = currentTeam;
 
             while (playercopy.Count != 0) { hash ^= playercopy.Pop().GetHashCode(); } 
             while (teamcopy.Count != 0) { hash ^= teamcopy.Pop().GetHashCode(); }
-            
+            */
+
             return hash;
         }
 

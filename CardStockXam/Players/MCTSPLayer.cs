@@ -39,18 +39,6 @@ namespace Players
 
             // TEST CLONESECRETCLONE
             perspective.TestCloneSecretClone();
-            */
-
-
-
-            //
-            Tuple<CardGame, GameIterator> game = perspective.GetPrivateGame();
-            privategame = game.Item1;
-            privateiterator = game.Item2;
-            for (int j = 0; j < numPlayers; j++)
-            {
-                privategame.players[j].decision = new RandomPlayer(perspective);
-            }
 
             /* HASHCODE TESTING
             CardGame simgame = privateiterator.game.Clone();
@@ -59,7 +47,15 @@ namespace Players
             Console.WriteLine("simgame hash: " + simgame.GetHashCode() + " vs. test hash: " + test.GetHashCode());
             */
 
-            // PLAY GAME SIMULATION TEST
+            // GAME SIMULATIONS TEST
+            Tuple<CardGame, GameIterator> game = perspective.GetPrivateGame();
+            privategame = game.Item1;
+            privateiterator = game.Item2;
+            for (int j = 0; j < numPlayers; j++)
+            {
+                privategame.players[j].decision = new RandomPlayer(perspective);
+            }
+
             Dictionary<CardGame, Int32> plays = new Dictionary<CardGame, Int32>();
            
             //TEST FOR KEY CHECKING
@@ -69,11 +65,14 @@ namespace Players
             while (!privateiterator.AdvanceToChoice())
             {
                 CardGame savestate = privateiterator.game.Clone();
-                // cardGamesx.Add(savestate);
+                //CardGame x = savestate.Clone();
+                //plays.Add(x, 1);
                 if (plays.Keys.Contains(savestate))
                 { Console.WriteLine("Game in play dictionary already."); plays[savestate] += 1; }
                 else
-                { plays.Add(savestate, 1); }
+                { Console.WriteLine("Game not in play dictionary already"); plays.Add(savestate, 1); }
+
+                // cardGamesx.Add(savestate);
                 //if (cardGamesx.Count == 1) { Console.WriteLine("Game added: " + cardGamesx[0]); }
                 privateiterator.ProcessChoice();
             }
