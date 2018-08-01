@@ -405,14 +405,12 @@ namespace CardEngine
             {
                 if (type != CCType.VIRTUAL) { hash ^= table[0].cardBins[type].GetHashCode(); }
             }
-         
-           /* STAGECYCLE HASHING OR CLONING NOT IMPLEMENTED, NOT SAFE TO USE THIS (SMASHES THE ACTUAL GAME)
-            Stack<StageCycle<Player>> playercopy = currentPlayer;
-            Stack<StageCycle<Team>> teamcopy = currentTeam;
 
-            while (playercopy.Count != 0) { hash ^= playercopy.Pop().GetHashCode(); } 
-            while (teamcopy.Count != 0) { hash ^= teamcopy.Pop().GetHashCode(); }
-            */
+            foreach(StageCycle<Player> scp in currentPlayer)
+            { hash ^= scp.GetHashCode(); }
+            foreach (StageCycle<Team> sct in currentTeam)
+            { hash ^= sct.GetHashCode(); }
+          
 
             return hash;
         }
