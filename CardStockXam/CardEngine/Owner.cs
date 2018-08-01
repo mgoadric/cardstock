@@ -104,40 +104,48 @@ namespace CardEngine
             {
                 Player thisplayer = this as Player; Player otherplayer = otherowner as Player;
                 if (thisplayer.team.id != otherplayer.team.id)
-                { Console.WriteLine("Player Specific Owner failure"); return false; }
+                { Console.WriteLine("Player Specific Owner failure");
+                       return false; }
             }
 
             if (this as Team != null && otherowner as Team != null)
             {
                 Team thisteam = this as Team; Team otherteam = otherowner as Team;
                 if (!thisteam.teamPlayers.SequenceEqual(otherteam.teamPlayers))
-                { Console.WriteLine("Team specific owner failure"); return false; }
+                { Console.WriteLine("Team specific owner failure");
+                    return false; }
             }
             //SPECIAL THINGS FOR OTHER OWNERS??
 
             if (!(intBins.Equals(otherowner.intBins)))
-            { Console.WriteLine("owner intBins not equal"); return false; }
+            { //Console.WriteLine("owner intBins not equal");
+                return false; }
             
             if (!(stringBins.Equals(otherowner.stringBins)))
-            { Console.WriteLine("owner stringbins not equal"); return false; }
+            { //Console.WriteLine("owner stringbins not equal");
+                return false; }
 
             foreach (CCType type in Enum.GetValues(typeof(CCType)))
             {
                 if (type != CCType.VIRTUAL)
                 {
                     if (!otherowner.cardBins[type].Equals(cardBins[type]))
-                    { Console.WriteLine("Owner Cardbin " + type.ToString() + " not equal."); return false; }
+                    { //Console.WriteLine("Owner Cardbin " + type.ToString() + " not equal.");
+                        return false; }
                 }
             }
             
             if (!(pointBins.Equals(otherowner.pointBins)))
-            { Console.WriteLine("owner pointbins not equal"); return false; }
+            { //Console.WriteLine("owner pointbins not equal");
+                return false; }
             
             if (name != otherowner.name)
-            { Console.WriteLine("owner names not equal"); return false; }
+            { //Console.WriteLine("owner names not equal");
+                return false; }
             
             if (id != otherowner.id)
-            { Console.WriteLine("owner ids not equal"); return false; }
+            { //Console.WriteLine("owner ids not equal");
+                return false; }
 
             return true;
         }
@@ -145,9 +153,14 @@ namespace CardEngine
         public override int GetHashCode() 
         {
             int hash = 0;
-            hash ^= name.GetHashCode() ^ id.GetHashCode() ^ intBins.GetHashCode() ^ cardBins.GetHashCode();
+            hash ^= name.GetHashCode() ^ id.GetHashCode() ^ intBins.GetHashCode();
             hash ^= stringBins.GetHashCode() ^ pointBins.GetHashCode();
+            foreach(CCType type in Enum.GetValues(typeof(CCType)))
+            {
+                if (type != CCType.VIRTUAL) { hash ^= cardBins[type].GetHashCode(); }
+            }
             return hash;
         }
+       
     }
 }

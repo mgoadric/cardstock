@@ -109,7 +109,8 @@ namespace CardEngine
             { Console.WriteLine("DefaultCC not equal"); return false; }
             
             if (!cs.dict.SequenceEqual(dict))
-            { Console.WriteLine("Dictionary of Card Collections not equal"); return false; }
+            { //Console.WriteLine("Dictionary of Card Collections not equal");
+                return false; }
         
             return true;
         }

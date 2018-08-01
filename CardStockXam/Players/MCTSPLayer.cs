@@ -52,18 +52,33 @@ namespace Players
                 privategame.players[j].decision = new RandomPlayer(perspective);
             }
 
+            /* HASHCODE TESTING
+            CardGame simgame = privateiterator.game.Clone();
+            CardGame test = simgame.Clone();
+            if (simgame.Equals(test)) { Console.WriteLine("equality check"); }
+            Console.WriteLine("simgame hash: " + simgame.GetHashCode() + " vs. test hash: " + test.GetHashCode());
+            */
 
             // PLAY GAME SIMULATION TEST
             Dictionary<CardGame, Int32> plays = new Dictionary<CardGame, Int32>();
+           
+            //TEST FOR KEY CHECKING
+            //List<CardGame> cardGamesx = new List<CardGame>();
 
             Console.WriteLine("Playing a simulated game");
-
             while (!privateiterator.AdvanceToChoice())
             {
-                CardGame simgame = privateiterator.game.Clone();
-                plays.Add(simgame, 1);
+                CardGame savestate = privateiterator.game.Clone();
+                // cardGamesx.Add(savestate);
+                if (plays.Keys.Contains(savestate))
+                { Console.WriteLine("Game in play dictionary already."); plays[savestate] += 1; }
+                else
+                { plays.Add(savestate, 1); }
+                //if (cardGamesx.Count == 1) { Console.WriteLine("Game added: " + cardGamesx[0]); }
                 privateiterator.ProcessChoice();
             }
+
+            //Console.WriteLine("Game after: " + cardGamesx[0]);
 
             Console.WriteLine("Simulated Game is Over");
             Console.WriteLine(plays.Count);
