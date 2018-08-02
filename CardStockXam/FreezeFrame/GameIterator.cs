@@ -11,11 +11,40 @@ namespace FreezeFrame
     public class GameIterator
     {
         public RecycleParser.GameContext rules;
-        Stack<Queue<IParseTree>> iterStack;
-        HashSet<IParseTree> iteratingSet;
+        private Stack<Queue<IParseTree>> iterStack;
+        private HashSet<IParseTree> iteratingSet;
         public CardGame game;
         public World gameWorld;
         private RecycleVariables variables;
+
+        public GameIterator (RecycleParser.GameContext context, CardGame mygame, World gameWorld, bool fresh = true)
+		{
+            this.gameWorld = gameWorld;
+			rules = context;
+            game = mygame;
+			iterStack = new Stack<Queue<IParseTree>>();
+			iteratingSet = new HashSet<IParseTree>();
+            variables = new RecycleVariables();
+
+            if (fresh)
+            {
+                Debug.WriteLine("Processing declarations.");
+                foreach (RecycleParser.DeclareContext declare in rules.declare())
+                {
+                    ProcessDeclare(declare);
+                }
+
+                Debug.WriteLine("Setting up game.");
+                ProcessSetup(rules.setup()).ExecuteAll();
+
+                iterStack.Push(new Queue<IParseTree>());
+                var topLevel = iterStack.Peek();
+                for (int i = 3; i < rules.ChildCount - 2; ++i)
+                {
+                    topLevel.Enqueue(rules.GetChild(i));
+                }
+            }
+		}
 
         public GameIterator Clone(CardGame newgame) { 
             // CHANGED HERE TODO 
@@ -39,33 +68,24 @@ namespace FreezeFrame
             return ret;
         }
         
+        public IParseTree CurrentNode()
+        {
+            var ret = iterStack.Peek().Peek();
+            return ret;
+        }
 
-        public GameIterator (RecycleParser.GameContext context, CardGame mygame, World gameWorld, bool fresh = true)
-		{
-            this.gameWorld = gameWorld;
-			rules = context;
-            game = mygame;
-			iterStack = new Stack<Queue<IParseTree>>();
-			iteratingSet = new HashSet<IParseTree>();
-            variables = new RecycleVariables();
-
-            if (fresh)
+        public void PopCurrentNode()
+        {
+            iterStack.Peek().Dequeue();
+            if (iterStack.Peek().Count == 0)
             {
-                Debug.WriteLine("Processing declarations.");
-                foreach (RecycleParser.DeclareContext declare in rules.declare())
-                {
-                    ProcessDeclare(declare);
-                }
-                Debug.WriteLine("Setting up game.");
-                ProcessSetup(rules.setup()).ExecuteAll();
-                iterStack.Push(new Queue<IParseTree>());
-                var topLevel = iterStack.Peek();
-                for (int i = 3; i < rules.ChildCount - 2; ++i)
-                {
-                    topLevel.Enqueue(rules.GetChild(i));
-                }
+                Debug.WriteLine("Popped current node");
+                // TODO only popped here
+                iterStack.Pop();
+                //Console.WriteLine(iterStack.Peek());
+                Debug.WriteLine(iterStack.Count);
             }
-		}
+        }
 
 		public bool AdvanceToChoice(){
             int count = 0;
@@ -83,65 +103,25 @@ namespace FreezeFrame
 			return false; // interupted by player decision
 		}
 
-		public IParseTree CurrentNode(){
-			var ret =  iterStack.Peek ().Peek ();
-			return ret;
-		}
-
-		public void PopCurrentNode(){
-            
-			iterStack.Peek ().Dequeue ();
-			if (iterStack.Peek ().Count == 0) {
-                Debug.WriteLine("Popped current node");
-                // TODO only popped here
-				iterStack.Pop ();
-                //Console.WriteLine(iterStack.Peek());
-                Debug.WriteLine(iterStack.Count);
-			}
-		}
-
-		public bool ProcessSubStage(){
-            Debug.WriteLine("Processing substage.");
-			var sub = CurrentNode ();
-            if (sub.ChildCount > 1 && sub.GetChild(1).GetText() == "choice") { return true; }
-
-            // Time to parse it
-            else if (sub is RecycleParser.StageContext){
-                //EvalGameLead(); TODO
-                var allowedToRun = ProcessStage(sub as RecycleParser.StageContext);
-                if (allowedToRun){
-                    Debug.WriteLine("Is a stage.");
-                    iteratingSet.Add(sub);
-                }
-            }
-            else if (sub is RecycleParser.MultiactionContext){
-                PopCurrentNode();
-                Debug.WriteLine("Is a multiaction.");
-                ProcessMultiaction(sub as RecycleParser.MultiactionContext);
-            }
-            else if (sub is RecycleParser.Multiaction2Context){
-                PopCurrentNode();
-                Debug.WriteLine("Is a multiaction2.");
-                ProcessMultiaction(sub as RecycleParser.Multiaction2Context);
-            }
-            //setup and declare already handled
-            else if (sub is RecycleParser.SetupContext){
-                PopCurrentNode();
-                //SetupIterator.ProcessSetup(sub as RecycleParser.SetupContext);
-            }
-            else if (sub is RecycleParser.DeclareContext){
-                PopCurrentNode();
-            }
-            else {
-                Debug.WriteLine(sub.GetType());
-                throw new NotSupportedException();
-            }
-            return false;
-		}
         public int ProcessChoice()
         {
             var allOptions = BuildOptions();
-            int ret = ProcessSubChoice(allOptions);
+
+            int ret = 0;
+            if (allOptions.Count != 0)
+            {
+                Debug.WriteLine("processed choices");
+                Debug.WriteLine("Choice count for P" + game.CurrentPlayer().idx + ":" + allOptions.Count);
+                ret = game.PlayerMakeChoice(allOptions, game.CurrentPlayer().idx);
+                Debug.WriteLine("player choice made");
+                Debug.WriteLine(game.CurrentPlayer().memberList.Count);
+            }
+            else
+            {
+                Console.WriteLine("NO Choice Available");
+                throw new InvalidOperationException();
+            }
+
             PopCurrentNode();
             return ret;
         }
@@ -171,29 +151,161 @@ namespace FreezeFrame
             return allOptions;
         }
 
-        // THIS METHOD FEELS A LITTLE DEAD NOW...
-        public int ProcessSubChoice(List<GameActionCollection> allOptions)
+        public List<Tuple<int, int>> ProcessScore(RecycleParser.ScoringContext scoreMethod)
         {
-            int ret = 0;
+            var ret = new List<Tuple<int, int>>();
 
-            //BranchingFactor.Instance.AddCount(allOptions.Count, instance.CurrentPlayer().idx);
-            if (allOptions.Count != 0)
+            game.PushPlayer();
+            game.CurrentPlayer().idx = 0;
+            for (int i = 0; i < game.players.Length; ++i)
             {
-                Debug.WriteLine("processed choices");
-                Debug.WriteLine("Choice count for P" + game.CurrentPlayer().idx + ":" + allOptions.Count);
-                ret = game.PlayerMakeChoice(allOptions, game.CurrentPlayer().idx);
-                Debug.WriteLine("player choice made");
-                Debug.WriteLine(game.CurrentPlayer().memberList.Count);
+                var working = ProcessInt(scoreMethod.@int());
+                game.WriteToFile("s:" + working + " " + i);
+                ret.Add(new Tuple<int, int>(working, i));
+                game.CurrentPlayer().Next();
+            }
+
+            ret.Sort();
+            if (scoreMethod.GetChild(2).GetText() == "max")
+            {
+                ret.Reverse();
+            }
+
+            return ret;
+        }
+
+        /************
+         * GAME SETUP METHODS
+         ************/
+        private void ProcessDeclare(RecycleParser.DeclareContext declare)
+        {
+            variables.Put(declare.var().GetText(), ProcessTyped(declare.typed()));
+        }
+
+        private GameActionCollection ProcessSetup(RecycleParser.SetupContext setupNode)
+        {
+            var ret = new GameActionCollection();
+            if (setupNode.playercreate() != null)
+            {
+                Debug.WriteLine("Creating players.");
+                var playerCreate = setupNode.playercreate() as RecycleParser.PlayercreateContext;
+                var numPlayers = 2;
+                if (playerCreate.@int() != null)
+                {
+                    numPlayers = ProcessInt(playerCreate.@int());
+                }
+                else
+                {
+                    numPlayers = ProcessIntVar(playerCreate.var());
+                }
+                game.WriteToFile("nump:" + numPlayers);
+                game.AddPlayers(numPlayers, this);
+                gameWorld.numPlayers = numPlayers;
+                //gameWorld.PopulateLead();
+            }
+            if (setupNode.teamcreate() != null)
+            {
+                Debug.WriteLine("Creating teams.");
+                var teamCreate = setupNode.teamcreate() as RecycleParser.TeamcreateContext;
+                ret.Add(new TeamCreateAction(teamCreate, game));
+            }
+            if (setupNode.deckcreate() != null)
+            {
+                Debug.WriteLine("Creating decks.");
+                var decks = setupNode.deckcreate();
+                foreach (var deckinit in decks)
+                {
+                    ret.Add(ProcessDeckCreate(deckinit));
+                }
+            }
+            if (setupNode.repeat() != null)
+            {
+                foreach (var rep in setupNode.repeat())
+                {
+                    if (CheckDeckRepeat(rep))
+                    {
+                        ret.AddRange(ProcessRepeat(rep));
+                    }
+                    else
+                    {
+                        throw new InvalidDataException();
+                    }
+                }
+            }
+            return ret;
+        }
+
+        private bool CheckDeckRepeat(RecycleParser.RepeatContext reps)
+        {
+            if (reps.action().deckcreate() != null)
+            {
+                return true;
+            }
+            else if (reps.action().repeat() != null)
+            {
+                return CheckDeckRepeat(reps.action().repeat());
+            }
+            return false;
+        }
+
+        private GameAction ProcessDeckCreate(RecycleParser.DeckcreateContext deckinit)
+        {
+            var locstorage = ProcessLocation(deckinit.cstorage());
+            var deckTree = ProcessDeck(deckinit.deck());
+            return new InitializeAction(locstorage.cardList, deckTree, game);
+        }
+
+        /*********
+         * STAGE AND ACTION METHODS
+         **********/
+        private bool ProcessSubStage()
+        {
+            Debug.WriteLine("Processing substage.");
+            var sub = CurrentNode();
+            if (sub.ChildCount > 1 && sub.GetChild(1).GetText() == "choice") { return true; }
+
+            // Time to parse it
+            else if (sub is RecycleParser.StageContext)
+            {
+                //EvalGameLead(); TODO
+                var allowedToRun = ProcessStage(sub as RecycleParser.StageContext);
+                if (allowedToRun)
+                {
+                    Debug.WriteLine("Is a stage.");
+                    iteratingSet.Add(sub);
+                }
+            }
+            else if (sub is RecycleParser.MultiactionContext)
+            {
+                PopCurrentNode();
+                Debug.WriteLine("Is a multiaction.");
+                ProcessMultiaction(sub as RecycleParser.MultiactionContext);
+            }
+            else if (sub is RecycleParser.Multiaction2Context)
+            {
+                PopCurrentNode();
+                Debug.WriteLine("Is a multiaction2.");
+                ProcessMultiaction(sub as RecycleParser.Multiaction2Context);
+            }
+            //setup and declare already handled
+            else if (sub is RecycleParser.SetupContext)
+            {
+                PopCurrentNode();
+                //SetupIterator.ProcessSetup(sub as RecycleParser.SetupContext);
+            }
+            else if (sub is RecycleParser.DeclareContext)
+            {
+                PopCurrentNode();
             }
             else
             {
-                Console.WriteLine("NO Choice Available");
-                throw new InvalidOperationException();
+                Debug.WriteLine(sub.GetType());
+                throw new NotSupportedException();
             }
-            return ret;
-		}
+            return false;
+        }
 
-        public List<GameActionCollection> ProcessMultiaction(IParseTree sub)
+        private List<GameActionCollection> ProcessMultiaction(IParseTree sub)
         {
             var lst = new List<GameActionCollection>();
 
@@ -261,10 +373,7 @@ namespace FreezeFrame
             return lst;
         }
 
-
-
-        // look at where "Put" is called 
-        public List<GameActionCollection> RecurseDo(RecycleParser.CondactContext cond)
+        private List<GameActionCollection> RecurseDo(RecycleParser.CondactContext cond)
         {
             var all = new List<GameActionCollection>();
             // stack of iterating trees
@@ -559,22 +668,18 @@ namespace FreezeFrame
                             stackAct.Pop();
                             currentLevel = loop.level;
                         }
-
                     }
                     else
                     {
                         unwinding = false;
                     }
-
-
                 }
-
             }
             return all;
         }
 
         //this just queues the appropriate actions if condition is met, doesn't execute
-        public bool ProcessStage(RecycleParser.StageContext stage){
+        private bool ProcessStage(RecycleParser.StageContext stage){
             string text = stage.GetChild(2).GetText();
 			if (stage.endcondition().boolean() != null){
 
@@ -616,7 +721,7 @@ namespace FreezeFrame
 					}
 
 				} else {
-					PopCurrentNode ();
+					PopCurrentNode();
 
 					if (iteratingSet.Contains (stage)) {
 						iteratingSet.Remove (stage);
@@ -634,7 +739,10 @@ namespace FreezeFrame
 			//instance.PopPlayer();
 		}
 
-        public GameActionCollection ProcessAction(RecycleParser.ActionContext actionNode)
+        /*********
+         * GAME ACTION PARSING
+         *********/
+        private GameActionCollection ProcessAction(RecycleParser.ActionContext actionNode)
         {
             Debug.WriteLine(actionNode.GetText());
             var ret = new GameActionCollection();
@@ -725,7 +833,7 @@ namespace FreezeFrame
             }
             else if (actionNode.deckcreate() != null)
             {
-                ret.Add(ProcessDeck(actionNode.deckcreate()));
+                ret.Add(ProcessDeckCreate(actionNode.deckcreate()));
             }
             else if (actionNode.turnaction() != null)
             {
@@ -793,7 +901,7 @@ namespace FreezeFrame
             return null;
         }
 
-        public void ProcessDo(RecycleParser.CondactContext[] condact)
+        private void ProcessDo(RecycleParser.CondactContext[] condact)
         {
             foreach (RecycleParser.CondactContext cond in condact)
             {
@@ -801,14 +909,12 @@ namespace FreezeFrame
             }
         }
 
-        public void ProcessSingleDo(RecycleParser.CondactContext cond)
+        private void ProcessSingleDo(RecycleParser.CondactContext cond)
         {
             if (cond.boolean() == null || ProcessBoolean(cond.boolean())) { DoAction(cond); }
         }
 
-
-
-        public void DoAction(RecycleParser.CondactContext cond)
+        private void DoAction(RecycleParser.CondactContext cond)
         {
             if (cond.multiaction2() != null)
             {
@@ -822,7 +928,7 @@ namespace FreezeFrame
             }
         }
 
-        public GameActionCollection ProcessRepeat(RecycleParser.RepeatContext rep)
+        private GameActionCollection ProcessRepeat(RecycleParser.RepeatContext rep)
         {
             var ret = new GameActionCollection();
             int idx = 1;
@@ -858,7 +964,7 @@ namespace FreezeFrame
             // Will this crash if not owned by a player?
         }
 
-        public bool ProcessBoolean(RecycleParser.BooleanContext boolNode)
+        private bool ProcessBoolean(RecycleParser.BooleanContext boolNode)
         {
             if (boolNode.intop() != null)
             {
@@ -983,7 +1089,7 @@ namespace FreezeFrame
             throw new NotSupportedException();
         }
 
-        public GameAction ProcessCopy(RecycleParser.CopyactionContext copy)
+        private GameAction ProcessCopy(RecycleParser.CopyactionContext copy)
         { //TODO fix this for real
             Debug.WriteLine(copy.GetText());
             var cardOne = ProcessCard(copy.GetChild(1) as RecycleParser.CardContext);
@@ -998,12 +1104,12 @@ namespace FreezeFrame
             return new CardRememberAction(cardOne, cardTwo, game);
         }
 
-        public GameAction ProcessRemove(RecycleParser.RemoveactionContext removeAction)
+        private GameAction ProcessRemove(RecycleParser.RemoveactionContext removeAction)
         {
             var cardOne = ProcessCard(removeAction.card());
             return new CardForgetAction(cardOne, game);
         }
-        public GameAction ProcessMove(RecycleParser.MoveactionContext move)
+        private GameAction ProcessMove(RecycleParser.MoveactionContext move)
         {
             var locOne = ProcessCard(move.GetChild(1) as RecycleParser.CardContext);
             var locTwo = ProcessCard(move.GetChild(2) as RecycleParser.CardContext);
@@ -1012,12 +1118,12 @@ namespace FreezeFrame
             return new CardMoveAction(locOne, locTwo, game);
         }
 
-        internal GameAction ProcessShuffle(CardLocReference locations)
+        private GameAction ProcessShuffle(CardLocReference locations)
         {
             return new ShuffleAction(locations, game);
         }
 
-        public CardLocReference ProcessCard(RecycleParser.CardContext card)
+        private CardLocReference ProcessCard(RecycleParser.CardContext card)
         {
             if (card.maxof() != null)
             {
@@ -1099,7 +1205,7 @@ namespace FreezeFrame
             throw new NotSupportedException();
         }
 
-        public List<object> ProcessOther(RecycleParser.OtherContext other)
+        private List<object> ProcessOther(RecycleParser.OtherContext other)
         { //return list of teams or list of players
             List<object> lst = new List<object>();
             if (other.GetChild(2).GetText() == "player")
@@ -1126,7 +1232,7 @@ namespace FreezeFrame
             return lst;
         }
 
-        public List<CardLocReference> ProcessCStorageCollection(RecycleParser.CstoragecollectionContext cstoragecoll)
+        private List<CardLocReference> ProcessCStorageCollection(RecycleParser.CstoragecollectionContext cstoragecoll)
         {
             if (cstoragecoll.memset() != null)
             {
@@ -1146,7 +1252,7 @@ namespace FreezeFrame
             throw new NotSupportedException();
         }
 
-        public CardLocReference ProcessLocation(RecycleParser.CstorageContext loc)
+        private CardLocReference ProcessLocation(RecycleParser.CstorageContext loc)
         {
             string name = "";
             if (loc.unionof() != null)
@@ -1218,7 +1324,7 @@ namespace FreezeFrame
             throw new NotSupportedException();
         }
 
-        public CardLocReference[] ProcessMemset(RecycleParser.MemsetContext memset)
+        private CardLocReference[] ProcessMemset(RecycleParser.MemsetContext memset)
         {
             if (memset.tuple() != null)
             {
@@ -1243,7 +1349,7 @@ namespace FreezeFrame
             }
             return null;
         }
-        public CardLocReference ProcessSubLocation(RecycleParser.CstorageContext stor)
+        private CardLocReference ProcessSubLocation(RecycleParser.CstorageContext stor)
         {
             string desc = stor.locdesc().GetText();
             CCType prefix;
@@ -1322,7 +1428,7 @@ namespace FreezeFrame
                 return fancy;
             }
         }
-        public string ProcessCardatt(RecycleParser.CardattContext cardatt)
+        private string ProcessCardatt(RecycleParser.CardattContext cardatt)
         {
             if (cardatt.ChildCount == 1)
             {
@@ -1361,7 +1467,8 @@ namespace FreezeFrame
             //throw new NotSupportedException();
             return "";
         }
-        public object ProcessWho(RecycleParser.WhoContext who)
+
+        private object ProcessWho(RecycleParser.WhoContext who)
         {
             if (who.whop() != null)
             {
@@ -1373,7 +1480,8 @@ namespace FreezeFrame
             }
             return null;
         }
-        public Player ProcessWhop(RecycleParser.WhopContext who)
+
+        private Player ProcessWhop(RecycleParser.WhopContext who)
         {
             if (who.owner() != null)
             {
@@ -1402,7 +1510,8 @@ namespace FreezeFrame
             }
             return null;
         }
-        public Team ProcessWhot(RecycleParser.WhotContext who)
+
+        private Team ProcessWhot(RecycleParser.WhotContext who)
         {
             if (who.teamp() != null)
             {
@@ -1433,7 +1542,7 @@ namespace FreezeFrame
             return null;
         }
 
-        public Tree ProcessDeck(RecycleParser.DeckContext deck)
+        private Tree ProcessDeck(RecycleParser.DeckContext deck)
         {
             //var attributeCount = deck.ChildCount - 3;
 
@@ -1458,7 +1567,7 @@ namespace FreezeFrame
         }
 
 
-        public List<Node> ProcessAttribute(RecycleParser.AttributeContext attr) //TODO make this array!!
+        private List<Node> ProcessAttribute(RecycleParser.AttributeContext attr) //TODO make this array!!
         {
             if (attr.var() != null)
             {
@@ -1521,7 +1630,7 @@ namespace FreezeFrame
             }
         }
 
-        public int ProcessInt(RecycleParser.IntContext intNode)
+        private int ProcessInt(RecycleParser.IntContext intNode)
         {
             if (intNode.rawstorage() != null)
             {
@@ -1632,7 +1741,7 @@ namespace FreezeFrame
             }
         }
 
-        public List<int> ProcessRange(RecycleParser.RangeContext range)
+        private List<int> ProcessRange(RecycleParser.RangeContext range)
         {
             int int1 = ProcessInt(range.GetChild(2) as RecycleParser.IntContext);
             int int2 = ProcessInt(range.GetChild(4) as RecycleParser.IntContext);
@@ -1644,8 +1753,7 @@ namespace FreezeFrame
             return ret;
         }
 
-
-        public IntStorageReference ProcessIntStorage(RecycleParser.RawstorageContext intSto)
+        private IntStorageReference ProcessIntStorage(RecycleParser.RawstorageContext intSto)
         {
             if (intSto.GetChild(1).GetText() == "game")
             {
@@ -1722,20 +1830,21 @@ namespace FreezeFrame
             return null;
         }
 
-        public GameAction SetAction(RecycleParser.SetactionContext setAction)
+        private GameAction SetAction(RecycleParser.SetactionContext setAction)
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             return new IntAction(bin.storage, bin.key, setValue, game);
         }
-        public GameAction IncAction(RecycleParser.IncactionContext setAction)
+
+        private GameAction IncAction(RecycleParser.IncactionContext setAction)
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             var newVal = bin.Get() + setValue;
             return new IntAction(bin.storage, bin.key, newVal, game);
         }
-        public GameAction DecAction(RecycleParser.DecactionContext setAction)
+        private GameAction DecAction(RecycleParser.DecactionContext setAction)
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
@@ -1743,154 +1852,7 @@ namespace FreezeFrame
             return new IntAction(bin.storage, bin.key, newVal, game);
         }
 
-        public List<Tuple<int, int>> ProcessScore(RecycleParser.ScoringContext scoreMethod)
-        {
-            var ret = new List<Tuple<int, int>>();
-
-            game.PushPlayer();
-            game.CurrentPlayer().idx = 0;
-            for (int i = 0; i < game.players.Length; ++i)
-            {
-                var working = ProcessInt(scoreMethod.@int());
-                game.WriteToFile("s:" + working + " " + i);
-                ret.Add(new Tuple<int, int>(working, i));
-                game.CurrentPlayer().Next();
-            }
-
-            ret.Sort();
-            if (scoreMethod.GetChild(2).GetText() == "max")
-            {
-                ret.Reverse();
-            }
-
-            return ret;
-        }
-
-        // TODO WHY IS THIS DUPLICATED in a GAMEACTION??
-        public void ProcessTeamCreate(RecycleParser.TeamcreateContext teamCreate)
-        {
-            var numTeams = teamCreate.teams().Count();
-            for (int i = 0; i < numTeams; ++i)
-            {
-                var newTeam = new Team("" + i, i);
-                var teamStr = "T:";
-                foreach (var p in teamCreate.teams(i).INTNUM())
-                {
-                    var j = Int32.Parse(p.GetText());
-                    newTeam.teamPlayers.Add(game.players[j]);
-                    game.players[j].team = newTeam;
-                    teamStr += j + " ";
-                }
-                game.teams.Add(newTeam);
-                game.WriteToFile(teamStr);
-            }
-
-            game.currentTeam.Push(new StageCycle<Team>(game.teams, game));
-            Debug.WriteLine("NUMTEAMS:" + game.teams.Count);
-
-        }
-
-        public GameActionCollection ProcessSetup(RecycleParser.SetupContext setupNode)
-        {
-            var ret = new GameActionCollection();
-            if (setupNode.playercreate() != null)
-            {
-                Debug.WriteLine("Creating players.");
-                var playerCreate = setupNode.playercreate() as RecycleParser.PlayercreateContext;
-                var numPlayers = 2;
-                if (playerCreate.@int() != null)
-                {
-                    numPlayers = ProcessInt(playerCreate.@int());
-                }
-                else
-                {
-                    numPlayers = ProcessIntVar(playerCreate.var());
-                }
-                game.WriteToFile("nump:" + numPlayers);
-                game.AddPlayers(numPlayers, this);
-                gameWorld.numPlayers = numPlayers;
-                //gameWorld.PopulateLead();
-            }
-            if (setupNode.teamcreate() != null)
-            {
-                Debug.WriteLine("Creating teams.");
-                var teamCreate = setupNode.teamcreate() as RecycleParser.TeamcreateContext;
-                ProcessTeamCreate(teamCreate);
-            }
-            if (setupNode.deckcreate() != null)
-            {
-                Debug.WriteLine("Creating decks.");
-                var decks = setupNode.deckcreate();
-                foreach (var deckinit in decks)
-                {
-                    ret.Add(ProcessDeck(deckinit));
-                }
-            }
-            if (setupNode.repeat() != null)
-            {
-                foreach (var rep in setupNode.repeat())
-                {
-                    if (CheckDeckRepeat(rep))
-                    {
-                        ret.AddRange(ProcessRepeat(rep));
-                    }
-                    else
-                    {
-                        throw new InvalidDataException();
-                    }
-                }
-            }
-            return ret;
-        }
-
-        public bool CheckDeckRepeat(RecycleParser.RepeatContext reps)
-        {
-            if (reps.action().deckcreate() != null)
-            {
-                return true;
-            }
-            else if (reps.action().repeat() != null)
-            {
-                return CheckDeckRepeat(reps.action().repeat());
-            }
-            return false;
-        }
-        // TODO NAME CONFLICT??
-        public GameAction ProcessDeck(RecycleParser.DeckcreateContext deckinit)
-        {
-            var locstorage = ProcessLocation(deckinit.cstorage());
-            var deckTree = ProcessDeck(deckinit.deck());
-            return new InitializeAction(locstorage.cardList, deckTree, game);
-        }
-
-
-
-        public List<GameActionCollection> ProcessCondactChoice(RecycleParser.CondactContext cond)
-        {
-            Debug.WriteLine("Processing conditional action choice.");
-
-            var allOptions = new List<GameActionCollection>();
-            bool condition = true;
-            if (cond.boolean() != null)
-            {
-                condition = ProcessBoolean(cond.boolean());
-            }
-            if (condition)
-            {
-                if (cond.multiaction2() != null)
-                {
-                    allOptions.AddRange(ProcessMultiaction(cond.multiaction2()));
-                }
-                else if (cond.action() != null)
-                {
-                    allOptions.Add(ProcessAction(cond.action()));
-                }
-            }
-            return allOptions;
-        }
-
-      
-        public CardLocReference ProcessCStorageFilter(RecycleParser.FilterContext filter)
+        private CardLocReference ProcessCStorageFilter(RecycleParser.FilterContext filter)
         {
             var cList = new CardCollection(CCType.VIRTUAL);
             CardLocReference stor;
@@ -1950,13 +1912,14 @@ namespace FreezeFrame
             };
             return fancy;
         }
+
         // want to clean up & understand processagg TODO
-        public object ProcessAgg(RecycleParser.AggContext agg)
+        private object ProcessAgg(RecycleParser.AggContext agg)
         {
             return IterateAgg(agg, ProcessCollection(agg.collection()));
         }
 
-        public IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection)
+        private IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection)
         {
 
             if (collection.var() != null)
@@ -2176,12 +2139,7 @@ namespace FreezeFrame
             throw new NotSupportedException();
         }
 
-        public void ProcessDeclare(RecycleParser.DeclareContext declare)
-        {
-            variables.Put(declare.var().GetText(), ProcessTyped(declare.typed()));
-        }
-
-        public object ProcessTyped(RecycleParser.TypedContext typed)
+        private object ProcessTyped(RecycleParser.TypedContext typed)
         {
             if (typed.@int() != null)
             {
@@ -2215,7 +2173,7 @@ namespace FreezeFrame
             throw new NotSupportedException();
         }
 
-        public List<GameActionCollection> ProcessLet(RecycleParser.LetContext let)
+        private List<GameActionCollection> ProcessLet(RecycleParser.LetContext let)
         {
             var ret = new List<GameActionCollection>(); //TODO check this
             // maybe don't need ProcessTyped ? 
@@ -2249,7 +2207,7 @@ namespace FreezeFrame
             return newlst;
         }
 
-        public int ProcessIntVar(RecycleParser.VarContext varContext)
+        private int ProcessIntVar(RecycleParser.VarContext varContext)
         {
             var temp = variables.Get(varContext.GetText());
             if (temp is IntStorageReference)
@@ -2261,7 +2219,7 @@ namespace FreezeFrame
             else { throw new Exception("Temp is " + temp.GetType()); }
         }
 
-        public CardLocReference ProcessCardVar(RecycleParser.VarContext card)
+        private CardLocReference ProcessCardVar(RecycleParser.VarContext card)
         { //TODO get card instead of just top card of location when ret is Card
             var ret = variables.Get(card);
             if (ret is CardLocReference)
@@ -2283,7 +2241,8 @@ namespace FreezeFrame
             Debug.WriteLine("error, type is " + ret.GetType());
             return null;
         }
-        public string ProcessStringVar(RecycleParser.VarContext var)
+
+        private string ProcessStringVar(RecycleParser.VarContext var)
         {
             if (variables.Get(var) is String s)
             {
@@ -2295,7 +2254,7 @@ namespace FreezeFrame
                 throw new NotImplementedException();
             }
         }
-        public bool All(RecycleParser.AggContext agg)
+        private bool All(RecycleParser.AggContext agg)
         {
             return agg.GetChild(1).GetText() == "all";
         }
