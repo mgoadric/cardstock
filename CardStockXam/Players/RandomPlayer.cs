@@ -16,6 +16,7 @@ namespace Players
          */
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
         {
+
             return rand.Next(0,possibles.Count);
         }
     }

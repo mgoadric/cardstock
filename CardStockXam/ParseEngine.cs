@@ -116,7 +116,7 @@ public class ParseEngine
                     }
 				} else if (exp.type == GameType.RndandAI) {
                     Perspective perspective = new Perspective(0, instance, manageContext);
-                    instance.players[0].decision = new MCTSPLayer(perspective);
+                    instance.players[0].decision = new PIPMCPlayer(perspective);
                 } 
 	            
                 /*********

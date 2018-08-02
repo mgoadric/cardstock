@@ -9,8 +9,8 @@ namespace Players
      */
     public class PredictablePlayer : AIPlayer
     {
-        private bool firstMove = true;
-        private int toChoose = -1;
+        public bool firstMove = true;
+        public int toChoose = -1;
 
         public PredictablePlayer (Perspective perspective, int choice) : base(perspective)
         { toChoose = choice; }
@@ -21,9 +21,11 @@ namespace Players
          */
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
         {
+            
 			if (firstMove)
 			{
-				firstMove = false;
+
+                firstMove = false;
 				return toChoose;
 			}
 

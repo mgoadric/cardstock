@@ -1,12 +1,8 @@
 ﻿using CardEngine;
-using CardStockXam;
-using CardStockXam.Scoring;
 using FreezeFrame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Players
 {
@@ -16,10 +12,11 @@ namespace Players
         public Dictionary<Tuple<CardGame, int>, int> plays = new Dictionary<Tuple<CardGame, int>, int>();
         public Dictionary<Tuple<CardGame, int>, double> wins = new Dictionary<Tuple<CardGame, int>, double>();
         public Dictionary<int, CardGame> movestates = new Dictionary<int, CardGame>();
+        public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree = new Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]>();
         private CardGame privategame;
         private GameIterator privateiterator;
         public MCTSPLayer(Perspective perspective) : base(perspective) { }
-
+        
 
         public override int MakeAction(List<GameActionCollection> possibles, Random rand)
         {
@@ -28,7 +25,6 @@ namespace Players
 
         public int Choice(int optioncount, Random random) //
         {
-
             // GAME SIMULATIONS TEST
             Tuple<CardGame, GameIterator> game = perspective.GetPrivateGame();
             privategame = game.Item1;
@@ -36,7 +32,7 @@ namespace Players
             int myidx = perspective.GetIdx();
             movestates = new Dictionary<int, CardGame>();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 10 * optioncount; i++)
             {
                 RunSimulation();
             }
@@ -56,7 +52,6 @@ namespace Players
                 {
                     Tuple<CardGame,int> stateandplayer = new Tuple<CardGame, int>(movestates[x], myidx);
                     moverankingarray[x] = wins[stateandplayer] / plays[stateandplayer];
-                    Console.WriteLine(moverankingarray[x]);
                 }
             }
             Tuple<int, int> worstandbest = MinMaxIdx(moverankingarray);
@@ -77,7 +72,7 @@ namespace Players
             {
                 cg.players[j].decision = new RandomPlayer(perspective);
             }
-            int idx = cg.currentPlayer.Peek().idx;
+
 
             bool expand = true;
             bool first = true;
@@ -85,24 +80,76 @@ namespace Players
             // "Playing a simulated game"
             while (!gameIterator.AdvanceToChoice())
             {
+                int idx = cg.currentPlayer.Peek().idx;
+                // Each turn, need to check to see if we have enough information to make move using UCB
+                // If we do (movelist.count() == choicenum), and we check the stats of each move
+                // A predictable player is set for the currentplayers idx which wil chose the move determined by UCB
+
+                // Movelist should be tuple array with each entry a state and a who played it
+                // Its key should be a state and the idx of the player in charge
+                Tuple<CardGame, int>[] movelist = null;
+                if (expand)
+                {
+                    int choicenum = gameIterator.BuildOptions().Count;
+                    Tuple<CardGame, int> deliberator = Tuple.Create<CardGame, int>(cg.Clone(), idx); 
+
+                    if (!movestatetree.Keys.Contains(deliberator))
+                    {
+                        movestatetree[deliberator] = new Tuple<CardGame, int>[choicenum];
+                    }
+                    movelist = movestatetree[deliberator];
+                    
+                    //Console.WriteLine("Choice num: " + choicenum + " Movelist Count: " + movelist.Count(s => s != null));
+                    if (movelist.Count(s => s != null) == choicenum) 
+                    {
+                        // USE UCB
+                        double bestscore = 0;
+                        int movenum = 0;
+                        double totalplays = 0;
+                        foreach (Tuple<CardGame, int> stateandplay in (movelist))
+                        {
+                            totalplays += plays[stateandplay];
+                        }
+                        totalplays = Math.Log(totalplays);
+                        for (int i = 0; i < movelist.Length; i++)
+                        {
+                            Tuple<CardGame, int> stateandplay = movelist[i];
+                            double temp = wins[stateandplay] / plays[stateandplay]; 
+                            temp += Math.Sqrt(2 * totalplays / plays[stateandplay]); 
+                            if (temp > bestscore)
+                            {
+                                bestscore = temp;
+                                movenum = i;
+                            }
+                        }
+                        // MAKE THE PLAYER A PREDICTABLE PLAYER TO MAKE A SET MOVE
+                        cg.players[idx].decision = new PredictablePlayer(perspective, movenum);
+                    }
+                    // "ELSE" Nothing happens here
+                }
+
                 int c = gameIterator.ProcessChoice();
                 CardGame savestate = gameIterator.game.Clone();
+                // THIS HELPS FIND ORIGINAL MOVE CHOICES
                 if (first)
                 {
                     if (!movestates.Keys.Contains(c))
                     { movestates[c] = savestate; }
                     first = false;
                 }
+                // Stateandplayer is Tuple with state after move, and the idx of the player who made the move
                 Tuple<CardGame, int> stateandplayer = Tuple.Create<CardGame, int>(savestate, idx);
+
+                // IF THIS IS THE FIRST SIMULATION WHICH HAS ARRIVED AT THIS STATE::
                 if (expand && (!plays.Keys.Contains(stateandplayer)))
                 {
                     expand = false;
                     plays[stateandplayer] = 0;
                     wins[stateandplayer] = 0;
+                    movelist[c] = stateandplayer;
                 }
-               
                 visitedstates.Add(stateandplayer);
-                idx = cg.currentPlayer.Peek().idx;
+                
             }
 
             // ProcessScore returns a sorted list 
@@ -127,14 +174,15 @@ namespace Players
             }
         }
 
+        
+
+
         public Node SelectNodeUsingUCT(List<Node> moves)
         {
 
 
             return null;
         }
-
-
 
     }
 }
