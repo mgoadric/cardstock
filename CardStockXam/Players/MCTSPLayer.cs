@@ -80,6 +80,8 @@ namespace Players
             // "Playing a simulated game"
             while (!gameIterator.AdvanceToChoice())
             {
+                List<GameActionCollection> allOptions = gameIterator.BuildOptions();
+                
                 int idx = cg.currentPlayer.Peek().idx;
                 // Each turn, need to check to see if we have enough information to make move using UCB
                 // If we do (movelist.count() == choicenum), and we check the stats of each move
@@ -88,9 +90,10 @@ namespace Players
                 // Movelist should be tuple array with each entry a state and a who played it
                 // Its key should be a state and the idx of the player in charge
                 Tuple<CardGame, int>[] movelist = null;
+                int c = 0;
                 if (expand)
                 {
-                    int choicenum = gameIterator.BuildOptions().Count;
+                    int choicenum = allOptions.Count;
                     Tuple<CardGame, int> deliberator = Tuple.Create<CardGame, int>(cg.Clone(), idx); 
 
                     if (!movestatetree.Keys.Contains(deliberator))
@@ -98,13 +101,13 @@ namespace Players
                         movestatetree[deliberator] = new Tuple<CardGame, int>[choicenum];
                     }
                     movelist = movestatetree[deliberator];
-                    
+
                     //Console.WriteLine("Choice num: " + choicenum + " Movelist Count: " + movelist.Count(s => s != null));
-                    if (movelist.Count(s => s != null) == choicenum) 
+                    if (movelist.Count(s => s != null) == choicenum)
                     {
                         // USE UCB
                         double bestscore = 0;
-                        int movenum = 0;
+                        c = 0;
                         double totalplays = 0;
                         foreach (Tuple<CardGame, int> stateandplay in (movelist))
                         {
@@ -114,21 +117,25 @@ namespace Players
                         for (int i = 0; i < movelist.Length; i++)
                         {
                             Tuple<CardGame, int> stateandplay = movelist[i];
-                            double temp = wins[stateandplay] / plays[stateandplay]; 
-                            temp += Math.Sqrt(2 * totalplays / plays[stateandplay]); 
+                            double temp = wins[stateandplay] / plays[stateandplay];
+                            temp += Math.Sqrt(2 * totalplays / plays[stateandplay]);
                             if (temp > bestscore)
                             {
                                 bestscore = temp;
-                                movenum = i;
+                                c = i;
                             }
                         }
-                        // MAKE THE PLAYER A PREDICTABLE PLAYER TO MAKE A SET MOVE
-                        cg.players[idx].decision = new PredictablePlayer(perspective, movenum);
-                    }
-                    // "ELSE" Nothing happens here
-                }
 
-                int c = gameIterator.ProcessChoice();
+                        allOptions[c].ExecuteAll();
+                        gameIterator.PopCurrentNode();
+                    }
+                    else
+                    {
+                        c = gameIterator.ProcessChoice();
+                    }
+                }
+                else { c = gameIterator.ProcessChoice(); }
+
                 CardGame savestate = gameIterator.game.Clone();
                 // THIS HELPS FIND ORIGINAL MOVE CHOICES
                 if (first)
@@ -173,17 +180,6 @@ namespace Players
                 }
             }
         }
-
-        
-
-
-        public Node SelectNodeUsingUCT(List<Node> moves)
-        {
-
-
-            return null;
-        }
-
     }
 }
 
