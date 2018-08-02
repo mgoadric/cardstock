@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 namespace CardEngine{
-    public class PointMap : ICloneable{
+    public readonly struct PointMap : ICloneable{
 
-        //public readonly List<PointAwards> pointAwards;
-		public readonly Dictionary<string,Dictionary<string,int>> pointLookups = new Dictionary<string,Dictionary<string,int>>();
+		public readonly Dictionary<string,Dictionary<string,int>> pointLookups;
 		public PointMap(List<PointAwards> input){
 
-            //pointAwards = input;
+            pointLookups = new Dictionary<string, Dictionary<string, int>>();
 			foreach (var award in input){
 				if (pointLookups.ContainsKey(award.identifier)){
 					if (pointLookups[award.identifier].ContainsKey(award.value)){
@@ -43,9 +42,8 @@ namespace CardEngine{
 			return total;
 		}
 
-        // This is a readonly object, so no cloning necessary.
+        // This is a readonly struct, so no cloning necessary.
         public object Clone() {
-            // return new PointMap(pointAwards);
             return this;
         }
 
@@ -55,8 +53,7 @@ namespace CardEngine{
             if (obj == null)
             { return false; }
 
-            var p = obj as PointMap;
-            if (p == null)
+            if (!(obj is PointMap p))
             { return false; }
 
             if (pointLookups.Count != p.pointLookups.Count)
@@ -95,6 +92,8 @@ namespace CardEngine{
         }
 
     }
+
+    // TODO Can we get rid of this with a Tuple<string, string, int> ???
 	public class PointAwards{
 		public readonly string identifier;
 		public readonly string value;

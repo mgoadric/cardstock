@@ -9,16 +9,15 @@ namespace CardEngine{
 
         private readonly Dictionary<string, string> cardAtts;
 		public CardCollection owner {get; set;}
-        public int id;
+        public readonly int id;
 
-		public Card(Dictionary<string, string> atts){
+		public Card(Dictionary<string, string> atts, int id){
             cardAtts = atts;
+            this.id = id;
 		}
 
 		public Card Clone(){
-			Card ret = new Card (cardAtts);
-            ret.id = id;
-            return ret;
+            return new Card(cardAtts, id);;
 		}
 
 		public override string ToString(){

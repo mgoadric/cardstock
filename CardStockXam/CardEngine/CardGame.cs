@@ -301,9 +301,8 @@ namespace CardEngine
         public void SetDeck(Tree cardAttributes, CardCollection loc) {
             var combos = cardAttributes.combinations();
             foreach (var combo in combos) {
-                var newCard = new Card(combo.Flatten());
+                var newCard = new Card(combo.Flatten(), sourceDeck.Count);
                 newCard.owner = loc;
-                newCard.id = sourceDeck.Count;
                 sourceDeck.Add(newCard);
                 loc.Add(newCard);
                 WriteToFile("C:" + newCard.ToString() + " " + loc.owner.owner.name + " " + loc.type +
