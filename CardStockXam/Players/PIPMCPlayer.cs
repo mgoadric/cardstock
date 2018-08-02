@@ -22,7 +22,7 @@ namespace Players
             return NumChoices(possibles.Count, rand);
         }
 
-		public int NumChoices(int items, Random rand){
+		public int NumChoices(int numMoves, Random rand){
             // SetupPrivateGame sets "privategame" equal to actualgame.clonesecret(idx) and
             // sets "privateiterator" equal to actualgameiterator.clone()
             Tuple<CardGame, GameIterator> gameinfo = perspective.GetPrivateGame();
@@ -30,9 +30,9 @@ namespace Players
             privateiterator = gameinfo.Item2;
             int idx = perspective.GetIdx();
 
-            Debug.WriteLine("PIPMC making choice. items: " + items);
+            Debug.WriteLine("PIPMC making choice. items: " + numMoves);
 
-            var inverseRankSum = new double[items];
+            var inverseRankSum = new double[numMoves];
 
             Debug.WriteLine("Start Monte");
 
@@ -40,11 +40,11 @@ namespace Players
             // FOR EACH POSSIBLE MOVE
            
 
-            for (int item = 0; item < items; ++item)
+            for (int move = 0; move < numMoves; ++move)
             {
-                Debug.WriteLine("iterating over item: " + item);
+                Debug.WriteLine("iterating over item: " + move);
 
-                inverseRankSum[item] = 0;
+                inverseRankSum[move] = 0;
 
                 Parallel.For(0, NUMTESTS, i =>   //number of tests for certain decision
                 {
@@ -58,21 +58,16 @@ namespace Players
                     CardGame cg = privategame.Clone();
                     GameIterator cloneContext = privateiterator.Clone(cg);
 
+                    // Make the chosen move
+                    List<GameActionCollection> allOptions = cloneContext.BuildOptions();
+                    allOptions[move].ExecuteAll();
+                    cloneContext.PopCurrentNode();
+
                     // Assign the AI players for rollout game, with the 
                     // selected item chosen first when you get your turn
                     for (int j = 0; j < numPlayers; j++)
                     {
-
-                        Debug.WriteLine("in PIPMC for loop:" + j);
-
-                        if (j == idx)
-                        {
-                            cg.players[j].decision = new PredictablePlayer(perspective, item);
-                        }
-                        else
-                        {
-                            cg.players[j].decision = new RandomPlayer(perspective);
-                        }
+                        cg.players[j].decision = new RandomPlayer(perspective);
                     }
 
                     Debug.WriteLine("Playing a simulated game");
@@ -101,7 +96,7 @@ namespace Players
                             // add your rank to the results of this choice
                             lock (this)
                             {
-                                inverseRankSum[item] += (((double)1) / (j + 1)) / NUMTESTS;
+                                inverseRankSum[move] += (((double)1) / (j + 1)) / NUMTESTS;
                             }
 
                             break;
