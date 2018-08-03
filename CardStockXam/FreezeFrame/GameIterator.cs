@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime.Tree;
 using CardEngine;
+using CardStockXam;
 using CardStockXam.Scoring;
 using System;
 using System.Collections.Generic;
@@ -1134,7 +1135,7 @@ namespace FreezeFrame
                 foreach (var c in coll.cardList.AllCards())
                 {
                     //MHG when equal, pick randomly
-                    if (scoring.GetScore(c) > max || (scoring.GetScore(c) == max && (new Random()).Next(0, 2) == 0))
+                    if (scoring.GetScore(c) > max || (scoring.GetScore(c) == max && ThreadSafeRandom.Next(0, 2) == 0))
                     {
                         //if (scoring.GetScore(c) > max){
                         max = scoring.GetScore(c);
@@ -1162,7 +1163,7 @@ namespace FreezeFrame
                 foreach (var c in coll.cardList.AllCards())
                 {
                     //MHG when equal, pick randomly
-                    if (scoring.GetScore(c) < min || (scoring.GetScore(c) == min && (new Random()).Next(0, 2) == 0))
+                    if (scoring.GetScore(c) < min || (scoring.GetScore(c) == min && ThreadSafeRandom.Next(0, 2) == 0))
                     {
                         //if (scoring.GetScore(c) < min) {
                         min = scoring.GetScore(c);

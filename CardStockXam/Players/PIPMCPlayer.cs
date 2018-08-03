@@ -17,12 +17,12 @@ namespace Players
         public PIPMCPlayer(Perspective perspective) : base(perspective) { }
 		
 
-        public override int MakeAction(List<GameActionCollection> possibles, Random rand)
+        public override int MakeAction(List<GameActionCollection> possibles)
         {
-            return NumChoices(possibles.Count, rand);
+            return NumChoices(possibles.Count);
         }
 
-		public int NumChoices(int numMoves, Random rand){
+        public int NumChoices(int numMoves){
             // SetupPrivateGame sets "privategame" equal to actualgame.clonesecret(idx) and
             // sets "privateiterator" equal to actualgameiterator.clone()
             Tuple<CardGame, GameIterator> gameinfo = perspective.GetPrivateGame();

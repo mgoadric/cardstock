@@ -31,7 +31,7 @@ namespace Players
          * GameActions will be passed in along with a global RNG. The AIPlayer
          * is expected to return an int which is the index of their chosen move.
          */
-        public abstract int MakeAction(List<GameActionCollection> possibles, Random rand);
+        public abstract int MakeAction(List<GameActionCollection> possibles);
 
         public static Tuple<int, int> MinMaxIdx(double[] input)
         {

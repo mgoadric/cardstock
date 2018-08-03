@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FreezeFrame;
+using CardStockXam;
 
 namespace CardEngine
 {
@@ -19,12 +20,11 @@ namespace CardEngine
 
         public void Shuffle()
         {
-            Random rng = new Random();
             int n = cards.Count;
             while (n > 1)
             {
                 n--;
-                int k = rng.Next(n + 1);
+                int k = ThreadSafeRandom.Next(n + 1);
                 Card value = cards[k];
                 cards[k] = cards[n];
                 cards[n] = value;

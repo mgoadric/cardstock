@@ -18,12 +18,12 @@ namespace Players
         public MCTSPLayer(Perspective perspective) : base(perspective) { }
         
 
-        public override int MakeAction(List<GameActionCollection> possibles, Random rand)
+        public override int MakeAction(List<GameActionCollection> possibles)
         {
-            return Choice(possibles.Count, rand);
+            return Choice(possibles.Count);
         }
 
-        public int Choice(int optioncount, Random random) //
+        public int Choice(int optioncount) //
         {
             // GAME SIMULATIONS TEST
             Tuple<CardGame, GameIterator> game = perspective.GetPrivateGame();

@@ -8,13 +8,13 @@ using FreezeFrame;
 using System.Collections;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using CardStockXam;
 
 namespace CardEngine
 {
     public class CardGame {
 
         public string DeclaredName = "Default";
-        public static Random rand = new Random();
 
         public List<Card> sourceDeck = new List<Card>();
         public Owner[] table = new Owner[1];
@@ -122,7 +122,7 @@ namespace CardEngine
             while (n > 1)
             {
                 n--;
-                int k = rand.Next(n + 1);
+                int k = ThreadSafeRandom.Next(n + 1);
                 int value = vals[k];
                 vals[k] = vals[n];
                 vals[n] = value;
@@ -321,7 +321,7 @@ namespace CardEngine
             Debug.WriteLine("Player turn: " + CurrentPlayer().idx);
 
 
-            var choice = currentPlayer.Peek().memberList[playerIdx].decision.MakeAction(choices, rand);
+            var choice = currentPlayer.Peek().memberList[playerIdx].decision.MakeAction(choices);
             Debug.WriteLine("Executing choices");
             Debug.WriteLine("Num choices: " + choices.Count());
             Debug.WriteLine("Choice: " + choice);

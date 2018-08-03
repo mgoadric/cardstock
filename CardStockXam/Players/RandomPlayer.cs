@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CardStockXam;
 using FreezeFrame;
 
 namespace Players
@@ -14,10 +15,10 @@ namespace Players
         /*****
          * Use the provided RNG to pick a random action
          */
-        public override int MakeAction(List<GameActionCollection> possibles, Random rand)
+        public override int MakeAction(List<GameActionCollection> possibles)
         {
-
-            return rand.Next(0,possibles.Count);
+            
+            return ThreadSafeRandom.Next(0,possibles.Count);
         }
     }
 }
