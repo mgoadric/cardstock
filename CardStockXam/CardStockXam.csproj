@@ -288,6 +288,7 @@
     <Compile Include="FreezeFrame\CardLocReference.cs" />
     <Compile Include="FreezeFrame\IntStorageReference.cs" />
     <Compile Include="ThreadSafeRandom.cs" />
+    <Compile Include="FreezeFrame\Transcript.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

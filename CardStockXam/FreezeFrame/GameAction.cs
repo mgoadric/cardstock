@@ -10,6 +10,7 @@ namespace FreezeFrame {
         public bool inChoice = false;
         public bool complete;
         public CardGame cg;
+        public Transcript script;
         public void ExecuteActual(){
             inChoice = false;
             Execute();
@@ -63,7 +64,7 @@ namespace FreezeFrame {
         public CardLocReference endLocation;
         public CardCollection owner;
         public bool actualloc;
-        public CardMoveAction(CardLocReference start, CardLocReference end, CardGame cg) {
+        public CardMoveAction(CardLocReference start, CardLocReference end, Transcript script) {
             if (start.cardList.type == CCType.MEMORY && !start.actual) {
                 Debug.WriteLine("start is mem loc: " + start.name + ", " + end.name);
                 throw new NotSupportedException();
@@ -78,7 +79,7 @@ namespace FreezeFrame {
             }
             startLocation = start;
             endLocation = end;
-            this.cg = cg;
+            this.script = script;
         }
 
         public override void Execute() {
@@ -101,7 +102,7 @@ namespace FreezeFrame {
                     var arrow = " -> ";
                     if (inChoice) { prefix = "N:"; arrow = " ?-> "; }
 
-                    cg.WriteToFile(prefix + cardToMove.ToString() + " " + startLocation.name + arrow + endLocation.name);
+                    script.WriteToFile(prefix + cardToMove.ToString() + " " + startLocation.name + arrow + endLocation.name);
 
                     endLocation.Add(cardToMove);
                     owner = cardToMove.owner;
@@ -155,11 +156,11 @@ namespace FreezeFrame {
         private CardLocReference locations;
         private CardCollection unshuffled;
 
-        public ShuffleAction(CardLocReference locations, CardGame cg)
+        public ShuffleAction(CardLocReference locations, Transcript script)
         {
             this.locations = locations;
             unshuffled = new CardCollection(CCType.VIRTUAL);
-            this.cg = cg;
+            this.script = script;
         }
 
         public override void Execute() {
@@ -168,7 +169,7 @@ namespace FreezeFrame {
                 unshuffled.Add(c);
             }
             locations.cardList.Shuffle();
-			cg.WriteToFile("O:" + locations.cardList); 
+			script.WriteToFile("O:" + locations.cardList); 
 		}
         public override void Undo()
         {
@@ -201,9 +202,10 @@ namespace FreezeFrame {
 
     public class TeamCreateAction : GameAction {
         private RecycleParser.TeamcreateContext teamcreate;
-        public TeamCreateAction(RecycleParser.TeamcreateContext teamcreate, CardGame cg) {
+        public TeamCreateAction(RecycleParser.TeamcreateContext teamcreate, CardGame cg, Transcript script) {
             this.teamcreate = teamcreate;
             this.cg = cg;
+            this.script = script;
         }
 
         public override void Execute()
@@ -221,10 +223,10 @@ namespace FreezeFrame {
 					teamStr += j + " ";
 				}
 				cg.teams.Add(newTeam);
-				cg.WriteToFile(teamStr);
+				script.WriteToFile(teamStr);
 			}
 
-			cg.currentTeam.Push(new StageCycle<Team>(cg.teams, cg));
+			cg.currentTeam.Push(new StageCycle<Team>(cg.teams));
 			Debug.WriteLine("NUMTEAMS:" + cg.teams.Count);
 		}
 
@@ -272,10 +274,10 @@ namespace FreezeFrame {
     public class CardRememberAction : GameAction {
         CardLocReference startLocation;
         CardLocReference endLocation;
-        public CardRememberAction(CardLocReference start, CardLocReference end, CardGame cg) {
+        public CardRememberAction(CardLocReference start, CardLocReference end, Transcript script) {
             startLocation = start;
             endLocation = end;
-            this.cg = cg;
+            this.script = script;
             if (endLocation.cardList.type != CCType.MEMORY) {
                 throw new InvalidOperationException(); 
             }
@@ -283,7 +285,7 @@ namespace FreezeFrame {
         }
         public override void Execute() {
             endLocation.Add(startLocation.Get());
-            cg.WriteToFile("m:" + endLocation.ToOutputString());
+            script.WriteToFile("m:" + endLocation.ToOutputString());
         }
 
         public override void Undo()
@@ -300,8 +302,7 @@ namespace FreezeFrame {
 
     public class CardForgetAction : GameAction {
         CardLocReference endLocation;
-        public CardForgetAction(CardLocReference end, CardGame cg) {
-            this.cg = cg;
+        public CardForgetAction(CardLocReference end) {
             if (end.cardList.type == CCType.MEMORY) {
                 endLocation = end;
             }
@@ -331,17 +332,17 @@ namespace FreezeFrame {
         int value;
         int oldValue;
 
-        public IntAction(DefaultStorage<int> storage, string bKey, int v, CardGame cg) {
+        public IntAction(DefaultStorage<int> storage, string bKey, int v, Transcript script) {
             bins = storage;
             key = bKey;
             value = v;
-            this.cg = cg;
+            this.script = script;
         }
         public override void Execute() {
             oldValue = bins[key];
             bins[key] = value;
             complete = true;
-            cg.WriteToFile("S:" + bins.owner.name + " " + key + " " + value);
+            script.WriteToFile("S:" + bins.owner.name + " " + key + " " + value);
         }
         public override void Undo() {
             if (complete)
@@ -365,10 +366,9 @@ namespace FreezeFrame {
         private int idx;
         private int former = -1;
 
-        public NextAction(StageCycle<Player> playerCycle, int idx, CardGame cg) {
+        public NextAction(StageCycle<Player> playerCycle, int idx) {
             this.playerCycle = playerCycle;
             this.idx = idx;
-            this.cg = cg;
         }
 
         public override void Execute()
@@ -410,11 +410,13 @@ namespace FreezeFrame {
         {
             former = cg.CurrentPlayer().Current().id;
             cg.CurrentPlayer().SetMember(idx);
+            script.WriteToFile("t: " + cg.CurrentPlayer().CurrentName());
         }
 
         public override void Undo()
         {
             cg.CurrentPlayer().SetMember(former);
+            script.WriteToFile("t: " + cg.CurrentPlayer().CurrentName());
         }
 
 		public override string ToString()
@@ -423,6 +425,7 @@ namespace FreezeFrame {
 		}
     }
 
+    // NOT A REAL GAME ACTION, USED IN RECURSEDO FOR GENERATING CHOICES...
     public class LoopAction : GameAction{
         public string var;
         public object item;

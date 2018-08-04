@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using Players;
-using System.Text;
 using FreezeFrame;
-using System.Collections;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using CardStockXam;
 
 namespace CardEngine
@@ -23,13 +20,9 @@ namespace CardEngine
         public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>(); 
         public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
 
-        // For writing the game transcript. DOES THIS BELONG HERE???
-        public bool logging;
-        public string fileName;
+        public Transcript script;
 
-        public CardGame(bool logging, string fileName) {
-            this.logging = logging;
-            this.fileName = fileName;
+        public CardGame() {
             table[0] = new Owner("table", 0);
             // ADDING HERE TO MAKE HASHCODE NOT FAIL
             players = new Player[0];
@@ -37,7 +30,7 @@ namespace CardEngine
         }
 
         public CardGame CloneCommon() {
-            var temp = new CardGame(false, null); //here, players is being initialzed as an empty list of players
+            var temp = new CardGame(); //here, players is being initialzed as an empty list of players
             temp.DeclaredName = "Special";
 
             // Clone Source Deck and Index Cards
@@ -73,14 +66,14 @@ namespace CardEngine
             // Reconstruct team and player cycles
             // SHOULD THIS BE IN THE STAGECYCLE CLASS??? DUPLICATE CODE!!!
             foreach (var cycle in this.currentPlayer.Reverse()) {
-                var newCycle = new StageCycle<Player>(temp.players, temp);
+                var newCycle = new StageCycle<Player>(temp.players); // Should be new Transcript
                 newCycle.idx = cycle.idx;
                 newCycle.queuedNext = cycle.queuedNext;
                 temp.currentPlayer.Push(newCycle);
             }
 
             foreach (var cycle in this.currentTeam.Reverse()) {
-                var newCycle = new StageCycle<Team>(temp.teams, temp);
+                var newCycle = new StageCycle<Team>(temp.teams); // Should be new Transcript
                 newCycle.idx = cycle.idx;
                 newCycle.queuedNext = cycle.queuedNext;
                 temp.currentTeam.Push(newCycle);
@@ -88,6 +81,10 @@ namespace CardEngine
 
             return temp;
         }
+
+        // TODO Add a cloneDummy method that returns empty cards when you can't see them
+        // and a method to fill in the dummy cards randomly, essentially split 
+        // CloneSecret into two pieces....
 
         // keeps your hand and visible cards the same, but all other hidden cards
         // are randomized (for each possible run) - so that AI players don't just
@@ -274,8 +271,8 @@ namespace CardEngine
                 Perspective perspective = new Perspective(i, this, gameContext);
                 players[i].decision = new RandomPlayer(perspective);
             }
-            currentPlayer.Push(new StageCycle<Player>(players, this));
-
+            currentPlayer.Push(new StageCycle<Player>(players));
+            script.WriteToFile("t: " + currentPlayer.Peek().CurrentName());
         }
 
         public StageCycle<Player> CurrentPlayer() {
@@ -305,7 +302,7 @@ namespace CardEngine
                 newCard.owner = loc;
                 sourceDeck.Add(newCard);
                 loc.Add(newCard);
-                WriteToFile("C:" + newCard.ToString() + " " + loc.owner.owner.name + " " + loc.type +
+                script.WriteToFile("C:" + newCard.ToString() + " " + loc.owner.owner.name + " " + loc.type +
                     " " + loc.name); 
             }
             //Console.ReadKey();
@@ -406,32 +403,5 @@ namespace CardEngine
 
             return hash;
         }
-
-        // TODO Can we move this to another location and call it a Logging class?
-        public void WriteToFile(string text)
-        {
-			if (logging) //logging
-			{
-				using (StreamWriter file = new StreamWriter(fileName + ".txt", true))
-				{
-					file.WriteLine(text);
-				}
-			}
-		}
-    }
-
-    public sealed class IdentityEqualityComparer<T> : IEqualityComparer<T>
-    where T : class
-    {
-        public int GetHashCode(T value)
-        {
-            return RuntimeHelpers.GetHashCode(value);
-        }
-
-        public bool Equals(T left, T right)
-        {
-            return left == right; 
-        }
     }
 }
-        ;

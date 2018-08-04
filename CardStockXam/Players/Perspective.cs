@@ -47,7 +47,7 @@ namespace Players
             if (!cg.Equals(cardgame))
             { Console.WriteLine("Clone CardGame Not Equal -- Returning false"); return false; }
 
-            GameIterator g1 = new GameIterator(actualgameiterator.rules, cg, actualgameiterator.gameWorld, false);
+            GameIterator g1 = new GameIterator(actualgameiterator.rules, cg, actualgameiterator.gameWorld, "blah", false);
             GameIterator g2 = actualgameiterator.Clone(cg);
             if (!g2.Equals(actualgameiterator))
             { Console.WriteLine("Clone GameIterator Not Equal -- Returning false"); return false; }
@@ -60,7 +60,7 @@ namespace Players
             if (!cg.Equals(cardgame))
             { Console.WriteLine("CloneSecret CardGame not equal -- Returning False"); return false; }
 
-            GameIterator g1 = new GameIterator(actualgameiterator.rules, cg, actualgameiterator.gameWorld, false);
+            GameIterator g1 = new GameIterator(actualgameiterator.rules, cg, actualgameiterator.gameWorld, "blah", false);
             GameIterator g2 = actualgameiterator.Clone(cg);
             if (!g2.Equals(actualgameiterator))
             { Console.WriteLine("CloneSecret GameIterator not equal -- Returning False"); return false; }

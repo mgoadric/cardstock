@@ -17,8 +17,9 @@ namespace FreezeFrame
         public CardGame game;
         public World gameWorld;
         private RecycleVariables variables;
+        public Transcript script;
 
-        public GameIterator (RecycleParser.GameContext context, CardGame mygame, World gameWorld, bool fresh = true)
+        public GameIterator (RecycleParser.GameContext context, CardGame mygame, World gameWorld, string fileName, bool fresh = true)
 		{
             this.gameWorld = gameWorld;
 			rules = context;
@@ -29,6 +30,8 @@ namespace FreezeFrame
 
             if (fresh)
             {
+                script = new Transcript(true, fileName);
+                game.script = script;
                 Debug.WriteLine("Processing declarations.");
                 foreach (RecycleParser.DeclareContext declare in rules.declare())
                 {
@@ -44,12 +47,14 @@ namespace FreezeFrame
                 {
                     topLevel.Enqueue(rules.GetChild(i));
                 }
-            }
+            } 
 		}
 
         public GameIterator Clone(CardGame newgame) { 
             // CHANGED HERE TODO 
-            var ret = new GameIterator(rules, newgame, gameWorld, false); // 
+            var ret = new GameIterator(rules, newgame, gameWorld, "clone", false); // 
+            ret.script = new Transcript(false, null);
+            newgame.script = ret.script;
             var revStack = new Stack<Queue<IParseTree>>();
             foreach (var i in iterStack) {
                 revStack.Push(i);
@@ -66,6 +71,7 @@ namespace FreezeFrame
                 ret.iteratingSet.Add(node);
             }
             ret.variables = variables.Clone(newgame);
+
             return ret;
         }
         
@@ -164,9 +170,10 @@ namespace FreezeFrame
             for (int i = 0; i < game.players.Length; ++i)
             {
                 var working = ProcessInt(scoreMethod.@int());
-                game.WriteToFile("s:" + working + " " + i);
+                script.WriteToFile("s:" + working + " " + i);
                 ret.Add(new Tuple<int, int>(working, i));
                 game.CurrentPlayer().Next();
+                script.WriteToFile("t: " + game.CurrentPlayer().CurrentName());
             }
             game.PopPlayer();
 
@@ -203,7 +210,7 @@ namespace FreezeFrame
                 {
                     numPlayers = ProcessIntVar(playerCreate.var());
                 }
-                game.WriteToFile("nump:" + numPlayers);
+                script.WriteToFile("nump:" + numPlayers);
                 game.AddPlayers(numPlayers, this);
                 gameWorld.numPlayers = numPlayers;
                 //gameWorld.PopulateLead();
@@ -212,7 +219,7 @@ namespace FreezeFrame
             {
                 Debug.WriteLine("Creating teams.");
                 var teamCreate = setupNode.teamcreate() as RecycleParser.TeamcreateContext;
-                ret.Add(new TeamCreateAction(teamCreate, game));
+                ret.Add(new TeamCreateAction(teamCreate, game, script));
             }
             if (setupNode.deckcreate() != null)
             {
@@ -718,9 +725,11 @@ namespace FreezeFrame
 					}
 					if (iteratingSet.Contains (stage)) {
 						if (text == "player") {
-							game.CurrentPlayer ().Next ();
+							game.CurrentPlayer().Next();
+                            script.WriteToFile("t: " + game.CurrentPlayer().CurrentName());
 						} else if (text == "team") {
-							game.CurrentTeam ().Next ();
+							game.CurrentTeam().Next();
+                            script.WriteToFile("t: " + game.CurrentTeam().CurrentName());
                             Debug.WriteLine("Next team is " + game.CurrentTeam().Current());
 						}
 					}
@@ -754,7 +763,7 @@ namespace FreezeFrame
             if (actionNode.teamcreate() != null)
             {
                 var teamCreate = actionNode.teamcreate() as RecycleParser.TeamcreateContext;
-                ret.Add(new TeamCreateAction(teamCreate, game));
+                ret.Add(new TeamCreateAction(teamCreate, game, script));
             }
             else if (actionNode.initpoints() != null)
             {
@@ -788,7 +797,7 @@ namespace FreezeFrame
                     }
                     key = key.Substring(0, key.Length - 1);
                     value = value.Substring(0, value.Length - 1);
-                    game.WriteToFile("A:" + value + " " + reward);
+                    script.WriteToFile("A:" + value + " " + reward);
                     temp.Add(new Tuple<string, string, int>(key, value, reward));
                 }
                 game.table[0].pointBins[name] = new PointMap(temp);
@@ -867,19 +876,19 @@ namespace FreezeFrame
                 if (cycle.owner() != null)
                 {
                     var idx = ProcessOwner(cycle.owner());
-                    return new NextAction(game.CurrentPlayer(), idx, game);
+                    return new NextAction(game.CurrentPlayer(), idx);
                 }
                 else if (text2 == "next")
                 {
-                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().PeekNext().id, game);
+                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().PeekNext().id);
                 }
                 else if (text2 == "current")
                 {
-                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().Current().id, game);
+                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().Current().id);
                 }
                 else if (text2 == "previous")
                 {
-                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().PeekPrevious().id, game);
+                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().PeekPrevious().id);
                 }
             }
             else if (text1 == "current")
@@ -952,7 +961,7 @@ namespace FreezeFrame
                 idx = card1.cardList.Count;
                 for (int i = 0; i < idx; i++)
                 {
-                    ret.Add(new CardMoveAction(card1, card2, game));
+                    ret.Add(new CardMoveAction(card1, card2, script));
 
                 }
             }
@@ -1106,13 +1115,13 @@ namespace FreezeFrame
                 return null;
             }
             var cardTwo = ProcessCard(copy.GetChild(2) as RecycleParser.CardContext);
-            return new CardRememberAction(cardOne, cardTwo, game);
+            return new CardRememberAction(cardOne, cardTwo, script);
         }
 
         private GameAction ProcessRemove(RecycleParser.RemoveactionContext removeAction)
         {
             var cardOne = ProcessCard(removeAction.card());
-            return new CardForgetAction(cardOne, game);
+            return new CardForgetAction(cardOne);
         }
         private GameAction ProcessMove(RecycleParser.MoveactionContext move)
         {
@@ -1120,12 +1129,12 @@ namespace FreezeFrame
             var locTwo = ProcessCard(move.GetChild(2) as RecycleParser.CardContext);
             //Console.WriteLine("Card one: " + ProcessCard(move.GetChild(1) as RecycleParser.CardContext));
             //Console.WriteLine("Card two: " + ProcessCard(move.GetChild(2) as RecycleParser.CardContext));
-            return new CardMoveAction(locOne, locTwo, game);
+            return new CardMoveAction(locOne, locTwo, script);
         }
 
         private GameAction ProcessShuffle(CardLocReference locations)
         {
-            return new ShuffleAction(locations, game);
+            return new ShuffleAction(locations, script);
         }
 
         private CardLocReference ProcessCard(RecycleParser.CardContext card)
@@ -1839,7 +1848,7 @@ namespace FreezeFrame
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
-            return new IntAction(bin.storage, bin.key, setValue, game);
+            return new IntAction(bin.storage, bin.key, setValue, script);
         }
 
         private GameAction IncAction(RecycleParser.IncactionContext setAction)
@@ -1847,14 +1856,14 @@ namespace FreezeFrame
             var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             var newVal = bin.Get() + setValue;
-            return new IntAction(bin.storage, bin.key, newVal, game);
+            return new IntAction(bin.storage, bin.key, newVal, script);
         }
         private GameAction DecAction(RecycleParser.DecactionContext setAction)
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             var newVal = bin.Get() - setValue;
-            return new IntAction(bin.storage, bin.key, newVal, game);
+            return new IntAction(bin.storage, bin.key, newVal, script);
         }
 
         private CardLocReference ProcessCStorageFilter(RecycleParser.FilterContext filter)

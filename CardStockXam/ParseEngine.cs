@@ -104,10 +104,9 @@ public class ParseEngine
 	            int choiceCount = 0;
 	            System.GC.Collect();
 
-	            CardGame game = new CardGame(true, exp.fileName + i);
-                var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld);
-
-
+                // TODO Can the creation of the game go inside the GameIterator???
+	            CardGame game = new CardGame();
+                var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld, exp.fileName + i);
                 
                 if (exp.type == GameType.AllAI) {
                     for (int j = 0; j < game.players.Length; j++) {

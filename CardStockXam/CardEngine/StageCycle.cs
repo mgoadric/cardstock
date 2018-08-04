@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using FreezeFrame;
 
 namespace CardEngine{
 
@@ -20,20 +21,13 @@ namespace CardEngine{
         // The index of a player queued up to go next instead of idx++
 		public int queuedNext = -1;
 
-        // For Logging of the turn cycle in the transcript
-        public CardGame cg;
-
         /********
          * Create a new StageCycle from a list of Teams or Players,
          * keep the cg for logging the transcript.
          */
-		public StageCycle(IReadOnlyList<T> pList, CardGame cg){
+        public StageCycle(IReadOnlyList<T> pList){
             memberList = pList;
-            this.cg = cg;
-
-            // When the game starts, tell us who is the first player
-			WriteMember();
-		}
+   		}
 
         /********
          * A way to ShallowCopy the given source StageCycle when going into
@@ -42,7 +36,6 @@ namespace CardEngine{
         public StageCycle(StageCycle<T> source){
 			memberList = source.memberList;
 			idx = source.idx;
-            cg = source.cg;
         }
 
         /*******
@@ -89,16 +82,13 @@ namespace CardEngine{
 				idx++;
                 idx %= memberList.Count;
 			}
-
-			WriteMember();
-		}
+   		}
 
         /******
          * Immediately change the current player within the current turn
          */
 		public void SetMember(int index){
             idx = index;
-            WriteMember();
         }
 
         /*******
@@ -115,13 +105,17 @@ namespace CardEngine{
 			queuedNext = -1;
 		}
 
-        private void WriteMember() {
+        public string CurrentName() {
             var who = memberList[idx] as Owner;
             if (who != null)
             {
-                cg.WriteToFile("t: " + who.name);
+                return who.name;
             }
-		}
+            else {
+                return null;
+            }
+
+        }
 
         public override bool Equals(System.Object obj)
         {
