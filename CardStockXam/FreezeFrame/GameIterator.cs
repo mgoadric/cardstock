@@ -154,9 +154,10 @@ namespace FreezeFrame
             return allOptions;
         }
 
-        public List<Tuple<int, int>> ProcessScore(RecycleParser.ScoringContext scoreMethod)
+        public List<Tuple<int, int>> ProcessScore()
         {
             var ret = new List<Tuple<int, int>>();
+            var scoreMethod = rules.scoring();
 
             game.PushPlayer();
             game.CurrentPlayer().idx = 0;
@@ -167,6 +168,7 @@ namespace FreezeFrame
                 ret.Add(new Tuple<int, int>(working, i));
                 game.CurrentPlayer().Next();
             }
+            game.PopPlayer();
 
             ret.Sort();
             if (scoreMethod.GetChild(2).GetText() == "max")

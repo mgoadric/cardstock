@@ -76,7 +76,7 @@ namespace Players
 
                     // ProcessScore returns a sorted list 
                     // where the winner is rank 0 for either min/max games.
-                    var winners = cloneContext.ProcessScore(cloneContext.rules.scoring());
+                    var winners = cloneContext.ProcessScore();
 
                     Debug.WriteLine("past ProcessScore");
 

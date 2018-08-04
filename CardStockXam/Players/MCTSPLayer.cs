@@ -156,7 +156,7 @@ namespace Players
 
             // ProcessScore returns a sorted list 
             // where the winner is rank 0 for either min/max games.
-            var winners = gameIterator.ProcessScore(gameIterator.rules.scoring());
+            var winners = gameIterator.ProcessScore();
             double[] inverseRankSum = new double[numPlayers];
 
             int p = 0;

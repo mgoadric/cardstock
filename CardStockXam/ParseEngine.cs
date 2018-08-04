@@ -104,32 +104,32 @@ public class ParseEngine
 	            int choiceCount = 0;
 	            System.GC.Collect();
 
-	            CardGame instance = new CardGame(true, exp.fileName + i);
-				var manageContext = new FreezeFrame.GameIterator(tree, instance, gameWorld);
+	            CardGame game = new CardGame(true, exp.fileName + i);
+                var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld);
 
-               
+
                 
                 if (exp.type == GameType.AllAI) {
-                    for (int j = 0; j < instance.players.Length; j++) {
-                        Perspective perspective = new Perspective(j, instance, manageContext);
-                        instance.players[j].decision  = new PIPMCPlayer(perspective);
+                    for (int j = 0; j < game.players.Length; j++) {
+                        Perspective perspective = new Perspective(j, game, gamePlay);
+                        game.players[j].decision  = new PIPMCPlayer(perspective);
                     }
 				} else if (exp.type == GameType.RndandAI) {
-                    Perspective perspective = new Perspective(0, instance, manageContext);
-                    instance.players[0].decision = new PIPMCPlayer(perspective);
+                    Perspective perspective = new Perspective(0, game, gamePlay);
+                    game.players[0].decision = new PIPMCPlayer(perspective);
                 } 
 	            
                 /*********
 	             * PLAY THE GAME
                  ***********/
-	            while (!manageContext.AdvanceToChoice())
+	            while (!gamePlay.AdvanceToChoice())
 	            {
                     lock (this)
                     {
                         choiceCount++;
                         choiceAgg++;
                     }
-	                manageContext.ProcessChoice();
+	                gamePlay.ProcessChoice();
 
 	                if (choiceCount > 500)
 	                {
@@ -143,7 +143,7 @@ public class ParseEngine
 				 * SORT OUT RESULTS
 				 *************/
 				if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
-	            var results = manageContext.ProcessScore(tree.scoring());
+	            var results = gamePlay.ProcessScore();
 	            numPlayers = results.Count();
 	            for (int j = 0; j < results.Count; ++j)
 	            {
@@ -164,17 +164,17 @@ public class ParseEngine
 					if (exp.type == GameType.AllAI)
 					{
                         lead[i] = new List<List<double>>();
-						for (int j = 0; j < instance.players.Length; j++)
+						for (int j = 0; j < game.players.Length; j++)
 						{
-                            Console.WriteLine("Adding leads for P" + j + ", count of " + instance.players[j].decision.GetLead().Count);
-                            lead[i].Add(instance.players[j].decision.GetLead());
+                            Console.WriteLine("Adding leads for P" + j + ", count of " + game.players[j].decision.GetLead().Count);
+                            lead[i].Add(game.players[j].decision.GetLead());
 						}
 
 					}
 					else if (exp.type == GameType.RndandAI)
 					{
 						lead[i] = new List<List<double>>();
-						lead[i].Add(instance.players[0].decision.GetLead());
+						lead[i].Add(game.players[0].decision.GetLead());
 					}
                     winners[i] = results[0].Item2;
                     //gameWorld.GameOver(results[0].Item2);
