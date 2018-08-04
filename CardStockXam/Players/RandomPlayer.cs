@@ -15,10 +15,9 @@ namespace Players
         /*****
          * Use the provided RNG to pick a random action
          */
-        public override int MakeAction(List<GameActionCollection> possibles)
+        public override int MakeAction(int numChoices)
         {
-            
-            return ThreadSafeRandom.Next(0,possibles.Count);
+            return ThreadSafeRandom.Next(0,numChoices);
         }
     }
 }

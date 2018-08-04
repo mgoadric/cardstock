@@ -18,12 +18,7 @@ namespace Players
         public MCTSPLayer(Perspective perspective) : base(perspective) { }
         
 
-        public override int MakeAction(List<GameActionCollection> possibles)
-        {
-            return Choice(possibles.Count);
-        }
-
-        public int Choice(int optioncount) //
+        public override int MakeAction(int numChoices)
         {
             // GAME SIMULATIONS TEST
             Tuple<CardGame, GameIterator> game = perspective.GetPrivateGame();
@@ -32,21 +27,21 @@ namespace Players
             int myidx = perspective.GetIdx();
             movestates = new Dictionary<int, CardGame>();
 
-            for (int i = 0; i < 10 * optioncount; i++)
+            for (int i = 0; i < 10 * numChoices; i++)
             {
                 RunSimulation();
             }
             //Console.WriteLine("Game after: " + cardGamesx[0]);
 
-            int j = 0;
-            foreach(var k in plays.Keys)
-            {
+            //int j = 0;
+            //foreach(var k in plays.Keys)
+            //{
                 //Console.WriteLine(j + " --> " + plays[k] + " --> " + wins[k]);
-                j++;
-            }
+           //     j++;
+           // }
 
-            double[] moverankingarray = new double[optioncount];
-            for (int x = 0; x < optioncount; x++)
+            double[] moverankingarray = new double[numChoices];
+            for (int x = 0; x < numChoices; x++)
             {
                 if (movestates.Keys.Contains(x))
                 {

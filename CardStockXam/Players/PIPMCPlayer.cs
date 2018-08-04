@@ -17,12 +17,8 @@ namespace Players
         public PIPMCPlayer(Perspective perspective) : base(perspective) { }
 		
 
-        public override int MakeAction(List<GameActionCollection> possibles)
+        public override int MakeAction(int numChoices)
         {
-            return NumChoices(possibles.Count);
-        }
-
-        public int NumChoices(int numMoves){
             // SetupPrivateGame sets "privategame" equal to actualgame.clonesecret(idx) and
             // sets "privateiterator" equal to actualgameiterator.clone()
             Tuple<CardGame, GameIterator> gameinfo = perspective.GetPrivateGame();
@@ -30,9 +26,9 @@ namespace Players
             privateiterator = gameinfo.Item2;
             int idx = perspective.GetIdx();
 
-            Debug.WriteLine("PIPMC making choice. items: " + numMoves);
+            Debug.WriteLine("PIPMC making choice. items: " + numChoices);
 
-            var inverseRankSum = new double[numMoves];
+            var inverseRankSum = new double[numChoices];
 
             Debug.WriteLine("Start Monte");
 
@@ -40,7 +36,7 @@ namespace Players
             // FOR EACH POSSIBLE MOVE
            
 
-            for (int move = 0; move < numMoves; ++move)
+            for (int move = 0; move < numChoices; ++move)
             {
                 Debug.WriteLine("iterating over item: " + move);
 
@@ -63,8 +59,7 @@ namespace Players
                     allOptions[move].ExecuteAll();
                     cloneContext.PopCurrentNode();
 
-                    // Assign the AI players for rollout game, with the 
-                    // selected item chosen first when you get your turn
+                    // Assign the AI players for rollout game
                     for (int j = 0; j < numPlayers; j++)
                     {
                         cg.players[j].decision = new RandomPlayer(perspective);

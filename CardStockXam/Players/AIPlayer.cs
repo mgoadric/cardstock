@@ -27,11 +27,11 @@ namespace Players
 
         /********
          * This is the critical method that needs to be overridden in any subclass
-         * of AIPlayer. When a choice is found in the game, the potential 
-         * GameActions will be passed in along with a global RNG. The AIPlayer
+         * of AIPlayer. When a choice is found in the game, the number of potential 
+         * GameActions will be passed in. The AIPlayer
          * is expected to return an int which is the index of their chosen move.
          */
-        public abstract int MakeAction(List<GameActionCollection> possibles);
+        public abstract int MakeAction(int numChoices);
 
         public static Tuple<int, int> MinMaxIdx(double[] input)
         {

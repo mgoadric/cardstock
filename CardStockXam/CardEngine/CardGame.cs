@@ -311,21 +311,13 @@ namespace CardEngine
             //Console.ReadKey();
         }
 
-        public int PlayerMakeChoice(List<GameActionCollection> choices, int playerIdx) {
+        public int PlayerMakeChoice(int numChoices, int playerIdx) {
             Debug.WriteLine("In player make choice");
-            Debug.WriteLine("Num choices: " + choices.Count());
-            /*foreach (GameActionCollection c in choices)
-            {
-               Debug.WriteLine("Choices: " + c);
-            }*/
             Debug.WriteLine("Player turn: " + CurrentPlayer().idx);
 
+            var choice = currentPlayer.Peek().memberList[playerIdx].decision.MakeAction(numChoices);
 
-            var choice = currentPlayer.Peek().memberList[playerIdx].decision.MakeAction(choices);
-            Debug.WriteLine("Executing choices");
-            Debug.WriteLine("Num choices: " + choices.Count());
             Debug.WriteLine("Choice: " + choice);
-            choices[choice].ExecuteAll();
             return choice;
         }
 

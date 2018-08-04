@@ -108,12 +108,14 @@ namespace FreezeFrame
         {
             var allOptions = BuildOptions();
 
-            int ret = 0;
+            int choice = game.PlayerMakeChoice(allOptions.Count, game.CurrentPlayer().idx);
+
             if (allOptions.Count != 0)
             {
                 Debug.WriteLine("processed choices");
                 Debug.WriteLine("Choice count for P" + game.CurrentPlayer().idx + ":" + allOptions.Count);
-                ret = game.PlayerMakeChoice(allOptions, game.CurrentPlayer().idx);
+                allOptions[choice].ExecuteAll();
+
                 Debug.WriteLine("player choice made");
                 Debug.WriteLine(game.CurrentPlayer().memberList.Count);
             }
@@ -124,7 +126,7 @@ namespace FreezeFrame
             }
 
             PopCurrentNode();
-            return ret;
+            return choice;
         }
 
         public List<GameActionCollection> BuildOptions()

@@ -1,6 +1,7 @@
 ﻿using System;
 namespace CardStockXam
 {
+    // Insipred by https://blogs.msdn.microsoft.com/pfxteam/2009/02/19/getting-random-numbers-in-a-thread-safe-way/
     public static class ThreadSafeRandom
     {
         private static Random _global = new Random();
@@ -42,5 +43,5 @@ namespace CardStockXam
             }
             return inst.Next(low, high);
         }
-}
+    }
 }
