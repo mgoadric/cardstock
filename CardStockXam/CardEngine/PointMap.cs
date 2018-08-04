@@ -4,21 +4,21 @@ namespace CardEngine{
     public readonly struct PointMap : ICloneable{
 
 		public readonly Dictionary<string,Dictionary<string,int>> pointLookups;
-		public PointMap(List<PointAwards> input){
+		public PointMap(List<Tuple<string, string, int>> input){
 
             pointLookups = new Dictionary<string, Dictionary<string, int>>();
 			foreach (var award in input){
-				if (pointLookups.ContainsKey(award.identifier)){
-					if (pointLookups[award.identifier].ContainsKey(award.value)){
-						pointLookups[award.identifier][award.value] += award.pointsToAward;
+				if (pointLookups.ContainsKey(award.Item1)){
+                    if (pointLookups[award.Item1].ContainsKey(award.Item2)){
+                        pointLookups[award.Item1][award.Item2] += award.Item3;
 					}
 					else{
-						pointLookups[award.identifier].Add(award.value,award.pointsToAward);
+                        pointLookups[award.Item1].Add(award.Item2,award.Item3);
 					}
 				}
 				else{
-					pointLookups[award.identifier] = new Dictionary<string,int>{
-						{award.value, award.pointsToAward}
+                    pointLookups[award.Item1] = new Dictionary<string,int>{
+                        {award.Item2, award.Item3}
 					};
 				}
 			}
@@ -90,39 +90,5 @@ namespace CardEngine{
             }
             return hash;
         }
-
-    }
-
-    // TODO Can we get rid of this with a Tuple<string, string, int> ???
-	public class PointAwards{
-		public readonly string identifier;
-		public readonly string value;
-		public readonly int pointsToAward;
-		public PointAwards(string identifier, string value, int p){
-			this.identifier = identifier;
-			this.value = value;
-			pointsToAward = p;
-		}
-		
-        public override bool Equals(System.Object obj)
-        {
-            if (obj ==null)
-            {
-                return false;
-            }
-            PointAwards p = obj as PointAwards;
-            if ((System.Object)p == null)
-            {
-                return false;
-            }
-
-            return ((identifier == p.identifier) && (value == p.value) && (pointsToAward == p.pointsToAward));
-        }
-
-        public override int GetHashCode()
-        {
-            return identifier.GetHashCode() ^ value.GetHashCode() ^ pointsToAward;
-        }
-
     }
 }

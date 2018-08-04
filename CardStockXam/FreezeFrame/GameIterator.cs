@@ -759,7 +759,7 @@ namespace FreezeFrame
                 var points = actionNode.initpoints();
                 var name = points.var().GetText();
 
-                List<PointAwards> temp = new List<PointAwards>();
+                List<Tuple<string, string, int>> temp = new List<Tuple<string, string, int>>();
                 var awards = points.awards();
                 foreach (RecycleParser.AwardsContext award in awards)
                 {
@@ -787,7 +787,7 @@ namespace FreezeFrame
                     key = key.Substring(0, key.Length - 1);
                     value = value.Substring(0, value.Length - 1);
                     game.WriteToFile("A:" + value + " " + reward);
-                    temp.Add(new PointAwards(key, value, reward));
+                    temp.Add(new Tuple<string, string, int>(key, value, reward));
                 }
                 game.table[0].pointBins[name] = new PointMap(temp);
             }
