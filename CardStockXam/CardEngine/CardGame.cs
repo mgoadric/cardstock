@@ -20,8 +20,6 @@ namespace CardEngine
         public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>(); 
         public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
 
-        public Transcript script;
-
         public CardGame() {
             table[0] = new Owner("table", 0);
             // ADDING HERE TO MAKE HASHCODE NOT FAIL
@@ -272,7 +270,6 @@ namespace CardEngine
                 players[i].decision = new RandomPlayer(perspective);
             }
             currentPlayer.Push(new StageCycle<Player>(players));
-            script.WriteToFile("t: " + currentPlayer.Peek().CurrentName());
         }
 
         public StageCycle<Player> CurrentPlayer() {
@@ -295,7 +292,7 @@ namespace CardEngine
             currentTeam.Pop();
         }
 
-        public void SetDeck(Tree cardAttributes, CardCollection loc) {
+        public void SetDeck(Tree cardAttributes, CardCollection loc, Transcript script) {
             var combos = cardAttributes.combinations();
             foreach (var combo in combos) {
                 var newCard = new Card(combo.Flatten(), sourceDeck.Count);

@@ -244,18 +244,19 @@ namespace FreezeFrame {
         CardCollection location;
         CardCollection before;
         Tree deck;
-        public InitializeAction(CardCollection loc, Tree d, CardGame cg) {
+        public InitializeAction(CardCollection loc, Tree d, CardGame cg, Transcript script) {
             location = loc;
             before = new CardCollection(CCType.VIRTUAL);
             deck = d;
             this.cg = cg;
+            this.script = script;
         }
         public override void Execute() {
             foreach (Card c in location.AllCards())
             {
                 before.Add(c);
             }
-            cg.SetDeck(deck, location);
+            cg.SetDeck(deck, location, script);
         }
         public override void Undo()
         {

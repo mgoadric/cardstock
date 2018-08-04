@@ -31,7 +31,6 @@ namespace FreezeFrame
             if (fresh)
             {
                 script = new Transcript(true, fileName);
-                game.script = script;
                 Debug.WriteLine("Processing declarations.");
                 foreach (RecycleParser.DeclareContext declare in rules.declare())
                 {
@@ -54,7 +53,6 @@ namespace FreezeFrame
             // CHANGED HERE TODO 
             var ret = new GameIterator(rules, newgame, gameWorld, "clone", false); // 
             ret.script = new Transcript(false, null);
-            newgame.script = ret.script;
             var revStack = new Stack<Queue<IParseTree>>();
             foreach (var i in iterStack) {
                 revStack.Push(i);
@@ -212,6 +210,7 @@ namespace FreezeFrame
                 }
                 script.WriteToFile("nump:" + numPlayers);
                 game.AddPlayers(numPlayers, this);
+                script.WriteToFile("t: " + game.currentPlayer.Peek().CurrentName());
                 gameWorld.numPlayers = numPlayers;
                 //gameWorld.PopulateLead();
             }
@@ -264,7 +263,7 @@ namespace FreezeFrame
         {
             var locstorage = ProcessLocation(deckinit.cstorage());
             var deckTree = ProcessDeck(deckinit.deck());
-            return new InitializeAction(locstorage.cardList, deckTree, game);
+            return new InitializeAction(locstorage.cardList, deckTree, game, script);
         }
 
         /*********
