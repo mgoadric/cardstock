@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace CardEngine{
+using CardEngine;
+namespace FreezeFrame{
 	public static class ListExtension{
 		public static IEnumerable<IEnumerable<T>> Combinations<T>(this IEnumerable<T> elements, int k)
 		{
@@ -12,21 +13,18 @@ namespace CardEngine{
 	}
 	public class CardGrouping{
 		CardCollection[] array;
-		CardScore score;
-		public CardGrouping(int numBins, CardScore scoring){
-			array = new CardCollection[numBins];
-			for (int i = 0; i < numBins; ++i){
-				array[i] = new CardListCollection();
-			}
+		PointMap score;
+		public CardGrouping(int numBins, PointMap scoring){
+            array = new CardCollection[numBins];
+            Reset();
 			score = scoring;
 		}
-		private void Reset(){
-			array = new CardCollection[array.Count()];
+		private void Reset(){ 
 			for (int i = 0; i < array.Count(); ++i){
-				array[i] = new CardListCollection();
+				array[i] = new CardCollection(CCType.VIRTUAL);
 			}
 		}
-		private void SortCards(CardCollection source){
+		private void SortCards(CardCollection source){ 
 			Reset();
 			foreach (var card in source.AllCards()){
 				var curScore = score.GetScore(card);
@@ -40,7 +38,7 @@ namespace CardEngine{
 			for (int i = 0; i < array.Count(); ++i){
 				var combos = ListExtension.Combinations<Card>(array[i].AllCards(),setSize);
 				foreach (var combo in combos){
-					var newAdd = new CardListCollection();
+					var newAdd = new CardCollection(CCType.VIRTUAL);
 					foreach (var card in combo){
 						newAdd.Add(card);
 					}		
@@ -62,7 +60,7 @@ namespace CardEngine{
 			return ret;
 		}
 		private CardCollection Clone(CardCollection source){
-			var recurseList = new CardListCollection();
+            var recurseList = new CardCollection(CCType.VIRTUAL);
 			foreach (var card in source.AllCards()){
 				recurseList.Add(card);
 			}
@@ -70,7 +68,7 @@ namespace CardEngine{
 		}
 		public List<CardCollection> AllCombos(CardCollection source){
 			var ret = new List<CardCollection>();
-			var option = new CardListCollection();
+            var option = new CardCollection(CCType.VIRTUAL);
 			option.Add(source.Peek());
 			ret.Add(option);
 			if (source.Count > 1){
@@ -96,7 +94,7 @@ namespace CardEngine{
 					var ret = new List<CardCollection>();
 					foreach (var card in array[idx].AllCards()){
 						foreach (var downLine in recurs){
-							var tempList = new CardListCollection();
+                            var tempList = new CardCollection(CCType.VIRTUAL);
 							tempList.Add(card);
 							foreach (var innerCard in downLine.AllCards()){
 								tempList.Add(innerCard);
@@ -110,7 +108,7 @@ namespace CardEngine{
 				else{
 					var ret = new List<CardCollection>();
 					foreach (var card in array[idx].AllCards()){
-						var tempList = new CardListCollection();
+                        var tempList = new CardCollection(CCType.VIRTUAL);
 						tempList.Add(card);
 						ret.Add(tempList);
 						

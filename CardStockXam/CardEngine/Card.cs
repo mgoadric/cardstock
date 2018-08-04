@@ -2,90 +2,65 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
+using System.Linq;
+
 namespace CardEngine{
 	public class Card{
-		private Dictionary<string,TreeTraversal> mapAttributes = new Dictionary<string,TreeTraversal>();
-		public CardCollection owner {get; set;}
-		public Node attributes;
-		public Card(Node atts){
-			attributes = atts;
-			CreateTraversals();
-		}
 
+        private readonly Dictionary<string, string> cardAtts;
+		public CardCollection owner {get; set;}
+        public readonly int id;
+
+		public Card(Dictionary<string, string> atts, int id){
+            cardAtts = atts;
+            this.id = id;
+		}
 
 		public Card Clone(){
-			Card ret = new Card (attributes);
-			return ret;
+            return new Card(cardAtts, id);;
 		}
-		private void CreateTraversals(){
-			for (int i = 0; i < attributes.children.Count; ++i){
-				Create(attributes.children[i], new List<int>{i});
-			}
-		}
-		private void Create(Node spot,List<int> directions){
-			
-			if (spot != null&&spot.Key != null&&!mapAttributes.ContainsKey(spot.Key)){
-				mapAttributes.Add(spot.Key,new TreeTraversal(directions));
-				if (spot.children != null){
-					
-					for (int i = 0; i < spot.children.Count; ++i){
-						var passOnList = new List<int>(directions);
-						passOnList.Add(i);
-						Create(spot,passOnList);
-					}
-				}
-			}
-		}
+
 		public override string ToString(){
-			string ret = attributes.ToString();
-			return ret;
+            //https://stackoverflow.com/questions/3871760/convert-dictionarystring-string-to-semicolon-separated-string-in-c-sharp
+            return string.Join(";", cardAtts.Select(x => x.Key + "=" + x.Value));
 		}
 
-        public override bool Equals(System.Object obj)
+        public override bool Equals(object obj)
         {
-            if(obj == null)
-            {
-                return false;
-            }
-            PointsStorage p = obj as PointsStorage;
-            if ((System.Object)p == null)
-            {
-                return false;
-            }
+            return Equals(obj as Card);
+        }
 
+        public bool Equals(Card c)
+        {
+            /*if(obj == null)
+            { return false; }
+            Card p = obj as Card;
+            if (p == null)
+            { return false; }*/
 
-            if (p.ToString() != this.ToString()) 
-            {
-                return false;
-            }
+            if (c.ToString() != this.ToString() || c.id != this.id) 
+            { return false; }
 
-            return true; // Returns that strings are equal
+            return true; 
         }
 
         public override int GetHashCode() 
         {
-            return this.ToString().GetHashCode(); // unless the attributes.toString() causes some problem
+            return ToString().GetHashCode(); 
         }
 
-        public string ToOutputString()
-        {
-            return attributes.ToOutputString();
-        }
-        public string Serialize(){
-			return attributes.Serialize ();
-		}
 		public string ReadAttribute(string attributeName){
 			
 			try{
-				return mapAttributes[attributeName].ReadValue(this);
+				return cardAtts[attributeName];
 			}
 			catch{
 				Debug.WriteLine("KEYS");
-				foreach (var key in mapAttributes.Keys){
+				foreach (var key in cardAtts.Keys){
 					Debug.WriteLine(key);
 				}
 				throw;
 			}
-		}
-	}
-}
+		} 
+    }
+}

@@ -1,11 +1,13 @@
+using System;
 using System.Collections.Generic;
 namespace CardEngine{
-	public class CardScore{
-		List<PointAwards> awards;
-		public Dictionary<string,Dictionary<string,int>> pointLookups = new Dictionary<string,Dictionary<string,int>>();
-		public CardScore(List<PointAwards> input){
-			awards = input;
-			foreach (var award in awards){
+    public readonly struct PointMap : ICloneable{
+
+		public readonly Dictionary<string,Dictionary<string,int>> pointLookups;
+		public PointMap(List<PointAwards> input){
+
+            pointLookups = new Dictionary<string, Dictionary<string, int>>();
+			foreach (var award in input){
 				if (pointLookups.ContainsKey(award.identifier)){
 					if (pointLookups[award.identifier].ContainsKey(award.value)){
 						pointLookups[award.identifier][award.value] += award.pointsToAward;
@@ -21,6 +23,7 @@ namespace CardEngine{
 				}
 			}
 		}
+
 		public int GetScore(Card c){
 			int total = 0;
 			foreach (var key in pointLookups.Keys){
@@ -39,31 +42,29 @@ namespace CardEngine{
 			return total;
 		}
 
+        // This is a readonly struct, so no cloning necessary.
+        public object Clone() {
+            return this;
+        }
+
         public override bool Equals(System.Object obj)
         {
 
             if (obj == null)
-            {
-                return false;
-            }
-            CardScore p = obj as CardScore;
-            if ((System.Object)p == null)
-            {
-                return false;
-            }
+            { return false; }
+
+            if (!(obj is PointMap p))
+            { return false; }
 
             if (pointLookups.Count != p.pointLookups.Count)
-            {
-                return false;
-            }
+            { return false; }
 
             foreach (string key in pointLookups.Keys)
             {
                 var otherscores = p.pointLookups[key];
                 if (otherscores.Count != p.pointLookups[key].Count)
-                {
-                    return false;
-                }
+                { return false; }
+
                 foreach (string key2 in pointLookups[key].Keys)
                 {
                     if (otherscores[key2] != pointLookups[key][key2]) 
@@ -91,21 +92,18 @@ namespace CardEngine{
         }
 
     }
+
+    // TODO Can we get rid of this with a Tuple<string, string, int> ???
 	public class PointAwards{
-		public string identifier;
-		public string value;
-		public int pointsToAward;
+		public readonly string identifier;
+		public readonly string value;
+		public readonly int pointsToAward;
 		public PointAwards(string identifier, string value, int p){
 			this.identifier = identifier;
 			this.value = value;
 			pointsToAward = p;
 		}
 		
-		public int ScoreCard(){
-			return pointsToAward;
-			
-		}
-
         public override bool Equals(System.Object obj)
         {
             if (obj ==null)

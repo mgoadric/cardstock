@@ -4,62 +4,42 @@ using Players;
 using System.Text;
 namespace CardEngine
 {
-	public class Player{
-		public IntStorage storage;
-		public CardStorage cardBins; 
-		public Team team; 
-        public string name; 
-		public GeneralPlayer decision; // Don't include this
-		public Player(){
-			storage = new IntStorage();
-			cardBins = new CardStorage();
-			cardBins.owner = this;
-		}
-		public Player Clone(){
-            Player other = new Player();
-			other.storage = storage.Clone ();
-			other.cardBins = cardBins.Clone ();
-            other.name = name;
-			other.cardBins.owner = other;
-            other.decision = decision;
+    /*******
+     * Players are Owners of things that can also be on a team.
+     * They have an AIPlayer that is called on to make a
+     * decision when a "choice" is found in the game
+     */
+    public class Player : Owner {
+
+        // Players can be part of Teams of Players, and can access
+        // their shared storage
+        public Team team;
+
+        // The particular AI is supplied by the GameIterator later
+        public AIPlayer decision;
+
+        public Player(string name, int id) : base(name, id) {
+        }
+
+        // Not much happening here, everything taken care of in the 
+        // Owner class, again decisions are handled later 
+        // with the GameIterator for this CardGame
+
+        public Player Clone()
+        {
+            Player other = new Player(name, id);
+            other.intBins = intBins.Clone(other);
+            other.stringBins = stringBins.Clone(other);
+            other.pointBins = pointBins.Clone(other);
+            other.cardBins = new Dictionary<CCType, CardStorage>();
+            foreach (CCType type in Enum.GetValues(typeof(CCType)))
+            {
+                if (type != CCType.VIRTUAL)
+                {
+                    other.cardBins[type] = cardBins[type].Clone(other);
+                }
+            }
             return other;
-		}
-		public void IncrValue(int bin, int value){ // is the bin always the same across all players?
-			storage.storage[bin] += value;
-		}
-		public Card RemoveCard(int idx){
-			return cardBins.storage[idx].Remove();
-		}
-		public int MakeAction(List<GameAction> possibles,Random rand){
-			return rand.Next(0,possibles.Count);
-		}
-		public override string ToString(){
-			StringBuilder ret = new StringBuilder("Player:\n");
-			ret.Append (cardBins.ToString ());
-			return ret.ToString();
-		}
-        public override bool Equals(System.Object obj)
-        {
-            if (obj == null)
-            { return false; }
-
-            Player otherplayer = obj as Player;
-            if ((System.Object)otherplayer == null)
-            { return false; }
-
-            if (!(storage.Equals(otherplayer.storage)) || !(cardBins.Equals(otherplayer.cardBins))) 
-            { return false; }
-
-            if (name != otherplayer.name || team != otherplayer.team)
-            { return false; }
-
-            return true;
         }
-
-        public override int GetHashCode() // XORs relevant hashcodes
-        {
-            return name.GetHashCode() ^ team.GetHashCode() ^ storage.GetHashCode() ^ cardBins.GetHashCode();
-        }
-
     }
 }

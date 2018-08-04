@@ -3,67 +3,66 @@ using System.Collections.Generic;
 using CardEngine;
 using System.Diagnostics;
 using FreezeFrame;
-using ParseTreeIterator;
 using System.Threading.Tasks;
+using CardStockXam.Scoring;
 
 namespace Players
 {
-    public class PIPMCPlayer : GeneralPlayer
+    public class PIPMCPlayer : AIPlayer
     {
+        private CardGame privategame;
+        private GameIterator privateiterator;
         private static int NUMTESTS = 10; //previously 20
-        private int idx;
-         
-        public PIPMCPlayer(GameIterator m, int idx) : base(m)
-		{
-            this.idx = idx;
-        }
 
-        public override int MakeAction(List<GameActionCollection> possibles, Random rand)
+        public PIPMCPlayer(Perspective perspective) : base(perspective) { }
+		
+
+        public override int MakeAction(int numChoices)
         {
-            
-            return NumChoices(possibles.Count, rand);
-        }
+            // SetupPrivateGame sets "privategame" equal to actualgame.clonesecret(idx) and
+            // sets "privateiterator" equal to actualgameiterator.clone()
+            Tuple<CardGame, GameIterator> gameinfo = perspective.GetPrivateGame();
+            privategame = gameinfo.Item1;
+            privateiterator = gameinfo.Item2;
+            int idx = perspective.GetIdx();
 
-		public int NumChoices(int items, Random rand){
-            
-			Debug.WriteLine("PIPMC making choice. items: " + items);
+            Debug.WriteLine("PIPMC making choice. items: " + numChoices);
 
-            var inverseRankSum = new double[items];
+            var inverseRankSum = new double[numChoices];
 
             Debug.WriteLine("Start Monte");
 
             // can parallellize here TODO ?
             // FOR EACH POSSIBLE MOVE
+           
 
-            for (int item = 0; item < items; ++item)
+            for (int move = 0; move < numChoices; ++move)
             {
-                Debug.WriteLine("iterating over item: " + item);
+                Debug.WriteLine("iterating over item: " + move);
 
-                inverseRankSum[item] = 0;
+                inverseRankSum[move] = 0;
 
                 Parallel.For(0, NUMTESTS, i =>   //number of tests for certain decision
                 {
                     Debug.WriteLine("****Made Switch**** : " + i);
 
                     // get new possible world through clonesecret
-                    CardGame cg = gameContext.game.CloneSecret(idx);
-                    var cloneContext = gameContext.Clone(cg);
+                    //CardGame cg = gameContext.game.CloneSecret(idx);
+                    //var cloneContext = gameContext.Clone(cg);
 
-                    // Assign the AI players for rollout game, with the 
-                    // selected item chosen first when you get your turn
+                    // JUST USING ONE CLONE SECRETGAME, CLONED FOR EACH MOVE
+                    CardGame cg = privategame.Clone();
+                    GameIterator cloneContext = privateiterator.Clone(cg);
+
+                    // Make the chosen move
+                    List<GameActionCollection> allOptions = cloneContext.BuildOptions();
+                    allOptions[move].ExecuteAll();
+                    cloneContext.PopCurrentNode();
+
+                    // Assign the AI players for rollout game
                     for (int j = 0; j < numPlayers; j++)
                     {
-
-                        Debug.WriteLine("in PIPMC for loop:" + j);
-
-                        if (j == idx)
-                        {
-                            cg.players[j].decision = new PredictablePlayer(cloneContext, item);
-                        }
-                        else
-                        {
-                            cg.players[j].decision = new Players.GeneralPlayer(cloneContext);
-                        }
+                        cg.players[j].decision = new RandomPlayer(perspective);
                     }
 
                     Debug.WriteLine("Playing a simulated game");
@@ -77,7 +76,7 @@ namespace Players
 
                     // ProcessScore returns a sorted list 
                     // where the winner is rank 0 for either min/max games.
-                    var winners = cloneContext.parseoop.ProcessScore(cloneContext.rules.scoring());
+                    var winners = cloneContext.ProcessScore(cloneContext.rules.scoring());
 
                     Debug.WriteLine("past ProcessScore");
 
@@ -92,7 +91,7 @@ namespace Players
                             // add your rank to the results of this choice
                             lock (this)
                             {
-                                inverseRankSum[item] += (((double)1) / (j + 1)) / NUMTESTS;
+                                inverseRankSum[move] += (((double)1) / (j + 1)) / NUMTESTS;
                             }
 
                             break;

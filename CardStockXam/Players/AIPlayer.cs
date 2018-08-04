@@ -1,26 +1,37 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using CardEngine;
+using CardStockXam.Scoring;
 using FreezeFrame;
 
 namespace Players
 {
-	public class GeneralPlayer
+    /********
+     * An abstract class to be subclassed for all of the AIPlayers. It will 
+     * know the number of players in the game, have a Perspective which
+     * privatizes the hidden aspects of the game from this player, and 
+     * a List that can track the player's estimates of their current
+     * game position
+     */
+	public abstract class AIPlayer 
 	{
-        protected GameIterator gameContext;
         protected int numPlayers;
-
+        protected Perspective perspective;
         protected List<double> leadList = new List<double>();
-
-        public GeneralPlayer(GameIterator m)
+ 
+        public AIPlayer(Perspective perspective)
         {
-            gameContext = m;
-            numPlayers = gameContext.game.players.Count;
+            this.perspective = perspective;
+            numPlayers = perspective.numberofPlayers();
         }
 
-        public virtual int MakeAction(List<GameActionCollection> possibles,Random rand){
-			return rand.Next(0,possibles.Count);
-		}
+        /********
+         * This is the critical method that needs to be overridden in any subclass
+         * of AIPlayer. When a choice is found in the game, the number of potential 
+         * GameActions will be passed in. The AIPlayer
+         * is expected to return an int which is the index of their chosen move.
+         */
+        public abstract int MakeAction(int numChoices);
 
         public static Tuple<int, int> MinMaxIdx(double[] input)
         {
@@ -45,9 +56,9 @@ namespace Players
         }
 
         // CODE FOR UPDATING STATISTICS FOR HEURISTICS
-        public void RecordHeuristics(double[] inverseRankSum)
+        public void RecordHeuristics(double[] inverseRankSum) 
         {
-            if (gameContext.gameWorld != null)
+            if (perspective.GetWorld() != null)
             {
                 // WHAT DOES WRS stand for?
                 double[] wrs = new double[inverseRankSum.Length];
@@ -71,7 +82,7 @@ namespace Players
 
                 var variance = Math.Abs(max - min);
 
-                gameContext.gameWorld.AddInfo(variance, avg, wrs[tup.Item2]);
+                perspective.GetWorld().AddInfo(variance, avg, wrs[tup.Item2]);
                 leadList.Add(max);
             }
         }
@@ -80,6 +91,7 @@ namespace Players
         {
             return leadList;
         }
+
 	}
 }
 

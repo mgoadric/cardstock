@@ -2,98 +2,125 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace CardEngine{
+
+    /********
+     * A StageCycle lets you iterate repeatedly through the Players or
+     * Teams as part of a Stage in the game. The language in these 
+     * comments will assume a clockwise order to the players, so 
+     * that the person to your left is next to play, and the person
+     * to your right is the previous player.
+     */
 	public class StageCycle<T>{
-		public List<T> memberList;
-		public bool turnEnded;
-		public int idx = 0;
+
+        public readonly IReadOnlyList<T> memberList;
+
+        // The current player
+        public int idx = 0;
+
+        // The index of a player queued up to go next instead of idx++
 		public int queuedNext = -1;
+
+        // For Logging of the turn cycle in the transcript
         public CardGame cg;
 
-		public StageCycle(List<T> pList, CardGame cg){
+        /********
+         * Create a new StageCycle from a list of Teams or Players,
+         * keep the cg for logging the transcript.
+         */
+		public StageCycle(IReadOnlyList<T> pList, CardGame cg){
             memberList = pList;
-            var p = pList[0];
-            this.cg = cg; 
+            this.cg = cg;
+
+            // When the game starts, tell us who is the first player
 			WriteMember();
 		}
+
+        /********
+         * A way to ShallowCopy the given source StageCycle when going into
+         * a deeper stage
+         */
         public StageCycle(StageCycle<T> source){
 			memberList = source.memberList;
 			idx = source.idx;
-			turnEnded = source.turnEnded;
             cg = source.cg;
         }
 
+        /*******
+         * Return the current player based on the index into the Cycle
+         */
+        public T Current()
+        {
+            return memberList[idx];
+        }
+
+        /******
+         * Who is currently scheduled to play next?
+         */
 		public T PeekNext(){
-			var saved = idx;
-            if (queuedNext != -1)
-            {
-                idx = queuedNext;
+            if (queuedNext != -1) {
+                return memberList[queuedNext];
+            } else {
+                int next = idx + 1;
+                next %= memberList.Count;
+                return memberList[next];
             }
-            else{
-                idx++;
-                //Next();
-                if (idx >= memberList.Count) {
-                    idx = 0;
-                }
-			}
-			var ret = Current();
-			idx = saved;
-			return ret; 
-		}
+        }
+
+        /******
+         * Who is to the right of the current player? NOT WHO WENT BEFORE
+         */
 		public T PeekPrevious(){
-			var saved = idx;
-			idx--;
-			if (idx < 0){
-				idx = memberList.Count - 1;
+            int prev = idx - 1;
+			if (prev < 0){
+				prev = memberList.Count - 1;
 			}
-			var ret = Current();
-			idx = saved;
-			return ret;
+            return memberList[prev];
 		}
+
+        /*******
+         * Iterate to the next player, and log it to the transcript
+         */
 		public void Next(){
-            turnEnded = false;
-			if (queuedNext != -1){
+            if (queuedNext != -1){
 				idx = queuedNext;
                 queuedNext = -1; //-AH
 			}
 			else{
-				++idx;
+				idx++;
+                idx %= memberList.Count;
 			}
-            if (idx >= memberList.Count){
-                idx = 0;
-			}
+
 			WriteMember();
 		}
-		public void Previous(){
-			turnEnded = false;
-			--idx;
-			if (idx < 0){
-				idx = memberList.Count - 1;
-			}
-			WriteMember();
-        }
+
+        /******
+         * Immediately change the current player within the current turn
+         */
 		public void SetMember(int index){
-			turnEnded = false;
-			idx = index;
+            idx = index;
             WriteMember();
         }
+
+        /*******
+         * Queues up the next player for when the the cycle iterates
+         */
 		public void SetNext(int index){
-			queuedNext = index;
+            queuedNext = index;
 		}
+
+        /******
+         * A way to Undo the GameAction that queued up the next player
+         */
         public void RevertNext(){
 			queuedNext = -1;
 		}
-		public void EndTurn(){
-			turnEnded = true;
-		}
-		public T Current(){
-			return memberList[idx];
-		}
+
         private void WriteMember() {
-			var who = memberList[idx] as Player; // TODO MAKE THIS GENERIC
+            var who = memberList[idx] as Owner;
             if (who != null)
             {
-                cg.WriteToFile("t:" + who.name);
-            }			
+                cg.WriteToFile("t: " + who.name);
+            }
 		}
 
         public override bool Equals(System.Object obj)
@@ -111,7 +138,7 @@ namespace CardEngine{
 
             if (queuedNext != othercycle.queuedNext)
             { return false; }
-
+            
             if (!(memberList.SequenceEqual(othercycle.memberList)))
             { return false; }
 

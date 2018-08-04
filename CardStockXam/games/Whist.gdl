@@ -1,4 +1,4 @@
-;; Whist in the GDL
+;; Whist in the GDL --- LOOP?
 (game
 
    (setup 
@@ -14,7 +14,7 @@
                
    ;; Stages of the game
    (stage player
-      (end (any team 'T (>= ('T sto SCORE) 10)))
+      (end (any team 'T (>= ('T sto SCORE) 5)))
       (do (
          (repeat all
             (move (top (game vloc DISCARD)) 

@@ -14,6 +14,6 @@ namespace CardGames
     }
 
     public enum GameType {
-        AllAI, AllRnd, RndandAI
+        AllAI, AllRnd, RndandAI, TOURNAMENT
     }
 }

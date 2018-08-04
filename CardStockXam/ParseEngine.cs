@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using CardGames;
+using CardEngine;
 using Players;
 using CardStockXam.Scoring;
 
@@ -103,16 +104,20 @@ public class ParseEngine
 	            int choiceCount = 0;
 	            System.GC.Collect();
 
-	            CardEngine.CardGame instance = new CardEngine.CardGame(true, exp.fileName + i);
+	            CardGame instance = new CardGame(true, exp.fileName + i);
 				var manageContext = new FreezeFrame.GameIterator(tree, instance, gameWorld);
 
+               
+                
                 if (exp.type == GameType.AllAI) {
-                    for (int j = 0; j < instance.players.Count; j++) {
-                        instance.players[j].decision  = new PIPMCPlayer(manageContext, j);
+                    for (int j = 0; j < instance.players.Length; j++) {
+                        Perspective perspective = new Perspective(j, instance, manageContext);
+                        instance.players[j].decision  = new PIPMCPlayer(perspective);
                     }
 				} else if (exp.type == GameType.RndandAI) {
-                    instance.players[0].decision = new PIPMCPlayer(manageContext, 0);
-                }
+                    Perspective perspective = new Perspective(0, instance, manageContext);
+                    instance.players[0].decision = new PIPMCPlayer(perspective);
+                } 
 	            
                 /*********
 	             * PLAY THE GAME
@@ -138,7 +143,7 @@ public class ParseEngine
 				 * SORT OUT RESULTS
 				 *************/
 				if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
-	            var results = manageContext.parseoop.ProcessScore(tree.scoring());
+	            var results = manageContext.ProcessScore(tree.scoring());
 	            numPlayers = results.Count();
 	            for (int j = 0; j < results.Count; ++j)
 	            {
@@ -159,7 +164,7 @@ public class ParseEngine
 					if (exp.type == GameType.AllAI)
 					{
                         lead[i] = new List<List<double>>();
-						for (int j = 0; j < instance.players.Count; j++)
+						for (int j = 0; j < instance.players.Length; j++)
 						{
                             Console.WriteLine("Adding leads for P" + j + ", count of " + instance.players[j].decision.GetLead().Count);
                             lead[i].Add(instance.players[j].decision.GetLead());

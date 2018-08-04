@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Antlr4.Runtime.Tree;
 
-namespace CardStockXam.CardEngine
+namespace FreezeFrame
 {
     class IteratingTree{
         public Stack<IterItem> trees;

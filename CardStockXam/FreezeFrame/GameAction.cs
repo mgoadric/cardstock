@@ -2,14 +2,38 @@ using System.Collections.Generic;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using ParseTreeIterator;
+using CardEngine;
 
-namespace CardEngine {
-    public class GameActionCollection : List<GameAction> {
-        public GameActionCollection() : base() {
+namespace FreezeFrame {
+
+    public abstract class GameAction {
+        public bool inChoice = false;
+        public bool complete;
+        public CardGame cg;
+        public void ExecuteActual(){
+            inChoice = false;
+            Execute();
+        }
+        public void TempExecute()
+        {
+            inChoice = true;
+            Execute();
+        }
+        public abstract void Execute();
+        public abstract void Undo();
+        public String Serialize() {
+            return "";
+        }
+    }
+
+    public class GameActionCollection : List<GameAction>
+    {
+        public GameActionCollection() : base()
+        {
 
         }
-        public void ExecuteAll() {
+        public void ExecuteAll()
+        {
             foreach (var gameColl in this)
             {
                 gameColl.ExecuteActual();
@@ -23,62 +47,34 @@ namespace CardEngine {
                 gameColl.Undo();
             }
         }
-		public override string ToString()
-		{
-            string toReturn = "";
-			foreach (var g in this)
-			{
-                toReturn += g.ToString();
-			}
-            return toReturn;
-		}
-
-	}
-    public abstract class GameAction {
-        public bool actual = true;
-        public bool complete;
-        public CardGame cg;
-        public void ExecuteActual(){
-            actual = true;
-            Execute();
-        }
-        public void TempExecute()
+        public override string ToString()
         {
-            actual = false;
-            Execute();
+            string toReturn = "";
+            foreach (var g in this)
+            {
+                toReturn += g.ToString();
+            }
+            return toReturn;
         }
-        public abstract void Execute();
-        public abstract void Undo();
-        public String Serialize() {
-            return "";
-        }
-       
-
     }
-    public class FancyCardMoveAction : GameAction {
-        public FancyCardLocation startLocation;
-        public FancyCardLocation endLocation;
+
+    public class CardMoveAction : GameAction {
+        public CardLocReference startLocation;
+        public CardLocReference endLocation;
         public CardCollection owner;
         public bool actualloc;
-        public FancyCardMoveAction(FancyCardLocation start, FancyCardLocation end, CardGame cg) {
-            if (start.name != null) {
-                //Console.WriteLine(start.name);
-                if (start.name.Contains("{mem}") && !start.actual) {
-                    Debug.WriteLine(start.name + ", " + end.name);
-                    throw new NotSupportedException();
-                }
+        public CardMoveAction(CardLocReference start, CardLocReference end, CardGame cg) {
+            if (start.cardList.type == CCType.MEMORY && !start.actual) {
+                Debug.WriteLine("start is mem loc: " + start.name + ", " + end.name);
+                throw new NotSupportedException();
             }
-            else if (end.nonPhysical) {
+            else if (end.cardList.type == CCType.VIRTUAL) {
 				Debug.WriteLine("end is not physical");
-
 				throw new NotSupportedException();
             }
-            else if (end.name != null) {
-                if (end.name.Contains("{mem}")) {
-					Debug.WriteLine("end name is mem loc");
-
-					throw new NotSupportedException();
-                }
+            else if (end.cardList.type == CCType.MEMORY) {
+ 				Debug.WriteLine("end is mem loc");
+				throw new NotSupportedException();
             }
             startLocation = start;
             endLocation = end;
@@ -99,17 +95,14 @@ namespace CardEngine {
 
                     Card cardToMove = startLocation.Remove();
                     if (startLocation.actual) {
-                        
                         actualloc = true;
                     }
                     var prefix = "M:";
-                    if (!actual) { prefix = "N:"; }
-                    if (cardToMove.owner != null) {
-                        cg.WriteToFile(prefix + cardToMove.ToOutputString() + " " + cardToMove.owner.name + " " + endLocation.name);
-                    }
-                    else {
-                       cg.WriteToFile(prefix + cardToMove.ToOutputString() + " " + startLocation.name + " " + endLocation.name);
-                    }
+                    var arrow = " -> ";
+                    if (inChoice) { prefix = "N:"; arrow = " ?-> "; }
+
+                    cg.WriteToFile(prefix + cardToMove.ToString() + " " + startLocation.name + arrow + endLocation.name);
+
                     endLocation.Add(cardToMove);
                     owner = cardToMove.owner;
                     cardToMove.owner = endLocation.cardList;
@@ -151,20 +144,21 @@ namespace CardEngine {
         }
         public override string ToString()
         {
-            return "FancyCardMoveAction: StartLocation: "
+            return "CardMoveAction: StartLocation: "
                                                          + startLocation.name + "; EndLocation: " + endLocation.name;
             
         }
     }
+
     public class ShuffleAction : GameAction
     {
-        private FancyCardLocation locations;
+        private CardLocReference locations;
         private CardCollection unshuffled;
 
-        public ShuffleAction(FancyCardLocation locations, CardGame cg)
+        public ShuffleAction(CardLocReference locations, CardGame cg)
         {
             this.locations = locations;
-            unshuffled = new CardListCollection();
+            unshuffled = new CardCollection(CCType.VIRTUAL);
             this.cg = cg;
         }
 
@@ -174,8 +168,7 @@ namespace CardEngine {
                 unshuffled.Add(c);
             }
             locations.cardList.Shuffle();
-			cg.WriteToFile("O:" + locations.cardList);
-
+			cg.WriteToFile("O:" + locations.cardList); 
 		}
         public override void Undo()
         {
@@ -218,7 +211,7 @@ namespace CardEngine {
 			var numTeams = teamcreate.teams().Count();
 			for (int i = 0; i < numTeams; ++i)
 			{
-				var newTeam = new Team(i, cg);
+				var newTeam = new Team("" + i, i);
 				var teamStr = "T:";
 				foreach (var p in teamcreate.teams(i).INTNUM())
 				{
@@ -244,13 +237,14 @@ namespace CardEngine {
             return "TeamCreateAction: " + teamcreate.GetText();
 		}
     }
+
     public class InitializeAction : GameAction {
         CardCollection location;
         CardCollection before;
         Tree deck;
         public InitializeAction(CardCollection loc, Tree d, CardGame cg) {
             location = loc;
-            before = new CardListCollection();
+            before = new CardCollection(CCType.VIRTUAL);
             deck = d;
             this.cg = cg;
         }
@@ -274,20 +268,17 @@ namespace CardEngine {
             return "InitializeAction: " + "Location: " + location.name + "; Cards: " + location.AllCards();
 		}
     }
-    public class FancyCardCopyAction : GameAction {
-        FancyCardLocation startLocation;
-        FancyCardLocation endLocation;
-        public FancyCardCopyAction(FancyCardLocation start, FancyCardLocation end, CardGame cg) {
+
+    public class CardRememberAction : GameAction {
+        CardLocReference startLocation;
+        CardLocReference endLocation;
+        public CardRememberAction(CardLocReference start, CardLocReference end, CardGame cg) {
             startLocation = start;
             endLocation = end;
             this.cg = cg;
-            if (endLocation.nonPhysical ||
-                !endLocation.name.Contains("{mem}") ||
-                endLocation.name.Contains("{MAX}")  ||
-                endLocation.name.Contains("{MIN}") ||
-                endLocation.name.Contains("{filter}") ||
-                endLocation.name.Contains("{UNION}")) {
-                throw new InvalidOperationException(); }
+            if (endLocation.cardList.type != CCType.MEMORY) {
+                throw new InvalidOperationException(); 
+            }
 
         }
         public override void Execute() {
@@ -301,16 +292,17 @@ namespace CardEngine {
  		}
 		public override string ToString()
 		{
-            return "FancyCardCopyAction: Starting location: " + startLocation.name 
+            return "CardRememberAction: Starting location: " + startLocation.name 
                                                                              + "; Ending location: " + endLocation.name;
                                                                            
 		}
     }
-    public class FancyRemoveAction : GameAction {
-        FancyCardLocation endLocation;
-        public FancyRemoveAction(FancyCardLocation end, CardGame cg) {
+
+    public class CardForgetAction : GameAction {
+        CardLocReference endLocation;
+        public CardForgetAction(CardLocReference end, CardGame cg) {
             this.cg = cg;
-            if (end.name.Contains("{mem}")) {
+            if (end.cardList.type == CCType.MEMORY) {
                 endLocation = end;
             }
             else {
@@ -328,43 +320,33 @@ namespace CardEngine {
         }
 		public override string ToString()
 		{
-            return "FancyRemoveAction: To be removed: " + endLocation.name;
+            return "CardForgetAction: To be removed: " + endLocation.name;
 		}
     }
+
     public class IntAction : GameAction {
 
-        IntStorage bucket;
-        string bucketKey;
+        DefaultStorage<int> bins;
+        string key;
         int value;
         int oldValue;
 
-        public IntAction(IntStorage storage, string bKey, int v, CardGame cg) {
-            bucket = storage;
-            bucketKey = bKey;
+        public IntAction(DefaultStorage<int> storage, string bKey, int v, CardGame cg) {
+            bins = storage;
+            key = bKey;
             value = v;
             this.cg = cg;
         }
         public override void Execute() {
-            oldValue = bucket[bucketKey];
-            bucket[bucketKey] = value;
+            oldValue = bins[key];
+            bins[key] = value;
             complete = true;
-            if (bucket.owner != null)
-            {
-                cg.WriteToFile("S:" + bucket.owner.name + " " + bucketKey + " " + value);
-            }
-            else if (bucket.teamOwner != null)
-            {
-                cg.WriteToFile("S:" + bucket.teamOwner + " " + bucketKey + " " + value);
-            }
-            else
-            {
-                cg.WriteToFile("S:" + bucket + " " + bucketKey + " " + value);
-            }
+            cg.WriteToFile("S:" + bins.owner.name + " " + key + " " + value);
         }
         public override void Undo() {
             if (complete)
             {
-                bucket[bucketKey] = oldValue;
+                bins[key] = oldValue;
                 complete = false;
             }
             else {
@@ -376,6 +358,7 @@ namespace CardEngine {
             return "IntAction: value: " + value.ToString();
 		}
     }
+
     public class NextAction : GameAction
     {
         private StageCycle<Player> playerCycle;
@@ -393,7 +376,7 @@ namespace CardEngine {
             // someone already in the queue
             if (playerCycle.queuedNext != -1) {
                 former = playerCycle.queuedNext;
-			} 
+			}
             playerCycle.SetNext(idx);
         }
 
@@ -406,13 +389,14 @@ namespace CardEngine {
                 playerCycle.RevertNext();
             }
             //Console.WriteLine("Reverting: " + former);
-         
+
         }
 		public override string ToString()
 		{
             return "NextAction: Next player: " + idx.ToString();
 		}
     }
+
     public class SetPlayerAction : GameAction
     {
         private int idx;
@@ -424,7 +408,7 @@ namespace CardEngine {
 
         public override void Execute()
         {
-            former = cg.players.IndexOf(cg.CurrentPlayer().Current());
+            former = cg.CurrentPlayer().Current().id;
             cg.CurrentPlayer().SetMember(idx);
         }
 

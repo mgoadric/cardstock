@@ -7,7 +7,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>CardStockXam</RootNamespace>
     <AssemblyName>CardStockXam</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <StartupObject>CardGames.Program</StartupObject>
@@ -22,6 +22,7 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>
@@ -32,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -232,8 +234,12 @@
     <Compile Include="Antlr4\Runtime\UnbufferedCharStream.cs" />
     <Compile Include="Antlr4\Runtime\UnbufferedTokenStream.cs" />
     <Compile Include="Antlr4\Runtime\Vocabulary.cs" />
-    <Compile Include="CardEngine\IterItem.cs" />
-    <Compile Include="CardEngine\IteratingTree.cs" />
+    <Compile Include="FreezeFrame\IterItem.cs" />
+    <Compile Include="FreezeFrame\IteratingTree.cs" />
+    <Compile Include="FreezeFrame\RecycleVariables.cs" />
+    <Compile Include="Players\MCTSPLayer.cs" />
+    <Compile Include="Players\Perspective.cs" />
+    <Compile Include="Players\RandomPlayer.cs" />
     <Compile Include="Scoring\Genetic.cs" />
     <Compile Include="Scoring\GeneticFiler.cs" />
     <Compile Include="Scoring\Generator.cs" />
@@ -253,19 +259,13 @@
     <Compile Include="FreezeFrame\GameIterator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CardEngine\Card.cs" />
-    <Compile Include="CardEngine\CardFilter.cs" />
     <Compile Include="CardEngine\CardGame.cs" />
-    <Compile Include="CardEngine\CardGrouping.cs" />
-    <Compile Include="CardEngine\CardScore.cs" />
+    <Compile Include="FreezeFrame\CardGrouping.cs" />
+    <Compile Include="CardEngine\PointMap.cs" />
     <Compile Include="CardEngine\CardStorage.cs" />
-    <Compile Include="CardEngine\FancyCardLocation.cs" />
-    <Compile Include="CardEngine\FancyIntStorage.cs" />
-    <Compile Include="CardEngine\GameAction.cs" />
+    <Compile Include="FreezeFrame\GameAction.cs" />
     <Compile Include="CardEngine\Player.cs" />
-    <Compile Include="CardEngine\PointsStorage.cs" />
-    <Compile Include="CardEngine\IntStorage.cs" />
     <Compile Include="CardEngine\Team.cs" />
-    <Compile Include="Json.cs" />
     <Compile Include="ParseEngine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="RecycleBaseListener.cs" />
@@ -273,17 +273,21 @@
     <Compile Include="RecycleListener.cs" />
     <Compile Include="RecycleParser.cs" />
     <Compile Include="Scoring\World.cs" />
-    <Compile Include="Tree.cs" />
-    <Compile Include="Players\GeneralPlayer.cs" />
-    <Compile Include="Players\PredictablePlayer.cs" />
+    <Compile Include="CardEngine\Tree.cs" />
+    <Compile Include="Players\AIPlayer.cs" />
     <Compile Include="CardEngine\StageCycle.cs" />
-    <Compile Include="ParseTreeIterator\ParseOOPIterator.cs" />
     <Compile Include="Scoring\Heuristics\Stability.cs" />
     <Compile Include="Scoring\Heuristics\Coolness.cs" />
     <Compile Include="Scoring\Heuristics\Clarity.cs" />
     <Compile Include="Scoring\Heuristics\Randomness.cs" />
     <Compile Include="Scoring\ScoreTracker.cs" />
     <Compile Include="Players\PIPMCPlayer.cs" />
+    <Compile Include="CardEngine\DefaultStorage.cs" />
+    <Compile Include="CardEngine\CardCollection.cs" />
+    <Compile Include="CardEngine\Owner.cs" />
+    <Compile Include="FreezeFrame\CardLocReference.cs" />
+    <Compile Include="FreezeFrame\IntStorageReference.cs" />
+    <Compile Include="ThreadSafeRandom.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
