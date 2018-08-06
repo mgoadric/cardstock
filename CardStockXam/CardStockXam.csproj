@@ -237,8 +237,10 @@
     <Compile Include="FreezeFrame\IterItem.cs" />
     <Compile Include="FreezeFrame\IteratingTree.cs" />
     <Compile Include="FreezeFrame\RecycleVariables.cs" />
+    <Compile Include="Players\MCTSLitePlayer.cs" />
     <Compile Include="Players\MCTSPLayer.cs" />
     <Compile Include="Players\Perspective.cs" />
+    <Compile Include="Players\PIPMC2Player.cs" />
     <Compile Include="Players\RandomPlayer.cs" />
     <Compile Include="Scoring\Genetic.cs" />
     <Compile Include="Scoring\GeneticFiler.cs" />

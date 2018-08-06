@@ -12,6 +12,7 @@ using CardGames;
 using CardEngine;
 using Players;
 using CardStockXam.Scoring;
+using CardStockXam.Players;
 
 public class ParseEngine
 {
@@ -111,12 +112,16 @@ public class ParseEngine
                 
                 if (exp.type == GameType.AllAI) {
                     for (int j = 0; j < instance.players.Length; j++) {
+                        Console.WriteLine("Making players");
                         Perspective perspective = new Perspective(j, instance, manageContext);
-                        instance.players[j].decision  = new PIPMCPlayer(perspective);
+                        if (j == 0) { instance.players[j].decision = new PIPMCPlayer(perspective); }
+                        if (j == 1) { instance.players[j].decision = new PIPMC2Player(perspective); }
+                        if (j == 2) { instance.players[j].decision = new MCTSPLayer(perspective);  }
+                        if (j == 3) { instance.players[j].decision = new MCTSLitePLayer(perspective); }
                     }
 				} else if (exp.type == GameType.RndandAI) {
                     Perspective perspective = new Perspective(0, instance, manageContext);
-                    instance.players[0].decision = new PIPMCPlayer(perspective);
+                    instance.players[0].decision = new MCTSPLayer(perspective);
                 } 
 	            
                 /*********
@@ -127,6 +132,7 @@ public class ParseEngine
                     lock (this)
                     {
                         choiceCount++;
+
                         choiceAgg++;
                     }
 	                manageContext.ProcessChoice();
@@ -401,3 +407,4 @@ public class ParseEngine
         return new Tuple<bool, bool>(shuffle, choice);
     }
 }
+                    instance.players[0].decision = new PIPMCPlayer(perspective);
