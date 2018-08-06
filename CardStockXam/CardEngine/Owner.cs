@@ -26,7 +26,7 @@ namespace CardEngine
 
         // Set up four default dictionaries, one for each type of card
         // an Owner can have, VISIBLE, INVISIBLE, HIDDEN, and MEMORY
-        public Dictionary<CCType, CardStorage> cardBins;
+        public CardStorage cardBins;
 
         public readonly string name;  // A string for easy printing
         public readonly int id;   // index of Owner in the CardGame list for its type
@@ -37,15 +37,7 @@ namespace CardEngine
             intBins = new DefaultStorage<int>(0, this);
             stringBins = new DefaultStorage<string>("", this);
             pointBins = new DefaultStorage<PointMap>(new PointMap(new List<ValueTuple<string, string, int>>()), this); 
-
-            cardBins = new Dictionary<CCType, CardStorage>();
-            foreach (CCType type in Enum.GetValues(typeof(CCType))) {
-                if (type != CCType.VIRTUAL)
-                {
-                    cardBins[type] = new CardStorage(
-                          new CardCollection(type), this);
-                }
-            }
+            cardBins = new CardStorage(this);
 
             // Record the name and id
             this.name = name;
@@ -62,14 +54,7 @@ namespace CardEngine
             other.intBins = intBins.Clone(other);
             other.stringBins = stringBins.Clone(other);
             other.pointBins = pointBins.Clone(other);
-            other.cardBins = new Dictionary<CCType, CardStorage>();
-            foreach (CCType type in Enum.GetValues(typeof(CCType)))
-            {
-                if (type != CCType.VIRTUAL) 
-                {
-                    other.cardBins[type] = cardBins[type].Clone(other);
-                }
-            }
+            other.cardBins = cardBins.Clone(other);
             return other;
         }
 
@@ -78,10 +63,7 @@ namespace CardEngine
             StringBuilder ret = new StringBuilder(); // GetType().ToString() + ":\n");
             ret.Append("Name: " + name + " | ID: " + id.ToString() + "\r\n");
             ret.Append("Listing Storages...\r\n");
-            foreach(CCType type in cardBins.Keys)
-            {
-                ret.Append(cardBins[type].ToString());
-            }
+            ret.Append(cardBins.ToString());
             ret.Append(intBins.ToString());
             ret.Append(pointBins.ToString());
             return ret.ToString();
@@ -123,18 +105,14 @@ namespace CardEngine
             
             if (!(stringBins.Equals(otherowner.stringBins)))
             { //Console.WriteLine("owner stringbins not equal");
-                return false; }
-
-            foreach (CCType type in Enum.GetValues(typeof(CCType)))
-            {
-                if (type != CCType.VIRTUAL)
-                {
-                    if (!otherowner.cardBins[type].Equals(cardBins[type]))
-                    { //Console.WriteLine("Owner Cardbin " + type.ToString() + " not equal.");
-                        return false; }
-                }
+                return false;
             }
-            
+
+            if (!(cardBins.Equals(otherowner.cardBins)))
+            { //Console.WriteLine("owner stringbins not equal");
+                return false;
+            }
+
             if (!(pointBins.Equals(otherowner.pointBins)))
             { //Console.WriteLine("owner pointbins not equal");
                 return false; }
@@ -154,13 +132,8 @@ namespace CardEngine
         {
             int hash = 0;
             hash ^= name.GetHashCode() ^ id.GetHashCode() ^ intBins.GetHashCode();
-            hash ^= stringBins.GetHashCode() ^ pointBins.GetHashCode();
-            foreach(CCType type in Enum.GetValues(typeof(CCType)))
-            {
-                if (type != CCType.VIRTUAL) { hash ^= cardBins[type].GetHashCode(); }
-            }
+            hash ^= stringBins.GetHashCode() ^ pointBins.GetHashCode() ^ cardBins.GetHashCode();
             return hash;
-        }
-       
+        }    
     }
 }

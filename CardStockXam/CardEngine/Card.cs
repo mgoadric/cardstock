@@ -38,7 +38,7 @@ namespace CardEngine{
             if (p == null)
             { return false; }*/
 
-            if (c.ToString() != this.ToString() || c.id != this.id) 
+            if (c.id != this.id) 
             { return false; }
 
             return true; 

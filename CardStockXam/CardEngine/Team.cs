@@ -17,14 +17,7 @@ namespace CardEngine{
             other.intBins = intBins.Clone(other);
             other.stringBins = stringBins.Clone(other);
             other.pointBins = pointBins.Clone(other);
-            other.cardBins = new Dictionary<CCType, CardStorage>();
-            foreach (CCType type in System.Enum.GetValues(typeof(CCType)))
-            {
-                if (type != CCType.VIRTUAL)
-                {
-                    other.cardBins[type] = cardBins[type].Clone(other);
-                }
-            }
+            other.cardBins = cardBins.Clone(other);
             other.teamPlayers = new List<Player>();
             return other;
         }

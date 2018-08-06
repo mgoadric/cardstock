@@ -82,7 +82,7 @@ namespace Players
 
                 var variance = Math.Abs(max - min);
 
-                perspective.GetWorld().AddInfo(variance, avg, wrs[tup.Item2]);
+                perspective.GetWorld().AddInfo(variance, avg, wrs[maxidx]);
                 leadList.Add(max);
             }
         }

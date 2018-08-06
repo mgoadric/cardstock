@@ -6,39 +6,43 @@ using System.Text;
 namespace CardEngine
 {
     /********
-     * A Dictionary with a default value provided, specific to
+     * A Dictionary with default values provided, specific to
      * CardCollections because they act differently
      */
     public class CardStorage
     {
         private readonly Dictionary<string, CardCollection> dict = new Dictionary<string, CardCollection>();
-        private CardCollection defaultCC;
+        private CardCollection[] defaultCCs;
         public Owner owner;
 
         /*******
-         * Save the default value given in the constructor
+         * Set up four CardCollection defaults
          */
-        public CardStorage(CardCollection defaultCC, Owner owner)
+        public CardStorage(Owner owner)
         {
-            this.defaultCC = defaultCC;
+            defaultCCs = new CardCollection[4];
+            for (int i = 0; i < 4; i++)
+            {
+                defaultCCs[i] = new CardCollection((CCType)i);
+                defaultCCs[i].owner = this;
+            }
             this.owner = owner;
-            defaultCC.owner = this;
         }
 
         /*******
          * Access methods, that have the KeyCheck
          */
-        public CardCollection this[string key]
+        public CardCollection this[CCType type, string key]
         {
             get
             {
-                KeyCheck(key);
-                return dict[key];
+                KeyCheck(type, key);
+                return dict[type + ":" + key];
             }
             set
             {
-                KeyCheck(key);
-                dict[key] = value;
+                KeyCheck(type, key);
+                dict[type + ":" + key] = value;
             }
         }
 
@@ -46,23 +50,17 @@ namespace CardEngine
          * Checks that the key is valid. If not, a clone of the
          * default value is added to the dictionary
          */
-        private void KeyCheck(string key)
+        private void KeyCheck(CCType type, string key)
         {
-            if (!dict.ContainsKey(key))
+            string name = type + ":" + key;
+            if (!dict.ContainsKey(name))
             {
-                CardCollection ncc = GetDefault();
+                CardCollection ncc = defaultCCs[(int)type].Clone();
                 ncc.name = key;
-                dict[key] = ncc;
+                dict[name] = ncc;
 
             }
         }
-
-        /**********
-         * Abstracts this in case we need to do something else
-         * when getting the default value
-         */
-        private CardCollection GetDefault()
-        { return defaultCC.Clone(); }
 
         /*******
          * Returns the keys from the internal dictionary
@@ -72,21 +70,16 @@ namespace CardEngine
             return dict.Keys;
         }
 
+        public IEnumerable<CardCollection> Values() {
+            return dict.Values;
+        }
+
         /*******
-         * Make a hollow clone of keys
+         * TODO Do I need this any more?
          */
         public CardStorage Clone(Owner other)
         {
-            var cloneDefaultCC = GetDefault();
-            var ret = new CardStorage(cloneDefaultCC, other);
-            cloneDefaultCC.owner = ret;
-
-            foreach (var bin in dict.Keys)
-            {
-                ret.KeyCheck(bin);
-            }
-            return ret;
-
+            return new CardStorage(other);
         }
 
         public override bool Equals(System.Object obj)
@@ -104,9 +97,6 @@ namespace CardEngine
             
             if (cs.owner.id != owner.id)
             { Console.WriteLine("Owner names not equal"); return false; }
-            
-            if (!cs.defaultCC.Equals(defaultCC))
-            { Console.WriteLine("DefaultCC not equal"); return false; }
             
             if (!cs.dict.SequenceEqual(dict))
             { //Console.WriteLine("Dictionary of Card Collections not equal");

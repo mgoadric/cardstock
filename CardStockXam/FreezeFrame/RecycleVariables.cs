@@ -142,7 +142,7 @@ namespace FreezeFrame
                             { newowner = newgame.table[0]; }
                             else { throw new Exception(); } // NOT IMPLEMENTED OTHER TYPES OF OWNER
                         }
-                        ret.Add(key, newowner.cardBins[temptype][tempcc]);
+                        ret.Add(key, newowner.cardBins[temptype,tempcc]);
                     }
                 }
                 /*else if (o is CardLocReference)
