@@ -35,6 +35,10 @@ namespace CardEngine
             this.type = type;
         }
 
+        public string TranscriptName() {
+            return owner.owner.name + ":" + type + ":" + name;
+        }
+
         public void SetName(String name)
         { this.name = name; }
 
@@ -44,6 +48,7 @@ namespace CardEngine
             return new CardCollection(type)
             {
                 name = name,
+                owner = owner,
                 //TODO
                 // find new cards, not clone
                 //cards = CloneCards() 

@@ -102,7 +102,7 @@ namespace FreezeFrame {
                     var arrow = " -> ";
                     if (inChoice) { prefix = "N:"; arrow = " ?-> "; }
 
-                    script.WriteToFile(prefix + cardToMove.ToString() + " " + startLocation.name + arrow + endLocation.name);
+                    script.WriteToFile(prefix + cardToMove.ToString() + " " + startLocation.cardList.TranscriptName() + arrow + endLocation.cardList.TranscriptName());
 
                     endLocation.Add(cardToMove);
                     owner = cardToMove.owner;
