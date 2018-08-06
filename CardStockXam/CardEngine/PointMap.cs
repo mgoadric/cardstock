@@ -4,7 +4,7 @@ namespace CardEngine{
     public readonly struct PointMap : ICloneable{
 
 		public readonly Dictionary<string,Dictionary<string,int>> pointLookups;
-		public PointMap(List<Tuple<string, string, int>> input){
+		public PointMap(List<ValueTuple<string, string, int>> input){
 
             pointLookups = new Dictionary<string, Dictionary<string, int>>();
 			foreach (var award in input){

@@ -69,9 +69,9 @@ namespace Players
                                                         ((double)1 / ((numPlayers - 1)));
                 }
 
-                var tup = MinMaxIdx(inverseRankSum);
-                var max = wrs[tup.Item2];
-                var min = wrs[tup.Item1];
+                (var minidx, var maxidx) = MinMaxIdx(inverseRankSum);
+                var max = wrs[maxidx];
+                var min = wrs[minidx];
 
                 double avg = 0;
                 for (int i = 0; i < wrs.Length; i++)

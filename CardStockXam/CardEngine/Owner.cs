@@ -36,7 +36,7 @@ namespace CardEngine
             // Use 0, "", and an empty PointMap for defaults
             intBins = new DefaultStorage<int>(0, this);
             stringBins = new DefaultStorage<string>("", this);
-            pointBins = new DefaultStorage<PointMap>(new PointMap(new List<Tuple<string, string, int>>()), this); 
+            pointBins = new DefaultStorage<PointMap>(new PointMap(new List<ValueTuple<string, string, int>>()), this); 
 
             cardBins = new Dictionary<CCType, CardStorage>();
             foreach (CCType type in Enum.GetValues(typeof(CCType))) {

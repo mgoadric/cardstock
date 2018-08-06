@@ -11,13 +11,14 @@ namespace FreezeFrame
 {
     public class GameIterator
     {
-        public RecycleParser.GameContext rules;
         private Stack<Queue<IParseTree>> iterStack;
         private HashSet<IParseTree> iteratingSet;
+        private RecycleVariables variables;
+        private Transcript script;
+
+        public RecycleParser.GameContext rules;
         public CardGame game;
         public World gameWorld;
-        private RecycleVariables variables;
-        public Transcript script;
 
         public GameIterator (RecycleParser.GameContext context, CardGame mygame, World gameWorld, string fileName, bool fresh = true)
 		{
@@ -50,14 +51,11 @@ namespace FreezeFrame
 		}
 
         public GameIterator Clone(CardGame newgame) { 
-            // CHANGED HERE TODO 
+
             var ret = new GameIterator(rules, newgame, gameWorld, "clone", false); // 
             ret.script = new Transcript(false, null);
-            var revStack = new Stack<Queue<IParseTree>>();
-            foreach (var i in iterStack) {
-                revStack.Push(i);
-            }
-            foreach (var queue in revStack) {
+
+            foreach (var queue in iterStack.Reverse()) {
                 var newQueue = new Queue<IParseTree>();
                 foreach (var thing in queue) {
                     newQueue.Enqueue(thing);
@@ -65,9 +63,11 @@ namespace FreezeFrame
 
                 ret.iterStack.Push(newQueue);
             }
+
             foreach (var node in iteratingSet) {
                 ret.iteratingSet.Add(node);
             }
+
             ret.variables = variables.Clone(newgame);
 
             return ret;
@@ -769,7 +769,7 @@ namespace FreezeFrame
                 var points = actionNode.initpoints();
                 var name = points.var().GetText();
 
-                List<Tuple<string, string, int>> temp = new List<Tuple<string, string, int>>();
+                List<ValueTuple<string, string, int>> temp = new List<ValueTuple<string, string, int>>();
                 var awards = points.awards();
                 foreach (RecycleParser.AwardsContext award in awards)
                 {
@@ -797,7 +797,7 @@ namespace FreezeFrame
                     key = key.Substring(0, key.Length - 1);
                     value = value.Substring(0, value.Length - 1);
                     script.WriteToFile("A:" + value + " " + reward);
-                    temp.Add(new Tuple<string, string, int>(key, value, reward));
+                    temp.Add(new ValueTuple<string, string, int>(key, value, reward));
                 }
                 game.table[0].pointBins[name] = new PointMap(temp);
             }

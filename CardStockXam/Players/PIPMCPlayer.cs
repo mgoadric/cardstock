@@ -105,15 +105,15 @@ namespace Players
 			Debug.WriteLine("End Monte");
 
             // FIND BEST (and worst) MOVE TO MAKE
-            var tup = MinMaxIdx(inverseRankSum);
+            (var minidx, var maxidx) = MinMaxIdx(inverseRankSum);
 
-            Debug.WriteLine("Max invRankSum: " + tup.Item2);
+            Debug.WriteLine("Max invRankSum: " + maxidx);
             Debug.WriteLine("PIPMC Finished.");
 
             // Record info for heuristic evaluation
             RecordHeuristics(inverseRankSum);
 
-            return tup.Item2;
+            return maxidx;
         }
     }
 }
