@@ -160,25 +160,18 @@ namespace CardEngine
         {
             foreach (Owner owner in owners)
             {
-                foreach (CCType type in Enum.GetValues(typeof(CCType)))
+                foreach (var collection in owner.cardBins.Values())
                 {
-                    if (type != CCType.VIRTUAL)
-                    {
-                        foreach (var loc in owner.cardBins[type].Keys())
-                        {
-                            var collection = owner.cardBins[type][loc];
-                            var tempCollection = tempowners[owner.id].cardBins[type][loc];
+                    var tempCollection = tempowners[owner.id].cardBins[collection.type, collection.name];
 
-                            foreach (var card in collection.AllCards())
-                            {
-                                // Look up card by index, and reference the new cloned card
-                                var toAdd = tempsourceDeck[card.id];
-                                tempCollection.Add(toAdd);
-                                if (type != CCType.MEMORY)
-                                {
-                                    toAdd.owner = tempCollection;
-                                }
-                            }
+                    foreach (var card in collection.AllCards())
+                    {
+                        // Look up card by index, and reference the new cloned card
+                        var toAdd = tempsourceDeck[card.id];
+                        tempCollection.Add(toAdd);
+                        if (collection.type != CCType.MEMORY)
+                        {
+                            toAdd.owner = tempCollection;
                         }
                     }
                 }
@@ -190,35 +183,32 @@ namespace CardEngine
         {
             foreach (Owner owner in owners)
             {
-                foreach (CCType type in Enum.GetValues(typeof(CCType)))
+                foreach (var collection in owner.cardBins.Values())
                 {
                     // WHAT ABOUT TEAMS???
-                    if (type == CCType.VISIBLE || type == CCType.MEMORY || (type == CCType.INVISIBLE
-                                                                            && owner.GetType() == typeof(Player)
-                                                                            && owner.id == playerIdx))
-                    {
-                        foreach (var loc in owner.cardBins[type].Keys())
+                    if (collection.type == CCType.VISIBLE ||
+                        collection.type == CCType.MEMORY || (
+                            collection.type == CCType.INVISIBLE
+                            && owner.GetType() == typeof(Player)
+                            && owner.id == playerIdx))
                         {
-                            var collection = owner.cardBins[type][loc];
+                        Debug.WriteLine("Initial Collection:" + collection);
 
-                            Debug.WriteLine("Initial Collection:" + collection);
-
-                            var tempCollection = tempowners[owner.id].cardBins[type][loc];
-                            foreach (var card in collection.AllCards())
+                        var tempCollection = tempowners[owner.id].cardBins[collection.type, collection.name];
+                        foreach (var card in collection.AllCards())
+                        {
+                            // Look up card by index, and reference the new cloned card
+                            var toAdd = tempsourceDeck[card.id];
+                            tempCollection.Add(toAdd);
+                            if (collection.type != CCType.MEMORY)
                             {
-                                // Look up card by index, and reference the new cloned card
-                                var toAdd = tempsourceDeck[card.id];
-                                tempCollection.Add(toAdd);
-                                if (type != CCType.MEMORY)
-                                {
-                                    toAdd.owner = tempCollection;
-                                    free.Remove(card.id);
-                                }
+                                toAdd.owner = tempCollection;
+                                free.Remove(card.id);
                             }
-
-                            Debug.WriteLine("Cloned Collection:" + tempCollection);
-
                         }
+
+                        Debug.WriteLine("Cloned Collection:" + tempCollection);
+
                     }
                 }
             }
@@ -230,35 +220,32 @@ namespace CardEngine
 
             foreach (Owner owner in owners)
             {
-                foreach (CCType type in Enum.GetValues(typeof(CCType)))
+                foreach (var collection in owner.cardBins.Values())
                 {
                     // WHAT ABOUT TEAMS
-                    if (type == CCType.HIDDEN || (type == CCType.INVISIBLE 
-                                                  && (owner.GetType() != typeof(Player) 
+                    if (collection.type == CCType.HIDDEN ||
+                        (collection.type == CCType.INVISIBLE
+                                                  && (owner.GetType() != typeof(Player)
                                                       || owner.id != playerIdx)))
                     {
-                        foreach (var loc in owner.cardBins[type].Keys())
+                        Debug.WriteLine("Initial Collection:" + collection);
+
+                        var tempCollection = tempowners[owner.id].cardBins[collection.type, collection.name];
+
+                        for (int i = 0; i < collection.Count; i++)
                         {
-                            var collection = owner.cardBins[type][loc];
-
-                            Debug.WriteLine("Initial Collection:" + collection);
-
-                            var tempCollection = tempowners[owner.id].cardBins[type][loc];
-
-                            for (int i = 0; i < collection.Count; i++)
-                            {
-                                // Look up card by index, and reference the new cloned card
-                                var toAdd = tempsourceDeck[cardsLeft.Current];
-                                cardsLeft.MoveNext();
-                                tempCollection.Add(toAdd);
-                                toAdd.owner = tempCollection;
-                            }
-
-                            Debug.WriteLine("Reconstructed Collection:" + tempCollection);
-
+                            // Look up card by index, and reference the new cloned card
+                            var toAdd = tempsourceDeck[cardsLeft.Current];
+                            cardsLeft.MoveNext();
+                            tempCollection.Add(toAdd);
+                            toAdd.owner = tempCollection;
                         }
+
+                        Debug.WriteLine("Reconstructed Collection:" + tempCollection);
+
                     }
                 }
+
             }
         }
                
@@ -357,7 +344,7 @@ namespace CardEngine
             if (!(table[0].stringBins.Equals(othergame.table[0].stringBins)))
             { Console.WriteLine("table Stringbins not equal"); return false; }
             
-            if (!(table[0].cardBins.SequenceEqual(othergame.table[0].cardBins)))
+            if (!(table[0].cardBins.Equals(othergame.table[0].cardBins)))
             { //Console.WriteLine("table cardbins not equal"); 
                 return false; }
 
@@ -387,11 +374,7 @@ namespace CardEngine
             hash ^= table[0].intBins.GetHashCode();
             //hash ^= table[0].pointBins.GetHashCode();
             hash ^= table[0].stringBins.GetHashCode();
-            foreach(CCType type in Enum.GetValues(typeof(CCType)))
-            {
-                if (type != CCType.VIRTUAL) { hash ^= table[0].cardBins[type].GetHashCode(); }
-            }
-
+            hash ^= table[0].cardBins.GetHashCode();
             foreach(StageCycle<Player> scp in currentPlayer)
             { hash ^= scp.GetHashCode(); }
             foreach (StageCycle<Team> sct in currentTeam)

@@ -1395,7 +1395,7 @@ namespace FreezeFrame
                 {
                     var fancy = new CardLocReference()
                     {
-                        cardList = game.table[0].cardBins[prefix][stor.namegr().GetText()],
+                        cardList = game.table[0].cardBins[prefix, stor.namegr().GetText()],
                         locIdentifier = "top",
                         name = "table " + prefix + " " + stor.namegr().GetText()
                     };
@@ -1406,7 +1406,7 @@ namespace FreezeFrame
                     string name = ProcessStringVar(stor.var()); 
                     var fancy = new CardLocReference()
                     {
-                        cardList = game.table[0].cardBins[prefix][name],
+                        cardList = game.table[0].cardBins[prefix, name],
                         locIdentifier = "top",
                         name = "t " + prefix + " " + name
                     };
@@ -1425,7 +1425,7 @@ namespace FreezeFrame
             {
                 var fancy = new CardLocReference()
                 {
-                    cardList = player.cardBins[prefix][stor.namegr().GetText()],
+                    cardList = player.cardBins[prefix, stor.namegr().GetText()],
                     name = player.name + " "  + prefix + " " +  stor.namegr().GetText()
                 };
                 return fancy;
@@ -1435,7 +1435,7 @@ namespace FreezeFrame
                 var name = ProcessStringVar(stor.var());
                 var fancy = new CardLocReference()
                 {
-                    cardList = player.cardBins[prefix][name],
+                    cardList = player.cardBins[prefix, name],
                     name = player.name + " " +  prefix + " " + name
                 };
                 return fancy;
