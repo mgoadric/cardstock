@@ -51,15 +51,17 @@ namespace Players
             }
             Tuple<int, int> worstandbest = MinMaxIdx(moverankingarray);
 
-            //Console.WriteLine("Simulated Game is Over");
-            
-            //Console.ReadLine();
-            //Environment.Exit(0);
             return worstandbest.Item2;
         }
 
         public void RunSimulation()
         {
+            // Each turn, need to check to see if we have enough information to make move using UCB
+            // If we do (movelist.count() == choicenum), and we check the stats of each move
+            // A predictable player is set for the currentplayers idx which wil chose the move determined by 
+            // Movelist should be tuple array with each entry a state and a who played it
+            // Its key should be a state and the idx of the player in charge
+
             HashSet<Tuple<CardGame, int>> visitedstates = new HashSet<Tuple<CardGame, int>>();
             CardGame cg = privategame.Clone();
             GameIterator gameIterator = privateiterator.Clone(cg);
@@ -76,14 +78,7 @@ namespace Players
             while (!gameIterator.AdvanceToChoice())
             {
                 List<GameActionCollection> allOptions = gameIterator.BuildOptions();
-                
                 int idx = cg.currentPlayer.Peek().idx;
-                // Each turn, need to check to see if we have enough information to make move using UCB
-                // If we do (movelist.count() == choicenum), and we check the stats of each move
-                // A predictable player is set for the currentplayers idx which wil chose the move determined by UCB
-
-                // Movelist should be tuple array with each entry a state and a who played it
-                // Its key should be a state and the idx of the player in charge
                 Tuple<CardGame, int>[] movelist = null;
                 int c = 0;
                 if (expand)
@@ -151,7 +146,6 @@ namespace Players
                     movelist[c] = stateandplayer;
                 }
                 visitedstates.Add(stateandplayer);
-                
             }
 
             // ProcessScore returns a sorted list 
