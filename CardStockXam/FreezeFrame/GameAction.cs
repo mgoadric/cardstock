@@ -98,15 +98,16 @@ namespace FreezeFrame {
                     if (startLocation.actual) {
                         actualloc = true;
                     }
-                    var prefix = "M:";
-                    var arrow = " -> ";
-                    if (inChoice) { prefix = "N:"; arrow = " ?-> "; }
-
-                    script.WriteToFile(prefix + cardToMove.ToString() + " " + startLocation.cardList.TranscriptName() + arrow + endLocation.cardList.TranscriptName());
 
                     endLocation.Add(cardToMove);
                     owner = cardToMove.owner;
                     cardToMove.owner = endLocation.cardList;
+
+                    var prefix = "M:";
+                    var arrow = " -> ";
+                    if (inChoice) { prefix = "N:"; arrow = " ?-> "; }
+
+                    script.WriteToFile(prefix + cardToMove.ToString() + " " + owner.TranscriptName() + arrow + endLocation.cardList.TranscriptName());
                     Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
                 }
                 else {
@@ -402,9 +403,10 @@ namespace FreezeFrame {
     {
         private int idx;
         private int former;
-        public SetPlayerAction(int idx, CardGame cg) {
+        public SetPlayerAction(int idx, CardGame cg, Transcript script) {
             this.idx = idx;
             this.cg = cg;
+            this.script = script;
         }
 
         public override void Execute()

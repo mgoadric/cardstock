@@ -896,19 +896,19 @@ namespace FreezeFrame
                 if (cycle.owner() != null)
                 {
                     var idx = ProcessOwner(cycle.owner());
-                    return new SetPlayerAction(idx, game);
+                    return new SetPlayerAction(idx, game, script);
                 }
                 else if (text2 == "next")
                 {
-                    return new SetPlayerAction(game.CurrentPlayer().PeekNext().id, game);
+                    return new SetPlayerAction(game.CurrentPlayer().PeekNext().id, game, script);
                 }
                 else if (text2 == "current")
                 {
-                    return new SetPlayerAction(game.CurrentPlayer().Current().id, game);
+                    return new SetPlayerAction(game.CurrentPlayer().Current().id, game, script);
                 }
                 else if (text2 == "previous")
                 {
-                    return new SetPlayerAction(game.CurrentPlayer().PeekPrevious().id, game);
+                    return new SetPlayerAction(game.CurrentPlayer().PeekPrevious().id, game, script);
                 }
             }
             return null;

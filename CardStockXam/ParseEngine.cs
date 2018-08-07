@@ -109,19 +109,19 @@ public class ParseEngine
                 // TODO Can the creation of the game go inside the GameIterator???
 	            CardGame game = new CardGame();
                 var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld, exp.fileName + i);
-                
+
                 if (exp.type == GameType.AllAI) {
-                    for (int j = 0; j < instance.players.Length; j++) {
+                    for (int j = 0; j < game.players.Length; j++) {
                         Console.WriteLine("Making players");
-                        Perspective perspective = new Perspective(j, instance, manageContext);
-                        if (j == 0) { instance.players[j].decision = new PIPMCPlayer(perspective); }
-                        if (j == 1) { instance.players[j].decision = new PIPMC2Player(perspective); }
-                        if (j == 2) { instance.players[j].decision = new MCTSPLayer(perspective);  }
-                        if (j == 3) { instance.players[j].decision = new MCTSLitePLayer(perspective); }
+                        Perspective perspective = new Perspective(j, game, gamePlay);
+                        if (j == 0) { game.players[j].decision = new PIPMCPlayer(perspective); }
+                        if (j == 1) { game.players[j].decision = new PIPMC2Player(perspective); }
+                        if (j == 2) { game.players[j].decision = new MCTSPLayer(perspective);  }
+                        if (j == 3) { game.players[j].decision = new MCTSLitePLayer(perspective); }
                     }
 				} else if (exp.type == GameType.RndandAI) {
-                    Perspective perspective = new Perspective(0, instance, manageContext);
-                    instance.players[0].decision = new MCTSPLayer(perspective);
+                    Perspective perspective = new Perspective(0, game, gamePlay);
+                    game.players[0].decision = new MCTSPLayer(perspective);
                 } 
 	            
                 /*********
@@ -314,4 +314,3 @@ public class ParseEngine
         return new Tuple<bool, bool>(shuffle, choice);
     }
 }
-                    instance.players[0].decision = new PIPMCPlayer(perspective);

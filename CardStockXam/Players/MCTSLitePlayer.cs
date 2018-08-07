@@ -21,12 +21,7 @@ namespace CardStockXam.Players
         public MCTSLitePLayer(Perspective perspective) : base(perspective) { }
 
 
-        public override int MakeAction(List<GameActionCollection> possibles, Random rand)
-        {
-            return Choice(possibles.Count, rand);
-        }
-
-        public int Choice(int optioncount, Random random) //
+        public override int MakeAction(int optioncount) //
         {
             // GAME SIMULATIONS TEST
             Tuple<CardGame, GameIterator> game = perspective.GetPrivateGame();
@@ -163,7 +158,7 @@ namespace CardStockXam.Players
 
             // ProcessScore returns a sorted list 
             // where the winner is rank 0 for either min/max games.
-            var winners = gameIterator.ProcessScore(gameIterator.rules.scoring());
+            var winners = gameIterator.ProcessScore();
             double[] inverseRankSum = new double[numPlayers];
 
             int p = 0;

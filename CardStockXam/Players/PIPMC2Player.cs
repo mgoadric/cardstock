@@ -18,12 +18,7 @@ namespace CardStockXam.Players
             public PIPMC2Player(Perspective perspective) : base(perspective) { }
 
 
-            public override int MakeAction(List<GameActionCollection> possibles, Random rand)
-            {
-                return NumChoices(possibles.Count, rand);
-            }
-
-            public int NumChoices(int numMoves, Random rand)
+            public override int MakeAction(int numMoves)
             {
                 // SetupPrivateGame sets "privategame" equal to actualgame.clonesecret(idx) and
                 // sets "privateiterator" equal to actualgameiterator.clone()
@@ -67,7 +62,7 @@ namespace CardStockXam.Players
 
                         // ProcessScore returns a sorted list 
                         // where the winner is rank 0 for either min/max games.
-                        var winners = cloneContext.ProcessScore(cloneContext.rules.scoring());
+                        var winners = cloneContext.ProcessScore();
 
                         // TODO record everyone's ranks at all potential moves 
                         // so can give to scoretracker ??
