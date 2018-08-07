@@ -17,7 +17,7 @@ namespace CardEngine{
             other.intBins = intBins.Clone(other);
             other.stringBins = stringBins.Clone(other);
             other.pointBins = pointBins.Clone(other);
-            other.cardBins = cardBins.Clone(other);
+            other.cardBins = new CardStorage(other);
             other.teamPlayers = new List<Player>();
             return other;
         }

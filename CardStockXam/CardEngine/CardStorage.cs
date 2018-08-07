@@ -59,23 +59,10 @@ namespace CardEngine
         }
 
         /*******
-         * Returns the keys from the internal dictionary
+         * Returns the Values from the internal dictionary
          */
-        public IEnumerable<string> Keys()
-        {
-            return dict.Keys;
-        }
-
         public IEnumerable<CardCollection> Values() {
             return dict.Values;
-        }
-
-        /*******
-         * TODO Do I need this any more?
-         */
-        public CardStorage Clone(Owner other)
-        {
-            return new CardStorage(other);
         }
 
         public override bool Equals(System.Object obj)
