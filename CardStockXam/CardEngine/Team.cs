@@ -11,6 +11,15 @@ namespace CardEngine{
 
         public Team(string name, int id) : base(name, id) { }
 
+        public bool IsMember(int playerIdx) {
+            foreach (Player p in teamPlayers) {
+                if (p.id == playerIdx) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public Team Clone()
         {
             Team other = new Team(name, id);

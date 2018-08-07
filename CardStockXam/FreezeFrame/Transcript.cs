@@ -5,10 +5,10 @@ namespace FreezeFrame
 {
     public class Transcript
     {
-
+        
         // For writing the game transcript
-        public bool logging;
-        public string fileName;
+        private bool logging;
+        private string fileName;
 
         public Transcript(bool logging, string fileName)
         {
