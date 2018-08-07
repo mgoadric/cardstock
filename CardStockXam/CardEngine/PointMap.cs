@@ -3,7 +3,8 @@ using System.Collections.Generic;
 namespace CardEngine{
     public readonly struct PointMap : ICloneable{
 
-		public readonly Dictionary<string,Dictionary<string,int>> pointLookups;
+		private readonly Dictionary<string,Dictionary<string,int>> pointLookups;
+
 		public PointMap(List<ValueTuple<string, string, int>> input){
 
             pointLookups = new Dictionary<string, Dictionary<string, int>>();

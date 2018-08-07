@@ -11,8 +11,6 @@ namespace CardEngine
 {
     public class CardGame {
 
-        public string DeclaredName = "Default";
-
         public List<Card> sourceDeck = new List<Card>();
         public Owner[] table = new Owner[1];
         public Player[] players; 
@@ -27,9 +25,8 @@ namespace CardEngine
             
         }
 
-        public CardGame CloneCommon() {
+        private CardGame CloneCommon() {
             var temp = new CardGame(); //here, players is being initialzed as an empty list of players
-            temp.DeclaredName = "Special";
 
             // Clone Source Deck and Index Cards
             //*****************
@@ -62,18 +59,21 @@ namespace CardEngine
             }
 
             // Reconstruct team and player cycles
-            // SHOULD THIS BE IN THE STAGECYCLE CLASS??? DUPLICATE CODE!!!
             foreach (var cycle in this.currentPlayer.Reverse()) {
-                var newCycle = new StageCycle<Player>(temp.players); // Should be new Transcript
-                newCycle.idx = cycle.idx;
-                newCycle.queuedNext = cycle.queuedNext;
+                var newCycle = new StageCycle<Player>(temp.players)
+                {
+                    idx = cycle.idx,
+                    queuedNext = cycle.queuedNext
+                };
                 temp.currentPlayer.Push(newCycle);
             }
 
             foreach (var cycle in this.currentTeam.Reverse()) {
-                var newCycle = new StageCycle<Team>(temp.teams); // Should be new Transcript
-                newCycle.idx = cycle.idx;
-                newCycle.queuedNext = cycle.queuedNext;
+                var newCycle = new StageCycle<Team>(temp.teams)
+                {
+                    idx = cycle.idx,
+                    queuedNext = cycle.queuedNext
+                };
                 temp.currentTeam.Push(newCycle);
             }
 
@@ -92,23 +92,15 @@ namespace CardEngine
 
             var temp = CloneCommon();
 
-            Debug.WriteLine("Playerlist: " + temp.CurrentPlayer().memberList.Count());
-            Debug.WriteLine(playerIdx);
-            Debug.WriteLine("Num players in clone secret: " + temp.players.Count());
-
             // Make set of indicies for all the cards, to be removed when they are seen
             HashSet<int> free = new HashSet<int>();     
             for (int i = 0; i < sourceDeck.Count; ++i) {
                 free.Add(i);
             }
 
-            Debug.WriteLine("Calling CloneVisibleCardsfor Players");
             CloneVisibleCards(players, temp.players, temp.sourceDeck, free, playerIdx);
-            Debug.WriteLine("Calling CloneVisibleCardsfor Teams");
             CloneVisibleCards(teams, temp.teams, temp.sourceDeck, free, -1);
-            Debug.WriteLine("Calling CloneVisibleCardsfor Table");
             CloneVisibleCards(table, temp.table, temp.sourceDeck, free, -1);
-            Debug.WriteLine("Finished Visible Cloning");
 
             List<int> vals = free.ToList<int>();
 
@@ -125,15 +117,10 @@ namespace CardEngine
             IEnumerator<int> cardsLeft = vals.GetEnumerator();
             cardsLeft.MoveNext();
 
-            Debug.WriteLine("Calling AssignNonVisibleCards for Players");
             AssignNonVisibleCards(players, temp.players, temp.sourceDeck, cardsLeft, playerIdx);
-            Debug.WriteLine("Calling AssignNonVisibleCards for Teams");
             AssignNonVisibleCards(teams, temp.teams, temp.sourceDeck, cardsLeft, playerIdx);
-            Debug.WriteLine("Calling AssignNonVisibleCards for Table");
             AssignNonVisibleCards(table, temp.table, temp.sourceDeck, cardsLeft, playerIdx);
-            Debug.WriteLine("Finished AssignNonVisibleCards");
  
-            Debug.WriteLine("Numplayers at end of clonesecret: " + temp.CurrentPlayer().memberList.Count);
             Debug.WriteLine("returning from clonesecret");
 
             return temp;
@@ -144,18 +131,14 @@ namespace CardEngine
 
             var temp = CloneCommon();
 
-            Debug.WriteLine("Calling for Players");
             CloneCards(players, temp.players, temp.sourceDeck);
-            Debug.WriteLine("Calling for Teams");
             CloneCards(teams, temp.teams, temp.sourceDeck);
-            Debug.WriteLine("Calling for Table");
             CloneCards(table, temp.table, temp.sourceDeck);
-            Debug.WriteLine("Finished Cloning");
 
             return temp;
         }
 
-        public void CloneCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
+        private void CloneCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
                                List<Card> tempsourceDeck)
         {
             foreach (Owner owner in owners)
@@ -178,7 +161,7 @@ namespace CardEngine
             }
         }
 
-        public void CloneVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
+        private void CloneVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
                                       List<Card> tempsourceDeck, HashSet<int> free, int playerIdx)
         {
             foreach (Owner owner in owners)
@@ -214,7 +197,7 @@ namespace CardEngine
             }
         }
 
-        public void AssignNonVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
+        private void AssignNonVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
                                           List<Card> tempsourceDeck, IEnumerator<int> cardsLeft, int playerIdx)
         {
 
@@ -249,11 +232,12 @@ namespace CardEngine
             }
         }
                
+        // TODO Find a better way to initialize AI Players
         public void AddPlayers(int numPlayers, GameIterator gameContext) {
             players = new Player[numPlayers];
             for (int i = 0; i < numPlayers; ++i) {
                 players[i] = new Player("p" + i, i);
-                Perspective perspective = new Perspective(i, this, gameContext);
+                Perspective perspective = new Perspective(i, gameContext);
                 players[i].decision = new RandomPlayer(perspective);
             }
             currentPlayer.Push(new StageCycle<Player>(players));

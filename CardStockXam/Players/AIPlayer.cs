@@ -22,7 +22,7 @@ namespace Players
         public AIPlayer(Perspective perspective)
         {
             this.perspective = perspective;
-            numPlayers = perspective.numberofPlayers();
+            numPlayers = perspective.NumberOfPlayers();
         }
 
         /********

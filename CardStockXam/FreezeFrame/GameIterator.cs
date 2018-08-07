@@ -164,7 +164,7 @@ namespace FreezeFrame
             var scoreMethod = rules.scoring();
 
             game.PushPlayer();
-            game.CurrentPlayer().idx = 0;
+            game.CurrentPlayer().SetMember(0);
             for (int i = 0; i < game.players.Length; ++i)
             {
                 var working = ProcessInt(scoreMethod.@int());

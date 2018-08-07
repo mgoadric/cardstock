@@ -167,39 +167,6 @@ namespace CardEngine
             return ret;
         }
 
-        public string Serialize()
-        {
-            string ret = "";
-            if (children != null)
-            {
-                foreach (var node in children)
-                {
-
-                    ret += node.Serialize() + ", ";
-                }
-                if (ret.Length > 0)
-                {
-                    ret = ret.Remove(ret.Length - 1);
-                }
-            }
-            if (Value != null)
-            {
-                StringBuilder temp = new StringBuilder();
-                temp.Append("{");
-                temp.Append((Key != null ? Key : "anon"));
-                temp.Append(" : \"");
-                temp.Append(Value);
-                temp.Append("\", children : [");
-                temp.Append(ret);
-                temp.Append("]}");
-                return temp.ToString();//"{ "+(Key != null?Key : "anon")+" : \""+Value+"\", children : [" + ret + "]}";//Value + "(" + Key +  ")" +  " {" + ret + "}";
-            }
-            else
-            {
-                return "";
-            }
-        }
-
         public override string ToString()
         {
             StringBuilder ret = new StringBuilder();
@@ -225,35 +192,6 @@ namespace CardEngine
             else
             {
                 return "";
-            }
-        }
-        public string ToOutputString()
-        {
-            StringBuilder ret = new StringBuilder();
-            if (children != null)
-            {
-                foreach (var node in children)
-                {
-                    var output = node.ToOutputString();
-                    if (!output.Contains("combo"))
-                    {
-                        ret.Append(output);
-                    }
-                }
-            }
-            if (Value != null && !Value.Contains("Root"))
-            {
-                StringBuilder temp = new StringBuilder();
-                temp.Append(Value);
-                temp.Append("-");
-                temp.Append(Key);
-                temp.Append("|");
-                temp.Append(ret);
-                return temp.ToString();
-            }
-            else
-            {
-                return ret.ToString();
             }
         }
     }

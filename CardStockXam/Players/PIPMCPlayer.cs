@@ -1,91 +1,65 @@
-﻿﻿﻿﻿﻿using System;
-using System.Collections.Generic;
-using CardEngine;
-using System.Diagnostics;
+﻿using CardEngine;
 using FreezeFrame;
+using Players;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using CardStockXam.Scoring;
 
-namespace Players
+namespace CardStockXam.Players
 {
     public class PIPMCPlayer : AIPlayer
     {
-        private CardGame privategame;
-        private GameIterator privateiterator;
         private static int NUMTESTS = 10; //previously 20
 
         public PIPMCPlayer(Perspective perspective) : base(perspective) { }
-		
 
-        public override int MakeAction(int numChoices)
+        public override int MakeAction(int numMoves)
         {
-            // SetupPrivateGame sets "privategame" equal to actualgame.clonesecret(idx) and
-            // sets "privateiterator" equal to actualgameiterator.clone()
-            Tuple<CardGame, GameIterator> gameinfo = perspective.GetPrivateGame();
-            privategame = gameinfo.Item1;
-            privateiterator = gameinfo.Item2;
-            int idx = perspective.GetIdx();
 
-            Debug.WriteLine("PIPMC making choice. items: " + numChoices);
-
-            var inverseRankSum = new double[numChoices];
-
-            Debug.WriteLine("Start Monte");
+            var inverseRankSum = new double[numMoves];
 
             // can parallellize here TODO ?
             // FOR EACH POSSIBLE MOVE
-           
 
-            for (int move = 0; move < numChoices; ++move)
+
+            for (int move = 0; move < numMoves; ++move)
             {
-                Debug.WriteLine("iterating over item: " + move);
-
                 inverseRankSum[move] = 0;
 
                 Parallel.For(0, NUMTESTS, i =>   //number of tests for certain decision
                 {
-                    Debug.WriteLine("****Made Switch**** : " + i);
-
-                    // get new possible world through clonesecret
-                    //CardGame cg = gameContext.game.CloneSecret(idx);
-                    //var cloneContext = gameContext.Clone(cg);
-
-                    // JUST USING ONE CLONE SECRETGAME, CLONED FOR EACH MOVE
-                    CardGame cg = privategame.Clone();
-                    GameIterator cloneContext = privateiterator.Clone(cg);
+                    // USE A SEPERATE CLONESECRET FOR EACH GAME
+                    (CardGame cg, GameIterator cloneContext) = perspective.GetPrivateGame();
 
                     // Make the chosen move
                     List<GameActionCollection> allOptions = cloneContext.BuildOptions();
                     allOptions[move].ExecuteAll();
                     cloneContext.PopCurrentNode();
 
-                    // Assign the AI players for rollout game
+                    // Assign the AI players for rollout game, with the 
+                    // selected item chosen first when you get your turn
                     for (int j = 0; j < numPlayers; j++)
                     {
                         cg.players[j].decision = new RandomPlayer(perspective);
                     }
-
-                    Debug.WriteLine("Playing a simulated game");
 
                     while (!cloneContext.AdvanceToChoice())
                     {
                         cloneContext.ProcessChoice();
                     }
 
-                    Debug.WriteLine("Simulated Game is Over");
-
                     // ProcessScore returns a sorted list 
                     // where the winner is rank 0 for either min/max games.
                     var winners = cloneContext.ProcessScore();
-
-                    Debug.WriteLine("past ProcessScore");
 
                     // TODO record everyone's ranks at all potential moves 
                     // so can give to scoretracker ??
                     for (int j = 0; j < numPlayers; ++j)
                     {
                         // if player is me
-                        if (winners[j].Item2 == idx)
+                        if (winners[j].Item2 == perspective.GetIdx())
                         {
 
                             // add your rank to the results of this choice
@@ -98,22 +72,16 @@ namespace Players
                         }
                     }
 
-                    Debug.WriteLine("saved the inverseRankSum");
                 });
             }
 
-			Debug.WriteLine("End Monte");
-
             // FIND BEST (and worst) MOVE TO MAKE
-            (var minidx, var maxidx) = MinMaxIdx(inverseRankSum);
-
-            Debug.WriteLine("Max invRankSum: " + maxidx);
-            Debug.WriteLine("PIPMC Finished.");
+            var tup = MinMaxIdx(inverseRankSum);
 
             // Record info for heuristic evaluation
             RecordHeuristics(inverseRankSum);
 
-            return maxidx;
+            return tup.Item2;
         }
     }
 }

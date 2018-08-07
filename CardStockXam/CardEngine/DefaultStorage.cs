@@ -69,14 +69,6 @@ namespace CardEngine
         }
 
         /*******
-         * Returns the keys from the internal dictionary
-         */
-        public IEnumerable<string> Keys()
-        {
-            return dict.Keys;
-        }
-
-        /*******
          * Clone the objects to make a complete copy
          */
         public DefaultStorage<T> Clone(Owner other)

@@ -15,6 +15,8 @@ namespace Players
         public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree = new Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]>();
         private CardGame privategame;
         private GameIterator privateiterator;
+        private static int NUMTESTS = 10; //previously 20
+
         public MCTSPLayer(Perspective perspective) : base(perspective) { }
         
 
@@ -27,7 +29,7 @@ namespace Players
             int myidx = perspective.GetIdx();
             movestates = new Dictionary<int, CardGame>();
 
-            for (int i = 0; i < 10 * numChoices; i++)
+            for (int i = 0; i < NUMTESTS * numChoices; i++)
             {
                 RunSimulation();
             }

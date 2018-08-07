@@ -15,6 +15,7 @@ namespace CardEngine{
 
         public readonly IReadOnlyList<T> memberList;
 
+        // TODO should these be properties, so others can get but not set? Will this impact performance?
         // The current player
         public int idx = 0;
 
