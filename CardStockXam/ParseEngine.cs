@@ -153,15 +153,18 @@ public class ParseEngine
 	            numPlayers = results.Count();
 	            for (int j = 0; j < results.Count; ++j)
 	            {
-	                aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
-	                if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
+                    lock (this)
+                    {
+                        aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
+                        if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
 
-	                playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
-	                // if player was ranked first (could be win or loss)
-	                if (j == 0)
-	                {
-	                    playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
-	                }	              
+                        playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
+                        // if player was ranked first (could be win or loss)
+                        if (j == 0)
+                        {
+                            playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
+                        }
+                    }
 	            }
 
 	            if (gameWorld != null) {

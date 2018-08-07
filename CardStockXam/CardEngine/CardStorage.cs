@@ -12,7 +12,6 @@ namespace CardEngine
     public class CardStorage
     {
         private readonly Dictionary<string, CardCollection> dict = new Dictionary<string, CardCollection>();
-        private CardCollection[] defaultCCs;
         public Owner owner;
 
         /*******
@@ -20,12 +19,6 @@ namespace CardEngine
          */
         public CardStorage(Owner owner)
         {
-            defaultCCs = new CardCollection[4];
-            for (int i = 0; i < 4; i++)
-            {
-                defaultCCs[i] = new CardCollection((CCType)i);
-                defaultCCs[i].owner = this;
-            }
             this.owner = owner;
         }
 
@@ -55,8 +48,11 @@ namespace CardEngine
             string name = type + ":" + key;
             if (!dict.ContainsKey(name))
             {
-                CardCollection ncc = defaultCCs[(int)type].Clone();
-                ncc.name = key;
+                CardCollection ncc = new CardCollection(type)
+                {
+                    owner = this,
+                    name = key
+                };
                 dict[name] = ncc;
 
             }
