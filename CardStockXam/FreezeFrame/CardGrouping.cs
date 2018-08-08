@@ -12,8 +12,8 @@ namespace FreezeFrame{
 		}
 	}
 	public class CardGrouping{
-		CardCollection[] array;
-		PointMap score;
+		private CardCollection[] array;
+		private  score;
 		public CardGrouping(int numBins, PointMap scoring){
             array = new CardCollection[numBins];
             Reset();
