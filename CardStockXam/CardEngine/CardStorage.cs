@@ -88,6 +88,58 @@ namespace CardEngine
             return true;
         }
 
+    
+            public bool InfoSetEqual(CardStorage s2, int playeridx)
+            {
+                foreach (string k in dict.Keys)
+                {
+                    CardCollection collection1 = dict[k];
+                    if (collection1.type == CCType.VISIBLE || collection1.type == CCType.MEMORY
+                        || (collection1.type == CCType.INVISIBLE && owner.GetType() == typeof(Player)
+                        && owner.id == playeridx) || (owner.GetType() == typeof(Team)
+                        && ((Team)owner).IsMember(playeridx)))
+                    {
+                        if (s2.dict.Keys.Contains(k))
+                        {
+                            if (!collection1.Equals(s2.dict[k]))
+                            { return false; }
+                        }
+                        else
+                        { return false; }
+                    }
+                    else
+                    {
+                        if (dict[k].Count != s2.dict[k].Count)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            public int GetInfoSetHashCode(int playeridx)
+            {
+                int ret = 0;
+
+                foreach (string k in dict.Keys)
+                {
+                    CardCollection collection1 = dict[k];
+                    if (collection1.type == CCType.VISIBLE || collection1.type == CCType.MEMORY
+                        || (collection1.type == CCType.INVISIBLE && owner.GetType() == typeof(Player)
+                        && owner.id == playeridx) || (owner.GetType() == typeof(Team)
+                        && ((Team)owner).IsMember(playeridx)))
+                    {
+                        ret ^= dict[k].GetHashCode();
+                    }
+                    else
+                    {
+                        ret ^= dict[k].Count;
+                    }
+                }
+                return ret;
+            }
+     
+
         public override int GetHashCode()
         {
             int hash = 0;

@@ -237,6 +237,7 @@
     <Compile Include="FreezeFrame\IterItem.cs" />
     <Compile Include="FreezeFrame\IteratingTree.cs" />
     <Compile Include="FreezeFrame\RecycleVariables.cs" />
+    <Compile Include="Players\ISMCTSPlayer.cs" />
     <Compile Include="Players\MCTSLitePlayer.cs" />
     <Compile Include="Players\MCTSPLayer.cs" />
     <Compile Include="Players\Perspective.cs" />

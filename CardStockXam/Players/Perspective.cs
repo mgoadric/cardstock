@@ -55,6 +55,8 @@ namespace Players
         public bool TestingCloneSecret()
         {
             CardGame cg = actualgameiterator.game.CloneSecret(0);
+            
+
             if (!cg.Equals(actualgameiterator.game))
             { Console.WriteLine("CloneSecret CardGame not equal -- Returning False"); return false; }
 
