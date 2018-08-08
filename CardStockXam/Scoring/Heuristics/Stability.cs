@@ -13,7 +13,7 @@ namespace CardStockXam.Scoring.Heuristics
         {
             // returns the degree to which relative player
             // ranks remain stable
-
+            Console.WriteLine("Testing Stability");
 			if (w.numAIvsAI == 0)
 			{
 				return 0;
@@ -44,6 +44,8 @@ namespace CardStockXam.Scoring.Heuristics
                     rankings.Add(rank);
                 }
             }
+            Console.WriteLine("Calculations Complete");
+
             for (int i = 0; i < rankings.Count - 1; i++)
             {
                 for (int j = 0; j < rankings[i].Count(); j++)
@@ -58,6 +60,7 @@ namespace CardStockXam.Scoring.Heuristics
             // needs to return this on a bell curve where 
             // if diff / total = .5 return 1 and as approaches
             // either end return 0
+            Console.WriteLine("Total in Stability is " + total);
             return 1 - ((double)diff / total);
 
 

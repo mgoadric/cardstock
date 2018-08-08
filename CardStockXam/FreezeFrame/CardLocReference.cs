@@ -23,7 +23,6 @@ namespace FreezeFrame{
                 name = String.Copy(name) + " - Copy",
                 actual = actual,
             };
-            // NEED TO AddToMap(loc); TODO
             return loc;
         }
 
@@ -37,6 +36,7 @@ namespace FreezeFrame{
                     cardList.AddBottom(c);
                     break;
                 case "-1":
+                    // SHOULD THIS THROW EXCEPTION INSTEAD?
                     cardList.Add(c);
                     break;
                 default:
@@ -57,11 +57,14 @@ namespace FreezeFrame{
                     e.MoveNext();
                     return e.Current;
                 case "-1":
+                    // SHOULD THIS THROW EXCEPTION INSTEAD?
                     return cardList.Peek();
                 default:
                     return cardList.Get(Int32.Parse(locIdentifier));
             }
         }
+
+        // TODO Can we speed up removal for the cardList if we know locIdentifier
 		public Card Remove(){
             var card = Get();
             if (actual){
