@@ -1,6 +1,6 @@
 ﻿# RECYCLEd CardStock V2.0
 
-![UML Diagram](CardStock.png){:class="img-fluid"}
+![UML Diagram](CardStock.png)
 
 ## Project Goals
 
@@ -11,7 +11,9 @@ analyze the games to determine heuristics about the games
 such as fairness, decisiveness, drama, or clarity, and generate transcripts of
 each simulation for further study.
 
-We are currently in the process of abstracting and refactoring CardStock to allow
+There are currently 18 games coded in RECYCLE, from genres such as 
+press-your-luck, fishing, adding, draw-and-discard, and trick-taking
+games. We are currently in the process of abstracting and refactoring CardStock to allow
 for new game functionality and setting up a modular system for a
 tournament of AI players. Please check back for further progress on these issues.
 
