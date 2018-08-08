@@ -132,7 +132,6 @@ namespace Players
 
                     if (!movestatetree.ContainsKey(deliberator))
                     {
-                        Console.WriteLine("adding to movestate tree");
                         movestatetree[deliberator] = new Tuple<CardGame, int>[choicenum];
                     }
                     else if (movestatetree[deliberator].Length != choicenum)

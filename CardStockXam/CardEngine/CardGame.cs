@@ -390,7 +390,7 @@ namespace CardEngine
             { return false; }
 
             (CardGame game1, int movera) = g1;
-            (CardGame game2, int moverb) = g1;
+            (CardGame game2, int moverb) = g2;
 
 
             if (!(game1.teams.Count() == game2.teams.Count()))
@@ -412,7 +412,7 @@ namespace CardEngine
             }
 
             if (!(game1.currentPlayer.SequenceEqual(game2.currentPlayer)))
-            { Console.WriteLine("Stack of player StageCycles not equal"); return false; }
+            { Console.WriteLine("Stack of player cycles not equal"); return false; }
 
             if (!(game1.currentTeam.SequenceEqual(game2.currentTeam)))
             { Console.WriteLine("Stack of team StageCycles not equal"); return false; }

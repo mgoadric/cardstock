@@ -95,10 +95,16 @@ namespace CardEngine
 
             if (this as Team != null && otherowner as Team != null)
             {
-                Team thisteam = this as Team; Team otherteam = otherowner as Team;
-                if (!thisteam.teamPlayers.SequenceEqual(otherteam.teamPlayers))
-                { Console.WriteLine("Team specific owner failure");
-                    return false; }
+                Team thisteam = this as Team; 
+                Team otherteam = otherowner as Team;
+                for (int i = 0; i < thisteam.teamPlayers.Count; i++)
+                {
+                    if (thisteam.teamPlayers[i].id != otherteam.teamPlayers[i].id)
+                    {
+                        Console.WriteLine("Team player id's not the same");
+                        return false;
+                    }
+                }
             }
             //SPECIAL THINGS FOR OTHER OWNERS??
 
