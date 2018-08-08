@@ -4,43 +4,77 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace Players
 {
-    //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
-    public class MCTSPLayer : AIPlayer
+    //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/ // ADD OTHER PAPER
+    public class ISMCTSPlayer : AIPlayer
     {
-        public Dictionary<Tuple<CardGame, int>, int> plays; 
+        public Dictionary<Tuple<CardGame, int>, int> plays;
         public Dictionary<Tuple<CardGame, int>, double> wins;
         public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree;
         private CardGame privategame;
         private GameIterator privateiterator;
-        private static int NUMTESTS = 10; //previously 20
+        private int playeridx;
+        private static int NUMTESTS = 5; //previously 20
 
-        public MCTSPLayer(Perspective perspective) : base(perspective) {
-            plays = new Dictionary<Tuple<CardGame, int>, int>();
-            wins = new Dictionary<Tuple<CardGame, int>, double>();
-            movestatetree = new Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]>();
+        public ISMCTSPlayer(Perspective perspective) : base(perspective)
+        {
+            playeridx = perspective.GetIdx();
+            plays = new Dictionary<Tuple<CardGame, int>, int>(new InfoSetComparison(playeridx));
+            wins = new Dictionary<Tuple<CardGame, int>, double>(new InfoSetComparison(playeridx));
+            movestatetree = new Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]>(new InfoSetComparison(playeridx));
         }
-        
+
 
         public override int MakeAction(int numChoices)
         {
             // GAME SIMULATIONS TEST
-            (privategame, privateiterator) = perspective.GetPrivateGame();
-            int myidx = perspective.GetIdx();
 
-            for (int i = 0; i < NUMTESTS * numChoices; i++)
+            int myidx = perspective.GetIdx();
+            int deals = 3;
+            // TEST ()
+            /*(privategame, privateiterator) = perspective.GetPrivateGame();
+            plays.Add(new Tuple<CardGame, int>(privategame, myidx), 1);
+            CardGame infotest = privategame.CloneSecret(myidx);
+            
+            if (infotest.Equals(privategame))
+            { Console.WriteLine("?"); }
+            if (plays.ContainsKey(new Tuple<CardGame, int>(infotest, myidx)))
             {
-                RunSimulation();
+                plays[new Tuple<CardGame, int>(infotest, myidx)] += 1;
+                Console.WriteLine(infotest.ToString());
+                Console.WriteLine(privategame.ToString());
+            }
+            else
+            {
+                foreach (Tuple<CardGame, int> k in plays.Keys)
+                {
+                    Console.WriteLine(k.Item2);
+                    Console.WriteLine(k.Item2.ToString());
+                }
+            }
+            Console.ReadLine();
+            Environment.Exit(0);*/
+
+            for (int d = 1; d <= deals; d++)
+            {
+                (privategame, privateiterator) = perspective.GetPrivateGame();
+                //Console.WriteLine("Deal: " + d + " Play Count: " + plays.Count + "\r\n");
+                for (int i = 0; i < NUMTESTS * numChoices; i++)
+                {
+                    RunSimulation();
+                }
+                Console.WriteLine("Deal: " + d + " Play Count: " + plays.Count + "\r\n");
             }
             //Console.WriteLine("Game after: " + cardGamesx[0]);
 
             //int j = 0;
             //foreach(var k in plays.Keys)
             //{
-                //Console.WriteLine(j + " --> " + plays[k] + " --> " + wins[k]);
-           //     j++;
-           // }
+            //Console.WriteLine(j + " --> " + plays[k] + " --> " + wins[k]);
+            //     j++;
+            // }
 
             double[] moverankingarray = new double[numChoices];
             Tuple<CardGame, int>[] movestates = movestatetree[new Tuple<CardGame, int>(privategame, myidx)];
@@ -49,7 +83,8 @@ namespace Players
 
                 if (movestates[x] != null)
                 {
-                    Tuple<CardGame,int> stateandplayer = movestates[x];
+                    Tuple<CardGame, int> stateandplayer = movestates[x];
+                    Console.WriteLine("Choice " + x + ":\t" + "Plays: " + plays[stateandplayer] + " Wins: " + wins[stateandplayer]);
                     moverankingarray[x] = wins[stateandplayer] / plays[stateandplayer];
                 }
             }
@@ -66,7 +101,8 @@ namespace Players
             // Movelist should be tuple array with each entry a state and a who played it
             // Its key should be a state and the idx of the player in charge
 
-            HashSet<Tuple<CardGame, int>> visitedstates = new HashSet<Tuple<CardGame, int>>();
+            // Which equality should this use?
+            HashSet<Tuple<CardGame, int>> visitedstates = new HashSet<Tuple<CardGame, int>>(new InfoSetComparison(playeridx));
             CardGame cg = privategame.Clone();
             GameIterator gameIterator = privateiterator.Clone(cg);
             for (int j = 0; j < numPlayers; j++)
@@ -80,21 +116,51 @@ namespace Players
             // "Playing a simulated game"
             while (!gameIterator.AdvanceToChoice())
             {
-                List<GameActionCollection> allOptions = gameIterator.BuildOptions();
+
                 int idx = cg.currentPlayer.Peek().idx;
+
                 Tuple<CardGame, int>[] movelist = null;
                 int c = 0;
-                if (expand)
-                {
-                    int choicenum = allOptions.Count;
-                    Tuple<CardGame, int> deliberator = Tuple.Create<CardGame, int>(cg.Clone(), idx); 
 
-                    if (!movestatetree.Keys.Contains(deliberator))
+                if (expand && idx == playeridx)
+                {
+                    List<GameActionCollection> allOptions = gameIterator.BuildOptions();
+                    int choicenum = allOptions.Count;
+                  
+                    Tuple<CardGame, int> deliberator = Tuple.Create<CardGame, int>(cg.Clone(), idx);
+
+
+                    if (!movestatetree.ContainsKey(deliberator))
                     {
+                        Console.WriteLine("adding to movestate tree");
                         movestatetree[deliberator] = new Tuple<CardGame, int>[choicenum];
                     }
-                    movelist = movestatetree[deliberator];
+                    else if (movestatetree[deliberator].Length != choicenum)
+                    {
+                        if (idx == 0)
+                        {
+                            Console.WriteLine(idx);
+                            Console.WriteLine("Old length: " + movestatetree[deliberator].Length + " vs. New Length:  " + choicenum);
 
+                            InfoSetComparison ca = (InfoSetComparison)movestatetree.Comparer;
+                            foreach (Tuple<CardGame,int> k in movestatetree.Keys)
+                            {
+                                
+                                if (ca.Equals(deliberator, k))
+                                {
+                                    Console.WriteLine(k.Item1.ToString());
+                                    Console.WriteLine(cg.ToString());
+                                    Console.ReadLine();
+                                    Environment.Exit(0);
+                                } 
+                            }
+                            Console.ReadLine();
+                            Environment.Exit(0);
+                        }
+                        movestatetree[deliberator] = new Tuple<CardGame, int>[choicenum];
+                    }
+
+                    movelist = movestatetree[deliberator];
                     //Console.WriteLine("Choice num: " + choicenum + " Movelist Count: " + movelist.Count(s => s != null));
                     if (movelist.Count(s => s != null) == choicenum)
                     {
@@ -130,12 +196,12 @@ namespace Players
                 else { c = gameIterator.ProcessChoice(); }
 
                 CardGame savestate = gameIterator.game.Clone();
-               
+
                 // Stateandplayer is Tuple with state after move, and the idx of the player who made the move
                 Tuple<CardGame, int> stateandplayer = Tuple.Create<CardGame, int>(savestate, idx);
 
                 // IF THIS IS THE FIRST SIMULATION WHICH HAS ARRIVED AT THIS STATE::
-                if (expand && (!plays.Keys.Contains(stateandplayer)))
+                if (expand && (!plays.Keys.Contains(stateandplayer)) && playeridx == idx)
                 {
                     expand = false;
                     plays[stateandplayer] = 0;
@@ -154,43 +220,26 @@ namespace Players
             foreach (Tuple<int, int> scoreandidx in winners)
             {
                 inverseRankSum[scoreandidx.Item2] = ((double)1) / (p + 1);
-                p++;   
+                p++;
             }
             // GO THROUGH VISITED STATES
+
+
+            //SOMETHING FAILING HERE
+
             foreach (Tuple<CardGame, int> stateandplayer in visitedstates)
             {
                 if (plays.Keys.Contains(stateandplayer))
                 {
                     plays[stateandplayer] += 1;
+                    //Console.WriteLine(inverseRankSum.Length);
+                    //Console.WriteLine(stateandplayer.Item2);
                     wins[stateandplayer] += inverseRankSum[stateandplayer.Item2];
                 }
+
             }
-        }
+        } 
     }
 }
 
 
-
-
-/*
-Tuple<CardGame, GameIterator> temp =  perspective.GetPrivateGame();
-privategame = temp.Item1;
-privateiterator = temp.Item2;
-
-// TEST CLONE 
-if (perspective.TestingClone())
-{ Console.WriteLine("Clone Equals"); }
-else { Console.WriteLine(("Doesn't Equal")); }
-
-// TEST CLONESECRET
-perspective.TestingCloneSecret();
-
-// TEST CLONESECRETCLONE
-perspective.TestCloneSecretClone();
-
-//HASHCODE TESTING
-CardGame simgame = privateiterator.game.Clone();
-CardGame test = simgame.Clone();
-if (simgame.Equals(test)) { Console.WriteLine("equality check"); }
-Console.WriteLine("simgame hash: " + simgame.GetHashCode() + " vs. test hash: " + test.GetHashCode());
-*/

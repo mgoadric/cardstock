@@ -135,7 +135,7 @@ namespace CardEngine
         {
             StringBuilder ret = new StringBuilder();
             ret.Append("CardCollection " + name + " (CC TYPE: " + type.ToString() + ")\r\n");
-            if (cards.Count == 0) { ret.Append("|CardCollection is empty|"); }
+            if (cards.Count == 0) { ret.Append("|CardCollection is empty|\r\n"); }
             foreach (Card card in cards)
             {
                 ret.Append(card.ToString() + "\r\n");

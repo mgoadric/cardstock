@@ -24,9 +24,7 @@ namespace CardStockXam.Players
         public override int MakeAction(int optioncount) //
         {
             // GAME SIMULATIONS TEST
-            Tuple<CardGame, GameIterator> game = perspective.GetPrivateGame();
-            privategame = game.Item1;
-            privateiterator = game.Item2;
+            (CardGame privategame, GameIterator privateiterator) = perspective.GetPrivateGame();
             int myidx = perspective.GetIdx();
             movestates = new Dictionary<int, CardGame>();
 
@@ -139,8 +137,8 @@ namespace CardStockXam.Players
                         { movestates[c] = savestate; }
                         first = false;
                     }
+                    
                     // Stateandplayer is Tuple with state after move, and the idx of the player who made the move
-
                     Tuple<CardGame, int> stateandplayer = Tuple.Create<CardGame, int>(savestate, idx);
 
                     // IF THIS IS THE FIRST SIMULATION WHICH HAS ARRIVED AT THIS STATE::

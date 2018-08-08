@@ -142,12 +142,7 @@ namespace CardEngine{
 
         public override int GetHashCode()
         {
-            int hash = 0;
-            foreach (var member in memberList)
-            {
-                hash ^= member.GetHashCode();
-            }
-            return idx.GetHashCode() ^ hash ^ queuedNext.GetHashCode();
+            return idx.GetHashCode() ^ queuedNext.GetHashCode();
         }
 
     }

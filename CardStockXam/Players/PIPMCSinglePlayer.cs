@@ -19,7 +19,7 @@ namespace Players
         {
             // SetupPrivateGame sets "privategame" equal to actualgame.clonesecret(idx) and
             // sets "privateiterator" equal to actualgameiterator.clone()
-            (CardGame privategame, GameIterator privateiterator) gameinfo = perspective.GetPrivateGame();
+            (CardGame privategame, GameIterator privateiterator) = perspective.GetPrivateGame();
             int idx = perspective.GetIdx();
 
             Debug.WriteLine("PIPMC making choice. items: " + numChoices);

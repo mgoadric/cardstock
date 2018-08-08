@@ -13,7 +13,7 @@ namespace CardGames
         {
             //CardStockXam.Scorer.Main(args);
             var p = new Program();
-            p.SingleGame("games/ContinuousPairs.gdl");
+            p.SingleGame("games/Hearts.gdl");
             //p.AllGames();
         }
 
@@ -21,8 +21,8 @@ namespace CardGames
 			var exp = new Experiment();
 			exp.fileName = game;
             // System.Console.WriteLine(g.Substring(6, g.Length - 4));
-            exp.numGames = 100;
-			exp.numEpochs = 10;
+            exp.numGames = 1;
+            exp.numEpochs = 1;
 
             exp.logging = true;
             exp.evaluating = false;
