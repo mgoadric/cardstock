@@ -65,7 +65,6 @@ namespace Players
                 {
                     RunSimulation();
                 }
-                Console.WriteLine("Deal: " + d + " Play Count: " + plays.Count + "\r\n");
             }
             //Console.WriteLine("Game after: " + cardGamesx[0]);
 
@@ -84,7 +83,7 @@ namespace Players
                 if (movestates[x] != null)
                 {
                     Tuple<CardGame, int> stateandplayer = movestates[x];
-                    Console.WriteLine("Choice " + x + ":\t" + "Plays: " + plays[stateandplayer] + " Wins: " + wins[stateandplayer]);
+                    //Console.WriteLine("Choice " + x + ":\t" + "Plays: " + plays[stateandplayer] + " Wins: " + wins[stateandplayer]);
                     moverankingarray[x] = wins[stateandplayer] / plays[stateandplayer];
                 }
             }
@@ -122,7 +121,7 @@ namespace Players
                 Tuple<CardGame, int>[] movelist = null;
                 int c = 0;
 
-                if (expand && idx == playeridx)
+                if (expand)
                 {
                     List<GameActionCollection> allOptions = gameIterator.BuildOptions();
                     int choicenum = allOptions.Count;
@@ -179,7 +178,7 @@ namespace Players
                 Tuple<CardGame, int> stateandplayer = Tuple.Create<CardGame, int>(savestate, idx);
 
                 // IF THIS IS THE FIRST SIMULATION WHICH HAS ARRIVED AT THIS STATE::
-                if (expand && (!plays.Keys.Contains(stateandplayer)) && playeridx == idx)
+                if (expand && (!plays.Keys.Contains(stateandplayer)))
                 {
                     expand = false;
                     plays[stateandplayer] = 0;

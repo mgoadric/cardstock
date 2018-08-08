@@ -104,10 +104,8 @@ namespace FreezeFrame {
                     var arrow = " -> ";
                     if (inChoice) { prefix = "N:"; arrow = " ?-> "; }
 
-                    if (!script.logging)
-                    {
-                        script.WriteToFile(prefix + cardToMove.ToString() + " " + owner.TranscriptName() + arrow + endLocation.cardList.TranscriptName());
-                    }
+                    script.WriteToFile(prefix + cardToMove.ToString() + " " + owner.TranscriptName() + arrow + endLocation.cardList.TranscriptName());
+
                     Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
                 }
                 else {
