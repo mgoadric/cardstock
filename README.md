@@ -1,19 +1,19 @@
-﻿# Abstract Card Game Design and Analysis
+﻿# RECYCLEd CardStock V2.0
+
+![UML Diagram](CardStock.png){:class="img-fluid"}
 
 ## Project Goals
 
-Card games have long been enjoyed by children and adults of all ages. However, some card games are more
-popular than others. Our research goal is to computationally simulate various card games and quantify
-their quality automatically. We have thus far developed two components: a card
-game description language. and an interpreter for this language. Using these
-components, we can generate sample run transcripts and analyze their game flow. 
+CardStock is a General Game Playing engine for card games implemented 
+in C#. Games are written in RECYCLE, a card game description language, and
+then simulations are run with random, simple, and complex AI players. CardStock can then
+analyze the games to determine heuristics about the games
+such as fairness, decisiveness, drama, or clarity, and generate transcripts of
+each simulation for further study.
 
-First, we created a language, titled RECYCLE, in which turn-based games can be represented. We restrict
-ourselves to games which use only cards and numeric tokens and where all card locations are spatially independent.
-Second, we implemented a library, written in C#, called Card Stock, which contains the functions and
-mechanisms necessary to run RECYCLE programs and executes the basic operations performed in these card
-games. The games written in RECYCLE are simulated with random players to collect statistics, such as player
-branching factor, average game length, game complexity, etc.
+We are currently in the process of abstracting and refactoring CardStock to allow
+for new game functionality and setting up a modular system for a
+tournament of AI players. Please check back for further progress on these issues.
 
 ## Requirements
 
@@ -34,7 +34,3 @@ branching factor, average game length, game complexity, etc.
 Connor Bell and Mark Goadrich
 
 Game & Puzzle Design Journal, Vol 2, Issue 1, July 2016
-
-
-Hello
-See Ya Later
