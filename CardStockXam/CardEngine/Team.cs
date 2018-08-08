@@ -11,13 +11,22 @@ namespace CardEngine{
 
         public Team(string name, int id) : base(name, id) { }
 
+        public bool IsMember(int playerIdx) {
+            foreach (Player p in teamPlayers) {
+                if (p.id == playerIdx) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public Team Clone()
         {
             Team other = new Team(name, id);
             other.intBins = intBins.Clone(other);
             other.stringBins = stringBins.Clone(other);
             other.pointBins = pointBins.Clone(other);
-            other.cardBins = cardBins.Clone(other);
+            other.cardBins = new CardStorage(other);
             other.teamPlayers = new List<Player>();
             return other;
         }

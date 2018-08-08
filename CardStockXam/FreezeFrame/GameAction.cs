@@ -22,9 +22,6 @@ namespace FreezeFrame {
         }
         public abstract void Execute();
         public abstract void Undo();
-        public String Serialize() {
-            return "";
-        }
     }
 
     public class GameActionCollection : List<GameAction>

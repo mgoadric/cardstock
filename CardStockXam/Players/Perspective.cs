@@ -11,29 +11,27 @@ namespace Players
     public class Perspective
     {
         private int idx;
-        private CardGame cardgame;
         private GameIterator actualgameiterator;
 
         // Perspective class: This class privitizes the actual game, while giving privileges to the player to 
         // do whatever it wants with the cloned game and cloned game iterator.
         // A player who has a 'perspective' doesn't have privilege to accesss the gameiterator or cardgame.
 
-        public Perspective(int idx, CardGame cardgame, GameIterator actualgameiterator)
+        public Perspective(int idx, GameIterator actualgameiterator)
         {
             this.idx = idx;
-            this.cardgame = cardgame;
             this.actualgameiterator = actualgameiterator;
         }
 
         public Tuple<CardGame, GameIterator> GetPrivateGame()
         {
-            CardGame privategame = cardgame.CloneSecret(idx);
+            CardGame privategame = actualgameiterator.game.CloneSecret(idx);
             GameIterator privategameiterator = actualgameiterator.Clone(privategame);
             return new Tuple<CardGame, GameIterator>(privategame, privategameiterator);
         }
 
-        public int numberofPlayers()
-        { return cardgame.players.Length; }
+        public int NumberOfPlayers()
+        { return actualgameiterator.game.players.Length; }
 
         public int GetIdx()
         { return idx; }
@@ -43,8 +41,8 @@ namespace Players
 
         public bool TestingClone()
         {
-            CardGame cg = cardgame.Clone();
-            if (!cg.Equals(cardgame))
+            CardGame cg = actualgameiterator.game.Clone();
+            if (!cg.Equals(actualgameiterator.game))
             { Console.WriteLine("Clone CardGame Not Equal -- Returning false"); return false; }
 
             GameIterator g1 = new GameIterator(actualgameiterator.rules, cg, actualgameiterator.gameWorld, "blah", false);
@@ -56,8 +54,10 @@ namespace Players
         }
         public bool TestingCloneSecret()
         {
-            CardGame cg = cardgame.CloneSecret(0);
-            if (!cg.Equals(cardgame))
+            CardGame cg = actualgameiterator.game.CloneSecret(0);
+            
+
+            if (!cg.Equals(actualgameiterator.game))
             { Console.WriteLine("CloneSecret CardGame not equal -- Returning False"); return false; }
 
             GameIterator g1 = new GameIterator(actualgameiterator.rules, cg, actualgameiterator.gameWorld, "blah", false);
@@ -69,7 +69,7 @@ namespace Players
         }
         public bool TestCloneSecretClone()
         {
-            CardGame cg = cardgame.CloneSecret(0);
+            CardGame cg = actualgameiterator.game.CloneSecret(0);
             CardGame clone = cg.Clone();
             CardGame clone2 = clone.Clone();
             if (clone.Equals(cg))

@@ -12,7 +12,6 @@ namespace CardEngine
     public class CardStorage
     {
         private readonly Dictionary<string, CardCollection> dict = new Dictionary<string, CardCollection>();
-        private CardCollection[] defaultCCs;
         public Owner owner;
 
         /*******
@@ -20,12 +19,6 @@ namespace CardEngine
          */
         public CardStorage(Owner owner)
         {
-            defaultCCs = new CardCollection[4];
-            for (int i = 0; i < 4; i++)
-            {
-                defaultCCs[i] = new CardCollection((CCType)i);
-                defaultCCs[i].owner = this;
-            }
             this.owner = owner;
         }
 
@@ -55,31 +48,21 @@ namespace CardEngine
             string name = type + ":" + key;
             if (!dict.ContainsKey(name))
             {
-                CardCollection ncc = defaultCCs[(int)type].Clone();
-                ncc.name = key;
+                CardCollection ncc = new CardCollection(type)
+                {
+                    owner = this,
+                    name = key
+                };
                 dict[name] = ncc;
 
             }
         }
 
         /*******
-         * Returns the keys from the internal dictionary
+         * Returns the Values from the internal dictionary
          */
-        public IEnumerable<string> Keys()
-        {
-            return dict.Keys;
-        }
-
         public IEnumerable<CardCollection> Values() {
             return dict.Values;
-        }
-
-        /*******
-         * TODO Do I need this any more?
-         */
-        public CardStorage Clone(Owner other)
-        {
-            return new CardStorage(other);
         }
 
         public override bool Equals(System.Object obj)
@@ -104,6 +87,58 @@ namespace CardEngine
         
             return true;
         }
+
+    
+            public bool InfoSetEqual(CardStorage s2, int playeridx)
+            {
+                foreach (string k in dict.Keys)
+                {
+                    CardCollection collection1 = dict[k];
+                    if (collection1.type == CCType.VISIBLE || collection1.type == CCType.MEMORY
+                        || (collection1.type == CCType.INVISIBLE && owner.GetType() == typeof(Player)
+                        && owner.id == playeridx) || (owner.GetType() == typeof(Team)
+                        && ((Team)owner).IsMember(playeridx)))
+                    {
+                        if (s2.dict.Keys.Contains(k))
+                        {
+                            if (!collection1.Equals(s2.dict[k]))
+                            { return false; }
+                        }
+                        else
+                        { return false; }
+                    }
+                    else
+                    {
+                        if (dict[k].Count != s2.dict[k].Count)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            public int GetInfoSetHashCode(int playeridx)
+            {
+                int ret = 0;
+
+                foreach (string k in dict.Keys)
+                {
+                    CardCollection collection1 = dict[k];
+                    if (collection1.type == CCType.VISIBLE || collection1.type == CCType.MEMORY
+                        || (collection1.type == CCType.INVISIBLE && owner.GetType() == typeof(Player)
+                        && owner.id == playeridx) || (owner.GetType() == typeof(Team)
+                        && ((Team)owner).IsMember(playeridx)))
+                    {
+                        ret ^= dict[k].GetHashCode();
+                    }
+                    else
+                    {
+                        ret ^= dict[k].Count;
+                    }
+                }
+                return ret;
+            }
+     
 
         public override int GetHashCode()
         {

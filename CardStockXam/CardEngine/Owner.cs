@@ -54,7 +54,7 @@ namespace CardEngine
             other.intBins = intBins.Clone(other);
             other.stringBins = stringBins.Clone(other);
             other.pointBins = pointBins.Clone(other);
-            other.cardBins = cardBins.Clone(other);
+            other.cardBins = new CardStorage(other);
             return other;
         }
 
@@ -71,7 +71,10 @@ namespace CardEngine
 
         public override bool Equals(System.Object obj) // USE THIS AS GENERAL OWNER CHECK --
         {
-            
+            return BetterEquals(obj, false, -1);
+        }
+
+        public bool BetterEquals(System.Object obj, bool infoset, int playeridx) { 
             if (obj == null)
             { Console.WriteLine("owner is null"); return false; }
            
@@ -92,10 +95,16 @@ namespace CardEngine
 
             if (this as Team != null && otherowner as Team != null)
             {
-                Team thisteam = this as Team; Team otherteam = otherowner as Team;
-                if (!thisteam.teamPlayers.SequenceEqual(otherteam.teamPlayers))
-                { Console.WriteLine("Team specific owner failure");
-                    return false; }
+                Team thisteam = this as Team; 
+                Team otherteam = otherowner as Team;
+                for (int i = 0; i < thisteam.teamPlayers.Count; i++)
+                {
+                    if (thisteam.teamPlayers[i].id != otherteam.teamPlayers[i].id)
+                    {
+                        Console.WriteLine("Team player id's not the same");
+                        return false;
+                    }
+                }
             }
             //SPECIAL THINGS FOR OTHER OWNERS??
 
@@ -108,7 +117,10 @@ namespace CardEngine
                 return false;
             }
 
-            if (!(cardBins.Equals(otherowner.cardBins)))
+            if (infoset) {
+                if (!cardBins.InfoSetEqual(otherowner.cardBins, playeridx))
+                    { return false; } 
+            } else if (!(cardBins.Equals(otherowner.cardBins)))
             { //Console.WriteLine("owner stringbins not equal");
                 return false;
             }
@@ -130,10 +142,25 @@ namespace CardEngine
 
         public override int GetHashCode() 
         {
+            return GetBetterHashCode(false, -1);
+        } 
+        
+        public int GetBetterHashCode(bool infoset, int playeridx)
+        {
             int hash = 0;
             hash ^= name.GetHashCode() ^ id.GetHashCode() ^ intBins.GetHashCode();
-            hash ^= stringBins.GetHashCode() ^ pointBins.GetHashCode() ^ cardBins.GetHashCode();
+            hash ^= stringBins.GetHashCode() ^ pointBins.GetHashCode();
+
+            if (infoset)
+            {
+                hash ^= cardBins.GetInfoSetHashCode(playeridx);
+            }
+            else
+            {
+                hash ^= cardBins.GetHashCode();
+            }
+
             return hash;
-        }    
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace CardEngine{
 
         public readonly IReadOnlyList<T> memberList;
 
+        // TODO should these be properties, so others can get but not set? Will this impact performance?
         // The current player
         public int idx = 0;
 
@@ -132,21 +133,13 @@ namespace CardEngine{
 
             if (queuedNext != othercycle.queuedNext)
             { return false; }
-            
-            if (!(memberList.SequenceEqual(othercycle.memberList)))
-            { return false; }
 
             return true;
         }
 
         public override int GetHashCode()
         {
-            int hash = 0;
-            foreach (var member in memberList)
-            {
-                hash ^= member.GetHashCode();
-            }
-            return idx.GetHashCode() ^ hash ^ queuedNext.GetHashCode();
+            return idx.GetHashCode() ^ queuedNext.GetHashCode();
         }
 
     }

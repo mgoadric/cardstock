@@ -113,15 +113,15 @@ public class ParseEngine
                 if (exp.type == GameType.AllAI) {
                     for (int j = 0; j < game.players.Length; j++) {
                         Console.WriteLine("Making players");
-                        Perspective perspective = new Perspective(j, game, gamePlay);
+                        Perspective perspective = new Perspective(j, gamePlay);
                         if (j == 0) { game.players[j].decision = new PIPMCPlayer(perspective); }
-                        if (j == 1) { game.players[j].decision = new PIPMC2Player(perspective); }
+                        if (j == 1) { game.players[j].decision = new PIPMCSinglePlayer(perspective); }
                         if (j == 2) { game.players[j].decision = new MCTSPLayer(perspective);  }
                         if (j == 3) { game.players[j].decision = new MCTSLitePLayer(perspective); }
                     }
 				} else if (exp.type == GameType.RndandAI) {
-                    Perspective perspective = new Perspective(0, game, gamePlay);
-                    game.players[0].decision = new MCTSPLayer(perspective);
+                    Perspective perspective = new Perspective(0, gamePlay);
+                    game.players[0].decision = new ISMCTSPlayer(perspective);
                 } 
 	            
                 /*********
@@ -153,15 +153,18 @@ public class ParseEngine
 	            numPlayers = results.Count();
 	            for (int j = 0; j < results.Count; ++j)
 	            {
-	                aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
-	                if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
+                    lock (this)
+                    {
+                        aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
+                        if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
 
-	                playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
-	                // if player was ranked first (could be win or loss)
-	                if (j == 0)
-	                {
-	                    playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
-	                }	              
+                        playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
+                        // if player was ranked first (could be win or loss)
+                        if (j == 0)
+                        {
+                            playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
+                        }
+                    }
 	            }
 
 	            if (gameWorld != null) {

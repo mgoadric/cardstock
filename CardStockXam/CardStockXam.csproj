@@ -237,10 +237,11 @@
     <Compile Include="FreezeFrame\IterItem.cs" />
     <Compile Include="FreezeFrame\IteratingTree.cs" />
     <Compile Include="FreezeFrame\RecycleVariables.cs" />
+    <Compile Include="Players\ISMCTSPlayer.cs" />
     <Compile Include="Players\MCTSLitePlayer.cs" />
     <Compile Include="Players\MCTSPLayer.cs" />
     <Compile Include="Players\Perspective.cs" />
-    <Compile Include="Players\PIPMC2Player.cs" />
+    <Compile Include="Players\PIPMCPlayer.cs" />
     <Compile Include="Players\RandomPlayer.cs" />
     <Compile Include="Scoring\Genetic.cs" />
     <Compile Include="Scoring\GeneticFiler.cs" />
@@ -283,7 +284,7 @@
     <Compile Include="Scoring\Heuristics\Clarity.cs" />
     <Compile Include="Scoring\Heuristics\Randomness.cs" />
     <Compile Include="Scoring\ScoreTracker.cs" />
-    <Compile Include="Players\PIPMCPlayer.cs" />
+    <Compile Include="Players\PIPMCSinglePlayer.cs" />
     <Compile Include="CardEngine\DefaultStorage.cs" />
     <Compile Include="CardEngine\CardCollection.cs" />
     <Compile Include="CardEngine\Owner.cs" />
