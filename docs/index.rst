@@ -3,17 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to RECYCLED CardStock's documentation!
-==============================================
+******************
+RECYCLEd CardStock
+******************
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-   
-   aiplayers/index
-
-Project Goals
-===============================
+Overview
+========
 
 CardStock is a General Game Playing engine for card games implemented 
 in C#. Games are written in RECYCLE, a card game description language, and
@@ -24,14 +19,35 @@ each simulation for further study.
 
 There are currently 18 games coded in RECYCLE, from genres such as 
 press-your-luck, fishing, adding, matching, draw-and-discard, and trick-taking
-games. We are currently in the process of abstracting and refactoring CardStock to allow
-for new game functionality and setting up a modular system for a
-tournament of AI players. Please check back for further progress on these issues.
+games. 
 
+.. Attention:: We are currently in the process of abstracting and refactoring CardStock to allow
+   for new game functionality and setting up a modular system for a
+   tournament of AI players. Please check back for further progress on these issues.
 
-Indices and tables
-==================
+Requirements
+============
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+Visual Studio
+
+- Mac_
+- Windows_ 
+	
+.. _Mac: https://www.visualstudio.com/vs/visual-studio-mac/
+.. _Windows: https://visualstudio.microsoft.com/vs/
+
+Code
+====
+
+Source code available at Github_
+
+.. _Github: https://github.com/mgoadric/cardstock
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+   
+   recycle/index
+   cardstock/index
+   aiplayers/index
+
