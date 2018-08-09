@@ -65,7 +65,6 @@ namespace Players
                 {
                     RunSimulation();
                 }
-                Console.WriteLine("Deal: " + d + " Play Count: " + plays.Count + "\r\n");
             }
             //Console.WriteLine("Game after: " + cardGamesx[0]);
 
@@ -84,7 +83,7 @@ namespace Players
                 if (movestates[x] != null)
                 {
                     Tuple<CardGame, int> stateandplayer = movestates[x];
-                    Console.WriteLine("Choice " + x + ":\t" + "Plays: " + plays[stateandplayer] + " Wins: " + wins[stateandplayer]);
+                    //Console.WriteLine("Choice " + x + ":\t" + "Plays: " + plays[stateandplayer] + " Wins: " + wins[stateandplayer]);
                     moverankingarray[x] = wins[stateandplayer] / plays[stateandplayer];
                 }
             }
@@ -122,13 +121,12 @@ namespace Players
                 Tuple<CardGame, int>[] movelist = null;
                 int c = 0;
 
-                if (expand && idx == playeridx)
+                if (expand)
                 {
                     List<GameActionCollection> allOptions = gameIterator.BuildOptions();
                     int choicenum = allOptions.Count;
                   
                     Tuple<CardGame, int> deliberator = Tuple.Create<CardGame, int>(cg.Clone(), idx);
-
 
                     if (!movestatetree.ContainsKey(deliberator))
                     {
@@ -136,26 +134,6 @@ namespace Players
                     }
                     else if (movestatetree[deliberator].Length != choicenum)
                     {
-                        if (idx == 0)
-                        {
-                            Console.WriteLine(idx);
-                            Console.WriteLine("Old length: " + movestatetree[deliberator].Length + " vs. New Length:  " + choicenum);
-
-                            InfoSetComparison ca = (InfoSetComparison)movestatetree.Comparer;
-                            foreach (Tuple<CardGame,int> k in movestatetree.Keys)
-                            {
-                                
-                                if (ca.Equals(deliberator, k))
-                                {
-                                    Console.WriteLine(k.Item1.ToString());
-                                    Console.WriteLine(cg.ToString());
-                                    Console.ReadLine();
-                                    Environment.Exit(0);
-                                } 
-                            }
-                            Console.ReadLine();
-                            Environment.Exit(0);
-                        }
                         movestatetree[deliberator] = new Tuple<CardGame, int>[choicenum];
                     }
 
@@ -200,7 +178,7 @@ namespace Players
                 Tuple<CardGame, int> stateandplayer = Tuple.Create<CardGame, int>(savestate, idx);
 
                 // IF THIS IS THE FIRST SIMULATION WHICH HAS ARRIVED AT THIS STATE::
-                if (expand && (!plays.Keys.Contains(stateandplayer)) && playeridx == idx)
+                if (expand && (!plays.Keys.Contains(stateandplayer)))
                 {
                     expand = false;
                     plays[stateandplayer] = 0;
