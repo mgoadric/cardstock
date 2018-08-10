@@ -59,7 +59,7 @@ namespace CardEngine{
 				foreach (var key in cardAtts.Keys){
 					Debug.WriteLine(key);
 				}
-				throw;
+				return "";
 			}
 		} 
     }

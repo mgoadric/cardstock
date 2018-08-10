@@ -1,4 +1,4 @@
 Random Player
 ===============
 
-Information on how to make different AI players
+Basic player, just makes a random choice.
