@@ -24,18 +24,19 @@
  ;; Assign points for cards, remove 5 cards from game
  (do 
      (
-      (put points 'POINTS (
-                           ((VALUE (TEN)) 10)
-                           ((VALUE (NINE)) 9)
-                           ((VALUE (EIGHT)) 8)
-                           ((VALUE (SEVEN)) 7)
-                           ((VALUE (SIX)) 6)
-                           ((VALUE (FIVE)) 5)
-                           ((VALUE (FOUR)) 4)
-                           ((VALUE (THREE)) 3)
-                           ((VALUE (TWO)) 2)
-                           ((VALUE (ONE)) 1)
-                           )
+      (put points 'POINTS 
+           (
+            ((VALUE (TEN)) 10)
+            ((VALUE (NINE)) 9)
+            ((VALUE (EIGHT)) 8)
+            ((VALUE (SEVEN)) 7)
+            ((VALUE (SIX)) 6)
+            ((VALUE (FIVE)) 5)
+            ((VALUE (FOUR)) 4)
+            ((VALUE (THREE)) 3)
+            ((VALUE (TWO)) 2)
+            ((VALUE (ONE)) 1)
+            )
            )
       (shuffle (game iloc STOCK))
       (repeat 5 

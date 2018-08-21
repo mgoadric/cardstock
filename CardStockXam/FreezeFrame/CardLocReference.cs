@@ -48,6 +48,7 @@ namespace FreezeFrame{
 			return cardList.Count;
 		}
 		public Card Get(){
+            //Console.WriteLine("locid:" + locIdentifier);
             switch (locIdentifier)
             {
                 case "top":

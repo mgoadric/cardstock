@@ -1207,13 +1207,30 @@ namespace FreezeFrame
             else if (card.cstorage() != null)
             {//cstorage
                 var loc = ProcessLocation(card.cstorage());
-                var fancy = new CardLocReference()
+                if (card.@int() != null)
                 {
-                    cardList = loc.cardList,
-                    locIdentifier = card.GetChild(1).GetText(),
-                    name = loc.name
-                };
-                return fancy;
+                    //Console.WriteLine("Is this iT??");
+                    var fancy = new CardLocReference()
+                    {
+                        cardList = loc.cardList,
+                        locIdentifier = "" + ProcessIntVar(card.@int().var()),
+                        name = loc.name
+                    };
+
+                    return fancy;
+
+                }
+                else
+                {
+                    var fancy = new CardLocReference()
+                    {
+                        cardList = loc.cardList,
+                        locIdentifier = card.GetChild(1).GetText(),
+                        name = loc.name
+                    };
+                
+                    return fancy;
+                }
             }
             throw new NotSupportedException();
         }
