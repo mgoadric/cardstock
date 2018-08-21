@@ -1,119 +1,160 @@
-;; Simon's Cat in the GDL
+;; Simon's Cat
+;;
+;; www.sjgames.com/simonscat/Simons-Cat-Rules.pdf
 
 (game
  (declare 4 'NUMP)
  (declare (// 36 'NUMP) 'HANDSIZE)
  (setup
-    (create players 'NUMP)
-    (create teams (0) (1) (2) (3))
-    (repeat 12
-            (create deck (game vloc SIMON) (deck (ANIMAL (SIMON)))))
-    (create deck (game vloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN,
-                                                     EIGHT, NINE, TEN, ELEVEN, TWELVE))
-                                         (TYPE (CAT))))
-    (create deck (game vloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT,
-                                                     NINE, TEN))
-                                         (TYPE (KITTEN))))
-    (create deck (game vloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT))
-                                         (TYPE (HEDGEHOG))))
-    (create deck (game vloc STOCK) (deck (RANK (ONE, TWO, THREE, FOUR, FIVE, SIX))
-                                         (TYPE (DOG))))
-    (create deck (game vloc STOCK) (deck (RANK (ONE, TWO, THREE, FOUR))
-                                         (TYPE (MOUSE))))
-    (create deck (game vloc STOCK) (deck (RANK (ONE, TWO))
-                                         (TYPE (GNOME))))
-    )
-
+  (create players 'NUMP)
+  (create teams (0) (1) (2) (3))
+  (repeat 12
+          (create deck (game vloc SIMON) (deck (ANIMAL (SIMON)))))
+  (create deck (game vloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN,
+                                                   EIGHT, NINE, TEN, ELEVEN, TWELVE))
+                                       (TYPE (CAT))))
+  (create deck (game vloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT,
+                                                   NINE, TEN))
+                                       (TYPE (KITTEN))))
+  (create deck (game vloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT))
+                                       (TYPE (HEDGEHOG))))
+  (create deck (game vloc STOCK) (deck (RANK (ONE, TWO, THREE, FOUR, FIVE, SIX))
+                                       (TYPE (DOG))))
+  (create deck (game vloc STOCK) (deck (RANK (ONE, TWO, THREE, FOUR))
+                                       (TYPE (MOUSE))))
+  (create deck (game vloc STOCK) (deck (RANK (ONE, TWO))
+                                       (TYPE (GNOME))))
+  )
+ 
  (stage player
-        (end (any player 'P (>= (size ('P vloc SIMON)) 3)))
-        (do (
+        (end 
+         (any player 'P (>= (size ('P vloc SIMON)) 3))
+         )
+        (do 
+            (
              (shuffle (game vloc STOCK))
              (all player 'P
-                  
-                       (repeat 'HANDSIZE
-                               (move (top (game vloc STOCK))
-                                     (top ('P iloc HAND))))))
+                  (repeat 'HANDSIZE
+                          (move (top (game vloc STOCK))
+                                (top ('P iloc HAND))
+                                )
+                          )
                   )
-
+             )
+          )
+        
         (stage player
-               (end (all player 'P (== (size ('P iloc HAND)) 0)))
-               (choice (
-                ;; start play
-               
-                ((== (size (game vloc CURRENT)) 0)
-                      (any ((current player) iloc HAND) 'AC
-                           (move 'AC (top (game vloc CURRENT)))))
-              
-
-                ((> (size (game vloc CURRENT)) 0)
+               (end 
+                (all player 'P (== (size ('P iloc HAND)) 0))
+                )
+               (choice 
+                (
+                 ;; start play
+                 
+                 ((== (size (game vloc CURRENT)) 0)
+                  (any ((current player) iloc HAND) 'AC
+                       (move 'AC 
+                             (top (game vloc CURRENT))
+                             )
+                       )
+                  )
+                 
+                 
+                 ((> (size (game vloc CURRENT)) 0)
                   
-                 (let (filter ((current player) iloc HAND) 'Q (or
-                                                                (== (cardatt TYPE 'Q)
-                                                                    (cardatt TYPE (top (game vloc CURRENT))))
-                                                                (== (cardatt RANK 'Q)
-                                                                    (cardatt RANK (top (game vloc CURRENT)))))) 'C
-           
-                   
-                   
-                    ;; if can't play card
-                   (do (
-                   
-                    ((== (size 'C) 0)
-                     ;; if you have a card, take mess & play card.  If you have no cards do nothing
-                          (do (
-                               (move (top (game vloc CURRENT))
-                                     (top ((current player) vloc MESSCARDS)))
-                               (repeat all
-                                  (move (top (game vloc CURRENT))
-                                        (top (game vloc STOCK))))
-                               (any ((current player) iloc HAND) 'AC
-                                    (move 'AC (top (game vloc CURRENT))))
-                              )))
-                   
-                          
-                     
-
-                   ;;  else, play any suitable card.
+                  (let (filter ((current player) iloc HAND) 'Q 
+                               (or
+                                (== (cardatt TYPE 'Q)
+                                    (cardatt TYPE (top (game vloc CURRENT))))
+                                (== (cardatt RANK 'Q)
+                                    (cardatt RANK (top (game vloc CURRENT)))))) 'C
                     
-                         ((> (size 'C) 0)
-                          (any 'C 'AC
-                               (move 'AC
-                                     (top (game vloc CURRENT)))))))
-                ))))
+                    
+                    
+                           ;; if can't play card
+                           (do 
+                               (
+                                
+                                ((== (size 'C) 0)
+                                 ;; if you have a card, take mess & play card.  If you have no cards do nothing
+                                 (do 
+                                     (
+                                      (move (top (game vloc CURRENT))
+                                            (top ((current player) vloc MESSCARDS))
+                                            )
+                                      (repeat all
+                                              (move (top (game vloc CURRENT))
+                                                    (top (game vloc STOCK))
+                                                    )
+                                              )
+                                      (any ((current player) iloc HAND) 'AC
+                                           (move 'AC 
+                                                 (top (game vloc CURRENT))
+                                                 )
+                                           )
+                                      )
+                                   )
+                                 )
+                                
+                                
+                                
+                                
+                                ;;  else, play any suitable card.
+                                
+                                ((> (size 'C) 0)
+                                 (any 'C 'AC
+                                      (move 'AC
+                                            (top (game vloc CURRENT))
+                                            )
+                                      )
+                                 )
+                                )
+                             )
+                           )
+                  )
+                 )
+                )
                )
-        (do (
-             
+        (do 
+            (           
              (all player 'P
-                       ((> (size ('P vloc MESSCARDS)) (game sto TOPMESS))
-                        (set (game sto TOPMESS) (size ('P vloc MESSCARDS)))))
+                  ((> (size ('P vloc MESSCARDS)) (game sto TOPMESS))
+                   (set (game sto TOPMESS) (size ('P vloc MESSCARDS))))
+                  )
              (all player 'P
                   ((== (size ('P vloc MESSCARDS)) (game sto TOPMESS))
                    (move (top (game vloc SIMON))
-                         (top ('P vloc SIMON)))))
-            
-              (all player 'P
-                  (do (
-                       (repeat all
-                               (move (top ('P vloc MESSCARDS))
-                                     (top (game vloc STOCK)))))))
-              (repeat all
-                      (move (top (game vloc CURRENT))
-                            (top (game vloc STOCK))))
-                                        
-             (set (game sto TOPMESS) 0)))
+                         (top ('P vloc SIMON))
+                         )
+                   )
+                  )
+             (all player 'P
+                  (repeat all
+                          (move (top ('P vloc MESSCARDS))
+                                (top (game vloc STOCK))
+                                )
+                          )
+                  )
+             (repeat all
+                     (move (top (game vloc CURRENT))
+                           (top (game vloc STOCK))
+                           )
+                     )
+             (set (game sto TOPMESS) 0)
+             )
+          )
         )
  ;; scoring here - everyone with 3 simon cards loses
-(scoring min (size ((current player) vloc SIMON)))
+ (scoring min (size ((current player) vloc SIMON)))
  )
-                     
-             
 
 
-            
-                               
 
-        
-   
-  
-                                             
-                                                   
+
+
+
+
+
+
+
+
