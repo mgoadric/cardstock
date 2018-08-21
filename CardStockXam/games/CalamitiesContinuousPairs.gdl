@@ -1,4 +1,4 @@
-;; Continuous Pairs
+;; Calamities Continuous Pairs
 ;;
 ;; https://cheapass.com/wp-content/uploads/2018/02/PairsCompanionBookWebFeb2018.pdf
 
@@ -31,6 +31,20 @@
             ((VALUE (NINE)) 9)
             ((VALUE (EIGHT)) 8)
             ((VALUE (SEVEN)) 7)
+            ((VALUE (SIX)) 6)
+            ((VALUE (FIVE)) 5)
+            ((VALUE (FOUR)) 4)
+            ((VALUE (THREE)) 3)
+            ((VALUE (TWO)) 2)
+            ((VALUE (ONE)) 1)
+            )
+           )
+      (put points 'FIRST 
+           (
+            ((VALUE (TEN)) 10)
+            ((VALUE (NINE)) 9)
+            ((VALUE (EIGHT)) 8)
+            ((VALUE (SEVEN)) 0)
             ((VALUE (SIX)) 6)
             ((VALUE (FIVE)) 5)
             ((VALUE (FOUR)) 4)
@@ -75,7 +89,7 @@
  ;;           
  (do 
      (
-      (cycle current (owner (min (union (all player 'P ('P vloc HAND))) using 'POINTS)))
+      (cycle current (owner (min (union (all player 'P ('P vloc HAND))) using 'FIRST)))
       )
    )
  
@@ -143,6 +157,11 @@
         ;; if pair, end the round
         (do 
             (
+             ((and (> (size ((current player) vloc HAND)) 0)
+                   (== (cardatt VALUE (top ((current player) vloc HAND)))
+                       SEVEN))
+              (cycle next current)
+              )
              ((> (size (tuples 2 ((current player) vloc HAND) using 'POINTS)) 0)
               (do 
                   (

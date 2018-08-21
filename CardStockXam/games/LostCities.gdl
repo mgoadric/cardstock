@@ -1,135 +1,201 @@
-;; Lost Cities in the GDL
+;; Lost Cities
+;;
+;; riograndegames.com/getFile.php?id=49
+
 (game
-
-   (declare (WHITE, BLUE, GREEN, RED, YELLOW) 'COLORS)
-   (setup
-      ;; Set up the players, 2 teams of 2 players, alternating
-      (create players 2)
-      (create teams (0) (1))
-      ;; Create the deck source
-      (create deck (game iloc STOCK) (deck (RANK  (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, HS))
-                                           (COLOR (WHITE, BLUE, GREEN, RED, YELLOW))))
-                                           
-   )
-   (do (
+ 
+ (declare (WHITE, BLUE, GREEN, RED, YELLOW) 'COLORS)
+ (setup
+  ;; Set up the players
+  (create players 2)
+  (create teams (0) (1))
+  
+  ;; Create the deck source
+  (create deck (game iloc STOCK) (deck (RANK  (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN))
+                                       (COLOR (WHITE, BLUE, GREEN, RED, YELLOW))))
+  (repeat 3 (create deck (game iloc STOCK) (deck (RANK (HS))
+                                                 (COLOR (WHITE, BLUE, GREEN, RED, YELLOW)))))
+  
+  )
+ (do 
+     (
       (set (game sto ROUNDS) 0)
-      (put points 'PRECEDENCE (
-         ((RANK (TEN)) 10)
-         ((RANK (NINE)) 9)
-         ((RANK (EIGHT)) 8)
-         ((RANK (SEVEN)) 7)
-         ((RANK (SIX)) 6)
-         ((RANK (FIVE)) 5)
-         ((RANK (FOUR)) 4)
-         ((RANK (THREE)) 3)
-         ((RANK (TWO)) 2)
-      ))
-      (put points 'MULTIPLIER (   
-         ((RANK (HS)) 1)))
-      ))      
-   ;; Stages of the game
-   
-   (stage player
-      (end (== (game sto ROUNDS) 1))
-      (do ( 
-        (shuffle (game iloc STOCK))
-        (all player 'P (repeat 8 (move (top (game iloc STOCK))
-                                        (top ('P iloc HAND)))))
-       
+      (put points 'PRECEDENCE 
+           (
+            ((RANK (TEN)) 10)
+            ((RANK (NINE)) 9)
+            ((RANK (EIGHT)) 8)
+            ((RANK (SEVEN)) 7)
+            ((RANK (SIX)) 6)
+            ((RANK (FIVE)) 5)
+            ((RANK (FOUR)) 4)
+            ((RANK (THREE)) 3)
+            ((RANK (TWO)) 2)
+            )
+           )
+      (put points 'MULTIPLIER 
+           (   
+            ((RANK (HS)) 1)))
+      )
+   )     
+ 
+ ;; Stages of the game
+ (stage player
+        (end 
+         (== (game sto ROUNDS) 1))
         
-      ))
-      
-      ;; players play a hand once
-      (stage player
-         (end (== (size (game iloc STOCK)) 0))
-       
-           
-       
-       
-         ;; Play a card from your hand
-         (choice (
-             (any 'COLORS 'C 
-
-              (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR 
-              ((> (size 'MYCOLOR) 0)
+        ;; Shuffle and deal 8 cards to each player
+        (do 
+            ( 
+             (shuffle (game iloc STOCK))
+             (all player 'P 
+                  (repeat 8 
+                          (move (top (game iloc STOCK))
+                                (top ('P iloc HAND))
+                                )
+                          )
+                  )
+             )
+          )
+        
+        ;; players Play one, then Draw one
+        (stage player
+               (end 
+                (== (size (game iloc STOCK)) 0))
                
-               (any 'MYCOLOR 'AC
-                    (do (
-                         (move 'AC (top (game vloc 'C)))
-                         (set (game sto 'C) 1)
-                         ))))))
-
-             (any 'COLORS 'C 
-              (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR
-              ((and (== (size ((current player) vloc 'C)) 0)
-                    (> (size 'MYCOLOR) 0))               
-               (any 'MYCOLOR 'AC
-                    (move 'AC
-                          (top ((current player) vloc 'C)))))))
-              (any 'COLORS 'C 
-              (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR
-              ((> (size ((current player) vloc 'C)) 0)
-               (let (filter 'MYCOLOR 'MCTWO (> (score 'MCTWO using 'PRECEDENCE)
-                                               (score (top ((current player) vloc 'C)) using 'PRECEDENCE))) 'MYCOLORBIG
-                 ((> (size 'MYCOLORBIG) 0)
-                  (any 'MYCOLORBIG 'AC 
-                       (move 'AC 
-                             (top ((current player) vloc 'C)))))))))
-              
-           
-         ))
-             
-             ;; Draw a card
-         
-         (choice (
-             
-             (move (top (game iloc STOCK))
-                   (top ((current player) iloc HAND)))
-             (do (
-                  (all 'COLORS 'C
-                       (do (
-                            ((and (> (size (game vloc 'C)) 0)
-                                  (!= (game sto 'C) 1))
-                             (move (top (game vloc 'C))
-                                   (top ((current player) iloc HAND)))))))   
-                  ))))
-         
-         ;; Reset the marker for what card was played to the table
-        (do (
-          (all 'COLORS 'C
-            (set (game sto 'C) 0))))
-         ;; after players play hand, computer wraps up trick
-         
-      )
-      
-      (stage player ;;scoring
-         (end (all player 'P (== ('P sto PROC) 1)))
-         (do (
-           (all 'COLORS 'C
-              ((> (size ((current player) vloc 'C)) 0)
-                 (inc ((current player) sto SCORE) 
-                       (* (- (sum ((current player) vloc 'C) using 'PRECEDENCE) 20) 
-                       (+ (sum ((current player) vloc 'C) using 'MULTIPLIER) 1)))))
-           (set ((current player) sto PROC) 1)
-           (repeat all
-                  (move (top ((current player) iloc HAND))
-                        (top (game iloc STOCK))))
-            (all 'COLORS 'C
-               (repeat all
-                  (move (top ((current player) vloc 'C))
-                        (top (game iloc STOCK)))))
-         ))
-      )
-      (do (
-         (all 'COLORS 'C
-            (repeat all
-                (move (top (game vloc 'C))
-                      (top (game iloc STOCK)))))
-         (inc (game sto ROUNDS) 1)
-         (all player 'P
-           (set ('P sto PROC) 0))
-      ))
-   )
-   
-   (scoring max ((current player) sto SCORE))
-)
+               ;; Play a card from your hand
+               (choice 
+                (
+                 
+                 ;; Play to the center of the table and record where you played it
+                 (any 'COLORS 'C                      
+                      (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR 
+                        ((> (size 'MYCOLOR) 0)
+                         
+                         (any 'MYCOLOR 'AC
+                              (do 
+                                  (
+                                   (move 'AC (top (game vloc 'C)))
+                                   (set (game sto 'C) 1)
+                                   )
+                                )
+                              )
+                         )
+                        )
+                      )
+                 
+                 ;; Play a card to your side, any card if there are none there
+                 (any 'COLORS 'C 
+                      (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR
+                        ((and (== (size ((current player) vloc 'C)) 0)
+                              (> (size 'MYCOLOR) 0))               
+                         (any 'MYCOLOR 'AC
+                              (move 'AC
+                                    (top ((current player) vloc 'C))
+                                    )
+                              )
+                         )
+                        )
+                      )
+                 
+                 ;; Play a card to your side, that has larger precedence
+                 (any 'COLORS 'C 
+                      (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR
+                        ((> (size ((current player) vloc 'C)) 0)
+                         (let (filter 'MYCOLOR 'MCTWO (>= (score 'MCTWO using 'PRECEDENCE)
+                                                          (score (top ((current player) vloc 'C)) using 'PRECEDENCE))) 'MYCOLORBIG
+                           ((> (size 'MYCOLORBIG) 0)
+                            (any 'MYCOLORBIG 'AC 
+                                 (move 'AC 
+                                       (top ((current player) vloc 'C))
+                                       )
+                                 )
+                            )
+                           )
+                         )
+                        )
+                      )
+                 )
+                )
+               
+               ;; Draw a card from STOCK or from the table, but not where you just played              
+               (choice (
+                        
+                        (move (top (game iloc STOCK))
+                              (top ((current player) iloc HAND))
+                              )
+                        (do 
+                            (
+                             (all 'COLORS 'C
+                                  (do 
+                                      (
+                                       ((and (> (size (game vloc 'C)) 0)
+                                             (!= (game sto 'C) 1))
+                                        (move (top (game vloc 'C))
+                                              (top ((current player) iloc HAND))
+                                              )
+                                        )
+                                       )
+                                    )
+                                  )   
+                             )
+                          )
+                        )
+                       )
+               
+               ;; Reset the marker for what card was played to the table
+               (do 
+                   (
+                    (all 'COLORS 'C
+                         (set (game sto 'C) 0))
+                    )
+                 )
+               )
+        
+        (stage player ;;scoring
+               (end 
+                (all player 'P (== ('P sto PROC) 1)))
+               (do 
+                   (
+                    (all 'COLORS 'C
+                         ((> (size ((current player) vloc 'C)) 0)
+                          (inc ((current player) sto SCORE) 
+                               (* (- (sum ((current player) vloc 'C) using 'PRECEDENCE) 20) 
+                                  (+ (sum ((current player) vloc 'C) using 'MULTIPLIER) 1)))))
+                    (set ((current player) sto PROC) 1)
+                    (repeat all
+                            (move (top ((current player) iloc HAND))
+                                  (top (game iloc STOCK))
+                                  )
+                            )
+                    (all 'COLORS 'C
+                         (repeat all
+                                 (move (top ((current player) vloc 'C))
+                                       (top (game iloc STOCK))
+                                       )
+                                 )
+                         )
+                    )
+                 )
+               )
+        
+        ;; Put the card back for next round
+        (do 
+            (
+             (all 'COLORS 'C
+                  (repeat all
+                          (move (top (game vloc 'C))
+                                (top (game iloc STOCK))
+                                )
+                          )
+                  )
+             (inc (game sto ROUNDS) 1)
+             (all player 'P
+                  (set ('P sto PROC) 0)
+                  )
+             )
+          )
+        )
+ 
+ (scoring max ((current player) sto SCORE))
+ )
