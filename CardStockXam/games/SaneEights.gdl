@@ -9,10 +9,10 @@
   (create teams (0) (1) (2) (3))
   
   ;; Create the deck source
-  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+  (create deck (game iloc STOCK) (deck (RANK (ACE, TWO, THREE, FOUR, FIVE, SIX, 
+                                               SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
-                                              (BLACK (SUIT (CLUBS, SPADES))))))         
-  ) 
+                                              (BLACK (SUIT (CLUBS, SPADES))))))) 
  
  (do 
      (
@@ -30,26 +30,19 @@
             ((RANK (FIVE)) 5)
             ((RANK (FOUR)) 4)
             ((RANK (THREE)) 3)
-            ((RANK (TWO)) 2)
-            )
-           )
+            ((RANK (TWO)) 2)))
       
       ;; Shuffle and give each player 5 cards
       (shuffle (game iloc STOCK))
       (all player 'P
            (repeat 5
                    (move (top (game iloc STOCK))
-                         (top ('P iloc HAND))
-                         )
-                   )
-           )
+                         (top ('P iloc HAND)))))
       
       ;; Start the discard pile
       (move (top (game iloc STOCK))
-            (top (game vloc DISCARD))
-            )  
-      )
-   )
+            (top (game vloc DISCARD)))))
+ 
  ;; Game over when any player has 0 cards in their hand
  (stage player
         (end 
@@ -64,28 +57,19 @@
                        (or (== (cardatt SUIT 'NH)
                                (cardatt SUIT (top (game vloc DISCARD))))
                            (== (cardatt RANK 'NH)
-                               (cardatt RANK (top (game vloc DISCARD))))
-                           )
-                       )'C
-                        
-                        (move 'C 
-                              (top (game vloc DISCARD))
-                              )
-                        )
+                               (cardatt RANK (top (game vloc DISCARD)))))) 
+               'C
+               (move 'C 
+                     (top (game vloc DISCARD))))
           
           ;; Draw from the Stock
           ((> (size (game iloc STOCK)) 0)
            (move (top (game iloc STOCK))
-                 (top ((current player) iloc HAND))
-                 )
-           )
+                 (top ((current player) iloc HAND))))
           
           ;; Pass and wait for the stock to be refilled
           ((== (size (game iloc STOCK)) 0)
-           (turn pass)
-           )
-          )
-         )
+           (turn pass))))
         
         ;; if STOCK is empty, resupply from discard
         (do 
@@ -94,27 +78,16 @@
               (do 
                   (
                    (move (top (game vloc DISCARD))
-                         (top (game vloc TEMP))
-                         )
+                         (top (game vloc TEMP)))
                    (repeat all 
                            (move (top (game vloc DISCARD))
-                                 (top (game iloc STOCK))
-                                 )
-                           )
+                                 (top (game iloc STOCK))))
                    (move (top (game vloc TEMP))
-                         (top (game vloc DISCARD))
-                         )
-                   (shuffle (game iloc STOCK))
-                   )
-                )
-              )        
-             )
-          )
-        )
+                         (top (game vloc DISCARD)))
+                   (shuffle (game iloc STOCK))))))))
  
  ;; Player with the smallest hand size wins
- (scoring min (sum ((current player) iloc HAND) using 'SCORE)) 
- )
+ (scoring min (sum ((current player) iloc HAND) using 'SCORE)))
 
 
 
