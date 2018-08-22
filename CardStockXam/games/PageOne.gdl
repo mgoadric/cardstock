@@ -34,7 +34,9 @@
         ;; players play a hand once     
         (stage player
                (end
-                (or (all player 'P 
+                (or (any player 'P 
+                         (== (size ('P iloc HAND)) 0))
+                    (all player 'P 
                          (> (size ('P vloc TRICK)) 0))
                     (== (game sto DRAW) 1)))
                
@@ -80,7 +82,7 @@
                                   (top ((current player) vloc TRICK)))
                             (remember (top ((current player) vloc TRICK)) 
                                       (top (game mem LEAD)))))))))
-                              
+               
                ;; Restock the deck if necessary
                (do 
                    (

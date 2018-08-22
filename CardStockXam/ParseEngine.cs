@@ -139,7 +139,7 @@ public class ParseEngine
 
 	                if (choiceCount > 500)
 	                {
-	                    Console.WriteLine("Choices not processed (probably infinite loop)");
+                        Console.WriteLine("Game " + (i + 1) + "Choices not processed (probably infinite loop)");
 	                    compiling = false;
 	                    break;
 	                }
@@ -148,7 +148,7 @@ public class ParseEngine
                 /************
 				 * SORT OUT RESULTS
 				 *************/
-				if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
+				//if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
 	            var results = gamePlay.ProcessScore();
 	            numPlayers = results.Count();
 	            for (int j = 0; j < results.Count; ++j)
@@ -156,7 +156,7 @@ public class ParseEngine
                     lock (this)
                     {
                         aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
-                        if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
+                        //if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
 
                         playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
                         // if player was ranked first (could be win or loss)
