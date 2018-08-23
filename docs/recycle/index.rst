@@ -14,7 +14,7 @@ String
 Strings are used for text within RECYCLE games. They are composed of all capital letters.
 Strings are the name portion of a CardCollection_, and the key/value pairs of a Card_. 
 
-.. code-block:: python
+.. code-block:: racket
 
    STOCK HAND PILE TRICK SCORE GREEN SUIT HEARTS
 
@@ -22,7 +22,7 @@ The cardatt function also will return a String. It is used to look up the value 
 a Card_ for a given key. If the key is not found or the card does not exist, this
 will return the empty String "".
 
-.. code-block:: python
+.. code-block:: racket
 
    (cardatt [String] [Card])
 
@@ -33,7 +33,7 @@ Integer literals are contiguous sequences of digits from 0 to 9. Currently only
 positive integers are supported with literals, but negative integers can be acheived
 through various actions.
 
-.. code-block:: python
+.. code-block:: racket
 
    0 23 999
 
@@ -41,7 +41,7 @@ Integers are stored as part of the game, belonging either to
 the Game_, a Player_, or a Team_. These Integer storage locations are
 named with a String_.
 
-.. code-block:: python
+.. code-block:: racket
 
    ([Game | Player | Team] sto [String])
 
@@ -49,7 +49,7 @@ Standard Integer operators can be applied to Integers to calculate new
 Integers, with addition, subtraction, multiplication, integer division (//) and 
 modular division (mod).
 
-.. code-block:: python
+.. code-block:: racket
 
    (+ [Integer] [Integer])
    (- [Integer] [Integer])
@@ -60,42 +60,54 @@ modular division (mod).
 Three functions will return Integers. First, a Card_ can be scored using the values 
 mapped through a PointMap_.
 
-.. code-block:: python
+.. code-block:: racket
 
    (score [Card] using [PointMap])
 
 Similarly, each Card_ in a CardCollection_ can be individually scored with a 
 PointMap_ and then these scores are summed.
 
-.. code-block:: python
+.. code-block:: racket
 
    (sum [CardCollection] using [PointMap])
 
 Finally, the size of a CardCollection_ can be calculated and returned as an Integer.
 
-.. code-block:: python
+.. code-block:: racket
 
    (size [CardCollection])
 
 Card
 ----
 
-A card is a set of maps from a String_ key to a String_ value. A card can never
-be directly described, only created through the CreateDeck_ setup or by referencing
-locations in a CardCollection_.
+A card is a set of maps from a String_ key to a String_ value.
+
+.. code-block:: racket
 
     RANK => KING
     COLOR => BLUE
     VALUE => FIVE
     
-Can be hierarchically described (does not matter in practice).
+A card can never be directly described, but is created through the CreateDeck_ setup and referenced
+through locations in a CardCollection_.
 
-(top [CardCollection])
-(bottom [CardCollection])
-([Integer] [CardCollection])
+.. code-block:: racket
 
-(max [CardCollection] using [PointMap])
-(min [CardCollection] using [PointMap])
+   (top [CardCollection])
+   (bottom [CardCollection])
+   ([Integer] [CardCollection])
+
+Besides using references to individual specific cards in the CardCollection_, two
+functions can find either the minimum or maximum card in a collection when
+given a PointMap_ from the card dictionaries to an integer. If there is a tie,
+the max or min is decided randomly among all tied cards.
+
+.. code-block:: racket
+
+   (max [CardCollection] using [PointMap])
+   (min [CardCollection] using [PointMap])
+
+Finally, a card can be 
 
 (actual [Card])
 

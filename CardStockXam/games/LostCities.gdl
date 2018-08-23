@@ -14,9 +14,8 @@
   (create deck (game iloc STOCK) (deck (RANK  (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN))
                                        (COLOR (WHITE, BLUE, GREEN, RED, YELLOW))))
   (repeat 3 (create deck (game iloc STOCK) (deck (RANK (HS))
-                                                 (COLOR (WHITE, BLUE, GREEN, RED, YELLOW)))))
-  
-  )
+                                                 (COLOR (WHITE, BLUE, GREEN, RED, YELLOW))))))
+ 
  (do 
      (
       (set (game sto ROUNDS) 0)
@@ -30,14 +29,10 @@
             ((RANK (FIVE)) 5)
             ((RANK (FOUR)) 4)
             ((RANK (THREE)) 3)
-            ((RANK (TWO)) 2)
-            )
-           )
+            ((RANK (TWO)) 2)))
       (put points 'MULTIPLIER 
            (   
-            ((RANK (HS)) 1)))
-      )
-   )     
+            ((RANK (HS)) 1)))))
  
  ;; Stages of the game
  (stage player
@@ -51,12 +46,7 @@
              (all player 'P 
                   (repeat 8 
                           (move (top (game iloc STOCK))
-                                (top ('P iloc HAND))
-                                )
-                          )
-                  )
-             )
-          )
+                                (top ('P iloc HAND)))))))
         
         ;; players Play one, then Draw one
         (stage player
@@ -76,13 +66,7 @@
                               (do 
                                   (
                                    (move 'AC (top (game vloc 'C)))
-                                   (set (game sto 'C) 1)
-                                   )
-                                )
-                              )
-                         )
-                        )
-                      )
+                                   (set (game sto 'C) 1)))))))
                  
                  ;; Play a card to your side, any card if there are none there
                  (any 'COLORS 'C 
@@ -91,12 +75,7 @@
                               (> (size 'MYCOLOR) 0))               
                          (any 'MYCOLOR 'AC
                               (move 'AC
-                                    (top ((current player) vloc 'C))
-                                    )
-                              )
-                         )
-                        )
-                      )
+                                    (top ((current player) vloc 'C)))))))
                  
                  ;; Play a card to your side, that has larger precedence
                  (any 'COLORS 'C 
@@ -107,50 +86,32 @@
                            ((> (size 'MYCOLORBIG) 0)
                             (any 'MYCOLORBIG 'AC 
                                  (move 'AC 
-                                       (top ((current player) vloc 'C))
-                                       )
-                                 )
-                            )
-                           )
-                         )
-                        )
-                      )
-                 )
-                )
+                                       (top ((current player) vloc 'C)))))))))))
                
-               ;; Draw a card from STOCK or from the table, but not where you just played              
-               (choice (
-                        
-                        (move (top (game iloc STOCK))
-                              (top ((current player) iloc HAND))
-                              )
-                        (do 
-                            (
-                             (all 'COLORS 'C
-                                  (do 
-                                      (
-                                       ((and (> (size (game vloc 'C)) 0)
-                                             (!= (game sto 'C) 1))
-                                        (move (top (game vloc 'C))
-                                              (top ((current player) iloc HAND))
-                                              )
-                                        )
-                                       )
-                                    )
-                                  )   
-                             )
-                          )
-                        )
-                       )
+               ;; Draw a card            
+               (choice 
+                (
+                 
+                 ;; from STOCK  
+                 (move (top (game iloc STOCK))
+                       (top ((current player) iloc HAND)))
+                 
+                 ;; or from the table, but not where you just played 
+                 (do 
+                     (
+                      (all 'COLORS 'C
+                           (do 
+                               (
+                                ((and (> (size (game vloc 'C)) 0)
+                                      (!= (game sto 'C) 1))
+                                 (move (top (game vloc 'C))
+                                       (top ((current player) iloc HAND)))))))))))
                
                ;; Reset the marker for what card was played to the table
                (do 
                    (
                     (all 'COLORS 'C
-                         (set (game sto 'C) 0))
-                    )
-                 )
-               )
+                         (set (game sto 'C) 0)))))
         
         (stage player ;;scoring
                (end 
@@ -165,19 +126,11 @@
                     (set ((current player) sto PROC) 1)
                     (repeat all
                             (move (top ((current player) iloc HAND))
-                                  (top (game iloc STOCK))
-                                  )
-                            )
+                                  (top (game iloc STOCK))))
                     (all 'COLORS 'C
                          (repeat all
                                  (move (top ((current player) vloc 'C))
-                                       (top (game iloc STOCK))
-                                       )
-                                 )
-                         )
-                    )
-                 )
-               )
+                                       (top (game iloc STOCK))))))))
         
         ;; Put the card back for next round
         (do 
@@ -185,17 +138,9 @@
              (all 'COLORS 'C
                   (repeat all
                           (move (top (game vloc 'C))
-                                (top (game iloc STOCK))
-                                )
-                          )
-                  )
+                                (top (game iloc STOCK)))))
              (inc (game sto ROUNDS) 1)
              (all player 'P
-                  (set ('P sto PROC) 0)
-                  )
-             )
-          )
-        )
+                  (set ('P sto PROC) 0)))))
  
- (scoring max ((current player) sto SCORE))
- )
+ (scoring max ((current player) sto SCORE)))

@@ -13,8 +13,8 @@
   (create teams (0) (1))
   (repeat 2 (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                                  (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
-                                                        (BLACK (SUIT (CLUBS, SPADES)))))))
-  )
+                                                        (BLACK (SUIT (CLUBS, SPADES))))))))
+
  (do 
      (
       (put points 'PRECEDENCE 
@@ -31,9 +31,7 @@
             ((RANK (FOUR)) 4)
             ((RANK (THREE)) 3)
             ((RANK (TWO)) 2)
-            ((RANK (A)) 1)
-            )
-           )
+            ((RANK (A)) 1)))
       (shuffle (game iloc STOCK))
       (all player 'P
            (repeat 'NUMCARDS
@@ -45,13 +43,12 @@
       (all player 'P
            (repeat 'HANDSIZE
                    (move (top (game iloc STOCK)) 
-                         (top ('P iloc HAND)))))
-      
-      )
-   )
+                         (top ('P iloc HAND)))))))
+
  (stage player
         (end 
-         (or (any player 'P (== (size ('P vloc CURRENT)) 0))
+         (or (any player 'P 
+                  (== (size ('P vloc CURRENT)) 0))
              (== (size (game iloc STOCK)) 0))
          )
         (do 
@@ -62,10 +59,7 @@
                    ((>= (size (game iloc STOCK)) 'HANDSIZE)
                     (repeat 'HANDSIZE
                             (move (top (game iloc STOCK)) 
-                                  (top ((current player) iloc HAND))
-                                  )
-                            )
-                    )
+                                  (top ((current player) iloc HAND)))))
                    
                    ;; if next player needs cards & stock < 'HANDSIZE
                    ((and (< (size ((current player) iloc HAND)) 'HANDSIZE) 
@@ -77,26 +71,12 @@
                            ((< 'SIZE 0)
                             (repeat all
                                     (move (top (game iloc STOCK)) 
-                                          (top ((current player) iloc HAND))
-                                          )
-                                    )
-                            )
+                                          (top ((current player) iloc HAND)))))
                            ((>= 'SIZE 0)
                             (repeat (- 'HANDSIZE (size ((next player) iloc HAND)))
                                     (move (top (game iloc STOCK)) 
-                                          (top ((current player) iloc HAND))
-                                          )
-                                    )
-                            )
-                           )
-                        )
-                      )
-                    )
-                   )
-                )
-              )
-             )
-          )
+                                          (top ((current player) iloc HAND))))))))))))))
+
         ;; example of aggregation parsing error (found bug a)
         (do 
             (
@@ -107,34 +87,25 @@
                        (
                         (repeat 'MAXSIZE
                                 (move (top (game vloc 'T))
-                                      (bottom (game iloc STOCK))
-                                      )
-                                )
-                        (shuffle (game iloc STOCK))
-                        )
-                     )
-                   )
-                  )
-             )
-          )
+                                      (bottom (game iloc STOCK))))
+                        (shuffle (game iloc STOCK))))))))
+
         (choice 
          ( ;; hand to reserve
           (do 
               (
                (any ((current player) iloc HAND) 'DISC
                     (any 'PLOCS 'L
-                         (do (
+                         (do 
+                             (
                               (move 'DISC 
-                                    (top ((current player) vloc 'L))
-                                    )
+                                    (top ((current player) vloc 'L)))
+
                               ;; if next player needs cards & stock >= 'HANDSIZE
                               ((<= (- 'HANDSIZE (size ((next player) iloc HAND))) (size (game iloc STOCK)))
                                (repeat (- 'HANDSIZE (size ((next player) iloc HAND)))
                                        (move (top (game iloc STOCK)) 
-                                             (top ((next player) iloc HAND))
-                                             )
-                                       )
-                               )
+                                             (top ((next player) iloc HAND)))))
                               
                               ;; if next player needs cards & stock < 'HANDSIZE
                               ((and (< (size ((next player) iloc HAND)) 'HANDSIZE) (< (size (game iloc STOCK)) 'HANDSIZE))
@@ -144,27 +115,11 @@
                                       ((< 'SIZE 0)
                                        (repeat all
                                                (move (top (game iloc STOCK)) 
-                                                     (top ((next player) iloc HAND))
-                                                     )
-                                               )
-                                       )
+                                                     (top ((next player) iloc HAND)))))
                                       ((>= 'SIZE 0)
                                        (repeat (- 'HANDSIZE (size ((next player) iloc HAND)))
                                                (move (top (game iloc STOCK)) 
-                                                     (top ((next player) iloc HAND))
-                                                     )
-                                               )
-                                       )
-                                      )
-                                   )
-                                 )
-                               )
-                              )
-                           )
-                         )
-                    )
-               )
-            )
+                                                     (top ((next player) iloc HAND)))))))))))))))
            
           (do 
               (
@@ -177,16 +132,8 @@
                                    (- (score 'C using 'PRECEDENCE) 1)))
                           (do (
                                (move 'C 
-                                     (top (game vloc 'T))
-                                     )
-                               (cycle next current)
-                               )
-                            )
-                          )
-                         )
-                    ) 
-               )
-            )
+                                     (top (game vloc 'T)))
+                               (cycle next current))))))))
           
           (do 
               (
@@ -204,18 +151,8 @@
                                (do 
                                    (
                                     (move (top ((current player) vloc 'L)) 
-                                          (top (game vloc 'T))
-                                          )
-                                    (cycle next current)
-                                    )
-                                 )
-                               )
-                              )
-                           )
-                         )
-                    )
-               )
-            )
+                                          (top (game vloc 'T)))
+                                    (cycle next current))))))))))
           
           (do 
               (
@@ -229,22 +166,11 @@
                                (- (score (top ((current player) vloc CURRENT)) using 'PRECEDENCE) 1)))
                           (do (
                                (move (top ((current player) vloc CURRENT)) 
-                                     (top (game vloc 'T))
-                                     )
-                               ((> (size ((current player) hloc PILE)) 0)
+                                     (top (game vloc 'T)))
+                                ((> (size ((current player) hloc PILE)) 0)
                                 (move (top ((current player) hloc PILE)) 
-                                      (top ((current player) vloc CURRENT))
-                                      )
-                                )
-                               (cycle next current)
-                               )
-                            )
-                          )
-                         )
-                      )
-                    )
-               )
-            )
+                                      (top ((current player) vloc CURRENT))))
+                               (cycle next current)))))))))
           
           (do 
               (
@@ -258,18 +184,8 @@
                                 (== 1 (score 'C using 'PRECEDENCE)))
                                (do (
                                     (move 'C 
-                                          (top (game vloc 'T))
-                                          )
-                                    (cycle next current)
-                                    )
-                                 )
-                               )
-                              )
-                           )
-                         )
-                    )
-               )
-            )
+                                          (top (game vloc 'T)))
+                                    (cycle next current))))))))))
           
           (do 
               (
@@ -285,18 +201,8 @@
                                 (== 1 (score (top ((current player) vloc 'L)) using 'PRECEDENCE)))
                                (do (
                                     (move (top ((current player) vloc 'L)) 
-                                          (top (game vloc 'T))
-                                          )
-                                    (cycle next current)
-                                    )
-                                 )
-                               )
-                              )
-                           )
-                         )
-                    )
-               )
-            )
+                                          (top (game vloc 'T)))
+                                    (cycle next current))))))))))
           
           (do 
               (
@@ -309,25 +215,10 @@
                            (== 1 (score (top ((current player) vloc CURRENT)) using 'PRECEDENCE)))
                           (do (
                                (move (top ((current player) vloc CURRENT)) 
-                                     (top (game vloc 'T))
-                                     )
-                               ((> (size ((current player) hloc PILE)) 0)
+                                     (top (game vloc 'T)))
+                                ((> (size ((current player) hloc PILE)) 0)
                                 (move (top ((current player) hloc PILE)) 
-                                      (top ((current player) vloc CURRENT))
-                                      )
-                                )
-                               (cycle next current)
-                               )
-                            )
-                          )
-                         )
-                      )
-                    )
-               )
-            )
-          )
-         )
-        )
- (scoring min (size (union ((current player) hloc PILE) ((current player) vloc CURRENT))))
- )
+                                      (top ((current player) vloc CURRENT))))
+                               (cycle next current))))))))))))
+ (scoring min (size (union ((current player) hloc PILE) ((current player) vloc CURRENT)))))
 

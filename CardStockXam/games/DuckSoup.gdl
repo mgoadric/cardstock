@@ -10,9 +10,7 @@
   (create teams (0) (1))
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
-                                              (BLACK (SUIT (SPADES, CLUBS))))))
-  
-  )
+                                              (BLACK (SUIT (SPADES, CLUBS)))))))
  
  ;; Shuffle and deal each player 13 cards, set the play mode to DUCK
  (do 
@@ -22,25 +20,17 @@
       (all player 'P
            (repeat 13
                    (move (top (game iloc STOCK))
-                         (top ('P iloc HAND))
-                         )
-                   )
-           )
-      (set (game sto ISDUCK) 1)
-      )
-   )
+                         (top ('P iloc HAND)))))
+      (set (game sto ISDUCK) 1)))
  
  (stage player
         (end 
          (and (all player 'P 
-                   (== (size ('P iloc HAND)) 0)
-                   )
-              (== (size (game iloc STOCK)) 0))
-         )
+                   (== (size ('P iloc HAND)) 0))
+              (== (size (game iloc STOCK)) 0)))
         (stage player
                (end 
-                (== (game sto FINISHED) 1)
-                )
+                (== (game sto FINISHED) 1))
                (choice 
                 (
                  
@@ -57,32 +47,32 @@
                                    (top ((current player) hloc TEMP))))
                             
                             (remember (top ((current player) vloc TRICK)) 
-                                      (top (game mem LEAD)))
-                            )))
-                  )
+                                      (top (game mem LEAD)))))))
                  
                  ;; handle quacking  -  maybe doesn't work ?????
                  ((!= (size (game mem LEAD)) 0)
                   
                   (any (filter ((current player) iloc HAND) 'NH
                                (== (cardatt RANK 'NH)
-                                   (cardatt RANK (top (game mem LEAD))))) 'C
-                                                                          
-                                                                          (do (
-                                                                               ;; say quack/quack-quack
-                                                                               (move 'C (top ((current player) vloc TRICK)))
-                                                                               
-                                                                               ;; draw card if in duck stage
-                                                                               ((and (== (game sto ISDUCK) 1)
-                                                                                     (> (size (game iloc STOCK)) 0))
-                                                                                (move (top (game iloc STOCK))
-                                                                                      (top ((current player) hloc TEMP))))
-                                                                               
-                                                                               (remember (top ((current player) vloc TRICK))
-                                                                                         (top (game mem QUACK)))
-                                                                               (inc (game sto QUACKED) 1)
-                                                                               ((== (game sto QUACKED) 3)
-                                                                                (set (game sto FINISHED) 1))))))
+                                   (cardatt RANK (top (game mem LEAD))))) 
+                       'C
+                       
+                       (do (
+                            ;; say quack/quack-quack
+                            (move 'C 
+                                  (top ((current player) vloc TRICK)))
+                            
+                            ;; draw card if in duck stage
+                            ((and (== (game sto ISDUCK) 1)
+                                  (> (size (game iloc STOCK)) 0))
+                             (move (top (game iloc STOCK))
+                                   (top ((current player) hloc TEMP))))
+                            
+                            (remember (top ((current player) vloc TRICK))
+                                      (top (game mem QUACK)))
+                            (inc (game sto QUACKED) 1)
+                            ((== (game sto QUACKED) 3)
+                             (set (game sto FINISHED) 1))))))
                  ;; bow out                        
                  ((== (game sto QUACKED) 1)
                   (set (game sto FINISHED) 1))
@@ -94,21 +84,19 @@
                   
                   (any (filter ((current player) iloc HAND) 'NH
                                (!= (cardatt RANK 'NH)
-                                   (cardatt RANK (top (game mem LEAD))))) 'C
-                                                                          (do (
-                                                                               (move 'C (top ((current player) vloc TRICK)))
-                                                                               
-                                                                               ;; draw card if in duck stage
-                                                                               ((and (== (game sto ISDUCK) 1)
-                                                                                     (> (size (game iloc STOCK)) 0))
-                                                                                (move (top (game iloc STOCK))
-                                                                                      (top ((current player) hloc TEMP))))
-                                                                               
-                                                                               
-                                                                               (set (game sto FINISHED) 1))))
-                  )))
-               
-               )
+                                   (cardatt RANK (top (game mem LEAD))))) 
+                       'C
+                       (do (
+                            (move 'C (top ((current player) vloc TRICK)))
+                            
+                            ;; draw card if in duck stage
+                            ((and (== (game sto ISDUCK) 1)
+                                  (> (size (game iloc STOCK)) 0))
+                             (move (top (game iloc STOCK))
+                                   (top ((current player) hloc TEMP))))
+                            
+                            
+                            (set (game sto FINISHED) 1))))))))
         
         (do 
             (
@@ -116,10 +104,7 @@
              (all player 'P
                   (repeat all 
                           (move (top ('P hloc TEMP)) 
-                                (top ('P iloc HAND))
-                                )
-                          )
-                  )
+                                (top ('P iloc HAND)))))
              
              ((== (game sto ISDUCK) 1)
               (put points 'CARDSCORE 
@@ -137,10 +122,7 @@
                     ((RANK (FIVE)) 5)
                     ((RANK (FOUR)) 4)
                     ((RANK (THREE)) 3)
-                    ((RANK (TWO)) 2)
-                    )
-                   )
-              )
+                    ((RANK (TWO)) 2))))
              ((== (game sto ISDUCK) 0)
               (put points 'CARDSCORE 
                    (
@@ -157,12 +139,9 @@
                     ((RANK (FIVE)) 5)
                     ((RANK (FOUR)) 4)
                     ((RANK (THREE)) 3)
-                    ((RANK (TWO)) 2)
-                    )
-                   )           
-              )
-             ;; score regular hand
-             
+                    ((RANK (TWO)) 2))))
+
+             ;; score regular hand             
              ((== (game sto QUACKED) 0)
               (do 
                   (
@@ -175,10 +154,7 @@
                    
                    (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'CARDSCORE)))
                    (inc ((next player) sto SCORE)
-                        (game sto TRICKSCORE))
-                   )
-                )
-              )
+                        (game sto TRICKSCORE)))))
              
              ;; score quack hand
              ((!= (game sto QUACKED) 0)
@@ -186,10 +162,7 @@
                   (
                    (cycle next (owner (top (game mem QUACK))))                        
                    (inc ((next player) sto SCORE) 
-                        (* 2 (size ((next player) vloc TRICK))))
-                   )
-                )
-              )
+                        (* 2 (size ((next player) vloc TRICK)))))))
              
              (repeat (size (game mem QUACK)) 
                      (forget (top (game mem QUACK))))
@@ -202,8 +175,7 @@
                                 (top (game vloc DISCARD)))))            
              
              ((and (== (size (game iloc STOCK)) 0)
-                   (== (game sto ISDUCK) 1)
-                   )
+                   (== (game sto ISDUCK) 1))
               (do 
                   (
                    (set (game sto ISDUCK) 0)
@@ -211,15 +183,6 @@
                         (do
                             (
                              (set ('P sto DUCKSCORE) ('P sto SCORE))
-                             (set ('P sto SCORE) 0)
-                             )
-                          )
-                        )
-                   )
-                )
-              )
-             )
-          )
-        )
- (scoring max (* ((current player) sto DUCKSCORE) ((current player) sto SCORE)))
- )
+                             (set ('P sto SCORE) 0))))))))))
+
+ (scoring max (* ((current player) sto DUCKSCORE) ((current player) sto SCORE))))

@@ -12,8 +12,7 @@
   ;; Create the deck source
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX))
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
-                                              (BLACK (SUIT (CLUBS, SPADES))))))
-  )
+                                              (BLACK (SUIT (CLUBS, SPADES)))))))
  
  (do 
      ( ;; DEALING START
@@ -31,18 +30,14 @@
             ((VALUE (FOUR)) 4)
             ((VALUE (THREE)) 3)
             ((VALUE (TWO)) 2)
-            ((VALUE (A)) 1)
-            )
-           )
+            ((VALUE (A)) 1)))
       (shuffle (game iloc STOCK))
       (all player 'P 
            (do 
                (
                 (repeat 5 
                         (move (top (game iloc STOCK)) 
-                              (top ('P iloc HAND))
-                              )
-                        )
+                              (top ('P iloc HAND))))
                 
                 ;; Check for rank match on deal               
                 (let (tuples 4 ('P iloc HAND) using 'MATCHPOINTS) 'MYMATCHES
@@ -53,27 +48,14 @@
                              (inc ('P sto SCORE) 1)
                              (repeat all
                                   (move (top 'MATCH) 
-                                        (top ('P iloc TRICKSTACK))
-                                        )
-                                  )
-                             
-                             )
-                          )
-                        )
-                   )
-                  )
-                )
-             )
-           )
-      )
-   ) 
+                                        (top ('P iloc TRICKSTACK))))))))))))))
  
  (stage player  ;; TURN LOOP START
         
         (end 
          (or (== (size (game iloc STOCK)) 0) 
-             (any player 'P (== (size ('P iloc HAND)) 0)))
-         )	
+             (any player 'P 
+                  (== (size ('P iloc HAND)) 0))))
         
         (choice 
          (
@@ -90,16 +72,7 @@
                        (do 
                            (
                             (set ((current player) sto WHO) 'OP) ;; THIS WILL NOT WORK RIGHT NOW
-                            (set ((current player) str RANK) 'R)
-                            )
-                         )
-                       )
-                  )
-                 )
-               )
-          )
-         )
-        
+                            (set ((current player) str RANK) 'R)))))))))
         
         
         (let (filter (((current player) sto WHO) iloc HAND) 'TR 
@@ -111,32 +84,23 @@
                ((== (size 'THEIRRANK) 0)
                 (do 
                     (
-                     (move (top (game iloc STOCK)) (top ((current player) iloc HAND))) 
+                     (move (top (game iloc STOCK)) 
+                           (top ((current player) iloc HAND))) 
                      
                      ;; If the drawn card has rank R -- play another turn
                      ((== (cardatt RANK (top ((current player) iloc HAND))) 
                           (current player) str RANK))
-                     (cycle next current)
-                     )
-                  )	
-                
-                )
+                     (cycle next current))))
+
                ;; If they have cards in rank R -- Take their cards and play another turn
                ((> (size 'THEIRRANK) 0) 
                 (do 
                     ( 
                      (repeat all
                           (move (top 'THEIRRANK
-                                (top ((current player) iloc HAND)))
-                          )
-                     (cycle next current)
-                     )
-                  )
-                )
-               )
-            )
-          )
-        
+                                (top ((current player) iloc HAND))))
+                     (cycle next current)))))))
+         
         ;; Check for rank match on deal               
         (let (tuples 4 ((current player) vloc HAND) using 'MATCHPOINTS) 'MYMATCHES
           ((> (size 'MYMATCHES) 0)
@@ -146,16 +110,6 @@
                      (inc ((current player) sto SCORE) 1)
                      (repeat all
                              (move (top 'MATCH) 
-                                   (top ((current player) iloc TRICKSTACK))
-                                   )
-                             )
-                     
-                     )
-                  )
-                )
-           )
-          )
-        ) ;; TURN LOOP END
+                                   (top ((current player) iloc TRICKSTACK))))))))))
  
- (scoring max ((current player) sto SCORE))
- ) ;; MATCH END
+ (scoring max ((current player) sto SCORE)))

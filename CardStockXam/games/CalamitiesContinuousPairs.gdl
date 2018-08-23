@@ -19,8 +19,7 @@
   (repeat 7 (create deck (game iloc STOCK) (deck (VALUE (SEVEN)))))         
   (repeat 8 (create deck (game iloc STOCK) (deck (VALUE (EIGHT)))))         
   (repeat 9 (create deck (game iloc STOCK) (deck (VALUE (NINE)))))       
-  (repeat 10 (create deck (game iloc STOCK) (deck (VALUE (TEN)))))         
-  )
+  (repeat 10 (create deck (game iloc STOCK) (deck (VALUE (TEN))))))         
  
  
  (do 
@@ -36,9 +35,8 @@
             ((VALUE (FOUR)) 4)
             ((VALUE (THREE)) 3)
             ((VALUE (TWO)) 2)
-            ((VALUE (ONE)) 1)
-            )
-           )
+            ((VALUE (ONE)) 1)))
+
       (put points 'FIRST 
            (
             ((VALUE (TEN)) 10)
@@ -50,24 +48,17 @@
             ((VALUE (FOUR)) 4)
             ((VALUE (THREE)) 3)
             ((VALUE (TWO)) 2)
-            ((VALUE (ONE)) 1)
-            )
-           )
+            ((VALUE (ONE)) 1)))
+ 
       (set (game sto NUMP) 4)
       (shuffle (game iloc STOCK))
       (repeat 5
               (move (top (game iloc STOCK))
-                    (top (game iloc THROWOUT))
-                    )
-              )
+                    (top (game iloc THROWOUT))))
       
       (all player 'P
            (move (top (game iloc STOCK))
-                 (top ('P vloc HAND))
-                 )
-           )
-      )
-   )
+                 (top ('P vloc HAND))))))
  
  ;; Stage here, find the player with smallest card
  ;; if tied, deal new card and try again
@@ -89,13 +80,12 @@
  ;;           
  (do 
      (
-      (cycle current (owner (min (union (all player 'P ('P vloc HAND))) using 'FIRST)))
-      )
-   )
+      (cycle current (owner (min (union (all player 'P ('P vloc HAND))) using 'FIRST)))))
  
  (stage player
         (end 
-         (any player 'P (>= (sum ('P vloc SCORING) using 'POINTS) (+ (// 60 'NUMP) 1)))) 
+         (any player 'P 
+              (>= (sum ('P vloc SCORING) using 'POINTS) (+ (// 60 'NUMP) 1)))) 
         
         ;; Shuffle and then throw out 5 cards for mystery      
         (do 
@@ -105,25 +95,14 @@
                   (
                    (repeat all
                            (move (top (game iloc THROWOUT))
-                                 (top (game iloc STOCK))
-                                 )
-                           )
+                                 (top (game iloc STOCK))))
                    (repeat all
                            (move (top (game vloc DISCARD))
-                                 (top (game iloc STOCK))
-                                 )
-                           )
+                                 (top (game iloc STOCK))))
                    (shuffle (game iloc STOCK))          
                    (repeat 5
                            (move (top (game iloc STOCK))
-                                 (top (game iloc THROWOUT))
-                                 )
-                           )
-                   )
-                )
-              )
-             )
-          )
+                                 (top (game iloc THROWOUT)))))))))
         
         ;; players flip a card or bow out
         (choice 
@@ -133,26 +112,15 @@
            (do 
                (
                 (move (actual (min (union (all player 'P ('P vloc HAND))) using 'POINTS))
-                      (top ((current player) vloc SCORING))
-                      )
+                      (top ((current player) vloc SCORING)))
                 (repeat all
                         (move (top ((current player) vloc HAND))
-                              (top (game vloc DISCARD))
-                              )
-                        )
-                )
-             )
-           )
+                              (top (game vloc DISCARD)))))))
           
           (do 
               (
                (move (top (game iloc STOCK))
-                     (top ((current player) vloc HAND))
-                     )
-               )
-            )
-          )
-         )
+                     (top ((current player) vloc HAND)))))))
         
         ;; if pair, end the round
         (do 
@@ -160,24 +128,13 @@
              ((and (> (size ((current player) vloc HAND)) 0)
                    (== (cardatt VALUE (top ((current player) vloc HAND)))
                        SEVEN))
-              (cycle next current)
-              )
+              (cycle next current))
              ((> (size (tuples 2 ((current player) vloc HAND) using 'POINTS)) 0)
               (do 
                   (
                    (move (actual (top (top (tuples 2 ((current player) vloc HAND) using 'POINTS))))
-                         (top ((current player) vloc SCORING))
-                         )
+                         (top ((current player) vloc SCORING)))
                    (repeat all
                            (move (top ((current player) vloc HAND))
-                                 (top (game vloc DISCARD))
-                                 )
-                           )
-                   )
-                )
-              )
-             )
-          )
-        )
- (scoring min (sum ((current player) vloc SCORING) using 'POINTS))
- )    
+                                 (top (game vloc DISCARD))))))))))
+  (scoring min (sum ((current player) vloc SCORING) using 'POINTS)))

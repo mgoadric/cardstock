@@ -10,8 +10,7 @@
   ;; Create the deck source
   (create deck (game vloc DISCARD) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                          (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
-                                                (BLACK (SUIT (CLUBS, SPADES))))))         
-  )
+                                                (BLACK (SUIT (CLUBS, SPADES)))))))       
  
  ;; Stages of the game
  (stage player
@@ -21,39 +20,31 @@
             (
              (repeat all
                      (move (top (game vloc DISCARD)) 
-                           (top (game iloc STOCK))
-                           )
-                     )
+                           (top (game iloc STOCK))))
              (remember (top (filter (game iloc STOCK) 'H (== (cardatt SUIT 'H) HEARTS)))
-                       (top (game mem TRUMP))
-                       )
+                       (top (game mem TRUMP)))
              (put points 'SCORE 
                   (
                    ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 1) 
-                   ((RANK (Q)) (SUIT (SPADES)) 13)
-                   )
-                  )
+                   ((RANK (Q)) (SUIT (SPADES)) 13)))
              (shuffle (game iloc STOCK))
              (all player 'P
                   (repeat 13
                           (move (top (game iloc STOCK))
-                                (top ('P iloc HAND))
-                                )
-                          )
-                  )
-             (set (game sto BROKEN) 0)
-             )
-          )
+                                (top ('P iloc HAND)))))
+             (set (game sto BROKEN) 0)))
         
         ;; players play a round 13 times     
         (stage player
                (end 
-                (all player 'P (== (size ('P iloc HAND)) 0)))
+                (all player 'P 
+                     (== (size ('P iloc HAND)) 0)))
                
                ;; players play a hand once
                (stage player
                       (end 
-                       (all player 'P (== (size ('P vloc TRICK)) 1)))
+                       (all player 'P 
+                            (== (size ('P vloc TRICK)) 1)))
                       
                       (choice  
                        (         
@@ -63,22 +54,17 @@
                               (== (game sto BROKEN) 0))
                          (any (filter ((current player) iloc HAND) 'NH 
                                       (!= (cardatt SUIT 'NH)     
-                                          (cardatt SUIT (top (game mem TRUMP))))
-                                      ) 'C
-                                        
-                                        (do 
-                                            (
-                                             
-                                             (move 'C  
-                                                   (top ((current player) vloc TRICK))
-                                                   )
-                                             (remember (top ((current player) vloc TRICK)) 
-                                                       (top (game mem LEAD))
-                                                       )
-                                             )
-                                          )
-                                        )
-                         )
+                                          (cardatt SUIT (top (game mem TRUMP)))))
+                              'C
+                              
+                              (do 
+                                  (
+                                   
+                                   (move 'C  
+                                         (top ((current player) vloc TRICK)))
+                                   
+                                   (remember (top ((current player) vloc TRICK)) 
+                                             (top (game mem LEAD)))))))
                         
                         ((and (== (size (game mem LEAD)) 0)
                               (== (game sto BROKEN) 0)
@@ -103,11 +89,7 @@
                                    (move 'C 
                                          (top ((current player) vloc TRICK))))
                               (remember (top ((current player) vloc TRICK)) 
-                                        (top (game mem LEAD))
-                                        )
-                              )
-                           )
-                         )
+                                        (top (game mem LEAD))))))
                         
                         ;; if following player and cannot follow SUIT
                         ;;   play any card, and end your turn
@@ -117,26 +99,17 @@
                                                     (cardatt SUIT (top (game mem LEAD)))))) 0))
                          (any ((current player) iloc HAND) 'C
                               (move 'C 
-                                    (top ((current player) vloc TRICK))
-                                    )
-                              )
-                         )
+                                    (top ((current player) vloc TRICK)))))
                         
                         ;; if following player and can follow SUIT
                         ;;   play any card that follows SUIT, and end your turn
                         (any (filter ((current player) iloc HAND) 'H 
                                      (== (cardatt SUIT 'H)
-                                         (cardatt SUIT (top (game mem LEAD))))
-                                     ) 'C
-                                       ((== (size (game mem LEAD)) 1)
-                                        (move 'C 
-                                              (top ((current player) vloc TRICK))
-                                              )
-                                        )
-                                       )
-                        )
-                       )
-                      )
+                                         (cardatt SUIT (top (game mem LEAD)))))
+                             'C
+                             ((== (size (game mem LEAD)) 1)
+                              (move 'C 
+                                    (top ((current player) vloc TRICK))))))))
                
                ;; after players play hand, computer wraps up trick
                (do ( 
@@ -156,12 +129,12 @@
                           ((RANK (FIVE)) 5)
                           ((RANK (FOUR)) 4)
                           ((RANK (THREE)) 3)
-                          ((RANK (TWO)) 2)
-                          ))
+                          ((RANK (TWO)) 2)))
                     
                     ;; determine who won the hand, set them first next time, and give them a point
                     (forget (top (game mem LEAD)))
-                    (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE)))
+                    (cycle next (owner (max (union (all player 'P 
+                                                        ('P vloc TRICK))) using 'PRECEDENCE)))
                     
                     ;; if winner played trump and trump not broken, trump is now broken
                     ((and (== (cardatt SUIT (top ((next player) vloc TRICK))) 
@@ -172,13 +145,7 @@
                     ;; discard all the played cards
                     (all player 'P
                          (move (top ('P vloc TRICK)) 
-                               (top ((next player) vloc TRICKSWON))
-                               )
-                         )
-                    
-                    )
-                 )
-               )
+                               (top ((next player) vloc TRICKSWON)))))))
         
         ;; determine score
         (stage player
@@ -195,15 +162,8 @@
                     
                     (repeat all
                             (move (top ((current player) vloc TRICKSWON))
-                                  (top (game vloc DISCARD))
-                                  )
-                            )
-                    )
-                 )
-               )
-        )
- (scoring min ((current player) sto SCORE))
- )
-
+                                  (top (game vloc DISCARD))))))))
+ 
+ (scoring min ((current player) sto SCORE)))
 
 
