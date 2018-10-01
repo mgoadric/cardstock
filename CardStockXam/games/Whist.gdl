@@ -18,8 +18,7 @@
  (stage player
         (end 
          (any team 'T 
-              (>= ('T sto SCORE) 5))
-         )
+              (>= ('T sto SCORE) 5)))
         (do 
             (
              (repeat all
@@ -68,9 +67,9 @@
                                       (== (cardatt SUIT 'L)
                                           (cardatt SUIT (top (game mem LEAD))))) 
                               'C
-                                                                                 
-                                                                                 (move 'C 
-                                                                                       (top ((current player) vloc TRICK)))))
+                              
+                              (move 'C 
+                                    (top ((current player) vloc TRICK)))))
                         
                         ;; if first player, play any card, remember it in the lead spot, and end your turn
                         ((== (size (game mem LEAD)) 0)                       
@@ -81,7 +80,7 @@
                                          (top ((current player) vloc TRICK)))
                                    (remember (top ((current player) vloc TRICK)) 
                                              (top (game mem LEAD))))))))))
-
+               
                ;; after players play hand, computer wraps up trick
                (do (
                     ;; solidfy card recedence
@@ -117,7 +116,8 @@
         ;; determine team score
         (stage team
                (end 
-                (all player 'P (== ('P sto TRICKSWON) 0)))
+                (all player 'P 
+                     (== ('P sto TRICKSWON) 0)))
                (do 
                    (
                     

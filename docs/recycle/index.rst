@@ -107,29 +107,22 @@ the max or min is decided randomly among all tied cards.
    (max [CardCollection] using [PointMap])
    (min [CardCollection] using [PointMap])
 
-Finally, a card can be 
+Finally, a virtual card (for example from a minimum or union operation) can be 
+converted into an actual card, so that any move operation moves the card in the 
+CardCollection_ to which it belongs.
 
-(actual [Card])
+.. code-block:: racket
 
-PointMap
---------
-
-Map between String and Integer
-
-String => Integer
-
-Used for looking at a card and assigning point value based on attributes. See as part of a Using
-
-Update and create with 
-
-(put points [Variable] (([String] ([String])) [Int])
+   (actual [Card])
 
 Boolean
 -------
 
-Standard True and False idea. Only evaluated, never stated.
+Booleans in RECYCLE comprise the standard True and False, derived mainly from 
+comparisons between other data types, or conjunctions and disjunctions of other
+Booleans. They are only evaluated, never explicitly stated as literal True or False.
 
-.. code-block:: python
+.. code-block:: racket
 
 	(and [Boolean] [Boolean]+)
 	(or [Boolean] [Boolean]+)
@@ -154,81 +147,159 @@ Standard True and False idea. Only evaluated, never stated.
 	(== [Team] [Team])
 	(!= [Team] [Team])
 
-
 Owners
 ======
+
+There are three main Owners of data in Recycle: the Game_, each Player_, and each Team_.
+The Player_ and Team_ types are more specific types of Owners_, allowing
+different functionality.
 
 Game
 ----
 
-The game storage area, holds a map for 
-String sto => Integer
+The Game holds storage for both Integer_ or CardCollection_ data. These are referenced
+by a String_ name. For example an Integer_ storage for the number of total chips in the
+game could be
+
+.. code-block:: racket
     
-String (vloc | iloc | hloc | mem) => CardCollection
+  (game sto CHIPS)
+
+And a CardCollection_ for the stock of face-down cards would be 
+
+.. code-block:: racket
+    
+  (game iloc STOCK)
 
 Player
 ------
 
-Each player also has a storage area, holds a map for 
-String sto => Integer
+As above, a Player tracks storage for both Integer_ or CardCollection_ data. These are referenced
+by a String_ name. To reference an individual Player, we can directly refer to the 
+turn order of a Player.
+
+.. code-block:: racket
     
-String (vloc | iloc | hloc | mem) => CardCollection
+  ([Integer] player)
 
-([Integer] player)
-(current player)
-(previous player)
-(next player)
+Also, based on the current turn within a stage, we can referentially talk to the current,
+previous, and next player. Turn order is determined clock-wise, and the 
+previous player will always use this turn order. The next player also uses this turn order
+by default, but could be altered within this stage by a NextAction_ queueing up a different
+player to go next.
 
-(owner [Card])
+.. code-block:: racket
+    
+  (current player)
+  (previous player)
+  (next player)
+
+A Player can also be found by determining the owner of a Card_.
+
+.. code-block:: racket
+    
+  (owner [Card])
 
 Team
 ----
 
-Each team also has a storage area, holds a map for 
-String sto => Integer
+As above, a Player tracks storage for both Integer_ or CardCollection_ data. These are referenced
+by a String_ name. To reference an individual Team, we can directly refer to the 
+turn order of a Team.
+
+.. code-block:: racket
+
+  ([Integer] team)
+
+Also, based on the current turn within a stage, we can referentially talk to the current,
+previous, and next team. Turn order is determined clock-wise, and the 
+previous team will always use this turn order. The next team also uses this turn order
+by default, but could be altered within this stage by a NextAction_ queueing up a different
+team to go next.
+
+.. code-block:: racket
     
-String (vloc | iloc | hloc | mem) => CardCollection
+  (current team)
+  (previous team)
+  (next team)
 
-([Integer] team)
-(current team)
-(previous team)
-(next team)
+Finally, a Team can be found by asking a Player_ what team they are on. A Player_ can 
+only be on one Team at a time.
 
-(team [Player])
-
+.. code-block:: racket
+    
+  (team [Player])
 
 Collections
 ===========
 
+Many of the base data types can be grouped into Collections_. Collections provide a way for
+Aggregation_ to iterate through for actions to be taken or 
+booleans to be processed with each Collection element.
+
 StringCollection
 ----------------
 
-Comma separated list of Strings
+A comma-separated list of String_ primitives is a StringCollection_.
+
+.. code-block:: racket
+
+  (YELLOW, GREEN, BLUE, RED, WHITE)
 
 IntegerCollection
 -----------------
 
-(range [Integer] .. [Integer])
+Currently, the only way to write an IntegerCollection is as a range of 
+Integer_ data, starting at a minimum value, and increasing by one up to but
+not including the maximum value.
+
+.. code-block:: racket
+
+  (range [Integer] .. [Integer])
 
 CardCollection
 --------------
 
-Ordered list of Card objects, found on the Game, Player, Team objects
+A CardCollection is an ordered list of Card_ objects, 
+found on the Game_, Player_, and Team_ objects. These CardCollections can be directly
+accessed using their Owner_, the visibility modifier, and the String_ name for that 
+CardCollection.
 
-([Game | Player | Team] (vloc | iloc | hloc | mem) [String])
+.. code-block:: racket
 
-vloc: visible to everyone
-iloc: visible to owner, invisible to others
-hloc: invisible to everyone, including owner
-mem: copies of cards in memory, visible to all
+  ([Game | Player | Team] (vloc | iloc | hloc | mem) [String])
 
-(filter [CardCollection] [Boolean])
+Visibility modifiers can be one of 
 
-(union [CardCollection]*)
+* vloc: visible to everyone
+* iloc: visible to owner, invisible to others
+* hloc: invisible to everyone, including owner
+* mem: copies of cards in memory, visible to all
 
-(top [CardCollectionCollection])
-(bottom [CardCollectionCollection])
-([Integer] [CardCollectionCollection])
+The filter function can be used to create a CardCollection subset from another 
+CardCollection. A Boolean_ statement will evaluate as true if an element of the original
+CardCollection, denoted by a Variable_, will be included in the filter.
+
+.. code-block:: racket
+
+  (filter [CardCollection] [Variable] [Boolean])
+
+A CardCollection can be created through the union of other CardCollections, for example,
+we can create one CardCollection that will hold all the cards played by players to their
+individual TRICK CardCollections so that we can determine the highest played card.
+
+.. code-block:: racket
+
+  (union [CardCollection]*)
+
+Finally, we can access individual elements of a CardCollectionCollection_ to obtain
+a CardCollection, following the top, bottom, or index methodology.
+
+.. code-block:: racket
+
+  (top [CardCollectionCollection])
+  (bottom [CardCollectionCollection])
+  ([Integer] [CardCollectionCollection])
 
 CardCollectionCollection
 ------------------------
@@ -242,14 +313,28 @@ Cycle of players, Denoted with the word “player”
 
 (other player)
 
-(filter [PlayerCollection] [Boolean])
+(filter [PlayerCollection] [Variable] [Boolean])
 
 TeamCollection
 --------------
 
 Cycle of teams, Denoted with the word “team”
 
-(filter [TeamCollection] [Boolean])
+(filter [TeamCollection] [Variable] [Boolean])
+
+PointMap
+========
+
+A Card_ is a map between String_ and String_ types, therefore we need another 
+data structure to capture Integer_ values of cards for scoring or ranking. A PointMap_ 
+is a map between two String_ pieces and an Integer_. The first String_ is the Card_ key
+and the second is the Card_ value. When applied to a Card_, 
+the points will be a sum of all of the key-value pairs that are found in this Card_.
+PointMaps are stored in a Variable_.
+
+.. code-block:: racket
+
+   (put points [Variable] (([String] ([String])) [Int])
 
 Aggregation
 ===========
@@ -278,15 +363,15 @@ Any
 (any collection ‘V [Rawstorage])
     Becomes a choice between ints??
 
-Variables
-=========
+Variable
+========
 
-LET
+let
 ---
 
 let [Type] [Variable] [Expression]
 
-DECLARE
+declare
 -------
 
 declare [Type] [Variable]
@@ -356,109 +441,111 @@ Scoring
 Example
 =======
 
-.. code-block:: python
+.. code-block:: racket
 
 
-	;; Agram in the GDL
-	(game
-	   (declare 4 'NUMP)
-	   (setup 
-		  ;; Set up the players
-		  (create players 'NUMP)
-		  (create teams (0) (1) (2) (3))
-	  
-		  ;; Create the deck source
-	 
-		  (create deck (game iloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN))
-											  (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
-													 (BLACK (SUIT (SPADES, CLUBS)))
-													 )))
-		  (create deck (game iloc STOCK) (deck (RANK (ACE)) (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
-																   (BLACK (SUIT (CLUBS)))
-																   )))
-	   )
-		  (do (
-			 (shuffle (game iloc STOCK))
-			 (all player 'P 
-				  (repeat 6 (move (top (game iloc STOCK))
-								  (top ('P iloc HAND)))))
+    ;; Agram
+    ;;
+    ;; https://www.pagat.com/last/agram.html
+
+    (game
+     (declare 4 'NUMP)
+     (setup 
+      (create players 'NUMP)
+      (create teams (0) (1) (2) (3))  
+  
+      ;; Create the deck source 
+      (create deck (game iloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN))
+                                           (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                  (BLACK (SUIT (SPADES, CLUBS))))))
+      (create deck (game iloc STOCK) (deck (RANK (ACE)) 
+                                           (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                  (BLACK (SUIT (CLUBS)))))))
+
+ 
+     ;; Shuffle and deal each player 6 cards
+     (do 
+         (
+          (shuffle (game iloc STOCK))
+          (all player 'P 
+               (repeat 6 
+                       (move (top (game iloc STOCK))
+                             (top ('P iloc HAND)))))))
    
-		  ))
-		 
-		  ;; players play a round 6 times     
-		  (stage player
-			 (end (all player 'P 
-					   (== (size ('P iloc HAND)) 0)))
-					
-			 ;; players play a hand once
-			 (stage player
-				(end (all player 'P 
-						  (> (size ('P vloc TRICK)) 0)))
-			
-			   (choice (
-					;; if following player cannot follow SUIT
-				   ;;   play any card, and end your turn
-				 ((and (== (size (game mem LEAD)) 1)
-					   (== (size (filter ((current player) iloc HAND) 'C (== (cardatt SUIT 'C)
-																			(cardatt SUIT (top (game mem LEAD)))))) 0))
-				   (any ((current player) iloc HAND) 'AC
-					  (move 'AC 
-						  (top ((current player) vloc TRICK)))))
+     ;; players play a round 6 times         
+     (stage player
+            (end 
+             (all player 'P 
+                  (== (size ('P iloc HAND)) 0)))
 
-				   ;; if following player and can follow SUIT
-				   ;;   play any card that follows SUIT, and end your turn
-				 (any (filter ((current player) iloc HAND) 'T (== (cardatt SUIT 'T)
-																 (cardatt SUIT (top (game mem LEAD))))) 'C
-				   ((== (size (game mem LEAD)) 1)
-					   (move 'C (top ((current player) vloc TRICK)))))
-					  
-				   ;; if first player, play any card, remember it in the lead spot, and end your turn
-				 ((== (size (game mem LEAD)) 0)                      
-				  (any ((current player) iloc HAND) 'AC
-					 (do (
-						 (move 'AC
-							   (top ((current player) vloc TRICK)))
-						 (remember (top ((current player) vloc TRICK)) 
-								   (top (game mem LEAD)))
-					 ))
-				 ))
-			  ))
-			 )
-			  
-			 ;; after players play hand, computer wraps up trick
-			 (do (
-					 ;; solidfy card recedence
-					 (put points 'PRECEDENCE (
-								   ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
-								   ((RANK (ACE)) 14)
-								   ((RANK (TEN)) 10)
-								   ((RANK (NINE)) 9)
-								   ((RANK (EIGHT)) 8)
-								   ((RANK (SEVEN)) 7)
-								   ((RANK (SIX)) 6)
-								   ((RANK (FIVE)) 5)
-								   ((RANK (FOUR)) 4)
-								   ((RANK (THREE)) 3)
-								   )
-								   )          
-					  
-					 ;; determine who won the hand, set them first next time
-				(forget (top (game mem LEAD)))
-				 
-				 
-		  
-				(cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE)))
-				 
-				(all player 'P 
-					 (move (top ('P vloc TRICK)) 
-						   (top (game vloc DISCARD))))
-			 
-				;; if that was the last round, give the winner a point
-				((all player 'P
-				   (== (size ('P iloc HAND)) 0))
-					 (inc ((next player) sto SCORE) 1))      
-			 ))
-		  )
-	   (scoring max ((current player) sto SCORE))
-	)
-
+            ;; players play a hand once     
+            (stage player
+                   (end 
+                    (all player 'P 
+                         (> (size ('P vloc TRICK)) 0)))
+               
+                   (choice 
+                    (
+                 
+                     ;; if following player cannot follow SUIT
+                     ;;   play any card, and end your turn   
+                     ((and (== (size (game mem LEAD)) 1)
+                           (== (size (filter ((current player) iloc HAND) 'C 
+                                             (== (cardatt SUIT 'C)
+                                                 (cardatt SUIT (top (game mem LEAD)))))) 0))
+                      (any ((current player) iloc HAND) 'AC
+                           (move 'AC 
+                                 (top ((current player) vloc TRICK)))))
+                 
+                     ;; if following player and can follow SUIT
+                     ;;   play any card that follows SUIT, and end your turn
+                     (any (filter ((current player) iloc HAND) 'T 
+                                  (== (cardatt SUIT 'T)
+                                      (cardatt SUIT (top (game mem LEAD)))))
+                          'C
+                                    ((== (size (game mem LEAD)) 1)
+                                     (move 'C 
+                                           (top ((current player) vloc TRICK)))))
+                
+                     ;; if first player, play any card, remember it in the lead spot, and end your turn
+                     ((== (size (game mem LEAD)) 0)                      
+                      (any ((current player) iloc HAND) 'AC
+                           (do 
+                               (
+                                (move 'AC
+                                      (top ((current player) vloc TRICK)))
+                                (remember (top ((current player) vloc TRICK)) 
+                                          (top (game mem LEAD))))))))))
+        
+            ;; after players play hand, computer wraps up trick
+            (do 
+                (
+                 ;; solidfy card recedence
+                 (put points 'PRECEDENCE 
+                      (
+                       ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
+                       ((RANK (ACE)) 14)
+                       ((RANK (TEN)) 10)
+                       ((RANK (NINE)) 9)
+                       ((RANK (EIGHT)) 8)
+                       ((RANK (SEVEN)) 7)
+                       ((RANK (SIX)) 6)
+                       ((RANK (FIVE)) 5)
+                       ((RANK (FOUR)) 4)
+                       ((RANK (THREE)) 3)))
+             
+                 ;; determine who won the hand, set them first next time
+                 (forget (top (game mem LEAD)))
+             
+                 (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE)))
+             
+                 (all player 'P 
+                      (move (top ('P vloc TRICK)) 
+                            (top (game vloc DISCARD))))
+             
+                 ;; if that was the last round, give the winner a point
+                 ((all player 'P
+                       (== (size ('P iloc HAND)) 0))
+                  (inc ((next player) sto SCORE) 1)))))
+ 
+     (scoring max ((current player) sto SCORE)))
