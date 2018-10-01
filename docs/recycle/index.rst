@@ -304,23 +304,52 @@ a CardCollection, following the top, bottom, or index methodology.
 CardCollectionCollection
 ------------------------
 
+A CardCollectionCollection can be created only through the tuples function. This will 
+return subsets of the given CardCollection_, where the Card_ elements are found to be 
+equal according to a PointMap_. Only those subsets of size equal to the given 
+Integer_ will be returned.
+
 (tuples [Integer] [CardCollection] 'using' [PointMap])
 
 PlayerCollection
 ----------------
 
-Cycle of players, Denoted with the word “player”
+The current players of the game can be referenced as a PlayerCollection. For all 
+players, simply use the word "player".
 
-(other player)
+Within a stage, players not equal to the current player can be referenced with
 
-(filter [PlayerCollection] [Variable] [Boolean])
+.. code-block:: racket
+
+  (other player)
+
+Alternately, players can be added to a collection based on Boolean_ attributes assessed
+on each Variable_ from a PlayerCollection filter.
+
+.. code-block:: racket
+
+  (filter [PlayerCollection] [Variable] [Boolean])
 
 TeamCollection
 --------------
 
+The current teams of the game can be referenced as a TeamCollection. For all 
+teams, simply use the word "team".
+
+Within a stage, teams not equal to the current team can be referenced with
+
+.. code-block:: racket
+
+  (other team)
+
+Alternately, teams can be added to a collection based on Boolean_ attributes assessed
+on each Variable_ from a TeamCollection filter.
+
 Cycle of teams, Denoted with the word “team”
 
-(filter [TeamCollection] [Variable] [Boolean])
+.. code-block:: racket
+
+  (filter [TeamCollection] [Variable] [Boolean])
 
 PointMap
 ========
