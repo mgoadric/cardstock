@@ -56,14 +56,6 @@ through various actions.
 
    0 23 999
 
-Integers are stored as part of the game, belonging either to 
-the Game_, a Player_, or a Team_. These Integer storage locations are
-named with a String_.
-
-.. code-block:: racket
-
-   ([Game | Player | Team] sto [String])
-
 Standard Integer operators can be applied to Integers to calculate new 
 Integers, with addition, subtraction, multiplication, integer division (//) and 
 modular division (mod).
@@ -90,11 +82,20 @@ PointMap_ and then these scores are summed.
 
    (sum [CardCollection] using [PointMap])
 
-Finally, the size of a CardCollection_ can be calculated and returned as an Integer.
+The size of a CardCollection_ can be calculated and returned as an Integer.
 
 .. code-block:: racket
 
    (size [CardCollection])
+
+Integers are stored as part of the game, belonging either to 
+the Game_, a Player_, or a Team_. These IntegerStorage_ locations are
+named with a String_.
+
+.. code-block:: racket
+
+   ([Game | Player | Team] sto [String])
+
 
 Card
 ----
@@ -525,8 +526,11 @@ this Variable will be valid.
   (let [Type] [Variable] [Expression])
 
 
-Game Actions
-============
+GameActions
+===========
+
+GameActions are the way that RECYCLE allows either the players or the game to update
+the data structures and rearrange the cards in the game.
 
 TeamCreateAction
 ----------------
@@ -537,31 +541,72 @@ TeamCreateAction
 ShuffleAction
 -------------
 
+.. code-block:: racket
+
+  (shuffle [CardCollection])
+
 CardMoveAction
 --------------
+
+.. code-block:: racket
+
+  (move [Card] [Card])
 
 CardRememberAction
 ------------------
 
+.. code-block:: racket
+
+  (remember [Card] [Card])
+
 CardForgetAction
 ----------------
+
+.. code-block:: racket
+
+  (forget [Card])
 
 IntAction
 ---------
 
+.. code-block:: racket
+
+  (set [IntegerStorage] [Integer])
+  (inc [IntegerStorage] [Integer])
+  (dec [IntegerStorage] [Integer])
+
+
 NextAction
 ----------
+
+.. code-block:: racket
+
+  (cycle next {[Owner] | current | next | previous})
 
 SetPlayerAction
 ---------------
 
+.. code-block:: racket
+
+  (cycle current {[Owner] | current | next | previous})
+
 TurnAction
 ----------
 
+.. code-block:: racket
 
+  (turn pass)
+  
+RepeatAction
+------------
 
-Control flow
-============
+.. code-block:: racket
+
+  (repeat [Integer] [Action])
+  (repeat all [MoveAction])
+
+MultiAction
+===========
 
 
 Do
@@ -592,6 +637,9 @@ CreateDeck
 Scoring
 =======
 
+.. code-block:: racket
+
+  (scoring {max | min} [Integer])
 
 
 Example
@@ -607,7 +655,7 @@ is no trump suit.  The object of the game is to
 win the last trick.
 
 .. code-block:: racket
-
+    :linenos:
 
     ;; Agram
     ;;
