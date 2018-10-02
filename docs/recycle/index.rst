@@ -2,11 +2,30 @@
 RECYCLE
 *******
 
-Function names are all lowercase, data types are capitalized, and Strings are
+RECYCLE is a game description language that allows for an 
+algorithmic representation of common  core  mechanisms  
+and  elements  of  card games. RECYCLE
+stands  for  REcursive  CYclic
+Card game LanguagE, referring to the primary
+feature of the language:  the recursion of game
+stages  containing  cycles  of  player  turns.   The
+language resembles the LISP programming language, often having a large number of nested
+instructions that control the flow of the games.
+
+The process of writing game rules in a natural language can be fraught with ambiguities,
+often necessitating clarifications after publication.
+Encoding a game in RECYCLE can be useful for illuminating the underlying formal structure of a
+game design, providing insight into avenues for
+targeted or large-scale refinement, and resolving
+potential ambiguities.
+
+In RECYCLE, function names are all lowercase, data types are capitalized, and Strings are
 all caps.
 
 Base Types
 ==========
+
+There are four main base elements in RECYCLE, String_, Integer_, Card_, and Boolean_.
 
 String
 ------
@@ -80,13 +99,8 @@ Finally, the size of a CardCollection_ can be calculated and returned as an Inte
 Card
 ----
 
-A card is a set of maps from a String_ key to a String_ value.
-
-.. code-block:: racket
-
-    RANK => KING
-    COLOR => BLUE
-    VALUE => FIVE
+A card is a set of maps from a String_ key to a String_ value, such as RANK => KING, COLOR => BLUE, and 
+VALUE => FIVE.
     
 A card can never be directly described, but is created through the CreateDeck_ setup and referenced
 through locations in a CardCollection_.
@@ -467,18 +481,44 @@ to the current Trick of a trick-taking game.
       (move 'AC 
             (top ((current player) vloc TRICK))))
 
+
 Variable
 ========
 
-let
----
+Variables, like String_ constants, must be all caps. They also must begin with a ' character.
 
-let [Type] [Variable] [Expression]
+.. code-block:: racket
+
+  'C 'AC 'COLOR 'P
+
+Variables can be implicitly assigned from a Collection_ inside the filter 
+function or Aggregation_ functions.
+
+There are two other ways to create Variables, with declare_ or let_.
 
 declare
 -------
 
-declare [Type] [Variable]
+The declare function must be at the beginning of a RECYCLE program. It is useful for
+creating program-wide constants or data that cannot be altered through the game. The 
+data can be anything explicitly defined, commonly String_ and Integer_, or a
+StringCollection_ type.
+
+.. code-block:: racket
+
+  (declare [Type] [Variable])
+
+
+let
+---
+
+The let function is a local declaration of a Variable, followed by a segment of code where
+this Variable will be valid.
+
+.. code-block:: racket
+
+  (let [Type] [Variable] [Expression])
+
 
 Game Actions
 ============
@@ -513,6 +553,8 @@ SetPlayerAction
 TurnAction
 ----------
 
+
+
 Control flow
 ============
 
@@ -526,12 +568,13 @@ Choice
 Stage
 -----
 
+
+
 Setup
 =====
 
 CreatePlayers
 -------------
-
 
 CreateTeams
 -----------
@@ -539,11 +582,24 @@ CreateTeams
 CreateDeck
 ----------
 
+
+
 Scoring
 =======
 
+
+
 Example
 =======
+
+The following is an example game written in RECYCLE called Agram.
+Agram is a simple Nigerian trick-taking card
+game for 2 to 6 players.  Players are dealt six
+cards from a reduced French deck, and play six
+tricks. To win a trick, players must follow the
+suit of the lead player with a higher card; there
+is no trump suit.  The object of the game is to
+win the last trick.
 
 .. code-block:: racket
 
