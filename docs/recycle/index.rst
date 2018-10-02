@@ -403,7 +403,8 @@ For example, the following is a Boolean_ that will be True if all players have a
 of zero.
 
 .. code-block:: racket
-
+  :linenos:
+  
   (all player 'P 
       (== (size ('P iloc HAND)) 0))
 
@@ -418,7 +419,8 @@ We can see this in the following code to move each player's top Trick card to th
 pile.
 
 .. code-block:: racket
-
+  :linenos:
+   
   (all player 'P 
       (move (top ('P vloc TRICK)) 
             (top (game vloc DISCARD))))    
@@ -432,7 +434,8 @@ When the final element is a CardCollection, the all will become a CardCollection
 This can be used to merge each player's individual CardCollection_ elements, such as 
 
 .. code-block:: racket
-
+  :linenos:
+   
   (union (all player 'P ('P vloc TRICK)))
 
 When the final element is an Integer_, the all will become a sum of those Integer_ 
@@ -462,7 +465,8 @@ For example, the following is a Boolean_ that will be True if any player has
 Points greater than 10.
 
 .. code-block:: racket
-
+  :linenos:
+   
   (any player 'P
       (> ('P sto POINTS) 10))
 
@@ -476,7 +480,8 @@ For example, the following is how a player can choose to play any Card_ in their
 to the current Trick of a trick-taking game.  
   
 .. code-block:: racket
-
+  :linenos:
+   
   (any ((current player) iloc HAND) 'AC
       (move 'AC 
             (top ((current player) vloc TRICK))))
