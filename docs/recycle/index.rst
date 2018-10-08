@@ -541,6 +541,7 @@ four-person game. Players are indexed starting at 0.
 
 .. code-block:: racket
   :linenos:
+  
   (create teams (0) (1) (2) (3))  
 
 To add more than one player to a team, write a comma-separated list with each
@@ -549,6 +550,7 @@ members are seated opposite each other.
 
 .. code-block:: racket
   :linenos:
+  
   (create teams (0, 2) (1, 3))
 
 
@@ -664,19 +666,53 @@ move cards one by one until there are no more Card_ objects in the first locatio
 
   (repeat all [MoveAction])
 
-MultiAction
-===========
+GameFlow
+========
 
+ConditionalAction
+-----------------
+
+Action_ blocks can also be prefaced with a boolean condition
+to make the execution of the action dependent on the current state of the game.
+
+.. code-block:: racket
+  :linenos:
+  
+  ([Boolean] [Action])
 
 Do
 --
 
+Action_ blocks can be combined to form a sequence of actions. These can also
+be ConditionalAction_ objects. The aggregate of these actions is called a Do_, and
+can also have nested inside more Do_ blocks. These actions will be executed 
+one after another in order from top to bottom.
+
+.. code-block:: racket
+
+  (do ([ConditionalAction | Action | Do]*))
+  
 Choice
 ------
+
+A Choice_ block is a way to set up options for the player in the game. Instead of
+operating sequentially, the Action_ objects found to be valid based on their
+conditions will be grouped and presented to the player, who then must 
+make a choice among them for the game to proceed. A Do_ can be within a Choice_, 
+giving the player an option of choosing a set of sequential actions.
+
+.. code-block:: racket
+
+  (choice ([ConditionalAction | Action | Do]*))
+  
+
 
 Stage
 -----
 
+.. code-block:: racket
+
+  (stage player [Boolean] [Do | Choice | Stage])
 
 
 Setup
@@ -685,16 +721,34 @@ Setup
 CreatePlayers
 -------------
 
+.. code-block:: racket
+
+  (create players [Integer])
+  
 CreateTeams
 -----------
+
+See TeamCreateAction_ above.
 
 CreateDeck
 ----------
 
+.. code-block:: racket
+
+  (create deck [CardCollection] ????)
 
 
 Scoring
 =======
+
+The Scoring section of the game details how to determine the ranking of players once
+the game is complete. The scores can be based on any Integer_ in the game, commonly
+an IntegerStorage, but possibly the size of a CardCollection or any other
+Integer that can be calculated. The (current player) can be used to denote that this
+scoring will be applied to each player in the game. 
+
+You can either sort these scores from highest to lowest so that the max is 
+regarded as the best score, or lowest to highest so that the min is the best score.
 
 .. code-block:: racket
 
