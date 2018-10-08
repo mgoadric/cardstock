@@ -526,20 +526,40 @@ this Variable will be valid.
   (let [Type] [Variable] [Expression])
 
 
-GameActions
-===========
+Action
+======
 
-GameActions are the way that RECYCLE allows either the players or the game to update
+Actions are the way that RECYCLE allows either the players or the game to update
 the data structures and rearrange the cards in the game.
 
 TeamCreateAction
 ----------------
+
+Teams can be created at any time during the game, and must be created in the initialization
+section of the game. The following code will make four teams, one for each player, in a 
+four-person game. Players are indexed starting at 0.
+
+.. code-block:: racket
+  :linenos:
+  (create teams (0) (1) (2) (3))  
+
+To add more than one player to a team, write a comma-separated list with each
+team member. This code will create two teams in a four-person game, where team
+members are seated opposite each other.
+
+.. code-block:: racket
+  :linenos:
+  (create teams (0, 2) (1, 3))
+
 
 .. InitializeAction
    ----------------
 
 ShuffleAction
 -------------
+
+A CardCollection_ can be shuffled at any time into a new random permutation of the 
+Card_ objects.
 
 .. code-block:: racket
 
@@ -548,12 +568,20 @@ ShuffleAction
 CardMoveAction
 --------------
 
+Once created, Card_ objects can be moved from location to location with the move
+action. The first Card_ must not refer to a memory location, and the second card
+cannot be a memory or a virtual location.
+
 .. code-block:: racket
 
   (move [Card] [Card])
 
 CardRememberAction
 ------------------
+
+Card_ objects can also be copied into memory, for example to remember which 
+card was led, or what suit is trump. The second Card_ must refer to a memory
+location.
 
 .. code-block:: racket
 
@@ -562,12 +590,19 @@ CardRememberAction
 CardForgetAction
 ----------------
 
+Since memory locations hold Card_ objects that are copies, they should not be 
+moved but instead forgotten when they are no longer needed. 
+
 .. code-block:: racket
 
   (forget [Card])
 
 IntAction
 ---------
+
+IntegerStorage locations can be changed in three ways. We can set the storage
+to be a particular Integer_, increment the current value by an Integer_, or 
+decrement the current value by an Integer_.
 
 .. code-block:: racket
 
@@ -579,19 +614,34 @@ IntAction
 NextAction
 ----------
 
+The order in the current cycle can be altered in two ways. The first is to change
+the player that is queued to go next. This can be the current player, which will give the 
+player another turn, the previous player to reverse the play direction, or the owner
+of a particular Card_, such as the winning card of a trick.
+
 .. code-block:: racket
 
-  (cycle next {[Owner] | current | next | previous})
+  (cycle next (owner [Card]))
+  (cycle next current)
+  (cycle next previous)
 
 SetPlayerAction
 ---------------
 
+Second, the current player in the cycle can be altered immediately with the following 
+similar actions.
+
 .. code-block:: racket
 
-  (cycle current {[Owner] | current | next | previous})
+  (cycle current (owner [Card]))
+  (cycle current next)
+  (cycle current previous)
 
 TurnAction
 ----------
+
+A player sometimes needs the opportunity to pass. This Action is a way to have
+the player taken an action that makes no change to the game state.
 
 .. code-block:: racket
 
@@ -600,9 +650,18 @@ TurnAction
 RepeatAction
 ------------
 
+Actions can be repeated with the repeat action. The action will be repeated for an
+Integer_ number of times. 
+
 .. code-block:: racket
 
   (repeat [Integer] [Action])
+
+One additional way to repeat an action is the "repeat all" for a MoveAction_. This will 
+move cards one by one until there are no more Card_ objects in the first location.
+
+.. code-block:: racket
+
   (repeat all [MoveAction])
 
 MultiAction
@@ -639,7 +698,8 @@ Scoring
 
 .. code-block:: racket
 
-  (scoring {max | min} [Integer])
+  (scoring max [Integer])
+  (scoring min [Integer])
 
 
 Example
@@ -733,7 +793,7 @@ win the last trick.
             ;; after players play hand, computer wraps up trick
             (do 
                 (
-                 ;; solidfy card recedence
+                 ;; solidfy card precedence
                  (put points 'PRECEDENCE 
                       (
                        ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
