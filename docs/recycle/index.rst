@@ -764,7 +764,7 @@ BLUE-LARGE, GREEN-SMALL, and GREEN-LARGE.
   :linenos:
   
   (create deck (game iloc STOCK) (deck (COLOR (RED, BLUE, GREEN))
-  									   (SIZE (SMALL, LARGE))))
+                                       (SIZE (SMALL, LARGE))))
 
 Keys can also be nested inside as values inside other key lists. The 
 following code is used to make a full 52 Card_ deck, with RANK, COLOR, and SUIT keys.
@@ -772,8 +772,8 @@ following code is used to make a full 52 Card_ deck, with RANK, COLOR, and SUIT 
 .. code-block:: racket
   :linenos:
   
-  (create deck (game iloc STOCK) (deck (RANK (ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, 
-                                              NINE, TEN, JACK, QUEEN, KING))
+  (create deck (game iloc STOCK) (deck (RANK (ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
+                                              EIGHT, NINE, TEN, JACK, QUEEN, KING))
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                               (BLACK (SUIT (SPADES, CLUBS))))))
 
