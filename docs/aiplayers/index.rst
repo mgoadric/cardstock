@@ -1,6 +1,14 @@
 AIPlayer
 ========
 
+.. toctree::
+   :maxdepth: 2
+
+   random
+   pipmc
+   mcts
+   ismcts
+   
 AIPlayer_ is an abstract class to be subclassed for all of the AI. It will 
 know the number of players in the game, have a Perspective_ which
 privatizes the hidden aspects of the game from this player, and 
@@ -28,10 +36,3 @@ If your AIPlayer_ is being used in the Heuristics_ portion of CardStock, then wi
 MakeAction_, you should also create an array of doubles with the estimated inverse rank of the 
 player for each possible move and pass this to RecordHeuristics_ for processing. 
 
-.. toctree::
-   :maxdepth: 2
-
-   random
-   pipmc
-   mcts
-   ismcts
