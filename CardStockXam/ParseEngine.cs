@@ -98,6 +98,7 @@ public class ParseEngine
         List<List<double>>[] lead = new List<List<double>>[exp.numGames];
         int[] winners = new int[exp.numGames];
         int numTurns = 0;
+        int numFinished = 0;
 
         Parallel.For(0, exp.numGames, i =>
         {
@@ -195,8 +196,10 @@ public class ParseEngine
                     //gameWorld.IncNumTurns(choiceCount);
                 }
 
-
-                Debug.WriteLine("Finished game " + (i + 1) + " of " + exp.numGames);
+                lock (this){
+                    numFinished++;
+                    Console.WriteLine("Finished game " + numFinished + " of " + exp.numGames);
+                }
             }
         
             catch (Exception e)

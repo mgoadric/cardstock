@@ -11,122 +11,119 @@
   
   ;; Create the deck source
   (create deck (game iloc STOCK) (deck (RANK (ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, 
-                                                EIGHT, NINE, TEN, JACK, QUEEN, KING))
-                                         (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
-                                                (BLACK (SUIT (CLUBS, SPADES)))))))        
+                                                 EIGHT, NINE, TEN, JACK, QUEEN, KING))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (CLUBS, SPADES)))))))        
  
  ;; Stages of the game
-         (do 
-            (
-             (shuffle (game iloc STOCK))
-             (all player 'P
-                  (do 
-                      (
-                       (repeat 13
-                               (move (top (game iloc STOCK))
-                                     (top ('P iloc HAND))))
-                       (set ('P sto TRICKSWON) 0))))
-             (remember (top (game iloc STOCK))
-                       (top (game mem TRUMP)))))
+ (do 
+     (
+      (shuffle (game iloc STOCK))
+      (all player 'P           
+           (repeat 13
+                   (move (top (game iloc STOCK))
+                         (top ('P iloc HAND)))))
+      (remember (top (game iloc STOCK))
+                (top (game mem TRUMP)))))
+ 
+ ;; players play a round 26 times     
+ (stage player
+        (end 
+         (all player 'P 
+              (== (size ('P iloc HAND)) 0)))
         
-        ;; players play a round 26 times     
+        ;; when cards available, flip top
+        (do 
+            (
+             ((> (size (game iloc STOCK)) 0)
+              (move (top (game iloc STOCK))
+                    (top (game vloc TOPSTOCK))))))
+        
+        ;; players play a hand once
         (stage player
                (end 
-                (all player 'P 
-                     (== (size ('P iloc HAND)) 0)))
+                (all player 'P
+                     (> (size ('P vloc TRICK)) 0)))
                
-               ;; when cards available, flip top
-               (do 
-                   (
-                    ((> (size (game iloc STOCK)) 0)
-                     (move (top (game iloc STOCK))
-                           (top (game vloc TOPSTOCK))))))
-               
-               ;; players play a hand once
-               (stage player
-                      (end 
-                       (all player 'P
-                            (> (size ('P vloc TRICK)) 0)))
-                      
-                      (choice 
-                       (
-                        
-                        ;; if following player and cannot follow SUIT
-                        ;;   play any card, and end your turn
-                        ((and (== (size (game mem LEAD)) 1)
-                              (== (size (filter ((current player) iloc HAND) 'L 
-                                                (== (cardatt SUIT 'L) 
-                                                    (cardatt SUIT (top (game mem LEAD)))))) 0))
-                         (any ((current player) iloc HAND) 'C
-                              (move 'C 
-                                    (top ((current player) vloc TRICK)))))
-                        
-                        ;; if following player and can follow SUIT
-                        ;;   play any card that follows SUIT, and end your turn
-                        ((== (size (game mem LEAD)) 1)
-                         (any (filter ((current player) iloc HAND) 'L 
-                                      (== (cardatt SUIT 'L)
-                                          (cardatt SUIT (top (game mem LEAD))))) 
-                              'C
-                              
-                              (move 'C 
-                                    (top ((current player) vloc TRICK)))))
-                        
-                        ;; if first player, play any card, remember it in the lead spot, and end your turn
-                        ((== (size (game mem LEAD)) 0)                       
-                         (any ((current player) iloc HAND) 'C
-                              (do 
-                                  (
-                                   (move 'C 
-                                         (top ((current player) vloc TRICK)))
-                                   (remember (top ((current player) vloc TRICK)) 
-                                             (top (game mem LEAD))))))))))
-               
-               ;; after players play hand, computer wraps up trick
-               (do (
-                    ;; solidfy card recedence
-                    (put points 'PRECEDENCE 
-                         (
-                          ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 200)
-                          ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
-                          ((RANK (ACE)) 14)
-                          ((RANK (KING)) 13) 
-                          ((RANK (QUEEN)) 12)
-                          ((RANK (JACK)) 11)
-                          ((RANK (TEN)) 10)
-                          ((RANK (NINE)) 9)
-                          ((RANK (EIGHT)) 8)
-                          ((RANK (SEVEN)) 7)
-                          ((RANK (SIX)) 6)
-                          ((RANK (FIVE)) 5)
-                          ((RANK (FOUR)) 4)
-                          ((RANK (THREE)) 3)
-                          ((RANK (TWO)) 2)))
-                    
-                    ;; determine who won the hand, set them first next time
-                    (forget (top (game mem LEAD)))
-                    (cycle next (owner (max (union (all player 'P 
-                                                        ('P vloc TRICK))) using 'PRECEDENCE)))
-                    
-                    ;; if second stage, give them a point
-                    ((== (size (game iloc STOCK)) 0)
-                     (inc ((next player) sto TRICKSWON) 1))
-                    
-                    ;; otherwise, deal out cards
-                    ((> (size (game iloc STOCK)) 0)
-                     (do 
-                         (
-                          (move (top (game vloc TOPSTOCK))
-                                (top ((next player) iloc HAND)))
-                          (move (top (game iloc STOCK))
-                                (top ((owner (min (union (all player 'P 
-                                                        ('P vloc TRICK))) using 'PRECEDENCE)) iloc HAND))))))
-                    
-                    
-                    ;; discard all the played cards
-                    (all player 'P
-                         (move (top ('P vloc TRICK)) 
-                               (top (game vloc DISCARD)))))))
+               (choice 
+                (
+                 
+                 ;; if following player and cannot follow SUIT
+                 ;;   play any card, and end your turn
+                 ((and (== (size (game mem LEAD)) 1)
+                       (== (size (filter ((current player) iloc HAND) 'L 
+                                         (== (cardatt SUIT 'L) 
+                                             (cardatt SUIT (top (game mem LEAD)))))) 0))
+                  (any ((current player) iloc HAND) 'C
+                       (move 'C 
+                             (top ((current player) vloc TRICK)))))
+                 
+                 ;; if following player and can follow SUIT
+                 ;;   play any card that follows SUIT, and end your turn
+                 ((== (size (game mem LEAD)) 1)
+                  (any (filter ((current player) iloc HAND) 'L 
+                               (== (cardatt SUIT 'L)
+                                   (cardatt SUIT (top (game mem LEAD))))) 
+                       'C
+                       
+                       (move 'C 
+                             (top ((current player) vloc TRICK)))))
+                 
+                 ;; if first player, play any card, remember it in the lead spot, and end your turn
+                 ((== (size (game mem LEAD)) 0)                       
+                  (any ((current player) iloc HAND) 'C
+                       (do 
+                           (
+                            (move 'C 
+                                  (top ((current player) vloc TRICK)))
+                            (remember (top ((current player) vloc TRICK)) 
+                                      (top (game mem LEAD))))))))))
+        
+        ;; after players play hand, computer wraps up trick
+        (do (
+             ;; solidfy card recedence
+             (put points 'PRECEDENCE 
+                  (
+                   ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 200)
+                   ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
+                   ((RANK (ACE)) 14)
+                   ((RANK (KING)) 13) 
+                   ((RANK (QUEEN)) 12)
+                   ((RANK (JACK)) 11)
+                   ((RANK (TEN)) 10)
+                   ((RANK (NINE)) 9)
+                   ((RANK (EIGHT)) 8)
+                   ((RANK (SEVEN)) 7)
+                   ((RANK (SIX)) 6)
+                   ((RANK (FIVE)) 5)
+                   ((RANK (FOUR)) 4)
+                   ((RANK (THREE)) 3)
+                   ((RANK (TWO)) 2)))
+             
+             ;; determine who won the hand, set them first next time
+             (forget (top (game mem LEAD)))
+             (cycle next (owner (max (union (all player 'P 
+                                                 ('P vloc TRICK))) using 'PRECEDENCE)))
+             
+             ;; if second stage, give them a point
+             ((== (size (game iloc STOCK)) 0)
+              (inc ((next player) sto TRICKSWON) 1))
+             
+             ;; otherwise, deal out cards
+             ((> (size (game iloc STOCK)) 0)
+              (do 
+                  (
+                   (move (top (game vloc TOPSTOCK))
+                         (top ((next player) iloc HAND)))
+                   (move (top (game iloc STOCK))
+                         (top ((owner (min (union (all player 'P 
+                                                       ('P vloc TRICK))) using 'PRECEDENCE)) iloc HAND))))))
+             
+             
+             ;; discard all the played cards
+             (all player 'P
+                  (move (top ('P vloc TRICK)) 
+                        (top (game vloc DISCARD)))))))
  
  (scoring max ((current player) sto TRICKSWON)))
 

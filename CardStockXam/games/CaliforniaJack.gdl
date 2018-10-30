@@ -139,7 +139,7 @@
                 (inc ('P sto SCORE) 
                      (size (filter ('P vloc TRICKSWON) 'C 
                                    (and (== (cardatt SUIT 'C)
-                                            (cardatt SUIT (game mem TRUMP)))
+                                            (cardatt SUIT (top (game mem TRUMP))))
                                         (or (== (cardatt RANK 'C)
                                                 ACE)
                                             (== (cardatt RANK 'C)
@@ -153,7 +153,7 @@
         (do
             (
              ((> ((current player) sto GAMESCORE) ((next player) sto GAMESCORE))
-              (inc ((current player) sto GAMESCORE) 1))
+              (inc ((current player) sto SCORE) 1))
              (repeat all
                      (move (top ((current player) vloc TRICKSWON))
                            (top (game vloc DISCARD)))))))
