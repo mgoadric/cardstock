@@ -396,6 +396,9 @@
     <None Include="games\CaliforniaJack.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="games\Knaves.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
