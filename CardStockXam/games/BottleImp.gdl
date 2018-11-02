@@ -1,0 +1,228 @@
+;; Bottle Imp
+;;
+;; https://tesera.ru/images/items/11335/Bottle_Imp_Rules_EN.pdf
+
+(game
+ 
+ (setup 
+  ;; Set up the players, 3 players
+  (create players 3)
+  (create teams (0) (1) (2))
+  
+  ;; Create the deck source
+  (create deck (game iloc STOCK) (deck (RANK (ONE, TWO)) (SUIT (YELLOW)) (COINS (ONE))))        
+  (create deck (game iloc STOCK) (deck (RANK (THREE, FIVE)) (SUIT (YELLOW)) (COINS (TWO))))        
+  (create deck (game iloc STOCK) (deck (RANK (SEVEN, NINE)) (SUIT (YELLOW)) (COINS (THREE))))        
+  (create deck (game iloc STOCK) (deck (RANK (TWELVE, FIFTEEN)) (SUIT (YELLOW)) (COINS (FOUR))))        
+  (create deck (game iloc STOCK) (deck (RANK (EIGHTEEN, TWENTYTWO)) (SUIT (YELLOW)) (COINS (FIVE))))        
+  (create deck (game iloc STOCK) (deck (RANK (TWENTYFIVE, TWENTYEIGHT)) (SUIT (YELLOW)) (COINS (SIX))))        
+
+  (create deck (game iloc STOCK) (deck (RANK (FOUR, SIX)) (SUIT (BLUE)) (COINS (ONE))))        
+  (create deck (game iloc STOCK) (deck (RANK (EIGHT, TEN)) (SUIT (BLUE)) (COINS (TWO))))        
+  (create deck (game iloc STOCK) (deck (RANK (THIRTEEN, SEVENTEEN)) (SUIT (BLUE)) (COINS (THREE))))        
+  (create deck (game iloc STOCK) (deck (RANK (TWENTY, TWENTYFOUR)) (SUIT (BLUE)) (COINS (FOUR))))        
+  (create deck (game iloc STOCK) (deck (RANK (TWENTYSEVEN, THIRTY)) (SUIT (BLUE)) (COINS (FIVE))))        
+  (create deck (game iloc STOCK) (deck (RANK (THIRTYTWO, THIRTYFOUR)) (SUIT (BLUE)) (COINS (SIX))))        
+
+  (create deck (game iloc STOCK) (deck (RANK (ELEVEN, FOURTEEN)) (SUIT (RED)) (COINS (ONE))))        
+  (create deck (game iloc STOCK) (deck (RANK (SIXTEEN, TWENTYONE)) (SUIT (RED)) (COINS (TWO))))        
+  (create deck (game iloc STOCK) (deck (RANK (TWENTYTHREE, TWENTYSIX)) (SUIT (RED)) (COINS (THREE))))        
+  (create deck (game iloc STOCK) (deck (RANK (TWENTYNINE, THIRTYONE)) (SUIT (RED)) (COINS (FOUR))))        
+  (create deck (game iloc STOCK) (deck (RANK (THIRTYTHREE, THIRTYFIVE)) (SUIT (RED)) (COINS (FIVE))))        
+  (create deck (game iloc STOCK) (deck (RANK (THIRTYSIX, THIRTYSEVEN)) (SUIT (RED)) (COINS (SIX))))
+  
+  (create deck (game vloc IMP) (deck (RANK (NINETEEN)))))       
+ 
+ ;; Stages of the game
+ (do 
+     (
+      (shuffle (game iloc STOCK))
+      (all player 'P           
+           (repeat 12
+                   (move (top (game iloc STOCK))
+                         (top ('P iloc HAND)))))
+      (put points 'COINVALUE 
+           (
+            ((COINS (ONE)) 1)
+            ((COINS (TWO)) 2)
+            ((COINS (THREE)) 3)
+            ((COINS (FOUR)) 4)
+            ((COINS (FIVE)) 5)
+            ((COINS (SIX)) 6)))
+      (put points 'PRECEDENCE 
+           (
+            ((RANK (ONE)) 1)
+            ((RANK (TWO)) 2)
+            ((RANK (THREE)) 3)
+            ((RANK (FOUR)) 4)
+            ((RANK (FIVE)) 5)
+            ((RANK (SIX)) 6)
+            ((RANK (SEVEN)) 7)
+            ((RANK (EIGHT)) 8)
+            ((RANK (NINE)) 9)
+            ((RANK (TEN)) 10)
+            ((RANK (ELEVEN)) 11)
+            ((RANK (TWELVE)) 12)
+            ((RANK (THIRTEEN)) 13)
+            ((RANK (FOURTEEN)) 14)
+            ((RANK (FIFTEEN)) 15)
+            ((RANK (SIXTEEN)) 16)
+            ((RANK (SEVENTEEN)) 17)
+            ((RANK (EIGHTEEN)) 18)
+            ((RANK (NINETEEN)) 19)
+            ((RANK (TWENTY)) 20)
+            ((RANK (TWENTYONE)) 21)
+            ((RANK (TWENTYTWO)) 22)
+            ((RANK (TWENTYTHREE)) 23)
+            ((RANK (TWENTYFOUR)) 24)
+            ((RANK (TWENTYFIVE)) 25)
+            ((RANK (TWENTYSIX)) 26)
+            ((RANK (TWENTYSEVEN)) 27)
+            ((RANK (TWENTYEIGHT)) 28)
+            ((RANK (TWENTYNINE)) 29)
+            ((RANK (THIRTY)) 30)
+            ((RANK (THIRTYONE)) 31)
+            ((RANK (THIRTYTWO)) 32)
+            ((RANK (THIRTYTHREE)) 33)
+            ((RANK (THIRTYFOUR)) 34)
+            ((RANK (THIRTYFIVE)) 35)
+            ((RANK (THIRTYSIX)) 36)
+            ((RANK (THIRTYSEVEN)) 37)
+            )
+      )))
+ 
+ ;; Play a card to the Imp Trick
+ (stage player
+        (end 
+         (all player 'P 
+              (== (size ('P iloc HAND)) 11)))
+        (choice
+         (
+          (any ((current player) iloc HAND) 'C
+               (move 'C (top (game iloc IMPTRICK)))))))
+ 
+ ;; NEED TO PASS CARDS TO OTHER PLAYERS
+ (stage player
+        (end 
+         (all player 'P 
+              (== (size ('P iloc HAND)) 9)))
+        (choice
+         (
+          (any ((current player) iloc HAND) 'C
+               (move 'C (top ((previous player) hloc PASSED))))))
+        (choice
+         (
+          (any ((current player) iloc HAND) 'C
+               (move 'C (top ((next player) hloc PASSED)))))))
+ 
+ ;; PICK UP CARDS FROM OTHER PLAYERS
+ (do 
+     (
+      (all player 'P
+           (repeat all (move (top ('P hloc PASSED))
+                             (top ('P iloc HAND)))))))
+ 
+ 
+ ;; players play a round 11 times     
+ (stage player
+        (end 
+         (all player 'P 
+              (== (size ('P iloc HAND)) 0)))
+        
+        
+        ;; players play a hand once
+        (stage player
+               (end 
+                (all player 'P
+                     (> (size ('P vloc TRICK)) 0)))
+               
+               (choice 
+                (
+                 
+                 ;; if following player and cannot follow SUIT
+                 ;;   play any card, and end your turn
+                 ((and (== (size (game mem LEAD)) 1)
+                       (== (size (filter ((current player) iloc HAND) 'L 
+                                         (== (cardatt SUIT 'L) 
+                                             (cardatt SUIT (top (game mem LEAD)))))) 0))
+                  (any ((current player) iloc HAND) 'C
+                       (move 'C 
+                             (top ((current player) vloc TRICK)))))
+                 
+                 ;; if following player and can follow SUIT
+                 ;;   play any card that follows SUIT, and end your turn
+                 ((== (size (game mem LEAD)) 1)
+                  (any (filter ((current player) iloc HAND) 'L 
+                               (== (cardatt SUIT 'L)
+                                   (cardatt SUIT (top (game mem LEAD))))) 
+                       'C
+                       
+                       (move 'C 
+                             (top ((current player) vloc TRICK)))))
+                 
+                 ;; if first player, play any card, remember it in the lead spot, and end your turn
+                 ((== (size (game mem LEAD)) 0)                       
+                  (any ((current player) iloc HAND) 'C
+                       (do 
+                           (
+                            (move 'C 
+                                  (top ((current player) vloc TRICK)))
+                            (remember (top ((current player) vloc TRICK)) 
+                                      (top (game mem LEAD))))))))))
+        
+        ;; after players play hand, computer wraps up trick
+        (do (
+             
+             ;; determine who won the hand, set them first next time
+             (forget (top (game mem LEAD)))
+             
+             ;; all cards above bottle imp, trick taking as usual
+             ((> (score (min (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE) using 'PRECEDENCE) 
+                 (score (top (game vloc IMP)) using 'PRECEDENCE))
+              (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE))))
+             
+             ;; any cards less than bottle imp, top of those lower wins
+             ((< (score (min (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE) using 'PRECEDENCE) 
+                 (score (top (game vloc IMP)) using 'PRECEDENCE))
+              (do 
+                  (
+                   (cycle next (owner (max (filter (union (all player 'P ('P vloc TRICK))) 'TC (< (score 'TC using 'PRECEDENCE)
+                                                                                                  (score (top (game vloc IMP)) using 'PRECEDENCE))) using 'PRECEDENCE)))
+                   ;; move old imp card to owner's winnings
+                   (all player 'P
+                        ((== ('P sto HOLDINGIMP) 1)
+                         (do 
+                             (
+                              (set ('P sto HOLDINGIMP) 0)
+                              (move (top (game vloc IMP))
+                                    (top ('P vloc TRICKSWON)))))))
+                   
+                   ;; denote new owner, move card to imp
+                   (set ((next player) sto HOLDINGIMP) 1)
+                   (move (top ((next player) vloc TRICK))
+                         (top (game vloc IMP))))))
+             
+             ;; discard all the played cards
+             (all player 'P
+                  ((> (size ('P vloc TRICK)) 0)
+                   (move (top ('P vloc TRICK)) 
+                         (top ((next player) vloc TRICKSWON))))))))
+ 
+ ;; Calculate score and discard
+ (stage player
+        (end 
+         (all player 'P 
+              (== (size ('P vloc TRICKSWON)) 0)))
+        (do 
+            (
+             ((== ((current player) sto HOLDINGIMP) 0)
+              (set ((current player) sto SCORE) (sum ((current player) vloc TRICKSWON) using 'COINVALUE)))
+             ((== ((current player) sto HOLDINGIMP) 1)
+              (set ((current player) sto SCORE) (- 0 (sum (game iloc IMPTRICK) using 'COINVALUE))))
+             (repeat all
+                     (move (top ((current player) vloc TRICKSWON))
+                           (top (game vloc DISCARD)))))))
+
+        
+ 
+ (scoring max ((current player) sto SCORE)))
