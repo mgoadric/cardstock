@@ -28,10 +28,10 @@ layout: default
 		</p>
 		
 										<div class="avatar-area">
-											<a class="avatar" href="http://mark.goadrich.com"><img src="images/goadrich.png" alt="Profile Image"></a>
+											<a class="avatar" href="{{post.authorhome}}"><img src="{{post.avatar}}" alt="Profile Image"></a>
 											<div class="right-area">
-												<a class="name" href="#"><b>Mark Goadrich</b></a>
-												<h6 class="date" href="#">on {{ post.date | date: date_format }}</h6>
+												<a class="name" href="{{post.authorhome}}"><b>{{post.author}}</b></a>
+												<h6 class="date">on {{ post.date | date: date_format }}</h6>
 											</div>
 										</div>
 										        

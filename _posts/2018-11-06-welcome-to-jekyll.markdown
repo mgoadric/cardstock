@@ -1,9 +1,12 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
+title:  "Welcome to The Shape of Card Games!"
 date:   2018-11-06 09:43:18 -0600
 categories: GENERAL
-image: images/pt-bottle-imp-2017.jpg
+image: images/slider-1.jpg
+author: Mark Goadrich
+avatar: images/goadrich.png
+authorhome: http://mark.goadrich.com
 comments: true
 ---
 You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
