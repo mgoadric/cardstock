@@ -1,137 +1,431 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
-
-  <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Mark Goadrich - QA76 Blog</title>
-
-    <!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="/vendor/bootswatch/css/bootstrap.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="/css/portfolio-item.css" rel="stylesheet">
-
-  </head>
-
-  <body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="http://mark.goadrich.com/index.html">Mark Goadrich</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="http://mark.goadrich.com/">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">Teaching<span class="caret"></span></a>
-              <div class="dropdown-menu" aria-labelledby="download">
-                <a class="dropdown-item" href="http://mark.goadrich.com/courses.html">Courses</a>
-                <a class="dropdown-item" href="http://mark.goadrich.com/teaching.html">Philosophy</a>
-              </div>
-            </li>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">Research<span class="caret"></span></a>
-              <div class="dropdown-menu" aria-labelledby="download">
-                <a class="dropdown-item" href="http://mark.goadrich.com/research.html">Projects</a>
-                <a class="dropdown-item" href="http://mark.goadrich.com/pubs.html">Publications</a>
-                <a class="dropdown-item" href="https://scholar.google.com/citations?user=sXia8FoAAAAJ&hl=en">Citations</a>
-                <a class="dropdown-item" href="http://games.goadrich.com">Games</a>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="http://mark.goadrich.com/goadrich_cv.pdf">CV</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="http://mgoadric.github.io">Blog
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="http://mark.goadrich.com/schedule.html">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-        <!-- Page Content -->
-    <div class="container">
-
-      <div class="row">&nbsp;
-      </div>
+<head>
+	<title>TITLE</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
 
 
-    <div class="content">
-      {{ content }}
-    </div>
-      
-    </div>
-    <!-- Footer -->
-    <footer class="py-4 bg-primary">
-<div class="container text-center">
-<ul class="list-inline">
-<li class="list-inline-item social-github">
-<a href="https://github.com/mgoadric">
-<i class="fa fa-github"></i>
-</a>
-</li>
-<li class="list-inline-item social-twitter">
-<a href="https://twitter.com/mgoadric">
-<i class="fa fa-twitter"></i>
-</a>
-</li>
-<li class="list-inline-item social-linkedin">
-<a href="https://www.linkedin.com/in/mark-goadrich-18bb4413/">
-<i class="fa fa-linkedin"></i>
-</a>
-</li>
-<li class="list-inline-item social-twitch">
-<a href="https://www.twitch.tv/goadrich">
-<i class="fa fa-twitch"></i>
-</a>
-</li>
-</ul>
-</div>
-      <div class="container">
-        <p class="m-0 text-center text-white"><small>Copyright &copy; Mark Goadrich 2018</small></p>
-      </div>
-      <!-- /.container -->
-    </footer>
+	<!-- Font -->
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
 
-<script type="text/javascript">
-      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-      var disqus_shortname = 'mgoadric-github-io'; // required: replace example with your forum shortname
-      //var disqus_developer = 1; // Comment out when the site is live
 
-      /* * * DON'T EDIT BELOW THIS LINE * * */
-      (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-      }());
-    </script>
-    
-   {% if jekyll.environment == 'production' %}
-    {% include analytics.html %}
-    {% endif %}
-    
-  </body>
+	<!-- Stylesheets -->
+
+	<link href="common-css/bootstrap.css" rel="stylesheet">
+
+	<link href="common-css/ionicons.css" rel="stylesheet">
+
+
+	<link href="layout-1/css/styles.css" rel="stylesheet">
+
+	<link href="layout-1/css/responsive.css" rel="stylesheet">
+
+</head>
+<body >
+
+	<header>
+		<div class="container-fluid position-relative no-side-padding">
+
+			<a href="#" class="logo"><img src="images/logo.png" alt="Logo Image"></a>
+
+			<div class="menu-nav-icon" data-nav-menu="#main-menu"><i class="ion-navicon"></i></div>
+
+			<ul class="main-menu visible-on-click" id="main-menu">
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Categories</a></li>
+				<li><a href="#">Features</a></li>
+			</ul><!-- main-menu -->
+
+			<div class="src-area">
+				<form>
+					<button class="src-btn" type="submit"><i class="ion-ios-search-strong"></i></button>
+					<input class="src-input" type="text" placeholder="Type of search">
+				</form>
+			</div>
+
+		</div><!-- conatiner -->
+	</header>
+
+	<div class="slider"></div><!-- slider -->
+
+	<section class="blog-area section">
+		<div class="container">
+
+			<div class="row">
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card h-100">
+						<div class="single-post post-style-1">
+
+							<div class="blog-image"><img src="images/marion-michele-330691.jpg" alt="Blog Image"></div>
+
+							<a class="avatar" href="#"><img src="images/icons8-team-355979.jpg" alt="Profile Image"></a>
+
+							<div class="blog-info">
+
+								<h4 class="title"><a href="#"><b>How Did Van Gogh's Turbulent Mind Depict One of the Most Complex
+								Concepts in Physics?</b></a></h4>
+
+								<ul class="post-footer">
+									<li><a href="#"><i class="ion-heart"></i>57</a></li>
+									<li><a href="#"><i class="ion-chatbubble"></i>6</a></li>
+									<li><a href="#"><i class="ion-eye"></i>138</a></li>
+								</ul>
+
+							</div><!-- blog-info -->
+						</div><!-- single-post -->
+					</div><!-- card -->
+				</div><!-- col-lg-4 col-md-6 -->
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card h-100">
+						<div class="single-post post-style-1">
+
+							<div class="blog-image"><img src="images/audrey-jackson-260657.jpg" alt="Blog Image"></div>
+
+							<a class="avatar" href="#"><img src="images/icons8-team-355979.jpg" alt="Profile Image"></a>
+
+							<div class="blog-info">
+								<h4 class="title"><a href="#"><b>How Did Van Gogh's Turbulent Mind Depict One of the Most Complex
+									Concepts in Physics?</b></a></h4>
+
+								<ul class="post-footer">
+									<li><a href="#"><i class="ion-heart"></i>57</a></li>
+									<li><a href="#"><i class="ion-chatbubble"></i>6</a></li>
+									<li><a href="#"><i class="ion-eye"></i>138</a></li>
+								</ul>
+							</div><!-- blog-info -->
+
+						</div><!-- single-post -->
+
+					</div><!-- card -->
+				</div><!-- col-lg-4 col-md-6 -->
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card h-100">
+						<div class="single-post post-style-1">
+
+							<div class="blog-image"><img src="images/pexels-photo-370474.jpeg" alt="Blog Image"></div>
+
+							<a class="avatar" href="#"><img src="images/averie-woodard-319832.jpg" alt="Profile Image"></a>
+
+							<h4 class="title"><a href="#"><b>How Did Van Gogh's Turbulent Mind Depict One of the Most Complex
+								Concepts in Physics?</b></a></h4>
+
+							<ul class="post-footer">
+								<li><a href="#"><i class="ion-heart"></i>57</a></li>
+								<li><a href="#"><i class="ion-chatbubble"></i>6</a></li>
+								<li><a href="#"><i class="ion-eye"></i>138</a></li>
+							</ul>
+
+						</div><!-- single-post -->
+					</div><!-- card -->
+				</div><!-- col-lg-4 col-md-6 -->
+
+				<div class="col-lg-8 col-md-12">
+					<div class="card h-100">
+						<div class="single-post post-style-2">
+
+							<div class="blog-image"><img src="images/brooke-lark-194251.jpg" alt="Blog Image"></div>
+
+							<div class="blog-info">
+
+								<h6 class="pre-title"><a href="#"><b>HEALTH</b></a></h6>
+
+								<h4 class="title"><a href="#"><b>How Did Van Gogh's Turbulent Mind Depict One of the Most Complex
+									Concepts in Physics?</b></a></h4>
+
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+									ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+
+								<div class="avatar-area">
+									<a class="avatar" href="#"><img src="images/icons8-team-355979.jpg" alt="Profile Image"></a>
+									<div class="right-area">
+										<a class="name" href="#"><b>Lora Plamer</b></a>
+										<h6 class="date" href="#">on Sep 29, 2017 at 9:48am</h6>
+									</div>
+								</div>
+
+								<ul class="post-footer">
+									<li><a href="#"><i class="ion-heart"></i>57</a></li>
+									<li><a href="#"><i class="ion-chatbubble"></i>6</a></li>
+									<li><a href="#"><i class="ion-eye"></i>138</a></li>
+								</ul>
+
+							</div><!-- blog-right -->
+
+						</div><!-- single-post extra-blog -->
+
+					</div><!-- card -->
+				</div><!-- col-lg-8 col-md-12 -->
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card h-100">
+						<div class="single-post post-style-1">
+
+							<div class="blog-image"><img src="images/dmitri-popov-326976.jpg" alt="Blog Image"></div>
+
+							<a class="avatar" href="#"><img src="images/averie-woodard-319832.jpg" alt="Profile Image"></a>
+
+							<h4 class="title"><a href="#"><b>How Did Van Gogh's Turbulent Mind Depict One of the Most Complex
+								Concepts in Physics?</b></a></h4>
+
+							<ul class="post-footer">
+								<li><a href="#"><i class="ion-heart"></i>57</a></li>
+								<li><a href="#"><i class="ion-chatbubble"></i>6</a></li>
+								<li><a href="#"><i class="ion-eye"></i>138</a></li>
+							</ul>
+
+						</div><!-- single-post -->
+					</div><!-- card -->
+				</div><!-- col-lg-4 col-md-6 -->
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card h-100">
+
+						<div class="single-post post-style-2 post-style-3">
+
+							<div class="blog-info">
+
+								<h6 class="pre-title"><a href="#"><b>HEALTH</b></a></h6>
+
+								<h4 class="title"><a href="#"><b>How Did Van Gogh's Turbulent Mind Depict One of the Most Complex
+									Concepts in Physics?</b></a></h4>
+
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+									ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+
+								<div class="avatar-area">
+									<a class="avatar" href="#"><img src="images/icons8-team-355979.jpg" alt="Profile Image"></a>
+									<div class="right-area">
+										<a class="name" href="#"><b>Lora Plamer</b></a>
+										<h6 class="date" href="#">on Sep 29, 2017 at 9:48am</h6>
+									</div>
+								</div>
+
+								<ul class="post-footer">
+									<li><a href="#"><i class="ion-heart"></i>57</a></li>
+									<li><a href="#"><i class="ion-chatbubble"></i>6</a></li>
+									<li><a href="#"><i class="ion-eye"></i>138</a></li>
+								</ul>
+
+							</div><!-- blog-right -->
+
+						</div><!-- single-post extra-blog -->
+
+					</div><!-- card -->
+				</div><!-- col-lg-4 col-md-6 -->
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card h-100">
+						<div class="single-post post-style-1">
+
+							<div class="blog-image"><img src="images/ben-o-sullivan-382817.jpg" alt="Blog Image"></div>
+
+							<a class="avatar" href="#"><img src="images/icons8-team-355979.jpg" alt="Profile Image"></a>
+
+							<div class="blog-info">
+								<h4 class="title"><a href="#"><b>How Did Van Gogh's Turbulent Mind Depict One of the Most Complex
+									Concepts in Physics?</b></a></h4>
+
+								<ul class="post-footer">
+									<li><a href="#"><i class="ion-heart"></i>57</a></li>
+									<li><a href="#"><i class="ion-chatbubble"></i>6</a></li>
+									<li><a href="#"><i class="ion-eye"></i>138</a></li>
+								</ul>
+							</div><!-- blog-info -->
+
+						</div><!-- single-post -->
+
+					</div><!-- card -->
+				</div><!-- col-lg-4 col-md-6 -->
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card h-100">
+
+						<div class="single-post post-style-4">
+
+							<div class="display-table">
+								<h4 class="title display-table-cell"><a href="#"><b>How Did Van Gogh's Turbulent Mind Depict One of the Most Complex
+									Concepts in Physics?</b></a></h4>
+							</div>
+
+							<ul class="post-footer">
+								<li><a href="#"><i class="ion-heart"></i>57</a></li>
+								<li><a href="#"><i class="ion-chatbubble"></i>6</a></li>
+								<li><a href="#"><i class="ion-eye"></i>138</a></li>
+							</ul>
+
+						</div><!-- single-post -->
+
+						<div class="single-post">
+
+							<div class="display-table">
+								<h4 class="title display-table-cell"><a href="#"><b>How Did Van Gogh's Turbulent Mind Depict One of the Most Complex
+									Concepts in Physics?</b></a></h4>
+							</div>
+
+							<ul class="post-footer">
+								<li><a href="#"><i class="ion-heart"></i>57</a></li>
+								<li><a href="#"><i class="ion-chatbubble"></i>6</a></li>
+								<li><a href="#"><i class="ion-eye"></i>138</a></li>
+							</ul>
+
+						</div><!-- single-post -->
+
+					</div><!-- card -->
+				</div><!-- col-lg-4 col-md-6 -->
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card h-100">
+
+						<div class="single-post post-style-4">
+
+							<div class="display-table">
+								<h4 class="title display-table-cell"><a href="#"><b>How Did Van Gogh's Turbulent Mind Depict One of the Most Complex
+									Concepts in Physics?</b></a></h4>
+							</div>
+
+							<ul class="post-footer">
+								<li><a href="#"><i class="ion-heart"></i>57</a></li>
+								<li><a href="#"><i class="ion-chatbubble"></i>6</a></li>
+								<li><a href="#"><i class="ion-eye"></i>138</a></li>
+							</ul>
+
+						</div><!-- single-post -->
+
+						<div class="single-post">
+
+							<div class="display-table">
+								<h4 class="title display-table-cell"><a href="#"><b>How Did Van Gogh's Turbulent Mind Depict One of the Most Complex
+									Concepts in Physics?</b></a></h4>
+							</div>
+
+							<ul class="post-footer">
+								<li><a href="#"><i class="ion-heart"></i>57</a></li>
+								<li><a href="#"><i class="ion-chatbubble"></i>6</a></li>
+								<li><a href="#"><i class="ion-eye"></i>138</a></li>
+							</ul>
+
+						</div><!-- single-post -->
+
+					</div><!-- card -->
+				</div><!-- col-lg-4 col-md-6 -->
+
+				<div class="col-lg-8 col-md-12">
+					<div class="card h-100">
+						<div class="single-post post-style-2">
+
+							<div class="blog-image"><img src="images/icons8-team-355990.jpg" alt="Blog Image"></div>
+
+							<div class="blog-info">
+
+								<h6 class="pre-title"><a href="#"><b>HEALTH</b></a></h6>
+
+								<h4 class="title"><a href="#"><b>How Did Van Gogh's Turbulent Mind Depict One of the Most Complex
+									Concepts in Physics?</b></a></h4>
+
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+									ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+
+								<div class="avatar-area">
+									<a class="avatar" href="#"><img src="images/icons8-team-355979.jpg" alt="Profile Image"></a>
+									<div class="right-area">
+										<a class="name" href="#"><b>Lora Plamer</b></a>
+										<h6 class="date" href="#">on Sep 29, 2017 at 9:48am</h6>
+									</div>
+								</div>
+
+								<ul class="post-footer">
+									<li><a href="#"><i class="ion-heart"></i>57</a></li>
+									<li><a href="#"><i class="ion-chatbubble"></i>6</a></li>
+									<li><a href="#"><i class="ion-eye"></i>138</a></li>
+								</ul>
+
+							</div><!-- blog-right -->
+
+						</div><!-- single-post extra-blog -->
+
+					</div><!-- card -->
+				</div><!-- col-lg-8 col-md-12 -->
+
+			</div><!-- row -->
+
+			<a class="load-more-btn" href="#"><b>LOAD MORE</b></a>
+
+		</div><!-- container -->
+	</section><!-- section -->
+
+
+	<footer>
+
+		<div class="container">
+			<div class="row">
+
+				<div class="col-lg-4 col-md-6">
+					<div class="footer-section">
+
+						<a class="logo" href="#"><img src="images/logo.png" alt="Logo Image"></a>
+						<p class="copyright">Bona @ 2017. All rights reserved.</p>
+						<p class="copyright">Designed by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
+						<ul class="icons">
+							<li><a href="#"><i class="ion-social-facebook-outline"></i></a></li>
+							<li><a href="#"><i class="ion-social-twitter-outline"></i></a></li>
+							<li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+							<li><a href="#"><i class="ion-social-vimeo-outline"></i></a></li>
+							<li><a href="#"><i class="ion-social-pinterest-outline"></i></a></li>
+						</ul>
+
+					</div><!-- footer-section -->
+				</div><!-- col-lg-4 col-md-6 -->
+
+				<div class="col-lg-4 col-md-6">
+						<div class="footer-section">
+						<h4 class="title"><b>CATAGORIES</b></h4>
+						<ul>
+							<li><a href="#">BEAUTY</a></li>
+							<li><a href="#">HEALTH</a></li>
+							<li><a href="#">MUSIC</a></li>
+						</ul>
+						<ul>
+							<li><a href="#">SPORT</a></li>
+							<li><a href="#">DESIGN</a></li>
+							<li><a href="#">TRAVEL</a></li>
+						</ul>
+					</div><!-- footer-section -->
+				</div><!-- col-lg-4 col-md-6 -->
+
+				<div class="col-lg-4 col-md-6">
+					<div class="footer-section">
+
+						<h4 class="title"><b>SUBSCRIBE</b></h4>
+						<div class="input-area">
+							<form>
+								<input class="email-input" type="text" placeholder="Enter your email">
+								<button class="submit-btn" type="submit"><i class="icon ion-ios-email-outline"></i></button>
+							</form>
+						</div>
+
+					</div><!-- footer-section -->
+				</div><!-- col-lg-4 col-md-6 -->
+
+			</div><!-- row -->
+		</div><!-- container -->
+	</footer>
+
+
+	<!-- SCIPTS -->
+
+	<script src="common-js/jquery-3.1.1.min.js"></script>
+
+	<script src="common-js/tether.min.js"></script>
+
+	<script src="common-js/bootstrap.js"></script>
+
+	<script src="common-js/scripts.js"></script>
+
+</body>
 </html>
