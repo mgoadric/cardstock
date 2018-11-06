@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Mark Goadrich - QA76 Blog</title>
+
+    <!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="/vendor/bootswatch/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/portfolio-item.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="http://mark.goadrich.com/index.html">Mark Goadrich</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="http://mark.goadrich.com/">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">Teaching<span class="caret"></span></a>
+              <div class="dropdown-menu" aria-labelledby="download">
+                <a class="dropdown-item" href="http://mark.goadrich.com/courses.html">Courses</a>
+                <a class="dropdown-item" href="http://mark.goadrich.com/teaching.html">Philosophy</a>
+              </div>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">Research<span class="caret"></span></a>
+              <div class="dropdown-menu" aria-labelledby="download">
+                <a class="dropdown-item" href="http://mark.goadrich.com/research.html">Projects</a>
+                <a class="dropdown-item" href="http://mark.goadrich.com/pubs.html">Publications</a>
+                <a class="dropdown-item" href="https://scholar.google.com/citations?user=sXia8FoAAAAJ&hl=en">Citations</a>
+                <a class="dropdown-item" href="http://games.goadrich.com">Games</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="http://mark.goadrich.com/goadrich_cv.pdf">CV</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="http://mgoadric.github.io">Blog
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="http://mark.goadrich.com/schedule.html">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+        <!-- Page Content -->
+    <div class="container">
+
+      <div class="row">&nbsp;
+      </div>
+
+
+    <div class="content">
+      {{ content }}
+    </div>
+      
+    </div>
+    <!-- Footer -->
+    <footer class="py-4 bg-primary">
+<div class="container text-center">
+<ul class="list-inline">
+<li class="list-inline-item social-github">
+<a href="https://github.com/mgoadric">
+<i class="fa fa-github"></i>
+</a>
+</li>
+<li class="list-inline-item social-twitter">
+<a href="https://twitter.com/mgoadric">
+<i class="fa fa-twitter"></i>
+</a>
+</li>
+<li class="list-inline-item social-linkedin">
+<a href="https://www.linkedin.com/in/mark-goadrich-18bb4413/">
+<i class="fa fa-linkedin"></i>
+</a>
+</li>
+<li class="list-inline-item social-twitch">
+<a href="https://www.twitch.tv/goadrich">
+<i class="fa fa-twitch"></i>
+</a>
+</li>
+</ul>
+</div>
+      <div class="container">
+        <p class="m-0 text-center text-white"><small>Copyright &copy; Mark Goadrich 2018</small></p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'mgoadric-github-io'; // required: replace example with your forum shortname
+      //var disqus_developer = 1; // Comment out when the site is live
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+      }());
+    </script>
+    
+   {% if jekyll.environment == 'production' %}
+    {% include analytics.html %}
+    {% endif %}
+    
+  </body>
+</html>

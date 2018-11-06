@@ -1,0 +1,41 @@
+---
+layout: default
+---
+
+<div class="home">
+<div class="row">
+<div class="col-md-6">
+  {%- if page.title -%}
+    <h1 class="page-heading">{{ page.title }} Blog Posts</h1>
+    <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+  {%- endif -%}
+  {%- if site.posts.size > 0 -%}
+      {%- for post in site.posts -%}
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+        <h4><span class="post-meta">{{ post.date | date: date_format }}</span></h4>
+        
+		<h6><a href="{{ post.url }}#disqus_thread" data-disqus-identifier="{{post.url}}"></a></h6>
+
+
+        {%- if site.show_excerpts -%}
+          {{ post.content | markdownify | strip_html | truncatewords: 30 }}
+          <!--{{ post.excerpt }} -->
+        {%- endif -%}
+        <p />
+      {%- endfor -%}
+  {%- endif -%}
+
+</div>
+<div class="col-md-6">
+          <img class="img-fluid" src="/assets/screenshot.jpg" alt="Library stacks">
+          <p />
+
+  {{ content }}
+</div>
+</div>
+</div>
