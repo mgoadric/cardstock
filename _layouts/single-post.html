@@ -62,7 +62,7 @@
 				<div class="col-md-12">
 					<div class="footer-section">
 
-						<a class="logo" href="#"><img src="{{site.baseurl}}/images/gglogo.png" alt="Logo Image"></a>
+						<a class="logo" href="http://games.goadrich.com"><img src="{{site.baseurl}}/images/gglogo.png" alt="Logo Image"></a>
 						<p class="copyright">Mark Goadrich @ 2018. All rights reserved.</p>
 						<p class="copyright">Designed by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
 						<ul class="icons">
@@ -88,6 +88,11 @@
 	<script src="{{site.baseurl}}/common-js/bootstrap.js"></script>
 
 	<script src="{{site.baseurl}}/common-js/scripts.js"></script>
+
+   {% if jekyll.environment == 'production' %}
+    {% include analytics.html %}
+    {% endif %}
+    
 
 </body>
 </html>

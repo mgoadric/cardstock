@@ -184,6 +184,13 @@ header .src-area .src-btn{ position: absolute; top: 0; bottom: 0; left: 0; width
 
 .main-post ul.tags > li > a:hover{ background: none; }
 
+.main-post .blog-image{ width: 50%; float: right; height: 100%; }
+
+.main-post .blog-image img{ height: 100%; width: 100%; padding-left: 30px; padding-bottom: 30px;}
+
+.main-post .blog-info{ width: 50%; float: right; height: 100%; position: relative; padding-bottom: 45px; }
+
+
 
 /* ICONS */
 

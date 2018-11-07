@@ -14,6 +14,9 @@ layout: single-post
 
 						<div class="post-top-area">
 
+						   <div class="blog-image"><img src="{{site.url}}{{site.baseurl}}/{{ page.image }}" alt="Blog Image"></div>
+
+						   <div class="blog-info">
 							<h5 class="pre-title">{{ page.categories }}</h5>
 
 							<h3 class="title"><a href="#"><b>{{ page.title }}</b></a></h3>
@@ -25,12 +28,15 @@ layout: single-post
 								</div>
 
 								<div class="middle-area">
-									{%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}   
+									{%- assign date_format = site.minima.date_format | default: "on %b %-d, %Y" -%}   
 									<a class="name" href="#"><b>{{ page.author }}</b></a>
 									<h6 class="date">{{ page.date | date: date_format }}</h6>
 								</div>
 
 							</div><!-- post-info -->
+
+						</div></div>
+						<div class="post-bottom-area">
 
 							{{ content }} 
 							
