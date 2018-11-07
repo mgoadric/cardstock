@@ -1,36 +1,39 @@
 ---
 layout: single-post
 ---
-<div class="col-md-12">
-<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
-<div class="PageNavigation">
-  {% if page.previous.url %}
-    <a class="prev" href="{{page.previous.url}}">&laquo; {{page.previous.title}}</a>
-  {% endif %}
-  {% if page.next.url %}
-    <a class="next" href="{{page.next.url}}">{{page.next.title}} &raquo;</a>
-  {% endif %}
-</div>
+	<section class="post-area">
+		<div class="container">
 
+			<div class="row">
 
-  <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
-    <p class="post-meta">
-      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-        {{ page.date | date: date_format }}
-      </time>
-      {%- if page.author -%}
-        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
-      {%- endif -%}</p>
-  </header>
+				<div class="col-lg-1 col-md-0"></div>
+				<div class="col-lg-10 col-md-12">
 
-  <div class="post-content e-content" itemprop="articleBody">
-    {{ content }}
-  </div>
+					<div class="main-post">
 
+						<div class="post-top-area">
 
+							<h5 class="pre-title">{{ page.categories }}</h5>
+
+							<h3 class="title"><a href="#"><b>{{ page.title }}</b></a></h3>
+
+							<div class="post-info">
+
+								<div class="left-area">
+									<a class="avatar" href="#"><img src="{{ site.url }}/{{ page.avatar }}" alt="Profile Image"></a>
+								</div>
+
+								<div class="middle-area">
+									{%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}   
+									<a class="name" href="#"><b>{{ page.author }}</b></a>
+									<h6 class="date">{{ page.date | date: date_format }}</h6>
+								</div>
+
+							</div><!-- post-info -->
+
+							{{ content }} 
+							
 {% if page.comments %}
 <div id="disqus_thread"></div>
     <script type="text/javascript">
@@ -51,6 +54,12 @@ layout: single-post
 {% endif %}
 
 
+						</div><!-- post-bottom-area -->
+
+					</div><!-- main-post -->
+				</div><!-- col-lg-8 col-md-12 -->
+			</div><!-- row -->
+		</div><!-- container -->
+	</section><!-- post-area -->
+
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
-</article>
-</div>
