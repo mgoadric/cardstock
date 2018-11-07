@@ -24,12 +24,12 @@ layout: single-post
 							<div class="post-info">
 
 								<div class="left-area">
-									<a class="avatar" href="#"><img src="{{ site.baseurl }}/{{ page.avatar }}" alt="Profile Image"></a>
+									<a class="avatar" href="{{page.authorhome}}"><img src="{{ site.baseurl }}/{{ page.avatar }}" alt="Profile Image"></a>
 								</div>
 
 								<div class="middle-area">
 									{%- assign date_format = site.minima.date_format | default: "on %b %-d, %Y" -%}   
-									<a class="name" href="#"><b>{{ page.author }}</b></a>
+									<a class="name" href="{{page.authorhome}}"><b>{{ page.author }}</b></a>
 									<h6 class="date">{{ page.date | date: date_format }}</h6>
 								</div>
 
