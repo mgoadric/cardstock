@@ -91,12 +91,9 @@
 
 							<h4 class="title"><b>TOPICS</b></h4>
 							<ul>
-								<li><a href="#">General</a></li>
-								<li><a href="#">Trick-taking</a></li>
-								<li><a href="#">Fishing</a></li>
-								<li><a href="#">Adding</a></li>
-								<li><a href="#">Press-Your-Luck</a></li>
-								<li><a href="#">Draw-And-Discard</a></li>
+							{% for category in site.categories %}
+							    <li><a href="#">{{ category[0] }}</a></li>
+						    {% endfor %}
 							</ul>
 
 						</div><!-- subscribe-area -->
@@ -118,7 +115,7 @@
 				<div class="col-md-12">
 					<div class="footer-section">
 
-						<a class="logo" href="#"><img src="images/logo.png" alt="Logo Image"></a>
+						<a class="logo" href="http://games.goadrich.com"><img src="{{site.baserul}}/images/gglogo.png" alt="Logo Image"></a>
 						<p class="copyright">Mark Goadrich @ 2018. All rights reserved.</p>
 						<p class="copyright">Designed by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
 						<ul class="icons">
