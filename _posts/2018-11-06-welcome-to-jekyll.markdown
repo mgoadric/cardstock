@@ -15,7 +15,7 @@ To add new posts, simply add a file in the `_posts` directory that follows the c
 
 Jekyll also offers powerful support for code snippets:
 
-![Oculus Sensor Placement]({{site.url}}/images/slider-1.jpg){:class="post-image"}
+![Oculus Sensor Placement]({{site.url}}{{site.baseurl}}/images/slider-1.jpg){:class="post-image"}
 
 
 {% highlight ruby %}
