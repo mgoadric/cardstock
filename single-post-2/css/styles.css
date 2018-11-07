@@ -26,7 +26,7 @@ h1, h2, h3, h4, h5, h6, p, a, ul, span, li, img{ margin: 0; padding: 0; font-wei
 
 h1,h2,h3,h4,h5,h6{ line-height: 1.5; }
 
-p{ line-height: 1.6; font-family: 'Maven Pro', sans-serif; font-weight: 400; color: #444; }
+p{ line-height: 1.6; font-family: 'Maven Pro', sans-serif; font-weight: 400; color: #444; margin-bottom: 10px;}
 
 h1{ font-size: 4em; line-height: 1; }
 h2{ font-size: 2.8em; line-height: 1.1; }
