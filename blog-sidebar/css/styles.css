@@ -158,6 +158,11 @@ header .src-area .src-btn{ position: absolute; top: 0; bottom: 0; left: 0; width
 
 .blog-area .single-post .title{ padding: 20px 30px 30px; }
 
+.blog-area .single-post-category{ height: 100%; position: relative; padding-bottom: 0px;
+	overflow: hidden; box-shadow: 0px 0px 5px rgba(0,0,0,.1); border: 1px solid #ddd; background: #fff; }
+
+.blog-area .single-post-category .title{ padding: 20px 30px 30px; }
+
 .single-post .avatar{ margin: 0 auto; margin-top: -40px; width: 70px; height: 70px; overflow: hidden; z-index: 10;
 	border-radius: 100px; position: relative; border: 7px solid #fff; box-shadow: 0px 0px 10px rgba(0,0,0,.2); }
 

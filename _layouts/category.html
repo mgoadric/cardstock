@@ -1,9 +1,13 @@
 ---
 layout: default
 ---
+<div class="col-lg-12 col-md-12">
+<div class="card h-100">
+<div class="single-post-category post-style-3">
+    <div class="blog-info"><h2 class="title">{{ page.tag }}</h2></div>
+</div></div></div>
 
-  {%- if site.posts.size > 0 -%}
-      {%- for post in site.posts -%}
+    {% for post in site.categories[page.tag] %}
         {%- assign date_format = site.minima.date_format | default: "on %b %-d, %Y" -%}
 						<div class="col-lg-12 col-md-12">
 							<div class="card h-100">
@@ -28,7 +32,7 @@ layout: default
 		</p>
 		
 										<div class="avatar-area">
-											<a class="avatar" href="{{post.authorhome}}"><img src="{{post.avatar}}" alt="Profile Image"></a>
+											<a class="avatar" href="{{post.authorhome}}"><img src="{{site.baseurl}}/{{post.avatar}}" alt="Profile Image"></a>
 											<div class="right-area">
 												<a class="name" href="{{post.authorhome}}"><b>{{post.author}}</b></a>
 												<h6 class="date">{{ post.date | date: date_format }}</h6>
@@ -47,4 +51,3 @@ layout: default
 							</div><!-- card -->
 						</div><!-- col-lg-12 col-md-12 -->
       {%- endfor -%}
-  {%- endif -%}
