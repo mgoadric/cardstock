@@ -27,8 +27,6 @@ layout: default
         {%- endif -%}
 		</p>
 		
-				<h6><a href="{{ post.url }}#disqus_thread" data-disqus-identifier="{{post.url}}"></a></h6>
-
 										<div class="avatar-area">
 											<a class="avatar" href="{{post.authorhome}}"><img src="{{post.avatar}}" alt="Profile Image"></a>
 											<div class="right-area">
@@ -37,12 +35,9 @@ layout: default
 											</div>
 										</div>
 										        
-		<!-- <h6><a href="{{ post.url }}#disqus_thread" data-disqus-identifier="{{post.url}}"></a></h6> -->
 
 										<ul class="post-footer">
-											<li><a href="#"><i class="ion-heart"></i>57</a></li>
-											<li><a href="#"><i class="ion-chatbubble"></i>6</a></li>
-											<li><a href="#"><i class="ion-eye"></i>138</a></li>
+											<li><a href=""><i class="ion-chatbubble"></i><span class="disqus-comment-count" data-disqus-identifier="{{post.url}}"></a></span></li>
 										</ul>
 
 									</div><!-- blog-right -->
