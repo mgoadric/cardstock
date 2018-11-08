@@ -98,7 +98,7 @@ header{ font-weight: 400; }
 
 header{ overflow: hidden; background: #fff; box-shadow: 0px 2px 10px rgba(0,0,0, .3); }
 
-header .logo{ float: left; height: 20px; margin: 20px 30px; }
+header .logo{ float: left; height: 30px; margin: 15px 30px; }
 
 header .logo img{ height: 100%; width: auto; }
 

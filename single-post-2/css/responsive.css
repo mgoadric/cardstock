@@ -105,6 +105,13 @@
 	.menu-nav-icon{ display: inline-block; }
 	
 	
+	.main-post .blog-image{ width: 100%; height: auto; float: none; }
+	
+	.main-post .blog-image img{ height: 100%; width: 100%; padding-left: 0px; padding-bottom: 30px;}
+
+	.main-post .blog-info{ height: auto; width: 100%; }
+
+	
 	/* ---------------------------------
 	4. SLIDER
 	--------------------------------- */

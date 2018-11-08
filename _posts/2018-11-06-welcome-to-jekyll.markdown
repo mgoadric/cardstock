@@ -3,7 +3,7 @@ layout: post
 title:  "Welcome to The Shape of Card Games!"
 date:   2018-11-06 09:43:18 -0600
 categories: GENERAL
-image: images/slider-1.jpg
+image: images/all-cards.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png
 authorhome: http://mark.goadrich.com
