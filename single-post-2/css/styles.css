@@ -179,6 +179,8 @@ header .src-area .src-btn{ position: absolute; top: 0; bottom: 0; left: 0; width
 
 .main-post ul.tags{ margin: 30px 0; }
 
+.main-post li { padding-left: 10px; list-style: square inside; display: list-item; }
+
 .main-post ul.tags > li > a{ padding: 7px 10px; margin-bottom: 10px; margin-right: 10px; float: left; 
 	border: 1px solid #ddd; background: #ddd; }
 
