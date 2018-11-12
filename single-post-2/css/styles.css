@@ -181,6 +181,7 @@ header .src-area .src-btn{ position: absolute; top: 0; bottom: 0; left: 0; width
 
 .main-post h4 { padding-bottom: 10px; ; font-weight: 500; }
 
+.main-post blockquote { padding-left: 20px; padding-right: 20px; padding-top:10px;}
 .main-post ul { padding-bottom: 10px; }
 .main-post li { padding-left: 10px; list-style: square inside; display: list-item; }
 
