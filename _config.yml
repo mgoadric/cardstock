@@ -15,11 +15,13 @@
 # in the templates via {{ site.myvariable }}.
 title: The Shape of Card Games
 email: goadrich@hendrix.edu
-description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-baseurl: "/cardstock" # the subpath of your site, e.g. /blog
+description: >- 
+ Welcome! For the past four years, I’ve been working with some amazing students to 
+ build a card game simulation engine called CardStock, along with a new language 
+ for programming card games named RECYCLE. This blog is a culmination and 
+ continuation of this research project investigating the structure, dynamics, 
+ and mechanics of card games.
+baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: mgoadric
 github_username:  mgoadric
