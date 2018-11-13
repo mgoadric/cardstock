@@ -28,7 +28,7 @@ namespace CardStockXam.Scoring.Heuristics
                     if (w.AIvAI[i][w.winners[i]][j] < .5) {
                         difference += (Math.Sqrt(.5 - w.AIvAI[i][w.winners[i]][j]));
                         total += 1;
-                    }
+                    }   
                 }
             }
             Debug.WriteLine("diff: " + difference);

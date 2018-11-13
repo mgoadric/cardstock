@@ -19,6 +19,8 @@ namespace FreezeFrame
         public RecycleParser.GameContext rules;
         public CardGame game;
         public World gameWorld;
+        public int totalChoices;
+        public List<Tuple<int, int>> choiceList = new List<Tuple<int, int>>();
 
         public GameIterator (RecycleParser.GameContext context, CardGame mygame, World gameWorld, string fileName, bool fresh = true)
 		{
@@ -130,6 +132,8 @@ namespace FreezeFrame
             }
 
             PopCurrentNode();
+            choiceList.Add(new Tuple<int, int>(game.CurrentPlayer().idx, allOptions.Count));
+            totalChoices++;
             return choice;
         }
 

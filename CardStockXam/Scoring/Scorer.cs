@@ -17,23 +17,24 @@ namespace CardStockXam
         public string text;
 
         private int numRndvRnd = 100;
-        private int numAIvRnd  = 10;
-        private int numAIvAI   = 1;
+        private int numAIvRnd  = 100;
+        private int numAIvAI   = 10;
 
 
         public static void Main(string[] args) {
 			List<string> gameFiles = new List<string>();
-			string[] allFiles = System.IO.Directory.GetFiles("games");
+
+			//string[] allFiles = System.IO.Directory.GetFiles("games");
             List<Tuple<string, List<double>>> scores = new List<Tuple<string, List<double>>>();
-            foreach (string s in allFiles)
-            {
-            	if (s.EndsWith(".gdl"))
-            	{
-            		gameFiles.Add(s);
-            	}
-            }
+            //foreach (string s in allFiles)
+            //{
+            //	if (s.EndsWith(".gdl"))
+            //	{
+            //		gameFiles.Add(s);
+            //	}
+            //}
             
-            //gameFiles.Add("games/Pairs.gdl");
+            gameFiles.Add("games/Agram.gdl");
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
 

@@ -11,9 +11,9 @@ namespace CardGames
     {
         public static void Main(string[] args)
         {
-            //CardStockXam.Scorer.Main(args);
-            var p = new Program();
-            p.SingleGame("games/BottleImp.gdl");
+            CardStockXam.Scorer.Main(args);
+            //var p = new Program();
+            //p.SingleGame("games/BottleImp.gdl");
             //p.AllGames();
         }
 

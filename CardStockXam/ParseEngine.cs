@@ -97,14 +97,12 @@ public class ParseEngine
          ***********/
         List<List<double>>[] lead = new List<List<double>>[exp.numGames];
         int[] winners = new int[exp.numGames];
-        int numTurns = 0;
         int numFinished = 0;
 
         Parallel.For(0, exp.numGames, i =>
         {
 	        try
 	        {
-	            int choiceCount = 0;
 	            System.GC.Collect();
 
                 // TODO Can the creation of the game go inside the GameIterator???
@@ -115,9 +113,9 @@ public class ParseEngine
                     for (int j = 0; j < game.players.Length; j++) {
                         Console.WriteLine("Making players");
                         Perspective perspective = new Perspective(j, gamePlay);
-                        if (j == 0) { game.players[j].decision = new PIPMCPlayer(perspective); }
-                        if (j == 1) { game.players[j].decision = new ISMCTSPlayer(perspective); }
-                        if (j == 2) { game.players[j].decision = new MCTSPLayer(perspective);  }
+                       game.players[j].decision = new PIPMCPlayer(perspective); 
+                       // if (j == 1) { game.players[j].decision = new ISMCTSPlayer(perspective); }
+                       // if (j == 2) { game.players[j].decision = new MCTSPLayer(perspective);  }
                        // if (j == 3) { game.players[j].decision = new MCTSLitePLayer(perspective); }
                     }
 				} else if (exp.type == GameType.RndandAI) {
@@ -132,13 +130,11 @@ public class ParseEngine
 	            {
                     lock (this)
                     {
-                        choiceCount++;
-
                         choiceAgg++;
                     }
 	                gamePlay.ProcessChoice();
 
-	                if (choiceCount > 500)
+	                if (gamePlay.totalChoices > 500)
 	                {
                         Console.WriteLine("Game " + (i + 1) + "Choices not processed (probably infinite loop)");
 	                    compiling = false;
@@ -188,12 +184,13 @@ public class ParseEngine
 					}
                     winners[i] = results[0].Item2;
                     //gameWorld.GameOver(results[0].Item2);
-                    // also lock this one
-                    lock (this)
-                    {
-                        numTurns += choiceCount;
-                    }
                     //gameWorld.IncNumTurns(choiceCount);
+
+                    foreach (Tuple<int, int> t in gamePlay.choiceList)
+                    {
+                        Console.WriteLine(t.Item1 + "," + t.Item2);
+                    }
+
                 }
 
                 lock (this){
