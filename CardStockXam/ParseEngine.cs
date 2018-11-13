@@ -148,6 +148,9 @@ public class ParseEngine
 				//if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
 	            var results = gamePlay.ProcessScore();
 	            numPlayers = results.Count();
+
+                int topRank = 0;
+
 	            for (int j = 0; j < results.Count; ++j)
 	            {
                     lock (this)
@@ -155,7 +158,13 @@ public class ParseEngine
                         aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
                         //if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
 
-                        playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
+                        //if (j != 0 && results[j].Item1 != results[j - 1].Item1)
+                        //{
+                            playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
+                        //    topRank = j;
+                        //} else {
+                        //    playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += topRank;                           
+                        //}
                         // if player was ranked first (could be win or loss)
                         if (j == 0)
                         {
@@ -188,9 +197,14 @@ public class ParseEngine
 
                     foreach (Tuple<int, int> t in gamePlay.choiceList)
                     {
-                        Console.WriteLine(t.Item1 + "," + t.Item2);
+                        Console.Write(t.Item2 + ",");
                     }
-
+                    Console.WriteLine();
+                    foreach (Tuple<int, int> t in gamePlay.choiceList)
+                    {
+                        Console.Write(t.Item1 + ",");
+                    }
+                    Console.WriteLine();
                 }
 
                 lock (this){

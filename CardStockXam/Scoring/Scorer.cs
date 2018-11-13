@@ -34,7 +34,7 @@ namespace CardStockXam
             //	}
             //}
             
-            gameFiles.Add("games/Agram.gdl");
+            gameFiles.Add("games/Coloretto .gdl");
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
 

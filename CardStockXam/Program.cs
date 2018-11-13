@@ -11,9 +11,9 @@ namespace CardGames
     {
         public static void Main(string[] args)
         {
-            CardStockXam.Scorer.Main(args);
-            //var p = new Program();
-            //p.SingleGame("games/BottleImp.gdl");
+            //CardStockXam.Scorer.Main(args);
+            var p = new Program();
+            p.SingleGame("games/Agram.gdl");
             //p.AllGames();
         }
 
@@ -21,12 +21,12 @@ namespace CardGames
 			var exp = new Experiment();
 			exp.fileName = game;
             // System.Console.WriteLine(g.Substring(6, g.Length - 4));
-            exp.numGames = 10;
-            exp.numEpochs = 1;
+            exp.numGames = 100;
+            exp.numEpochs = 10;
 
             exp.logging = false;
             exp.evaluating = false;
-            exp.type = GameType.RndandAI;
+            exp.type = GameType.AllRnd;
 
 			var codeGen = new ParseEngine(exp);
             codeGen.setWorld(new World());

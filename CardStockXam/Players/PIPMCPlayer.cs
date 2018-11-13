@@ -56,16 +56,25 @@ namespace CardStockXam.Players
 
                     // TODO record everyone's ranks at all potential moves 
                     // so can give to scoretracker ??
+
+                    int topRank = 0;
+
                     for (int j = 0; j < numPlayers; ++j)
                     {
+
+                        if (j != 0 && winners[j].Item1 != winners[j - 1].Item1)
+                        {
+                            topRank = j;
+                        }
+
                         // if player is me
                         if (winners[j].Item2 == perspective.GetIdx())
                         {
-
+                            
                             // add your rank to the results of this choice
                             lock (this)
                             {
-                                inverseRankSum[move] += (((double)1) / (j + 1)) / NUMTESTS;
+                                inverseRankSum[move] += (((double)1) / (topRank + 1)) / NUMTESTS;
                             }
 
                             break;
