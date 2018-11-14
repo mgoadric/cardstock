@@ -34,7 +34,7 @@ namespace CardStockXam
             //	}
             //}
             
-            gameFiles.Add("games/Coloretto .gdl");
+            gameFiles.Add("games/NinetyEight.gdl");
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
 
@@ -85,7 +85,7 @@ namespace CardStockXam
             {
                 fileName = fileName,
                 numGames = numRndvRnd,
-                numEpochs = 1,
+                numEpochs = numRndvRnd,
                 logging = false,
                 evaluating = true,
 
@@ -97,7 +97,7 @@ namespace CardStockXam
             {
                 fileName = fileName,
                 numGames = numAIvRnd,
-                numEpochs = 1,
+                numEpochs = numAIvRnd,
                 logging = false,
                 evaluating = true,
                 type = GameType.RndandAI
@@ -109,7 +109,7 @@ namespace CardStockXam
             {
                 fileName = fileName,
                 numGames = numAIvAI,
-                numEpochs = 1,
+                numEpochs = numAIvAI,
                 logging = false,
                 evaluating = true,
                 type = GameType.AllAI

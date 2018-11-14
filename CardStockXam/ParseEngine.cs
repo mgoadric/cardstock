@@ -96,65 +96,73 @@ public class ParseEngine
          * Run the experiments
          ***********/
         List<List<double>>[] lead = new List<List<double>>[exp.numGames];
+        StreamWriter expfile = new StreamWriter(exp.fileName + "-stats.txt", true);
+        expfile.WriteLine(exp.type);
         int[] winners = new int[exp.numGames];
         int numFinished = 0;
 
         Parallel.For(0, exp.numGames, i =>
         {
-	        try
-	        {
-	            System.GC.Collect();
+            try
+            {
+                System.GC.Collect();
 
                 // TODO Can the creation of the game go inside the GameIterator???
-	            CardGame game = new CardGame();
+                CardGame game = new CardGame();
                 var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld, exp.fileName + i);
 
-                if (exp.type == GameType.AllAI) {
-                    for (int j = 0; j < game.players.Length; j++) {
+                if (exp.type == GameType.AllAI)
+                {
+                    for (int j = 0; j < game.players.Length; j++)
+                    {
                         Console.WriteLine("Making players");
                         Perspective perspective = new Perspective(j, gamePlay);
-                       game.players[j].decision = new PIPMCPlayer(perspective); 
-                       // if (j == 1) { game.players[j].decision = new ISMCTSPlayer(perspective); }
-                       // if (j == 2) { game.players[j].decision = new MCTSPLayer(perspective);  }
-                       // if (j == 3) { game.players[j].decision = new MCTSLitePLayer(perspective); }
+                        game.players[j].decision = new PIPMCPlayer(perspective);
+                        // if (j == 1) { game.players[j].decision = new ISMCTSPlayer(perspective); }
+                        // if (j == 2) { game.players[j].decision = new MCTSPLayer(perspective);  }
+                        // if (j == 3) { game.players[j].decision = new MCTSLitePLayer(perspective); }
                     }
-				} else if (exp.type == GameType.RndandAI) {
+                }
+                else if (exp.type == GameType.RndandAI)
+                {
                     Perspective perspective = new Perspective(0, gamePlay);
                     game.players[0].decision = new PIPMCPlayer(perspective);
-                } 
-	            
+                }
+
                 /*********
 	             * PLAY THE GAME
                  ***********/
-	            while (!gamePlay.AdvanceToChoice())
-	            {
+                while (!gamePlay.AdvanceToChoice())
+                {
                     lock (this)
                     {
                         choiceAgg++;
                     }
-	                gamePlay.ProcessChoice();
+                    gamePlay.ProcessChoice();
 
-	                if (gamePlay.totalChoices > 500)
-	                {
+                    if (gamePlay.totalChoices > 500)
+                    {
                         Console.WriteLine("Game " + (i + 1) + "Choices not processed (probably infinite loop)");
-	                    compiling = false;
-	                    break;
-	                }
-	            }
+                        compiling = false;
+                        break;
+                    }
+                }
 
                 /************
 				 * SORT OUT RESULTS
 				 *************/
-				//if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
-	            var results = gamePlay.ProcessScore();
-	            numPlayers = results.Count();
+                //if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
+                lock (this)
+                {
 
-                int topRank = 0;
+                    var results = gamePlay.ProcessScore();
+                    numPlayers = results.Count();
 
-	            for (int j = 0; j < results.Count; ++j)
-	            {
-                    lock (this)
+                    int topRank = 0;
+
+                    for (int j = 0; j < results.Count; ++j)
                     {
+
                         aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
                         //if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
 
@@ -162,62 +170,67 @@ public class ParseEngine
                         {
                             playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
                             topRank = j;
-                        } else {
-                            playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += topRank;                           
                         }
+                        else
+                        {
+                            playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += topRank;
+                        }
+
                         // if player was ranked first (could be win or loss)
                         if (j == 0)
                         {
                             playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
                         }
+
                     }
-	            }
 
-	            if (gameWorld != null) {
-					// also go get PIPMCPlayer and get the chunk of data here about winners/choices
-					// also lock this in the gameover method so that it's safe for multiple games to access 
-					if (exp.type == GameType.AllAI)
-					{
-                        lead[i] = new List<List<double>>();
-						for (int j = 0; j < game.players.Length; j++)
-						{
-                            Console.WriteLine("Adding leads for P" + j + ", count of " + game.players[j].decision.GetLead().Count);
-                            lead[i].Add(game.players[j].decision.GetLead());
-						}
-
-					}
-					else if (exp.type == GameType.RndandAI)
-					{
-						lead[i] = new List<List<double>>();
-						lead[i].Add(game.players[0].decision.GetLead());
-					}
-                    winners[i] = results[0].Item2;
-                    //gameWorld.GameOver(results[0].Item2);
-                    //gameWorld.IncNumTurns(choiceCount);
-
-                    foreach (Tuple<int, int> t in gamePlay.choiceList)
+                    if (gameWorld != null)
                     {
-                        Console.Write(t.Item2 + ",");
-                    }
-                    Console.WriteLine();
-                    foreach (Tuple<int, int> t in gamePlay.choiceList)
-                    {
-                        Console.Write(t.Item1 + ",");
-                    }
-                    Console.WriteLine();
-                }
+                        // also go get PIPMCPlayer and get the chunk of data here about winners/choices
+                        // also lock this in the gameover method so that it's safe for multiple games to access 
+                        if (exp.type == GameType.AllAI)
+                        {
+                            lead[i] = new List<List<double>>();
+                            for (int j = 0; j < game.players.Length; j++)
+                            {
+                                Console.WriteLine("Adding leads for P" + j + ", count of " + game.players[j].decision.GetLead().Count);
+                                lead[i].Add(game.players[j].decision.GetLead());
+                            }
 
-                lock (this){
+                        }
+                        else if (exp.type == GameType.RndandAI)
+                        {
+                            lead[i] = new List<List<double>>();
+                            lead[i].Add(game.players[0].decision.GetLead());
+                        }
+                        winners[i] = results[0].Item2;
+                        //gameWorld.GameOver(results[0].Item2);
+                        //gameWorld.IncNumTurns(choiceCount);
+
+                        foreach (Tuple<int, int> t in gamePlay.choiceList)
+                        {
+                            expfile.Write(t.Item2 + ",");
+                        }
+                        expfile.WriteLine();
+                        foreach (Tuple<int, int> t in gamePlay.choiceList)
+                        {
+                            expfile.Write(t.Item1 + ",");
+                        }
+                        expfile.WriteLine();
+                    }
+
                     numFinished++;
                     Console.WriteLine("Finished game " + numFinished + " of " + exp.numGames);
                 }
+
+
             }
-        
             catch (Exception e)
             {
                 Console.WriteLine(fileName + " failed from exception: " + e + "\n\n\n");
                 compiling = false;
             }
+        
         }
         );
         
@@ -276,6 +289,34 @@ public class ParseEngine
         }
         else
         {
+
+            expfile.WriteLine(time.Elapsed);
+            expfile.WriteLine("Turns per game: " + choiceAgg / (double)(exp.numGames));
+            expfile.WriteLine("Score: ");
+            for (int i = 0; i < numPlayers; ++i)
+            {
+                expfile.Write("Player" + i + ",");
+
+                for (int j = 0; j < exp.numEpochs; j++)
+                {
+                    expfile.Write(aggregator[i, j] / (double)(exp.numGames / exp.numEpochs) + ",");
+
+                }
+                expfile.WriteLine();
+            }
+            expfile.WriteLine("Rank: ");
+
+            for (int i = 0; i < numPlayers; ++i)
+            {
+                expfile.Write("Player" + i + ",");
+
+                for (int j = 0; j < exp.numEpochs; j++)
+                {
+                    expfile.Write(playerRank[i, j] / (double)(exp.numGames / exp.numEpochs) + ",");
+                }
+                expfile.WriteLine();
+            }
+
             gameWorld.SetWinners(winners);
             gameWorld.AddNumTurns(choiceAgg);
 
@@ -301,6 +342,7 @@ public class ParseEngine
                 gameWorld.SetAIVsAI(lead);
             }
         }
+        expfile.Close();
         return true;
     }
 
