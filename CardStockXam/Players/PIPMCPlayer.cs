@@ -18,15 +18,18 @@ namespace CardStockXam.Players
         public override int MakeAction(int numMoves)
         {
 
-            var inverseRankSum = new double[numMoves];
-
+            double[][] inverseRankSum = new double[perspective.NumberOfPlayers()][];
+            for (int i = 0; i < perspective.NumberOfPlayers(); i++)
+            {
+                inverseRankSum[i] = new double[numMoves];
+            }
             // can parallellize here TODO ?
             // FOR EACH POSSIBLE MOVE
 
 
             for (int move = 0; move < numMoves; ++move)
             {
-                inverseRankSum[move] = 0;
+                //inverseRankSum[move] = 0;
 
                 Parallel.For(0, NUMTESTS, i =>   //number of tests for certain decision
                 {
@@ -54,30 +57,19 @@ namespace CardStockXam.Players
                     // where the winner is rank 0 for either min/max games.
                     var winners = cloneContext.ProcessScore();
 
-                    // TODO record everyone's ranks at all potential moves 
-                    // so can give to scoretracker ??
 
                     int topRank = 0;
-
-                    for (int j = 0; j < numPlayers; ++j)
+                    lock (this)
                     {
-
-                        if (j != 0 && winners[j].Item1 != winners[j - 1].Item1)
+                        for (int j = 0; j < numPlayers; ++j)
                         {
-                            topRank = j;
-                        }
 
-                        // if player is me
-                        if (winners[j].Item2 == perspective.GetIdx())
-                        {
-                            
-                            // add your rank to the results of this choice
-                            lock (this)
+                            if (j != 0 && winners[j].Item1 != winners[j - 1].Item1)
                             {
-                                inverseRankSum[move] += (((double)1) / (topRank + 1)) / NUMTESTS;
+                                topRank = j;
                             }
 
-                            break;
+                            inverseRankSum[winners[j].Item2][move] += (((double)1) / (topRank + 1)) / NUMTESTS;
                         }
                     }
 
@@ -85,7 +77,7 @@ namespace CardStockXam.Players
             }
 
             // FIND BEST (and worst) MOVE TO MAKE
-            var tup = MinMaxIdx(inverseRankSum);
+            var tup = MinMaxIdx(inverseRankSum[perspective.GetIdx()]);
 
             // Record info for heuristic evaluation
             RecordHeuristics(inverseRankSum);

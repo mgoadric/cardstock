@@ -13,7 +13,7 @@ namespace CardGames
         {
             //CardStockXam.Scorer.Main(args);
             var p = new Program();
-            p.SingleGame("games/Agram.gdl");
+            p.SingleGame("games/ContinuousPairs.gdl");
             //p.AllGames();
         }
 
@@ -26,7 +26,7 @@ namespace CardGames
 
             exp.logging = false;
             exp.evaluating = false;
-            exp.type = GameType.AllRnd;
+            exp.type = GameType.RndandAI;
 
 			var codeGen = new ParseEngine(exp);
             codeGen.setWorld(new World());

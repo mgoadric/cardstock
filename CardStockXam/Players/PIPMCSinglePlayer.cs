@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using CardEngine;
 using System.Diagnostics;
@@ -13,7 +13,7 @@ namespace Players
         private static int NUMTESTS = 10; //previously 20
 
         public PIPMCSinglePlayer(Perspective perspective) : base(perspective) { }
-		
+
 
         public override int MakeAction(int numChoices)
         {
@@ -24,19 +24,21 @@ namespace Players
 
             Debug.WriteLine("PIPMC making choice. items: " + numChoices);
 
-            var inverseRankSum = new double[numChoices];
+            double[][] inverseRankSum = new double[perspective.NumberOfPlayers()][];
+            for (int i = 0; i < perspective.NumberOfPlayers(); i++)
+            {
+                inverseRankSum[i] = new double[numChoices];
+            }
 
             Debug.WriteLine("Start Monte");
 
             // can parallellize here TODO ?
             // FOR EACH POSSIBLE MOVE
-           
+
 
             for (int move = 0; move < numChoices; ++move)
             {
                 Debug.WriteLine("iterating over item: " + move);
-
-                inverseRankSum[move] = 0;
 
                 Parallel.For(0, NUMTESTS, i =>   //number of tests for certain decision
                 {
@@ -72,40 +74,33 @@ namespace Players
 
                     Debug.WriteLine("past ProcessScore");
 
-                    // TODO record everyone's ranks at all potential moves 
-                    // so can give to scoretracker ??
-                    for (int j = 0; j < numPlayers; ++j)
+
+
+                    int topRank = 0;
+                    lock (this)
                     {
-                        // if player is me
-                        if (winners[j].Item2 == idx)
+                        for (int j = 0; j < numPlayers; ++j)
                         {
 
-                            // add your rank to the results of this choice
-                            lock (this)
+                            if (j != 0 && winners[j].Item1 != winners[j - 1].Item1)
                             {
-                                inverseRankSum[move] += (((double)1) / (j + 1)) / NUMTESTS;
+                                topRank = j;
                             }
 
-                            break;
+                            inverseRankSum[winners[j].Item2][move] += (((double)1) / (topRank + 1)) / NUMTESTS;
                         }
                     }
 
-                    Debug.WriteLine("saved the inverseRankSum");
                 });
             }
 
-			Debug.WriteLine("End Monte");
-
             // FIND BEST (and worst) MOVE TO MAKE
-            (var minidx, var maxidx) = MinMaxIdx(inverseRankSum);
-
-            Debug.WriteLine("Max invRankSum: " + maxidx);
-            Debug.WriteLine("PIPMC Finished.");
+            var tup = MinMaxIdx(inverseRankSum[perspective.GetIdx()]);
 
             // Record info for heuristic evaluation
             RecordHeuristics(inverseRankSum);
 
-            return maxidx;
+            return tup.Item2;
         }
     }
 }

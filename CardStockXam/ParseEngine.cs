@@ -158,13 +158,13 @@ public class ParseEngine
                         aggregator[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += results[j].Item1;
                         //if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
 
-                        //if (j != 0 && results[j].Item1 != results[j - 1].Item1)
-                        //{
+                        if (j != 0 && results[j].Item1 != results[j - 1].Item1)
+                        {
                             playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
-                        //    topRank = j;
-                        //} else {
-                        //    playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += topRank;                           
-                        //}
+                            topRank = j;
+                        } else {
+                            playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += topRank;                           
+                        }
                         // if player was ranked first (could be win or loss)
                         if (j == 0)
                         {

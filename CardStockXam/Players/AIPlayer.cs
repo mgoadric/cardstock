@@ -56,10 +56,12 @@ namespace Players
         }
 
         // CODE FOR UPDATING STATISTICS FOR HEURISTICS
-        public void RecordHeuristics(double[] inverseRankSum) 
+        public void RecordHeuristics(double[][] inverseRankSums) 
         {
             if (perspective.GetWorld() != null)
             {
+                double[] inverseRankSum = inverseRankSums[perspective.GetIdx()];
+
                 // WHAT DOES WRS stand for?
                 double[] wrs = new double[inverseRankSum.Length];
 
