@@ -61,6 +61,7 @@ namespace Players
             if (perspective.GetWorld() != null)
             {
                 double[] inverseRankSum = inverseRankSums[perspective.GetIdx()];
+                double[] myLeadView = new double[inverseRankSums.Length];
 
                 // WHAT DOES WRS stand for?
                 double[] wrs = new double[inverseRankSum.Length];
@@ -85,6 +86,12 @@ namespace Players
                 var variance = Math.Abs(max - min);
 
                 perspective.GetWorld().AddInfo(variance, avg, wrs[maxidx]);
+                for (int i = 0; i < myLeadView.Length; i++) {
+                    myLeadView[i] = (inverseRankSums[i][maxidx] * ((double)numPlayers / (numPlayers - 1))) -
+                                                        ((double)1 / ((numPlayers - 1)));
+                }
+                perspective.AddLeadsList(new Tuple<int, double[]>(perspective.GetIdx(), myLeadView));
+
                 leadList.Add(max);
             }
         }

@@ -33,6 +33,10 @@ namespace Players
         public int NumberOfPlayers()
         { return actualgameiterator.game.players.Length; }
 
+        public void AddLeadsList(Tuple<int, double[]> leads) {
+            actualgameiterator.AddLeadsList(leads);
+        }
+
         public int GetIdx()
         { return idx; }
 

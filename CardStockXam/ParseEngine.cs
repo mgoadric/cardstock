@@ -177,7 +177,7 @@ public class ParseEngine
                         }
 
                         // if player was ranked first (could be win or loss)
-                        if (j == 0)
+                        if (topRank == 0)
                         {
                             playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
                         }
@@ -217,6 +217,16 @@ public class ParseEngine
                             expfile.Write(t.Item1 + ",");
                         }
                         expfile.WriteLine();
+
+                        foreach (Tuple<int, double[]> allLeads in gamePlay.allLeadList)
+                        {
+                            expfile.Write(allLeads.Item1 + ",");
+                            for (int k = 0; k < numPlayers; k++)
+                            {
+                                expfile.Write(allLeads.Item2[k] + ",");
+                            }
+                            expfile.WriteLine();
+                        }
                     }
 
                     numFinished++;
@@ -291,12 +301,10 @@ public class ParseEngine
         {
 
             expfile.WriteLine(time.Elapsed);
-            expfile.WriteLine("Turns per game: " + choiceAgg / (double)(exp.numGames));
+            expfile.WriteLine("Turns per game," + choiceAgg / (double)(exp.numGames));
             expfile.WriteLine("Score: ");
             for (int i = 0; i < numPlayers; ++i)
             {
-                expfile.Write("Player" + i + ",");
-
                 for (int j = 0; j < exp.numEpochs; j++)
                 {
                     expfile.Write(aggregator[i, j] / (double)(exp.numGames / exp.numEpochs) + ",");
@@ -308,8 +316,6 @@ public class ParseEngine
 
             for (int i = 0; i < numPlayers; ++i)
             {
-                expfile.Write("Player" + i + ",");
-
                 for (int j = 0; j < exp.numEpochs; j++)
                 {
                     expfile.Write(playerRank[i, j] / (double)(exp.numGames / exp.numEpochs) + ",");

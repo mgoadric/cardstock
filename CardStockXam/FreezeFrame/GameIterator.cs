@@ -21,6 +21,7 @@ namespace FreezeFrame
         public World gameWorld;
         public int totalChoices;
         public List<Tuple<int, int>> choiceList = new List<Tuple<int, int>>();
+        public List<Tuple<int, double[]>> allLeadList = new List<Tuple<int, double[]>>();
 
         public GameIterator (RecycleParser.GameContext context, CardGame mygame, World gameWorld, string fileName, bool fresh = true)
 		{
@@ -74,7 +75,11 @@ namespace FreezeFrame
 
             return ret;
         }
-        
+
+        public void AddLeadsList(Tuple<int, double[]> leads) {
+            allLeadList.Add(leads);
+        }
+
         public IParseTree CurrentNode()
         {
             var ret = iterStack.Peek().Peek();
