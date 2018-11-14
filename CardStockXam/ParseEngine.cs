@@ -82,7 +82,7 @@ public class ParseEngine
         bool compiling = true;
         int choiceAgg = 0;
         int[,] playerRank = new int[5, exp.numEpochs];
-        int[,] playerFirst = new int[5, exp.numEpochs];
+        double[,] playerFirst = new double[5, exp.numEpochs];
 
         if (exp.type == CardGames.GameType.AllAI)
         {
@@ -159,6 +159,7 @@ public class ParseEngine
                     numPlayers = results.Count();
 
                     int topRank = 0;
+                    int numWinners = 1;
 
                     for (int j = 0; j < results.Count; ++j)
                     {
@@ -169,19 +170,30 @@ public class ParseEngine
                         if (j != 0 && results[j].Item1 != results[j - 1].Item1)
                         {
                             playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += j;
+                            if (topRank == 0)
+                            {
+                                numWinners = j;
+                            }
                             topRank = j;
+
                         }
                         else
                         {
                             playerRank[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += topRank;
                         }
 
-                        // if player was ranked first (could be win or loss)
-                        if (topRank == 0)
-                        {
-                            playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)]++;
-                        }
+                    }
 
+                    for (int j = 0; j < results.Count; ++j)
+                    {
+                        if (j == 0 || results[j].Item1 == results[j - 1].Item1)
+                        {
+                            playerFirst[results[j].Item2, i / (exp.numGames / exp.numEpochs)] += 1.0 / numWinners;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
 
                     if (gameWorld != null)
@@ -206,7 +218,7 @@ public class ParseEngine
                         winners[i] = results[0].Item2;
                         //gameWorld.GameOver(results[0].Item2);
                         //gameWorld.IncNumTurns(choiceCount);
-
+                        expfile.WriteLine("game" + (numFinished + 1));
                         foreach (Tuple<int, int> t in gamePlay.choiceList)
                         {
                             expfile.Write(t.Item2 + ",");
@@ -327,7 +339,7 @@ public class ParseEngine
             gameWorld.AddNumTurns(choiceAgg);
 
             // USE RESULTS IN GENETIC ALGORITHM
-            var sum = 0;
+            var sum = 0.0;
 			for (int i = 0; i < exp.numEpochs; i++)
 			{
 				sum += playerFirst[0, i];

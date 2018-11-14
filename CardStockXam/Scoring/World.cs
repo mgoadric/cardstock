@@ -13,11 +13,11 @@ namespace CardStockXam.Scoring
         public int numAIvsRnd = 0;
         public int numGames;
         public int numAIvsAI = 0;
-        public int numAIWins;
+        public double numAIWins;
         public int numPlayers;
         //parseengine 208
         public int wins;
-        public int numFirstWins;
+        public double numFirstWins;
         public int numTies;
 
         private Object thisLock = new Object();
