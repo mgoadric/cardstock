@@ -68,8 +68,8 @@ namespace Players
 
                 for (int item = 0; item < inverseRankSum.Length; ++item)
                 {
-                    wrs[item] = (inverseRankSum[item] * ((double)numPlayers / (numPlayers - 1))) -
-                                                        ((double)1 / ((numPlayers - 1)));
+                    wrs[item] = ((numPlayers - (1.0 / inverseRankSum[item])) /
+                        (numPlayers - 1));
                 }
 
                 (var minidx, var maxidx) = MinMaxIdx(inverseRankSum);
@@ -87,8 +87,9 @@ namespace Players
 
                 perspective.GetWorld().AddInfo(variance, avg, wrs[maxidx]);
                 for (int i = 0; i < myLeadView.Length; i++) {
-                    myLeadView[i] = (inverseRankSums[i][maxidx] * ((double)numPlayers / (numPlayers - 1))) -
-                                                        ((double)1 / ((numPlayers - 1)));
+                    myLeadView[i] = ((numPlayers - (1.0 / inverseRankSums[i][maxidx])) /
+                        (numPlayers - 1));
+                    //Console.WriteLine("Converted " + inverseRankSums[i][maxidx] + " into " + myLeadView[i]);
                 }
                 perspective.AddLeadsList(new Tuple<int, double[]>(perspective.GetIdx(), myLeadView));
 

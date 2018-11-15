@@ -96,8 +96,12 @@ public class ParseEngine
          * Run the experiments
          ***********/
         List<List<double>>[] lead = new List<List<double>>[exp.numGames];
-        StreamWriter expfile = new StreamWriter(exp.fileName + "-stats.txt", true);
-        expfile.WriteLine(exp.type);
+        StreamWriter expleadfile = new StreamWriter(exp.fileName + exp.type + "-leadstats.txt");
+        expleadfile.WriteLine(exp.type);
+        StreamWriter expchoicefile = new StreamWriter(exp.fileName + exp.type + "-choicestats.txt");
+        expchoicefile.WriteLine(exp.type);
+        StreamWriter expresultsfile = new StreamWriter(exp.fileName + exp.type + "-resultsstats.txt");
+        expresultsfile.WriteLine(exp.type);
         int[] winners = new int[exp.numGames];
         int numFinished = 0;
 
@@ -218,26 +222,27 @@ public class ParseEngine
                         winners[i] = results[0].Item2;
                         //gameWorld.GameOver(results[0].Item2);
                         //gameWorld.IncNumTurns(choiceCount);
-                        expfile.WriteLine("game" + (numFinished + 1));
+                        expchoicefile.WriteLine("game" + (numFinished + 1));
                         foreach (Tuple<int, int> t in gamePlay.choiceList)
                         {
-                            expfile.Write(t.Item2 + ",");
+                            expchoicefile.Write(t.Item2 + ",");
                         }
-                        expfile.WriteLine();
+                        expchoicefile.WriteLine();
                         foreach (Tuple<int, int> t in gamePlay.choiceList)
                         {
-                            expfile.Write(t.Item1 + ",");
+                            expchoicefile.Write(t.Item1 + ",");
                         }
-                        expfile.WriteLine();
+                        expchoicefile.WriteLine();
 
+                        expleadfile.WriteLine("game" + (numFinished + 1));
                         foreach (Tuple<int, double[]> allLeads in gamePlay.allLeadList)
                         {
-                            expfile.Write(allLeads.Item1 + ",");
+                            expleadfile.Write(allLeads.Item1 + ",");
                             for (int k = 0; k < numPlayers; k++)
                             {
-                                expfile.Write(allLeads.Item2[k] + ",");
+                                expleadfile.Write(allLeads.Item2[k] + ",");
                             }
-                            expfile.WriteLine();
+                            expleadfile.WriteLine();
                         }
                     }
 
@@ -312,27 +317,27 @@ public class ParseEngine
         else
         {
 
-            expfile.WriteLine(time.Elapsed);
-            expfile.WriteLine("Turns per game," + choiceAgg / (double)(exp.numGames));
-            expfile.WriteLine("Score: ");
+            expresultsfile.WriteLine(time.Elapsed);
+            expresultsfile.WriteLine("Turns per game," + choiceAgg / (double)(exp.numGames));
+            expresultsfile.WriteLine("Score: ");
             for (int i = 0; i < numPlayers; ++i)
             {
                 for (int j = 0; j < exp.numEpochs; j++)
                 {
-                    expfile.Write(aggregator[i, j] / (double)(exp.numGames / exp.numEpochs) + ",");
+                    expresultsfile.Write(aggregator[i, j] / (double)(exp.numGames / exp.numEpochs) + ",");
 
                 }
-                expfile.WriteLine();
+                expresultsfile.WriteLine();
             }
-            expfile.WriteLine("Rank: ");
+            expresultsfile.WriteLine("Rank: ");
 
             for (int i = 0; i < numPlayers; ++i)
             {
                 for (int j = 0; j < exp.numEpochs; j++)
                 {
-                    expfile.Write(playerRank[i, j] / (double)(exp.numGames / exp.numEpochs) + ",");
+                    expresultsfile.Write(playerRank[i, j] / (double)(exp.numGames / exp.numEpochs) + ",");
                 }
-                expfile.WriteLine();
+                expresultsfile.WriteLine();
             }
 
             gameWorld.SetWinners(winners);
@@ -360,7 +365,9 @@ public class ParseEngine
                 gameWorld.SetAIVsAI(lead);
             }
         }
-        expfile.Close();
+        expleadfile.Close();
+        expchoicefile.Close();
+        expresultsfile.Close();
         return true;
     }
 

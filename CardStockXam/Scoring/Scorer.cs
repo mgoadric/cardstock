@@ -33,7 +33,7 @@ namespace CardStockXam
             //		gameFiles.Add(s);
             //	}
             //}
-            
+
             gameFiles.Add("games/NinetyEight.gdl");
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
