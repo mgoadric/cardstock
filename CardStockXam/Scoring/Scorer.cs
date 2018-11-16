@@ -18,7 +18,7 @@ namespace CardStockXam
 
         private int numRndvRnd = 100;
         private int numAIvRnd  = 100;
-        private int numAIvAI   = 10;
+        private int numAIvAI   = 100;
 
 
         public static void Main(string[] args) {
@@ -34,7 +34,7 @@ namespace CardStockXam
             //	}
             //}
 
-            gameFiles.Add("games/NinetyEight.gdl");
+            gameFiles.Add("games/Pairs5.gdl");
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
 
@@ -145,6 +145,8 @@ namespace CardStockXam
             Debug.WriteLine("passed reasonable");
             List<double> total = new List<double>();
             var cleanoutput = "";
+            StreamWriter heurfile = new StreamWriter(exps[0].fileName + "-heuristics.txt");
+
             foreach (Heuristic h in hs){
                 var score = h.Eval(gameWorld);
                 var output = h.ToString().Substring(32) + "\t" + (score / h.Weight()) +
@@ -156,8 +158,10 @@ namespace CardStockXam
                
 				
                 Console.WriteLine(output);
+                heurfile.WriteLine(output);
                 total.Add(score);
             }
+            heurfile.Close();
             /*
 			if (!File.Exists(path))
 			{
