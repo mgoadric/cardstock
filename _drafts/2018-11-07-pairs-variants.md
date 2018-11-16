@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Pairs"
-date:   2018-12-07 09:46:18 -0600
+date:   2018-11-07 09:46:18 -0600
 categories: PRESS-YOUR-LUCK
 image: images/pairs.jpg
 author: Mark Goadrich
@@ -227,12 +227,6 @@ the complication.
 
 ### Advanced Heuristics
 
-![Pairs 5 One AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/pairs/oneairankestimate.png){:class="post-image"}
-
-![Pairs 5 All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/pairs/allairankestimate.png){:class="post-image"}
-
-
-
 #### How can turn order be manipulated to create a fair game?
 
 We focused on games with four random players. In the four-person version, the game is 
@@ -256,3 +250,21 @@ chance of wining for all players.
 ### Conclusion
 
 WILL TALK ABOUT VARIANTS IN A FUTURE POST
+
+### Variants
+
+MAKE SEPARATE POST
+
+Continuous Pairs
+
+The designers of Pairs propose a continuous variant, where the round is not over when a 
+player bows out or draws a pair. Instead, only the current player's hand is discarded, 
+and on their next turn they must take a card
+from the stock. This variant can be captured in RECYCLE with a single stage and much 
+simpler structure. In simulated games with four players, we found this one-round 
+variant to be well balanced. We also noted another property of the continuous variant; 
+the expected value for each player rose from 9 points to 11.5 points. 
+This variant could therefore have more tension, as all players are closer to the 
+threshold for losing the game.
+
+Calamity Continuous Pairs?
