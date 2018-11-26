@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Welcome to The Shape of Card Games!"
-date:   2018-11-16 09:43:18 -0600
+date:   2018-11-26 09:43:18 -0600
 categories: GENERAL
 image: images/all-cards.jpg
 author: Mark Goadrich
@@ -36,8 +36,11 @@ from classics such as [Spades](https://en.wikipedia.org/wiki/Spades) and
 to start diving deeper to find connections and see how these computational tools can
 help us understand how card games work and maybe how to make better ones.
 
-I'll be writing articles about once a week, addressing a particular game or variant
+I'll be writing articles about once a week, addressing a particular game
 we've simulated with our system, and plan to continue posting for at least a year.
+For each game, we'll walk through how it's coded in RECYCLE,
+some basic summary statistics, more advanced heuristics for capturing
+player behavior, and finally discuss any common variants. 
 First up will be [Agram](https://www.pagat.com/last/agram.html), a simple Nigerian 
 trick-taking card game for 2 to 6 players. Go ahead and play a few rounds, before
 next week's post is up, and see what you think of how it works.

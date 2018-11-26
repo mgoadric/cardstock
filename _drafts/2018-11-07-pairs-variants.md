@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Pairs"
-date:   2018-11-07 09:46:18 -0600
+title:  "Pairs Variants"
+date:   2018-12-10 09:46:18 -0600
 categories: PRESS-YOUR-LUCK
 image: images/pairs.jpg
 author: Mark Goadrich
@@ -184,72 +184,6 @@ on the following page we include a full encoding of Agram.
  (scoring min (sum ((current player) vloc SCORING) using 'POINTS)))
 {% endhighlight %}
 
-
-### Basic Game Statistics
-
-#### Are there sufficient choices for players?
-
-Unlike Agram, Pairs is very consistent in the number of choices a player has on their turn: **always 2**.
-A player can either end their turn, or flip up a new card from the `STOCK`.
-
-#### Can players be strategic in Pairs?  
-
-We ran simulations for 2 through 5 players, using one PIPMC and leaving the remaining 
-players random. 
-
-![Pairs Win Prob]({{site.url}}{{site.baseurl}}/images/pairs/winprob.png){:class="post-image"}
-
-Since the goal in Pairs is to not lose as opposed to win, we show below 
-the non-loss percentage for the PIPMC player in 
-comparison to the expected probability of not losing for a random player, given 
-the assumption that the game is fair. We can see the PIPMC is drastically better 
-than the uniform random players, quickly approaching a non-loss probability of 1.
-
-![Pairs Markov Gain]({{site.url}}{{site.baseurl}}/images/pairs/PairsMarkovGain.png){:class="post-image"}
-
-#### How does game length vary with the number of players?
-
-Note that the advertised game length for Pairs 
-is 15 minutes. In the rules, the number of points necessary to lose a game of Pairs is 
-scaled to the number of players, according to the formula "Take 60, divide by players, then add 1." 
-To explore how this simple rule affects the length of the game, we simulated games with 
-only random players for 2 through 5 players. We forgo estimating the clock time for each 
-decision, and instead report below the average number of calls 
-to a `choice` block for a player decision. 
-
-![Pairs Length]({{site.url}}{{site.baseurl}}/images/pairs/PairsGameLength.png){:class="post-image"}
-  
-We found that there is a very consistent 
-correspondence between the number of players and the length of the game, demonstrating 
-that the scaling is having the desired effect. A different rule could be implemented 
-to provide perfect consistency, however the loss of simplicity would not be worth 
-the complication.
-
-### Advanced Heuristics
-
-#### How can turn order be manipulated to create a fair game?
-
-We focused on games with four random players. In the four-person version, the game is 
-over when one player earns at least 16 points. Initially, we found that all players 
-have an expected value of slightly over 9 points. This points to a fair game, however, 
-we found evidence of turn order bias within an individual round.
-
-![Pairs Fairness]({{site.url}}{{site.baseurl}}/images/pairs/PairsFairness2.png){:class="post-image"}
-
-The above figure shows the expected value for each player in one individual 
-round. In these experiments, players were not given the option of stopping early, 
-to isolate the effect of drawing another card. The rules of Pairs designate the player 
-with the minimum valued card as the first player. This led to an unbalanced game, 
-where the second player has the worst expected value. However, we can see the benefit 
-of this approach in comparison to a variant where the first player is chosen randomly. 
-For this variant, there is a strong disadvantage in being the first player, with an 
-expected value of 2.75 points, as opposed to being the fourth player, with an expected 
-value of 1.37. While both are unbalanced, the published rules provide a more uniform 
-chance of wining for all players.
-
-### Conclusion
-
-WILL TALK ABOUT VARIANTS IN A FUTURE POST
 
 ### Variants
 
