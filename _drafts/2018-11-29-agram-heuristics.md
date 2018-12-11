@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Agram: Advanced Heuristics"
-date:   2018-11-28 10:43:18 -0600
+date:   2018-12-13 10:43:18 -0600
 categories: TRICK-TAKING
 image: images/agram/agram-heur.png
 author: Mark Goadrich
@@ -22,16 +22,11 @@ Explain elsewhere, on documentation page
 
 ![Agram Heuristics]({{site.url}}{{site.baseurl}}/images/agram/heuristics.png){:class="post-image"}
 
-MeaningfulMoves
-
-Variance
 
 Fairness
 
+Convergence
+
+Spread
+
 Drama
-
-Decisiveness
-
-Clarity
-
-Coolness

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Agram Variants"
-date:   2018-11-29 09:43:18 -0600
+date:   2018-12-5 09:43:18 -0600
 categories: TRICK-TAKING
 image: images/playing-cards.jpg
 author: Mark Goadrich
