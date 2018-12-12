@@ -167,7 +167,7 @@ heuristics later will refine this notion, but this will get us started. Using *d
 above, and dividing by the total number of *moves* in the game gives us the following equation.
 
  {% raw %}
-  $$Security = \frac{1 - dcount}{moves}$$
+  $$Security = 1 - \frac{dcount}{moves}$$
  {% endraw %}
 
 ### Capturing Gameplay Emotions
