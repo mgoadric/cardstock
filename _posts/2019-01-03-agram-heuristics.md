@@ -104,6 +104,8 @@ Does this make Agram a good game? Well, that depends on what you are looking for
 Also, remember that these heuristics are influenced by our choice of a simple AI; more intelligent
 players might make different choices and change the shape of the game.
 
+#### Up Next - Pairs
+
 This series of posts took a little bit longer than I had planned, but I think
 I now have the pipeline set up to generate all the data and graphs for each 
 new game quickly. Next up, we'll look at 
