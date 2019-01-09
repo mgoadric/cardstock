@@ -74,7 +74,7 @@ in a majority of the games no matter how many players were playing.
 And, this appears to be better than the [AI performance in Agram]({% post_url 2018-11-28-agram.statistics %})!
 This could mean one of two things: either Pairs is an easier game for an AI to play than Agram, 
 or there is more control over the luck and less chaos in Pairs than in Agram. See this
-great early article, [Chaos Reighns by Larry Levy](http://web.archive.org/web/20030821212212/http://www.huzonfirstgames.com/ChaosReigns.html)
+great early article, [Chaos Reigns by Larry Levy](http://web.archive.org/web/20030821212212/http://www.huzonfirstgames.com/ChaosReigns.html)
 for more on control, chaos, and luck. I think this idea of chaos and luck could be formulated into another heuristic;
 I should have a better handle on how after examining a few more games.
 
