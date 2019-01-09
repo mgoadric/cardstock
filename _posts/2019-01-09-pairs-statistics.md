@@ -93,3 +93,5 @@ and look at the overall gameplay experience with all AI players. I'm pretty exci
 
 Are there other questions or statistics you want to see about Pairs? Let me know in the
 comments below, and I'll see if I can incorporate them in future posts. Thanks for reading!
+
+(Image courtesy of [BoardGameGeek](https://boardgamegeek.com/image/3667931/pairs))
