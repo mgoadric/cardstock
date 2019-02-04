@@ -7,8 +7,10 @@ namespace CardStockXam.Scoring.Heuristics
     class Drama : Heuristic
     {
 
-
-        // TODO check this out 
+        private float threshold = 0.5f;
+        // TODO check this out  SHOULD THIS BE BASED ON NUMBER OF PLAYERS?
+        // RIGHT NOW BASED ON BEING IN TOP HALF
+        // DOES NOT WORK FOR GAMES WITH ONE WINNER, ELSE IN SECOND LIKE AGRAM
 
 		/* threshold is .5
         * if the winner's choices never drop below .5, drama should be 0
@@ -22,13 +24,15 @@ namespace CardStockXam.Scoring.Heuristics
             if (w.numAIvsAI == 0) {
                 return 0;
             }
-            for (int i = 0; i < w.winners.Length; i++) {
+            for (int i = 0; i < w.winners.Length; i++)
+            {
                 for (int j = 0; j < w.AIvAI[i][w.winners[i]].Count; j++)
                 {
-                    if (w.AIvAI[i][w.winners[i]][j] < .5) {
-                        difference += (Math.Sqrt(.5 - w.AIvAI[i][w.winners[i]][j]));
+                    if (w.AIvAI[i][w.winners[i]][j] < threshold)
+                    {
+                        difference += (Math.Sqrt(threshold - w.AIvAI[i][w.winners[i]][j]));
                         total += 1;
-                    }   
+                    }
                 }
             }
             Debug.WriteLine("diff: " + difference);

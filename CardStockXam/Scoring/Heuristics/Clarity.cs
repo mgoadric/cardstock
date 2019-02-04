@@ -14,6 +14,8 @@ namespace CardStockXam.Scoring.Heuristics
 
         // find degree to which chosen move's score deviates from 
         // average of all potential moves' scores
+
+            // THIS IS INCORRECT TODO FIX IT
         public override double Get(World w)
         {
             double diff = 0;

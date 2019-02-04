@@ -34,7 +34,7 @@ namespace CardStockXam
             //	}
             //}
 
-            gameFiles.Add("games/Pairs5.gdl");
+            gameFiles.Add("games/Hearts.gdl");
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
 
@@ -60,17 +60,18 @@ namespace CardStockXam
 
         // list of heuristic values
         private List<Heuristic> hs = new List<Heuristic>() {
+            new Fairness(),
+            // TODO ADD CONVERGENCE
             new MeaningfulMoves(),
-            new Variance(),
+            //new Variance(),
             //new Depth(),
             //new ExcessRules(),
-            new Fairness(),
             //new GameLength(),
             //new NoTies(),
             new Drama(),
             new Decisiveness(),
-                 // FIX ME!new Stability(),
-            new Clarity(),
+            // FIX ME!new Stability(),
+            //new Clarity(),
             new Coolness()
         };
 
