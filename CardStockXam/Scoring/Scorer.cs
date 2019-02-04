@@ -51,7 +51,7 @@ namespace CardStockXam
                 }
                 Debug.Write("\n");
             }
-
+            Console.ReadLine();
         }
 
 
