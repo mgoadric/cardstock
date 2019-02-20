@@ -31,8 +31,6 @@ tournament of AI players. Please check back for further progress on these issues
 
 ## References
 
-[Automated Playtesting with RECYCLEd CardStock](http://mark.goadrich.com/articles/issue-2-1-09-recycled.pdf)
-
-Connor Bell and Mark Goadrich
-
-Game & Puzzle Design Journal, Vol 2, Issue 1, July 2016
+* [The Shape of Card Games Blog](http://mgoadric.github.io/cardstock)
+* [ReadTheDocs.io](http://cardstock.readthedocs.io)
+* [Automated Playtesting with RECYCLEd CardStock](http://mark.goadrich.com/articles/issue-2-1-09-recycled.pdf), Connor Bell and Mark Goadrich, *Game & Puzzle Design Journal*, Vol 2, Issue 1, July 2016
