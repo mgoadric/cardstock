@@ -1,18 +1,15 @@
 ---
-layout: page
+layout: summary
 title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+![Agram All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/agram/allairankestimatewinner.png){:class="post-image"}
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+![Pairs All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/pairs/allairankestimatewinner.png){:class="post-image"}
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+![Ninety-Eight All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/ninetyeight/allairankestimatewinner4p.png){:class="post-image"}
 
+![Ninety-Eight All AI Rank Estimate No Kings]({{site.url}}{{site.baseurl}}/images/ninetyeight/allairankestimatenoking.png){:class="post-image"}
 
-[jekyll-organization]: https://github.com/jekyll
+![Stealing Bundles All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/stealingbundles/allairankestimatewinner4p.png){:class="post-image"}

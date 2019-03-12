@@ -322,3 +322,22 @@ footer .icons > li > a{ height: 40px; width: 40px; border-radius: 40px; line-hei
 
 footer .icons > li > a:hover{ transform: translateY(-2px); box-shadow: 5px 10px 20px rgba(0,0,0,.3); }
 
+/* Extra */
+
+table{
+    border-collapse: collapse;
+    border-spacing: 0;
+    border:2px solid #ff0000;
+}
+
+th{
+	padding: 3px;
+    border:2px solid #000000;
+}
+
+td{
+	padding: 3px;
+    border:1px solid #000000;
+}
+
+
