@@ -46,6 +46,10 @@ The histories of the winning players are in red, while losing players are in bla
 
 ![Stealing Bundles All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/stealingbundles/allairankestimatewinner4p.png){:class="post-image"}
 
+### Hearts
+
+![Hearts All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/hearts/allairankestimatewinner4p.png){:class="post-image"}
+
 ### Heuristics
 
 Each game is also quantified with the following five 
@@ -58,3 +62,4 @@ Each game is also quantified with the following five
 | Pairs            |     0.99 |     0.50    |  0.27  |  0.32 | 0.51     |
 | Ninety-Eight     |     0.97 |     0.50    |  0.31  |  0.32 | 0.87     |
 | Stealing Bundles |     0.98 |     0.51    |  0.14  |  0.36 | 0.29     |
+| Hearts           |          |             |        |       |          |
