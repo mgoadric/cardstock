@@ -12,37 +12,37 @@ The histories of the winning players are in red, while losing players are in bla
 
 ### Agram
 
-* [RECYCLE coding]({% post_url 2018-11-26-agram %})
-* [Statistics]({% post_url 2018-11-28-agram.statistics %})
-* [Heuristics]({% post_url 2019-01-03-agram-heuristics %})
+* [RECYCLE coding]({{ site.baseurl }}{% post_url 2018-11-26-agram %})
+* [Statistics]({{ site.baseurl }}{% post_url 2018-11-28-agram.statistics %})
+* [Heuristics]({{ site.baseurl }}{% post_url 2019-01-03-agram-heuristics %})
 
 ![Agram All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/agram/allairankestimatewinnerbig.png){:class="post-image"}
 
 ### Pairs
 
-* [RECYCLE coding]({% post_url 2019-01-04-pairs %})
-* [Statistics]({% post_url 2019-01-09-pairs-statistics %})
-* [Heuristics]({% post_url 2019-02-04-pairs-heuristics %})
+* [RECYCLE coding]({{ site.baseurl }}{% post_url 2019-01-04-pairs %})
+* [Statistics]({{ site.baseurl }}{% post_url 2019-01-09-pairs-statistics %})
+* [Heuristics]({{ site.baseurl }}{% post_url 2019-02-04-pairs-heuristics %})
 
 ![Pairs All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/pairs/allairankestimatewinner.png){:class="post-image"}
 
 ### Ninety-Eight
 
-* [RECYCLE coding]({% post_url 2019-02-05-ninety-eight %})
-* [Statistics]({% post_url 2019-02-05-ninetyeight-statistics %})
-* [Heuristics]({% post_url 2019-02-06-ninetyeight-heuristics %})
+* [RECYCLE coding]({{ site.baseurl }}{% post_url 2019-02-05-ninety-eight %})
+* [Statistics]({{ site.baseurl }}{% post_url 2019-02-05-ninetyeight-statistics %})
+* [Heuristics]({{ site.baseurl }}{% post_url 2019-02-06-ninetyeight-heuristics %})
 
 ![Ninety-Eight All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/ninetyeight/allairankestimatewinner4p.png){:class="post-image"}
 
-* [No King Variant]({% post_url 2019-02-06-ninetyeight-noking %})
+* [No King Variant]({{ site.baseurl }}{% post_url 2019-02-06-ninetyeight-noking %})
 
 ![Ninety-Eight All AI Rank Estimate No Kings]({{site.url}}{{site.baseurl}}/images/ninetyeight/allairankestimatenoking.png){:class="post-image"}
 
 ### Stealing Bundles
 
-* [RECYCLE coding]({% post_url 2019-03-06-stealing-bundles %})
-* [Statistics]({% post_url 2019-03-11-bundles-statistics %})
-* [Heuristics]({% post_url 2019-03-12-bundles-heuristics %})
+* [RECYCLE coding]({{ site.baseurl }}{% post_url 2019-03-06-stealing-bundles %})
+* [Statistics]({{ site.baseurl }}{% post_url 2019-03-11-bundles-statistics %})
+* [Heuristics]({{ site.baseurl }}{% post_url 2019-03-12-bundles-heuristics %})
 
 ![Stealing Bundles All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/stealingbundles/allairankestimatewinner4p.png){:class="post-image"}
 
