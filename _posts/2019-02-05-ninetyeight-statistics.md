@@ -10,7 +10,7 @@ authorhome: http://mark.goadrich.com
 comments: true
 ---
 
-With the basic [Ninety-Eight coded in RECYCLE]({% post_url 2019-02-05-ninety-eight %}), it is time to run many 
+With the basic [Ninety-Eight coded in RECYCLE]({{ site.baseurl }}{% post_url 2019-02-05-ninety-eight %}), it is time to run many 
 simulations in [CardStock](http://github.com/mgoadric/cardstock) with both random and 
 [AI 
 players](https://cardstock.readthedocs.io/en/latest/aiplayers/pipmc.html). 
@@ -54,7 +54,7 @@ rate. While not as striking as in Pairs, the non-loss rate is quickly approachin
 
 ### Up Next
 
-Next post, we'll see how Ninety-Eight measures up with our [heuristics]({% post_url 2018-12-11-heuristics %})
+Next post, we'll see how Ninety-Eight measures up with our [heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %})
 and look at the overall gameplay experience with all AI players. What else would you like to 
 see analyzed about Ninety-Eight? Let me know in the
 comments below, and I'll see if I can incorporate them in future posts. Thanks for reading!

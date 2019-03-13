@@ -11,10 +11,10 @@ comments: true
 ---
 
 Ninety-Eight is looking like a quick game with some strategy for the players and a
-consistent number of choices, given our previous [statistical analysis]({% post_url 2019-02-05-ninetyeight-statistics %}),
+consistent number of choices, given our previous [statistical analysis]({{ site.baseurl }}{% post_url 2019-02-05-ninetyeight-statistics %}),
 Now let's see how it scores on our heuristics of **Fairness, Convergence, Spread, Drama, and Security**. 
 
-(See this previous post for a [review of the heuristics]({% post_url 2018-12-11-heuristics %}) I'll be 
+(See this previous post for a [review of the heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %}) I'll be 
 discussing.)
 
 #### Fairness = 0.97

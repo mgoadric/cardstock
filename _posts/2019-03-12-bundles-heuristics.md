@@ -11,10 +11,10 @@ comments: true
 ---
 
 Stealing Bundles mixed up a repeated deal and matching mechanics, with some
-timing and competition for the other player's points. Given our [statistical analysis]({% post_url 2019-03-11-bundles-statistics %}),
+timing and competition for the other player's points. Given our [statistical analysis]({{ site.baseurl }}{% post_url 2019-03-11-bundles-statistics %}),
 let's see how it scores on our heuristics of **Fairness, Convergence, Spread, Drama, and Security**. 
 
-(See this previous post for a [review of the heuristics]({% post_url 2018-12-11-heuristics %}) I'll be 
+(See this previous post for a [review of the heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %}) I'll be 
 discussing.)
 
 #### Fairness = 0.98

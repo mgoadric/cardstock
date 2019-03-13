@@ -10,7 +10,7 @@ authorhome: http://mark.goadrich.com
 comments: true
 ---
 
-With the basic [Stealing Bundles coded in RECYCLE]({% post_url 2019-03-06-stealing-bundles %}), it is time to run many 
+With the basic [Stealing Bundles coded in RECYCLE]({{ site.baseurl }}{% post_url 2019-03-06-stealing-bundles %}), it is time to run many 
 simulations in [CardStock](http://github.com/mgoadric/cardstock) with both random and 
 [AI 
 players](https://cardstock.readthedocs.io/en/latest/aiplayers/pipmc.html). 
@@ -61,7 +61,7 @@ in a loss.
 
 ### Up Next
 
-Next post, we'll see how Stealing Bundles measures up with our [heuristics]({% post_url 2018-12-11-heuristics %})
+Next post, we'll see how Stealing Bundles measures up with our [heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %})
 and look at the overall gameplay experience with all AI players. What else would you like to 
 see analyzed about Stealing Bundles? Let me know in the
 comments below, and I'll see if I can incorporate them in future posts. Thanks for reading!

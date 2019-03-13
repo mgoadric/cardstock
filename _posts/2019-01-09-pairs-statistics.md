@@ -10,7 +10,7 @@ authorhome: http://mark.goadrich.com
 comments: true
 ---
 
-Now that [Pairs is coded in RECYCLE]({% post_url 2019-01-04-pairs %}), we can run many 
+Now that [Pairs is coded in RECYCLE]({{ site.baseurl }}{% post_url 2019-01-04-pairs %}), we can run many 
 simulations in [CardStock](http://github.com/mgoadric/cardstock) with both random and 
 [AI 
 players](https://cardstock.readthedocs.io/en/latest/aiplayers/pipmc.html). 

@@ -10,7 +10,7 @@ authorhome: http://mark.goadrich.com
 comments: true
 ---
 
-With our [heuristics overview]({% post_url 2018-12-11-heuristics %}) complete
+With our [heuristics overview]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %}) complete
 from the last post, let's 
 see how Agram scores on **Fairness, Convergence, Spread, Drama, and Security**. Some 
 of the following graphs should look familiar, as they were used to explain

@@ -13,9 +13,9 @@ comments: true
 It's been a month since the last post (I'm slowly realizing this will blog not be as regular as I hoped) but
 some of my other work is wrapping up, so time for more card game analysis!
 
-Now that we've seen some [basic statistics for Pairs]({% post_url 2019-01-09-pairs-statistics %}),
+Now that we've seen some [basic statistics for Pairs]({{ site.baseurl }}{% post_url 2019-01-09-pairs-statistics %}),
 let's see how it scores on our heuristics of **Fairness, Convergence, Spread, Drama, and Security**. 
-(See this previous post for a [review of the heuristics]({% post_url 2018-12-11-heuristics %}) I'll be 
+(See this previous post for a [review of the heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %}) I'll be 
 discussing.)
 
 #### Fairness = 0.99
