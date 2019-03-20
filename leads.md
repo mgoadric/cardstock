@@ -48,18 +48,22 @@ The histories of the winning players are in red, while losing players are in bla
 
 ### Hearts
 
+* [RECYCLE coding]({{ site.baseurl }}{% post_url 2019-03-13-hearts %})
+* [Statistics]({{ site.baseurl }}{% post_url 2019-03-18-hearts-statistics %})
+
 ![Hearts All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/hearts/allairankestimatewinner4p.png){:class="post-image"}
 
 ### Heuristics
 
-Each game is also quantified with the following five 
-[heuristics]({% post_url 2018-12-11-heuristics %}).
+Each game is also quantified with the following six 
+[heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %}), with the 
+[Order heuristic](({{ site.baseurl }}{% post_url 2019-03-19-chaos-heuristic %}) added later.
 
 
-|       Game       | Fairness | Convergence | Spread | Drama | Security |
-|------------------|:--------:|:-----------:|:------:|:-----:|:--------:|
-| Agram            |     0.80 |     0.56    |  0.04  |  0.24 | 0.46     |
-| Pairs            |     0.99 |     0.50    |  0.27  |  0.32 | 0.51     |
-| Ninety-Eight     |     0.97 |     0.50    |  0.31  |  0.32 | 0.87     |
-| Stealing Bundles |     0.98 |     0.51    |  0.14  |  0.36 | 0.29     |
-| Hearts           |          |             |        |       |          |
+|       Game       | Order | Fairness | Convergence | Spread | Drama | Security |
+|------------------|:-----:|:--------:|:-----------:|:------:|:-----:|:--------:|
+| Agram            |  0.19 |     0.80 |     0.56    |  0.04  |  0.24 | 0.46     |
+| Pairs            |  0.56 |     0.99 |     0.50    |  0.27  |  0.32 | 0.51     |
+| Ninety-Eight     |  0.88 |     0.97 |     0.50    |  0.31  |  0.32 | 0.87     |
+| Stealing Bundles |  0.45 |     0.98 |     0.51    |  0.14  |  0.36 | 0.29     |
+| Hearts           |  0.48 |     0.99 |     0.54    |  0.13  |  0.33 | 0.56     |
