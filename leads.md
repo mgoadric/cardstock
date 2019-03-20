@@ -12,6 +12,8 @@ The histories of the winning players are in red, while losing players are in bla
 
 ### Agram
 
+A simple Nigerian trick-taking card game.
+
 * [RECYCLE coding]({{ site.baseurl }}{% post_url 2018-11-26-agram %})
 * [Statistics]({{ site.baseurl }}{% post_url 2018-11-28-agram.statistics %})
 * [Heuristics]({{ site.baseurl }}{% post_url 2019-01-03-agram-heuristics %})
@@ -20,6 +22,8 @@ The histories of the winning players are in red, while losing players are in bla
 
 ### Pairs
 
+A quick press-your-luck card game, a "new classic pub game."
+
 * [RECYCLE coding]({{ site.baseurl }}{% post_url 2019-01-04-pairs %})
 * [Statistics]({{ site.baseurl }}{% post_url 2019-01-09-pairs-statistics %})
 * [Heuristics]({{ site.baseurl }}{% post_url 2019-02-04-pairs-heuristics %})
@@ -27,6 +31,8 @@ The histories of the winning players are in red, while losing players are in bla
 ![Pairs All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/pairs/allairankestimatewinner.png){:class="post-image"}
 
 ### Ninety-Eight
+
+An adding game, simple for kids or as a drinking game.
 
 * [RECYCLE coding]({{ site.baseurl }}{% post_url 2019-02-05-ninety-eight %})
 * [Statistics]({{ site.baseurl }}{% post_url 2019-02-05-ninetyeight-statistics %})
@@ -40,6 +46,8 @@ The histories of the winning players are in red, while losing players are in bla
 
 ### Stealing Bundles
 
+A fishing game with little complexity and wild point swings.
+
 * [RECYCLE coding]({{ site.baseurl }}{% post_url 2019-03-06-stealing-bundles %})
 * [Statistics]({{ site.baseurl }}{% post_url 2019-03-11-bundles-statistics %})
 * [Heuristics]({{ site.baseurl }}{% post_url 2019-03-12-bundles-heuristics %})
@@ -47,6 +55,8 @@ The histories of the winning players are in red, while losing players are in bla
 ![Stealing Bundles All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/stealingbundles/allairankestimatewinner4p.png){:class="post-image"}
 
 ### Hearts
+
+A classic avoidance trick-taking game.
 
 * [RECYCLE coding]({{ site.baseurl }}{% post_url 2019-03-13-hearts %})
 * [Statistics]({{ site.baseurl }}{% post_url 2019-03-18-hearts-statistics %})
