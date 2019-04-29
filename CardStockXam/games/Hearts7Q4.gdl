@@ -15,7 +15,7 @@
  ;; Stages of the game
  (stage player
         (end 
-         (any player 'P (!= ('P sto SCORE) 0))) ;; ONE ROUND ONLY, NOT THE FULL 100
+         (any player 'P (>= ('P sto SCORE) 1))) ;; ONE ROUND ONLY, NOT THE FULL 100
         (do 
             (
              (repeat all
@@ -24,7 +24,7 @@
              (put points 'SCORE 
                   (
                    ((SUIT (HEARTS)) 1) 
-                   ((RANK (Q)) (SUIT (SPADES)) 13)))
+                   ((RANK (Q)) (SUIT (SPADES)) 7)))
              (shuffle (game iloc STOCK))
              (all player 'P
                   (repeat 13
@@ -150,10 +150,10 @@
                (do 
                    (
                     
-                    ((== (sum ((current player) vloc TRICKSWON) using 'SCORE) 26)
+                    ((== (sum ((current player) vloc TRICKSWON) using 'SCORE) 20)
                      (dec ((current player) sto SCORE) 26))
                     
-                    ((!= (sum ((current player) vloc TRICKSWON) using 'SCORE) 26)
+                    ((!= (sum ((current player) vloc TRICKSWON) using 'SCORE) 20)
                      (inc ((current player) sto SCORE) (sum ((current player) vloc TRICKSWON) using 'SCORE)))
                     
                     (repeat all
