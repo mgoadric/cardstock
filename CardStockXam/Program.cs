@@ -11,9 +11,9 @@ namespace CardGames
     {
         public static void Main(string[] args)
         {
-            //CardStockXam.Scorer.Main(args);
-            var p = new Program();
-            p.SingleGame("games/ContinuousPairs.gdl");
+            CardStockXam.Scorer.Main(args);
+            //var p = new Program();
+            //p.SingleGame("games/ContinuousPairs.gdl");
             //p.AllGames();
         }
 
@@ -53,7 +53,3 @@ namespace CardGames
    		}
     }
 }
-
-            CardStockXam.Scorer.Main(args);
-            //var p = new Program();
-            //p.SingleGame("games/Agram.gdl");

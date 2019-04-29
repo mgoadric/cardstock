@@ -28,7 +28,7 @@
  (stage player
         (end 
          (any player 'P 
-              (>= (size ('P vloc SIMON)) 3)))
+              (>= (size ('P vloc SIMON)) 1))) ;; should be 3 for full game
         (do 
             (
              (shuffle (game vloc STOCK))

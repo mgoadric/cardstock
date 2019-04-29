@@ -302,17 +302,36 @@
   <ItemGroup>
     <None Include="Antlr4\Runtime\Tree\Xpath\XPathLexer.g4" />
     <None Include="Antlr4\Runtime\Tree\Xpath\XPathLexer.tokens" />
+    <None Include="games\BottleImp4.gdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="games\GoFish.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="games\Golf.gdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="games\Hearts3.gdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="games\Hearts4.gdl" />
     <None Include="games\NinetyEight.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="games\SpiteMalice.gdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="games\StealingBundles2.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="games\StealingBundles3.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="games\StealingBundles4.gdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="games\StealingBundles5.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Recycle.tokens" />
     <None Include="RecycleLexer.tokens" />
@@ -320,7 +339,7 @@
     <None Include="games\Agram.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="games\Blackjack.gdl">
+    <None Include="games\Blackjack2.gdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="games\GOPS.gdl">
@@ -335,16 +354,13 @@
     <None Include="games\SaneEights.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="games\StealingBundles.gdl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="games\Pairs.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="games\ContinuousPairs.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="games\Simon%27sCat.gdl">
+    <None Include="games\Simon%27sCat4.gdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="games\Caterpillar.gdl">
@@ -411,7 +427,7 @@
     <None Include="games\SlobberHannes.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="games\BottleImp.gdl">
+    <None Include="games\BottleImp3.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="games\Agram2.gdl">
