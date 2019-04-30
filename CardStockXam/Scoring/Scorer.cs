@@ -34,7 +34,7 @@ namespace CardStockXam
             //	}
             //}
 
-            gameFiles.Add("games/Knaves3.gdl");
+            gameFiles.Add("games/Hearts7Q4.gdl");
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
 
