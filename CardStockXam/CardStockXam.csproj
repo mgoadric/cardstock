@@ -302,6 +302,9 @@
   <ItemGroup>
     <None Include="Antlr4\Runtime\Tree\Xpath\XPathLexer.g4" />
     <None Include="Antlr4\Runtime\Tree\Xpath\XPathLexer.tokens" />
+    <None Include="games\BlackMariaMoon4.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="games\BottleImp4.gdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -315,6 +318,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="games\Hearts4.gdl" />
+    <None Include="games\HeartsOmnibus4.gdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="games\NinetyEight.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
