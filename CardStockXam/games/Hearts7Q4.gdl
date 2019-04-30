@@ -15,7 +15,7 @@
  ;; Stages of the game
  (stage player
         (end 
-         (any player 'P (>= ('P sto SCORE) 1))) ;; ONE ROUND ONLY, NOT THE FULL 100
+         (any player 'P (!= ('P sto SCORE) 0))) ;; ONE ROUND ONLY, NOT THE FULL 100
         (do 
             (
              (repeat all

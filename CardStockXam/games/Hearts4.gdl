@@ -21,11 +21,9 @@
              (repeat all
                      (move (top (game vloc DISCARD)) 
                            (top (game iloc STOCK))))
-             (remember (top (filter (game iloc STOCK) 'H (== (cardatt SUIT 'H) HEARTS)))
-                       (top (game mem TRUMP)))
              (put points 'SCORE 
                   (
-                   ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 1) 
+                   ((SUIT HEARTS) 1) 
                    ((RANK (Q)) (SUIT (SPADES)) 13)))
              (shuffle (game iloc STOCK))
              (all player 'P
@@ -54,7 +52,7 @@
                               (== (game sto BROKEN) 0))
                          (any (filter ((current player) iloc HAND) 'NH 
                                       (!= (cardatt SUIT 'NH)     
-                                          (cardatt SUIT (top (game mem TRUMP)))))
+                                          HEARTS))
                               'C
                               
                               (do 
@@ -70,7 +68,7 @@
                               (== (game sto BROKEN) 0)
                               (== (size (filter ((current player) iloc HAND) 'NH 
                                                 (!= (cardatt SUIT 'NH) 
-                                                    (cardatt SUIT (top (game mem TRUMP)))))) 0))
+                                                    HEARTS))) 0))
 
                               (any ((current player) iloc HAND) 'C
                          (do 

@@ -23,7 +23,7 @@
                            (top (game iloc STOCK))))
              (put points 'SCORE 
                   (
-                   ((SUIT HEARTS) 1) 
+                   ((SUIT (HEARTS)) 1) 
                    ((RANK (Q)) (SUIT (SPADES)) 13)))
              (shuffle (game iloc STOCK))
              (all player 'P
