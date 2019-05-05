@@ -21,7 +21,7 @@ description: >-
  for programming card games named RECYCLE. This blog is a culmination and 
  continuation of this research project investigating the structure, dynamics, 
  and mechanics of card games.
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/cardstock" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: mgoadric
 github_username:  mgoadric
