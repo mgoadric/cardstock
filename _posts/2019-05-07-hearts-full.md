@@ -839,3 +839,6 @@ is a recent release from
 their hand, but can also bow out and bet they will earn less points than other 
 players. And it involves llamas! It looks to be a combination of a few simple mechanics, tune in next
 time to see how it fares in our system.
+
+<hr>
+<a href="http://www.freepik.com">The black hearts variant image designed by rawpixel.com / Freepik</a>
