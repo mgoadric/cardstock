@@ -28,7 +28,7 @@ remove card play restrictions, or find additional things to avoid.
 
 What makes each variant unique for the players, and why would
 someone choose to play one versus another? 
-Is our current iteration Hearts an improvement over these older version? 
+Is our current iteration Hearts an improvement over these older versions? 
 To answer these questions, we'll dive deep into writing code for Hearts, simulate
 hundreds of games with random and Monte Carlo AI players, 
 evaluate these runs with [heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %}),
