@@ -34,6 +34,10 @@ hundreds of games with random and Monte Carlo AI players,
 evaluate these runs with [heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %}),
 then compare our results to those from several variants. Let's get started! 
 
+*(Note: This post is a collection of my previous few posts on Hearts. I'm trying to 
+put it all in one place to make it easier to follow later. If you've been reading
+along with the old posts already, then you're all caught up.)*
+
 ### Rules
 
 First, here's the rules in English for how you play the basic game of Hearts.
@@ -841,4 +845,4 @@ players. And it involves llamas! It looks to be a combination of a few simple me
 time to see how it fares in our system.
 
 <hr>
-<a href="http://www.freepik.com">The black hearts variant image designed by rawpixel.com / Freepik</a>
+<a href="http://www.freepik.com">The black hearts variant image above was designed by rawpixel.com / Freepik</a>
