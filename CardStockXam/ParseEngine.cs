@@ -78,11 +78,11 @@ public class ParseEngine
 
         int numPlayers = 0;
 
-		var aggregator = new int[5, exp.numEpochs];
+		var aggregator = new int[10, exp.numEpochs];
         bool compiling = true;
         int choiceAgg = 0;
-        int[,] playerRank = new int[5, exp.numEpochs];
-        double[,] playerFirst = new double[5, exp.numEpochs];
+        int[,] playerRank = new int[10, exp.numEpochs];
+        double[,] playerFirst = new double[10, exp.numEpochs];
 
         if (exp.type == CardGames.GameType.AllAI)
         {
@@ -222,7 +222,7 @@ public class ParseEngine
                         winners[i] = results[0].Item2;
                         //gameWorld.GameOver(results[0].Item2);
                         //gameWorld.IncNumTurns(choiceCount);
-                        expchoicefile.WriteLine("game" + (numFinished + 1));
+                        expchoicefile.WriteLine("game" + i);
                         foreach (Tuple<int, int> t in gamePlay.choiceList)
                         {
                             expchoicefile.Write(t.Item2 + ",");
@@ -234,7 +234,7 @@ public class ParseEngine
                         }
                         expchoicefile.WriteLine();
 
-                        expleadfile.WriteLine("game" + (numFinished + 1));
+                        expleadfile.WriteLine("game" + i);
                         foreach (Tuple<int, double[]> allLeads in gamePlay.allLeadList)
                         {
                             expleadfile.Write(allLeads.Item1 + ",");

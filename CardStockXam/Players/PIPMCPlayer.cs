@@ -18,10 +18,10 @@ namespace CardStockXam.Players
         public override int MakeAction(int numMoves)
         {
 
-            double[][] inverseRankSum = new double[perspective.NumberOfPlayers()][];
+            double[][] rankSum = new double[perspective.NumberOfPlayers()][];
             for (int i = 0; i < perspective.NumberOfPlayers(); i++)
             {
-                inverseRankSum[i] = new double[numMoves];
+                rankSum[i] = new double[numMoves];
             }
             // can parallellize here TODO ?
             // FOR EACH POSSIBLE MOVE
@@ -69,7 +69,7 @@ namespace CardStockXam.Players
                                 topRank = j;
                             }
 
-                            inverseRankSum[winners[j].Item2][move] += (((double)1) / (topRank + 1)) / NUMTESTS;
+                            rankSum[winners[j].Item2][move] += (double)topRank / NUMTESTS;
                         }
                     }
 
@@ -77,12 +77,12 @@ namespace CardStockXam.Players
             }
 
             // FIND BEST (and worst) MOVE TO MAKE
-            var tup = MinMaxIdx(inverseRankSum[perspective.GetIdx()]);
+            var tup = MinMaxIdx(rankSum[perspective.GetIdx()]);
 
             // Record info for heuristic evaluation
-            RecordHeuristics(inverseRankSum);
+            RecordHeuristics(rankSum);
 
-            return tup.Item2;
+            return tup.Item1;
         }
     }
 }

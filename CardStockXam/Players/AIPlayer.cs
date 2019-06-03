@@ -56,25 +56,25 @@ namespace Players
         }
 
         // CODE FOR UPDATING STATISTICS FOR HEURISTICS
-        public void RecordHeuristics(double[][] inverseRankSums) 
+        public void RecordHeuristics(double[][] rankSums) 
         {
             if (perspective.GetWorld() != null)
             {
-                double[] inverseRankSum = inverseRankSums[perspective.GetIdx()];
-                double[] myLeadView = new double[inverseRankSums.Length];
+                double[] rankSum = rankSums[perspective.GetIdx()];
+                double[] myLeadView = new double[rankSums.Length];
 
                 // WHAT DOES WRS stand for?
-                double[] wrs = new double[inverseRankSum.Length];
+                double[] wrs = new double[rankSum.Length];
 
-                for (int item = 0; item < inverseRankSum.Length; ++item)
+                for (int item = 0; item < rankSum.Length; ++item)
                 {
-                    wrs[item] = ((numPlayers - (1.0 / inverseRankSum[item])) /
-                        (numPlayers - 1));
+                    wrs[item] = ((numPlayers - 1) - rankSum[item]) /
+                        (numPlayers - 1);
                 }
 
-                (var minidx, var maxidx) = MinMaxIdx(inverseRankSum);
-                var max = wrs[maxidx];
-                var min = wrs[minidx];
+                (var minidx, var maxidx) = MinMaxIdx(rankSum);
+                var max = wrs[minidx];
+                var min = wrs[maxidx];
 
                 double avg = 0;
                 for (int i = 0; i < wrs.Length; i++)
@@ -87,9 +87,9 @@ namespace Players
 
                 perspective.GetWorld().AddInfo(variance, avg, wrs[maxidx]);
                 for (int i = 0; i < myLeadView.Length; i++) {
-                    myLeadView[i] = ((numPlayers - (1.0 / inverseRankSums[i][maxidx])) /
-                        (numPlayers - 1));
-                    //Console.WriteLine("Converted " + inverseRankSums[i][maxidx] + " into " + myLeadView[i]);
+                    myLeadView[i] = ((numPlayers - 1) - rankSums[i][maxidx]) /
+                        (numPlayers - 1);
+                    //Console.WriteLine("Converted " + rankSums[i][maxidx] + " into " + myLeadView[i]);
                 }
                 perspective.AddLeadsList(new Tuple<int, double[]>(perspective.GetIdx(), myLeadView));
 
