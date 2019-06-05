@@ -19,7 +19,7 @@ A simple Nigerian trick-taking card game.
 * [Statistics]({{ site.baseurl }}{% post_url 2018-11-28-agram.statistics %})
 * [Heuristics]({{ site.baseurl }}{% post_url 2019-01-03-agram-heuristics %})
 
-![Agram All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/agram/agram-trends.png){:class="post-image"}
+![Agram All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/agram/agram-trends-fixed.png){:class="post-image"}
 
 ### Pairs
 
@@ -29,7 +29,7 @@ A quick press-your-luck card game, a "new classic pub game."
 * [Statistics]({{ site.baseurl }}{% post_url 2019-01-09-pairs-statistics %})
 * [Heuristics]({{ site.baseurl }}{% post_url 2019-02-04-pairs-heuristics %})
 
-![Pairs All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/pairs/pairs-trends.png){:class="post-image"}
+![Pairs All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/pairs/pairs-trends-fixed.png){:class="post-image"}
 
 ### Ninety-Eight
 
@@ -39,11 +39,11 @@ An adding game, simple for kids or as a drinking game.
 * [Statistics]({{ site.baseurl }}{% post_url 2019-02-05-ninetyeight-statistics %})
 * [Heuristics]({{ site.baseurl }}{% post_url 2019-02-06-ninetyeight-heuristics %})
 
-![Ninety-Eight All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/ninetyeight/ninetyeight-trends.png){:class="post-image"}
+![Ninety-Eight All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/ninetyeight/ninetyeight-trends-fixed.png){:class="post-image"}
 
 * [No King Variant]({{ site.baseurl }}{% post_url 2019-02-06-ninetyeight-noking %})
 
-![Ninety-Eight All AI Rank Estimate No Kings]({{site.url}}{{site.baseurl}}/images/ninetyeight/ninetyeightnoking-trends.png){:class="post-image"}
+![Ninety-Eight All AI Rank Estimate No Kings]({{site.url}}{{site.baseurl}}/images/ninetyeight/ninetyeightnoking-trends-fixed.png){:class="post-image"}
 
 ### Stealing Bundles
 
@@ -53,7 +53,7 @@ A fishing game with little complexity and wild point swings.
 * [Statistics]({{ site.baseurl }}{% post_url 2019-03-11-bundles-statistics %})
 * [Heuristics]({{ site.baseurl }}{% post_url 2019-03-12-bundles-heuristics %})
 
-![Stealing Bundles All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/stealingbundles/bundles-trends.png){:class="post-image"}
+![Stealing Bundles All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/stealingbundles/bundles-trends-fixed.png){:class="post-image"}
 
 ### Hearts
 
@@ -63,7 +63,15 @@ A classic avoidance trick-taking game.
 * [Statistics]({{ site.baseurl }}{% post_url 2019-03-18-hearts-statistics %})
 * [Heuristics]({{ site.baseurl }}{% post_url 2019-03-15-hearts-heuristics %})
 
-![Hearts All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/hearts/hearts-trends.png){:class="post-image"}
+![Hearts All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/hearts/hearts-trends-fixed.png){:class="post-image"}
+
+### LAMA
+
+A new shedding game with a few scoring twists.
+
+* [RECYCLE coding]({{ site.baseurl }}{% post_url 2019-05-20-lama %})
+
+![LAMA All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/lama/lama-trends4.png){:class="post-image"}
 
 ### Heuristics
 
@@ -74,8 +82,10 @@ Each game is also quantified with the following six
 
 |       Game       | Order | Fairness | Convergence | Spread | Drama | Security |
 |------------------|:-----:|:--------:|:-----------:|:------:|:-----:|:--------:|
-| Agram            |  0.19 |     0.80 |     0.56    |  0.04  |  0.24 | 0.46     |
-| Pairs            |  0.56 |     0.99 |     0.50    |  0.27  |  0.32 | 0.51     |
-| Ninety-Eight     |  0.88 |     0.97 |     0.50    |  0.31  |  0.32 | 0.87     |
-| Stealing Bundles |  0.45 |     0.98 |     0.51    |  0.14  |  0.36 | 0.29     |
-| Hearts           |  0.48 |     0.99 |     0.54    |  0.13  |  0.33 | 0.56     |
+| Agram            |  0.24 |     0.72 |     0.56    |  0.05  |  0.26 | 0.26     |
+| Pairs            |  0.66 |     0.97 |     0.50    |  0.21  |  0.56 | 0.12     |
+| Ninety-Eight     |  0.92 |     0.97 |     0.50    |  0.40  |  0.46 | 0.48     |
+| Stealing Bundles |  0.28 |     0.92 |     0.51    |  0.14  |  0.53 | 0.06     |
+| Hearts           |  0.35 |     0.93 |     0.54    |  0.13  |  0.58 | 0.11     |
+| LAMA             |  0.53 |     0.88 |     0.58    |  0.18  |  0.53 | 0.08     |
+
