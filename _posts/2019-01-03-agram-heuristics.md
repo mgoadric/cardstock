@@ -16,14 +16,14 @@ see how Agram scores on **Fairness, Convergence, Spread, Drama, and Security**. 
 of the following graphs should look familiar, as they were used to explain
 how our heuristics are calculated.
 
-#### Fairness = 0.8
+#### Fairness = 0.96
 
 Agram appears to be a mostly fair game. If we look across all of our
 experiments for various numbers of random players, this is result is consistent.
 
 ![Agram Fairness]({{site.url}}{{site.baseurl}}/images/agram/fairness.png){:class="post-image"}
 
-Why is this score not higher? In a trick-taking game, there is some advantage to going first
+In a trick-taking game, there is some advantage to going first
 in determining the lead suit, but players who go later in turn order always have the 
 opportunity to play higher cards with more certainty in their outcome for winning the trick. 
 Many times, it is the cards dealt rather than the player choices that determine who wins the game.
@@ -40,7 +40,7 @@ This is consistent for games played with all random players, with one AI player 
 and with all AI players. Because of the following players being limited in their options occasionally,
 the slope is not as steep as it could be.
 
-#### Spread = 0.04
+#### Spread = 0.03
 
 The spread of choices in Agram is very small. One reason for this is that in Agram, there is only one point 
 awarded in the game, for winning the last trick. This scoring method limits 
@@ -57,7 +57,7 @@ Because of these compressed values, the spread for the players will be smaller t
 games. Also, because the game is undetermined until the last trick, most player's choices
 in the beginning of the game look equally unattractive, reducing the spread even further.
 
-#### Drama = 0.24
+#### Drama = 0.27
 
 With the winner determined very late in the game, we would expect a higher score for drama in Agram. 
 As we can see in the image above, it is only near the end of the game that the winner, shown
@@ -78,13 +78,14 @@ choice, but all the other players are playing randomly.
 Second, we notice the definite trend that the game is undecided until the second-to-last
 trick, and pretty much determined in the last trick. This again fits with the game mechanics.
 
-#### Security = 0.46
+#### Security = 0.27
 
 Finally, we can visualize the aggregate path of the winning player. The below image shows
 the same 100 four-player games as above, but with the winning player in red, and all other players in black.
 
 ![Agram All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/agram/allairankestimatewinner.png){:class="post-image"}
 
+WRONG!!!
 There are some red peaks early, but especially in the second half of the game, we can see a
 strong tendency for the winning player to be above the drama threshold, and thus feel
 secure in their chances of winning the game. 

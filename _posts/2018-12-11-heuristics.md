@@ -115,7 +115,7 @@ For example, the below
 image shows the AI estimates of player rank in a 4 player game, with 1 being the 
 highest rank, and 0 being the lowest rank. In the beginning of the game,
 most players are in the middle with a good chance of winning. However, we can see for the 
-one player, shown in blue, there is a critical point about one-third of the through the game where they fumble 
+one player, shown in red, there is a critical point about half-way through the game where they fumble 
 and can never recover. 
 
 ![Pairs over time]({{site.url}}{{site.baseurl}}/images/pairs-over-time.png){:class="post-image"}
