@@ -73,8 +73,8 @@ namespace Players
                 }
 
                 (var minidx, var maxidx) = MinMaxIdx(rankSum);
-                var max = wrs[minidx];
-                var min = wrs[maxidx];
+                var best = wrs[minidx];
+                var worst = wrs[maxidx];
 
                 double avg = 0;
                 for (int i = 0; i < wrs.Length; i++)
@@ -83,17 +83,17 @@ namespace Players
                 }
                 avg /= (double)wrs.Length;
 
-                var variance = Math.Abs(max - min);
+                var variance = Math.Abs(best - worst);
 
-                perspective.GetWorld().AddInfo(variance, avg, wrs[maxidx]);
+                perspective.GetWorld().AddInfo(variance, avg, wrs[minidx]);
                 for (int i = 0; i < myLeadView.Length; i++) {
-                    myLeadView[i] = ((numPlayers - 1) - rankSums[i][maxidx]) /
+                    myLeadView[i] = ((numPlayers - 1) - rankSums[i][minidx]) /
                         (numPlayers - 1);
                     //Console.WriteLine("Converted " + rankSums[i][maxidx] + " into " + myLeadView[i]);
                 }
                 perspective.AddLeadsList(new Tuple<int, double[]>(perspective.GetIdx(), myLeadView));
 
-                leadList.Add(max);
+                leadList.Add(best);
             }
         }
 

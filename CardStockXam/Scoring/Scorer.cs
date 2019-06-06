@@ -33,8 +33,10 @@ namespace CardStockXam
             //		gameFiles.Add(s);
             //	}
             //}
-
-            gameFiles.Add("games/SlobberHannes4.gdl");
+            gameFiles.Add("games/Pairs2.gdl");
+            gameFiles.Add("games/Pairs3.gdl");
+            gameFiles.Add("games/Pairs4.gdl");
+            gameFiles.Add("games/Pairs5.gdl");
 
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
