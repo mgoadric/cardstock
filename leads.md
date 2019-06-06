@@ -62,6 +62,7 @@ A classic avoidance trick-taking game.
 * [RECYCLE coding]({{ site.baseurl }}{% post_url 2019-03-13-hearts %})
 * [Statistics]({{ site.baseurl }}{% post_url 2019-03-18-hearts-statistics %})
 * [Heuristics]({{ site.baseurl }}{% post_url 2019-03-15-hearts-heuristics %})
+* [Variants]({{ site.baseurl }}{% post_url 2019-05-06-hearts-variants %})
 
 ![Hearts All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/hearts/hearts-trends-fixed.png){:class="post-image"}
 

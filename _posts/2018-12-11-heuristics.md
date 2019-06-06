@@ -115,7 +115,7 @@ For example, the below
 image shows the AI estimates of player rank in a 4 player game, with 1 being the 
 highest rank, and 0 being the lowest rank. In the beginning of the game,
 most players are in the middle with a good chance of winning. However, we can see for the 
-one player, shown in green, there is a critical point about half-way through the game where they fumble 
+one player, shown in blue, there is a critical point about one-third of the through the game where they fumble 
 and can never recover. 
 
 ![Pairs over time]({{site.url}}{{site.baseurl}}/images/pairs-over-time.png){:class="post-image"}
@@ -176,20 +176,20 @@ So, do these capture our intuition about drama and security? Let's look at two s
 where we can find drama. In each of these pictures, the winning player is denoted in red, 
 and the drama threshold is the horizontal blue dashed line.
 
-First, we have a three-player game, where it is only the 
-first two moves of the game that show the winning player below the drama threshold. In
-these two moves, they are very close to the threshold, so this game has
+First, we have a three-player game, where the winning player dips below the drama threshold
+only three times. In
+these dips, they are very close to the threshold, so this game has
 very low drama, and high security.
 
 ![No Drama]({{site.url}}{{site.baseurl}}/images/pairs-nodrama.png){:class="post-image"}
 
 Second, in a five-player game, the lead is undecided for a while, lowering the security. 
 Also, when the winner was below the threshold, they were far below, increasing the drama
-present in the game, at least for the first portion of the game.
+present in the game.
 
 ![Some Drama]({{site.url}}{{site.baseurl}}/images/pairssomedrama.png){:class="post-image"}
 
-Finally, we see different five-player game that exhibits both higher drama and lower security.
+Finally, we see different five-player game that exhibits both drama and low security.
 The winner of the game is not determined until the latter half of the game, and most players
 believe themselves to be near the threshold to win. 
 
