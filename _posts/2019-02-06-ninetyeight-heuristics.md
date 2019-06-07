@@ -17,7 +17,7 @@ Now let's see how it scores on our heuristics of **Fairness, Convergence, Spread
 (See this previous post for a [review of the heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %}) I'll be 
 discussing.)
 
-#### Fairness = 0.97
+#### Fairness = 0.98
 
 To determine fairness here, we'll need to do something different. In Pairs, 
 even though the goal was to not lose, a player accumulated points and could
@@ -31,14 +31,14 @@ first player.
 
 ![Ninety-Eight Fairness]({{site.url}}{{site.baseurl}}/images/ninetyeight/fairness.png){:class="post-image"}
 
-#### Convergence = 0.5
+#### Convergence = 0.50
 
 As discussed before, the convergence score for Ninety-Eight is a solid 0.5, with players getting
 exactly 4 choices each turn, with no change throughout the game.
 
 ![Ninety-Eight Convergence]({{site.url}}{{site.baseurl}}/images/ninetyeight/convergence.png){:class="post-image"}
 
-#### Spread = 0.31
+#### Spread = 0.37
 
 There is a moderate spread for the player choices in Ninety-Eight, showing that there are
 some good and some bad options, but they are not always present. In the middle of the game,
@@ -48,7 +48,7 @@ you can see the tight estimates for everyone near the top of the ranks until the
 
 ![Low Spread]({{site.url}}{{site.baseurl}}/images/ninetyeight/allaionegame.png){:class="post-image"}
 
-#### Drama = 0.32
+#### Drama = 0.39
 
 The more players you have in Ninety-Eight, the more likely you feel like you are winning. 
 With only one player losing, your chances of winning go up with more players. 
@@ -68,13 +68,13 @@ for each subsequent player until one cannot stave off defeat any longer.
 
 ![Ninety-Eight All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/ninetyeight/allairankestimate.png){:class="post-image"}
 
-Here's a sample run that shows this repeated delay of the inevitable loss, in a game with only 8 turns.
+Here's a sample run that shows this repeated delay of the inevitable loss, in a game with only 10 turns.
 Each player in sequence dips below the threshold until Purple is forced to take the final hit
 and lose the game.
 
 ![Low Spread]({{site.url}}{{site.baseurl}}/images/ninetyeight/allaionegame2.png){:class="post-image"}
 
-#### Security = 0.87
+#### Security = 0.60
 
 In Ninety-Eight, games can be quick, with just
 two cards played, or continue on for many rounds. But unlike the slow recover of Pairs scores

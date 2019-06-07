@@ -18,7 +18,7 @@ let's see how it scores on our heuristics of **Fairness, Convergence, Spread, Dr
 (See this previous post for a [review of the heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %}) I'll be 
 discussing.)
 
-#### Fairness = 0.99
+#### Fairness = 0.97
 
 The graph here shows a box plot of the first player's win rate from 2 to 5 players, with the blue
 line showing the expected win rate for an average player.
@@ -37,7 +37,7 @@ perfectly flat slope. Moving on ...
 
 ![Pairs Convergence]({{site.url}}{{site.baseurl}}/images/pairs/convergence.png){:class="post-image"}
 
-#### Spread = 0.27
+#### Spread = 0.21
 
 Recall that 
 spread is the average difference between the minimum and maximum win estimates 
@@ -46,23 +46,24 @@ it is evidence that the player is making interesting decisions.
 
 The spread of scores for Pairs is much larger than we saw in Agram. First, we have a
 good way to separate the players into ranks depending on their total points at 
-the end of the game. And as you can see from the lead history below for a five-player game, there's a 
+the end of the game. And as you can see from the lead history below for a four-player game, there's a 
 fair amount of movement in the ranks as the game progresses.
 
 ![Low Spread]({{site.url}}{{site.baseurl}}/images/pairs/allaionegame2.png){:class="post-image"}
 
-#### Drama = 0.32
+#### Drama = 0.41
 
 Looking at the above picture, the drama of Pairs appears to be low, with the player
-in blue confident in their victory after only 20% of the game has been played. However, 
+in blue confident in their victory after 50% of the game has been played. However, 
 other lead histories show a different story, as shown below.
 
 ![Low Spread]({{site.url}}{{site.baseurl}}/images/pairs/allaionegame.png){:class="post-image"}
 
-What a tense game! Red takes a hit early and never gets back in the game. Green appears to
-be coasting to victory after Purple takes a hit, followed quickly by Blue. But nothing is
-certain, and at around three-quarters of the game, Green takes on points, letting Purple
-regain the lead in the final rounds! With such large swings below the blue dotted
+What a tense game! Blue takes a hit early and never gets back in the game. Yellow appears to
+be coasting to victory after Blue takes a hit, followed quickly by Green. But nothing is
+certain, and at around the midpoint of the game, Yellow takes on points, letting Green
+regain the lead in the final rounds. And, the ultimate winner is Red, who has been 
+lurking in the background the whole game! With such large swings below the blue dotted
 drama threshold, we can see why this heuristic is much higher than Agram.
 
 The graph below shows the aggregate of 100 games of Pairs with AI players. 
@@ -72,15 +73,30 @@ its a slow crawl back up, and more often than not, they stay in the lower half o
 
 ![Pairs All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/pairs/allairankestimate.png){:class="post-image"}
 
-#### Security = 0.51
+#### Security = 0.24
 
 When we shade the lead histories with the winner in red and the other players in black, we can 
-see that the drama is mostly in the first half of the game. The real fight in Pairs is to 
+see that the drama is mostly in the first half of the game. Here is the graph for the
+four-player games.
+
+![Pairs All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/pairs/allairankestimatewinner4.png){:class="post-image"}
+
+The real fight in Pairs is to 
 not lose the game, once you've taken a hit, the recovery is slow. This leads to a 
-high score for security, which is the percentage of the game the winning player
+moderate score for security, which is the percentage of the game the winning player
 is above the drama threshold. 
 
-![Pairs All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/pairs/allairankestimatewinner.png){:class="post-image"}
+For completeness, here is the two-player graph:
+
+![Pairs All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/pairs/allairankestimatewinner2.png){:class="post-image"}
+
+The three-player graph:
+
+![Pairs All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/pairs/allairankestimatewinner3.png){:class="post-image"}
+
+And the five-player graph:
+
+![Pairs All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/pairs/allairankestimatewinner5.png){:class="post-image"}
 
 #### Summary
 
