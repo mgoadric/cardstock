@@ -77,7 +77,7 @@ First up, we see below the average trend for
 [Agram]({{ site.baseurl }}{% post_url 2019-01-03-agram-heuristics %}), our super-simple 
 trick-taking game where the winner of the last trick wins the game.
 
-![Agram Average Trend]({{site.url}}{{site.baseurl}}/images/agram/agram-trends.png){:class="post-image"}
+![Agram Average Trend]({{site.url}}{{site.baseurl}}/images/agram/agram-trends-fixed.png){:class="post-image"}
 
 With just 6 tricks in the whole game, there's little time to have strategy in Agram, but this new graph
 shows us one piece I missed before. There is a increase in the winning trend at the start of the 
@@ -92,7 +92,7 @@ press-your-luck game, we previously saw a trend
 of the winner of slowly increasing their chances, but weren't sure about the other players. Below is the 
 new average trend graph for Pairs.
 
-![Pairs Average Trend]({{site.url}}{{site.baseurl}}/images/pairs/pairs-trends.png){:class="post-image"}
+![Pairs Average Trend]({{site.url}}{{site.baseurl}}/images/pairs/pairs-trends-fixed.png){:class="post-image"}
 
 We can still see the clear slow increase of the winner, but look below! 
 Wow! The third and fourth-place players are indistinguishable for much of the game, only diverging 
@@ -107,7 +107,7 @@ an adding game with straightforward card play. The average trend graph below con
 we saw earlier, that most players in the game feel very secure that they will be winning 
 the game. 
 
-![NinetyEight Average Trend]({{site.url}}{{site.baseurl}}/images/ninetyeight/ninetyeight-trends.png){:class="post-image"}
+![NinetyEight Average Trend]({{site.url}}{{site.baseurl}}/images/ninetyeight/ninetyeight-trends-fixed.png){:class="post-image"}
 
 The losing player slowly diverges, but then about half-way through the game, there
 is a steep decline. But since we don't know how long the game will take in advance, there is
@@ -119,7 +119,7 @@ In the
 of Ninety-Eight, the average trend graph for all players is very steady for much of the game,
 as the pile slowly ticks toward 98. 
 
-![NinetyEight No King Average Trend]({{site.url}}{{site.baseurl}}/images/ninetyeight/ninetyeightnoking-trends.png){:class="post-image"}
+![NinetyEight No King Average Trend]({{site.url}}{{site.baseurl}}/images/ninetyeight/ninetyeightnoking-trends-fixed.png){:class="post-image"}
 
 Near the end of the game, there is a weird fluctuation of graphs which captures something 
 interesting. The losing player's graph, dips, then recovers briefly, then dips completely
@@ -133,7 +133,7 @@ Finally, we revisit
 a fishing game with simple scoring and matching, but with the potential for large 
 point swings.
 
-![Stealing Bundles Average Trend]({{site.url}}{{site.baseurl}}/images/stealingbundles/bundles-trends.png){:class="post-image"}
+![Stealing Bundles Average Trend]({{site.url}}{{site.baseurl}}/images/stealingbundles/bundles-trends-fixed.png){:class="post-image"}
 
 Previously, it looked as if the ranks became clear for everyone once the final hand was
 dealt, however, the average trend graph tells a slightly different story. Players

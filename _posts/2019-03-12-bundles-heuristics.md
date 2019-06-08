@@ -17,18 +17,18 @@ let's see how it scores on our heuristics of **Fairness, Convergence, Spread, Dr
 (See this previous post for a [review of the heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %}) I'll be 
 discussing.)
 
-#### Fairness = 0.98
+#### Fairness = 0.88
 
 With games using just random players, we can determine if Stealing Bundles exhibits some
 bias toward the first player, either favorably or unfavorably. And as we have found
-for other games, this game is very fair. The image below shows that 
-random players behave as expected, giving no advantage or disadvantage to the
-first player.
+for other games, this game is mostly fair. The image below shows that 
+random players behave as expected. 
 
 ![Stealing Bundles Fairness]({{site.url}}{{site.baseurl}}/images/stealingbundles/fairness.png){:class="post-image"}
 
-This continued result of high fairness for these games is to be expected; if a game is biased 
-toward a certain player winning, it is unlikely to be played and become popular.
+However in the four-player game, there is an indication
+that the first player will win more often than average. More simulations could help determine
+if this is random fluctuations or a true bias.
 
 #### Convergence = 0.51
 
@@ -47,12 +47,12 @@ low, meaning that many of the choices in the game look similar to the player. Be
 a sample lead history graph for Stealing Bundles from a four-player game with all AI players.
 In this game, all players think they are doing reasonably well for most of the game, and estimate
 that other players are also doing well, as we can see from the tight band of ranks between
-0.5 and 0.8. There is little to distinguish the players until the very end of the game
+0.4 and 0.7. There is little to distinguish the players until the last fifth of the game
 when the ranks are finally settled.
 
 ![Stealing Bundles Spread]({{site.url}}{{site.baseurl}}/images/stealingbundles/allaionegame.png){:class="post-image"}
 
-#### Drama = 0.36
+#### Drama = 0.51
 
 We can start to see some trends for the Stealing Bundles when looking at the aggregate lead histories.
 First, we see below the lead histories for the four-player games where only one player was an AI, and the
@@ -84,7 +84,7 @@ at the two-third mark though, because by then players are starting to get a bett
 estimate of their chances of winning. This pattern also increases the drama of the game,
 since other players are consistently underestimating the winner for the first portion of the game.
 
-#### Security = 0.29
+#### Security = 0.19
 
 With the relative uncertainty for two-thirds of the game, Stealing Bundles has the 
 lowest value for Security yet. In the four-player games show below, we can see the winner

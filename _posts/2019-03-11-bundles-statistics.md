@@ -52,7 +52,7 @@ strategic choices? The image below shows the win rates of AI players versus rand
 ![Stealing Bundles Markov Gain]({{site.url}}{{site.baseurl}}/images/stealingbundles/winprob.png){:class="post-image"}
 
 In comparison with the expected random win rate, shown by the blue line, AI players can perform admirably,
-winning on average between 60% and 70%. This rate is much lower than 
+winning greater than 50%. This rate is much lower than 
 [Pairs]({% post_url 2019-01-04-pairs %}) and
 [Ninety-Eight]({% post_url 2019-02-05-ninety-eight %}), looking more like the results
 we found in [Agram]({% post_url 2018-11-26-agram %}). A player's ability to win in Stealing Bundles is 
