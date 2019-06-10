@@ -19,7 +19,7 @@ heuristics of **Order, Fairness, Convergence, Spread, Drama, and Security**.
 (See this previous post for a [review of the heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %}) I'll be 
 discussing.)
 
-#### Order = 0.48
+#### Order = 0.52
 
 First up, our new heuristic, [order]({{ site.baseurl }}{% post_url 2019-03-19-chaos-heuristic %}). Here's
 the graph again showing the win probability of the AI player when pitted against all random
@@ -33,7 +33,7 @@ expectation of 25%, which works out to a score of 0.48. Compared to the
 Agram, about equal to Stealing Bundles, and lower than both Ninety-Eight and Pairs, which
 matches my intuition about creating the heuristic.
 
-#### Fairness = 0.99
+#### Fairness = 0.94
 
 With random players, we find that Hearts is a very fair game, scoring very close to the 
 expected value for 4 players. 
@@ -60,7 +60,7 @@ There is a definite convergence toward the end of the game, however, the slope
 is decreased because of the earlier seen effect of the Hearts suit not being broken
 until around the fourth or fifth turn of the game. 
 
-#### Spread = 0.13
+#### Spread = 0.14
 
 Now for the lead histories! First, here we see a typical game of Hearts played out with four
 AI players. Let's see what we can notice visually from this graph.
@@ -71,7 +71,7 @@ The game starts out with all players believing they are doing OK, but at around 
 of the way through, one player's estimate is consistently low, with very little or no 
 chance of success. What happened here?
 
-At this point in the game, the purple player won a trick containing the *Queen of Spades*!
+At this point in the game, the blue player won a trick containing the *Queen of Spades*!
 With this card conveying 13 points to the player who wins it, this becomes an 
 insurmountable penalty.  The other players become even more confident in their positions
 of winning, until the rest of the Hearts cards play out and their scores are settled.
@@ -82,7 +82,7 @@ game where a player will see a broad spectrum of choices, but much of the time,
 a player's path seems determined (stuck at the bottom) and therefore uninteresting.
 
 
-#### Drama = 0.33
+#### Drama = 0.46
 
 However, a static trajectory is not always the case.
 Below is another lead history graph. Can you determine what happened in this game?
@@ -91,29 +91,29 @@ Below is another lead history graph. Can you determine what happened in this gam
 
 This game of Hearts starts out similar to our previous game, with
 one player taking the Queen of Spades at around the one-fifth point in the game, spelling 
-doom for their chances of winning. But wait. Could it be? Yes! The red player collected 
+doom for their chances of winning. But wait. Could it be? Yes! The purple player collected 
 all of the penalty cards to **Shoot the Moon** and win the game! 
 
 This is what a dramatic game looks like, with the winner underwater for most of the game
 and coming back at the end, pulling it off in the last trick. And, none of the other players 
-believe this is going to happen, consistently estimating the red player's chances of 
+believe this is going to happen, consistently estimating the purple player's chances of 
 winning very low.
 
-In fact, this happens in 10% of our simulations of games with all AI players! Here is 
+In fact, this happens in 9% of our simulations of games with all AI players! Here is 
 the aggregate graph of these games where the winning player shot the moon, with the
 winning player shown in red.
 
 ![Hearts Shoot the Moon]({{site.url}}{{site.baseurl}}/images/hearts/allaishootthemoon.png){:class="post-image"}
 
-But at only 10% of the games being so dramatic, the other 90% show a more stable
+But at only 9% of the games being so dramatic, the other 91% show a more stable
 game with consistently high estimates for the winner, bringing the overall 
-drama score down to 0.33, in line with the other games we have analyzed. The graph
+drama score down to 0.46. The graph
 below shows the lead histories for all 100 simulations with all AI players.
 
 ![Hearts All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/hearts/allairankestimate.png){:class="post-image"}
 
 One other interesting point: in simulations with only one AI player, 
-where the rest are random, we see that the AI only shoots the moon twice. The following
+where the rest are random, we see that the AI rarely shoots the moon. The following
 graph shows these lead histories. These are more consistent due to them being just from 
 the perspective of one player.
 
@@ -123,10 +123,10 @@ It appears that random players are much more likely to destroy the shoot the moo
 by picking up a Heart card by accident, whereas the AI players mostly try to 
 avoid taking any Hearts at all.
 
-#### Security = 0.56
+#### Security = 0.34
 
 Again, since most of the simulations show the winning player performing well, the
-security of Hearts is somewhat high at 0.56. The graph below again shows the 
+security of Hearts is somewhat high at 0.34. The graph below again shows the 
 aggregate lead histories for all AI player simulations, with the winner 
 shown in red, while all other players are in black.
 
@@ -163,8 +163,8 @@ and high fairness.
 
 ![Ninety-Eight Heuristics]({{site.url}}{{site.baseurl}}/images/hearts/heuristics.png){:class="post-image"}
 
-So, can we conclude that 10% of the time in Hearts, a player will shoot the moon? 
-Not exactly. It is worth noting that this estimate of 10% is based on the current weak AI model
+So, can we conclude that 9% of the time in Hearts, a player will shoot the moon? 
+Not exactly. It is worth noting that this estimate of 9% is based on the current weak AI model
 used in our CardStock simulations, which makes no assumptions about the 
 intelligence of the other players when deciding on a move. More advanced AI players
 may be able to detect the Shoot the Moon strategy being attempted and thwart it

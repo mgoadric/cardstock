@@ -58,7 +58,7 @@ The graph below shows the average trends for the aggregate
 lead histories in Hearts. When we put them all together, I think it is easier to follow the
 game flow for each player. 
 
-![Hearts All AI Rank Estimate 4p]({{site.url}}{{site.baseurl}}/images/hearts/hearts-trends.png){:class="post-image"}
+![Hearts All AI Rank Estimate 4p]({{site.url}}{{site.baseurl}}/images/hearts/hearts-trends-fixed.png){:class="post-image"}
 
 We can quickly see that the fourth-place player drops off 
 right away. By the end of the 3rd trick, this fourth-place player will probably 
@@ -95,7 +95,7 @@ new average trend graph for Pairs.
 ![Pairs Average Trend]({{site.url}}{{site.baseurl}}/images/pairs/pairs-trends-fixed.png){:class="post-image"}
 
 We can still see the clear slow increase of the winner, but look below! 
-Wow! The third and fourth-place players are indistinguishable for much of the game, only diverging 
+Wow! The third and fourth-place players are close for much of the game, only diverging 
 at the very end, usually on the last move of the game! This may not be a tense game for 
 the winning player, but for the losing player, there are some very critical estimates
 and decisions needed for success.
