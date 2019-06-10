@@ -40,11 +40,11 @@ out in this graph.
 ![Hearts All AI Rank Estimate 4p]({{site.url}}{{site.baseurl}}/images/hearts/hearts-winner-trend.png){:class="post-image"}
 
 We can also see some interesting subtleties in this graph that were missed before. 
-The small peaks toward the end of the game, those correspond to the lead player's turn 
+The small plateau jumps toward the end of the game, those correspond to the lead player's turn 
 for the last 4-5 tricks of the game. So, it looks like the winning player is more likely to
 be the lead player near the end of the game, especially when they are following the **Shoot
 the Moon** strategy! And while each individual graph varies, we can say now that on average
-the winner knows they will win after 2/3 of the game has been played.
+the winner knows they will win after 3/4 of the game has been played.
 
 Similarly, we can graph the average trend for the losing player, as shown in blue below for the
 fourth-place average trend graph.  Note that their final average at the end of the game

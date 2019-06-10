@@ -13,7 +13,7 @@ comments: true
 Our [last post]({{ site.baseurl }}{% post_url 2019-03-15-hearts-heuristics %}) 
 on [Hearts](https://www.pagat.com/reverse/hearts.html)
 showed that the Shoot The Moon strategy can actually be a viable option, with
-10% of the simulations resulting in players collecting every penalty card. 
+9% of the simulations resulting in players collecting every penalty card. 
 These games were very dramatic, but otherwise, Hearts scored poorly on our
 [heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %}) with low game drama, 
 a low spread of choices, and moderate stability. 
@@ -37,7 +37,7 @@ for the aggregate
 lead histories in Hearts. When we put them all together, I think it is easier to follow the
 game flow for each player. We'll be comparing each variant to the graph shown here. 
 
-![Hearts All AI Rank Estimate 4p]({{site.url}}{{site.baseurl}}/images/hearts/hearts-trends.png){:class="post-image"}
+![Hearts All AI Rank Estimate 4p]({{site.url}}{{site.baseurl}}/images/hearts/hearts-trends-fixed.png){:class="post-image"}
 
 #### That's No Moon
 
@@ -54,12 +54,8 @@ drop-off for the fourth-place player is much faster, and more final. Their avera
 consistently lower than what it was in Hearts, across the whole game. And without the
 advantage of ties, they trend down very close to 0 for their final rank estimate.
 
-Second, the third-place player stays tighter with the first and second-place players, only
-making a clear divergence in the latter half of the game. 
-
-Third, the periodic peaks in the winning player graph have smoothed out, which means that
-the drama of thinking they will win while being underestimated by the other players is
-lost. 
+Second, there are more peaks and jagged lines in the That's No Moon variant than Hearts, 
+meaning that in this game, the player order becomes more set as the game progresses. 
 
 So, while this is a very small rule change, it will definitely affect the experience
 of the game for the worse. We'll try to quantify exactly how at the end of this post.
@@ -80,7 +76,7 @@ It is interesting to see that the top two players separate from the bottom two p
 early. This variant is especially different for the third-place player, who is no 
 longer competitive in the early game. With hearts showing up earlier, we might expect
 there to be less chance to Shoot the Moon, but the percentage of moon games is very close
-to standard Hearts, at 8%.
+to standard Hearts, at 11%.
 
 With the game becoming a foregone conclusion much earlier than in standard 
 Hearts, this will only add to our problems of low spread, low drama, and high security!
@@ -101,10 +97,6 @@ Here's the average trend graph once the Jack of Diamonds points are adjusted.
 As expected, we see that the Queen of Spades has been tempered. While the losing player 
 still separates from the rest of the players, we see the slope is gradual rather than steep.
 
-The moment when the winner is clearly over the 
-drama threshold is also delayed, moving from 60% to near 70% of the game being played. This should 
-increase the possibility of more drama and less stability in the game.
-
 Thanks to [P.D. Magnus](https://www.fecundity.com/pmagnus/) for suggesting I look at this variant!
 
 #### Grey Maria
@@ -123,10 +115,9 @@ aggregate lead history graph.
 
 ![Hearts Queen is 7]({{site.url}}{{site.baseurl}}/images/hearts/hearts7q-trends.png){:class="post-image"}
 
-This looks like it might keep the benefits from the Omnibus variant, such the delayed
-point of winning, and add in a tighter early game! The periodic peaks in the endgame
-from the Shoot the Moon strategy are still there, and are actually a little more pronounced,
-as 13% of these games result in a Shoot the Moon win. And, the first and second-place 
+This looks like it might keep the benefits from the Omnibus variant and add in a tighter early game! 
+The periodic peaks in the endgame
+from the Shoot the Moon strategy are still there, and are actually a little more pronounced. And, the first and second-place 
 players are much closer for most of the game, only diverging in the last third.
 
 Nice work, Sean!
@@ -167,7 +158,7 @@ Besides being the simplest ruleset, this looks like the least-interesting varian
 Following the dramatic dip after the first trick, the player ranks are relatively flat
 until the last trick finally settles the outcome. With only three penalty points, ties
 are even more likely, with the first and second-place players almost evenly ranked, and
-both above the drama threshold for most of the game.
+the winner is above the drama threshold for most of the game.
 
 #### Knaves
 
@@ -206,11 +197,13 @@ variants on a simple line, as shown below, with Hearts highlighted in red.
 
 ![Variant Spread]({{site.url}}{{site.baseurl}}/images/hearts/variant-spread.png){:class="post-image"}
 
-To the left of Hearts, we see Polignac and Slobber Hannes. This makes sense, as the important choices in these games
+To the far left of Hearts, we see Polignac and Slobber Hannes. This makes sense, as the important choices in these games
 are very infrequent, since they involve many tricks and only a few point cards.
 
-To the right of Hearts, we see first our variants that removed critical rules: That's No Moon, and Black
-Maria. These are followed by Grey Maria and Omnibus, showing that there are more important
+Closer, yet still to the left, we see our first variants that removed critical rules: That's No Moon, and Black
+Maria. 
+
+To the right of Hearts, we see Grey Maria and Omnibus, showing that there are more important
 choices to be made in these later games. 
 
 Interesting, though, is the appearance of Knaves
@@ -220,7 +213,7 @@ also be due to the mixture of incentives to take tricks but avoid certain cards.
 I will have to play a few rounds in person to see if there is something else going on.
 
 I also think I need to add some more instrumentation to my CardStock system so I can make some better
-graphs for spread. I'm still not sure why these numbers are consistently low (0.11 to 0.18) 
+graphs for spread. I'm still not sure why these numbers are consistently low (0.12 to 0.19) 
 across all these different games, and more data could always help.
 
 #### Drama
@@ -235,10 +228,8 @@ in these games early, there is less opportunity for dramatic wins. Next, we see 
 which also makes sense, since we removed the opportunity for the dramatic win-from-behind
 scoring option.
 
-We see Grey Maria and Omnibus contain much more Drama than Hearts. Both of these variants
-keep the scores tighter throughout the game and make the winner more uncertain. Knaves 
-continues to confound me, with more Drama than I expected. Again, this is most 
-likely due to the combination of winning and losing points.
+We see only Omnibus contain much more Drama than Hearts, and this difference is minuscule. 
+This variant keeps the scores tighter throughout the game and make the winner more uncertain. 
 
 #### Order
 
@@ -249,10 +240,16 @@ low values mean that beating random players is much more difficult.
 ![Variant Order]({{site.url}}{{site.baseurl}}/images/hearts/variant-order.png){:class="post-image"}
 
 As expected, Slobber Hannes is an easy game to win for our AI players, followed by Knaves
-as the second-easiest. On the low end, we find Black Maria and Omnibus a significant
+as the second-easiest. The graph is hard to read in the middle, because
+Polignac overlaps exactly with Hearts.
+
+On the low end, we find Black Maria and Omnibus a significant
 distance from Hearts. I can definitely see how a bad hand in Black Maria could prove
 disastrous, with players playing their Hearts randomly messing up the potential 
-for AI strategy. But I am confused as to why Omnibus shows up so low?
+for AI strategy. But I am confused as to why Omnibus shows up so low? I think because
+the Jack of Diamonds is a high card, more likely to win a trick, and it is 
+dealt randomly to a player, it is more the luck of the draw if this will
+be available as a positive source.
 
 #### Security
 
@@ -264,8 +261,8 @@ winning player believes they are winning.
 This heuristic tracks most closely with what the average trend graphs were showing us above.
 Knaves, Polignac, and Slobber Hannes all have very high Security, with the winner above the
 drama threshold and knowing they are the winner more than 75% of the game. On the other hand,
-Grey Maria and Omnibus have a much lower value for Security, and making more a much more
-interesting midgame than Hearts.
+Grey Maria and Omnibus have a much lower value for Security. Original Hearts remains the least
+secure of all the variants, though.
 
 ### Up Next - L.A.M.A.
 
