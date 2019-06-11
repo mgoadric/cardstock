@@ -18,7 +18,7 @@ let's see how it scores on our heuristics of **Fairness, Convergence, Spread, Dr
 (See this previous post for a [review of the heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %}) I'll be 
 discussing.)
 
-#### Fairness = 0.97
+#### Fairness = 0.92
 
 The graph here shows a box plot of the first player's win rate from 2 to 5 players, with the blue
 line showing the expected win rate for an average player.

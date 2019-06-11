@@ -40,7 +40,7 @@ This is consistent for games played with all random players, with one AI player 
 and with all AI players. Because of the following players being limited in their options occasionally,
 the slope is not as steep as it could be.
 
-#### Spread = 0.03
+#### Spread = 0.05
 
 The spread of choices in Agram is very small. One reason for this is that in Agram, there is only one point 
 awarded in the game, for winning the last trick. This scoring method limits 

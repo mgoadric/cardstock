@@ -17,7 +17,7 @@ Now let's see how it scores on our heuristics of **Fairness, Convergence, Spread
 (See this previous post for a [review of the heuristics]({{ site.baseurl }}{% post_url 2018-12-11-heuristics %}) I'll be 
 discussing.)
 
-#### Fairness = 0.98
+#### Fairness = 0.68
 
 To determine fairness here, we'll need to do something different. In Pairs, 
 even though the goal was to not lose, a player accumulated points and could
@@ -25,9 +25,13 @@ be differentiate into ranks, allowing for a "winner" with the lowest point
 total. But in Ninety-Nine, we just have the tipping point of the 
 discard `PILE` growing larger than 98, so it is harder to differentiate
 the players. Instead, we will compare the chance that a random player will not lose to the
-expected chance based on the number of players. The image below shows that 
-random players behave as expected, giving no advantage or disadvantage to the
-first player.
+expected chance based on the number of players. We use 1 - the win percentage
+to calculate this new fairness value.
+
+The image below shows that 
+random players behave somewhat as expected. There is a slight advantage to being 
+the first player, but this could be due to statistical fluctuations, as the 
+expected value is within the spread of values.
 
 ![Ninety-Eight Fairness]({{site.url}}{{site.baseurl}}/images/ninetyeight/fairness.png){:class="post-image"}
 

@@ -33,9 +33,9 @@ expectation of 25%, which works out to a score of 0.48. Compared to the
 Agram, about equal to Stealing Bundles, and lower than both Ninety-Eight and Pairs, which
 matches my intuition about creating the heuristic.
 
-#### Fairness = 0.94
+#### Fairness = 0.86
 
-With random players, we find that Hearts is a very fair game, scoring very close to the 
+With random players, we find that Hearts is a relatively fair game, scoring close to the 
 expected value for 4 players. 
 
 ![Hearts Fairness]({{site.url}}{{site.baseurl}}/images/hearts/fairness.png){:class="post-image"}
