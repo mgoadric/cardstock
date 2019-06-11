@@ -502,6 +502,9 @@
     <None Include="games\Hearts5.gdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="games\LAMAFull4.gdl" />
+    <None Include="games\LAMAFull5.gdl" />
+    <None Include="games\LAMAFull6.gdl" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
