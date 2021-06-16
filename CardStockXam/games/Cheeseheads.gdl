@@ -90,7 +90,6 @@
                 (move 'C (top ((current player) iloc BLIND)))))
           ((!= ((current player) sto PICKER) 1)
            (turn pass)))))
- ;; set the partner
         
  ;; set the partner
  (do ((all player 'P
@@ -201,7 +200,8 @@
              ((and (!= ((current player) sto PICKER) 1)
                    (!= ((current player) sto PARTNER) 1))
               (inc (game sto OPPOSITION) (sum ((current player) vloc TRICKSWON) using 'SCORE)))
-             (inc ((current player) sto TSCORE) (sum ((current player) vloc TRICKSWON) using 'SCORE))
+             (set ((current player) sto TSCORE) (sum ((current player) vloc TRICKSWON) using 'SCORE))
+             (set ((current player) sto TSUM) (size ((current player) vloc TRICKSWON)))
              (repeat all
                      (move (top ((current player) vloc TRICKSWON))
                            (top (game vloc DISCARD)))))))
@@ -262,17 +262,14 @@
 
              ;; leaster
              ((and (== (game sto LEASTER) 1)
-                   (all (other player) 'OP (> ('OP sto TSCORE) ((current player) sto TSCORE)))                         
+                   (all (other player) 'OP (> ('OP sto TSCORE) ((current player) sto TSCORE)))
+                   (> ((current player) sto TSUM) 0)
                    )
-              (inc ((current player) sto SCORE) 4))
-
-             ;; what about ties????
-             ((and (== (game sto LEASTER) 1)
-                   (any (other player) 'OP (< ('OP sto TSCORE) ((current player) sto TSCORE)))                         
-                   )
-              (dec ((current player) sto SCORE) 1))
-                   
-                    
+              (do 
+               (
+                  (inc ((current player) sto SCORE) 4)
+                  (all (other player) 'OP  (dec ('OP sto SCORE) 1))
+                )))                   
              )))
         
 
