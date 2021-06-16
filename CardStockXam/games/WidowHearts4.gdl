@@ -147,7 +147,7 @@
                     ((all player 'P 
                      (== (size ('P iloc HAND)) 0))
                      (repeat all
-                             (move (top (game vloc STOCK)) 
+                             (move (top (game iloc STOCK)) 
                                    (top ((next player) vloc TRICKSWON))))
                      )
                     )))
