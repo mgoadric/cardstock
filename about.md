@@ -1,7 +1,7 @@
 ---
-layout: summary
 title: About
-permalink: /about/
+permalink: "/about/"
+layout: summary
 ---
 
 ![Agram All AI Rank Estimate]({{site.url}}{{site.baseurl}}/images/agram/allairankestimatewinner.png){:class="post-image"}

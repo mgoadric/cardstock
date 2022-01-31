@@ -1,8 +1,9 @@
 ---
+title: 'Ninety-Eight: Basic Statistics'
+date: 2019-02-06 14:46:18 Z
+categories:
+- ADDER
 layout: post
-title:  "Ninety-Eight: Basic Statistics"
-date:   2019-02-06 8:46:18 -0600
-categories: ADDER
 image: images/playing-cards-discard.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png

@@ -1,4 +1,7 @@
 ---
-tag: ADDER
+title: Adder
 permalink: "/category/ADDER"
+tags:
+- ADDER
 ---
+

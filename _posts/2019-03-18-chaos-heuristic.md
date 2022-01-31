@@ -1,8 +1,9 @@
 ---
+title: Order Heuristic
+date: 2019-03-18 15:43:18 Z
+categories:
+- GENERAL
 layout: post
-title:  "Order Heuristic"
-date:   2019-03-18 09:43:18 -0600
-categories: GENERAL
 image: images/beautiful-chaos.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png

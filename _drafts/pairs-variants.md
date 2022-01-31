@@ -1,8 +1,9 @@
 ---
+title: Pairs Variants
+date: 2018-12-10 15:46:18 Z
+categories:
+- PRESS-YOUR-LUCK
 layout: post
-title:  "Pairs Variants"
-date:   2018-12-10 09:46:18 -0600
-categories: PRESS-YOUR-LUCK
 image: images/pairs.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png

@@ -1,8 +1,9 @@
 ---
+title: Heuristics Overview
+date: 2018-12-11 15:43:18 Z
+categories:
+- GENERAL
 layout: post
-title:  "Heuristics Overview"
-date:   2018-12-11 09:43:18 -0600
-categories: GENERAL
 image: images/heuristic.png
 author: Mark Goadrich
 avatar: images/goadrich.png

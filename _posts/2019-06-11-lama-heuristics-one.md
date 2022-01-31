@@ -1,8 +1,9 @@
 ---
+title: 'LAMA: One Round'
+date: 2019-06-11 15:10:18 Z
+categories:
+- SHEDDING
 layout: post
-title:  "LAMA: One Round"
-date:   2019-06-11 09:10:18 -0600
-categories: SHEDDING
 image: images/lamaplay.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png

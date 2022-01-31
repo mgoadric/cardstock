@@ -1,8 +1,9 @@
 ---
+title: 'Hearts: Basic Statistics'
+date: 2019-03-18 14:46:18 Z
+categories:
+- TRICK-TAKING
 layout: post
-title:  "Hearts: Basic Statistics"
-date:   2019-03-18 8:46:18 -0600
-categories: TRICK-TAKING
 image: images/hearts-playing-cards.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png

@@ -1,8 +1,9 @@
 ---
+title: 'Stealing Bundles: Advanced Heuristics'
+date: 2019-03-11 14:10:18 Z
+categories:
+- FISHING
 layout: post
-title:  "Stealing Bundles: Advanced Heuristics"
-date:   2019-03-11 8:10:18 -0600
-categories: FISHING
 image: images/crayons-bundle-colors.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png

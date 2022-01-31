@@ -1,8 +1,9 @@
 ---
+title: 'Ninety-Eight: Coding'
+date: 2019-02-05 15:40:18 Z
+categories:
+- ADDER
 layout: post
-title:  "Ninety-Eight: Coding"
-date:   2019-02-05 09:40:18 -0600
-categories: ADDER
 image: images/King_playing_cards.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png
