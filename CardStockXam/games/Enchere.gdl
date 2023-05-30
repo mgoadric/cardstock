@@ -1,0 +1,117 @@
+;; Enchère
+;;
+
+(game
+ (declare 3 'NUMP)
+ (setup 
+  (create players 'NUMP)
+  (create teams (0) (1) (2))  
+  
+  ;; Create the deck source 
+  (create deck (game iloc CASH) (deck (RANK (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (SPADES, CLUBS))))))
+  (create deck (game iloc PRIZE) (deck (RANK (QUEEN, KING, ACE))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (SPADES, CLUBS)))))))
+
+ 
+ ;; Shuffle and deal each player 12 cards
+ (do 
+     (
+      (shuffle (game iloc CASH))
+      (shuffle (game iloc PRIZE))
+      (all player 'P 
+           (repeat 12
+                   (move (top (game iloc CASH))
+                         (top ('P iloc HAND)))))))
+   
+ ;; players play a round 12 times         
+ (stage player
+        (end 
+         (all player 'P 
+              (== (size ('P iloc HAND)) 0)))
+        
+        ;; show prize
+        (do 
+        (
+            (move (top (game iloc PRIZE))
+                  (top (game vloc AWARD)))
+
+        ))
+
+        ;; players play a hand once     
+        (stage player
+            (end 
+                (all player 'P (== (size ('P iloc HIDDENTRICK)) 1))) 
+               
+               ;; play a hidden card
+               (choice 
+                (
+                 (do 
+                     (
+                      (any ((current player) iloc HAND) 'C
+                           (move 'C 
+                                 (top ((current player) iloc HIDDENTRICK)))))))))
+        
+        ;; after players play hand, computer wraps up trick
+        (do 
+            (
+             ;; Move the card to visible
+             (all player 'P 
+                  (move (top ('P iloc HIDDENTRICK))
+                        (top ('P vloc TRICK))))
+             
+             ;; rank cards with a slight boost given to those who match the suit (to settle ties)
+             (put points 'PRECEDENCE 
+                (
+                    ((SUIT (cardatt SUIT (top (game vloc AWARD)))) 2)
+                    ((COLOR (cardatt COLOR (top (game vloc AWARD)))) 1)
+                    ((RANK (JACK)) 110)
+                    ((RANK (TEN)) 100)
+                    ((RANK (NINE)) 90)
+                    ((RANK (EIGHT)) 80)
+                    ((RANK (SEVEN)) 70)
+                    ((RANK (SIX)) 60)
+                    ((RANK (FIVE)) 50)
+                    ((RANK (FOUR)) 40)
+                    ((RANK (THREE)) 30)
+                    ((RANK (TWO)) 20)
+                    ))
+                    
+             ;; determine winner
+             ;; first, get number of cards equal to highest score and get number of cards equal to that size.
+             ;; if there is more than 1 card at the highest score, the winner is the lowest scoring card.
+             ;; if there is 1 card or less at the highest score, the winner is the highest scoring card.
+             ((> 1 (size (filter (union (all player 'P ('P vloc TRICK))) 'TC (== (score 'TC using 'PRECEDENCE) (score (max (union (all player 'PP ('PP vloc TRICK))) using 'PRECEDENCE) using 'PRECEDENCE)))))
+              (move (top (game vloc AWARD))
+                            (top ((owner (min (union (all player 'PR 
+                                                          ('PR vloc TRICK))) using 'PRECEDENCE)) vloc WON))))
+            
+            ;; award the prize to the winning player
+             ((<= 1 (size (filter (union (all player 'P ('P vloc TRICK))) 'TC (== (score 'TC using 'PRECEDENCE) (score (max (union (all player 'PP ('PP vloc TRICK))) using 'PRECEDENCE) using 'PRECEDENCE)))))
+              (move (top (game vloc AWARD))
+                            (top ((owner (max (union (all player 'PR 
+                                                          ('PR vloc TRICK))) using 'PRECEDENCE)) vloc WON))))
+             
+             ;; discard all other cards
+             (all player 'P 
+                  (move (top ('P vloc TRICK)) 
+                        (top (game vloc DISCARD))))
+             
+             
+             )))
+
+ (do
+    (
+    ;; create precedence for scoring
+    (put points 'SCOREPOINTS 
+        (
+            ((RANK (ACE)) 4)
+            ((RANK (KING)) 2)
+            ((RANK (QUEEN)) 1)
+            ))
+ ))        
+ 
+ ;; winner is the player with the most points
+ (scoring max (sum ((current player) vloc WON) using 'SCOREPOINTS)))
