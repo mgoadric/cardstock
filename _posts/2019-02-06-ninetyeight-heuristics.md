@@ -1,9 +1,8 @@
 ---
-title: 'Ninety-Eight: Advanced Heuristics'
-date: 2019-02-06 16:10:18 Z
-categories:
-- ADDER
 layout: post
+title:  "Ninety-Eight: Advanced Heuristics"
+date:   2019-02-06 10:10:18 -0600
+categories: ADDER
 image: images/deck_of_playing_cards.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png

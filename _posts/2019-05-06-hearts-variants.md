@@ -1,9 +1,8 @@
 ---
-title: 'Hearts: Variant Analysis'
-date: 2019-05-05 15:10:18 Z
-categories:
-- TRICK-TAKING
 layout: post
+title:  "Hearts: Variant Analysis"
+date:   2019-05-05 09:10:18 -0600
+categories: TRICK-TAKING
 image: images/hearts-variants.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png

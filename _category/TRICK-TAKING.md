@@ -1,7 +1,4 @@
 ---
-title: Trick Taking
+tag: TRICK-TAKING
 permalink: "/category/TRICK-TAKING"
-tags:
-- TRICK-TAKING
 ---
-

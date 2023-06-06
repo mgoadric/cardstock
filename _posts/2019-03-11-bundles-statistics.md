@@ -1,9 +1,8 @@
 ---
-title: 'Stealing Bundles: Basic Statistics'
-date: 2019-03-10 14:46:18 Z
-categories:
-- FISHING
 layout: post
+title:  "Stealing Bundles: Basic Statistics"
+date:   2019-03-10 8:46:18 -0600
+categories: FISHING
 image: images/bundle-paper.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png

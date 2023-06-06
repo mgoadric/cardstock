@@ -1,9 +1,8 @@
 ---
-title: Average Trend Graphs
-date: 2019-04-30 15:10:18 Z
-categories:
-- GENERAL
 layout: post
+title:  "Average Trend Graphs"
+date:   2019-04-30 09:10:18 -0600
+categories: GENERAL
 image: images/average-trends.png
 author: Mark Goadrich
 avatar: images/goadrich.png

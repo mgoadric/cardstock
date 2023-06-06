@@ -1,7 +1,4 @@
 ---
-title: Press Your Luck
+tag: PRESS-YOUR-LUCK
 permalink: "/category/PRESS-YOUR-LUCK"
-tags:
-- PRESS-YOUR-LUCK
 ---
-

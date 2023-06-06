@@ -1,9 +1,8 @@
 ---
-title: 'Hearts: Advanced Heuristics'
-date: 2019-04-09 15:10:18 Z
-categories:
-- TRICK-TAKING
 layout: post
+title:  "Hearts: Advanced Heuristics"
+date:   2019-04-09 09:10:18 -0600
+categories: TRICK-TAKING
 image: images/queen-of-spades.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png

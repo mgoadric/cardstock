@@ -1,7 +1,4 @@
 ---
-title: Fishing
+tag: FISHING
 permalink: "/category/FISHING"
-tags:
-- FISHING
 ---
-

@@ -1,9 +1,8 @@
 ---
-title: 'Pairs: Basic Statistics'
-date: 2019-01-09 14:46:18 Z
-categories:
-- PRESS-YOUR-LUCK
 layout: post
+title:  "Pairs: Basic Statistics"
+date:   2019-01-09 08:46:18 -0600
+categories: PRESS-YOUR-LUCK
 image: images/pairs2.png
 author: Mark Goadrich
 avatar: images/goadrich.png

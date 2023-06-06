@@ -1,9 +1,8 @@
 ---
-title: 'Agram: Advanced Heuristics'
-date: 2019-01-03 16:43:18 Z
-categories:
-- TRICK-TAKING
 layout: post
+title:  "Agram: Advanced Heuristics"
+date:   2019-01-03 10:43:18 -0600
+categories: TRICK-TAKING
 image: images/agram/agram-heur.png
 author: Mark Goadrich
 avatar: images/goadrich.png

@@ -1,9 +1,8 @@
 ---
-title: Rank Calibration
-date: 2019-06-03 15:43:18 Z
-categories:
-- GENERAL
 layout: post
+title:  "Rank Calibration"
+date:   2019-06-03 09:43:18 -0600
+categories: GENERAL
 image: images/calibration.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png

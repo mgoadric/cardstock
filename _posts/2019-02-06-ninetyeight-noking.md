@@ -1,9 +1,8 @@
 ---
-title: 'Ninety-Eight: King Effect'
-date: 2019-02-06 18:10:18 Z
-categories:
-- ADDER
 layout: post
+title:  "Ninety-Eight: King Effect"
+date:   2019-02-06 12:10:18 -0600
+categories: ADDER
 image: images/king.png
 author: Mark Goadrich
 avatar: images/goadrich.png

@@ -1,16 +1,14 @@
 ---
-title: Welcome to The Shape of Card Games!
-date: 2018-11-26 15:43:18 Z
-categories:
-- GENERAL
 layout: post
+title:  "Welcome to The Shape of Card Games!"
+date:   2018-11-26 09:43:18 -0600
+categories: GENERAL
 image: images/all-cards.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png
 authorhome: http://mark.goadrich.com
 comments: true
 ---
-
 Welcome! I've always been fascinated with card games. Both sides of my family would routinely play
 games when we gathered, with our favorites being [Euchre](https://www.pagat.com/euchre/euchre.html),
 [Tock](https://en.wikipedia.org/wiki/Tock), [Louse Your Neighbor](https://wizardofodds.com/games/screw-your-neighbor/),

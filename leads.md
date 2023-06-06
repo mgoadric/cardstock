@@ -1,7 +1,7 @@
 ---
-title: Summary and Lead Histories
-permalink: "/leads/"
 layout: summary
+title: Summary and Lead Histories
+permalink: /leads/
 ---
 
 Here is a summary of each game analyzed on this blog, with a reference to its RECYCLE

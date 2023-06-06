@@ -1,9 +1,8 @@
 ---
-title: 'Stealing Bundles: Coding'
-date: 2019-03-06 15:40:18 Z
-categories:
-- FISHING
 layout: post
+title:  "Stealing Bundles: Coding"
+date:   2019-03-06 09:40:18 -0600
+categories: FISHING
 image: images/kindling-bundle.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png

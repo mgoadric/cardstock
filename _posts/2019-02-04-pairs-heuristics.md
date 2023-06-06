@@ -1,9 +1,8 @@
 ---
-title: 'Pairs: Advanced Heuristics'
-date: 2019-02-04 14:43:18 Z
-categories:
-- PRESS-YOUR-LUCK
 layout: post
+title:  "Pairs: Advanced Heuristics"
+date:   2019-02-04 08:43:18 -0600
+categories: PRESS-YOUR-LUCK
 image: images/pairs3.jpg
 author: Mark Goadrich
 avatar: images/goadrich.png

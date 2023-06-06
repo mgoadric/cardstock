@@ -1,7 +1,4 @@
 ---
-title: Shedding
+tag: SHEDDING
 permalink: "/category/SHEDDING"
-tags:
-- SHEDDING
 ---
-
