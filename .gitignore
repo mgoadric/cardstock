@@ -199,3 +199,9 @@ CardStockXam/games/StealingBundles.1
 *.bak
 
 docs/_build/
+
+CardStockXam/games/.DS_Store
+
+CardStockXam/.DS_Store
+
+.DS_Store
