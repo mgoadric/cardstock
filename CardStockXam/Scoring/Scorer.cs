@@ -18,7 +18,7 @@ namespace CardStockXam
 
         private int numRndvRnd = 100;
         private int numAIvRnd  = 100;
-        private int numAIvAI   = 100;
+        private int numAIvAI   = 25;
 
 
         public static void Main(string[] args) {
@@ -33,10 +33,11 @@ namespace CardStockXam
             //		gameFiles.Add(s);
             //	}
             //}
-            gameFiles.Add("games/Pairs2.gdl");
-            gameFiles.Add("games/Pairs3.gdl");
-            gameFiles.Add("games/Pairs4.gdl");
-            gameFiles.Add("games/Pairs5.gdl");
+            //gameFiles.Add("games/Pairs2.gdl");
+            //gameFiles.Add("games/Pairs3.gdl");
+            //gameFiles.Add("games/Pairs4.gdl");
+            //gameFiles.Add("games/Pairs5.gdl");
+            gameFiles.Add("games/Agram4.gdl");
 
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
@@ -83,8 +84,7 @@ namespace CardStockXam
           
             text = "Scoring " + fileName + ":\n";
 
-
-
+            /*
             exps.Add(new Experiment()
             {
                 fileName = fileName,
@@ -94,9 +94,8 @@ namespace CardStockXam
                 evaluating = true,
 
             });
-
-
-
+            
+            
             exps.Add(new Experiment()
             {
                 fileName = fileName,
@@ -107,7 +106,7 @@ namespace CardStockXam
                 type = GameType.RndandAI
                     
             });
-
+            */
 
             exps.Add(new Experiment()
             {
@@ -118,10 +117,10 @@ namespace CardStockXam
                 evaluating = true,
                 type = GameType.AllAI
             });
-
+            
         }
 
-     
+
 
         // define heuristics here
         public List<double> Score(){

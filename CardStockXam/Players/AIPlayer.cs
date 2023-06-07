@@ -92,6 +92,7 @@ namespace Players
                     //Console.WriteLine("Converted " + rankSums[i][maxidx] + " into " + myLeadView[i]);
                 }
                 perspective.AddLeadsList(new Tuple<int, double[]>(perspective.GetIdx(), myLeadView));
+                perspective.AddSpreadList(new Tuple<int, double>(perspective.GetIdx(), variance));
 
                 leadList.Add(best);
             }
