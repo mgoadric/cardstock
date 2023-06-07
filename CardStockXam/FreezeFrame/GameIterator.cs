@@ -1151,10 +1151,20 @@ namespace FreezeFrame
             {
                 var scoring = game.table[0].pointBins[card.maxof().var().GetText()];
                 var coll = ProcessLocation(card.maxof().cstorage());
-                var max = 0;
+                var max = -1;
                 Card maxCard = null;
+
+                if (coll.cardList.AllCards().Count() == 0)
+                {
+                    throw new NotSupportedException();
+                }
                 foreach (var c in coll.cardList.AllCards())
                 {
+
+                    if (scoring.GetScore(c) == 0)
+                    {
+                        // Console.WriteLine("Weird Card: " + c + " using " + card.maxof().var().GetText());
+                    }
                     //MHG when equal, pick randomly
                     if (scoring.GetScore(c) > max || (scoring.GetScore(c) == max && ThreadSafeRandom.Next(0, 2) == 0))
                     {
