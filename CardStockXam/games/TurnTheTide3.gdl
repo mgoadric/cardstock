@@ -1,0 +1,204 @@
+;; Turn The Tide
+;;
+;; https://gamewright.com/pdfs/Rules/TurnTheTide-RULES.pdf
+
+(game
+ (setup  
+  ;; Set up the players, 2 players each on their own team
+  (create players 3)
+  (create teams (0) (1) (2))
+  
+  ;; Create the deck source
+  (repeat 2 (create deck (game iloc WATER) (deck (RANK (ONE, TWO, THREE, FOUR, 
+            FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE)))))
+  (create deck (game iloc STOCK) (deck (RANK (ONE, TWO, THREE, FOUR, FIVE, SIX, 
+                                              SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE,
+                                              FORTYNINE, FIFTY, FIFTYONE, FIFTYTWO, FIFTYTHREE, FIFTYFOUR,
+                                              FIFTYFIVE, FIFTYSIX, FIFTYSEVEN, FIFTYEIGHT, FIFTYNINE, SIXTY))
+                                       (PRESERVER (ZERO))))
+  (create deck (game iloc STOCK) (deck (RANK (THIRTEEN, FOURTEEN, FIFTEEN, SIXTEEN, SEVENTEEN, EIGHTEEN, NINETEEN,
+                                              TWENTY, TWENTYONE, TWENTYTWO, TWENTYTHREE, TWENTYFOUR,
+                                              THIRTYSEVEN, THIRTYEIGHT, THIRTYNINE, FORTY, FORTYONE, FORTYTWO,
+                                              FORTYTHREE, FORTYFOUR, FORTYFIVE, FORTYSIX, FORTYSEVEN, FORTYEIGHT))
+                                       (PRESERVER (ONE))))
+  (create deck (game iloc STOCK) (deck (RANK (TWENTYFIVE, TWENTYSIX, TWENTYSEVEN, TWENTYEIGHT, TWENTYNINE, THIRTY, 
+                                                THIRTYONE, THIRTYTWO, THIRTYTHREE, THIRTYFOUR, THIRTYFIVE, THIRTYSIX))
+                                       (PRESERVER (TWO))))
+ )
+  (do 
+     ( 
+      
+      ;; assign points for the preservers
+       (put points 'LIFE 
+           (
+            ((PRESERVER (ONE)) 1) 
+            ((PRESERVER (TWO)) 2)))
+                
+
+      ;; assign points for the card rankings, both water and weather work
+      (put points 'PRECEDENCE 
+           (
+            ((RANK (SIXTY)) 60)
+            ((RANK (FIFTYNINE)) 59)
+            ((RANK (FIFTYEIGHT)) 58)
+            ((RANK (FIFTYSEVEN)) 57)
+            ((RANK (FIFTYSIX)) 56)
+            ((RANK (FIFTYFIVE)) 55)
+            ((RANK (FIFTYFOUR)) 54)
+            ((RANK (FIFTYTHREE)) 53)
+            ((RANK (FIFTYTWO)) 52)
+            ((RANK (FIFTYONE)) 51)
+            ((RANK (FIFTY)) 50)
+            ((RANK (FORTYNINE)) 49)
+            ((RANK (FORTYEIGHT)) 48)
+            ((RANK (FORTYSEVEN)) 47)
+            ((RANK (FORTYSIX)) 46)
+            ((RANK (FORTYFIVE)) 45)
+            ((RANK (FORTYFOUR)) 44)
+            ((RANK (FORTYTHREE)) 43)
+            ((RANK (FORTYTWO)) 42)
+            ((RANK (FORTYONE)) 41)
+            ((RANK (FORTY)) 40)
+            ((RANK (THIRTYNINE)) 39)
+            ((RANK (THIRTYEIGHT)) 38)
+            ((RANK (THIRTYSEVEN)) 37)
+            ((RANK (THIRTYSIX)) 36)
+            ((RANK (THIRTYFIVE)) 35)
+            ((RANK (THIRTYFOUR)) 34)
+            ((RANK (THIRTYTHREE)) 33)
+            ((RANK (THIRTYTWO)) 32)
+            ((RANK (THIRTYONE)) 31)
+            ((RANK (THIRTY)) 30)
+            ((RANK (TWENTYNINE)) 29)
+            ((RANK (TWENTYEIGHT)) 28)
+            ((RANK (TWENTYSEVEN)) 27)
+            ((RANK (TWENTYSIX)) 26)
+            ((RANK (TWENTYFIVE)) 25)
+            ((RANK (TWENTYFOUR)) 24)
+            ((RANK (TWENTYTHREE)) 23)
+            ((RANK (TWENTYTWO)) 22)
+            ((RANK (TWENTYONE)) 21)
+            ((RANK (TWENTY)) 20)
+            ((RANK (NINETEEN)) 19)
+            ((RANK (EIGHTEEN)) 18)
+            ((RANK (SEVENTEEN)) 17)
+            ((RANK (SIXTEEN)) 16)
+            ((RANK (FIFTEEN)) 15)
+            ((RANK (FOURTEEN)) 14)
+            ((RANK (THIRTEEN)) 13)
+            ((RANK (TWELVE)) 12)
+            ((RANK (ELEVEN)) 11)
+            ((RANK (TEN)) 10)
+            ((RANK (NINE)) 9)
+            ((RANK (EIGHT)) 8)
+            ((RANK (SEVEN)) 7)
+            ((RANK (SIX)) 6)
+            ((RANK (FIVE)) 5)
+            ((RANK (FOUR)) 4)
+            ((RANK (THREE)) 3)
+            ((RANK (TWO)) 2)
+            ((RANK (ONE)) 1)))
+      
+      (shuffle (game iloc STOCK))
+      (shuffle (game iloc WATER))
+
+      (all player 'P
+            (do
+                (
+                  (repeat 12
+                          (move (top (game iloc STOCK))
+                                (top ('P iloc HAND))))
+                  (set ('P sto LIVES) (// (sum ('P iloc HAND) using 'LIFE) 2)))))))
+ 
+ ;; Play until all players have played out their cards
+ (stage player
+        (end 
+         (all player 'P (== (size ('P iloc HAND)) 0)))
+        (do 
+            (
+            ;; add two cards to the water level for this round
+             (repeat 2 (move (top (game iloc WATER))
+                   (top (game vloc LEVEL))))))
+        
+        ;; Everyone make a blind bid
+        (stage player
+               (end 
+                (all player 'P (== (size ('P iloc HIDDENCARD)) 1)))               
+               
+               ;; players play a hidden card
+               (choice 
+                (
+                 (do 
+                     (
+                      (any ((current player) iloc HAND) 'C
+                           (move 'C 
+                                 (top ((current player) iloc HIDDENCARD)))))))))
+        
+        (do
+            (
+             ;; Move the card to visible
+             (all player 'P 
+                  (move (top ('P iloc HIDDENCARD))
+                        (top ('P vloc TRICK))))
+             
+             ;; Pass out the water level cards
+             ;; Highest played gets lowest water
+             (move (actual (min (game vloc LEVEL) using 'PRECEDENCE))
+                   (top ((owner (max (union (all player 'P 
+                       ('P vloc TRICK))) using 'PRECEDENCE)) vloc LEVEL)))
+
+             ;; This player discards their card
+             (move (top ((owner (max (union (all player 'P 
+                       ('P vloc TRICK))) using 'PRECEDENCE)) vloc TRICK))
+                        (top (game vloc DISCARD)))
+
+             ;; Second highest gets the other
+             (move (top (game vloc LEVEL))
+                   (top ((owner (max (union (all player 'P 
+                       ('P vloc TRICK))) using 'PRECEDENCE)) vloc LEVEL)))
+
+             (all player 'P
+                 (do (
+                 ((== (size ('P vloc LEVEL)) 2)
+                  (move (bottom ('P vloc LEVEL))
+                        (top (game vloc LEVELDISCARD))))
+                  (set ('P sto SCORED) 1))))
+
+             ;; Find the highest level of the player level cards
+             (set (game sto HIGHESTLEVEL) (score (max (union (all player 'P 
+                       ('P vloc LEVEL))) using 'PRECEDENCE) using 'PRECEDENCE))))      
+             
+
+        (stage player
+               (end 
+                (all player 'P (== ('P sto SCORED) 0)))               
+            
+            (do (
+             ;; Players with highest level loses a life token
+             ((and (> (size ((current player) vloc LEVEL)) 0) 
+                   (== (game sto HIGHESTLEVEL)
+                       (score (top ((current player) vloc LEVEL)) using 'PRECEDENCE)))
+              (dec ((current player) sto LIVES) 1))
+
+             ;; If no lives, discard hand and level cards
+             ((< ((current player) sto LIVES) 0)
+             
+                  (do (
+                        (repeat all (move (top ((current player) iloc HAND))
+                                          (top ((current player) iloc DISCARD))))
+                        (move (top ((current player) vloc LEVEL))
+                                               (top (game vloc LEVELDISCARD)))
+                  ))
+             )
+
+             (set ((current player) sto SCORED) 0)
+
+             ;; Discard cards
+             ((== (size ((current player) vloc TRICK)) 1)
+                  (move (top ((current player) vloc TRICK))
+                        (top (game vloc DISCARD))))))))
+ 
+ ;; FIX TO ADD IN ONE POINT FOR LOWEST LEVEL
+ (scoring max ((current player) sto LIVES)))
+
+
