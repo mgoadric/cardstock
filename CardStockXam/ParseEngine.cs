@@ -102,6 +102,8 @@ public class ParseEngine
         expchoicefile.WriteLine(exp.type);
         StreamWriter expresultsfile = new StreamWriter(exp.fileName + exp.type + "-resultsstats.txt");
         expresultsfile.WriteLine(exp.type);
+        StreamWriter expspreadfile = new StreamWriter(exp.fileName + exp.type + "-spreadstats.txt");
+        expspreadfile.WriteLine(exp.type);
         int[] winners = new int[exp.numGames];
         int numFinished = 0;
 
@@ -244,6 +246,18 @@ public class ParseEngine
                             }
                             expleadfile.WriteLine();
                         }
+
+                        expspreadfile.WriteLine("game" + i);
+                        foreach (Tuple<int, double> s in gamePlay.spreadList)
+                        {
+                            expspreadfile.Write(s.Item2 + ",");
+                        }
+                        expspreadfile.WriteLine();
+                        foreach (Tuple<int, double> s in gamePlay.spreadList)
+                        {
+                            expspreadfile.Write(s.Item1 + ",");
+                        }
+                        expspreadfile.WriteLine();
                     }
 
                     numFinished++;
@@ -368,6 +382,7 @@ public class ParseEngine
         expleadfile.Close();
         expchoicefile.Close();
         expresultsfile.Close();
+        expspreadfile.Close();
         return true;
     }
 

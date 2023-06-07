@@ -37,6 +37,11 @@ namespace Players
             actualgameiterator.AddLeadsList(leads);
         }
 
+        public void AddSpreadList(Tuple<int, double> spreads)
+        {
+            actualgameiterator.AddSpreadList(spreads);
+        }
+
         public int GetIdx()
         { return idx; }
 
