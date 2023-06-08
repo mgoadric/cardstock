@@ -123,13 +123,16 @@
         ;; Everyone make a blind bid
         (stage player
                (end 
-                (all player 'P (== (size ('P iloc HIDDENCARD)) 1)))               
+                (all player 'P (or (== (size ('P iloc HAND)) 0)
+                                   (== (size ('P iloc HIDDENCARD)) 1))))               
                
                ;; players play a hidden card
                (choice 
                 (
                  (do 
                      (
+                      ((== (size ((current player) iloc HAND)) 0)
+                       (turn pass))
                       (any ((current player) iloc HAND) 'C
                            (move 'C 
                                  (top ((current player) iloc HIDDENCARD)))))))))
@@ -138,8 +141,9 @@
             (
              ;; Move the card to visible
              (all player 'P 
-                  (move (top ('P iloc HIDDENCARD))
-                        (top ('P vloc TRICK))))
+                  ((== (size ('P iloc HIDDENCARD)) 1)
+                   (move (top ('P iloc HIDDENCARD))
+                        (top ('P vloc TRICK)))))
              
              ;; Pass out the water level cards
              ;; Highest played gets lowest water
@@ -153,9 +157,11 @@
                         (top (game vloc DISCARD)))
 
              ;; Second highest gets the other
-             (move (top (game vloc LEVEL))
+             ((> (size (union (all player 'P 
+                       ('P vloc TRICK)))) 0)
+              (move (top (game vloc LEVEL))
                    (top ((owner (max (union (all player 'P 
-                       ('P vloc TRICK))) using 'PRECEDENCE)) vloc LEVEL)))
+                       ('P vloc TRICK))) using 'PRECEDENCE)) vloc LEVEL))))
 
              (all player 'P
                  (do (
@@ -181,7 +187,8 @@
               (dec ((current player) sto LIVES) 1))
 
              ;; If no lives, discard hand and level cards
-             ((< ((current player) sto LIVES) 0)
+             ((and (< ((current player) sto LIVES) 0)
+                   (!= (size ((current player) iloc HAND)) 0))
              
                   (do (
                         (repeat all (move (top ((current player) iloc HAND))
