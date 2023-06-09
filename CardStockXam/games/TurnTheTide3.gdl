@@ -195,6 +195,7 @@
                                           (top ((current player) iloc DISCARD))))
                         (move (top ((current player) vloc LEVEL))
                                                (top (game vloc LEVELDISCARD)))
+
                   ))
              )
 
@@ -205,7 +206,7 @@
                   (move (top ((current player) vloc TRICK))
                         (top (game vloc DISCARD))))))))
  
- ;; FIX TO ADD IN ONE POINT FOR LOWEST LEVEL
+ ;; TODO FIX TO ADD IN ONE POINT FOR LOWEST LEVEL
  (scoring max ((current player) sto LIVES)))
 
 
