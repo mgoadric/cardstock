@@ -22,6 +22,7 @@ namespace FreezeFrame
         public int totalChoices;
         public List<Tuple<int, int>> choiceList = new List<Tuple<int, int>>();
         public List<Tuple<int, double[]>> allLeadList = new List<Tuple<int, double[]>>();
+        public List<Tuple<int, double>> spreadList = new List<Tuple<int, double>>();
 
         public GameIterator (RecycleParser.GameContext context, CardGame mygame, World gameWorld, string fileName, bool fresh = true)
 		{
@@ -78,6 +79,11 @@ namespace FreezeFrame
 
         public void AddLeadsList(Tuple<int, double[]> leads) {
             allLeadList.Add(leads);
+        }
+
+        public void AddSpreadList(Tuple<int, double> spreads)
+        {
+            spreadList.Add(spreads);
         }
 
         public IParseTree CurrentNode()
