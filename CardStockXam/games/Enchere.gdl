@@ -1,5 +1,6 @@
-;; Enchère
+;; Enchère (Auction)
 ;;
+;; Created by Mason Mason
 
 (game
  (declare 3 'NUMP)
