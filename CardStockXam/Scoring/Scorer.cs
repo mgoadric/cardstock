@@ -18,7 +18,7 @@ namespace CardStockXam
 
         private int numRndvRnd = 100;
         private int numAIvRnd  = 100;
-        private int numAIvAI   = 25;
+        private int numAIvAI   = 100;
 
 
         public static void Main(string[] args) {
@@ -84,7 +84,7 @@ namespace CardStockXam
           
             text = "Scoring " + fileName + ":\n";
 
-            /*
+            
             exps.Add(new Experiment()
             {
                 fileName = fileName,
@@ -106,8 +106,8 @@ namespace CardStockXam
                 type = GameType.RndandAI
                     
             });
-            */
-
+            
+            
             exps.Add(new Experiment()
             {
                 fileName = fileName,
