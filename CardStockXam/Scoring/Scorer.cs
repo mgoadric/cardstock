@@ -16,51 +16,45 @@ namespace CardStockXam
         public static World gameWorld;
         public string text;
 
-        private int numRndvRnd = 100;
-        private int numAIvRnd  = 100;
-        private int numAIvAI   = 100;
+        public Scorer(string fileName, int numRndvRnd = 100, int numAIvRnd = 100, int numAIvAI = 100)
+        {
 
+            text = "Scoring " + fileName + ":\n";
 
-        public static void Main(string[] args) {
-			List<string> gameFiles = new List<string>();
-
-			//string[] allFiles = System.IO.Directory.GetFiles("games");
-            List<Tuple<string, List<double>>> scores = new List<Tuple<string, List<double>>>();
-            //foreach (string s in allFiles)
-            //{
-            //	if (s.EndsWith(".gdl"))
-            //	{
-            //		gameFiles.Add(s);
-            //	}
-            //}
-            //gameFiles.Add("games/Pairs2.gdl");
-            //gameFiles.Add("games/Pairs3.gdl");
-            //gameFiles.Add("games/Pairs4.gdl");
-            //gameFiles.Add("games/Pairs5.gdl");
-            gameFiles.Add("games/Agram4.gdl");
-
-            foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
+            exps.Add(new Experiment()
             {
+                fileName = fileName,
+                numGames = numRndvRnd,
+                numEpochs = numRndvRnd,
+                logging = false,
+                evaluating = true,
 
-                Debug.WriteLine(name);
-                var p = new Scorer(name);
-                var score = p.Score();
-                var tupl = Tuple.Create(name.Substring(6, name.Length - 10), score);
-                scores.Add(tupl);
-            }
-            foreach (Tuple<string, List<double>> t in scores.GetRange(0, scores.Count)) {
-                Debug.WriteLine(t.Item1 + "\t");
-                foreach (double d in t.Item2) {
-                    Debug.Write(d + "\t");
-                }
-                Debug.Write("\n");
-            }
-            Console.ReadLine();
+            });
+
+
+            exps.Add(new Experiment()
+            {
+                fileName = fileName,
+                numGames = numAIvRnd,
+                numEpochs = numAIvRnd,
+                logging = false,
+                evaluating = true,
+                type = GameType.RndandAI
+
+            });
+
+
+            exps.Add(new Experiment()
+            {
+                fileName = fileName,
+                numGames = numAIvAI,
+                numEpochs = numAIvAI,
+                logging = false,
+                evaluating = true,
+                type = GameType.AllAI
+            });
+
         }
-
-
-
-
 
         // list of heuristic values
         private List<Heuristic> hs = new List<Heuristic>() {
@@ -78,49 +72,6 @@ namespace CardStockXam
             //new Clarity(),
             new Coolness()
         };
-
-        public Scorer(string fileName)
-        {
-          
-            text = "Scoring " + fileName + ":\n";
-
-            
-            exps.Add(new Experiment()
-            {
-                fileName = fileName,
-                numGames = numRndvRnd,
-                numEpochs = numRndvRnd,
-                logging = false,
-                evaluating = true,
-
-            });
-            
-            
-            exps.Add(new Experiment()
-            {
-                fileName = fileName,
-                numGames = numAIvRnd,
-                numEpochs = numAIvRnd,
-                logging = false,
-                evaluating = true,
-                type = GameType.RndandAI
-                    
-            });
-            
-            
-            exps.Add(new Experiment()
-            {
-                fileName = fileName,
-                numGames = numAIvAI,
-                numEpochs = numAIvAI,
-                logging = false,
-                evaluating = true,
-                type = GameType.AllAI
-            });
-            
-        }
-
-
 
         // define heuristics here
         public List<double> Score(){
