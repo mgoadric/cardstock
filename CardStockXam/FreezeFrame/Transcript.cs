@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FreezeFrame
 {
@@ -14,6 +15,13 @@ namespace FreezeFrame
         {
             this.logging = logging;
             this.fileName = fileName;
+            if (logging) //logging
+            {
+                using (StreamWriter file = new StreamWriter(fileName + ".txt"))
+                {
+                    file.WriteLine("Starting Transcript");
+                }
+            }
         }
 
         // TODO Can we move this to another location and call it a Logging class?

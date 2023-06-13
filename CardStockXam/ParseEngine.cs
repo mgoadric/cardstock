@@ -115,7 +115,7 @@ public class ParseEngine
 
                 // TODO Can the creation of the game go inside the GameIterator???
                 CardGame game = new CardGame();
-                var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld, exp.fileName + i);
+                var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld, exp.fileName + i + exp.type);
 
                 if (exp.type == GameType.AllAI)
                 {
@@ -148,7 +148,7 @@ public class ParseEngine
 
                     if (gamePlay.totalChoices > 500)
                     {
-                        Console.WriteLine("Game " + (i + 1) + "Choices not processed (probably infinite loop)");
+                        Console.WriteLine("Game " + (i + 1) + " Choices not processed (probably infinite loop)");
                         compiling = false;
                         break;
                     }
