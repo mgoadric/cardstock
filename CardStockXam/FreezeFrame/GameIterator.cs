@@ -1812,74 +1812,69 @@ namespace FreezeFrame
         {
             if (intSto.GetChild(1).GetText() == "game")
             {
-                if (intSto.var().Length == 1)
-                {
-                    String temp = ProcessStringVar(intSto.var()[0]);
-                    return new IntStorageReference(game.table[0].intBins, temp);
-                }
-                else
-                {
-                    return new IntStorageReference(game.table[0].intBins, intSto.namegr().GetText());
-
-                }
+                return new IntStorageReference(game.table[0].intBins, ProcessString(intSto.str()));
             }
             else if (intSto.who() != null)
             {
                 if (intSto.who().whot() != null)
                 {
                     var who = ProcessWho(intSto.who()) as Team;
-                    if (intSto.namegr() != null)
-                    {
-                        return new IntStorageReference(who.intBins, intSto.namegr().GetText());
-                    }
-                    else
-                    {
-                        var temp = ProcessStringVar(intSto.var()[0]);
-                        return new IntStorageReference(who.intBins, temp);
-                    }
+                    return new IntStorageReference(who.intBins, ProcessString(intSto.str()));
                 }
                 else if (intSto.who().whop() != null)
                 {
                     var who = ProcessWho(intSto.who()) as Player;
-                    if (intSto.namegr() != null)
-                    {
-                        return new IntStorageReference(who.intBins, intSto.namegr().GetText());
-                    }
-                    else
-                    {
-                        var temp = ProcessStringVar(intSto.var()[0]);
-                        return new IntStorageReference(who.intBins, temp);
-                    }
+                    return new IntStorageReference(who.intBins, ProcessString(intSto.str()));
                 }
             }
             else
             {
-                var who = variables.Get(intSto.var()[0]);
+                var who = variables.Get(intSto.var());
                 if (who.GetType().Name == "Team")
                 {
                     Team temp = who as Team;
-                    if (intSto.namegr() != null)
-                    {
-                        return new IntStorageReference(temp.intBins, intSto.namegr().GetText());
-                    }
-                    else
-                    {
-                        var str = ProcessStringVar(intSto.var()[1]);
-                        return new IntStorageReference(temp.intBins, str);
-                    }
+                    return new IntStorageReference(temp.intBins, ProcessString(intSto.str()));
                 }
                 else
                 {
                     Player temp = who as Player;
-                    if (intSto.namegr() != null)
-                    {
-                        return new IntStorageReference(temp.intBins, intSto.namegr().GetText());
-                    }
-                    else
-                    {
-                        var str = ProcessStringVar(intSto.var()[1]);
-                        return new IntStorageReference(temp.intBins, str);
-                    }
+                    return new IntStorageReference(temp.intBins, ProcessString(intSto.str()));
+                }
+            }
+            return null;
+        }
+
+        private StrStorageReference ProcessStrStorage(RecycleParser.StrstorageContext strSto)
+        {
+            if (strSto.GetChild(1).GetText() == "game")
+            {
+                return new StrStorageReference(game.table[0].stringBins, ProcessString(strSto.str()));
+            }
+            else if (strSto.who() != null)
+            {
+                if (strSto.who().whot() != null)
+                {
+                    var who = ProcessWho(strSto.who()) as Team;
+                    return new StrStorageReference(who.stringBins, ProcessString(strSto.str()));
+                }
+                else if (strSto.who().whop() != null)
+                {
+                    var who = ProcessWho(strSto.who()) as Player;
+                    return new StrStorageReference(who.stringBins, ProcessString(strSto.str()));
+                }
+            }
+            else
+            {
+                var who = variables.Get(strSto.var());
+                if (who.GetType().Name == "Team")
+                {
+                    Team temp = who as Team;
+                    return new StrStorageReference(temp.stringBins, ProcessString(strSto.str()));
+                }
+                else
+                {
+                    Player temp = who as Player;
+                    return new StrStorageReference(temp.stringBins, ProcessString(strSto.str()));
                 }
             }
             return null;
@@ -2295,6 +2290,30 @@ namespace FreezeFrame
             }
             Debug.WriteLine("error, type is " + ret.GetType());
             return null;
+        }
+
+        private string ProcessString(RecycleParser.StrContext str)
+        {
+            if (str.namegr() != null) {
+                return str.namegr().GetText();
+            }
+            else if (str.var() != null)
+            {
+                return ProcessStringVar(str.var());
+            }
+            else if (str.strstorage() != null)
+            {
+                return ProcessStrStorage(str.strstorage());
+            }
+            else
+            {
+                throw new InvalidDataException();
+            }
+        }
+
+        private string ProcessStrStorage(RecycleParser.StrstorageContext ssc)
+        {
+
         }
 
         private string ProcessStringVar(RecycleParser.VarContext var)
