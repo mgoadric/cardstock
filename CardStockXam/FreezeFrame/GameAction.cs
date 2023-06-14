@@ -360,6 +360,46 @@ namespace FreezeFrame {
 		}
     }
 
+    public class PointsAction : GameAction
+    {
+
+        DefaultStorage<PointMap> bins;
+        string key;
+        PointMap value;
+        PointMap oldValue;
+
+        public PointsAction(DefaultStorage<PointMap> storage, string bKey, PointMap v, Transcript script)
+        {
+            bins = storage;
+            key = bKey;
+            value = v;
+            this.script = script;
+        }
+        public override void Execute()
+        {
+            oldValue = bins[key];
+            bins[key] = value;
+            complete = true;
+            script.WriteToFile("S:" + bins.owner.name + " " + key + " " + value);
+        }
+        public override void Undo()
+        {
+            if (complete)
+            {
+                bins[key] = oldValue;
+                complete = false;
+            }
+            else
+            {
+                throw new UnauthorizedAccessException();
+            }
+        }
+        public override string ToString()
+        {
+            return "IntAction: value: " + value.ToString();
+        }
+    }
+
     public class NextAction : GameAction
     {
         private StageCycle<Player> playerCycle;
