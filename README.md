@@ -17,7 +17,7 @@ tournament of AI players. Please check back for further progress on these issues
 
 ## Games
 
-There are currently 40 games coded in RECYCLE
+There are currently 41 games coded in RECYCLE
 
 * Press Your Luck
     * [BlackJack](https://www.pagat.com/banking/blackjack.html) (2p)
@@ -54,8 +54,8 @@ There are currently 40 games coded in RECYCLE
     * [Shasta Sam](https://www.bicyclecards.com/how-to-play/shasta-sam/) (4p)
     * [Sheepshead](https://www.pagat.com/schafkopf/shep.html) (5p)
         * Cheesheads (5p)
-    * [Spades](https://www.pagat.com/auctionwhist/spades.html)
-    * [Slobberhans](http://whiteknucklecards.com/games/slobberhannes.html)
+    * [Spades](https://www.pagat.com/auctionwhist/spades.html) (4p)
+    * [Slobberhannes](http://whiteknucklecards.com/games/slobberhannes.html) (4p)
     * [The Bottle Imp](https://tesera.ru/images/items/11335/Bottle_Imp_Rules_EN.pdf) (3-4p)
     * [Whist](https://www.pagat.com/whist/whist.html) (4p)
 * Catch and Collect
