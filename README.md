@@ -39,6 +39,7 @@ There are currently 40 games coded in RECYCLE
     * [Spite and Malice](https://www.pagat.com/patience/spitemal.html) (2p)
 * Trick Taking
     * [Agram](https://www.pagat.com/last/agram.html) (2-5p)
+    * [California Jack](https://www.bicyclecards.com/how-to-play/california-jack/) (2p)
     * [Duck Soup](http://www.parlettgames.uk/oricards/ducksoup.html) (2p)
     * [German Whist](https://www.pagat.com/whist/german_whist.html) (2p)
     * [Hearts](https://www.pagat.com/reverse/hearts.html) (3-5p)
