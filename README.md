@@ -30,6 +30,7 @@ There are currently 41 games coded in RECYCLE
     * [Comet](http://www.catsatcards.com/Games/Comet.html) (2p)
     * [Crazy Eights](https://www.pagat.com/eights/crazy8s.html) (4p)
         * Sane Eights (4p)
+    * [Simon's Cat](https://www.sjgames.com/simonscat/Simons-Cat-Rules.pdf) (4p)
 * Adding
     * [Caterpillar](http://www.parlettgames.uk/oricards/caterpil.html) (2p)
     * [Ninety Eight](https://www.pagat.com/adders/98.html) (4p)
@@ -67,7 +68,6 @@ There are currently 41 games coded in RECYCLE
     * [Coloretto](https://www.riograndegames.com/wp-content/uploads/2013/02/Coloretto-Rules.pdf) (4p)
     * [Coup](http://boardgame.bg/coup%20rules%20pdf.pdf) (4p)
     * [LAMA](https://boardgamegeek.com/filepage/180052/lama-official-rules) (2-6p)
-    * [Simon's Cat](https://www.sjgames.com/simonscat/Simons-Cat-Rules.pdf) (4p)
 
 ## Requirements
 
