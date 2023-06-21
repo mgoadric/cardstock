@@ -106,7 +106,7 @@ divide : OPEN '//' int int CLOSE ;
 exponent : OPEN '^' int int CLOSE ;
 triangular : OPEN 'tri' int CLOSE ;
 fibonacci : OPEN 'fib' int CLOSE ;
-random : OPEN 'random' int '..' int? CLOSE ;
+random : OPEN 'random' int ('..' int)? CLOSE ;
 
 sizeof : OPEN 'size' (var | cstorage | memset) CLOSE ;
 maxof : OPEN 'max' cstorage 'using' pointstorage CLOSE ;
