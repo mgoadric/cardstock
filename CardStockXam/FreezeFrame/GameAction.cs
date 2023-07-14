@@ -200,33 +200,29 @@ namespace FreezeFrame {
     }
 
     public class TeamCreateAction : GameAction {
-        private RecycleParser.TeamcreateContext teamcreate;
-        public TeamCreateAction(RecycleParser.TeamcreateContext teamcreate, CardGame cg, Transcript script) {
-            this.teamcreate = teamcreate;
+        private List<List<int>> teamList;
+        public TeamCreateAction(List<List<int>> teamList, CardGame cg, Transcript script) {
+            this.teamList = teamList;
             this.cg = cg;
             this.script = script;
         }
 
         public override void Execute()
         {
-			var numTeams = teamcreate.teams().Count();
-			for (int i = 0; i < numTeams; ++i)
-			{
-				var newTeam = new Team("" + i, i);
-				var teamStr = "T:";
-				foreach (var p in teamcreate.teams(i).INTNUM())
-				{
-					var j = Int32.Parse(p.GetText());
-					newTeam.teamPlayers.Add(cg.players[j]);
-					cg.players[j].team = newTeam;
-					teamStr += j + " ";
-				}
-				cg.teams.Add(newTeam);
-				script.WriteToFile(teamStr);
-			}
+            var numTeams = teamList.Count();
+            for (int i = 0; i < numTeams; ++i)
+            {
+                var newTeam = new Team("" + i, i);
+                var teamStr = "T:";
+                newTeam.teamPlayers.Add(cg.players[i]);
+                cg.players[i].team = newTeam;
+                teamStr += i + " ";
+                cg.teams.Add(newTeam);
+                script.WriteToFile(teamStr);
+            }
 
-			cg.currentTeam.Push(new StageCycle<Team>(cg.teams));
-			Debug.WriteLine("NUMTEAMS:" + cg.teams.Count);
+            cg.currentTeam.Push(new StageCycle<Team>(cg.teams));
+            Debug.WriteLine("NUMTEAMS:" + cg.teams.Count);
 		}
 
         public override void Undo()
@@ -235,7 +231,7 @@ namespace FreezeFrame {
         }
 		public override string ToString()
 		{
-            return "TeamCreateAction: " + teamcreate.GetText();
+            return "TeamCreateAction: " + teamList.ToString();
 		}
     }
 
@@ -243,10 +239,12 @@ namespace FreezeFrame {
         CardCollection location;
         CardCollection before;
         Tree deck;
-        public InitializeAction(CardCollection loc, Tree d, CardGame cg, Transcript script) {
+        String name;
+        public InitializeAction(CardCollection loc, Tree d, String n, CardGame cg, Transcript script) {
             location = loc;
             before = new CardCollection(CCType.VIRTUAL);
             deck = d;
+            this.name = n;
             this.cg = cg;
             this.script = script;
         }
@@ -255,7 +253,7 @@ namespace FreezeFrame {
             {
                 before.Add(c);
             }
-            cg.SetDeck(deck, location, script);
+            cg.SetDeck(deck, location, name, script);
         }
         public override void Undo()
         {

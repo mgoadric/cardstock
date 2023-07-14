@@ -12,7 +12,7 @@ namespace CardEngine
     public class CardGame
     {
 
-        public List<Card> sourceDeck = new List<Card>();
+        public Dictionary<String, List<Card>> sourceDeck = new Dictionary<String, List<Card>>();
         public Owner[] table = new Owner[1];
         public Player[] players;
         public List<Team> teams = new List<Team>();
@@ -33,10 +33,17 @@ namespace CardEngine
 
             // Clone Source Deck and Index Cards
             //*****************
-            for (int i = 0; i < sourceDeck.Count; ++i)
+            foreach (KeyValuePair<String, List<Card>> kvp in sourceDeck)
             {
-                Card c = sourceDeck[i].Clone();
-                temp.sourceDeck.Add(c);
+                if (!temp.sourceDeck.ContainsKey(kvp.Key))
+                {
+                    temp.sourceDeck[kvp.Key] = new List<Card>();
+                }
+                for (int i = 0; i < sourceDeck[kvp.Key].Count; i++)
+                {
+                    Card c = sourceDeck[kvp.Key][i].Clone();
+                    temp.sourceDeck[kvp.Key].Add(c);
+                }
             }
 
             // Clone table
@@ -102,31 +109,45 @@ namespace CardEngine
             var temp = CloneCommon();
 
             // Make set of indicies for all the cards, to be removed when they are seen
-            HashSet<int> free = new HashSet<int>();
-            for (int i = 0; i < sourceDeck.Count; ++i)
+            Dictionary<String, HashSet<int>> free = new Dictionary<String, HashSet<int>>();
+            foreach (KeyValuePair<String, List<Card>> kvp in sourceDeck)
             {
-                free.Add(i);
+                free[kvp.Key] = new HashSet<int>();
+                for (int i = 0; i < kvp.Value.Count; i++)
+                {
+                    free[kvp.Key].Add(i);
+                }
             }
 
             CloneVisibleCards(players, temp.players, temp.sourceDeck, free, playerIdx);
             CloneVisibleCards(teams, temp.teams, temp.sourceDeck, free, -1);
             CloneVisibleCards(table, temp.table, temp.sourceDeck, free, -1);
 
-            List<int> vals = free.ToList<int>();
-
-            // Shuffle the free list
-            int n = vals.Count;
-            while (n > 1)
+            Dictionary<String, List<int>> vals = new Dictionary<String, List<int>>();
+            foreach (KeyValuePair<String, HashSet<int>> kvp in free)
             {
-                n--;
-                int k = ThreadSafeRandom.Next(n + 1);
-                int value = vals[k];
-                vals[k] = vals[n];
-                vals[n] = value;
+                vals[kvp.Key] = free[kvp.Key].ToList<int>();
             }
-            IEnumerator<int> cardsLeft = vals.GetEnumerator();
-            cardsLeft.MoveNext();
 
+            // Shuffle vals for each free location
+            Dictionary<String, IEnumerator<int>> cardsLeft = new Dictionary<String, IEnumerator<int>>();
+            foreach (KeyValuePair<String, List<int>> kvp in vals)
+            {
+                int n = vals.Count;
+                while (n > 1)
+                {
+                    n--;
+                    int k = ThreadSafeRandom.Next(n + 1);
+                    int value = vals[kvp.Key][k];
+                    vals[kvp.Key][k] = vals[kvp.Key][n];
+                    vals[kvp.Key][n] = value;
+                }
+                cardsLeft[kvp.Key] = vals[kvp.Key].GetEnumerator();
+                cardsLeft[kvp.Key].MoveNext();
+            }
+            
+
+            // Assigning will need card's name
             AssignNonVisibleCards(players, temp.players, temp.sourceDeck, cardsLeft, playerIdx);
             AssignNonVisibleCards(teams, temp.teams, temp.sourceDeck, cardsLeft, playerIdx);
             AssignNonVisibleCards(table, temp.table, temp.sourceDeck, cardsLeft, playerIdx);
@@ -149,7 +170,7 @@ namespace CardEngine
         }
 
         private void CloneCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
-                               List<Card> tempsourceDeck)
+                               Dictionary<String, List<Card>> tempsourceDeck)
         {
             foreach (Owner owner in owners)
             {
@@ -160,11 +181,14 @@ namespace CardEngine
                     foreach (var card in collection.AllCards())
                     {
                         // Look up card by index, and reference the new cloned card
-                        var toAdd = tempsourceDeck[card.id];
-                        tempCollection.Add(toAdd);
-                        if (collection.type != CCType.MEMORY)
+                        foreach (KeyValuePair<String, List<Card>> kvp in tempsourceDeck)
                         {
-                            toAdd.owner = tempCollection;
+                            var toAdd = tempsourceDeck[kvp.Key][card.id];
+                            tempCollection.Add(toAdd);
+                            if (collection.type != CCType.MEMORY)
+                            {
+                                toAdd.owner = tempCollection;
+                            }
                         }
                     }
                 }
@@ -172,7 +196,7 @@ namespace CardEngine
         }
 
         private void CloneVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
-                                      List<Card> tempsourceDeck, HashSet<int> free, int playerIdx)
+                                      Dictionary<String, List<Card>> tempsourceDeck, Dictionary<String, HashSet<int>> free, int playerIdx)
         {
             foreach (Owner owner in owners)
             {
@@ -191,12 +215,15 @@ namespace CardEngine
                         foreach (var card in collection.AllCards())
                         {
                             // Look up card by index, and reference the new cloned card
-                            var toAdd = tempsourceDeck[card.id];
-                            tempCollection.Add(toAdd);
-                            if (collection.type != CCType.MEMORY)
+                            foreach (KeyValuePair<String, List<Card>> kvp in tempsourceDeck)
                             {
-                                toAdd.owner = tempCollection;
-                                free.Remove(card.id);
+                                var toAdd = tempsourceDeck[kvp.Key][card.id];
+                                tempCollection.Add(toAdd);
+                                if (collection.type != CCType.MEMORY)
+                                {
+                                    toAdd.owner = tempCollection;
+                                    free[kvp.Key].Remove(card.id);
+                                }
                             }
                         }
 
@@ -208,7 +235,7 @@ namespace CardEngine
         }
 
         private void AssignNonVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
-                                          List<Card> tempsourceDeck, IEnumerator<int> cardsLeft, int playerIdx)
+                                          Dictionary<String, List<Card>> tempsourceDeck, Dictionary<String, IEnumerator<int>> cardsLeft, int playerIdx)
         {
 
             foreach (Owner owner in owners)
@@ -227,9 +254,12 @@ namespace CardEngine
 
                         for (int i = 0; i < collection.Count; i++)
                         {
+                            // figure out type of card
+                            String type = collection.Get(i).name;
+
                             // Look up card by index, and reference the new cloned card
-                            var toAdd = tempsourceDeck[cardsLeft.Current];
-                            cardsLeft.MoveNext();
+                            var toAdd = tempsourceDeck[type][cardsLeft[type].Current];
+                            cardsLeft[type].MoveNext();
                             tempCollection.Add(toAdd);
                             toAdd.owner = tempCollection;
                         }
@@ -281,14 +311,19 @@ namespace CardEngine
             currentTeam.Pop();
         }
 
-        public void SetDeck(Tree cardAttributes, CardCollection loc, Transcript script)
+        public void SetDeck(Tree cardAttributes, CardCollection loc, String name, Transcript script)
         {
             var combos = cardAttributes.combinations();
             foreach (var combo in combos)
             {
-                var newCard = new Card(combo.Flatten(), sourceDeck.Count);
+                if (!sourceDeck.ContainsKey(name))
+                {
+                    sourceDeck[name] = new List<Card>();
+                }
+                var newCard = new Card(combo.Flatten(), sourceDeck[name].Count, name);
                 newCard.owner = loc;
-                sourceDeck.Add(newCard);
+                // use the name to determine which sourceDeck to add
+                sourceDeck[name].Add(newCard);
                 loc.Add(newCard);
                 script.WriteToFile("C:" + newCard.ToString() + " " + loc.owner.owner.name + " " + loc.type +
                     " " + loc.name);

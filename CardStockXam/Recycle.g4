@@ -113,8 +113,8 @@ maxof : OPEN 'max' cstorage 'using' pointstorage CLOSE ;
 minof : OPEN 'min' cstorage 'using' pointstorage CLOSE ;
 sortof : OPEN 'sort' cstorage 'using' pointstorage CLOSE ;
 unionof : OPEN 'union' (agg | cstorage+?) CLOSE ;
-intersectof : OPEN 'intersect' (agg | cstorage+?) (agg | cstorage+?) CLOSE ;
-disjunctionof : OPEN 'disjunction' (agg | cstorage+?) (agg | cstorage+?) CLOSE ;
+intersectof : OPEN 'intersect' (agg | cstorage+?) CLOSE ;
+disjunctionof : OPEN 'disjunction' (agg | cstorage+?) CLOSE ;
 sum : OPEN 'sum' cstorage 'using' pointstorage CLOSE ;
 score : OPEN 'score' card 'using' pointstorage CLOSE ;
 

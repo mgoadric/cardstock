@@ -176,6 +176,11 @@ namespace CardEngine
             }
             return hash;
         }
+
+        public bool Contains(Card c) //Mason Change: Added Contains Method (helps with disjunction)
+        {
+            return cards.Contains(c);
+        }
     }
 }
 
