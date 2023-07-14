@@ -16,7 +16,7 @@
  
  (do 
      (
-      (put points 'SCORE 
+      (set (game points SCORE)
            (
             ((RANK (A)) 1)
             ((RANK (K)) 10) 
@@ -87,7 +87,7 @@
                    (shuffle (game iloc STOCK))))))))
  
  ;; Player with the smallest hand size wins
- (scoring min (sum ((current player) iloc HAND) using 'SCORE)))
+ (scoring min (sum ((current player) iloc HAND) using (game points SCORE))))
 
 
 

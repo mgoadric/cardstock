@@ -1,7 +1,7 @@
 ;; Stealing Bundles in the GDL
 (game
  (setup  
-  ;; Set up the players, 4 players each on their own team
+  ;; Set up the players, 3 players each on their own team
   (create players 3)
   (create teams (0) (1) (2))
   
@@ -93,5 +93,4 @@
                      (move (top ((current player) vloc TRICK))
                            (top ((current player) vloc BUNDLE))))))))
 
- (scoring max (size ((current player) vloc BUNDLE))))
-
+ (scoring max (size ((current player) vloc BUNDLE)))))

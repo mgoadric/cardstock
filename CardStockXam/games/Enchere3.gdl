@@ -63,7 +63,7 @@
                         (top ('P vloc TRICK))))
              
              ;; rank cards with a slight boost given to those who match the suit (to settle ties)
-             (put points 'PRECEDENCE 
+             (set (game points PRECEDENCE)
                 (
                     ((SUIT (cardatt SUIT (top (game vloc AWARD)))) 2)
                     ((COLOR (cardatt COLOR (top (game vloc AWARD)))) 1)
@@ -83,16 +83,16 @@
              ;; first, get number of cards equal to highest score and get number of cards equal to that size.
              ;; if there is more than 1 card at the highest score, the winner is the lowest scoring card.
              ;; if there is 1 card or less at the highest score, the winner is the highest scoring card.
-             ((> 1 (size (filter (union (all player 'P ('P vloc TRICK))) 'TC (== (score 'TC using 'PRECEDENCE) (score (max (union (all player 'PP ('PP vloc TRICK))) using 'PRECEDENCE) using 'PRECEDENCE)))))
+             ((> 1 (size (filter (union (all player 'P ('P vloc TRICK))) 'TC (== (score 'TC using (game points PRECEDENCE)) (score (max (union (all player 'PP ('PP vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE))))))
               (move (top (game vloc AWARD))
                             (top ((owner (min (union (all player 'PR 
-                                                          ('PR vloc TRICK))) using 'PRECEDENCE)) vloc WON))))
+                                                          ('PR vloc TRICK))) using (game points PRECEDENCE))) vloc WON))))
             
             ;; award the prize to the winning player
-             ((<= 1 (size (filter (union (all player 'P ('P vloc TRICK))) 'TC (== (score 'TC using 'PRECEDENCE) (score (max (union (all player 'PP ('PP vloc TRICK))) using 'PRECEDENCE) using 'PRECEDENCE)))))
+             ((<= 1 (size (filter (union (all player 'P ('P vloc TRICK))) 'TC (== (score 'TC using (game points PRECEDENCE)) (score (max (union (all player 'PP ('PP vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE))))))
               (move (top (game vloc AWARD))
                             (top ((owner (max (union (all player 'PR 
-                                                          ('PR vloc TRICK))) using 'PRECEDENCE)) vloc WON))))
+                                                          ('PR vloc TRICK))) using (game points PRECEDENCE))) vloc WON))))
              
              ;; discard all other cards
              (all player 'P 
@@ -105,7 +105,7 @@
  (do
     (
     ;; create precedence for scoring
-    (put points 'SCOREPOINTS 
+    (set (game points SCOREPOINTS) 
         (
             ((RANK (ACE)) 4)
             ((RANK (KING)) 2)
@@ -114,4 +114,4 @@
  ))        
  
  ;; winner is the player with the most points
- (scoring max (sum ((current player) vloc WON) using 'SCOREPOINTS)))
+ (scoring max (sum ((current player) vloc WON) using (game points SCOREPOINTS))))

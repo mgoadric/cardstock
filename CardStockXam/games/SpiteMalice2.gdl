@@ -17,7 +17,7 @@
 
  (do 
      (
-      (put points 'PRECEDENCE 
+      (set (game points PRECEDENCE) 
            (
             ((RANK (K)) 0) ;;TODO kings wild 
             ((RANK (Q)) 12)
@@ -128,8 +128,8 @@
                (any 'TLOCS 'T
                     (any ((current player) iloc HAND) 'C
                          ((and (> (size (game vloc 'T)) 0)
-                               (== (score (top (game vloc 'T)) using 'PRECEDENCE)
-                                   (- (score 'C using 'PRECEDENCE) 1)))
+                               (== (score (top (game vloc 'T)) using (game points PRECEDENCE))
+                                   (- (score 'C using (game points PRECEDENCE)) 1)))
                           (do (
                                (move 'C 
                                      (top (game vloc 'T)))
@@ -146,8 +146,8 @@
                               ((and
                                 (> (size (game vloc 'T)) 0)
                                 (> (size ((current player) vloc 'L)) 0)
-                                (== (score (top (game vloc 'T)) using 'PRECEDENCE)
-                                    (- (score (top ((current player) vloc 'L)) using 'PRECEDENCE) 1)))
+                                (== (score (top (game vloc 'T)) using (game points PRECEDENCE))
+                                    (- (score (top ((current player) vloc 'L)) using (game points PRECEDENCE)) 1)))
                                (do 
                                    (
                                     (move (top ((current player) vloc 'L)) 
@@ -162,8 +162,8 @@
                     (do (
                          ((and
                            (> (size (game vloc 'T)) 0)
-                           (== (score (top (game vloc 'T)) using 'PRECEDENCE)
-                               (- (score (top ((current player) vloc CURRENT)) using 'PRECEDENCE) 1)))
+                           (== (score (top (game vloc 'T)) using (game points PRECEDENCE))
+                               (- (score (top ((current player) vloc CURRENT)) using (game points PRECEDENCE)) 1)))
                           (do (
                                (move (top ((current player) vloc CURRENT)) 
                                      (top (game vloc 'T)))
@@ -181,7 +181,7 @@
                              (
                               ((and
                                 (== (size (game vloc 'T)) 0) 
-                                (== 1 (score 'C using 'PRECEDENCE)))
+                                (== 1 (score 'C using (game points PRECEDENCE))))
                                (do (
                                     (move 'C 
                                           (top (game vloc 'T)))
@@ -198,7 +198,7 @@
                               ((and
                                 (== (size (game vloc 'T)) 0)
                                 (> (size ((current player) vloc 'L)) 0)
-                                (== 1 (score (top ((current player) vloc 'L)) using 'PRECEDENCE)))
+                                (== 1 (score (top ((current player) vloc 'L)) using (game points PRECEDENCE))))
                                (do (
                                     (move (top ((current player) vloc 'L)) 
                                           (top (game vloc 'T)))
@@ -212,7 +212,7 @@
                         (
                          ((and
                            (== (size (game vloc 'T)) 0) 
-                           (== 1 (score (top ((current player) vloc CURRENT)) using 'PRECEDENCE)))
+                           (== 1 (score (top ((current player) vloc CURRENT)) using (game points PRECEDENCE))))
                           (do (
                                (move (top ((current player) vloc CURRENT)) 
                                      (top (game vloc 'T)))

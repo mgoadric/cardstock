@@ -29,14 +29,14 @@
      ( 
       
       ;; assign points for the preservers
-       (put points 'LIFE 
+       (set (game points LIFE)
            (
             ((PRESERVER (ONE)) 1) 
             ((PRESERVER (TWO)) 2)))
                 
 
       ;; assign points for the card rankings, both water and weather work
-      (put points 'PRECEDENCE 
+      (set (game points PRECEDENCE) 
            (
             ((RANK (SIXTY)) 60)
             ((RANK (FIFTYNINE)) 59)
@@ -108,7 +108,7 @@
                   (repeat 12
                           (move (top (game iloc STOCK))
                                 (top ('P iloc HAND))))
-                  (set ('P sto LIVES) (// (sum ('P iloc HAND) using 'LIFE) 2)))))))
+                  (set ('P sto LIVES) (// (sum ('P iloc HAND) using (game points LIFE)) 2)))))))
  
  ;; Play until all players have played out their cards
  (stage player
@@ -147,13 +147,13 @@
              
              ;; Pass out the water level cards
              ;; Highest played gets lowest water
-             (move (actual (min (game vloc LEVEL) using 'PRECEDENCE))
+             (move (actual (min (game vloc LEVEL) using (game points PRECEDENCE)))
                    (top ((owner (max (union (all player 'P 
-                       ('P vloc TRICK))) using 'PRECEDENCE)) vloc LEVEL)))
+                       ('P vloc TRICK))) using (game points PRECEDENCE))) vloc LEVEL)))
 
              ;; This player discards their card
              (move (top ((owner (max (union (all player 'P 
-                       ('P vloc TRICK))) using 'PRECEDENCE)) vloc TRICK))
+                       ('P vloc TRICK))) using (game points PRECEDENCE))) vloc TRICK))
                         (top (game vloc DISCARD)))
 
              ;; Second highest gets the other
@@ -161,7 +161,7 @@
                        ('P vloc TRICK)))) 0)
               (move (top (game vloc LEVEL))
                    (top ((owner (max (union (all player 'P 
-                       ('P vloc TRICK))) using 'PRECEDENCE)) vloc LEVEL))))
+                       ('P vloc TRICK))) using (game points PRECEDENCE))) vloc LEVEL))))
 
              (all player 'P
                  (do (
@@ -172,7 +172,7 @@
 
              ;; Find the highest level of the player level cards
              (set (game sto HIGHESTLEVEL) (score (max (union (all player 'P 
-                       ('P vloc LEVEL))) using 'PRECEDENCE) using 'PRECEDENCE))))      
+                       ('P vloc LEVEL))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))      
              
 
         (stage player
@@ -183,7 +183,7 @@
              ;; Players with highest level loses a life token
              ((and (> (size ((current player) vloc LEVEL)) 0) 
                    (== (game sto HIGHESTLEVEL)
-                       (score (top ((current player) vloc LEVEL)) using 'PRECEDENCE)))
+                       (score (top ((current player) vloc LEVEL)) using (game points PRECEDENCE))))
               (dec ((current player) sto LIVES) 1))
 
              ;; If no lives, discard hand and level cards

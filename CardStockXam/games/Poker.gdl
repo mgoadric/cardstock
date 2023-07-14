@@ -21,7 +21,7 @@
       (top ('P iloc HAND))))
     (set ('P sto CHIPS) 100))))
     
-  (put points 'SCORE (
+  (set (game points SCORE) (
             ((RANK (A))    12)
             ((RANK (K))    11) 
             ((RANK (Q))    10)
@@ -36,22 +36,22 @@
             ((RANK (THREE)) 1)
             ((RANK (TWO))   0)))
             
-  (put points 'CLUBS (
+  (set (game points CLUBS) (
             ((SUIT (CLUBS))      1)
             ((SUIT (DIAMONDS))   0) 
             ((SUIT (HEARTS))     0)
             ((SUIT (SPADES))     0)))
-  (put points 'DIAMONDS (
+  (set (game points DIAMONDS) (
             ((SUIT (CLUBS))      0)
             ((SUIT (DIAMONDS))   1) 
             ((SUIT (HEARTS))     0)
             ((SUIT (SPADES))     0)))           
-  (put points 'LEARTS (
+  (set (game points LEARTS) (
             ((SUIT (CLUBS))      0)
             ((SUIT (DIAMONDS))   0) 
             ((SUIT (HEARTS))     1)
             ((SUIT (SPADES))     0)))  
-  (put points 'SPADES (
+  (set (game points SPADES) (
             ((SUIT (CLUBS))      0)
             ((SUIT (DIAMONDS))   0) 
             ((SUIT (HEARTS))     0)
@@ -119,7 +119,7 @@
 
    ;; score = highcard
   
-   (set ((current player) sto POINTS) (score (max ((current player) iloc HAND) using 'SCORE) using 'SCORE))
+   (set ((current player) sto POINTS) (score (max ((current player) iloc HAND) using (game points SCORE)) using (game points SCORE)))
 
    ;; duplicate
 
@@ -127,7 +127,7 @@
     ((== 
      (size (filter ((current player) iloc HAND) 'PP 
      (== (cardatt RANK 'PP) (cardatt RANK 'P)))) 2)
-      (set ((current player) sto POINTS) (+ (score 'P using 'SCORE) 13))))
+      (set ((current player) sto POINTS) (+ (score 'P using (game points SCORE)) 13))))
 
    ;; dual duplicate
 
@@ -137,12 +137,12 @@
       (== (cardatt RANK 'WW) (cardatt RANK 'W))))    2)
      
      (do (
-      ((> (score 'W using 'SCORE) (- ((current player) sto POINTS) 13))
-       (set ((current player) sto POINTS)  (+ (* (score 'W using 'SCORE) 13) 
+      ((> (score 'W using (game points SCORE)) (- ((current player) sto POINTS) 13))
+       (set ((current player) sto POINTS)  (+ (* (score 'W using (game points SCORE)) 13) 
                                                  (+ (- ((current player) sto POINTS) 13) 13))))                                               
-      ((< (score 'W using 'SCORE) (- ((current player) sto POINTS) 13))
+      ((< (score 'W using (game points SCORE)) (- ((current player) sto POINTS) 13))
        (set ((current player) sto POINTS) (+ (* (- ((current player) sto POINTS) 13) 13) 
-                                                (+ (score 'W using 'SCORE) 13)))))))))
+                                                (+ (score 'W using (game points SCORE)) 13)))))))))
              
    ;; triplicate
 
@@ -150,30 +150,30 @@
     ((== 
      (size (filter ((current player) iloc HAND) 'RR 
      (== (cardatt RANK 'RR) (cardatt RANK 'R)))) 3)
-      (set ((current player) sto POINTS) (+ (score 'R using 'SCORE) 182))))
+      (set ((current player) sto POINTS) (+ (score 'R using (game points SCORE)) 182))))
 
    ;; straight
 
    (any ((current player) iloc HAND) 'T 
     (any ((current player) iloc HAND) 'TT 
-    ((== (score 'TT using 'SCORE) (+ (score 'T using 'SCORE) 1)) 
+    ((== (score 'TT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 1)) 
      (any ((current player) iloc HAND) 'TTT 
-     ((== (score 'TTT using 'SCORE) (+ (score 'T using 'SCORE) 2)) 
+     ((== (score 'TTT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 2)) 
       (any ((current player) iloc HAND) 'TTTT 
-      ((== (score 'TTTT using 'SCORE) (+ (score 'T using 'SCORE) 3)) 
+      ((== (score 'TTTT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 3)) 
        (any ((current player) iloc HAND) 'TTTTT 
-       ((or (== (score 'TTTTT using 'SCORE) (+ (score 'T using 'SCORE)  4))
-           (== (score 'TTTTT using 'SCORE) (+ (score 'T using 'SCORE) 12))) 
-         (set ((current player) sto POINTS) (+ (score 'T using 'SCORE) 199)))))))))))
+       ((or (== (score 'TTTTT using (game points SCORE)) (+ (score 'T using (game points SCORE))  4))
+           (== (score 'TTTTT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 12))) 
+         (set ((current player) sto POINTS) (+ (score 'T using (game points SCORE)) 199)))))))))))
 
 
    ;; same suit
 
-    ((or (or (or (== (sum ((current player) iloc HAND) using 'CLUBS)    5) 
-                 (== (sum ((current player) iloc HAND) using 'DIAMONDS) 5)) 
-                 (== (sum ((current player) iloc HAND) using 'LEARTS)   5)) 
-                 (== (sum ((current player) iloc HAND) using 'SPADES)   5))
-     (set ((current player) sto POINTS) (+ (score (max ((current player) iloc HAND) using 'SCORE) using 'SCORE) 208)))
+    ((or (or (or (== (sum ((current player) iloc HAND) using (game points CLUBS))    5) 
+                 (== (sum ((current player) iloc HAND) using (game points DIAMONDS)) 5)) 
+                 (== (sum ((current player) iloc HAND) using (game points LEARTS))   5)) 
+                 (== (sum ((current player) iloc HAND) using (game points SPADES))   5))
+     (set ((current player) sto POINTS) (+ (score (max ((current player) iloc HAND) using (game points SCORE)) using (game points SCORE)) 208)))
      
    ;; full house
 
@@ -181,7 +181,7 @@
     ((== (size (filter ((current player) iloc HAND) 'YY (== (cardatt RANK 'YY) (cardatt RANK 'Y)))) 3)
       (any ((current player) iloc HAND) 'X 
         ((== (size (filter ((current player) iloc HAND) 'XX (== (cardatt RANK 'XX) (cardatt RANK 'X)))) 2)
-           (set ((current player) sto POINTS) (+ (score 'Y using 'SCORE) 218))))))
+           (set ((current player) sto POINTS) (+ (score 'Y using (game points SCORE)) 218))))))
 
    ;; quadruplicate      
     
@@ -189,22 +189,22 @@
     ((== 
      (size (filter ((current player) iloc HAND) 'UU 
      (== (cardatt RANK 'UU) (cardatt RANK 'U)))) 4)
-      (set ((current player) sto POINTS) (+ (score 'U using 'SCORE) 231))))
+      (set ((current player) sto POINTS) (+ (score 'U using (game points SCORE)) 231))))
 
    ;; suit run
 
    ((and (< ((current player) sto POINTS) 220) (> ((current player) sto POINTS) 207))
     (any ((current player) iloc HAND) 'T 
      (any ((current player) iloc HAND) 'TT 
-      ((== (score 'TT using 'SCORE) (+ (score 'T using 'SCORE) 1)) 
+      ((== (score 'TT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 1)) 
        (any ((current player) iloc HAND) 'TTT 
-        ((== (score 'TTT using 'SCORE) (+ (score 'T using 'SCORE) 2)) 
+        ((== (score 'TTT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 2)) 
          (any ((current player) iloc HAND) 'TTTT 
-          ((== (score 'TTTT using 'SCORE) (+ (score 'T using 'SCORE) 3)) 
+          ((== (score 'TTTT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 3)) 
            (any ((current player) iloc HAND) 'TTTTT 
-            ((or (== (score 'TTTTT using 'SCORE) (+ (score 'T using 'SCORE)  4))
-                 (== (score 'TTTTT using 'SCORE) (+ (score 'T using 'SCORE) 12))) 
-              (set ((current player) sto POINTS) (+ (score 'T using 'SCORE) 244))))))))))))))
+            ((or (== (score 'TTTTT using (game points SCORE)) (+ (score 'T using (game points SCORE))  4))
+                 (== (score 'TTTTT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 12))) 
+              (set ((current player) sto POINTS) (+ (score 'T using (game points SCORE)) 244))))))))))))))
 
  ;; Find score for players
  (do (

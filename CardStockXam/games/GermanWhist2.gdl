@@ -82,7 +82,7 @@
         ;; after players play hand, computer wraps up trick
         (do (
              ;; solidfy card recedence
-             (put points 'PRECEDENCE 
+             (set (game points PRECEDENCE) 
                   (
                    ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 200)
                    ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
@@ -103,7 +103,7 @@
              ;; determine who won the hand, set them first next time
              (forget (top (game mem LEAD)))
              (cycle next (owner (max (union (all player 'P 
-                                                 ('P vloc TRICK))) using 'PRECEDENCE)))
+                                                 ('P vloc TRICK))) using (game points PRECEDENCE))))
              
              ;; if second stage, give them a point
              ((== (size (game iloc STOCK)) 0)
@@ -117,7 +117,7 @@
                          (top ((next player) iloc HAND)))
                    (move (top (game iloc STOCK))
                          (top ((owner (min (union (all player 'P 
-                                                       ('P vloc TRICK))) using 'PRECEDENCE)) iloc HAND))))))
+                                                       ('P vloc TRICK))) using (game points PRECEDENCE))) iloc HAND))))))
              
              
              ;; discard all the played cards

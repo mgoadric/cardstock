@@ -16,7 +16,7 @@
  
  (do 
      ( ;; DEALING START
-      (put points 'MATCHPOINTS 
+      (set (game points MATCHPOINTS)
            (
             ;;            ((VALUE (K)) 13)
             ;;            ((VALUE (Q)) 12)
@@ -40,7 +40,7 @@
                               (top ('P iloc HAND))))
                 
                 ;; Check for rank match on deal               
-                (let (tuples 4 ('P iloc HAND) using 'MATCHPOINTS) 'MYMATCHES
+                (let (tuples 4 ('P iloc HAND) using (game points MATCHPOINTS)) 'MYMATCHES
                   ((> (size 'MYMATCHES) 0)
                    (all 'MYMATCHES 'MATCH
                         (do 
@@ -102,7 +102,7 @@
                      (cycle next current)))))))
          
         ;; Check for rank match on deal               
-        (let (tuples 4 ((current player) vloc HAND) using 'MATCHPOINTS) 'MYMATCHES
+        (let (tuples 4 ((current player) vloc HAND) using (game points MATCHPOINTS)) 'MYMATCHES
           ((> (size 'MYMATCHES) 0)
            (all 'MYMATCHES 'MATCH
                 (do 
@@ -112,4 +112,4 @@
                              (move (top 'MATCH) 
                                    (top ((current player) iloc TRICKSTACK))))))))))
  
- (scoring max ((current player) sto SCORE)))
+ (scoring max ((current player) sto SCORE))))

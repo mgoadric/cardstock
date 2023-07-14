@@ -13,7 +13,7 @@
  
  (do 
      (
-      (put points 'PRECEDENCE 
+      (set (game points PRECEDENCE)
            (
             ((RANK (NINE)) 9)
             ((RANK (EIGHT)) 8)
@@ -46,7 +46,7 @@
         ;; Tabulate pile points, if over 98, then game is over
         (do 
             (
-             (inc (game sto POINTS) (score (top (game vloc PILE)) using 'PRECEDENCE)) 
+             (inc (game sto POINTS) (score (top (game vloc PILE)) using (game points PRECEDENCE))) 
              ;;((== (cardatt RANK (top (game vloc PILE))) K)
              ;; (set (game sto POINTS) 98))
              ((== (cardatt RANK (top (game vloc PILE))) TEN)

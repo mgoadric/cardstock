@@ -19,7 +19,7 @@
  (do 
      (
       (set (game sto ROUNDS) 0)
-      (put points 'PRECEDENCE 
+      (set (game points PRECEDENCE)
            (
             ((RANK (TEN)) 10)
             ((RANK (NINE)) 9)
@@ -30,7 +30,7 @@
             ((RANK (FOUR)) 4)
             ((RANK (THREE)) 3)
             ((RANK (TWO)) 2)))
-      (put points 'MULTIPLIER 
+      (set (game points MULTIPLIER)
            (   
             ((RANK (HS)) 1)))))
  
@@ -81,8 +81,8 @@
                  (any 'COLORS 'C 
                       (let (filter ((current player) iloc HAND) 'MC (== (cardatt COLOR 'MC) 'C)) 'MYCOLOR
                         ((> (size ((current player) vloc 'C)) 0)
-                         (let (filter 'MYCOLOR 'MCTWO (>= (score 'MCTWO using 'PRECEDENCE)
-                                                          (score (top ((current player) vloc 'C)) using 'PRECEDENCE))) 'MYCOLORBIG
+                         (let (filter 'MYCOLOR 'MCTWO (>= (score 'MCTWO using (game points PRECEDENCE))
+                                                          (score (top ((current player) vloc 'C)) using (game points PRECEDENCE)))) 'MYCOLORBIG
                            ((> (size 'MYCOLORBIG) 0)
                             (any 'MYCOLORBIG 'AC 
                                  (move 'AC 
@@ -121,8 +121,8 @@
                     (all 'COLORS 'C
                          ((> (size ((current player) vloc 'C)) 0)
                           (inc ((current player) sto SCORE) 
-                               (* (- (sum ((current player) vloc 'C) using 'PRECEDENCE) 20) 
-                                  (+ (sum ((current player) vloc 'C) using 'MULTIPLIER) 1)))))
+                               (* (- (sum ((current player) vloc 'C) using (game points PRECEDENCE)) 20) 
+                                  (+ (sum ((current player) vloc 'C) using (game points MULTIPLIER)) 1)))))
                     (set ((current player) sto PROC) 1)
                     (repeat all
                             (move (top ((current player) iloc HAND))

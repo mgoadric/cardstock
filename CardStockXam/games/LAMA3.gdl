@@ -5,14 +5,13 @@
  (declare 3 'NUMP)
  (setup
   (create players 'NUMP)
-  (create teams (0) (1) (2))
   
   (repeat 8 (create deck (game vloc DISCARD) (deck (NUMBER (ONE, TWO, THREE, FOUR,
                                                                FIVE, SIX, LLAMA))))))
  
  (do    
      (   
-      (put points 'VALUE
+      (set (game points VALUE)
            (
             ((NUMBER (ONE)) 1)
             ((NUMBER (TWO)) 2)
@@ -59,12 +58,12 @@
           (do
               (
                (any ((current player) iloc HAND) 'C
-                    ((or (== (score (top (game vloc DISCARD)) using 'VALUE)  ;; same
-                            (score 'C using 'VALUE))
-                        (== (score (top (game vloc DISCARD)) using 'VALUE)  ;; one more
-                            (- (score 'C using 'VALUE) 1))
-                        (== (score 'C using 'VALUE)  ;; llama wrap to 1
-                            (- (score (top (game vloc DISCARD)) using 'VALUE) 6)))
+                    ((or (== (score (top (game vloc DISCARD)) using (game points VALUE))  ;; same
+                            (score 'C using (game points VALUE)))
+                        (== (score (top (game vloc DISCARD)) using (game points VALUE))  ;; one more
+                            (- (score 'C using (game points VALUE)) 1))
+                        (== (score 'C using (game points VALUE))  ;; llama wrap to 1
+                            (- (score (top (game vloc DISCARD)) using (game points VALUE)) 6)))
                      
                      (move 'C 
                            (top (game vloc DISCARD)))))))
@@ -111,7 +110,7 @@
                 (all (range 1..8) 'S
                      (do 
                          (
-                          ((> (size (filter ('P iloc QUIT) 'H (== (score 'H using 'VALUE) 'S))) 0)
+                          ((> (size (filter ('P iloc QUIT) 'H (== (score 'H using (game points VALUE)) 'S))) 0)
                            (do
                                (
                                 (inc ('P sto SCORE) 'S)

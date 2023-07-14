@@ -1,0 +1,151 @@
+;; Enchère Avancée (Advanced Auction)
+;; Enchère with a few more rules to help players with lower cards
+;; Created by Mason Mason
+
+(game
+ (declare 3 'NUMP)
+ (setup 
+  (create players 'NUMP)
+  (create teams (0) (1) (2))  
+  
+  ;; Create the deck source
+  (create deck (game iloc CASH) (deck (RANK (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (SPADES, CLUBS))))))
+  (create deck (game iloc PRIZE) (deck (RANK (QUEEN, KING, ACE))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (SPADES, CLUBS))))))
+  (create deck (game iloc PRIZE) (deck (RANK (JOKER)))))
+
+ (do 
+     (
+        ;; create precedence for scoring
+        (set (game points SCORE)
+        (
+            ;; All cards won are 1 point
+            ((RANK (ACE)) 1)
+            ((RANK (KING)) 1)
+            ((RANK (QUEEN)) 1)
+
+            ;; Hearts are worth 2, so add an extra point
+            ((SUIT (HEARTS)) 1)
+
+            ;; King of Hearts is worth 7, so add 6 extra points
+            ((RANK (KING)) (SUIT (HEARTS)) 5)
+
+            ))
+        (set (game points NEGSCORE)
+            (
+                ((RANK (JOKER)) 10)
+            ))
+        (shuffle (game iloc CASH))
+        (shuffle (game iloc PRIZE))
+        ;; Top card is assigned as the spare (cards that match the rank receive higher precedence)
+        (move (top (game iloc CASH))
+            (top (game vloc SPARE)))
+        ;; Because the Joker has been added, each player must now be dealt 13 cards
+        (all player 'P 
+            (repeat 13
+                (move (top (game iloc CASH))
+                      (top ('P iloc HAND)))))))
+
+ (stage player
+        (end 
+         (all player 'P 
+              (== (size ('P iloc HAND)) 0)))  ;; full game should go to 60, but this is simply for one round of Enchère Avancée (12 hands)
+        
+        ;; show prize
+        (do 
+        (
+            (move (top (game iloc PRIZE))
+                  (top (game vloc AWARD)))
+
+        ))
+
+        ;; players play a hand once     
+        (stage player
+            (end 
+                (all player 'P (== (size ('P iloc HIDDENTRICK)) 1))) 
+               
+               ;; play a hidden card
+               (choice 
+                (
+                    ;; if can match suit of AWARD or rank of SPARE
+                    ((or (!= (size (filter ((current player) iloc HAND) 'H (== (cardatt SUIT 'H) (cardatt SUIT (top (game vloc AWARD)))))) 0)
+                         (!= (size (filter ((current player) iloc HAND) 'H (== (cardatt RANK 'H) (cardatt RANK (top (game vloc SPARE)))))) 0))
+                            (any (filter ((current player) iloc HAND) 'NH 
+                            (or (== (cardatt SUIT 'NH) (cardatt SUIT (top (game vloc AWARD))))
+                            (== (cardatt RANK 'NH) (cardatt RANK (top (game vloc SPARE)))))) 
+                     'C (move 'C (top ((current player) iloc HIDDENTRICK)))))
+
+                    ;; if player cannot match either
+                    ((and (== (size (filter ((current player) iloc HAND) 'H (== (cardatt SUIT 'H) (cardatt SUIT (top (game vloc AWARD)))))) 0)
+                          (== (size (filter ((current player) iloc HAND) 'H (== (cardatt RANK 'H) (cardatt RANK (top (game vloc SPARE)))))) 0))
+                     (any ((current player) iloc HAND) 'C (move 'C (top ((current player) iloc HIDDENTRICK))))))))
+        
+        ;; after players play hand, computer resolves trick
+        (do 
+            (
+             ;; Move the card to visible
+             (all player 'P 
+                  (move (top ('P iloc HIDDENTRICK))
+                        (top ('P vloc TRICK))))
+             
+             ;; rank cards with a slight boost given to those who match the suit to settle ties
+             (set (game points PRECEDENCE)
+                (
+                    ;; These are simply for rank
+                    ((RANK (JACK)) 110)
+                    ((RANK (TEN)) 100)
+                    ((RANK (NINE)) 90)
+                    ((RANK (EIGHT)) 80)
+                    ((RANK (SEVEN)) 70)
+                    ((RANK (SIX)) 60)
+                    ((RANK (FIVE)) 50)
+                    ((RANK (FOUR)) 40)
+                    ((RANK (THREE)) 30)
+                    ((RANK (TWO)) 20)
+
+                    ;; This adds a bonus to cards that match the spare
+                    ((RANK (cardatt RANK (top (game vloc SPARE)))) 100)
+
+                    ;; This adds a bonus to cards that match the suit/color of the award
+                    ((SUIT (cardatt SUIT (top (game vloc AWARD)))) 2)
+                    ((COLOR (cardatt COLOR (top (game vloc AWARD)))) 1)
+                    ))
+                    
+             ;; determine winner
+             ;; first, get number of cards equal to highest score and get number of cards equal to that size
+             ;; if there is more than 1 card at the highest score, the winner is the lowest scoring card
+             ;; if there is 1 card or less at the highest score, the winner is the highest scoring card
+             ((> 1 (size (filter (union (all player 'P ('P vloc TRICK))) 'TC (== (score 'TC using (game points PRECEDENCE)) (score (max (union (all player 'PP ('PP vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE))))))
+              (move (top (game vloc AWARD))
+                            (top ((owner (min (union (all player 'PR 
+                                                          ('PR vloc TRICK))) using (game points PRECEDENCE))) vloc WON))))
+            
+            ;; award the prize to the winning player
+             ((<= 1 (size (filter (union (all player 'P ('P vloc TRICK))) 'TC (== (score 'TC using (game points PRECEDENCE)) (score (max (union (all player 'PP ('PP vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE))))))
+              (move (top (game vloc AWARD))
+                            (top ((owner (max (union (all player 'PR 
+                                                          ('PR vloc TRICK))) using (game points PRECEDENCE))) vloc WON))))
+             
+             ;; discard all other cards
+             (all player 'P 
+                  (move (top ('P vloc TRICK)) 
+                        (top (game vloc DISCARD)))))))
+
+(do 
+    (
+        (all player 'P (inc ('P sto SCORE) (sum ('P vloc WON) using (game points SCORE))))))
+(do
+    (
+        (all player 'P (dec ('P sto SCORE) (sum ('P vloc WON) using (game points NEGSCORE))))))
+ 
+
+
+ ;; winner is the player with the most points
+ (scoring max ((current player) sto SCORE)))
+
+;; TODOS
+;; Follow suit of prize
+;; Multiple Rounds

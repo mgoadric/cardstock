@@ -6,7 +6,6 @@
  (declare 5 'NUMP)
  (setup  
   (create players 'NUMP)
-  (create teams (0) (1) (2) (3) (4))
   
   ;; Create the deck source
   (repeat 1 (create deck (game iloc STOCK) (deck (VALUE (ONE))))) 
@@ -23,7 +22,7 @@
  ;; Assign points for cards, remove 5 cards from game
  (do 
      (
-      (put points 'POINTS 
+      (set (game points POINTS)
            (
             ((VALUE (TEN)) 10)
             ((VALUE (NINE)) 9)
@@ -45,7 +44,7 @@
  (stage player
         (end 
          (any player 'P 
-              (>= (sum ('P vloc SCORING) using 'POINTS) (+ (// 60 'NUMP) 1))))
+              (>= (sum ('P vloc SCORING) using (game points POINTS)) (+ (// 60 'NUMP) 1))))
         
         (do 
             (
@@ -74,7 +73,7 @@
              ;; if tied, deal new card and try again
              ;; Stage, for tied players if dealt a pair, then discard and do it again
              (cycle current (owner (min (union (all player 'P 
-                                                    ('P vloc HAND))) using 'POINTS)))))
+                                                    ('P vloc HAND))) using (game points POINTS))))))
         
         ;; Players take turns pressing their luck until one has pair or stops
         (stage player
@@ -104,7 +103,7 @@
                 (
                  (do 
                      (
-                      (move (actual (min (union (all player 'P ('P vloc HAND))) using 'POINTS))
+                      (move (actual (min (union (all player 'P ('P vloc HAND))) using (game points POINTS)))
                             (top ((current player) vloc SCORING)))
                       (set (game sto FINISHED) 1)))
                  
@@ -115,11 +114,11 @@
                ;; current player is similar to how all players was used previously, is this ok?
                (do 
                    (
-                    ((> (size (tuples 2 ((current player) vloc HAND) using 'POINTS)) 0)
+                    ((> (size (tuples 2 ((current player) vloc HAND) using (game points POINTS))) 0)
                      (do 
                          (
                           (set (game sto FINISHED) 1)
-                          (move (actual (top (top (tuples 2 ((current player) vloc HAND) using 'POINTS))))
+                          (move (actual (top (top (tuples 2 ((current player) vloc HAND) using (game points POINTS)))))
                                 (top ((current player) vloc SCORING)))))))))
         
         ;; Move all cards back to the discard pile
@@ -132,4 +131,4 @@
              (set (game sto FINISHED) 0))))
  
  ;; Player with the lowest sum of points in their scoring pile wins
- (scoring min (sum ((current player) vloc SCORING) using 'POINTS)))
+ (scoring min (sum ((current player) vloc SCORING) using (game points POINTS))))
