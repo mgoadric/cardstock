@@ -41,7 +41,7 @@
            (repeat 12
                    (move (top (game iloc STOCK))
                          (top ('P iloc HAND)))))
-      (put points 'COINVALUE 
+      (set (game points COINVALUE) 
            (
             ((COINS (ONE)) 1)
             ((COINS (TWO)) 2)
@@ -49,7 +49,7 @@
             ((COINS (FOUR)) 4)
             ((COINS (FIVE)) 5)
             ((COINS (SIX)) 6)))
-      (put points 'PRECEDENCE 
+      (set (game points PRECEDENCE)
            (
             ((RANK (ONE)) 1)
             ((RANK (TWO)) 2)
@@ -177,17 +177,17 @@
              (forget (top (game mem LEAD)))
              
              ;; all cards above bottle imp, trick taking as usual
-             ((> (score (min (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE) using 'PRECEDENCE) 
-                 (score (top (game vloc IMP)) using 'PRECEDENCE))
-              (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE))))
+             ((> (score (min (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)) 
+                 (score (top (game vloc IMP)) using (game points PRECEDENCE)))
+              (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE)))))
              
              ;; any cards less than bottle imp, top of those lower wins
-             ((< (score (min (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE) using 'PRECEDENCE) 
-                 (score (top (game vloc IMP)) using 'PRECEDENCE))
+             ((< (score (min (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)) 
+                 (score (top (game vloc IMP)) using (game points PRECEDENCE)))
               (do 
                   (
-                   (cycle next (owner (max (filter (union (all player 'P ('P vloc TRICK))) 'TC (< (score 'TC using 'PRECEDENCE)
-                                                                                                  (score (top (game vloc IMP)) using 'PRECEDENCE))) using 'PRECEDENCE)))
+                   (cycle next (owner (max (filter (union (all player 'P ('P vloc TRICK))) 'TC (< (score 'TC using (game points PRECEDENCE))
+                                                                                                  (score (top (game vloc IMP)) using (game points PRECEDENCE)))) using (game points PRECEDENCE))))
                    ;; move old imp card to owner's winnings
                    (all player 'P
                         ((== ('P sto HOLDINGIMP) 1)
@@ -216,9 +216,9 @@
         (do 
             (
              ((== ((current player) sto HOLDINGIMP) 0)
-              (set ((current player) sto SCORE) (sum ((current player) vloc TRICKSWON) using 'COINVALUE)))
+              (set ((current player) sto SCORE) (sum ((current player) vloc TRICKSWON) using (game points COINVALUE))))
              ((== ((current player) sto HOLDINGIMP) 1)
-              (set ((current player) sto SCORE) (- 0 (sum (game iloc IMPTRICK) using 'COINVALUE))))
+              (set ((current player) sto SCORE) (- 0 (sum (game iloc IMPTRICK) using (game points COINVALUE)))))
              (repeat all
                      (move (top ((current player) vloc TRICKSWON))
                            (top (game vloc DISCARD)))))))

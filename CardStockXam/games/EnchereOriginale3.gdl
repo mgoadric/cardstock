@@ -1,0 +1,216 @@
+;; Enchère Originale
+;; Enchère using my original vision of the game
+;; Created by Mason Mason
+
+(game
+ (declare 3 'NUMP)
+ (setup 
+  (create players 'NUMP)
+  (create teams (0) (1) (2))  
+  
+  ;; Create the deck source
+  (create deck (game iloc CASH) (deck (RANK (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (SPADES, CLUBS))))))
+  (create deck (game iloc PRIZE) (deck (RANK (QUEEN, KING, ACE))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (SPADES, CLUBS)))))))
+
+ (do 
+     (
+        (shuffle (game iloc CASH))
+
+        (shuffle (game iloc PRIZE))
+        ;; Top card is assigned as the spare (cards that match the rank receive higher precedence)
+        (move (top (game iloc CASH))
+            (top (game vloc SPARE)))
+        ;; Deal 12 cards
+        (all player 'P 
+            (repeat 12
+                (move (top (game iloc CASH))
+                      (top ('P iloc HAND)))))))
+
+ (stage player
+    (end 
+        (all player 'P 
+            (== (size ('P iloc HAND)) 0)))  ;; full game would have a scoring system, but this one is just one round
+    
+    ;; show prize
+    (do 
+    (
+        (move (top (game iloc PRIZE))
+                (top (game vloc AWARD)))
+
+    ))
+
+    ;; players play a hand once     
+    (stage player
+        (end 
+            (all player 'P (== (size ('P iloc HIDDENTRICK)) 1)))
+            
+            ;; play a hidden card
+            (choice 
+            (
+                ;; if can match suit of AWARD or rank of SPARE
+                ((or (!= (size (filter ((current player) iloc HAND) 'H (== (cardatt SUIT 'H) (cardatt SUIT (top (game vloc AWARD)))))) 0)
+                        (!= (size (filter ((current player) iloc HAND) 'H (== (cardatt RANK 'H) (cardatt RANK (top (game vloc SPARE)))))) 0))
+                        (any (filter ((current player) iloc HAND) 'NH 
+                        (or (== (cardatt SUIT 'NH) (cardatt SUIT (top (game vloc AWARD))))
+                        (== (cardatt RANK 'NH) (cardatt RANK (top (game vloc SPARE)))))) 
+                    'C (move 'C (top ((current player) iloc HIDDENTRICK)))))
+
+                ;; if player cannot match either
+                ((and (== (size (filter ((current player) iloc HAND) 'H (== (cardatt SUIT 'H) (cardatt SUIT (top (game vloc AWARD)))))) 0)
+                        (== (size (filter ((current player) iloc HAND) 'H (== (cardatt RANK 'H) (cardatt RANK (top (game vloc SPARE)))))) 0))
+                    (any ((current player) iloc HAND) 'C (move 'C (top ((current player) iloc HIDDENTRICK))))))))
+    
+    ;; after players play hand, computer resolves trick
+    (do 
+        (
+            ;; Move the card to visible
+            (all player 'P 
+                (move (top ('P iloc HIDDENTRICK))
+                    (top ('P vloc TRICK))))
+            
+            ;; rank cards with a slight boost given to those who match the suit to settle ties
+            (set (game points PRECEDENCE)
+            (
+                ;; These are simply for rank
+                ((RANK (JACK)) 110)
+                ((RANK (TEN)) 100)
+                ((RANK (NINE)) 90)
+                ((RANK (EIGHT)) 80)
+                ((RANK (SEVEN)) 70)
+                ((RANK (SIX)) 60)
+                ((RANK (FIVE)) 50)
+                ((RANK (FOUR)) 40)
+                ((RANK (THREE)) 30)
+                ((RANK (TWO)) 20)
+
+                ;; This adds a bonus to cards that match the spare
+                ((RANK (cardatt RANK (top (game vloc SPARE)))) 100)
+
+                ;; This adds a bonus to cards that match the suit/color of the award
+                ((SUIT (cardatt SUIT (top (game vloc AWARD)))) 2)
+                ((COLOR (cardatt COLOR (top (game vloc AWARD)))) 1)
+                ))
+                
+            ;; determine winner
+            ;; first, get number of cards equal to highest score and get number of cards equal to that size
+            ;; if there is more than 1 card at the highest score, the winner is the lowest scoring card
+            ;; if there is 1 card or less at the highest score, the winner is the highest scoring card
+            ((> 1 (size (filter (union (all player 'P ('P vloc TRICK))) 'TC 
+             (== (score 'TC using (game points PRECEDENCE)) (score (max (union (all player 'PP ('PP vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE))))))
+            (move (top (game vloc AWARD))
+                        (top ((owner (min (union (all player 'PR 
+                                                        ('PR vloc TRICK))) using (game points PRECEDENCE))) vloc WON))))
+        
+        ;; award the prize to the winning player
+            ((<= 1 (size (filter (union (all player 'P ('P vloc TRICK))) 'TC
+             (== (score 'TC using (game points PRECEDENCE)) (score (max (union (all player 'PP ('PP vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE))))))
+            (move (top (game vloc AWARD))
+                        (top ((owner (max (union (all player 'PR 
+                                                        ('PR vloc TRICK))) using (game points PRECEDENCE))) vloc WON))))
+            
+            ;; discard all other cards
+            (all player 'P 
+                (move (top ('P vloc TRICK)) 
+                    (top (game vloc DISCARD)))))))
+ 
+;; check score (HEAVY influence from Poker.gdl)
+(stage player
+    (end (all player 'P (== (size ('P vloc WON)) 0)))
+    (do
+        (
+        ;; create scoring methods/comparisons
+        (set (game points SCORE) (
+            ((RANK (ACE))   12)
+            ((RANK (KING))  11) 
+            ((RANK (QUEEN)) 10)))
+        
+        ;; suit specific scoring
+        (set (game points CLUBS) (
+                    ((SUIT (CLUBS))    1)))
+        (set (game points DIAMONDS) (
+                    ((SUIT (DIAMONDS)) 1)))           
+        (set (game points HEARTS) (
+                    ((SUIT (HEARTS))   1)))  
+        (set (game points SPADES) (
+                    ((SUIT (SPADES))   1)))
+
+        ;; rank specific scoring
+        (set (game points QUEENS) (
+                    ((RANK (QUEEN)) 1)))
+        (set (game points KINGS) (
+                    ((RANK (KING))  1)))
+        (set (game points ACES) (
+                    ((RANK (ACE))   1)))
+                    
+        ;; Check for cards won
+        ((== (size ((current player) vloc WON)) 0)
+            (set ((current player) sto POINTS) 0))
+        
+        ((>= (size ((current player) vloc WON)) 1)
+            (do (
+            ;; High card by default (0-12)
+            (set ((current player) sto POINTS) (score (max ((current player) vloc WON) using (game points SCORE)) using (game points SCORE)))
+            
+            ;; 1-Pair (13-25)
+            (any ((current player) vloc WON) 'P 
+            ((== (size (filter ((current player) vloc WON) 'PP 
+                (== (cardatt RANK 'PP) (cardatt RANK 'P)))) 2)
+                (set ((current player) sto POINTS) (+ (score 'P using (game points SCORE)) 13))))
+
+            ;; 2-Pair (26-181)
+            ;; Hardcoded as original algo did not work
+            ((and (>= (sum ((current player) vloc WON) using (game points QUEENS)) 2) (>= (sum ((current player) vloc WON) using (game points KINGS)) 2)) 
+             (set ((current player) sto POINTS) 179))
+            ((and (>= (sum ((current player) vloc WON) using (game points QUEENS)) 2) (>= (sum ((current player) vloc WON) using (game points ACES)) 2)) 
+             (set ((current player) sto POINTS) 180))
+            ((and (>= (sum ((current player) vloc WON) using (game points KINGS)) 2) (>= (sum ((current player) vloc WON) using (game points ACES)) 2)) 
+             (set ((current player) sto POINTS) 181))
+
+            ;; Royal Trio (Queen, King, and Ace in the same suit) (182)
+            ((and (and (and (>= (sum ((current player) vloc WON) using (game points QUEENS)) 1) 
+                            (>= (sum ((current player) vloc WON) using (game points KINGS))  1))
+                            (>= (sum ((current player) vloc WON) using (game points ACES))   1))
+                    (or (or (or (>= (sum ((current player) vloc WON) using (game points CLUBS))    3) 
+                                (>= (sum ((current player) vloc WON) using (game points SPADES))   3)) 
+                                (>= (sum ((current player) vloc WON) using (game points DIAMONDS)) 3)) 
+                                (>= (sum ((current player) vloc WON) using (game points HEARTS))   3)))
+                (set ((current player) sto POINTS) 182))
+
+            ;; Three of a Kind (183-195)
+            (any ((current player) vloc WON) 'R 
+            ((== (size (filter ((current player) vloc WON) 'RR 
+                (== (cardatt RANK 'RR) (cardatt RANK 'R)))) 3)
+            (set ((current player) sto POINTS) (+ (score 'R using (game points SCORE)) 183))))
+
+            ;; Full House (196-208)
+            (any ((current player) vloc WON) 'Y 
+            ((== (size (filter ((current player) vloc WON) 'YY (== (cardatt RANK 'YY) (cardatt RANK 'Y)))) 3)
+            (any ((current player) vloc WON) 'X 
+                ((== (size (filter ((current player) vloc WON) 'XX (== (cardatt RANK 'XX) (cardatt RANK 'X)))) 2)
+                (set ((current player) sto POINTS) (+ (score 'Y using (game points SCORE)) 196))))))
+
+            ;; Four of a Kind (209-221)
+            (any ((current player) vloc WON) 'U 
+            ((== (size (filter ((current player) vloc WON) 'UU 
+             (== (cardatt RANK 'UU) (cardatt RANK 'U)))) 4)
+             (set ((current player) sto POINTS) (+ (score 'U using (game points SCORE)) 209))))
+
+            ;; Max Enchère (Full House w/ 3 Aces, 2 Kings) (222)
+            ((and (>= (sum ((current player) vloc WON) using (game points ACES)) 3)
+                  (>= (sum ((current player) vloc WON) using (game points KINGS)) 2))
+             (set ((current player) sto POINTS) 222))
+
+            ;; Ace Out (4-of-a=kind w/ Aces) (223)
+            ((== (sum ((current player) vloc WON) using (game points ACES)) 4)
+             (set ((current player) sto POINTS) 223))
+
+            (repeat all (move (top ((current player) vloc WON)) 
+                              (top (game vloc DISCARD))))
+            ))))))
+
+ ;; winner is the player with the most points
+ (scoring max ((current player) sto POINTS)))
