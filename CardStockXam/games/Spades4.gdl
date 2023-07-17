@@ -1,4 +1,5 @@
 ;; SPADES in the GDL
+;; https://www.pagat.com/auctionwhist/spades.html
 (game
  
  (setup 

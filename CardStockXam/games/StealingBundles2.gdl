@@ -1,4 +1,5 @@
 ;; Stealing Bundles in the GDL
+;; https://www.pagat.com/fishing/bundle.html
 (game
  (setup  
   ;; Set up the players, 2 players each on their own team

@@ -1,3 +1,6 @@
+;; Golf
+;; https://www.pagat.com/draw/golf.html
+
 (game
  (declare (ONE, TWO, THREE, FOUR) 'PLOCS)
  (setup

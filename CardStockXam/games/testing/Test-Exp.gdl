@@ -1,0 +1,52 @@
+;; Exponential Numbers Test
+;;
+;; Used to test new changes in the ReCYCLE v0.5 language
+
+(game
+    (declare 4 'NUMP)
+    (setup
+        (create players 'NUMP)
+        (create teams (0) (1) (2) (3))
+        ;; Create the deck
+        (create deck (game iloc STOCK) (deck (RANK (ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN))
+                                             (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                    (BLACK (SUIT (SPADES, CLUBS))))))
+        (create deck (game iloc STOCK) (deck (RANK (JOKER)))))
+    
+    ;; shuffle deck, deal cards.
+    (do
+        (
+            (shuffle (game iloc STOCK))
+            (all player 'P
+                (repeat 3
+                    (move (top (game iloc STOCK))
+                          (top ('P iloc HAND)))))))
+    
+    ;; Everyone plays exactly one round
+    (stage player
+        (end
+            (all player 'P
+                (== (size ('P vloc TRICK)) 1)))
+        (choice
+            (
+                (any ((current player) iloc HAND) 'C
+                    (move 'C
+                        (top ((current player) vloc TRICK)))))))
+                    
+    ;; Create Scoring System
+    (do
+        (
+            (set (game points SCORE)
+                (
+                    ((RANK (JOKER)) (^ 10 2))
+                    ((RANK (SEVEN)) (^ 7 2))
+                    ((RANK (SIX))   (^ 6 2))
+                    ((RANK (FIVE))  (^ 5 2))
+                    ((RANK (FOUR))  (^ 4 2))
+                    ((RANK (THREE)) (^ 3 2))
+                    ((RANK (TWO))   (^ 2 2))
+                    ((RANK (ACE))   (^ 1 2))))))
+
+(scoring max (sum ((current player) vloc TRICK) using (game points SCORE))))
+    
+    
