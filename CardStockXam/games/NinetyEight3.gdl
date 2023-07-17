@@ -6,14 +6,13 @@
  
  (setup  
   (create players 3)
-  (create teams (0) (1) (2))
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                               (BLACK (SUIT (CLUBS, SPADES)))))))
  
  (do 
      (
-      (put points 'PRECEDENCE 
+      (set (game points PRECEDENCE)
            (
             ((RANK (NINE)) 9)
             ((RANK (EIGHT)) 8)
@@ -46,7 +45,7 @@
         ;; Tabulate pile points, if over 98, then game is over
         (do 
             (
-             (inc (game sto POINTS) (score (top (game vloc PILE)) using 'PRECEDENCE)) 
+             (inc (game sto POINTS) (score (top (game vloc PILE)) using (game points PRECEDENCE))) 
              ((== (cardatt RANK (top (game vloc PILE))) K)
               (set (game sto POINTS) 98))
              ((== (cardatt RANK (top (game vloc PILE))) TEN)

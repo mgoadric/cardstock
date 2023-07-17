@@ -26,7 +26,7 @@
                            (top (game iloc STOCK))))
              (remember (top (filter (game iloc STOCK) 'H (== (cardatt SUIT 'H) HEARTS)))
                        (top (game mem TRUMP)))
-             (put points 'SCORE 
+             (set (game points SCORE)
                   (
                    ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 1) 
                    ((RANK (Q)) (SUIT (SPADES)) 13)))
@@ -118,7 +118,7 @@
                ;; after players play hand, computer wraps up trick
                (do ( 
                     ;; solidfy card recedence
-                    (put points 'PRECEDENCE 
+                    (set (game points PRECEDENCE)
                          (
                           ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
                           ((RANK (A)) 14)
@@ -138,7 +138,7 @@
                     ;; determine who won the hand, set them first next time, and give them a point
                     (forget (top (game mem LEAD)))
                     (cycle next (owner (max (union (all player 'P 
-                                                        ('P vloc TRICK))) using 'PRECEDENCE)))
+                                                        ('P vloc TRICK))) using (game points PRECEDENCE))))
                     
                     ;; if winner played trump and trump not broken, trump is now broken
                     ((and (!= (size (filter (union (all player 'P 
@@ -159,11 +159,11 @@
                (do 
                    (
                     
-                    ((== (sum ((current player) vloc TRICKSWON) using 'SCORE) 26)
+                    ((== (sum ((current player) vloc TRICKSWON) using (game points SCORE)) 26)
                      (dec ((current player) sto SCORE) 26))
                     
-                    ((!= (sum ((current player) vloc TRICKSWON) using 'SCORE) 26)
-                     (inc ((current player) sto SCORE) (sum ((current player) vloc TRICKSWON) using 'SCORE)))
+                    ((!= (sum ((current player) vloc TRICKSWON) using (game points SCORE)) 26)
+                     (inc ((current player) sto SCORE) (sum ((current player) vloc TRICKSWON) using (game points SCORE))))
                     
                     (repeat all
                             (move (top ((current player) vloc TRICKSWON))

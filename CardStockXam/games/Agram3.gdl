@@ -75,7 +75,7 @@
         (do 
             (
              ;; solidfy card recedence
-             (put points 'PRECEDENCE 
+             (set (game points PRECEDENCE) 
                   (
                    ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
                    ((RANK (ACE)) 14)
@@ -91,7 +91,7 @@
              ;; determine who won the hand, set them first next time
              (forget (top (game mem LEAD)))
              
-             (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'PRECEDENCE)))
+             (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE))))
              
              (all player 'P 
                   (move (top ('P vloc TRICK)) 

@@ -107,7 +107,7 @@
                                 (top ('P iloc HAND)))))
              
              ((== (game sto ISDUCK) 1)
-              (put points 'CARDSCORE 
+              (set (game points CARDSCORE)
                    (
                     ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
                     ((RANK (A)) 1)
@@ -124,7 +124,7 @@
                     ((RANK (THREE)) 3)
                     ((RANK (TWO)) 2))))
              ((== (game sto ISDUCK) 0)
-              (put points 'CARDSCORE 
+              (set (game points CARDSCORE)
                    (
                     ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
                     ((RANK (A)) 14)
@@ -152,7 +152,7 @@
                         (cardatt SUIT (top ((next player) vloc TRICK))))
                     (set (game sto TRICKSCORE) 2))
                    
-                   (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using 'CARDSCORE)))
+                   (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points CARDSCORE))))
                    (inc ((next player) sto SCORE)
                         (game sto TRICKSCORE)))))
              

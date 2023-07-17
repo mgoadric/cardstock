@@ -24,7 +24,7 @@
                         (move (top (game iloc STOCK))
                               (top ('P iloc HAND))))
                 (set ('P sto CHIPS) 99))))
-      (put points 'POINTSLOW 
+      (set (game points POINTSLOW) 
            (
             ((RANK (A)) 1)
             ((RANK (K)) 10) 
@@ -39,7 +39,7 @@
             ((RANK (FOUR)) 4)
             ((RANK (THREE)) 3)
             ((RANK (TWO)) 2)))
-      (put points 'POINTSHIGH 
+      (set (game points POINTSHIGH) 
            (
             ((RANK (A)) 11)
             ((RANK (K)) 10) 
@@ -80,28 +80,28 @@
          (
           
           ;; HIT
-          ((or (< (sum ((current player) iloc HAND) using 'POINTSHIGH) 22)
-               (< (sum ((current player) iloc HAND) using 'POINTSLOW) 22))
+          ((or (< (sum ((current player) iloc HAND) using (game points POINTSHIGH)) 22)
+               (< (sum ((current player) iloc HAND) using (game points POINTSLOW)) 22))
            (do 
                (
                 (move (top (game iloc STOCK)) 
                       (top ((current player) iloc HAND)))
                 
-                ((or (< (sum ((current player) iloc HAND) using 'POINTSHIGH) 22)
-                     (< (sum ((current player) iloc HAND) using 'POINTSLOW) 22))
+                ((or (< (sum ((current player) iloc HAND) using (game points POINTSHIGH)) 22)
+                     (< (sum ((current player) iloc HAND) using (game points POINTSLOW)) 22))
                  (cycle next current)))))
           
           ;; STAY
-          ((or (< (sum ((current player) iloc HAND) using 'POINTSHIGH) 22)
-               (< (sum ((current player) iloc HAND) using 'POINTSLOW) 22))
+          ((or (< (sum ((current player) iloc HAND) using (game points POINTSHIGH)) 22)
+               (< (sum ((current player) iloc HAND) using (game points POINTSLOW)) 22))
            (set ((current player) sto FINISHED) 1))))
         
         (do 
             (
              
              ;; Determine if busted
-             ((and (>= (sum ((current player) iloc HAND) using 'POINTSHIGH) 22)
-                   (>= (sum ((current player) iloc HAND) using 'POINTSLOW) 22))
+             ((and (>= (sum ((current player) iloc HAND) using (game points POINTSHIGH)) 22)
+                   (>= (sum ((current player) iloc HAND) using (game points POINTSLOW)) 22))
               (do 
                   (
                    (repeat all
@@ -117,13 +117,13 @@
       (all player 'P
            (do 
                (
-                ((< (sum ('P iloc HAND) using 'POINTSHIGH)
+                ((< (sum ('P iloc HAND) using (game points POINTSHIGH))
                     22)
-                 (set ('P sto SCOREHAND) (sum ('P iloc HAND) using 'POINTSHIGH)))
+                 (set ('P sto SCOREHAND) (sum ('P iloc HAND) using (game points POINTSHIGH))))
                 
-                ((>= (sum ('P iloc HAND) using 'POINTSHIGH)
+                ((>= (sum ('P iloc HAND) using (game points POINTSHIGH))
                      22)
-                 (set ('P sto SCOREHAND) (sum ('P iloc HAND) using 'POINTSLOW))))))))
+                 (set ('P sto SCOREHAND) (sum ('P iloc HAND) using (game points POINTSLOW)))))))))
  
  ;; Find score for players
  (stage player

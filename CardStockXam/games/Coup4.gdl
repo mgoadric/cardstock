@@ -15,21 +15,21 @@
  ;; Assign points for cards, remove 5 cards from game
  (do 
      (
-      (put points 'BASIC
+      (set (game points BASIC)
    (((INFLUENCE (AMBASSADOR)) 1)
    (( INFLUENCE   (CONTESSA)) 1)
    (( INFLUENCE       (DUKE)) 1)
    (( INFLUENCE   (ASSASSIN)) 1)
    (( INFLUENCE    (CAPTAIN)) 1)))
 
-  (put points 'STEALABLE
+  (set (game points STEALABLE)
    (((INFLUENCE (AMBASSADOR)) 0)
    (( INFLUENCE   (CONTESSA)) 1)
    (( INFLUENCE       (DUKE)) 1)
    (( INFLUENCE   (ASSASSIN)) 1)
    (( INFLUENCE    (CAPTAIN)) 0)))
 
-  (put points 'ASSASSINATABLE
+  (set (game points ASSASSINATABLE)
    (((INFLUENCE (AMBASSADOR)) 1)
    (( INFLUENCE   (CONTESSA)) 0)
    (( INFLUENCE       (DUKE)) 1)
@@ -99,8 +99,8 @@
 
     ;; Win (if you're the last one left)
      
-     ((== (sum         ((current player) iloc HAND)   using 'BASIC) 
-          (sum (union (all player 'P ('P iloc HAND))) using 'BASIC)) 
+     ((== (sum         ((current player) iloc HAND)   using (game points BASIC)) 
+          (sum (union (all player 'P ('P iloc HAND))) using (game points BASIC))) 
       (do ( 
        (inc ((current player) sto WON) 1))))
 
@@ -141,7 +141,7 @@
       (do (   
        (dec ((current player) sto HUNDREDMILLIONDOLLARS) 3)
        (any player 'P 
-        ((< (sum ('P iloc HAND) using 'ASSASSINATABLE) 1)
+        ((< (sum ('P iloc HAND) using (game points ASSASSINATABLE)) 1)
      	   (any ('P iloc HAND) 'C  
           (move 'C (top (game vloc DISCARD)))))))))))  	
 
@@ -153,7 +153,7 @@
      ((>= (size (filter ((current player) iloc HAND) 'H (== (cardatt INFLUENCE 'H) CAPTAIN))) 1)
       (set ((current player) sto LIED) 0))	
      (any player 'P (
-      (and (>= ('P sto HUNDREDMILLIONDOLLARS) 2) (< (sum ('P iloc HAND) using 'STEALABLE) 1))
+      (and (>= ('P sto HUNDREDMILLIONDOLLARS) 2) (< (sum ('P iloc HAND) using (game points STEALABLE)) 1))
       (do (   
         (inc ((current player) sto HUNDREDMILLIONDOLLARS) 2)
   	  (dec ('P sto HUNDREDMILLIONDOLLARS) 2))))))))))
