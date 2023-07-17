@@ -1,8 +1,11 @@
-﻿using Antlr4.Runtime.Tree;
+﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
 using CardEngine;
 using CardStockXam;
 using CardStockXam.Scoring;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -56,7 +59,7 @@ namespace FreezeFrame
 
         public GameIterator Clone(CardGame newgame) {
 
-            var ret = new GameIterator(rules, newgame, gameWorld, "clone", false); // 
+            var ret = new GameIterator(rules, newgame, gameWorld, "clone", false);
             ret.script = new Transcript(false, null);
 
             foreach (var queue in iterStack.Reverse()) {
@@ -232,7 +235,7 @@ namespace FreezeFrame
             if (setupNode.teamcreate() != null)
             {
                 Debug.WriteLine("Creating teams.");
-                var teamCreate = setupNode.teamcreate() as RecycleParser.TeamcreateContext;
+                var teamCreate = ProcessTeamCreate(setupNode.teamcreate(), game);
                 ret.Add(new TeamCreateAction(teamCreate, game, script));
             }
             if (setupNode.deckcreate() != null)
@@ -258,6 +261,37 @@ namespace FreezeFrame
                     }
                 }
             }
+            if (setupNode.teamcreate() == null)
+            {
+                Debug.WriteLine("Creating teams.");
+                var teamcreate = ProcessTeamCreate(null, game);
+                ret.Add(new TeamCreateAction(teamcreate, game, script));
+            }
+            return ret;
+        }
+        private List<List<int>> ProcessTeamCreate(RecycleParser.TeamcreateContext teamcreate, CardGame cg)
+        {
+            var ret = new List<List<int>>();
+            if (teamcreate != null)
+            {
+                var numTeams = teamcreate.teams().Count();
+                for (int i = 0; i < numTeams; i++)
+                {
+                    ret.Add(new List<int>());
+                    foreach (var p in teamcreate.teams(i).INTNUM())
+                    {
+                        ret[i].Add(int.Parse(p.GetText()));
+                    }
+                }
+            }
+            else
+            {
+                var numTeams = cg.players.Length;
+                for (int i = 0; i < numTeams; i++)
+                {
+                    ret.Add(new List<int>() {i});
+                }
+            }
             return ret;
         }
 
@@ -274,11 +308,18 @@ namespace FreezeFrame
             return false;
         }
 
-        private GameAction ProcessDeckCreate(RecycleParser.DeckcreateContext deckinit)
+        private GameAction ProcessDeckCreate(RecycleParser.DeckcreateContext deckinit) 
         {
-            var locstorage = ProcessLocation(deckinit.cstorage());
+            var locstorage = ProcessLocation(deckinit.cstorage()); 
             var deckTree = ProcessDeck(deckinit.deck());
-            return new InitializeAction(locstorage.cardList, deckTree, game, script);
+            if (deckinit.str() == null)
+            {
+                return new InitializeAction(locstorage.cardList, deckTree, "", game, script);
+            }
+            else
+            {
+                return new InitializeAction(locstorage.cardList, deckTree, ProcessString(deckinit.str()), game, script);
+            }
         }
 
         /*********
@@ -776,7 +817,7 @@ namespace FreezeFrame
             var ret = new GameActionCollection();
             if (actionNode.teamcreate() != null)
             {
-                var teamCreate = actionNode.teamcreate() as RecycleParser.TeamcreateContext;
+                var teamCreate = ProcessTeamCreate(actionNode.teamcreate(), game);
                 ret.Add(new TeamCreateAction(teamCreate, game, script));
             }
             else if (actionNode.initpoints() != null)
@@ -1137,7 +1178,7 @@ namespace FreezeFrame
 
                     if (scoring.GetScore(c) == 0)
                     {
-                        // Console.WriteLine("Weird Card: " + c + " using " + card.maxof().var().GetText());
+                        // Console.WriteLine("Weird Card: " + c);
                     }
                     //MHG when equal, pick randomly
                     if (scoring.GetScore(c) > max || (scoring.GetScore(c) == max && ThreadSafeRandom.Next(0, 2) == 0))
@@ -1313,6 +1354,136 @@ namespace FreezeFrame
                 };
                 return fancy;
             }
+            if (loc.intersectof() != null) 
+            {
+                CardCollection temp = new CardCollection(CCType.VIRTUAL);
+                if (loc.intersectof().cstorage().Length > 0)
+                {
+                    Dictionary<Card, int> cardCount = new Dictionary<Card, int>();
+                    foreach (var locChild in loc.intersectof().cstorage())
+                    {
+                        var locs = ProcessLocation(locChild);
+                        name += locs.name + " ";
+                        foreach (var card in locs.cardList.AllCards())
+                        {
+                            if (cardCount.ContainsKey(card))
+                            {
+                                cardCount[card] += 1;
+                            }
+                            else
+                            {
+                                cardCount[card] = 1;
+                            }
+                        }
+                    }
+                    foreach (KeyValuePair<Card, int> kvp in cardCount)
+                    {
+                        if (kvp.Value == loc.intersectof().cstorage().Length)
+                        {
+                            temp.Add(kvp.Key);
+                        }
+                    }
+                    name.Remove(name.Length - 1);
+                }
+                else
+                { //agg
+                    Dictionary<Card, int> cardCount = new Dictionary<Card, int>();
+                    foreach (var locs in (ProcessAgg(loc.intersectof().agg()) as List<CardLocReference>))
+                    {
+                        name += locs.name + " ";
+                        foreach (var card in locs.cardList.AllCards())
+                        {
+                            if (cardCount.ContainsKey(card))
+                            {
+                                cardCount[card] += 1;
+                            }
+                            else
+                            {
+                                cardCount[card] = 1;
+                            }
+                        }
+                    }
+                    foreach (KeyValuePair<Card, int> kvp in cardCount)
+                    {
+                        if (kvp.Value == loc.intersectof().cstorage().Length)
+                        {
+                            temp.Add(kvp.Key);
+                        }
+                    }
+                    name.Remove(name.Length - 1);
+                }
+                var fancy = new CardLocReference()
+                {
+                    cardList = temp,
+                    name = name + "{INTERSECTION}"
+                };
+                return fancy;
+            }
+            else if (loc.disjunctionof() != null) 
+            {
+                CardCollection temp = new CardCollection(CCType.VIRTUAL);
+                if (loc.disjunctionof().cstorage().Length > 0)
+                {
+                    Dictionary<Card, int> cardCount = new Dictionary<Card, int>();
+                    foreach (var locChild in loc.disjunctionof().cstorage())
+                    {
+                        var locs = ProcessLocation(locChild);
+                        name += locs.name + " ";
+                        foreach (var card in locs.cardList.AllCards())
+                        {
+                            if (cardCount.ContainsKey(card))
+                            {
+                                cardCount[card] += 1;
+                            }
+                            else
+                            {
+                                cardCount[card] = 1;
+                            }
+                        }
+                    }
+                    foreach (KeyValuePair<Card, int> kvp in cardCount)
+                    {
+                        if (kvp.Value == 1)
+                        {
+                            temp.Add(kvp.Key);
+                        }
+                    }
+                    name.Remove(name.Length - 1);                    
+                }
+                else
+                { //agg
+                    Dictionary<Card, int> cardCount = new Dictionary<Card, int>();
+                    foreach (var locs in (ProcessAgg(loc.disjunctionof().agg()) as List<CardLocReference>))
+                    {
+                        name += locs.name + " ";
+                        foreach (var card in locs.cardList.AllCards())
+                        {
+                            if (cardCount.ContainsKey(card))
+                            {
+                                cardCount[card] += 1;
+                            }
+                            else
+                            {
+                                cardCount[card] = 1;
+                            }
+                        }
+                    }
+                    foreach (KeyValuePair<Card, int> kvp in cardCount)
+                    {
+                        if (kvp.Value == 1)
+                        {
+                            temp.Add(kvp.Key);
+                        }
+                    }
+                    name.Remove(name.Length - 1);
+                }
+                var fancy = new CardLocReference()
+                {
+                    cardList = temp,
+                    name = name + "{DISJUNCTION}"
+                };
+                return fancy;
+            }
             else if (loc.filter() != null)
             {
                 return ProcessCStorageFilter(loc.filter());
@@ -1371,8 +1542,74 @@ namespace FreezeFrame
                 }
                 return returnList;
             }
+            if (memset.partition() != null)
+            {
+                if (memset.partition().cstorage().Length > 0)
+                {
+                    var partition = new Dictionary<String, CardCollection>();
+                    foreach (var memChild in memset.partition().cstorage())
+                    {
+                        var stor = ProcessLocation(memChild);
+                        foreach (var card in stor.cardList.AllCards())
+                        {
+                            var attr = card.ReadAttribute(ProcessString(memset.partition().str()));
+                            if (partition.ContainsKey(attr))
+                            {
+                                partition[attr].Add(card);
+                            }
+                            else
+                            {
+                                partition[attr] = new CardCollection(CCType.VIRTUAL);
+                                partition[attr].Add(card);
+                            }
+                        }
+                    }
+                    var returnList = new List<CardLocReference>();
+                    foreach (KeyValuePair<String, CardCollection> kvp in partition)
+                    {
+                        returnList.Add(new CardLocReference()
+                        {
+                            cardList = kvp.Value,
+                            name = "{partition}" + "{part: " + kvp + "}"
+                        });
+                    }
+                    return returnList.ToArray();
+                }
+                else
+                {
+                    var partition = new Dictionary<String, CardCollection>();
+                    foreach (var stor in ProcessAgg(memset.partition().agg()) as List<CardLocReference>)
+                    {
+                        foreach (var card in stor.cardList.AllCards())
+                        {
+                            var attr = card.ReadAttribute(ProcessString(memset.partition().str()));
+                            if (partition.ContainsKey(attr))
+                            {
+                                partition[attr].Add(card);
+                            }
+                            else
+                            {
+                                partition[attr] = new CardCollection(CCType.VIRTUAL);
+                                partition[attr].Add(card);
+                            }
+                        }
+
+                    }
+                    var returnList = new List<CardLocReference>();
+                    foreach (KeyValuePair<String, CardCollection> kvp in partition)
+                    {
+                        returnList.Add(new CardLocReference()
+                        {
+                            cardList = kvp.Value,
+                            name = "{partition}" + "{part: " + kvp + "}"
+                        });
+                    }
+                    return returnList.ToArray();
+                }
+            }
             return null;
         }
+
         private CardLocReference ProcessSubLocation(RecycleParser.CstorageContext stor)
         {
             string desc = stor.locdesc().GetText();
@@ -1534,13 +1771,13 @@ namespace FreezeFrame
                 }
                 else if (text == "next")
                 {
-                    throw new NotImplementedException();
-                    //return instance.CurrentTeam().PeekNext();
+                    //throw new NotImplementedException();
+                    return game.CurrentTeam().PeekNext();
                 }
                 else if (text == "previous")
                 {
-                    throw new NotImplementedException();
-                    //return instance.CurrentTeam().PeekPrevious();
+                    //throw new NotImplementedException();
+                    return game.CurrentTeam().PeekPrevious();
                 }
                 else if (who.whodesc().@int() != null)
                 {
@@ -1782,13 +2019,13 @@ namespace FreezeFrame
             int int1 = ProcessInt(random.GetChild(2) as RecycleParser.IntContext);
             if (random.GetChild(4) != null) // if second integer is included
             {
-                Console.WriteLine("Second variable included.");
+                // Console.WriteLine("Second variable included.");
                 int int2 = ProcessInt(random.GetChild(4) as RecycleParser.IntContext);
                 return ThreadSafeRandom.Next(int1, int2 + 1);
             }
             else // if no second integer
             {
-                Console.WriteLine("Second variable not included.");
+                // Console.WriteLine("Second variable not included.");
                 return ThreadSafeRandom.Next(0, int1 + 1);
             }
         }

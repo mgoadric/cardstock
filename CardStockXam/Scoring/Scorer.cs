@@ -16,7 +16,7 @@ namespace CardStockXam
         public static World gameWorld;
         public string text;
 
-        private int numRndvRnd = 100;
+        private int numRndvRnd = 1;
         private int numAIvRnd  = 100;
         private int numAIvAI   = 100;
 
@@ -37,7 +37,7 @@ namespace CardStockXam
             //gameFiles.Add("games/Pairs3.gdl");
             //gameFiles.Add("games/Pairs4.gdl");
             //gameFiles.Add("games/Pairs5.gdl");
-            gameFiles.Add("games/testing/Test-Rand2.gdl");
+            gameFiles.Add("games/testing/Test-Intersect.gdl");
 
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
@@ -83,7 +83,6 @@ namespace CardStockXam
         {
           
             text = "Scoring " + fileName + ":\n";
-
             
             exps.Add(new Experiment()
             {

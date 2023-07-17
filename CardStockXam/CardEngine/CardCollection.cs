@@ -176,6 +176,11 @@ namespace CardEngine
             }
             return hash;
         }
+
+        public bool Contains(Card c)
+        {
+            return cards.Contains(c);
+        }
     }
 }
 

@@ -97,14 +97,14 @@ namespace FreezeFrame
 
                 else if (o is Card c)
                 {
-                    ret.Add(key, newgame.sourceDeck[c.id]);
+                    ret.Add(key, newgame.sourceDeck[c.name][c.id]);
                 }
                 else if (o is List<Card>)
                 {
                     List<Card> l = new List<Card>();
                     foreach (Card card in o as List<Card>)
                     {
-                        l.Add(newgame.sourceDeck[card.id]);
+                        l.Add(newgame.sourceDeck[card.name][card.id]);
                     }
                     ret.Add(key, l);
 
@@ -119,7 +119,7 @@ namespace FreezeFrame
                         CardCollection ccclone = cc.Clone();
                         foreach (Card oldc in cc.AllCards())
                         {
-                            ccclone.Add(newgame.sourceDeck[oldc.id]);
+                            ccclone.Add(newgame.sourceDeck[oldc.name][oldc.id]);
                         }
                         ret.Add(key, ccclone);
 
