@@ -37,7 +37,7 @@ namespace CardStockXam
             //gameFiles.Add("games/Pairs3.gdl");
             //gameFiles.Add("games/Pairs4.gdl");
             //gameFiles.Add("games/Pairs5.gdl");
-            gameFiles.Add("games/Agram4.gdl");
+            gameFiles.Add("games/testing/Test-Rand2.gdl");
 
             foreach (string name in gameFiles.GetRange(0, gameFiles.Count))
             {
@@ -95,7 +95,7 @@ namespace CardStockXam
 
             });
             
-            
+            /*
             exps.Add(new Experiment()
             {
                 fileName = fileName,
@@ -117,7 +117,7 @@ namespace CardStockXam
                 evaluating = true,
                 type = GameType.AllAI
             });
-            
+            */
         }
 
 
