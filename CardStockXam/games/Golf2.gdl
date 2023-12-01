@@ -1,3 +1,6 @@
+;; Golf
+;; https://www.pagat.com/draw/golf.html
+
 (game
  (declare (ONE, TWO, THREE, FOUR) 'PLOCS)
  (setup
@@ -8,7 +11,7 @@
                                               (BLACK (SUIT (CLUBS, SPADES)))))))
  (do 
      (
-      (put points 'PRECEDENCE 
+      (set (game points PRECEDENCE)
            (
             ((RANK (K)) 12) 
             ((RANK (Q)) 11)
@@ -68,4 +71,4 @@
             (
              (set ((current player) sto DISCARDED) 0))))
  (scoring min (sum (union (all 'PLOCS 'L
-                               ((current player) hloc 'L))) using 'PRECEDENCE)))
+                               ((current player) hloc 'L))) using (game points PRECEDENCE))))

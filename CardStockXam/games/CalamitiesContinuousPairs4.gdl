@@ -24,7 +24,7 @@
  
  (do 
      (
-      (put points 'POINTS 
+      (set (game points POINTS)
            (
             ((VALUE (TEN)) 10)
             ((VALUE (NINE)) 9)
@@ -37,7 +37,7 @@
             ((VALUE (TWO)) 2)
             ((VALUE (ONE)) 1)))
 
-      (put points 'FIRST 
+      (set (game points FIRST)
            (
             ((VALUE (TEN)) 10)
             ((VALUE (NINE)) 9)
@@ -66,7 +66,7 @@
  ;;         (stage player
  ;;                (end (== (game sto FINISHED) 1))
  ;;                ;; how to say this? what does min do with more than 1 value? 
- ;;                (let (min (union (all player 'P ('P vloc HAND))) using 'POINTS) 'L
+ ;;                (let (min (union (all player 'P ('P vloc HAND))) using (game points POINTS)) 'L
  ;;                  ((== (size 'L) 1)
  ;;                   (set (game sto FINISHED) 1))
  ;;                  ((!= (size 'L) 1)
@@ -80,12 +80,12 @@
  ;;           
  (do 
      (
-      (cycle current (owner (min (union (all player 'P ('P vloc HAND))) using 'FIRST)))))
+      (cycle current (owner (min (union (all player 'P ('P vloc HAND))) using (game points FIRST))))))
  
  (stage player
         (end 
          (any player 'P 
-              (>= (sum ('P vloc SCORING) using 'POINTS) (+ (// 60 'NUMP) 1)))) 
+              (>= (sum ('P vloc SCORING) using (game points POINTS)) (+ (// 60 'NUMP) 1)))) 
         
         ;; Shuffle and then throw out 5 cards for mystery      
         (do 
@@ -111,7 +111,7 @@
           ((> (size ((current player) vloc HAND)) 0)
            (do 
                (
-                (move (actual (min (union (all player 'P ('P vloc HAND))) using 'POINTS))
+                (move (actual (min (union (all player 'P ('P vloc HAND))) using (game points POINTS)))
                       (top ((current player) vloc SCORING)))
                 (repeat all
                         (move (top ((current player) vloc HAND))
@@ -129,12 +129,12 @@
                    (== (cardatt VALUE (top ((current player) vloc HAND)))
                        SEVEN))
               (cycle next current))
-             ((> (size (tuples 2 ((current player) vloc HAND) using 'POINTS)) 0)
+             ((> (size (tuples 2 ((current player) vloc HAND) using (game points POINTS))) 0)
               (do 
                   (
-                   (move (actual (top (top (tuples 2 ((current player) vloc HAND) using 'POINTS))))
+                   (move (actual (top (top (tuples 2 ((current player) vloc HAND) using (game points POINTS)))))
                          (top ((current player) vloc SCORING)))
                    (repeat all
                            (move (top ((current player) vloc HAND))
                                  (top (game vloc DISCARD))))))))))
-  (scoring min (sum ((current player) vloc SCORING) using 'POINTS)))
+  (scoring min (sum ((current player) vloc SCORING) using (game points POINTS))))

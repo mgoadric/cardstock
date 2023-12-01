@@ -4,17 +4,32 @@ using Players;
 using System.IO;
 using System.Threading;
 using CardStockXam.Scoring;
+using CardStockXam;
+using System;
+using System.Diagnostics;
 
 namespace CardGames
 {
     public class Program
     {
+
         public static void Main(string[] args)
         {
-            CardStockXam.Scorer.Main(args);
-            //var p = new Program();
-            //p.SingleGame("games/ContinuousPairs.gdl");
-            //p.AllGames();
+            if (args.Length > 0)
+            {
+                Console.WriteLine(args[0]);
+            }
+            int numRndvRnd = 100;
+            int numAIvRnd = 100;
+            int numAIvAI = 100;
+            string name = "games/Pairs4.gdl";
+
+            var p = new Scorer(name, numRndvRnd, numAIvRnd, numAIvAI);
+            var score = p.Score();
+
+            Debug.WriteLine(name + "\t" + score);
+
+            Console.ReadLine();
         }
 
         void SingleGame(string game) {

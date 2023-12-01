@@ -1,8 +1,11 @@
-﻿using Antlr4.Runtime.Tree;
+﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
 using CardEngine;
 using CardStockXam;
 using CardStockXam.Scoring;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -22,14 +25,15 @@ namespace FreezeFrame
         public int totalChoices;
         public List<Tuple<int, int>> choiceList = new List<Tuple<int, int>>();
         public List<Tuple<int, double[]>> allLeadList = new List<Tuple<int, double[]>>();
+        public List<Tuple<int, double>> spreadList = new List<Tuple<int, double>>();
 
-        public GameIterator (RecycleParser.GameContext context, CardGame mygame, World gameWorld, string fileName, bool fresh = true)
-		{
+        public GameIterator(RecycleParser.GameContext context, CardGame mygame, World gameWorld, string fileName, bool fresh = true)
+        {
             this.gameWorld = gameWorld;
-			rules = context;
+            rules = context;
             game = mygame;
-			iterStack = new Stack<Queue<IParseTree>>();
-			iteratingSet = new HashSet<IParseTree>();
+            iterStack = new Stack<Queue<IParseTree>>();
+            iteratingSet = new HashSet<IParseTree>();
             variables = new RecycleVariables();
 
             if (fresh)
@@ -50,12 +54,12 @@ namespace FreezeFrame
                 {
                     topLevel.Enqueue(rules.GetChild(i));
                 }
-            } 
-		}
+            }
+        }
 
-        public GameIterator Clone(CardGame newgame) { 
+        public GameIterator Clone(CardGame newgame) {
 
-            var ret = new GameIterator(rules, newgame, gameWorld, "clone", false); // 
+            var ret = new GameIterator(rules, newgame, gameWorld, "clone", false);
             ret.script = new Transcript(false, null);
 
             foreach (var queue in iterStack.Reverse()) {
@@ -80,6 +84,11 @@ namespace FreezeFrame
             allLeadList.Add(leads);
         }
 
+        public void AddSpreadList(Tuple<int, double> spreads)
+        {
+            spreadList.Add(spreads);
+        }
+
         public IParseTree CurrentNode()
         {
             var ret = iterStack.Peek().Peek();
@@ -99,21 +108,21 @@ namespace FreezeFrame
             }
         }
 
-		public bool AdvanceToChoice(){
+        public bool AdvanceToChoice() {
             int count = 0;
-			while (iterStack.Count != 0 && !ProcessSubStage()) {
+            while (iterStack.Count != 0 && !ProcessSubStage()) {
                 count++;
                 if (count > 500) {
                     Console.WriteLine("Game stuck in loop");
                     return true; // game stuck in loop
                 }
-			}
-			if (iterStack.Count == 0) {
-				return true; // game over
-			}
+            }
+            if (iterStack.Count == 0) {
+                return true; // game over
+            }
             Debug.WriteLine(iterStack.Count);
-			return false; // interupted by player decision
-		}
+            return false; // interupted by player decision
+        }
 
         public int ProcessChoice()
         {
@@ -149,7 +158,7 @@ namespace FreezeFrame
             Debug.WriteLine("Processing choice.");
             var sub = CurrentNode();
             var choice = sub as RecycleParser.MultiactionContext;
-            var choices = choice.condact();            
+            var choices = choice.condact();
             var allOptions = new List<GameActionCollection>();
             for (int i = 0; i < choices.Length; ++i)
             {
@@ -226,7 +235,7 @@ namespace FreezeFrame
             if (setupNode.teamcreate() != null)
             {
                 Debug.WriteLine("Creating teams.");
-                var teamCreate = setupNode.teamcreate() as RecycleParser.TeamcreateContext;
+                var teamCreate = ProcessTeamCreate(setupNode.teamcreate(), game);
                 ret.Add(new TeamCreateAction(teamCreate, game, script));
             }
             if (setupNode.deckcreate() != null)
@@ -252,6 +261,37 @@ namespace FreezeFrame
                     }
                 }
             }
+            if (setupNode.teamcreate() == null)
+            {
+                Debug.WriteLine("Creating teams.");
+                var teamcreate = ProcessTeamCreate(null, game);
+                ret.Add(new TeamCreateAction(teamcreate, game, script));
+            }
+            return ret;
+        }
+        private List<List<int>> ProcessTeamCreate(RecycleParser.TeamcreateContext teamcreate, CardGame cg)
+        {
+            var ret = new List<List<int>>();
+            if (teamcreate != null)
+            {
+                var numTeams = teamcreate.teams().Count();
+                for (int i = 0; i < numTeams; i++)
+                {
+                    ret.Add(new List<int>());
+                    foreach (var p in teamcreate.teams(i).INTNUM())
+                    {
+                        ret[i].Add(int.Parse(p.GetText()));
+                    }
+                }
+            }
+            else
+            {
+                var numTeams = cg.players.Length;
+                for (int i = 0; i < numTeams; i++)
+                {
+                    ret.Add(new List<int>() {i});
+                }
+            }
             return ret;
         }
 
@@ -268,11 +308,18 @@ namespace FreezeFrame
             return false;
         }
 
-        private GameAction ProcessDeckCreate(RecycleParser.DeckcreateContext deckinit)
+        private GameAction ProcessDeckCreate(RecycleParser.DeckcreateContext deckinit) 
         {
-            var locstorage = ProcessLocation(deckinit.cstorage());
+            var locstorage = ProcessLocation(deckinit.cstorage()); 
             var deckTree = ProcessDeck(deckinit.deck());
-            return new InitializeAction(locstorage.cardList, deckTree, game, script);
+            if (deckinit.str() == null)
+            {
+                return new InitializeAction(locstorage.cardList, deckTree, "", game, script);
+            }
+            else
+            {
+                return new InitializeAction(locstorage.cardList, deckTree, ProcessString(deckinit.str()), game, script);
+            }
         }
 
         /*********
@@ -699,67 +746,67 @@ namespace FreezeFrame
         }
 
         //this just queues the appropriate actions if condition is met, doesn't execute
-        private bool ProcessStage(RecycleParser.StageContext stage){
+        private bool ProcessStage(RecycleParser.StageContext stage) {
             string text = stage.GetChild(2).GetText();
-			if (stage.endcondition().boolean() != null){
+            if (stage.endcondition().boolean() != null) {
 
-				if (!iteratingSet.Contains (stage)) {
+                if (!iteratingSet.Contains(stage)) {
                     if (text == "player")
                     {
                         game.PushPlayer();
                     } else if (text == "team") {
                         game.PushTeam();
                     }
-				}
+                }
 
-				if (!ProcessBoolean (stage.endcondition ().boolean ())) {
-					Debug.WriteLine("Processing end of stage condition.");
+                if (!ProcessBoolean(stage.endcondition().boolean())) {
+                    Debug.WriteLine("Processing end of stage condition.");
 
-					//Debug.WriteLine("Hit Boolean while!");
-					iterStack.Push (new Queue<IParseTree> ());
-					var topLevel = iterStack.Peek ();
-                    Debug.WriteLine ("Current Player: " + game.CurrentPlayer().idx + ", " + game.players[game.CurrentPlayer().idx]);
+                    //Debug.WriteLine("Hit Boolean while!");
+                    iterStack.Push(new Queue<IParseTree>());
+                    var topLevel = iterStack.Peek();
+                    Debug.WriteLine("Current Player: " + game.CurrentPlayer().idx + ", " + game.players[game.CurrentPlayer().idx]);
                     Debug.WriteLine("Num players (gameiterator): " + game.CurrentPlayer().memberList.Count);
                     foreach (var player in game.players) {
-						//Console.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
-					}
-					for (int i = 4; i < stage.ChildCount - 1; ++i) {
-						//TimeStep.Instance.treeLoc.Push(i - 4);
-						//Debug.WriteLine (TimeStep.Instance);
-						//ProcessSubStage(stage.GetChild(i));
-						topLevel.Enqueue (stage.GetChild (i));
+                        //Console.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
+                    }
+                    for (int i = 4; i < stage.ChildCount - 1; ++i) {
+                        //TimeStep.Instance.treeLoc.Push(i - 4);
+                        //Debug.WriteLine (TimeStep.Instance);
+                        //ProcessSubStage(stage.GetChild(i));
+                        topLevel.Enqueue(stage.GetChild(i));
                         Debug.WriteLine("Child enqueued: " + stage.GetChild(i).GetText());
-						//TimeStep.Instance.treeLoc.Pop();
-					}
-					if (iteratingSet.Contains (stage)) {
-						if (text == "player") {
-							game.CurrentPlayer().Next();
+                        //TimeStep.Instance.treeLoc.Pop();
+                    }
+                    if (iteratingSet.Contains(stage)) {
+                        if (text == "player") {
+                            game.CurrentPlayer().Next();
                             script.WriteToFile("t: " + game.CurrentPlayer().CurrentName());
-						} else if (text == "team") {
-							game.CurrentTeam().Next();
+                        } else if (text == "team") {
+                            game.CurrentTeam().Next();
                             script.WriteToFile("t: " + game.CurrentTeam().CurrentName());
                             Debug.WriteLine("Next team is " + game.CurrentTeam().Current());
-						}
-					}
+                        }
+                    }
 
-				} else {
-					PopCurrentNode();
+                } else {
+                    PopCurrentNode();
 
-					if (iteratingSet.Contains (stage)) {
-						iteratingSet.Remove (stage);
+                    if (iteratingSet.Contains(stage)) {
+                        iteratingSet.Remove(stage);
                         if (text == "player") {
                             game.PopPlayer();
                         } else if (text == "team") {
                             game.PopTeam();
                         }
-						
-					}
-					return false;
-				}
-			}
-			return true;
-			//instance.PopPlayer();
-		}
+
+                    }
+                    return false;
+                }
+            }
+            return true;
+            //instance.PopPlayer();
+        }
 
         /*********
          * GAME ACTION PARSING
@@ -770,45 +817,13 @@ namespace FreezeFrame
             var ret = new GameActionCollection();
             if (actionNode.teamcreate() != null)
             {
-                var teamCreate = actionNode.teamcreate() as RecycleParser.TeamcreateContext;
+                var teamCreate = ProcessTeamCreate(actionNode.teamcreate(), game);
                 ret.Add(new TeamCreateAction(teamCreate, game, script));
             }
             else if (actionNode.initpoints() != null)
             {
-                var points = actionNode.initpoints();
-                var name = points.var().GetText();
-
-                List<ValueTuple<string, string, int>> temp = new List<ValueTuple<string, string, int>>();
-                var awards = points.awards();
-                foreach (RecycleParser.AwardsContext award in awards)
-                {
-                    string key = "";
-                    string value = "";
-                    int reward = ProcessInt(award.@int());
-                    var iter = award.subaward();
-                    foreach (RecycleParser.SubawardContext i in iter)
-                    {
-                        // TODO Is this working properly? I don't think so!
-                        key += i.namegr()[0].GetText() + ",";
-                        if (i.namegr().Length > 1)
-                        {
-                            Debug.WriteLine("*** Found a namegr...)" + i.namegr()[1].GetText());
-
-                            value += i.namegr()[1].GetText() + ",";
-                        }
-                        else
-                        {
-                            Debug.WriteLine("*** Card Att parsing...)");
-                            value += ProcessCardatt(i.cardatt()) + ",";
-                        }
-
-                    }
-                    key = key.Substring(0, key.Length - 1);
-                    value = value.Substring(0, value.Length - 1);
-                    script.WriteToFile("A:" + value + " " + reward);
-                    temp.Add(new ValueTuple<string, string, int>(key, value, reward));
-                }
-                game.table[0].pointBins[name] = new PointMap(temp);
+                var pointAction = actionNode.initpoints();
+                ret.Add(PointAction(pointAction));
             }
             else if (actionNode.copyaction() != null)
             {
@@ -982,7 +997,7 @@ namespace FreezeFrame
             Debug.WriteLine("Got to OWNER");
             var resultingCard = ProcessCard(owner.card()).Get();
             Debug.WriteLine("Result :" + resultingCard);
-            return ((Player)resultingCard.owner.owner.owner).id; 
+            return ((Player)resultingCard.owner.owner.owner).id;
             // Will this crash if not owned by a player?
         }
 
@@ -1149,7 +1164,7 @@ namespace FreezeFrame
         {
             if (card.maxof() != null)
             {
-                var scoring = game.table[0].pointBins[card.maxof().var().GetText()];
+                var scoring = ProcessPointStorage(card.maxof().pointstorage()).Get();
                 var coll = ProcessLocation(card.maxof().cstorage());
                 var max = -1;
                 Card maxCard = null;
@@ -1163,7 +1178,7 @@ namespace FreezeFrame
 
                     if (scoring.GetScore(c) == 0)
                     {
-                        // Console.WriteLine("Weird Card: " + c + " using " + card.maxof().var().GetText());
+                        // Console.WriteLine("Weird Card: " + c);
                     }
                     //MHG when equal, pick randomly
                     if (scoring.GetScore(c) > max || (scoring.GetScore(c) == max && ThreadSafeRandom.Next(0, 2) == 0))
@@ -1187,7 +1202,7 @@ namespace FreezeFrame
 
             if (card.minof() != null)
             {
-                var scoring = game.table[0].pointBins[card.minof().var().GetText()];
+                var scoring = ProcessPointStorage(card.minof().pointstorage()).Get();
                 var coll = ProcessLocation(card.minof().cstorage());
                 var min = Int32.MaxValue;
                 Card minCard = null;
@@ -1247,7 +1262,7 @@ namespace FreezeFrame
                         locIdentifier = card.GetChild(1).GetText(),
                         name = loc.name
                     };
-                
+
                     return fancy;
                 }
             }
@@ -1339,6 +1354,136 @@ namespace FreezeFrame
                 };
                 return fancy;
             }
+            if (loc.intersectof() != null) 
+            {
+                CardCollection temp = new CardCollection(CCType.VIRTUAL);
+                if (loc.intersectof().cstorage().Length > 0)
+                {
+                    Dictionary<Card, int> cardCount = new Dictionary<Card, int>();
+                    foreach (var locChild in loc.intersectof().cstorage())
+                    {
+                        var locs = ProcessLocation(locChild);
+                        name += locs.name + " ";
+                        foreach (var card in locs.cardList.AllCards())
+                        {
+                            if (cardCount.ContainsKey(card))
+                            {
+                                cardCount[card] += 1;
+                            }
+                            else
+                            {
+                                cardCount[card] = 1;
+                            }
+                        }
+                    }
+                    foreach (KeyValuePair<Card, int> kvp in cardCount)
+                    {
+                        if (kvp.Value == loc.intersectof().cstorage().Length)
+                        {
+                            temp.Add(kvp.Key);
+                        }
+                    }
+                    name.Remove(name.Length - 1);
+                }
+                else
+                { //agg
+                    Dictionary<Card, int> cardCount = new Dictionary<Card, int>();
+                    foreach (var locs in (ProcessAgg(loc.intersectof().agg()) as List<CardLocReference>))
+                    {
+                        name += locs.name + " ";
+                        foreach (var card in locs.cardList.AllCards())
+                        {
+                            if (cardCount.ContainsKey(card))
+                            {
+                                cardCount[card] += 1;
+                            }
+                            else
+                            {
+                                cardCount[card] = 1;
+                            }
+                        }
+                    }
+                    foreach (KeyValuePair<Card, int> kvp in cardCount)
+                    {
+                        if (kvp.Value == loc.intersectof().cstorage().Length)
+                        {
+                            temp.Add(kvp.Key);
+                        }
+                    }
+                    name.Remove(name.Length - 1);
+                }
+                var fancy = new CardLocReference()
+                {
+                    cardList = temp,
+                    name = name + "{INTERSECTION}"
+                };
+                return fancy;
+            }
+            else if (loc.disjunctionof() != null) 
+            {
+                CardCollection temp = new CardCollection(CCType.VIRTUAL);
+                if (loc.disjunctionof().cstorage().Length > 0)
+                {
+                    Dictionary<Card, int> cardCount = new Dictionary<Card, int>();
+                    foreach (var locChild in loc.disjunctionof().cstorage())
+                    {
+                        var locs = ProcessLocation(locChild);
+                        name += locs.name + " ";
+                        foreach (var card in locs.cardList.AllCards())
+                        {
+                            if (cardCount.ContainsKey(card))
+                            {
+                                cardCount[card] += 1;
+                            }
+                            else
+                            {
+                                cardCount[card] = 1;
+                            }
+                        }
+                    }
+                    foreach (KeyValuePair<Card, int> kvp in cardCount)
+                    {
+                        if (kvp.Value == 1)
+                        {
+                            temp.Add(kvp.Key);
+                        }
+                    }
+                    name.Remove(name.Length - 1);                    
+                }
+                else
+                { //agg
+                    Dictionary<Card, int> cardCount = new Dictionary<Card, int>();
+                    foreach (var locs in (ProcessAgg(loc.disjunctionof().agg()) as List<CardLocReference>))
+                    {
+                        name += locs.name + " ";
+                        foreach (var card in locs.cardList.AllCards())
+                        {
+                            if (cardCount.ContainsKey(card))
+                            {
+                                cardCount[card] += 1;
+                            }
+                            else
+                            {
+                                cardCount[card] = 1;
+                            }
+                        }
+                    }
+                    foreach (KeyValuePair<Card, int> kvp in cardCount)
+                    {
+                        if (kvp.Value == 1)
+                        {
+                            temp.Add(kvp.Key);
+                        }
+                    }
+                    name.Remove(name.Length - 1);
+                }
+                var fancy = new CardLocReference()
+                {
+                    cardList = temp,
+                    name = name + "{DISJUNCTION}"
+                };
+                return fancy;
+            }
             else if (loc.filter() != null)
             {
                 return ProcessCStorageFilter(loc.filter());
@@ -1377,7 +1522,8 @@ namespace FreezeFrame
         {
             if (memset.tuple() != null)
             {
-                var findEm = new CardGrouping(13, game.table[0].pointBins[memset.tuple().var().GetText()]);
+                var points = ProcessPointStorage(memset.tuple().pointstorage());
+                var findEm = new CardGrouping(13, points.Get());
                 var cardsToScore = new CardCollection(CCType.VIRTUAL);
                 var stor = ProcessLocation(memset.tuple().cstorage());
                 foreach (var card in stor.cardList.AllCards())
@@ -1391,13 +1537,79 @@ namespace FreezeFrame
                     returnList[i] = new CardLocReference()
                     {
                         cardList = pairs[i],
-                        name = "{mem}" + memset.tuple().var().GetText() + "{p" + i + "}"
+                        name = "{mem}" + points.GetName() + "{p" + i + "}"
                     };
                 }
                 return returnList;
             }
+            if (memset.partition() != null)
+            {
+                if (memset.partition().cstorage().Length > 0)
+                {
+                    var partition = new Dictionary<String, CardCollection>();
+                    foreach (var memChild in memset.partition().cstorage())
+                    {
+                        var stor = ProcessLocation(memChild);
+                        foreach (var card in stor.cardList.AllCards())
+                        {
+                            var attr = card.ReadAttribute(ProcessString(memset.partition().str()));
+                            if (partition.ContainsKey(attr))
+                            {
+                                partition[attr].Add(card);
+                            }
+                            else
+                            {
+                                partition[attr] = new CardCollection(CCType.VIRTUAL);
+                                partition[attr].Add(card);
+                            }
+                        }
+                    }
+                    var returnList = new List<CardLocReference>();
+                    foreach (KeyValuePair<String, CardCollection> kvp in partition)
+                    {
+                        returnList.Add(new CardLocReference()
+                        {
+                            cardList = kvp.Value,
+                            name = "{partition}" + "{part: " + kvp + "}"
+                        });
+                    }
+                    return returnList.ToArray();
+                }
+                else
+                {
+                    var partition = new Dictionary<String, CardCollection>();
+                    foreach (var stor in ProcessAgg(memset.partition().agg()) as List<CardLocReference>)
+                    {
+                        foreach (var card in stor.cardList.AllCards())
+                        {
+                            var attr = card.ReadAttribute(ProcessString(memset.partition().str()));
+                            if (partition.ContainsKey(attr))
+                            {
+                                partition[attr].Add(card);
+                            }
+                            else
+                            {
+                                partition[attr] = new CardCollection(CCType.VIRTUAL);
+                                partition[attr].Add(card);
+                            }
+                        }
+
+                    }
+                    var returnList = new List<CardLocReference>();
+                    foreach (KeyValuePair<String, CardCollection> kvp in partition)
+                    {
+                        returnList.Add(new CardLocReference()
+                        {
+                            cardList = kvp.Value,
+                            name = "{partition}" + "{part: " + kvp + "}"
+                        });
+                    }
+                    return returnList.ToArray();
+                }
+            }
             return null;
         }
+
         private CardLocReference ProcessSubLocation(RecycleParser.CstorageContext stor)
         {
             string desc = stor.locdesc().GetText();
@@ -1427,19 +1639,19 @@ namespace FreezeFrame
             Console.WriteLine(stor.GetText());*/
             if (stor.locpre().GetText() == "game")
             {
-                if (stor.namegr() != null)
+                if (stor.str() != null)
                 {
                     var fancy = new CardLocReference()
                     {
-                        cardList = game.table[0].cardBins[prefix, stor.namegr().GetText()],
+                        cardList = game.table[0].cardBins[prefix, stor.str().GetText()],
                         locIdentifier = "top",
-                        name = "table " + prefix + " " + stor.namegr().GetText()
+                        name = "table " + prefix + " " + stor.str().GetText()
                     };
                     return fancy;
                 }
                 else
                 {
-                    string name = ProcessStringVar(stor.var()); 
+                    string name = ProcessStringVar(stor.var());
                     var fancy = new CardLocReference()
                     {
                         cardList = game.table[0].cardBins[prefix, name],
@@ -1457,12 +1669,12 @@ namespace FreezeFrame
             {
                 player = variables.Get(stor.locpre().var()) as Player;
             }
-            if (stor.namegr() != null)
+            if (stor.str() != null)
             {
                 var fancy = new CardLocReference()
                 {
-                    cardList = player.cardBins[prefix, stor.namegr().GetText()],
-                    name = player.name + " "  + prefix + " " +  stor.namegr().GetText()
+                    cardList = player.cardBins[prefix, stor.str().GetText()],
+                    name = player.name + " " + prefix + " " + stor.str().GetText()
                 };
                 return fancy;
             }
@@ -1472,7 +1684,7 @@ namespace FreezeFrame
                 var fancy = new CardLocReference()
                 {
                     cardList = player.cardBins[prefix, name],
-                    name = player.name + " " +  prefix + " " + name
+                    name = player.name + " " + prefix + " " + name
                 };
                 return fancy;
             }
@@ -1481,15 +1693,8 @@ namespace FreezeFrame
         {
             if (cardatt.ChildCount == 1)
             {
-                if (cardatt.namegr() != null)
-                {
-                    Debug.WriteLine("Att1 is " + cardatt.GetText());
-                    return cardatt.GetText();
-                }
-                else if (cardatt.var() != null && cardatt.ChildCount == 1)
-                {
-                    return ProcessStringVar(cardatt.var());
-                }
+                Debug.WriteLine("Att1 is " + cardatt.GetText());
+                return cardatt.GetText();
             }
             else
             {
@@ -1499,20 +1704,11 @@ namespace FreezeFrame
                     var card = loc.Get();
                     if (card != null)
                     {
-                        if (cardatt.namegr() != null)
-                        {
-                            Debug.WriteLine("Att2 is " + card.ReadAttribute(cardatt.namegr().GetText()));
-                            return card.ReadAttribute(cardatt.namegr().GetText());
-                        }
-                        else
-                        {
-                            var str = ProcessStringVar(cardatt.var());
-                            Debug.WriteLine("Att3 is " + card.ReadAttribute(str));
-                            return card.ReadAttribute(str);
-                        }
+                        Debug.WriteLine("Att2 is " + card.ReadAttribute(cardatt.str().GetText()));
+                        return card.ReadAttribute(cardatt.str().GetText());
                     }
                 }
-            }           Debug.WriteLine("Empty Attribute, no cards found");
+            } Debug.WriteLine("Empty Attribute, no cards found");
             //throw new NotSupportedException();
             return "";
         }
@@ -1535,7 +1731,7 @@ namespace FreezeFrame
             if (who.owner() != null)
             {
                 var loc = ProcessCard(who.owner().card());
-                return (Player)loc.Get().owner.owner.owner; 
+                return (Player)loc.Get().owner.owner.owner;
             }
             else
             {
@@ -1575,13 +1771,13 @@ namespace FreezeFrame
                 }
                 else if (text == "next")
                 {
-                    throw new NotImplementedException();
-                    //return instance.CurrentTeam().PeekNext();
+                    //throw new NotImplementedException();
+                    return game.CurrentTeam().PeekNext();
                 }
                 else if (text == "previous")
                 {
-                    throw new NotImplementedException();
-                    //return instance.CurrentTeam().PeekPrevious();
+                    //throw new NotImplementedException();
+                    return game.CurrentTeam().PeekPrevious();
                 }
                 else if (who.whodesc().@int() != null)
                 {
@@ -1710,7 +1906,7 @@ namespace FreezeFrame
 
                     if (temp2 != null)
                     {
-                        if (temp2.locIdentifier != "-1") 
+                        if (temp2.locIdentifier != "-1")
                         {
                             return temp2.Count();
                         }
@@ -1760,10 +1956,26 @@ namespace FreezeFrame
             {
                 return ProcessInt(intNode.@add().@int(0)) + ProcessInt(intNode.@add().@int(1));
             }
+            else if (intNode.exponent() != null)
+            {
+                return Convert.ToInt32(Math.Pow(ProcessInt(intNode.exponent().@int(0)), ProcessInt(intNode.exponent().@int(1))));
+            }
+            else if (intNode.fibonacci() != null) 
+            {
+                return ProcessFibonacci(intNode.fibonacci());
+            }
+            else if (intNode.triangular() != null) 
+            {
+                return ProcessTriangular(intNode.triangular());
+            }
+            else if (intNode.random() != null)
+            {
+                return ProcessRandom(intNode.random());
+            }
             else if (intNode.sum() != null)
             {
                 var sum = intNode.sum();
-                var scoring = game.table[0].pointBins[sum.var().GetText()];
+                var scoring = ProcessPointStorage(sum.pointstorage()).Get();
                 var coll = ProcessLocation(sum.cstorage());
                 int total = 0;
                 foreach (var c in coll.cardList.AllCards())
@@ -1776,7 +1988,7 @@ namespace FreezeFrame
             else if (intNode.score() != null)
             {
                 Debug.WriteLine("trying to score" + intNode.GetText());
-                var scorer = game.table[0].pointBins[intNode.score().var().GetText()];
+                var scorer = ProcessPointStorage(intNode.score().pointstorage()).Get();
                 var card = ProcessCard(intNode.score().card());
                 return scorer.GetScore(card.Get());
             }
@@ -1802,78 +2014,137 @@ namespace FreezeFrame
             return ret;
         }
 
+        private int ProcessRandom(RecycleParser.RandomContext random)
+        {
+            int int1 = ProcessInt(random.GetChild(2) as RecycleParser.IntContext);
+            if (random.GetChild(4) != null) // if second integer is included
+            {
+                // Console.WriteLine("Second variable included.");
+                int int2 = ProcessInt(random.GetChild(4) as RecycleParser.IntContext);
+                return ThreadSafeRandom.Next(int1, int2 + 1);
+            }
+            else // if no second integer
+            {
+                // Console.WriteLine("Second variable not included.");
+                return ThreadSafeRandom.Next(0, int1 + 1);
+            }
+        }
+
+        private int ProcessFibonacci(RecycleParser.FibonacciContext fib)
+        {
+            int int1 = ProcessInt(fib.GetChild(2) as RecycleParser.IntContext);
+            return Convert.ToInt32(((Math.Pow((1 + Math.Sqrt(5)) / 2, int1)) - (Math.Pow((1 - Math.Sqrt(5)) / 2, int1))) / Math.Sqrt(5));
+        }
+
+        private int ProcessTriangular(RecycleParser.TriangularContext tri)
+        {
+            int int1 = ProcessInt(tri.GetChild(2) as RecycleParser.IntContext);
+            return (int1 * (int1 + 1)) / 2;
+        }
+
         private IntStorageReference ProcessIntStorage(RecycleParser.RawstorageContext intSto)
         {
             if (intSto.GetChild(1).GetText() == "game")
             {
-                if (intSto.var().Length == 1)
-                {
-                    String temp = ProcessStringVar(intSto.var()[0]);
-                    return new IntStorageReference(game.table[0].intBins, temp);
-                }
-                else
-                {
-                    return new IntStorageReference(game.table[0].intBins, intSto.namegr().GetText());
-
-                }
+                return new IntStorageReference(game.table[0].intBins, ProcessString(intSto.str()));
             }
             else if (intSto.who() != null)
             {
                 if (intSto.who().whot() != null)
                 {
                     var who = ProcessWho(intSto.who()) as Team;
-                    if (intSto.namegr() != null)
-                    {
-                        return new IntStorageReference(who.intBins, intSto.namegr().GetText());
-                    }
-                    else
-                    {
-                        var temp = ProcessStringVar(intSto.var()[0]);
-                        return new IntStorageReference(who.intBins, temp);
-                    }
+                    return new IntStorageReference(who.intBins, ProcessString(intSto.str()));
                 }
                 else if (intSto.who().whop() != null)
                 {
                     var who = ProcessWho(intSto.who()) as Player;
-                    if (intSto.namegr() != null)
-                    {
-                        return new IntStorageReference(who.intBins, intSto.namegr().GetText());
-                    }
-                    else
-                    {
-                        var temp = ProcessStringVar(intSto.var()[0]);
-                        return new IntStorageReference(who.intBins, temp);
-                    }
+                    return new IntStorageReference(who.intBins, ProcessString(intSto.str()));
                 }
             }
             else
             {
-                var who = variables.Get(intSto.var()[0]);
+                var who = variables.Get(intSto.var());
                 if (who.GetType().Name == "Team")
                 {
                     Team temp = who as Team;
-                    if (intSto.namegr() != null)
-                    {
-                        return new IntStorageReference(temp.intBins, intSto.namegr().GetText());
-                    }
-                    else
-                    {
-                        var str = ProcessStringVar(intSto.var()[1]);
-                        return new IntStorageReference(temp.intBins, str);
-                    }
+                    return new IntStorageReference(temp.intBins, ProcessString(intSto.str()));
                 }
                 else
                 {
                     Player temp = who as Player;
-                    if (intSto.namegr() != null)
-                    {
-                        return new IntStorageReference(temp.intBins, intSto.namegr().GetText());
-                    }
-                    else
-                    {
-                        var str = ProcessStringVar(intSto.var()[1]);
-                        return new IntStorageReference(temp.intBins, str);
-                    }
+                    return new IntStorageReference(temp.intBins, ProcessString(intSto.str()));
+                }
+            }
+            return null;
+        }
+
+        private StrStorageReference ProcessStrStorage(RecycleParser.StrstorageContext strSto)
+        {
+            if (strSto.GetChild(1).GetText() == "game")
+            {
+                return new StrStorageReference(game.table[0].stringBins, ProcessString(strSto.str()));
+            }
+            else if (strSto.who() != null)
+            {
+                if (strSto.who().whot() != null)
+                {
+                    var who = ProcessWho(strSto.who()) as Team;
+                    return new StrStorageReference(who.stringBins, ProcessString(strSto.str()));
+                }
+                else if (strSto.who().whop() != null)
+                {
+                    var who = ProcessWho(strSto.who()) as Player;
+                    return new StrStorageReference(who.stringBins, ProcessString(strSto.str()));
+                }
+            }
+            else
+            {
+                var who = variables.Get(strSto.var());
+                if (who.GetType().Name == "Team")
+                {
+                    Team temp = who as Team;
+                    return new StrStorageReference(temp.stringBins, ProcessString(strSto.str()));
+                }
+                else
+                {
+                    Player temp = who as Player;
+                    return new StrStorageReference(temp.stringBins, ProcessString(strSto.str()));
+                }
+            }
+            return null;
+        }
+
+        private PointStorageReference ProcessPointStorage(RecycleParser.PointstorageContext ptSto)
+        {
+            if (ptSto.GetChild(1).GetText() == "game")
+            {
+                return new PointStorageReference(game.table[0].pointBins, ProcessString(ptSto.str()));
+            }
+            else if (ptSto.who() != null)
+            {
+                if (ptSto.who().whot() != null)
+                {
+                    var who = ProcessWho(ptSto.who()) as Team;
+                    return new PointStorageReference(who.pointBins, ProcessString(ptSto.str()));
+                }
+                else if (ptSto.who().whop() != null)
+                {
+                    var who = ProcessWho(ptSto.who()) as Player;
+                    return new PointStorageReference(who.pointBins, ProcessString(ptSto.str()));
+                }
+            }
+            else
+            {
+                var who = variables.Get(ptSto.var());
+                if (who.GetType().Name == "Team")
+                {
+                    Team temp = who as Team;
+                    return new PointStorageReference(temp.pointBins, ProcessString(ptSto.str()));
+                }
+                else
+                {
+                    Player temp = who as Player;
+                    return new PointStorageReference(temp.pointBins, ProcessString(ptSto.str()));
                 }
             }
             return null;
@@ -1884,6 +2155,44 @@ namespace FreezeFrame
             var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             return new IntAction(bin.storage, bin.key, setValue, script);
+        }
+
+        private GameAction PointAction(RecycleParser.InitpointsContext points)
+        {
+            var bin = ProcessPointStorage(points.pointstorage());
+
+            List<ValueTuple<string, string, int>> temp = new List<ValueTuple<string, string, int>>();
+            var awards = points.awards();
+            foreach (RecycleParser.AwardsContext award in awards)
+            {
+                string key = "";
+                string value = "";
+                int reward = ProcessInt(award.@int());
+                var iter = award.subaward();
+                foreach (RecycleParser.SubawardContext i in iter)
+                {
+                    // TODO Is this working properly? I don't think so!
+                    key += i.str()[0].GetText() + ",";
+                    if (i.str().Length > 1)
+                    {
+                        Debug.WriteLine("*** Found a namegr...)" + i.str()[1].GetText());
+
+                        value += i.str()[1].GetText() + ",";
+                    }
+                    else
+                    {
+                        Debug.WriteLine("*** Card Att parsing...)");
+                        value += ProcessCardatt(i.cardatt()) + ",";
+                    }
+
+                }
+                key = key.Substring(0, key.Length - 1);
+                value = value.Substring(0, value.Length - 1);
+                script.WriteToFile("A:" + value + " " + reward);
+                temp.Add(new ValueTuple<string, string, int>(key, value, reward));
+            }
+            var setValue = new PointMap(temp);
+            return new PointsAction(bin.storage, bin.key, setValue, script);
         }
 
         private GameAction IncAction(RecycleParser.IncactionContext setAction)
@@ -2201,11 +2510,11 @@ namespace FreezeFrame
 
                 return ProcessBoolean(typed.boolean());
             }
-            else if (typed.namegr() != null)
+            else if (typed.str() != null)
             {
-                Debug.WriteLine("Processing type: namegr");
+                Debug.WriteLine("Processing type: str");
 
-                return typed.namegr().GetText();
+                return typed.str().GetText();
             }
             else if (typed.var() != null)
             {
@@ -2291,6 +2600,25 @@ namespace FreezeFrame
             return null;
         }
 
+        private string ProcessString(RecycleParser.StrContext str)
+        {
+            if (str.namegr() != null) {
+                return str.namegr().GetText();
+            }
+            else if (str.var() != null)
+            {
+                return ProcessStringVar(str.var());
+            }
+            else if (str.strstorage() != null)
+            {
+                return ProcessStrStorage(str.strstorage()).Get();
+            }
+            else
+            {
+                throw new InvalidDataException();
+            }
+        }
+
         private string ProcessStringVar(RecycleParser.VarContext var)
         {
             if (variables.Get(var) is String s)
@@ -2303,6 +2631,20 @@ namespace FreezeFrame
                 throw new NotImplementedException();
             }
         }
+
+        private PointMap ProcessPointVar(RecycleParser.VarContext var)
+        {
+            if (variables.Get(var) is PointMap pm)
+            {
+                return pm;
+            }
+            else
+            {
+                Debug.WriteLine("Error, type is: " + variables.Get(var).GetType());
+                throw new NotImplementedException();
+            }
+        }
+
         private bool All(RecycleParser.AggContext agg)
         {
             return agg.GetChild(1).GetText() == "all";

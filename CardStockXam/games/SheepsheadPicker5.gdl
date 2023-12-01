@@ -20,7 +20,7 @@
       (repeat all
               (move (top (game vloc DISCARD)) 
                     (top (game iloc STOCK))))
-      (put points 'SCORE 
+      (set (game points SCORE)
            (
             ((RANK (FOURTEEN)) 3)
             ((RANK (THIRTEEN)) 3) 
@@ -144,7 +144,7 @@
         ;; after players play hand, computer wraps up trick
         (do ( 
              ;; solidfy card recedence
-             (put points 'PRECEDENCE 
+             (set (game points PRECEDENCE)
                   (
                    ((COLOR (cardatt COLOR (top (game mem LEAD)))) 100)
                    ((COLOR (RED)) 200)
@@ -167,7 +167,7 @@
              ;; determine who won the hand, set them first next time, and give them a point
              (forget (top (game mem LEAD)))
              (cycle next (owner (max (union (all player 'P 
-                                                 ('P vloc TRICK))) using 'PRECEDENCE)))
+                                                 ('P vloc TRICK))) using (game points PRECEDENCE))))
                                         
              ;; discard all the played cards
              (all player 'P
@@ -189,11 +189,11 @@
         (do 
             (((or (== ((current player) sto PICKER) 1)
                   (== ((current player) sto PARTNER) 1))
-              (inc (game sto CALLERS) (sum ((current player) vloc TRICKSWON) using 'SCORE)))
+              (inc (game sto CALLERS) (sum ((current player) vloc TRICKSWON) using (game points SCORE))))
              ((and (!= ((current player) sto PICKER) 1)
                    (!= ((current player) sto PARTNER) 1))
-              (inc (game sto OPPOSITION) (sum ((current player) vloc TRICKSWON) using 'SCORE)))
-             (set ((current player) sto TSCORE) (sum ((current player) vloc TRICKSWON) using 'SCORE))
+              (inc (game sto OPPOSITION) (sum ((current player) vloc TRICKSWON) using (game points SCORE))))
+             (set ((current player) sto TSCORE) (sum ((current player) vloc TRICKSWON) using (game points SCORE)))
              (set ((current player) sto TSUM) (size ((current player) vloc TRICKSWON)))
              (repeat all
                      (move (top ((current player) vloc TRICKSWON))

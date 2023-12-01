@@ -21,7 +21,7 @@
              (repeat all
                      (move (top (game vloc DISCARD)) 
                            (top (game iloc STOCK))))
-             (put points 'SCORE 
+             (set (game points SCORE)
                   (
                    ((SUIT (HEARTS)) 1) 
                    ((RANK (Q)) (SUIT (SPADES)) 13)))
@@ -80,7 +80,7 @@
                ;; after players play hand, computer wraps up trick
                (do ( 
                     ;; solidfy card recedence
-                    (put points 'PRECEDENCE 
+                    (set (game points PRECEDENCE) 
                          (
                           ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
                           ((RANK (A)) 14)
@@ -100,7 +100,7 @@
                     ;; determine who won the hand, set them first next time, and give them a point
                     (forget (top (game mem LEAD)))
                     (cycle next (owner (max (union (all player 'P 
-                                                        ('P vloc TRICK))) using 'PRECEDENCE)))
+                                                        ('P vloc TRICK))) using (game points PRECEDENCE))))
                                         
                     ;; discard all the played cards
                     (all player 'P
@@ -113,7 +113,7 @@
                 (all player 'P (== (size ('P vloc TRICKSWON)) 0)))
                (do 
                    (                                       
-                    (inc ((current player) sto SCORE) (sum ((current player) vloc TRICKSWON) using 'SCORE))
+                    (inc ((current player) sto SCORE) (sum ((current player) vloc TRICKSWON) using (game points SCORE)))
                     
                     (repeat all
                             (move (top ((current player) vloc TRICKSWON))

@@ -16,7 +16,7 @@
  
  (do 
      (
-      (put points 'SCORE 
+      (set (game points SCORE)
            (
             ((RANK (A)) 1)
             ((RANK (K)) 10) 
@@ -46,7 +46,7 @@
       ;; If an eight on top, just pick HEARTS to be the start suit.
       ((== (cardatt RANK (top (game vloc DISCARD)))
                EIGHT)
-       (set (game str EIGHTSUIT) HEARTS))))
+       (set (game sto EIGHTSUIT) (SUIT (HEARTS))))))
  
  ;; Game over when any player has 0 cards in their hand
  (stage player
@@ -59,7 +59,7 @@
          (
           
           ;; Play a card that matches suit or rank on top of discard
-          ((!= (cardatt RANK (top (game vloc DISCARD)))
+          ((!= (cardatt RANK (top (game vloc DISCARD))) 
                EIGHT)
            (any (filter ((current player) iloc HAND) 'NH 
                         (or (== (cardatt SUIT 'NH)
@@ -120,6 +120,6 @@
                    (shuffle (game iloc STOCK))))))))
  
  ;; Player with the smallest hand size wins
- (scoring min (sum ((current player) iloc HAND) using 'SCORE)))
+ (scoring min (sum ((current player) iloc HAND) using (game points SCORE))))
 
 

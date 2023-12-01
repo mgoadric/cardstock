@@ -24,7 +24,7 @@
            (repeat 17
                    (move (top (game iloc STOCK))
                          (top ('P iloc HAND)))))
-      (put points 'KNAVES 
+      (set (game points KNAVES)
            (
             ((RANK (JACK)) (SUIT (HEARTS)) 4)
             ((RANK (JACK)) (SUIT (DIAMONDS)) 3)
@@ -83,7 +83,7 @@
         ;; after players play hand, computer wraps up trick
         (do (
              ;; solidfy card recedence
-             (put points 'PRECEDENCE 
+             (set (game points PRECEDENCE)
                   (
                    ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 200)
                    ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
@@ -104,11 +104,11 @@
              ;; determine who won the hand, set them first next time
              (forget (top (game mem LEAD)))
              (cycle next (owner (max (union (all player 'P 
-                                                 ('P vloc TRICK))) using 'PRECEDENCE)))
+                                                 ('P vloc TRICK))) using (game points PRECEDENCE))))
                           
              ;; discard all the played cards
              (all player 'P
                   (move (top ('P vloc TRICK)) 
                         (top ((next player) vloc TRICKSWON)))))))
  
- (scoring max (- (// (size ((current player) vloc TRICKSWON)) 3) (sum ((current player) vloc TRICKSWON) using 'KNAVES))))
+ (scoring max (- (// (size ((current player) vloc TRICKSWON)) 3) (sum ((current player) vloc TRICKSWON) using (game points KNAVES)))))

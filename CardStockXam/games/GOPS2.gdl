@@ -19,7 +19,7 @@
      ( 
       
       ;; Create the deck source
-      (put points 'PRECEDENCE 
+      (set (game points PRECEDENCE)
            (
             ((RANK (A)) 1)
             ((RANK (K)) 13) 
@@ -79,13 +79,13 @@
               (repeat all 
                       (move (top (game vloc AWARD))
                             (top ((owner (max (union (all player 'P 
-                                                          ('P vloc TRICK))) using 'PRECEDENCE)) vloc WON)))))
+                                                          ('P vloc TRICK))) using (game points PRECEDENCE))) vloc WON)))))
              
              ;; Discard cards
              (all player 'P 
                   (move (top ('P vloc TRICK))
                         (top (game vloc DISCARD)))))))
  
- (scoring max (sum ((current player) vloc WON) using 'PRECEDENCE)))
+ (scoring max (sum ((current player) vloc WON) using (game points PRECEDENCE))))
 
 

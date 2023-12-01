@@ -1,4 +1,5 @@
 ;; SPADES in the GDL
+;; https://www.pagat.com/auctionwhist/spades.html
 (game
  
  (setup 
@@ -123,7 +124,7 @@
                (do 
                    (
                     ;; solidfy card recedence
-                    (put points 'PRECEDENCE 
+                    (set (game points PRECEDENCE) 
                          (
                           ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 200)
                           ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
@@ -144,7 +145,7 @@
                     ;; determine who won the hand, set them first next time, and give them a point
                     (forget (top (game mem LEAD)))
                     (cycle next (owner (max (union (all player 'P 
-                                                        ('P vloc TRICK))) using 'PRECEDENCE)))
+                                                        ('P vloc TRICK))) using (game points PRECEDENCE))))
                     (inc ((next player) sto TRICKSWON) 1)
                     (inc ((team (next player)) sto TRICKSWON) 1)
                     
