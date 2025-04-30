@@ -1,0 +1,142 @@
+;; Page One
+;;
+;; https://www.pagat.com/inflation/page_one.html
+
+(game
+ (declare 3 'NUMP)
+ (setup 
+  (create players 'NUMP)
+  (create teams (0) (1) (2))  
+  
+  ;; Create the deck source 
+  (create deck (game iloc STOCK) (deck (RANK (ACE, TWO, THREE, FOUR, FIVE, SIX, 
+                                                 SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (SPADES, CLUBS))))))
+  (create deck (game iloc STOCK) (deck (RANK (JOKER)))))
+ 
+ ;; Shuffle and deal each player 4 cards
+ (do 
+     (
+      (shuffle (game iloc STOCK))
+      (all player 'P 
+           (repeat 4
+                   (move (top (game iloc STOCK))
+                         (top ('P iloc HAND)))))))
+ 
+ ;; players play until one person out of cards         
+ (stage player
+        (end 
+         (or (any player 'P 
+                  (== (size ('P iloc HAND)) 0))
+             (== (game sto DRAW) 1)))
+        
+        ;; players play a hand once     
+        (stage player
+               (end
+                (or (any player 'P 
+                         (== (size ('P iloc HAND)) 0))
+                    (all player 'P 
+                         (> (size ('P vloc TRICK)) 0))
+                    (== (game sto DRAW) 1)))
+               
+               (choice 
+                (
+                 
+                 ;; if following player cannot follow SUIT and no joker (size is 0 of filter)
+                 ;;   draw a card and go again  
+                 ((and (> (size (game mem LEAD)) 0)
+                       (== (size (filter ((current player) iloc HAND) 'C 
+                                         (or (== (cardatt RANK 'C)
+                                                 JOKER)
+                                             (== (cardatt SUIT 'C)
+                                                 (cardatt SUIT (top (game mem LEAD))))))) 0))
+                  (do 
+                      (
+                       (move (top (game iloc STOCK))
+                             (top ((current player) iloc HAND)))
+                       (cycle next current))))                 
+                 
+                 ;; if following player and can follow SUIT or have the JOKER
+                 ;;   play any card that follows SUIT
+                 (any (filter ((current player) iloc HAND) 'T 
+                              (or (== (cardatt SUIT 'T)
+                                      (cardatt SUIT (top (game mem LEAD))))
+                                  (== (cardatt RANK 'T)
+                                      JOKER)))
+                      'C
+                      ((> (size (game mem LEAD)) 0)
+                       (move 'C 
+                             (top ((current player) vloc TRICK)))))
+                 
+                 ;; if following player and 
+                 
+                 ;; if first player or playing after a joker was lead, play any card, remember it in the lead spot, and end your turn
+                 ((or (== (size (game mem LEAD)) 0)
+                      (== (cardatt RANK (top (game mem LEAD)))
+                          JOKER))
+                  (any ((current player) iloc HAND) 'AC
+                       (do 
+                           (
+                            (move 'AC
+                                  (top ((current player) vloc TRICK)))
+                            (remember (top ((current player) vloc TRICK)) 
+                                      (top (game mem LEAD)))))))))
+               
+               ;; Restock the deck if necessary
+               (do 
+                   (
+                    ((== (size (game iloc STOCK)) 0)
+                     (do 
+                         (
+                          (repeat all
+                                  (move (top (game vloc DISCARD)) 
+                                        (top (game iloc STOCK))))
+                          (shuffle (game iloc STOCK)))))
+                    
+                    ;; if still no cards, declare a draw
+                    ((== (size (game iloc STOCK)) 0)
+                     (set (game sto DRAW) 1)))))
+        
+        ;; after players play hand, computer wraps up trick
+        (do 
+            (
+             ;; solidfy card precedence
+             (set (game points PRECEDENCE)
+                  (
+                   ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
+                   ((RANK (JOKER)) 200)
+                   ((RANK (ACE)) 14)
+                   ((RANK (K)) 13)
+                   ((RANK (Q)) 12)
+                   ((RANK (J)) 11)
+                   ((RANK (TEN)) 10)
+                   ((RANK (NINE)) 9)
+                   ((RANK (EIGHT)) 8)
+                   ((RANK (SEVEN)) 7)
+                   ((RANK (SIX)) 6)
+                   ((RANK (FIVE)) 5)
+                   ((RANK (FOUR)) 4)
+                   ((RANK (THREE)) 3)
+                   ((RANK (TWO)) 2)))
+             
+             (forget (top (game mem LEAD)))
+             
+             ;; determine who won the hand, set them first next time
+             (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE))))
+             
+             (all player 'P 
+                  ((> (size ('P vloc TRICK)) 0)
+                   (move (top ('P vloc TRICK)) 
+                         (top (game vloc DISCARD)))))
+             
+             ;; if a draw, then throw out all cards, everyone gets a score of 0
+             ((== (game sto DRAW) 1)
+              (all player 'P 
+                   ((> (size ('P iloc HAND)) 0)
+                    (repeat all
+                            (move (top ('P iloc HAND)) 
+                                  (top (game vloc DISCARD))))))))))
+ 
+ ;; Player with least number of cards wins
+ (scoring min (size ((current player) iloc HAND))))

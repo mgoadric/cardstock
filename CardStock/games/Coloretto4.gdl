@@ -1,0 +1,176 @@
+;; Coloretto by Michale Schacht 2003
+
+(game
+ (declare (ONE, TWO, THREE, FOUR) 'ROWS)
+ (declare (BROWN, GREY, BLUE, GREEN, YELLOW, PINK, RED) 'COLORS)
+ (declare 4 'NUMP)
+ (setup
+  (create players 'NUMP)
+  (create teams (0) (1) (2) (3))
+  
+  (repeat 9 (create deck (game iloc STOCK) (deck (COLOR (BROWN, GREY, BLUE, GREEN,
+                                                         YELLOW, PINK, RED)))))
+  ;; ADD IN JOKER RULES TODO
+  ;;(repeat 3 (create deck (game iloc STOCK) (deck (COLOR (JOKER)))))
+  
+  (repeat 'NUMP (create deck (game vloc ROWS) (deck (TYPE (ROW)))))
+  (repeat 10 (create deck (game iloc EXTRA) (deck (TYPE (PLUSTWO))))))
+ 
+ (do    
+     (     
+      ;; deal 1 color different per person
+      ;; and a row card
+      (all player 'P 
+           (do 
+               (
+                (move (top (game iloc STOCK))
+                      (top ('P vloc HAND)))
+                (move (top (game vloc ROWS))
+                      (top ('P vloc ROW))))))
+      (repeat all
+              (move (top (game iloc EXTRA))
+                    (top (game iloc STOCK))))
+      (shuffle (game iloc STOCK))))
+ 
+ (stage player
+        (end 
+         (== (game sto LAST) 1))
+        
+        ;; Create the rows for player to choose
+        (do
+            (
+             (all player 'P 
+                  (move (top ('P vloc ROW)) 
+                        (top (game vloc ROWS))))
+             (all 'ROWS 'R
+                  (move (top (game vloc ROWS))
+                        (top (game vloc 'R))))))
+        
+        ;; A round where a players build and then choose a row
+        (stage player
+               (end
+                (all 'ROWS 'R (== (size (game vloc 'R)) 0)))
+               
+               (choice 
+                (
+                 
+                 ;; if you already took a row this round, pass
+                 ((!= (size ((current player) vloc ROW)) 0)
+                  (turn pass))
+                 
+                 ;; Draw and place a card
+                 (any 'ROWS 'R
+                      ((and (== (size ((current player) vloc ROW)) 0)
+                            (> (size (game vloc 'R)) 0)
+                            (< (size (game vloc 'R)) 4))
+                       (move (top (game iloc STOCK))
+                             (top (game vloc 'R)))))
+                 
+                 ;; Take a card row
+                 (any 'ROWS 'R
+                      ((and (== (size ((current player) vloc ROW)) 0)
+                            (> (size (game vloc 'R)) 1))
+                       (do 
+                           (
+                            (move (bottom (game vloc 'R))
+                                  (top ((current player) vloc ROW)))
+                            (repeat all (move (top (game vloc 'R))
+                                              (top ((current player) vloc HAND)))))))))))
+        
+        ;; Somehow record who goes next.... player who took last row TODO
+        
+        
+        ;; determine if this was the last round
+        (do 
+            (
+             ((< (size (game iloc STOCK)) 15)
+              (set (game sto LAST) 1)))))
+ 
+ ;; calculate the scores for each player
+ ;; THIS IS INSERTION SORT!!! SO UGLY!!! OMG IT WORKS!
+ (do 
+     (
+      (all player 'P
+           (do
+               (
+                (all 'COLORS 'C 
+                     (let (filter ('P vloc HAND) 'CARD (== (cardatt COLOR 'CARD) 'C)) 'CUR 
+                       (do 
+                           (
+                            ((<= (size 'CUR) ('P sto SIXTH))
+                             (set ('P sto SEVENTH) (size 'CUR)))
+                            
+                            ((and (> (size 'CUR) ('P sto SIXTH))
+                                  (<= (size 'CUR) ('P sto FIFTH)))
+                             (do 
+                                 (
+                                  (set ('P sto SEVENTH) ('P sto SIXTH))
+                                  (set ('P sto SIXTH) (size 'CUR)))))
+                            
+                            ((and (> (size 'CUR) ('P sto FIFTH))
+                                  (<= (size 'CUR) ('P sto FOURTH)))
+                             (do 
+                                 (
+                                  (set ('P sto SEVENTH) ('P sto SIXTH))
+                                  (set ('P sto SIXTH) ('P sto FIFTH))
+                                  (set ('P sto FIFTH) (size 'CUR)))))
+                            
+                            ((and (> (size 'CUR) ('P sto FOURTH))
+                                  (<= (size 'CUR) ('P sto THIRD)))
+                             (do 
+                                 (
+                                  (set ('P sto SEVENTH) ('P sto SIXTH))
+                                  (set ('P sto SIXTH) ('P sto FIFTH))
+                                  (set ('P sto FIFTH) ('P sto FOURTH))
+                                  (set ('P sto FOURTH) (size 'CUR)))))
+                            
+                            ((and (> (size 'CUR) ('P sto THIRD))
+                                  (<= (size 'CUR) ('P sto SECOND)))
+                             (do 
+                                 (
+                                  (set ('P sto SEVENTH) ('P sto SIXTH))
+                                  (set ('P sto SIXTH) ('P sto FIFTH))
+                                  (set ('P sto FIFTH) ('P sto FOURTH))
+                                  (set ('P sto FOURTH) ('P sto THIRD))
+                                  (set ('P sto THIRD) (size 'CUR)))))
+                            
+                            ((and (> (size 'CUR) ('P sto SECOND))
+                                  (<= (size 'CUR) ('P sto FIRST)))
+                             (do 
+                                 (
+                                  (set ('P sto SEVENTH) ('P sto SIXTH))
+                                  (set ('P sto SIXTH) ('P sto FIFTH))
+                                  (set ('P sto FIFTH) ('P sto FOURTH))
+                                  (set ('P sto FOURTH) ('P sto THIRD))
+                                  (set ('P sto THIRD) ('P sto SECOND))
+                                  (set ('P sto SECOND) (size 'CUR)))))
+
+                            ((> (size 'CUR) ('P sto FIRST))
+                             (do 
+                                 (
+                                  (set ('P sto SEVENTH) ('P sto SIXTH))
+                                  (set ('P sto SIXTH) ('P sto FIFTH))
+                                  (set ('P sto FIFTH) ('P sto FOURTH))
+                                  (set ('P sto FOURTH) ('P sto THIRD))
+                                  (set ('P sto THIRD) ('P sto SECOND))
+                                  (set ('P sto SECOND) ('P sto FIRST))
+                                  (set ('P sto FIRST) (size 'CUR)))))))))
+                
+                ;; Max out the scores at 6
+                (all (FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH) 'PLACE
+                     ((> ('P sto 'PLACE) 6)
+                      (set ('P sto 'PLACE) 6)))
+                
+                ;; Add triangular scoring for the top three
+                (all (FIRST, SECOND, THIRD) 'TOP
+                     (inc ('P sto SCORE) (// (* ('P sto 'TOP) (+ ('P sto 'TOP) 1)) 2)))
+
+                ;; subtract triangular scoring for bottom four
+                (all (FOURTH, FIFTH, SIXTH, SEVENTH) 'BOT
+                     (dec ('P sto SCORE) (// (* ('P sto 'BOT) (+ ('P sto 'BOT) 1)) 2)))
+                
+                ;; add in the +2 cards collected
+                (inc ('P sto SCORE) (* 2 (size (filter ('P vloc HAND) 'CARD (== (cardatt TYPE 'CARD) PLUSTWO))))))))))
+
+
+ (scoring max ((current player) sto SCORE)))

@@ -1,0 +1,55 @@
+(game
+ (setup 
+  (create players 4)
+  (create teams (0) (1) (2) (3))
+  (create deck (game iloc STOCK) (deck (rank (3, 4, 5, 6, 7, 8, 9, 10))
+                                       (color (red (suit (hearts, diamonds)))
+                                              (black (suit (clubs, spades))))))         
+  (create deck (game iloc STOCK) (deck (rank (A))
+                                       (color (red (suit (hearts, diamonds)))
+                                              (black (suit (clubs)))))))
+ (comp (()
+        (shuffle (game iloc STOCK))
+        (move (top (game iloc STOCK))
+              (top ((all player) iloc HAND)) 6))) 
+ (stage player
+        (end (== (size ((all player) iloc HAND)) 0))
+        (stage player
+               (end (> (size ((all player) vloc TRICK)) 0))
+               (choice
+                 ((and (== (size (game mem LEAD)) 1)
+                      (== (size ((current player) iloc HAND where 
+                                  (all (== (cardatt suit each) 
+                                           (cardatt suit (top (game mem LEAD))))))) 0))
+                 (move (any ((current player) iloc HAND)) 
+                       (top ((current player) vloc TRICK))))                
+                ((and (== (size (game mem LEAD)) 1)
+                      (!= (size ((current player) iloc HAND where 
+                                  (all (== (cardatt suit each) 
+                                           (cardatt suit (top (game mem LEAD))))))) 0))
+                 (move (any ((current player) iloc HAND where 
+                              (all (== (cardatt suit each) 
+                                       (cardatt suit (top (game mem LEAD))))))) 
+                       (top ((current player) vloc TRICK))))
+                ((== (size (game mem LEAD)) 0)
+                 (move (any ((current player) iloc HAND)) 
+                       (top ((current player) vloc TRICK)))
+                 (remember (top ((current player) vloc TRICK)) 
+                           (top (game mem LEAD))))))
+        (comp
+         (() 
+          (initialize points PRECEDENCE (
+             (all (suit (cardatt suit (top (game mem LEAD)))) 100)
+             (all (rank (A)) 14)  (all (rank (10)) 10)
+             (all (rank (9)) 9)   (all (rank (8)) 8)
+             (all (rank (7)) 7)   (all (rank (6)) 6)
+             (all (rank (5)) 5)   (all (rank (4)) 4)
+             (all (rank (3)) 3)))             
+          (forget (top (game mem LEAD)))
+          (cycle next (owner (max (union ((all player) vloc TRICK)) using PRECEDENCE)))
+          (move (top ((all player) vloc TRICK)) 
+                (top (game vloc DISCARD))))
+         ((== (size ((all player) iloc HAND)) 0)
+          (inc ((next player) sto SCORE) 1))))
+ (scoring max (((current player) player) sto SCORE))
+)

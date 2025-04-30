@@ -1,0 +1,124 @@
+;; LAMA by Reiner Knizia 2019
+;; https://boardgamegeek.com/filepage/180052/lama-official-rules
+
+(game
+ (declare 6 'NUMP)
+ (setup
+  (create players 'NUMP)
+  
+  (repeat 8 (create deck (game vloc DISCARD) (deck (NUMBER (ONE, TWO, THREE, FOUR,
+                                                               FIVE, SIX, LLAMA))))))
+ 
+ (do    
+     (   
+      (set (game points VALUE)
+           (
+            ((NUMBER (ONE)) 1)
+            ((NUMBER (TWO)) 2)
+            ((NUMBER (THREE)) 3)
+            ((NUMBER (FOUR)) 4)
+            ((NUMBER (FIVE)) 5)
+            ((NUMBER (SIX)) 6)
+            ((NUMBER (LLAMA)) 7)))))
+ 
+ 
+ (stage player 
+        (end 
+         (any player 'P
+              (>= ('P sto SCORE) 1)))   ;; 40 for full game, 1 for one round
+  (do    
+     (            
+      (repeat all
+              (move (top (game vloc DISCARD))
+                    (top (game iloc STOCK))))
+      (shuffle (game iloc STOCK))
+      (all player 'P
+           (repeat 6
+                   (move (top (game iloc STOCK))
+                         (top ('P iloc HAND)))))
+      (move (top (game iloc STOCK))
+            (top (game vloc DISCARD)))))
+ 
+
+ 
+ (stage player
+        (end (or (any player 'P
+                      (and (== (size ('P iloc HAND)) 0)
+                           (== (size ('P iloc QUIT)) 0)))
+                 (all player 'P
+                      (!= (size ('P iloc QUIT)) 0))))
+        
+        (choice
+         (
+          ;; Pass if already quit
+          ((> (size ((current player) iloc QUIT)) 0)
+           (turn pass))
+          
+          ;; Play a card
+          (do
+              (
+               (any ((current player) iloc HAND) 'C
+                    ((or (== (score (top (game vloc DISCARD)) using (game points VALUE))  ;; same
+                            (score 'C using (game points VALUE)))
+                        (== (score (top (game vloc DISCARD)) using (game points VALUE))  ;; one more
+                            (- (score 'C using (game points VALUE)) 1))
+                        (== (score 'C using (game points VALUE))  ;; llama wrap to 1
+                            (- (score (top (game vloc DISCARD)) using (game points VALUE)) 6)))
+                     
+                     (move 'C 
+                           (top (game vloc DISCARD)))))))
+          
+          ;; Draw a card
+          ((and (!= (size (game iloc STOCK)) 0)   ;; there are cards
+                (== (size ((current player) iloc QUIT)) 0)   ;; this player has not quit
+                (any (other player) 'OP   ;; at least one other player has not quit
+                     (== (size ('OP iloc QUIT)) 0)))
+                                 
+           (move (top (game iloc STOCK))
+                 (top ((current player) iloc HAND))))
+          
+          ;; Quit the round
+          (repeat all
+                  (move (top ((current player) iloc HAND))
+                        (top ((current player) iloc QUIT))))))
+        
+        )
+ 
+ (do 
+     (
+      (all player 'P
+           (do
+               (
+                ;; if the player ended by playing last card in hand,
+                ;; can return a token (1 if less than 10, 10 if >= 10)
+                ((and (== (size ('P iloc HAND)) 0)
+                      (== (size ('P iloc QUIT)) 0)
+                      (> ('P sto SCORE) 0))
+                 (do
+                     (
+                      (dec ('P sto SCORE) 1)
+                      ((>= ('P sto SCORE) 9)
+                       (dec ('P sto SCORE) 9)))))
+                
+                ;; put all cards in QUIT for scoring
+                (repeat all
+                        (move (top ('P iloc HAND))
+                              (top ('P iloc QUIT))))
+                
+                
+                ;; Score only one card per value
+                (all (range 1..8) 'S
+                     (do 
+                         (
+                          ((> (size (filter ('P iloc QUIT) 'H (== (score 'H using (game points VALUE)) 'S))) 0)
+                           (do
+                               (
+                                (inc ('P sto SCORE) 'S)
+                                ((== 'S 7)
+                                 (inc ('P sto SCORE) 3))))))))
+                (repeat all
+                        (move (top ('P iloc QUIT))
+                              (top (game vloc DISCARD))))))))))
+                                 
+ 
+ (scoring min ((current player) sto SCORE)))

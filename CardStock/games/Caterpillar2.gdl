@@ -1,0 +1,120 @@
+;; Caterpillar
+;;
+;; http://www.parlettgames.uk/oricards/caterpil.html
+
+(game
+ (declare 2 'NUMP)
+ (setup
+  (create players 'NUMP)
+  (create teams (0) (1))
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (SPADES, CLUBS)))))))
+ 
+ (do (
+      (set (game points POINTS)
+           (
+            ((RANK (A)) 1)
+            ((RANK (K)) 0) 
+            ((RANK (Q)) 0)
+            ((RANK (J)) 0)
+            ((RANK (TEN)) 10)
+            ((RANK (NINE)) 9)
+            ((RANK (EIGHT)) 8)
+            ((RANK (SEVEN)) 7)
+            ((RANK (SIX)) 6)
+            ((RANK (FIVE)) 5)
+            ((RANK (FOUR)) 4)
+            ((RANK (THREE)) 3)
+            ((RANK (TWO)) 2)))
+      
+      ;; Shuffle and deal each player 13 cards
+      (shuffle (game iloc STOCK))
+      (all player 'P
+           (repeat 13
+                   (move (top (game iloc STOCK))
+                         (top ('P iloc HAND)))))))
+ 
+ ;; Play until the STOCK is empty or a player has no more Court cards
+ (stage player
+        (end 
+         (or (== (size (game iloc STOCK)) 0)
+             (any player 'P 
+                  (== ('P sto COURTSHORT) 1))))
+        
+        (choice 
+         (
+          
+          ;; First check if COURTSHORT
+          (let (filter ((current player) iloc HAND) 'NH 
+                       (or (== (score 'NH using (game points POINTS)) 0)
+                           (== (cardatt SUIT 'NH)
+                               (cardatt SUIT (top (game vloc CAT)))))) 'C
+            ((and (== (size 'C) 0) 
+                  (> (size (game vloc CAT)) 0))
+             (set ((current player) sto COURTSHORT) 1)))          
+          
+          ;; starting play can be any non-court card
+          ((== (size (game vloc CAT)) 0)
+           (any (filter ((current player) iloc HAND) 'NH 
+                        (> (score 'NH using (game points POINTS)) 0)) 
+                'C
+                (move 'C 
+                      (top (game vloc TOPCAT)))))
+          
+          ;; subsequently play any card that matches suit or is a court card
+          ((> (size (game vloc CAT)) 0)
+           (any (filter ((current player) iloc HAND) 'NH 
+                        (or (== (score 'NH using (game points POINTS)) 0)
+                            (== (cardatt SUIT 'NH)
+                                (cardatt SUIT (top (game vloc CAT)))))) 
+                'C
+                                                                        (move 'C 
+                                                                              (top (game vloc TOPCAT)))))))
+        
+        (do 
+            (
+             ((> (size (game vloc TOPCAT)) 0)
+              (do 
+                  (
+                   
+                   ;; determine score from last played card                   
+                   (let (sum (union (game vloc CAT) (game vloc TOPCAT)) using (game points POINTS)) 'SUM
+                     
+                     ((and (== (% 'SUM 5) 0)
+                           (or (and (== (cardatt SUIT (top (game vloc TOPCAT)))
+                                        (cardatt SUIT (top (game vloc CAT))))
+                                    (== (score (top (game vloc TOPCAT)) using (game points POINTS)) 0))
+                               (> (score (top (game vloc TOPCAT)) using (game points POINTS)) 0)))
+                      (inc ((current player) sto SCORE) 'SUM)))                  
+                   
+                   ;; Add the played card to the Caterpillar, and deal the player a new card
+                   (move (top (game vloc TOPCAT))
+                         (top (game vloc CAT)))
+                   (move (top (game iloc STOCK))
+                         (top ((current player) iloc HAND)))))))))
+ 
+ ;; handle if COURTSHORT
+ (stage player
+        (end 
+         (all player 'P 
+              (== ('P sto SCORED) 1)))
+        (do 
+            (
+             ((== ((current player) sto COURTSHORT) 1)
+              (inc ((current player) sto SCORE)
+                   (* (size (filter ((next player) iloc HAND) 'CC 
+                                    (== (score 'CC using (game points POINTS)) 0)))
+                      100)))
+             ((all player 'P (== ('P sto COURTSHORT) 0))
+              (inc ((current player) sto SCORE)
+                   (* (size (filter ((current player) iloc HAND) 'CC 
+                                    (== (score 'CC using (game points POINTS)) 0)))
+                      100)))
+             (set ((current player) sto SCORED) 1))))
+ 
+ (scoring max ((current player) sto SCORE)))
+
+
+
+

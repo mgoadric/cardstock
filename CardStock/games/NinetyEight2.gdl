@@ -1,0 +1,59 @@
+﻿;; NinetyEight
+;;
+;; https://www.pagat.com/adders/98.html
+
+(game
+ 
+ (setup  
+  (create players 2)
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (CLUBS, SPADES)))))))
+ 
+ (do 
+     (
+      (set (game points PRECEDENCE)
+           (
+            ((RANK (NINE)) 9)
+            ((RANK (EIGHT)) 8)
+            ((RANK (SEVEN)) 7)
+            ((RANK (SIX)) 6)
+            ((RANK (FIVE)) 5)
+            ((RANK (FOUR)) 4)
+            ((RANK (THREE)) 3)
+            ((RANK (TWO)) 2)
+            ((RANK (A)) 1)))
+      
+      ;; DEALING START
+      (shuffle (game iloc STOCK))
+      (all player 'P 
+           (repeat 4 
+                   (move (top (game iloc STOCK)) 
+                         (top ('P iloc HAND))))))) 
+ 
+ (stage player
+        (end 
+         (> (game sto POINTS) 98))
+        
+        ;; Put any card you want on the Pile
+        (choice 
+         (
+          (any ((current player) iloc HAND) 'C
+               (move 'C 
+                     (top (game vloc PILE))))))
+        
+        ;; Tabulate pile points, if over 98, then game is over
+        (do 
+            (
+             (inc (game sto POINTS) (score (top (game vloc PILE)) using (game points PRECEDENCE))) 
+             ((== (cardatt RANK (top (game vloc PILE))) K)
+              (set (game sto POINTS) 98))
+             ((== (cardatt RANK (top (game vloc PILE))) TEN)
+              (dec (game sto POINTS) 10))
+             ((> (size (game iloc STOCK)) 0) 
+              (move (top (game iloc STOCK)) 
+                    (top ((current player) iloc HAND))))
+             ((> (game sto POINTS) 98) 
+              (dec ((current player) sto SCORE) 1)))))				
+ 
+ (scoring max ((current player) sto SCORE)))

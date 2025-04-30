@@ -1,0 +1,147 @@
+;; BLACKJACK simple rules
+;;
+;; https://www.pagat.com/banking/blackjack.html
+
+(game
+ (setup  
+  ;; Set up the players
+  (create players 2)
+  (create teams (0) (1))
+  
+  ;; Create the deck source
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (CLUBS, SPADES)))))))          
+ 
+ ;; Set up the game with 99 chips per person and 2 cards
+ (do 
+     (
+      (shuffle (game iloc STOCK))
+      (all player 'P
+           (do 
+               (
+                (repeat 2
+                        (move (top (game iloc STOCK))
+                              (top ('P iloc HAND))))
+                (set ('P sto CHIPS) 99))))
+      (set (game points POINTSLOW) 
+           (
+            ((RANK (A)) 1)
+            ((RANK (K)) 10) 
+            ((RANK (Q)) 10)
+            ((RANK (J)) 10)
+            ((RANK (TEN)) 10)
+            ((RANK (NINE)) 9)
+            ((RANK (EIGHT)) 8)
+            ((RANK (SEVEN)) 7)
+            ((RANK (SIX)) 6)
+            ((RANK (FIVE)) 5)
+            ((RANK (FOUR)) 4)
+            ((RANK (THREE)) 3)
+            ((RANK (TWO)) 2)))
+      (set (game points POINTSHIGH) 
+           (
+            ((RANK (A)) 11)
+            ((RANK (K)) 10) 
+            ((RANK (Q)) 10)
+            ((RANK (J)) 10)
+            ((RANK (TEN)) 10)
+            ((RANK (NINE)) 9)
+            ((RANK (EIGHT)) 8)
+            ((RANK (SEVEN)) 7)
+            ((RANK (SIX)) 6)
+            ((RANK (FIVE)) 5)
+            ((RANK (FOUR)) 4)
+            ((RANK (THREE)) 3)
+            ((RANK (TWO)) 2)))))
+ 
+ ;; bidding
+ (stage player
+        (end 
+         (all player 'P 
+              (> ('P sto BET) 0)))
+        
+        (choice 
+         (
+          (any (range 1..5) 'B
+               (set ((current player) sto BET) 'B)))))
+ ;;TODO Let them bet more than 5
+ ;;(choice (
+ ;;   (set ((current player) sto BET) (any (range (1) ((current player) sto CHIPS))))
+ ;;))
+ 
+ ;; players get cards until FINISHED or BUSTED 
+ (stage player
+        (end 
+         (all player 'P 
+              (== ('P sto FINISHED) 1)))
+        
+        (choice 
+         (
+          
+          ;; HIT
+          ((or (< (sum ((current player) iloc HAND) using (game points POINTSHIGH)) 22)
+               (< (sum ((current player) iloc HAND) using (game points POINTSLOW)) 22))
+           (do 
+               (
+                (move (top (game iloc STOCK)) 
+                      (top ((current player) iloc HAND)))
+                
+                ((or (< (sum ((current player) iloc HAND) using (game points POINTSHIGH)) 22)
+                     (< (sum ((current player) iloc HAND) using (game points POINTSLOW)) 22))
+                 (cycle next current)))))
+          
+          ;; STAY
+          ((or (< (sum ((current player) iloc HAND) using (game points POINTSHIGH)) 22)
+               (< (sum ((current player) iloc HAND) using (game points POINTSLOW)) 22))
+           (set ((current player) sto FINISHED) 1))))
+        
+        (do 
+            (
+             
+             ;; Determine if busted
+             ((and (>= (sum ((current player) iloc HAND) using (game points POINTSHIGH)) 22)
+                   (>= (sum ((current player) iloc HAND) using (game points POINTSLOW)) 22))
+              (do 
+                  (
+                   (repeat all
+                           (move (top ((current player) iloc HAND)) 
+                                 (top (game vloc DISCARD))))
+                   (dec ((current player) sto CHIPS) ((current player) sto BET))
+                   (set ((current player) sto BET) 0)
+                   (set ((current player) sto FINISHED) 1)))))))
+ 
+ ;; Determine each way to score each hand
+ (do 
+     (
+      (all player 'P
+           (do 
+               (
+                ((< (sum ('P iloc HAND) using (game points POINTSHIGH))
+                    22)
+                 (set ('P sto SCOREHAND) (sum ('P iloc HAND) using (game points POINTSHIGH))))
+                
+                ((>= (sum ('P iloc HAND) using (game points POINTSHIGH))
+                     22)
+                 (set ('P sto SCOREHAND) (sum ('P iloc HAND) using (game points POINTSLOW)))))))))
+ 
+ ;; Find score for players
+ (stage player
+        (end 
+         (all player 'P 
+              (== ('P sto BET) 0)))
+        
+        ;; get correct scoring hand      
+        (do 
+            (
+             ((> ((current player) sto SCOREHAND)
+                 ((next player) sto SCOREHAND))
+              (inc ((current player) sto CHIPS) ((current player) sto BET)))
+             ((<= ((current player) sto SCOREHAND)
+                  ((next player) sto SCOREHAND))
+              (dec ((current player) sto CHIPS) ((current player) sto BET)))
+             (repeat all 
+                     (move (top ((current player) iloc HAND)) 
+                           (top (game vloc DISCARD))))
+             (set ((current player) sto BET) 0))))
+ (scoring max ((current player) sto CHIPS)))

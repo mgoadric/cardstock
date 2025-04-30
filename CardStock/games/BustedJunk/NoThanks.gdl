@@ -1,0 +1,84 @@
+;; NoThanks in the GDL
+(game
+    (setup  
+     ;; Set up the players, 3 players each on their own team
+      (create players 3)
+      (create teams (0) (1) (2))
+
+      ;; Create the deck source
+      (create deck (game loc STOCK) (deck (value (3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35))))         
+   )
+     
+    
+   (comp 
+       (()
+        (shuffle (game loc STOCK))
+        (set ((all player) sto CHIPS) 11)
+        (move (top (game loc STOCK))
+              (top (game loc THROWOUT)) 9)
+        (initialize points POINTS (
+                               (all (value (3)) 3)
+                               (all (value (4)) 4)
+                               (all (value (5)) 5)
+                               (all (value (6)) 6)
+                               (all (value (7)) 7)
+                               (all (value (8)) 8)
+                               (all (value (9)) 9)
+                               (all (value (10)) 10)
+                               (all (value (11)) 11)
+                               (all (value (12)) 12)
+                               (all (value (13)) 13)
+                               (all (value (14)) 14)
+                               (all (value (15)) 15)
+                               (all (value (16)) 16)
+                               (all (value (17)) 17)
+                               (all (value (18)) 18)
+                               (all (value (19)) 19)
+                               (all (value (20)) 20)
+                               (all (value (21)) 21)
+                               (all (value (22)) 22)
+                               (all (value (23)) 23)
+                               (all (value (24)) 24)
+                               (all (value (25)) 25)
+                               (all (value (26)) 26)
+                               (all (value (27)) 27)
+                               (all (value (28)) 28)
+                               (all (value (29)) 29)
+                               (all (value (30)) 30)
+                               (all (value (31)) 31)
+                               (all (value (32)) 32)
+                               (all (value (33)) 33)
+                               (all (value (34)) 34)
+                               (all (value (35)) 35)
+                                )
+                               )    
+
+       )
+   )
+   ;; Stages of the game
+   (stage player
+      (end (== (size (game loc STOCK)) 0))
+                    
+      ;; players either take a card or add a chip
+      (choice
+             
+         (()
+          (move (top (game loc STOCK))
+                (top ((current player) loc HAND)))
+          (inc ((current player) sto CHIPS) (game sto CHIPS))
+          (set (game sto CHIPS) 0)
+          (cycle next current)
+          )
+         ((!= ((current player) sto CHIPS) 0)
+          (inc (game sto CHIPS) 1)
+          (dec ((current player) sto CHIPS) 1)
+         )
+         )
+         
+      )
+      
+   (scoring min (sum (min (runs greedy ((current player) loc HAND)) using SCORING))
+)
+         
+         
+      

@@ -1,0 +1,222 @@
+;; POKER simple rules
+;;
+;; https://www.contrib.andrew.cmu.edu/~gc00/reviews/pokerrules
+
+(game
+ (setup  
+  (create players 5)
+  (create teams (0) (1) (2) (3) (4))
+  (create deck (game iloc STOCK) (deck (RANK  (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                            (BLACK (SUIT (CLUBS,  SPADES)))))))          
+ 
+ ;; Set up the game with 100 dollars per person and a 2 coin bet
+ (do (
+  (shuffle (game iloc STOCK))
+  (set (game sto ROUNDS) 0)
+  (all player 'P 
+   (do (
+    (repeat 2 
+     (move (top (game iloc STOCK))
+      (top ('P iloc HAND))))
+    (set ('P sto CHIPS) 100))))
+    
+  (set (game points SCORE) (
+            ((RANK (A))    12)
+            ((RANK (K))    11) 
+            ((RANK (Q))    10)
+            ((RANK (J))     9)
+            ((RANK (TEN))   8)
+            ((RANK (NINE))  7)
+            ((RANK (EIGHT)) 6)
+            ((RANK (SEVEN)) 5)
+            ((RANK (SIX))   4)
+            ((RANK (FIVE))  3)
+            ((RANK (FOUR))  2)
+            ((RANK (THREE)) 1)
+            ((RANK (TWO))   0)))
+            
+  (set (game points CLUBS) (
+            ((SUIT (CLUBS))      1)
+            ((SUIT (DIAMONDS))   0) 
+            ((SUIT (HEARTS))     0)
+            ((SUIT (SPADES))     0)))
+  (set (game points DIAMONDS) (
+            ((SUIT (CLUBS))      0)
+            ((SUIT (DIAMONDS))   1) 
+            ((SUIT (HEARTS))     0)
+            ((SUIT (SPADES))     0)))           
+  (set (game points LEARTS) (
+            ((SUIT (CLUBS))      0)
+            ((SUIT (DIAMONDS))   0) 
+            ((SUIT (HEARTS))     1)
+            ((SUIT (SPADES))     0)))  
+  (set (game points SPADES) (
+            ((SUIT (CLUBS))      0)
+            ((SUIT (DIAMONDS))   0) 
+            ((SUIT (HEARTS))     0)
+            ((SUIT (SPADES))     1)))))
+ 
+ (stage player
+  (end (== (game sto ROUNDS) 5)) 
+  
+  
+  ;; bidding
+  (do (
+    (shuffle (game iloc STOCK))
+    (all player 'P (any (range 1..10) 'B
+     (set ('P sto BET) 'B)))))
+   
+  ;; Players get first five cards
+  
+  (do ((repeat 5 (move (top (game iloc STOCK)) 
+   (top ((current player) iloc HAND))))))
+  
+  (choice (
+    
+    ;; Discard 0
+    
+    (turn pass)
+     
+    ;; Discard 1
+    (do (
+     (any ((current player) iloc HAND) 'A 
+         (move 'A (top (game vloc DISCARD))))))
+       
+    ;; Discard 2
+     
+    (do (
+     (any ((current player) iloc HAND) 'C 
+      (move 'C (top (game vloc DISCARD))))
+     (any ((current player) iloc HAND) 'CC 
+      (move 'CC (top (game vloc DISCARD))))
+     (set ((current player) sto FINISHED) 1)))
+   
+    ;; etc.
+   
+    (do (
+     (any ((current player) iloc HAND) 'D 
+      (move 'D (top (game vloc DISCARD))))
+     (any ((current player) iloc HAND) 'DD 
+      (move 'DD (top (game vloc DISCARD))))
+     (any ((current player) iloc HAND) 'DDD 
+      (move 'DDD (top (game vloc DISCARD))))
+     (set ((current player) sto FINISHED) 1)))))
+      
+ ;; Second round of bidding
+ 
+  (choice (
+   (any (range 1..10) 'BB
+    (do (
+     (set ((current player) sto BETT) 'BB)
+     (inc ((current player) sto BET) ((current player) sto BETT))
+               
+     (repeat (- (size ((current player) iloc HAND)) 5) 
+         (move (top (game iloc STOCK)) 
+          (top ((current player) iloc HAND)))))))))
+       
+  (do (
+
+   ;; score = highcard
+  
+   (set ((current player) sto POINTS) (score (max ((current player) iloc HAND) using (game points SCORE)) using (game points SCORE)))
+
+   ;; duplicate
+
+   (any ((current player) iloc HAND) 'P 
+    ((== 
+     (size (filter ((current player) iloc HAND) 'PP 
+     (== (cardatt RANK 'PP) (cardatt RANK 'P)))) 2)
+      (set ((current player) sto POINTS) (+ (score 'P using (game points SCORE)) 13))))
+
+   ;; dual duplicate
+
+   ((and (< ((current player) sto POINTS) 26) (> ((current player) sto POINTS) 12))
+    (any ((current player) iloc HAND) 'W  
+     ((== (size (filter ((current player) iloc HAND) 'WW    
+      (== (cardatt RANK 'WW) (cardatt RANK 'W))))    2)
+     
+     (do (
+      ((> (score 'W using (game points SCORE)) (- ((current player) sto POINTS) 13))
+       (set ((current player) sto POINTS)  (+ (* (score 'W using (game points SCORE)) 13) 
+                                                 (+ (- ((current player) sto POINTS) 13) 13))))                                               
+      ((< (score 'W using (game points SCORE)) (- ((current player) sto POINTS) 13))
+       (set ((current player) sto POINTS) (+ (* (- ((current player) sto POINTS) 13) 13) 
+                                                (+ (score 'W using (game points SCORE)) 13)))))))))
+             
+   ;; triplicate
+
+   (any ((current player) iloc HAND) 'R 
+    ((== 
+     (size (filter ((current player) iloc HAND) 'RR 
+     (== (cardatt RANK 'RR) (cardatt RANK 'R)))) 3)
+      (set ((current player) sto POINTS) (+ (score 'R using (game points SCORE)) 182))))
+
+   ;; straight
+
+   (any ((current player) iloc HAND) 'T 
+    (any ((current player) iloc HAND) 'TT 
+    ((== (score 'TT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 1)) 
+     (any ((current player) iloc HAND) 'TTT 
+     ((== (score 'TTT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 2)) 
+      (any ((current player) iloc HAND) 'TTTT 
+      ((== (score 'TTTT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 3)) 
+       (any ((current player) iloc HAND) 'TTTTT 
+       ((or (== (score 'TTTTT using (game points SCORE)) (+ (score 'T using (game points SCORE))  4))
+           (== (score 'TTTTT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 12))) 
+         (set ((current player) sto POINTS) (+ (score 'T using (game points SCORE)) 199)))))))))))
+
+
+   ;; same suit
+
+    ((or (or (or (== (sum ((current player) iloc HAND) using (game points CLUBS))    5) 
+                 (== (sum ((current player) iloc HAND) using (game points DIAMONDS)) 5)) 
+                 (== (sum ((current player) iloc HAND) using (game points LEARTS))   5)) 
+                 (== (sum ((current player) iloc HAND) using (game points SPADES))   5))
+     (set ((current player) sto POINTS) (+ (score (max ((current player) iloc HAND) using (game points SCORE)) using (game points SCORE)) 208)))
+     
+   ;; full house
+
+   (any ((current player) iloc HAND) 'Y 
+    ((== (size (filter ((current player) iloc HAND) 'YY (== (cardatt RANK 'YY) (cardatt RANK 'Y)))) 3)
+      (any ((current player) iloc HAND) 'X 
+        ((== (size (filter ((current player) iloc HAND) 'XX (== (cardatt RANK 'XX) (cardatt RANK 'X)))) 2)
+           (set ((current player) sto POINTS) (+ (score 'Y using (game points SCORE)) 218))))))
+
+   ;; quadruplicate      
+    
+   (any ((current player) iloc HAND) 'U 
+    ((== 
+     (size (filter ((current player) iloc HAND) 'UU 
+     (== (cardatt RANK 'UU) (cardatt RANK 'U)))) 4)
+      (set ((current player) sto POINTS) (+ (score 'U using (game points SCORE)) 231))))
+
+   ;; suit run
+
+   ((and (< ((current player) sto POINTS) 220) (> ((current player) sto POINTS) 207))
+    (any ((current player) iloc HAND) 'T 
+     (any ((current player) iloc HAND) 'TT 
+      ((== (score 'TT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 1)) 
+       (any ((current player) iloc HAND) 'TTT 
+        ((== (score 'TTT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 2)) 
+         (any ((current player) iloc HAND) 'TTTT 
+          ((== (score 'TTTT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 3)) 
+           (any ((current player) iloc HAND) 'TTTTT 
+            ((or (== (score 'TTTTT using (game points SCORE)) (+ (score 'T using (game points SCORE))  4))
+                 (== (score 'TTTTT using (game points SCORE)) (+ (score 'T using (game points SCORE)) 12))) 
+              (set ((current player) sto POINTS) (+ (score 'T using (game points SCORE)) 244))))))))))))))
+
+ ;; Find score for players
+ (do (
+    (all player 'P 
+     ((>= ((current player) sto POINTS) ('P sto POINTS)) 
+     (do (
+      (inc ((current player) sto CHIPS) ('P sto BET))
+      (dec ('P sto CHIPS) ('P sto BET))
+      (inc (game sto ROUNDS) 1)
+      (repeat all
+                     (move (top    (game vloc DISCARD))
+                           (bottom (game iloc STOCK))))
+      (set ('P sto BET) 0))))))))
+   
+ (scoring max ((current player) sto CHIPS)))

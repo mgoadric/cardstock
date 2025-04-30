@@ -1,0 +1,188 @@
+;; Duck Soup
+;;
+;; http://www.parlettgames.uk/oricards/ducksoup.html
+
+(game
+ (declare 2 'NUMP)
+ 
+ (setup
+  (create players 'NUMP)
+  (create teams (0) (1))
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (SPADES, CLUBS)))))))
+ 
+ ;; Shuffle and deal each player 13 cards, set the play mode to DUCK
+ (do 
+     (
+      
+      (shuffle (game iloc STOCK))
+      (all player 'P
+           (repeat 13
+                   (move (top (game iloc STOCK))
+                         (top ('P iloc HAND)))))
+      (set (game sto ISDUCK) 1)))
+ 
+ (stage player
+        (end 
+         (and (all player 'P 
+                   (== (size ('P iloc HAND)) 0))
+              (== (size (game iloc STOCK)) 0)))
+        (stage player
+               (end 
+                (== (game sto FINISHED) 1))
+               (choice 
+                (
+                 
+                 ;; first player plays anything
+                 ((== (size (game mem LEAD)) 0) 
+                  (any ((current player) iloc HAND) 'C
+                       (do (
+                            (move 'C (top ((current player) vloc TRICK)))
+                            
+                            ;; draw card if in duck stage
+                            ((and (== (game sto ISDUCK) 1)
+                                  (> (size (game iloc STOCK)) 0))
+                             (move (top (game iloc STOCK))
+                                   (top ((current player) hloc TEMP))))
+                            
+                            (remember (top ((current player) vloc TRICK)) 
+                                      (top (game mem LEAD)))))))
+                 
+                 ;; handle quacking  -  maybe doesn't work ?????
+                 ((!= (size (game mem LEAD)) 0)
+                  
+                  (any (filter ((current player) iloc HAND) 'NH
+                               (== (cardatt RANK 'NH)
+                                   (cardatt RANK (top (game mem LEAD))))) 
+                       'C
+                       
+                       (do (
+                            ;; say quack/quack-quack
+                            (move 'C 
+                                  (top ((current player) vloc TRICK)))
+                            
+                            ;; draw card if in duck stage
+                            ((and (== (game sto ISDUCK) 1)
+                                  (> (size (game iloc STOCK)) 0))
+                             (move (top (game iloc STOCK))
+                                   (top ((current player) hloc TEMP))))
+                            
+                            (remember (top ((current player) vloc TRICK))
+                                      (top (game mem QUACK)))
+                            (inc (game sto QUACKED) 1)
+                            ((== (game sto QUACKED) 3)
+                             (set (game sto FINISHED) 1))))))
+                 ;; bow out                        
+                 ((== (game sto QUACKED) 1)
+                  (set (game sto FINISHED) 1))
+                 
+                 ;; follow on second or fourth turn off suit
+                 ((and (!= (size (game mem LEAD)) 0)
+                       (!= (game sto QUACKED) 1))
+                  
+                  
+                  (any (filter ((current player) iloc HAND) 'NH
+                               (!= (cardatt RANK 'NH)
+                                   (cardatt RANK (top (game mem LEAD))))) 
+                       'C
+                       (do (
+                            (move 'C (top ((current player) vloc TRICK)))
+                            
+                            ;; draw card if in duck stage
+                            ((and (== (game sto ISDUCK) 1)
+                                  (> (size (game iloc STOCK)) 0))
+                             (move (top (game iloc STOCK))
+                                   (top ((current player) hloc TEMP))))
+                            
+                            
+                            (set (game sto FINISHED) 1))))))))
+        
+        (do 
+            (
+             (set (game sto FINISHED) 0)
+             (all player 'P
+                  (repeat all 
+                          (move (top ('P hloc TEMP)) 
+                                (top ('P iloc HAND)))))
+             
+             ((== (game sto ISDUCK) 1)
+              (set (game points CARDSCORE)
+                   (
+                    ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
+                    ((RANK (A)) 1)
+                    ((RANK (K)) 13) 
+                    ((RANK (Q)) 12)
+                    ((RANK (J)) 11)
+                    ((RANK (TEN)) 10)
+                    ((RANK (NINE)) 9)
+                    ((RANK (EIGHT)) 8)
+                    ((RANK (SEVEN)) 7)
+                    ((RANK (SIX)) 6)
+                    ((RANK (FIVE)) 5)
+                    ((RANK (FOUR)) 4)
+                    ((RANK (THREE)) 3)
+                    ((RANK (TWO)) 2))))
+             ((== (game sto ISDUCK) 0)
+              (set (game points CARDSCORE)
+                   (
+                    ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
+                    ((RANK (A)) 14)
+                    ((RANK (K)) 13) 
+                    ((RANK (Q)) 12)
+                    ((RANK (J)) 11)
+                    ((RANK (TEN)) 10)
+                    ((RANK (NINE)) 9)
+                    ((RANK (EIGHT)) 8)
+                    ((RANK (SEVEN)) 7)
+                    ((RANK (SIX)) 6)
+                    ((RANK (FIVE)) 5)
+                    ((RANK (FOUR)) 4)
+                    ((RANK (THREE)) 3)
+                    ((RANK (TWO)) 2))))
+
+             ;; score regular hand             
+             ((== (game sto QUACKED) 0)
+              (do 
+                  (
+                   ((== (cardatt SUIT (top ((current player) vloc TRICK)))
+                        (cardatt SUIT (top ((next player) vloc TRICK))))
+                    (set (game sto TRICKSCORE) 1))
+                   ((!= (cardatt SUIT (top ((current player) vloc TRICK)))
+                        (cardatt SUIT (top ((next player) vloc TRICK))))
+                    (set (game sto TRICKSCORE) 2))
+                   
+                   (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points CARDSCORE))))
+                   (inc ((next player) sto SCORE)
+                        (game sto TRICKSCORE)))))
+             
+             ;; score quack hand
+             ((!= (game sto QUACKED) 0)
+              (do 
+                  (
+                   (cycle next (owner (top (game mem QUACK))))                        
+                   (inc ((next player) sto SCORE) 
+                        (* 2 (size ((next player) vloc TRICK)))))))
+             
+             (repeat (size (game mem QUACK)) 
+                     (forget (top (game mem QUACK))))
+             (forget (top (game mem LEAD)))
+             (set (game sto QUACKED) 0)
+             
+             (all player 'P
+                  (repeat all
+                          (move (top ('P vloc TRICK))
+                                (top (game vloc DISCARD)))))            
+             
+             ((and (== (size (game iloc STOCK)) 0)
+                   (== (game sto ISDUCK) 1))
+              (do 
+                  (
+                   (set (game sto ISDUCK) 0)
+                   (all player 'P
+                        (do
+                            (
+                             (set ('P sto DUCKSCORE) ('P sto SCORE))
+                             (set ('P sto SCORE) 0))))))))))
+
+ (scoring max (* ((current player) sto DUCKSCORE) ((current player) sto SCORE))))

@@ -1,0 +1,115 @@
+﻿;; Go Fish
+;;
+;; https://www.pagat.com/quartet/gofish.html
+
+(game ;; MATCH START
+ 
+ (declare (A, TWO, THREE, FOUR, FIVE, SIX) 'RANKS) ;;SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K
+ (setup  
+  ;; Set up the players
+  (create players 2)
+  (create teams (0) (1))
+  ;; Create the deck source
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (CLUBS, SPADES)))))))
+ 
+ (do 
+     ( ;; DEALING START
+      (set (game points MATCHPOINTS)
+           (
+            ;;            ((VALUE (K)) 13)
+            ;;            ((VALUE (Q)) 12)
+            ;;            ((VALUE (J)) 11)
+            ;;            ((VALUE (TEN)) 10)
+            ;;            ((VALUE (NINE)) 9)
+            ;;            ((VALUE (EIGHT)) 8)
+            ;;            ((VALUE (SEVEN)) 7)
+            ((VALUE (SIX)) 6)
+            ((VALUE (FIVE)) 5)
+            ((VALUE (FOUR)) 4)
+            ((VALUE (THREE)) 3)
+            ((VALUE (TWO)) 2)
+            ((VALUE (A)) 1)))
+      (shuffle (game iloc STOCK))
+      (all player 'P 
+           (do 
+               (
+                (repeat 5 
+                        (move (top (game iloc STOCK)) 
+                              (top ('P iloc HAND))))
+                
+                ;; Check for rank match on deal               
+                (let (tuples 4 ('P iloc HAND) using (game points MATCHPOINTS)) 'MYMATCHES
+                  ((> (size 'MYMATCHES) 0)
+                   (all 'MYMATCHES 'MATCH
+                        (do 
+                            (
+                             (inc ('P sto SCORE) 1)
+                             (repeat all
+                                  (move (top 'MATCH) 
+                                        (top ('P iloc TRICKSTACK))))))))))))))
+ 
+ (stage player  ;; TURN LOOP START
+        
+        (end 
+         (or (== (size (game iloc STOCK)) 0) 
+             (any player 'P 
+                  (== (size ('P iloc HAND)) 0))))
+        
+        (choice 
+         (
+          (any 'RANKS 'R    ;; CHOICE GENERATION START
+               
+               (let (filter ((current player) iloc HAND) 'MR 
+                            (== (cardatt RANK 'MR) 
+                                'R)) 'MYRANK ;; save each card we have in rank R
+                 ((> (size 'MYRANK) 0)
+                  
+                  (any (other player) 'OP
+                       
+                       ;; Record player and rank in sto and str
+                       (do 
+                           (
+                            (set ((current player) sto WHO) 'OP) ;; THIS WILL NOT WORK RIGHT NOW
+                            (set ((current player) str RANK) 'R)))))))))
+        
+        
+        (let (filter (((current player) sto WHO) iloc HAND) 'TR 
+                     (== (cardatt RANK 'TR) 
+                         ((current player) str RANK))) 'THEIRRANK ;; Makes a collection of cards that player X has in rank R	
+          (do (						
+               
+               ;; If they don't have cards in rank R -- Draw
+               ((== (size 'THEIRRANK) 0)
+                (do 
+                    (
+                     (move (top (game iloc STOCK)) 
+                           (top ((current player) iloc HAND))) 
+                     
+                     ;; If the drawn card has rank R -- play another turn
+                     ((== (cardatt RANK (top ((current player) iloc HAND))) 
+                          (current player) str RANK))
+                     (cycle next current))))
+
+               ;; If they have cards in rank R -- Take their cards and play another turn
+               ((> (size 'THEIRRANK) 0) 
+                (do 
+                    ( 
+                     (repeat all
+                          (move (top 'THEIRRANK
+                                (top ((current player) iloc HAND))))
+                     (cycle next current)))))))
+         
+        ;; Check for rank match on deal               
+        (let (tuples 4 ((current player) vloc HAND) using (game points MATCHPOINTS)) 'MYMATCHES
+          ((> (size 'MYMATCHES) 0)
+           (all 'MYMATCHES 'MATCH
+                (do 
+                    (
+                     (inc ((current player) sto SCORE) 1)
+                     (repeat all
+                             (move (top 'MATCH) 
+                                   (top ((current player) iloc TRICKSTACK))))))))))
+ 
+ (scoring max ((current player) sto SCORE))))

@@ -1,0 +1,105 @@
+;; Agram
+;;
+;; https://www.pagat.com/last/agram.html
+
+(game
+ (declare 2 'NUMP)
+ (setup 
+  (create players 'NUMP)
+  (create teams (0) (1))  
+  
+  ;; Create the deck source 
+  (create deck (game iloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (SPADES, CLUBS))))))
+  (create deck (game iloc STOCK) (deck (RANK (ACE)) 
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (CLUBS)))))))
+
+ 
+ ;; Shuffle and deal each player 6 cards
+ (do 
+     (
+      (shuffle (game iloc STOCK))
+      (all player 'P 
+           (repeat 6 
+                   (move (top (game iloc STOCK))
+                         (top ('P iloc HAND)))))))
+   
+ ;; players play a round 6 times         
+ (stage player
+        (end 
+         (all player 'P 
+              (== (size ('P iloc HAND)) 0)))
+
+        ;; players play a hand once     
+        (stage player
+               (end 
+                (all player 'P 
+                     (> (size ('P vloc TRICK)) 0)))
+               
+               (choice 
+                (
+                 
+                 ;; if following player cannot follow SUIT
+                 ;;   play any card, and end your turn   
+                 ((and (== (size (game mem LEAD)) 1)
+                       (== (size (filter ((current player) iloc HAND) 'C 
+                                         (== (cardatt SUIT 'C)
+                                             (cardatt SUIT (top (game mem LEAD)))))) 0))
+                  (any ((current player) iloc HAND) 'AC
+                       (move 'AC 
+                             (top ((current player) vloc TRICK)))))
+                 
+                 ;; if following player and can follow SUIT
+                 ;;   play any card that follows SUIT, and end your turn
+                 (any (filter ((current player) iloc HAND) 'T 
+                              (== (cardatt SUIT 'T)
+                                  (cardatt SUIT (top (game mem LEAD)))))
+                      'C
+                                ((== (size (game mem LEAD)) 1)
+                                 (move 'C 
+                                       (top ((current player) vloc TRICK)))))
+                
+                 ;; if first player, play any card, remember it in the lead spot, and end your turn
+                 ((== (size (game mem LEAD)) 0)                      
+                  (any ((current player) iloc HAND) 'AC
+                       (do 
+                           (
+                            (move 'AC
+                                  (top ((current player) vloc TRICK)))
+                            (remember (top ((current player) vloc TRICK)) 
+                                      (top (game mem LEAD))))))))))
+        
+        ;; after players play hand, computer wraps up trick
+        (do 
+            (
+             ;; solidfy card recedence
+             (set (game points PRECEDENCE) 
+                  (
+                   ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
+                   ((RANK (ACE)) 14)
+                   ((RANK (TEN)) 10)
+                   ((RANK (NINE)) 9)
+                   ((RANK (EIGHT)) 8)
+                   ((RANK (SEVEN)) 7)
+                   ((RANK (SIX)) 6)
+                   ((RANK (FIVE)) 5)
+                   ((RANK (FOUR)) 4)
+                   ((RANK (THREE)) 3)))
+             
+             ;; determine who won the hand, set them first next time
+             (forget (top (game mem LEAD)))
+             
+             (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE))))
+             
+             (all player 'P 
+                  (move (top ('P vloc TRICK)) 
+                        (top (game vloc DISCARD))))
+             
+             ;; if that was the last round, give the winner a point
+             ((all player 'P
+                   (== (size ('P iloc HAND)) 0))
+              (inc ((next player) sto SCORE) 1)))))
+ 
+ (scoring max ((current player) sto SCORE)))
