@@ -71,13 +71,15 @@ There are currently 41 games coded in RECYCLE
 
 ## Requirements
 
-* Visual Studio (tested on Mac in https://www.visualstudio.com/vs/visual-studio-mac/)
+* [Visual Studio Code](https://code.visualstudio.com/)
+* [C# Dev Kit Extension](https://marketplace.visualstudio.com/items/?itemName=ms-dotnettools.csdevkit)
+* [ANTLR4 grammar syntax support](https://marketplace.visualstudio.com/items/?itemName=mike-lischke.vscode-antlr4)
 
 ## Setup
 
-1. Open "CardStockXam.sln" project.
-2. Write up your game in RECYCLE.
-3. Alter the Program.cs class to specify the name of your game.
+1. Open `CardStock` folder in the project using Visual Studio Code.
+2. Write up your game in RECYCLE in the `games` subdirectory.
+3. Alter the `Program.cs` class to specify the name of your game.
 4. Run the program in either Release or Debug mode.
 5. Choose "Release Mode" to only see the results, or "Debug Mode" to see all game actions (better logs in the future).
 
