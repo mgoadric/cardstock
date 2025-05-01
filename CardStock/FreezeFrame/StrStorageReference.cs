@@ -4,23 +4,19 @@ using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame
 {
-    public class StrStorageReference
+    public class StrStorageReference(DefaultStorage<string> raw, string key)
     {
-        public DefaultStorage<string> storage { get; set; }
-        public string key { get; set; }
-        public StrStorageReference(DefaultStorage<string> raw, string key)
-        {
-            this.storage = raw;
-            this.key = key;
-        }
+        public DefaultStorage<string> Storage { get; set; } = raw;
+        public string Key { get; set; } = key;
+
         public string Get()
         {
-            return this.storage[this.key];
+            return this.Storage[this.Key];
         }
 
         public string GetName()
         {
-            return storage.owner.name + ":" + key;
+            return Storage.owner.name + ":" + Key;
         }
     }
 }

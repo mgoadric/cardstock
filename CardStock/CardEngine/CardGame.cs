@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
 using CardStock.Players;
 using CardStock.FreezeFrame;
 using System.Diagnostics;
@@ -22,7 +18,7 @@ namespace CardStock.CardEngine
         {
             table[0] = new Owner("table", 0);
             // ADDING HERE TO MAKE HASHCODE NOT FAIL
-            players = new Player[0];
+            players = Array.Empty<Player>();
 
         }
 
@@ -368,7 +364,7 @@ namespace CardStock.CardEngine
 
 
             // CHECK NECESSARY PARTS OF CARD GAME (COULD BE MISSING SOME NOW)
-            if (!(othergame.teams.Count() == teams.Count()))
+            if (!(othergame.teams.Count == teams.Count))
             { Console.WriteLine("Player count or team count not equal"); return false; }
 
             // if (!(sourceDeck.SequenceEqual(othergame.sourceDeck))) NOT COMPARING DIFFERENT SOURCEDECKS
@@ -427,7 +423,7 @@ namespace CardStock.CardEngine
             (CardGame game2, int moverb) = g2;
 
 
-            if (!(game1.teams.Count() == game2.teams.Count()))
+            if (!(game1.teams.Count == game2.teams.Count))
             { Console.WriteLine("Player count or team count not equal"); return false; }
 
             if (!(game1.table[0].BetterEquals(game2.table[0], true, playeridx)))

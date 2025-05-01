@@ -6,9 +6,8 @@ namespace CardStock.Players
     /********
      * An AIPlayer that will choose a random action from their options
      */
-    public class RandomPlayer : AIPlayer
+    public class RandomPlayer(Perspective perspective) : AIPlayer(perspective)
     {
-        public RandomPlayer(Perspective perspective) : base(perspective) { }
 
         /*****
          * Use the provided RNG to pick a random action

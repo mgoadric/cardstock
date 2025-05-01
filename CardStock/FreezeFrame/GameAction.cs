@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System;
 using System.Diagnostics;
-using System.Linq;
 using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame {
@@ -209,7 +206,7 @@ namespace CardStock.FreezeFrame {
 
         public override void Execute()
         {
-            var numTeams = teamList.Count();
+            var numTeams = teamList.Count;
             for (int i = 0; i < numTeams; ++i)
             {
                 var newTeam = new Team("" + i, i);

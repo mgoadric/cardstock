@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 namespace CardStock.CardEngine{
     public readonly struct PointMap : ICloneable{
 
@@ -7,17 +5,17 @@ namespace CardStock.CardEngine{
 
 		public PointMap(List<ValueTuple<string, string, int>> input){
 
-            pointLookups = new Dictionary<string, Dictionary<string, int>>();
+            pointLookups = [];
 			foreach (var award in input){
-				if (pointLookups.ContainsKey(award.Item1)){
-                    if (pointLookups[award.Item1].ContainsKey(award.Item2)){
-                        pointLookups[award.Item1][award.Item2] += award.Item3;
+				if (pointLookups.TryGetValue(award.Item1, out Dictionary<string, int>? value))
+                {
+                    if (!value.TryAdd(award.Item2, award.Item3))
+                    {
+                        value[award.Item2] += award.Item3;
 					}
-					else{
-                        pointLookups[award.Item1].Add(award.Item2,award.Item3);
-					}
-				}
-				else{
+                }
+                else
+                {
                     pointLookups[award.Item1] = new Dictionary<string,int>{
                         {award.Item2, award.Item3}
 					};
@@ -35,9 +33,10 @@ namespace CardStock.CardEngine{
 					var val = c.ReadAttribute(att);
 					attStr += val + ",";
 				}
-				attStr = attStr.Substring(0,attStr.Length - 1);
-				if (pointLookups[key].ContainsKey(attStr)){
-					total += pointLookups[key][attStr];
+				attStr = attStr[..^1];
+				if (pointLookups[key].TryGetValue(attStr, out int value))
+                {
+					total += value;
 				}
 			}
 			return total;
@@ -90,6 +89,15 @@ namespace CardStock.CardEngine{
                 }
             }
             return hash;
+        }
+        public static bool operator ==(PointMap left, PointMap right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(PointMap left, PointMap right)
+        {
+            return !(left == right);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace CardStock.Scoring
             string child2 = "";
             string changedText = "";
             while (unchanged){
-                tree = crossovers[rnd.Next(crossovers.Count())];
+                tree = crossovers[rnd.Next(crossovers.Length)];
                 var subtree1 = FindSubTree(game1, tree);
                 var subtree2 = FindSubTree(game2, tree);
                 if (subtree1 != null && subtree2 != null)
@@ -81,7 +81,7 @@ namespace CardStock.Scoring
             var info = FindGameInfo(game);
             for (int i = 0; i < numMutations; i++)
             {
-                var tree = mutations[rnd.Next(mutations.Count())];
+                var tree = mutations[rnd.Next(mutations.Length)];
                 var subtree = FindSubTree(game, tree); // check subtree
                 var newMutation = GetMutation(subtree, info.Item1, info.Item2);
                 printMut(subtree.GetText(), newMutation);
@@ -207,7 +207,7 @@ namespace CardStock.Scoring
                     }
                     else if (r == 1)
                     { // change condact
-                        var ind = rnd.Next(0, t.condact().Count());
+                        var ind = rnd.Next(0, t.condact().Length);
                         ret = "(" + t.GetChild(1).GetText() + " (";
                         for (int i = 3; i < t.ChildCount - 2; i++)
                         {
@@ -218,7 +218,7 @@ namespace CardStock.Scoring
                     }
                     else
                     { // add new modified condact
-                        var ind = rnd.Next(0, t.condact().Count());
+                        var ind = rnd.Next(0, t.condact().Length);
                         ret = "(" + t.GetChild(1).GetText() + " (";
                         for (int i = 3; i < t.ChildCount - 2; i++)
                         {
@@ -271,7 +271,7 @@ namespace CardStock.Scoring
                     var r = rnd.Next(0, 2);
                     if (r == 0)
                     { // change condact
-                        var ind = rnd.Next(0, t.condact().Count());
+                        var ind = rnd.Next(0, t.condact().Length);
                         ret = "(do (";
                         for (int i = 3; i < t.ChildCount - 2; i++)
                         {
@@ -282,7 +282,7 @@ namespace CardStock.Scoring
                     }
                     else
                     { // add new modified condact
-                        var ind = rnd.Next(0, t.condact().Count());
+                        var ind = rnd.Next(0, t.condact().Length);
                         ret = "(do (";
                         for (int i = 3; i < t.ChildCount - 2; i++)
                         {

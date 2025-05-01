@@ -31,7 +31,7 @@ namespace CardStock.Players
             (privategame, privateiterator) = perspective.GetPrivateGame();
             int myidx = perspective.GetIdx();
 
-            Stopwatch sw = new Stopwatch();
+            Stopwatch sw = new();
             sw.Start();
 
             while (sw.Elapsed.TotalSeconds < 1)

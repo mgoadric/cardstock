@@ -8,8 +8,8 @@ namespace CardStock.FreezeFrame
     {
         
         // For writing the game transcript
-        private bool logging;
-        private string fileName;
+        private readonly bool logging;
+        private readonly string fileName;
 
         public Transcript(bool logging, string fileName)
         {
@@ -17,10 +17,8 @@ namespace CardStock.FreezeFrame
             this.fileName = fileName;
             if (logging) //logging
             {
-                using (StreamWriter file = new StreamWriter(fileName + ".txt"))
-                {
-                    file.WriteLine("Starting Transcript");
-                }
+                using StreamWriter file = new(fileName + ".txt");
+                file.WriteLine("Starting Transcript");
             }
         }
 
@@ -29,10 +27,8 @@ namespace CardStock.FreezeFrame
         {
             if (logging) //logging
             {
-                using (StreamWriter file = new StreamWriter(fileName + ".txt", true))
-                {
-                    file.WriteLine(text);
-                }
+                using StreamWriter file = new(fileName + ".txt", true);
+                file.WriteLine(text);
             }
         }
     }

@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame{
-	public class IntStorageReference{
-        public DefaultStorage<int> storage {get; set;}
-		public string key {get; set;}
-        public IntStorageReference(DefaultStorage<int> raw, string key){
-			this.storage = raw;
-			this.key = key;
-		}
-		public int Get(){
-			return this.storage[this.key];
+	public class IntStorageReference(DefaultStorage<int> raw, string key)
+    {
+        public DefaultStorage<int> Storage { get; set; } = raw;
+        public string Key { get; set; } = key;
+
+        public int Get(){
+			return this.Storage[this.Key];
 		}
 
         public string GetName()
         {
-            return storage.owner.name + ":" + key;
+            return Storage.owner.name + ":" + Key;
         }
 	}
 }

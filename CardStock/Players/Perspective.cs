@@ -1,27 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CardStock.CardEngine;
+﻿using CardStock.CardEngine;
 using CardStock.Scoring;
 using CardStock.FreezeFrame;
 namespace CardStock.Players
 {
-    public class Perspective
+    public class Perspective(int idx, GameIterator actualgameiterator)
     {
-        private int idx;
-        private GameIterator actualgameiterator;
-
-        // Perspective class: This class privitizes the actual game, while giving privileges to the player to 
-        // do whatever it wants with the cloned game and cloned game iterator.
-        // A player who has a 'perspective' doesn't have privilege to accesss the gameiterator or cardgame.
-
-        public Perspective(int idx, GameIterator actualgameiterator)
-        {
-            this.idx = idx;
-            this.actualgameiterator = actualgameiterator;
-        }
+        private readonly int idx = idx;
+        private readonly GameIterator actualgameiterator = actualgameiterator;
 
         public Tuple<CardGame, GameIterator> GetPrivateGame()
         {
@@ -54,7 +39,7 @@ namespace CardStock.Players
             if (!cg.Equals(actualgameiterator.game))
             { Console.WriteLine("Clone CardGame Not Equal -- Returning false"); return false; }
 
-            GameIterator g1 = new GameIterator(actualgameiterator.rules, cg, actualgameiterator.gameWorld, "blah", false);
+            GameIterator g1 = new(actualgameiterator.rules, cg, actualgameiterator.gameWorld, "blah", false);
             GameIterator g2 = actualgameiterator.Clone(cg);
             if (!g2.Equals(actualgameiterator))
             { Console.WriteLine("Clone GameIterator Not Equal -- Returning false"); return false; }
@@ -69,7 +54,7 @@ namespace CardStock.Players
             if (!cg.Equals(actualgameiterator.game))
             { Console.WriteLine("CloneSecret CardGame not equal -- Returning False"); return false; }
 
-            GameIterator g1 = new GameIterator(actualgameiterator.rules, cg, actualgameiterator.gameWorld, "blah", false);
+            GameIterator g1 = new(actualgameiterator.rules, cg, actualgameiterator.gameWorld, "blah", false);
             GameIterator g2 = actualgameiterator.Clone(cg);
             if (!g2.Equals(actualgameiterator))
             { Console.WriteLine("CloneSecret GameIterator not equal -- Returning False"); return false; }

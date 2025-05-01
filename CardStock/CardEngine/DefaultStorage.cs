@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace CardStock.CardEngine
 {
@@ -9,20 +6,11 @@ namespace CardStock.CardEngine
      * A Dictionary with a default value provided. Useful for
      * storing PointMaps, integers, strings
      */
-    public class DefaultStorage<T>
+    public class DefaultStorage<T>(T defaultT, Owner owner)
     {
-        private readonly Dictionary<string, T> dict = new Dictionary<string, T>();
-        private T defaultT;
-        public Owner owner;
-
-        /*******
-         * Save the default value given in the constructor
-         */
-        public DefaultStorage(T defaultT, Owner owner)
-        {
-            this.defaultT = defaultT;
-            this.owner = owner;
-        }
+        private readonly Dictionary<string, T> dict = [];
+        private readonly T defaultT = defaultT;
+        public Owner owner = owner;
 
         /*******
          * Access methods, that have the KeyCheck
@@ -64,7 +52,7 @@ namespace CardStock.CardEngine
             }
             else
             {
-                return default(T);
+                return default;
             }
         }
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using CardStock.FreezeFrame;
-using CardStock;
+﻿using System.Text;
 
 namespace CardStock.CardEngine
 {
@@ -16,7 +11,7 @@ namespace CardStock.CardEngine
         public string name;
         public CCType type;
         public CardStorage owner;
-        private List<Card> cards = new List<Card>();
+        private List<Card> cards = [];
 
         public CardCollection(CCType type) {
             this.type = type;

@@ -1,27 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame {
 	public static class ListExtension{
 		public static IEnumerable<IEnumerable<T>> Combinations<T>(this IEnumerable<T> elements, int k)
 		{
-		  return k == 0 ? new[] { new T[0] } :
+		  return k == 0 ? [[]] :
 		    elements.SelectMany((e, i) =>
 		      elements.Skip(i + 1).Combinations(k - 1).Select(c => (new[] {e}).Concat(c)));
 		}
 	}
 	public class CardGrouping{
-		private CardCollection[] array;
-		private PointMap score;
+        private readonly CardCollection[] array;
+		private readonly PointMap score;
 		public CardGrouping(int numBins, PointMap scoring){
             array = new CardCollection[numBins];
             Reset();
 			score = scoring;
 		}
 		private void Reset(){ 
-			for (int i = 0; i < array.Count(); ++i){
+			for (int i = 0; i < array.Length; ++i){
 				array[i] = new CardCollection(CCType.VIRTUAL);
 			}
 		}
@@ -36,7 +33,7 @@ namespace CardStock.FreezeFrame {
 		public List<CardCollection> TuplesOfSize(CardCollection source, int setSize){
 			var ret = new List<CardCollection>();
 			SortCards(source);
-			for (int i = 0; i < array.Count(); ++i){
+			for (int i = 0; i < array.Length; ++i){
 				var combos = ListExtension.Combinations<Card>(array[i].AllCards(),setSize);
 				foreach (var combo in combos){
 					var newAdd = new CardCollection(CCType.VIRTUAL);
@@ -53,7 +50,7 @@ namespace CardStock.FreezeFrame {
 		public List<CardCollection> RunsOfSize(CardCollection source, int runLength){
 			var ret = new List<CardCollection>();
 			SortCards(source);
-			for (int i = 0; i < array.Count(); ++i){
+			for (int i = 0; i < array.Length; ++i){
 				var found = RightLook(i,runLength);
 				ret.AddRange(found);
 				
@@ -88,7 +85,7 @@ namespace CardStock.FreezeFrame {
 		}
 		
 		private List<CardCollection> RightLook(int idx, int remainingLength){
-			if (idx < array.Count() && array[idx].Count > 0){
+			if (idx < array.Length && array[idx].Count > 0){
 				List<CardCollection> recurs;
 				if (remainingLength != 1){
 					recurs = RightLook(idx + 1, remainingLength - 1);
@@ -120,7 +117,7 @@ namespace CardStock.FreezeFrame {
 				
 			}
 			else{
-				return new List<CardCollection>();
+				return [];
 			}
 		}
 	}

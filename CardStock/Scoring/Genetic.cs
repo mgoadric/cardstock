@@ -55,14 +55,14 @@ namespace CardStock.Scoring
                     }
                 }
                 string[] newFiles = filer.GetFiles(filer.Intermediate());
-                int numFiles = newFiles.Count();
+                int numFiles = newFiles.Length;
                 while (numFiles < minimumChildren){ // if not enough files created, create more
-                    var parent1 = fileNames[rnd.Next(fileNames.Count())];
+                    var parent1 = fileNames[rnd.Next(fileNames.Count)];
                     if (crossingOver && mutating) {
                         if (rnd.Next(2) == 0){
-                            var parent2 = fileNames[rnd.Next(fileNames.Count())];
+                            var parent2 = fileNames[rnd.Next(fileNames.Count)];
                             while (parent2 == parent1){
-                                parent2 = fileNames[rnd.Next(fileNames.Count())];
+                                parent2 = fileNames[rnd.Next(fileNames.Count)];
                             }
                             gen.Crossover(parent1, parent2);
                         }
@@ -71,9 +71,9 @@ namespace CardStock.Scoring
                         }
                     }
                     else if (crossingOver){
-                        var parent2 = fileNames[rnd.Next(fileNames.Count())];
+                        var parent2 = fileNames[rnd.Next(fileNames.Count)];
                         while (parent2 == parent1){
-                            parent2 = fileNames[rnd.Next(fileNames.Count())];
+                            parent2 = fileNames[rnd.Next(fileNames.Count)];
                         }
                         gen.Crossover(parent1, parent2);
                     }
@@ -89,9 +89,9 @@ namespace CardStock.Scoring
 
                 // Scoring
                 newFiles = filer.GetFullPathFiles(filer.Intermediate());
-                double[] scores = new double[newFiles.Count()];
-                for (int i = 0; i < newFiles.Count(); i++) { // get scores
-                    Scorer s = new Scorer(newFiles[i].Substring(0, newFiles[i].Length - 4));
+                double[] scores = new double[newFiles.Length];
+                for (int i = 0; i < newFiles.Length; i++) { // get scores
+                    Scorer s = new(newFiles[i][..^4]);
 
                     List<double> temp = s.Score();
 
@@ -107,7 +107,7 @@ namespace CardStock.Scoring
                 string[] keep = tup.Item1;
                 double[] keepScores = tup.Item2;
                 transcript += "Keeping files:\n";
-                for (int i = 0; i < keep.Count(); i++) { 
+                for (int i = 0; i < keep.Length; i++) { 
                     Debug.WriteLine(keep[i]);
                     transcript += "    " + keep[i] + " with score " + keepScores[i] + "\n";
                 }
@@ -132,7 +132,7 @@ namespace CardStock.Scoring
         {
             string[] toKeep = new string[numKept];
             double[] keptScores = new double[numKept];
-            var count = scores.Count();
+            var count = scores.Length;
 
             if (count < numKept) { throw new ArgumentOutOfRangeException(); }
 
@@ -157,8 +157,8 @@ namespace CardStock.Scoring
         private static string[] GetTop(double[] scores, string[] files)
         {
             int[] indexes = TopScoreIndexes(scores, numKept);
-            string[] keep = new string[indexes.Count()];
-            for (int k = 0; k < indexes.Count(); k++)
+            string[] keep = new string[indexes.Length];
+            for (int k = 0; k < indexes.Length; k++)
             {
                 keep[k] = files[indexes[k]];
             }
@@ -170,7 +170,7 @@ namespace CardStock.Scoring
             int[] ret = new int[num];
             double lower = GetNthBiggest(ar, num);
             int idx = 0;
-            for (int i = 0; i < ar.Count(); i++){ 
+            for (int i = 0; i < ar.Length; i++){ 
                 if (ar[i] >= lower)
                 {
                     ret[idx] = i;

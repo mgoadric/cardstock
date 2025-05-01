@@ -9,7 +9,7 @@ using System.Text;
 namespace CardStock.Scoring
 {
     class Scorer{
-        private List<Experiment> exps = new List<Experiment>();
+        private readonly List<Experiment> exps = [];
         private ParseEngine engine;
 
         public static World gameWorld;
@@ -22,22 +22,22 @@ namespace CardStock.Scoring
 
             exps.Add(new Experiment()
             {
-                fileName = fileName,
-                numGames = numRndvRnd,
-                numEpochs = numRndvRnd,
-                logging = false,
-                evaluating = true,
+                FileName = fileName,
+                NumGames = numRndvRnd,
+                NumEpochs = numRndvRnd,
+                Logging = false,
+                Evaluating = true,
 
             });
 
 
             exps.Add(new Experiment()
             {
-                fileName = fileName,
-                numGames = numAIvRnd,
-                numEpochs = numAIvRnd,
-                logging = false,
-                evaluating = true,
+                FileName = fileName,
+                NumGames = numAIvRnd,
+                NumEpochs = numAIvRnd,
+                Logging = false,
+                Evaluating = true,
                 type = GameType.RndandAI
 
             });
@@ -45,18 +45,19 @@ namespace CardStock.Scoring
 
             exps.Add(new Experiment()
             {
-                fileName = fileName,
-                numGames = numAIvAI,
-                numEpochs = numAIvAI,
-                logging = false,
-                evaluating = true,
+                FileName = fileName,
+                NumGames = numAIvAI,
+                NumEpochs = numAIvAI,
+                Logging = false,
+                Evaluating = true,
                 type = GameType.AllAI
             });
+            gameWorld = new World();
 
         }
 
         // list of heuristic values
-        private List<Heuristic> hs = new List<Heuristic>() {
+        private readonly List<Heuristic> hs = [
             new Fairness(),
             // TODO ADD CONVERGENCE
             new MeaningfulMoves(),
@@ -70,23 +71,19 @@ namespace CardStock.Scoring
             // FIX ME!new Stability(),
             //new Clarity(),
             new Coolness()
-        };
+        ];
 
         // define heuristics here
         public List<double> Score(){
             
             //var path = Path.Combine("Gamepool", "Scoring" + name + ".txt");
-            gameWorld = new World();
-            List<double> empty = new List<double>();
-            empty.Add(0.0);
+            List<double> empty = [0.0];
             for (int i = 0; i < exps.Count; i++){
                 Debug.WriteLine("Experiment " + i);
                 engine = new ParseEngine(exps[i]);
                 engine.setWorld(gameWorld);
                 var tup = engine.Loader();
 
-           
-               
                 if (!tup.Item1) { Debug.WriteLine("not shuffling"); return empty; }
                 if (!tup.Item2) { Debug.WriteLine("no choice"); return empty; }
 
@@ -96,9 +93,9 @@ namespace CardStock.Scoring
 
             //gameWorld.EvalOver();
             Debug.WriteLine("passed reasonable");
-            List<double> total = new List<double>();
+            List<double> total = [];
             var cleanoutput = "";
-            StreamWriter heurfile = new StreamWriter(exps[0].fileName + "-heuristics.txt");
+            StreamWriter heurfile = new(exps[0].FileName + "-heuristics.txt");
 
             foreach (Heuristic h in hs){
                 var score = h.Eval(gameWorld);
@@ -130,7 +127,7 @@ namespace CardStock.Scoring
 			
             return total;
         }
-        public bool parseBool(string line)
+        public static bool ParseBool(string line)
         {
             return line.Split(':')[1] == "T";
         }

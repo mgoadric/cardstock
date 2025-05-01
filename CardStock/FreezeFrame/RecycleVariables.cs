@@ -14,13 +14,15 @@ namespace CardStock.FreezeFrame
 
         public RecycleVariables()
         {
-            vars = new Dictionary<string, object>();
+            vars = [];
         }
 
         public RecycleVariables Clone(CardGame cg)
         {
-            var ret = new RecycleVariables();
-            ret.vars = CloneDictionary(cg);
+            var ret = new RecycleVariables
+            {
+                vars = CloneDictionary(cg)
+            };
             return ret;
         }
 
@@ -30,9 +32,9 @@ namespace CardStock.FreezeFrame
         }
         public object Get(String text)
         {
-            if (vars.ContainsKey(text))
+            if (vars.TryGetValue(text, out object? value))
             {
-                return vars[text];
+                return value;
             }
             throw new Exception("Object " + text + " could not be found");
         }
@@ -52,7 +54,7 @@ namespace CardStock.FreezeFrame
         public Dictionary<String, object> CloneDictionary(CardGame newgame)
         {
 
-            Dictionary<String, object> ret = new Dictionary<String, object>();
+            Dictionary<String, object> ret = [];
 
             foreach (KeyValuePair<String, object> entry in vars)
             {
@@ -72,7 +74,7 @@ namespace CardStock.FreezeFrame
                 }
                 else if (o is List<Player> lp)
                 {
-                    List<Player> newlist = new List<Player>();
+                    List<Player> newlist = [];
                     foreach (Player player in lp)
                     {
                         int idx = player.id;
@@ -86,7 +88,7 @@ namespace CardStock.FreezeFrame
                 }
                 else if (o is List<Team> lt) // NEED TO TEST
                 {
-                    List<Team> newlist = new List<Team>();
+                    List<Team> newlist = [];
                     foreach (Team team in lt)
                     {
                         int idx = team.id;
@@ -101,7 +103,7 @@ namespace CardStock.FreezeFrame
                 }
                 else if (o is List<Card>)
                 {
-                    List<Card> l = new List<Card>();
+                    List<Card> l = [];
                     foreach (Card card in o as List<Card>)
                     {
                         l.Add(newgame.sourceDeck[card.name][card.id]);

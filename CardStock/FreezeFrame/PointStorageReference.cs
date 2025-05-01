@@ -4,23 +4,19 @@ using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame
 {
-    public class PointStorageReference
+    public class PointStorageReference(DefaultStorage<PointMap> raw, string key)
     {
-        public DefaultStorage<PointMap> storage { get; set; }
-        public string key { get; set; }
-        public PointStorageReference(DefaultStorage<PointMap> raw, string key)
-        {
-            this.storage = raw;
-            this.key = key;
-        }
+        public DefaultStorage<PointMap> Storage { get; set; } = raw;
+        public string Key { get; set; } = key;
+
         public PointMap Get()
         {
-            return this.storage[this.key];
+            return this.Storage[this.Key];
         }
 
         public string GetName()
         {
-            return storage.owner.name + ":" + key;
+            return Storage.owner.name + ":" + Key;
         }
     }
 }

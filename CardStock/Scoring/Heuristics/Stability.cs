@@ -48,7 +48,7 @@ namespace CardStock.Scoring.Heuristics
 
             for (int i = 0; i < rankings.Count - 1; i++)
             {
-                for (int j = 0; j < rankings[i].Count(); j++)
+                for (int j = 0; j < rankings[i].Length; j++)
                 {
                     total += 1;
                     if (rankings[i][j] != rankings[i + 1][j])

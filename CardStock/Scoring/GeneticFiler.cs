@@ -32,7 +32,7 @@ namespace CardStock.Scoring
         public string[] GetFiles(string folder) { return Directory.GetFiles(folder); }
         public string[] GetFullPathFiles(string folder){
             string[] files = GetFiles(folder);
-            for (int i = 0; i < files.Count(); i++){
+            for (int i = 0; i < files.Length; i++){
                 files[i] = Path.GetFullPath(files[i]);
             }
             return files;
@@ -76,7 +76,7 @@ namespace CardStock.Scoring
         public void MakeFile(string file, string name)
         {
             while (File.Exists(name)){
-                string ending = endings[rnd.Next(endings.Count())];
+                string ending = endings[rnd.Next(endings.Length)];
                 name = name.Insert(name.Length - 4, ending);
             }
             File.WriteAllText(name, file);
@@ -136,7 +136,7 @@ namespace CardStock.Scoring
         private string Trim(string s)
         {
             var paths = s.Split(Path.DirectorySeparatorChar);
-            s = paths[paths.Count() - 1];
+            s = paths[paths.Length - 1];
             s = s.Split('.')[0];
             return s;
         }

@@ -1,7 +1,5 @@
-using System.Collections.Generic;
-using System;
 using CardStock.Players;
-using System.Text;
+
 namespace CardStock.CardEngine
 {
     /*******
@@ -25,9 +23,9 @@ namespace CardStock.CardEngine
         // Owner class, again decisions are handled later 
         // with the GameIterator for this CardGame
 
-        public Player Clone()
+        public new Player Clone()
         {
-            Player other = new Player(name, id);
+            Player other = new(name, id);
             other.intBins = intBins.Clone(other);
             other.stringBins = stringBins.Clone(other);
             other.pointBins = pointBins.Clone(other);

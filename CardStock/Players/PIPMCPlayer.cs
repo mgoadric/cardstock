@@ -1,19 +1,11 @@
 ﻿using CardStock.CardEngine;
 using CardStock.FreezeFrame;
-using CardStock.Players;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardStock.Players
 {
-    public class PIPMCPlayer : AIPlayer
+    public class PIPMCPlayer(Perspective perspective) : AIPlayer(perspective)
     {
-        private static int NUMTESTS = 10; //previously 20
-
-        public PIPMCPlayer(Perspective perspective) : base(perspective) { }
+        private static readonly int NUMTESTS = 10; //previously 20
 
         public override int MakeAction(int numMoves)
         {

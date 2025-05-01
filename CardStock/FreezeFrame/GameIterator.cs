@@ -1,15 +1,8 @@
-﻿using Antlr4.Runtime;
-using Antlr4.Runtime.Misc;
-using Antlr4.Runtime.Tree;
+﻿using Antlr4.Runtime.Tree;
 using CardStock.CardEngine;
-using CardStock;
 using CardStock.Scoring;
-using System;
-using System.CodeDom;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
+
 namespace CardStock.FreezeFrame
 {
     public class GameIterator
@@ -23,9 +16,9 @@ namespace CardStock.FreezeFrame
         public CardGame game;
         public World gameWorld;
         public int totalChoices;
-        public List<Tuple<int, int>> choiceList = new List<Tuple<int, int>>();
-        public List<Tuple<int, double[]>> allLeadList = new List<Tuple<int, double[]>>();
-        public List<Tuple<int, double>> spreadList = new List<Tuple<int, double>>();
+        public List<Tuple<int, int>> choiceList = [];
+        public List<Tuple<int, double[]>> allLeadList = [];
+        public List<Tuple<int, double>> spreadList = [];
 
         public GameIterator(RecycleParser.GameContext context, CardGame mygame, World gameWorld, string fileName, bool fresh = true)
         {
@@ -33,7 +26,7 @@ namespace CardStock.FreezeFrame
             rules = context;
             game = mygame;
             iterStack = new Stack<Queue<IParseTree>>();
-            iteratingSet = new HashSet<IParseTree>();
+            iteratingSet = [];
             variables = new RecycleVariables();
 
             if (fresh)
@@ -274,7 +267,7 @@ namespace CardStock.FreezeFrame
             var ret = new List<List<int>>();
             if (teamcreate != null)
             {
-                var numTeams = teamcreate.teams().Count();
+                var numTeams = teamcreate.teams().Length;
                 for (int i = 0; i < numTeams; i++)
                 {
                     ret.Add(new List<int>());
@@ -1792,7 +1785,7 @@ namespace CardStock.FreezeFrame
             //var attributeCount = deck.ChildCount - 3;
 
             List<Node> childs = new List<Node>();
-            for (int i = 0; i < deck.attribute().Count(); ++i)
+            for (int i = 0; i < deck.attribute().Length; ++i)
             {
                 var att = ProcessAttribute(deck.attribute(i));
                 childs.Add(new Node
@@ -1924,7 +1917,7 @@ namespace CardStock.FreezeFrame
                             var temp4 = temp as List<Card>;
                             if (temp4 != null)
                             {
-                                return temp4.Count();
+                                return temp4.Count;
                             }
                         }
                         throw new TypeAccessException();
@@ -2154,7 +2147,7 @@ namespace CardStock.FreezeFrame
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
-            return new IntAction(bin.storage, bin.key, setValue, script);
+            return new IntAction(bin.Storage, bin.Key, setValue, script);
         }
 
         private GameAction PointAction(RecycleParser.InitpointsContext points)
@@ -2192,7 +2185,7 @@ namespace CardStock.FreezeFrame
                 temp.Add(new ValueTuple<string, string, int>(key, value, reward));
             }
             var setValue = new PointMap(temp);
-            return new PointsAction(bin.storage, bin.key, setValue, script);
+            return new PointsAction(bin.Storage, bin.Key, setValue, script);
         }
 
         private GameAction IncAction(RecycleParser.IncactionContext setAction)
@@ -2200,14 +2193,14 @@ namespace CardStock.FreezeFrame
             var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             var newVal = bin.Get() + setValue;
-            return new IntAction(bin.storage, bin.key, newVal, script);
+            return new IntAction(bin.Storage, bin.Key, newVal, script);
         }
         private GameAction DecAction(RecycleParser.DecactionContext setAction)
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             var newVal = bin.Get() - setValue;
-            return new IntAction(bin.storage, bin.key, newVal, script);
+            return new IntAction(bin.Storage, bin.Key, newVal, script);
         }
 
         private CardLocReference ProcessCStorageFilter(RecycleParser.FilterContext filter)

@@ -15,7 +15,7 @@ namespace CardStock.Scoring.Heuristics
 
         public abstract double Weight();
         public abstract double Get(World w);
-        public virtual double[] Others() { return new double[0]; }
+        public virtual double[] Others() { return Array.Empty<double>(); }
     }
 }
 

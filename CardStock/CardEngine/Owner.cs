@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Text;
 
 namespace CardStock.CardEngine
 {
@@ -36,7 +33,7 @@ namespace CardStock.CardEngine
             // Use 0, "", and an empty PointMap for defaults
             intBins = new DefaultStorage<int>(0, this);
             stringBins = new DefaultStorage<string>("", this);
-            pointBins = new DefaultStorage<PointMap>(new PointMap(new List<ValueTuple<string, string, int>>()), this); 
+            pointBins = new DefaultStorage<PointMap>(new PointMap([]), this); 
             cardBins = new CardStorage(this);
 
             // Record the name and id
@@ -60,7 +57,7 @@ namespace CardStock.CardEngine
 
         public override string ToString()
         {
-            StringBuilder ret = new StringBuilder(); // GetType().ToString() + ":\n");
+            StringBuilder ret = new(); // GetType().ToString() + ":\n");
             ret.Append("Name: " + name + " | ID: " + id.ToString() + "\r\n");
             ret.Append("Listing Storages...\r\n");
             ret.Append(cardBins.ToString());
