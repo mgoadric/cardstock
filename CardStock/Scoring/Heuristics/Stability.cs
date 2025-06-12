@@ -21,13 +21,13 @@ namespace CardStock.Scoring.Heuristics
             int diff = 0;
             int total = 0;
             // get list of player ranks for each move
-            List<double[]> rankings = new List<double[]>();
+            List<double[]> rankings = [];
             // for each game
 			for (int i = 0; i < w.winners.Length; i++)
 			{
                 // for num moves player 0 made in game
                 for (int j = 0; j < w.AIvAI[i][0].Count; j++) {
-                    List<double[]> l = new List<double[]>();
+                    List<double[]> l = [];
 
 					// for each player
 					for (int x = 0; x < w.AIvAI[i].Count; x++) {

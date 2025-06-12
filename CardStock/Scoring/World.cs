@@ -23,11 +23,11 @@ namespace CardStock.Scoring
         private Object thisLock = new Object();
 
         //lessthanperfectplayers 82
-        public List<double> variance = new List<double>(); // difference between worst move and best move
+        public List<double> variance = []; // difference between worst move and best move
         //could record individual values instead
-        public List<double> moveScores = new List<double>(); // raw movescores in order
+        public List<double> moveScores = []; // raw movescores in order
         //lessthanperfectplayers 33-76
-        public List<double> deepness = new List<double>(); // difference between shallow eval and deep eval
+        public List<double> deepness = []; // difference between shallow eval and deep eval
         //currently lessthanperfect runs with deepness of 1
 
         //is this even reasonable? probably not
@@ -39,9 +39,9 @@ namespace CardStock.Scoring
 
         public List<List<double>>[] AIvAI;
         public List<List<double>>[] AIvRnd;
-        public List<double> average = new List<double>(); //average move score
+        public List<double> average = []; //average move score
 
-        public List<int> numTurns = new List<int>();
+        public List<int> numTurns = [];
 
         //Heuristics to implement, but how?
         //interactivity

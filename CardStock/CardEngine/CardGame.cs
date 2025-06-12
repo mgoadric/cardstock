@@ -7,10 +7,10 @@ namespace CardStock.CardEngine
     public class CardGame
     {
 
-        public Dictionary<String, List<Card>> sourceDeck = new Dictionary<String, List<Card>>();
+        public Dictionary<String, List<Card>> sourceDeck = [];
         public Owner[] table = new Owner[1];
         public Player[] players;
-        public List<Team> teams = new List<Team>();
+        public List<Team> teams = [];
         public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>();
         public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
 
@@ -32,7 +32,7 @@ namespace CardStock.CardEngine
             {
                 if (!temp.sourceDeck.ContainsKey(kvp.Key))
                 {
-                    temp.sourceDeck[kvp.Key] = new List<Card>();
+                    temp.sourceDeck[kvp.Key] = [];
                 }
                 for (int i = 0; i < sourceDeck[kvp.Key].Count; i++)
                 {
@@ -104,10 +104,10 @@ namespace CardStock.CardEngine
             var temp = CloneCommon();
 
             // Make set of indicies for all the cards, to be removed when they are seen
-            Dictionary<String, HashSet<int>> free = new Dictionary<String, HashSet<int>>();
+            Dictionary<String, HashSet<int>> free = [];
             foreach (KeyValuePair<String, List<Card>> kvp in sourceDeck)
             {
-                free[kvp.Key] = new HashSet<int>();
+                free[kvp.Key] = [];
                 for (int i = 0; i < kvp.Value.Count; i++)
                 {
                     free[kvp.Key].Add(i);
@@ -118,14 +118,14 @@ namespace CardStock.CardEngine
             CloneVisibleCards(teams, temp.teams, temp.sourceDeck, free, -1);
             CloneVisibleCards(table, temp.table, temp.sourceDeck, free, -1);
 
-            Dictionary<String, List<int>> vals = new Dictionary<String, List<int>>();
+            Dictionary<String, List<int>> vals = [];
             foreach (KeyValuePair<String, HashSet<int>> kvp in free)
             {
                 vals[kvp.Key] = free[kvp.Key].ToList<int>();
             }
 
             // Shuffle vals for each free location
-            Dictionary<String, IEnumerator<int>> cardsLeft = new Dictionary<String, IEnumerator<int>>();
+            Dictionary<String, IEnumerator<int>> cardsLeft = [];
             foreach (KeyValuePair<String, List<int>> kvp in vals)
             {
                 int n = vals.Count;
@@ -313,7 +313,7 @@ namespace CardStock.CardEngine
             {
                 if (!sourceDeck.ContainsKey(name))
                 {
-                    sourceDeck[name] = new List<Card>();
+                    sourceDeck[name] = [];
                 }
                 var newCard = new Card(combo.Flatten(), sourceDeck[name].Count, name);
                 newCard.owner = loc;

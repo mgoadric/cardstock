@@ -121,7 +121,7 @@ namespace CardStock.CardEngine
             return new CardCollection(type)
             {
                 name = name,
-                cards = new List<Card>(),
+                cards = [],
                 owner = owner
             };
         }

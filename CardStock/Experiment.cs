@@ -3,11 +3,11 @@ namespace CardStock
 {
     public record Experiment
     {
-        public string FileName;
-        public int NumGames;
-        public int NumEpochs;
-        public bool Logging;
-        public bool Evaluating;
+        public required string FileName;
+        public required int NumGames;
+        public required int NumEpochs;
+        public required bool Logging;
+        public required bool Evaluating;
 
         public GameType type = GameType.AllRnd;
     }

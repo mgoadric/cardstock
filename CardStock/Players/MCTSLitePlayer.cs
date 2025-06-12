@@ -11,10 +11,10 @@ namespace CardStock.Players
     //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
     public class MCTSLitePLayer : AIPlayer
     {
-        public Dictionary<Tuple<CardGame, int>, int> plays = new Dictionary<Tuple<CardGame, int>, int>();
-        public Dictionary<Tuple<CardGame, int>, double> wins = new Dictionary<Tuple<CardGame, int>, double>();
-        public Dictionary<int, CardGame> movestates = new Dictionary<int, CardGame>();
-        public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree = new Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]>();
+        public Dictionary<Tuple<CardGame, int>, int> plays = [];
+        public Dictionary<Tuple<CardGame, int>, double> wins = [];
+        public Dictionary<int, CardGame> movestates = [];
+        public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree = [];
         private CardGame privategame;
         private GameIterator privateiterator;
         public MCTSLitePLayer(Perspective perspective) : base(perspective) { }
@@ -25,7 +25,7 @@ namespace CardStock.Players
             // GAME SIMULATIONS TEST
             (CardGame privategame, GameIterator privateiterator) = perspective.GetPrivateGame();
             int myidx = perspective.GetIdx();
-            movestates = new Dictionary<int, CardGame>();
+            movestates = [];
 
             for (int i = 0; i < 10 * optioncount; i++)
             {
@@ -62,7 +62,7 @@ namespace CardStock.Players
             // Movelist should be tuple array with each entry a state and a who played it
             // Its key should be a state and the idx of the player in charge
 
-            HashSet<Tuple<CardGame, int>> visitedstates = new HashSet<Tuple<CardGame, int>>();
+            HashSet<Tuple<CardGame, int>> visitedstates = [];
             CardGame cg = privategame.Clone();
             GameIterator gameIterator = privateiterator.Clone(cg);
             for (int j = 0; j < numPlayers; j++)

@@ -8,7 +8,7 @@ namespace CardStock.CardEngine
      */
     public class CardStorage
     {
-        private readonly Dictionary<string, CardCollection> dict = new Dictionary<string, CardCollection>();
+        private readonly Dictionary<string, CardCollection> dict = [];
         public Owner owner;
 
         /*******

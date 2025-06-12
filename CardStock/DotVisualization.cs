@@ -14,11 +14,11 @@ namespace CardStock
          *********/
         public static void DOTMakerTop(IParseTree node, string fileName)
         {
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new();
             builder.Append("graph tree{");
             builder.AppendLine("NODE0 [label=\"Stage\" style=filled fillcolor=\"red\"]");
             DOTMaker(node, "NODE0", builder);
-            builder.Append("}");
+            builder.Append('}');
             try
             {
                 var fs = File.Create(fileName + ".gv");

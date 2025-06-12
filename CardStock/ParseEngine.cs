@@ -1,12 +1,6 @@
 using Antlr4.Runtime;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.IO;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using CardStock.CardEngine;
 using CardStock.Players;
@@ -206,7 +200,7 @@ public class ParseEngine
                         // also lock this in the gameover method so that it's safe for multiple games to access 
                         if (exp.type == GameType.AllAI)
                         {
-                            lead[i] = new List<List<double>>();
+                            lead[i] = [];
                             for (int j = 0; j < game.players.Length; j++)
                             {
                                 Console.WriteLine("Adding leads for P" + j + ", count of " + game.players[j].decision.GetLead().Count);
@@ -216,8 +210,7 @@ public class ParseEngine
                         }
                         else if (exp.type == GameType.RndandAI)
                         {
-                            lead[i] = new List<List<double>>();
-                            lead[i].Add(game.players[0].decision.GetLead());
+                            lead[i] = [game.players[0].decision.GetLead()];
                         }
                         winners[i] = results[0].Item2;
                         //gameWorld.GameOver(results[0].Item2);

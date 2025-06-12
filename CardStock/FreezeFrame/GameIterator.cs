@@ -270,7 +270,7 @@ namespace CardStock.FreezeFrame
                 var numTeams = teamcreate.teams().Length;
                 for (int i = 0; i < numTeams; i++)
                 {
-                    ret.Add(new List<int>());
+                    ret.Add([]);
                     foreach (var p in teamcreate.teams(i).INTNUM())
                     {
                         ret[i].Add(int.Parse(p.GetText()));
@@ -282,7 +282,7 @@ namespace CardStock.FreezeFrame
                 var numTeams = cg.players.Length;
                 for (int i = 0; i < numTeams; i++)
                 {
-                    ret.Add(new List<int>() {i});
+                    ret.Add([i]);
                 }
             }
             return ret;
@@ -1264,7 +1264,7 @@ namespace CardStock.FreezeFrame
 
         private List<object> ProcessOther(RecycleParser.OtherContext other)
         { //return list of teams or list of players
-            List<object> lst = new List<object>();
+            List<object> lst = [];
             if (other.GetChild(2).GetText() == "player")
             {
                 int me = game.currentPlayer.Peek().idx;
@@ -1304,7 +1304,7 @@ namespace CardStock.FreezeFrame
             {
                 ProcessLet(cstoragecoll.let());
                 Debug.WriteLine("let, returning nothing");
-                return new List<CardLocReference>();
+                return [];
             }
             throw new NotSupportedException();
         }
@@ -1352,7 +1352,7 @@ namespace CardStock.FreezeFrame
                 CardCollection temp = new CardCollection(CCType.VIRTUAL);
                 if (loc.intersectof().cstorage().Length > 0)
                 {
-                    Dictionary<Card, int> cardCount = new Dictionary<Card, int>();
+                    Dictionary<Card, int> cardCount = [];
                     foreach (var locChild in loc.intersectof().cstorage())
                     {
                         var locs = ProcessLocation(locChild);
@@ -1380,7 +1380,7 @@ namespace CardStock.FreezeFrame
                 }
                 else
                 { //agg
-                    Dictionary<Card, int> cardCount = new Dictionary<Card, int>();
+                    Dictionary<Card, int> cardCount = [];
                     foreach (var locs in (ProcessAgg(loc.intersectof().agg()) as List<CardLocReference>))
                     {
                         name += locs.name + " ";
@@ -1417,7 +1417,7 @@ namespace CardStock.FreezeFrame
                 CardCollection temp = new CardCollection(CCType.VIRTUAL);
                 if (loc.disjunctionof().cstorage().Length > 0)
                 {
-                    Dictionary<Card, int> cardCount = new Dictionary<Card, int>();
+                    Dictionary<Card, int> cardCount = [];
                     foreach (var locChild in loc.disjunctionof().cstorage())
                     {
                         var locs = ProcessLocation(locChild);
@@ -1445,7 +1445,7 @@ namespace CardStock.FreezeFrame
                 }
                 else
                 { //agg
-                    Dictionary<Card, int> cardCount = new Dictionary<Card, int>();
+                    Dictionary<Card, int> cardCount = [];
                     foreach (var locs in (ProcessAgg(loc.disjunctionof().agg()) as List<CardLocReference>))
                     {
                         name += locs.name + " ";
@@ -1784,7 +1784,7 @@ namespace CardStock.FreezeFrame
         {
             //var attributeCount = deck.ChildCount - 3;
 
-            List<Node> childs = new List<Node>();
+            List<Node> childs = [];
             for (int i = 0; i < deck.attribute().Length; ++i)
             {
                 var att = ProcessAttribute(deck.attribute(i));
@@ -1999,7 +1999,7 @@ namespace CardStock.FreezeFrame
         {
             int int1 = ProcessInt(range.GetChild(2) as RecycleParser.IntContext);
             int int2 = ProcessInt(range.GetChild(4) as RecycleParser.IntContext);
-            List<int> ret = new List<int>();
+            List<int> ret = [];
             for (int idx = int1; idx <= int2; idx++)
             {
                 ret.Add(idx);
@@ -2154,7 +2154,7 @@ namespace CardStock.FreezeFrame
         {
             var bin = ProcessPointStorage(points.pointstorage());
 
-            List<ValueTuple<string, string, int>> temp = new List<ValueTuple<string, string, int>>();
+            List<ValueTuple<string, string, int>> temp = [];
             var awards = points.awards();
             foreach (RecycleParser.AwardsContext award in awards)
             {
@@ -2332,7 +2332,7 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Processing collection type: range.");
 
                 var lst = ProcessRange(collection.range());
-                List<object> newlst = new List<object>();
+                List<object> newlst = [];
                 foreach (int num in lst)
                 {
                     newlst.Add((object)num);

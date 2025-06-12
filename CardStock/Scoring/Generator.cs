@@ -1,9 +1,5 @@
 ﻿using Antlr4.Runtime.Tree;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics;
-using System.IO;
 using Antlr4.Runtime;
 using System.Text.RegularExpressions;
 
@@ -356,10 +352,9 @@ namespace CardStock.Scoring
 
         private IParseTree FindSubTree(IParseTree game, Type treeType)
         {
-            List<IParseTree> nodes = new List<IParseTree>();
-            nodes.Add(game);
-            List<IParseTree> all = new List<IParseTree>();
-            List<RecycleParser.CstorageContext> cstorages = new List<RecycleParser.CstorageContext>();
+            List<IParseTree> nodes = [game];
+            List<IParseTree> all = [];
+            List<RecycleParser.CstorageContext> cstorages = [];
             while (nodes.Count > 0)
             {
                 IParseTree current = nodes[0];
@@ -392,10 +387,9 @@ namespace CardStock.Scoring
 
         private Tuple<List<RecycleParser.CstorageContext>, List<RecycleParser.VarContext>> FindGameInfo(IParseTree game)
         {
-            List<IParseTree> nodes = new List<IParseTree>();
-            nodes.Add(game);
-            List<RecycleParser.CstorageContext> cstorages = new List<RecycleParser.CstorageContext>();
-            List<RecycleParser.VarContext> vars = new List<RecycleParser.VarContext>();
+            List<IParseTree> nodes = [game];
+            List<RecycleParser.CstorageContext> cstorages = [];
+            List<RecycleParser.VarContext> vars = [];
             while (nodes.Count > 0)
             {
                 IParseTree current = nodes[0];

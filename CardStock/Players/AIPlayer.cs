@@ -13,17 +13,11 @@ namespace CardStock.Players
      * a List that can track the player's estimates of their current
      * game position
      */
-	public abstract class AIPlayer 
-	{
-        protected int numPlayers;
-        protected Perspective perspective;
-        protected List<double> leadList = new List<double>();
-
-        public AIPlayer(Perspective perspective)
-        {
-            this.perspective = perspective;
-            numPlayers = perspective.NumberOfPlayers();
-        }
+	public abstract class AIPlayer(Perspective perspective)
+    {
+        protected int numPlayers = perspective.NumberOfPlayers();
+        protected Perspective perspective = perspective;
+        protected List<double> leadList = [];
 
         /********
          * This is the critical method that needs to be overridden in any subclass

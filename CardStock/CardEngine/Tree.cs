@@ -82,7 +82,7 @@ namespace CardStock.CardEngine
                 foreach (var node in latestIter)
                 {
                     ret.Add(
-                        new Node { Value = "treeRoot", children = new List<Node> { node } }
+                        new Node { Value = "treeRoot", children = [node] }
                     );
                 }
                 return ret;
@@ -98,7 +98,7 @@ namespace CardStock.CardEngine
                 {
                     if (first)
                     {
-                        var tempNode = new Node { Value = "treeRoot", children = new List<Node> { node1, node2 } };
+                        var tempNode = new Node { Value = "treeRoot", children = [node1, node2] };
                         permu.Add(tempNode);
                     }
                     else
@@ -116,7 +116,7 @@ namespace CardStock.CardEngine
     {
         public string Value;
         public string Key;
-        public List<Node> children = new List<Node>();
+        public List<Node> children = [];
         public Node()
         {
 
@@ -125,7 +125,7 @@ namespace CardStock.CardEngine
         {
             Value = copy.Value;
             Key = copy.Key;
-            children = new List<Node>();
+            children = [];
             if (useChildren)
             {
                 foreach (var c in copy.children)
@@ -141,7 +141,7 @@ namespace CardStock.CardEngine
             {
                 temp = temp.children[0];
             }
-            temp.children = new List<Node> { n };
+            temp.children = [n];
         }
 
         private void FlattenHelper(Dictionary<string, string> ret) {
@@ -161,7 +161,7 @@ namespace CardStock.CardEngine
 
         public Dictionary<string, string> Flatten() 
         {
-            Dictionary<string, string> ret = new Dictionary<string, string>();
+            Dictionary<string, string> ret = [];
             FlattenHelper(ret);
             return ret;
         }
@@ -181,11 +181,11 @@ namespace CardStock.CardEngine
             {
                 StringBuilder temp = new StringBuilder();
                 temp.Append(Value);
-                temp.Append("(");
+                temp.Append('(');
                 temp.Append(Key);
                 temp.Append(") {");
                 temp.Append(ret);
-                temp.Append("}");
+                temp.Append('}');
                 return temp.ToString();
             }
             else
