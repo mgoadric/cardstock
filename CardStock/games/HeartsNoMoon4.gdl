@@ -128,7 +128,7 @@
                     ;; determine who won the hand, set them first next time, and give them a point
                     (forget (top (game mem LEAD)))
                     (cycle next (owner (max (union (all player 'P 
-                                                        ('P vloc TRICK))) using (game points SCORE))))
+                                                        ('P vloc TRICK))) using (game points PRECEDENCE))))
                     
                     ;; if winner played trump and trump not broken, trump is now broken
                     ((and (!= (size (filter (union (all player 'P 

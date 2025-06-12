@@ -149,11 +149,11 @@
                (do 
                    (
                     
-                    ((== (sum ((current player) vloc TRICKSWON) using (game points PRECEDENCE)) 26)
+                    ((== (sum ((current player) vloc TRICKSWON) using (game points SCORE)) 26)
                      (dec ((current player) sto SCORE) 26))
                     
-                    ((!= (sum ((current player) vloc TRICKSWON) using (game points PRECEDENCE)) 26)
-                     (inc ((current player) sto SCORE) (sum ((current player) vloc TRICKSWON) using (game points PRECEDENCE))))
+                    ((!= (sum ((current player) vloc TRICKSWON) using (game points SCORE)) 26)
+                     (inc ((current player) sto SCORE) (sum ((current player) vloc TRICKSWON) using (game points SCORE))))
                     
                     (repeat all
                             (move (top ((current player) vloc TRICKSWON))
