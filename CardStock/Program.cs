@@ -1,6 +1,6 @@
-int numRndvRnd = 100;
-int numAIvRnd = 100;
-int numAIvAI = 100;
+int numRndvRnd = 1;
+int numAIvRnd = 0;
+int numAIvAI = 0;
 string game = "KuhnPoker";
 int players = 2;
 

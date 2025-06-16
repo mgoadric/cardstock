@@ -46,7 +46,7 @@
                   (move (top (game vloc ROWS))
                         (top (game vloc 'R))))))
         
-        ;; A round where a players build and then choose a row
+        ;; A round where players build and then choose a row
         (stage player
                (end
                 (all 'ROWS 'R (== (size (game vloc 'R)) 0)))

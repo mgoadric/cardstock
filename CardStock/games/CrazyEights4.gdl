@@ -76,7 +76,7 @@
                EIGHT)
            (any (filter ((current player) iloc HAND) 'NH 
                         (== (cardatt SUIT 'NH)
-                            (cardatt SUIT (top (game str EIGHTSUIT)))))
+                            (game str EIGHTSUIT)))
                 'C
                          
                          (move 'C 

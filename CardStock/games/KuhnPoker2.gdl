@@ -30,29 +30,33 @@
                   (top ('P iloc HAND)))
         )))
 
-       (set (game sto SHOWDOWN) 1)
-       (set (game str TEST) HELP)
+       (set (game str SHOWDOWN) YES)
     ))
  
  ;; Stages of the game
  (stage player
         (end 
-         (all player 'P (== ('P sto MOVE) 1)))
+         (all player 'P (== ('P str MOVE) CALL)))
         
                ;; players play a hidden card
                (choice 
                 (
-                 (set ((current player) sto MOVE) 1)
+                 (set ((current player) str MOVE) CALL)
+                 (do (
+                    (set ((current player) str MOVE) BET)
+                    (dec ((current player) sto CHIPS) 1)
+                    (inc (game sto POT) 1)
                  ))
+            ))
  )
  (do
     (
-    ((== (game sto SHOWDOWN) 1)  ;; if showdown
+    ((== (game str SHOWDOWN) YES)  ;; if showdown
         (do (
         ;; Move the card to visible
         (all player 'P 
             (move (top ('P iloc HAND))
-                (top ('P vloc REVEAL))))
+                  (top ('P vloc REVEAL))))
         
         ;; Determine who won
         (inc ((owner (max (union (all player 'P ('P vloc REVEAL))) using (game points PRECEDENCE))) sto SCORE) (game sto POT))

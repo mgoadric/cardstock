@@ -1692,7 +1692,7 @@ namespace CardStock.FreezeFrame
             if (cardatt.ChildCount == 1)
             {
                 Debug.WriteLine("Att1 is " + cardatt.GetText());
-                return cardatt.GetText();
+                return ProcessString(cardatt.str());
             }
             else
             {
