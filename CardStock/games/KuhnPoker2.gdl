@@ -30,28 +30,42 @@
                   (top ('P iloc HAND)))
         )))
 
-       (set (game str SHOWDOWN) YES)
+       (set (game str STATE) SHOWDOWN)
     ))
  
  ;; Stages of the game
  (stage player
         (end 
-         (all player 'P (== ('P str MOVE) CALL)))
+         (or (any player 'P (== ('P str MOVE) FOLD))
+             (all player 'P (== ('P str MOVE) CHECK))
+             (and (== ((current player) str MOVE) BET)
+                  (== ((previous player) str MOVE) CALL))))
         
-               ;; players play a hidden card
+               ;; players make a choice
                (choice 
                 (
-                 (set ((current player) str MOVE) CALL)
+                 ((!= ((previous player) str MOVE) BET) 
+                    (set ((current player) str MOVE) CHECK))
                  (do (
                     (set ((current player) str MOVE) BET)
                     (dec ((current player) sto CHIPS) 1)
                     (inc (game sto POT) 1)
                  ))
+                 ((== ((previous player) str MOVE) BET) 
+                    (do (
+                        (set (game str STATE) FOLD)
+                        (inc ((previous player) sto CHIPS) (game sto POT))
+                 )))
+                 ((== ((previous player) str MOVE) BET) 
+                    (do (
+                        (set ((current player) str MOVE) CALL)
+                        (dec ((current player) sto CHIPS) 1)
+                        (inc (game sto POT) 1))))
             ))
  )
  (do
     (
-    ((== (game str SHOWDOWN) YES)  ;; if showdown
+    ((== (game str STATE) SHOWDOWN)  ;; if showdown
         (do (
         ;; Move the card to visible
         (all player 'P 
@@ -64,6 +78,6 @@
     )
  ))
  
- (scoring max ((current player) sto SCORE)))
+ (scoring max ((current player) sto CHIPS)))
 
 
