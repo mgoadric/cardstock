@@ -1,0 +1,65 @@
+;; Kuhn Poker
+;;
+
+(game
+ (setup  
+  ;; Set up the players, 2 players each on their own team
+  (create players 2)
+  
+  ;; Create the deck source
+  (create deck (game iloc STOCK) (deck (RANK (J, Q, K)))))
+ (do 
+     ( 
+      ;; Assign precedence to cards for showdown
+      (set (game points PRECEDENCE)
+           (
+            ((RANK (K)) 13) 
+            ((RANK (Q)) 12)
+            ((RANK (J)) 11)
+            ))
+
+      ;; Shuffle the cards
+      (shuffle (game iloc STOCK))
+
+      ;; Each player adds one to the pot and is dealt a card
+      (all player 'P 
+        (do (
+            (dec ('P sto CHIPS) 1)
+            (inc (game sto POT) 1)
+            (move (top (game iloc STOCK)) 
+                  (top ('P iloc HAND)))
+        )))
+
+       (set (game sto SHOWDOWN) 1)
+       (set (game str TEST) HELP)
+    ))
+ 
+ ;; Stages of the game
+ (stage player
+        (end 
+         (all player 'P (== ('P sto MOVE) 1)))
+        
+               ;; players play a hidden card
+               (choice 
+                (
+                 (set ((current player) sto MOVE) 1)
+                 ))
+ )
+ (do
+    (
+    ((== (game sto SHOWDOWN) 1)  ;; if showdown
+        (do (
+        ;; Move the card to visible
+        (all player 'P 
+            (move (top ('P iloc HAND))
+                (top ('P vloc REVEAL))))
+        
+        ;; Determine who won
+        (inc ((owner (max (union (all player 'P ('P vloc REVEAL))) using (game points PRECEDENCE))) sto SCORE) (game sto POT))
+        ))
+    )
+ ))
+ 
+ (scoring max ((current player) sto SCORE)))
+
+

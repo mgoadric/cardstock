@@ -20,7 +20,7 @@ scoring : OPEN 'scoring' ('min' | 'max') int CLOSE ;
 endcondition : OPEN 'end' boolean CLOSE ;
 
 action : OPEN (initpoints | teamcreate | deckcreate | cycleaction | setaction | moveaction | copyaction
-         | incaction | decaction | removeaction | turnaction | shuffleaction | repeat) CLOSE | agg ;
+         | incaction | setstraction | decaction | removeaction | turnaction | shuffleaction | repeat) CLOSE | agg ;
 multiaction : OPEN 'choice' OPEN (condact)+? CLOSE CLOSE | OPEN 'do' OPEN (condact)+? CLOSE CLOSE | agg | let ;
 multiaction2 : OPEN 'do' OPEN (condact)+? CLOSE CLOSE | agg | let ;
 condact : OPEN boolean multiaction2 CLOSE | multiaction2 | OPEN boolean action CLOSE | action ;
@@ -121,7 +121,7 @@ score : OPEN 'score' card 'using' pointstorage CLOSE ;
 int : var | sizeof | mult | subtract | mod | add | divide | exponent | triangular | fibonacci | random | sum | rawstorage | score | INTNUM+ ;
 INTNUM : [0-9] ;
 
-str : (namegr | strstorage | var) ;
+str : namegr | strstorage | var ;
 namegr : (LETT)+ ;
 LETT : [A-Z] ;
 

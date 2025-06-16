@@ -46,7 +46,7 @@
       ;; If an eight on top, just pick HEARTS to be the start suit.
       ((== (cardatt RANK (top (game vloc DISCARD)))
                EIGHT)
-       (set (game sto EIGHTSUIT) (SUIT (HEARTS))))))
+       (set (game str EIGHTSUIT) HEARTS))))
  
  ;; Game over when any player has 0 cards in their hand
  (stage player

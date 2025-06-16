@@ -355,6 +355,42 @@ namespace CardStock.FreezeFrame {
 		}
     }
 
+        public class StrAction : GameAction {
+
+        DefaultStorage<string> bins;
+        string key;
+        string value;
+        string oldValue;
+
+        public StrAction(DefaultStorage<string> storage, string bKey, string v, Transcript script) {
+            bins = storage;
+            key = bKey;
+            value = v;
+            this.script = script;
+        }
+        public override void Execute() {
+            oldValue = bins[key];
+            bins[key] = value;
+            complete = true;
+            script.WriteToFile("S:" + bins.owner.name + " " + key + " " + value);
+        }
+        public override void Undo() {
+            if (complete)
+            {
+                bins[key] = oldValue;
+                complete = false;
+            }
+            else {
+                throw new UnauthorizedAccessException();
+            }
+        }
+		public override string ToString()
+		{
+            return "StrAction: value: " + value.ToString();
+		}
+    }
+
+
     public class PointsAction : GameAction
     {
 

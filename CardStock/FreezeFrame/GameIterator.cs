@@ -847,6 +847,11 @@ namespace CardStock.FreezeFrame
                 var setAction = actionNode.setaction();
                 ret.Add(SetAction(setAction));
             }
+            else if (actionNode.setstraction() != null)
+            {
+                var setstrAction = actionNode.setstraction();
+                ret.Add(SetStrAction(setstrAction));
+            }
             else if (actionNode.incaction() != null)
             {
                 var incAction = actionNode.incaction();
@@ -2075,6 +2080,7 @@ namespace CardStock.FreezeFrame
         {
             if (strSto.GetChild(1).GetText() == "game")
             {
+                
                 return new StrStorageReference(game.table[0].stringBins, ProcessString(strSto.str()));
             }
             else if (strSto.who() != null)
@@ -2149,6 +2155,14 @@ namespace CardStock.FreezeFrame
             var setValue = ProcessInt(setAction.@int());
             return new IntAction(bin.Storage, bin.Key, setValue, script);
         }
+
+        private GameAction SetStrAction(RecycleParser.SetstractionContext setAction)
+        {
+            var bin = ProcessStrStorage(setAction.strstorage());
+            var setValue = ProcessString(setAction.str());
+            return new StrAction(bin.Storage, bin.Key, setValue, script);
+        }
+
 
         private GameAction PointAction(RecycleParser.InitpointsContext points)
         {
