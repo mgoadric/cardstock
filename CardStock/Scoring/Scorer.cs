@@ -15,9 +15,10 @@ namespace CardStock.Scoring
         public static World gameWorld;
         public string text;
 
-        public Scorer(string fileName, int numRndvRnd = 100, int numAIvRnd = 100, int numAIvAI = 100)
+        public Scorer(string game, int players, int numRndvRnd = 100, int numAIvRnd = 100, int numAIvAI = 100)
         {
 
+            string fileName = "games/" + game + players + ".gdl";
             text = "Scoring " + fileName + ":\n";
 
             exps.Add(new Experiment()

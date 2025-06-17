@@ -4,6 +4,5 @@ int numAIvAI = 100;
 string game = "KuhnPoker";
 int players = 2;
 
-var p = new CardStock.Scoring.Scorer("games/" + game + players + ".gdl", 
-    numRndvRnd, numAIvRnd, numAIvAI);
+var p = new CardStock.Scoring.Scorer(game, players, numRndvRnd, numAIvRnd, numAIvAI);
 var score = p.Score();
