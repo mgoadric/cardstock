@@ -48,6 +48,21 @@
         (end 
          (any player 'P (== (size ('P iloc HAND)) 0)))
         
+        ;; if STOCK is empty, resupply from discard
+        (do 
+            (             
+             ((== (size (game iloc STOCK)) 0)
+              (do 
+                  (
+                   (move (top (game vloc DISCARD))
+                         (top (game vloc TEMP)))
+                   (repeat all 
+                           (move (top (game vloc DISCARD))
+                                 (top (game iloc STOCK))))
+                   (move (top (game vloc TEMP))
+                         (top (game vloc DISCARD)))
+                   (shuffle (game iloc STOCK)))))))
+
         ;; player makes a choice
         (choice 
          (
@@ -66,25 +81,9 @@
           ((> (size (game iloc STOCK)) 0)
            (move (top (game iloc STOCK))
                  (top ((current player) iloc HAND))))
-          
-          ;; Pass and wait for the stock to be refilled
-          ((== (size (game iloc STOCK)) 0)
-           (turn pass))))
-        
-        ;; if STOCK is empty, resupply from discard
-        (do 
-            (             
-             ((== (size (game iloc STOCK)) 0)
-              (do 
-                  (
-                   (move (top (game vloc DISCARD))
-                         (top (game vloc TEMP)))
-                   (repeat all 
-                           (move (top (game vloc DISCARD))
-                                 (top (game iloc STOCK))))
-                   (move (top (game vloc TEMP))
-                         (top (game vloc DISCARD)))
-                   (shuffle (game iloc STOCK))))))))
+           
+      ))      
+)
  
  ;; Player with the smallest hand size wins
  (scoring min (sum ((current player) iloc HAND) using (game points SCORE))))

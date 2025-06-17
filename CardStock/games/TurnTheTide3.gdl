@@ -4,7 +4,7 @@
 
 (game
  (setup  
-  ;; Set up the players, 2 players each on their own team
+  ;; Set up the players, players each on their own team
   (create players 3)
   (create teams (0) (1) (2))
   

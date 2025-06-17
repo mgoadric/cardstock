@@ -29,8 +29,6 @@
             (move (top (game iloc STOCK)) 
                   (top ('P iloc HAND)))
         )))
-
-       (set (game str STATE) SHOWDOWN)
     ))
  
  ;; Stages of the game
@@ -38,22 +36,23 @@
         (end 
          (or (any player 'P (== ('P str MOVE) FOLD))
              (all player 'P (== ('P str MOVE) CHECK))
-             (and (== ((current player) str MOVE) BET)
-                  (== ((previous player) str MOVE) CALL))))
+             (and (== ((previous player) str MOVE) BET)
+                  (== ((current player) str MOVE) CALL))))
         
                ;; players make a choice
                (choice 
                 (
                  ((!= ((previous player) str MOVE) BET) 
                     (set ((current player) str MOVE) CHECK))
-                 (do (
-                    (set ((current player) str MOVE) BET)
-                    (dec ((current player) sto CHIPS) 1)
-                    (inc (game sto POT) 1)
-                 ))
+                 ((!= ((previous player) str MOVE) BET) 
+                    (do (
+                        (set ((current player) str MOVE) BET)
+                        (dec ((current player) sto CHIPS) 1)
+                        (inc (game sto POT) 1)
+                 )))
                  ((== ((previous player) str MOVE) BET) 
                     (do (
-                        (set (game str STATE) FOLD)
+                        (set ((current player) str MOVE) FOLD)
                         (inc ((previous player) sto CHIPS) (game sto POT))
                  )))
                  ((== ((previous player) str MOVE) BET) 
@@ -65,7 +64,7 @@
  )
  (do
     (
-    ((== (game str STATE) SHOWDOWN)  ;; if showdown
+    ((all player 'P (!= ('P str MOVE) FOLD))  ;; if showdown
         (do (
         ;; Move the card to visible
         (all player 'P 
@@ -73,7 +72,7 @@
                   (top ('P vloc REVEAL))))
         
         ;; Determine who won
-        (inc ((owner (max (union (all player 'P ('P vloc REVEAL))) using (game points PRECEDENCE))) sto SCORE) (game sto POT))
+        (inc ((owner (max (union (all player 'P ('P vloc REVEAL))) using (game points PRECEDENCE))) sto CHIPS) (game sto POT))
         ))
     )
  ))
