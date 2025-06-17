@@ -1,0 +1,49 @@
+;; Partition Test
+;;
+;; Used to test the partition function in ReCYCLE v0.5
+
+(game
+    (declare 2 'NUMP)
+    (setup
+        (create players 'NUMP)
+        ;; create deck
+        (create deck (game iloc STOCK) (deck (RANK (ONE, TWO, THREE)) 
+                                             (COLOR (RED (SUIT (HEARTS))))))
+        (create deck (game iloc STOCK) (deck (RANK (ONE, TWO, THREE, FOUR)) 
+                                             (COLOR (BLACK (SUIT (CLUBS))))))
+        (create deck (game iloc STOCK) (deck (RANK (ONE, TWO, THREE)) 
+                                             (COLOR (RED (SUIT (DIAMONDS))))))
+        (create deck (game iloc STOCK) (deck (RANK (ONE, TWO, THREE, FOUR)) 
+                                             (COLOR (BLACK (SUIT (SPADES))))))
+        (create deck (game iloc SHUFFLE) (deck (RANK (ONE, TWO, THREE, FOUR)) 
+                                             (COLOR (BLACK (SUIT (SPADES)))))))
+    
+    ;; "shuffle" and deal
+    (do
+        (
+            (shuffle (game iloc SHUFFLE))
+            (all player 'P
+                (repeat 7
+                    (move (top (game iloc STOCK))
+                          (top ('P iloc HAND)))))
+            (all player 'P
+                (set ('P sto SCORE) 0))))
+
+    (stage player
+        (end
+            (all player 'P
+                (== (size ('P iloc HAND)) 0)))
+        (choice
+            (
+                (repeat all
+                    (move (top ((current player) iloc HAND))
+                          (top ((current player) vloc TRICK)))))))
+
+    ;; check for size of first and last partition
+    (do
+        (
+            
+            (all player 'P
+                (set ('P sto PSIZE) (size (subsets ('P vloc TRICK)))))))
+
+    (scoring max ((current player) sto SCORE)))

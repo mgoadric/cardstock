@@ -1,5 +1,12 @@
 // Version 0.5.1 of our REcursive CYclic Card game LanguagE
 
+// New in version 0.5.1
+//  subset operator makes all possible subsets
+//  TODO store other player as a variable?
+//  TODO make a graph for the locations? Only make explicit if needed?
+//     would also need ways to talk about neighbors (left, right, up, down) grammar
+//      or by index (0, 0), (1, 0), etc...
+
 // New in version 0.5
 //  abstracted namegr into str for strings
 //  teamcreate is default one per team, those not mentioned put on separate team
@@ -63,14 +70,14 @@ strstorage : OPEN (var | 'game' | who) 'str' str CLOSE ;
 cstorage : var | unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc str CLOSE | memstorage ;
 memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
 
-memset : tuple | partition | combination;
-combination : OPEN 'combinations' cstorage CLOSE ;
+memset : tuple | partition | subset ;
+subset : OPEN 'subsets' cstorage CLOSE ;
 tuple : OPEN 'tuples' int cstorage 'using' pointstorage CLOSE ;
 partition : OPEN 'partition' (agg | cstorage+?) str CLOSE ;
 
 locpre : (var | 'game' | whop) ;
 locdesc : 'vloc'|'iloc'|'hloc'|'mem' ;
-who : whot | whop | var;
+who : whot | whop ;
 whop : OPEN whodesc 'player' CLOSE | owner ;
 whot : OPEN whodesc 'team' CLOSE | teamp ;
 whodesc : int | 'previous' | 'next' | 'current' ;

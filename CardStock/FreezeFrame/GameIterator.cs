@@ -1540,6 +1540,52 @@ namespace CardStock.FreezeFrame
                 }
                 return returnList;
             }
+            // subset code  BUT NO NULL SET?
+            if (memset.subset() != null)
+            {
+                Debug.WriteLine("Found a subset");
+                var stor = ProcessLocation(memset.subset().cstorage());
+                Debug.WriteLine("There are " + stor.cardList.AllCards().Count() + " cards here");
+
+                var subsets = new List<List<Card>>
+                {
+                    ([])
+                };
+
+                foreach (var card in stor.cardList.AllCards())
+                {
+                    var subsettemp = new List<List<Card>>();
+                    foreach (var set in subsets)
+                    {
+                        var subset = new List<Card>();
+                        foreach (var card2 in set)
+                        {
+                            subset.Add(card2);
+                        }
+                        subset.Add(card);
+                        subsettemp.Add(subset);
+                    }
+                    subsets.AddRange(subsettemp);
+                }
+                Debug.WriteLine("there are now " + subsets.Count + " subsets");
+                var returnList = new List<CardLocReference>();
+                foreach (var cardlist in subsets)
+                {
+                    var cctemp = new CardCollection(CCType.VIRTUAL);
+                    foreach (var card in cardlist)
+                    {
+                        cctemp.Add(card);
+                    }
+                    returnList.Add(new CardLocReference()
+                    {
+                        cardList = cctemp,
+                        name = "{subset from " + stor.name + "}"
+                    });
+                }
+                return returnList.ToArray();
+            }
+
+            // PARTITON CODE
             if (memset.partition() != null)
             {
                 if (memset.partition().cstorage().Length > 0)

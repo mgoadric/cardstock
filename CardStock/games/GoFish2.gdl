@@ -32,6 +32,7 @@
             ((VALUE (TWO)) 2)
             ((VALUE (A)) 1)))
       (shuffle (game iloc STOCK))
+      (set (game str STATE) ASKING)
       (all player 'P 
            (do 
                (
@@ -74,7 +75,7 @@
                             (set ((current player) sto WHO) 'OP) ;; THIS WILL NOT WORK RIGHT NOW
                             (set ((current player) str RANK) 'R)))))))))
         
-        
+        ;; THIS DOESNT MAKE SENSE, I CAN'T SEE THEIR INVISIBLE HAND IT SHOULD BE THEIR TURN
         (let (filter (((current player) sto WHO) iloc HAND) 'TR 
                      (== (cardatt RANK 'TR) 
                          ((current player) str RANK))) 'THEIRRANK ;; Makes a collection of cards that player X has in rank R	
