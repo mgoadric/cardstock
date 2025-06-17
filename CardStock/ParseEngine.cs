@@ -5,6 +5,7 @@ using Antlr4.Runtime.Tree;
 using CardStock.CardEngine;
 using CardStock.Players;
 using CardStock.Scoring;
+using System.Runtime.CompilerServices;
 
 namespace CardStock {
 public class ParseEngine
@@ -26,13 +27,13 @@ public class ParseEngine
 
         if (exp.Logging)
         {
-            File.WriteAllText(exp.FileName + ".txt", string.Empty);
+            File.WriteAllText("output/" + exp.Game + "/" + exp.PlayerCount + "/logging.txt", string.Empty);
         }
 
         /************
          * Load up the game from the .gdl RECYCLE description
          ************/
-        fileName = exp.FileName;
+        fileName = "games/" + exp.Game + exp.PlayerCount + ".gdl";
 
         Console.WriteLine("name: " + fileName);
 
@@ -56,7 +57,7 @@ public class ParseEngine
          ***********/
         if (!exp.Evaluating)
         {
-            DotVisualization.DOTMakerTop(tree, exp.FileName);
+            DotVisualization.DOTMakerTop(tree, fileName);
         }
 
         return HasShuffleAndChoice(tree);
@@ -88,13 +89,17 @@ public class ParseEngine
          * Run the experiments
          ***********/
         List<List<double>>[] lead = new List<List<double>>[exp.NumGames];
-        StreamWriter expleadfile = new StreamWriter(exp.FileName + exp.type + "-leadstats.txt");
+
+        string filePath = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-leadstats.txt";
+        System.IO.FileInfo file = new System.IO.FileInfo(filePath);
+        file.Directory.Create(); // If the directory already exists, this method does nothing.
+        StreamWriter expleadfile = new(filePath);
         expleadfile.WriteLine(exp.type);
-        StreamWriter expchoicefile = new StreamWriter(exp.FileName + exp.type + "-choicestats.txt");
+        StreamWriter expchoicefile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-choicestats.txt");
         expchoicefile.WriteLine(exp.type);
-        StreamWriter expresultsfile = new StreamWriter(exp.FileName + exp.type + "-resultsstats.txt");
+        StreamWriter expresultsfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-resultsstats.txt");
         expresultsfile.WriteLine(exp.type);
-        StreamWriter expspreadfile = new StreamWriter(exp.FileName + exp.type + "-spreadstats.txt");
+        StreamWriter expspreadfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-spreadstats.txt");
         expspreadfile.WriteLine(exp.type);
         int[] winners = new int[exp.NumGames];
         int numFinished = 0;
@@ -107,7 +112,7 @@ public class ParseEngine
 
                 // TODO Can the creation of the game go inside the GameIterator???
                 CardGame game = new CardGame();
-                var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld, exp.FileName + i + exp.type);
+                var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld, "output/" + exp.Game + "/" + exp.PlayerCount + "/simulation" + i + exp.type + ".txt");
 
                 if (exp.type == GameType.AllAI)
                 {

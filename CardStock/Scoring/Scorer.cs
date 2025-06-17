@@ -15,15 +15,15 @@ namespace CardStock.Scoring
         public static World gameWorld;
         public string text;
 
-        public Scorer(string game, int players, int numRndvRnd = 100, int numAIvRnd = 100, int numAIvAI = 100)
+        public Scorer(string game, int players = 2, int numRndvRnd = 100, int numAIvRnd = 100, int numAIvAI = 100)
         {
 
-            string fileName = "games/" + game + players + ".gdl";
-            text = "Scoring " + fileName + ":\n";
+            text = "Scoring " + game + ":p" + players + ":\n";
 
             exps.Add(new Experiment()
             {
-                FileName = fileName,
+                Game = game,
+                PlayerCount = players,
                 NumGames = numRndvRnd,
                 NumEpochs = numRndvRnd,
                 Logging = false,
@@ -34,7 +34,8 @@ namespace CardStock.Scoring
 
             exps.Add(new Experiment()
             {
-                FileName = fileName,
+                Game = game,
+                PlayerCount = players,
                 NumGames = numAIvRnd,
                 NumEpochs = numAIvRnd,
                 Logging = false,
@@ -46,7 +47,8 @@ namespace CardStock.Scoring
 
             exps.Add(new Experiment()
             {
-                FileName = fileName,
+                Game = game,
+                PlayerCount = players,
                 NumGames = numAIvAI,
                 NumEpochs = numAIvAI,
                 Logging = false,
@@ -96,7 +98,7 @@ namespace CardStock.Scoring
             Debug.WriteLine("passed reasonable");
             List<double> total = [];
             var cleanoutput = "";
-            StreamWriter heurfile = new(exps[0].FileName + "-heuristics.txt");
+            StreamWriter heurfile = new("output/" + exps[0].Game + "/" + exps[0].PlayerCount + "/heuristics.txt");
 
             foreach (Heuristic h in hs){
                 var score = h.Eval(gameWorld);

@@ -1,4 +1,4 @@
-// Version 0.5 of our REcursive CYclic Card game LanguagE
+// Version 0.5.1 of our REcursive CYclic Card game LanguagE
 
 // New in version 0.5
 //  abstracted namegr into str for strings
@@ -63,13 +63,14 @@ strstorage : OPEN (var | 'game' | who) 'str' str CLOSE ;
 cstorage : var | unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc str CLOSE | memstorage ;
 memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
 
-memset : tuple | partition;
+memset : tuple | partition | combination;
+combination : OPEN 'combinations' cstorage CLOSE ;
 tuple : OPEN 'tuples' int cstorage 'using' pointstorage CLOSE ;
 partition : OPEN 'partition' (agg | cstorage+?) str CLOSE ;
 
 locpre : (var | 'game' | whop) ;
 locdesc : 'vloc'|'iloc'|'hloc'|'mem' ;
-who : whot | whop ;
+who : whot | whop | var;
 whop : OPEN whodesc 'player' CLOSE | owner ;
 whot : OPEN whodesc 'team' CLOSE | teamp ;
 whodesc : int | 'previous' | 'next' | 'current' ;

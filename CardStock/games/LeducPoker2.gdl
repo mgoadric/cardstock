@@ -1,0 +1,98 @@
+;; Leduc Poker
+;;
+
+(game
+ (setup  
+  ;; Set up the players, 2 players each on their own team
+  (create players 2)
+  
+  ;; Create the deck source
+  (repeat 2 (create deck (game iloc STOCK) (deck (RANK (J, Q, K))))))
+ (do 
+     ( 
+      ;; Assign precedence to cards for showdown
+      (set (game points PRECEDENCE)
+           (
+            ((RANK (K)) 13) 
+            ((RANK (Q)) 12)
+            ((RANK (J)) 11)
+            ))
+
+      ;; Shuffle the cards
+      (shuffle (game iloc STOCK))
+
+      ;; Each player adds one to the pot and is dealt a card
+      (all player 'P 
+        (do (
+            (dec ('P sto CHIPS) 1)
+            (inc (game sto POT) 1)
+            (move (top (game iloc STOCK)) 
+                  (top ('P iloc HAND)))
+        )))
+
+      (set (game sto ROUND) 1)
+      (set (game sto RAISE) 2)
+    ))
+ 
+;; ADD a stage to let the betting happen twice. Only reveal after first round
+ (stage player (end (> (game sto ROUND) 2))
+ ;; Stages of the game
+ (stage player
+        (end 
+         (or (any player 'P (== ('P str MOVE) FOLD))
+             (all player 'P (== ('P str MOVE) CHECK))
+             (and (== ((previous player) str MOVE) BET)
+                  (== ((current player) str MOVE) CALL))))
+        
+               ;; players make a choice
+               (choice 
+                (
+                 ((!= ((previous player) str MOVE) BET) 
+                    (set ((current player) str MOVE) CHECK))
+                 ((!= ((previous player) str MOVE) BET) 
+                    (do (
+                        (set ((current player) str MOVE) BET)
+                        (dec ((current player) sto CHIPS) (game sto RAISE))
+                        (inc (game sto POT) (game sto RAISE))
+                 )))
+                 ((== ((previous player) str MOVE) BET) 
+                    (do (
+                        (set ((current player) str MOVE) FOLD)
+                        (inc ((previous player) sto CHIPS) (game sto POT))
+                 )))
+                 ((== ((previous player) str MOVE) BET) 
+                    (do (
+                        (set ((current player) str MOVE) CALL)
+                        (dec ((current player) sto CHIPS) (game sto RAISE))
+                        (inc (game sto POT) (game sto RAISE)))))
+            ))
+ )
+ (do 
+    (
+        (inc (game sto ROUND) 1)
+        (inc (game sto RAISE) 2)
+        ((<= (game sto ROUND) 2)
+        (move (top (game iloc STOCK)) 
+              (top (game vloc FACEUP))))
+        (all player 'P ((!= ('P str MOVE) FOLD)
+                         (set ('P str MOVE) NONE)))
+    ))
+ )
+ (do
+    (
+    ((all player 'P (!= ('P str MOVE) FOLD))  ;; if showdown
+        (do (
+        ;; Move the card to visible
+        (all player 'P 
+            (move (top ('P iloc HAND))
+                  (top ('P vloc REVEAL))))
+        
+        ;; Determine who won
+        (inc ((owner (max (union (all player 'P ('P vloc REVEAL))) using (game points PRECEDENCE))) sto CHIPS) (game sto POT))
+        ))
+    )
+ ))
+ 
+ (scoring max ((current player) sto CHIPS)))
+
+

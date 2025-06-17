@@ -3,7 +3,8 @@ namespace CardStock
 {
     public record Experiment
     {
-        public required string FileName;
+        public required string Game;
+        public required int PlayerCount;
         public required int NumGames;
         public required int NumEpochs;
         public required bool Logging;
