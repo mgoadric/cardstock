@@ -5,7 +5,6 @@
  (declare (ONE, TWO, THREE, FOUR) 'PLOCS)
  (setup
   (create players 3)
-  (create teams (0) (1))
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                               (BLACK (SUIT (CLUBS, SPADES)))))))
@@ -49,26 +48,31 @@
                (
                 (move (top (game vloc DISCARD)) 
                       (top((current player) iloc HAND)))
-                (set ((current player) sto DISCARDED) 1))))))
+                (set ((current player) str DRAWFROM) DISCARD))))))
         
         ;; Play a card
         (choice 
          (
-          ((!= ((current player) sto DISCARDED) 1)
+          ((!= ((current player) str DRAWFROM) DISCARD)
            (move (top ((current player) iloc HAND)) 
                  (top (game vloc DISCARD))))
           
           (any 'PLOCS 'L
                (do 
                    (
-                    (move (top ((current player) hloc 'L))   
-                          (top (game vloc DISCARD)))
+                    ((== (size ((current player) hloc 'L)) 0) 
+                        (move (top ((current player) iloc 'L))   
+                              (top (game vloc DISCARD))))
+                    ((!= (size ((current player) hloc 'L)) 0) 
+                        (move (top ((current player) hloc 'L))   
+                              (top (game vloc DISCARD))))
                     (move (top ((current player) iloc HAND)) 
-                          (top ((current player) hloc 'L))))))))
+                          (top ((current player) iloc 'L))))))))
         
         ;; Forget if you drew from the discard pile
         (do 
             (
-             (set ((current player) sto DISCARDED) 0))))
- (scoring min (sum (union (all 'PLOCS 'L
-                               ((current player) hloc 'L))) using (game points PRECEDENCE))))
+             (set ((current player) str DRAWFROM) NONE))))
+
+ (scoring min (sum (union (union (all 'PLOCS 'L ((current player) hloc 'L)))
+                          (union (all 'PLOCS 'L ((current player) iloc 'L)))) using (game points PRECEDENCE))))
