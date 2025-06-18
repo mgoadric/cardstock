@@ -77,6 +77,7 @@
                (move 'C 
                      (top (game vloc DISCARD))))
           
+          ;; SHOULD THEY ONLY DRAW WHEN THEY CAN'T PLAY???
           ;; Draw from the Stock
           ((> (size (game iloc STOCK)) 0)
            (move (top (game iloc STOCK))

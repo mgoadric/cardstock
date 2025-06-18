@@ -44,6 +44,6 @@
         (
             
             (all player 'P
-                (set ('P sto PSIZE) (size (subsets ('P vloc TRICK)))))))
+                (set ('P sto PSIZE) (size (bottom (subsets ('P vloc TRICK))))))))
 
     (scoring max ((current player) sto SCORE)))

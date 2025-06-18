@@ -7,8 +7,8 @@ namespace CardStock.FreezeFrame
 {
     public class GameIterator
     {
-        private Stack<Queue<IParseTree>> iterStack;
-        private HashSet<IParseTree> iteratingSet;
+        private readonly Stack<Queue<IParseTree>> iterStack;
+        private readonly HashSet<IParseTree> iteratingSet;
         private RecycleVariables variables;
         private Transcript script;
 
@@ -1319,7 +1319,7 @@ namespace CardStock.FreezeFrame
             string name = "";
             if (loc.unionof() != null)
             {
-                CardCollection temp = new CardCollection(CCType.VIRTUAL);
+                CardCollection temp = new(CCType.VIRTUAL);
                 if (loc.unionof().cstorage().Length > 0)
                 {
                     foreach (var locChild in loc.unionof().cstorage())
@@ -1352,9 +1352,9 @@ namespace CardStock.FreezeFrame
                 };
                 return fancy;
             }
-            if (loc.intersectof() != null) 
+            else if (loc.intersectof() != null)
             {
-                CardCollection temp = new CardCollection(CCType.VIRTUAL);
+                CardCollection temp = new(CCType.VIRTUAL);
                 if (loc.intersectof().cstorage().Length > 0)
                 {
                     Dictionary<Card, int> cardCount = [];
@@ -1386,7 +1386,7 @@ namespace CardStock.FreezeFrame
                 else
                 { //agg
                     Dictionary<Card, int> cardCount = [];
-                    foreach (var locs in (ProcessAgg(loc.intersectof().agg()) as List<CardLocReference>))
+                    foreach (var locs in ProcessAgg(loc.intersectof().agg()) as List<CardLocReference>)
                     {
                         name += locs.name + " ";
                         foreach (var card in locs.cardList.AllCards())
@@ -1417,9 +1417,21 @@ namespace CardStock.FreezeFrame
                 };
                 return fancy;
             }
-            else if (loc.disjunctionof() != null) 
+            else if (loc.sortof() != null)
             {
-                CardCollection temp = new CardCollection(CCType.VIRTUAL);
+                CardCollection temp = new(CCType.VIRTUAL);
+                var locs = ProcessLocation(loc.sortof().cstorage());
+                // Sort the cards here, be efficient! TODO
+
+                var fancy = new CardLocReference()
+                {
+                    cardList = temp,
+                    name = name + "{SORTED}"
+                };
+                return fancy;            }
+            if (loc.disjunctionof() != null)
+            {
+                CardCollection temp = new(CCType.VIRTUAL);
                 if (loc.disjunctionof().cstorage().Length > 0)
                 {
                     Dictionary<Card, int> cardCount = [];
@@ -1446,7 +1458,7 @@ namespace CardStock.FreezeFrame
                             temp.Add(kvp.Key);
                         }
                     }
-                    name.Remove(name.Length - 1);                    
+                    name.Remove(name.Length - 1);
                 }
                 else
                 { //agg
@@ -1683,27 +1695,14 @@ namespace CardStock.FreezeFrame
             Console.WriteLine(stor.GetText());*/
             if (stor.locpre().GetText() == "game")
             {
-                if (stor.str() != null)
+                string name = ProcessString(stor.str());
+                var fancy = new CardLocReference()
                 {
-                    var fancy = new CardLocReference()
-                    {
-                        cardList = game.table[0].cardBins[prefix, stor.str().GetText()],
-                        locIdentifier = "top",
-                        name = "table " + prefix + " " + stor.str().GetText()
-                    };
-                    return fancy;
-                }
-                else
-                {
-                    string name = ProcessStringVar(stor.var());
-                    var fancy = new CardLocReference()
-                    {
-                        cardList = game.table[0].cardBins[prefix, name],
-                        locIdentifier = "top",
-                        name = "t " + prefix + " " + name
-                    };
-                    return fancy;
-                }
+                    cardList = game.table[0].cardBins[prefix, name],
+                    locIdentifier = "top",
+                    name = "t " + prefix + " " + name
+                };
+                return fancy;
             }
             if (stor.locpre().whop() != null)
             {
@@ -1713,25 +1712,13 @@ namespace CardStock.FreezeFrame
             {
                 player = variables.Get(stor.locpre().var()) as Player;
             }
-            if (stor.str() != null)
+            var name2 = ProcessString(stor.str());
+            var fancy2 = new CardLocReference()
             {
-                var fancy = new CardLocReference()
-                {
-                    cardList = player.cardBins[prefix, stor.str().GetText()],
-                    name = player.name + " " + prefix + " " + stor.str().GetText()
-                };
-                return fancy;
-            }
-            else
-            {
-                var name = ProcessStringVar(stor.var());
-                var fancy = new CardLocReference()
-                {
-                    cardList = player.cardBins[prefix, name],
-                    name = player.name + " " + prefix + " " + name
-                };
-                return fancy;
-            }
+                cardList = player.cardBins[prefix, name2],
+                name = player.name + " " + prefix + " " + name2
+            };
+            return fancy2;
         }
         private string ProcessCardatt(RecycleParser.CardattContext cardatt)
         {
@@ -2645,7 +2632,7 @@ namespace CardStock.FreezeFrame
             {
                 var c = ret as Card;
                 CardCollection cardl = c.owner.ShallowCopy();
-                CardLocReference clr = new CardLocReference() { cardList = cardl, name = "manufactured variable" };
+                CardLocReference clr = new() { cardList = cardl, name = "manufactured variable" };
                 clr.SetLocId(c);
                 return clr;
             }
