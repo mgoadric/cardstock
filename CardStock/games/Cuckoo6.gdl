@@ -1,0 +1,91 @@
+;; Cuckoo
+;; https://www.pagat.com/cuckoo/cuckoo.html
+
+(game
+ (setup
+  (create players 6)
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, 
+                                              SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (CLUBS, SPADES)))))))
+ (do 
+     (
+      (set (game points PRECEDENCE)
+           (
+            ((RANK (K)) 13) 
+            ((RANK (Q)) 12)
+            ((RANK (J)) 11)
+            ((RANK (TEN)) 10)
+            ((RANK (NINE)) 9)
+            ((RANK (EIGHT)) 8)
+            ((RANK (SEVEN)) 7)
+            ((RANK (SIX)) 6)
+            ((RANK (FIVE)) 5)
+            ((RANK (FOUR)) 4)
+            ((RANK (THREE)) 3)
+            ((RANK (TWO)) 2)
+            ((RANK (A)) 1)))
+
+      ;; Shuffle the deck, give each player one card in their hand
+      (shuffle (game iloc STOCK))    
+      (all player 'P
+            (move (top (game iloc STOCK)) 
+                  (top ('P iloc HAND))))))
+ 
+ (stage player
+        (end 
+         (all player 'P (== ('P str STATE) DONE)))
+
+        ;; Manage cards passed for trade
+        (do (
+            ((and (> (size ((current player) iloc PASSED)) 0)
+                  (!= (cardatt RANK (top ((current player) iloc HAND))) K))
+               (do (
+                  (move (top ((current player) iloc HAND)) 
+                        (top ((previous player) iloc HAND)))
+                  (move (top ((current player) iloc PASSED)) 
+                        (top ((current player) iloc HAND))))))
+            ((and (> (size ((current player) iloc PASSED)) 0)
+                  (== (cardatt RANK (top ((current player) iloc HAND))) K))
+               (do (
+                  (move (top ((current player) iloc PASSED)) 
+                        (top ((previous player) iloc HAND)))
+                  (move (top ((current player) iloc HAND)) 
+                        (top ((current player) vloc HAND))))))))
+
+        ;; Potentially trade with the next player
+        (choice 
+         (
+          ((and (!= ((next player) str STATE) DONE)
+                (> (size ((current player) iloc HAND)) 0))
+             (move (top ((current player) iloc HAND)) 
+                   (top ((next player) iloc PASSED))))
+          ((and (== ((next player) str STATE) DONE)
+                (> (size ((current player) iloc HAND)) 0))  ;; TODO can't get king from deck
+             (do (
+                  (move (top ((current player) iloc HAND)) 
+                        (top (game vloc DISCARD)))
+                  (move (top (game iloc STOCK)) 
+                        (top ((current player) iloc HAND)))
+                  ((!= (cardatt RANK (top ((current player) iloc HAND))) K) 
+                     (do (
+                        (move (top ((current player) iloc HAND)) 
+                              (top (game vloc BAD)))
+                        (move (top (game vloc DISCARD)) 
+                              (top ((current player) iloc HAND)))
+                     )) )
+                  )))
+          (turn pass)))
+        
+        ;; Mark the end of your turn
+        (do 
+            (
+             (set ((current player) str STATE) DONE))))
+(do 
+   (
+     (all player 'P 
+       ((!= (size ('P iloc HAND)) 0) 
+         (move (top ('P iloc HAND)) 
+               (top ('P vloc HAND)))))))
+
+ (scoring max (sum ((current player) vloc HAND) using (game points PRECEDENCE))))
