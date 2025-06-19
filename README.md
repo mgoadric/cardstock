@@ -78,10 +78,15 @@ There are currently 41 games coded in RECYCLE
 ## Setup
 
 1. Open `CardStock` folder in the project using Visual Studio Code.
-2. Write up your game in RECYCLE in the `games` subdirectory.
-3. Alter the `Program.cs` class to specify the name of your game.
-4. Run the program in either Release or Debug mode.
-5. Choose "Release Mode" to only see the results, or "Debug Mode" to see all game actions (better logs in the future).
+2. Install .NET Install Tool Extension
+3. Get .Net Core 8.0
+4. Install C# Dev Kit Extension
+5. Open the CardStock subdirectory
+6. Write up your game in RECYCLE in the `games` subdirectory.
+7. Alter the `Program.cs` class to specify the name of your game.
+8. Run the program in either Release or Debug mode.
+9. For Release mode, in the terminal type "dotnet run --configuration Release"
+10. Choose "Release Mode" to only see the results, or "Debug Mode" to see all game actions (better logs in the future).
 
 ## References
 
