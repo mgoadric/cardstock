@@ -1,4 +1,5 @@
-﻿using CardStock.CardEngine;
+﻿using System.Diagnostics;
+using CardStock.CardEngine;
 using CardStock.FreezeFrame;
 
 namespace CardStock.Players
@@ -18,6 +19,8 @@ namespace CardStock.Players
             // can parallellize here TODO ?
             // FOR EACH POSSIBLE MOVE
 
+            // https://stackoverflow.com/questions/16376191/measuring-code-execution-time-in-this-code
+            Stopwatch stopwatch = Stopwatch.StartNew(); 
 
             for (int move = 0; move < numMoves; ++move)
             {
@@ -70,6 +73,11 @@ namespace CardStock.Players
 
             // FIND BEST (and worst) MOVE TO MAKE
             var tup = MinMaxIdx(rankSum[perspective.GetIdx()]);
+
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            Console.WriteLine("Player " + perspective.GetIdx() + " picked " + tup.Item1);
+            Console.WriteLine("{0}", string.Join(", ", rankSum[perspective.GetIdx()]));
 
             // Record info for heuristic evaluation
             RecordHeuristics(rankSum);

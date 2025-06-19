@@ -116,11 +116,12 @@ public class ParseEngine
 
                 if (exp.type == GameType.AllAI)
                 {
+                    Console.WriteLine("Making players");
                     for (int j = 0; j < game.players.Length; j++)
                     {
-                        Console.WriteLine("Making players");
                         Perspective perspective = new Perspective(j, gamePlay);
                         game.players[j].decision = new PIPMCPlayer(perspective);
+                        //game.players[j].decision = new MCTSPLayer(perspective);
                         // if (j == 1) { game.players[j].decision = new ISMCTSPlayer(perspective); }
                         // if (j == 2) { game.players[j].decision = new MCTSPLayer(perspective);  }
                         // if (j == 3) { game.players[j].decision = new MCTSLitePLayer(perspective); }

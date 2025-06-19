@@ -61,7 +61,7 @@
              (move (top ((current player) iloc HAND)) 
                    (top ((next player) iloc PASSED))))
           ((and (== ((next player) str STATE) DONE)
-                (> (size ((current player) iloc HAND)) 0))  ;; TODO can't get king from deck
+                (> (size ((current player) iloc HAND)) 0)) 
              (do (
                   (move (top ((current player) iloc HAND)) 
                         (top (game vloc DISCARD)))
