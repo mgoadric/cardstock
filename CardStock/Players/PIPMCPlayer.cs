@@ -16,15 +16,15 @@ namespace CardStock.Players
             {
                 rankSum[i] = new double[numMoves];
             }
-            // can parallellize here TODO ?
-            // FOR EACH POSSIBLE MOVE
+
 
             // https://stackoverflow.com/questions/16376191/measuring-code-execution-time-in-this-code
             Stopwatch stopwatch = Stopwatch.StartNew(); 
 
+            // can parallellize here TODO ?
+            // FOR EACH POSSIBLE MOVE
             for (int move = 0; move < numMoves; ++move)
             {
-                //inverseRankSum[move] = 0;
 
                 Parallel.For(0, NUMTESTS, i =>   //number of tests for certain decision
                 {
@@ -67,7 +67,6 @@ namespace CardStock.Players
                             rankSum[winners[j].Item2][move] += (double)topRank / NUMTESTS;
                         }
                     }
-
                 });
             }
 

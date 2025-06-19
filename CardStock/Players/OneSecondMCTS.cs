@@ -31,14 +31,17 @@ namespace CardStock.Players
             (privategame, privateiterator) = perspective.GetPrivateGame();
             int myidx = perspective.GetIdx();
 
+            int count = 0;
             Stopwatch sw = new();
             sw.Start();
 
-            while (sw.Elapsed.TotalSeconds < 1)
+            while (sw.Elapsed.TotalSeconds < 10)
             {
                 RunSimulation();
+                count++;
             }
             sw.Stop();
+            Console.WriteLine("Player " + perspective.GetIdx() + " Rollouts: " + count);
             // for (int i = 0; i < NUMTESTS * numChoices; i++)
             // {               RunSimulation(); }
             //Console.WriteLine("Game after: " + cardGamesx[0]);
@@ -62,6 +65,10 @@ namespace CardStock.Players
                 }
             }
             Tuple<int, int> worstandbest = MinMaxIdx(moverankingarray);
+
+            // TODO THIS IS MISSING LEAD HISTORY RECORDING!!
+            // Record info for heuristic evaluation
+            //RecordHeuristics(rankSum);
 
             return worstandbest.Item2;
         }

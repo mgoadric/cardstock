@@ -508,6 +508,18 @@ public class RecycleBaseListener implements RecycleListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSubset(RecycleParser.SubsetContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSubset(RecycleParser.SubsetContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterTuple(RecycleParser.TupleContext ctx) { }
 	/**
 	 * {@inheritDoc}

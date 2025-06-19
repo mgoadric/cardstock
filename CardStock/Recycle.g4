@@ -87,8 +87,8 @@ teamp : OPEN 'team' whop CLOSE ;
 other : OPEN 'other' ('player' | 'team') CLOSE ;
 
 typed : var | int | boolean | str | collection ;
-collection : var | cstorage | strcollection | cstoragecollection | 'player' | 'team'
-             | whot | other | range | filter ;
+collection : var | filter | cstorage | strcollection | cstoragecollection | 'player' | 'team'
+             | whot | other | range ;
 strcollection : OPEN (namegr ',')*? namegr CLOSE ;
 cstoragecollection : memset | agg | let ;
 range : OPEN 'range' int '..' int CLOSE ;

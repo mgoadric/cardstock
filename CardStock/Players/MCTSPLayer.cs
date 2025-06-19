@@ -15,8 +15,10 @@ namespace CardStock.Players
         private CardGame privategame;
         private GameIterator privateiterator;
         private static int NUMTESTS = 10; //previously 20
+        // Go for 1000 per move, and 10 determinizations???
 
-        public MCTSPLayer(Perspective perspective) : base(perspective) {
+        public MCTSPLayer(Perspective perspective) : base(perspective)
+        {
             plays = [];
             wins = [];
             movestatetree = [];
@@ -54,6 +56,10 @@ namespace CardStock.Players
                 }
             }
             Tuple<int, int> worstandbest = MinMaxIdx(moverankingarray);
+
+            // TODO THIS IS MISSING LEAD HISTORY RECORDING!!
+            // Record info for heuristic evaluation
+            //RecordHeuristics(rankSum);
 
             return worstandbest.Item2;
         }

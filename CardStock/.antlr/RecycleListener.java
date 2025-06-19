@@ -417,6 +417,16 @@ public interface RecycleListener extends ParseTreeListener {
 	 */
 	void exitMemset(RecycleParser.MemsetContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link RecycleParser#subset}.
+	 * @param ctx the parse tree
+	 */
+	void enterSubset(RecycleParser.SubsetContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link RecycleParser#subset}.
+	 * @param ctx the parse tree
+	 */
+	void exitSubset(RecycleParser.SubsetContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link RecycleParser#tuple}.
 	 * @param ctx the parse tree
 	 */

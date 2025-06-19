@@ -47,7 +47,7 @@
         (end 
          (== (size (game iloc STOCK)) 0))
         
-        ;; Deal the players 4 cards each
+        ;; Deal the players 3 cards each
         (do 
             (
              (all player 'P
@@ -60,7 +60,6 @@
                (end 
                 (all player 'P 
                      (== (size ('P iloc HAND)) 0)))
-               
                
                ;; Pick a card to play to the pool
                (choice 
@@ -83,6 +82,20 @@
                                               (top ((current player) vloc BUNDLE)))
                                         (set ((current player) sto MOVED) 1))))
                
+               ;; match subsets of cards??
+            (all (filter (subsets (game vloc POOL)) 'SUB 
+                  (and (> (size 'SUB) 1)
+                       (== (sum 'SUB using (game points POINTS))
+                           (score (top ((current player) vloc TRICK))
+                              using (game points POINTS))))) 'SUBMATCH
+                                 (do 
+                                       (
+                                        (all 'SUBMATCH 'MCARD  
+                                           (move 'MCARD 
+                                              (top ((current player) vloc BUNDLE))))
+                                        (set ((current player) sto MOVED) 1))))
+
+
                ;; move trick card to bundle or pool depending 
 
                     ((== ((current player) sto MOVED) 0)
@@ -91,7 +104,9 @@
                     
                     ((== ((current player) sto MOVED) 1)
                      (move (top ((current player) vloc TRICK))
-                           (top ((current player) vloc BUNDLE))))))))
+                           (top ((current player) vloc BUNDLE))))
+                           
+                    (set ((current player) sto MOVED) 0)))))
 
 ;; need a lot of scoring here... TODO
  (scoring max (size ((current player) vloc BUNDLE)))))

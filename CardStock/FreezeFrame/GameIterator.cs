@@ -1496,6 +1496,7 @@ namespace CardStock.FreezeFrame
             }
             else if (loc.filter() != null)
             {
+                // WILL THIS FAIL LATER???
                 return ProcessCStorageFilter(loc.filter());
             }
             else if (loc.locpre() != null)
@@ -1937,11 +1938,18 @@ namespace CardStock.FreezeFrame
 
                     if (temp2 != null)
                     {
+                        Debug.WriteLine(temp2);
+
+                        // TODO FIX THIS
+                        return temp2.Count();
+                        // WHY IS THIS LINE HERE??? I want the size of virtual locations...
+                        /*
                         if (temp2.locIdentifier != "-1")
                         {
                             return temp2.Count();
                         }
                         throw new TypeAccessException();
+                        */
                     }
                     else
                     {
@@ -2009,6 +2017,7 @@ namespace CardStock.FreezeFrame
                 var scoring = ProcessPointStorage(sum.pointstorage()).Get();
                 var coll = ProcessLocation(sum.cstorage());
                 int total = 0;
+                Debug.WriteLine("This is what? " + coll);
                 foreach (var c in coll.cardList.AllCards())
                 {
                     total += scoring.GetScore(c);
@@ -2352,7 +2361,6 @@ namespace CardStock.FreezeFrame
             if (collection.cstorage() != null)
             {
                 Debug.WriteLine("Processing collection type: Cstorage.");
-
                 var stor = ProcessLocation(collection.cstorage());
                 return stor.cardList.AllCards();
             }
@@ -2390,8 +2398,24 @@ namespace CardStock.FreezeFrame
             {
                 Debug.WriteLine("Processing collection type: filter.");
 
-                var filter = ProcessCStorageFilter(collection.filter());
-                return filter.cardList.AllCards();
+                // need new case for cstoragecollection 
+                if (collection.filter().collection() != null &&
+                    collection.filter().collection().cstoragecollection() != null)
+                {
+                    Debug.WriteLine("We made it!!!");
+                    return ProcessCStorageCollectionFilter(collection.filter());
+
+                }
+
+                // Only do this if it is a collection filter
+                else if (collection.filter().collection() != null ||
+                    collection.filter().var() != null)
+                {
+                    var filter = ProcessCStorageFilter(collection.filter());
+                    return filter.cardList.AllCards();
+                }
+ 
+
             }
             else if (text == "player")
             {
@@ -2415,6 +2439,34 @@ namespace CardStock.FreezeFrame
                 //return (IEnumerable<object>)Get(collection.GetText());
             }
             throw new NotSupportedException();
+        }
+
+        private List<CardLocReference> ProcessCStorageCollectionFilter(RecycleParser.FilterContext filter)
+        {
+
+            if (filter.collection().cstoragecollection() != null)
+            {
+                Debug.WriteLine("Phew!");
+                var cstorage = ProcessCStorageCollection(filter.collection().cstoragecollection());
+
+                var flist = new List<CardLocReference>();
+
+                foreach (CardLocReference cardloc in cstorage)
+                {
+                    string text = filter.var().GetText();
+                    variables.Put(text, cardloc);
+                    if (cardloc.Count() > 0 && ProcessBoolean(filter.boolean()))
+                    {
+                        flist.Add(cardloc);
+                    }
+                    variables.Remove(text);
+                }
+                return flist;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
 
         private object IterateAgg<T>(RecycleParser.AggContext agg, IEnumerable<T> stor)
@@ -2622,11 +2674,15 @@ namespace CardStock.FreezeFrame
             var ret = variables.Get(card);
             if (ret is CardLocReference)
             {
+                Debug.WriteLine("Are We Here??");
                 var loc = ret as CardLocReference;
                 if (loc.locIdentifier != "-1")
                 {
                     return loc.ShallowCopy();
                 }
+
+                // ADDING THIS TO MAKE FILTERS WORK!!!!
+                return loc.ShallowCopy();
             }
             else if (ret is Card)
             {

@@ -28,7 +28,7 @@ namespace CardStock.Players
             // GAME SIMULATIONS TEST
 
             int myidx = perspective.GetIdx();
-            int deals = 3;
+            int deals = 10;
             // TEST ()
             /*(privategame, privateiterator) = perspective.GetPrivateGame();
             plays.Add(new Tuple<CardGame, int>(privategame, myidx), 1);
@@ -84,6 +84,10 @@ namespace CardStock.Players
                 }
             }
             Tuple<int, int> worstandbest = MinMaxIdx(moverankingarray);
+
+            // TODO THIS IS MISSING LEAD HISTORY RECORDING!!
+            // Record info for heuristic evaluation
+            //RecordHeuristics(rankSum);
 
             return worstandbest.Item2;
         }
