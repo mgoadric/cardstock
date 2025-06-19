@@ -1,5 +1,6 @@
 ﻿using System;
-namespace CardStock
+using CardStock.Players;
+namespace CardStock.Scoring
 {
     public record Experiment
     {
@@ -9,6 +10,7 @@ namespace CardStock
         public required int NumEpochs;
         public required bool Logging;
         public required bool Evaluating;
+        public required PlayerType ai;
 
         public GameType type = GameType.AllRnd;
     }

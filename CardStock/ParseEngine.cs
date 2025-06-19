@@ -5,7 +5,6 @@ using Antlr4.Runtime.Tree;
 using CardStock.CardEngine;
 using CardStock.Players;
 using CardStock.Scoring;
-using System.Runtime.CompilerServices;
 
 namespace CardStock {
 public class ParseEngine
@@ -15,11 +14,13 @@ public class ParseEngine
     public RecycleParser.GameContext tree;
     public World gameWorld;
     public string fileName;
+    public static int CHOICELIMIT = 500;
 
-    public ParseEngine(Experiment exp)
-    {
-        this.exp = exp;
-    }
+        public ParseEngine(Experiment exp, World gameWorld)
+        {
+            this.exp = exp;
+            this.gameWorld = gameWorld;
+        }
 
     public Tuple<bool, bool> Loader() {
 
@@ -44,7 +45,7 @@ public class ParseEngine
         /***********
          * Parse the game with the Antlr grammar description
          ***********/
-        AntlrInputStream stream = new AntlrInputStream(file);
+        AntlrInputStream stream = new(file);
         ITokenSource lexer = new RecycleLexer(stream);
         ITokenStream tokens = new CommonTokenStream(lexer);
         var parser = new RecycleParser(tokens);
@@ -63,9 +64,6 @@ public class ParseEngine
         return HasShuffleAndChoice(tree);
 
     }
-    public void setWorld(World gameWorld) {
-        this.gameWorld = gameWorld;
-    }
 
     public bool Experimenter() {
 
@@ -77,12 +75,12 @@ public class ParseEngine
         int[,] playerRank = new int[10, exp.NumEpochs];
         double[,] playerFirst = new double[10, exp.NumEpochs];
 
-        if (exp.type == CardStock.GameType.AllAI)
+        if (exp.type == GameType.AllAI)
         {
             gameWorld.numAIvsAI = exp.NumGames;
         }
 
-        Stopwatch time = new Stopwatch();
+        Stopwatch time = new();
         time.Start();
 
         /***********
@@ -91,7 +89,7 @@ public class ParseEngine
         List<List<double>>[] lead = new List<List<double>>[exp.NumGames];
 
         string filePath = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-leadstats.txt";
-        System.IO.FileInfo file = new System.IO.FileInfo(filePath);
+        System.IO.FileInfo file = new(filePath);
         file.Directory.Create(); // If the directory already exists, this method does nothing.
         StreamWriter expleadfile = new(filePath);
         expleadfile.WriteLine(exp.type);
@@ -111,7 +109,7 @@ public class ParseEngine
                 System.GC.Collect();
 
                 // TODO Can the creation of the game go inside the GameIterator???
-                CardGame game = new CardGame();
+                CardGame game = new();
                 var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld, "output/" + exp.Game + "/" + exp.PlayerCount + "/simulation" + i + exp.type + ".txt");
 
                 if (exp.type == GameType.AllAI)
@@ -119,18 +117,14 @@ public class ParseEngine
                     Console.WriteLine("Making players");
                     for (int j = 0; j < game.players.Length; j++)
                     {
-                        Perspective perspective = new Perspective(j, gamePlay);
-                        game.players[j].decision = new PIPMCPlayer(perspective);
-                        //game.players[j].decision = new MCTSPLayer(perspective);
-                        // if (j == 1) { game.players[j].decision = new ISMCTSPlayer(perspective); }
-                        // if (j == 2) { game.players[j].decision = new MCTSPLayer(perspective);  }
-                        // if (j == 3) { game.players[j].decision = new MCTSLitePLayer(perspective); }
+                        Perspective perspective = new(j, gamePlay);
+                        game.players[j].decision = exp.ai.AI(perspective);
                     }
                 }
                 else if (exp.type == GameType.RndandAI)
                 {
-                    Perspective perspective = new Perspective(0, gamePlay);
-                    game.players[0].decision = new PIPMCPlayer(perspective);
+                    Perspective perspective = new(0, gamePlay);
+                    game.players[0].decision =  exp.ai.AI(perspective);
                 }
 
                 /*********
@@ -144,7 +138,7 @@ public class ParseEngine
                     }
                     gamePlay.ProcessChoice();
 
-                    if (gamePlay.totalChoices > 500)
+                    if (gamePlay.totalChoices > CHOICELIMIT)
                     {
                         Console.WriteLine("Game " + (i + 1) + " Choices not processed (probably infinite loop)");
                         compiling = false;
@@ -202,7 +196,7 @@ public class ParseEngine
 
                     if (gameWorld != null)
                     {
-                        // also go get PIPMCPlayer and get the chunk of data here about winners/choices
+                        // also go get AIPlayer and get the chunk of data here about winners/choices
                         // also lock this in the gameover method so that it's safe for multiple games to access 
                         if (exp.type == GameType.AllAI)
                         {
@@ -219,8 +213,7 @@ public class ParseEngine
                             lead[i] = [game.players[0].decision.GetLead()];
                         }
                         winners[i] = results[0].Item2;
-                        //gameWorld.GameOver(results[0].Item2);
-                        //gameWorld.IncNumTurns(choiceCount);
+
                         expchoicefile.WriteLine("game" + i);
                         foreach (Tuple<int, int> t in gamePlay.choiceList)
                         {
@@ -260,15 +253,12 @@ public class ParseEngine
                     numFinished++;
                     Console.WriteLine("Finished game " + numFinished + " of " + exp.NumGames);
                 }
-
-
             }
             catch (Exception e)
             {
                 Console.WriteLine(fileName + " failed from exception: " + e + "\n\n\n");
                 compiling = false;
             }
-        
         }
         );
         

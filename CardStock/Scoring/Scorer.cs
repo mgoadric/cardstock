@@ -1,21 +1,17 @@
-﻿﻿using CardStock.Scoring;
-using System.Diagnostics;
+﻿﻿using System.Diagnostics;
 using CardStock.Scoring.Heuristics;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+using CardStock.Players;
 
 namespace CardStock.Scoring
 {
     class Scorer{
         private readonly List<Experiment> exps = [];
-        private ParseEngine engine;
 
         public static World gameWorld;
         public string text;
 
-        public Scorer(string game, int players = 2, int numRndvRnd = 100, int numAIvRnd = 100, int numAIvAI = 100)
+        public Scorer(string game, int players = 2, int numRndvRnd = 100,
+                int numAIvRnd = 100, int numAIvAI = 100, PlayerType ai = PlayerType.PIPMC)
         {
 
             text = "Scoring " + game + ":p" + players + ":\n";
@@ -28,7 +24,7 @@ namespace CardStock.Scoring
                 NumEpochs = numRndvRnd,
                 Logging = false,
                 Evaluating = true,
-
+                ai = PlayerType.RANDOM,
             });
 
 
@@ -40,8 +36,8 @@ namespace CardStock.Scoring
                 NumEpochs = numAIvRnd,
                 Logging = false,
                 Evaluating = true,
-                type = GameType.RndandAI
-
+                type = GameType.RndandAI,
+                ai = ai,
             });
 
 
@@ -53,8 +49,10 @@ namespace CardStock.Scoring
                 NumEpochs = numAIvAI,
                 Logging = false,
                 Evaluating = true,
-                type = GameType.AllAI
+                type = GameType.AllAI,
+                ai = ai,
             });
+
             gameWorld = new World();
 
         }
@@ -79,12 +77,10 @@ namespace CardStock.Scoring
         // define heuristics here
         public List<double> Score(){
             
-            //var path = Path.Combine("Gamepool", "Scoring" + name + ".txt");
             List<double> empty = [0.0];
             for (int i = 0; i < exps.Count; i++){
                 Debug.WriteLine("Experiment " + i);
-                engine = new ParseEngine(exps[i]);
-                engine.setWorld(gameWorld);
+                ParseEngine engine = new(exps[i], gameWorld);
                 var tup = engine.Loader();
 
                 if (!tup.Item1) { Debug.WriteLine("not shuffling"); return empty; }
@@ -94,7 +90,6 @@ namespace CardStock.Scoring
                 if (!compiling) {Debug.WriteLine("not compiling"); return empty; }
             }
 
-            //gameWorld.EvalOver();
             Debug.WriteLine("passed reasonable");
             List<double> total = [];
             var cleanoutput = "";
@@ -108,25 +103,12 @@ namespace CardStock.Scoring
                 var heuristic = split[split.Length - 1];
                 cleanoutput += heuristic + ": " + score + "\n";
                 text += "    " + output;
-               
 				
                 Console.WriteLine(output);
                 heurfile.WriteLine(output);
                 total.Add(score);
             }
             heurfile.Close();
-            /*
-			if (!File.Exists(path))
-			{
-				File.WriteAllText(path, cleanoutput + "\n\n----\n\n\t");
-			}
-			else
-			{
-				using (StreamWriter file = new StreamWriter(path, true))
-				{
-					file.WriteLine(cleanoutput + "\n\n----\n\n");
-				}
-			}*/
 			
             return total;
         }

@@ -1,8 +1,9 @@
 int numRndvRnd = 0;
-int numAIvRnd = 0;
-int numAIvAI = 1;
-string game = "Hearts";
-int players = 4;
+int numAIvRnd = 1;
+int numAIvAI = 0;
+string game = "GOPS";
+int players = 2;
+CardStock.Players.PlayerType ai = CardStock.Players.PlayerType.PIPMC;
 
-var p = new CardStock.Scoring.Scorer(game, players, numRndvRnd, numAIvRnd, numAIvAI);
+var p = new CardStock.Scoring.Scorer(game, players, numRndvRnd, numAIvRnd, numAIvAI, ai);
 var score = p.Score();
