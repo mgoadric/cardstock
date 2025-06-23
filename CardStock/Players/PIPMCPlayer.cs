@@ -11,15 +11,14 @@ namespace CardStock.Players
         public override int MakeAction(int numMoves)
         {
 
+            // https://stackoverflow.com/questions/16376191/measuring-code-execution-time-in-this-code
+            Stopwatch stopwatch = Stopwatch.StartNew(); 
+
             double[][] rankSum = new double[perspective.NumberOfPlayers()][];
             for (int i = 0; i < perspective.NumberOfPlayers(); i++)
             {
                 rankSum[i] = new double[numMoves];
             }
-
-
-            // https://stackoverflow.com/questions/16376191/measuring-code-execution-time-in-this-code
-            Stopwatch stopwatch = Stopwatch.StartNew(); 
 
             // can parallellize here TODO ?
             // FOR EACH POSSIBLE MOVE
@@ -50,7 +49,7 @@ namespace CardStock.Players
 
                     // ProcessScore returns a sorted list 
                     // where the winner is rank 0 for either min/max games.
-                    var winners = cloneContext.ProcessScore();
+                    var (winners, mult) = cloneContext.ProcessScore();
 
 
                     int topRank = 0;
@@ -74,9 +73,9 @@ namespace CardStock.Players
             var tup = MinMaxIdx(rankSum[perspective.GetIdx()]);
 
             stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedMilliseconds);
-            Console.WriteLine("Player " + perspective.GetIdx() + " picked " + tup.Item1);
-            Console.WriteLine("{0}", string.Join(", ", rankSum[perspective.GetIdx()]));
+            Console.WriteLine(perspective.GetIdx() + "," + tup.Item1 + "," + stopwatch.ElapsedMilliseconds);
+
+            Debug.WriteLine("{0}", string.Join(", ", rankSum[perspective.GetIdx()]));
 
             // Record info for heuristic evaluation
             RecordHeuristics(rankSum);

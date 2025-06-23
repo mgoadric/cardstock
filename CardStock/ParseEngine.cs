@@ -14,7 +14,7 @@ public class ParseEngine
     public RecycleParser.GameContext tree;
     public World gameWorld;
     public string fileName;
-    public static int CHOICELIMIT = 500;
+    public static int CHOICELIMIT = 200;
 
         public ParseEngine(Experiment exp, World gameWorld)
         {
@@ -102,7 +102,8 @@ public class ParseEngine
         int[] winners = new int[exp.NumGames];
         int numFinished = 0;
 
-        Parallel.For(0, exp.NumGames, i =>
+            //Parallel.For(0, exp.NumGames, i =>
+        for (int i = 0; i < exp.NumGames; i++)
         {
             try
             {
@@ -110,6 +111,7 @@ public class ParseEngine
 
                 // TODO Can the creation of the game go inside the GameIterator???
                 CardGame game = new();
+
                 var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld, "output/" + exp.Game + "/" + exp.PlayerCount + "/simulation" + i + exp.type + ".txt");
 
                 if (exp.type == GameType.AllAI)
@@ -153,7 +155,7 @@ public class ParseEngine
                 lock (this)
                 {
 
-                    var results = gamePlay.ProcessScore();
+                    var (results, mult) = gamePlay.ProcessScore();
                     numPlayers = results.Count;
 
                     int topRank = 0;
@@ -260,7 +262,7 @@ public class ParseEngine
                 compiling = false;
             }
         }
-        );
+        //);
         
 
         // should fail as soon as a game stops compiling, not after all threads are finished TODO 

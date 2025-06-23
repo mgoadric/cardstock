@@ -35,14 +35,16 @@
  
  (stage player
         (end 
-         (== (size (game iloc STOCK)) 0))
+         (or (== (size (game iloc STOCK)) 0)
+             (all player 'P (== ('P str KNOCK) TRUE))
+            ))
 
         ;; Draw a card
         (choice 
          (
+          (set ((current player) str KNOCK) TRUE)
           (move (top (game iloc STOCK)) 
                 (top((current player) iloc HAND)))
-
           ((> (size (game vloc DISCARD)) 0)
            (do 
                (
@@ -53,6 +55,11 @@
         ;; Play a card
         (choice 
          (
+
+          ((== ((current player) str KNOCK) TRUE)
+             (turn pass))
+            ;; need to have KNOCK stop all other choices
+
           ((!= ((current player) str DRAWFROM) DISCARD)
            (move (top ((current player) iloc HAND)) 
                  (top (game vloc DISCARD))))
@@ -72,6 +79,8 @@
         ;; Forget if you drew from the discard pile
         (do 
             (
+             ((any player 'P (== ((current player) str KNOCK) TRUE)) 
+                 (set ((current player) str KNOCK) TRUE))
              (set ((current player) str DRAWFROM) NONE))))
 
  (scoring min (sum (union (union (all 'PLOCS 'L ((current player) hloc 'L)))

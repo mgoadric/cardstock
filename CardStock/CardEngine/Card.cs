@@ -20,7 +20,7 @@ namespace CardStock.CardEngine{
 
 		public override string ToString(){
             //https://stackoverflow.com/questions/3871760/convert-dictionarystring-string-to-semicolon-separated-string-in-c-sharp
-            return string.Join(";", cardAtts.Select(x => x.Key + "=" + x.Value)) + name;
+            return string.Join(";", cardAtts.Select(x => x.Key + "=" + x.Value)) + ":" + name;
 		}
 
         public override bool Equals(object obj)

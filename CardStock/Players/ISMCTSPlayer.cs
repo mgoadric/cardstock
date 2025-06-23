@@ -190,7 +190,7 @@ namespace CardStock.Players
 
             // ProcessScore returns a sorted list 
             // where the winner is rank 0 for either min/max games.
-            var winners = gameIterator.ProcessScore();
+            var (winners, mult) = gameIterator.ProcessScore();
             double[] inverseRankSum = new double[numPlayers];
 
             int p = 0;

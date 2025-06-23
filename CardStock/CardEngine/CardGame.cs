@@ -128,7 +128,7 @@ namespace CardStock.CardEngine
             Dictionary<String, IEnumerator<int>> cardsLeft = [];
             foreach (KeyValuePair<String, List<int>> kvp in vals)
             {
-                int n = vals.Count;
+                int n = vals[kvp.Key].Count;
                 while (n > 1)
                 {
                     n--;
@@ -176,15 +176,13 @@ namespace CardStock.CardEngine
                     foreach (var card in collection.AllCards())
                     {
                         // Look up card by index, and reference the new cloned card
-                        foreach (KeyValuePair<String, List<Card>> kvp in tempsourceDeck)
+                        var toAdd = tempsourceDeck[card.name][card.id];
+                        tempCollection.Add(toAdd);
+                        if (collection.type != CCType.MEMORY)
                         {
-                            var toAdd = tempsourceDeck[kvp.Key][card.id];
-                            tempCollection.Add(toAdd);
-                            if (collection.type != CCType.MEMORY)
-                            {
-                                toAdd.owner = tempCollection;
-                            }
+                            toAdd.owner = tempCollection;
                         }
+                        
                     }
                 }
             }
@@ -210,16 +208,15 @@ namespace CardStock.CardEngine
                         foreach (var card in collection.AllCards())
                         {
                             // Look up card by index, and reference the new cloned card
-                            foreach (KeyValuePair<String, List<Card>> kvp in tempsourceDeck)
+
+                            var toAdd = tempsourceDeck[card.name][card.id];
+                            tempCollection.Add(toAdd);
+                            if (collection.type != CCType.MEMORY)
                             {
-                                var toAdd = tempsourceDeck[kvp.Key][card.id];
-                                tempCollection.Add(toAdd);
-                                if (collection.type != CCType.MEMORY)
-                                {
-                                    toAdd.owner = tempCollection;
-                                    free[kvp.Key].Remove(card.id);
-                                }
+                                toAdd.owner = tempCollection;
+                                free[card.name].Remove(card.id);
                             }
+                            
                         }
 
                         Debug.WriteLine("Cloned Collection:" + tempCollection);

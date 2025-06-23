@@ -169,7 +169,7 @@ namespace CardStock.FreezeFrame
             return allOptions;
         }
 
-        public List<Tuple<int, int>> ProcessScore()
+        public Tuple<List<Tuple<int, int>>, int> ProcessScore()
         {
             var ret = new List<Tuple<int, int>>();
             var scoreMethod = rules.scoring();
@@ -187,12 +187,14 @@ namespace CardStock.FreezeFrame
             game.PopPlayer();
 
             ret.Sort();
+            int mult = -1;
             if (scoreMethod.GetChild(2).GetText() == "max")
             {
                 ret.Reverse();
+                mult = 1;
             }
 
-            return ret;
+            return new Tuple<List<Tuple<int, int>>, int>(ret, mult);
         }
 
         /************
@@ -307,7 +309,7 @@ namespace CardStock.FreezeFrame
             var deckTree = ProcessDeck(deckinit.deck());
             if (deckinit.str() == null)
             {
-                return new InitializeAction(locstorage.cardList, deckTree, "", game, script);
+                return new InitializeAction(locstorage.cardList, deckTree, "DEFAULT", game, script);
             }
             else
             {

@@ -11,6 +11,8 @@ namespace CardStock.Players
 
         public override int MakeAction(int numMoves)
         {
+            // https://stackoverflow.com/questions/16376191/measuring-code-execution-time-in-this-code
+            Stopwatch stopwatch = Stopwatch.StartNew();
 
             double[][] rankSum = new double[perspective.NumberOfPlayers()][];
             for (int i = 0; i < perspective.NumberOfPlayers(); i++)
@@ -18,24 +20,31 @@ namespace CardStock.Players
                 rankSum[i] = new double[numMoves];
             }
             
-            // https://stackoverflow.com/questions/16376191/measuring-code-execution-time-in-this-code
-            Stopwatch stopwatch = Stopwatch.StartNew(); 
+            double[][] scoreSum = new double[perspective.NumberOfPlayers()][];
+            for (int i = 0; i < perspective.NumberOfPlayers(); i++)
+            {
+                scoreSum[i] = new double[numMoves];
+            }
+
+            // MAKE THIS MANY DETERMINIZATIONS
+            List<Tuple<CardGame, GameIterator>> determinizations = [];
+            for (int det = 0; det < NUMSAMPLES; det++)
+            {
+                determinizations.Add(perspective.GetPrivateGame());
+            }
 
             // FOR EACH POSSIBLE MOVE
             for (int move = 0; move < numMoves; ++move)
             {
-                // MAKE THIS MANY DETERMINIZATIONS
+                // USE THIS MANY DETERMINIZATIONS
                 for (int det = 0; det < NUMSAMPLES; det++)
                 {
-
-                    (CardGame cgo, GameIterator cloneContexto) = perspective.GetPrivateGame();
-
                     // AND RUN THIS MANY ROLLOUTS
                     Parallel.For(0, NUMTESTS / NUMSAMPLES, i =>   //number of tests for certain decision
                     {
 
-                        CardGame cg = cgo.Clone();
-                        GameIterator cloneContext = cloneContexto.Clone(cg);
+                        CardGame cg = determinizations[det].Item1.Clone();
+                        GameIterator cloneContext = determinizations[det].Item2.Clone(cg);
 
                         // Make the chosen move
                         List<GameActionCollection> allOptions = cloneContext.BuildOptions();
@@ -49,15 +58,23 @@ namespace CardStock.Players
                             cg.players[j].decision = new RandomPlayer(perspective);
                         }
 
-                        // Play the game until termination
+                        // Play the game until termination  WHAT ABOUT NONTERMINAL GAMES???
+                        // Do a cutoff like ParseEngine does at 200???
+                        // WHO WINS IN THOSE GAMES??
+                        int count = 0;
                         while (!cloneContext.AdvanceToChoice())
                         {
                             cloneContext.ProcessChoice();
+                            count++;
+                            if (count > 200)
+                            {
+                                break;
+                            }
                         }
 
                         // ProcessScore returns a sorted list 
                         // where the winner is rank 0 for either min/max games.
-                        var winners = cloneContext.ProcessScore();
+                        var (winners, mult) = cloneContext.ProcessScore();
 
                         int topRank = 0;
                         lock (this)
@@ -70,7 +87,12 @@ namespace CardStock.Players
                                     topRank = j;
                                 }
 
+                                // OLD RANK BASED 
                                 rankSum[winners[j].Item2][move] += (double)topRank / NUMTESTS;
+
+                                // NEW VALUE BASED
+                                scoreSum[winners[j].Item2][move] += ((double)winners[j].Item1 * mult) / NUMTESTS;
+
                             }
                         }
 
@@ -79,17 +101,21 @@ namespace CardStock.Players
             }
 
             // FIND BEST (and worst) MOVE TO MAKE
-            var tup = MinMaxIdx(rankSum[perspective.GetIdx()]);
-
+            var tup = MinMaxIdx(scoreSum[perspective.GetIdx()]);
+            
             stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedMilliseconds);
-            Console.WriteLine("Player " + perspective.GetIdx() + " picked " + tup.Item1);
-            Console.WriteLine("{0}", string.Join(", ", rankSum[perspective.GetIdx()]));
+            Console.WriteLine(perspective.GetIdx() + "," + tup.Item2 + "," + stopwatch.ElapsedMilliseconds);
+
+            Console.WriteLine("{0}", string.Join(", ", scoreSum[perspective.GetIdx()]));
 
             // Record info for heuristic evaluation
             RecordHeuristics(rankSum);
 
-            return tup.Item1;
+            // OLD RANK (0 is best)
+            //return tup.Item1;
+
+            // NEW SCORE (highest is best)
+            return tup.Item2;
         }
     }
 }

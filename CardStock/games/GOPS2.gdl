@@ -9,11 +9,11 @@
   (create teams (0) (1))
   
   ;; Create the deck source
-  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+  (create deck DEFAULT (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                        (COLOR (RED (SUIT (DIAMONDS))))))
-  (create deck (game iloc CLUBS) (deck (RANK (A,TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+  (create deck ONE (game iloc CLUBS) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                        (COLOR (BLACK (SUIT (CLUBS))))))
-  (create deck (game iloc SPADES) (deck (RANK (A,TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+  (create deck TWO (game iloc SPADES) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                         (COLOR (BLACK (SUIT (SPADES)))))))
  (do 
      ( 

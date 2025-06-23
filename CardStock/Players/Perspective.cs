@@ -1,6 +1,7 @@
 ﻿using CardStock.CardEngine;
 using CardStock.Scoring;
 using CardStock.FreezeFrame;
+using System.Diagnostics;
 namespace CardStock.Players
 {
     public class Perspective(int idx, GameIterator actualgameiterator)
@@ -10,7 +11,14 @@ namespace CardStock.Players
 
         public Tuple<CardGame, GameIterator> GetPrivateGame()
         {
+            Debug.WriteLine("Original Game!!!");
+            Debug.WriteLine(actualgameiterator.game);
+
             CardGame privategame = actualgameiterator.game.CloneSecret(idx);
+
+            Debug.WriteLine("Cloned Game!!!");
+            Debug.WriteLine(privategame);
+
             GameIterator privategameiterator = actualgameiterator.Clone(privategame);
             return new Tuple<CardGame, GameIterator>(privategame, privategameiterator);
         }
