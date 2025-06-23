@@ -43,24 +43,6 @@ namespace CardStock.Scoring
 
         public List<int> numTurns = [];
 
-        //Heuristics to implement, but how?
-        //interactivity
-        //clarity
-
-        /*public void PopulateLead()
-        {
-            if (lead == null)
-            {
-                lead = new List<List<double>>[numPlayers];
-                for (int i = 0; i < lead.Length; i++)
-                {
-                    lead[i] = new List<List<double>>();
-                    lead[i].Add(new List<double>());
-                }
-            }
-
-        }*/
-
         public void AddNumTurns(int i)
         {
             lock (thisLock)
@@ -78,42 +60,6 @@ namespace CardStock.Scoring
             }
         }
 
-
-
-
-        /*public void GameOver(int winner)
-        {
-            lock (thisLock)
-            {
-                winners.Add(winner);
-                // getting ready for next game! i promise this makes sense 
-                for (int i = 0; i < lead.Length; i++)
-                {
-                    lead[i].Add(new List<double>());
-                }
-            }
-
-        }*/
-
-
-
-        /*public void EvalOver()
-        {
-            // getting rid of one extra lead lists 
-            for (int i = 0; i < lead.Length; i++)
-            {
-                if (lead[i][lead[i].Count - 1].Count == 0)
-                {
-                    lead[i].RemoveAt(lead[i].Count - 1);
-                }
-            }
-
-        }*/
-        /*public void Lead(int idx, List<double> l)
-        {
-            lead[idx][lead[idx].Count - 1] = l;
-
-        }*/
 
         public void SetRndVsAI(List<List<double>>[] l) {
             AIvRnd = l;
