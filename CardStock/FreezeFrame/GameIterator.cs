@@ -1967,6 +1967,15 @@ namespace CardStock.FreezeFrame
                             {
                                 return temp4.Count;
                             }
+                            else
+                            {
+                                var temp5 = temp as List<CardLocReference>;
+                                if (temp5 != null)
+                                {
+                                    Console.WriteLine("yay!");
+                                    return temp5.Count;
+                                }
+                            }
                         }
                         throw new TypeAccessException();
                     }

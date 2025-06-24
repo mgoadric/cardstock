@@ -108,5 +108,51 @@
                            
                     (set ((current player) sto MOVED) 0)))))
 
+(stage player (end (all player 'P (== ('P str SCORING) MID))) 
+  (do (
+
+      ;; scopas scored when they happen
+
+      ;; most cards worth one point
+      ((> (size ((current player) vloc BUNDLE))
+          (size ((next player) vloc BUNDLE)))
+         (inc ((current player) sto SCORE) 1)
+      )
+
+      ;; Most coins worth one point
+      ((> (size (filter ((current player) vloc BUNDLE) 'C (== (cardatt SUIT 'C) COINS)))
+          (size (filter ((next player) vloc BUNDLE) 'C (== (cardatt SUIT 'C) COINS))))
+         (inc ((current player) sto SCORE) 1)
+      )
+
+      ;; 7 of coins worth one point
+      ((any ((current player) vloc BUNDLE) 'C (and (== (cardatt SUIT 'C) COINS)
+                                                   (== (cardatt RANK 'C) SEVEN))) 
+         (inc ((current player) sto SCORE) 1))
+
+      ;; best primiera scores 1 point, this gets a potential prime score
+      (let (partition ((current player) vloc BUNDLE) SUIT) 'PART  ;; split up by suit
+            ((== (size 'PART) 4)  ;; if at least one card in each suit
+             (all 'PART 'PP (inc ((current player) sto PRIMIERA) ;; add up the scores
+                (score (max 'PP using (game points PRIMIERA)) using (game points PRIMIERA))))) ;; find the highest, get the score
+      )
+
+      ;; scoring turn is done
+      (set ((current player) str SCORING) MID)
+  )))
+
+(stage player (end (all player 'P (== ('P str SCORING) END))) 
+  (do (
+
+      ;; highest prime scores one point
+      ((> ((current player) sto PRIMIERA)
+          ((next player) sto PRIMIERA))
+         (inc ((current player) sto SCORE) 1)
+      )
+
+      ;; scoring turn is done
+      (set ((current player) str SCORING) END)
+  )))  
+
 ;; need a lot of scoring here... TODO
- (scoring max (size ((current player) vloc BUNDLE)))))
+ (scoring max ((current player) sto SCORE))))

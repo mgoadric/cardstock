@@ -7,9 +7,8 @@
  (declare (// 36 'NUMP) 'HANDSIZE)
  (setup
   (create players 'NUMP)
-  (create teams (0) (1) (2) (3))
   (repeat 12
-          (create deck (game vloc SIMON) (deck (ANIMAL (SIMON)))))
+          (create deck SIMON (game vloc SIMON) (deck (ANIMAL (SIMON)))))
   (create deck (game vloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN,
                                                    EIGHT, NINE, TEN, ELEVEN, TWELVE))
                                        (TYPE (CAT))))
