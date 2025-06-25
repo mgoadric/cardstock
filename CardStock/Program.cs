@@ -1,8 +1,8 @@
-int numRndvRnd = 1;
-int numAIvRnd = 0;
+int numRndvRnd = 0;
+int numAIvRnd = 10;
 int numAIvAI = 0;
-string game = "Scopa";
-int players = 2;
+string game = "GoFish";
+int players = 4;
 CardStock.Players.PlayerType ai = CardStock.Players.PlayerType.PIPMCNEW;
 
 var p = new CardStock.Scoring.Scorer(game, players, numRndvRnd, numAIvRnd, numAIvAI, ai);

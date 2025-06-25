@@ -388,9 +388,9 @@ public class ParseEngine
 
         {
             if (tree.GetChild(1).GetText().Equals("choice"))
-            {
-                choice = true;
-            }
+                {
+                    choice = true;
+                }
         }
         if (shuffle && choice) { return new Tuple<bool, bool>(shuffle, choice); }
         for (int i = 0; i < tree.ChildCount; i++)

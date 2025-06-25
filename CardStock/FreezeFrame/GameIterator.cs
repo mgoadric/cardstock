@@ -2703,6 +2703,20 @@ namespace CardStock.FreezeFrame
                 clr.SetLocId(c);
                 return clr;
             }
+            else if (ret is List<Card>)
+            {
+                var c = ret as List<Card>;
+                var cctemp = new CardCollection(CCType.VIRTUAL);
+                    foreach (var cc in c)
+                    {
+                        cctemp.Add(cc);
+                    }
+                    return new CardLocReference()
+                    {
+                        cardList = cctemp,
+                        name = "{cardvar}"
+                    };
+            }
             Debug.WriteLine("error, type is " + ret.GetType());
             return null;
         }
