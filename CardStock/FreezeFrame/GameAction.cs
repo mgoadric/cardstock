@@ -214,8 +214,8 @@ namespace CardStock.FreezeFrame {
                 for (int j = 0; j < teamList[i].Count; j++)
                 {
                     newTeam.teamPlayers.Add(cg.players[teamList[i][j]]);
+                    cg.players[teamList[i][j]].team = newTeam;
                 }
-                cg.players[i].team = newTeam;
                 teamStr += i + " ";
                 cg.teams.Add(newTeam);
                 script.WriteToFile(teamStr);
