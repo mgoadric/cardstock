@@ -207,11 +207,14 @@ namespace CardStock.FreezeFrame {
         public override void Execute()
         {
             var numTeams = teamList.Count;
-            for (int i = 0; i < numTeams; ++i)
+            for (int i = 0; i < numTeams; i++)
             {
                 var newTeam = new Team("" + i, i);
                 var teamStr = "T:";
-                newTeam.teamPlayers.Add(cg.players[i]);
+                for (int j = 0; j < teamList[i].Count; j++)
+                {
+                    newTeam.teamPlayers.Add(cg.players[teamList[i][j]]);
+                }
                 cg.players[i].team = newTeam;
                 teamStr += i + " ";
                 cg.teams.Add(newTeam);

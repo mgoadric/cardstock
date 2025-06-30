@@ -4,7 +4,7 @@
 
 (game ;; MATCH START
  
- (declare (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K) 'RANKS) ;;SIX, 
+ (declare (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K) 'RANKS) 
  (setup  
   ;; Set up the players
   (create players 4)

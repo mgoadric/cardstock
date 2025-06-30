@@ -18,7 +18,7 @@
  (stage player
         (end 
          (any team 'T 
-              (>= ('T sto SCORE) 5)))
+              (> ('T sto SCORE) 0)))
         (do 
             (
              (repeat all

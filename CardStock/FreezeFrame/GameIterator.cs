@@ -105,7 +105,7 @@ namespace CardStock.FreezeFrame
             int count = 0;
             while (iterStack.Count != 0 && !ProcessSubStage()) {
                 count++;
-                if (count > 500) {
+                if (count > 200) {
                     Console.WriteLine("Game stuck in loop");
                     return true; // game stuck in loop
                 }
@@ -275,7 +275,9 @@ namespace CardStock.FreezeFrame
                     ret.Add([]);
                     foreach (var p in teamcreate.teams(i).INTNUM())
                     {
-                        ret[i].Add(int.Parse(p.GetText()));
+                        int t = int.Parse(p.GetText());
+                        ret[i].Add(t);
+                        //Console.WriteLine(t);
                     }
                 }
             }
@@ -2390,8 +2392,10 @@ namespace CardStock.FreezeFrame
             else if (collection.whot() != null)
             {
                 Debug.WriteLine("Processing collection type: whot.");
+                var t = ProcessWhot(collection.whot());
+                Debug.WriteLine(t.teamPlayers);
 
-                return ProcessWhot(collection.whot()).teamPlayers;
+                return t.teamPlayers;
             }
             else if (collection.range() != null)
             {
