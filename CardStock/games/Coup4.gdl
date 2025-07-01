@@ -6,7 +6,6 @@
  (declare 4 'NUMP)
  (setup  
   (create players 'NUMP)
-  (create teams (0) (1) (2) (3))
   
   ;; Create the deck source
   (repeat 3 (create deck (game iloc STOCK) (deck 
@@ -16,25 +15,25 @@
  (do 
      (
       (set (game points BASIC)
-   (((INFLUENCE (AMBASSADOR)) 1)
-   (( INFLUENCE   (CONTESSA)) 1)
-   (( INFLUENCE       (DUKE)) 1)
-   (( INFLUENCE   (ASSASSIN)) 1)
-   (( INFLUENCE    (CAPTAIN)) 1)))
+   (((INFLUENCE : AMBASSADOR) 1)
+   (( INFLUENCE   : CONTESSA) 1)
+   (( INFLUENCE       : DUKE) 1)
+   (( INFLUENCE   : ASSASSIN) 1)
+   (( INFLUENCE    : CAPTAIN) 1)))
 
   (set (game points STEALABLE)
-   (((INFLUENCE (AMBASSADOR)) 0)
-   (( INFLUENCE   (CONTESSA)) 1)
-   (( INFLUENCE       (DUKE)) 1)
-   (( INFLUENCE   (ASSASSIN)) 1)
-   (( INFLUENCE    (CAPTAIN)) 0)))
+   (((INFLUENCE : AMBASSADOR) 0)
+   (( INFLUENCE   : CONTESSA) 1)
+   (( INFLUENCE       : DUKE) 1)
+   (( INFLUENCE   : ASSASSIN) 1)
+   (( INFLUENCE    : CAPTAIN) 0)))
 
   (set (game points ASSASSINATABLE)
-   (((INFLUENCE (AMBASSADOR)) 1)
-   (( INFLUENCE   (CONTESSA)) 0)
-   (( INFLUENCE       (DUKE)) 1)
-   (( INFLUENCE   (ASSASSIN)) 1)
-   (( INFLUENCE    (CAPTAIN)) 1)))
+   (((INFLUENCE : AMBASSADOR) 1)
+   (( INFLUENCE   : CONTESSA) 0)
+   (( INFLUENCE       : DUKE) 1)
+   (( INFLUENCE   : ASSASSIN) 1)
+   (( INFLUENCE    : CAPTAIN) 1)))
       
       (shuffle (game iloc STOCK))
       

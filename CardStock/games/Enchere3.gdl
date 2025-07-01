@@ -6,7 +6,6 @@
  (declare 3 'NUMP)
  (setup 
   (create players 'NUMP)
-  (create teams (0) (1) (2))  
   
   ;; Create the deck source 
   (create deck (game iloc CASH) (deck (RANK (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK))
@@ -66,18 +65,18 @@
              ;; rank cards with a slight boost given to those who match the suit (to settle ties)
              (set (game points PRECEDENCE)
                 (
-                    ((SUIT (cardatt SUIT (top (game vloc AWARD)))) 2)
-                    ((COLOR (cardatt COLOR (top (game vloc AWARD)))) 1)
-                    ((RANK (JACK)) 110)
-                    ((RANK (TEN)) 100)
-                    ((RANK (NINE)) 90)
-                    ((RANK (EIGHT)) 80)
-                    ((RANK (SEVEN)) 70)
-                    ((RANK (SIX)) 60)
-                    ((RANK (FIVE)) 50)
-                    ((RANK (FOUR)) 40)
-                    ((RANK (THREE)) 30)
-                    ((RANK (TWO)) 20)
+                    ((SUIT : (cardatt SUIT (top (game vloc AWARD)))) 2)
+                    ((COLOR : (cardatt COLOR (top (game vloc AWARD)))) 1)
+                    ((RANK : JACK) 110)
+                    ((RANK : TEN) 100)
+                    ((RANK : NINE) 90)
+                    ((RANK : EIGHT) 80)
+                    ((RANK : SEVEN) 70)
+                    ((RANK : SIX) 60)
+                    ((RANK : FIVE) 50)
+                    ((RANK : FOUR) 40)
+                    ((RANK : THREE) 30)
+                    ((RANK : TWO) 20)
                     ))
                     
              ;; determine winner
@@ -108,9 +107,9 @@
     ;; create precedence for scoring
     (set (game points SCOREPOINTS) 
         (
-            ((RANK (ACE)) 4)
-            ((RANK (KING)) 2)
-            ((RANK (QUEEN)) 1)
+            ((RANK : ACE) 4)
+            ((RANK : KING) 2)
+            ((RANK : QUEEN) 1)
             ))
  ))        
  

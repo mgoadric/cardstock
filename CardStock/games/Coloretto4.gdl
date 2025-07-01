@@ -6,15 +6,14 @@
  (declare 4 'NUMP)
  (setup
   (create players 'NUMP)
-  (create teams (0) (1) (2) (3))
   
   (repeat 9 (create deck (game iloc STOCK) (deck (COLOR (BROWN, GREY, BLUE, GREEN,
                                                          YELLOW, PINK, RED)))))
   ;; ADD IN JOKER RULES TODO
   ;;(repeat 3 (create deck (game iloc STOCK) (deck (COLOR (JOKER)))))
   
-  (repeat 'NUMP (create deck (game vloc ROWS) (deck (TYPE (ROW)))))
-  (repeat 10 (create deck (game iloc EXTRA) (deck (TYPE (PLUSTWO))))))
+  (repeat 'NUMP (create deck ROWS (game vloc ROWS) (deck (TYPE (ROW)))))
+  (repeat 10 (create deck (game iloc STOCK) (deck (TYPE (PLUSTWO))))))
  
  (do    
      (     
@@ -27,9 +26,6 @@
                       (top ('P vloc HAND)))
                 (move (top (game vloc ROWS))
                       (top ('P vloc ROW))))))
-      (repeat all
-              (move (top (game iloc EXTRA))
-                    (top (game iloc STOCK))))
       (shuffle (game iloc STOCK))))
  
  (stage player

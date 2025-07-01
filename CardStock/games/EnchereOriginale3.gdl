@@ -6,7 +6,6 @@
  (declare 3 'NUMP)
  (setup 
   (create players 'NUMP)
-  (create teams (0) (1) (2))  
   
   ;; Create the deck source
   (create deck (game iloc CASH) (deck (RANK (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK))
@@ -76,23 +75,23 @@
             (set (game points PRECEDENCE)
             (
                 ;; These are simply for rank
-                ((RANK (JACK)) 110)
-                ((RANK (TEN)) 100)
-                ((RANK (NINE)) 90)
-                ((RANK (EIGHT)) 80)
-                ((RANK (SEVEN)) 70)
-                ((RANK (SIX)) 60)
-                ((RANK (FIVE)) 50)
-                ((RANK (FOUR)) 40)
-                ((RANK (THREE)) 30)
-                ((RANK (TWO)) 20)
+                ((RANK : JACK) 110)
+                ((RANK : TEN) 100)
+                ((RANK : NINE) 90)
+                ((RANK : EIGHT) 80)
+                ((RANK : SEVEN) 70)
+                ((RANK : SIX) 60)
+                ((RANK : FIVE) 50)
+                ((RANK : FOUR) 40)
+                ((RANK : THREE) 30)
+                ((RANK : TWO) 20)
 
                 ;; This adds a bonus to cards that match the spare
-                ((RANK (cardatt RANK (top (game vloc SPARE)))) 100)
+                ((RANK : (cardatt RANK (top (game vloc SPARE)))) 100)
 
                 ;; This adds a bonus to cards that match the suit/color of the award
-                ((SUIT (cardatt SUIT (top (game vloc AWARD)))) 2)
-                ((COLOR (cardatt COLOR (top (game vloc AWARD)))) 1)
+                ((SUIT : (cardatt SUIT (top (game vloc AWARD)))) 2)
+                ((COLOR : (cardatt COLOR (top (game vloc AWARD)))) 1)
                 ))
                 
             ;; determine winner
@@ -124,27 +123,27 @@
         (
         ;; create scoring methods/comparisons
         (set (game points SCORE) (
-            ((RANK (ACE))   12)
-            ((RANK (KING))  11) 
-            ((RANK (QUEEN)) 10)))
+            ((RANK : ACE)   12)
+            ((RANK : KING)  11) 
+            ((RANK : QUEEN) 10)))
         
         ;; suit specific scoring
         (set (game points CLUBS) (
-                    ((SUIT (CLUBS))    1)))
+                    ((SUIT : CLUBS)    1)))
         (set (game points DIAMONDS) (
-                    ((SUIT (DIAMONDS)) 1)))           
+                    ((SUIT : DIAMONDS) 1)))           
         (set (game points HEARTS) (
-                    ((SUIT (HEARTS))   1)))  
+                    ((SUIT : HEARTS)   1)))  
         (set (game points SPADES) (
-                    ((SUIT (SPADES))   1)))
+                    ((SUIT : SPADES)   1)))
 
         ;; rank specific scoring
         (set (game points QUEENS) (
-                    ((RANK (QUEEN)) 1)))
+                    ((RANK : QUEEN) 1)))
         (set (game points KINGS) (
-                    ((RANK (KING))  1)))
+                    ((RANK : KING)  1)))
         (set (game points ACES) (
-                    ((RANK (ACE))   1)))
+                    ((RANK : ACE)   1)))
                     
         ;; Check for cards won
         ((== (size ((current player) vloc WON)) 0)

@@ -6,7 +6,6 @@
  (declare 3 'NUMP)
  (setup 
   (create players 'NUMP)
-  (create teams (0) (1) (2))  
   
   ;; Create the deck source
   (create deck (game iloc CASH) (deck (RANK (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK))
@@ -23,20 +22,20 @@
         (set (game points SCORE)
         (
             ;; All cards won are 1 point
-            ((RANK (ACE)) 1)
-            ((RANK (KING)) 1)
-            ((RANK (QUEEN)) 1)
+            ((RANK : ACE) 1)
+            ((RANK : KING) 1)
+            ((RANK : QUEEN) 1)
 
             ;; Hearts are worth 2, so add an extra point
-            ((SUIT (HEARTS)) 1)
+            ((SUIT : HEARTS) 1)
 
             ;; King of Hearts is worth 7, so add 6 extra points
-            ((RANK (KING)) (SUIT (HEARTS)) 5)
+            ((RANK : KING) (SUIT : HEARTS) 5)
 
             ))
         (set (game points NEGSCORE)
             (
-                ((RANK (JOKER)) 10)
+                ((RANK : JOKER) 10)
             ))
         (shuffle (game iloc CASH))
         (shuffle (game iloc PRIZE))
@@ -95,23 +94,23 @@
              (set (game points PRECEDENCE)
                 (
                     ;; These are simply for rank
-                    ((RANK (JACK)) 110)
-                    ((RANK (TEN)) 100)
-                    ((RANK (NINE)) 90)
-                    ((RANK (EIGHT)) 80)
-                    ((RANK (SEVEN)) 70)
-                    ((RANK (SIX)) 60)
-                    ((RANK (FIVE)) 50)
-                    ((RANK (FOUR)) 40)
-                    ((RANK (THREE)) 30)
-                    ((RANK (TWO)) 20)
+                    ((RANK : JACK) 110)
+                    ((RANK : TEN) 100)
+                    ((RANK : NINE) 90)
+                    ((RANK : EIGHT) 80)
+                    ((RANK : SEVEN) 70)
+                    ((RANK : SIX) 60)
+                    ((RANK : FIVE) 50)
+                    ((RANK : FOUR) 40)
+                    ((RANK : THREE) 30)
+                    ((RANK : TWO) 20)
 
                     ;; This adds a bonus to cards that match the spare
-                    ((RANK (cardatt RANK (top (game vloc SPARE)))) 100)
+                    ((RANK : (cardatt RANK (top (game vloc SPARE)))) 100)
 
                     ;; This adds a bonus to cards that match the suit/color of the award
-                    ((SUIT (cardatt SUIT (top (game vloc AWARD)))) 2)
-                    ((COLOR (cardatt COLOR (top (game vloc AWARD)))) 1)
+                    ((SUIT : (cardatt SUIT (top (game vloc AWARD)))) 2)
+                    ((COLOR : (cardatt COLOR (top (game vloc AWARD)))) 1)
                     ))
                     
              ;; determine winner
