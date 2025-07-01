@@ -1,6 +1,6 @@
-;; Whist
+;; Euchre
 ;;
-;; https://www.pagat.com/whist/whist.html
+;; https://www.pagat.com/euchre/euchre.html
 
 (game
  
@@ -10,32 +10,27 @@
   (create teams (0, 2) (1, 3))
   
   ;; Create the deck source
-  (create deck (game vloc DISCARD) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+  (create deck (game iloc STOCK) (deck (RANK (NINE, TEN, J, Q, K, A))
                                          (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                                 (BLACK (SUIT (CLUBS, SPADES)))))))        
  
  ;; Stages of the game
- (stage player
-        (end 
-         (any team 'T 
-              (> ('T sto SCORE) 0)))
         (do 
             (
-             (repeat all
-                     (move (top (game vloc DISCARD)) 
-                           (top (game iloc STOCK))))
+             (set ((team (current player)) str BID) MAKER)
+             (set ((team (next player)) str BID) DEFENDER)
+
              (shuffle (game iloc STOCK))
              (all player 'P
-                  (do 
-                      (
-                       (repeat 13
-                               (move (top (game iloc STOCK))
-                                     (top ('P iloc HAND))))
-                       (set ('P sto TRICKSWON) 0))))
+                  (repeat 5
+                        (move (top (game iloc STOCK))
+                              (top ('P iloc HAND)))))
              (remember (top ((previous player) iloc HAND))
                        (top (game mem TRUMP)))))
         
-        ;; players play a round 13 times     
+        ;; DETERMINE THE TRUMP AND BIDDING TEAM
+
+        ;; players play a round 5 times     
         (stage player
                (end 
                 (all player 'P 
@@ -49,9 +44,21 @@
                       
                       (choice 
                        (
+
+                        ;; NEED TO MAKE J of TRUMP COLOR ONLY FOLLOW SUiT FOR TRUMP, NOT THE REAL SUIT
                         
+                        ;; if first player, play any card, remember it in the lead spot
+                        ((== (size (game mem LEAD)) 0)                       
+                         (any ((current player) iloc HAND) 'C
+                              (do 
+                                  (
+                                   (move 'C 
+                                         (top ((current player) vloc TRICK)))
+                                   (remember (top ((current player) vloc TRICK)) 
+                                             (top (game mem LEAD)))))))
+                                             
                         ;; if following player and cannot follow SUIT
-                        ;;   play any card, and end your turn
+                        ;;   play any card
                         ((and (== (size (game mem LEAD)) 1)
                               (== (size (filter ((current player) iloc HAND) 'L 
                                                 (== (cardatt SUIT 'L) 
@@ -61,7 +68,7 @@
                                     (top ((current player) vloc TRICK)))))
                         
                         ;; if following player and can follow SUIT
-                        ;;   play any card that follows SUIT, and end your turn
+                        ;;   play any card that follows SUIT
                         ((== (size (game mem LEAD)) 1)
                          (any (filter ((current player) iloc HAND) 'L 
                                       (== (cardatt SUIT 'L)
@@ -71,15 +78,7 @@
                               (move 'C 
                                     (top ((current player) vloc TRICK)))))
                         
-                        ;; if first player, play any card, remember it in the lead spot, and end your turn
-                        ((== (size (game mem LEAD)) 0)                       
-                         (any ((current player) iloc HAND) 'C
-                              (do 
-                                  (
-                                   (move 'C 
-                                         (top ((current player) vloc TRICK)))
-                                   (remember (top ((current player) vloc TRICK)) 
-                                             (top (game mem LEAD))))))))))
+                        )))
                
                ;; after players play hand, computer wraps up trick
                (do (
@@ -87,20 +86,15 @@
                     (set (game points PRECEDENCE)
                          (
                           ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 200)
+                          ((RANK (J)) (SUIT (cardatt SUIT (top (game mem TRUMP)))) 1)
+                          ((RANK (J)) (COLOR (cardatt COLOR (top (game mem TRUMP)))) 5)
                           ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
                           ((RANK (A)) 14)
                           ((RANK (K)) 13) 
                           ((RANK (Q)) 12)
                           ((RANK (J)) 11)
                           ((RANK (TEN)) 10)
-                          ((RANK (NINE)) 9)
-                          ((RANK (EIGHT)) 8)
-                          ((RANK (SEVEN)) 7)
-                          ((RANK (SIX)) 6)
-                          ((RANK (FIVE)) 5)
-                          ((RANK (FOUR)) 4)
-                          ((RANK (THREE)) 3)
-                          ((RANK (TWO)) 2)))
+                          ((RANK (NINE)) 9)))
                     
                     ;; determine who won the hand, set them first next time, and give them a point
                     (forget (top (game mem LEAD)))
@@ -128,8 +122,16 @@
                              (
                               (inc ((current team) sto TRICKSWON) ('TP sto TRICKSWON))
                               (set ('TP sto TRICKSWON) 0))))
-                    ((> ((current team) sto TRICKSWON) 6)
-                     (inc ((current team) sto SCORE) (- ((current team) sto TRICKSWON) 6)))))))
+                    ((and (>= ((current team) sto TRICKSWON) 3)
+                          (== ((current team) str BID) MAKER))
+                     (inc ((current team) sto SCORE) 1))
+                    ((and (== ((current team) sto TRICKSWON) 5)
+                          (== ((current team) str BID) MAKER))
+                     (inc ((current team) sto SCORE) 1))
+                    ((and (>= ((current team) sto TRICKSWON) 3)
+                          (== ((current team) str BID) DEFENDER))
+                     (inc ((current team) sto SCORE) 2))  
+                     )))
  
  (scoring max ((team (current player)) sto SCORE)))
 
