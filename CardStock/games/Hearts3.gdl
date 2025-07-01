@@ -6,7 +6,6 @@
  (setup  
   ;; Set up the players, 4 players each on their own team
   (create players 3)
-  (create teams (0) (1) (2))
   ;; Create the deck source
   (create deck (game vloc DISCARD) (deck (RANK (A, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                          (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
@@ -24,12 +23,10 @@
              (repeat all
                      (move (top (game vloc DISCARD)) 
                            (top (game iloc STOCK))))
-             (remember (top (filter (game iloc STOCK) 'H (== (cardatt SUIT 'H) HEARTS)))
-                       (top (game mem TRUMP)))
              (set (game points SCORE)
                   (
-                   ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 1) 
-                   ((RANK (Q)) (SUIT (SPADES)) 13)))
+                   ((SUIT : HEARTS) 1) 
+                   ((RANK : Q) (SUIT : SPADES) 13)))
              (shuffle (game iloc STOCK))
              (all player 'P
                   (repeat 17
@@ -37,7 +34,7 @@
                                 (top ('P iloc HAND)))))
              (set (game sto BROKEN) 0)))
         
-        ;; players play a round 13 times     
+        ;; players play a round 17 times     
         (stage player
                (end 
                 (all player 'P 
@@ -57,7 +54,7 @@
                               (== (game sto BROKEN) 0))
                          (any (filter ((current player) iloc HAND) 'NH 
                                       (!= (cardatt SUIT 'NH)     
-                                          (cardatt SUIT (top (game mem TRUMP)))))
+                                          HEARTS))
                               'C
                               
                               (do 
@@ -73,7 +70,7 @@
                               (== (game sto BROKEN) 0)
                               (== (size (filter ((current player) iloc HAND) 'NH 
                                                 (!= (cardatt SUIT 'NH) 
-                                                    (cardatt SUIT (top (game mem TRUMP)))))) 0))
+                                                    HEARTS))) 0))
 
                               (any ((current player) iloc HAND) 'C
                          (do 
@@ -120,27 +117,27 @@
                     ;; solidfy card recedence
                     (set (game points PRECEDENCE) 
                          (
-                          ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
-                          ((RANK (A)) 14)
-                          ((RANK (K)) 13) 
-                          ((RANK (Q)) 12)
-                          ((RANK (J)) 11)
-                          ((RANK (TEN)) 10)
-                          ((RANK (NINE)) 9)
-                          ((RANK (EIGHT)) 8)
-                          ((RANK (SEVEN)) 7)
-                          ((RANK (SIX)) 6)
-                          ((RANK (FIVE)) 5)
-                          ((RANK (FOUR)) 4)
-                          ((RANK (THREE)) 3)
-                          ((RANK (TWO)) 2)))
+                          ((SUIT : (cardatt SUIT (top (game mem LEAD)))) 100)
+                          ((RANK : A) 14)
+                          ((RANK : K) 13) 
+                          ((RANK : Q) 12)
+                          ((RANK : J) 11)
+                          ((RANK : TEN) 10)
+                          ((RANK : NINE) 9)
+                          ((RANK : EIGHT) 8)
+                          ((RANK : SEVEN) 7)
+                          ((RANK : SIX) 6)
+                          ((RANK : FIVE) 5)
+                          ((RANK : FOUR) 4)
+                          ((RANK : THREE) 3)
+                          ((RANK : TWO) 2)))
                     
                     ;; determine who won the hand, set them first next time, and give them a point
                     (forget (top (game mem LEAD)))
                     (cycle next (owner (max (union (all player 'P 
                                                         ('P vloc TRICK))) using (game points PRECEDENCE))))
                     
-                    ;; if winner played trump and trump not broken, trump is now broken
+                    ;; if winner played hearts and hearts not broken, hearts is now broken
                     ((and (!= (size (filter (union (all player 'P 
                                                         ('P vloc TRICK))) 'PH  (== (cardatt SUIT 'PH) HEARTS)))
 							  0)

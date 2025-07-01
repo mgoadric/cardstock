@@ -9,17 +9,17 @@
   (repeat 8 (create deck (game vloc DISCARD) (deck (NUMBER (ONE, TWO, THREE, FOUR,
                                                                FIVE, SIX, LLAMA))))))
  
- (do    
+  (do    
      (   
       (set (game points VALUE)
            (
-            ((NUMBER (ONE)) 1)
-            ((NUMBER (TWO)) 2)
-            ((NUMBER (THREE)) 3)
-            ((NUMBER (FOUR)) 4)
-            ((NUMBER (FIVE)) 5)
-            ((NUMBER (SIX)) 6)
-            ((NUMBER (LLAMA)) 7)))))
+            ((NUMBER : ONE) 1)
+            ((NUMBER : TWO) 2)
+            ((NUMBER : THREE) 3)
+            ((NUMBER : FOUR) 4)
+            ((NUMBER : FIVE) 5)
+            ((NUMBER : SIX) 6)
+            ((NUMBER : LLAMA) 7)))))
  
  
  (stage player 

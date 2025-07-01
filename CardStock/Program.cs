@@ -1,7 +1,7 @@
-int numRndvRnd = 1;
-int numAIvRnd = 0;
+int numRndvRnd = 0;
+int numAIvRnd = 1;
 int numAIvAI = 0;
-string game = "GermanWhist";
+string game = "LostCities";
 int players = 2;
 CardStock.Players.PlayerType ai = CardStock.Players.PlayerType.PIPMCNEW;
 

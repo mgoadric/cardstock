@@ -13,9 +13,9 @@
       ;; Assign precedence to cards for showdown
       (set (game points PRECEDENCE)
            (
-            ((RANK (K)) 13) 
-            ((RANK (Q)) 12)
-            ((RANK (J)) 11)
+            ((RANK : K) 3) 
+            ((RANK : Q) 2)
+            ((RANK : J) 1)
             ))
 
       ;; Shuffle the cards
