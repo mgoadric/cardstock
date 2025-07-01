@@ -2,6 +2,8 @@
 
 // New in version 0.5.1
 //  subset operator makes all possible subsets
+//. cardatt is a type of str, instead of reverse
+//  removing extraneous () from subawards in points
 //  TODO store other player as a variable?
 //  TODO make a graph for the locations? Only make explicit if needed?
 //     would also need ways to talk about neighbors (left, right, up, down) grammar
@@ -45,7 +47,7 @@ attribute : OPEN var CLOSE | OPEN (namegr ',')*? namegr attribute*? CLOSE ;
 
 initpoints : 'set' pointstorage OPEN awards+? CLOSE ;
 awards : OPEN subaward+? int CLOSE ;
-subaward : OPEN str (OPEN str CLOSE | cardatt) CLOSE ;
+subaward : OPEN str ':' str CLOSE ;
 
 cycleaction : 'cycle' ('next' | 'current') (owner | 'current' | 'next' | 'previous') ;
 
@@ -95,8 +97,8 @@ range : OPEN 'range' int '..' int CLOSE ;
 
 filter : OPEN 'filter' collection var boolean CLOSE ;
 
-attrcomp : EQOP cardatt cardatt ;
-cardatt : str | OPEN 'cardatt' str card CLOSE ;
+attrcomp : EQOP str str ;
+cardatt : OPEN 'cardatt' str card CLOSE ;
 
 boolean : OPEN (BOOLOP boolean boolean+? | intop int int  | attrcomp | EQOP card card
           | UNOP boolean | EQOP whop whop | EQOP whot whot) CLOSE | agg ;
@@ -130,7 +132,7 @@ score : OPEN 'score' card 'using' pointstorage CLOSE ;
 int : var | sizeof | mult | subtract | mod | add | divide | exponent | triangular | fibonacci | random | sum | rawstorage | score | INTNUM+ ;
 INTNUM : [0-9] ;
 
-str : namegr | strstorage | var ;
+str : namegr | strstorage | var | cardatt ;
 namegr : (LETT)+ ;
 LETT : [A-Z] ;
 

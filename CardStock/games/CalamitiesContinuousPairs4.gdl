@@ -7,7 +7,6 @@
  (setup  
   ;; Set up the players
   (create players 'NUMP)
-  (create teams (0) (1) (2) (3))
   
   ;; Create the deck source
   (repeat 1 (create deck (game iloc STOCK) (deck (VALUE (ONE)))))         
@@ -26,29 +25,29 @@
      (
       (set (game points POINTS)
            (
-            ((VALUE (TEN)) 10)
-            ((VALUE (NINE)) 9)
-            ((VALUE (EIGHT)) 8)
-            ((VALUE (SEVEN)) 7)
-            ((VALUE (SIX)) 6)
-            ((VALUE (FIVE)) 5)
-            ((VALUE (FOUR)) 4)
-            ((VALUE (THREE)) 3)
-            ((VALUE (TWO)) 2)
-            ((VALUE (ONE)) 1)))
+            ((VALUE : TEN) 10)
+            ((VALUE : NINE) 9)
+            ((VALUE : EIGHT) 8)
+            ((VALUE : SEVEN) 7)
+            ((VALUE : SIX) 6)
+            ((VALUE : FIVE) 5)
+            ((VALUE : FOUR) 4)
+            ((VALUE : THREE) 3)
+            ((VALUE : TWO) 2)
+            ((VALUE : ONE) 1)))
 
       (set (game points FIRST)
            (
-            ((VALUE (TEN)) 10)
-            ((VALUE (NINE)) 9)
-            ((VALUE (EIGHT)) 8)
-            ((VALUE (SEVEN)) 0)
-            ((VALUE (SIX)) 6)
-            ((VALUE (FIVE)) 5)
-            ((VALUE (FOUR)) 4)
-            ((VALUE (THREE)) 3)
-            ((VALUE (TWO)) 2)
-            ((VALUE (ONE)) 1)))
+            ((VALUE : TEN) 10)
+            ((VALUE : NINE) 9)
+            ((VALUE : EIGHT) 8)
+            ((VALUE : SEVEN) 0)
+            ((VALUE : SIX) 6)
+            ((VALUE : FIVE) 5)
+            ((VALUE : FOUR) 4)
+            ((VALUE : THREE) 3)
+            ((VALUE : TWO) 2)
+            ((VALUE : ONE) 1)))
  
       (set (game sto NUMP) 4)
       (shuffle (game iloc STOCK))

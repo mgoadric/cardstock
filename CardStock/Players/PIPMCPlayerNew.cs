@@ -91,7 +91,7 @@ namespace CardStock.Players
                                 rankSum[winners[j].Item2][move] += (double)topRank / NUMTESTS;
 
                                 // NEW VALUE BASED
-                                scoreSum[winners[j].Item2][move] += ((double)winners[j].Item1 * mult) / NUMTESTS;
+                                scoreSum[winners[j].Item2][move] += (double)winners[j].Item1 * mult / NUMTESTS;
 
                             }
                         }

@@ -6,7 +6,6 @@
  (setup  
   ;; Set up the players, 4 players each on their own team
   (create players 4)
-  (create teams (0) (1) (2) (3))
   ;; Create the deck source
   (create deck (game vloc DISCARD) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                          (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
@@ -23,8 +22,8 @@
                            (top (game iloc STOCK))))
              (set (game points SCORE) 
                   (
-                   ((SUIT (HEARTS)) 1) 
-                   ((RANK (Q)) (SUIT (SPADES)) 13)))
+                   ((SUIT : HEARTS) 1) 
+                   ((RANK : Q) (SUIT : SPADES) 13)))
              (shuffle (game iloc STOCK))
              (all player 'P
                   (repeat 13
@@ -82,20 +81,20 @@
                     ;; solidfy card recedence
                     (set (game points PRECEDENCE) 
                          (
-                          ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
-                          ((RANK (A)) 14)
-                          ((RANK (K)) 13) 
-                          ((RANK (Q)) 12)
-                          ((RANK (J)) 11)
-                          ((RANK (TEN)) 10)
-                          ((RANK (NINE)) 9)
-                          ((RANK (EIGHT)) 8)
-                          ((RANK (SEVEN)) 7)
-                          ((RANK (SIX)) 6)
-                          ((RANK (FIVE)) 5)
-                          ((RANK (FOUR)) 4)
-                          ((RANK (THREE)) 3)
-                          ((RANK (TWO)) 2)))
+                          ((SUIT : (cardatt SUIT (top (game mem LEAD)))) 100)
+                          ((RANK : A) 14)
+                          ((RANK : K) 13) 
+                          ((RANK : Q) 12)
+                          ((RANK : J) 11)
+                          ((RANK : TEN) 10)
+                          ((RANK : NINE) 9)
+                          ((RANK : EIGHT) 8)
+                          ((RANK : SEVEN) 7)
+                          ((RANK : SIX) 6)
+                          ((RANK : FIVE) 5)
+                          ((RANK : FOUR) 4)
+                          ((RANK : THREE) 3)
+                          ((RANK : TWO) 2)))
                     
                     ;; determine who won the hand, set them first next time, and give them a point
                     (forget (top (game mem LEAD)))
@@ -125,5 +124,3 @@
                                   (top (game vloc DISCARD))))))))
  
  (scoring min ((current player) sto SCORE)))
-
-

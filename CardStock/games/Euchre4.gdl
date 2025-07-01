@@ -17,6 +17,7 @@
  ;; Stages of the game
         (do 
             (
+            ;; JUST FOR TESTING
              (set ((team (current player)) str BID) MAKER)
              (set ((team (next player)) str BID) DEFENDER)
 
@@ -25,10 +26,20 @@
                   (repeat 5
                         (move (top (game iloc STOCK))
                               (top ('P iloc HAND)))))
-             (remember (top ((previous player) iloc HAND))
-                       (top (game mem TRUMP)))))
+             (move (top (game iloc STOCK))
+                   (top (game vloc TURNED)))
+             (set (game str TRUMPSUIT) (cardatt SUIT (top (game vloc TURNED))))
+             (set (game str TRUMPCOLOR) (cardatt COLOR (top (game vloc TURNED))))
+            ))
+                       
         
         ;; DETERMINE THE TRUMP AND BIDDING TEAM
+        ;;(stage player
+        ;;       (end 
+        ;;       (or (all player 'P (== ('P str BID) PASS))
+        ;;           (any team 'T (== ('T str BID) MAKER))))
+                   
+        ;;)
 
         ;; players play a round 5 times     
         (stage player
@@ -85,16 +96,16 @@
                     ;; solidfy card recedence
                     (set (game points PRECEDENCE)
                          (
-                          ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 200)
-                          ((RANK (J)) (SUIT (cardatt SUIT (top (game mem TRUMP)))) 1)
-                          ((RANK (J)) (COLOR (cardatt COLOR (top (game mem TRUMP)))) 5)
-                          ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
-                          ((RANK (A)) 14)
-                          ((RANK (K)) 13) 
-                          ((RANK (Q)) 12)
-                          ((RANK (J)) 11)
-                          ((RANK (TEN)) 10)
-                          ((RANK (NINE)) 9)))
+                          ((SUIT : (game str TRUMPSUIT)) 200)
+                          ((RANK : J) (SUIT : (game str TRUMPSUIT)) 1)
+                          ((RANK : J) (COLOR : (game str TRUMPCOLOR)) 5)
+                          ((SUIT : (cardatt SUIT (top (game mem LEAD)))) 100)
+                          ((RANK : A) 14)
+                          ((RANK : K) 13) 
+                          ((RANK : Q) 12)
+                          ((RANK : J) 11)
+                          ((RANK : TEN) 10)
+                          ((RANK : NINE) 9)))
                     
                     ;; determine who won the hand, set them first next time, and give them a point
                     (forget (top (game mem LEAD)))

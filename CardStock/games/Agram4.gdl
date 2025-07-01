@@ -6,7 +6,6 @@
  (declare 4 'NUMP)
  (setup 
   (create players 'NUMP)
-  (create teams (0) (1) (2) (3))  
   
   ;; Create the deck source 
   (create deck (game iloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN))
@@ -77,16 +76,16 @@
              ;; solidfy card recedence
              (set (game points PRECEDENCE) 
                   (
-                   ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
-                   ((RANK (ACE)) 14)
-                   ((RANK (TEN)) 10)
-                   ((RANK (NINE)) 9)
-                   ((RANK (EIGHT)) 8)
-                   ((RANK (SEVEN)) 7)
-                   ((RANK (SIX)) 6)
-                   ((RANK (FIVE)) 5)
-                   ((RANK (FOUR)) 4)
-                   ((RANK (THREE)) 3)))
+                   ((SUIT : (cardatt SUIT (top (game mem LEAD)))) 100)
+                   ((RANK : ACE) 14)
+                   ((RANK : TEN) 10)
+                   ((RANK : NINE) 9)
+                   ((RANK : EIGHT) 8)
+                   ((RANK : SEVEN) 7)
+                   ((RANK : SIX) 6)
+                   ((RANK : FIVE) 5)
+                   ((RANK : FOUR) 4)
+                   ((RANK : THREE) 3)))
              
              ;; determine who won the hand, set them first next time
              (forget (top (game mem LEAD)))

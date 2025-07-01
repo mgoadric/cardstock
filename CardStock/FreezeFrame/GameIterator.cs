@@ -1082,8 +1082,8 @@ namespace CardStock.FreezeFrame
             }
             else if (boolNode.attrcomp() != null)
             {
-                var str1 = ProcessCardatt(boolNode.attrcomp().cardatt(0));
-                var str2 = ProcessCardatt(boolNode.attrcomp().cardatt(1));
+                var str1 = ProcessString(boolNode.attrcomp().str(0));
+                var str2 = ProcessString(boolNode.attrcomp().str(1));
                 Debug.WriteLine(boolNode.GetText());
                 Debug.WriteLine(str1 + ", " + str2);
                 if (boolNode.attrcomp().EQOP().GetText() == "==")
@@ -1727,24 +1727,17 @@ namespace CardStock.FreezeFrame
         }
         private string ProcessCardatt(RecycleParser.CardattContext cardatt)
         {
-            if (cardatt.ChildCount == 1)
+            var loc = ProcessCard(cardatt.card());
+            if (loc.cardList.Count > 0)
             {
-                Debug.WriteLine("Att1 is " + cardatt.GetText());
-                return ProcessString(cardatt.str());
-            }
-            else
-            {
-                var loc = ProcessCard(cardatt.card());
-                if (loc.cardList.Count > 0)
+                var card = loc.Get();
+                if (card != null)
                 {
-                    var card = loc.Get();
-                    if (card != null)
-                    {
-                        Debug.WriteLine("Att2 is " + card.ReadAttribute(cardatt.str().GetText()));
-                        return card.ReadAttribute(cardatt.str().GetText());
-                    }
+                    Debug.WriteLine("Att2 is " + card.ReadAttribute(ProcessString(cardatt.str())));
+                    return card.ReadAttribute(ProcessString(cardatt.str()));
                 }
-            } Debug.WriteLine("Empty Attribute, no cards found");
+            }
+            Debug.WriteLine("Empty Attribute, no cards found");
             //throw new NotSupportedException();
             return "";
         }
@@ -2234,18 +2227,9 @@ namespace CardStock.FreezeFrame
                 foreach (RecycleParser.SubawardContext i in iter)
                 {
                     // TODO Is this working properly? I don't think so!
-                    key += i.str()[0].GetText() + ",";
-                    if (i.str().Length > 1)
-                    {
-                        Debug.WriteLine("*** Found a namegr...)" + i.str()[1].GetText());
-
-                        value += i.str()[1].GetText() + ",";
-                    }
-                    else
-                    {
-                        Debug.WriteLine("*** Card Att parsing...)");
-                        value += ProcessCardatt(i.cardatt()) + ",";
-                    }
+                    key += ProcessString(i.str()[0]) + ",";
+                    value += ProcessString(i.str()[1]) + ",";
+                    Debug.WriteLine("*** Found ...)" + value);
 
                 }
                 key = key.Substring(0, key.Length - 1);
@@ -2727,8 +2711,13 @@ namespace CardStock.FreezeFrame
 
         private string ProcessString(RecycleParser.StrContext str)
         {
-            if (str.namegr() != null) {
+            if (str.namegr() != null)
+            {
                 return str.namegr().GetText();
+            }
+            else if (str.cardatt() != null)
+            {
+                return ProcessCardatt(str.cardatt());
             }
             else if (str.var() != null)
             {
