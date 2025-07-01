@@ -5,7 +5,6 @@
 (game
  (setup  
   (create players 5)
-  (create teams (0) (1) (2) (3) (4))
   (create deck (game iloc STOCK) (deck (RANK  (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                             (BLACK (SUIT (CLUBS,  SPADES)))))))          
@@ -22,40 +21,40 @@
     (set ('P sto CHIPS) 100))))
     
   (set (game points SCORE) (
-            ((RANK (A))    12)
-            ((RANK (K))    11) 
-            ((RANK (Q))    10)
-            ((RANK (J))     9)
-            ((RANK (TEN))   8)
-            ((RANK (NINE))  7)
-            ((RANK (EIGHT)) 6)
-            ((RANK (SEVEN)) 5)
-            ((RANK (SIX))   4)
-            ((RANK (FIVE))  3)
-            ((RANK (FOUR))  2)
-            ((RANK (THREE)) 1)
-            ((RANK (TWO))   0)))
+            ((RANK : A)    12)
+            ((RANK : K)    11) 
+            ((RANK : Q)    10)
+            ((RANK : J)     9)
+            ((RANK : TEN)   8)
+            ((RANK : NINE)  7)
+            ((RANK : EIGHT) 6)
+            ((RANK : SEVEN) 5)
+            ((RANK : SIX)   4)
+            ((RANK : FIVE)  3)
+            ((RANK : FOUR)  2)
+            ((RANK : THREE) 1)
+            ((RANK : TWO)   0)))
             
   (set (game points CLUBS) (
-            ((SUIT (CLUBS))      1)
-            ((SUIT (DIAMONDS))   0) 
-            ((SUIT (HEARTS))     0)
-            ((SUIT (SPADES))     0)))
+            ((SUIT : CLUBS)      1)
+            ((SUIT : DIAMONDS)   0) 
+            ((SUIT : HEARTS)     0)
+            ((SUIT : SPADES)     0)))
   (set (game points DIAMONDS) (
-            ((SUIT (CLUBS))      0)
-            ((SUIT (DIAMONDS))   1) 
-            ((SUIT (HEARTS))     0)
-            ((SUIT (SPADES))     0)))           
-  (set (game points LEARTS) (
-            ((SUIT (CLUBS))      0)
-            ((SUIT (DIAMONDS))   0) 
-            ((SUIT (HEARTS))     1)
-            ((SUIT (SPADES))     0)))  
+            ((SUIT : CLUBS)      0)
+            ((SUIT : DIAMONDS)   1) 
+            ((SUIT : HEARTS)     0)
+            ((SUIT : SPADES)     0)))           
+  (set (game points HEARTS) (
+            ((SUIT : CLUBS)      0)
+            ((SUIT : DIAMONDS)   0) 
+            ((SUIT : HEARTS)     1)
+            ((SUIT : SPADES)     0)))  
   (set (game points SPADES) (
-            ((SUIT (CLUBS))      0)
-            ((SUIT (DIAMONDS))   0) 
-            ((SUIT (HEARTS))     0)
-            ((SUIT (SPADES))     1)))))
+            ((SUIT : CLUBS)      0)
+            ((SUIT : DIAMONDS)   0) 
+            ((SUIT : HEARTS)     0)
+            ((SUIT : SPADES)     1)))))
  
  (stage player
   (end (== (game sto ROUNDS) 5)) 
@@ -171,7 +170,7 @@
 
     ((or (or (or (== (sum ((current player) iloc HAND) using (game points CLUBS))    5) 
                  (== (sum ((current player) iloc HAND) using (game points DIAMONDS)) 5)) 
-                 (== (sum ((current player) iloc HAND) using (game points LEARTS))   5)) 
+                 (== (sum ((current player) iloc HAND) using (game points HEARTS))   5)) 
                  (== (sum ((current player) iloc HAND) using (game points SPADES))   5))
      (set ((current player) sto POINTS) (+ (score (max ((current player) iloc HAND) using (game points SCORE)) using (game points SCORE)) 208)))
      

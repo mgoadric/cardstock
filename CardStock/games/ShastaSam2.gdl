@@ -7,7 +7,6 @@
  (setup 
   ;; Set up the players, 2 players
   (create players 2)
-  (create teams (0) (1))
   
   ;; Create the deck source
   (create deck (game iloc STOCK) (deck (RANK (ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, 
@@ -25,11 +24,11 @@
                          (top ('P iloc HAND)))))
       (set (game points GAME)
            (
-            ((RANK (ACE)) 4)
-            ((RANK (KING)) 3) 
-            ((RANK (QUEEN)) 2)
-            ((RANK (JACK)) 1)
-            ((RANK (TEN)) 10)))
+            ((RANK : ACE) 4)
+            ((RANK : KING) 3) 
+            ((RANK : QUEEN) 2)
+            ((RANK : JACK) 1)
+            ((RANK : TEN) 10)))
       
       (remember (top (game iloc STOCK))
                 (top (game mem TRUMP)))))
@@ -85,21 +84,21 @@
              ;; solidfy card recedence
              (set (game points PRECEDENCE)
                   (
-                   ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 200)
-                   ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
-                   ((RANK (ACE)) 14)
-                   ((RANK (KING)) 13) 
-                   ((RANK (QUEEN)) 12)
-                   ((RANK (JACK)) 11)
-                   ((RANK (TEN)) 10)
-                   ((RANK (NINE)) 9)
-                   ((RANK (EIGHT)) 8)
-                   ((RANK (SEVEN)) 7)
-                   ((RANK (SIX)) 6)
-                   ((RANK (FIVE)) 5)
-                   ((RANK (FOUR)) 4)
-                   ((RANK (THREE)) 3)
-                   ((RANK (TWO)) 2)))
+                   ((SUIT : (cardatt SUIT (top (game mem TRUMP)))) 200)
+                   ((SUIT : (cardatt SUIT (top (game mem LEAD)))) 100)
+                   ((RANK : ACE) 14)
+                   ((RANK : KING) 13) 
+                   ((RANK : QUEEN) 12)
+                   ((RANK : JACK) 11)
+                   ((RANK : TEN) 10)
+                   ((RANK : NINE) 9)
+                   ((RANK : EIGHT) 8)
+                   ((RANK : SEVEN) 7)
+                   ((RANK : SIX) 6)
+                   ((RANK : FIVE) 5)
+                   ((RANK : FOUR) 4)
+                   ((RANK : THREE) 3)
+                   ((RANK : TWO) 2)))
              
              ;; determine who won the hand, set them first next time
              (forget (top (game mem LEAD)))

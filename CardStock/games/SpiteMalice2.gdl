@@ -10,7 +10,6 @@
  (declare (ONE, TWO, THREE) 'TLOCS)
  (setup
   (create players 2)
-  (create teams (0) (1))
   (repeat 2 (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                                  (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                                         (BLACK (SUIT (CLUBS, SPADES))))))))
@@ -19,19 +18,19 @@
      (
       (set (game points PRECEDENCE) 
            (
-            ((RANK (K)) 0) ;;TODO kings wild 
-            ((RANK (Q)) 12)
-            ((RANK (J)) 11)
-            ((RANK (TEN)) 10)
-            ((RANK (NINE)) 9)
-            ((RANK (EIGHT)) 8)
-            ((RANK (SEVEN)) 7)
-            ((RANK (SIX)) 6)
-            ((RANK (FIVE)) 5)
-            ((RANK (FOUR)) 4)
-            ((RANK (THREE)) 3)
-            ((RANK (TWO)) 2)
-            ((RANK (A)) 1)))
+            ((RANK : K) 0) ;;TODO kings wild 
+            ((RANK : Q) 12)
+            ((RANK : J) 11)
+            ((RANK : TEN) 10)
+            ((RANK : NINE) 9)
+            ((RANK : EIGHT) 8)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+            ((RANK : TWO) 2)
+            ((RANK : A) 1)))
       (shuffle (game iloc STOCK))
       (all player 'P
            (repeat 'NUMCARDS

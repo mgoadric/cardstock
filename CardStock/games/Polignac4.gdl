@@ -8,7 +8,6 @@
  (setup 
   ;; Set up the players, 4 players
   (create players 4)
-  (create teams (0) (1) (2) (3))
   
   ;; Create the deck source
   (create deck (game iloc STOCK) (deck (RANK (ACE, SEVEN, 
@@ -26,10 +25,10 @@
                          (top ('P iloc HAND)))))
       (set (game points KNAVES) 
            (
-            ((RANK (JACK)) (SUIT (HEARTS)) 1)
-            ((RANK (JACK)) (SUIT (DIAMONDS)) 1)
-            ((RANK (JACK)) (SUIT (CLUBS)) 1)
-            ((RANK (JACK)) (SUIT (SPADES)) 2)
+            ((RANK : JACK) (SUIT : HEARTS) 1)
+            ((RANK : JACK) (SUIT : DIAMONDS) 1)
+            ((RANK : JACK) (SUIT : CLUBS) 1)
+            ((RANK : JACK) (SUIT : SPADES) 2)
             ))))
  
  ;; players play a round 8 times     
@@ -84,15 +83,15 @@
              ;; solidfy card recedence
              (set (game points PRECEDENCE)
                   (
-                   ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
-                   ((RANK (ACE)) 11)
-                   ((RANK (KING)) 14) 
-                   ((RANK (QUEEN)) 13)
-                   ((RANK (JACK)) 12)
-                   ((RANK (TEN)) 10)
-                   ((RANK (NINE)) 9)
-                   ((RANK (EIGHT)) 8)
-                   ((RANK (SEVEN)) 7)))
+                   ((SUIT : (cardatt SUIT (top (game mem LEAD)))) 100)
+                   ((RANK : ACE) 11)
+                   ((RANK : KING) 14) 
+                   ((RANK : QUEEN) 13)
+                   ((RANK : JACK) 12)
+                   ((RANK : TEN) 10)
+                   ((RANK : NINE) 9)
+                   ((RANK : EIGHT) 8)
+                   ((RANK : SEVEN) 7)))
              
              ;; determine who won the hand, set them first next time
              (forget (top (game mem LEAD)))

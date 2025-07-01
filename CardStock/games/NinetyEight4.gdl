@@ -12,17 +12,17 @@
  
  (do 
      (
-      (set (game points PRECEDENCE)
+       (set (game points PRECEDENCE)
            (
-            ((RANK (NINE)) 9)
-            ((RANK (EIGHT)) 8)
-            ((RANK (SEVEN)) 7)
-            ((RANK (SIX)) 6)
-            ((RANK (FIVE)) 5)
-            ((RANK (FOUR)) 4)
-            ((RANK (THREE)) 3)
-            ((RANK (TWO)) 2)
-            ((RANK (A)) 1)))
+            ((RANK : NINE) 9)
+            ((RANK : EIGHT) 8)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+            ((RANK : TWO) 2)
+            ((RANK : A) 1)))
       
       ;; DEALING START
       (shuffle (game iloc STOCK))

@@ -19,11 +19,11 @@
 (
       (set (game points SCORE)
       (
-            ((RANK (A)) 11) 
-            ((RANK (SEVEN)) 10) 
-            ((RANK (K)) 4) 
-            ((RANK (H)) 3) 
-            ((RANK (M)) 2) 
+            ((RANK : A) 11) 
+            ((RANK : SEVEN) 10) 
+            ((RANK : K) 4) 
+            ((RANK : H) 3) 
+            ((RANK : M) 2) 
             ))
 
       (shuffle (game iloc STOCK))
@@ -85,18 +85,18 @@
             ;; solidfy card precedence
             (set (game points PRECEDENCE)
                   (
-                  ((SUIT (cardatt SUIT (top (game mem TRUMP)))) 200)
-                  ((SUIT (cardatt SUIT (top (game mem LEAD)))) 100)
-                  ((RANK (A)) 11)
-                  ((RANK (SEVEN)) 10)
-                  ((RANK (K)) 9) 
-                  ((RANK (H)) 8)
-                  ((RANK (M)) 7)
-                  ((RANK (SIX)) 6)
-                  ((RANK (FIVE)) 5)
-                  ((RANK (FOUR)) 4)
-                  ((RANK (THREE)) 3)
-                  ((RANK (TWO)) 2)))
+                  ((SUIT : (cardatt SUIT (top (game mem TRUMP)))) 200)
+                  ((SUIT : (cardatt SUIT (top (game mem LEAD)))) 100)
+                  ((RANK : A) 11)
+                  ((RANK : SEVEN) 10)
+                  ((RANK : K) 9) 
+                  ((RANK : H) 8)
+                  ((RANK : M) 7)
+                  ((RANK : SIX) 6)
+                  ((RANK : FIVE) 5)
+                  ((RANK : FOUR) 4)
+                  ((RANK : THREE) 3)
+                  ((RANK : TWO) 2)))
             
             ;; determine who won the hand, set them first next time, and give them a point
             (forget (top (game mem LEAD)))

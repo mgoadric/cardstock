@@ -4,7 +4,6 @@
  (setup  
   ;; Set up the players, 2 players each on their own team
   (create players 2)
-  (create teams (0) (1))
   
   ;; Create the deck source
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))

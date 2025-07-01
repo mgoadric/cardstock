@@ -6,7 +6,6 @@
  (setup  
   ;; Set up the players, 4 players each on their own team
   (create players 4)
-  (create teams (0) (1) (2) (3))
   
   ;; Create the deck source
   (create deck (game iloc STOCK) (deck (RANK (ACE, TWO, THREE, FOUR, FIVE, SIX, 
@@ -18,19 +17,19 @@
      (
       (set (game points SCORE)
            (
-            ((RANK (A)) 1)
-            ((RANK (K)) 10) 
-            ((RANK (Q)) 10)
-            ((RANK (J)) 10)
-            ((RANK (TEN)) 10)
-            ((RANK (NINE)) 9)
-            ((RANK (EIGHT)) 50)
-            ((RANK (SEVEN)) 7)
-            ((RANK (SIX)) 6)
-            ((RANK (FIVE)) 5)
-            ((RANK (FOUR)) 4)
-            ((RANK (THREE)) 3)
-            ((RANK (TWO)) 2)))
+            ((RANK : A) 1)
+            ((RANK : K) 10) 
+            ((RANK : Q) 10)
+            ((RANK : J) 10)
+            ((RANK : TEN) 10)
+            ((RANK : NINE) 9)
+            ((RANK : EIGHT) 50)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+            ((RANK : TWO) 2)))
       
       ;; Shuffle and give each player 5 cards
       (shuffle (game iloc STOCK))
