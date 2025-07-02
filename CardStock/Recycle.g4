@@ -1,13 +1,18 @@
-// Version 0.5.1 of our REcursive CYclic Card game LanguagE
+// Version 0.5.2 of our REcursive CYclic Card game LanguagE
 
-// New in version 0.5.1
-//  subset operator makes all possible subsets
-//. cardatt is a type of str, instead of reverse
-//  removing extraneous () from subawards in points
 //  TODO store other player as a variable?
 //  TODO make a graph for the locations? Only make explicit if needed?
 //     would also need ways to talk about neighbors (left, right, up, down) grammar
 //      or by index (0, 0), (1, 0), etc...
+//  TODO stages with count of number of times to cycle, this would avoid the awkward
+//.    counters currently used
+
+// New in version 0.5.2
+//. cardatt is a type of str, instead of reverse
+//  removing extraneous () from subawards in points
+
+// New in version 0.5.1
+//  subset operator makes all possible subsets
 
 // New in version 0.5
 //  abstracted namegr into str for strings

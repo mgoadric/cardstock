@@ -3,7 +3,6 @@
 ;; https://www.pagat.com/euchre/euchre.html
 
 (game
- 
  (setup 
   ;; Set up the players, 2 teams of 2 players, alternating
   (create players 4)
@@ -18,8 +17,8 @@
         (do 
             (
             ;; JUST FOR TESTING
-             (set ((team (current player)) str BID) MAKER)
-             (set ((team (next player)) str BID) DEFENDER)
+             ;;(set ((team (current player)) str BID) MAKER)
+             ;;(set ((team (next player)) str BID) DEFENDER)
 
              (shuffle (game iloc STOCK))
              (all player 'P
@@ -34,12 +33,83 @@
                        
         
         ;; DETERMINE THE TRUMP AND BIDDING TEAM
-        ;;(stage player
-        ;;       (end 
-        ;;       (or (all player 'P (== ('P str BID) PASS))
-        ;;           (any team 'T (== ('T str BID) MAKER))))
-                   
-        ;;)
+        (stage player
+               (end 
+               (or (all player 'P (== ('P str BID) PASS))
+                   (any team 'T (== ('T str BID) MAKER))))
+             (choice (
+                  (set ((current player) str BID) PASS)
+                  (do (
+                        (set ((current player) str BID) PICKUP)
+                        (set ((team (current player)) str BID) MAKER)
+                        (set ((team (next player)) str BID) DEFENDER)
+                  ))
+             ))
+        )
+
+        ;; if someone said PICKUP, then the dealer takes the card
+        ;; all bids are wiped
+        (do (
+            ((any team 'T (== ('T str BID) MAKER))
+             (move (top (game vloc TURNED))
+                   (top ((previous player) iloc HAND))))
+            (all player 'P (set ('P str BID) NONE))
+        ))
+
+        ;; if PICKUP, Dealer swaps out trump card for one of their own
+        (stage player 
+            (end (all player 'P (== (size ('P iloc HAND)) 5)))
+            (choice (
+               ((== (size ((current player) iloc HAND)) 6)
+                 (any ((current player) iloc HAND) 'C 
+                   (move 'C (top (game iloc STOCK))))
+               )
+               ((== (size ((current player) iloc HAND)) 5)
+                 (turn pass)
+               )
+            ))
+        )
+
+        ;; If no one picked up earlier,
+        ;; now the players get to pick the suit, not the one shown earlier
+        ;; dealer is forced to make a bid (Stick the Dealer rules)
+        (stage player
+               (end 
+               (any team 'T (== ('T str BID) MAKER)))
+             (choice (
+                  ((any (other player) 'OP (!= ('OP str BID) PASS)) 
+                     (set ((current player) str BID) PASS))
+                  ((!= HEARTS (game str TRUMPSUIT))
+                    (do (
+                       (set ((team (current player)) str BID) MAKER)
+                       (set ((team (next player)) str BID) DEFENDER)
+                       (set (game str TRUMPSUIT) HEARTS)
+                       (set (game str TRUMPCOLOR) RED)
+                    )))
+                  ((!= DIAMONDS (game str TRUMPSUIT))
+                    (do (
+                       (set ((team (current player)) str BID) MAKER)
+                       (set ((team (next player)) str BID) DEFENDER)
+                       (set (game str TRUMPSUIT) DIAMONDS)
+                       (set (game str TRUMPCOLOR) RED)
+                    )))
+                  ((!= SPADES (game str TRUMPSUIT))
+                    (do (
+                       (set ((team (current player)) str BID) MAKER)
+                       (set ((team (next player)) str BID) DEFENDER)
+                       (set (game str TRUMPSUIT) SPADES)
+                       (set (game str TRUMPCOLOR) BLACK)
+                    )))
+                  ((!= CLUBS (game str TRUMPSUIT))
+                    (do (
+                       (set ((team (current player)) str BID) MAKER)
+                       (set ((team (next player)) str BID) DEFENDER)
+                       (set (game str TRUMPSUIT) CLUBS)
+                       (set (game str TRUMPCOLOR) BLACK)
+                    )))
+                  
+             ))    
+        )
 
         ;; players play a round 5 times     
         (stage player
@@ -56,7 +126,7 @@
                       (choice 
                        (
 
-                        ;; NEED TO MAKE J of TRUMP COLOR ONLY FOLLOW SUiT FOR TRUMP, NOT THE REAL SUIT
+                        ;; TODO!!! NEED TO MAKE J of TRUMP COLOR ONLY FOLLOW SUiT FOR TRUMP, NOT THE REAL SUIT
                         
                         ;; if first player, play any card, remember it in the lead spot
                         ((== (size (game mem LEAD)) 0)                       
