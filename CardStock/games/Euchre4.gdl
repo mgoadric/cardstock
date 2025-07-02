@@ -142,8 +142,19 @@
                         ;;   play any card
                         ((and (== (size (game mem LEAD)) 1)
                               (== (size (filter ((current player) iloc HAND) 'L 
-                                                (== (cardatt SUIT 'L) 
-                                                    (cardatt SUIT (top (game mem LEAD)))))) 0))
+                                          (or 
+                                                (and (== (cardatt RANK 'L) J)
+                                                     (== (cardatt COLOR 'L) (game str TRUMPCOLOR))
+                                                     (== (cardatt COLOR 'L) (cardatt COLOR (top (game mem LEAD)))))
+                                                     
+                                                (and (== (cardatt RANK 'L) J)
+                                                     (!= (cardatt COLOR 'L) (game str TRUMPCOLOR))
+                                                     (== (cardatt SUIT 'L) (cardatt SUIT (top (game mem LEAD)))))
+                                                     
+                                                (and (!= (cardatt RANK 'L) J)
+                                                     (== (cardatt SUIT 'L) (cardatt SUIT (top (game mem LEAD)))))
+                                          )                                    
+                                        )) 0))
                          (any ((current player) iloc HAND) 'C
                               (move 'C 
                                     (top ((current player) vloc TRICK)))))
@@ -152,8 +163,19 @@
                         ;;   play any card that follows SUIT
                         ((== (size (game mem LEAD)) 1)
                          (any (filter ((current player) iloc HAND) 'L 
-                                      (== (cardatt SUIT 'L)
-                                          (cardatt SUIT (top (game mem LEAD))))) 
+                                          (or 
+                                                (and (== (cardatt RANK 'L) J)
+                                                     (== (cardatt COLOR 'L) (game str TRUMPCOLOR))
+                                                     (== (cardatt COLOR 'L) (cardatt COLOR (top (game mem LEAD)))))
+                                                     
+                                                (and (== (cardatt RANK 'L) J)
+                                                     (!= (cardatt COLOR 'L) (game str TRUMPCOLOR))
+                                                     (== (cardatt SUIT 'L) (cardatt SUIT (top (game mem LEAD)))))
+                                                     
+                                                (and (!= (cardatt RANK 'L) J)
+                                                     (== (cardatt SUIT 'L) (cardatt SUIT (top (game mem LEAD)))))
+                                          )   
+                              ) 
                               'C
                               
                               (move 'C 
@@ -168,7 +190,7 @@
                          (
                           ((SUIT : (game str TRUMPSUIT)) 200)
                           ((RANK : J) (SUIT : (game str TRUMPSUIT)) 1)
-                          ((RANK : J) (COLOR : (game str TRUMPCOLOR)) 5)
+                          ((RANK : J) (COLOR : (game str TRUMPCOLOR)) 304)
                           ((SUIT : (cardatt SUIT (top (game mem LEAD)))) 100)
                           ((RANK : A) 14)
                           ((RANK : K) 13) 
