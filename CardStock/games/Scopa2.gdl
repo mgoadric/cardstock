@@ -65,35 +65,45 @@
                (choice 
                 (
                  (any ((current player) iloc HAND) 'AC
-                      (move 'AC 
-                            (top ((current player) vloc TRICK))))))
-               
-               (do 
-                  (
-               ;; match card(s) in pool
-                    
-                    (all (filter (game vloc POOL) 'PC 
+                      (do (
+                        (move 'AC 
+                            (top ((current player) vloc TRICK)))
+
+                        ;; match one card in pool
+                        (any (filter (game vloc POOL) 'PC 
                                  (== (cardatt RANK 'PC)
                                      (cardatt RANK (top ((current player) vloc TRICK)))))
-                         'PCF
+                                   'PCF
                                    (do 
                                        (
                                         (move 'PCF 
                                               (top ((current player) vloc BUNDLE)))
-                                        (set ((current player) sto MOVED) 1))))
+                                        (set ((current player) sto MOVED) 1))))  
+                        ;; TESTING 
+                        ;;(set (game sto BLAH) 3)   
+                           
+                        ;; match subsets of cards IF NO SINGLES
+                        (any (filter (subsets (game vloc POOL)) 'SUB 
+                            (and (!= ((current player) sto MOVED) 1)
+                                (> (size 'SUB) 1)
+                                (== (sum 'SUB using (game points POINTS))
+                                    (score (top ((current player) vloc TRICK))
+                                        using (game points POINTS))))) 'SUBMATCH
+                                            (do 
+                                                (
+                                                    (all 'SUBMATCH 'MCARD  
+                                                    (move 'MCARD 
+                                                        (top ((current player) vloc BUNDLE))))
+                                                    (set ((current player) sto MOVED) 1))))  
+                      ))  
+                 )
+                ))
                
-               ;; match subsets of cards IF NO SINGLES
-            (all (filter (subsets (game vloc POOL)) 'SUB 
-                  (and (> (size 'SUB) 1)
-                       (== (sum 'SUB using (game points POINTS))
-                           (score (top ((current player) vloc TRICK))
-                              using (game points POINTS))))) 'SUBMATCH
-                                 (do 
-                                       (
-                                        (all 'SUBMATCH 'MCARD  
-                                           (move 'MCARD 
-                                              (top ((current player) vloc BUNDLE))))
-                                        (set ((current player) sto MOVED) 1))))
+               (do 
+                  (
+               
+               
+            
 
 
                ;; move trick card to bundle or pool depending 
@@ -107,6 +117,9 @@
                            (top ((current player) vloc BUNDLE))))
                            
                     (set ((current player) sto MOVED) 0)))))
+
+                    ;; TODO CHECK FOR SCOPA (SWEEP OF THE POOL)
+                    ;; all turns except the last one
 
 (stage player (end (all player 'P (== ('P str SCORING) MID))) 
   (do (

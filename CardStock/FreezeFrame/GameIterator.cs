@@ -121,6 +121,17 @@ namespace CardStock.FreezeFrame
         {
             var allOptions = BuildOptions();
 
+            /* DEBUG
+            foreach (GameActionCollection gac in allOptions) {
+                Console.WriteLine("New action list!");
+                foreach (GameAction action in gac)
+                {
+                    Console.WriteLine("\t" + action);
+                }
+            }
+            */
+            
+
             int choice = game.PlayerMakeChoice(allOptions.Count, game.CurrentPlayer().idx);
 
             if (allOptions.Count != 0)
@@ -1177,13 +1188,14 @@ namespace CardStock.FreezeFrame
                 }
                 foreach (var c in coll.cardList.AllCards())
                 {
-
-                    if (scoring.GetScore(c) == 0)
+                    int score = scoring.GetScore(c);
+                    if (score == 0)
                     {
                         // Console.WriteLine("Weird Card: " + c);
                     }
+                    //Console.WriteLine(c + " = " + score);
                     //MHG when equal, pick randomly
-                    if (scoring.GetScore(c) > max || (scoring.GetScore(c) == max && ThreadSafeRandom.Next(0, 2) == 0))
+                    if (score > max || (score == max && ThreadSafeRandom.Next(0, 2) == 0))
                     {
                         //if (scoring.GetScore(c) > max){
                         max = scoring.GetScore(c);
@@ -1967,7 +1979,7 @@ namespace CardStock.FreezeFrame
                                 var temp5 = temp as List<CardLocReference>;
                                 if (temp5 != null)
                                 {
-                                    Console.WriteLine("yay!");
+                                    Debug.WriteLine("yay!");
                                     return temp5.Count;
                                 }
                             }
@@ -2036,7 +2048,9 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("trying to score" + intNode.GetText());
                 var scorer = ProcessPointStorage(intNode.score().pointstorage()).Get();
                 var card = ProcessCard(intNode.score().card());
-                return scorer.GetScore(card.Get());
+                int score = scorer.GetScore(card.Get());
+                Debug.WriteLine(card + " = " + score);
+                return score;
             }
             else if (intNode.var() != null)
             {
