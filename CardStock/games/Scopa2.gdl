@@ -78,10 +78,8 @@
                                        (
                                         (move 'PCF 
                                               (top ((current player) vloc BUNDLE)))
-                                        (set ((current player) sto MOVED) 1))))  
-                        ;; TESTING 
-                        ;;(set (game sto BLAH) 3)   
-                           
+                                        (set ((current player) sto MOVED) 1))))    
+
                         ;; match subsets of cards IF NO SINGLES
                         (any (filter (subsets (game vloc POOL)) 'SUB 
                             (and (!= ((current player) sto MOVED) 1)
@@ -102,10 +100,10 @@
                (do 
                   (
                
-               
+                    ((and (== (size (game vloc POOL)) 0)
+                          (any player 'P (> (size ('P iloc HAND)) 0)))
+                     (inc ((current player) sto SCORE) 1))
             
-
-
                ;; move trick card to bundle or pool depending 
 
                     ((== ((current player) sto MOVED) 0)
