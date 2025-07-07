@@ -17,7 +17,7 @@ tournament of AI players. Please check back for further progress on these issues
 
 ## Games
 
-There are currently 41 games coded in RECYCLE
+There are currently 47 games coded in RECYCLE
 
 * Press Your Luck
     * [BlackJack](https://www.pagat.com/banking/blackjack.html) (2p)
@@ -25,7 +25,8 @@ There are currently 41 games coded in RECYCLE
         * Continuous Pairs (4p)
         * Calamity Continuous Pairs (4p)
 * Fishing
-    * [Stealing Bundles](https://www.pagat.com/fishing/bundle.html) (2-5p)
+    * [Scopa](https://www.pagat.com/fishing/scopa.html) (2p)
+    * [Stealing Bundles](https://www.pagat.com/fishing/bundle.html) (2-4p)
 * Shedding
     * [Comet](http://www.catsatcards.com/Games/Comet.html) (2p)
     * [Crazy Eights](https://www.pagat.com/eights/crazy8s.html) (4p)
@@ -38,10 +39,13 @@ There are currently 41 games coded in RECYCLE
     * [Golf](https://www.pagat.com/draw/golf.html) (2p)
     * [Lost Cities](https://cdn.1j1ju.com/medias/c8/66/47-lost-cities-rulebook.pdf) (2p)
     * [Spite and Malice](https://www.pagat.com/patience/spitemal.html) (2p)
+* Exchange
+    * [Cuckoo](https://www.pagat.com/cuckoo/cuckoo.html) (6p)
 * Trick Taking
     * [Agram](https://www.pagat.com/last/agram.html) (2-5p)
     * [California Jack](https://www.bicyclecards.com/how-to-play/california-jack/) (2p)
     * [Duck Soup](http://www.parlettgames.uk/oricards/ducksoup.html) (2p)
+    * [Euchre](https://www.pagat.com/euchre/euchre.html) (4p)
     * [German Whist](https://www.pagat.com/whist/german_whist.html) (2p)
     * [Hearts](https://www.pagat.com/reverse/hearts.html) (3-5p)
         * Omnibus Hearts (4p)
@@ -55,10 +59,14 @@ There are currently 41 games coded in RECYCLE
     * [Shasta Sam](https://www.bicyclecards.com/how-to-play/shasta-sam/) (4p)
     * [Sheepshead](https://www.pagat.com/schafkopf/shep.html) (5p)
         * Cheesheads (5p)
-    * [Spades](https://www.pagat.com/auctionwhist/spades.html) (4p)
     * [Slobberhannes](http://whiteknucklecards.com/games/slobberhannes.html) (4p)
+    * [Spades](https://www.pagat.com/auctionwhist/spades.html) (4p)
+    * [Sueca](https://www.pagat.com/aceten/sueca.html) (4p)
     * [The Bottle Imp](https://tesera.ru/images/items/11335/Bottle_Imp_Rules_EN.pdf) (3-4p)
     * [Whist](https://www.pagat.com/whist/whist.html) (4p)
+* Poker
+    * Kuhn Poker (2p)
+    * Leduc Poker (2p)
 * Catch and Collect
     * Enchère (3p)
     * [GOPS](https://www.pagat.com/misc/gops.html) (2p)
@@ -72,6 +80,7 @@ There are currently 41 games coded in RECYCLE
 ## Requirements
 
 * [Visual Studio Code](https://code.visualstudio.com/)
+* [.NET Core v 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 * [C# Dev Kit Extension](https://marketplace.visualstudio.com/items/?itemName=ms-dotnettools.csdevkit)
 * [ANTLR4 grammar syntax support](https://marketplace.visualstudio.com/items/?itemName=mike-lischke.vscode-antlr4)
 
