@@ -99,13 +99,14 @@
                
                (do 
                   (
-               
+                    ;; TODO CHECK FOR SCOPA (SWEEP OF THE POOL)
+                    ;; all turns except the last one
                     ((and (== (size (game vloc POOL)) 0)
-                          (any player 'P (> (size ('P iloc HAND)) 0)))
+                          (or (!= (size (game iloc STOCK)) 0)
+                              (any player 'P (> (size ('P iloc HAND)) 0))))
                      (inc ((current player) sto SCORE) 1))
             
-               ;; move trick card to bundle or pool depending 
-
+                    ;; move trick card to bundle or pool depending 
                     ((== ((current player) sto MOVED) 0)
                      (move (top ((current player) vloc TRICK))
                            (top (game vloc POOL))))
@@ -116,8 +117,7 @@
                            
                     (set ((current player) sto MOVED) 0)))))
 
-                    ;; TODO CHECK FOR SCOPA (SWEEP OF THE POOL)
-                    ;; all turns except the last one
+
 
 (stage player (end (all player 'P (== ('P str SCORING) MID))) 
   (do (

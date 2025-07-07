@@ -44,19 +44,26 @@
                         (set ((team (current player)) str BID) MAKER)
                         (set ((team (next player)) str BID) DEFENDER)
                   ))
+                  (do (
+                        (set ((current player) str BID) ALONE)
+                        (set ((team (current player)) str BID) MAKER)
+                        (set ((team (next player)) str BID) DEFENDER)
+                  ))
              ))
         )
 
-        ;; if someone said PICKUP, then the dealer takes the card
-        ;; all bids are wiped
+        ;; if someone said PICKUP or ALONE, then the dealer takes the card
+        ;; all pass bids are wiped
         (do (
             ((any team 'T (== ('T str BID) MAKER))
              (move (top (game vloc TURNED))
                    (top ((previous player) iloc HAND))))
-            (all player 'P (set ('P str BID) NONE))
+            (all player 'P 
+                ((== ('P str BID) PASS)
+                 (set ('P str BID) NONE)))
         ))
 
-        ;; if PICKUP, Dealer swaps out trump card for one of their own
+        ;; if PICKUP or ALONE, Dealer swaps out trump card for one of their own
         (stage player 
             (end (all player 'P (== (size ('P iloc HAND)) 5)))
             (choice (
@@ -79,6 +86,38 @@
              (choice (
                   ((any (other player) 'OP (!= ('OP str BID) PASS)) 
                      (set ((current player) str BID) PASS))
+                  ((!= HEARTS (game str TRUMPSUIT))
+                    (do (
+                       (set ((current player) str BID) ALONE)
+                       (set ((team (current player)) str BID) MAKER)
+                       (set ((team (next player)) str BID) DEFENDER)
+                       (set (game str TRUMPSUIT) HEARTS)
+                       (set (game str TRUMPCOLOR) RED)
+                    )))
+                  ((!= DIAMONDS (game str TRUMPSUIT))
+                    (do (
+                       (set ((current player) str BID) ALONE)
+                       (set ((team (current player)) str BID) MAKER)
+                       (set ((team (next player)) str BID) DEFENDER)
+                       (set (game str TRUMPSUIT) DIAMONDS)
+                       (set (game str TRUMPCOLOR) RED)
+                    )))
+                  ((!= SPADES (game str TRUMPSUIT))
+                    (do (
+                       (set ((current player) str BID) ALONE)
+                       (set ((team (current player)) str BID) MAKER)
+                       (set ((team (next player)) str BID) DEFENDER)
+                       (set (game str TRUMPSUIT) SPADES)
+                       (set (game str TRUMPCOLOR) BLACK)
+                    )))
+                  ((!= CLUBS (game str TRUMPSUIT))
+                    (do (
+                       (set ((current player) str BID) ALONE)
+                       (set ((team (current player)) str BID) MAKER)
+                       (set ((team (next player)) str BID) DEFENDER)
+                       (set (game str TRUMPSUIT) CLUBS)
+                       (set (game str TRUMPCOLOR) BLACK)
+                    )))
                   ((!= HEARTS (game str TRUMPSUIT))
                     (do (
                        (set ((team (current player)) str BID) MAKER)
@@ -107,8 +146,24 @@
                        (set (game str TRUMPSUIT) CLUBS)
                        (set (game str TRUMPCOLOR) BLACK)
                     )))
-                  
              ))    
+        )
+
+        ;; if partner going alone, then discard all of your cards
+        (stage team
+               (end (all player 'P (== ('P str READY) TRUE)))
+               (do (
+                  (all (current team) 'TP
+                  (do (
+                        (set ('TP str READY) TRUE)
+                        ((and (any (current team) 'CT (== ('CT str BID) ALONE)) 
+                              (!= ('TP str BID) ALONE))
+                         (do (
+                            (set ('TP str BID) DUMMY)
+                            (repeat all (move (top ('TP iloc HAND))
+                                              (top (game iloc ALONE)))))))
+                  ))
+               )))
         )
 
         ;; players play a round 5 times     
@@ -121,12 +176,16 @@
                (stage player
                       (end 
                        (all player 'P
-                            (> (size ('P vloc TRICK)) 0)))
+                            (or (> (size ('P vloc TRICK)) 0)
+                                (== ('P str BID) DUMMY)
+                       )))
                       
                       (choice 
                        (
 
-                        ;; TODO!!! NEED TO MAKE J of TRUMP COLOR ONLY FOLLOW SUiT FOR TRUMP, NOT THE REAL SUIT
+                        ;; if dummy player (partner going alone) then pass)
+                        ((== ((current player) str BID) DUMMY)
+                         (turn pass))
                         
                         ;; if first player, play any card, remember it in the lead spot
                         ((== (size (game mem LEAD)) 0)                       
@@ -207,8 +266,10 @@
                     
                     ;; discard all the played cards
                     (all player 'P
-                         (move (top ('P vloc TRICK)) 
-                               (top (game vloc DISCARD)))))))
+                         ((> (size ('P vloc TRICK)) 0) 
+                          (move (top ('P vloc TRICK)) 
+                                (top (game vloc DISCARD))))
+                               ))))
         
         ;; determine team score
         (stage team
@@ -231,6 +292,10 @@
                     ((and (== ((current team) sto TRICKSWON) 5)
                           (== ((current team) str BID) MAKER))
                      (inc ((current team) sto SCORE) 1))
+                    ((and (== ((current team) str BID) MAKER)
+                          (== ((current team) sto SCORE) 2)
+                          (any (current team) 'TP (== ('TP str BID) ALONE)))
+                     (inc ((current team) sto SCORE) 2))
                     ((and (>= ((current team) sto TRICKSWON) 3)
                           (== ((current team) str BID) DEFENDER))
                      (inc ((current team) sto SCORE) 2))  
