@@ -969,7 +969,18 @@ namespace CardStock.FreezeFrame
             if (cond.multiaction2() != null)
             {
                 Debug.WriteLine("Processing conditional multiaction.");
-                ProcessMultiaction(cond.multiaction2());
+                // WHY ARE THESE NOT EXECUTED???
+                // WHY ARE SOME OF THESE NULL??? WHAT IS THIS???
+                var actions = ProcessMultiaction(cond.multiaction2());
+                //Console.WriteLine(actions.Count);
+                foreach (var act in actions)
+                {
+                    if (act != null)
+                    {
+                        //Console.WriteLine(act);
+                        act.ExecuteAll();
+                    }
+                }
             }
             else
             {
@@ -1801,7 +1812,23 @@ namespace CardStock.FreezeFrame
         {
             if (who.teamp() != null)
             {
-                return ProcessWhop(who.teamp().whop()).team;
+                if (who.teamp().var() != null)
+                {
+                    var p = variables.Get(who.teamp().var());
+                    var p2 = p as Player;
+                    if (p2 != null)
+                    {
+                        return p2.team;
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+                else
+                {
+                    return ProcessWhop(who.teamp().whop()).team;
+                }
             }
             else
             {
@@ -2619,7 +2646,7 @@ namespace CardStock.FreezeFrame
             {
                 Debug.WriteLine("Processing type: str");
 
-                return typed.str().GetText();
+                return ProcessString(typed.str());
             }
             else if (typed.var() != null)
             {

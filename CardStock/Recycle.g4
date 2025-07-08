@@ -89,7 +89,7 @@ whop : OPEN whodesc 'player' CLOSE | owner ;
 whot : OPEN whodesc 'team' CLOSE | teamp ;
 whodesc : int | 'previous' | 'next' | 'current' ;
 owner : OPEN 'owner' card CLOSE ;
-teamp : OPEN 'team' whop CLOSE ;
+teamp : OPEN 'team' (var | whop) CLOSE ;
 
 other : OPEN 'other' ('player' | 'team') CLOSE ;
 

@@ -34,6 +34,27 @@
       ))
  
  ;; bidding time!
+ (stage player 
+       (end 
+        (all player 'P 
+          (== (game sto BIDS) 4)))
+
+          (choice (
+            ;; not the last, you can pass
+            ((!= (game sto BIDS) 3)
+             (inc (game sto BIDS) 1))
+
+            ;; bid between 2 and 5, must be greater than previous
+            (any (range 2..5) 'B
+                  ((or (all player 'P (> 'B ('P sto BID)))
+                       (and (== (game sto BIDS) 3) ;; the last player can steal earlier high bid
+                            (all player 'P (> (+ 'B 1) ('P sto BID)))))
+                   (do (
+                        (set ((current player) sto BID) 'B)
+                        (inc (game sto BIDS) 1)))))))
+      )
+
+ ;; the highest bidder goes first TODO ??
 
  ;; players play a round until their cards are gone    
  (stage player
@@ -60,7 +81,7 @@
                                       (top (game mem LEAD)))
 
                             ;; if first player, then you also establish trump with your first card
-                            ((== (size (top (game mem TRUMP))) 0)
+                            ((== (size (game mem TRUMP)) 0)
                              (remember (top ((current player) vloc TRICK))
                                        (top (game mem TRUMP))))))))
 
@@ -132,16 +153,20 @@
            (do 
                (
                 (inc ((team 'P) sto GAMESCORE) (sum ('P vloc TRICKSWON) using (game points GAME)))
-                (inc ((team 'P) sto SCORE) 
-                     (size (filter ('P vloc TRICKSWON) 'C 
-                                   (and (== (cardatt SUIT 'C)
-                                            (cardatt SUIT (top (game mem TRUMP))))
-                                        (or (== (cardatt RANK 'C)
-                                                (cardatt RANK (max (union (all player 'MP ('MP vloc TRICKSWON))))))
-                                            (== (cardatt RANK 'C)
-                                                (cardatt RANK (min (union (all player 'MP ('MP vloc TRICKSWON))))))
-                                            (== (cardatt RANK 'C)
-                                                JACK)))))))))))
+                (let (filter (union (all player 'MP ('MP vloc TRICKSWON))) 'UC 
+                             (== (cardatt SUIT 'UC) (cardatt SUIT (top (game mem TRUMP))))) 'ONLYTRUMP
+                  ;;(do (
+                  ;;(set ('P sto BLAH) (size 'ONLYTRUMP))
+                  (inc ((team 'P) sto SCORE) 
+                    (size (filter ('P vloc TRICKSWON) 'C 
+                        (and (== (cardatt SUIT 'C)
+                                 (cardatt SUIT (top (game mem TRUMP))))
+                             (or (== (cardatt RANK 'C)
+                                     (cardatt RANK (max 'ONLYTRUMP using (game points PRECEDENCE))))
+                                 (== (cardatt RANK 'C)
+                                     (cardatt RANK (min 'ONLYTRUMP using (game points PRECEDENCE))))
+                                 (== (cardatt RANK 'C)
+                                     JACK))))))))))));;))
                 
  (stage team
         (end 
@@ -151,10 +176,11 @@
              ((> ((current team) sto GAMESCORE) ((next team) sto GAMESCORE))
               (inc ((current team) sto SCORE) 1))
 
-            ;; calculate smudge
+            ;; calculate smudge TODO ??
 
-            ;; determine if bid was made, otherwise set back
+            ;; determine if bid was made, otherwise set back TODO ??
 
+            ;; discard cards
              (all (current team) 'TP
                  (repeat all
                      (move (top ('TP vloc TRICKSWON))
