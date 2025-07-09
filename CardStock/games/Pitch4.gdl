@@ -193,20 +193,20 @@
              ((any (current team) 'TP (== ('TP str BID) MAX))
               (do (
                   ((and (<= ((current team) sto BID) 4)
-                        (>= ((current team) sto BID) ((current team) sto SCORE)))
+                        (>= ((current team) sto TEMPSCORE) ((current team) sto BID)))
                    (inc ((current team) sto SCORE) ((current team) sto TEMPSCORE)))
                   ((and (<= ((current team) sto BID) 4)
-                        (< ((current team) sto BID) ((current team) sto SCORE)))
-                   (dec ((current team) sto SCORE) ((current team) sto TEMPSCORE)))
+                        (< ((current team) sto TEMPSCORE) ((current team) sto BID)))
+                   (dec ((current team) sto SCORE) ((current team) sto BID)))
 
                   ;; calculate smudge
                   ((and (== ((current team) sto BID) 5)
                         (== ((current team) sto SMUDGE) 6)
-                        (== ((current team) sto SCORE) 4))
+                        (== ((current team) sto TEMPSCORE) 4))
                    (inc ((current team) sto SCORE) 5))
                   ((and (== ((current team) sto BID) 5)
                         (or (!= ((current team) sto SMUDGE) 6)
-                            (!= ((current team) sto SCORE) 4)))
+                            (!= ((current team) sto TEMPSCORE) 4)))
                    (dec ((current team) sto SCORE) 5))
                   )))
 
