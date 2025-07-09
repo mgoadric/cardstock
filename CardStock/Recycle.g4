@@ -5,10 +5,13 @@
 //     would also need ways to talk about neighbors (left, right, up, down) grammar
 //      or by index (0, 0), (1, 0), etc...
 //  TODO stages with count of number of times to cycle, this would avoid the awkward
-//.    counters currently used
+//     counters currently used
+
+// New in version 0.5.3
+//  var options for teamp and cycleaction
 
 // New in version 0.5.2
-//. cardatt is a type of str, instead of reverse
+//  cardatt is a type of str, instead of reverse
 //  removing extraneous () from subawards in points
 
 // New in version 0.5.1
@@ -54,7 +57,7 @@ initpoints : 'set' pointstorage OPEN awards+? CLOSE ;
 awards : OPEN subaward+? int CLOSE ;
 subaward : OPEN str ':' str CLOSE ;
 
-cycleaction : 'cycle' ('next' | 'current') (owner | 'current' | 'next' | 'previous') ;
+cycleaction : 'cycle' ('next' | 'current') (owner | 'current' | 'next' | 'previous' | var) ;
 
 setaction : 'set' rawstorage int ;
 setstraction : 'set' strstorage str ;

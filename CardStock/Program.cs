@@ -1,5 +1,5 @@
-int numRndvRnd = 100;
-int numAIvRnd = 0;
+int numRndvRnd = 0;
+int numAIvRnd = 1;
 int numAIvAI = 0;
 string game = "Pitch";
 int players = 4;

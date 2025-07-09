@@ -30,7 +30,6 @@
             ((RANK : QUEEN) 2)
             ((RANK : JACK) 1)
             ((RANK : TEN) 10)))
-
       ))
  
  ;; bidding time!
@@ -40,8 +39,9 @@
           (== (game sto BIDS) 4)))
 
           (choice (
-            ;; not the last, you can pass
-            ((!= (game sto BIDS) 3)
+            ;; not the last, you can pass, or you are last and someone already bid
+            ((or (!= (game sto BIDS) 3)
+                 (any player 'P (== ('P str BID) MAX)))
              (inc (game sto BIDS) 1))
 
             ;; bid between 2 and 5, must be greater than previous
@@ -50,11 +50,20 @@
                        (and (== (game sto BIDS) 3) ;; the last player can steal earlier high bid
                             (all player 'P (> (+ 'B 1) ('P sto BID)))))
                    (do (
+                        (all player 'P ((== ('P str BID) MAX)
+                                        (set ('P str BID) NONE)))
+                        (set ((current player) str BID) MAX)
                         (set ((current player) sto BID) 'B)
+                        (set ((team (current player)) sto BID) 'B)
                         (inc (game sto BIDS) 1)))))))
       )
 
- ;; the highest bidder goes first TODO ??
+ ;; the highest bidder goes first
+ (do (
+      (all player 'P 
+        ((== ('P str BID) MAX)
+         (cycle current 'P)))
+ ))
 
  ;; players play a round until their cards are gone    
  (stage player
@@ -85,9 +94,13 @@
                              (remember (top ((current player) vloc TRICK))
                                        (top (game mem TRUMP))))))))
 
-                 ;; if following player and can follow SUIT or play TRUMP
+                 ;; if following player and can follow SUIT
                  ;;   play any card that follows SUIT or TRUMP
-                 ((== (size (game mem LEAD)) 1)
+                 ((and (== (size (game mem LEAD)) 1)
+                       (>  (size (filter ((current player) iloc HAND) 'L 
+                               (== (cardatt SUIT 'L)
+                                   (cardatt SUIT (top (game mem LEAD))))
+                        )) 0))
                   (any (filter ((current player) iloc HAND) 'L 
                                (or (== (cardatt SUIT 'L)
                                        (cardatt SUIT (top (game mem LEAD))))
@@ -98,15 +111,13 @@
                        (move 'C 
                              (top ((current player) vloc TRICK)))))
                                                          
-                 ;; if following player and cannot follow SUIT or play TRUMP
+                 ;; if following player and cannot follow SUIT
                  ;;   play any card
                  ((and (== (size (game mem LEAD)) 1)
                        (== (size (filter ((current player) iloc HAND) 'L 
-                                         (or (== (cardatt SUIT 'L) 
-                                                 (cardatt SUIT (top (game mem LEAD))))
-                                             (== (cardatt SUIT 'L)
-                                                 (cardatt SUIT (top (game mem TRUMP))))
-                       ))) 0))
+                                         (== (cardatt SUIT 'L) 
+                                             (cardatt SUIT (top (game mem LEAD))))                      
+                        )) 0))
                   (any ((current player) iloc HAND) 'C
                        (move 'C 
                              (top ((current player) vloc TRICK)))))
@@ -155,9 +166,7 @@
                 (inc ((team 'P) sto GAMESCORE) (sum ('P vloc TRICKSWON) using (game points GAME)))
                 (let (filter (union (all player 'MP ('MP vloc TRICKSWON))) 'UC 
                              (== (cardatt SUIT 'UC) (cardatt SUIT (top (game mem TRUMP))))) 'ONLYTRUMP
-                  ;;(do (
-                  ;;(set ('P sto BLAH) (size 'ONLYTRUMP))
-                  (inc ((team 'P) sto SCORE) 
+                  (inc ((team 'P) sto TEMPSCORE) 
                     (size (filter ('P vloc TRICKSWON) 'C 
                         (and (== (cardatt SUIT 'C)
                                  (cardatt SUIT (top (game mem TRUMP))))
@@ -166,7 +175,7 @@
                                  (== (cardatt RANK 'C)
                                      (cardatt RANK (min 'ONLYTRUMP using (game points PRECEDENCE))))
                                  (== (cardatt RANK 'C)
-                                     JACK))))))))))));;))
+                                     JACK))))))))))))
                 
  (stage team
         (end 
@@ -174,13 +183,34 @@
         (do
             (
              ((> ((current team) sto GAMESCORE) ((next team) sto GAMESCORE))
-              (inc ((current team) sto SCORE) 1))
+              (inc ((current team) sto TEMPSCORE) 1))
 
-            ;; calculate smudge TODO ??
+             ;; nonbidding team, get any points scored
+             ((all (current team) 'TP (!= ('TP str BID) MAX))
+              (inc ((current team) sto SCORE) ((current team) sto TEMPSCORE)))
 
-            ;; determine if bid was made, otherwise set back TODO ??
+             ;; determine if bid was made, otherwise set back
+             ((any (current team) 'TP (== ('TP str BID) MAX))
+              (do (
+                  ((and (<= ((current team) sto BID) 4)
+                        (>= ((current team) sto BID) ((current team) sto SCORE)))
+                   (inc ((current team) sto SCORE) ((current team) sto TEMPSCORE)))
+                  ((and (<= ((current team) sto BID) 4)
+                        (< ((current team) sto BID) ((current team) sto SCORE)))
+                   (dec ((current team) sto SCORE) ((current team) sto TEMPSCORE)))
 
-            ;; discard cards
+                  ;; calculate smudge
+                  ((and (== ((current team) sto BID) 5)
+                        (== ((current team) sto SMUDGE) 6)
+                        (== ((current team) sto SCORE) 4))
+                   (inc ((current team) sto SCORE) 5))
+                  ((and (== ((current team) sto BID) 5)
+                        (or (!= ((current team) sto SMUDGE) 6)
+                            (!= ((current team) sto SCORE) 4)))
+                   (dec ((current team) sto SCORE) 5))
+                  )))
+
+             ;; discard cards
              (all (current team) 'TP
                  (repeat all
                      (move (top ('TP vloc TRICKSWON))

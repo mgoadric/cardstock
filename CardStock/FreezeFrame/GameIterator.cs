@@ -914,6 +914,19 @@ namespace CardStock.FreezeFrame
                     var idx = ProcessOwner(cycle.owner());
                     return new NextAction(game.CurrentPlayer(), idx);
                 }
+                else if (cycle.var() != null)
+                {
+                    var p = variables.Get(cycle.var());
+                    if (p is Player p2)
+                    {
+                        return new NextAction(game.CurrentPlayer(), p2.id);
+                    }
+                    else
+                    {
+                        // TODO better exeption type mismatch
+                        throw new NotImplementedException();
+                    }
+                }
                 else if (text2 == "next")
                 {
                     return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().PeekNext().id);
@@ -934,6 +947,19 @@ namespace CardStock.FreezeFrame
                 {
                     var idx = ProcessOwner(cycle.owner());
                     return new SetPlayerAction(idx, game, script);
+                }
+                else if (cycle.var() != null)
+                {
+                    var p = variables.Get(cycle.var());
+                    if (p is Player p2)
+                    {
+                        return new SetPlayerAction(p2.id, game, script);
+                    }
+                    else
+                    {
+                        // TODO better exeption type mismatch
+                        throw new NotImplementedException();
+                    }                    
                 }
                 else if (text2 == "next")
                 {
