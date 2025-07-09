@@ -17,61 +17,65 @@ tournament of AI players. Please check back for further progress on these issues
 
 ## Games
 
-There are currently 47 games coded in RECYCLE
+There are currently 48 games coded in RECYCLE
 
-* Press Your Luck
-    * [BlackJack](https://www.pagat.com/banking/blackjack.html) (2p)
-    * [Pairs](https://cheapass.com/wp-content/uploads/2018/02/PairsCompanionBookWebFeb2018.pdf) (2-5p)
-        * Continuous Pairs (4p)
-        * Calamity Continuous Pairs (4p)
-* Fishing
-    * [Scopa](https://www.pagat.com/fishing/scopa.html) (2p)
-    * [Stealing Bundles](https://www.pagat.com/fishing/bundle.html) (2-4p)
-* Shedding
-    * [Comet](http://www.catsatcards.com/Games/Comet.html) (2p)
-    * [Crazy Eights](https://www.pagat.com/eights/crazy8s.html) (4p)
-        * Sane Eights (4p)
-    * [Simon's Cat](https://www.sjgames.com/simonscat/Simons-Cat-Rules.pdf) (4p)
 * Adding
     * [Caterpillar](http://www.parlettgames.uk/oricards/caterpil.html) (2p)
     * [Ninety Eight](https://www.pagat.com/adders/98.html) (4p)
+* Catch and Collect
+    * Enchère (3p)
+    * [GOPS](https://www.pagat.com/misc/gops.html) (2p)
+    * [Go Fish](https://www.pagat.com/quartet/gofish.html) (2p) *limited deck*
+    * [Turn the Tide](https://gamewright.com/pdfs/Rules/TurnTheTide-RULES.pdf) (3p)
 * Draw and Discard
     * [Golf](https://www.pagat.com/draw/golf.html) (2p)
     * [Lost Cities](https://cdn.1j1ju.com/medias/c8/66/47-lost-cities-rulebook.pdf) (2p)
     * [Spite and Malice](https://www.pagat.com/patience/spitemal.html) (2p)
 * Exchange
     * [Cuckoo](https://www.pagat.com/cuckoo/cuckoo.html) (6p)
-* Trick Taking
-    * [Agram](https://www.pagat.com/last/agram.html) (2-5p)
-    * [California Jack](https://www.bicyclecards.com/how-to-play/california-jack/) (2p)
-    * [Duck Soup](http://www.parlettgames.uk/oricards/ducksoup.html) (2p)
-    * [Euchre](https://www.pagat.com/euchre/euchre.html) (4p)
-    * [German Whist](https://www.pagat.com/whist/german_whist.html) (2p)
-    * [Hearts](https://www.pagat.com/reverse/hearts.html) (3-5p)
-        * Omnibus Hearts (4p)
-        * Broken Hearts (4p)
-        * Pure Hearts (4p)
-        * Grey Lady (4p)
-        * Black Maria (4p)
-        * Spot Hearts (4p)
-    * [Knaves](http://whiteknucklecards.com/games/knaves.html) (3-4p)
-    * [Polignac](http://whiteknucklecards.com/games/polignac.html) (4p)
-    * [Shasta Sam](https://www.bicyclecards.com/how-to-play/shasta-sam/) (4p)
-    * [Sheepshead](https://www.pagat.com/schafkopf/shep.html) (5p)
-        * Cheesheads (5p)
-    * [Slobberhannes](http://whiteknucklecards.com/games/slobberhannes.html) (4p)
-    * [Spades](https://www.pagat.com/auctionwhist/spades.html) (4p)
-    * [Sueca](https://www.pagat.com/aceten/sueca.html) (4p)
-    * [The Bottle Imp](https://tesera.ru/images/items/11335/Bottle_Imp_Rules_EN.pdf) (3-4p)
-    * [Whist](https://www.pagat.com/whist/whist.html) (4p)
+* Fishing
+    * [Scopa](https://www.pagat.com/fishing/scopa.html) (2p)
+    * [Stealing Bundles](https://www.pagat.com/fishing/bundle.html) (2-4p)
 * Poker
     * Kuhn Poker (2p)
     * Leduc Poker (2p)
-* Catch and Collect
-    * Enchère (3p)
-    * [GOPS](https://www.pagat.com/misc/gops.html) (2p)
-    * [Go Fish](https://www.pagat.com/quartet/gofish.html) (2p) *limited deck*
-    * [Turn the Tide](https://gamewright.com/pdfs/Rules/TurnTheTide-RULES.pdf) (3p)
+* Press Your Luck
+    * [BlackJack](https://www.pagat.com/banking/blackjack.html) (2p)
+    * [Pairs](https://cheapass.com/wp-content/uploads/2018/02/PairsCompanionBookWebFeb2018.pdf) (2-5p)
+        * Continuous Pairs (4p)
+        * Calamity Continuous Pairs (4p)
+* Shedding
+    * [Comet](http://www.catsatcards.com/Games/Comet.html) (2p)
+    * [Crazy Eights](https://www.pagat.com/eights/crazy8s.html) (4p)
+        * Sane Eights (4p)
+    * [Simon's Cat](https://www.sjgames.com/simonscat/Simons-Cat-Rules.pdf) (4p)
+* Trick Taking
+    * Avoidance
+        * [Hearts](https://www.pagat.com/reverse/hearts.html) (3-5p)
+           * Omnibus Hearts (4p)
+           * Broken Hearts (4p)
+           * Pure Hearts (4p)
+           * Grey Lady (4p)
+           * Black Maria (4p)
+           * Spot Hearts (4p)
+        * [Knaves](http://whiteknucklecards.com/games/knaves.html) (3-4p)
+        * [Polignac](http://whiteknucklecards.com/games/polignac.html) (4p)
+        * [Slobberhannes](http://whiteknucklecards.com/games/slobberhannes.html) (4p)
+    * All Fours
+        * [California Jack](https://www.bicyclecards.com/how-to-play/california-jack/) (2p)
+        * [Pitch](https://www.pagat.com/allfours/pitch.html#players) (4p)
+        * [Shasta Sam](https://www.bicyclecards.com/how-to-play/shasta-sam/) (4p)
+    * Others
+       * [Agram](https://www.pagat.com/last/agram.html) (2-5p)
+       * [Duck Soup](http://www.parlettgames.uk/oricards/ducksoup.html) (2p)
+       * [Euchre](https://www.pagat.com/euchre/euchre.html) (4p)
+       * [German Whist](https://www.pagat.com/whist/german_whist.html) (2p)
+       * [Sheepshead](https://www.pagat.com/schafkopf/shep.html) (5p)
+           * Cheesheads (5p)
+       * [Spades](https://www.pagat.com/auctionwhist/spades.html) (4p)
+       * [Sueca](https://www.pagat.com/aceten/sueca.html) (4p)
+       * [The Bottle Imp](https://tesera.ru/images/items/11335/Bottle_Imp_Rules_EN.pdf) (3-4p)
+       * [Whist](https://www.pagat.com/whist/whist.html) (4p)
 * Unique
     * [Coloretto](https://www.riograndegames.com/wp-content/uploads/2013/02/Coloretto-Rules.pdf) (4p)
     * [Coup](http://boardgame.bg/coup%20rules%20pdf.pdf) (4p)
