@@ -1550,6 +1550,7 @@ namespace CardStock.FreezeFrame
             else if (loc.filter() != null)
             {
                 // WILL THIS FAIL LATER???
+                // OH YES IT DID! IN WEIRD WAYS
                 return ProcessCStorageFilter(loc.filter());
             }
             else if (loc.locpre() != null)
@@ -1983,68 +1984,8 @@ namespace CardStock.FreezeFrame
             }
             else if (intNode.@sizeof() != null)
             {
-                if (intNode.@sizeof().cstorage() != null)
-                {
-                    return ProcessLocation(intNode.@sizeof().cstorage()).Count();
-                }
-                else if (intNode.@sizeof().memset() != null)
-                {
-                    return ProcessMemset(intNode.@sizeof().memset()).Length;
-                }
-                else if (intNode.@sizeof().var() != null)
-                {
-
-                    var temp = variables.Get(intNode.@sizeof().var());
-                    Debug.WriteLine(temp.GetType());
-                    var temp2 = temp as CardLocReference;
-
-                    if (temp2 != null)
-                    {
-                        Debug.WriteLine(temp2);
-
-                        // TODO FIX THIS
-                        return temp2.Count();
-                        // WHY IS THIS LINE HERE??? I want the size of virtual locations...
-                        /*
-                        if (temp2.locIdentifier != "-1")
-                        {
-                            return temp2.Count();
-                        }
-                        throw new TypeAccessException();
-                        */
-                    }
-                    else
-                    {
-                        var temp3 = temp as CardLocReference[];
-                        if (temp3 != null)
-                        {
-                            return temp3.Length;
-                        }
-                        else
-                        {
-                            var temp4 = temp as List<Card>;
-                            if (temp4 != null)
-                            {
-                                return temp4.Count;
-                            }
-                            else
-                            {
-                                var temp5 = temp as List<CardLocReference>;
-                                if (temp5 != null)
-                                {
-                                    Debug.WriteLine("yay!");
-                                    return temp5.Count;
-                                }
-                            }
-                        }
-                        throw new TypeAccessException();
-                    }
-                }
-                else
-                {
-                    Debug.WriteLine("failed to find size");
-                    return 0;
-                }
+                RecycleParser.CollectionContext coll = intNode.@sizeof().collection();
+                return ProcessCollection(coll).Count();
             }
             else if (intNode.mult() != null)
             {
@@ -2327,14 +2268,6 @@ namespace CardStock.FreezeFrame
         {
             var cList = new CardCollection(CCType.VIRTUAL);
             CardLocReference stor;
-            /*
-            Debug.WriteLine(filter.GetText());
-            Debug.WriteLine("parent:\n" + filter.GetText());
-            Debug.WriteLine("parent's parent:\n" + filter.GetText());
-            Debug.WriteLine("parent 3:\n" + filter.GetText());
-            Debug.WriteLine("parent 4:\n" + filter.GetText());
-            Debug.WriteLine("parent 5:\n" + filter.GetText());
-            Debug.WriteLine("\n\n");*/
             IEnumerable<Card> stor2;
             String name2;
 
@@ -2392,20 +2325,26 @@ namespace CardStock.FreezeFrame
 
         private IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection)
         {
+            // collection : filter | 
+            // var ;
 
             if (collection.var() != null)
             {
                 Debug.WriteLine("Processing collection type: var.");
                 var stor = variables.Get(collection.var());
-                if (stor is CardLocReference clr)
+                if (stor is CardLocReference clr) // #1
                 {
                     return clr.cardList.AllCards();
+                }
+                else if (stor is CardLocReference[] clra) // #2
+                {
+                    return clra;
                 }
                 else if (stor is string[] sa)
                 {
                     return sa;
                 }
-                else if (stor is List<CardLocReference> clocr)
+                else if (stor is List<CardLocReference> clocr) // #4
                 {
                     return clocr;
                 }
@@ -2417,9 +2356,10 @@ namespace CardStock.FreezeFrame
                 {
                     return stor as List<object>;
                 }
-                else if (stor is List<Card>)
+                else if (stor is List<Card>) // #3
                 { return stor as List<Card>; }
-                else { throw new Exception(); }
+                else { throw new TypeAccessException(); }
+
             }
             string text = collection.GetText();
             if (collection.cstorage() != null)
@@ -2453,6 +2393,7 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Processing collection type: range.");
 
                 var lst = ProcessRange(collection.range());
+                // WHY ARE WE CLONING THE RANGE AND NOT OTHERS???
                 List<object> newlst = [];
                 foreach (int num in lst)
                 {
@@ -2470,15 +2411,19 @@ namespace CardStock.FreezeFrame
                 {
                     Debug.WriteLine("We made it!!!");
                     return ProcessCStorageCollectionFilter(collection.filter());
-
                 }
 
                 // Only do this if it is a collection filter
-                else if (collection.filter().collection() != null ||
-                    collection.filter().var() != null)
+                else if (collection.filter().collection() != null &&
+                    collection.filter().collection().cstorage() != null)
                 {
                     var filter = ProcessCStorageFilter(collection.filter());
                     return filter.cardList.AllCards();
+                }
+
+                else
+                {
+                    return ProcessCollectionFilter(collection.filter());
                 }
  
 
@@ -2500,11 +2445,38 @@ namespace CardStock.FreezeFrame
             }
             else
             {//var
-                Console.WriteLine("Processing collection type: var.");
+                Console.WriteLine("Processing collection type: UNKNOWN.");
                 throw new Exception();
                 //return (IEnumerable<object>)Get(collection.GetText());
             }
             throw new NotSupportedException();
+        }
+
+        private List<Object> ProcessCollectionFilter(RecycleParser.FilterContext filter)
+        {
+
+            if (filter.collection() != null)
+            {
+                Debug.WriteLine("Phew!");
+                var coll = ProcessCollection(filter.collection());
+                var flist = new List<Object>();
+
+                foreach (Object c in coll)
+                {
+                    string text = filter.var().GetText();
+                    variables.Put(text, c);
+                    if (ProcessBoolean(filter.boolean()))
+                    {
+                        flist.Add(c);
+                    }
+                    variables.Remove(text);
+                }
+                return flist;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
 
         private List<CardLocReference> ProcessCStorageCollectionFilter(RecycleParser.FilterContext filter)
@@ -2521,6 +2493,7 @@ namespace CardStock.FreezeFrame
                 {
                     string text = filter.var().GetText();
                     variables.Put(text, cardloc);
+                    // WHY DO WE NEED cardloc.Count() > 0???
                     if (cardloc.Count() > 0 && ProcessBoolean(filter.boolean()))
                     {
                         flist.Add(cardloc);

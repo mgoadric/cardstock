@@ -1,11 +1,7 @@
-// Version 0.5.2 of our REcursive CYclic Card game LanguagE
+// Version 0.5.4 of our REcursive CYclic Card game LanguagE
 
-//  TODO store other player as a variable?
-//  TODO make a graph for the locations? Only make explicit if needed?
-//     would also need ways to talk about neighbors (left, right, up, down) grammar
-//      or by index (0, 0), (1, 0), etc...
-//  TODO stages with count of number of times to cycle, this would avoid the awkward
-//     counters currently used
+// New in version 0.5.4
+//  sizeof works for all collections, not just card collections
 
 // New in version 0.5.3
 //  var options for teamp and cycleaction
@@ -27,6 +23,15 @@
 //  exponent, triangular, and fibonacci numbers
 //  random number (0-?) or (?-?) with ? inclusive
 //  change range to be inclusive
+
+//  TODO store other player as a variable?
+//  TODO make a graph for the locations? Only make explicit if needed?
+//     would also need ways to talk about neighbors (left, right, up, down) grammar
+//      or by index (0, 0), (1, 0), etc...
+//  TODO stages with count of number of times to cycle, this would avoid the awkward
+//     counters currently used
+//  TODO a way to calculate runs in cards. Maybe like a partition? 
+//       But do we want all possible sets?
 
 grammar Recycle;
 var : '\'' namegr ;
@@ -126,7 +131,7 @@ triangular : OPEN 'tri' int CLOSE ;
 fibonacci : OPEN 'fib' int CLOSE ;
 random : OPEN 'random' int ('..' int)? CLOSE ;
 
-sizeof : OPEN 'size' (var | cstorage | memset) CLOSE ;
+sizeof : OPEN 'size' collection CLOSE ;
 maxof : OPEN 'max' cstorage 'using' pointstorage CLOSE ;
 minof : OPEN 'min' cstorage 'using' pointstorage CLOSE ;
 sortof : OPEN 'sort' cstorage 'using' pointstorage CLOSE ;

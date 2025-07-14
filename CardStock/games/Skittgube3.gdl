@@ -3,9 +3,8 @@
 ;; https://www.pagat.com/beating/skitgubbe.html
 
 (game
- (declare 3 'NUMP)
  (setup 
-  (create players 'NUMP)
+  (create players 3)
   
   ;; Create the deck source 
   (create deck (game iloc STOCK) (deck (RANK (ACE, TWO, THREE, FOUR, FIVE, SIX, 
@@ -63,7 +62,13 @@
 
                ;; then draw a card back into your hand
                (do (
-                  ((and (> (size (game iloc STOCK)) 0)
+                  ((and (== (size (game iloc STOCK)) 1)
+                        (> (size (game iloc STOCK)) 0)
+                        (< (size ((current player) iloc HAND)) 3))
+                   (move (top (game iloc STOCK))
+                         (top ((current player) iloc TRUMP))))
+                  ((and (!= (size (game iloc STOCK)) 1)
+                        (> (size (game iloc STOCK)) 0)
                         (< (size ((current player) iloc HAND)) 3))
                    (move (top (game iloc STOCK))
                          (top ((current player) iloc HAND))))
@@ -83,7 +88,7 @@
                   (all player 'P 
                         ((> (size ('P vloc TRICK)) 0)
                         (move (top ('P vloc TRICK)) 
-                              (top (game vloc HOLDING)))))
+                              (top ('P vloc HOLDING)))))
               ))
             )
 
@@ -95,23 +100,104 @@
                   
                   ;; winner gets the cards to save for phase 2
                   (all player 'P 
+                     (do (
                         ((> (size ('P vloc TRICK)) 0)
-                        (move (top ('P vloc TRICK)) 
-                              (top ((next player) vloc TRICKSWON)))))
+                             (move (top ('P vloc TRICK)) 
+                                   (top ((next player) vloc TRICKSWON))))
 
-                  (repeat all (move (top (game vloc HOLDING)) 
-                                    (top ((next player) vloc TRICKSWON))))               
+                        (repeat all (move (top ('P vloc HOLDING)) 
+                                          (top ((next player) vloc TRICKSWON))))   
+                     )))            
               ))
 
       ))))
  
+ ;; IN BETWEEN, show your cards, show trump, set card values
  (do (
       (all player 'P 
+        (do (
             (repeat all
                   (move (top ('P iloc HAND)) 
-                        (top ('P vloc TRICKSWON)))))
+                        (top ('P vloc TRICKSWON))))
+            (repeat all
+                  (move (top ('P vloc HOLDING)) 
+                        (top ('P vloc TRICKSWON))))
+            ((== (size ('P iloc TRUMP)) 1)
+             (do (
+                  (set (game str TRUMPSUIT) 
+                       (cardatt SUIT (top ('P iloc TRUMP))))
+                  (move (top ('P iloc TRUMP)) 
+                        (top ('P vloc TRICKSWON)))
+                  (cycle current 'P)
+             )))
+      )))
+      (set (game sto NUMP) (size (filter player 'P (> (size ('P vloc TRICKSWON)) 0))))
  ))
  ;; PHASE 2: Play the tricks, last out of cards loses
 
+ (stage player (end
+  (== (size (filter player 'P (> (size ('P vloc TRICKSWON)) 0))) 1))
+
+  (do (
+      ((or (== (size (game vloc TRICK)) (game sto NUMP))
+           (== (size (game vloc TRICK)) 0))
+       (do (
+            (repeat all (move (top (game vloc TRICK))
+                              (top (game vloc DISCARD))))
+            (set (game sto NUMP) (size (filter player 'P (> (size ('P vloc TRICKSWON)) 0))))
+      )))
+  ))
+
+  (choice (
+      ;; no card, you pass
+      ((== (size ((current player) vloc TRICKSWON)) 0)
+       (turn pass))
+
+      ;; empty trick, you can play anything
+      ((and (!= (size ((current player) vloc TRICKSWON)) 0)
+            (== (size (game vloc TRICK)) 0))
+       (any ((current player) vloc TRICKSWON) 'C 
+        (move 'C (top (game vloc TRICK)))))
+
+       ;; cards played, you need to beat it
+      ((and (!= (size ((current player) vloc TRICKSWON)) 0)
+            (> (size (game vloc TRICK)) 0))
+       (any (filter ((current player) vloc TRICKSWON) 'FC
+                    (> (score 'FC using (game points PHASETWO))
+                       (score (top (game vloc TRICK)) using (game points PHASETWO)))) 'C 
+        (move 'C (top (game vloc TRICK)))))
+
+      ;; or, you can pick up the top card from the trick
+      ((and (!= (size ((current player) vloc TRICKSWON)) 0)
+            (> (size (game vloc TRICK)) 0))
+       (move (top (game vloc TRICK))
+             (top ((current player) vloc TRICKSWON))))
+  ))
+
+  (do (
+      ((== (size ((current player) vloc TRICKSWON)) 0)
+        (set ((current player) sto SCORE) (game sto NUMP))
+      )
+      ((> (size (game vloc TRICK)) 0)
+       (set (game points PHASETWO)
+        (
+            ((SUIT : (game str TRUMPSUIT)) 200)
+            ((SUIT : (cardatt SUIT (top (game vloc TRICK)))) 100)
+            ((RANK : ACE) 14)
+            ((RANK : K) 13)
+            ((RANK : Q) 12)
+            ((RANK : J) 11)
+            ((RANK : TEN) 10)
+            ((RANK : NINE) 9)
+            ((RANK : EIGHT) 8)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+            ((RANK : TWO) 2))))
+  ))
+)
+
  ;; Player with least number of cards wins
- (scoring min (size ((current player) vloc TRICKSWON))))
+ (scoring max ((current player) sto SCORE)))
