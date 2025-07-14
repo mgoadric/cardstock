@@ -46,7 +46,8 @@
         ;; players play a hand once     
         (stage player
                (end
-                (== (size (union (all player 'P ('P vloc TRICK)))) 2))
+                (or (== (size ((next player) iloc HAND)) 0)
+                    (== (size (union (all player 'P ('P vloc TRICK)))) 2)))
                
                (choice 
                 (
@@ -62,8 +63,8 @@
 
                ;; then draw a card back into your hand
                (do (
-                  ((and (> (size (game iloc STOCK) 0))
-                        (< (size ((current player) iloc HAND) 3)))
+                  ((and (> (size (game iloc STOCK)) 0)
+                        (< (size ((current player) iloc HAND)) 3))
                    (move (top (game iloc STOCK))
                          (top ((current player) iloc HAND))))
                ))
@@ -74,16 +75,43 @@
             (          
 
              ;; TODO if there is a tie, then replay with those two players???
+            ((== (cardatt RANK (top ((current player) vloc TRICK)))
+                 (cardatt RANK (top ((next player) vloc TRICK))))
+              (do (
+                  ((!= (size ((next player) iloc HAND)) 0)
+                   (cycle next current))
+                  (all player 'P 
+                        ((> (size ('P vloc TRICK)) 0)
+                        (move (top ('P vloc TRICK)) 
+                              (top (game vloc HOLDING)))))
+              ))
+            )
 
              ;; otherwise determine who won the hand, set them first next time
-             (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PHASAEONE))))
-             
-             ;; winner gets the cards to save for phase 2
-             (all player 'P 
-                  ((> (size ('P vloc TRICK)) 0)
-                   (move (top ('P vloc TRICK)) 
-                         (top ((next player) vloc TRICKSWON)))))
-      )))
+            ((!= (cardatt RANK (top ((current player) vloc TRICK)))
+                 (cardatt RANK (top ((next player) vloc TRICK))))
+              (do (
+                  (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PHASAEONE))))
+                  
+                  ;; winner gets the cards to save for phase 2
+                  (all player 'P 
+                        ((> (size ('P vloc TRICK)) 0)
+                        (move (top ('P vloc TRICK)) 
+                              (top ((next player) vloc TRICKSWON)))))
+
+                  (repeat all (move (top (game vloc HOLDING)) 
+                                    (top ((next player) vloc TRICKSWON))))               
+              ))
+
+      ))))
  
+ (do (
+      (all player 'P 
+            (repeat all
+                  (move (top ('P iloc HAND)) 
+                        (top ('P vloc TRICKSWON)))))
+ ))
+ ;; PHASE 2: Play the tricks, last out of cards loses
+
  ;; Player with least number of cards wins
  (scoring min (size ((current player) vloc TRICKSWON))))
