@@ -1,0 +1,101 @@
+;; NoThanks in the GDL
+(game
+    (setup  
+     ;; Set up the players, 3 players
+      (create players 3)
+
+      ;; Create the deck source
+      (create deck (game iloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, 
+                                              SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE,
+                                              THIRTEEN, FOURTEEN, FIFTEEN, SIXTEEN, SEVENTEEN, EIGHTEEN,
+                                              NINETEEN, TWENTY, TWENTYONE, TWENTYTWO, TWENTYTHREE, TWENTYFOUR,
+                                              TWENTYFIVE, TWENTYSIX, TWENTYSEVEN, TWENTYEIGHT, TWENTYNINE,
+                                              THIRTY, THIRTYONE, THIRTYTWO, THIRTYTHREE, THIRTYFOUR, THIRTYFIVE))))
+   )
+    
+   (do (
+        (shuffle (game iloc STOCK))
+        (all player 'P (set ('P sto CHIPS) 11))
+        (repeat 9 (move (top (game iloc STOCK))
+                        (top (game iloc THROWOUT))))
+        (set (game points SCORING) 
+           (
+            ((RANK : THIRTYFIVE) 35)
+            ((RANK : THIRTYFOUR) 34)
+            ((RANK : THIRTYTHREE) 33)
+            ((RANK : THIRTYTWO) 32)
+            ((RANK : THIRTYONE) 31)
+            ((RANK : THIRTY) 30)
+            ((RANK : TWENTYNINE) 29)
+            ((RANK : TWENTYEIGHT) 28)
+            ((RANK : TWENTYSEVEN) 27)
+            ((RANK : TWENTYSIX) 26)
+            ((RANK : TWENTYFIVE) 25)
+            ((RANK : TWENTYFOUR) 24)
+            ((RANK : TWENTYTHREE) 23)
+            ((RANK : TWENTYTWO) 22)
+            ((RANK : TWENTYONE) 21)
+            ((RANK : TWENTY) 20)
+            ((RANK : NINETEEN) 19)
+            ((RANK : EIGHTEEN) 18)
+            ((RANK : SEVENTEEN) 17)
+            ((RANK : SIXTEEN) 16)
+            ((RANK : FIFTEEN) 15)
+            ((RANK : FOURTEEN) 14)
+            ((RANK : THIRTEEN) 13)
+            ((RANK : TWELVE) 12)
+            ((RANK : ELEVEN) 11)
+            ((RANK : TEN) 10)
+            ((RANK : NINE) 9)
+            ((RANK : EIGHT) 8)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+         ))  
+
+       )
+   )
+   ;; Stages of the game
+   (stage player
+      (end (== (size (game iloc STOCK)) 0))
+                    
+      ;; players either take a card or add a chip
+      (choice
+        (   
+         (do (
+          (move (top (game iloc STOCK))
+                (top ((current player) vloc HAND)))
+          (inc ((current player) sto CHIPS) (game sto CHIPS))
+          (set (game sto CHIPS) 0)
+          (cycle next current)
+         ))
+
+         ((!= ((current player) sto CHIPS) 0)
+          (do (
+            (inc (game sto CHIPS) 1)
+            (dec ((current player) sto CHIPS) 1)
+          ))
+         )
+         )
+      )
+      )
+      
+   (stage player (end (
+      
+   ))
+         (do (
+            (dec ((current player) sto SCORE) 
+                 ((current player) sto CHIPS))
+            (all (runs RANK ((current player) loc HAND)) 'R 
+                 (inc ((current player) sto SCORE)
+                      (min 'R using (game points SCORING))))
+         ))
+   )
+
+   (scoring min ((current player) sto SCORE))
+)
+         
+         
+      
