@@ -14,7 +14,7 @@ public class ParseEngine
     public RecycleParser.GameContext tree;
     public World gameWorld;
     public string fileName;
-    public static int CHOICELIMIT = 200;
+    public static int CHOICELIMIT = 500;
 
         public ParseEngine(Experiment exp, World gameWorld)
         {

@@ -110,7 +110,7 @@ range : OPEN 'range' int '..' int CLOSE ;
 
 filter : OPEN 'filter' collection var boolean CLOSE ;
 
-attrcomp : EQOP str str ;
+attrcomp : EQOP str str ;   // I don't think we need this anymore
 cardatt : OPEN 'cardatt' str card CLOSE ;
 
 boolean : OPEN (BOOLOP boolean boolean+? | intop int int  | attrcomp | EQOP card card

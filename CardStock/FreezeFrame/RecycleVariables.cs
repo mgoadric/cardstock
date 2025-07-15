@@ -194,8 +194,7 @@ namespace CardStock.FreezeFrame
             if (obj == null)
             { return false; }
 
-            RecycleVariables other = obj as RecycleVariables;
-            if (other == null)
+            if (obj is not RecycleVariables other)
             { return false; }
 
             foreach (String key in vars.Keys)

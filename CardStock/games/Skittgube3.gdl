@@ -133,6 +133,7 @@
       )))
       (set (game sto NUMP) (size (filter player 'P (> (size ('P vloc TRICKSWON)) 0))))
  ))
+
  ;; PHASE 2: Play the tricks, last out of cards loses
 
  (stage player (end
@@ -175,7 +176,8 @@
   ))
 
   (do (
-      ((== (size ((current player) vloc TRICKSWON)) 0)
+      ((and (== (size ((current player) vloc TRICKSWON)) 0)
+            (== ((current player) sto SCORE) 0))
         (set ((current player) sto SCORE) (game sto NUMP))
       )
       ((> (size (game vloc TRICK)) 0)

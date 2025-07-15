@@ -1,0 +1,149 @@
+;; Golf
+;; https://www.pagat.com/draw/golf.html
+
+(game
+ (declare (ONE, TWO, THREE, FOUR, FIVE, SIX) 'PLOCS)
+ (setup
+  (create players 4)
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (CLUBS, SPADES)))))))
+ (do 
+     (
+      ;; set scoring points for the cards
+      (set (game points POSITIVE)
+           (
+            ((RANK : Q) 10)
+            ((RANK : J) 10)
+            ((RANK : TEN) 10)
+            ((RANK : NINE) 9)
+            ((RANK : EIGHT) 8)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+            ((RANK : A) 1)))
+      (set (game points NEGATIVE)
+           (
+            ((RANK : TWO) 2)))
+
+      ;; Shuffle the deck, give each player one card in each of their locations
+      (shuffle (game iloc STOCK))    
+      (all player 'P
+           (all 'PLOCS 'L
+                (move (top (game iloc STOCK)) 
+                      (top ('P hloc 'L)))))))
+ 
+ ;; each player turns over two spots
+ (stage player
+       (end 
+          (all player 'P (== (size (union (all 'PLOCS 'L ('P hloc 'L)))) 4))
+       )
+          (choice (
+                (any 'PLOCS 'L
+                   ((!= (size ((current player) hloc 'L)) 0) 
+                        (move (top ((current player) hloc 'L))   
+                              (top ((current player) vloc 'L)))))))
+          (choice (
+                (any 'PLOCS 'L
+                   ((!= (size ((current player) hloc 'L)) 0) 
+                        (move (top ((current player) hloc 'L))   
+                              (top ((current player) vloc 'L)))))))
+ )
+
+ ;; play the game until one player has all faceup cards
+ (stage player
+        (end 
+          (any player 'P (== (size (union (all 'PLOCS 'L ('P hloc 'L)))) 0))
+        )
+
+        ;; Draw a card
+        (choice 
+         (
+          ((> (size (game iloc STOCK)) 0)
+           (move (top (game iloc STOCK)) 
+                (top((current player) iloc HAND))))
+          ((> (size (game vloc DISCARD)) 0)
+           (do 
+               (
+                (move (top (game vloc DISCARD)) 
+                      (top((current player) iloc HAND)))
+                (set ((current player) str DRAWFROM) DISCARD))))))
+        
+        ;; Play a card
+        (choice 
+         (
+
+          ((!= ((current player) str DRAWFROM) DISCARD)
+           (move (top ((current player) iloc HAND)) 
+                 (top (game vloc DISCARD))))
+          
+          (any 'PLOCS 'L
+               (do 
+                   (
+                    ((== (size ((current player) hloc 'L)) 0) 
+                        (move (top ((current player) vloc 'L))   
+                              (top (game vloc DISCARD))))
+                    ((!= (size ((current player) hloc 'L)) 0) 
+                        (move (top ((current player) hloc 'L))   
+                              (top (game vloc DISCARD))))
+                    (move (top ((current player) iloc HAND)) 
+                          (top ((current player) vloc 'L))))))))
+        
+        ;; Forget if you drew from the discard pile
+        (do 
+            (
+             (set ((current player) str DRAWFROM) NONE))))
+
+ ;; Calculate your scores
+  (stage player
+        (end 
+          (all player 'P (== ('P str FINISHED) TRUE))
+        )
+
+      (do (
+        ;; turn all cards face up
+        (all 'PLOCS 'L 
+           (repeat all (move (top ((current player) hloc 'L))
+                             (top ((current player) vloc 'L)))))
+
+
+        ;; throw away column matches
+        ((== (cardatt RANK (top ((current player) vloc ONE)))
+             (cardatt RANK (top ((current player) vloc FOUR))))
+         (do (
+            (move (top ((current player) vloc ONE))
+                  (top (game vloc DISCARD)))
+            (move (top ((current player) vloc FOUR))
+                  (top (game vloc DISCARD)))))
+        )
+        ((== (cardatt RANK (top ((current player) vloc TWO)))
+             (cardatt RANK (top ((current player) vloc FIVE))))
+         (do (
+            (move (top ((current player) vloc TWO))
+                  (top (game vloc DISCARD)))
+            (move (top ((current player) vloc FIVE))
+                 (top (game vloc DISCARD)))))
+        )
+        ((== (cardatt RANK (top ((current player) vloc THREE)))
+             (cardatt RANK (top ((current player) vloc SIX))))
+         (do (
+            (move (top ((current player) vloc THREE))
+                  (top (game vloc DISCARD)))
+            (move (top ((current player) vloc SIX))
+                 (top (game vloc DISCARD)))))
+        )
+
+        ;; then add up cards for pos, subtract neg
+        (set ((current player) sto SCORE) (sum (union (all 'PLOCS 'L ((current player) vloc 'L))) 
+                                           using (game points POSITIVE)))
+        (dec ((current player) sto SCORE) (sum (union (all 'PLOCS 'L ((current player) vloc 'L)))
+                                           using (game points NEGATIVE)))
+
+        ;; end the scoring turn
+        (set ((current player) str FINISHED) TRUE)
+      ))
+  )
+
+ (scoring min ((current player) sto SCORE)))
