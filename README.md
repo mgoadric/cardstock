@@ -17,7 +17,7 @@ tournament of AI players. Please check back for further progress on these issues
 
 ## Games
 
-There are currently 48 games coded in RECYCLE
+There are currently 50 games coded in RECYCLE
 
 * Adding
     * [Caterpillar](http://www.parlettgames.uk/oricards/caterpil.html) (2p)
@@ -28,7 +28,7 @@ There are currently 48 games coded in RECYCLE
     * [Go Fish](https://www.pagat.com/quartet/gofish.html) (2p) *limited deck*
     * [Turn the Tide](https://gamewright.com/pdfs/Rules/TurnTheTide-RULES.pdf) (3p)
 * Draw and Discard
-    * [Golf](https://www.pagat.com/draw/golf.html) (2p)
+    * [Golf Six](https://www.pagat.com/draw/golf.html) (2-4p)
     * [Lost Cities](https://cdn.1j1ju.com/medias/c8/66/47-lost-cities-rulebook.pdf) (2p)
     * [Spite and Malice](https://www.pagat.com/patience/spitemal.html) (2p)
 * Exchange
@@ -72,6 +72,7 @@ There are currently 48 games coded in RECYCLE
        * [German Whist](https://www.pagat.com/whist/german_whist.html) (2p)
        * [Sheepshead](https://www.pagat.com/schafkopf/shep.html) (5p)
            * Cheesheads (5p)
+       * [Skittgube](https://www.pagat.com/beating/skitgubbe.html) (3p)
        * [Spades](https://www.pagat.com/auctionwhist/spades.html) (4p)
        * [Sueca](https://www.pagat.com/aceten/sueca.html) (4p)
        * [The Bottle Imp](https://tesera.ru/images/items/11335/Bottle_Imp_Rules_EN.pdf) (3-4p)
@@ -80,6 +81,7 @@ There are currently 48 games coded in RECYCLE
     * [Coloretto](https://www.riograndegames.com/wp-content/uploads/2013/02/Coloretto-Rules.pdf) (4p)
     * [Coup](http://boardgame.bg/coup%20rules%20pdf.pdf) (4p)
     * [LAMA](https://boardgamegeek.com/filepage/180052/lama-official-rules) (2-6p)
+    * [No Thanks](https://world-of-board-games.com.sg/docs/No-Thanks.pdf) (3-5p)
 
 ## Requirements
 
