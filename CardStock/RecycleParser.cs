@@ -1091,11 +1091,11 @@ public partial class RecycleParser : Parser {
 			return GetRuleContext<VarContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CondactContext condact() {
-			return GetRuleContext<CondactContext>(0);
-		}
 		[System.Diagnostics.DebuggerNonUserCode] public BooleanContext boolean() {
 			return GetRuleContext<BooleanContext>(0);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public CondactContext condact() {
+			return GetRuleContext<CondactContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
 			return GetRuleContext<CstorageContext>(0);
@@ -1139,13 +1139,13 @@ public partial class RecycleParser : Parser {
 			case 1:
 				{
 				State = 312;
-				condact();
+				boolean();
 				}
 				break;
 			case 2:
 				{
 				State = 313;
-				boolean();
+				condact();
 				}
 				break;
 			case 3:
@@ -5780,7 +5780,7 @@ public partial class RecycleParser : Parser {
 		301,302,3,122,61,0,302,303,3,12,6,0,303,304,5,80,0,0,304,307,1,0,0,0,305,
 		307,3,12,6,0,306,294,1,0,0,0,306,299,1,0,0,0,306,300,1,0,0,0,306,305,1,
 		0,0,0,307,19,1,0,0,0,308,309,5,79,0,0,309,310,7,2,0,0,310,311,3,108,54,
-		0,311,316,3,0,0,0,312,317,3,18,9,0,313,317,3,122,61,0,314,317,3,76,38,
+		0,311,316,3,0,0,0,312,317,3,122,61,0,313,317,3,18,9,0,314,317,3,76,38,
 		0,315,317,3,70,35,0,316,312,1,0,0,0,316,313,1,0,0,0,316,314,1,0,0,0,316,
 		315,1,0,0,0,317,318,1,0,0,0,318,319,5,80,0,0,319,21,1,0,0,0,320,321,5,
 		79,0,0,321,322,5,15,0,0,322,323,3,106,53,0,323,327,3,0,0,0,324,328,3,14,

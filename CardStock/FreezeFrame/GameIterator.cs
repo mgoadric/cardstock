@@ -2526,7 +2526,7 @@ namespace CardStock.FreezeFrame
             // Multiaction2 & any actions are handled in processMultiaction & processAction respectively 
             if (agg.GetChild(4) is RecycleParser.CstorageContext)
             {
-                Debug.WriteLine("Processing All/Any + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
+                Console.WriteLine("Processing All/Any + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
                 var coll = new List<CardLocReference>();
                 foreach (object obj in ret)
                 {
@@ -2562,6 +2562,11 @@ namespace CardStock.FreezeFrame
                     }
                     return sum;
                 }
+                else
+                {
+                    Debug.WriteLine("This is an action, nothing to do here");
+                    //throw new Exception();
+                }
             }
             else // if not an all statement
             {
@@ -2587,6 +2592,10 @@ namespace CardStock.FreezeFrame
                         lst.Add(raw.Get());
                     }
                     return lst;
+                }
+                else
+                {
+                    throw new Exception();
                 }
             }
             return ret;

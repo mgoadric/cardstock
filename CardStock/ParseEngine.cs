@@ -56,10 +56,10 @@ public class ParseEngine
         /***********
          * Make the parse tree visualization
          ***********/
-        if (!exp.Evaluating)
-        {
+        //if (!exp.Evaluating)
+        //{
             DotVisualization.DOTMakerTop(tree, fileName);
-        }
+        //}
 
         return HasShuffleAndChoice(tree);
 

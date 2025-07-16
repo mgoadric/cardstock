@@ -1,7 +1,7 @@
 ;; NoThanks in the GDL
 (game
-    (setup  
-     ;; Set up the players, 3 players
+   (setup  
+      ;; Set up the players, 3 players
       (create players 3)
 
       ;; Create the deck source
@@ -78,19 +78,23 @@
             (dec ((current player) sto CHIPS) 1)
           ))
          )
-         )
-      )
-      )
+      ))
+   )
       
-   (stage player (end (
-      
-   ))
+   (stage player (end 
+      (all player 'P (== ('P sto CHIPS) 0))
+   )
          (do (
             (dec ((current player) sto SCORE) 
                  ((current player) sto CHIPS))
-            (all (runs RANK ((current player) loc HAND)) 'R 
+            (set ((current player) sto CHIPS) 0)
+            (all ;;(runs RANK 
+               ((current player) vloc HAND)
+               ;;)
+                'R 
                  (inc ((current player) sto SCORE)
-                      (min 'R using (game points SCORING))))
+                      (score ;; should be min
+                      'R using (game points SCORING))))
          ))
    )
 

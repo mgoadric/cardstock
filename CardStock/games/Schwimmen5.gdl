@@ -1,0 +1,115 @@
+;; Schwimmen
+
+
+(game
+    (setup
+        (create players 5)
+
+        ;; Create the deck source, 32 card piquet pack
+        (create deck (game iloc STOCK) (deck (RANK (SEVEN, EIGHT, NINE, TEN, J, Q, K, A))
+                                         (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                (BLACK (SUIT (CLUBS, SPADES))))))  
+    )
+    (do (
+        (shuffle (game iloc STOCK))
+
+        ;; give everyone 3 cards, put 3 aside on the table
+        (all player 'P 
+            (repeat 3 (move (top (game iloc STOCK))
+                            (top ('P iloc HAND)))))
+        (repeat 3 (move (top (game iloc STOCK))
+                        (top (game iloc EXTRA))))
+        (set (game points SCORE)
+          (
+            ((RANK : A) 11) 
+            ((RANK : K) 10) 
+            ((RANK : Q) 10) 
+            ((RANK : J) 10) 
+            ((RANK : TEN) 10) 
+            ((RANK : NINE) 9) 
+            ((RANK : EIGHT) 8) 
+            ((RANK : SEVEN) 7) 
+        ))
+    ))
+    (choice (
+        (turn pass)
+
+        ;; dealer can swap their hand if the want with the extra
+        (do (
+            (repeat all (move (top (game iloc EXTRA))
+                              (top (game iloc TEMP))))
+            (repeat all (move (top ((current player) iloc HAND))
+                              (top (game iloc EXTRA))))
+            (repeat all (move (top (game iloc TEMP))
+                              (top ((current player) iloc HAND))))
+        ))
+    ))
+
+    ;; flip what is left in EXTRA to the MIDDLE for everyone to see
+    (do (
+        (repeat all (move (top (game iloc EXTRA))
+                          (top (game vloc MIDDLE))))      
+    ))
+
+
+    (stage player 
+        (end (< (size (game iloc STOCK)) 3))
+    
+        (stage player 
+            (end (or (== (game sto PASS) 3)
+                     (any player 'P (any (partition ('P iloc HAND) RANK) 'RP (> (sum 'RP using (game points SCORE)) 30)))
+                ))
+            (choice (
+                ;; pass
+                (inc (game sto PASS) 1)
+                
+                ;; exchange all cards with the middle
+                (do (
+                    (repeat all (move (top (game vloc MIDDLE))
+                                      (top (game iloc TEMP))))
+                    (repeat all (move (top ((current player) iloc HAND))
+                                      (top (game vloc MIDDLE))))
+                    (repeat all (move (top (game iloc TEMP))
+                                      (top ((current player) iloc HAND))))
+                    (set (game sto PASS) 0)
+
+                ))
+
+                ;; exchange one card in hand for one card on table
+                (any ((current player) iloc HAND) 'HC
+                    (any (game vloc MIDDLE) 'MC 
+                        (do (
+                            (move 'HC (top ((current player) iloc TEMP)))
+                            (move 'MC (top ((current player) iloc HAND)))
+                            (move (top ((current player) iloc TEMP)) 
+                                  (top (game vloc MIDDLE)))
+                            (set (game sto PASS) 0)
+                        ))))
+             ))
+        )
+
+        ;; discard the MIDDLE and deal out 3 more cards
+        (do (
+            (set (game sto PASS) 0)
+            ((> (size (game iloc STOCK)) 2)
+             (do (
+                 (repeat all (move (top (game vloc MIDDLE))
+                                   (top (game vloc DISCARD))))
+                 (repeat 3 (move (top (game iloc STOCK))
+                                 (top (game vloc MIDDLE))))
+             )))
+        ))
+    )
+
+    ;; calculate the scores
+    (stage player (end (all player 'P (== (size ('P iloc HAND)) 0)))
+    (do (
+        (all (partition ((current player) iloc HAND) RANK) 'RP 
+           (let (sum 'RP using (game points SCORE)) 'RS 
+             ((> 'RS ((current player) sto SCORE))
+              (set ((current player) sto SCORE) 'RS))))
+        (repeat all (move (top ((current player) iloc HAND))
+                          (top (game vloc DISCARD))))
+    )))
+    (scoring max ((current player) sto SCORE))
+)
