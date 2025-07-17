@@ -1,0 +1,2116 @@
+graph tree{NODE0 [label="Stage" style=filled fillcolor="red"]
+NODE0_1 [label="game"]
+NODE0 -- NODE0_1
+NODE0_2 [label="Declare" ]
+NODE0_2_1 [label="declare"]
+NODE0_2 -- NODE0_2_1
+NODE0_2_2 [label="Typed" ]
+NODE0_2_2_0 [label="Collection" ]
+NODE0_2_2_0_0 [label="Strcollection" ]
+NODE0_2_2_0_0_1 [fillcolor="green" style=filled label="WHITE"]
+NODE0_2_2_0_0 -- NODE0_2_2_0_0_1
+NODE0_2_2_0_0_3 [fillcolor="green" style=filled label="BLUE"]
+NODE0_2_2_0_0 -- NODE0_2_2_0_0_3
+NODE0_2_2_0_0_5 [fillcolor="green" style=filled label="GREEN"]
+NODE0_2_2_0_0 -- NODE0_2_2_0_0_5
+NODE0_2_2_0_0_7 [fillcolor="green" style=filled label="RED"]
+NODE0_2_2_0_0 -- NODE0_2_2_0_0_7
+NODE0_2_2_0_0_9 [fillcolor="green" style=filled label="YELLOW"]
+NODE0_2_2_0_0 -- NODE0_2_2_0_0_9
+NODE0_2_2_0 -- NODE0_2_2_0_0
+NODE0_2_2 -- NODE0_2_2_0
+NODE0_2 -- NODE0_2_2
+NODE0_2_3 [label="Var" ]
+NODE0_2_3_0 [label="'"]
+NODE0_2_3 -- NODE0_2_3_0
+NODE0_2_3_1 [fillcolor="green" style=filled label="COLORS"]
+NODE0_2_3 -- NODE0_2_3_1
+NODE0_2 -- NODE0_2_3
+NODE0 -- NODE0_2
+NODE0_3 [label="Setup" ]
+NODE0_3_1 [label="setup"]
+NODE0_3 -- NODE0_3_1
+NODE0_3_2 [label="Playercreate" ]
+NODE0_3_2_2 [label="players"]
+NODE0_3_2 -- NODE0_3_2_2
+NODE0_3_2_3 [label="2" style=filled fillcolor="lightblue"]
+NODE0_3_2 -- NODE0_3_2_3
+NODE0_3 -- NODE0_3_2
+NODE0_3_4 [label="Deckcreate" ]
+NODE0_3_4_1 [label="deck"]
+NODE0_3_4 -- NODE0_3_4_1
+NODE0_3_4_2 [label="Cstorage" ]
+NODE0_3_4_2_1 [label="Locpre" ]
+NODE0_3_4_2_1_0 [label="game"]
+NODE0_3_4_2_1 -- NODE0_3_4_2_1_0
+NODE0_3_4_2 -- NODE0_3_4_2_1
+NODE0_3_4_2_2 [label="Locdesc" ]
+NODE0_3_4_2_2_0 [label="iloc"]
+NODE0_3_4_2_2 -- NODE0_3_4_2_2_0
+NODE0_3_4_2 -- NODE0_3_4_2_2
+NODE0_3_4_2_3 [label="Str" ]
+NODE0_3_4_2_3_0 [fillcolor="green" style=filled label="STOCK"]
+NODE0_3_4_2_3 -- NODE0_3_4_2_3_0
+NODE0_3_4_2 -- NODE0_3_4_2_3
+NODE0_3_4 -- NODE0_3_4_2
+NODE0_3_4_3 [label="Deck" ]
+NODE0_3_4_3_1 [label="deck"]
+NODE0_3_4_3 -- NODE0_3_4_3_1
+NODE0_3_4_3_2 [label="Attribute" ]
+NODE0_3_4_3_2_1 [fillcolor="green" style=filled label="RANK"]
+NODE0_3_4_3_2 -- NODE0_3_4_3_2_1
+NODE0_3_4_3_2_2 [label="Attribute" ]
+NODE0_3_4_3_2_2_1 [fillcolor="green" style=filled label="TWO"]
+NODE0_3_4_3_2_2 -- NODE0_3_4_3_2_2_1
+NODE0_3_4_3_2_2_3 [fillcolor="green" style=filled label="THREE"]
+NODE0_3_4_3_2_2 -- NODE0_3_4_3_2_2_3
+NODE0_3_4_3_2_2_5 [fillcolor="green" style=filled label="FOUR"]
+NODE0_3_4_3_2_2 -- NODE0_3_4_3_2_2_5
+NODE0_3_4_3_2_2_7 [fillcolor="green" style=filled label="FIVE"]
+NODE0_3_4_3_2_2 -- NODE0_3_4_3_2_2_7
+NODE0_3_4_3_2_2_9 [fillcolor="green" style=filled label="SIX"]
+NODE0_3_4_3_2_2 -- NODE0_3_4_3_2_2_9
+NODE0_3_4_3_2_2_11 [fillcolor="green" style=filled label="SEVEN"]
+NODE0_3_4_3_2_2 -- NODE0_3_4_3_2_2_11
+NODE0_3_4_3_2_2_13 [fillcolor="green" style=filled label="EIGHT"]
+NODE0_3_4_3_2_2 -- NODE0_3_4_3_2_2_13
+NODE0_3_4_3_2_2_15 [fillcolor="green" style=filled label="NINE"]
+NODE0_3_4_3_2_2 -- NODE0_3_4_3_2_2_15
+NODE0_3_4_3_2_2_17 [fillcolor="green" style=filled label="TEN"]
+NODE0_3_4_3_2_2 -- NODE0_3_4_3_2_2_17
+NODE0_3_4_3_2 -- NODE0_3_4_3_2_2
+NODE0_3_4_3 -- NODE0_3_4_3_2
+NODE0_3_4_3_3 [label="Attribute" ]
+NODE0_3_4_3_3_1 [fillcolor="green" style=filled label="COLOR"]
+NODE0_3_4_3_3 -- NODE0_3_4_3_3_1
+NODE0_3_4_3_3_2 [label="Attribute" ]
+NODE0_3_4_3_3_2_1 [fillcolor="green" style=filled label="WHITE"]
+NODE0_3_4_3_3_2 -- NODE0_3_4_3_3_2_1
+NODE0_3_4_3_3_2_3 [fillcolor="green" style=filled label="BLUE"]
+NODE0_3_4_3_3_2 -- NODE0_3_4_3_3_2_3
+NODE0_3_4_3_3_2_5 [fillcolor="green" style=filled label="GREEN"]
+NODE0_3_4_3_3_2 -- NODE0_3_4_3_3_2_5
+NODE0_3_4_3_3_2_7 [fillcolor="green" style=filled label="RED"]
+NODE0_3_4_3_3_2 -- NODE0_3_4_3_3_2_7
+NODE0_3_4_3_3_2_9 [fillcolor="green" style=filled label="YELLOW"]
+NODE0_3_4_3_3_2 -- NODE0_3_4_3_3_2_9
+NODE0_3_4_3_3 -- NODE0_3_4_3_3_2
+NODE0_3_4_3 -- NODE0_3_4_3_3
+NODE0_3_4 -- NODE0_3_4_3
+NODE0_3 -- NODE0_3_4
+NODE0_3_7 [label="Repeat" ]
+NODE0_3_7_0 [label="repeat"]
+NODE0_3_7 -- NODE0_3_7_0
+NODE0_3_7_1 [label="3" style=filled fillcolor="lightblue"]
+NODE0_3_7 -- NODE0_3_7_1
+NODE0_3_7_2 [label="Action" ]
+NODE0_3_7_2_1 [label="Deckcreate" ]
+NODE0_3_7_2_1_1 [label="deck"]
+NODE0_3_7_2_1 -- NODE0_3_7_2_1_1
+NODE0_3_7_2_1_2 [label="Cstorage" ]
+NODE0_3_7_2_1_2_1 [label="Locpre" ]
+NODE0_3_7_2_1_2_1_0 [label="game"]
+NODE0_3_7_2_1_2_1 -- NODE0_3_7_2_1_2_1_0
+NODE0_3_7_2_1_2 -- NODE0_3_7_2_1_2_1
+NODE0_3_7_2_1_2_2 [label="Locdesc" ]
+NODE0_3_7_2_1_2_2_0 [label="iloc"]
+NODE0_3_7_2_1_2_2 -- NODE0_3_7_2_1_2_2_0
+NODE0_3_7_2_1_2 -- NODE0_3_7_2_1_2_2
+NODE0_3_7_2_1_2_3 [label="Str" ]
+NODE0_3_7_2_1_2_3_0 [fillcolor="green" style=filled label="STOCK"]
+NODE0_3_7_2_1_2_3 -- NODE0_3_7_2_1_2_3_0
+NODE0_3_7_2_1_2 -- NODE0_3_7_2_1_2_3
+NODE0_3_7_2_1 -- NODE0_3_7_2_1_2
+NODE0_3_7_2_1_3 [label="Deck" ]
+NODE0_3_7_2_1_3_1 [label="deck"]
+NODE0_3_7_2_1_3 -- NODE0_3_7_2_1_3_1
+NODE0_3_7_2_1_3_2 [label="Attribute" ]
+NODE0_3_7_2_1_3_2_1 [fillcolor="green" style=filled label="RANK"]
+NODE0_3_7_2_1_3_2 -- NODE0_3_7_2_1_3_2_1
+NODE0_3_7_2_1_3_2_2 [label="Attribute" ]
+NODE0_3_7_2_1_3_2_2_1 [fillcolor="green" style=filled label="HS"]
+NODE0_3_7_2_1_3_2_2 -- NODE0_3_7_2_1_3_2_2_1
+NODE0_3_7_2_1_3_2 -- NODE0_3_7_2_1_3_2_2
+NODE0_3_7_2_1_3 -- NODE0_3_7_2_1_3_2
+NODE0_3_7_2_1_3_3 [label="Attribute" ]
+NODE0_3_7_2_1_3_3_1 [fillcolor="green" style=filled label="COLOR"]
+NODE0_3_7_2_1_3_3 -- NODE0_3_7_2_1_3_3_1
+NODE0_3_7_2_1_3_3_2 [label="Attribute" ]
+NODE0_3_7_2_1_3_3_2_1 [fillcolor="green" style=filled label="WHITE"]
+NODE0_3_7_2_1_3_3_2 -- NODE0_3_7_2_1_3_3_2_1
+NODE0_3_7_2_1_3_3_2_3 [fillcolor="green" style=filled label="BLUE"]
+NODE0_3_7_2_1_3_3_2 -- NODE0_3_7_2_1_3_3_2_3
+NODE0_3_7_2_1_3_3_2_5 [fillcolor="green" style=filled label="GREEN"]
+NODE0_3_7_2_1_3_3_2 -- NODE0_3_7_2_1_3_3_2_5
+NODE0_3_7_2_1_3_3_2_7 [fillcolor="green" style=filled label="RED"]
+NODE0_3_7_2_1_3_3_2 -- NODE0_3_7_2_1_3_3_2_7
+NODE0_3_7_2_1_3_3_2_9 [fillcolor="green" style=filled label="YELLOW"]
+NODE0_3_7_2_1_3_3_2 -- NODE0_3_7_2_1_3_3_2_9
+NODE0_3_7_2_1_3_3 -- NODE0_3_7_2_1_3_3_2
+NODE0_3_7_2_1_3 -- NODE0_3_7_2_1_3_3
+NODE0_3_7_2_1 -- NODE0_3_7_2_1_3
+NODE0_3_7_2 -- NODE0_3_7_2_1
+NODE0_3_7 -- NODE0_3_7_2
+NODE0_3 -- NODE0_3_7
+NODE0 -- NODE0_3
+NODE0_4 [label="Multiaction" ]
+NODE0_4_1 [label="do"]
+NODE0_4 -- NODE0_4_1
+NODE0_4_3 [label="Condact" ]
+NODE0_4_3_0 [label="Action" ]
+NODE0_4_3_0_1 [label="Setaction" ]
+NODE0_4_3_0_1_0 [label="set"]
+NODE0_4_3_0_1 -- NODE0_4_3_0_1_0
+NODE0_4_3_0_1_1 [label="Rawstorage" ]
+NODE0_4_3_0_1_1_1 [label="game"]
+NODE0_4_3_0_1_1 -- NODE0_4_3_0_1_1_1
+NODE0_4_3_0_1_1_3 [label="Str" ]
+NODE0_4_3_0_1_1_3_0 [fillcolor="green" style=filled label="ROUNDS"]
+NODE0_4_3_0_1_1_3 -- NODE0_4_3_0_1_1_3_0
+NODE0_4_3_0_1_1 -- NODE0_4_3_0_1_1_3
+NODE0_4_3_0_1 -- NODE0_4_3_0_1_1
+NODE0_4_3_0_1_2 [label="0" style=filled fillcolor="lightblue"]
+NODE0_4_3_0_1 -- NODE0_4_3_0_1_2
+NODE0_4_3_0 -- NODE0_4_3_0_1
+NODE0_4_3 -- NODE0_4_3_0
+NODE0_4 -- NODE0_4_3
+NODE0_4_4 [label="Condact" ]
+NODE0_4_4_0 [label="Action" ]
+NODE0_4_4_0_1 [label="Initpoints" ]
+NODE0_4_4_0_1_0 [label="set"]
+NODE0_4_4_0_1 -- NODE0_4_4_0_1_0
+NODE0_4_4_0_1_1 [label="Pointstorage" ]
+NODE0_4_4_0_1_1_1 [label="game"]
+NODE0_4_4_0_1_1 -- NODE0_4_4_0_1_1_1
+NODE0_4_4_0_1_1_2 [label="points"]
+NODE0_4_4_0_1_1 -- NODE0_4_4_0_1_1_2
+NODE0_4_4_0_1_1_3 [label="Str" ]
+NODE0_4_4_0_1_1_3_0 [fillcolor="green" style=filled label="PRECEDENCE"]
+NODE0_4_4_0_1_1_3 -- NODE0_4_4_0_1_1_3_0
+NODE0_4_4_0_1_1 -- NODE0_4_4_0_1_1_3
+NODE0_4_4_0_1 -- NODE0_4_4_0_1_1
+NODE0_4_4_0_1_3 [label="Awards" ]
+NODE0_4_4_0_1_3_1 [label="Subaward" ]
+NODE0_4_4_0_1_3_1_1 [label="Str" ]
+NODE0_4_4_0_1_3_1_1_0 [fillcolor="green" style=filled label="RANK"]
+NODE0_4_4_0_1_3_1_1 -- NODE0_4_4_0_1_3_1_1_0
+NODE0_4_4_0_1_3_1 -- NODE0_4_4_0_1_3_1_1
+NODE0_4_4_0_1_3_1_2 [label=":"]
+NODE0_4_4_0_1_3_1 -- NODE0_4_4_0_1_3_1_2
+NODE0_4_4_0_1_3_1_3 [label="Str" ]
+NODE0_4_4_0_1_3_1_3_0 [fillcolor="green" style=filled label="TEN"]
+NODE0_4_4_0_1_3_1_3 -- NODE0_4_4_0_1_3_1_3_0
+NODE0_4_4_0_1_3_1 -- NODE0_4_4_0_1_3_1_3
+NODE0_4_4_0_1_3 -- NODE0_4_4_0_1_3_1
+NODE0_4_4_0_1_3_2 [label="10" style=filled fillcolor="lightblue"]
+NODE0_4_4_0_1_3 -- NODE0_4_4_0_1_3_2
+NODE0_4_4_0_1 -- NODE0_4_4_0_1_3
+NODE0_4_4_0_1_4 [label="Awards" ]
+NODE0_4_4_0_1_4_1 [label="Subaward" ]
+NODE0_4_4_0_1_4_1_1 [label="Str" ]
+NODE0_4_4_0_1_4_1_1_0 [fillcolor="green" style=filled label="RANK"]
+NODE0_4_4_0_1_4_1_1 -- NODE0_4_4_0_1_4_1_1_0
+NODE0_4_4_0_1_4_1 -- NODE0_4_4_0_1_4_1_1
+NODE0_4_4_0_1_4_1_2 [label=":"]
+NODE0_4_4_0_1_4_1 -- NODE0_4_4_0_1_4_1_2
+NODE0_4_4_0_1_4_1_3 [label="Str" ]
+NODE0_4_4_0_1_4_1_3_0 [fillcolor="green" style=filled label="NINE"]
+NODE0_4_4_0_1_4_1_3 -- NODE0_4_4_0_1_4_1_3_0
+NODE0_4_4_0_1_4_1 -- NODE0_4_4_0_1_4_1_3
+NODE0_4_4_0_1_4 -- NODE0_4_4_0_1_4_1
+NODE0_4_4_0_1_4_2 [label="9" style=filled fillcolor="lightblue"]
+NODE0_4_4_0_1_4 -- NODE0_4_4_0_1_4_2
+NODE0_4_4_0_1 -- NODE0_4_4_0_1_4
+NODE0_4_4_0_1_5 [label="Awards" ]
+NODE0_4_4_0_1_5_1 [label="Subaward" ]
+NODE0_4_4_0_1_5_1_1 [label="Str" ]
+NODE0_4_4_0_1_5_1_1_0 [fillcolor="green" style=filled label="RANK"]
+NODE0_4_4_0_1_5_1_1 -- NODE0_4_4_0_1_5_1_1_0
+NODE0_4_4_0_1_5_1 -- NODE0_4_4_0_1_5_1_1
+NODE0_4_4_0_1_5_1_2 [label=":"]
+NODE0_4_4_0_1_5_1 -- NODE0_4_4_0_1_5_1_2
+NODE0_4_4_0_1_5_1_3 [label="Str" ]
+NODE0_4_4_0_1_5_1_3_0 [fillcolor="green" style=filled label="EIGHT"]
+NODE0_4_4_0_1_5_1_3 -- NODE0_4_4_0_1_5_1_3_0
+NODE0_4_4_0_1_5_1 -- NODE0_4_4_0_1_5_1_3
+NODE0_4_4_0_1_5 -- NODE0_4_4_0_1_5_1
+NODE0_4_4_0_1_5_2 [label="8" style=filled fillcolor="lightblue"]
+NODE0_4_4_0_1_5 -- NODE0_4_4_0_1_5_2
+NODE0_4_4_0_1 -- NODE0_4_4_0_1_5
+NODE0_4_4_0_1_6 [label="Awards" ]
+NODE0_4_4_0_1_6_1 [label="Subaward" ]
+NODE0_4_4_0_1_6_1_1 [label="Str" ]
+NODE0_4_4_0_1_6_1_1_0 [fillcolor="green" style=filled label="RANK"]
+NODE0_4_4_0_1_6_1_1 -- NODE0_4_4_0_1_6_1_1_0
+NODE0_4_4_0_1_6_1 -- NODE0_4_4_0_1_6_1_1
+NODE0_4_4_0_1_6_1_2 [label=":"]
+NODE0_4_4_0_1_6_1 -- NODE0_4_4_0_1_6_1_2
+NODE0_4_4_0_1_6_1_3 [label="Str" ]
+NODE0_4_4_0_1_6_1_3_0 [fillcolor="green" style=filled label="SEVEN"]
+NODE0_4_4_0_1_6_1_3 -- NODE0_4_4_0_1_6_1_3_0
+NODE0_4_4_0_1_6_1 -- NODE0_4_4_0_1_6_1_3
+NODE0_4_4_0_1_6 -- NODE0_4_4_0_1_6_1
+NODE0_4_4_0_1_6_2 [label="7" style=filled fillcolor="lightblue"]
+NODE0_4_4_0_1_6 -- NODE0_4_4_0_1_6_2
+NODE0_4_4_0_1 -- NODE0_4_4_0_1_6
+NODE0_4_4_0_1_7 [label="Awards" ]
+NODE0_4_4_0_1_7_1 [label="Subaward" ]
+NODE0_4_4_0_1_7_1_1 [label="Str" ]
+NODE0_4_4_0_1_7_1_1_0 [fillcolor="green" style=filled label="RANK"]
+NODE0_4_4_0_1_7_1_1 -- NODE0_4_4_0_1_7_1_1_0
+NODE0_4_4_0_1_7_1 -- NODE0_4_4_0_1_7_1_1
+NODE0_4_4_0_1_7_1_2 [label=":"]
+NODE0_4_4_0_1_7_1 -- NODE0_4_4_0_1_7_1_2
+NODE0_4_4_0_1_7_1_3 [label="Str" ]
+NODE0_4_4_0_1_7_1_3_0 [fillcolor="green" style=filled label="SIX"]
+NODE0_4_4_0_1_7_1_3 -- NODE0_4_4_0_1_7_1_3_0
+NODE0_4_4_0_1_7_1 -- NODE0_4_4_0_1_7_1_3
+NODE0_4_4_0_1_7 -- NODE0_4_4_0_1_7_1
+NODE0_4_4_0_1_7_2 [label="6" style=filled fillcolor="lightblue"]
+NODE0_4_4_0_1_7 -- NODE0_4_4_0_1_7_2
+NODE0_4_4_0_1 -- NODE0_4_4_0_1_7
+NODE0_4_4_0_1_8 [label="Awards" ]
+NODE0_4_4_0_1_8_1 [label="Subaward" ]
+NODE0_4_4_0_1_8_1_1 [label="Str" ]
+NODE0_4_4_0_1_8_1_1_0 [fillcolor="green" style=filled label="RANK"]
+NODE0_4_4_0_1_8_1_1 -- NODE0_4_4_0_1_8_1_1_0
+NODE0_4_4_0_1_8_1 -- NODE0_4_4_0_1_8_1_1
+NODE0_4_4_0_1_8_1_2 [label=":"]
+NODE0_4_4_0_1_8_1 -- NODE0_4_4_0_1_8_1_2
+NODE0_4_4_0_1_8_1_3 [label="Str" ]
+NODE0_4_4_0_1_8_1_3_0 [fillcolor="green" style=filled label="FIVE"]
+NODE0_4_4_0_1_8_1_3 -- NODE0_4_4_0_1_8_1_3_0
+NODE0_4_4_0_1_8_1 -- NODE0_4_4_0_1_8_1_3
+NODE0_4_4_0_1_8 -- NODE0_4_4_0_1_8_1
+NODE0_4_4_0_1_8_2 [label="5" style=filled fillcolor="lightblue"]
+NODE0_4_4_0_1_8 -- NODE0_4_4_0_1_8_2
+NODE0_4_4_0_1 -- NODE0_4_4_0_1_8
+NODE0_4_4_0_1_9 [label="Awards" ]
+NODE0_4_4_0_1_9_1 [label="Subaward" ]
+NODE0_4_4_0_1_9_1_1 [label="Str" ]
+NODE0_4_4_0_1_9_1_1_0 [fillcolor="green" style=filled label="RANK"]
+NODE0_4_4_0_1_9_1_1 -- NODE0_4_4_0_1_9_1_1_0
+NODE0_4_4_0_1_9_1 -- NODE0_4_4_0_1_9_1_1
+NODE0_4_4_0_1_9_1_2 [label=":"]
+NODE0_4_4_0_1_9_1 -- NODE0_4_4_0_1_9_1_2
+NODE0_4_4_0_1_9_1_3 [label="Str" ]
+NODE0_4_4_0_1_9_1_3_0 [fillcolor="green" style=filled label="FOUR"]
+NODE0_4_4_0_1_9_1_3 -- NODE0_4_4_0_1_9_1_3_0
+NODE0_4_4_0_1_9_1 -- NODE0_4_4_0_1_9_1_3
+NODE0_4_4_0_1_9 -- NODE0_4_4_0_1_9_1
+NODE0_4_4_0_1_9_2 [label="4" style=filled fillcolor="lightblue"]
+NODE0_4_4_0_1_9 -- NODE0_4_4_0_1_9_2
+NODE0_4_4_0_1 -- NODE0_4_4_0_1_9
+NODE0_4_4_0_1_10 [label="Awards" ]
+NODE0_4_4_0_1_10_1 [label="Subaward" ]
+NODE0_4_4_0_1_10_1_1 [label="Str" ]
+NODE0_4_4_0_1_10_1_1_0 [fillcolor="green" style=filled label="RANK"]
+NODE0_4_4_0_1_10_1_1 -- NODE0_4_4_0_1_10_1_1_0
+NODE0_4_4_0_1_10_1 -- NODE0_4_4_0_1_10_1_1
+NODE0_4_4_0_1_10_1_2 [label=":"]
+NODE0_4_4_0_1_10_1 -- NODE0_4_4_0_1_10_1_2
+NODE0_4_4_0_1_10_1_3 [label="Str" ]
+NODE0_4_4_0_1_10_1_3_0 [fillcolor="green" style=filled label="THREE"]
+NODE0_4_4_0_1_10_1_3 -- NODE0_4_4_0_1_10_1_3_0
+NODE0_4_4_0_1_10_1 -- NODE0_4_4_0_1_10_1_3
+NODE0_4_4_0_1_10 -- NODE0_4_4_0_1_10_1
+NODE0_4_4_0_1_10_2 [label="3" style=filled fillcolor="lightblue"]
+NODE0_4_4_0_1_10 -- NODE0_4_4_0_1_10_2
+NODE0_4_4_0_1 -- NODE0_4_4_0_1_10
+NODE0_4_4_0_1_11 [label="Awards" ]
+NODE0_4_4_0_1_11_1 [label="Subaward" ]
+NODE0_4_4_0_1_11_1_1 [label="Str" ]
+NODE0_4_4_0_1_11_1_1_0 [fillcolor="green" style=filled label="RANK"]
+NODE0_4_4_0_1_11_1_1 -- NODE0_4_4_0_1_11_1_1_0
+NODE0_4_4_0_1_11_1 -- NODE0_4_4_0_1_11_1_1
+NODE0_4_4_0_1_11_1_2 [label=":"]
+NODE0_4_4_0_1_11_1 -- NODE0_4_4_0_1_11_1_2
+NODE0_4_4_0_1_11_1_3 [label="Str" ]
+NODE0_4_4_0_1_11_1_3_0 [fillcolor="green" style=filled label="TWO"]
+NODE0_4_4_0_1_11_1_3 -- NODE0_4_4_0_1_11_1_3_0
+NODE0_4_4_0_1_11_1 -- NODE0_4_4_0_1_11_1_3
+NODE0_4_4_0_1_11 -- NODE0_4_4_0_1_11_1
+NODE0_4_4_0_1_11_2 [label="2" style=filled fillcolor="lightblue"]
+NODE0_4_4_0_1_11 -- NODE0_4_4_0_1_11_2
+NODE0_4_4_0_1 -- NODE0_4_4_0_1_11
+NODE0_4_4_0 -- NODE0_4_4_0_1
+NODE0_4_4 -- NODE0_4_4_0
+NODE0_4 -- NODE0_4_4
+NODE0_4_5 [label="Condact" ]
+NODE0_4_5_0 [label="Action" ]
+NODE0_4_5_0_1 [label="Initpoints" ]
+NODE0_4_5_0_1_0 [label="set"]
+NODE0_4_5_0_1 -- NODE0_4_5_0_1_0
+NODE0_4_5_0_1_1 [label="Pointstorage" ]
+NODE0_4_5_0_1_1_1 [label="game"]
+NODE0_4_5_0_1_1 -- NODE0_4_5_0_1_1_1
+NODE0_4_5_0_1_1_2 [label="points"]
+NODE0_4_5_0_1_1 -- NODE0_4_5_0_1_1_2
+NODE0_4_5_0_1_1_3 [label="Str" ]
+NODE0_4_5_0_1_1_3_0 [fillcolor="green" style=filled label="MULTIPLIER"]
+NODE0_4_5_0_1_1_3 -- NODE0_4_5_0_1_1_3_0
+NODE0_4_5_0_1_1 -- NODE0_4_5_0_1_1_3
+NODE0_4_5_0_1 -- NODE0_4_5_0_1_1
+NODE0_4_5_0_1_3 [label="Awards" ]
+NODE0_4_5_0_1_3_1 [label="Subaward" ]
+NODE0_4_5_0_1_3_1_1 [label="Str" ]
+NODE0_4_5_0_1_3_1_1_0 [fillcolor="green" style=filled label="RANK"]
+NODE0_4_5_0_1_3_1_1 -- NODE0_4_5_0_1_3_1_1_0
+NODE0_4_5_0_1_3_1 -- NODE0_4_5_0_1_3_1_1
+NODE0_4_5_0_1_3_1_2 [label=":"]
+NODE0_4_5_0_1_3_1 -- NODE0_4_5_0_1_3_1_2
+NODE0_4_5_0_1_3_1_3 [label="Str" ]
+NODE0_4_5_0_1_3_1_3_0 [fillcolor="green" style=filled label="HS"]
+NODE0_4_5_0_1_3_1_3 -- NODE0_4_5_0_1_3_1_3_0
+NODE0_4_5_0_1_3_1 -- NODE0_4_5_0_1_3_1_3
+NODE0_4_5_0_1_3 -- NODE0_4_5_0_1_3_1
+NODE0_4_5_0_1_3_2 [label="1" style=filled fillcolor="lightblue"]
+NODE0_4_5_0_1_3 -- NODE0_4_5_0_1_3_2
+NODE0_4_5_0_1 -- NODE0_4_5_0_1_3
+NODE0_4_5_0 -- NODE0_4_5_0_1
+NODE0_4_5 -- NODE0_4_5_0
+NODE0_4 -- NODE0_4_5
+NODE0 -- NODE0_4
+NODE0_5 [label="Stage"  style=filled fillcolor="red"]
+NODE0_5_2 [label="player"]
+NODE0_5 -- NODE0_5_2
+NODE0_5_3 [label="Endcondition" ]
+NODE0_5_3_2 [label="Boolean" ]
+NODE0_5_3_2_1 [label="Intop" ]
+NODE0_5_3_2_1_0 [label="=="]
+NODE0_5_3_2_1 -- NODE0_5_3_2_1_0
+NODE0_5_3_2 -- NODE0_5_3_2_1
+NODE0_5_3_2_2 [label="Int" ]
+NODE0_5_3_2_2_0 [label="Rawstorage" ]
+NODE0_5_3_2_2_0_1 [label="game"]
+NODE0_5_3_2_2_0 -- NODE0_5_3_2_2_0_1
+NODE0_5_3_2_2_0_3 [label="Str" ]
+NODE0_5_3_2_2_0_3_0 [fillcolor="green" style=filled label="ROUNDS"]
+NODE0_5_3_2_2_0_3 -- NODE0_5_3_2_2_0_3_0
+NODE0_5_3_2_2_0 -- NODE0_5_3_2_2_0_3
+NODE0_5_3_2_2 -- NODE0_5_3_2_2_0
+NODE0_5_3_2 -- NODE0_5_3_2_2
+NODE0_5_3_2_3 [label="1" style=filled fillcolor="lightblue"]
+NODE0_5_3_2 -- NODE0_5_3_2_3
+NODE0_5_3 -- NODE0_5_3_2
+NODE0_5 -- NODE0_5_3
+NODE0_5_4 [label="Multiaction" ]
+NODE0_5_4_1 [label="do"]
+NODE0_5_4 -- NODE0_5_4_1
+NODE0_5_4_3 [label="Condact" ]
+NODE0_5_4_3_0 [label="Action" ]
+NODE0_5_4_3_0_1 [label="Shuffleaction" ]
+NODE0_5_4_3_0_1_1 [label="Cstorage" ]
+NODE0_5_4_3_0_1_1_1 [label="Locpre" ]
+NODE0_5_4_3_0_1_1_1_0 [label="game"]
+NODE0_5_4_3_0_1_1_1 -- NODE0_5_4_3_0_1_1_1_0
+NODE0_5_4_3_0_1_1 -- NODE0_5_4_3_0_1_1_1
+NODE0_5_4_3_0_1_1_2 [label="Locdesc" ]
+NODE0_5_4_3_0_1_1_2_0 [label="iloc"]
+NODE0_5_4_3_0_1_1_2 -- NODE0_5_4_3_0_1_1_2_0
+NODE0_5_4_3_0_1_1 -- NODE0_5_4_3_0_1_1_2
+NODE0_5_4_3_0_1_1_3 [label="Str" ]
+NODE0_5_4_3_0_1_1_3_0 [fillcolor="green" style=filled label="STOCK"]
+NODE0_5_4_3_0_1_1_3 -- NODE0_5_4_3_0_1_1_3_0
+NODE0_5_4_3_0_1_1 -- NODE0_5_4_3_0_1_1_3
+NODE0_5_4_3_0_1 -- NODE0_5_4_3_0_1_1
+NODE0_5_4_3_0 -- NODE0_5_4_3_0_1
+NODE0_5_4_3 -- NODE0_5_4_3_0
+NODE0_5_4 -- NODE0_5_4_3
+NODE0_5_4_4 [label="Condact" ]
+NODE0_5_4_4_0 [label="Multiaction2" ]
+NODE0_5_4_4_0_0 [label="Agg" ]
+NODE0_5_4_4_0_0_1 [label="all"]
+NODE0_5_4_4_0_0 -- NODE0_5_4_4_0_0_1
+NODE0_5_4_4_0_0_2 [label="Collection" ]
+NODE0_5_4_4_0_0_2_0 [label="player"]
+NODE0_5_4_4_0_0_2 -- NODE0_5_4_4_0_0_2_0
+NODE0_5_4_4_0_0 -- NODE0_5_4_4_0_0_2
+NODE0_5_4_4_0_0_3 [label="Var" ]
+NODE0_5_4_4_0_0_3_0 [label="'"]
+NODE0_5_4_4_0_0_3 -- NODE0_5_4_4_0_0_3_0
+NODE0_5_4_4_0_0_3_1 [fillcolor="green" style=filled label="P"]
+NODE0_5_4_4_0_0_3 -- NODE0_5_4_4_0_0_3_1
+NODE0_5_4_4_0_0 -- NODE0_5_4_4_0_0_3
+NODE0_5_4_4_0_0_4 [label="Condact" ]
+NODE0_5_4_4_0_0_4_0 [label="Action" ]
+NODE0_5_4_4_0_0_4_0_1 [label="Repeat" ]
+NODE0_5_4_4_0_0_4_0_1_0 [label="repeat"]
+NODE0_5_4_4_0_0_4_0_1 -- NODE0_5_4_4_0_0_4_0_1_0
+NODE0_5_4_4_0_0_4_0_1_1 [label="8" style=filled fillcolor="lightblue"]
+NODE0_5_4_4_0_0_4_0_1 -- NODE0_5_4_4_0_0_4_0_1_1
+NODE0_5_4_4_0_0_4_0_1_2 [label="Action" ]
+NODE0_5_4_4_0_0_4_0_1_2_1 [label="Moveaction" ]
+NODE0_5_4_4_0_0_4_0_1_2_1_1 [label="Card" ]
+NODE0_5_4_4_0_0_4_0_1_2_1_1_1 [label="top"]
+NODE0_5_4_4_0_0_4_0_1_2_1_1 -- NODE0_5_4_4_0_0_4_0_1_2_1_1_1
+NODE0_5_4_4_0_0_4_0_1_2_1_1_2 [label="Cstorage" ]
+NODE0_5_4_4_0_0_4_0_1_2_1_1_2_1 [label="Locpre" ]
+NODE0_5_4_4_0_0_4_0_1_2_1_1_2_1_0 [label="game"]
+NODE0_5_4_4_0_0_4_0_1_2_1_1_2_1 -- NODE0_5_4_4_0_0_4_0_1_2_1_1_2_1_0
+NODE0_5_4_4_0_0_4_0_1_2_1_1_2 -- NODE0_5_4_4_0_0_4_0_1_2_1_1_2_1
+NODE0_5_4_4_0_0_4_0_1_2_1_1_2_2 [label="Locdesc" ]
+NODE0_5_4_4_0_0_4_0_1_2_1_1_2_2_0 [label="iloc"]
+NODE0_5_4_4_0_0_4_0_1_2_1_1_2_2 -- NODE0_5_4_4_0_0_4_0_1_2_1_1_2_2_0
+NODE0_5_4_4_0_0_4_0_1_2_1_1_2 -- NODE0_5_4_4_0_0_4_0_1_2_1_1_2_2
+NODE0_5_4_4_0_0_4_0_1_2_1_1_2_3 [label="Str" ]
+NODE0_5_4_4_0_0_4_0_1_2_1_1_2_3_0 [fillcolor="green" style=filled label="STOCK"]
+NODE0_5_4_4_0_0_4_0_1_2_1_1_2_3 -- NODE0_5_4_4_0_0_4_0_1_2_1_1_2_3_0
+NODE0_5_4_4_0_0_4_0_1_2_1_1_2 -- NODE0_5_4_4_0_0_4_0_1_2_1_1_2_3
+NODE0_5_4_4_0_0_4_0_1_2_1_1 -- NODE0_5_4_4_0_0_4_0_1_2_1_1_2
+NODE0_5_4_4_0_0_4_0_1_2_1 -- NODE0_5_4_4_0_0_4_0_1_2_1_1
+NODE0_5_4_4_0_0_4_0_1_2_1_2 [label="Card" ]
+NODE0_5_4_4_0_0_4_0_1_2_1_2_1 [label="top"]
+NODE0_5_4_4_0_0_4_0_1_2_1_2 -- NODE0_5_4_4_0_0_4_0_1_2_1_2_1
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2 [label="Cstorage" ]
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2_1 [label="Locpre" ]
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2_1_0 [label="Varp" ]
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2_1_0_0 [label="'"]
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2_1_0 -- NODE0_5_4_4_0_0_4_0_1_2_1_2_2_1_0_0
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2_1_0_1 [fillcolor="green" style=filled label="P"]
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2_1_0 -- NODE0_5_4_4_0_0_4_0_1_2_1_2_2_1_0_1
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2_1 -- NODE0_5_4_4_0_0_4_0_1_2_1_2_2_1_0
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2 -- NODE0_5_4_4_0_0_4_0_1_2_1_2_2_1
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2_2 [label="Locdesc" ]
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2_2_0 [label="iloc"]
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2_2 -- NODE0_5_4_4_0_0_4_0_1_2_1_2_2_2_0
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2 -- NODE0_5_4_4_0_0_4_0_1_2_1_2_2_2
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2_3 [label="Str" ]
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2_3_0 [fillcolor="green" style=filled label="HAND"]
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2_3 -- NODE0_5_4_4_0_0_4_0_1_2_1_2_2_3_0
+NODE0_5_4_4_0_0_4_0_1_2_1_2_2 -- NODE0_5_4_4_0_0_4_0_1_2_1_2_2_3
+NODE0_5_4_4_0_0_4_0_1_2_1_2 -- NODE0_5_4_4_0_0_4_0_1_2_1_2_2
+NODE0_5_4_4_0_0_4_0_1_2_1 -- NODE0_5_4_4_0_0_4_0_1_2_1_2
+NODE0_5_4_4_0_0_4_0_1_2 -- NODE0_5_4_4_0_0_4_0_1_2_1
+NODE0_5_4_4_0_0_4_0_1 -- NODE0_5_4_4_0_0_4_0_1_2
+NODE0_5_4_4_0_0_4_0 -- NODE0_5_4_4_0_0_4_0_1
+NODE0_5_4_4_0_0_4 -- NODE0_5_4_4_0_0_4_0
+NODE0_5_4_4_0_0 -- NODE0_5_4_4_0_0_4
+NODE0_5_4_4_0 -- NODE0_5_4_4_0_0
+NODE0_5_4_4 -- NODE0_5_4_4_0
+NODE0_5_4 -- NODE0_5_4_4
+NODE0_5 -- NODE0_5_4
+NODE0_5_5 [label="Stage"  style=filled fillcolor="red"]
+NODE0_5_5_2 [label="player"]
+NODE0_5_5 -- NODE0_5_5_2
+NODE0_5_5_3 [label="Endcondition" ]
+NODE0_5_5_3_2 [label="Boolean" ]
+NODE0_5_5_3_2_1 [label="Intop" ]
+NODE0_5_5_3_2_1_0 [label="=="]
+NODE0_5_5_3_2_1 -- NODE0_5_5_3_2_1_0
+NODE0_5_5_3_2 -- NODE0_5_5_3_2_1
+NODE0_5_5_3_2_2 [label="Int" ]
+NODE0_5_5_3_2_2_0 [label="Sizeof" ]
+NODE0_5_5_3_2_2_0_1 [label="size"]
+NODE0_5_5_3_2_2_0 -- NODE0_5_5_3_2_2_0_1
+NODE0_5_5_3_2_2_0_2 [label="Collection" ]
+NODE0_5_5_3_2_2_0_2_0 [label="Cstorage" ]
+NODE0_5_5_3_2_2_0_2_0_1 [label="Locpre" ]
+NODE0_5_5_3_2_2_0_2_0_1_0 [label="game"]
+NODE0_5_5_3_2_2_0_2_0_1 -- NODE0_5_5_3_2_2_0_2_0_1_0
+NODE0_5_5_3_2_2_0_2_0 -- NODE0_5_5_3_2_2_0_2_0_1
+NODE0_5_5_3_2_2_0_2_0_2 [label="Locdesc" ]
+NODE0_5_5_3_2_2_0_2_0_2_0 [label="iloc"]
+NODE0_5_5_3_2_2_0_2_0_2 -- NODE0_5_5_3_2_2_0_2_0_2_0
+NODE0_5_5_3_2_2_0_2_0 -- NODE0_5_5_3_2_2_0_2_0_2
+NODE0_5_5_3_2_2_0_2_0_3 [label="Str" ]
+NODE0_5_5_3_2_2_0_2_0_3_0 [fillcolor="green" style=filled label="STOCK"]
+NODE0_5_5_3_2_2_0_2_0_3 -- NODE0_5_5_3_2_2_0_2_0_3_0
+NODE0_5_5_3_2_2_0_2_0 -- NODE0_5_5_3_2_2_0_2_0_3
+NODE0_5_5_3_2_2_0_2 -- NODE0_5_5_3_2_2_0_2_0
+NODE0_5_5_3_2_2_0 -- NODE0_5_5_3_2_2_0_2
+NODE0_5_5_3_2_2 -- NODE0_5_5_3_2_2_0
+NODE0_5_5_3_2 -- NODE0_5_5_3_2_2
+NODE0_5_5_3_2_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_5_5_3_2 -- NODE0_5_5_3_2_3
+NODE0_5_5_3 -- NODE0_5_5_3_2
+NODE0_5_5 -- NODE0_5_5_3
+NODE0_5_5_4 [label="Multiaction" ]
+NODE0_5_5_4_3 [label="Condact" ]
+NODE0_5_5_4_3_0 [label="Multiaction2" ]
+NODE0_5_5_4_3_0_0 [label="Agg" ]
+NODE0_5_5_4_3_0_0_1 [label="any"]
+NODE0_5_5_4_3_0_0 -- NODE0_5_5_4_3_0_0_1
+NODE0_5_5_4_3_0_0_2 [label="Collection" ]
+NODE0_5_5_4_3_0_0_2_0 [label="Varc" ]
+NODE0_5_5_4_3_0_0_2_0_0 [label="'"]
+NODE0_5_5_4_3_0_0_2_0 -- NODE0_5_5_4_3_0_0_2_0_0
+NODE0_5_5_4_3_0_0_2_0_1 [fillcolor="green" style=filled label="COLORS"]
+NODE0_5_5_4_3_0_0_2_0 -- NODE0_5_5_4_3_0_0_2_0_1
+NODE0_5_5_4_3_0_0_2 -- NODE0_5_5_4_3_0_0_2_0
+NODE0_5_5_4_3_0_0 -- NODE0_5_5_4_3_0_0_2
+NODE0_5_5_4_3_0_0_3 [label="Var" ]
+NODE0_5_5_4_3_0_0_3_0 [label="'"]
+NODE0_5_5_4_3_0_0_3 -- NODE0_5_5_4_3_0_0_3_0
+NODE0_5_5_4_3_0_0_3_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_4_3_0_0_3 -- NODE0_5_5_4_3_0_0_3_1
+NODE0_5_5_4_3_0_0 -- NODE0_5_5_4_3_0_0_3
+NODE0_5_5_4_3_0_0_4 [label="Condact" ]
+NODE0_5_5_4_3_0_0_4_0 [label="Multiaction2" ]
+NODE0_5_5_4_3_0_0_4_0_0 [label="Let" ]
+NODE0_5_5_4_3_0_0_4_0_0_1 [label="let"]
+NODE0_5_5_4_3_0_0_4_0_0 -- NODE0_5_5_4_3_0_0_4_0_0_1
+NODE0_5_5_4_3_0_0_4_0_0_2 [label="Typed" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0 [label="Collection" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0 [label="Filter" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_1 [label="filter"]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_1
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2 [label="Collection" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0 [label="Cstorage" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_1 [label="Locpre" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_1_0 [label="Whop" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_1_0_1 [label="Whodesc" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_1_0_1_0 [label="current"]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_1_0_1 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_1_0_1_0
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_1_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_1_0_1
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_1_0_2 [label="player"]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_1_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_1_0_2
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_1 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_1_0
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_1
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_2 [label="Locdesc" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_2_0 [label="iloc"]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_2 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_2_0
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_2
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_3 [label="Str" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_3_0 [fillcolor="green" style=filled label="HAND"]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_3 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_3_0
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0_3
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2_0
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_2
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_3 [label="Var" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_3_0 [label="'"]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_3 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_3_0
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_3_1 [fillcolor="green" style=filled label="MC"]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_3 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_3_1
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_3
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4 [label="Boolean" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_1 [label="=="]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_1
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2 [label="Str" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0 [label="Cardatt" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_1 [label="cardatt"]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_1
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_2 [label="Str" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_2_0 [fillcolor="green" style=filled label="COLOR"]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_2 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_2_0
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_2
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_3 [label="Card" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_3_0 [label="Varcard" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_3_0_0 [label="'"]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_3_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_3_0_0
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_3_0_1 [fillcolor="green" style=filled label="MC"]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_3_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_3_0_1
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_3 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_3_0
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0_3
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2_0
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_2
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_3 [label="Str" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_3_0 [label="Vars" ]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_3_0_0 [label="'"]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_3_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_3_0_0
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_3_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_3_0_1
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_3 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_3_0
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4_3
+NODE0_5_5_4_3_0_0_4_0_0_2_0_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0_4
+NODE0_5_5_4_3_0_0_4_0_0_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_2_0_0
+NODE0_5_5_4_3_0_0_4_0_0_2 -- NODE0_5_5_4_3_0_0_4_0_0_2_0
+NODE0_5_5_4_3_0_0_4_0_0 -- NODE0_5_5_4_3_0_0_4_0_0_2
+NODE0_5_5_4_3_0_0_4_0_0_3 [label="Var" ]
+NODE0_5_5_4_3_0_0_4_0_0_3_0 [label="'"]
+NODE0_5_5_4_3_0_0_4_0_0_3 -- NODE0_5_5_4_3_0_0_4_0_0_3_0
+NODE0_5_5_4_3_0_0_4_0_0_3_1 [fillcolor="green" style=filled label="MYCOLOR"]
+NODE0_5_5_4_3_0_0_4_0_0_3 -- NODE0_5_5_4_3_0_0_4_0_0_3_1
+NODE0_5_5_4_3_0_0_4_0_0 -- NODE0_5_5_4_3_0_0_4_0_0_3
+NODE0_5_5_4_3_0_0_4_0_0_4 [label="Condact" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_1 [label="Boolean" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_1_1 [label="Intop" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_1_1_0 [label=">"]
+NODE0_5_5_4_3_0_0_4_0_0_4_1_1 -- NODE0_5_5_4_3_0_0_4_0_0_4_1_1_0
+NODE0_5_5_4_3_0_0_4_0_0_4_1 -- NODE0_5_5_4_3_0_0_4_0_0_4_1_1
+NODE0_5_5_4_3_0_0_4_0_0_4_1_2 [label="Int" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0 [label="Sizeof" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0_1 [label="size"]
+NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0_1
+NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0_2 [label="Collection" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0_2_0 [label="Varc" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0_2_0_0 [label="'"]
+NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0_2_0_0
+NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0_2_0_1 [fillcolor="green" style=filled label="MYCOLOR"]
+NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0_2_0_1
+NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0_2 -- NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0_2_0
+NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0_2
+NODE0_5_5_4_3_0_0_4_0_0_4_1_2 -- NODE0_5_5_4_3_0_0_4_0_0_4_1_2_0
+NODE0_5_5_4_3_0_0_4_0_0_4_1 -- NODE0_5_5_4_3_0_0_4_0_0_4_1_2
+NODE0_5_5_4_3_0_0_4_0_0_4_1_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_5_5_4_3_0_0_4_0_0_4_1 -- NODE0_5_5_4_3_0_0_4_0_0_4_1_3
+NODE0_5_5_4_3_0_0_4_0_0_4 -- NODE0_5_5_4_3_0_0_4_0_0_4_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2 [label="Multiaction2" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0 [label="Agg" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_1 [label="any"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_2 [label="Collection" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_2_0 [label="Varc" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_2_0_0 [label="'"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_2_0_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_2_0_1 [fillcolor="green" style=filled label="MYCOLOR"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_2_0_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_2 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_2_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_2
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_3 [label="Var" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_3_0 [label="'"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_3 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_3_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_3_1 [fillcolor="green" style=filled label="AC"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_3 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_3_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_3
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4 [label="Condact" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0 [label="Multiaction2" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_1 [label="do"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3 [label="Condact" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0 [label="Action" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1 [label="Moveaction" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_1 [label="Card" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_1_0 [label="Varcard" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_1_0_0 [label="'"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_1_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_1_0_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_1_0_1 [fillcolor="green" style=filled label="AC"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_1_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_1_0_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_1 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_1_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2 [label="Card" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_1 [label="top"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2 [label="Cstorage" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_1 [label="Locpre" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_1_0 [label="game"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_1 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_1_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_2 [label="Locdesc" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_2_0 [label="vloc"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_2 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_2_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_2
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_3 [label="Str" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_3_0 [label="Vars" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_3_0_0 [label="'"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_3_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_3_0_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_3_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_3_0_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_3 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_3_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2_3
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2_2
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1_2
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_3
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4 [label="Condact" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0 [label="Action" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1 [label="Setaction" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_0 [label="set"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1 [label="Rawstorage" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1_1 [label="game"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1_3 [label="Str" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1_3_0 [label="Vars" ]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1_3_0_0 [label="'"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1_3_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1_3_0_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1_3_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1_3_0_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1_3 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1_3_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1_3
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_2 [label="1" style=filled fillcolor="lightblue"]
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1_2
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0_1
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0_4
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4_0
+NODE0_5_5_4_3_0_0_4_0_0_4_2_0 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0_4
+NODE0_5_5_4_3_0_0_4_0_0_4_2 -- NODE0_5_5_4_3_0_0_4_0_0_4_2_0
+NODE0_5_5_4_3_0_0_4_0_0_4 -- NODE0_5_5_4_3_0_0_4_0_0_4_2
+NODE0_5_5_4_3_0_0_4_0_0 -- NODE0_5_5_4_3_0_0_4_0_0_4
+NODE0_5_5_4_3_0_0_4_0 -- NODE0_5_5_4_3_0_0_4_0_0
+NODE0_5_5_4_3_0_0_4 -- NODE0_5_5_4_3_0_0_4_0
+NODE0_5_5_4_3_0_0 -- NODE0_5_5_4_3_0_0_4
+NODE0_5_5_4_3_0 -- NODE0_5_5_4_3_0_0
+NODE0_5_5_4_3 -- NODE0_5_5_4_3_0
+NODE0_5_5_4 -- NODE0_5_5_4_3
+NODE0_5_5_4_4 [label="Condact" ]
+NODE0_5_5_4_4_0 [label="Multiaction2" ]
+NODE0_5_5_4_4_0_0 [label="Agg" ]
+NODE0_5_5_4_4_0_0_1 [label="any"]
+NODE0_5_5_4_4_0_0 -- NODE0_5_5_4_4_0_0_1
+NODE0_5_5_4_4_0_0_2 [label="Collection" ]
+NODE0_5_5_4_4_0_0_2_0 [label="Varc" ]
+NODE0_5_5_4_4_0_0_2_0_0 [label="'"]
+NODE0_5_5_4_4_0_0_2_0 -- NODE0_5_5_4_4_0_0_2_0_0
+NODE0_5_5_4_4_0_0_2_0_1 [fillcolor="green" style=filled label="COLORS"]
+NODE0_5_5_4_4_0_0_2_0 -- NODE0_5_5_4_4_0_0_2_0_1
+NODE0_5_5_4_4_0_0_2 -- NODE0_5_5_4_4_0_0_2_0
+NODE0_5_5_4_4_0_0 -- NODE0_5_5_4_4_0_0_2
+NODE0_5_5_4_4_0_0_3 [label="Var" ]
+NODE0_5_5_4_4_0_0_3_0 [label="'"]
+NODE0_5_5_4_4_0_0_3 -- NODE0_5_5_4_4_0_0_3_0
+NODE0_5_5_4_4_0_0_3_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_4_4_0_0_3 -- NODE0_5_5_4_4_0_0_3_1
+NODE0_5_5_4_4_0_0 -- NODE0_5_5_4_4_0_0_3
+NODE0_5_5_4_4_0_0_4 [label="Condact" ]
+NODE0_5_5_4_4_0_0_4_0 [label="Multiaction2" ]
+NODE0_5_5_4_4_0_0_4_0_0 [label="Let" ]
+NODE0_5_5_4_4_0_0_4_0_0_1 [label="let"]
+NODE0_5_5_4_4_0_0_4_0_0 -- NODE0_5_5_4_4_0_0_4_0_0_1
+NODE0_5_5_4_4_0_0_4_0_0_2 [label="Typed" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0 [label="Collection" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0 [label="Filter" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_1 [label="filter"]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_1
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2 [label="Collection" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0 [label="Cstorage" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_1 [label="Locpre" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_1_0 [label="Whop" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_1_0_1 [label="Whodesc" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_1_0_1_0 [label="current"]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_1_0_1 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_1_0_1_0
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_1_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_1_0_1
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_1_0_2 [label="player"]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_1_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_1_0_2
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_1 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_1_0
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_1
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_2 [label="Locdesc" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_2_0 [label="iloc"]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_2 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_2_0
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_2
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_3 [label="Str" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_3_0 [fillcolor="green" style=filled label="HAND"]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_3 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_3_0
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0_3
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2_0
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_2
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_3 [label="Var" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_3_0 [label="'"]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_3 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_3_0
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_3_1 [fillcolor="green" style=filled label="MC"]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_3 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_3_1
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_3
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4 [label="Boolean" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_1 [label="=="]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_1
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2 [label="Str" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0 [label="Cardatt" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_1 [label="cardatt"]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_1
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_2 [label="Str" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_2_0 [fillcolor="green" style=filled label="COLOR"]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_2 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_2_0
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_2
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_3 [label="Card" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_3_0 [label="Varcard" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_3_0_0 [label="'"]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_3_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_3_0_0
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_3_0_1 [fillcolor="green" style=filled label="MC"]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_3_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_3_0_1
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_3 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_3_0
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0_3
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2_0
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_2
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_3 [label="Str" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_3_0 [label="Vars" ]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_3_0_0 [label="'"]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_3_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_3_0_0
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_3_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_3_0_1
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_3 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_3_0
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4_3
+NODE0_5_5_4_4_0_0_4_0_0_2_0_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0_4
+NODE0_5_5_4_4_0_0_4_0_0_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_2_0_0
+NODE0_5_5_4_4_0_0_4_0_0_2 -- NODE0_5_5_4_4_0_0_4_0_0_2_0
+NODE0_5_5_4_4_0_0_4_0_0 -- NODE0_5_5_4_4_0_0_4_0_0_2
+NODE0_5_5_4_4_0_0_4_0_0_3 [label="Var" ]
+NODE0_5_5_4_4_0_0_4_0_0_3_0 [label="'"]
+NODE0_5_5_4_4_0_0_4_0_0_3 -- NODE0_5_5_4_4_0_0_4_0_0_3_0
+NODE0_5_5_4_4_0_0_4_0_0_3_1 [fillcolor="green" style=filled label="MYCOLOR"]
+NODE0_5_5_4_4_0_0_4_0_0_3 -- NODE0_5_5_4_4_0_0_4_0_0_3_1
+NODE0_5_5_4_4_0_0_4_0_0 -- NODE0_5_5_4_4_0_0_4_0_0_3
+NODE0_5_5_4_4_0_0_4_0_0_4 [label="Condact" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1 [label="Boolean" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_1 [label="and"]
+NODE0_5_5_4_4_0_0_4_0_0_4_1 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_1
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2 [label="Boolean" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_1 [label="Intop" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_1_0 [label="=="]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_1 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_1_0
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_1
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2 [label="Int" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0 [label="Sizeof" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_1 [label="size"]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_1
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2 [label="Collection" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0 [label="Cstorage" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_1 [label="Locpre" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_1_0 [label="Whop" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_1_0_1 [label="Whodesc" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_1_0_1_0 [label="current"]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_1_0_1 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_1_0_1_0
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_1_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_1_0_1
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_1_0_2 [label="player"]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_1_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_1_0_2
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_1 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_1_0
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_1
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_2 [label="Locdesc" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_2_0 [label="vloc"]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_2_0
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_2
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_3 [label="Str" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_3_0 [label="Vars" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_3_0_0 [label="'"]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_3_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_3_0_0
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_3_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_3_0_1
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_3 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_3_0
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0_3
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2_0
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0_2
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2_0
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_2
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2_3
+NODE0_5_5_4_4_0_0_4_0_0_4_1 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_2
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3 [label="Boolean" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_1 [label="Intop" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_1_0 [label=">"]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_1 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_3_1_0
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_3_1
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2 [label="Int" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0 [label="Sizeof" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0_1 [label="size"]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0_1
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0_2 [label="Collection" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0_2_0 [label="Varc" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0_2_0_0 [label="'"]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0_2_0_0
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0_2_0_1 [fillcolor="green" style=filled label="MYCOLOR"]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0_2_0_1
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0_2_0
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0_2
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2_0
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_3_2
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_5_5_4_4_0_0_4_0_0_4_1_3 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_3_3
+NODE0_5_5_4_4_0_0_4_0_0_4_1 -- NODE0_5_5_4_4_0_0_4_0_0_4_1_3
+NODE0_5_5_4_4_0_0_4_0_0_4 -- NODE0_5_5_4_4_0_0_4_0_0_4_1
+NODE0_5_5_4_4_0_0_4_0_0_4_2 [label="Multiaction2" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0 [label="Agg" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_1 [label="any"]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_1
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_2 [label="Collection" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_2_0 [label="Varc" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_2_0_0 [label="'"]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_2_0_0
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_2_0_1 [fillcolor="green" style=filled label="MYCOLOR"]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_2_0_1
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_2_0
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_2
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_3 [label="Var" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_3_0 [label="'"]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_3 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_3_0
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_3_1 [fillcolor="green" style=filled label="AC"]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_3 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_3_1
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_3
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4 [label="Condact" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0 [label="Action" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1 [label="Moveaction" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_1 [label="Card" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_1_0 [label="Varcard" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_1_0_0 [label="'"]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_1_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_1_0_0
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_1_0_1 [fillcolor="green" style=filled label="AC"]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_1_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_1_0_1
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_1 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_1_0
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_1
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2 [label="Card" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_1 [label="top"]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_1
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2 [label="Cstorage" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_1 [label="Locpre" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_1_0 [label="Whop" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_1_0_1 [label="Whodesc" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_1_0_1_0 [label="current"]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_1_0_1 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_1_0_1_0
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_1_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_1_0_1
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_1_0_2 [label="player"]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_1_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_1_0_2
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_1 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_1_0
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_1
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_2 [label="Locdesc" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_2_0 [label="vloc"]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_2_0
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_2
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_3 [label="Str" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_3_0 [label="Vars" ]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_3_0_0 [label="'"]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_3_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_3_0_0
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_3_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_3_0_1
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_3 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_3_0
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2_3
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2_2
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1_2
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0_1
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4_0
+NODE0_5_5_4_4_0_0_4_0_0_4_2_0 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0_4
+NODE0_5_5_4_4_0_0_4_0_0_4_2 -- NODE0_5_5_4_4_0_0_4_0_0_4_2_0
+NODE0_5_5_4_4_0_0_4_0_0_4 -- NODE0_5_5_4_4_0_0_4_0_0_4_2
+NODE0_5_5_4_4_0_0_4_0_0 -- NODE0_5_5_4_4_0_0_4_0_0_4
+NODE0_5_5_4_4_0_0_4_0 -- NODE0_5_5_4_4_0_0_4_0_0
+NODE0_5_5_4_4_0_0_4 -- NODE0_5_5_4_4_0_0_4_0
+NODE0_5_5_4_4_0_0 -- NODE0_5_5_4_4_0_0_4
+NODE0_5_5_4_4_0 -- NODE0_5_5_4_4_0_0
+NODE0_5_5_4_4 -- NODE0_5_5_4_4_0
+NODE0_5_5_4 -- NODE0_5_5_4_4
+NODE0_5_5_4_5 [label="Condact" ]
+NODE0_5_5_4_5_0 [label="Multiaction2" ]
+NODE0_5_5_4_5_0_0 [label="Agg" ]
+NODE0_5_5_4_5_0_0_1 [label="any"]
+NODE0_5_5_4_5_0_0 -- NODE0_5_5_4_5_0_0_1
+NODE0_5_5_4_5_0_0_2 [label="Collection" ]
+NODE0_5_5_4_5_0_0_2_0 [label="Varc" ]
+NODE0_5_5_4_5_0_0_2_0_0 [label="'"]
+NODE0_5_5_4_5_0_0_2_0 -- NODE0_5_5_4_5_0_0_2_0_0
+NODE0_5_5_4_5_0_0_2_0_1 [fillcolor="green" style=filled label="COLORS"]
+NODE0_5_5_4_5_0_0_2_0 -- NODE0_5_5_4_5_0_0_2_0_1
+NODE0_5_5_4_5_0_0_2 -- NODE0_5_5_4_5_0_0_2_0
+NODE0_5_5_4_5_0_0 -- NODE0_5_5_4_5_0_0_2
+NODE0_5_5_4_5_0_0_3 [label="Var" ]
+NODE0_5_5_4_5_0_0_3_0 [label="'"]
+NODE0_5_5_4_5_0_0_3 -- NODE0_5_5_4_5_0_0_3_0
+NODE0_5_5_4_5_0_0_3_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_4_5_0_0_3 -- NODE0_5_5_4_5_0_0_3_1
+NODE0_5_5_4_5_0_0 -- NODE0_5_5_4_5_0_0_3
+NODE0_5_5_4_5_0_0_4 [label="Condact" ]
+NODE0_5_5_4_5_0_0_4_0 [label="Multiaction2" ]
+NODE0_5_5_4_5_0_0_4_0_0 [label="Let" ]
+NODE0_5_5_4_5_0_0_4_0_0_1 [label="let"]
+NODE0_5_5_4_5_0_0_4_0_0 -- NODE0_5_5_4_5_0_0_4_0_0_1
+NODE0_5_5_4_5_0_0_4_0_0_2 [label="Typed" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0 [label="Collection" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0 [label="Filter" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_1 [label="filter"]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_1
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2 [label="Collection" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0 [label="Cstorage" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_1 [label="Locpre" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_1_0 [label="Whop" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_1_0_1 [label="Whodesc" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_1_0_1_0 [label="current"]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_1_0_1 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_1_0_1_0
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_1_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_1_0_1
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_1_0_2 [label="player"]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_1_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_1_0_2
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_1 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_1_0
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_1
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_2 [label="Locdesc" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_2_0 [label="iloc"]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_2 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_2_0
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_2
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_3 [label="Str" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_3_0 [fillcolor="green" style=filled label="HAND"]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_3 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_3_0
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0_3
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2_0
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_2
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_3 [label="Var" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_3_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_3 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_3_0
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_3_1 [fillcolor="green" style=filled label="MC"]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_3 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_3_1
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_3
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4 [label="Boolean" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_1 [label="=="]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_1
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2 [label="Str" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0 [label="Cardatt" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_1 [label="cardatt"]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_1
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_2 [label="Str" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_2_0 [fillcolor="green" style=filled label="COLOR"]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_2 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_2_0
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_2
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_3 [label="Card" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_3_0 [label="Varcard" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_3_0_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_3_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_3_0_0
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_3_0_1 [fillcolor="green" style=filled label="MC"]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_3_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_3_0_1
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_3 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_3_0
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0_3
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2_0
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_2
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_3 [label="Str" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_3_0 [label="Vars" ]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_3_0_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_3_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_3_0_0
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_3_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_3_0_1
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_3 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_3_0
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4_3
+NODE0_5_5_4_5_0_0_4_0_0_2_0_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0_4
+NODE0_5_5_4_5_0_0_4_0_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_2_0_0
+NODE0_5_5_4_5_0_0_4_0_0_2 -- NODE0_5_5_4_5_0_0_4_0_0_2_0
+NODE0_5_5_4_5_0_0_4_0_0 -- NODE0_5_5_4_5_0_0_4_0_0_2
+NODE0_5_5_4_5_0_0_4_0_0_3 [label="Var" ]
+NODE0_5_5_4_5_0_0_4_0_0_3_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_3 -- NODE0_5_5_4_5_0_0_4_0_0_3_0
+NODE0_5_5_4_5_0_0_4_0_0_3_1 [fillcolor="green" style=filled label="MYCOLOR"]
+NODE0_5_5_4_5_0_0_4_0_0_3 -- NODE0_5_5_4_5_0_0_4_0_0_3_1
+NODE0_5_5_4_5_0_0_4_0_0 -- NODE0_5_5_4_5_0_0_4_0_0_3
+NODE0_5_5_4_5_0_0_4_0_0_4 [label="Condact" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_1 [label="Boolean" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_1 [label="Intop" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_1_0 [label=">"]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_1_0
+NODE0_5_5_4_5_0_0_4_0_0_4_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_1
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2 [label="Int" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0 [label="Sizeof" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_1 [label="size"]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2 [label="Collection" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0 [label="Cstorage" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_1 [label="Locpre" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_1_0 [label="Whop" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_1_0_1 [label="Whodesc" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_1_0_1_0 [label="current"]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_1_0_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_1_0_1_0
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_1_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_1_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_1_0_2 [label="player"]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_1_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_1_0_2
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_1_0
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_2 [label="Locdesc" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_2_0 [label="vloc"]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_2_0
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_2
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_3 [label="Str" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_3_0 [label="Vars" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_3_0_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_3_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_3_0_0
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_3_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_3_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_3 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_3_0
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0_3
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2_0
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0_2
+NODE0_5_5_4_5_0_0_4_0_0_4_1_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2_0
+NODE0_5_5_4_5_0_0_4_0_0_4_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_2
+NODE0_5_5_4_5_0_0_4_0_0_4_1_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_5_5_4_5_0_0_4_0_0_4_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_1_3
+NODE0_5_5_4_5_0_0_4_0_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_4_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2 [label="Multiaction2" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0 [label="Let" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_1 [label="let"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2 [label="Typed" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0 [label="Collection" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0 [label="Filter" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_1 [label="filter"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_2 [label="Collection" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_2_0 [label="Varc" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_2_0_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_2_0_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_2_0_1 [fillcolor="green" style=filled label="MYCOLOR"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_2_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_2_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_3 [label="Var" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_3_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_3 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_3_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_3_1 [fillcolor="green" style=filled label="MCTWO"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_3 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_3_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_3
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4 [label="Boolean" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_1 [label="Intop" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_1_0 [label=">="]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_1_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2 [label="Int" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0 [label="Score" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_1 [label="score"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_2 [label="Card" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_2_0 [label="Varcard" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_2_0_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_2_0_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_2_0_1 [fillcolor="green" style=filled label="MCTWO"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_2_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_2_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_3 [label="using"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_3
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_4 [label="Pointstorage" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_4_1 [label="game"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_4_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_4_2 [label="points"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_4_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_4_3 [label="Str" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_4_3_0 [fillcolor="green" style=filled label="PRECEDENCE"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_4_3 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_4_3_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_4_3
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0_4
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3 [label="Int" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0 [label="Score" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_1 [label="score"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2 [label="Card" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_1 [label="top"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2 [label="Cstorage" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_1 [label="Locpre" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_1_0 [label="Whop" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_1_0_1 [label="Whodesc" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_1_0_1_0 [label="current"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_1_0_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_1_0_1_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_1_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_1_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_1_0_2 [label="player"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_1_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_1_0_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_1_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_2 [label="Locdesc" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_2_0 [label="vloc"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_2_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_3 [label="Str" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_3_0 [label="Vars" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_3_0_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_3_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_3_0_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_3_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_3_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_3 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_3_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2_3
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_3 [label="using"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_3
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_4 [label="Pointstorage" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_4_1 [label="game"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_4_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_4_2 [label="points"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_4_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_4_3 [label="Str" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_4_3_0 [fillcolor="green" style=filled label="PRECEDENCE"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_4_3 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_4_3_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_4_3
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0_4
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4_3
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0_4
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_3 [label="Var" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_3_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_3 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_3_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_3_1 [fillcolor="green" style=filled label="MYCOLORBIG"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_3 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_3_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_3
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4 [label="Condact" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1 [label="Boolean" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_1 [label="Intop" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_1_0 [label=">"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_1_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2 [label="Int" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0 [label="Sizeof" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0_1 [label="size"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0_2 [label="Collection" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0_2_0 [label="Varc" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0_2_0_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0_2_0_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0_2_0_1 [fillcolor="green" style=filled label="MYCOLORBIG"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0_2_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0_2_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1_3
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2 [label="Multiaction2" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0 [label="Agg" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_1 [label="any"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_2 [label="Collection" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_2_0 [label="Varc" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_2_0_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_2_0_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_2_0_1 [fillcolor="green" style=filled label="MYCOLORBIG"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_2_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_2_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_3 [label="Var" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_3_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_3 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_3_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_3_1 [fillcolor="green" style=filled label="AC"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_3 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_3_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_3
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4 [label="Condact" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0 [label="Action" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1 [label="Moveaction" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_1 [label="Card" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_1_0 [label="Varcard" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_1_0_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_1_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_1_0_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_1_0_1 [fillcolor="green" style=filled label="AC"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_1_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_1_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_1_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2 [label="Card" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_1 [label="top"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2 [label="Cstorage" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_1 [label="Locpre" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_1_0 [label="Whop" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_1_0_1 [label="Whodesc" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_1_0_1_0 [label="current"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_1_0_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_1_0_1_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_1_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_1_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_1_0_2 [label="player"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_1_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_1_0_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_1_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_2 [label="Locdesc" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_2_0 [label="vloc"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_2_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_3 [label="Str" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_3_0 [label="Vars" ]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_3_0_0 [label="'"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_3_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_3_0_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_3_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_3_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_3 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_3_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2_3
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0_1
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0_4
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2_0
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4_2
+NODE0_5_5_4_5_0_0_4_0_0_4_2_0 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0_4
+NODE0_5_5_4_5_0_0_4_0_0_4_2 -- NODE0_5_5_4_5_0_0_4_0_0_4_2_0
+NODE0_5_5_4_5_0_0_4_0_0_4 -- NODE0_5_5_4_5_0_0_4_0_0_4_2
+NODE0_5_5_4_5_0_0_4_0_0 -- NODE0_5_5_4_5_0_0_4_0_0_4
+NODE0_5_5_4_5_0_0_4_0 -- NODE0_5_5_4_5_0_0_4_0_0
+NODE0_5_5_4_5_0_0_4 -- NODE0_5_5_4_5_0_0_4_0
+NODE0_5_5_4_5_0_0 -- NODE0_5_5_4_5_0_0_4
+NODE0_5_5_4_5_0 -- NODE0_5_5_4_5_0_0
+NODE0_5_5_4_5 -- NODE0_5_5_4_5_0
+NODE0_5_5_4 -- NODE0_5_5_4_5
+NODE0_5_5 -- NODE0_5_5_4
+NODE0_5_5_5 [label="Multiaction" ]
+NODE0_5_5_5_3 [label="Condact" ]
+NODE0_5_5_5_3_0 [label="Action" ]
+NODE0_5_5_5_3_0_1 [label="Moveaction" ]
+NODE0_5_5_5_3_0_1_1 [label="Card" ]
+NODE0_5_5_5_3_0_1_1_1 [label="top"]
+NODE0_5_5_5_3_0_1_1 -- NODE0_5_5_5_3_0_1_1_1
+NODE0_5_5_5_3_0_1_1_2 [label="Cstorage" ]
+NODE0_5_5_5_3_0_1_1_2_1 [label="Locpre" ]
+NODE0_5_5_5_3_0_1_1_2_1_0 [label="game"]
+NODE0_5_5_5_3_0_1_1_2_1 -- NODE0_5_5_5_3_0_1_1_2_1_0
+NODE0_5_5_5_3_0_1_1_2 -- NODE0_5_5_5_3_0_1_1_2_1
+NODE0_5_5_5_3_0_1_1_2_2 [label="Locdesc" ]
+NODE0_5_5_5_3_0_1_1_2_2_0 [label="iloc"]
+NODE0_5_5_5_3_0_1_1_2_2 -- NODE0_5_5_5_3_0_1_1_2_2_0
+NODE0_5_5_5_3_0_1_1_2 -- NODE0_5_5_5_3_0_1_1_2_2
+NODE0_5_5_5_3_0_1_1_2_3 [label="Str" ]
+NODE0_5_5_5_3_0_1_1_2_3_0 [fillcolor="green" style=filled label="STOCK"]
+NODE0_5_5_5_3_0_1_1_2_3 -- NODE0_5_5_5_3_0_1_1_2_3_0
+NODE0_5_5_5_3_0_1_1_2 -- NODE0_5_5_5_3_0_1_1_2_3
+NODE0_5_5_5_3_0_1_1 -- NODE0_5_5_5_3_0_1_1_2
+NODE0_5_5_5_3_0_1 -- NODE0_5_5_5_3_0_1_1
+NODE0_5_5_5_3_0_1_2 [label="Card" ]
+NODE0_5_5_5_3_0_1_2_1 [label="top"]
+NODE0_5_5_5_3_0_1_2 -- NODE0_5_5_5_3_0_1_2_1
+NODE0_5_5_5_3_0_1_2_2 [label="Cstorage" ]
+NODE0_5_5_5_3_0_1_2_2_1 [label="Locpre" ]
+NODE0_5_5_5_3_0_1_2_2_1_0 [label="Whop" ]
+NODE0_5_5_5_3_0_1_2_2_1_0_1 [label="Whodesc" ]
+NODE0_5_5_5_3_0_1_2_2_1_0_1_0 [label="current"]
+NODE0_5_5_5_3_0_1_2_2_1_0_1 -- NODE0_5_5_5_3_0_1_2_2_1_0_1_0
+NODE0_5_5_5_3_0_1_2_2_1_0 -- NODE0_5_5_5_3_0_1_2_2_1_0_1
+NODE0_5_5_5_3_0_1_2_2_1_0_2 [label="player"]
+NODE0_5_5_5_3_0_1_2_2_1_0 -- NODE0_5_5_5_3_0_1_2_2_1_0_2
+NODE0_5_5_5_3_0_1_2_2_1 -- NODE0_5_5_5_3_0_1_2_2_1_0
+NODE0_5_5_5_3_0_1_2_2 -- NODE0_5_5_5_3_0_1_2_2_1
+NODE0_5_5_5_3_0_1_2_2_2 [label="Locdesc" ]
+NODE0_5_5_5_3_0_1_2_2_2_0 [label="iloc"]
+NODE0_5_5_5_3_0_1_2_2_2 -- NODE0_5_5_5_3_0_1_2_2_2_0
+NODE0_5_5_5_3_0_1_2_2 -- NODE0_5_5_5_3_0_1_2_2_2
+NODE0_5_5_5_3_0_1_2_2_3 [label="Str" ]
+NODE0_5_5_5_3_0_1_2_2_3_0 [fillcolor="green" style=filled label="HAND"]
+NODE0_5_5_5_3_0_1_2_2_3 -- NODE0_5_5_5_3_0_1_2_2_3_0
+NODE0_5_5_5_3_0_1_2_2 -- NODE0_5_5_5_3_0_1_2_2_3
+NODE0_5_5_5_3_0_1_2 -- NODE0_5_5_5_3_0_1_2_2
+NODE0_5_5_5_3_0_1 -- NODE0_5_5_5_3_0_1_2
+NODE0_5_5_5_3_0 -- NODE0_5_5_5_3_0_1
+NODE0_5_5_5_3 -- NODE0_5_5_5_3_0
+NODE0_5_5_5 -- NODE0_5_5_5_3
+NODE0_5_5_5_4 [label="Condact" ]
+NODE0_5_5_5_4_0 [label="Multiaction2" ]
+NODE0_5_5_5_4_0_1 [label="do"]
+NODE0_5_5_5_4_0 -- NODE0_5_5_5_4_0_1
+NODE0_5_5_5_4_0_3 [label="Condact" ]
+NODE0_5_5_5_4_0_3_0 [label="Multiaction2" ]
+NODE0_5_5_5_4_0_3_0_0 [label="Agg" ]
+NODE0_5_5_5_4_0_3_0_0_1 [label="all"]
+NODE0_5_5_5_4_0_3_0_0 -- NODE0_5_5_5_4_0_3_0_0_1
+NODE0_5_5_5_4_0_3_0_0_2 [label="Collection" ]
+NODE0_5_5_5_4_0_3_0_0_2_0 [label="Varc" ]
+NODE0_5_5_5_4_0_3_0_0_2_0_0 [label="'"]
+NODE0_5_5_5_4_0_3_0_0_2_0 -- NODE0_5_5_5_4_0_3_0_0_2_0_0
+NODE0_5_5_5_4_0_3_0_0_2_0_1 [fillcolor="green" style=filled label="COLORS"]
+NODE0_5_5_5_4_0_3_0_0_2_0 -- NODE0_5_5_5_4_0_3_0_0_2_0_1
+NODE0_5_5_5_4_0_3_0_0_2 -- NODE0_5_5_5_4_0_3_0_0_2_0
+NODE0_5_5_5_4_0_3_0_0 -- NODE0_5_5_5_4_0_3_0_0_2
+NODE0_5_5_5_4_0_3_0_0_3 [label="Var" ]
+NODE0_5_5_5_4_0_3_0_0_3_0 [label="'"]
+NODE0_5_5_5_4_0_3_0_0_3 -- NODE0_5_5_5_4_0_3_0_0_3_0
+NODE0_5_5_5_4_0_3_0_0_3_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_5_4_0_3_0_0_3 -- NODE0_5_5_5_4_0_3_0_0_3_1
+NODE0_5_5_5_4_0_3_0_0 -- NODE0_5_5_5_4_0_3_0_0_3
+NODE0_5_5_5_4_0_3_0_0_4 [label="Condact" ]
+NODE0_5_5_5_4_0_3_0_0_4_0 [label="Multiaction2" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_1 [label="do"]
+NODE0_5_5_5_4_0_3_0_0_4_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3 [label="Condact" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1 [label="Boolean" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_1 [label="and"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2 [label="Boolean" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_1 [label="Intop" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_1_0 [label=">"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_1 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_1_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2 [label="Int" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0 [label="Sizeof" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_1 [label="size"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2 [label="Collection" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0 [label="Cstorage" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_1 [label="Locpre" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_1_0 [label="game"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_1 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_1_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_2 [label="Locdesc" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_2_0 [label="vloc"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_2_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_2
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_3 [label="Str" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_3_0 [label="Vars" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_3_0_0 [label="'"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_3_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_3_0_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_3_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_3_0_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_3 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_3_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0_3
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0_2
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_2
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2_3
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_2
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3 [label="Boolean" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_1 [label="Intop" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_1_0 [label="!="]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_1 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_1_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2 [label="Int" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0 [label="Rawstorage" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0_1 [label="game"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0_3 [label="Str" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0_3_0 [label="Vars" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0_3_0_0 [label="'"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0_3_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0_3_0_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0_3_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0_3_0_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0_3 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0_3_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0_3
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_2
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_3 [label="1" style=filled fillcolor="lightblue"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3_3
+NODE0_5_5_5_4_0_3_0_0_4_0_3_1 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1_3
+NODE0_5_5_5_4_0_3_0_0_4_0_3 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2 [label="Action" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1 [label="Moveaction" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1 [label="Card" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_1 [label="top"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2 [label="Cstorage" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_1 [label="Locpre" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_1_0 [label="game"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_1 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_1_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_2 [label="Locdesc" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_2_0 [label="vloc"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_2_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_2
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_3 [label="Str" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_3_0 [label="Vars" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_3_0_0 [label="'"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_3_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_3_0_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_3_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_3_0_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_3 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_3_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2_3
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1_2
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2 [label="Card" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_1 [label="top"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2 [label="Cstorage" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_1 [label="Locpre" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_1_0 [label="Whop" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_1_0_1 [label="Whodesc" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_1_0_1_0 [label="current"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_1_0_1 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_1_0_1_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_1_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_1_0_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_1_0_2 [label="player"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_1_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_1_0_2
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_1 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_1_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_2 [label="Locdesc" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_2_0 [label="iloc"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_2_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_2
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_3 [label="Str" ]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_3_0 [fillcolor="green" style=filled label="HAND"]
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_3 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_3_0
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2_3
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2_2
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1_2
+NODE0_5_5_5_4_0_3_0_0_4_0_3_2 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2_1
+NODE0_5_5_5_4_0_3_0_0_4_0_3 -- NODE0_5_5_5_4_0_3_0_0_4_0_3_2
+NODE0_5_5_5_4_0_3_0_0_4_0 -- NODE0_5_5_5_4_0_3_0_0_4_0_3
+NODE0_5_5_5_4_0_3_0_0_4 -- NODE0_5_5_5_4_0_3_0_0_4_0
+NODE0_5_5_5_4_0_3_0_0 -- NODE0_5_5_5_4_0_3_0_0_4
+NODE0_5_5_5_4_0_3_0 -- NODE0_5_5_5_4_0_3_0_0
+NODE0_5_5_5_4_0_3 -- NODE0_5_5_5_4_0_3_0
+NODE0_5_5_5_4_0 -- NODE0_5_5_5_4_0_3
+NODE0_5_5_5_4 -- NODE0_5_5_5_4_0
+NODE0_5_5_5 -- NODE0_5_5_5_4
+NODE0_5_5 -- NODE0_5_5_5
+NODE0_5_5_6 [label="Multiaction" ]
+NODE0_5_5_6_1 [label="do"]
+NODE0_5_5_6 -- NODE0_5_5_6_1
+NODE0_5_5_6_3 [label="Condact" ]
+NODE0_5_5_6_3_0 [label="Multiaction2" ]
+NODE0_5_5_6_3_0_0 [label="Agg" ]
+NODE0_5_5_6_3_0_0_1 [label="all"]
+NODE0_5_5_6_3_0_0 -- NODE0_5_5_6_3_0_0_1
+NODE0_5_5_6_3_0_0_2 [label="Collection" ]
+NODE0_5_5_6_3_0_0_2_0 [label="Varc" ]
+NODE0_5_5_6_3_0_0_2_0_0 [label="'"]
+NODE0_5_5_6_3_0_0_2_0 -- NODE0_5_5_6_3_0_0_2_0_0
+NODE0_5_5_6_3_0_0_2_0_1 [fillcolor="green" style=filled label="COLORS"]
+NODE0_5_5_6_3_0_0_2_0 -- NODE0_5_5_6_3_0_0_2_0_1
+NODE0_5_5_6_3_0_0_2 -- NODE0_5_5_6_3_0_0_2_0
+NODE0_5_5_6_3_0_0 -- NODE0_5_5_6_3_0_0_2
+NODE0_5_5_6_3_0_0_3 [label="Var" ]
+NODE0_5_5_6_3_0_0_3_0 [label="'"]
+NODE0_5_5_6_3_0_0_3 -- NODE0_5_5_6_3_0_0_3_0
+NODE0_5_5_6_3_0_0_3_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_6_3_0_0_3 -- NODE0_5_5_6_3_0_0_3_1
+NODE0_5_5_6_3_0_0 -- NODE0_5_5_6_3_0_0_3
+NODE0_5_5_6_3_0_0_4 [label="Condact" ]
+NODE0_5_5_6_3_0_0_4_0 [label="Action" ]
+NODE0_5_5_6_3_0_0_4_0_1 [label="Setaction" ]
+NODE0_5_5_6_3_0_0_4_0_1_0 [label="set"]
+NODE0_5_5_6_3_0_0_4_0_1 -- NODE0_5_5_6_3_0_0_4_0_1_0
+NODE0_5_5_6_3_0_0_4_0_1_1 [label="Rawstorage" ]
+NODE0_5_5_6_3_0_0_4_0_1_1_1 [label="game"]
+NODE0_5_5_6_3_0_0_4_0_1_1 -- NODE0_5_5_6_3_0_0_4_0_1_1_1
+NODE0_5_5_6_3_0_0_4_0_1_1_3 [label="Str" ]
+NODE0_5_5_6_3_0_0_4_0_1_1_3_0 [label="Vars" ]
+NODE0_5_5_6_3_0_0_4_0_1_1_3_0_0 [label="'"]
+NODE0_5_5_6_3_0_0_4_0_1_1_3_0 -- NODE0_5_5_6_3_0_0_4_0_1_1_3_0_0
+NODE0_5_5_6_3_0_0_4_0_1_1_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_5_6_3_0_0_4_0_1_1_3_0 -- NODE0_5_5_6_3_0_0_4_0_1_1_3_0_1
+NODE0_5_5_6_3_0_0_4_0_1_1_3 -- NODE0_5_5_6_3_0_0_4_0_1_1_3_0
+NODE0_5_5_6_3_0_0_4_0_1_1 -- NODE0_5_5_6_3_0_0_4_0_1_1_3
+NODE0_5_5_6_3_0_0_4_0_1 -- NODE0_5_5_6_3_0_0_4_0_1_1
+NODE0_5_5_6_3_0_0_4_0_1_2 [label="0" style=filled fillcolor="lightblue"]
+NODE0_5_5_6_3_0_0_4_0_1 -- NODE0_5_5_6_3_0_0_4_0_1_2
+NODE0_5_5_6_3_0_0_4_0 -- NODE0_5_5_6_3_0_0_4_0_1
+NODE0_5_5_6_3_0_0_4 -- NODE0_5_5_6_3_0_0_4_0
+NODE0_5_5_6_3_0_0 -- NODE0_5_5_6_3_0_0_4
+NODE0_5_5_6_3_0 -- NODE0_5_5_6_3_0_0
+NODE0_5_5_6_3 -- NODE0_5_5_6_3_0
+NODE0_5_5_6 -- NODE0_5_5_6_3
+NODE0_5_5 -- NODE0_5_5_6
+NODE0_5 -- NODE0_5_5
+NODE0_5_6 [label="Stage"  style=filled fillcolor="red"]
+NODE0_5_6_2 [label="player"]
+NODE0_5_6 -- NODE0_5_6_2
+NODE0_5_6_3 [label="Endcondition" ]
+NODE0_5_6_3_2 [label="Boolean" ]
+NODE0_5_6_3_2_0 [label="Agg" ]
+NODE0_5_6_3_2_0_1 [label="all"]
+NODE0_5_6_3_2_0 -- NODE0_5_6_3_2_0_1
+NODE0_5_6_3_2_0_2 [label="Collection" ]
+NODE0_5_6_3_2_0_2_0 [label="player"]
+NODE0_5_6_3_2_0_2 -- NODE0_5_6_3_2_0_2_0
+NODE0_5_6_3_2_0 -- NODE0_5_6_3_2_0_2
+NODE0_5_6_3_2_0_3 [label="Var" ]
+NODE0_5_6_3_2_0_3_0 [label="'"]
+NODE0_5_6_3_2_0_3 -- NODE0_5_6_3_2_0_3_0
+NODE0_5_6_3_2_0_3_1 [fillcolor="green" style=filled label="P"]
+NODE0_5_6_3_2_0_3 -- NODE0_5_6_3_2_0_3_1
+NODE0_5_6_3_2_0 -- NODE0_5_6_3_2_0_3
+NODE0_5_6_3_2_0_4 [label="Boolean" ]
+NODE0_5_6_3_2_0_4_1 [label="Intop" ]
+NODE0_5_6_3_2_0_4_1_0 [label="=="]
+NODE0_5_6_3_2_0_4_1 -- NODE0_5_6_3_2_0_4_1_0
+NODE0_5_6_3_2_0_4 -- NODE0_5_6_3_2_0_4_1
+NODE0_5_6_3_2_0_4_2 [label="Int" ]
+NODE0_5_6_3_2_0_4_2_0 [label="Rawstorage" ]
+NODE0_5_6_3_2_0_4_2_0_1 [label="Varo" ]
+NODE0_5_6_3_2_0_4_2_0_1_0 [label="'"]
+NODE0_5_6_3_2_0_4_2_0_1 -- NODE0_5_6_3_2_0_4_2_0_1_0
+NODE0_5_6_3_2_0_4_2_0_1_1 [fillcolor="green" style=filled label="P"]
+NODE0_5_6_3_2_0_4_2_0_1 -- NODE0_5_6_3_2_0_4_2_0_1_1
+NODE0_5_6_3_2_0_4_2_0 -- NODE0_5_6_3_2_0_4_2_0_1
+NODE0_5_6_3_2_0_4_2_0_3 [label="Str" ]
+NODE0_5_6_3_2_0_4_2_0_3_0 [fillcolor="green" style=filled label="PROC"]
+NODE0_5_6_3_2_0_4_2_0_3 -- NODE0_5_6_3_2_0_4_2_0_3_0
+NODE0_5_6_3_2_0_4_2_0 -- NODE0_5_6_3_2_0_4_2_0_3
+NODE0_5_6_3_2_0_4_2 -- NODE0_5_6_3_2_0_4_2_0
+NODE0_5_6_3_2_0_4 -- NODE0_5_6_3_2_0_4_2
+NODE0_5_6_3_2_0_4_3 [label="1" style=filled fillcolor="lightblue"]
+NODE0_5_6_3_2_0_4 -- NODE0_5_6_3_2_0_4_3
+NODE0_5_6_3_2_0 -- NODE0_5_6_3_2_0_4
+NODE0_5_6_3_2 -- NODE0_5_6_3_2_0
+NODE0_5_6_3 -- NODE0_5_6_3_2
+NODE0_5_6 -- NODE0_5_6_3
+NODE0_5_6_4 [label="Multiaction" ]
+NODE0_5_6_4_1 [label="do"]
+NODE0_5_6_4 -- NODE0_5_6_4_1
+NODE0_5_6_4_3 [label="Condact" ]
+NODE0_5_6_4_3_0 [label="Multiaction2" ]
+NODE0_5_6_4_3_0_0 [label="Agg" ]
+NODE0_5_6_4_3_0_0_1 [label="all"]
+NODE0_5_6_4_3_0_0 -- NODE0_5_6_4_3_0_0_1
+NODE0_5_6_4_3_0_0_2 [label="Collection" ]
+NODE0_5_6_4_3_0_0_2_0 [label="Varc" ]
+NODE0_5_6_4_3_0_0_2_0_0 [label="'"]
+NODE0_5_6_4_3_0_0_2_0 -- NODE0_5_6_4_3_0_0_2_0_0
+NODE0_5_6_4_3_0_0_2_0_1 [fillcolor="green" style=filled label="COLORS"]
+NODE0_5_6_4_3_0_0_2_0 -- NODE0_5_6_4_3_0_0_2_0_1
+NODE0_5_6_4_3_0_0_2 -- NODE0_5_6_4_3_0_0_2_0
+NODE0_5_6_4_3_0_0 -- NODE0_5_6_4_3_0_0_2
+NODE0_5_6_4_3_0_0_3 [label="Var" ]
+NODE0_5_6_4_3_0_0_3_0 [label="'"]
+NODE0_5_6_4_3_0_0_3 -- NODE0_5_6_4_3_0_0_3_0
+NODE0_5_6_4_3_0_0_3_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_6_4_3_0_0_3 -- NODE0_5_6_4_3_0_0_3_1
+NODE0_5_6_4_3_0_0 -- NODE0_5_6_4_3_0_0_3
+NODE0_5_6_4_3_0_0_4 [label="Condact" ]
+NODE0_5_6_4_3_0_0_4_1 [label="Boolean" ]
+NODE0_5_6_4_3_0_0_4_1_1 [label="Intop" ]
+NODE0_5_6_4_3_0_0_4_1_1_0 [label=">"]
+NODE0_5_6_4_3_0_0_4_1_1 -- NODE0_5_6_4_3_0_0_4_1_1_0
+NODE0_5_6_4_3_0_0_4_1 -- NODE0_5_6_4_3_0_0_4_1_1
+NODE0_5_6_4_3_0_0_4_1_2 [label="Int" ]
+NODE0_5_6_4_3_0_0_4_1_2_0 [label="Sizeof" ]
+NODE0_5_6_4_3_0_0_4_1_2_0_1 [label="size"]
+NODE0_5_6_4_3_0_0_4_1_2_0 -- NODE0_5_6_4_3_0_0_4_1_2_0_1
+NODE0_5_6_4_3_0_0_4_1_2_0_2 [label="Collection" ]
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0 [label="Cstorage" ]
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_1 [label="Locpre" ]
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_1_0 [label="Whop" ]
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_1_0_1 [label="Whodesc" ]
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_1_0_1_0 [label="current"]
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_1_0_1 -- NODE0_5_6_4_3_0_0_4_1_2_0_2_0_1_0_1_0
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_1_0 -- NODE0_5_6_4_3_0_0_4_1_2_0_2_0_1_0_1
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_1_0_2 [label="player"]
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_1_0 -- NODE0_5_6_4_3_0_0_4_1_2_0_2_0_1_0_2
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_1 -- NODE0_5_6_4_3_0_0_4_1_2_0_2_0_1_0
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0 -- NODE0_5_6_4_3_0_0_4_1_2_0_2_0_1
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_2 [label="Locdesc" ]
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_2_0 [label="vloc"]
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_2 -- NODE0_5_6_4_3_0_0_4_1_2_0_2_0_2_0
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0 -- NODE0_5_6_4_3_0_0_4_1_2_0_2_0_2
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_3 [label="Str" ]
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_3_0 [label="Vars" ]
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_3_0_0 [label="'"]
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_3_0 -- NODE0_5_6_4_3_0_0_4_1_2_0_2_0_3_0_0
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_3_0 -- NODE0_5_6_4_3_0_0_4_1_2_0_2_0_3_0_1
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0_3 -- NODE0_5_6_4_3_0_0_4_1_2_0_2_0_3_0
+NODE0_5_6_4_3_0_0_4_1_2_0_2_0 -- NODE0_5_6_4_3_0_0_4_1_2_0_2_0_3
+NODE0_5_6_4_3_0_0_4_1_2_0_2 -- NODE0_5_6_4_3_0_0_4_1_2_0_2_0
+NODE0_5_6_4_3_0_0_4_1_2_0 -- NODE0_5_6_4_3_0_0_4_1_2_0_2
+NODE0_5_6_4_3_0_0_4_1_2 -- NODE0_5_6_4_3_0_0_4_1_2_0
+NODE0_5_6_4_3_0_0_4_1 -- NODE0_5_6_4_3_0_0_4_1_2
+NODE0_5_6_4_3_0_0_4_1_3 [label="0" style=filled fillcolor="lightblue"]
+NODE0_5_6_4_3_0_0_4_1 -- NODE0_5_6_4_3_0_0_4_1_3
+NODE0_5_6_4_3_0_0_4 -- NODE0_5_6_4_3_0_0_4_1
+NODE0_5_6_4_3_0_0_4_2 [label="Action" ]
+NODE0_5_6_4_3_0_0_4_2_1 [label="Incaction" ]
+NODE0_5_6_4_3_0_0_4_2_1_1 [label="Rawstorage" ]
+NODE0_5_6_4_3_0_0_4_2_1_1_1 [label="Who" ]
+NODE0_5_6_4_3_0_0_4_2_1_1_1_0 [label="Whop" ]
+NODE0_5_6_4_3_0_0_4_2_1_1_1_0_1 [label="Whodesc" ]
+NODE0_5_6_4_3_0_0_4_2_1_1_1_0_1_0 [label="current"]
+NODE0_5_6_4_3_0_0_4_2_1_1_1_0_1 -- NODE0_5_6_4_3_0_0_4_2_1_1_1_0_1_0
+NODE0_5_6_4_3_0_0_4_2_1_1_1_0 -- NODE0_5_6_4_3_0_0_4_2_1_1_1_0_1
+NODE0_5_6_4_3_0_0_4_2_1_1_1_0_2 [label="player"]
+NODE0_5_6_4_3_0_0_4_2_1_1_1_0 -- NODE0_5_6_4_3_0_0_4_2_1_1_1_0_2
+NODE0_5_6_4_3_0_0_4_2_1_1_1 -- NODE0_5_6_4_3_0_0_4_2_1_1_1_0
+NODE0_5_6_4_3_0_0_4_2_1_1 -- NODE0_5_6_4_3_0_0_4_2_1_1_1
+NODE0_5_6_4_3_0_0_4_2_1_1_3 [label="Str" ]
+NODE0_5_6_4_3_0_0_4_2_1_1_3_0 [fillcolor="green" style=filled label="SCORE"]
+NODE0_5_6_4_3_0_0_4_2_1_1_3 -- NODE0_5_6_4_3_0_0_4_2_1_1_3_0
+NODE0_5_6_4_3_0_0_4_2_1_1 -- NODE0_5_6_4_3_0_0_4_2_1_1_3
+NODE0_5_6_4_3_0_0_4_2_1 -- NODE0_5_6_4_3_0_0_4_2_1_1
+NODE0_5_6_4_3_0_0_4_2_1_2 [label="Int" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0 [label="Mult" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_1 [label="*"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_1
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2 [label="Int" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0 [label="Subtract" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_1 [label="-"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_1
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2 [label="Int" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0 [label="Sum" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_1 [label="sum"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_1
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2 [label="Cstorage" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_1 [label="Locpre" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_1_0 [label="Whop" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_1_0_1 [label="Whodesc" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_1_0_1_0 [label="current"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_1_0_1 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_1_0_1_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_1_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_1_0_1
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_1_0_2 [label="player"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_1_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_1_0_2
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_1 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_1_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_1
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_2 [label="Locdesc" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_2_0 [label="vloc"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_2 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_2_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_2
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_3 [label="Str" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_3_0 [label="Vars" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_3_0_0 [label="'"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_3_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_3_0_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_3_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_3_0_1
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_3 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_3_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2_3
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_2
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_3 [label="using"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_3
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_4 [label="Pointstorage" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_4_1 [label="game"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_4 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_4_1
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_4_2 [label="points"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_4 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_4_2
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_4_3 [label="Str" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_4_3_0 [fillcolor="green" style=filled label="PRECEDENCE"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_4_3 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_4_3_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_4 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_4_3
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0_4
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_2
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_3 [label="20" style=filled fillcolor="lightblue"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0_3
+NODE0_5_6_4_3_0_0_4_2_1_2_0_2 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_2
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3 [label="Int" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0 [label="Add" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_1 [label="+"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_1
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2 [label="Int" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0 [label="Sum" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_1 [label="sum"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_1
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2 [label="Cstorage" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_1 [label="Locpre" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_1_0 [label="Whop" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_1_0_1 [label="Whodesc" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_1_0_1_0 [label="current"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_1_0_1 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_1_0_1_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_1_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_1_0_1
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_1_0_2 [label="player"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_1_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_1_0_2
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_1 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_1_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_1
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_2 [label="Locdesc" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_2_0 [label="vloc"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_2 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_2_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_2
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_3 [label="Str" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_3_0 [label="Vars" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_3_0_0 [label="'"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_3_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_3_0_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_3_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_3_0_1
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_3 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_3_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2_3
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_2
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_3 [label="using"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_3
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_4 [label="Pointstorage" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_4_1 [label="game"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_4 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_4_1
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_4_2 [label="points"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_4 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_4_2
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_4_3 [label="Str" ]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_4_3_0 [fillcolor="green" style=filled label="MULTIPLIER"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_4_3 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_4_3_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_4 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_4_3
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0_4
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_2
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_3 [label="1" style=filled fillcolor="lightblue"]
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0_3
+NODE0_5_6_4_3_0_0_4_2_1_2_0_3 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3_0
+NODE0_5_6_4_3_0_0_4_2_1_2_0 -- NODE0_5_6_4_3_0_0_4_2_1_2_0_3
+NODE0_5_6_4_3_0_0_4_2_1_2 -- NODE0_5_6_4_3_0_0_4_2_1_2_0
+NODE0_5_6_4_3_0_0_4_2_1 -- NODE0_5_6_4_3_0_0_4_2_1_2
+NODE0_5_6_4_3_0_0_4_2 -- NODE0_5_6_4_3_0_0_4_2_1
+NODE0_5_6_4_3_0_0_4 -- NODE0_5_6_4_3_0_0_4_2
+NODE0_5_6_4_3_0_0 -- NODE0_5_6_4_3_0_0_4
+NODE0_5_6_4_3_0 -- NODE0_5_6_4_3_0_0
+NODE0_5_6_4_3 -- NODE0_5_6_4_3_0
+NODE0_5_6_4 -- NODE0_5_6_4_3
+NODE0_5_6_4_4 [label="Condact" ]
+NODE0_5_6_4_4_0 [label="Action" ]
+NODE0_5_6_4_4_0_1 [label="Setaction" ]
+NODE0_5_6_4_4_0_1_0 [label="set"]
+NODE0_5_6_4_4_0_1 -- NODE0_5_6_4_4_0_1_0
+NODE0_5_6_4_4_0_1_1 [label="Rawstorage" ]
+NODE0_5_6_4_4_0_1_1_1 [label="Who" ]
+NODE0_5_6_4_4_0_1_1_1_0 [label="Whop" ]
+NODE0_5_6_4_4_0_1_1_1_0_1 [label="Whodesc" ]
+NODE0_5_6_4_4_0_1_1_1_0_1_0 [label="current"]
+NODE0_5_6_4_4_0_1_1_1_0_1 -- NODE0_5_6_4_4_0_1_1_1_0_1_0
+NODE0_5_6_4_4_0_1_1_1_0 -- NODE0_5_6_4_4_0_1_1_1_0_1
+NODE0_5_6_4_4_0_1_1_1_0_2 [label="player"]
+NODE0_5_6_4_4_0_1_1_1_0 -- NODE0_5_6_4_4_0_1_1_1_0_2
+NODE0_5_6_4_4_0_1_1_1 -- NODE0_5_6_4_4_0_1_1_1_0
+NODE0_5_6_4_4_0_1_1 -- NODE0_5_6_4_4_0_1_1_1
+NODE0_5_6_4_4_0_1_1_3 [label="Str" ]
+NODE0_5_6_4_4_0_1_1_3_0 [fillcolor="green" style=filled label="PROC"]
+NODE0_5_6_4_4_0_1_1_3 -- NODE0_5_6_4_4_0_1_1_3_0
+NODE0_5_6_4_4_0_1_1 -- NODE0_5_6_4_4_0_1_1_3
+NODE0_5_6_4_4_0_1 -- NODE0_5_6_4_4_0_1_1
+NODE0_5_6_4_4_0_1_2 [label="1" style=filled fillcolor="lightblue"]
+NODE0_5_6_4_4_0_1 -- NODE0_5_6_4_4_0_1_2
+NODE0_5_6_4_4_0 -- NODE0_5_6_4_4_0_1
+NODE0_5_6_4_4 -- NODE0_5_6_4_4_0
+NODE0_5_6_4 -- NODE0_5_6_4_4
+NODE0_5_6_4_5 [label="Condact" ]
+NODE0_5_6_4_5_0 [label="Action" ]
+NODE0_5_6_4_5_0_1 [label="Repeat" ]
+NODE0_5_6_4_5_0_1_0 [label="repeat"]
+NODE0_5_6_4_5_0_1 -- NODE0_5_6_4_5_0_1_0
+NODE0_5_6_4_5_0_1_1 [label="all"]
+NODE0_5_6_4_5_0_1 -- NODE0_5_6_4_5_0_1_1
+NODE0_5_6_4_5_0_1_3 [label="Moveaction" ]
+NODE0_5_6_4_5_0_1_3_1 [label="Card" ]
+NODE0_5_6_4_5_0_1_3_1_1 [label="top"]
+NODE0_5_6_4_5_0_1_3_1 -- NODE0_5_6_4_5_0_1_3_1_1
+NODE0_5_6_4_5_0_1_3_1_2 [label="Cstorage" ]
+NODE0_5_6_4_5_0_1_3_1_2_1 [label="Locpre" ]
+NODE0_5_6_4_5_0_1_3_1_2_1_0 [label="Whop" ]
+NODE0_5_6_4_5_0_1_3_1_2_1_0_1 [label="Whodesc" ]
+NODE0_5_6_4_5_0_1_3_1_2_1_0_1_0 [label="current"]
+NODE0_5_6_4_5_0_1_3_1_2_1_0_1 -- NODE0_5_6_4_5_0_1_3_1_2_1_0_1_0
+NODE0_5_6_4_5_0_1_3_1_2_1_0 -- NODE0_5_6_4_5_0_1_3_1_2_1_0_1
+NODE0_5_6_4_5_0_1_3_1_2_1_0_2 [label="player"]
+NODE0_5_6_4_5_0_1_3_1_2_1_0 -- NODE0_5_6_4_5_0_1_3_1_2_1_0_2
+NODE0_5_6_4_5_0_1_3_1_2_1 -- NODE0_5_6_4_5_0_1_3_1_2_1_0
+NODE0_5_6_4_5_0_1_3_1_2 -- NODE0_5_6_4_5_0_1_3_1_2_1
+NODE0_5_6_4_5_0_1_3_1_2_2 [label="Locdesc" ]
+NODE0_5_6_4_5_0_1_3_1_2_2_0 [label="iloc"]
+NODE0_5_6_4_5_0_1_3_1_2_2 -- NODE0_5_6_4_5_0_1_3_1_2_2_0
+NODE0_5_6_4_5_0_1_3_1_2 -- NODE0_5_6_4_5_0_1_3_1_2_2
+NODE0_5_6_4_5_0_1_3_1_2_3 [label="Str" ]
+NODE0_5_6_4_5_0_1_3_1_2_3_0 [fillcolor="green" style=filled label="HAND"]
+NODE0_5_6_4_5_0_1_3_1_2_3 -- NODE0_5_6_4_5_0_1_3_1_2_3_0
+NODE0_5_6_4_5_0_1_3_1_2 -- NODE0_5_6_4_5_0_1_3_1_2_3
+NODE0_5_6_4_5_0_1_3_1 -- NODE0_5_6_4_5_0_1_3_1_2
+NODE0_5_6_4_5_0_1_3 -- NODE0_5_6_4_5_0_1_3_1
+NODE0_5_6_4_5_0_1_3_2 [label="Card" ]
+NODE0_5_6_4_5_0_1_3_2_1 [label="top"]
+NODE0_5_6_4_5_0_1_3_2 -- NODE0_5_6_4_5_0_1_3_2_1
+NODE0_5_6_4_5_0_1_3_2_2 [label="Cstorage" ]
+NODE0_5_6_4_5_0_1_3_2_2_1 [label="Locpre" ]
+NODE0_5_6_4_5_0_1_3_2_2_1_0 [label="game"]
+NODE0_5_6_4_5_0_1_3_2_2_1 -- NODE0_5_6_4_5_0_1_3_2_2_1_0
+NODE0_5_6_4_5_0_1_3_2_2 -- NODE0_5_6_4_5_0_1_3_2_2_1
+NODE0_5_6_4_5_0_1_3_2_2_2 [label="Locdesc" ]
+NODE0_5_6_4_5_0_1_3_2_2_2_0 [label="iloc"]
+NODE0_5_6_4_5_0_1_3_2_2_2 -- NODE0_5_6_4_5_0_1_3_2_2_2_0
+NODE0_5_6_4_5_0_1_3_2_2 -- NODE0_5_6_4_5_0_1_3_2_2_2
+NODE0_5_6_4_5_0_1_3_2_2_3 [label="Str" ]
+NODE0_5_6_4_5_0_1_3_2_2_3_0 [fillcolor="green" style=filled label="STOCK"]
+NODE0_5_6_4_5_0_1_3_2_2_3 -- NODE0_5_6_4_5_0_1_3_2_2_3_0
+NODE0_5_6_4_5_0_1_3_2_2 -- NODE0_5_6_4_5_0_1_3_2_2_3
+NODE0_5_6_4_5_0_1_3_2 -- NODE0_5_6_4_5_0_1_3_2_2
+NODE0_5_6_4_5_0_1_3 -- NODE0_5_6_4_5_0_1_3_2
+NODE0_5_6_4_5_0_1 -- NODE0_5_6_4_5_0_1_3
+NODE0_5_6_4_5_0 -- NODE0_5_6_4_5_0_1
+NODE0_5_6_4_5 -- NODE0_5_6_4_5_0
+NODE0_5_6_4 -- NODE0_5_6_4_5
+NODE0_5_6_4_6 [label="Condact" ]
+NODE0_5_6_4_6_0 [label="Multiaction2" ]
+NODE0_5_6_4_6_0_0 [label="Agg" ]
+NODE0_5_6_4_6_0_0_1 [label="all"]
+NODE0_5_6_4_6_0_0 -- NODE0_5_6_4_6_0_0_1
+NODE0_5_6_4_6_0_0_2 [label="Collection" ]
+NODE0_5_6_4_6_0_0_2_0 [label="Varc" ]
+NODE0_5_6_4_6_0_0_2_0_0 [label="'"]
+NODE0_5_6_4_6_0_0_2_0 -- NODE0_5_6_4_6_0_0_2_0_0
+NODE0_5_6_4_6_0_0_2_0_1 [fillcolor="green" style=filled label="COLORS"]
+NODE0_5_6_4_6_0_0_2_0 -- NODE0_5_6_4_6_0_0_2_0_1
+NODE0_5_6_4_6_0_0_2 -- NODE0_5_6_4_6_0_0_2_0
+NODE0_5_6_4_6_0_0 -- NODE0_5_6_4_6_0_0_2
+NODE0_5_6_4_6_0_0_3 [label="Var" ]
+NODE0_5_6_4_6_0_0_3_0 [label="'"]
+NODE0_5_6_4_6_0_0_3 -- NODE0_5_6_4_6_0_0_3_0
+NODE0_5_6_4_6_0_0_3_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_6_4_6_0_0_3 -- NODE0_5_6_4_6_0_0_3_1
+NODE0_5_6_4_6_0_0 -- NODE0_5_6_4_6_0_0_3
+NODE0_5_6_4_6_0_0_4 [label="Condact" ]
+NODE0_5_6_4_6_0_0_4_0 [label="Action" ]
+NODE0_5_6_4_6_0_0_4_0_1 [label="Repeat" ]
+NODE0_5_6_4_6_0_0_4_0_1_0 [label="repeat"]
+NODE0_5_6_4_6_0_0_4_0_1 -- NODE0_5_6_4_6_0_0_4_0_1_0
+NODE0_5_6_4_6_0_0_4_0_1_1 [label="all"]
+NODE0_5_6_4_6_0_0_4_0_1 -- NODE0_5_6_4_6_0_0_4_0_1_1
+NODE0_5_6_4_6_0_0_4_0_1_3 [label="Moveaction" ]
+NODE0_5_6_4_6_0_0_4_0_1_3_1 [label="Card" ]
+NODE0_5_6_4_6_0_0_4_0_1_3_1_1 [label="top"]
+NODE0_5_6_4_6_0_0_4_0_1_3_1 -- NODE0_5_6_4_6_0_0_4_0_1_3_1_1
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2 [label="Cstorage" ]
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_1 [label="Locpre" ]
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_1_0 [label="Whop" ]
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_1_0_1 [label="Whodesc" ]
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_1_0_1_0 [label="current"]
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_1_0_1 -- NODE0_5_6_4_6_0_0_4_0_1_3_1_2_1_0_1_0
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_1_0 -- NODE0_5_6_4_6_0_0_4_0_1_3_1_2_1_0_1
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_1_0_2 [label="player"]
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_1_0 -- NODE0_5_6_4_6_0_0_4_0_1_3_1_2_1_0_2
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_1 -- NODE0_5_6_4_6_0_0_4_0_1_3_1_2_1_0
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2 -- NODE0_5_6_4_6_0_0_4_0_1_3_1_2_1
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_2 [label="Locdesc" ]
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_2_0 [label="vloc"]
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_2 -- NODE0_5_6_4_6_0_0_4_0_1_3_1_2_2_0
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2 -- NODE0_5_6_4_6_0_0_4_0_1_3_1_2_2
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_3 [label="Str" ]
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_3_0 [label="Vars" ]
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_3_0_0 [label="'"]
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_3_0 -- NODE0_5_6_4_6_0_0_4_0_1_3_1_2_3_0_0
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_3_0 -- NODE0_5_6_4_6_0_0_4_0_1_3_1_2_3_0_1
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2_3 -- NODE0_5_6_4_6_0_0_4_0_1_3_1_2_3_0
+NODE0_5_6_4_6_0_0_4_0_1_3_1_2 -- NODE0_5_6_4_6_0_0_4_0_1_3_1_2_3
+NODE0_5_6_4_6_0_0_4_0_1_3_1 -- NODE0_5_6_4_6_0_0_4_0_1_3_1_2
+NODE0_5_6_4_6_0_0_4_0_1_3 -- NODE0_5_6_4_6_0_0_4_0_1_3_1
+NODE0_5_6_4_6_0_0_4_0_1_3_2 [label="Card" ]
+NODE0_5_6_4_6_0_0_4_0_1_3_2_1 [label="top"]
+NODE0_5_6_4_6_0_0_4_0_1_3_2 -- NODE0_5_6_4_6_0_0_4_0_1_3_2_1
+NODE0_5_6_4_6_0_0_4_0_1_3_2_2 [label="Cstorage" ]
+NODE0_5_6_4_6_0_0_4_0_1_3_2_2_1 [label="Locpre" ]
+NODE0_5_6_4_6_0_0_4_0_1_3_2_2_1_0 [label="game"]
+NODE0_5_6_4_6_0_0_4_0_1_3_2_2_1 -- NODE0_5_6_4_6_0_0_4_0_1_3_2_2_1_0
+NODE0_5_6_4_6_0_0_4_0_1_3_2_2 -- NODE0_5_6_4_6_0_0_4_0_1_3_2_2_1
+NODE0_5_6_4_6_0_0_4_0_1_3_2_2_2 [label="Locdesc" ]
+NODE0_5_6_4_6_0_0_4_0_1_3_2_2_2_0 [label="iloc"]
+NODE0_5_6_4_6_0_0_4_0_1_3_2_2_2 -- NODE0_5_6_4_6_0_0_4_0_1_3_2_2_2_0
+NODE0_5_6_4_6_0_0_4_0_1_3_2_2 -- NODE0_5_6_4_6_0_0_4_0_1_3_2_2_2
+NODE0_5_6_4_6_0_0_4_0_1_3_2_2_3 [label="Str" ]
+NODE0_5_6_4_6_0_0_4_0_1_3_2_2_3_0 [fillcolor="green" style=filled label="STOCK"]
+NODE0_5_6_4_6_0_0_4_0_1_3_2_2_3 -- NODE0_5_6_4_6_0_0_4_0_1_3_2_2_3_0
+NODE0_5_6_4_6_0_0_4_0_1_3_2_2 -- NODE0_5_6_4_6_0_0_4_0_1_3_2_2_3
+NODE0_5_6_4_6_0_0_4_0_1_3_2 -- NODE0_5_6_4_6_0_0_4_0_1_3_2_2
+NODE0_5_6_4_6_0_0_4_0_1_3 -- NODE0_5_6_4_6_0_0_4_0_1_3_2
+NODE0_5_6_4_6_0_0_4_0_1 -- NODE0_5_6_4_6_0_0_4_0_1_3
+NODE0_5_6_4_6_0_0_4_0 -- NODE0_5_6_4_6_0_0_4_0_1
+NODE0_5_6_4_6_0_0_4 -- NODE0_5_6_4_6_0_0_4_0
+NODE0_5_6_4_6_0_0 -- NODE0_5_6_4_6_0_0_4
+NODE0_5_6_4_6_0 -- NODE0_5_6_4_6_0_0
+NODE0_5_6_4_6 -- NODE0_5_6_4_6_0
+NODE0_5_6_4 -- NODE0_5_6_4_6
+NODE0_5_6 -- NODE0_5_6_4
+NODE0_5 -- NODE0_5_6
+NODE0_5_7 [label="Multiaction" ]
+NODE0_5_7_1 [label="do"]
+NODE0_5_7 -- NODE0_5_7_1
+NODE0_5_7_3 [label="Condact" ]
+NODE0_5_7_3_0 [label="Multiaction2" ]
+NODE0_5_7_3_0_0 [label="Agg" ]
+NODE0_5_7_3_0_0_1 [label="all"]
+NODE0_5_7_3_0_0 -- NODE0_5_7_3_0_0_1
+NODE0_5_7_3_0_0_2 [label="Collection" ]
+NODE0_5_7_3_0_0_2_0 [label="Varc" ]
+NODE0_5_7_3_0_0_2_0_0 [label="'"]
+NODE0_5_7_3_0_0_2_0 -- NODE0_5_7_3_0_0_2_0_0
+NODE0_5_7_3_0_0_2_0_1 [fillcolor="green" style=filled label="COLORS"]
+NODE0_5_7_3_0_0_2_0 -- NODE0_5_7_3_0_0_2_0_1
+NODE0_5_7_3_0_0_2 -- NODE0_5_7_3_0_0_2_0
+NODE0_5_7_3_0_0 -- NODE0_5_7_3_0_0_2
+NODE0_5_7_3_0_0_3 [label="Var" ]
+NODE0_5_7_3_0_0_3_0 [label="'"]
+NODE0_5_7_3_0_0_3 -- NODE0_5_7_3_0_0_3_0
+NODE0_5_7_3_0_0_3_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_7_3_0_0_3 -- NODE0_5_7_3_0_0_3_1
+NODE0_5_7_3_0_0 -- NODE0_5_7_3_0_0_3
+NODE0_5_7_3_0_0_4 [label="Condact" ]
+NODE0_5_7_3_0_0_4_0 [label="Action" ]
+NODE0_5_7_3_0_0_4_0_1 [label="Repeat" ]
+NODE0_5_7_3_0_0_4_0_1_0 [label="repeat"]
+NODE0_5_7_3_0_0_4_0_1 -- NODE0_5_7_3_0_0_4_0_1_0
+NODE0_5_7_3_0_0_4_0_1_1 [label="all"]
+NODE0_5_7_3_0_0_4_0_1 -- NODE0_5_7_3_0_0_4_0_1_1
+NODE0_5_7_3_0_0_4_0_1_3 [label="Moveaction" ]
+NODE0_5_7_3_0_0_4_0_1_3_1 [label="Card" ]
+NODE0_5_7_3_0_0_4_0_1_3_1_1 [label="top"]
+NODE0_5_7_3_0_0_4_0_1_3_1 -- NODE0_5_7_3_0_0_4_0_1_3_1_1
+NODE0_5_7_3_0_0_4_0_1_3_1_2 [label="Cstorage" ]
+NODE0_5_7_3_0_0_4_0_1_3_1_2_1 [label="Locpre" ]
+NODE0_5_7_3_0_0_4_0_1_3_1_2_1_0 [label="game"]
+NODE0_5_7_3_0_0_4_0_1_3_1_2_1 -- NODE0_5_7_3_0_0_4_0_1_3_1_2_1_0
+NODE0_5_7_3_0_0_4_0_1_3_1_2 -- NODE0_5_7_3_0_0_4_0_1_3_1_2_1
+NODE0_5_7_3_0_0_4_0_1_3_1_2_2 [label="Locdesc" ]
+NODE0_5_7_3_0_0_4_0_1_3_1_2_2_0 [label="vloc"]
+NODE0_5_7_3_0_0_4_0_1_3_1_2_2 -- NODE0_5_7_3_0_0_4_0_1_3_1_2_2_0
+NODE0_5_7_3_0_0_4_0_1_3_1_2 -- NODE0_5_7_3_0_0_4_0_1_3_1_2_2
+NODE0_5_7_3_0_0_4_0_1_3_1_2_3 [label="Str" ]
+NODE0_5_7_3_0_0_4_0_1_3_1_2_3_0 [label="Vars" ]
+NODE0_5_7_3_0_0_4_0_1_3_1_2_3_0_0 [label="'"]
+NODE0_5_7_3_0_0_4_0_1_3_1_2_3_0 -- NODE0_5_7_3_0_0_4_0_1_3_1_2_3_0_0
+NODE0_5_7_3_0_0_4_0_1_3_1_2_3_0_1 [fillcolor="green" style=filled label="C"]
+NODE0_5_7_3_0_0_4_0_1_3_1_2_3_0 -- NODE0_5_7_3_0_0_4_0_1_3_1_2_3_0_1
+NODE0_5_7_3_0_0_4_0_1_3_1_2_3 -- NODE0_5_7_3_0_0_4_0_1_3_1_2_3_0
+NODE0_5_7_3_0_0_4_0_1_3_1_2 -- NODE0_5_7_3_0_0_4_0_1_3_1_2_3
+NODE0_5_7_3_0_0_4_0_1_3_1 -- NODE0_5_7_3_0_0_4_0_1_3_1_2
+NODE0_5_7_3_0_0_4_0_1_3 -- NODE0_5_7_3_0_0_4_0_1_3_1
+NODE0_5_7_3_0_0_4_0_1_3_2 [label="Card" ]
+NODE0_5_7_3_0_0_4_0_1_3_2_1 [label="top"]
+NODE0_5_7_3_0_0_4_0_1_3_2 -- NODE0_5_7_3_0_0_4_0_1_3_2_1
+NODE0_5_7_3_0_0_4_0_1_3_2_2 [label="Cstorage" ]
+NODE0_5_7_3_0_0_4_0_1_3_2_2_1 [label="Locpre" ]
+NODE0_5_7_3_0_0_4_0_1_3_2_2_1_0 [label="game"]
+NODE0_5_7_3_0_0_4_0_1_3_2_2_1 -- NODE0_5_7_3_0_0_4_0_1_3_2_2_1_0
+NODE0_5_7_3_0_0_4_0_1_3_2_2 -- NODE0_5_7_3_0_0_4_0_1_3_2_2_1
+NODE0_5_7_3_0_0_4_0_1_3_2_2_2 [label="Locdesc" ]
+NODE0_5_7_3_0_0_4_0_1_3_2_2_2_0 [label="iloc"]
+NODE0_5_7_3_0_0_4_0_1_3_2_2_2 -- NODE0_5_7_3_0_0_4_0_1_3_2_2_2_0
+NODE0_5_7_3_0_0_4_0_1_3_2_2 -- NODE0_5_7_3_0_0_4_0_1_3_2_2_2
+NODE0_5_7_3_0_0_4_0_1_3_2_2_3 [label="Str" ]
+NODE0_5_7_3_0_0_4_0_1_3_2_2_3_0 [fillcolor="green" style=filled label="STOCK"]
+NODE0_5_7_3_0_0_4_0_1_3_2_2_3 -- NODE0_5_7_3_0_0_4_0_1_3_2_2_3_0
+NODE0_5_7_3_0_0_4_0_1_3_2_2 -- NODE0_5_7_3_0_0_4_0_1_3_2_2_3
+NODE0_5_7_3_0_0_4_0_1_3_2 -- NODE0_5_7_3_0_0_4_0_1_3_2_2
+NODE0_5_7_3_0_0_4_0_1_3 -- NODE0_5_7_3_0_0_4_0_1_3_2
+NODE0_5_7_3_0_0_4_0_1 -- NODE0_5_7_3_0_0_4_0_1_3
+NODE0_5_7_3_0_0_4_0 -- NODE0_5_7_3_0_0_4_0_1
+NODE0_5_7_3_0_0_4 -- NODE0_5_7_3_0_0_4_0
+NODE0_5_7_3_0_0 -- NODE0_5_7_3_0_0_4
+NODE0_5_7_3_0 -- NODE0_5_7_3_0_0
+NODE0_5_7_3 -- NODE0_5_7_3_0
+NODE0_5_7 -- NODE0_5_7_3
+NODE0_5_7_4 [label="Condact" ]
+NODE0_5_7_4_0 [label="Action" ]
+NODE0_5_7_4_0_1 [label="Incaction" ]
+NODE0_5_7_4_0_1_1 [label="Rawstorage" ]
+NODE0_5_7_4_0_1_1_1 [label="game"]
+NODE0_5_7_4_0_1_1 -- NODE0_5_7_4_0_1_1_1
+NODE0_5_7_4_0_1_1_3 [label="Str" ]
+NODE0_5_7_4_0_1_1_3_0 [fillcolor="green" style=filled label="ROUNDS"]
+NODE0_5_7_4_0_1_1_3 -- NODE0_5_7_4_0_1_1_3_0
+NODE0_5_7_4_0_1_1 -- NODE0_5_7_4_0_1_1_3
+NODE0_5_7_4_0_1 -- NODE0_5_7_4_0_1_1
+NODE0_5_7_4_0_1_2 [label="1" style=filled fillcolor="lightblue"]
+NODE0_5_7_4_0_1 -- NODE0_5_7_4_0_1_2
+NODE0_5_7_4_0 -- NODE0_5_7_4_0_1
+NODE0_5_7_4 -- NODE0_5_7_4_0
+NODE0_5_7 -- NODE0_5_7_4
+NODE0_5_7_5 [label="Condact" ]
+NODE0_5_7_5_0 [label="Multiaction2" ]
+NODE0_5_7_5_0_0 [label="Agg" ]
+NODE0_5_7_5_0_0_1 [label="all"]
+NODE0_5_7_5_0_0 -- NODE0_5_7_5_0_0_1
+NODE0_5_7_5_0_0_2 [label="Collection" ]
+NODE0_5_7_5_0_0_2_0 [label="player"]
+NODE0_5_7_5_0_0_2 -- NODE0_5_7_5_0_0_2_0
+NODE0_5_7_5_0_0 -- NODE0_5_7_5_0_0_2
+NODE0_5_7_5_0_0_3 [label="Var" ]
+NODE0_5_7_5_0_0_3_0 [label="'"]
+NODE0_5_7_5_0_0_3 -- NODE0_5_7_5_0_0_3_0
+NODE0_5_7_5_0_0_3_1 [fillcolor="green" style=filled label="P"]
+NODE0_5_7_5_0_0_3 -- NODE0_5_7_5_0_0_3_1
+NODE0_5_7_5_0_0 -- NODE0_5_7_5_0_0_3
+NODE0_5_7_5_0_0_4 [label="Condact" ]
+NODE0_5_7_5_0_0_4_0 [label="Action" ]
+NODE0_5_7_5_0_0_4_0_1 [label="Setaction" ]
+NODE0_5_7_5_0_0_4_0_1_0 [label="set"]
+NODE0_5_7_5_0_0_4_0_1 -- NODE0_5_7_5_0_0_4_0_1_0
+NODE0_5_7_5_0_0_4_0_1_1 [label="Rawstorage" ]
+NODE0_5_7_5_0_0_4_0_1_1_1 [label="Varo" ]
+NODE0_5_7_5_0_0_4_0_1_1_1_0 [label="'"]
+NODE0_5_7_5_0_0_4_0_1_1_1 -- NODE0_5_7_5_0_0_4_0_1_1_1_0
+NODE0_5_7_5_0_0_4_0_1_1_1_1 [fillcolor="green" style=filled label="P"]
+NODE0_5_7_5_0_0_4_0_1_1_1 -- NODE0_5_7_5_0_0_4_0_1_1_1_1
+NODE0_5_7_5_0_0_4_0_1_1 -- NODE0_5_7_5_0_0_4_0_1_1_1
+NODE0_5_7_5_0_0_4_0_1_1_3 [label="Str" ]
+NODE0_5_7_5_0_0_4_0_1_1_3_0 [fillcolor="green" style=filled label="PROC"]
+NODE0_5_7_5_0_0_4_0_1_1_3 -- NODE0_5_7_5_0_0_4_0_1_1_3_0
+NODE0_5_7_5_0_0_4_0_1_1 -- NODE0_5_7_5_0_0_4_0_1_1_3
+NODE0_5_7_5_0_0_4_0_1 -- NODE0_5_7_5_0_0_4_0_1_1
+NODE0_5_7_5_0_0_4_0_1_2 [label="0" style=filled fillcolor="lightblue"]
+NODE0_5_7_5_0_0_4_0_1 -- NODE0_5_7_5_0_0_4_0_1_2
+NODE0_5_7_5_0_0_4_0 -- NODE0_5_7_5_0_0_4_0_1
+NODE0_5_7_5_0_0_4 -- NODE0_5_7_5_0_0_4_0
+NODE0_5_7_5_0_0 -- NODE0_5_7_5_0_0_4
+NODE0_5_7_5_0 -- NODE0_5_7_5_0_0
+NODE0_5_7_5 -- NODE0_5_7_5_0
+NODE0_5_7 -- NODE0_5_7_5
+NODE0_5 -- NODE0_5_7
+NODE0 -- NODE0_5
+NODE0_6 [label="Scoring" ]
+NODE0_6_1 [label="scoring"]
+NODE0_6 -- NODE0_6_1
+NODE0_6_2 [label="max"]
+NODE0_6 -- NODE0_6_2
+NODE0_6_3 [label="Int" ]
+NODE0_6_3_0 [label="Rawstorage" ]
+NODE0_6_3_0_1 [label="Who" ]
+NODE0_6_3_0_1_0 [label="Whop" ]
+NODE0_6_3_0_1_0_1 [label="Whodesc" ]
+NODE0_6_3_0_1_0_1_0 [label="current"]
+NODE0_6_3_0_1_0_1 -- NODE0_6_3_0_1_0_1_0
+NODE0_6_3_0_1_0 -- NODE0_6_3_0_1_0_1
+NODE0_6_3_0_1_0_2 [label="player"]
+NODE0_6_3_0_1_0 -- NODE0_6_3_0_1_0_2
+NODE0_6_3_0_1 -- NODE0_6_3_0_1_0
+NODE0_6_3_0 -- NODE0_6_3_0_1
+NODE0_6_3_0_3 [label="Str" ]
+NODE0_6_3_0_3_0 [fillcolor="green" style=filled label="SCORE"]
+NODE0_6_3_0_3 -- NODE0_6_3_0_3_0
+NODE0_6_3_0 -- NODE0_6_3_0_3
+NODE0_6_3 -- NODE0_6_3_0
+NODE0_6 -- NODE0_6_3
+NODE0 -- NODE0_6
+}

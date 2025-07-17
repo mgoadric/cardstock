@@ -305,7 +305,7 @@ namespace CardStock.CardEngine
 
         public void SetDeck(Tree cardAttributes, CardCollection loc, String name, Transcript script)
         {
-            var combos = cardAttributes.combinations();
+            var combos = cardAttributes.Combinations();
             foreach (var combo in combos)
             {
                 if (!sourceDeck.ContainsKey(name))

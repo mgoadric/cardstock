@@ -52,8 +52,10 @@ namespace CardStock.FreezeFrame
 
         public GameIterator Clone(CardGame newgame) {
 
-            var ret = new GameIterator(rules, newgame, gameWorld, "clone", false);
-            ret.script = new Transcript(false, null);
+            var ret = new GameIterator(rules, newgame, gameWorld, "clone", false)
+            {
+                script = new Transcript(false, null)
+            };
 
             foreach (var queue in iterStack.Reverse()) {
                 var newQueue = new Queue<IParseTree>();
@@ -161,23 +163,26 @@ namespace CardStock.FreezeFrame
             Debug.WriteLine("Player turn: " + game.CurrentPlayer().idx);
             Debug.WriteLine("Processing choice.");
             var sub = CurrentNode();
-            var choice = sub as RecycleParser.MultiactionContext;
-            var choices = choice.condact();
-            var allOptions = new List<GameActionCollection>();
-            for (int i = 0; i < choices.Length; ++i)
+            if (sub is RecycleParser.MultiactionContext choice)
             {
-                Debug.WriteLine("choice info: " + choices[i].GetType() + choices[i].GetText());
-                // PROBLEM! TODO when gets through for loop here without pushing any actions (specifically actions)
-                //  then throws off number of choices, indexing choices[1] becomes impossible. 
-                Debug.WriteLine("in for loop");
-                var gacs = RecurseDo(choices[i]);
-                if (gacs.Count > 0)
+                var choices = choice.condact();
+                var allOptions = new List<GameActionCollection>();
+                for (int i = 0; i < choices.Length; ++i)
                 {
-                    Debug.WriteLine("gacs.count > 0");
-                    allOptions.AddRange(gacs);
+                    Debug.WriteLine("choice info: " + choices[i].GetType() + choices[i].GetText());
+                    // PROBLEM! TODO when gets through for loop here without pushing any actions (specifically actions)
+                    //  then throws off number of choices, indexing choices[1] becomes impossible. 
+                    Debug.WriteLine("in for loop");
+                    var gacs = RecurseDo(choices[i]);
+                    if (gacs.Count > 0)
+                    {
+                        Debug.WriteLine("gacs.count > 0");
+                        allOptions.AddRange(gacs);
+                    }
                 }
+                return allOptions;
             }
-            return allOptions;
+            throw new Exception();
         }
 
         public Tuple<List<Tuple<int, int>>, int> ProcessScore()
@@ -230,7 +235,8 @@ namespace CardStock.FreezeFrame
                 }
                 else
                 {
-                    numPlayers = ProcessIntVar(playerCreate.var());
+                    // Where is the int?
+                    throw new Exception();
                 }
                 script.WriteToFile("nump:" + numPlayers);
                 game.AddPlayers(numPlayers, this);
@@ -303,7 +309,7 @@ namespace CardStock.FreezeFrame
             return ret;
         }
 
-        private bool CheckDeckRepeat(RecycleParser.RepeatContext reps)
+        private static bool CheckDeckRepeat(RecycleParser.RepeatContext reps)
         {
             if (reps.action().deckcreate() != null)
             {
@@ -316,7 +322,7 @@ namespace CardStock.FreezeFrame
             return false;
         }
 
-        private GameAction ProcessDeckCreate(RecycleParser.DeckcreateContext deckinit) 
+        private InitializeAction ProcessDeckCreate(RecycleParser.DeckcreateContext deckinit) 
         {
             var locstorage = ProcessLocation(deckinit.cstorage()); 
             var deckTree = ProcessDeck(deckinit.deck());
@@ -340,27 +346,27 @@ namespace CardStock.FreezeFrame
             if (sub.ChildCount > 1 && sub.GetChild(1).GetText() == "choice") { return true; }
 
             // Time to parse it
-            else if (sub is RecycleParser.StageContext)
+            else if (sub is RecycleParser.StageContext sc)
             {
                 //EvalGameLead(); TODO
-                var allowedToRun = ProcessStage(sub as RecycleParser.StageContext);
+                var allowedToRun = ProcessStage(sc);
                 if (allowedToRun)
                 {
                     Debug.WriteLine("Is a stage.");
                     iteratingSet.Add(sub);
                 }
             }
-            else if (sub is RecycleParser.MultiactionContext)
+            else if (sub is RecycleParser.MultiactionContext mac)
             {
                 PopCurrentNode();
                 Debug.WriteLine("Is a multiaction.");
-                ProcessMultiaction(sub as RecycleParser.MultiactionContext);
+                ProcessMultiaction(mac);
             }
-            else if (sub is RecycleParser.Multiaction2Context)
+            else if (sub is RecycleParser.Multiaction2Context ma2c)
             {
                 PopCurrentNode();
                 Debug.WriteLine("Is a multiaction2.");
-                ProcessMultiaction(sub as RecycleParser.Multiaction2Context);
+                ProcessMultiaction(ma2c);
             }
             //setup and declare already handled
             else if (sub is RecycleParser.SetupContext)
@@ -384,9 +390,8 @@ namespace CardStock.FreezeFrame
         {
             var lst = new List<GameActionCollection>();
 
-            if (sub is RecycleParser.MultiactionContext)
+            if (sub is RecycleParser.MultiactionContext multiaction)
             {
-                var multiaction = sub as RecycleParser.MultiactionContext;
                 Debug.WriteLine(multiaction.GetType());
                 if (multiaction.agg() != null)
                 {
@@ -420,10 +425,9 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Processing stage.");
                 //ProcessStage(sub as RecycleParser.StageContext);
             }
-            else if (sub is RecycleParser.Multiaction2Context)
+            else if (sub is RecycleParser.Multiaction2Context multi)
             {
                 Debug.WriteLine("ur in processing multiaction2");
-                var multi = sub as RecycleParser.Multiaction2Context;
                 if (multi.agg() != null)
                 {
                     Debug.WriteLine("Processing multiaction2 aggregation.");
@@ -914,15 +918,16 @@ namespace CardStock.FreezeFrame
                     var idx = ProcessOwner(cycle.owner());
                     return new NextAction(game.CurrentPlayer(), idx);
                 }
-                else if (cycle.var() != null)
+                else if (cycle.varo() != null)
                 {
-                    var p = variables.Get(cycle.var());
+                    var p = ProcessOwnerVar(cycle.varo());
                     if (p is Player p2)
                     {
                         return new NextAction(game.CurrentPlayer(), p2.id);
                     }
                     else
                     {
+                        // THIS IS A TEAM??
                         // TODO better exeption type mismatch
                         throw new NotImplementedException();
                     }
@@ -948,15 +953,16 @@ namespace CardStock.FreezeFrame
                     var idx = ProcessOwner(cycle.owner());
                     return new SetPlayerAction(idx, game, script);
                 }
-                else if (cycle.var() != null)
+                else if (cycle.varo() != null)
                 {
-                    var p = variables.Get(cycle.var());
+                    var p = ProcessOwnerVar(cycle.varo());
                     if (p is Player p2)
                     {
                         return new SetPlayerAction(p2.id, game, script);
                     }
                     else
                     {
+                        // THIS IS A TEAM??
                         // TODO better exeption type mismatch
                         throw new NotImplementedException();
                     }                    
@@ -1001,11 +1007,8 @@ namespace CardStock.FreezeFrame
                 //Console.WriteLine(actions.Count);
                 foreach (var act in actions)
                 {
-                    if (act != null)
-                    {
-                        //Console.WriteLine(act);
-                        act.ExecuteAll();
-                    }
+                    //Console.WriteLine(act);
+                    act?.ExecuteAll();
                 }
             }
             else
@@ -1057,40 +1060,24 @@ namespace CardStock.FreezeFrame
             {
 
                 var intop = boolNode.intop();
-                var intOne = boolNode.@int(0);
-                var intTwo = boolNode.@int(1);
-                int trueOne = ProcessInt(intOne);
-                int trueTwo = ProcessInt(intTwo);
+                int trueOne = ProcessInt(boolNode.@int(0));
+                int trueTwo = ProcessInt(boolNode.@int(1));
                 if (intop.EQOP() != null)
                 {
-                    string text = intop.EQOP().GetText();
-                    if (text == "==")
+                    switch (intop.EQOP().GetText())
                     {
-                        return trueOne == trueTwo;
-                    }
-                    else if (text == "!=")
-                    {
-                        return trueOne != trueTwo;
+                        case "==": return trueOne == trueTwo;
+                        case "!=": return trueOne != trueTwo;
                     }
                 }
                 else if (intop.COMPOP() != null)
                 {
-                    string text = intop.COMPOP().GetText();
-                    if (text == ">")
+                    switch (intop.COMPOP().GetText())
                     {
-                        return trueOne > trueTwo;
-                    }
-                    else if (text == ">=")
-                    {
-                        return trueOne >= trueTwo;
-                    }
-                    else if (text == "<")
-                    {
-                        return trueOne < trueTwo;
-                    }
-                    else if (text == "<=")
-                    {
-                        return trueOne <= trueTwo;
+                        case ">": return trueOne > trueTwo;
+                        case ">=": return trueOne >= trueTwo;
+                        case "<": return trueOne < trueTwo;
+                        case "<=": return trueOne <= trueTwo;
                     }
                 }
             }
@@ -1128,21 +1115,6 @@ namespace CardStock.FreezeFrame
                     return flag;
                 }
             }
-            else if (boolNode.attrcomp() != null)
-            {
-                var str1 = ProcessString(boolNode.attrcomp().str(0));
-                var str2 = ProcessString(boolNode.attrcomp().str(1));
-                Debug.WriteLine(boolNode.GetText());
-                Debug.WriteLine(str1 + ", " + str2);
-                if (boolNode.attrcomp().EQOP().GetText() == "==")
-                {
-                    return str1 == str2;
-                }
-                else
-                {// == "!="
-                    return str1 != str2;
-                }
-            }
             else if (boolNode.EQOP() != null)
             {
                 bool eq = false;
@@ -1150,22 +1122,29 @@ namespace CardStock.FreezeFrame
                 {
                     eq = true;
                 }
-                if (boolNode.card() != null)
+
+                if (boolNode.card().Length > 0)
                 {
                     var card1 = ProcessCard(boolNode.card()[0]);
                     var card2 = ProcessCard(boolNode.card()[1]);
                     return eq == card1.Equals(card2);
                 }
-                else if (boolNode.whop() != null)
+                else if (boolNode.whop().Length > 0)
                 {
                     var p1 = ProcessWhop(boolNode.whop()[0]);
                     var p2 = ProcessWhop(boolNode.whop()[1]);
                     return eq == p1.Equals(p2);
                 }
-                else if (boolNode.whot() != null)
+                else if (boolNode.whot().Length > 0)
                 {
                     var t1 = ProcessWhot(boolNode.whot()[0]);
                     var t2 = ProcessWhot(boolNode.whot()[1]);
+                    return eq == t1.Equals(t2);
+                }
+                else if (boolNode.str().Length > 0)
+                {
+                    var t1 = ProcessString(boolNode.str()[0]);
+                    var t2 = ProcessString(boolNode.str()[1]);
                     return eq == t1.Equals(t2);
                 }
             }
@@ -1176,10 +1155,11 @@ namespace CardStock.FreezeFrame
             throw new NotSupportedException();
         }
 
-        private GameAction ProcessCopy(RecycleParser.CopyactionContext copy)
+
+        private CardRememberAction ProcessCopy(RecycleParser.CopyactionContext copy)
         { //TODO fix this for real
             Debug.WriteLine(copy.GetText());
-            var cardOne = ProcessCard(copy.GetChild(1) as RecycleParser.CardContext);
+            var cardOne = ProcessCard(copy.card()[0]);
 
             if (cardOne.Count() == 0)
             {
@@ -1187,25 +1167,23 @@ namespace CardStock.FreezeFrame
                 ProcessCard(copy.GetChild(1) as RecycleParser.CardContext);
                 return null;
             }
-            var cardTwo = ProcessCard(copy.GetChild(2) as RecycleParser.CardContext);
+            var cardTwo = ProcessCard(copy.card()[1]);
             return new CardRememberAction(cardOne, cardTwo, script);
         }
 
-        private GameAction ProcessRemove(RecycleParser.RemoveactionContext removeAction)
+        private CardForgetAction ProcessRemove(RecycleParser.RemoveactionContext removeAction)
         {
             var cardOne = ProcessCard(removeAction.card());
             return new CardForgetAction(cardOne);
         }
-        private GameAction ProcessMove(RecycleParser.MoveactionContext move)
+        private CardMoveAction ProcessMove(RecycleParser.MoveactionContext move)
         {
-            var locOne = ProcessCard(move.GetChild(1) as RecycleParser.CardContext);
-            var locTwo = ProcessCard(move.GetChild(2) as RecycleParser.CardContext);
-            //Console.WriteLine("Card one: " + ProcessCard(move.GetChild(1) as RecycleParser.CardContext));
-            //Console.WriteLine("Card two: " + ProcessCard(move.GetChild(2) as RecycleParser.CardContext));
+            var locOne = ProcessCard(move.card()[0]);
+            var locTwo = ProcessCard(move.card()[1]);
             return new CardMoveAction(locOne, locTwo, script);
         }
 
-        private GameAction ProcessShuffle(CardLocReference locations)
+        private ShuffleAction ProcessShuffle(CardLocReference locations)
         {
             return new ShuffleAction(locations, script);
         }
@@ -1279,9 +1257,9 @@ namespace CardStock.FreezeFrame
                 return fancy;
             }
 
-            if (card.var() != null)
+            if (card.varcard() != null)
             {
-                return ProcessCardVar(card.var());
+                return ProcessCardVar(card.varcard());
             }
             if (card.actual() != null)
             {
@@ -1298,7 +1276,7 @@ namespace CardStock.FreezeFrame
                     var fancy = new CardLocReference()
                     {
                         cardList = loc.cardList,
-                        locIdentifier = "" + ProcessIntVar(card.@int().var()),
+                        locIdentifier = "" + ProcessIntVar(card.@int().vari()),
                         name = loc.name
                     };
 
@@ -1320,9 +1298,9 @@ namespace CardStock.FreezeFrame
             throw new NotSupportedException();
         }
 
-        private List<object> ProcessOther(RecycleParser.OtherContext other)
-        { //return list of teams or list of players
-            List<object> lst = [];
+        private List<Owner> ProcessOther(RecycleParser.OtherContext other)
+        { //return list of players
+            List<Owner> lst = [];
             if (other.GetChild(2).GetText() == "player")
             {
                 int me = game.currentPlayer.Peek().idx;
@@ -1335,14 +1313,15 @@ namespace CardStock.FreezeFrame
             }
             else
             {
-                // BROKEN!!! NOT IMPLEMENTED!!!
+                // TEAMS BROKEN!!! NOT IMPLEMENTED!!!
                 throw new NotImplementedException();
-
+                /*
                 foreach (Team t in game.teams)
                 {
                     lst.Add(t);
                 }
                 lst.Remove(game.currentTeam);
+                */
             }
             return lst;
         }
@@ -1352,7 +1331,7 @@ namespace CardStock.FreezeFrame
             if (cstoragecoll.memset() != null)
             {
                 var lst = ProcessMemset(cstoragecoll.memset());
-                return new List<CardLocReference>(lst);
+                return [.. lst];
             }
             else if (cstoragecoll.agg() != null)
             {
@@ -1384,11 +1363,11 @@ namespace CardStock.FreezeFrame
                             temp.Add(card);
                         }
                     }
-                    name.Remove(name.Length - 1);
+                    name = name[..^1];
                 }
                 else
                 { //agg
-                    foreach (var locs in (ProcessAgg(loc.unionof().agg()) as List<CardLocReference>))
+                    foreach (var locs in ProcessAgg(loc.unionof().agg()) as List<CardLocReference>)
                     {
                         name += locs.name + " ";
                         foreach (var card in locs.cardList.AllCards())
@@ -1396,7 +1375,7 @@ namespace CardStock.FreezeFrame
                             temp.Add(card);
                         }
                     }
-                    name.Remove(name.Length - 1);
+                    name = name[..^1];
                 }
                 var fancy = new CardLocReference()
                 {
@@ -1434,7 +1413,7 @@ namespace CardStock.FreezeFrame
                             temp.Add(kvp.Key);
                         }
                     }
-                    name.Remove(name.Length - 1);
+                    name = name[..^1];
                 }
                 else
                 { //agg
@@ -1461,7 +1440,7 @@ namespace CardStock.FreezeFrame
                             temp.Add(kvp.Key);
                         }
                     }
-                    name.Remove(name.Length - 1);
+                    name = name[..^1];
                 }
                 var fancy = new CardLocReference()
                 {
@@ -1511,12 +1490,12 @@ namespace CardStock.FreezeFrame
                             temp.Add(kvp.Key);
                         }
                     }
-                    name.Remove(name.Length - 1);
+                    name = name[..^1];
                 }
                 else
                 { //agg
                     Dictionary<Card, int> cardCount = [];
-                    foreach (var locs in (ProcessAgg(loc.disjunctionof().agg()) as List<CardLocReference>))
+                    foreach (var locs in ProcessAgg(loc.disjunctionof().agg()) as List<CardLocReference>)
                     {
                         name += locs.name + " ";
                         foreach (var card in locs.cardList.AllCards())
@@ -1538,7 +1517,7 @@ namespace CardStock.FreezeFrame
                             temp.Add(kvp.Key);
                         }
                     }
-                    name.Remove(name.Length - 1);
+                    name = name[..^1];
                 }
                 var fancy = new CardLocReference()
                 {
@@ -1569,17 +1548,20 @@ namespace CardStock.FreezeFrame
                 }
                 else if (identifier == "bottom")
                 {
-                    return resultingSet[resultingSet.Length - 1];
+                    return resultingSet[^1];
                 }
                 else
                 {
                     return resultingSet[Int32.Parse(identifier)];
                 }
             }
-            else if (loc.var() != null)
+            // CAN WE REMOVE THIS????
+            /*
+            else if (loc.varc() != null)
             {
-                return ProcessCardVar(loc.var());
+                return ProcessCardVar(loc.varc());
             }
+            */
             throw new NotSupportedException();
         }
 
@@ -1649,7 +1631,7 @@ namespace CardStock.FreezeFrame
                         name = "{subset from " + stor.name + "}"
                     });
                 }
-                return returnList.ToArray();
+                return [.. returnList];
             }
 
             // PARTITON CODE
@@ -1684,7 +1666,7 @@ namespace CardStock.FreezeFrame
                             name = "{partition}" + "{part: " + kvp + "}"
                         });
                     }
-                    return returnList.ToArray();
+                    return [.. returnList];
                 }
                 else
                 {
@@ -1694,9 +1676,9 @@ namespace CardStock.FreezeFrame
                         foreach (var card in stor.cardList.AllCards())
                         {
                             var attr = card.ReadAttribute(ProcessString(memset.partition().str()));
-                            if (partition.ContainsKey(attr))
+                            if (partition.TryGetValue(attr, out CardCollection? value))
                             {
-                                partition[attr].Add(card);
+                                value.Add(card);
                             }
                             else
                             {
@@ -1715,10 +1697,10 @@ namespace CardStock.FreezeFrame
                             name = "{partition}" + "{part: " + kvp + "}"
                         });
                     }
-                    return returnList.ToArray();
+                    return [.. returnList];
                 }
             }
-            return null;
+            throw new Exception();
         }
 
         private CardLocReference ProcessSubLocation(RecycleParser.CstorageContext stor)
@@ -1765,7 +1747,7 @@ namespace CardStock.FreezeFrame
             }
             else
             {
-                player = variables.Get(stor.locpre().var()) as Player;
+                player = ProcessPlayerVar(stor.locpre().varp());
             }
             var name2 = ProcessString(stor.str());
             var fancy2 = new CardLocReference()
@@ -1792,7 +1774,7 @@ namespace CardStock.FreezeFrame
             return "";
         }
 
-        private object ProcessWho(RecycleParser.WhoContext who)
+        private Owner ProcessWho(RecycleParser.WhoContext who)
         {
             if (who.whop() != null)
             {
@@ -1802,7 +1784,7 @@ namespace CardStock.FreezeFrame
             {
                 return ProcessWhot(who.whot());
             }
-            return null;
+            throw new Exception();
         }
 
         private Player ProcessWhop(RecycleParser.WhopContext who)
@@ -1832,20 +1814,19 @@ namespace CardStock.FreezeFrame
                     return game.players[ProcessInt(who.whodesc().@int())];
                 }
             }
-            return null;
+            throw new Exception();
         }
 
         private Team ProcessWhot(RecycleParser.WhotContext who)
         {
             if (who.teamp() != null)
             {
-                if (who.teamp().var() != null)
+                if (who.teamp().varp() != null)
                 {
-                    var p = variables.Get(who.teamp().var());
-                    var p2 = p as Player;
-                    if (p2 != null)
+                    var p = ProcessPlayerVar(who.teamp().varp());
+                    if (p != null)
                     {
-                        return p2.team;
+                        return p.team;
                     }
                     else
                     {
@@ -1879,7 +1860,7 @@ namespace CardStock.FreezeFrame
                     return game.teams[ProcessInt(who.whodesc().@int())];
                 }
             }
-            return null;
+            throw new Exception();
         }
 
         private Tree ProcessDeck(RecycleParser.DeckContext deck)
@@ -1889,7 +1870,6 @@ namespace CardStock.FreezeFrame
             List<Node> childs = [];
             for (int i = 0; i < deck.attribute().Length; ++i)
             {
-                var att = ProcessAttribute(deck.attribute(i));
                 childs.Add(new Node
                 {
                     Value = "combo" + i,
@@ -1909,65 +1889,43 @@ namespace CardStock.FreezeFrame
 
         private List<Node> ProcessAttribute(RecycleParser.AttributeContext attr) //TODO make this array!!
         {
-            if (attr.var() != null)
+            var ret = new List<Node>();
+            if (attr.attribute()[0].attribute().Length == 0)
             {
-                return (variables.Get(attr.var()) as Node[]).OfType<Node>().ToList();
+                var terminalTitle = attr.namegr()[0];
+                var subNode = attr.attribute()[0];
+
+                var trueCount = (subNode.ChildCount - 3) / 2 + 1;
+                for (int i = 0; i < trueCount; ++i)
+                {
+                    ret.Add(new Node
+                    {
+                        Key = terminalTitle.GetText(),
+                        Value = subNode.namegr(i).GetText()
+                    });
+                }
             }
             else
             {
-                var ret = new List<Node>();
-                if (!attr.attribute()[0].attribute().Any())
-                {
-                    var terminalTitle = attr.namegr()[0];
-                    var subNode = attr.attribute()[0];
-                    if (subNode.var() == null)
-                    {
-                        var trueCount = (subNode.ChildCount - 3) / 2 + 1;
-                        for (int i = 0; i < trueCount; ++i)
-                        {
-                            ret.Add(new Node
-                            {
-                                Key = terminalTitle.GetText(),
-                                Value = subNode.namegr(i).GetText()
-                            });
-                        }
-                    }
-                    else
-                    {
-                        var strings = variables.Get(subNode.var()) as string[];
-                        foreach (string s in strings)
-                        {
-                            ret.Add(new Node
-                            {
-                                Key = terminalTitle.GetText(),
-                                Value = s
-                            });
-                        }
-                    }
-                }
-                else
-                {
-                    var terminalTitle = attr.namegr()[0];
-                    var children = attr.attribute();
+                var terminalTitle = attr.namegr()[0];
+                var children = attr.attribute();
 
-                    foreach (var subNode in children)
+                foreach (var subNode in children)
+                {
+                    var childs = new List<Node>();
+                    foreach (var att in subNode.attribute())
                     {
-                        var childs = new List<Node>();
-                        foreach (var att in subNode.attribute())
-                        {
-                            childs.AddRange(ProcessAttribute(att));
-                        }
-                        ret.Add(new Node
-                        {
-                            Key = terminalTitle.GetText(),
-                            Value = subNode.namegr()[0].GetText(),
-                            children = childs
-                        });
-
+                        childs.AddRange(ProcessAttribute(att));
                     }
+                    ret.Add(new Node
+                    {
+                        Key = terminalTitle.GetText(),
+                        Value = subNode.namegr()[0].GetText(),
+                        children = childs
+                    });
                 }
-                return ret;
             }
+            return ret;
         }
 
         private int ProcessInt(RecycleParser.IntContext intNode)
@@ -2046,9 +2004,9 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine(card + " = " + score);
                 return score;
             }
-            else if (intNode.var() != null)
+            else if (intNode.vari() != null)
             {
-                return ProcessIntVar(intNode.var());
+                return ProcessIntVar(intNode.vari());
             }
             else
             {
@@ -2058,8 +2016,8 @@ namespace CardStock.FreezeFrame
 
         private List<int> ProcessRange(RecycleParser.RangeContext range)
         {
-            int int1 = ProcessInt(range.GetChild(2) as RecycleParser.IntContext);
-            int int2 = ProcessInt(range.GetChild(4) as RecycleParser.IntContext);
+            int int1 = ProcessInt(range.@int()[0]);
+            int int2 = ProcessInt(range.@int()[1]);
             List<int> ret = [];
             for (int idx = int1; idx <= int2; idx++)
             {
@@ -2070,11 +2028,11 @@ namespace CardStock.FreezeFrame
 
         private int ProcessRandom(RecycleParser.RandomContext random)
         {
-            int int1 = ProcessInt(random.GetChild(2) as RecycleParser.IntContext);
+            int int1 = ProcessInt(random.@int()[0]);
             if (random.GetChild(4) != null) // if second integer is included
             {
                 // Console.WriteLine("Second variable included.");
-                int int2 = ProcessInt(random.GetChild(4) as RecycleParser.IntContext);
+                int int2 = ProcessInt(random.@int()[1]);
                 return ThreadSafeRandom.Next(int1, int2 + 1);
             }
             else // if no second integer
@@ -2086,123 +2044,55 @@ namespace CardStock.FreezeFrame
 
         private int ProcessFibonacci(RecycleParser.FibonacciContext fib)
         {
-            int int1 = ProcessInt(fib.GetChild(2) as RecycleParser.IntContext);
+            int int1 = ProcessInt(fib.@int());
             return Convert.ToInt32(((Math.Pow((1 + Math.Sqrt(5)) / 2, int1)) - (Math.Pow((1 - Math.Sqrt(5)) / 2, int1))) / Math.Sqrt(5));
         }
 
         private int ProcessTriangular(RecycleParser.TriangularContext tri)
         {
-            int int1 = ProcessInt(tri.GetChild(2) as RecycleParser.IntContext);
+            int int1 = ProcessInt(tri.@int());
             return (int1 * (int1 + 1)) / 2;
         }
 
         private IntStorageReference ProcessIntStorage(RecycleParser.RawstorageContext intSto)
         {
-            if (intSto.GetChild(1).GetText() == "game")
+            var who = game.table[0];
+            if (intSto.who() != null)
             {
-                return new IntStorageReference(game.table[0].intBins, ProcessString(intSto.str()));
+                who = ProcessWho(intSto.who());
             }
-            else if (intSto.who() != null)
+            else if (intSto.varo() != null)
             {
-                if (intSto.who().whot() != null)
-                {
-                    var who = ProcessWho(intSto.who()) as Team;
-                    return new IntStorageReference(who.intBins, ProcessString(intSto.str()));
-                }
-                else if (intSto.who().whop() != null)
-                {
-                    var who = ProcessWho(intSto.who()) as Player;
-                    return new IntStorageReference(who.intBins, ProcessString(intSto.str()));
-                }
+                who = ProcessOwnerVar(intSto.varo());
             }
-            else
-            {
-                var who = variables.Get(intSto.var());
-                if (who.GetType().Name == "Team")
-                {
-                    Team temp = who as Team;
-                    return new IntStorageReference(temp.intBins, ProcessString(intSto.str()));
-                }
-                else
-                {
-                    Player temp = who as Player;
-                    return new IntStorageReference(temp.intBins, ProcessString(intSto.str()));
-                }
-            }
-            return null;
+            return new IntStorageReference(who.intBins, ProcessString(intSto.str()));
         }
 
         private StrStorageReference ProcessStrStorage(RecycleParser.StrstorageContext strSto)
         {
-            if (strSto.GetChild(1).GetText() == "game")
+            var who = game.table[0];
+            if (strSto.who() != null)
             {
-                
-                return new StrStorageReference(game.table[0].stringBins, ProcessString(strSto.str()));
+                who = ProcessWho(strSto.who());
             }
-            else if (strSto.who() != null)
+            else if (strSto.varo() != null)
             {
-                if (strSto.who().whot() != null)
-                {
-                    var who = ProcessWho(strSto.who()) as Team;
-                    return new StrStorageReference(who.stringBins, ProcessString(strSto.str()));
-                }
-                else if (strSto.who().whop() != null)
-                {
-                    var who = ProcessWho(strSto.who()) as Player;
-                    return new StrStorageReference(who.stringBins, ProcessString(strSto.str()));
-                }
+                who = ProcessOwnerVar(strSto.varo());
             }
-            else
-            {
-                var who = variables.Get(strSto.var());
-                if (who.GetType().Name == "Team")
-                {
-                    Team temp = who as Team;
-                    return new StrStorageReference(temp.stringBins, ProcessString(strSto.str()));
-                }
-                else
-                {
-                    Player temp = who as Player;
-                    return new StrStorageReference(temp.stringBins, ProcessString(strSto.str()));
-                }
-            }
-            return null;
-        }
+            return new StrStorageReference(who.stringBins, ProcessString(strSto.str()));        }
 
         private PointStorageReference ProcessPointStorage(RecycleParser.PointstorageContext ptSto)
         {
-            if (ptSto.GetChild(1).GetText() == "game")
+            var who = game.table[0];
+            if (ptSto.who() != null)
             {
-                return new PointStorageReference(game.table[0].pointBins, ProcessString(ptSto.str()));
+                who = ProcessWho(ptSto.who());
             }
-            else if (ptSto.who() != null)
+            else if (ptSto.varo() != null)
             {
-                if (ptSto.who().whot() != null)
-                {
-                    var who = ProcessWho(ptSto.who()) as Team;
-                    return new PointStorageReference(who.pointBins, ProcessString(ptSto.str()));
-                }
-                else if (ptSto.who().whop() != null)
-                {
-                    var who = ProcessWho(ptSto.who()) as Player;
-                    return new PointStorageReference(who.pointBins, ProcessString(ptSto.str()));
-                }
+                who = ProcessOwnerVar(ptSto.varo());
             }
-            else
-            {
-                var who = variables.Get(ptSto.var());
-                if (who.GetType().Name == "Team")
-                {
-                    Team temp = who as Team;
-                    return new PointStorageReference(temp.pointBins, ProcessString(ptSto.str()));
-                }
-                else
-                {
-                    Player temp = who as Player;
-                    return new PointStorageReference(temp.pointBins, ProcessString(ptSto.str()));
-                }
-            }
-            return null;
+            return new PointStorageReference(who.pointBins, ProcessString(ptSto.str()));
         }
 
         private GameAction SetAction(RecycleParser.SetactionContext setAction)
@@ -2267,31 +2157,30 @@ namespace CardStock.FreezeFrame
         private CardLocReference ProcessCStorageFilter(RecycleParser.FilterContext filter)
         {
             var cList = new CardCollection(CCType.VIRTUAL);
-            CardLocReference stor;
-            IEnumerable<Card> stor2;
-            String name2;
+            IEnumerable<Card> stor2 = null;
+            String name2 = "";
 
             if (filter.collection().cstorage() != null)
             {
                 Debug.WriteLine("Filter: cstorage collection");
-                stor = ProcessLocation(filter.collection().cstorage());
+                CardLocReference stor = ProcessLocation(filter.collection().cstorage());
                 stor2 = stor.cardList.AllCards();
                 name2 = stor.name;
             }
-            else if (filter.collection().var() != null)
+            else if (filter.collection().varc() != null)
             {
                 Debug.WriteLine("Filter: variable collection");
 
-                stor = variables.Get(filter.collection().var()) as CardLocReference;
-                if (stor != null)
+                // Should be using ProcessCollectionVar method.... TODO
+                var stor = variables.Get(filter.collection().varc().GetText());
+                if (stor is CardLocReference stort)
                 {
-                    stor2 = stor.cardList.AllCards();
-
-                    name2 = stor.name;
+                    stor2 = stort.cardList.AllCards();
+                    name2 = stort.name;
                 }
-                else
+                else if (stor is List<Card> storc)
                 {
-                    stor2 = variables.Get(filter.collection().var()) as List<Card>;
+                    stor2 = storc;
                     name2 = "FilteredCardListWithoutName";
                 }
             }
@@ -2299,6 +2188,7 @@ namespace CardStock.FreezeFrame
             {
                 throw new NotSupportedException();
             }
+
             foreach (Card card in stor2)
             {
                 string text = filter.var().GetText();
@@ -2323,43 +2213,55 @@ namespace CardStock.FreezeFrame
             return IterateAgg(agg, ProcessCollection(agg.collection()));
         }
 
+        private IEnumerable<object> ProcessCollectionVar(RecycleParser.VarcContext varc)
+        {
+            Debug.WriteLine("Processing collection type: var.");
+            var stor = variables.Get(varc.GetText());
+            if (stor is CardLocReference clr) // #1
+            {
+                return clr.cardList.AllCards();
+            }
+            else if (stor is CardLocReference[] clra) // #2
+            {
+                return clra;
+            }
+            else if (stor is string[] sa)
+            {
+                return sa;
+            }
+            else if (stor is List<CardLocReference> clocr) // #4
+            {
+                return clocr;
+            }
+            else if (stor is Team t)
+            {
+                return t.teamPlayers;
+            }
+            else if (stor is List<int> rsto)
+            {
+                return stor as List<object>;
+            }
+            else if (stor is List<Card> cards) // #3
+            {
+                return cards;
+            }
+            else
+            {
+                Console.WriteLine(stor.GetType().ToString());
+                foreach (var s in stor as List<object>) 
+                {
+                    Console.WriteLine(s.GetType().ToString());
+                }
+                throw new TypeAccessException();
+            }
+        }
+
         private IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection)
         {
-            // collection : filter | 
-            // var ;
 
-            if (collection.var() != null)
+            if (collection.varc() != null)
             {
-                Debug.WriteLine("Processing collection type: var.");
-                var stor = variables.Get(collection.var());
-                if (stor is CardLocReference clr) // #1
-                {
-                    return clr.cardList.AllCards();
-                }
-                else if (stor is CardLocReference[] clra) // #2
-                {
-                    return clra;
-                }
-                else if (stor is string[] sa)
-                {
-                    return sa;
-                }
-                else if (stor is List<CardLocReference> clocr) // #4
-                {
-                    return clocr;
-                }
-                else if (stor is Team t)
-                {
-                    return t.teamPlayers;
-                }
-                else if (stor is List<int>)
-                {
-                    return stor as List<object>;
-                }
-                else if (stor is List<Card>) // #3
-                { return stor as List<Card>; }
-                else { throw new TypeAccessException(); }
-
+                return ProcessCollectionVar(collection.varc());
             }
             string text = collection.GetText();
             if (collection.cstorage() != null)
@@ -2425,7 +2327,7 @@ namespace CardStock.FreezeFrame
                 {
                     return ProcessCollectionFilter(collection.filter());
                 }
- 
+
 
             }
             else if (text == "player")
@@ -2607,31 +2509,31 @@ namespace CardStock.FreezeFrame
             {
                 return (ICloneable) ProcessMultiaction(parseTree);
             }
-            else if (parseTree is RecycleParser.ActionContext)
+            else if (parseTree is RecycleParser.ActionContext ac)
             {
                 Debug.WriteLine("Processing action.");
-                return ProcessAction(parseTree as RecycleParser.ActionContext);
+                return ProcessAction(ac);
             }
-            else if (parseTree is RecycleParser.BooleanContext)
+            else if (parseTree is RecycleParser.BooleanContext bc)
             {
                 Debug.WriteLine("Processing boolean.");
-                return ProcessBoolean(parseTree as RecycleParser.BooleanContext);
+                return ProcessBoolean(bc);
             }
-            else if (parseTree is RecycleParser.CstorageContext)
+            else if (parseTree is RecycleParser.CstorageContext csto)
             {
                 Debug.WriteLine("Finding card.");
-                return ProcessLocation(parseTree as RecycleParser.CstorageContext);
+                return ProcessLocation(csto);
             }
-            else if (parseTree is RecycleParser.CondactContext)
+            else if (parseTree is RecycleParser.CondactContext ca)
             {
                 Debug.WriteLine("Processing condition for conditional action(s).");
-                ProcessSingleDo(parseTree as RecycleParser.CondactContext);
+                ProcessSingleDo(ca);
 
                 return null;
             }
-            else if (parseTree is RecycleParser.RawstorageContext)
+            else if (parseTree is RecycleParser.RawstorageContext rsa)
             {
-                return ProcessIntStorage(parseTree as RecycleParser.RawstorageContext);
+                return ProcessIntStorage(rsa);
             }
             Debug.WriteLine("error: Could not parse " + parseTree.GetText());
             throw new NotSupportedException();
@@ -2647,25 +2549,16 @@ namespace CardStock.FreezeFrame
             else if (typed.boolean() != null)
             {
                 Debug.WriteLine("Processing type: boolean");
-
                 return ProcessBoolean(typed.boolean());
             }
             else if (typed.str() != null)
             {
                 Debug.WriteLine("Processing type: str");
-
                 return ProcessString(typed.str());
-            }
-            else if (typed.var() != null)
-            {
-                Debug.WriteLine("Processing type: var");
-
-                return variables.Get(typed.var());
             }
             else if (typed.collection() != null)
             {
                 Debug.WriteLine("Processing type: collection");
-
                 return ProcessCollection(typed.collection());
             }
             throw new NotSupportedException();
@@ -2695,69 +2588,6 @@ namespace CardStock.FreezeFrame
             return ret;
         }
 
-        private string[] ProcessStringCollection(RecycleParser.StrcollectionContext strcollectionContext)
-        {
-            string text = strcollectionContext.GetText();
-            char[] delimiter = { ',' };
-            text = text.Replace("(", string.Empty);
-            text = text.Replace(")", string.Empty);
-            var newlst = text.Split(delimiter);
-            return newlst;
-        }
-
-        private int ProcessIntVar(RecycleParser.VarContext varContext)
-        {
-            var temp = variables.Get(varContext.GetText());
-            if (temp is IntStorageReference)
-            {
-                var raw = temp as IntStorageReference;
-                return raw.Get();
-            }
-            else if (temp is int) { return (int)temp; }
-            else { throw new Exception("Temp is " + temp.GetType()); }
-        }
-
-        private CardLocReference ProcessCardVar(RecycleParser.VarContext card)
-        { //TODO get card instead of just top card of location when ret is Card
-            var ret = variables.Get(card);
-            if (ret is CardLocReference)
-            {
-                Debug.WriteLine("Are We Here??");
-                var loc = ret as CardLocReference;
-                if (loc.locIdentifier != "-1")
-                {
-                    return loc.ShallowCopy();
-                }
-
-                // ADDING THIS TO MAKE FILTERS WORK!!!!
-                return loc.ShallowCopy();
-            }
-            else if (ret is Card)
-            {
-                var c = ret as Card;
-                CardCollection cardl = c.owner.ShallowCopy();
-                CardLocReference clr = new() { cardList = cardl, name = "manufactured variable" };
-                clr.SetLocId(c);
-                return clr;
-            }
-            else if (ret is List<Card>)
-            {
-                var c = ret as List<Card>;
-                var cctemp = new CardCollection(CCType.VIRTUAL);
-                    foreach (var cc in c)
-                    {
-                        cctemp.Add(cc);
-                    }
-                    return new CardLocReference()
-                    {
-                        cardList = cctemp,
-                        name = "{cardvar}"
-                    };
-            }
-            Debug.WriteLine("error, type is " + ret.GetType());
-            return null;
-        }
-
         private string ProcessString(RecycleParser.StrContext str)
         {
             if (str.namegr() != null)
@@ -2768,9 +2598,9 @@ namespace CardStock.FreezeFrame
             {
                 return ProcessCardatt(str.cardatt());
             }
-            else if (str.var() != null)
+            else if (str.vars() != null)
             {
-                return ProcessStringVar(str.var());
+                return ProcessStringVar(str.vars());
             }
             else if (str.strstorage() != null)
             {
@@ -2782,38 +2612,123 @@ namespace CardStock.FreezeFrame
             }
         }
 
-        private string ProcessStringVar(RecycleParser.VarContext var)
+        private int ProcessIntVar(RecycleParser.VariContext varContext)
         {
-            if (variables.Get(var) is String s)
+            var temp = variables.Get(varContext.GetText());
+            if (temp is IntStorageReference raw)
+            {
+                return raw.Get();
+            }
+            else if (temp is int v) { return v; }
+            else { throw new Exception("Not an int! Temp is " + temp.GetType()); }
+        }
+
+        private Owner ProcessOwnerVar(RecycleParser.VaroContext var)
+        {
+            var temp = variables.Get(var.GetText());
+            if (temp is Player p)
+            {
+                return p;
+            }
+            else if (temp is Team t)
+            {
+                return t;
+            }
+            else { throw new Exception("Not an owner! Temp is " + temp.GetType()); }
+        }
+
+        private Player ProcessPlayerVar(RecycleParser.VarpContext var)
+        {
+            var temp = variables.Get(var.GetText());
+            if (temp is Player p)
+            {
+                return p;
+            }
+            else { throw new Exception("Not an owner! Temp is " + temp.GetType()); }
+        }
+
+        private CardLocReference ProcessCardVar(RecycleParser.VarcardContext card)
+        { //TODO get card instead of just top card of location when ret is Card
+            var ret = variables.Get(card.GetText());
+            if (ret is CardLocReference loc)
+            {
+                Debug.WriteLine("Are We Here??");
+                if (loc.locIdentifier != "-1")
+                {
+                    return loc.ShallowCopy();
+                }
+
+                // ADDING THIS TO MAKE FILTERS WORK!!!!
+                return loc.ShallowCopy();
+            }
+            else if (ret is Card c)
+            {
+                CardCollection cardl = c.owner.ShallowCopy();
+                CardLocReference clr = new() { cardList = cardl, name = "manufactured variable" };
+                clr.SetLocId(c);
+                return clr;
+            }
+            else if (ret is List<Card> clist)
+            {
+                var cctemp = new CardCollection(CCType.VIRTUAL);
+                foreach (var cc in clist)
+                {
+                    cctemp.Add(cc);
+                }
+                return new CardLocReference()
+                {
+                    cardList = cctemp,
+                    name = "{cardvar}"
+                };
+            }
+            Debug.WriteLine("error, not a card, type is " + ret.GetType());
+            throw new NotImplementedException();
+        }
+
+        private string ProcessStringVar(RecycleParser.VarsContext var)
+        {
+            var temp = variables.Get(var.GetText());
+            if (temp is String s)
             {
                 return s;
             }
             else
             {
-                Debug.WriteLine("Error, type is: " + variables.Get(var).GetType());
+                Debug.WriteLine("Error, not a string, type is: " + temp.GetType());
                 throw new NotImplementedException();
             }
         }
 
-        private PointMap ProcessPointVar(RecycleParser.VarContext var)
+        private PointMap ProcessPointVar(RecycleParser.VarpContext var)
         {
-            if (variables.Get(var) is PointMap pm)
+            var temp = variables.Get(var.GetText());
+            if (temp is PointMap pm)
             {
                 return pm;
             }
             else
             {
-                Debug.WriteLine("Error, type is: " + variables.Get(var).GetType());
+                Debug.WriteLine("Error, type is: " + temp.GetType());
                 throw new NotImplementedException();
             }
         }
 
-        private bool All(RecycleParser.AggContext agg)
+        private static string[] ProcessStringCollection(RecycleParser.StrcollectionContext strcollectionContext)
+        {
+            string text = strcollectionContext.GetText();
+            char[] delimiter = [','];
+            text = text.Replace("(", string.Empty);
+            text = text.Replace(")", string.Empty);
+            var newlst = text.Split(delimiter);
+            return newlst;
+        }
+
+        private static bool All(RecycleParser.AggContext agg)
         {
             return agg.GetChild(1).GetText() == "all";
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null)
             { Console.WriteLine("obj is null"); return false; }

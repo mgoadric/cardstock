@@ -17,16 +17,16 @@ namespace CardStock.CardEngine
         public Dictionary<string, string> Flatten() {
             return rootNode.Flatten();
         }
-        public List<List<Node>> uniqueOptions()
+        public List<List<Node>> UniqueOptions()
         {
             var retList = new List<List<Node>>();
             foreach (var node in rootNode.children)
             {
-                retList.Add(recurse(node));
+                retList.Add(Recurse(node));
             }
             return retList;
         }
-        public List<Node> recurse(Node parent)
+        public static List<Node> Recurse(Node parent)
         {
             var ret = new List<Node>();
             foreach (var node in parent.children)
@@ -43,7 +43,7 @@ namespace CardStock.CardEngine
                 else
                 {
 
-                    var temp = recurse(node);
+                    var temp = Recurse(node);
                     foreach (var tempChild in temp)
                     {
                         tempChild.AddLeaf(new Node(parent, false));
@@ -61,16 +61,16 @@ namespace CardStock.CardEngine
             return ret;
         }
 
-        public List<Node> combinations()
+        public List<Node> Combinations()
         {
 
-            var unique = uniqueOptions();
+            var unique = UniqueOptions();
             if (unique.Count > 1)
             {
                 var latestIter = unique[0];
                 for (int i = 0; i < unique.Count - 1; ++i)
                 {
-                    latestIter = perm(latestIter, unique[i + 1], (i == 0));
+                    latestIter = Perm(latestIter, unique[i + 1], (i == 0));
                 }
                 return latestIter;
             }
@@ -88,7 +88,7 @@ namespace CardStock.CardEngine
                 return ret;
             }
         }
-        public List<Node> perm(List<Node> thingOne, List<Node> thingTwo, bool first)
+        public static List<Node> Perm(List<Node> thingOne, List<Node> thingTwo, bool first)
         {
 
             var permu = new List<Node>();
@@ -168,7 +168,7 @@ namespace CardStock.CardEngine
 
         public override string ToString()
         {
-            StringBuilder ret = new StringBuilder();
+            StringBuilder ret = new();
             if (children != null)
             {
                 foreach (var node in children)
@@ -179,7 +179,7 @@ namespace CardStock.CardEngine
             }
             if (Value != null)
             {
-                StringBuilder temp = new StringBuilder();
+                StringBuilder temp = new();
                 temp.Append(Value);
                 temp.Append('(');
                 temp.Append(Key);

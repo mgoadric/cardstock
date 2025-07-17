@@ -53,13 +53,15 @@ namespace CardStock.FreezeFrame {
 			for (int i = 0; i < array.Length; ++i){
 				var found = RightLook(i,runLength);
 				ret.AddRange(found);
-				
 			}
 			return ret;
 		}
-		private CardCollection Clone(CardCollection source){
-            var recurseList = new CardCollection(CCType.VIRTUAL);
-			foreach (var card in source.AllCards()){
+		
+		private CardCollection Clone(CardCollection source)
+		{
+			var recurseList = new CardCollection(CCType.VIRTUAL);
+			foreach (var card in source.AllCards())
+			{
 				recurseList.Add(card);
 			}
 			return recurseList;
