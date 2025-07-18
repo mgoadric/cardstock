@@ -17,7 +17,7 @@ tournament of AI players. Please check back for further progress on these issues
 
 ## Games
 
-There are currently 50 games coded in RECYCLE
+There are currently 51 games coded in RECYCLE
 
 * Adding
     * [Caterpillar](http://www.parlettgames.uk/oricards/caterpil.html) (2p)
@@ -33,12 +33,13 @@ There are currently 50 games coded in RECYCLE
     * [Spite and Malice](https://www.pagat.com/patience/spitemal.html) (2p)
 * Exchange
     * [Cuckoo](https://www.pagat.com/cuckoo/cuckoo.html) (6p)
+    * [Schwimmen](https://www.pagat.com/commerce/schwimmen.html) (5p)
 * Fishing
     * [Scopa](https://www.pagat.com/fishing/scopa.html) (2p)
     * [Stealing Bundles](https://www.pagat.com/fishing/bundle.html) (2-4p)
 * Poker
-    * Kuhn Poker (2p)
-    * Leduc Poker (2p)
+    * [Kuhn Poker](https://en.wikipedia.org/wiki/Kuhn_poker) (2p)
+    * [Leduc Poker](https://pettingzoo.farama.org/environments/classic/leduc_holdem/) (2p)
 * Press Your Luck
     * [BlackJack](https://www.pagat.com/banking/blackjack.html) (2p)
     * [Pairs](https://cheapass.com/wp-content/uploads/2018/02/PairsCompanionBookWebFeb2018.pdf) (2-5p)
