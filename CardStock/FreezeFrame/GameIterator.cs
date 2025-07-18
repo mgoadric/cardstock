@@ -836,19 +836,6 @@ namespace CardStock.FreezeFrame
                 var pointAction = actionNode.initpoints();
                 ret.Add(PointAction(pointAction));
             }
-            else if (actionNode.copyaction() != null)
-            {
-                Debug.WriteLine("REMEMBER: '" + actionNode.GetText() + "'");
-                var copy = ProcessCopy(actionNode.copyaction());
-                if (copy != null) { ret.Add(copy); }
-                else { Debug.WriteLine("copying from empty, " + actionNode.copyaction().GetText()); }
-            }
-            else if (actionNode.removeaction() != null)
-            {
-                Debug.WriteLine("FORGET: '" + actionNode.GetText() + "'");
-                var removeAction = actionNode.removeaction();
-                ret.Add(ProcessRemove(removeAction));
-            }
             else if (actionNode.moveaction() != null)
             {
                 Debug.WriteLine("MOVE: '" + actionNode.GetText() + "'");
@@ -1154,27 +1141,6 @@ namespace CardStock.FreezeFrame
             throw new NotSupportedException();
         }
 
-
-        private CardRememberAction ProcessCopy(RecycleParser.CopyactionContext copy)
-        { //TODO fix this for real
-            Debug.WriteLine(copy.GetText());
-            var cardOne = ProcessCard(copy.card()[0]);
-
-            if (cardOne.Count() == 0)
-            {
-                Debug.WriteLine(copy.GetText());
-                ProcessCard((RecycleParser.CardContext)copy.GetChild(1));
-                return null;
-            }
-            var cardTwo = ProcessCard(copy.card()[1]);
-            return new CardRememberAction(cardOne, cardTwo, script);
-        }
-
-        private CardForgetAction ProcessRemove(RecycleParser.RemoveactionContext removeAction)
-        {
-            var cardOne = ProcessCard(removeAction.card());
-            return new CardForgetAction(cardOne);
-        }
         private CardMoveAction ProcessMove(RecycleParser.MoveactionContext move)
         {
             var locOne = ProcessCard(move.card()[0]);

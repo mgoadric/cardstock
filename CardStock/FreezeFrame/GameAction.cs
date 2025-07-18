@@ -269,60 +269,6 @@ namespace CardStock.FreezeFrame {
 		}
     }
 
-    public class CardRememberAction : GameAction {
-        CardLocReference startLocation;
-        CardLocReference endLocation;
-        public CardRememberAction(CardLocReference start, CardLocReference end, Transcript script) {
-            startLocation = start;
-            endLocation = end;
-            this.script = script;
-            if (endLocation.cardList.type != CCType.MEMORY) {
-                throw new InvalidOperationException(); 
-            }
-
-        }
-        public override void Execute() {
-            endLocation.Add(startLocation.Get());
-            script.WriteToFile("m:" + endLocation.ToOutputString());
-        }
-
-        public override void Undo()
-        {
-            endLocation.Remove();
- 		}
-		public override string ToString()
-		{
-            return "CardRememberAction: Starting location: " + startLocation.name 
-                                                                             + "; Ending location: " + endLocation.name;
-                                                                           
-		}
-    }
-
-    public class CardForgetAction : GameAction {
-        CardLocReference endLocation;
-        public CardForgetAction(CardLocReference end) {
-            if (end.cardList.type == CCType.MEMORY) {
-                endLocation = end;
-            }
-            else {
-                Debug.WriteLine(end.name);
-                throw new InvalidOperationException();
-            }
-        }
-        public override void Execute() {
-            endLocation.Remove();
-        }
-
-        public override void Undo()
-        {
-            throw new NotImplementedException();
-        }
-		public override string ToString()
-		{
-            return "CardForgetAction: To be removed: " + endLocation.name;
-		}
-    }
-
     public class IntAction : GameAction {
 
         DefaultStorage<int> bins;
