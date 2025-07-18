@@ -1,4 +1,8 @@
-// Version 0.5.4 of our REcursive CYclic Card game LanguagE
+// Version 0.5.5 of our REcursive CYclic Card game LanguagE
+
+// New in version 0.5.5
+//  revised the way variables are parsed, using type to distinguish
+//  removed attrcomp and made it just a string comparison
 
 // New in version 0.5.4
 //  sizeof works for all collections, not just card collections
@@ -35,6 +39,15 @@
 
 grammar Recycle;
 var : '\'' namegr ;
+vars : '\'' namegr ;
+varo : '\'' namegr ;
+varp : '\'' namegr ;
+vari : '\'' namegr ;
+varb : '\'' namegr ;
+varc : '\'' namegr ;
+varcs : '\'' namegr ;
+varcard : '\'' namegr ;
+
 game : OPEN 'game' declare*? setup (multiaction | stage)+? scoring CLOSE ;
 setup : OPEN 'setup' playercreate teamcreate? (OPEN (deckcreate | repeat) CLOSE)+? CLOSE ;
 stage : OPEN 'stage' ('player' | 'team') endcondition (multiaction | stage)+? CLOSE ;
@@ -51,18 +64,18 @@ agg : OPEN ('any' | 'all') collection var (condact | boolean | cstorage | rawsto
 let : OPEN 'let' typed var (multiaction | action | condact) CLOSE ;
 declare : OPEN 'declare' typed var CLOSE ;
 
-playercreate : OPEN 'create' 'players' (var | int) CLOSE ;
+playercreate : OPEN 'create' 'players' int CLOSE ;
 teamcreate : OPEN 'create' 'teams' teams+? CLOSE;
 deckcreate : 'create' 'deck' str? cstorage deck ;
 deck : OPEN 'deck' attribute+? CLOSE ;
 teams : OPEN (INTNUM ',')*? INTNUM teams*? CLOSE ;
-attribute : OPEN var CLOSE | OPEN (namegr ',')*? namegr attribute*? CLOSE ;
+attribute : OPEN (namegr ',')*? namegr attribute*? CLOSE ;
 
 initpoints : 'set' pointstorage OPEN awards+? CLOSE ;
 awards : OPEN subaward+? int CLOSE ;
 subaward : OPEN str ':' str CLOSE ;
 
-cycleaction : 'cycle' ('next' | 'current') (owner | 'current' | 'next' | 'previous' | var) ;
+cycleaction : 'cycle' ('next' | 'current') (owner | 'current' | 'next' | 'previous' | varo ) ;
 
 setaction : 'set' rawstorage int ;
 setstraction : 'set' strstorage str ;
@@ -76,13 +89,13 @@ shuffleaction : 'shuffle' cstorage ;
 turnaction : 'turn' 'pass' ;
 repeat : 'repeat' int action | 'repeat' 'all' OPEN moveaction CLOSE ;
 
-card : var | maxof | minof | actual | OPEN ('top' | 'bottom' | int) cstorage CLOSE ;
+card : varcard | maxof | minof | actual | OPEN ('top' | 'bottom' | int) cstorage CLOSE ;
 actual : OPEN 'actual' card CLOSE ;
 
-rawstorage : OPEN (var | 'game' | who) 'sto' str CLOSE ;
-pointstorage : OPEN (var | 'game' | who) 'points' str CLOSE ;
-strstorage : OPEN (var | 'game' | who) 'str' str CLOSE ;
-cstorage : var | unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc str CLOSE | memstorage ;
+rawstorage : OPEN (varo | 'game' | who) 'sto' str CLOSE ;
+pointstorage : OPEN (varo | 'game' | who) 'points' str CLOSE ;
+strstorage : OPEN (varo | 'game' | who) 'str' str CLOSE ;
+cstorage : varcs | unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc str CLOSE | memstorage ;
 memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
 
 memset : tuple | partition | subset ;
@@ -90,19 +103,19 @@ subset : OPEN 'subsets' cstorage CLOSE ;
 tuple : OPEN 'tuples' int cstorage 'using' pointstorage CLOSE ;
 partition : OPEN 'partition' (agg | cstorage+?) str CLOSE ;
 
-locpre : (var | 'game' | whop) ;
+locpre : ('game' | varp | whop) ;
 locdesc : 'vloc'|'iloc'|'hloc'|'mem' ;
 who : whot | whop ;
 whop : OPEN whodesc 'player' CLOSE | owner ;
 whot : OPEN whodesc 'team' CLOSE | teamp ;
 whodesc : int | 'previous' | 'next' | 'current' ;
 owner : OPEN 'owner' card CLOSE ;
-teamp : OPEN 'team' (var | whop) CLOSE ;
+teamp : OPEN 'team' (varp | whop) CLOSE ;
 
 other : OPEN 'other' ('player' | 'team') CLOSE ;
 
-typed : var | int | boolean | str | collection ;
-collection : var | filter | cstorage | strcollection | cstoragecollection | 'player' | 'team'
+typed : int | boolean | str | collection ;
+collection : varc | filter | cstorage | strcollection | cstoragecollection | 'player' | 'team'
              | whot | other | range ;
 strcollection : OPEN (namegr ',')*? namegr CLOSE ;
 cstoragecollection : memset | agg | let ;
@@ -110,10 +123,9 @@ range : OPEN 'range' int '..' int CLOSE ;
 
 filter : OPEN 'filter' collection var boolean CLOSE ;
 
-attrcomp : EQOP str str ;   // I don't think we need this anymore
 cardatt : OPEN 'cardatt' str card CLOSE ;
 
-boolean : OPEN (BOOLOP boolean boolean+? | intop int int  | attrcomp | EQOP card card
+boolean : OPEN (BOOLOP boolean boolean+? | intop int int | EQOP str str | EQOP card card
           | UNOP boolean | EQOP whop whop | EQOP whot whot) CLOSE | agg ;
 BOOLOP : 'and' | 'or' ;
 intop : COMPOP | EQOP ;
@@ -142,10 +154,10 @@ disjunctionof : OPEN 'disjunction' (agg | cstorage+?) CLOSE ;
 sum : OPEN 'sum' cstorage 'using' pointstorage CLOSE ;
 score : OPEN 'score' card 'using' pointstorage CLOSE ;
 
-int : var | sizeof | mult | subtract | mod | add | divide | exponent | triangular | fibonacci | random | sum | rawstorage | score | INTNUM+ ;
+int : vari | sizeof | mult | subtract | mod | add | divide | exponent | triangular | fibonacci | random | sum | rawstorage | score | INTNUM+ ;
 INTNUM : [0-9] ;
 
-str : namegr | strstorage | var | cardatt ;
+str : namegr | strstorage | vars | cardatt ;
 namegr : (LETT)+ ;
 LETT : [A-Z] ;
 

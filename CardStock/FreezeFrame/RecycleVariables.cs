@@ -26,10 +26,6 @@ namespace CardStock.FreezeFrame
             return ret;
         }
 
-        public object Get(RecycleParser.VarContext var)
-        {
-            return Get(var.GetText());
-        }
         public object Get(String text)
         {
             if (vars.TryGetValue(text, out object? value))
@@ -38,6 +34,7 @@ namespace CardStock.FreezeFrame
             }
             throw new Exception("Object " + text + " could not be found");
         }
+
         public void Put(string k, Object v)
         {
             vars[k] = v;
@@ -101,10 +98,10 @@ namespace CardStock.FreezeFrame
                 {
                     ret.Add(key, newgame.sourceDeck[c.name][c.id]);
                 }
-                else if (o is List<Card>)
+                else if (o is List<Card> clist)
                 {
                     List<Card> l = [];
-                    foreach (Card card in o as List<Card>)
+                    foreach (Card card in clist)
                     {
                         l.Add(newgame.sourceDeck[card.name][card.id]);
                     }
@@ -189,7 +186,7 @@ namespace CardStock.FreezeFrame
 
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null)
             { return false; }

@@ -58,7 +58,7 @@ public class ParseEngine
          ***********/
         //if (!exp.Evaluating)
         //{
-            DotVisualization.DOTMakerTop(tree, fileName);
+            DotVisualization.DOTMakerTop(tree, "output/" + fileName);
         //}
 
         return HasShuffleAndChoice(tree);
