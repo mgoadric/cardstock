@@ -1,4 +1,8 @@
-// Version 0.5.4 of our REcursive CYclic Card game LanguagE
+// Version 0.5.5 of our REcursive CYclic Card game LanguagE
+
+// New in version 0.5.5
+//  revised the way variables are parsed, using type to distinguish
+//  removed attrcomp and made it just a string comparison
 
 // New in version 0.5.4
 //  sizeof works for all collections, not just card collections
@@ -41,6 +45,7 @@ varp : '\'' namegr ;
 vari : '\'' namegr ;
 varb : '\'' namegr ;
 varc : '\'' namegr ;
+varcs : '\'' namegr ;
 varcard : '\'' namegr ;
 
 game : OPEN 'game' declare*? setup (multiaction | stage)+? scoring CLOSE ;
@@ -90,7 +95,7 @@ actual : OPEN 'actual' card CLOSE ;
 rawstorage : OPEN (varo | 'game' | who) 'sto' str CLOSE ;
 pointstorage : OPEN (varo | 'game' | who) 'points' str CLOSE ;
 strstorage : OPEN (varo | 'game' | who) 'str' str CLOSE ;
-cstorage : unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc str CLOSE | memstorage ;
+cstorage : varcs | unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc str CLOSE | memstorage ;
 memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
 
 memset : tuple | partition | subset ;
@@ -120,7 +125,7 @@ filter : OPEN 'filter' collection var boolean CLOSE ;
 
 cardatt : OPEN 'cardatt' str card CLOSE ;
 
-boolean : OPEN (BOOLOP boolean boolean+? | intop int int  | EQOP str str | EQOP card card
+boolean : OPEN (BOOLOP boolean boolean+? | intop int int | EQOP str str | EQOP card card
           | UNOP boolean | EQOP whop whop | EQOP whot whot) CLOSE | agg ;
 BOOLOP : 'and' | 'or' ;
 intop : COMPOP | EQOP ;

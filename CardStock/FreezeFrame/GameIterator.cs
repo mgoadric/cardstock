@@ -1123,7 +1123,13 @@ namespace CardStock.FreezeFrame
                     eq = true;
                 }
 
-                if (boolNode.card().Length > 0)
+                if (boolNode.str().Length > 0)
+                {
+                    var t1 = ProcessString(boolNode.str()[0]);
+                    var t2 = ProcessString(boolNode.str()[1]);
+                    return eq == t1.Equals(t2);
+                }
+                else if (boolNode.card().Length > 0)
                 {
                     var card1 = ProcessCard(boolNode.card()[0]);
                     var card2 = ProcessCard(boolNode.card()[1]);
@@ -1139,12 +1145,6 @@ namespace CardStock.FreezeFrame
                 {
                     var t1 = ProcessWhot(boolNode.whot()[0]);
                     var t2 = ProcessWhot(boolNode.whot()[1]);
-                    return eq == t1.Equals(t2);
-                }
-                else if (boolNode.str().Length > 0)
-                {
-                    var t1 = ProcessString(boolNode.str()[0]);
-                    var t2 = ProcessString(boolNode.str()[1]);
                     return eq == t1.Equals(t2);
                 }
             }
@@ -1555,13 +1555,13 @@ namespace CardStock.FreezeFrame
                     return resultingSet[Int32.Parse(identifier)];
                 }
             }
-            // CAN WE REMOVE THIS????
-            /*
-            else if (loc.varc() != null)
+            // CAN WE REMOVE THIS???? NO!!!
+            
+            else if (loc.varcs() != null)
             {
-                return ProcessCardVar(loc.varc());
+                return ProcessCardStorageVar(loc.varcs());
             }
-            */
+            
             throw new NotSupportedException();
         }
 
@@ -2245,10 +2245,14 @@ namespace CardStock.FreezeFrame
             {
                 return cards;
             }
+            else if (stor is List<Object> objs) // #??
+            {
+                return objs;
+            }
             else
             {
                 Console.WriteLine(stor.GetType().ToString());
-                foreach (var s in stor as List<object>) 
+                foreach (var s in stor as List<object>)
                 {
                     Console.WriteLine(s.GetType().ToString());
                 }
@@ -2428,7 +2432,7 @@ namespace CardStock.FreezeFrame
             // Multiaction2 & any actions are handled in processMultiaction & processAction respectively 
             if (agg.GetChild(4) is RecycleParser.CstorageContext)
             {
-                Console.WriteLine("Processing All/Any + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
+                Debug.WriteLine("Processing All/Any + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
                 var coll = new List<CardLocReference>();
                 foreach (object obj in ret)
                 {
@@ -2474,7 +2478,7 @@ namespace CardStock.FreezeFrame
             {
                 if (agg.GetChild(4) is RecycleParser.BooleanContext)
                 {
-                    Debug.WriteLine("Processing Any + Boolean: " + (((RecycleParser.BooleanContext)agg.GetChild(4)).GetText()));
+                    Debug.WriteLine("Processing Any + Boolean: " + agg.GetChild(4).GetText());
 
                     var all = false;
                     foreach (object obj in ret)
@@ -2485,7 +2489,7 @@ namespace CardStock.FreezeFrame
                 }
                 else if (agg.GetChild(4) is RecycleParser.RawstorageContext)
                 {
-                    Debug.WriteLine("Processing Any + Rawstorage: " + (((RecycleParser.RawstorageContext)agg.GetChild(4)).GetText()));
+                    Debug.WriteLine("Processing Any + Rawstorage: " + agg.GetChild(4).GetText());
 
                     var lst = new List<int>();
                     foreach (object obj in ret)
@@ -2497,13 +2501,15 @@ namespace CardStock.FreezeFrame
                 }
                 else
                 {
-                    throw new Exception();
+                    Debug.WriteLine("This is an action, nothing to do here");
+                    //Console.WriteLine("Processing Any + ???: " + agg.GetChild(4).GetText());
+                    //throw new Exception();
                 }
             }
             return ret;
         }
 
-        private object ProcessAggPost(IParseTree parseTree)
+        private object? ProcessAggPost(IParseTree parseTree)
         {
             if (parseTree is RecycleParser.Multiaction2Context)
             {
@@ -2695,6 +2701,34 @@ namespace CardStock.FreezeFrame
             else
             {
                 Debug.WriteLine("Error, not a string, type is: " + temp.GetType());
+                throw new NotImplementedException();
+            }
+        }
+
+        private CardLocReference ProcessCardStorageVar(RecycleParser.VarcsContext var)
+        {
+            var temp = variables.Get(var.GetText());
+            if (temp is CardLocReference loc)
+            {
+                return loc;
+            }
+            else if (temp is List<Card> cards)
+            {
+                CardCollection mycards = new(CCType.VIRTUAL);
+                foreach (var card in cards)
+                {
+                    mycards.Add(card);
+                }
+                var fancy = new CardLocReference()
+                {
+                    cardList = mycards,
+                    name = var.GetText() + "WEIRD",
+                };
+                return fancy;
+            }
+            else
+            {
+                Console.WriteLine("Error, not a string, type is: " + temp.GetType());
                 throw new NotImplementedException();
             }
         }
