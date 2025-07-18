@@ -1163,7 +1163,7 @@ namespace CardStock.FreezeFrame
             if (cardOne.Count() == 0)
             {
                 Debug.WriteLine(copy.GetText());
-                ProcessCard(copy.GetChild(1) as RecycleParser.CardContext);
+                ProcessCard((RecycleParser.CardContext)copy.GetChild(1));
                 return null;
             }
             var cardTwo = ProcessCard(copy.card()[1]);
@@ -1275,7 +1275,7 @@ namespace CardStock.FreezeFrame
                     var fancy = new CardLocReference()
                     {
                         cardList = loc.cardList,
-                        locIdentifier = "" + ProcessIntVar(card.@int().vari()),
+                        locIdentifier = "" + ProcessInt(card.@int()),
                         name = loc.name
                     };
 
@@ -1334,7 +1334,7 @@ namespace CardStock.FreezeFrame
             }
             else if (cstoragecoll.aggcs() != null)
             {
-                return ProcessAggCStorage(cstoragecoll.aggcs()) as List<CardLocReference>;
+                return ProcessAggCStorage(cstoragecoll.aggcs());
             }
             else if (cstoragecoll.let() != null)
             {
@@ -1366,7 +1366,7 @@ namespace CardStock.FreezeFrame
                 }
                 else
                 { //agg
-                    foreach (var locs in ProcessAggCStorage(loc.unionof().aggcs()) as List<CardLocReference>)
+                    foreach (var locs in ProcessAggCStorage(loc.unionof().aggcs()))
                     {
                         name += locs.name + " ";
                         foreach (var card in locs.cardList.AllCards())
@@ -1417,7 +1417,7 @@ namespace CardStock.FreezeFrame
                 else
                 { //agg
                     Dictionary<Card, int> cardCount = [];
-                    foreach (var locs in ProcessAggCStorage(loc.intersectof().aggcs()) as List<CardLocReference>)
+                    foreach (var locs in ProcessAggCStorage(loc.intersectof().aggcs()))
                     {
                         name += locs.name + " ";
                         foreach (var card in locs.cardList.AllCards())
@@ -1494,7 +1494,7 @@ namespace CardStock.FreezeFrame
                 else
                 { //agg
                     Dictionary<Card, int> cardCount = [];
-                    foreach (var locs in ProcessAggCStorage(loc.disjunctionof().aggcs()) as List<CardLocReference>)
+                    foreach (var locs in ProcessAggCStorage(loc.disjunctionof().aggcs()))
                     {
                         name += locs.name + " ";
                         foreach (var card in locs.cardList.AllCards())
@@ -1670,7 +1670,7 @@ namespace CardStock.FreezeFrame
                 else
                 {
                     var partition = new Dictionary<String, CardCollection>();
-                    foreach (var stor in ProcessAggCStorage(memset.partition().aggcs()) as List<CardLocReference>)
+                    foreach (var stor in ProcessAggCStorage(memset.partition().aggcs()))
                     {
                         foreach (var card in stor.cardList.AllCards())
                         {
@@ -2230,7 +2230,7 @@ namespace CardStock.FreezeFrame
             return ret;
         }
 
-        private object ProcessAggCStorage(RecycleParser.AggcsContext agg)
+        private List<CardLocReference> ProcessAggCStorage(RecycleParser.AggcsContext agg)
         {
             var ret = IterateAgg(agg.collection(), agg.var(), agg.GetChild(4));
 
@@ -2243,7 +2243,6 @@ namespace CardStock.FreezeFrame
                 coll.Add((CardLocReference)obj);
             }
             return coll;
-            
         }
 
         private int ProcessAggIntStorage(RecycleParser.AggiContext agg)
@@ -2318,7 +2317,7 @@ namespace CardStock.FreezeFrame
             }
             else if (stor is List<int> rsto)
             {
-                return stor as List<object>;
+                return (List<object>)stor;
             }
             else if (stor is List<Card> cards) // #3
             {
@@ -2331,7 +2330,7 @@ namespace CardStock.FreezeFrame
             else
             {
                 Console.WriteLine(stor.GetType().ToString());
-                foreach (var s in stor as List<object>)
+                foreach (var s in (List<object>)stor)
                 {
                     Console.WriteLine(s.GetType().ToString());
                 }

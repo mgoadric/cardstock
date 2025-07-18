@@ -2,8 +2,9 @@
 
 
 (game
+    (declare 5 'NUMP)
     (setup
-        (create players 5)
+        (create players 'NUMP)
 
         ;; Create the deck source, 32 card piquet pack
         (create deck (game iloc STOCK) (deck (RANK (SEVEN, EIGHT, NINE, TEN, J, Q, K, A))
@@ -53,15 +54,23 @@
 
 
     (stage player 
-        (end (< (size (game iloc STOCK)) 3))
+        (end (or (< (size (game iloc STOCK)) 3)
+                 (== (game sto CLOSE) 5)))
     
         (stage player 
-            (end (or (== (game sto PASS) 3)
-                     (any player 'P (any (partition ('P iloc HAND) RANK) 'RP (> (sum 'RP using (game points SCORE)) 30)))
+            (end (or (== (game sto PASS) 'NUMP)
+                     (== (game sto CLOSE) 'NUMP)
+                     (any player 'P 
+                      (any (partition ('P iloc HAND) RANK) 'RP 
+                       (or (== (sum 'RP using (game points SCORE)) 33)
+                           (== (sum 'RP using (game points SCORE)) 31))))
                 ))
             (choice (
                 ;; pass
                 (inc (game sto PASS) 1)
+
+                ((== (game sto CLOSE) 0)
+                 (set (game sto CLOSE) 1))
                 
                 ;; exchange all cards with the middle
                 (do (
@@ -86,6 +95,10 @@
                             (set (game sto PASS) 0)
                         ))))
              ))
+             (do (
+                ((!= (game sto CLOSE) 0)
+                 (inc (game sto CLOSE) 1))
+             ))
         )
 
         ;; discard the MIDDLE and deal out 3 more cards
@@ -107,7 +120,14 @@
         (all (partition ((current player) iloc HAND) RANK) 'RP 
            (let (sum 'RP using (game points SCORE)) 'RS 
              ((> 'RS ((current player) sto SCORE))
-              (set ((current player) sto SCORE) 'RS))))
+              (set ((current player) sto SCORE) (* 2 'RS)))))
+        ((== ((current player) sto SCORE) 66)
+         (set ((current player) sto SCORE) 64))
+        ((and (== (cardatt RANK (0 ((current player) iloc HAND)))
+                  (cardatt RANK (1 ((current player) iloc HAND))))
+              (== (cardatt RANK (0 ((current player) iloc HAND)))
+                  (cardatt RANK (1 ((current player) iloc HAND)))))
+         (set ((current player) sto SCORE) 61))
         (repeat all (move (top ((current player) iloc HAND))
                           (top (game vloc DISCARD))))
     )))

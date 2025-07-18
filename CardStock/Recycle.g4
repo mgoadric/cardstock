@@ -95,7 +95,7 @@ shuffleaction : 'shuffle' cstorage ;
 turnaction : 'turn' 'pass' ;
 repeat : 'repeat' int action | 'repeat' 'all' OPEN moveaction CLOSE ;
 
-card : varcard | maxof | minof | actual | OPEN ('top' | 'bottom' | int) cstorage CLOSE ;
+card : varcard | maxof | minof | actual | OPEN ('top' | 'bottom' | int ) cstorage CLOSE ;
 actual : OPEN 'actual' card CLOSE ;
 
 rawstorage : OPEN (varo | 'game' | who) 'sto' str CLOSE ;
