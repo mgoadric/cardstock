@@ -1,4 +1,7 @@
-// Version 0.5.5 of our REcursive CYclic Card game LanguagE
+// Version 0.5.6 of our REcursive CYclic Card game LanguagE
+
+// New in version 0.5.6
+//  agg separated into action, boolean, cstorage, int
 
 // New in version 0.5.5
 //  revised the way variables are parsed, using type to distinguish
@@ -60,7 +63,10 @@ multiaction : OPEN 'choice' OPEN (condact)+? CLOSE CLOSE | OPEN 'do' OPEN (conda
 multiaction2 : OPEN 'do' OPEN (condact)+? CLOSE CLOSE | agg | let ;
 condact : OPEN boolean multiaction2 CLOSE | multiaction2 | OPEN boolean action CLOSE | action ;
 
-agg : OPEN ('any' | 'all') collection var (condact | boolean | cstorage | rawstorage) CLOSE ;
+agg : OPEN ('any' | 'all') collection var condact CLOSE ;
+aggb : OPEN ('any' | 'all') collection var boolean CLOSE ;
+aggcs : OPEN 'all' collection var cstorage CLOSE ;
+aggi : OPEN 'all' collection var rawstorage CLOSE ;
 let : OPEN 'let' typed var (multiaction | action | condact) CLOSE ;
 declare : OPEN 'declare' typed var CLOSE ;
 
@@ -101,7 +107,7 @@ memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
 memset : tuple | partition | subset ;
 subset : OPEN 'subsets' cstorage CLOSE ;
 tuple : OPEN 'tuples' int cstorage 'using' pointstorage CLOSE ;
-partition : OPEN 'partition' (agg | cstorage+?) str CLOSE ;
+partition : OPEN 'partition' (aggcs | cstorage+?) str CLOSE ;
 
 locpre : ('game' | varp | whop) ;
 locdesc : 'vloc'|'iloc'|'hloc'|'mem' ;
@@ -118,7 +124,7 @@ typed : int | boolean | str | collection ;
 collection : varc | filter | cstorage | strcollection | cstoragecollection | 'player' | 'team'
              | whot | other | range ;
 strcollection : OPEN (namegr ',')*? namegr CLOSE ;
-cstoragecollection : memset | agg | let ;
+cstoragecollection : memset | aggcs | let ;
 range : OPEN 'range' int '..' int CLOSE ;
 
 filter : OPEN 'filter' collection var boolean CLOSE ;
@@ -126,7 +132,7 @@ filter : OPEN 'filter' collection var boolean CLOSE ;
 cardatt : OPEN 'cardatt' str card CLOSE ;
 
 boolean : OPEN (BOOLOP boolean boolean+? | intop int int | EQOP str str | EQOP card card
-          | UNOP boolean | EQOP whop whop | EQOP whot whot) CLOSE | agg ;
+          | UNOP boolean | EQOP whop whop | EQOP whot whot) CLOSE | aggb ;
 BOOLOP : 'and' | 'or' ;
 intop : COMPOP | EQOP ;
 COMPOP : '<' | '>' | '>=' | '<=' ;
@@ -147,9 +153,9 @@ sizeof : OPEN 'size' collection CLOSE ;
 maxof : OPEN 'max' cstorage 'using' pointstorage CLOSE ;
 minof : OPEN 'min' cstorage 'using' pointstorage CLOSE ;
 sortof : OPEN 'sort' cstorage 'using' pointstorage CLOSE ;
-unionof : OPEN 'union' (agg | cstorage+?) CLOSE ;
-intersectof : OPEN 'intersect' (agg | cstorage+?) CLOSE ;
-disjunctionof : OPEN 'disjunction' (agg | cstorage+?) CLOSE ;
+unionof : OPEN 'union' (aggcs | cstorage+?) CLOSE ;
+intersectof : OPEN 'intersect' (aggcs | cstorage+?) CLOSE ;
+disjunctionof : OPEN 'disjunction' (aggcs | cstorage+?) CLOSE ;
 
 sum : OPEN 'sum' cstorage 'using' pointstorage CLOSE ;
 score : OPEN 'score' card 'using' pointstorage CLOSE ;

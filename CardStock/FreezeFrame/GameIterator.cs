@@ -400,7 +400,6 @@ namespace CardStock.FreezeFrame
                     Debug.WriteLine("Processing multiaction aggregation.");
                     lst.Add(ProcessAgg(multiaction.agg()) as GameActionCollection);
                     //lst.AddRange((List<GameActionCollection>)ProcessAgg(multiaction.agg()));
-
                 }
                 else if (multiaction.let() != null)
                 {
@@ -1148,9 +1147,9 @@ namespace CardStock.FreezeFrame
                     return eq == t1.Equals(t2);
                 }
             }
-            else if (boolNode.agg() != null)
+            else if (boolNode.aggb() != null)
             {
-                return (bool)ProcessAgg(boolNode.agg());
+                return (bool)ProcessAggBool(boolNode.aggb());
             }
             throw new NotSupportedException();
         }
@@ -1333,9 +1332,9 @@ namespace CardStock.FreezeFrame
                 var lst = ProcessMemset(cstoragecoll.memset());
                 return [.. lst];
             }
-            else if (cstoragecoll.agg() != null)
+            else if (cstoragecoll.aggcs() != null)
             {
-                return ProcessAgg(cstoragecoll.agg()) as List<CardLocReference>;
+                return ProcessAggCStorage(cstoragecoll.aggcs()) as List<CardLocReference>;
             }
             else if (cstoragecoll.let() != null)
             {
@@ -1367,7 +1366,7 @@ namespace CardStock.FreezeFrame
                 }
                 else
                 { //agg
-                    foreach (var locs in ProcessAgg(loc.unionof().agg()) as List<CardLocReference>)
+                    foreach (var locs in ProcessAggCStorage(loc.unionof().aggcs()) as List<CardLocReference>)
                     {
                         name += locs.name + " ";
                         foreach (var card in locs.cardList.AllCards())
@@ -1418,7 +1417,7 @@ namespace CardStock.FreezeFrame
                 else
                 { //agg
                     Dictionary<Card, int> cardCount = [];
-                    foreach (var locs in ProcessAgg(loc.intersectof().agg()) as List<CardLocReference>)
+                    foreach (var locs in ProcessAggCStorage(loc.intersectof().aggcs()) as List<CardLocReference>)
                     {
                         name += locs.name + " ";
                         foreach (var card in locs.cardList.AllCards())
@@ -1495,7 +1494,7 @@ namespace CardStock.FreezeFrame
                 else
                 { //agg
                     Dictionary<Card, int> cardCount = [];
-                    foreach (var locs in ProcessAgg(loc.disjunctionof().agg()) as List<CardLocReference>)
+                    foreach (var locs in ProcessAggCStorage(loc.disjunctionof().aggcs()) as List<CardLocReference>)
                     {
                         name += locs.name + " ";
                         foreach (var card in locs.cardList.AllCards())
@@ -1671,7 +1670,7 @@ namespace CardStock.FreezeFrame
                 else
                 {
                     var partition = new Dictionary<String, CardCollection>();
-                    foreach (var stor in ProcessAgg(memset.partition().agg()) as List<CardLocReference>)
+                    foreach (var stor in ProcessAggCStorage(memset.partition().aggcs()) as List<CardLocReference>)
                     {
                         foreach (var card in stor.cardList.AllCards())
                         {
@@ -2207,10 +2206,90 @@ namespace CardStock.FreezeFrame
             return fancy;
         }
 
-        // want to clean up & understand processagg TODO
+       private List<object> IterateAgg(RecycleParser.CollectionContext coll, RecycleParser.VarContext var, IParseTree tree)
+        {
+            var stor = ProcessCollection(coll);
+            var ret = new List<object>();
+            foreach (var t in stor)
+            {
+                Debug.WriteLine("Iterating over aggregation of: " + t.GetType());
+                variables.Put(var.GetText(), t);
+                var post = ProcessAggPost(tree);
+                ret.Add(post);
+                variables.Remove(var.GetText());
+            }
+            return ret;
+        }
+
         private object ProcessAgg(RecycleParser.AggContext agg)
         {
-            return IterateAgg(agg, ProcessCollection(agg.collection()));
+            var ret = IterateAgg(agg.collection(), agg.var(), agg.GetChild(4));
+            Debug.WriteLine(ret.Count);
+            // Not sure what we're doing here anymore after cleanup. 
+            // Are the actions executed in IterateAgg? ..
+            return ret;
+        }
+
+        private object ProcessAggCStorage(RecycleParser.AggcsContext agg)
+        {
+            var ret = IterateAgg(agg.collection(), agg.var(), agg.GetChild(4));
+
+            Debug.WriteLine(ret.Count);
+
+            Debug.WriteLine("Processing agg + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
+            var coll = new List<CardLocReference>();
+            foreach (object obj in ret)
+            {
+                coll.Add((CardLocReference)obj);
+            }
+            return coll;
+            
+        }
+
+        private int ProcessAggIntStorage(RecycleParser.AggiContext agg)
+        {
+            var ret = IterateAgg(agg.collection(), agg.var(), agg.GetChild(4));
+
+            Debug.WriteLine(ret.Count);
+
+            Debug.WriteLine("Processing agg + IntStorage: " + (((RecycleParser.RawstorageContext)agg.GetChild(4)).GetText()));
+            var sum = 0;
+            foreach (object obj in ret)
+            {
+                var raw = (IntStorageReference)obj;
+                sum += raw.Get();
+            }
+            return sum;
+            
+        }
+        private bool ProcessAggBool(RecycleParser.AggbContext agg)
+        {
+            Debug.WriteLine("Processing agg + Boolean: " + (((RecycleParser.BooleanContext)agg.GetChild(4)).GetText()));
+
+            var ret = IterateAgg(agg.collection(), agg.var(), agg.GetChild(4));
+
+            Debug.WriteLine("Found this many: " + ret.Count);
+            if (agg.GetChild(1).GetText() == "all")
+            {
+                var all = true;
+                foreach (object obj in ret)
+                {
+                    Debug.WriteLine("i: " + obj);
+                    all &= (bool)obj;
+                }
+                return all;
+            }
+            else // if an 'any' statement
+            {
+                foreach (object obj in ret)
+                {
+                    if ((bool)obj)
+                    {
+                        return true; // short circut when found a true for any case
+                    }
+                }
+                return false;
+            }
         }
 
         private IEnumerable<object> ProcessCollectionVar(RecycleParser.VarcContext varc)
@@ -2414,102 +2493,7 @@ namespace CardStock.FreezeFrame
             }
         }
 
-        private object IterateAgg<T>(RecycleParser.AggContext agg, IEnumerable<T> stor)
-        {
-
-            var ret = new List<object>();
-            foreach (T t in stor)
-            {
-                Debug.WriteLine("Iterating over aggregation of: " + t.GetType());
-                variables.Put(agg.var().GetText(), t);
-                var post = ProcessAggPost(agg.GetChild(4));
-                ret.Add(post);
-                variables.Remove(agg.var().GetText());
-            }
-            // only difference is really in rawstorage & boolean
-            Debug.WriteLine(ret.Count);
-            // TODO - MULTIACTIONS & ACTIONS NEVER GET HERE... (any & all)
-            // Multiaction2 & any actions are handled in processMultiaction & processAction respectively 
-            if (agg.GetChild(4) is RecycleParser.CstorageContext)
-            {
-                Debug.WriteLine("Processing All/Any + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
-                var coll = new List<CardLocReference>();
-                foreach (object obj in ret)
-                {
-                    coll.Add((CardLocReference)obj);
-                }
-                return coll;
-            }
-            else if (All(agg))
-            {
-                if (agg.GetChild(4) is RecycleParser.BooleanContext)
-                {
-                    Debug.WriteLine("Processing All + Boolean: " + (((RecycleParser.BooleanContext)agg.GetChild(4)).GetText()));
-                    var all = true;
-                    Debug.WriteLine(agg.GetText());
-                    Debug.WriteLine("4: " + agg.GetChild(4).GetText());
-                    foreach (object obj in ret)
-                    {
-                        Debug.WriteLine("i: " + obj);
-                        all &= (bool)obj;
-                    }
-                    return all;
-
-                }
-                else if (agg.GetChild(4) is RecycleParser.RawstorageContext)
-                {
-                    Debug.WriteLine("Processing All + Rawstorage: " + (((RecycleParser.RawstorageContext)agg.GetChild(4)).GetText()));
-
-                    var sum = 0;
-                    foreach (object obj in ret)
-                    {
-                        var raw = (IntStorageReference)obj;
-                        sum += raw.Get();
-                    }
-                    return sum;
-                }
-                else
-                {
-                    Debug.WriteLine("This is an action, nothing to do here");
-                    //throw new Exception();
-                }
-            }
-            else // if not an all statement
-            {
-                if (agg.GetChild(4) is RecycleParser.BooleanContext)
-                {
-                    Debug.WriteLine("Processing Any + Boolean: " + agg.GetChild(4).GetText());
-
-                    var all = false;
-                    foreach (object obj in ret)
-                    {
-                        all |= (bool)obj;
-                    }
-                    return all;
-                }
-                else if (agg.GetChild(4) is RecycleParser.RawstorageContext)
-                {
-                    Debug.WriteLine("Processing Any + Rawstorage: " + agg.GetChild(4).GetText());
-
-                    var lst = new List<int>();
-                    foreach (object obj in ret)
-                    {
-                        var raw = (IntStorageReference)obj;
-                        lst.Add(raw.Get());
-                    }
-                    return lst;
-                }
-                else
-                {
-                    Debug.WriteLine("This is an action, nothing to do here");
-                    //Console.WriteLine("Processing Any + ???: " + agg.GetChild(4).GetText());
-                    //throw new Exception();
-                }
-            }
-            return ret;
-        }
-
-        private object? ProcessAggPost(IParseTree parseTree)
+         private object? ProcessAggPost(IParseTree parseTree)
         {
             if (parseTree is RecycleParser.Multiaction2Context)
             {
@@ -2755,11 +2739,6 @@ namespace CardStock.FreezeFrame
             text = text.Replace(")", string.Empty);
             var newlst = text.Split(delimiter);
             return newlst;
-        }
-
-        private static bool All(RecycleParser.AggContext agg)
-        {
-            return agg.GetChild(1).GetText() == "all";
         }
 
         public override bool Equals(object? obj)

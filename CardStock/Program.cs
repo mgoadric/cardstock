@@ -5,7 +5,7 @@ string game = "LostCities";
 int players = 2;
 CardStock.Players.PlayerType ai = CardStock.Players.PlayerType.PIPMCNEW;
 
-string[] files = Directory.GetFiles("games/", "GoFish*.gdl");
+string[] files = Directory.GetFiles("games/", "*.gdl");
 foreach (string filename in files)
 {
     string name = filename[6..^5];
