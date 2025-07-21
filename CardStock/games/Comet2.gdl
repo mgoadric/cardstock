@@ -10,98 +10,153 @@
   ;; Create the deck source 
   (repeat 2 (create deck (game iloc STOCK) (deck (RANK (TWO, THREE, FOUR, FIVE, SIX, SEVEN, 
                                                         EIGHT, TEN, JACK, QUEEN, KING))
-                                                 (COLOR (RED (SUIT (HEARTS, DIAMONDS)))))))
+                                                 (COLOR (BLACK (SUIT (CLUBS, SPADES)))))))
   (repeat 2 (create deck (game iloc STOCK) (deck (RANK (NINE)) 
+                                       (COLOR (BLACK (SUIT (SPADES)))))))
+  (create deck (game iloc STOCK) (deck (RANK (NINE)) 
+                                       (COLOR (BLACK (SUIT (CLUBS))))))
+  (create deck (game iloc STOCK) (deck (RANK (NINE)) 
                                        (COLOR (RED (SUIT (DIAMONDS)))))))
-  (create deck (game iloc STOCK) (deck (RANK (NINE)) 
-                                       (COLOR (RED (SUIT (HEARTS))))))
-  (create deck (game iloc STOCK) (deck (RANK (NINE)) 
-                                       (COLOR (BLACK (SUIT (CLUBS)))))))
 
  
- ;; Shuffle and deal each player 6 cards
+ ;; Shuffle and deal each player 18 cards
  (do 
      (
       (shuffle (game iloc STOCK))
-      (set (game str LEAD) NONE)
+      (set (game points PRECEDENCE) 
+        (
+            ((RANK : KING) 13)
+            ((RANK : QUEEN) 12)
+            ((RANK : JACK) 11)
+            ((RANK : TEN) 10)
+            ((RANK : NINE) 9)
+            ((RANK : EIGHT) 8)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+            ((RANK : TWO) 2)
+      ))      
+      (set (game points POINTS) 
+        (
+            ((RANK : KING) 10)
+            ((RANK : QUEEN) 10)
+            ((RANK : JACK) 10)
+            ((RANK : TEN) 10)
+            ((RANK : NINE) 9)
+            ((RANK : EIGHT) 8)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+            ((RANK : TWO) 2)
+      ))      
       (all player 'P 
            (repeat 18
                    (move (top (game iloc STOCK))
                          (top ('P iloc HAND)))))))
    
- ;; players play a round 6 times         
+ ;; players play until one is out of cards         
  (stage player
         (end 
-         (all player 'P 
+         (any player 'P 
               (== (size ('P iloc HAND)) 0)))
 
-        ;; players play a hand once     
-        (stage player
-               (end 
-                (all player 'P 
-                     (> (size ('P vloc TRICK)) 0)))
-               
-               (choice 
-                (
-                 
-                 ;; if following player cannot follow SUIT
-                 ;;   play any card, and end your turn   
-                 ((and (!= (game str LEAD) NONE)
-                       (== (size (filter ((current player) iloc HAND) 'C 
-                                         (== (cardatt SUIT 'C)
-                                             (game str LEAD)))) 0))
-                  (any ((current player) iloc HAND) 'AC
-                       (move 'AC 
-                             (top ((current player) vloc TRICK)))))
-                 
-                 ;; if following player and can follow SUIT
-                 ;;   play any card that follows SUIT, and end your turn
-                 (any (filter ((current player) iloc HAND) 'T 
-                              (== (cardatt SUIT 'T)
-                                  (game str LEAD)))
-                      'C
-                                ((!= (game str LEAD) NONE)
-                                 (move 'C 
-                                       (top ((current player) vloc TRICK)))))
-                
-                 ;; if first player, play any card, remember it in the lead spot, and end your turn
-                 ((== (game str LEAD) NONE)                      
-                  (any ((current player) iloc HAND) 'AC
-                       (do 
-                           (
-                            (move 'AC
-                                  (top ((current player) vloc TRICK)))
-                            (set (game str LEAD) (cardatt SUIT (top ((current player) vloc TRICK)))))))))))
-        
-        ;; after players play hand, computer wraps up trick
-        (do 
-            (
-             ;; solidfy card recedence
-             (set (game points PRECEDENCE) 
-                  (
-                   ((SUIT : (game str LEAD)) 100)
-                   ((RANK : ACE) 14)
-                   ((RANK : TEN) 10)
-                   ((RANK : NINE) 9)
-                   ((RANK : EIGHT) 8)
-                   ((RANK : SEVEN) 7)
-                   ((RANK : SIX) 6)
-                   ((RANK : FIVE) 5)
-                   ((RANK : FOUR) 4)
-                   ((RANK : THREE) 3)))
-             
-             ;; determine who won the hand, set them first next time
-             (set (game str LEAD) NONE)
-             
-             (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE))))
-             
-             (all player 'P 
-                  (move (top ('P vloc TRICK)) 
-                        (top (game vloc DISCARD))))
-             
-             ;; if that was the last round, give the winner a point
-             ((all player 'P
-                   (== (size ('P iloc HAND)) 0))
-              (inc ((next player) sto SCORE) 1)))))
- 
+      (choice (
+
+            ;; First of new sequence, play anything
+            ((== (size (game vloc SEQUENCE)) 0)
+             (any ((current player) iloc HAND) 'C 
+                  (do (
+                        (move 'C (top (game vloc SEQUENCE)))
+                  ))
+             )
+            )
+
+            ;; nothing matches the current sequence
+            ((and (> (size (game vloc SEQUENCE)) 0)
+                  (== (size (filter ((current player) iloc HAND) 'FC 
+                              (== (score 'FC using (game points PRECEDENCE))
+                                    (+ 1 (score (top (game vloc SEQUENCE)) 
+                                          using (game points PRECEDENCE)))))) 0))
+                         (inc (game sto PASSING) 1)
+            )
+
+            ;; play anything that matches the current sequence
+            ((> (size (game vloc SEQUENCE)) 0)
+             (any (filter ((current player) iloc HAND) 'FC 
+                        (== (score 'FC using (game points PRECEDENCE))
+                            (+ 1 (score (top (game vloc SEQUENCE)) using (game points PRECEDENCE)))))
+                       'C
+                       
+                       (do (
+                        (move 'C (top (game vloc SEQUENCE)))
+                  )))        
+            )
+
+            ;; FOUR OF A KIND THAT IS NEXT (or 3 9s TODO)
+            ((and (> (size (game vloc SEQUENCE)) 0)
+                  (== (size (filter ((current player) iloc HAND) 'FC 
+                        (== (score 'FC using (game points PRECEDENCE))
+                            (+ 1 (score (top (game vloc SEQUENCE)) using (game points PRECEDENCE))))))
+                  4))
+             (do ((all (filter ((current player) iloc HAND) 'FC 
+                        (== (score 'FC using (game points PRECEDENCE))
+                            (+ 1 (score (top (game vloc SEQUENCE)) using (game points PRECEDENCE))))) 
+                  'FCM 
+                  (move 'FCM (top (game vloc SEQUENCE))))
+                  (set (game str ALLFOUR) TRUE)
+             ))
+                             
+            )
+      ))
+
+
+      (do (
+            ;; if you have the next card, or play a king or Comet, then you get to go again
+            ((or (== (cardatt RANK (top (game vloc SEQUENCE))) KING)
+                 (== (cardatt COLOR (top (game vloc SEQUENCE))) RED)
+                 (!= (size (filter ((current player) iloc HAND) 'FC 
+                        (== (score 'FC using (game points PRECEDENCE))
+                              (+ 1 (score (top (game vloc SEQUENCE)) 
+                                    using (game points PRECEDENCE)))))) 0))
+             (cycle next current)
+            )
+
+            ;; if Comet played, then two points to the player
+            ((== (cardatt COLOR (top (game vloc SEQUENCE))) RED)
+             (inc ((current player) sto SCORE) 2)
+            )
+
+            ;; if stop played, then discard the sequence
+            ((or (== (cardatt RANK (top (game vloc SEQUENCE))) KING) ;; King is stop
+                 (== (game sto PASSING) (- 'NUMP 1)) ;; all passing is stop
+                 (== (cardatt COLOR (top (game vloc SEQUENCE))) RED)) ;; 9 of diamonds (Comet) is stop
+             (do (
+                  (set (game sto PASSING) 0)
+                  (repeat all (move (top (game vloc SEQUENCE))
+                                    (top (game vloc DISCARD))))
+             ))
+            )
+      ))         
+ )
+
+ (stage player (end 
+                (all player 'P (== (size ('P iloc HAND)) 0)))
+      (do (
+            ((> (size ((current player) iloc HAND)) 0)
+             (set ((current player) sto GIFT) (sum ((current player) iloc HAND) using (game points POINTS))))
+            ((== (size (filter ((current player) iloc HAND) 'FH 
+                        (== (cardatt COLOR 'FH) RED))) 1)
+             (set ((current player) sto GIFT) (* ((current player) sto GIFT) 2))
+            )
+            (inc ((next player) sto SCORE) ((current player) sto GIFT))
+            (repeat all (move (top ((current player) iloc HAND))
+                              (top (game vloc DISCARD))))
+            
+      ))
+ )
+
  (scoring max ((current player) sto SCORE)))
