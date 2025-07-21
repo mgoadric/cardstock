@@ -69,50 +69,57 @@
             ;; First of new sequence, play anything
             ((== (size (game vloc SEQUENCE)) 0)
              (any ((current player) iloc HAND) 'C 
-                  (do (
-                        (move 'C (top (game vloc SEQUENCE)))
-                  ))
-             )
+                  (move 'C (top (game vloc SEQUENCE))))
             )
 
             ;; nothing matches the current sequence
             ((and (> (size (game vloc SEQUENCE)) 0)
                   (== (size (filter ((current player) iloc HAND) 'FC 
-                              (== (score 'FC using (game points PRECEDENCE))
+                              (or (== (score 'FC using (game points PRECEDENCE))
                                     (+ 1 (score (top (game vloc SEQUENCE)) 
-                                          using (game points PRECEDENCE)))))) 0))
-                         (inc (game sto PASSING) 1)
+                                          using (game points PRECEDENCE))))
+                                  (== (cardatt COLOR 'FC) RED)))) 0))
+             (inc (game sto PASSING) 1)
             )
 
             ;; play anything that matches the current sequence
             ((> (size (game vloc SEQUENCE)) 0)
              (any (filter ((current player) iloc HAND) 'FC 
-                        (== (score 'FC using (game points PRECEDENCE))
-                            (+ 1 (score (top (game vloc SEQUENCE)) using (game points PRECEDENCE)))))
+                        (or (== (score 'FC using (game points PRECEDENCE))
+                                (+ 1 (score (top (game vloc SEQUENCE)) using (game points PRECEDENCE))))
+                            (== (cardatt COLOR 'FC) RED)))
                        'C
-                       
-                       (do (
-                        (move 'C (top (game vloc SEQUENCE)))
-                  )))        
+                        (move 'C (top (game vloc SEQUENCE))))        
             )
 
-            ;; FOUR OF A KIND THAT IS NEXT (or 3 9s TODO)
+            ;; FOUR OF A KIND THAT IS NEXT
             ((and (> (size (game vloc SEQUENCE)) 0)
                   (== (size (filter ((current player) iloc HAND) 'FC 
+                     (and (!= (cardatt RANK 'FC) NINE)
                         (== (score 'FC using (game points PRECEDENCE))
-                            (+ 1 (score (top (game vloc SEQUENCE)) using (game points PRECEDENCE))))))
+                            (+ 1 (score (top (game vloc SEQUENCE)) using (game points PRECEDENCE)))))))
                   4))
-             (do ((all (filter ((current player) iloc HAND) 'FC 
-                        (== (score 'FC using (game points PRECEDENCE))
-                            (+ 1 (score (top (game vloc SEQUENCE)) using (game points PRECEDENCE))))) 
+             (all (filter ((current player) iloc HAND) 'FC 
+                        (and (!= (cardatt RANK 'FC) NINE)
+                          (== (score 'FC using (game points PRECEDENCE))
+                             (+ 1 (score (top (game vloc SEQUENCE)) using (game points PRECEDENCE)))))) 
                   'FCM 
-                  (move 'FCM (top (game vloc SEQUENCE))))
-                  (set (game str ALLFOUR) TRUE)
-             ))
-                             
+                  (move 'FCM (top (game vloc SEQUENCE))))          
+            )
+
+            ;; or 3 9s
+            ((and (> (size (game vloc SEQUENCE)) 0)
+                  (== (size (filter ((current player) iloc HAND) 'FC 
+                     (and (== (cardatt RANK 'FC) NINE)
+                          (!= (cardatt COLOR 'FC) RED))))
+                  3))
+             (all (filter ((current player) iloc HAND) 'FC 
+                        (and (== (cardatt RANK 'FC) NINE)
+                             (!= (cardatt COLOR 'FC) RED))) 
+                  'FCM 
+                  (move 'FCM (top (game vloc SEQUENCE))))               
             )
       ))
-
 
       (do (
             ;; if you have the next card, or play a king or Comet, then you get to go again
