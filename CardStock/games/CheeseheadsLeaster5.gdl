@@ -36,6 +36,7 @@
             ))
       (shuffle (game iloc STOCK))
       (set (game sto LEASTER) 1)
+      (set (game str LEAD) NONE)
       (all player 'P
            (repeat 6
                    (move (top (game iloc STOCK))
@@ -60,21 +61,21 @@
                         
                  ;; if first player 
                  ;;   play any card, remember it in the lead spot, and end your turn
-                 ((== (size (game mem LEAD)) 0)
+                 ((== (game str LEAD) NONE)
                   (any ((current player) iloc HAND) 'C
                        (do 
                            (
                             (move 'C 
                                   (top ((current player) vloc TRICK)))
-                            (remember (top ((current player) vloc TRICK)) 
-                                      (top (game mem LEAD)))))))
+                            (set (game str LEAD)
+                              (cardatt COLOR (top ((current player) vloc TRICK))))))))
                         
                  ;; if following player and cannot follow SUIT
                  ;;   play any card, and end your turn
-                 ((and (== (size (game mem LEAD)) 1)
+                 ((and (!= (game str LEAD) NONE)
                        (== (size (filter ((current player) iloc HAND) 'H 
                                          (== (cardatt COLOR 'H) 
-                                             (cardatt COLOR (top (game mem LEAD)))))) 0))
+                                             (game str LEAD)))) 0))
                   (any ((current player) iloc HAND) 'C
                        (move 'C 
                              (top ((current player) vloc TRICK)))))
@@ -83,9 +84,9 @@
                  ;;   play any card that follows SUIT, and end your turn
                  (any (filter ((current player) iloc HAND) 'H 
                               (== (cardatt COLOR 'H)
-                                  (cardatt COLOR (top (game mem LEAD)))))
+                                  (game str LEAD)))
                       'C
-                      ((== (size (game mem LEAD)) 1)
+                      ((!= (game str LEAD) NONE)
                        (move 'C 
                              (top ((current player) vloc TRICK))))))))
                
@@ -94,7 +95,7 @@
              ;; solidfy card recedence
              (set (game points PRECEDENCE)
                   (
-                   ((COLOR : (cardatt COLOR (top (game mem LEAD)))) 100)
+                   ((COLOR : (game str LEAD)) 100)
                    ((COLOR : RED) 200)
                    ((RANK : FOURTEEN) 14)
                    ((RANK : THIRTEEN) 13) 
@@ -113,7 +114,7 @@
                    ))
                     
              ;; determine who won the hand, set them first next time, and give them a point
-             (forget (top (game mem LEAD)))
+             (set (game str LEAD) NONE)
              (cycle next (owner (max (union (all player 'P 
                                                  ('P vloc TRICK))) using (game points PRECEDENCE))))
                                         
