@@ -57,8 +57,8 @@ stage : OPEN 'stage' ('player' | 'team') endcondition (multiaction | stage)+? CL
 scoring : OPEN 'scoring' ('min' | 'max') int CLOSE ;
 endcondition : OPEN 'end' boolean CLOSE ;
 
-action : OPEN (initpoints | teamcreate | deckcreate | cycleaction | setaction | moveaction | copyaction
-         | incaction | setstraction | decaction | removeaction | turnaction | shuffleaction | repeat) CLOSE | agg ;
+action : OPEN (initpoints | teamcreate | deckcreate | cycleaction | setaction | moveaction 
+         | incaction | setstraction | decaction | turnaction | shuffleaction | repeat) CLOSE | agg ;
 multiaction : OPEN 'choice' OPEN (condact)+? CLOSE CLOSE | OPEN 'do' OPEN (condact)+? CLOSE CLOSE | agg | let ;
 multiaction2 : OPEN 'do' OPEN (condact)+? CLOSE CLOSE | agg | let ;
 condact : OPEN boolean multiaction2 CLOSE | multiaction2 | OPEN boolean action CLOSE | action ;
@@ -82,15 +82,11 @@ awards : OPEN subaward+? int CLOSE ;
 subaward : OPEN str ':' str CLOSE ;
 
 cycleaction : 'cycle' ('next' | 'current') (owner | 'current' | 'next' | 'previous' | varo ) ;
-
 setaction : 'set' rawstorage int ;
 setstraction : 'set' strstorage str ;
 incaction : 'inc' rawstorage int ;
 decaction : 'dec' rawstorage int ;
-
 moveaction : 'move' card card ;
-copyaction : 'remember' card card ;
-removeaction : 'forget' card ;
 shuffleaction : 'shuffle' cstorage ;
 turnaction : 'turn' 'pass' ;
 repeat : 'repeat' int action | 'repeat' 'all' OPEN moveaction CLOSE ;
@@ -105,12 +101,13 @@ cstorage : varcs | unionof | intersectof | disjunctionof | sortof | filter | OPE
 memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
 
 memset : tuple | partition | subset ;
+//run: OPEN 'runs' cstorage 'using' pointstorage CLOSE ;
 subset : OPEN 'subsets' cstorage CLOSE ;
 tuple : OPEN 'tuples' int cstorage 'using' pointstorage CLOSE ;
 partition : OPEN 'partition' (aggcs | cstorage+?) str CLOSE ;
 
 locpre : ('game' | varp | whop) ;
-locdesc : 'vloc'|'iloc'|'hloc'|'mem' ;
+locdesc : 'vloc'|'iloc'|'hloc' ;
 who : whot | whop ;
 whop : OPEN whodesc 'player' CLOSE | owner ;
 whot : OPEN whodesc 'team' CLOSE | teamp ;

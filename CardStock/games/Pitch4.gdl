@@ -23,6 +23,8 @@
            (repeat 6
                    (move (top (game iloc STOCK))
                          (top ('P iloc HAND)))))
+      (set (game str LEAD) NONE)
+      (set (game str TRUMP) NONE)
       (set (game points GAME)
            (
             ((RANK : ACE) 4)
@@ -80,32 +82,31 @@
                (choice 
                 (
                  ;; if first player, play any card, remember it in the lead spot
-                 ((== (size (game mem LEAD)) 0)                       
+                 ((== (game str LEAD) NONE)                       
                   (any ((current player) iloc HAND) 'C
                        (do 
                            (
                             (move 'C 
                                   (top ((current player) vloc TRICK)))
-                            (remember (top ((current player) vloc TRICK)) 
-                                      (top (game mem LEAD)))
+                            (set (game str LEAD) (cardatt SUIT (top ((current player) vloc TRICK))))
 
                             ;; if first player, then you also establish trump with your first card
-                            ((== (size (game mem TRUMP)) 0)
-                             (remember (top ((current player) vloc TRICK))
-                                       (top (game mem TRUMP))))))))
+                            ((== (game str TRUMP) NONE)
+                             (set (game str TRUMP) (cardatt SUIT (top ((current player) vloc TRICK))))
+                                       )))))
 
                  ;; if following player and can follow SUIT
                  ;;   play any card that follows SUIT or TRUMP
-                 ((and (== (size (game mem LEAD)) 1)
+                 ((and (!= (game str LEAD) NONE)
                        (>  (size (filter ((current player) iloc HAND) 'L 
                                (== (cardatt SUIT 'L)
-                                   (cardatt SUIT (top (game mem LEAD))))
+                                   (game str LEAD))
                         )) 0))
                   (any (filter ((current player) iloc HAND) 'L 
                                (or (== (cardatt SUIT 'L)
-                                       (cardatt SUIT (top (game mem LEAD))))
+                                       (game str LEAD))
                                    (== (cardatt SUIT 'L)
-                                       (cardatt SUIT (top (game mem TRUMP))))
+                                       (game str TRUMP))
                                    ))
                        'C
                        (move 'C 
@@ -113,10 +114,10 @@
                                                          
                  ;; if following player and cannot follow SUIT
                  ;;   play any card
-                 ((and (== (size (game mem LEAD)) 1)
+                 ((and (!= (game str LEAD) NONE)
                        (== (size (filter ((current player) iloc HAND) 'L 
                                          (== (cardatt SUIT 'L) 
-                                             (cardatt SUIT (top (game mem LEAD))))                      
+                                             (game str LEAD))                      
                         )) 0))
                   (any ((current player) iloc HAND) 'C
                        (move 'C 
@@ -129,8 +130,8 @@
              ;; solidfy card recedence
              (set (game points PRECEDENCE)
                   (
-                   ((SUIT : (cardatt SUIT (top (game mem TRUMP)))) 200)
-                   ((SUIT : (cardatt SUIT (top (game mem LEAD)))) 100)
+                   ((SUIT : (game str TRUMP)) 200)
+                   ((SUIT : (game str LEAD)) 100)
                    ((RANK : ACE) 14)
                    ((RANK : KING) 13) 
                    ((RANK : QUEEN) 12)
@@ -146,7 +147,7 @@
                    ((RANK : TWO) 2)))
              
              ;; determine who won the hand, set them first next time
-             (forget (top (game mem LEAD)))
+             (set (game str LEAD) NONE)
              (cycle next (owner (max (union (all player 'P 
                                                  ('P vloc TRICK))) using (game points PRECEDENCE))))
  
@@ -165,11 +166,11 @@
                (
                 (inc ((team 'P) sto GAMESCORE) (sum ('P vloc TRICKSWON) using (game points GAME)))
                 (let (filter (union (all player 'MP ('MP vloc TRICKSWON))) 'UC 
-                             (== (cardatt SUIT 'UC) (cardatt SUIT (top (game mem TRUMP))))) 'ONLYTRUMP
+                             (== (cardatt SUIT 'UC) (game str TRUMP))) 'ONLYTRUMP
                   (inc ((team 'P) sto TEMPSCORE) 
                     (size (filter ('P vloc TRICKSWON) 'C 
                         (and (== (cardatt SUIT 'C)
-                                 (cardatt SUIT (top (game mem TRUMP))))
+                                 (game str TRUMP))
                              (or (== (cardatt RANK 'C)
                                      (cardatt RANK (max 'ONLYTRUMP using (game points PRECEDENCE))))
                                  (== (cardatt RANK 'C)

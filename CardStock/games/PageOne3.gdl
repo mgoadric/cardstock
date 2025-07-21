@@ -18,6 +18,7 @@
  (do 
      (
       (shuffle (game iloc STOCK))
+      (set (game str LEAD) NONE)
       (all player 'P 
            (repeat 4
                    (move (top (game iloc STOCK))
@@ -44,12 +45,12 @@
                  
                  ;; if following player cannot follow SUIT and no joker (size is 0 of filter)
                  ;;   draw a card and go again  
-                 ((and (> (size (game mem LEAD)) 0)
+                 ((and (!= (game str LEAD) NONE)
                        (== (size (filter ((current player) iloc HAND) 'C 
                                          (or (== (cardatt RANK 'C)
                                                  JOKER)
                                              (== (cardatt SUIT 'C)
-                                                 (cardatt SUIT (top (game mem LEAD))))))) 0))
+                                                 (game str LEAD))))) 0))
                   (do 
                       (
                        (move (top (game iloc STOCK))
@@ -60,27 +61,25 @@
                  ;;   play any card that follows SUIT
                  (any (filter ((current player) iloc HAND) 'T 
                               (or (== (cardatt SUIT 'T)
-                                      (cardatt SUIT (top (game mem LEAD))))
+                                      (game str LEAD))
                                   (== (cardatt RANK 'T)
                                       JOKER)))
                       'C
-                      ((> (size (game mem LEAD)) 0)
+                      ((!= (game str LEAD) NONE)
                        (move 'C 
                              (top ((current player) vloc TRICK)))))
                  
                  ;; if following player and 
                  
                  ;; if first player or playing after a joker was lead, play any card, remember it in the lead spot, and end your turn
-                 ((or (== (size (game mem LEAD)) 0)
-                      (== (cardatt RANK (top (game mem LEAD)))
-                          JOKER))
+                 ((or (== (game str LEAD) NONE)
+                      (== (game str LEAD) JOKER))
                   (any ((current player) iloc HAND) 'AC
                        (do 
                            (
                             (move 'AC
                                   (top ((current player) vloc TRICK)))
-                            (remember (top ((current player) vloc TRICK)) 
-                                      (top (game mem LEAD)))))))))
+                            (set (game str LEAD) (cardatt SUIT (top ((current player) vloc TRICK))))))))))
                
                ;; Restock the deck if necessary
                (do 
@@ -103,7 +102,7 @@
              ;; solidfy card precedence
              (set (game points PRECEDENCE)
                   (
-                   ((SUIT : (cardatt SUIT (top (game mem LEAD)))) 100)
+                   ((SUIT : (game str LEAD)) 100)
                    ((RANK : JOKER) 200)
                    ((RANK : ACE) 14)
                    ((RANK : K) 13)
@@ -119,7 +118,7 @@
                    ((RANK : THREE) 3)
                    ((RANK : TWO) 2)))
              
-             (forget (top (game mem LEAD)))
+             (set (game str LEAD) NONE)
              
              ;; determine who won the hand, set them first next time
              (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE))))

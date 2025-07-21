@@ -20,7 +20,12 @@
            (repeat 13
                    (move (top (game iloc STOCK))
                          (top ('P iloc HAND)))))
-      (set (game sto ISDUCK) 1)))
+      (set (game str LEAD) NONE)
+
+      ;; turn top card face up...
+      ;; MISSING!!!
+
+      (set (game str COURSE) DUCK)))
  
  (stage player
         (end 
@@ -34,26 +39,25 @@
                 (
                  
                  ;; first player plays anything
-                 ((== (size (game mem LEAD)) 0) 
+                 ((== (game str LEAD) NONE) 
                   (any ((current player) iloc HAND) 'C
                        (do (
                             (move 'C (top ((current player) vloc TRICK)))
                             
-                            ;; draw card if in duck stage
-                            ((and (== (game sto ISDUCK) 1)
+                            ;; draw card if in duck stage SHOULD BE IN WRAPUP PHASE!!!
+                            ((and (== (game str COURSE) DUCK)
                                   (> (size (game iloc STOCK)) 0))
                              (move (top (game iloc STOCK))
                                    (top ((current player) hloc TEMP))))
                             
-                            (remember (top ((current player) vloc TRICK)) 
-                                      (top (game mem LEAD)))))))
+                            (set (game str LEAD) (cardatt SUIT (top ((current player) vloc TRICK))))))))
                  
                  ;; handle quacking  -  maybe doesn't work ?????
-                 ((!= (size (game mem LEAD)) 0)
+                 ((!= (game str LEAD) NONE)
                   
                   (any (filter ((current player) iloc HAND) 'NH
                                (== (cardatt RANK 'NH)
-                                   (cardatt RANK (top (game mem LEAD))))) 
+                                   (game str LEAD))) 
                        'C
                        
                        (do (
@@ -62,34 +66,36 @@
                                   (top ((current player) vloc TRICK)))
                             
                             ;; draw card if in duck stage
-                            ((and (== (game sto ISDUCK) 1)
+                            ((and (== (game str COURSE) DUCK)
                                   (> (size (game iloc STOCK)) 0))
                              (move (top (game iloc STOCK))
                                    (top ((current player) hloc TEMP))))
                             
+                            ;; ONLY DO THIS IF THE RANK MATCHES???
                             (remember (top ((current player) vloc TRICK))
                                       (top (game mem QUACK)))
                             (inc (game sto QUACKED) 1)
                             ((== (game sto QUACKED) 3)
                              (set (game sto FINISHED) 1))))))
-                 ;; bow out                        
+
+                 ;; bow out possible on third turn                   
                  ((== (game sto QUACKED) 1)
                   (set (game sto FINISHED) 1))
                  
                  ;; follow on second or fourth turn off suit
-                 ((and (!= (size (game mem LEAD)) 0)
+                 ((and (!= (game str LEAD) NONE)
                        (!= (game sto QUACKED) 1))
                   
                   
                   (any (filter ((current player) iloc HAND) 'NH
                                (!= (cardatt RANK 'NH)
-                                   (cardatt RANK (top (game mem LEAD))))) 
+                                   (game str LEAD))) 
                        'C
                        (do (
                             (move 'C (top ((current player) vloc TRICK)))
                             
                             ;; draw card if in duck stage
-                            ((and (== (game sto ISDUCK) 1)
+                            ((and (== (game str COURSE) DUCK)
                                   (> (size (game iloc STOCK)) 0))
                              (move (top (game iloc STOCK))
                                    (top ((current player) hloc TEMP))))
@@ -105,10 +111,10 @@
                           (move (top ('P hloc TEMP)) 
                                 (top ('P iloc HAND)))))
              
-             ((== (game sto ISDUCK) 1)
+             ((== (game str COURSE) DUCK)
               (set (game points CARDSCORE)
                    (
-                    ((SUIT : (cardatt SUIT (top (game mem LEAD)))) 100)
+                    ((SUIT : (game str LEAD)) 100)
                     ((RANK : A) 1)
                     ((RANK : K) 13) 
                     ((RANK : Q) 12)
@@ -122,10 +128,10 @@
                     ((RANK : FOUR) 4)
                     ((RANK : THREE) 3)
                     ((RANK : TWO) 2))))
-             ((== (game sto ISDUCK) 0)
+             ((== (game str COURSE) SOUP)
               (set (game points CARDSCORE)
                    (
-                    ((SUIT : (cardatt SUIT (top (game mem LEAD)))) 100)
+                    ((SUIT : (game str LEAD)) 100)
                     ((RANK : A) 14)
                     ((RANK : K) 13) 
                     ((RANK : Q) 12)
@@ -165,7 +171,7 @@
              
              (repeat (size (game mem QUACK)) 
                      (forget (top (game mem QUACK))))
-             (forget (top (game mem LEAD)))
+             (set (game str LEAD) NONE)
              (set (game sto QUACKED) 0)
              
              (all player 'P
@@ -173,11 +179,13 @@
                           (move (top ('P vloc TRICK))
                                 (top (game vloc DISCARD)))))            
              
+             ;; MISSING TURN TOP STOCK FACE UP!!
+
              ((and (== (size (game iloc STOCK)) 0)
-                   (== (game sto ISDUCK) 1))
+                   (== (game str COURSE) DUCK))
               (do 
                   (
-                   (set (game sto ISDUCK) 0)
+                   (set (game str COURSE) SOUP)
                    (all player 'P
                         (do
                             (
