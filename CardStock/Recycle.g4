@@ -1,4 +1,9 @@
-// Version 0.5.6 of our REcursive CYclic Card game LanguagE
+// Version 0.5.7 of our REcursive CYclic Card game LanguagE
+
+// New in version 0.5.7
+//  Remove mem locations
+//  Removed the "remember" and "forget" actions
+//  These can be replaced by string storage
 
 // New in version 0.5.6
 //  agg separated into action, boolean, cstorage, int

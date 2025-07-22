@@ -1,6 +1,6 @@
 ;; Schwimmen
 
-
+;; https://www.pagat.com/commerce/schwimmen.html
 (game
     (declare 5 'NUMP)
     (setup
