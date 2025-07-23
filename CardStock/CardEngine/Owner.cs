@@ -98,7 +98,7 @@ namespace CardStock.CardEngine
                 {
                     if (thisteam.teamPlayers[i].id != otherteam.teamPlayers[i].id)
                     {
-                        Console.WriteLine("Team player id's not the same");
+                        //Console.WriteLine("Team player id's not the same");
                         return false;
                     }
                 }
@@ -133,7 +133,7 @@ namespace CardStock.CardEngine
             if (id != otherowner.id)
             { //Console.WriteLine("owner ids not equal");
                 return false; }
-
+            //Console.WriteLine("Passed all team equality checks.");
             return true;
         }
 

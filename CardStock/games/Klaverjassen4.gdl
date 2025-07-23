@@ -88,7 +88,7 @@
                                 ((SUIT : (game str TRUMP)) 200)
                                 ((SUIT : (game str LEAD)) 100)
                                 ((RANK : J) (SUIT: (game str TRUMP)) 6) 
-                                ((RANK : NINE) (SUIT: (game str TRUMP)) 5) 
+                                ((RANK : NINE) (SUIT: (game str TRUMP)) 6) 
                                 ((RANK : A) 8) 
                                 ((RANK : TEN) 7) 
                                 ((RANK : K) 6) 
@@ -115,12 +115,11 @@
                                      (score (max (union (all player 'P 
                                                 ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE))))
                     'C
-                    (move 'C 
-                            (top ((current player) vloc TRICK)))))
+                    (move 'C (top ((current player) vloc TRICK)))))
 
                 ;; if following player can follow SUIT
                 ;;  and suit is TRUMP
-                ;;   cannot beat highest card?
+                ;;   cannot beat highest card but still have trump?
                 ;;    play lower trump
                 ((and (== (game str LEAD) (game str TRUMP))
                       (== (size (filter ((current player) iloc HAND) 'L 
@@ -143,19 +142,18 @@
                                      (score (max (union (all player 'P 
                                                 ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))
                     'C
-                    (move 'C 
-                            (top ((current player) vloc TRICK)))))
+                    (move 'C (top ((current player) vloc TRICK)))))
 
                 ;; if led suit is TRUMP
                 ;;   no trumps in hand?
                 ;;    play any card
-                ((and (== (game str LEAD) (game str TRUMP))
-                      (== (size (filter ((current player) iloc HAND) 'L 
-                            (== (cardatt SUIT 'L)
-                                     (game str LEAD)))) 
-                         0))
-                 (any ((current player) iloc HAND) 'C
-                    (move 'C (top ((current player) vloc TRICK)))))
+;;                ((and (== (game str LEAD) (game str TRUMP))
+;;                      (== (size (filter ((current player) iloc HAND) 'L 
+;;                            (== (cardatt SUIT 'L)
+;;                                     (game str LEAD)))) 
+;;                         0))
+;;                 (any ((current player) iloc HAND) 'C
+;;                    (move 'C (top ((current player) vloc TRICK)))))
 
                 ;; if following player and can follow SUIT
                 ;;  and that suit is not TRUMP
@@ -170,8 +168,7 @@
                                 (== (cardatt SUIT 'L)
                                     (game str LEAD)))
                     'C
-                    (move 'C 
-                            (top ((current player) vloc TRICK)))))
+                    (move 'C (top ((current player) vloc TRICK)))))
                                                         
                 ;; AMSTERDAM RULES
                 ;; if following player and cannot follow SUIT
@@ -201,8 +198,7 @@
                                      (score (max (union (all player 'P 
                                                 ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))
                     'C
-                    (move 'C 
-                            (top ((current player) vloc TRICK)))))
+                    (move 'C (top ((current player) vloc TRICK)))))
                     
                 ;; if following player and cannot follow SUIT
                 ;;  winning card so far, opposing team?               
@@ -227,8 +223,38 @@
                  (any (filter ((current player) iloc HAND) 'L 
                                  (!= (cardatt SUIT 'L) (game str TRUMP)))
                     'C
-                    (move 'C 
-                            (top ((current player) vloc TRICK)))))
+                    (move 'C (top ((current player) vloc TRICK)))))
+
+                ;; if following player and cannot follow SUIT
+                ;;  winning card so far, opposing team?               
+                ;;   no trump higher?
+                ;;    nothing but trump?
+                ;;     play anything
+                ((and (!= (game str LEAD) NONE)
+                      (== (size (filter ((current player) iloc HAND) 'L 
+                            (== (cardatt SUIT 'L)
+                                (game str LEAD)))) 
+                         0)
+                      (!= (team (current player)) 
+                          (team (owner (max (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)))))
+                      (== (size (filter ((current player) iloc HAND) 'L 
+                                 (and (== (cardatt SUIT 'L)
+                                          (game str TRUMP))
+                                  (> (score 'L using (game points PRECEDENCE)) 
+                                     (score (max (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))) 
+                         0)
+                      (== (size (filter ((current player) iloc HAND) 'L 
+                                 (and (== (cardatt SUIT 'L)
+                                          (game str TRUMP))
+                                  (< (score 'L using (game points PRECEDENCE)) 
+                                     (score (max (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))) 
+                          (size ((current player) iloc HAND)))                             
+                 )
+                 (any ((current player) iloc HAND) 'C
+                    (move 'C (top ((current player) vloc TRICK)))))
 
                 ;; if following player and cannot follow SUIT
                 ;;  winning card so far, partner?
@@ -247,11 +273,8 @@
                                                 ('P vloc TRICK))) using (game points PRECEDENCE)))
                           (game str TRUMP))
                       (== (size (filter ((current player) iloc HAND) 'L 
-                                 (and (== (cardatt SUIT 'L)
-                                          (game str TRUMP))
-                                  (< (score 'L using (game points PRECEDENCE)) 
-                                     (score (max (union (all player 'P 
-                                                ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))) 
+                                 (== (cardatt SUIT 'L)
+                                          (game str TRUMP)))) 
                           (size ((current player) iloc HAND)))                          
                  )
                  (any ((current player) iloc HAND) 'C
@@ -262,11 +285,45 @@
                 ;;   winning card is trump?
                 ;;    not just trump?
                 ;;     play anything not trump
+                 ((and (!= (game str LEAD) NONE)
+                      (== (size (filter ((current player) iloc HAND) 'L 
+                            (== (cardatt SUIT 'L)
+                                (game str LEAD)))) 
+                         0)
+                      (== (team (current player)) 
+                          (team (owner (max (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)))))
+                      (== (cardatt SUIT (max (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)))
+                          (game str TRUMP))
+                      (> (size (filter ((current player) iloc HAND) 'L 
+                                 (!= (cardatt SUIT 'L)
+                                          (game str TRUMP)))) 
+                          0))                          
+                 
+                 (any (filter ((current player) iloc HAND) 'L 
+                                 (!= (cardatt SUIT 'L)
+                                          (game str TRUMP))) 'C
+                    (move 'C (top ((current player) vloc TRICK)))))
 
                 ;; if following player and cannot follow SUIT
                 ;;  winning card so far, partner?
                 ;;   winning card is not trump?
                 ;;    play any card
+                 ((and (!= (game str LEAD) NONE)
+                      (== (size (filter ((current player) iloc HAND) 'L 
+                            (== (cardatt SUIT 'L)
+                                (game str LEAD)))) 
+                         0)
+                      (== (team (current player)) 
+                          (team (owner (max (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)))))
+                      (!= (cardatt SUIT (max (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)))
+                          (game str TRUMP)))                          
+                 
+                 (any ((current player) iloc HAND) 'C
+                    (move 'C (top ((current player) vloc TRICK)))))
 
             ))
         )

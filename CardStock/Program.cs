@@ -1,4 +1,4 @@
-int numRndvRnd = 1;
+int numRndvRnd = 100;
 int numAIvRnd = 0;
 int numAIvAI = 0;
 string game = "Klaverjassen";

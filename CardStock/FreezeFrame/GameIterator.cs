@@ -148,6 +148,10 @@ namespace CardStock.FreezeFrame
             else
             {
                 Console.WriteLine("NO Choice Available");
+                var bins = game.players[game.CurrentPlayer().idx].cardBins;
+                foreach (var b in bins[CCType.INVISIBLE, "HAND"].AllCards()) {
+                    Console.WriteLine(b);
+                }
                 throw new InvalidOperationException();
             }
 
