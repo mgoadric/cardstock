@@ -25,7 +25,7 @@
                               (top ('P iloc HAND))))
                 
                 ;; Check for rank match on deal               
-                (let (partition ('P iloc HAND) RANK) 'MYMATCHES
+                (let (partition RANK ('P iloc HAND)) 'MYMATCHES
                    (do (
                    (all 'MYMATCHES 'MATCH
                       ((== (size 'MATCH) 4) 
@@ -107,7 +107,7 @@
           )) 
           (do (
                ;; Check for rank match             
-               (let (partition ((current player) iloc HAND) RANK) 'MYMATCHES
+               (let (partition RANK ((current player) iloc HAND)) 'MYMATCHES
                     (do ((all 'MYMATCHES 'MATCH
                        ((== (size 'MATCH) 4)  
                          (do 

@@ -22,7 +22,8 @@
         (set (game str LEAD) NONE)
     ))
 
-    ;; Forced choice of trump by first player
+    ;; Forced choice of trump by first player: Utrecht (compulsory play)
+    ;; it's just easier this way
     (choice (
         (any (CLUBS, HEARTS, SPADES, DIAMONDS) 'S
              (set (game str TRUMP) 'S))
@@ -143,17 +144,6 @@
                                                 ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))
                     'C
                     (move 'C (top ((current player) vloc TRICK)))))
-
-                ;; if led suit is TRUMP
-                ;;   no trumps in hand?
-                ;;    play any card
-;;                ((and (== (game str LEAD) (game str TRUMP))
-;;                      (== (size (filter ((current player) iloc HAND) 'L 
-;;                            (== (cardatt SUIT 'L)
-;;                                     (game str LEAD)))) 
-;;                         0))
-;;                 (any ((current player) iloc HAND) 'C
-;;                    (move 'C (top ((current player) vloc TRICK)))))
 
                 ;; if following player and can follow SUIT
                 ;;  and that suit is not TRUMP
@@ -341,13 +331,27 @@
                 (== (size ('P iloc HAND)) 0))
              (inc ((team (next player)) sto SCORE) 10))
 
-            ;; calculate roem bonus points
-
-
-            ;; discard all the played cards
+            ;; move all the played cards, easier to score
             (all player 'P
                 (move (top ('P vloc TRICK)) 
-                        (top ((next player) vloc TRICKSWON)))))))
+                        (top (game vloc PLAYED))))
+ 
+            ;; calculate roem bonus points
+            ;;  Run of three cards of the same suit - 20 bonus points
+            ;;  Run of four cards of the same suit - 50 bonus points
+            ;;  Run of three cards of the same suit, including the king and queen of trumps - 40 bonus points
+            ;;  Run of four cards of the same suit, including the king and queen of trumps - 70 bonus points
+
+            ;;  Four kings, queens aces or tens - 100 bonus points
+            ;;  Four jacks - 200 bonus points
+
+            ;;  King and queen of trumps (stuk) - 20 bonus points
+
+            ;; discard all the played cards
+            (repeat all
+                (move (top (game vloc PLAYED)) 
+                        (top ((next player) vloc TRICKSWON))))
+        )))
 
     ;; determine team score
     (stage team

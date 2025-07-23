@@ -1,4 +1,7 @@
-// Version 0.5.7 of our REcursive CYclic Card game LanguagE
+// Version 0.5.8 of our REcursive CYclic Card game LanguagE
+
+// New in version 0.5.8
+//  reworked partition to have string first, then collection, matching cardatt
 
 // New in version 0.5.7
 //  Remove mem locations
@@ -109,7 +112,7 @@ memset : tuple | partition | subset ;
 //run: OPEN 'runs' cstorage 'using' pointstorage CLOSE ;
 subset : OPEN 'subsets' cstorage CLOSE ;
 tuple : OPEN 'tuples' int cstorage 'using' pointstorage CLOSE ;
-partition : OPEN 'partition' (aggcs | cstorage+?) str CLOSE ;
+partition : OPEN 'partition' str (aggcs | cstorage+?) CLOSE ;
 
 locpre : ('game' | varp | whop) ;
 locdesc : 'vloc'|'iloc'|'hloc' ;

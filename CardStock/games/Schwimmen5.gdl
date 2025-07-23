@@ -61,9 +61,10 @@
             (end (or (== (game sto PASS) 'NUMP)
                      (== (game sto CLOSE) 'NUMP)
                      (any player 'P 
-                      (any (partition ('P iloc HAND) RANK) 'RP 
-                       (or (== (sum 'RP using (game points SCORE)) 33)
-                           (== (sum 'RP using (game points SCORE)) 31))))
+                      (or (any (partition RANK ('P iloc HAND)) 'RP 
+                               (== (sum 'RP using (game points SCORE)) 33))
+                          (any (partition SUIT ('P iloc HAND)) 'RP
+                               (== (sum 'RP using (game points SCORE)) 31))))
                 ))
             (choice (
                 ;; pass
@@ -117,17 +118,19 @@
     ;; calculate the scores
     (stage player (end (all player 'P (== (size ('P iloc HAND)) 0)))
     (do (
-        (all (partition ((current player) iloc HAND) RANK) 'RP 
+
+        (all (partition SUIT ((current player) iloc HAND)) 'RP 
            (let (sum 'RP using (game points SCORE)) 'RS 
              ((> 'RS ((current player) sto SCORE))
               (set ((current player) sto SCORE) (* 2 'RS)))))
+
         ((== ((current player) sto SCORE) 66)
          (set ((current player) sto SCORE) 64))
-        ((and (== (cardatt RANK (0 ((current player) iloc HAND)))
-                  (cardatt RANK (1 ((current player) iloc HAND))))
-              (== (cardatt RANK (1 ((current player) iloc HAND)))
-                  (cardatt RANK (2 ((current player) iloc HAND)))))
+
+        ((any (partition RANK ((current player) iloc HAND)) 'RP
+              (== (size 'RP) 3))
          (set ((current player) sto SCORE) 61))
+
         (repeat all (move (top ((current player) iloc HAND))
                           (top (game vloc DISCARD))))
     )))

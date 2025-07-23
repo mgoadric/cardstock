@@ -142,7 +142,7 @@
          (inc ((current player) sto SCORE) 1))
 
       ;; best primiera scores 1 point, this gets a potential prime score
-      (let (partition ((current player) vloc BUNDLE) SUIT) 'PART  ;; split up by suit
+      (let (partition SUIT ((current player) vloc BUNDLE)) 'PART  ;; split up by suit
             ((== (size 'PART) 4)  ;; if at least one card in each suit
              (all 'PART 'PP (inc ((current player) sto PRIMIERA) ;; add up the scores
                 (score (max 'PP using (game points PRIMIERA)) using (game points PRIMIERA))))) ;; find the highest, get the score
