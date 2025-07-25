@@ -3,15 +3,11 @@ using System.Diagnostics;
 
 namespace CardStock.FreezeFrame{
 	public class CardLocReference{
-		public CardCollection cardList;
+		public required CardCollection cardList;
         // Can't remember why we need the default -1 here...
 		public string locIdentifier = "-1";
-        public string name;
+        public required string name;
 		public bool actual = false;
-
-        public CardLocReference(){
-            
-        }
 
         public CardLocReference ShallowCopy()
         {

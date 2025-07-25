@@ -88,8 +88,9 @@
             (dec ((current player) sto SCORE) 
                  ((current player) sto CHIPS))
             (set ((current player) sto CHIPS) 0)
-            (all ;;(runs RANK 
+            (all ;;(partition runs 
                ((current player) vloc HAND)
+               ;; using (game points SCORING)
                ;;)
                 'R 
                  (inc ((current player) sto SCORE)

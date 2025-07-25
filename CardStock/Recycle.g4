@@ -110,9 +110,9 @@ memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
 
 memset : tuple | partition | subset ;
 //run: OPEN 'runs' cstorage 'using' pointstorage CLOSE ;
-subset : OPEN 'subsets' cstorage CLOSE ;
+subset : OPEN 'subsets' cstorage CLOSE ; // add aggcs as in partition??
 tuple : OPEN 'tuples' int cstorage 'using' pointstorage CLOSE ;
-partition : OPEN 'partition' str (aggcs | cstorage+?) CLOSE ;
+partition : OPEN 'partition' ((str (aggcs | cstorage+?)) | ('runs' (aggcs | cstorage+?) 'using' pointstorage)) CLOSE ;
 
 locpre : ('game' | varp | whop) ;
 locdesc : 'vloc'|'iloc'|'hloc' ;

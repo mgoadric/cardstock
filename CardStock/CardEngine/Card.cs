@@ -1,29 +1,35 @@
+using System.Collections;
 using System.Diagnostics;
 
-namespace CardStock.CardEngine{
-	public class Card{
+namespace CardStock.CardEngine
+{
+    public class Card
+    {
 
         private readonly Dictionary<string, string> cardAtts;
-		public CardCollection owner {get; set;}
+        public CardCollection owner { get; set; }
         public readonly int id;
         public String name;
 
-		public Card(Dictionary<string, string> atts, int id, String n){
+        public Card(Dictionary<string, string> atts, int id, String n)
+        {
             cardAtts = atts;
             this.id = id;
             this.name = n;
-		}
+        }
 
-		public Card Clone(){
-            return new Card(cardAtts, id, name);;
-		}
+        public Card Clone()
+        {
+            return new Card(cardAtts, id, name); ;
+        }
 
-		public override string ToString(){
+        public override string ToString()
+        {
             //https://stackoverflow.com/questions/3871760/convert-dictionarystring-string-to-semicolon-separated-string-in-c-sharp
-            return string.Join(";", cardAtts.Select(x => x.Key + "=" + x.Value)) + ":" + name;
-		}
+            return id + "!" + string.Join(";", cardAtts.Select(x => x.Key + "=" + x.Value)) + ":" + name;
+        }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return Equals(obj as Card);
         }
@@ -36,29 +42,51 @@ namespace CardStock.CardEngine{
             if (p == null)
             { return false; }*/
 
-            if ((c.id != this.id) || (c.name != this.name)) 
+            if ((c.id != this.id) || (c.name != this.name))
             { return false; }
 
-            return true; 
+            return true;
         }
 
-        public override int GetHashCode() 
+        public override int GetHashCode()
         {
-            return ToString().GetHashCode(); 
+            return ToString().GetHashCode();
         }
 
-		public string ReadAttribute(string attributeName){
-			
-			try{
-				return cardAtts[attributeName];
-			}
-			catch{
-				Debug.WriteLine("KEYS");
-				foreach (var key in cardAtts.Keys){
-					Debug.WriteLine(key);
-				}
-				return "";
-			}
-		} 
+        public string ReadAttribute(string attributeName)
+        {
+
+            try
+            {
+                return cardAtts[attributeName];
+            }
+            catch
+            {
+                Debug.WriteLine("KEYS");
+                foreach (var key in cardAtts.Keys)
+                {
+                    Debug.WriteLine(key);
+                }
+                return "";
+            }
+        }
+    }
+    
+    public class CardComparer : IComparer
+    {
+        public PointMap scoring;
+
+        public int Compare(Object x, Object y)
+        {
+
+            if (x is Card cx)
+            {
+                if (y is Card cy)
+                {
+                    return scoring.GetScore(cx) - scoring.GetScore(cy);
+                }
+            }
+            return -1;
+        }
     }
 }

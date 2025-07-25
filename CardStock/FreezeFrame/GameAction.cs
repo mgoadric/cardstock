@@ -59,16 +59,8 @@ namespace CardStock.FreezeFrame {
         public CardCollection owner;
         public bool actualloc;
         public CardMoveAction(CardLocReference start, CardLocReference end, Transcript script) {
-            if (start.cardList.type == CCType.MEMORY && !start.actual) {
-                Debug.WriteLine("start is mem loc: " + start.name + ", " + end.name);
-                throw new NotSupportedException();
-            }
-            else if (end.cardList.type == CCType.VIRTUAL) {
+            if (end.cardList.type == CCType.VIRTUAL) {
 				Debug.WriteLine("end is not physical");
-				throw new NotSupportedException();
-            }
-            else if (end.cardList.type == CCType.MEMORY) {
- 				Debug.WriteLine("end is mem loc");
 				throw new NotSupportedException();
             }
             startLocation = start;

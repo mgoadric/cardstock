@@ -11,14 +11,14 @@ namespace CardStock.CardEngine
         public Owner[] table = new Owner[1];
         public Player[] players;
         public List<Team> teams = [];
-        public Stack<StageCycle<Player>> currentPlayer = new Stack<StageCycle<Player>>();
-        public Stack<StageCycle<Team>> currentTeam = new Stack<StageCycle<Team>>();
+        public Stack<StageCycle<Player>> currentPlayer = new();
+        public Stack<StageCycle<Team>> currentTeam = new();
 
         public CardGame()
         {
             table[0] = new Owner("table", 0);
             // ADDING HERE TO MAKE HASHCODE NOT FAIL
-            players = Array.Empty<Player>();
+            players = [];
 
         }
 
@@ -121,7 +121,7 @@ namespace CardStock.CardEngine
             Dictionary<String, List<int>> vals = [];
             foreach (KeyValuePair<String, HashSet<int>> kvp in free)
             {
-                vals[kvp.Key] = free[kvp.Key].ToList<int>();
+                vals[kvp.Key] = [.. free[kvp.Key]];
             }
 
             // Shuffle vals for each free location
@@ -133,14 +133,12 @@ namespace CardStock.CardEngine
                 {
                     n--;
                     int k = ThreadSafeRandom.Next(n + 1);
-                    int value = vals[kvp.Key][k];
-                    vals[kvp.Key][k] = vals[kvp.Key][n];
-                    vals[kvp.Key][n] = value;
+                    (vals[kvp.Key][n], vals[kvp.Key][k]) = (vals[kvp.Key][k], vals[kvp.Key][n]);
                 }
                 cardsLeft[kvp.Key] = vals[kvp.Key].GetEnumerator();
                 cardsLeft[kvp.Key].MoveNext();
             }
-            
+
 
             // Assigning will need card's name
             AssignNonVisibleCards(players, temp.players, temp.sourceDeck, cardsLeft, playerIdx);
@@ -164,7 +162,7 @@ namespace CardStock.CardEngine
             return temp;
         }
 
-        private void CloneCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
+        private static void CloneCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
                                Dictionary<String, List<Card>> tempsourceDeck)
         {
             foreach (Owner owner in owners)
@@ -178,17 +176,13 @@ namespace CardStock.CardEngine
                         // Look up card by index, and reference the new cloned card
                         var toAdd = tempsourceDeck[card.name][card.id];
                         tempCollection.Add(toAdd);
-                        if (collection.type != CCType.MEMORY)
-                        {
-                            toAdd.owner = tempCollection;
-                        }
-                        
+                        toAdd.owner = tempCollection;
                     }
                 }
             }
         }
 
-        private void CloneVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
+        private static void CloneVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
                                       Dictionary<String, List<Card>> tempsourceDeck, Dictionary<String, HashSet<int>> free, int playerIdx)
         {
             foreach (Owner owner in owners)
@@ -196,8 +190,7 @@ namespace CardStock.CardEngine
                 foreach (var collection in owner.cardBins.Values())
                 {
                     // WHAT ABOUT TEAMS???
-                    if (collection.type == CCType.VISIBLE ||
-                        collection.type == CCType.MEMORY || (
+                    if (collection.type == CCType.VISIBLE || (
                             collection.type == CCType.INVISIBLE
                             && owner.GetType() == typeof(Player)
                             && owner.id == playerIdx))
@@ -211,22 +204,17 @@ namespace CardStock.CardEngine
 
                             var toAdd = tempsourceDeck[card.name][card.id];
                             tempCollection.Add(toAdd);
-                            if (collection.type != CCType.MEMORY)
-                            {
-                                toAdd.owner = tempCollection;
-                                free[card.name].Remove(card.id);
-                            }
-                            
+                            toAdd.owner = tempCollection;
+                            free[card.name].Remove(card.id);
                         }
 
                         Debug.WriteLine("Cloned Collection:" + tempCollection);
-
                     }
                 }
             }
         }
 
-        private void AssignNonVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
+        private static void AssignNonVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
                                           Dictionary<String, List<Card>> tempsourceDeck, Dictionary<String, IEnumerator<int>> cardsLeft, int playerIdx)
         {
 
@@ -257,10 +245,8 @@ namespace CardStock.CardEngine
                         }
 
                         Debug.WriteLine("Reconstructed Collection:" + tempCollection);
-
                     }
                 }
-
             }
         }
 
@@ -271,7 +257,7 @@ namespace CardStock.CardEngine
             for (int i = 0; i < numPlayers; ++i)
             {
                 players[i] = new Player("p" + i, i);
-                Perspective perspective = new Perspective(i, gameContext);
+                Perspective perspective = new(i, gameContext);
                 players[i].decision = new RandomPlayer(perspective);
             }
             currentPlayer.Push(new StageCycle<Player>(players));
@@ -312,8 +298,10 @@ namespace CardStock.CardEngine
                 {
                     sourceDeck[name] = [];
                 }
-                var newCard = new Card(combo.Flatten(), sourceDeck[name].Count, name);
-                newCard.owner = loc;
+                var newCard = new Card(combo.Flatten(), sourceDeck[name].Count, name)
+                {
+                    owner = loc
+                };
                 // use the name to determine which sourceDeck to add
                 sourceDeck[name].Add(newCard);
                 loc.Add(newCard);
@@ -346,7 +334,7 @@ namespace CardStock.CardEngine
             return ret;
         }
 
-        public override bool Equals(System.Object obj) // In Progress
+        public override bool Equals(System.Object? obj) // In Progress
         {
             //Console.WriteLine("CALLING CARDGAME EQUALITY");
             // COMMENTED OUT ALL WRITELINES EXCEPT ONES THAT SHOULD ALMOST NEVER SHOW UP
@@ -403,21 +391,18 @@ namespace CardStock.CardEngine
 
     }
         
-    public class InfoSetComparison : IEqualityComparer<Tuple<CardGame, int>>
+    public class InfoSetComparison(int playeridx) : IEqualityComparer<Tuple<CardGame, int>>
     {
-        private int playeridx;
-        public InfoSetComparison(int playeridx)
-        {
-            this.playeridx = playeridx;
-        }
+        private readonly int playeridx = playeridx;
+
         public bool Equals(Tuple<CardGame, int> g1, Tuple<CardGame, int> g2)
         {
             // Info sets are the equal if the visible cards on the board and the visible cards in hand are the same
             if (g1.Item2 != g2.Item2)
             { return false; }
 
-            (CardGame game1, int movera) = g1;
-            (CardGame game2, int moverb) = g2;
+            (CardGame game1, _) = g1;
+            (CardGame game2, _) = g2;
 
 
             if (!(game1.teams.Count == game2.teams.Count))
