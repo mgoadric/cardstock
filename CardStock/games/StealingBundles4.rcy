@@ -1,8 +1,10 @@
 ;; Stealing Bundles in the GDL
+;;
+;; https://www.pagat.com/fishing/bundle.html
 (game
  (setup  
-  ;; Set up the players, 3 players each on their own team
-  (create players 3)
+  ;; Set up the players, 4 players each on their own team
+  (create players 4)
   
   ;; Create the deck source
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
@@ -35,22 +37,19 @@
                 (all player 'P 
                      (== (size ('P iloc HAND)) 0)))
                
-               (do 
-                   (                    
-                    (set ((current player) sto MOVED) 0)))
                
                ;; Pick a card to play to the pool
                (choice 
                 (
-                 (do 
-                     (
-                      (any ((current player) iloc HAND) 'AC
-                           (move 'AC 
-                                 (top ((current player) vloc TRICK))))))))
+                 (any ((current player) iloc HAND) 'AC
+                      (move 'AC 
+                            (top ((current player) vloc TRICK))))))
                
                ;; match other player's bundle
                (do 
                    (
+                    (set ((current player) sto MOVED) 0)
+                    
                     ;; iterate over all other player 'P to avoid yourself 
                     (any (other player) 'P
                          ;; check if bundle exists??
@@ -64,11 +63,9 @@
                                     (repeat all
                                             (move (bottom ('P vloc BUNDLE)) 
                                                   (top ((current player) vloc BUNDLE))))
-                                    (set ((current player) sto MOVED) 1)))))))))
+                                    (set ((current player) sto MOVED) 1)))))))
                
                ;; match card(s) in pool
-               (do 
-                   (
                     
                     (all (filter (game vloc POOL) 'PC 
                                  (== (cardatt RANK 'PC)
@@ -78,11 +75,10 @@
                                        (
                                         (move 'PCF 
                                               (top ((current player) vloc BUNDLE)))
-                                        (set ((current player) sto MOVED) 1))))))
+                                        (set ((current player) sto MOVED) 1))))
                
                ;; move trick card to bundle or pool depending 
-               (do 
-                   (
+
                     ((== ((current player) sto MOVED) 0)
                      
                      (move (top ((current player) vloc TRICK))

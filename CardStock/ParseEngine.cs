@@ -32,9 +32,9 @@ public class ParseEngine
         }
 
         /************
-         * Load up the game from the .gdl RECYCLE description
+         * Load up the game from the .rcy RECYCLE description
          ************/
-        fileName = "games/" + exp.Game + exp.PlayerCount + ".gdl";
+        fileName = "games/" + exp.Game + exp.PlayerCount + ".rcy";
 
         Console.WriteLine("name: " + fileName);
 
@@ -112,7 +112,7 @@ public class ParseEngine
                 // TODO Can the creation of the game go inside the GameIterator???
                 CardGame game = new();
 
-                var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld, "output/" + exp.Game + "/" + exp.PlayerCount + "/simulation" + i + exp.type + ".txt");
+                var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld, "output/" + exp.Game + "/" + exp.PlayerCount + "/simulation" + i + exp.type);
 
                 if (exp.type == GameType.AllAI)
                 {

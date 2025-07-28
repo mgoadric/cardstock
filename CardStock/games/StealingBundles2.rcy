@@ -1,8 +1,10 @@
 ;; Stealing Bundles in the GDL
+;;
+;; https://www.pagat.com/fishing/bundle.html
 (game
  (setup  
-  ;; Set up the players, 4 players each on their own team
-  (create players 4)
+  ;; Set up the players, 2 players each on their own team
+  (create players 2)
   
   ;; Create the deck source
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
