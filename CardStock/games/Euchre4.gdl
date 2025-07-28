@@ -27,7 +27,8 @@
                               (top ('P iloc HAND)))))
              (move (top (game iloc STOCK))
                    (top (game vloc TURNED)))
-             (set (game str LEAD) NONE)
+             (set (game str LEADSUIT) NONE)
+             (set (game str LEADCOLOR) NONE)
              (set (game str TRUMPSUIT) (cardatt SUIT (top (game vloc TURNED))))
              (set (game str TRUMPCOLOR) (cardatt COLOR (top (game vloc TURNED))))
             ))
@@ -189,51 +190,59 @@
                          (turn pass))
                         
                         ;; if first player, play any card, remember it in the lead spot
-                        ((== (game str LEAD) NONE)                       
+                        ((== (game str LEADSUIT) NONE)                       
                          (any ((current player) iloc HAND) 'C
                               (do 
                                   (
+                                   ((or (!= (cardatt RANK 'C) J)
+                                        (and (== (cardatt RANK 'C) J)
+                                             (!= (cardatt COLOR 'C) (game str TRUMPCOLOR))))
+                                    (set (game str LEADSUIT) (cardatt SUIT 'C)))
+                                   ((and (== (cardatt RANK 'C) J)
+                                         (== (cardatt COLOR 'C) (game str TRUMPCOLOR)))
+                                    (set (game str LEADSUIT) (game str TRUMPSUIT)))
+                                   (set (game str LEADCOLOR) (cardatt COLOR 'C))
                                    (move 'C 
                                          (top ((current player) vloc TRICK)))
-                                   (set (game str LEAD) (cardatt SUIT (top ((current player) vloc TRICK))))))))
+                                   ))))
                                              
                         ;; if following player and cannot follow SUIT
                         ;;   play any card
-                        ((and (!= (game str LEAD) NONE)
+                        ((and (!= (game str LEADSUIT) NONE)
                               (== (size (filter ((current player) iloc HAND) 'L 
-                                          (or 
-                                                (and (== (cardatt RANK 'L) J)
-                                                     (== (cardatt COLOR 'L) (game str TRUMPCOLOR))
-                                                     (== (cardatt COLOR 'L) (game str LEAD)))
-                                                     
-                                                (and (== (cardatt RANK 'L) J)
-                                                     (!= (cardatt COLOR 'L) (game str TRUMPCOLOR))
-                                                     (== (cardatt SUIT 'L) (game str LEAD)))
-                                                     
-                                                (and (!= (cardatt RANK 'L) J)
-                                                     (== (cardatt SUIT 'L) (game str LEAD)))
-                                          )                                    
-                                        )) 0))
+                                        (or 
+                                             (and (== (cardatt RANK 'L) J)
+                                                  (== (cardatt COLOR 'L) (game str TRUMPCOLOR))
+                                                  (== (game str LEADSUIT) (game str TRUMPSUIT)))
+                                                  
+                                             (and (== (cardatt RANK 'L) J)
+                                                  (!= (cardatt COLOR 'L) (game str TRUMPCOLOR))
+                                                  (== (cardatt SUIT 'L) (game str LEADSUIT)))
+                                                  
+                                             (and (!= (cardatt RANK 'L) J)
+                                                  (== (cardatt SUIT 'L) (game str LEADSUIT)))
+                                        )                                    
+                                   )) 0))
                          (any ((current player) iloc HAND) 'C
                               (move 'C 
                                     (top ((current player) vloc TRICK)))))
                         
                         ;; if following player and can follow SUIT
                         ;;   play any card that follows SUIT
-                        ((!= (game str LEAD) NONE)
+                        ((!= (game str LEADSUIT) NONE)
                          (any (filter ((current player) iloc HAND) 'L 
-                                          (or 
-                                                (and (== (cardatt RANK 'L) J)
-                                                     (== (cardatt COLOR 'L) (game str TRUMPCOLOR))
-                                                     (== (cardatt COLOR 'L) (game str LEAD)))
-                                                     
-                                                (and (== (cardatt RANK 'L) J)
-                                                     (!= (cardatt COLOR 'L) (game str TRUMPCOLOR))
-                                                     (== (cardatt SUIT 'L) (game str LEAD)))
-                                                     
-                                                (and (!= (cardatt RANK 'L) J)
-                                                     (== (cardatt SUIT 'L) (game str LEAD)))
-                                          )   
+                                   (or 
+                                        (and (== (cardatt RANK 'L) J)
+                                             (== (cardatt COLOR 'L) (game str TRUMPCOLOR))
+                                             (== (game str LEADSUIT) (game str TRUMPSUIT)))
+                                             
+                                        (and (== (cardatt RANK 'L) J)
+                                             (!= (cardatt COLOR 'L) (game str TRUMPCOLOR))
+                                             (== (cardatt SUIT 'L) (game str LEADSUIT)))
+                                             
+                                        (and (!= (cardatt RANK 'L) J)
+                                             (== (cardatt SUIT 'L) (game str LEADSUIT)))
+                                   )   
                               ) 
                               'C
                               
@@ -250,7 +259,7 @@
                           ((SUIT : (game str TRUMPSUIT)) 200)
                           ((RANK : J) (SUIT : (game str TRUMPSUIT)) 1)
                           ((RANK : J) (COLOR : (game str TRUMPCOLOR)) 304)
-                          ((SUIT : (game str LEAD)) 100)
+                          ((SUIT : (game str LEADSUIT)) 100)
                           ((RANK : A) 14)
                           ((RANK : K) 13) 
                           ((RANK : Q) 12)
@@ -259,7 +268,8 @@
                           ((RANK : NINE) 9)))
                     
                     ;; determine who won the hand, set them first next time, and give them a point
-                    (set (game str LEAD) NONE)
+                    (set (game str LEADSUIT) NONE)
+                    (set (game str LEADCOLOR) NONE)
                     (cycle next (owner (max (union (all player 'P 
                                                         ('P vloc TRICK))) using (game points PRECEDENCE))))
                     (inc ((next player) sto TRICKSWON) 1)   
