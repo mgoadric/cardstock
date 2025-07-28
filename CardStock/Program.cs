@@ -1,8 +1,8 @@
-int numRndvRnd = 0;
+int numRndvRnd = 1;
 int numAIvRnd = 1;
 int numAIvAI = 0;
-string game = "GoFish";
-int players = 4;
+string game = "NoThanks";
+int players = 3;
 CardStock.Players.PlayerType ai = CardStock.Players.PlayerType.PIPMCNEW;
 
 Console.WriteLine(game + ", " + players);

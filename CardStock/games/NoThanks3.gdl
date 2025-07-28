@@ -88,14 +88,13 @@
             (dec ((current player) sto SCORE) 
                  ((current player) sto CHIPS))
             (set ((current player) sto CHIPS) 0)
-            (all ;;(partition runs 
+            (all (partition runs 
                ((current player) vloc HAND)
-               ;; using (game points SCORING)
-               ;;)
+                using (game points SCORING)
+               )
                 'R 
                  (inc ((current player) sto SCORE)
-                      (score ;; should be min
-                      'R using (game points SCORING))))
+                      (score (min 'R using (game points SCORING)) using (game points SCORING))))
          ))
    )
 

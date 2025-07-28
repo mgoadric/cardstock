@@ -1687,18 +1687,32 @@ namespace CardStock.FreezeFrame
 
                 // Make new lists TODO
                 var returnList = new List<CardLocReference>();
-                foreach (Card card in sortcards)
+                var current = new CardCollection(CCType.VIRTUAL);
+                int start = 0;
+                for (int i = 0; i < sortcards.Length; i++)
                 {
-                    returnList.Add(new CardLocReference()
+                    Card card = sortcards[i];
+                    if (i != 0 && scoring.GetScore(card) != 1 + scoring.GetScore(sortcards[i - 1]))
                     {
-                        cardList = new CardCollection(CCType.VIRTUAL),
-                        name = "{partition runs}",
-                    });
+                        returnList.Add(new CardLocReference()
+                        {
+                            cardList = current,
+                            name = "{partition runs}" + start + "-" + i,
+                        });
+                        current = new CardCollection(CCType.VIRTUAL);
+                        start = i + 1;
+                    }
+                    current.Add(card);
                 }
+                returnList.Add(new CardLocReference()
+                {
+                    cardList = current,
+                    name = "{partition runs}",
+                });
                 return [.. returnList];
 
-                throw new NotImplementedException();
-                return null;
+                //throw new NotImplementedException();
+                //return null;
             }
             else
             {
