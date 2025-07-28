@@ -28,7 +28,6 @@
              (move (top (game iloc STOCK))
                    (top (game vloc TURNED)))
              (set (game str LEADSUIT) NONE)
-             (set (game str LEADCOLOR) NONE)
              (set (game str TRUMPSUIT) (cardatt SUIT (top (game vloc TURNED))))
              (set (game str TRUMPCOLOR) (cardatt COLOR (top (game vloc TURNED))))
             ))
@@ -201,7 +200,6 @@
                                    ((and (== (cardatt RANK 'C) J)
                                          (== (cardatt COLOR 'C) (game str TRUMPCOLOR)))
                                     (set (game str LEADSUIT) (game str TRUMPSUIT)))
-                                   (set (game str LEADCOLOR) (cardatt COLOR 'C))
                                    (move 'C 
                                          (top ((current player) vloc TRICK)))
                                    ))))
@@ -269,7 +267,6 @@
                     
                     ;; determine who won the hand, set them first next time, and give them a point
                     (set (game str LEADSUIT) NONE)
-                    (set (game str LEADCOLOR) NONE)
                     (cycle next (owner (max (union (all player 'P 
                                                         ('P vloc TRICK))) using (game points PRECEDENCE))))
                     (inc ((next player) sto TRICKSWON) 1)   
