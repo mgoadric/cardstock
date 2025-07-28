@@ -3,7 +3,7 @@
 namespace CardStock.CardEngine
 {
     public enum CCType {
-        VISIBLE, INVISIBLE, HIDDEN, MEMORY, VIRTUAL
+        VISIBLE, INVISIBLE, HIDDEN, OTHERS, VIRTUAL
     }
 
     public class CardCollection

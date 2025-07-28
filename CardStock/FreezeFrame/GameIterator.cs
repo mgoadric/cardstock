@@ -1606,70 +1606,119 @@ namespace CardStock.FreezeFrame
             // PARTITON CODE
             if (memset.partition() != null)
             {
-                if (memset.partition().cstorage().Length > 0)
-                {
-                    var partition = new Dictionary<String, CardCollection>();
-                    foreach (var memChild in memset.partition().cstorage())
-                    {
-                        var stor = ProcessLocation(memChild);
-                        foreach (var card in stor.cardList.AllCards())
-                        {
-                            var attr = card.ReadAttribute(ProcessString(memset.partition().str()));
-                            if (partition.ContainsKey(attr))
-                            {
-                                partition[attr].Add(card);
-                            }
-                            else
-                            {
-                                partition[attr] = new CardCollection(CCType.VIRTUAL);
-                                partition[attr].Add(card);
-                            }
-                        }
-                    }
-                    var returnList = new List<CardLocReference>();
-                    foreach (KeyValuePair<String, CardCollection> kvp in partition)
-                    {
-                        returnList.Add(new CardLocReference()
-                        {
-                            cardList = kvp.Value,
-                            name = "{partition}" + "{part: " + kvp + "}"
-                        });
-                    }
-                    return [.. returnList];
-                }
-                else
-                {
-                    var partition = new Dictionary<String, CardCollection>();
-                    foreach (var stor in ProcessAggCStorage(memset.partition().aggcs()))
-                    {
-                        foreach (var card in stor.cardList.AllCards())
-                        {
-                            var attr = card.ReadAttribute(ProcessString(memset.partition().str()));
-                            if (partition.TryGetValue(attr, out CardCollection? value))
-                            {
-                                value.Add(card);
-                            }
-                            else
-                            {
-                                partition[attr] = new CardCollection(CCType.VIRTUAL);
-                                partition[attr].Add(card);
-                            }
-                        }
-
-                    }
-                    var returnList = new List<CardLocReference>();
-                    foreach (KeyValuePair<String, CardCollection> kvp in partition)
-                    {
-                        returnList.Add(new CardLocReference()
-                        {
-                            cardList = kvp.Value,
-                            name = "{partition}" + "{part: " + kvp + "}"
-                        });
-                    }
-                    return [.. returnList];
-                }
+                return ProcessPartition(memset.partition());
             }
             throw new Exception();
+        }
+
+        private CardLocReference[] ProcessPartition(RecycleParser.PartitionContext partContext)
+        {
+            var partition = new Dictionary<String, CardCollection>();
+            List<CardLocReference> alllocs = [];
+            if (partContext.cstorage().Length > 0)
+            {
+                foreach (var child in partContext.cstorage())
+                {
+                    alllocs.Add(ProcessLocation(child));
+                }
+            }
+            else
+            {
+                alllocs = ProcessAggCStorage(partContext.aggcs());
+            }
+
+            // Splitting on a card attribute?
+            if (partContext.str() != null)
+            {
+                // Split up the cards
+                foreach (var stor in alllocs)
+                {
+                    foreach (var card in stor.cardList.AllCards())
+                    {
+                        var attr = card.ReadAttribute(ProcessString(partContext.str()));
+                        if (partition.TryGetValue(attr, out CardCollection? value))
+                        {
+                            value.Add(card);
+                        }
+                        else
+                        {
+                            partition[attr] = new CardCollection(CCType.VIRTUAL);
+                            partition[attr].Add(card);
+                        }
+                    }
+                }
+
+                // Make new lists
+                var returnList = new List<CardLocReference>();
+                foreach (KeyValuePair<String, CardCollection> kvp in partition)
+                {
+                    returnList.Add(new CardLocReference()
+                    {
+                        cardList = kvp.Value,
+                        name = "{partition}" + "{part: " + kvp + "}"
+                    });
+                }
+                return [.. returnList];
+            }
+            else if (partContext.GetChild(2).GetText() == "runs")
+            {
+                HashSet<Card> allCards = [];
+                foreach (var stor in alllocs)
+                {
+                    foreach (var card in stor.cardList.AllCards())
+                    {
+                        if (!allCards.Contains(card))
+                        {
+                            allCards.Add(card);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Card Duplicate!!! " + card);
+                        }
+                    }
+                }
+
+                var scoring = ProcessPointStorage(partContext.pointstorage()).Get();
+
+                var sortcards = allCards.ToArray();
+                Array.Sort(sortcards, new CardComparer() {
+                    scoring = scoring,
+                });
+
+                // Make new lists TODO
+                var returnList = new List<CardLocReference>();
+                var current = new CardCollection(CCType.VIRTUAL);
+                int start = 0;
+                for (int i = 0; i < sortcards.Length; i++)
+                {
+                    Card card = sortcards[i];
+                    if (i != 0 && scoring.GetScore(card) != 1 + scoring.GetScore(sortcards[i - 1]))
+                    {
+                        returnList.Add(new CardLocReference()
+                        {
+                            cardList = current,
+                            name = "{partition runs}" + start + "-" + i,
+                        });
+                        current = new CardCollection(CCType.VIRTUAL);
+                        start = i + 1;
+                    }
+                    current.Add(card);
+                }
+                returnList.Add(new CardLocReference()
+                {
+                    cardList = current,
+                    name = "{partition runs}",
+                });
+                return [.. returnList];
+
+                //throw new NotImplementedException();
+                //return null;
+            }
+            else
+            {
+                throw new NotImplementedException();
+                return null;
+            }
         }
 
         private CardLocReference ProcessSubLocation(RecycleParser.CstorageContext stor)
@@ -1688,10 +1737,15 @@ namespace CardStock.FreezeFrame
             {
                 prefix = CCType.HIDDEN;
             }
+            else if (desc == "oloc")
+            {
+                prefix = CCType.OTHERS;
+            }
             else
             {
-                prefix = CCType.MEMORY;
+                prefix = CCType.VIRTUAL;
             }
+
             Player player;
             /*
             Console.WriteLine("parent: " + stor.GetText());

@@ -1,49 +1,59 @@
-namespace CardStock.CardEngine{
-    public readonly struct PointMap : ICloneable{
+using System.Diagnostics;
 
-		private readonly Dictionary<string,Dictionary<string,int>> pointLookups;
+namespace CardStock.CardEngine
+{
+    public readonly struct PointMap : ICloneable
+    {
 
-		public PointMap(List<ValueTuple<string, string, int>> input){
+        private readonly Dictionary<string, Dictionary<string, int>> pointLookups;
+
+        public PointMap(List<ValueTuple<string, string, int>> input)
+        {
 
             pointLookups = [];
-			foreach (var award in input){
-				if (pointLookups.TryGetValue(award.Item1, out Dictionary<string, int>? value))
+            foreach (var award in input)
+            {
+                if (pointLookups.TryGetValue(award.Item1, out Dictionary<string, int>? value))
                 {
                     if (!value.TryAdd(award.Item2, award.Item3))
                     {
                         value[award.Item2] += award.Item3;
-					}
+                    }
                 }
                 else
                 {
-                    pointLookups[award.Item1] = new Dictionary<string,int>{
+                    pointLookups[award.Item1] = new Dictionary<string, int>{
                         {award.Item2, award.Item3}
-					};
-				}
-			}
-		}
+                    };
+                }
+            }
+        }
 
-		public int GetScore(Card c){
-			int total = 0;
-			foreach (var key in pointLookups.Keys){
-				var arrAtts = key.Split(',');
-				var attStr = "";
-				foreach (var att in arrAtts){
-                    System.Diagnostics.Debug.WriteLine("Card: " + c);
-					var val = c.ReadAttribute(att);
-					attStr += val + ",";
-				}
-				attStr = attStr[..^1];
-				if (pointLookups[key].TryGetValue(attStr, out int value))
+        public int GetScore(Card c)
+        {
+            int total = 0;
+            foreach (var key in pointLookups.Keys)
+            {
+                var arrAtts = key.Split(',');
+                var attStr = "";
+                foreach (var att in arrAtts)
                 {
-					total += value;
-				}
-			}
-			return total;
-		}
+                    Console.WriteLine("Card: " + c);
+                    var val = c.ReadAttribute(att);
+                    attStr += val + ",";
+                }
+                attStr = attStr[..^1];
+                if (pointLookups[key].TryGetValue(attStr, out int value))
+                {
+                    total += value;
+                }
+            }
+            return total;
+        }
 
         // This is a readonly struct, so no cloning necessary.
-        public object Clone() {
+        public object Clone()
+        {
             return this;
         }
 
@@ -67,8 +77,8 @@ namespace CardStock.CardEngine{
 
                 foreach (string key2 in pointLookups[key].Keys)
                 {
-                    if (otherscores[key2] != pointLookups[key][key2]) 
-                        { return false; }  
+                    if (otherscores[key2] != pointLookups[key][key2])
+                    { return false; }
                 }
             }
 

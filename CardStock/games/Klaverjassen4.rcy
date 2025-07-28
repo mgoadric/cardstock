@@ -339,13 +339,40 @@
             ;; calculate roem bonus points
             ;;  Run of three cards of the same suit - 20 bonus points
             ;;  Run of four cards of the same suit - 50 bonus points
-            ;;  Run of three cards of the same suit, including the king and queen of trumps - 40 bonus points
-            ;;  Run of four cards of the same suit, including the king and queen of trumps - 70 bonus points
+            (all (partition SUIT (game vloc PLAYED)) 'PC 
+                (all (partition runs 'PC using (game points SEQUENCE)) 'PR
+                    (do (
+                        ((== (size 'PR) 3)
+                         (inc ((team (next player)) sto SCORE) 20))
+                        ((== (size 'PR) 4)
+                         (inc ((team (next player)) sto SCORE) 50))
+                    )))  
+            )
 
-            ;;  Four kings, queens aces or tens - 100 bonus points
-            ;;  Four jacks - 200 bonus points
 
+            (all (partition RANK (game vloc PLAYED)) 'PC
+                (do (
+                    ;;  Four kings, queens aces or tens - 100 bonus points
+                    ((and (== (size 'PC) 4)
+                      (or (== (cardatt RANK (top 'PC)) K)
+                          (== (cardatt RANK (top 'PC)) Q)
+                          (== (cardatt RANK (top 'PC)) A)
+                          (== (cardatt RANK (top 'PC)) TEN)))
+                     (inc ((team (next player)) sto SCORE) 100))
+
+                    ;;  Four jacks - 200 bonus points
+                    ((and (== (size 'PC) 4)
+                          (== (cardatt RANK (top 'PC)) J))
+                     (inc ((team (next player)) sto SCORE) 200))
+                ))
+            )
             ;;  King and queen of trumps (stuk) - 20 bonus points
+            ((and (any (game vloc PLAYED) 'C (and (== (cardatt RANK 'C) K)
+                                                  (== (cardatt SUIT 'C) (game str TRUMP))))
+                  (any (game vloc PLAYED) 'C (and (== (cardatt RANK 'C) Q)
+                                                  (== (cardatt SUIT 'C) (game str TRUMP)))))
+             (inc ((team (next player)) sto SCORE) 20)
+            )
 
             ;; discard all the played cards
             (repeat all
@@ -370,7 +397,14 @@
                     (inc ((current team) sto SCORE) 
                             (sum (filter ('TP vloc TRICKSWON) 'FC (== (cardatt SUIT 'FC) (game str TRUMP))) 
                                  using (game points TRUMPPOINTS)))
+                    (inc ((current team) sto TRICKS)
+                         (// (size ('TP vloc TRICKSWON)) 4))
                     (repeat all
                             (move (top ('TP vloc TRICKSWON))
                                 (top (game vloc DISCARD))))))))))
+
+        ;; add 100 points if one team won all the tricks - TODO
+
+        ;; determine if the bidding team won - TODO
+
     (scoring max ((team (current player)) sto SCORE)))
