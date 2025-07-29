@@ -9,7 +9,7 @@ namespace CardStock.CardEngine
     public class DefaultStorage<T>(T defaultT, Owner owner)
     {
         private readonly Dictionary<string, T> dict = [];
-        private readonly T defaultT = defaultT;
+        public readonly T defaultT = defaultT;
         public Owner owner = owner;
 
         /*******
@@ -79,12 +79,11 @@ namespace CardStock.CardEngine
 
         }
 
-        public override bool Equals(System.Object obj)
+        public override bool Equals(Object? obj)
         {
             if (obj == null)
             { return false; }
-            DefaultStorage<T> ds = obj as DefaultStorage<T>;
-            if (ds == null)
+            if (obj is not DefaultStorage<T> ds)
             { return false; }
 
             if (ds.GetDefault().GetType() != GetDefault().GetType())
@@ -105,15 +104,15 @@ namespace CardStock.CardEngine
         public override int GetHashCode()
         {
             int hash = 0;
-            foreach (var k in dict.Keys)
+            foreach (var v in dict.Values)
             {
-                hash ^= dict[k].GetHashCode();
+                hash ^= v.GetHashCode();
             }
             return hash;
         }
         public override string ToString()
         {
-            StringBuilder ret = new StringBuilder();
+            StringBuilder ret = new();
             int i = 0;
             foreach (string s in dict.Keys)
             {

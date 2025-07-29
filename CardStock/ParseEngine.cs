@@ -7,7 +7,7 @@ using CardStock.Players;
 using CardStock.Scoring;
 
 namespace CardStock {
-public class ParseEngine
+public partial class ParseEngine
 {
 
     public Experiment exp;
@@ -39,7 +39,7 @@ public class ParseEngine
         Console.WriteLine("name: " + fileName);
 
         var file = File.ReadAllText(fileName);
-        var regex = new Regex("(;;)(.*?)(\n)");
+        var regex = MyRegex();
         file = regex.Replace(file, "\n");
 
         /***********
@@ -48,9 +48,10 @@ public class ParseEngine
         AntlrInputStream stream = new(file);
         ITokenSource lexer = new RecycleLexer(stream);
         ITokenStream tokens = new CommonTokenStream(lexer);
-        var parser = new RecycleParser(tokens);
-
-        parser.BuildParseTree = true;
+        var parser = new RecycleParser(tokens)
+        {
+            BuildParseTree = true
+        };
         this.tree = parser.game();
 
         /***********
@@ -376,7 +377,7 @@ public class ParseEngine
     }
 
 
-    Tuple<bool, bool> HasShuffleAndChoice(IParseTree tree)
+    static Tuple<bool, bool> HasShuffleAndChoice(IParseTree tree)
     {
         bool shuffle = false;
         bool choice = false;
@@ -401,5 +402,8 @@ public class ParseEngine
         }
         return new Tuple<bool, bool>(shuffle, choice);
     }
-}
+
+        [GeneratedRegex("(;;)(.*?)(\n)")]
+        private static partial Regex MyRegex();
+    }
 }

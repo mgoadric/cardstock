@@ -7,7 +7,7 @@ namespace CardStock.CardEngine
     public class CardGame
     {
 
-        public Dictionary<String, List<Card>> sourceDeck = [];
+        public Dictionary<string, List<Card>> sourceDeck = [];
         public Owner[] table = new Owner[1];
         public Player[] players;
         public List<Team> teams = [];
@@ -28,7 +28,7 @@ namespace CardStock.CardEngine
 
             // Clone Source Deck and Index Cards
             //*****************
-            foreach (KeyValuePair<String, List<Card>> kvp in sourceDeck)
+            foreach (KeyValuePair<string, List<Card>> kvp in sourceDeck)
             {
                 if (!temp.sourceDeck.ContainsKey(kvp.Key))
                 {
@@ -104,8 +104,8 @@ namespace CardStock.CardEngine
             var temp = CloneCommon();
 
             // Make set of indicies for all the cards, to be removed when they are seen
-            Dictionary<String, HashSet<int>> free = [];
-            foreach (KeyValuePair<String, List<Card>> kvp in sourceDeck)
+            Dictionary<string, HashSet<int>> free = [];
+            foreach (KeyValuePair<string, List<Card>> kvp in sourceDeck)
             {
                 free[kvp.Key] = [];
                 for (int i = 0; i < kvp.Value.Count; i++)
@@ -118,15 +118,15 @@ namespace CardStock.CardEngine
             CloneVisibleCards(teams, temp.teams, temp.sourceDeck, free, -1);
             CloneVisibleCards(table, temp.table, temp.sourceDeck, free, -1);
 
-            Dictionary<String, List<int>> vals = [];
-            foreach (KeyValuePair<String, HashSet<int>> kvp in free)
+            Dictionary<string, List<int>> vals = [];
+            foreach (KeyValuePair<string, HashSet<int>> kvp in free)
             {
                 vals[kvp.Key] = [.. free[kvp.Key]];
             }
 
             // Shuffle vals for each free location
-            Dictionary<String, IEnumerator<int>> cardsLeft = [];
-            foreach (KeyValuePair<String, List<int>> kvp in vals)
+            Dictionary<string, IEnumerator<int>> cardsLeft = [];
+            foreach (KeyValuePair<string, List<int>> kvp in vals)
             {
                 int n = vals[kvp.Key].Count;
                 while (n > 1)
@@ -163,7 +163,7 @@ namespace CardStock.CardEngine
         }
 
         private static void CloneCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
-                               Dictionary<String, List<Card>> tempsourceDeck)
+                               Dictionary<string, List<Card>> tempsourceDeck)
         {
             foreach (Owner owner in owners)
             {
@@ -183,7 +183,7 @@ namespace CardStock.CardEngine
         }
 
         private static void CloneVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
-                                      Dictionary<String, List<Card>> tempsourceDeck, Dictionary<String, HashSet<int>> free, int playerIdx)
+                                      Dictionary<string, List<Card>> tempsourceDeck, Dictionary<string, HashSet<int>> free, int playerIdx)
         {
             foreach (Owner owner in owners)
             {
@@ -215,7 +215,7 @@ namespace CardStock.CardEngine
         }
 
         private static void AssignNonVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
-                                          Dictionary<String, List<Card>> tempsourceDeck, Dictionary<String, IEnumerator<int>> cardsLeft, int playerIdx)
+                                          Dictionary<string, List<Card>> tempsourceDeck, Dictionary<string, IEnumerator<int>> cardsLeft, int playerIdx)
         {
 
             foreach (Owner owner in owners)
@@ -235,7 +235,7 @@ namespace CardStock.CardEngine
                         for (int i = 0; i < collection.Count; i++)
                         {
                             // figure out type of card
-                            String type = collection.Get(i).name;
+                            string type = collection.Get(i).name;
 
                             // Look up card by index, and reference the new cloned card
                             var toAdd = tempsourceDeck[type][cardsLeft[type].Current];
@@ -289,7 +289,7 @@ namespace CardStock.CardEngine
             currentTeam.Pop();
         }
 
-        public void SetDeck(Tree cardAttributes, CardCollection loc, String name, Transcript script)
+        public void SetDeck(Tree cardAttributes, CardCollection loc, string name, Transcript script)
         {
             var combos = cardAttributes.Combinations();
             foreach (var combo in combos)
@@ -334,7 +334,7 @@ namespace CardStock.CardEngine
             return ret;
         }
 
-        public override bool Equals(System.Object? obj) // In Progress
+        public override bool Equals(object? obj) // In Progress
         {
             //Console.WriteLine("CALLING CARDGAME EQUALITY");
             // COMMENTED OUT ALL WRITELINES EXCEPT ONES THAT SHOULD ALMOST NEVER SHOW UP
@@ -343,33 +343,31 @@ namespace CardStock.CardEngine
             if (obj == null)
             { Console.WriteLine("obj is null"); return false; }
 
-            CardGame othergame = obj as CardGame;
-            if ((System.Object)othergame == null)
-            { Console.WriteLine("obj as cardgame is null"); return false; }
-
+            if (obj is not CardGame othergame)
+            { Console.WriteLine("obj not a CardGame"); return false; }
 
             // CHECK NECESSARY PARTS OF CARD GAME (COULD BE MISSING SOME NOW)
-            if (!(othergame.teams.Count == teams.Count))
+            if (othergame.teams.Count != teams.Count)
             { Console.WriteLine("Player count or team count not equal"); return false; }
 
             // if (!(sourceDeck.SequenceEqual(othergame.sourceDeck))) NOT COMPARING DIFFERENT SOURCEDECKS
             //{ Console.WriteLine("Source Deck not equal"); return false; }
 
-            if (!(table[0].Equals(othergame.table[0])))
+            if (!table[0].Equals(othergame.table[0]))
             { return false; }
 
-            if (!(players.SequenceEqual(othergame.players)))
+            if (!players.SequenceEqual(othergame.players))
             { //Console.WriteLine("Player list not equal");
                 return false;
             }
 
-            if (!(teams.SequenceEqual(othergame.teams)))
+            if (!teams.SequenceEqual(othergame.teams))
             { Console.WriteLine("Team List not equal"); return false; }
 
-            if (!(currentPlayer.SequenceEqual(othergame.currentPlayer)))
+            if (!currentPlayer.SequenceEqual(othergame.currentPlayer))
             { Console.WriteLine("Stack of player StageCycles not equal"); return false; }
 
-            if (!(currentTeam.SequenceEqual(othergame.currentTeam)))
+            if (!currentTeam.SequenceEqual(othergame.currentTeam))
             { Console.WriteLine("Stack of team StageCycles not equal"); return false; }
 
             return true;
@@ -395,8 +393,13 @@ namespace CardStock.CardEngine
     {
         private readonly int playeridx = playeridx;
 
-        public bool Equals(Tuple<CardGame, int> g1, Tuple<CardGame, int> g2)
+        public bool Equals(Tuple<CardGame, int>? g1, Tuple<CardGame, int>? g2)
         {
+            if (g1 == null || g2 == null)
+            {
+                return false;
+            }
+
             // Info sets are the equal if the visible cards on the board and the visible cards in hand are the same
             if (g1.Item2 != g2.Item2)
             { return false; }

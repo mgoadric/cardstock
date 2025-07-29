@@ -66,34 +66,34 @@ namespace CardStock.CardEngine
             return ret.ToString();
         }
 
-        public override bool Equals(System.Object obj) // USE THIS AS GENERAL OWNER CHECK --
+        public override bool Equals(object? obj) // USE THIS AS GENERAL OWNER CHECK --
         {
-            return BetterEquals(obj, false, -1);
+            if (obj != null)
+            {
+                return BetterEquals(obj, false, -1);
+            }
+            return false;
         }
 
-        public bool BetterEquals(System.Object obj, bool infoset, int playeridx) { 
+        public bool BetterEquals(object obj, bool infoset, int playeridx) { 
             if (obj == null)
             { Console.WriteLine("owner is null"); return false; }
            
-            Owner otherowner = obj as Owner;
-            if (otherowner == null)
+            if (obj is not Owner otherowner)
             { Console.WriteLine("owner as owner is null"); return false; }
 
             if (GetType() != otherowner.GetType())
             { Console.WriteLine("Types not equal"); return false; }
 
-            if (this as Player != null && otherowner as Player != null)
+            if (this is Player thisplayer && otherowner is Player otherplayer)
             {
-                Player thisplayer = this as Player; Player otherplayer = otherowner as Player;
                 if (thisplayer.team.id != otherplayer.team.id)
                 { Console.WriteLine("Player Specific Owner failure");
                        return false; }
             }
 
-            if (this as Team != null && otherowner as Team != null)
+            if (this is Team thisteam && otherowner is Team otherteam)
             {
-                Team thisteam = this as Team; 
-                Team otherteam = otherowner as Team;
                 for (int i = 0; i < thisteam.teamPlayers.Count; i++)
                 {
                     if (thisteam.teamPlayers[i].id != otherteam.teamPlayers[i].id)

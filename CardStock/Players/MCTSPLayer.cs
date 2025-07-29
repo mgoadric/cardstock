@@ -14,7 +14,7 @@ namespace CardStock.Players
         public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree;
         private CardGame privategame;
         private GameIterator privateiterator;
-        private static int NUMTESTS = 10; //previously 20
+        private static int NUMTESTS = 100; //previously 20
         // Go for 1000 per move, and 10 determinizations???
 
         public MCTSPLayer(Perspective perspective) : base(perspective)

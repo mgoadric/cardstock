@@ -1,4 +1,8 @@
-// Version 0.5.8 of our REcursive CYclic Card game LanguagE
+// Version 0.5.9 of our REcursive CYclic Card game LanguagE
+
+// New in version 0.5.9
+//  Partitioned Runs are possible. The run will be the maximum size possible.
+//   There should be no duplicates in the run possibilities.
 
 // New in version 0.5.8
 //  reworked partition to have string first, then collection, matching cardatt
@@ -39,14 +43,13 @@
 //  random number (0-?) or (?-?) with ? inclusive
 //  change range to be inclusive
 
-//  TODO store other player as a variable?
+//  TODO store other player as a storage variable?
 //  TODO make a graph for the locations? Only make explicit if needed?
 //     would also need ways to talk about neighbors (left, right, up, down) grammar
 //      or by index (0, 0), (1, 0), etc...
 //  TODO stages with count of number of times to cycle, this would avoid the awkward
 //     counters currently used
-//  TODO a way to calculate runs in cards. Maybe like a partition? 
-//       But do we want all possible sets?
+//  TODO a way to calculate all possible runs in cards.
 
 grammar Recycle;
 var : '\'' namegr ;

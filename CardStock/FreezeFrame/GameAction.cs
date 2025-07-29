@@ -71,14 +71,6 @@ namespace CardStock.FreezeFrame {
         public override void Execute() {
             try {
                 if (startLocation.Count() != 0) {
-                    //DEBUG
-                    /*if (startLocation.ToString().Contains("STOCK")){
-                        Console.WriteLine("Stock size to " + startLocation.Count());
-                    }
-                    if (endLocation.ToString().Contains("STOCK")){
-                        Console.WriteLine("Stock size from " + startLocation.Count());
-                    }*/
-                    //
 
                     Card cardToMove = startLocation.Remove();
                     if (startLocation.actual) {
@@ -175,9 +167,14 @@ namespace CardStock.FreezeFrame {
 
 
     public class TurnAction : GameAction {
-        public TurnAction() { }
+        public TurnAction(Transcript script)
+        {
+            this.script = script;
+        }
 
-        public override void Execute(){
+        public override void Execute()
+        {
+            script.WriteToFile("P:passing");
         }
         public override void Undo() {
 

@@ -62,14 +62,13 @@ namespace CardStock.CardEngine
             return dict.Values;
         }
 
-        public override bool Equals(System.Object obj)
+        public override bool Equals(Object? obj)
         {
             //System.Console.WriteLine("INTO CARDSTORAGE EQUALITY");
             if (obj == null)
             { return false; }
 
-            CardStorage cs = obj as CardStorage;
-            if (cs == null)
+            if (obj is not CardStorage cs)
             { return false; }
 
             if (cs.owner.GetType() != owner.GetType())
@@ -96,7 +95,7 @@ namespace CardStock.CardEngine
                         && owner.id == playeridx) || (owner.GetType() == typeof(Team)
                         && ((Team)owner).IsMember(playeridx)))
                     {
-                        if (s2.dict.Keys.Contains(k))
+                        if (s2.dict.ContainsKey(k))
                         {
                             if (!collection1.Equals(s2.dict[k]))
                             { return false; }

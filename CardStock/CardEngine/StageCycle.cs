@@ -103,24 +103,25 @@ namespace CardStock.CardEngine{
 		}
 
         public string CurrentName() {
-            var who = memberList[idx] as Owner;
-            if (who != null)
+            if (memberList[idx] is Owner who)
             {
                 return who.name;
             }
-            else {
-                return null;
+            else
+            {
+                // Should this ever happen???
+                Console.WriteLine("Why does the cycle not have owners???");
+                throw new NotImplementedException();
+                //return null;
             }
-
         }
 
-        public override bool Equals(System.Object obj)
+        public override bool Equals(Object? obj)
         {
             if (obj == null)
             { return false; }
 
-            StageCycle<T> othercycle = obj as StageCycle<T>;
-            if ((System.Object)othercycle == null)
+            if (obj is not StageCycle<T> othercycle)
             { return false; }
 
             // Compare the StageCycles

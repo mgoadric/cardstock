@@ -873,7 +873,7 @@ namespace CardStock.FreezeFrame
             }
             else if (actionNode.turnaction() != null)
             {
-                ret.Add(new TurnAction());
+                ret.Add(new TurnAction(script));
             }
             else if (actionNode.repeat() != null)
             {
@@ -2118,7 +2118,7 @@ namespace CardStock.FreezeFrame
         private CardLocReference ProcessCStorageFilter(RecycleParser.FilterContext filter)
         {
             var cList = new CardCollection(CCType.VIRTUAL);
-            IEnumerable<Card> stor2 = null;
+            IEnumerable<Card>? stor2 = null;
             String name2 = "";
 
             if (filter.collection().cstorage() != null)

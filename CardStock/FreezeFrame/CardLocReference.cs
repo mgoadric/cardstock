@@ -14,8 +14,8 @@ namespace CardStock.FreezeFrame{
             var loc = new CardLocReference()
             {
                 cardList = cardList.ShallowCopy(),
-                locIdentifier = String.Copy(locIdentifier),
-                name = String.Copy(name) + " - Copy",
+                locIdentifier = locIdentifier,
+                name = name + " - Copy",
                 actual = actual,
             };
             return loc;
