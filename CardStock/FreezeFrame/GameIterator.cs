@@ -399,11 +399,8 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine(multiaction.GetType());
                 if (multiaction.agg() != null)
                 {
-                    //List<GameAction> test = (List<CardEngine.GameAction>)ProcessAgg(multiaction.agg());
-                    //Debug.WriteLine(test[0].GetType());
                     Debug.WriteLine("Processing multiaction aggregation.");
-                    lst.Add(ProcessAgg(multiaction.agg()) as GameActionCollection);
-                    //lst.AddRange((List<GameActionCollection>)ProcessAgg(multiaction.agg()));
+                    lst.Add(ProcessAgg(multiaction.agg()));
                 }
                 else if (multiaction.let() != null)
                 {
@@ -434,7 +431,7 @@ namespace CardStock.FreezeFrame
                 if (multi.agg() != null)
                 {
                     Debug.WriteLine("Processing multiaction2 aggregation.");
-                    lst.Add(ProcessAgg(multi.agg()) as GameActionCollection);
+                    lst.Add(ProcessAgg(multi.agg()));
                 }
                 else if (multi.let() != null)
                 {
@@ -485,9 +482,8 @@ namespace CardStock.FreezeFrame
                     if (current.tree != null)
                     {
                         var currentTree = current.tree;
-                        if (currentTree is RecycleParser.CondactContext)
+                        if (currentTree is RecycleParser.CondactContext condact)
                         {
-                            var condact = currentTree as RecycleParser.CondactContext;
                             // if the boolean returns true (and exists), 
                             // push the resulting action/multiaction items
                             // on the current stack of iterable items
@@ -505,40 +501,38 @@ namespace CardStock.FreezeFrame
                             }
                         }
 
-                        else if (currentTree is RecycleParser.Multiaction2Context)
+                        else if (currentTree is RecycleParser.Multiaction2Context multi2)
                         {
                             Debug.WriteLine("Finding game actions recursively in a multiaction2 statement.");
 
-                            var multi = currentTree as RecycleParser.Multiaction2Context;
                             // is any or and
-                            if (multi.agg() != null)
+                            if (multi2.agg() != null)
                             {
                                 Debug.WriteLine("multiaction context 2 agg pushed to stack");
-                                stackTree.Push(multi.agg());
+                                stackTree.Push(multi2.agg());
                             }
                             // is let 
-                            else if (multi.let() != null)
+                            else if (multi2.let() != null)
                             {
-                                stackTree.Push(multi.let());
+                                stackTree.Push(multi2.let());
                             }
                             else
                             { // is do
                               // push all condacts onto current stack
                               // to be processed
-                                for (int i = multi.condact().Length - 1; i >= 0; i--)
+                                for (int i = multi2.condact().Length - 1; i >= 0; i--)
                                 {
-                                    stackTree.Push(multi.condact()[i]);
+                                    stackTree.Push(multi2.condact()[i]);
                                 }
                             }
                         }
-                        else if (currentTree is RecycleParser.MultiactionContext)
+                        else if (currentTree is RecycleParser.MultiactionContext multi)
                         {
                             Debug.WriteLine("Finding game actions recursively in a multiaction.");
                             // terrible terrible ! someday TODO make this not copy paste
                             // included to allow multiactions after let statement 
                             // if rewritten (to be actually recursive etc etc)
                             // could streamline multi & multi2 to be the same thing
-                            var multi = currentTree as RecycleParser.MultiactionContext;
                             if (multi.agg() != null)
                             {
                                 stackTree.Push(multi.agg());
@@ -561,11 +555,10 @@ namespace CardStock.FreezeFrame
                             }
 
                         }
-                        else if (currentTree is RecycleParser.AggContext)
+                        else if (currentTree is RecycleParser.AggContext agg)
                         {
                             Debug.WriteLine("Finding game actions recursively in an aggregation statement.");
 
-                            var agg = currentTree as RecycleParser.AggContext;
                             var collection = ProcessCollection(agg.collection());
                             if (agg.GetChild(1).GetText() == "any")
                             {
@@ -688,7 +681,7 @@ namespace CardStock.FreezeFrame
                 foreach (GameAction act in stackAct.ToArray())
                 {
                     // add everythign but loop actions to coll
-                    if (!(act is LoopAction))
+                    if (act is not LoopAction)
                     {
                         Debug.WriteLine(act);
                         Debug.WriteLine("Adding non-loop action to collection.");
@@ -696,9 +689,8 @@ namespace CardStock.FreezeFrame
                     }
                 }
 
-                while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction))
+                while (stackAct.Count > 0 && stackAct.Peek() is not LoopAction)
                 {
-
                     var temp = stackAct.Pop();
                     Debug.WriteLine("Popping non-loop action off (first time)" + temp);
                     temp.Undo();
@@ -970,7 +962,8 @@ namespace CardStock.FreezeFrame
                     return new SetPlayerAction(game.CurrentPlayer().PeekPrevious().id, game, script);
                 }
             }
-            return null;
+            throw new NotImplementedException();
+            //return null;
         }
 
         private void ProcessDo(RecycleParser.CondactContext[] condact)
@@ -1478,7 +1471,7 @@ namespace CardStock.FreezeFrame
                     name = name + "{SORTED}"
                 };
                 throw new NotImplementedException();
-                return fancy;
+                //return fancy;
             }
 
             // CAN WE REMOVE THIS???? NO!!!
@@ -1662,7 +1655,7 @@ namespace CardStock.FreezeFrame
             else
             {
                 throw new NotImplementedException();
-                return null;
+                //return null;
             }
         }
 
@@ -2157,15 +2150,18 @@ namespace CardStock.FreezeFrame
                 throw new NotSupportedException();
             }
 
-            foreach (Card card in stor2)
+            if (stor2 != null)
             {
-                string text = filter.var().GetText();
-                variables.Put(text, card);
-                if (ProcessBoolean(filter.boolean()))
+                foreach (Card card in stor2)
                 {
-                    cList.Add(card);
+                    string text = filter.var().GetText();
+                    variables.Put(text, card);
+                    if (ProcessBoolean(filter.boolean()))
+                    {
+                        cList.Add(card);
+                    }
+                    variables.Remove(text);
                 }
-                variables.Remove(text);
             }
             var fancy = new CardLocReference()
             {
@@ -2184,19 +2180,33 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Iterating over aggregation of: " + t.GetType());
                 variables.Put(var.GetText(), t);
                 var post = ProcessAggPost(tree);
-                ret.Add(post);
+                if (post != null)
+                {
+                    ret.Add(post);
+                }
                 variables.Remove(var.GetText());
             }
             return ret;
         }
 
-        private object ProcessAgg(RecycleParser.AggContext agg)
+        private GameActionCollection ProcessAgg(RecycleParser.AggContext agg)
         {
             var ret = IterateAgg(agg.collection(), agg.var(), agg.GetChild(4));
             Debug.WriteLine(ret.Count);
-            // Not sure what we're doing here anymore after cleanup. 
-            // Are the actions executed in IterateAgg? ..
-            return ret;
+            GameActionCollection ret2 = [];
+            foreach (var item in ret)
+            {
+                if (item is GameAction ga)
+                {
+                    ret2.Add(ga);
+                }
+                else
+                {
+                    Console.WriteLine("What is this???");
+                    throw new Exception();
+                }
+            } 
+            return ret2;
         }
 
         private List<CardLocReference> ProcessAggCStorage(RecycleParser.AggcsContext agg)

@@ -9,9 +9,9 @@ namespace CardStock.FreezeFrame
         
         // For writing the game transcript
         private readonly bool logging;
-        private readonly string fileName;
+        private readonly string? fileName;
 
-        public Transcript(bool logging, string fileName)
+        public Transcript(bool logging, string? fileName)
         {
             this.logging = logging;
             this.fileName = fileName;
