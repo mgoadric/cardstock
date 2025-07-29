@@ -38,7 +38,7 @@ namespace CardStock.CardEngine
                 var attStr = "";
                 foreach (var att in arrAtts)
                 {
-                    Console.WriteLine("Card: " + c);
+                    Debug.WriteLine("Card: " + c);
                     var val = c.ReadAttribute(att);
                     attStr += val + ",";
                 }

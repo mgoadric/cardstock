@@ -1204,6 +1204,10 @@ namespace CardStock.FreezeFrame
                 var coll = ProcessLocation(card.minof().cstorage());
                 var min = Int32.MaxValue;
                 Card minCard = null;
+                if (coll.cardList.AllCards().Count() == 0)
+                {
+                    throw new IndexOutOfRangeException();
+                }
                 foreach (var c in coll.cardList.AllCards())
                 {
                     //MHG when equal, pick randomly
@@ -1216,6 +1220,7 @@ namespace CardStock.FreezeFrame
                 }
                 Debug.WriteLine("MIN:" + minCard);
                 var lst = new CardCollection(CCType.VIRTUAL);
+                // if there were no cards, it will return null.
                 lst.Add(minCard);
                 var fancy = new CardLocReference()
                 {

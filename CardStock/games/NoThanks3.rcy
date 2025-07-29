@@ -93,8 +93,9 @@
                 using (game points SCORING)
                )
                 'R 
-                 (inc ((current player) sto SCORE)
-                      (score (min 'R using (game points SCORING)) using (game points SCORING))))
+                 ((> (size 'R) 0)
+                  (inc ((current player) sto SCORE)
+                      (score (min 'R using (game points SCORING)) using (game points SCORING)))))
          ))
    )
 
