@@ -1164,20 +1164,17 @@ namespace CardStock.FreezeFrame
                 var scoring = ProcessPointStorage(card.maxof().pointstorage()).Get();
                 var coll = ProcessLocation(card.maxof().cstorage());
                 var max = -1;
-                Card maxCard = null;
 
                 if (coll.cardList.AllCards().Count() == 0)
                 {
-                    throw new NotSupportedException();
+                    Console.WriteLine("Can't find the max of an empty CardCollection.");
+                    throw new InvalidOperationException();
                 }
+
+                Card maxCard = coll.cardList.Peek();
                 foreach (var c in coll.cardList.AllCards())
                 {
                     int score = scoring.GetScore(c);
-                    if (score == 0)
-                    {
-                        // Console.WriteLine("Weird Card: " + c);
-                    }
-                    //Console.WriteLine(c + " = " + score);
                     //MHG when equal, pick randomly
                     if (score > max || (score == max && ThreadSafeRandom.Next(0, 2) == 0))
                     {
@@ -1203,24 +1200,26 @@ namespace CardStock.FreezeFrame
                 var scoring = ProcessPointStorage(card.minof().pointstorage()).Get();
                 var coll = ProcessLocation(card.minof().cstorage());
                 var min = Int32.MaxValue;
-                Card minCard = null;
                 if (coll.cardList.AllCards().Count() == 0)
                 {
-                    throw new IndexOutOfRangeException();
+                    Console.WriteLine("Can't find the min of an empty CardCollection.");
+                    throw new InvalidOperationException();
                 }
+
+                Card minCard = coll.cardList.Peek();
                 foreach (var c in coll.cardList.AllCards())
                 {
                     //MHG when equal, pick randomly
-                    if (scoring.GetScore(c) < min || (scoring.GetScore(c) == min && ThreadSafeRandom.Next(0, 2) == 0))
+                    int score = scoring.GetScore(c);
+                    if (score < min || (score == min && ThreadSafeRandom.Next(0, 2) == 0))
                     {
                         //if (scoring.GetScore(c) < min) {
-                        min = scoring.GetScore(c);
+                        min = score;
                         minCard = c;
                     }
                 }
                 Debug.WriteLine("MIN:" + minCard);
                 var lst = new CardCollection(CCType.VIRTUAL);
-                // if there were no cards, it will return null.
                 lst.Add(minCard);
                 var fancy = new CardLocReference()
                 {
@@ -1320,37 +1319,41 @@ namespace CardStock.FreezeFrame
             throw new NotSupportedException();
         }
 
+        private List<CardLocReference> CollectLocations(RecycleParser.CstorageContext[] cstorage, RecycleParser.AggcsContext aggcs)
+        {
+            if (cstorage.Length > 0)
+            {
+                var allLocs = new List<CardLocReference>();
+                foreach (var locChild in cstorage)
+                {
+                    allLocs.Add(ProcessLocation(locChild));
+                }
+                return allLocs;
+            }
+            else
+            {
+                return ProcessAggCStorage(aggcs);
+            }
+        }
+
         private CardLocReference ProcessLocation(RecycleParser.CstorageContext loc)
         {
             string name = "";
             if (loc.unionof() != null)
             {
+                var allLocs = CollectLocations(loc.unionof().cstorage(), loc.unionof().aggcs());
+
                 CardCollection temp = new(CCType.VIRTUAL);
-                if (loc.unionof().cstorage().Length > 0)
+                foreach (var locs in allLocs)
                 {
-                    foreach (var locChild in loc.unionof().cstorage())
+                    name += locs.name + " ";
+                    foreach (var card in locs.cardList.AllCards())
                     {
-                        var locs = ProcessLocation(locChild);
-                        name += locs.name + " ";
-                        foreach (var card in locs.cardList.AllCards())
-                        {
-                            temp.Add(card);
-                        }
+                        temp.Add(card);  // TODO Should this check for duplicates???
                     }
-                    name = name[..^1];
                 }
-                else
-                { //agg
-                    foreach (var locs in ProcessAggCStorage(loc.unionof().aggcs()))
-                    {
-                        name += locs.name + " ";
-                        foreach (var card in locs.cardList.AllCards())
-                        {
-                            temp.Add(card);
-                        }
-                    }
-                    name = name[..^1];
-                }
+                name = name[..^1];
+                
                 var fancy = new CardLocReference()
                 {
                     cardList = temp,
@@ -1360,62 +1363,35 @@ namespace CardStock.FreezeFrame
             }
             else if (loc.intersectof() != null)
             {
-                CardCollection temp = new(CCType.VIRTUAL);
-                if (loc.intersectof().cstorage().Length > 0)
+                var allLocs = CollectLocations(loc.intersectof().cstorage(), loc.intersectof().aggcs());
+
+                Dictionary<Card, int> cardCount = [];
+                foreach (var locs in allLocs)
                 {
-                    Dictionary<Card, int> cardCount = [];
-                    foreach (var locChild in loc.intersectof().cstorage())
+                    name += locs.name + " ";
+                    foreach (var card in locs.cardList.AllCards())
                     {
-                        var locs = ProcessLocation(locChild);
-                        name += locs.name + " ";
-                        foreach (var card in locs.cardList.AllCards())
+                        if (cardCount.ContainsKey(card))
                         {
-                            if (cardCount.ContainsKey(card))
-                            {
-                                cardCount[card] += 1;
-                            }
-                            else
-                            {
-                                cardCount[card] = 1;
-                            }
+                            cardCount[card] += 1;
+                        }
+                        else
+                        {
+                            cardCount[card] = 1;
                         }
                     }
-                    foreach (KeyValuePair<Card, int> kvp in cardCount)
-                    {
-                        if (kvp.Value == loc.intersectof().cstorage().Length)
-                        {
-                            temp.Add(kvp.Key);
-                        }
-                    }
-                    name = name[..^1];
                 }
-                else
-                { //agg
-                    Dictionary<Card, int> cardCount = [];
-                    foreach (var locs in ProcessAggCStorage(loc.intersectof().aggcs()))
+
+                CardCollection temp = new(CCType.VIRTUAL);
+                foreach (KeyValuePair<Card, int> kvp in cardCount)
+                {
+                    if (kvp.Value == loc.intersectof().cstorage().Length)
                     {
-                        name += locs.name + " ";
-                        foreach (var card in locs.cardList.AllCards())
-                        {
-                            if (cardCount.ContainsKey(card))
-                            {
-                                cardCount[card] += 1;
-                            }
-                            else
-                            {
-                                cardCount[card] = 1;
-                            }
-                        }
+                        temp.Add(kvp.Key);
                     }
-                    foreach (KeyValuePair<Card, int> kvp in cardCount)
-                    {
-                        if (kvp.Value == loc.intersectof().cstorage().Length)
-                        {
-                            temp.Add(kvp.Key);
-                        }
-                    }
-                    name = name[..^1];
                 }
+                name = name[..^1];
+
                 var fancy = new CardLocReference()
                 {
                     cardList = temp,
@@ -1423,76 +1399,37 @@ namespace CardStock.FreezeFrame
                 };
                 return fancy;
             }
-            else if (loc.sortof() != null)
+            else if (loc.disjunctionof() != null)
             {
-                CardCollection temp = new(CCType.VIRTUAL);
-                var locs = ProcessLocation(loc.sortof().cstorage());
-                // Sort the cards here, be efficient! TODO
+                var allLocs = CollectLocations(loc.disjunctionof().cstorage(), loc.disjunctionof().aggcs());
 
-                var fancy = new CardLocReference()
+                Dictionary<Card, int> cardCount = [];
+                foreach (var locs in allLocs)
                 {
-                    cardList = temp,
-                    name = name + "{SORTED}"
-                };
-                return fancy;            }
-            if (loc.disjunctionof() != null)
-            {
+                    name += locs.name + " ";
+                    foreach (var card in locs.cardList.AllCards())
+                    {
+                        if (cardCount.ContainsKey(card))
+                        {
+                            cardCount[card] += 1;
+                        }
+                        else
+                        {
+                            cardCount[card] = 1;
+                        }
+                    }
+                }
+
                 CardCollection temp = new(CCType.VIRTUAL);
-                if (loc.disjunctionof().cstorage().Length > 0)
+                foreach (KeyValuePair<Card, int> kvp in cardCount)
                 {
-                    Dictionary<Card, int> cardCount = [];
-                    foreach (var locChild in loc.disjunctionof().cstorage())
+                    if (kvp.Value == 1)
                     {
-                        var locs = ProcessLocation(locChild);
-                        name += locs.name + " ";
-                        foreach (var card in locs.cardList.AllCards())
-                        {
-                            if (cardCount.ContainsKey(card))
-                            {
-                                cardCount[card] += 1;
-                            }
-                            else
-                            {
-                                cardCount[card] = 1;
-                            }
-                        }
+                        temp.Add(kvp.Key);
                     }
-                    foreach (KeyValuePair<Card, int> kvp in cardCount)
-                    {
-                        if (kvp.Value == 1)
-                        {
-                            temp.Add(kvp.Key);
-                        }
-                    }
-                    name = name[..^1];
                 }
-                else
-                { //agg
-                    Dictionary<Card, int> cardCount = [];
-                    foreach (var locs in ProcessAggCStorage(loc.disjunctionof().aggcs()))
-                    {
-                        name += locs.name + " ";
-                        foreach (var card in locs.cardList.AllCards())
-                        {
-                            if (cardCount.ContainsKey(card))
-                            {
-                                cardCount[card] += 1;
-                            }
-                            else
-                            {
-                                cardCount[card] = 1;
-                            }
-                        }
-                    }
-                    foreach (KeyValuePair<Card, int> kvp in cardCount)
-                    {
-                        if (kvp.Value == 1)
-                        {
-                            temp.Add(kvp.Key);
-                        }
-                    }
-                    name = name[..^1];
-                }
+                name = name[..^1];
+                
                 var fancy = new CardLocReference()
                 {
                     cardList = temp,
@@ -1529,13 +1466,27 @@ namespace CardStock.FreezeFrame
                     return resultingSet[Int32.Parse(identifier)];
                 }
             }
+            else if (loc.sortof() != null)
+            {
+                CardCollection temp = new(CCType.VIRTUAL);
+                var locs = ProcessLocation(loc.sortof().cstorage());
+                // Sort the cards here, be efficient! TODO
+
+                var fancy = new CardLocReference()
+                {
+                    cardList = temp,
+                    name = name + "{SORTED}"
+                };
+                throw new NotImplementedException();
+                return fancy;
+            }
+
             // CAN WE REMOVE THIS???? NO!!!
-            
             else if (loc.varcs() != null)
             {
                 return ProcessCardStorageVar(loc.varcs());
             }
-            
+
             throw new NotSupportedException();
         }
 
@@ -1618,25 +1569,14 @@ namespace CardStock.FreezeFrame
 
         private CardLocReference[] ProcessPartition(RecycleParser.PartitionContext partContext)
         {
-            var partition = new Dictionary<String, CardCollection>();
-            List<CardLocReference> alllocs = [];
-            if (partContext.cstorage().Length > 0)
-            {
-                foreach (var child in partContext.cstorage())
-                {
-                    alllocs.Add(ProcessLocation(child));
-                }
-            }
-            else
-            {
-                alllocs = ProcessAggCStorage(partContext.aggcs());
-            }
+            var allLocs = CollectLocations(partContext.cstorage(), partContext.aggcs());
 
             // Splitting on a card attribute?
+            var partition = new Dictionary<String, CardCollection>();
             if (partContext.str() != null)
             {
                 // Split up the cards
-                foreach (var stor in alllocs)
+                foreach (var stor in allLocs)
                 {
                     foreach (var card in stor.cardList.AllCards())
                     {
@@ -1668,7 +1608,7 @@ namespace CardStock.FreezeFrame
             else if (partContext.GetChild(2).GetText() == "runs")
             {
                 HashSet<Card> allCards = [];
-                foreach (var stor in alllocs)
+                foreach (var stor in allLocs)
                 {
                     foreach (var card in stor.cardList.AllCards())
                     {
@@ -1891,7 +1831,7 @@ namespace CardStock.FreezeFrame
             throw new Exception();
         }
 
-        private Tree ProcessDeck(RecycleParser.DeckContext deck)
+        private static Tree ProcessDeck(RecycleParser.DeckContext deck)
         {
             //var attributeCount = deck.ChildCount - 3;
 
@@ -1915,7 +1855,7 @@ namespace CardStock.FreezeFrame
         }
 
 
-        private List<Node> ProcessAttribute(RecycleParser.AttributeContext attr) //TODO make this array!!
+        private static List<Node> ProcessAttribute(RecycleParser.AttributeContext attr) //TODO make this array!!
         {
             var ret = new List<Node>();
             if (attr.attribute()[0].attribute().Length == 0)
@@ -2107,7 +2047,8 @@ namespace CardStock.FreezeFrame
             {
                 who = ProcessOwnerVar(strSto.varo());
             }
-            return new StrStorageReference(who.stringBins, ProcessString(strSto.str()));        }
+            return new StrStorageReference(who.stringBins, ProcessString(strSto.str()));
+        }
 
         private PointStorageReference ProcessPointStorage(RecycleParser.PointstorageContext ptSto)
         {
@@ -2123,22 +2064,21 @@ namespace CardStock.FreezeFrame
             return new PointStorageReference(who.pointBins, ProcessString(ptSto.str()));
         }
 
-        private GameAction SetAction(RecycleParser.SetactionContext setAction)
+        private IntAction SetAction(RecycleParser.SetactionContext setAction)
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             return new IntAction(bin.Storage, bin.Key, setValue, script);
         }
 
-        private GameAction SetStrAction(RecycleParser.SetstractionContext setAction)
+        private StrAction SetStrAction(RecycleParser.SetstractionContext setAction)
         {
             var bin = ProcessStrStorage(setAction.strstorage());
             var setValue = ProcessString(setAction.str());
             return new StrAction(bin.Storage, bin.Key, setValue, script);
         }
 
-
-        private GameAction PointAction(RecycleParser.InitpointsContext points)
+        private PointsAction PointAction(RecycleParser.InitpointsContext points)
         {
             var bin = ProcessPointStorage(points.pointstorage());
 
@@ -2167,14 +2107,14 @@ namespace CardStock.FreezeFrame
             return new PointsAction(bin.Storage, bin.Key, setValue, script);
         }
 
-        private GameAction IncAction(RecycleParser.IncactionContext setAction)
+        private IntAction IncAction(RecycleParser.IncactionContext setAction)
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
             var newVal = bin.Get() + setValue;
             return new IntAction(bin.Storage, bin.Key, newVal, script);
         }
-        private GameAction DecAction(RecycleParser.DecactionContext setAction)
+        private IntAction DecAction(RecycleParser.DecactionContext setAction)
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
@@ -2774,8 +2714,7 @@ namespace CardStock.FreezeFrame
             if (obj == null)
             { Console.WriteLine("obj is null"); return false; }
 
-            GameIterator other = obj as GameIterator;
-            if (obj == null)
+            if (obj is not GameIterator other)
             { Console.WriteLine("obj as gameiterator is null"); return false; }
 
             if (other.gameWorld != gameWorld)

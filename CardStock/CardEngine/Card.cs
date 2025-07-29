@@ -3,20 +3,13 @@ using System.Diagnostics;
 
 namespace CardStock.CardEngine
 {
-    public class Card
+    public class Card(Dictionary<string, string> atts, int id, string n)
     {
 
-        private readonly Dictionary<string, string> cardAtts;
+        private readonly Dictionary<string, string> cardAtts = atts;
         public CardCollection owner { get; set; }
-        public readonly int id;
-        public String name;
-
-        public Card(Dictionary<string, string> atts, int id, String n)
-        {
-            cardAtts = atts;
-            this.id = id;
-            this.name = n;
-        }
+        public readonly int id = id;
+        public string name = n;
 
         public Card Clone()
         {
@@ -31,17 +24,15 @@ namespace CardStock.CardEngine
 
         public override bool Equals(object? obj)
         {
-            return Equals(obj as Card);
+            if (obj is Card c)
+            {
+                return Equals(c);
+            }
+            return false;
         }
 
         public bool Equals(Card c)
         {
-            /*if(obj == null)
-            { return false; }
-            Card p = obj as Card;
-            if (p == null)
-            { return false; }*/
-
             if ((c.id != this.id) || (c.name != this.name))
             { return false; }
 
@@ -76,7 +67,7 @@ namespace CardStock.CardEngine
     {
         public PointMap scoring;
 
-        public int Compare(Object x, Object y)
+        public int Compare(Object? x, Object? y)
         {
 
             if (x is Card cx)

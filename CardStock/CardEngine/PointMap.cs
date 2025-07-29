@@ -57,13 +57,13 @@ namespace CardStock.CardEngine
             return this;
         }
 
-        public override bool Equals(System.Object obj)
+        public override bool Equals(Object? obj)
         {
 
             if (obj == null)
             { return false; }
 
-            if (!(obj is PointMap p))
+            if (obj is not PointMap p)
             { return false; }
 
             if (pointLookups.Count != p.pointLookups.Count)

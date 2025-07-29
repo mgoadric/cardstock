@@ -61,7 +61,8 @@ namespace CardStock.CardEngine
             {
                 return cards.Last();
             }
-            return null;
+            throw new InvalidOperationException();
+            //return null;
         }
 
         public Card Remove()
@@ -104,9 +105,7 @@ namespace CardStock.CardEngine
             {
                 n--;
                 int k = ThreadSafeRandom.Next(n + 1);
-                Card value = cards[k];
-                cards[k] = cards[n];
-                cards[n] = value;
+                (cards[n], cards[k]) = (cards[k], cards[n]);
             }
         }
  
@@ -138,13 +137,12 @@ namespace CardStock.CardEngine
             return ret.ToString();
         }
 
-        public override bool Equals(System.Object obj) 
+        public override bool Equals(Object? obj) 
         {
             if (obj == null)
             { return false; }
          
-            CardCollection othercardcollection = obj as CardCollection;
-            if (othercardcollection == null)
+            if (obj is not CardCollection othercardcollection)
             { return false; }
           
             if (owner.owner.GetType() != othercardcollection.owner.owner.GetType())
