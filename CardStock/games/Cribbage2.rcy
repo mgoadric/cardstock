@@ -1,0 +1,119 @@
+;; Cribbage for 2
+;;
+;; https://www.pagat.com/adders/crib6.html
+
+(game
+    (setup
+        ;; Set up the players, 2 players each on their own team
+        (create players 2)
+
+        ;; Create the deck source - French
+        (create deck (game iloc DISCARD) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, 
+                                                        SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                                (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                        (BLACK (SUIT (CLUBS, SPADES))))))      
+    )
+
+    ;; for testing, each is the dealer once
+    (stage player (end 
+        (all player 'P (== ('P str DEALER) TRUE)))
+
+        (do (
+            (set ((current player) str DEALER) TRUE)
+            (repeat all (move (top (game vloc DISCARD))
+                              (top (game iloc STOCK))))
+            (shuffle (game iloc STOCK))
+            (set (game points PIPS)
+                (
+                    ((RANK : K) 10) 
+                    ((RANK : Q) 10) 
+                    ((RANK : J) 10) 
+                    ((RANK : TEN) 10) 
+                    ((RANK : NINE) 9) 
+                    ((RANK : EIGHT) 8) 
+                    ((RANK : SEVEN) 7) 
+                    ((RANK : SIX) 6) 
+                    ((RANK : FIVE) 5) 
+                    ((RANK : FOUR) 4) 
+                    ((RANK : THREE) 3) 
+                    ((RANK : TWO) 2) 
+                    ((RANK : A) 1) 
+                ))
+
+            ;; Deal 6 cards to each player
+            (all player 'P (repeat 6 (move (top (game iloc STOCK))
+                                           (top ('P iloc HAND)))))
+        ))
+
+        ;; each player picks two for the crib
+        (stage player (end 
+            (all player 'P (== (size ('P iloc HAND)) 4)))
+
+            (choice (
+                (any ((current player) iloc HAND) 'C 
+                     (move 'C 
+                           (top (game iloc CRIB))))
+            ))
+            (choice (
+                (any ((current player) iloc HAND) 'C 
+                     (move 'C 
+                           (top (game iloc CRIB))))
+            ))
+        )
+
+        ;; Set up the start card
+        (do (
+            (move (top (game iloc STOCK))
+                  (top (game vloc START)))
+
+            ;; Two for his heels
+            ((== (cardatt RANK (top (game vloc START))) J)
+             (inc ((current player) sto SCORE) 2))
+        ))
+
+        ;; play the cards
+        (stage player (end 
+                      (all player 'P (== (size ('P iloc HAND)) 0)))
+            (choice (
+
+                ;; if you can add to the pile without going over
+                ((> (size (filter ((current player) iloc HAND) 'FC 
+                            (<= (+ (sum (union (all player 'P ('P vloc PILE))) using (game points PIPS)) 
+                                   (score 'FC using (game points PIPS))) 
+                                31))) 
+                    0)
+                 (any (filter ((current player) iloc HAND) 'FC 
+                            (<= (+ (sum (union (all player 'P ('P vloc PILE))) using (game points PIPS)) 
+                                   (score 'FC using (game points PIPS))) 
+                                31)) 'C 
+                      (do (
+                         (move 'C 
+                               (top ((current player) vloc PILE)))
+
+                         ;; fifteen for two
+                         ((== (sum (union (all player 'P ('P vloc PILE))))
+                              15)
+                              
+                         ;; thirty-one for two
+                         ((== (sum (union (all player 'P ('P vloc PILE))))
+                              31)
+                          (inc ((current player) sto SCORE) 2))
+
+                         ;; other scoring here TODO
+                      ))
+                 )
+                )
+
+
+                ((== (size (filter ((current player) iloc HAND) 'FC 
+                            (<= (+ (sum (union (all player 'P ('P vloc PILE))) using (game points PIPS)) 
+                                   (score 'FC using (game points PIPS))) 
+                                31)))
+                     0)
+                 ())
+
+            ))
+        )
+    )
+    (scoring max ((current player) sto SCORE))
+)
