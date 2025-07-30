@@ -31,7 +31,7 @@ namespace CardStock.CardEngine
             var ret = new List<Node>();
             foreach (var node in parent.children)
             {
-                if (node.children == null || node.children.Count == 0)
+                if (node.children is null || node.children.Count == 0)
                 {
 
 

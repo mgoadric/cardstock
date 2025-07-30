@@ -65,7 +65,7 @@ namespace CardStock.CardEngine
         public override bool Equals(object? obj)
         {
             //System.Console.WriteLine("INTO CARDSTORAGE EQUALITY");
-            if (obj == null)
+            if (obj is null)
             { return false; }
 
             if (obj is not CardStorage cs)

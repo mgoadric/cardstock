@@ -68,7 +68,7 @@ namespace CardStock.CardEngine
 
         public override bool Equals(object? obj) // USE THIS AS GENERAL OWNER CHECK --
         {
-            if (obj != null)
+            if (obj is not null)
             {
                 return BetterEquals(obj, false, -1);
             }
@@ -76,7 +76,7 @@ namespace CardStock.CardEngine
         }
 
         public bool BetterEquals(object obj, bool infoset, int playeridx) { 
-            if (obj == null)
+            if (obj is null)
             { Console.WriteLine("owner is null"); return false; }
            
             if (obj is not Owner otherowner)

@@ -228,12 +228,12 @@ namespace CardStock.FreezeFrame
         private GameActionCollection ProcessSetup(RecycleParser.SetupContext setupNode)
         {
             var ret = new GameActionCollection();
-            if (setupNode.playercreate() != null)
+            if (setupNode.playercreate() is not null)
             {
                 Debug.WriteLine("Creating players.");
                 var playerCreate = setupNode.playercreate() as RecycleParser.PlayercreateContext;
                 var numPlayers = 2;
-                if (playerCreate.@int() != null)
+                if (playerCreate.@int() is not null)
                 {
                     numPlayers = ProcessInt(playerCreate.@int());
                 }
@@ -248,13 +248,12 @@ namespace CardStock.FreezeFrame
                 gameWorld.numPlayers = numPlayers;
                 //gameWorld.PopulateLead();
             }
-            if (setupNode.teamcreate() != null)
-            {
-                Debug.WriteLine("Creating teams.");
-                var teamCreate = ProcessTeamCreate(setupNode.teamcreate(), game);
-                ret.Add(new TeamCreateAction(teamCreate, game, script));
-            }
-            if (setupNode.deckcreate() != null)
+
+            Debug.WriteLine("Creating teams.");
+            var teamCreate = ProcessTeamCreate(setupNode.teamcreate(), game);
+            ret.Add(new TeamCreateAction(teamCreate, game, script));
+ 
+            if (setupNode.deckcreate() is not null)
             {
                 Debug.WriteLine("Creating decks.");
                 var decks = setupNode.deckcreate();
@@ -263,7 +262,7 @@ namespace CardStock.FreezeFrame
                     ret.Add(ProcessDeckCreate(deckinit));
                 }
             }
-            if (setupNode.repeat() != null)
+            if (setupNode.repeat() is not null)
             {
                 foreach (var rep in setupNode.repeat())
                 {
@@ -277,18 +276,13 @@ namespace CardStock.FreezeFrame
                     }
                 }
             }
-            if (setupNode.teamcreate() == null)
-            {
-                Debug.WriteLine("Creating teams.");
-                var teamcreate = ProcessTeamCreate(null, game);
-                ret.Add(new TeamCreateAction(teamcreate, game, script));
-            }
+
             return ret;
         }
-        private List<List<int>> ProcessTeamCreate(RecycleParser.TeamcreateContext teamcreate, CardGame cg)
+        private List<List<int>> ProcessTeamCreate(RecycleParser.TeamcreateContext? teamcreate, CardGame cg)
         {
             var ret = new List<List<int>>();
-            if (teamcreate != null)
+            if (teamcreate is not null)
             {
                 var numTeams = teamcreate.teams().Length;
                 for (int i = 0; i < numTeams; i++)
@@ -315,11 +309,11 @@ namespace CardStock.FreezeFrame
 
         private static bool CheckDeckRepeat(RecycleParser.RepeatContext reps)
         {
-            if (reps.action().deckcreate() != null)
+            if (reps.action().deckcreate() is not null)
             {
                 return true;
             }
-            else if (reps.action().repeat() != null)
+            else if (reps.action().repeat() is not null)
             {
                 return CheckDeckRepeat(reps.action().repeat());
             }
@@ -330,7 +324,7 @@ namespace CardStock.FreezeFrame
         {
             var locstorage = ProcessLocation(deckinit.cstorage()); 
             var deckTree = ProcessDeck(deckinit.deck());
-            if (deckinit.str() == null)
+            if (deckinit.str() is null)
             {
                 return new InitializeAction(locstorage.cardList, deckTree, "DEFAULT", game, script);
             }
@@ -397,12 +391,12 @@ namespace CardStock.FreezeFrame
             if (sub is RecycleParser.MultiactionContext multiaction)
             {
                 Debug.WriteLine(multiaction.GetType());
-                if (multiaction.agg() != null)
+                if (multiaction.agg() is not null)
                 {
                     Debug.WriteLine("Processing multiaction aggregation.");
                     lst.Add(ProcessAgg(multiaction.agg()));
                 }
-                else if (multiaction.let() != null)
+                else if (multiaction.let() is not null)
                 {
                     Debug.WriteLine("Processing multiaction let statement.");
                     lst.AddRange(ProcessLet(multiaction.let()));
@@ -428,12 +422,12 @@ namespace CardStock.FreezeFrame
             else if (sub is RecycleParser.Multiaction2Context multi)
             {
                 Debug.WriteLine("ur in processing multiaction2");
-                if (multi.agg() != null)
+                if (multi.agg() is not null)
                 {
                     Debug.WriteLine("Processing multiaction2 aggregation.");
                     lst.Add(ProcessAgg(multi.agg()));
                 }
-                else if (multi.let() != null)
+                else if (multi.let() is not null)
                 {
                     Debug.WriteLine("Processing multiaction2 let statement.");
                     lst.AddRange(ProcessLet(multi.let()));
@@ -479,7 +473,7 @@ namespace CardStock.FreezeFrame
                 {
 
                     var current = stackTree.Pop();
-                    if (current.tree != null)
+                    if (current.tree is not null)
                     {
                         var currentTree = current.tree;
                         if (currentTree is RecycleParser.CondactContext condact)
@@ -487,14 +481,14 @@ namespace CardStock.FreezeFrame
                             // if the boolean returns true (and exists), 
                             // push the resulting action/multiaction items
                             // on the current stack of iterable items
-                            if (condact.boolean() == null || ProcessBoolean(condact.boolean()))
+                            if (condact.boolean() is null || ProcessBoolean(condact.boolean()))
                             {
-                                if (condact.action() != null)
+                                if (condact.action() is not null)
                                 {
 
                                     stackTree.Push(condact.action());
                                 }
-                                if (condact.multiaction2() != null)
+                                if (condact.multiaction2() is not null)
                                 {
                                     stackTree.Push(condact.multiaction2());
                                 }
@@ -506,13 +500,13 @@ namespace CardStock.FreezeFrame
                             Debug.WriteLine("Finding game actions recursively in a multiaction2 statement.");
 
                             // is any or and
-                            if (multi2.agg() != null)
+                            if (multi2.agg() is not null)
                             {
                                 Debug.WriteLine("multiaction context 2 agg pushed to stack");
                                 stackTree.Push(multi2.agg());
                             }
                             // is let 
-                            else if (multi2.let() != null)
+                            else if (multi2.let() is not null)
                             {
                                 stackTree.Push(multi2.let());
                             }
@@ -533,12 +527,12 @@ namespace CardStock.FreezeFrame
                             // included to allow multiactions after let statement 
                             // if rewritten (to be actually recursive etc etc)
                             // could streamline multi & multi2 to be the same thing
-                            if (multi.agg() != null)
+                            if (multi.agg() is not null)
                             {
                                 stackTree.Push(multi.agg());
                             }
                             // is let 
-                            else if (multi.let() != null)
+                            else if (multi.let() is not null)
                             {
                                 stackTree.Push(multi.let());
                             }
@@ -664,7 +658,7 @@ namespace CardStock.FreezeFrame
                     else
                     {//var context
 
-                        if (current.item != null)
+                        if (current.item is not null)
                         {
                             Debug.WriteLine("Adding var in RecurseDo: " + current.varContext);
 
@@ -755,7 +749,7 @@ namespace CardStock.FreezeFrame
         //this just queues the appropriate actions if condition is met, doesn't execute
         private bool ProcessStage(RecycleParser.StageContext stage) {
             string text = stage.GetChild(2).GetText();
-            if (stage.endcondition().boolean() != null) {
+            if (stage.endcondition().boolean() is not null) {
 
                 if (!iteratingSet.Contains(stage)) {
                     if (text == "player")
@@ -822,60 +816,60 @@ namespace CardStock.FreezeFrame
         {
             Debug.WriteLine(actionNode.GetText());
             var ret = new GameActionCollection();
-            if (actionNode.teamcreate() != null)
+            if (actionNode.teamcreate() is not null)
             {
                 var teamCreate = ProcessTeamCreate(actionNode.teamcreate(), game);
                 ret.Add(new TeamCreateAction(teamCreate, game, script));
             }
-            else if (actionNode.initpoints() != null)
+            else if (actionNode.initpoints() is not null)
             {
                 var pointAction = actionNode.initpoints();
                 ret.Add(PointAction(pointAction));
             }
-            else if (actionNode.moveaction() != null)
+            else if (actionNode.moveaction() is not null)
             {
                 Debug.WriteLine("MOVE: '" + actionNode.GetText() + "'");
                 var move = actionNode.moveaction();
                 ret.Add(ProcessMove(move));
             }
-            else if (actionNode.shuffleaction() != null)
+            else if (actionNode.shuffleaction() is not null)
             {
                 var locations = ProcessLocation(actionNode.shuffleaction().cstorage());
                 ret.Add(ProcessShuffle(locations));
             }
-            else if (actionNode.setaction() != null)
+            else if (actionNode.setaction() is not null)
             {
                 var setAction = actionNode.setaction();
                 ret.Add(SetAction(setAction));
             }
-            else if (actionNode.setstraction() != null)
+            else if (actionNode.setstraction() is not null)
             {
                 var setstrAction = actionNode.setstraction();
                 ret.Add(SetStrAction(setstrAction));
             }
-            else if (actionNode.incaction() != null)
+            else if (actionNode.incaction() is not null)
             {
                 var incAction = actionNode.incaction();
                 ret.Add(IncAction(incAction));
             }
-            else if (actionNode.decaction() != null)
+            else if (actionNode.decaction() is not null)
             {
                 var decAction = actionNode.decaction();
                 ret.Add(DecAction(decAction));
             }
-            else if (actionNode.cycleaction() != null)
+            else if (actionNode.cycleaction() is not null)
             {
                 ret.Add(CycleAction(actionNode.cycleaction()));
             }
-            else if (actionNode.deckcreate() != null)
+            else if (actionNode.deckcreate() is not null)
             {
                 ret.Add(ProcessDeckCreate(actionNode.deckcreate()));
             }
-            else if (actionNode.turnaction() != null)
+            else if (actionNode.turnaction() is not null)
             {
                 ret.Add(new TurnAction(script));
             }
-            else if (actionNode.repeat() != null)
+            else if (actionNode.repeat() is not null)
             {
                 ret.AddRange(ProcessRepeat(actionNode.repeat()));
             }
@@ -895,12 +889,12 @@ namespace CardStock.FreezeFrame
             if (text1 == "next")
             {
                 //Set next player
-                if (cycle.owner() != null)
+                if (cycle.owner() is not null)
                 {
                     var idx = ProcessOwner(cycle.owner());
                     return new NextAction(game.CurrentPlayer(), idx);
                 }
-                else if (cycle.varo() != null)
+                else if (cycle.varo() is not null)
                 {
                     var p = ProcessOwnerVar(cycle.varo());
                     if (p is Player p2)
@@ -930,12 +924,12 @@ namespace CardStock.FreezeFrame
             else if (text1 == "current")
             {
                 //Set next player
-                if (cycle.owner() != null)
+                if (cycle.owner() is not null)
                 {
                     var idx = ProcessOwner(cycle.owner());
                     return new SetPlayerAction(idx, game, script);
                 }
-                else if (cycle.varo() != null)
+                else if (cycle.varo() is not null)
                 {
                     var p = ProcessOwnerVar(cycle.varo());
                     if (p is Player p2)
@@ -976,12 +970,12 @@ namespace CardStock.FreezeFrame
 
         private void ProcessSingleDo(RecycleParser.CondactContext cond)
         {
-            if (cond.boolean() == null || ProcessBoolean(cond.boolean())) { DoAction(cond); }
+            if (cond.boolean() is null || ProcessBoolean(cond.boolean())) { DoAction(cond); }
         }
 
         private void DoAction(RecycleParser.CondactContext cond)
         {
-            if (cond.multiaction2() != null)
+            if (cond.multiaction2() is not null)
             {
                 Debug.WriteLine("Processing conditional multiaction.");
                 // WHY ARE THESE NOT EXECUTED???
@@ -1005,7 +999,7 @@ namespace CardStock.FreezeFrame
         {
             var ret = new GameActionCollection();
             int idx = 1;
-            if (rep.@int() != null)
+            if (rep.@int() is not null)
             {
                 idx = ProcessInt(rep.@int());
                 for (int i = 0; i < idx; i++)
@@ -1039,13 +1033,13 @@ namespace CardStock.FreezeFrame
 
         private bool ProcessBoolean(RecycleParser.BooleanContext boolNode)
         {
-            if (boolNode.intop() != null)
+            if (boolNode.intop() is not null)
             {
 
                 var intop = boolNode.intop();
                 int trueOne = ProcessInt(boolNode.@int(0));
                 int trueTwo = ProcessInt(boolNode.@int(1));
-                if (intop.EQOP() != null)
+                if (intop.EQOP() is not null)
                 {
                     switch (intop.EQOP().GetText())
                     {
@@ -1053,7 +1047,7 @@ namespace CardStock.FreezeFrame
                         case "!=": return trueOne != trueTwo;
                     }
                 }
-                else if (intop.COMPOP() != null)
+                else if (intop.COMPOP() is not null)
                 {
                     switch (intop.COMPOP().GetText())
                     {
@@ -1064,11 +1058,11 @@ namespace CardStock.FreezeFrame
                     }
                 }
             }
-            else if (boolNode.UNOP() != null)
+            else if (boolNode.UNOP() is not null)
             {
                 return !ProcessBoolean(boolNode.boolean(0));
             }
-            else if (boolNode.BOOLOP() != null)
+            else if (boolNode.BOOLOP() is not null)
             {
                 string text = boolNode.BOOLOP().GetText();
                 if (text == "or")
@@ -1098,7 +1092,7 @@ namespace CardStock.FreezeFrame
                     return flag;
                 }
             }
-            else if (boolNode.EQOP() != null)
+            else if (boolNode.EQOP() is not null)
             {
                 bool eq = false;
                 if (boolNode.EQOP().GetText() == "==")
@@ -1131,7 +1125,7 @@ namespace CardStock.FreezeFrame
                     return eq == t1.Equals(t2);
                 }
             }
-            else if (boolNode.aggb() != null)
+            else if (boolNode.aggb() is not null)
             {
                 return (bool)ProcessAggBool(boolNode.aggb());
             }
@@ -1152,7 +1146,7 @@ namespace CardStock.FreezeFrame
 
         private CardLocReference ProcessCard(RecycleParser.CardContext card)
         {
-            if (card.maxof() != null)
+            if (card.maxof() is not null)
             {
                 var scoring = ProcessPointStorage(card.maxof().pointstorage()).Get();
                 var coll = ProcessLocation(card.maxof().cstorage());
@@ -1188,11 +1182,11 @@ namespace CardStock.FreezeFrame
                 return fancy;
             }
 
-            if (card.minof() != null)
+            if (card.minof() is not null)
             {
                 var scoring = ProcessPointStorage(card.minof().pointstorage()).Get();
                 var coll = ProcessLocation(card.minof().cstorage());
-                var min = Int32.MaxValue;
+                var min = int.MaxValue;
                 if (coll.cardList.AllCards().Count() == 0)
                 {
                     Console.WriteLine("Can't find the min of an empty CardCollection.");
@@ -1223,20 +1217,20 @@ namespace CardStock.FreezeFrame
                 return fancy;
             }
 
-            if (card.varcard() != null)
+            if (card.varcard() is not null)
             {
                 return ProcessCardVar(card.varcard());
             }
-            if (card.actual() != null)
+            if (card.actual() is not null)
             {
                 var cardLocations = ProcessCard(card.actual().card());
                 cardLocations.actual = true;
                 return cardLocations;
             }
-            else if (card.cstorage() != null)
+            else if (card.cstorage() is not null)
             {//cstorage
                 var loc = ProcessLocation(card.cstorage());
-                if (card.@int() != null)
+                if (card.@int() is not null)
                 {
                     //Console.WriteLine("Is this iT??");
                     var fancy = new CardLocReference()
@@ -1294,16 +1288,16 @@ namespace CardStock.FreezeFrame
 
         private List<CardLocReference> ProcessCStorageCollection(RecycleParser.CstoragecollectionContext cstoragecoll)
         {
-            if (cstoragecoll.memset() != null)
+            if (cstoragecoll.memset() is not null)
             {
                 var lst = ProcessMemset(cstoragecoll.memset());
                 return [.. lst];
             }
-            else if (cstoragecoll.aggcs() != null)
+            else if (cstoragecoll.aggcs() is not null)
             {
                 return ProcessAggCStorage(cstoragecoll.aggcs());
             }
-            else if (cstoragecoll.let() != null)
+            else if (cstoragecoll.let() is not null)
             {
                 ProcessLet(cstoragecoll.let());
                 Debug.WriteLine("let, returning nothing");
@@ -1332,7 +1326,7 @@ namespace CardStock.FreezeFrame
         private CardLocReference ProcessLocation(RecycleParser.CstorageContext loc)
         {
             string name = "";
-            if (loc.unionof() != null)
+            if (loc.unionof() is not null)
             {
                 var allLocs = CollectLocations(loc.unionof().cstorage(), loc.unionof().aggcs());
 
@@ -1354,7 +1348,7 @@ namespace CardStock.FreezeFrame
                 };
                 return fancy;
             }
-            else if (loc.intersectof() != null)
+            else if (loc.intersectof() is not null)
             {
                 var allLocs = CollectLocations(loc.intersectof().cstorage(), loc.intersectof().aggcs());
 
@@ -1392,7 +1386,7 @@ namespace CardStock.FreezeFrame
                 };
                 return fancy;
             }
-            else if (loc.disjunctionof() != null)
+            else if (loc.disjunctionof() is not null)
             {
                 var allLocs = CollectLocations(loc.disjunctionof().cstorage(), loc.disjunctionof().aggcs());
 
@@ -1430,18 +1424,18 @@ namespace CardStock.FreezeFrame
                 };
                 return fancy;
             }
-            else if (loc.filter() != null)
+            else if (loc.filter() is not null)
             {
                 // WILL THIS FAIL LATER???
                 // OH YES IT DID! IN WEIRD WAYS
                 return ProcessCStorageFilter(loc.filter());
             }
-            else if (loc.locpre() != null)
+            else if (loc.locpre() is not null)
             {
                 Debug.WriteLine("Loc");
                 return ProcessSubLocation(loc);
             }
-            else if (loc.memstorage() != null)
+            else if (loc.memstorage() is not null)
             {
                 Debug.WriteLine("Tuple Track");
                 var identifier = loc.memstorage().GetChild(1).GetText();
@@ -1456,10 +1450,10 @@ namespace CardStock.FreezeFrame
                 }
                 else
                 {
-                    return resultingSet[Int32.Parse(identifier)];
+                    return resultingSet[int.Parse(identifier)];
                 }
             }
-            else if (loc.sortof() != null)
+            else if (loc.sortof() is not null)
             {
                 CardCollection temp = new(CCType.VIRTUAL);
                 var locs = ProcessLocation(loc.sortof().cstorage());
@@ -1475,7 +1469,7 @@ namespace CardStock.FreezeFrame
             }
 
             // CAN WE REMOVE THIS???? NO!!!
-            else if (loc.varcs() != null)
+            else if (loc.varcs() is not null)
             {
                 return ProcessCardStorageVar(loc.varcs());
             }
@@ -1485,7 +1479,7 @@ namespace CardStock.FreezeFrame
 
         private CardLocReference[] ProcessMemset(RecycleParser.MemsetContext memset)
         {
-            if (memset.tuple() != null)
+            if (memset.tuple() is not null)
             {
                 var points = ProcessPointStorage(memset.tuple().pointstorage());
                 var findEm = new CardGrouping(13, points.Get());
@@ -1508,7 +1502,7 @@ namespace CardStock.FreezeFrame
                 return returnList;
             }
             // subset code  BUT NO NULL SET?
-            if (memset.subset() != null)
+            if (memset.subset() is not null)
             {
                 Debug.WriteLine("Found a subset");
                 var stor = ProcessLocation(memset.subset().cstorage());
@@ -1553,7 +1547,7 @@ namespace CardStock.FreezeFrame
             }
 
             // PARTITON CODE
-            if (memset.partition() != null)
+            if (memset.partition() is not null)
             {
                 return ProcessPartition(memset.partition());
             }
@@ -1565,8 +1559,8 @@ namespace CardStock.FreezeFrame
             var allLocs = CollectLocations(partContext.cstorage(), partContext.aggcs());
 
             // Splitting on a card attribute?
-            var partition = new Dictionary<String, CardCollection>();
-            if (partContext.str() != null)
+            var partition = new Dictionary<string, CardCollection>();
+            if (partContext.str() is not null)
             {
                 // Split up the cards
                 foreach (var stor in allLocs)
@@ -1588,7 +1582,7 @@ namespace CardStock.FreezeFrame
 
                 // Make new lists
                 var returnList = new List<CardLocReference>();
-                foreach (KeyValuePair<String, CardCollection> kvp in partition)
+                foreach (KeyValuePair<string, CardCollection> kvp in partition)
                 {
                     returnList.Add(new CardLocReference()
                     {
@@ -1702,7 +1696,7 @@ namespace CardStock.FreezeFrame
                 };
                 return fancy;
             }
-            if (stor.locpre().whop() != null)
+            if (stor.locpre().whop() is not null)
             {
                 player = ProcessWhop(stor.locpre().whop());
             }
@@ -1724,7 +1718,7 @@ namespace CardStock.FreezeFrame
             if (loc.cardList.Count > 0)
             {
                 var card = loc.Get();
-                if (card != null)
+                if (card is not null)
                 {
                     Debug.WriteLine("Att2 is " + card.ReadAttribute(ProcessString(cardatt.str())));
                     return card.ReadAttribute(ProcessString(cardatt.str()));
@@ -1737,11 +1731,11 @@ namespace CardStock.FreezeFrame
 
         private Owner ProcessWho(RecycleParser.WhoContext who)
         {
-            if (who.whop() != null)
+            if (who.whop() is not null)
             {
                 return ProcessWhop(who.whop());
             }
-            else if (who.whot() != null)
+            else if (who.whot() is not null)
             {
                 return ProcessWhot(who.whot());
             }
@@ -1750,7 +1744,7 @@ namespace CardStock.FreezeFrame
 
         private Player ProcessWhop(RecycleParser.WhopContext who)
         {
-            if (who.owner() != null)
+            if (who.owner() is not null)
             {
                 var loc = ProcessCard(who.owner().card());
                 return (Player)loc.Get().owner.owner.owner;
@@ -1770,7 +1764,7 @@ namespace CardStock.FreezeFrame
                 {
                     return game.CurrentPlayer().PeekPrevious();
                 }
-                else if (who.whodesc().@int() != null)
+                else if (who.whodesc().@int() is not null)
                 {
                     return game.players[ProcessInt(who.whodesc().@int())];
                 }
@@ -1780,12 +1774,12 @@ namespace CardStock.FreezeFrame
 
         private Team ProcessWhot(RecycleParser.WhotContext who)
         {
-            if (who.teamp() != null)
+            if (who.teamp() is not null)
             {
-                if (who.teamp().varp() != null)
+                if (who.teamp().varp() is not null)
                 {
                     var p = ProcessPlayerVar(who.teamp().varp());
-                    if (p != null)
+                    if (p is not null)
                     {
                         return p.team;
                     }
@@ -1816,7 +1810,7 @@ namespace CardStock.FreezeFrame
                     //throw new NotImplementedException();
                     return game.CurrentTeam().PeekPrevious();
                 }
-                else if (who.whodesc().@int() != null)
+                else if (who.whodesc().@int() is not null)
                 {
                     return game.teams[ProcessInt(who.whodesc().@int())];
                 }
@@ -1891,58 +1885,58 @@ namespace CardStock.FreezeFrame
 
         private int ProcessInt(RecycleParser.IntContext intNode)
         {
-            if (intNode.rawstorage() != null)
+            if (intNode.rawstorage() is not null)
             {
                 var fancy = ProcessIntStorage(intNode.rawstorage());
                 return fancy.Get();
             }
-            else if (intNode.INTNUM() != null && intNode.INTNUM().Any())
+            else if (intNode.INTNUM() is not null && intNode.INTNUM().Any())
             {
                 Debug.WriteLine(intNode.GetText());
                 return int.Parse(intNode.GetText());
             }
-            else if (intNode.@sizeof() != null)
+            else if (intNode.@sizeof() is not null)
             {
                 RecycleParser.CollectionContext coll = intNode.@sizeof().collection();
                 return ProcessCollection(coll).Count();
             }
-            else if (intNode.mult() != null)
+            else if (intNode.mult() is not null)
             {
                 return ProcessInt(intNode.mult().@int(0)) * ProcessInt(intNode.mult().@int(1));
             }
-            else if (intNode.subtract() != null)
+            else if (intNode.subtract() is not null)
             {
                 return ProcessInt(intNode.subtract().@int(0)) - ProcessInt(intNode.subtract().@int(1));
             }
-            else if (intNode.mod() != null)
+            else if (intNode.mod() is not null)
             {
                 return ProcessInt(intNode.mod().@int(0)) % ProcessInt(intNode.mod().@int(1));
             }
-            else if (intNode.divide() != null)
+            else if (intNode.divide() is not null)
             {
                 return ProcessInt(intNode.divide().@int(0)) / ProcessInt(intNode.divide().@int(1));
             }
-            else if (intNode.@add() != null)
+            else if (intNode.@add() is not null)
             {
                 return ProcessInt(intNode.@add().@int(0)) + ProcessInt(intNode.@add().@int(1));
             }
-            else if (intNode.exponent() != null)
+            else if (intNode.exponent() is not null)
             {
                 return Convert.ToInt32(Math.Pow(ProcessInt(intNode.exponent().@int(0)), ProcessInt(intNode.exponent().@int(1))));
             }
-            else if (intNode.fibonacci() != null) 
+            else if (intNode.fibonacci() is not null) 
             {
                 return ProcessFibonacci(intNode.fibonacci());
             }
-            else if (intNode.triangular() != null) 
+            else if (intNode.triangular() is not null) 
             {
                 return ProcessTriangular(intNode.triangular());
             }
-            else if (intNode.random() != null)
+            else if (intNode.random() is not null)
             {
                 return ProcessRandom(intNode.random());
             }
-            else if (intNode.sum() != null)
+            else if (intNode.sum() is not null)
             {
                 var sum = intNode.sum();
                 var scoring = ProcessPointStorage(sum.pointstorage()).Get();
@@ -1956,7 +1950,7 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Sum:" + total);
                 return total;
             }
-            else if (intNode.score() != null)
+            else if (intNode.score() is not null)
             {
                 Debug.WriteLine("trying to score" + intNode.GetText());
                 var scorer = ProcessPointStorage(intNode.score().pointstorage()).Get();
@@ -1965,7 +1959,7 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine(card + " = " + score);
                 return score;
             }
-            else if (intNode.vari() != null)
+            else if (intNode.vari() is not null)
             {
                 return ProcessIntVar(intNode.vari());
             }
@@ -1990,7 +1984,7 @@ namespace CardStock.FreezeFrame
         private int ProcessRandom(RecycleParser.RandomContext random)
         {
             int int1 = ProcessInt(random.@int()[0]);
-            if (random.GetChild(4) != null) // if second integer is included
+            if (random.GetChild(4) is not null) // if second integer is included
             {
                 // Console.WriteLine("Second variable included.");
                 int int2 = ProcessInt(random.@int()[1]);
@@ -2018,11 +2012,11 @@ namespace CardStock.FreezeFrame
         private IntStorageReference ProcessIntStorage(RecycleParser.RawstorageContext intSto)
         {
             var who = game.table[0];
-            if (intSto.who() != null)
+            if (intSto.who() is not null)
             {
                 who = ProcessWho(intSto.who());
             }
-            else if (intSto.varo() != null)
+            else if (intSto.varo() is not null)
             {
                 who = ProcessOwnerVar(intSto.varo());
             }
@@ -2032,11 +2026,11 @@ namespace CardStock.FreezeFrame
         private StrStorageReference ProcessStrStorage(RecycleParser.StrstorageContext strSto)
         {
             var who = game.table[0];
-            if (strSto.who() != null)
+            if (strSto.who() is not null)
             {
                 who = ProcessWho(strSto.who());
             }
-            else if (strSto.varo() != null)
+            else if (strSto.varo() is not null)
             {
                 who = ProcessOwnerVar(strSto.varo());
             }
@@ -2046,11 +2040,11 @@ namespace CardStock.FreezeFrame
         private PointStorageReference ProcessPointStorage(RecycleParser.PointstorageContext ptSto)
         {
             var who = game.table[0];
-            if (ptSto.who() != null)
+            if (ptSto.who() is not null)
             {
                 who = ProcessWho(ptSto.who());
             }
-            else if (ptSto.varo() != null)
+            else if (ptSto.varo() is not null)
             {
                 who = ProcessOwnerVar(ptSto.varo());
             }
@@ -2119,16 +2113,16 @@ namespace CardStock.FreezeFrame
         {
             var cList = new CardCollection(CCType.VIRTUAL);
             IEnumerable<Card>? stor2 = null;
-            String name2 = "";
+            string name2 = "";
 
-            if (filter.collection().cstorage() != null)
+            if (filter.collection().cstorage() is not null)
             {
                 Debug.WriteLine("Filter: cstorage collection");
                 CardLocReference stor = ProcessLocation(filter.collection().cstorage());
                 stor2 = stor.cardList.AllCards();
                 name2 = stor.name;
             }
-            else if (filter.collection().varc() != null)
+            else if (filter.collection().varc() is not null)
             {
                 Debug.WriteLine("Filter: variable collection");
 
@@ -2150,7 +2144,7 @@ namespace CardStock.FreezeFrame
                 throw new NotSupportedException();
             }
 
-            if (stor2 != null)
+            if (stor2 is not null)
             {
                 foreach (Card card in stor2)
                 {
@@ -2180,7 +2174,7 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Iterating over aggregation of: " + t.GetType());
                 variables.Put(var.GetText(), t);
                 var post = ProcessAggPost(tree);
-                if (post != null)
+                if (post is not null)
                 {
                     ret.Add(post);
                 }
@@ -2302,7 +2296,7 @@ namespace CardStock.FreezeFrame
             {
                 return cards;
             }
-            else if (stor is List<Object> objs) // #??
+            else if (stor is List<object> objs) // #??
             {
                 return objs;
             }
@@ -2320,30 +2314,30 @@ namespace CardStock.FreezeFrame
         private IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection)
         {
 
-            if (collection.varc() != null)
+            if (collection.varc() is not null)
             {
                 return ProcessCollectionVar(collection.varc());
             }
             string text = collection.GetText();
-            if (collection.cstorage() != null)
+            if (collection.cstorage() is not null)
             {
                 Debug.WriteLine("Processing collection type: Cstorage.");
                 var stor = ProcessLocation(collection.cstorage());
                 return stor.cardList.AllCards();
             }
-            else if (collection.strcollection() != null)
+            else if (collection.strcollection() is not null)
             {
                 Debug.WriteLine("Processing collection type: string collection.");
 
                 return ProcessStringCollection(collection.strcollection());
             }
-            else if (collection.cstoragecollection() != null)
+            else if (collection.cstoragecollection() is not null)
             {
                 Debug.WriteLine("Processing collection type: Cstorage collection.");
 
                 return ProcessCStorageCollection(collection.cstoragecollection());
             }
-            else if (collection.whot() != null)
+            else if (collection.whot() is not null)
             {
                 Debug.WriteLine("Processing collection type: whot.");
                 var t = ProcessWhot(collection.whot());
@@ -2351,7 +2345,7 @@ namespace CardStock.FreezeFrame
 
                 return t.teamPlayers;
             }
-            else if (collection.range() != null)
+            else if (collection.range() is not null)
             {
                 Debug.WriteLine("Processing collection type: range.");
 
@@ -2364,21 +2358,21 @@ namespace CardStock.FreezeFrame
                 }
                 return newlst;
             }
-            else if (collection.filter() != null)
+            else if (collection.filter() is not null)
             {
                 Debug.WriteLine("Processing collection type: filter.");
 
                 // need new case for cstoragecollection 
-                if (collection.filter().collection() != null &&
-                    collection.filter().collection().cstoragecollection() != null)
+                if (collection.filter().collection() is not null &&
+                    collection.filter().collection().cstoragecollection() is not null)
                 {
                     Debug.WriteLine("We made it!!!");
                     return ProcessCStorageCollectionFilter(collection.filter());
                 }
 
                 // Only do this if it is a collection filter
-                else if (collection.filter().collection() != null &&
-                    collection.filter().collection().cstorage() != null)
+                else if (collection.filter().collection() is not null &&
+                    collection.filter().collection().cstorage() is not null)
                 {
                     var filter = ProcessCStorageFilter(collection.filter());
                     return filter.cardList.AllCards();
@@ -2402,7 +2396,7 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Processing collection type: team.");
                 return game.teams;
             }
-            else if (collection.other() != null)
+            else if (collection.other() is not null)
             {
                 return ProcessOther(collection.other());
             }
@@ -2415,16 +2409,16 @@ namespace CardStock.FreezeFrame
             throw new NotSupportedException();
         }
 
-        private List<Object> ProcessCollectionFilter(RecycleParser.FilterContext filter)
+        private List<object> ProcessCollectionFilter(RecycleParser.FilterContext filter)
         {
 
-            if (filter.collection() != null)
+            if (filter.collection() is not null)
             {
                 Debug.WriteLine("Phew!");
                 var coll = ProcessCollection(filter.collection());
-                var flist = new List<Object>();
+                var flist = new List<object>();
 
-                foreach (Object c in coll)
+                foreach (object c in coll)
                 {
                     string text = filter.var().GetText();
                     variables.Put(text, c);
@@ -2445,7 +2439,7 @@ namespace CardStock.FreezeFrame
         private List<CardLocReference> ProcessCStorageCollectionFilter(RecycleParser.FilterContext filter)
         {
 
-            if (filter.collection().cstoragecollection() != null)
+            if (filter.collection().cstoragecollection() is not null)
             {
                 Debug.WriteLine("Phew!");
                 var cstorage = ProcessCStorageCollection(filter.collection().cstoragecollection());
@@ -2509,22 +2503,22 @@ namespace CardStock.FreezeFrame
 
         private object ProcessTyped(RecycleParser.TypedContext typed)
         {
-            if (typed.@int() != null)
+            if (typed.@int() is not null)
             {
                 Debug.WriteLine("Processing type: int");
                 return ProcessInt(typed.@int());
             }
-            else if (typed.boolean() != null)
+            else if (typed.boolean() is not null)
             {
                 Debug.WriteLine("Processing type: boolean");
                 return ProcessBoolean(typed.boolean());
             }
-            else if (typed.str() != null)
+            else if (typed.str() is not null)
             {
                 Debug.WriteLine("Processing type: str");
                 return ProcessString(typed.str());
             }
-            else if (typed.collection() != null)
+            else if (typed.collection() is not null)
             {
                 Debug.WriteLine("Processing type: collection");
                 return ProcessCollection(typed.collection());
@@ -2537,17 +2531,17 @@ namespace CardStock.FreezeFrame
             var ret = new List<GameActionCollection>(); //TODO check this
             // maybe don't need ProcessTyped ? 
             variables.Put(let.var().GetText(), ProcessTyped(let.typed()));
-            if (let.multiaction() != null)
+            if (let.multiaction() is not null)
             {
                 Debug.WriteLine("Processing let multiaction");
                 ret.AddRange(ProcessMultiaction(let.multiaction()));
             }
-            else if (let.action() != null)
+            else if (let.action() is not null)
             {
                 Debug.WriteLine("Processing let action");
                 ret.Add(ProcessAction(let.action()));
             }
-            else if (let.condact() != null)
+            else if (let.condact() is not null)
             {
                 Debug.WriteLine("Processing let conditional action " + let.condact().GetText());
                 ProcessSingleDo(let.condact());
@@ -2558,19 +2552,19 @@ namespace CardStock.FreezeFrame
 
         private string ProcessString(RecycleParser.StrContext str)
         {
-            if (str.namegr() != null)
+            if (str.namegr() is not null)
             {
                 return str.namegr().GetText();
             }
-            else if (str.cardatt() != null)
+            else if (str.cardatt() is not null)
             {
                 return ProcessCardatt(str.cardatt());
             }
-            else if (str.vars() != null)
+            else if (str.vars() is not null)
             {
                 return ProcessStringVar(str.vars());
             }
-            else if (str.strstorage() != null)
+            else if (str.strstorage() is not null)
             {
                 return ProcessStrStorage(str.strstorage()).Get();
             }
@@ -2656,7 +2650,7 @@ namespace CardStock.FreezeFrame
         private string ProcessStringVar(RecycleParser.VarsContext var)
         {
             var temp = variables.Get(var.GetText());
-            if (temp is String s)
+            if (temp is string s)
             {
                 return s;
             }
@@ -2721,7 +2715,7 @@ namespace CardStock.FreezeFrame
 
         public override bool Equals(object? obj)
         {
-            if (obj == null)
+            if (obj is null)
             { Console.WriteLine("obj is null"); return false; }
 
             if (obj is not GameIterator other)

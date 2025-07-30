@@ -131,9 +131,9 @@ namespace CardStock.FreezeFrame
                         int idx = owner.id;
 
                         Owner newowner;
-                        if (owner as Player != null)
+                        if (owner as Player is not null)
                         { newowner = newgame.players[owner.id]; }
-                        else if (owner as Team != null)
+                        else if (owner as Team is not null)
                         { newowner = newgame.teams[owner.id]; }
                         else
                         {
@@ -188,7 +188,7 @@ namespace CardStock.FreezeFrame
 
         public override bool Equals(object? obj)
         {
-            if (obj == null)
+            if (obj is null)
             { return false; }
 
             if (obj is not RecycleVariables other)

@@ -139,7 +139,7 @@ namespace CardStock.CardEngine
 
         public override bool Equals(object? obj) 
         {
-            if (obj == null)
+            if (obj is null)
             { return false; }
          
             if (obj is not CardCollection othercardcollection)

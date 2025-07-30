@@ -340,7 +340,7 @@ namespace CardStock.CardEngine
             // COMMENTED OUT ALL WRITELINES EXCEPT ONES THAT SHOULD ALMOST NEVER SHOW UP
 
             // CHECK OBJECT IS CARDGAME
-            if (obj == null)
+            if (obj is null)
             { Console.WriteLine("obj is null"); return false; }
 
             if (obj is not CardGame othergame)
@@ -395,7 +395,7 @@ namespace CardStock.CardEngine
 
         public bool Equals(Tuple<CardGame, int>? g1, Tuple<CardGame, int>? g2)
         {
-            if (g1 == null || g2 == null)
+            if (g1 is null || g2 is null)
             {
                 return false;
             }

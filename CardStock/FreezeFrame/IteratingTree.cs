@@ -48,7 +48,7 @@ namespace CardStock.FreezeFrame
             var ret = "";
             foreach (var obj in trees)
             {
-                if (obj.tree != null){
+                if (obj.tree is not null){
                     ret += obj.tree.GetText();
                 }
                 else{

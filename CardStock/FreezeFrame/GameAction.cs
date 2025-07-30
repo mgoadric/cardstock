@@ -228,8 +228,8 @@ namespace CardStock.FreezeFrame {
         CardCollection location;
         CardCollection before;
         Tree deck;
-        String name;
-        public InitializeAction(CardCollection loc, Tree d, String n, CardGame cg, Transcript script) {
+        string name;
+        public InitializeAction(CardCollection loc, Tree d, string n, CardGame cg, Transcript script) {
             location = loc;
             before = new CardCollection(CCType.VIRTUAL);
             deck = d;

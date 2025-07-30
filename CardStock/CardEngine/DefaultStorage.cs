@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Formats.Asn1;
+using System.Text;
 
 namespace CardStock.CardEngine
 {
@@ -6,10 +8,14 @@ namespace CardStock.CardEngine
      * A Dictionary with a default value provided. Useful for
      * storing PointMaps, integers, strings
      */
+    [method: SetsRequiredMembers]    /********
+     * A Dictionary with a default value provided. Useful for
+     * storing PointMaps, integers, strings
+     */
     public class DefaultStorage<T>(T defaultT, Owner owner)
     {
         private readonly Dictionary<string, T> dict = [];
-        public readonly T defaultT = defaultT;
+        public required T DefaultT { get; set; } = defaultT;
         public Owner owner = owner;
 
         /*******
@@ -45,14 +51,18 @@ namespace CardStock.CardEngine
          * Int32 is not ICloneable, grrrr, so we need to do this hack
          * to get a default value of 0 for int storage.
          */
-        private T GetDefault() {
-            if (defaultT is ICloneable dt)
+        private T GetDefault()
+        {
+            if (DefaultT is null)
+            {
+                throw new NullReferenceException();
+            } else if (DefaultT is ICloneable dt)
             {
                 return (T)dt.Clone();
             }
             else
             {
-                return default;
+                return DefaultT;
             }
         }
 
@@ -63,7 +73,7 @@ namespace CardStock.CardEngine
         {
             var cloneDefaultT = GetDefault();
             var ret = new DefaultStorage<T>(cloneDefaultT, other);
-           
+
             foreach (var bin in dict.Keys)
             {
                 if (dict[bin] is ICloneable c)
@@ -81,8 +91,9 @@ namespace CardStock.CardEngine
 
         public override bool Equals(object? obj)
         {
-            if (obj == null)
+            if (obj is null)
             { return false; }
+
             if (obj is not DefaultStorage<T> ds)
             { return false; }
 
