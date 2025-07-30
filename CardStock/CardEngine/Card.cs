@@ -67,7 +67,7 @@ namespace CardStock.CardEngine
     {
         public PointMap scoring;
 
-        public int Compare(Object? x, Object? y)
+        public int Compare(object? x, object? y)
         {
 
             if (x is Card cx)

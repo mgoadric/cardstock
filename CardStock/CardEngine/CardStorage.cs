@@ -62,7 +62,7 @@ namespace CardStock.CardEngine
             return dict.Values;
         }
 
-        public override bool Equals(Object? obj)
+        public override bool Equals(object? obj)
         {
             //System.Console.WriteLine("INTO CARDSTORAGE EQUALITY");
             if (obj == null)

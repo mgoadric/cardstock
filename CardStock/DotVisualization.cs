@@ -47,7 +47,7 @@ namespace CardStock
                 {
                     var text = node.GetChild(i).GetText();
                     int myi = 0;
-                    while (myi < text.Length && Char.IsDigit(text[myi]))
+                    while (myi < text.Length && char.IsDigit(text[myi]))
                     {
                         myi++;
                     }

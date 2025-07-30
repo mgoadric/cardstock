@@ -6,9 +6,9 @@ namespace CardStock.Scoring.Heuristics
         public double Eval(World w)
         {
             var val = Get(w) * Weight();
-            if (Double.IsNaN(val)) { val = 0; }
+            if (double.IsNaN(val)) { val = 0; }
             foreach (double d in Others()){
-                if (!Double.IsNaN(d)) { val += d; }
+                if (!double.IsNaN(d)) { val += d; }
             }
             return val;
         }

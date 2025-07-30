@@ -35,7 +35,7 @@ namespace CardStock.FreezeFrame{
                     cardList.Add(c);
                     break;
                 default:
-                    cardList.Add(c, Int32.Parse(locIdentifier));
+                    cardList.Add(c, int.Parse(locIdentifier));
                     break;
             }
         }
@@ -56,7 +56,7 @@ namespace CardStock.FreezeFrame{
                     // SHOULD THIS THROW EXCEPTION INSTEAD?
                     return cardList.Peek();
                 default:
-                    return cardList.Get(Int32.Parse(locIdentifier));
+                    return cardList.Get(int.Parse(locIdentifier));
             }
         }
 
@@ -85,12 +85,12 @@ namespace CardStock.FreezeFrame{
             }
         }
 
-        public override String ToString()
+        public override string ToString()
         {
             return cardList + " " + locIdentifier + " " + actual;
         }
 
-        public String ToOutputString(){
+        public string ToOutputString(){
             return cardList.ToString();
         }
     }	

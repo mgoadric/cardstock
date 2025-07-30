@@ -10,7 +10,7 @@ namespace CardStock.FreezeFrame
 {
     class RecycleVariables
     {
-        private Dictionary<String, object> vars; 
+        private Dictionary<string, object> vars; 
 
         public RecycleVariables()
         {
@@ -26,7 +26,7 @@ namespace CardStock.FreezeFrame
             return ret;
         }
 
-        public object Get(String text)
+        public object Get(string text)
         {
             if (vars.TryGetValue(text, out object? value))
             {
@@ -35,7 +35,7 @@ namespace CardStock.FreezeFrame
             throw new Exception("Object " + text + " could not be found");
         }
 
-        public void Put(string k, Object v)
+        public void Put(string k, object v)
         {
             vars[k] = v;
         }
@@ -48,12 +48,12 @@ namespace CardStock.FreezeFrame
             vars.Remove(k);
         }
 
-        public Dictionary<String, object> CloneDictionary(CardGame newgame)
+        public Dictionary<string, object> CloneDictionary(CardGame newgame)
         {
 
-            Dictionary<String, object> ret = [];
+            Dictionary<string, object> ret = [];
 
-            foreach (KeyValuePair<String, object> entry in vars)
+            foreach (KeyValuePair<string, object> entry in vars)
             {
                 var key = entry.Key;
                 var o = entry.Value;
@@ -194,7 +194,7 @@ namespace CardStock.FreezeFrame
             if (obj is not RecycleVariables other)
             { return false; }
 
-            foreach (String key in vars.Keys)
+            foreach (string key in vars.Keys)
             {
                 var thistemp = vars[key];
                 var othertemp = other.vars[key];
@@ -204,8 +204,8 @@ namespace CardStock.FreezeFrame
                 { if (b != (bool)othertemp) { Console.WriteLine("Bool not equal in vars"); return false; } }
                 else if (thistemp is string s)
                 { if (!s.Equals(othertemp as string)) { Console.WriteLine("String not equal in vars"); return false; } }
-                else if (thistemp is String[] sa)
-                { if (!sa.SequenceEqual(othertemp as String[])) { Console.WriteLine("String Arrays not equal in vars"); return false; } }
+                else if (thistemp is string[] sa)
+                { if (!sa.SequenceEqual(othertemp as string[])) { Console.WriteLine("String Arrays not equal in vars"); return false; } }
                 else if (thistemp is Player p)
                 { if (!p.Equals(othertemp as Player)) { Console.WriteLine("Player not equal in vars"); return false; } }
                 else if (thistemp is List<Player> lp)

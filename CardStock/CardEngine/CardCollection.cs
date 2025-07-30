@@ -84,7 +84,7 @@ namespace CardStock.CardEngine
             return ret;
         }
 
-        public void SetName(String name)
+        public void SetName(string name)
         { this.name = name; }
 
         public CardCollection ShallowCopy()
@@ -137,7 +137,7 @@ namespace CardStock.CardEngine
             return ret.ToString();
         }
 
-        public override bool Equals(Object? obj) 
+        public override bool Equals(object? obj) 
         {
             if (obj == null)
             { return false; }

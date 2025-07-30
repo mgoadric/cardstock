@@ -410,13 +410,13 @@ namespace CardStock.Scoring
             return new Tuple<List<RecycleParser.CstorageContext>, List<RecycleParser.VarContext>>(cstorages, vars);
         }
 
-        private Tuple<String, String> CleanRefs(RecycleParser.GameContext g1, RecycleParser.GameContext g2, IParseTree t1, IParseTree t2)
+        private Tuple<string, string> CleanRefs(RecycleParser.GameContext g1, RecycleParser.GameContext g2, IParseTree t1, IParseTree t2)
         {
             //TODO
             // check for vars and locs
               // if vars or locs don't exist in rest of context, then switch to something of same type that does exist
                 // if that fails, create a definition based on usage in other game
-            return new Tuple<String, String>(t1.ToString(), t2.ToString());
+            return new Tuple<string, string>(t1.ToString(), t2.ToString());
         }
     }
 }

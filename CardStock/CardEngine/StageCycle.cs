@@ -116,7 +116,7 @@ namespace CardStock.CardEngine{
             }
         }
 
-        public override bool Equals(Object? obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null)
             { return false; }

@@ -20,7 +20,7 @@ namespace CardStock.Scoring
         public double numFirstWins;
         public int numTies;
 
-        private Object thisLock = new Object();
+        private object thisLock = new object();
 
         //lessthanperfectplayers 82
         public List<double> variance = []; // difference between worst move and best move
