@@ -50,23 +50,27 @@ namespace CardStock.FreezeFrame
             }
         }
 
-        public GameIterator Clone(CardGame newgame) {
+        public GameIterator Clone(CardGame newgame)
+        {
 
             var ret = new GameIterator(rules, newgame, gameWorld, "clone", false)
             {
                 script = new Transcript(false, null)
             };
 
-            foreach (var queue in iterStack.Reverse()) {
+            foreach (var queue in iterStack.Reverse())
+            {
                 var newQueue = new Queue<IParseTree>();
-                foreach (var thing in queue) {
+                foreach (var thing in queue)
+                {
                     newQueue.Enqueue(thing);
                 }
 
                 ret.iterStack.Push(newQueue);
             }
 
-            foreach (var node in iteratingSet) {
+            foreach (var node in iteratingSet)
+            {
                 ret.iteratingSet.Add(node);
             }
 
@@ -75,7 +79,8 @@ namespace CardStock.FreezeFrame
             return ret;
         }
 
-        public void AddLeadsList(Tuple<int, double[]> leads) {
+        public void AddLeadsList(Tuple<int, double[]> leads)
+        {
             allLeadList.Add(leads);
         }
 
@@ -103,16 +108,20 @@ namespace CardStock.FreezeFrame
             }
         }
 
-        public bool AdvanceToChoice() {
+        public bool AdvanceToChoice()
+        {
             int count = 0;
-            while (iterStack.Count != 0 && !ProcessSubStage()) {
+            while (iterStack.Count != 0 && !ProcessSubStage())
+            {
                 count++;
-                if (count > 200) {
+                if (count > 200)
+                {
                     Console.WriteLine("Game stuck in loop");
                     return true; // game stuck in loop
                 }
             }
-            if (iterStack.Count == 0) {
+            if (iterStack.Count == 0)
+            {
                 return true; // game over
             }
             Debug.WriteLine(iterStack.Count);
@@ -132,7 +141,7 @@ namespace CardStock.FreezeFrame
                 }
             }
             */
-            
+
 
             int choice = game.PlayerMakeChoice(allOptions.Count, game.CurrentPlayer().idx);
 
@@ -149,7 +158,8 @@ namespace CardStock.FreezeFrame
             {
                 Console.WriteLine("NO Choice Available");
                 var bins = game.players[game.CurrentPlayer().idx].cardBins;
-                foreach (var b in bins[CCType.INVISIBLE, "HAND"].AllCards()) {
+                foreach (var b in bins[CCType.INVISIBLE, "HAND"].AllCards())
+                {
                     Console.WriteLine(b);
                 }
                 throw new InvalidOperationException();
@@ -252,7 +262,7 @@ namespace CardStock.FreezeFrame
             Debug.WriteLine("Creating teams.");
             var teamCreate = ProcessTeamCreate(setupNode.teamcreate(), game);
             ret.Add(new TeamCreateAction(teamCreate, game, script));
- 
+
             if (setupNode.deckcreate() is not null)
             {
                 Debug.WriteLine("Creating decks.");
@@ -320,9 +330,9 @@ namespace CardStock.FreezeFrame
             return false;
         }
 
-        private InitializeAction ProcessDeckCreate(RecycleParser.DeckcreateContext deckinit) 
+        private InitializeAction ProcessDeckCreate(RecycleParser.DeckcreateContext deckinit)
         {
-            var locstorage = ProcessLocation(deckinit.cstorage()); 
+            var locstorage = ProcessLocation(deckinit.cstorage());
             var deckTree = ProcessDeck(deckinit.deck());
             if (deckinit.str() is null)
             {
@@ -560,7 +570,7 @@ namespace CardStock.FreezeFrame
                                 if (collection.ToList().Count > 0)
                                 {
                                     bool first = true;
-                                    object firstItem = null;
+                                    object firstItem = collection.ToList()[0];
                                     var vartext = agg.var().GetText();
                                     // add collection of obj to current stack 
                                     stackTree.Push(currentTree.GetChild(4));
@@ -618,12 +628,11 @@ namespace CardStock.FreezeFrame
 
                             }
                         }
-                        else if (currentTree is RecycleParser.LetContext)
+                        else if (currentTree is RecycleParser.LetContext let)
                         {
                             // push name of var, statement after var, name/value pair
                             Debug.WriteLine("Finding game actions recursively in a let statement.");
 
-                            var let = currentTree as RecycleParser.LetContext;
                             var item = ProcessTyped(let.typed());
                             // old handling of let vars
                             /*stackTree.Push(let.var().GetText());
@@ -637,11 +646,11 @@ namespace CardStock.FreezeFrame
                             Debug.WriteLine("Pushing loop action" + item);
                             stackAct.Push(new LoopAction(let.var().GetText(), item, stackTree.level));
                         }
-                        else if (currentTree is RecycleParser.ActionContext)
+                        else if (currentTree is RecycleParser.ActionContext actcontext)
                         {
                             Debug.WriteLine("Finding game actions recursively in an action. ");
 
-                            var actions = ProcessAction(currentTree as RecycleParser.ActionContext);
+                            var actions = ProcessAction(actcontext);
                             foreach (GameAction action in actions)
                             {
                                 // TODO where cycle actions are pushed 
@@ -702,9 +711,16 @@ namespace CardStock.FreezeFrame
                 var currentLevel = 0;
                 if (stackAct.Count > 0)
                 {
-                    var loop = stackAct.Pop() as LoopAction;
-                    currentLevel = loop.level;
-                    variables.Remove(loop.var);
+                    if (stackAct.Pop() is LoopAction loop)
+                    {
+                        currentLevel = loop.level;
+                        variables.Remove(loop.var);
+                    }
+                    else
+                    {
+                        // Should never happen??
+                        throw new NotImplementedException();
+                    }
                 }
                 // undo everything (until
                 bool unwinding = true;
@@ -715,26 +731,33 @@ namespace CardStock.FreezeFrame
                     // up one level - items need to be undone before finding loopaction, but is different level
                     // up n levels - 
 
-                    while (stackAct.Count > 0 && !(stackAct.Peek() is LoopAction))
+                    while (stackAct.Count > 0 && stackAct.Peek() is not LoopAction)
                     {
                         Debug.WriteLine("popping off non-loop action (second time)" + stackAct.Peek());
                         stackAct.Pop().Undo();
                     }
                     if (stackAct.Count > 0)
                     {
-                        var loop = stackAct.Peek() as LoopAction;
-
-                        Debug.WriteLine("peek + add : " + loop.item);
-                        if (loop.level == currentLevel)
+                        if (stackAct.Peek() is LoopAction loop)
                         {
 
-                            variables.Put(loop.var, loop.item);
-                            unwinding = false;
+                            Debug.WriteLine("peek + add : " + loop.item);
+                            if (loop.level == currentLevel)
+                            {
+
+                                variables.Put(loop.var, loop.item);
+                                unwinding = false;
+                            }
+                            else
+                            {
+                                stackAct.Pop();
+                                currentLevel = loop.level;
+                            }
                         }
                         else
                         {
-                            stackAct.Pop();
-                            currentLevel = loop.level;
+                            // Should never happen??
+                            throw new NotImplementedException();
                         }
                     }
                     else
@@ -747,20 +770,26 @@ namespace CardStock.FreezeFrame
         }
 
         //this just queues the appropriate actions if condition is met, doesn't execute
-        private bool ProcessStage(RecycleParser.StageContext stage) {
+        private bool ProcessStage(RecycleParser.StageContext stage)
+        {
             string text = stage.GetChild(2).GetText();
-            if (stage.endcondition().boolean() is not null) {
+            if (stage.endcondition().boolean() is not null)
+            {
 
-                if (!iteratingSet.Contains(stage)) {
+                if (!iteratingSet.Contains(stage))
+                {
                     if (text == "player")
                     {
                         game.PushPlayer();
-                    } else if (text == "team") {
+                    }
+                    else if (text == "team")
+                    {
                         game.PushTeam();
                     }
                 }
 
-                if (!ProcessBoolean(stage.endcondition().boolean())) {
+                if (!ProcessBoolean(stage.endcondition().boolean()))
+                {
                     Debug.WriteLine("Processing end of stage condition.");
 
                     //Debug.WriteLine("Hit Boolean while!");
@@ -768,10 +797,12 @@ namespace CardStock.FreezeFrame
                     var topLevel = iterStack.Peek();
                     Debug.WriteLine("Current Player: " + game.CurrentPlayer().idx + ", " + game.players[game.CurrentPlayer().idx]);
                     Debug.WriteLine("Num players (gameiterator): " + game.CurrentPlayer().memberList.Count);
-                    foreach (var player in game.players) {
+                    foreach (var player in game.players)
+                    {
                         //Console.WriteLine ("HANDSIZE: " + player.cardBins ["{hidden}HAND"].Count);
                     }
-                    for (int i = 4; i < stage.ChildCount - 1; ++i) {
+                    for (int i = 4; i < stage.ChildCount - 1; ++i)
+                    {
                         //TimeStep.Instance.treeLoc.Push(i - 4);
                         //Debug.WriteLine (TimeStep.Instance);
                         //ProcessSubStage(stage.GetChild(i));
@@ -779,25 +810,35 @@ namespace CardStock.FreezeFrame
                         Debug.WriteLine("Child enqueued: " + stage.GetChild(i).GetText());
                         //TimeStep.Instance.treeLoc.Pop();
                     }
-                    if (iteratingSet.Contains(stage)) {
-                        if (text == "player") {
+                    if (iteratingSet.Contains(stage))
+                    {
+                        if (text == "player")
+                        {
                             game.CurrentPlayer().Next();
                             script.WriteToFile("t: " + game.CurrentPlayer().CurrentName());
-                        } else if (text == "team") {
+                        }
+                        else if (text == "team")
+                        {
                             game.CurrentTeam().Next();
                             script.WriteToFile("t: " + game.CurrentTeam().CurrentName());
                             Debug.WriteLine("Next team is " + game.CurrentTeam().Current());
                         }
                     }
 
-                } else {
+                }
+                else
+                {
                     PopCurrentNode();
 
-                    if (iteratingSet.Contains(stage)) {
+                    if (iteratingSet.Contains(stage))
+                    {
                         iteratingSet.Remove(stage);
-                        if (text == "player") {
+                        if (text == "player")
+                        {
                             game.PopPlayer();
-                        } else if (text == "team") {
+                        }
+                        else if (text == "team")
+                        {
                             game.PopTeam();
                         }
 
@@ -941,7 +982,7 @@ namespace CardStock.FreezeFrame
                         // THIS IS A TEAM??
                         // TODO better exeption type mismatch
                         throw new NotImplementedException();
-                    }                    
+                    }
                 }
                 else if (text2 == "next")
                 {
@@ -1340,7 +1381,7 @@ namespace CardStock.FreezeFrame
                     }
                 }
                 name = name[..^1];
-                
+
                 var fancy = new CardLocReference()
                 {
                     cardList = temp,
@@ -1416,7 +1457,7 @@ namespace CardStock.FreezeFrame
                     }
                 }
                 name = name[..^1];
-                
+
                 var fancy = new CardLocReference()
                 {
                     cardList = temp,
@@ -1613,7 +1654,8 @@ namespace CardStock.FreezeFrame
                 var scoring = ProcessPointStorage(partContext.pointstorage()).Get();
 
                 var sortcards = allCards.ToArray();
-                Array.Sort(sortcards, new CardComparer() {
+                Array.Sort(sortcards, new CardComparer()
+                {
                     scoring = scoring,
                 });
 
@@ -1924,11 +1966,11 @@ namespace CardStock.FreezeFrame
             {
                 return Convert.ToInt32(Math.Pow(ProcessInt(intNode.exponent().@int(0)), ProcessInt(intNode.exponent().@int(1))));
             }
-            else if (intNode.fibonacci() is not null) 
+            else if (intNode.fibonacci() is not null)
             {
                 return ProcessFibonacci(intNode.fibonacci());
             }
-            else if (intNode.triangular() is not null) 
+            else if (intNode.triangular() is not null)
             {
                 return ProcessTriangular(intNode.triangular());
             }
@@ -2165,7 +2207,7 @@ namespace CardStock.FreezeFrame
             return fancy;
         }
 
-       private List<object> IterateAgg(RecycleParser.CollectionContext coll, RecycleParser.VarContext var, IParseTree tree)
+        private List<object> IterateAgg(RecycleParser.CollectionContext coll, RecycleParser.VarContext var, IParseTree tree)
         {
             var stor = ProcessCollection(coll);
             var ret = new List<object>();
@@ -2199,7 +2241,7 @@ namespace CardStock.FreezeFrame
                     Console.WriteLine("What is this???");
                     throw new Exception();
                 }
-            } 
+            }
             return ret2;
         }
 
@@ -2232,7 +2274,7 @@ namespace CardStock.FreezeFrame
                 sum += raw.Get();
             }
             return sum;
-            
+
         }
         private bool ProcessAggBool(RecycleParser.AggbContext agg)
         {
@@ -2465,11 +2507,11 @@ namespace CardStock.FreezeFrame
             }
         }
 
-         private object? ProcessAggPost(IParseTree parseTree)
+        private object? ProcessAggPost(IParseTree parseTree)
         {
             if (parseTree is RecycleParser.Multiaction2Context)
             {
-                return (ICloneable) ProcessMultiaction(parseTree);
+                return (ICloneable)ProcessMultiaction(parseTree);
             }
             else if (parseTree is RecycleParser.ActionContext ac)
             {
@@ -2735,6 +2777,7 @@ namespace CardStock.FreezeFrame
 
             return true;
         }
+        public override int GetHashCode() { return 0; }
     }
 }
 

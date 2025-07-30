@@ -10,7 +10,7 @@ namespace CardStock.FreezeFrame
 {
     class RecycleVariables
     {
-        private Dictionary<string, object> vars; 
+        private Dictionary<string, object> vars;
 
         public RecycleVariables()
         {
@@ -141,7 +141,7 @@ namespace CardStock.FreezeFrame
                             { newowner = newgame.table[0]; }
                             else { throw new Exception(); } // NOT IMPLEMENTED OTHER TYPES OF OWNER
                         }
-                        ret.Add(key, newowner.cardBins[temptype,tempcc]);
+                        ret.Add(key, newowner.cardBins[temptype, tempcc]);
                     }
                 }
                 /*else if (o is CardLocReference)
@@ -168,7 +168,7 @@ namespace CardStock.FreezeFrame
                     }
                     ret.Add(key, newcoll);
                 }*/
-                
+
                 else { Console.WriteLine("Error: object " + o + " is  type " + o.GetType()); throw new Exception(); }
             }
             /*Console.WriteLine("original:");
@@ -198,28 +198,28 @@ namespace CardStock.FreezeFrame
             {
                 var thistemp = vars[key];
                 var othertemp = other.vars[key];
-                if (thistemp is int i)
-                { if (i != (int)othertemp) { Console.WriteLine("Ints not equal in vars"); return false; } }
-                else if (thistemp is bool b)
-                { if (b != (bool)othertemp) { Console.WriteLine("Bool not equal in vars"); return false; } }
-                else if (thistemp is string s)
-                { if (!s.Equals(othertemp as string)) { Console.WriteLine("String not equal in vars"); return false; } }
-                else if (thistemp is string[] sa)
-                { if (!sa.SequenceEqual(othertemp as string[])) { Console.WriteLine("String Arrays not equal in vars"); return false; } }
-                else if (thistemp is Player p)
-                { if (!p.Equals(othertemp as Player)) { Console.WriteLine("Player not equal in vars"); return false; } }
-                else if (thistemp is List<Player> lp)
-                { if (!lp.SequenceEqual(othertemp as List<Player>)) { Console.WriteLine("List Player not equal in vars"); return false; } }
-                else if (thistemp is List<Team> lt)
-                { if (!lt.SequenceEqual(othertemp as List<Team>)) { Console.WriteLine("List Team not equal in vars"); return false; } }
-                else if (thistemp is Team t)
-                { if (!t.Equals(othertemp as Team)) { Console.WriteLine("Team not equal in vars"); return false; } }
-                else if (thistemp is Card c)
-                { if (!c.Equals(othertemp as Card)) { Console.WriteLine("Card not equal in vars"); return false; } }
-                else if (thistemp is List<Card> lc)
-                { if (!lc.SequenceEqual(othertemp as List<Card>)) { Console.WriteLine("List Card not equal in vars"); return false; } }
-                else if (thistemp is CardCollection cc)
-                { if (!cc.Equals(othertemp as CardCollection)) { Console.WriteLine("CardCollection not equal in vars"); return false; } }
+                if (thistemp is int i && othertemp is int j)
+                { if (i != j) { Console.WriteLine("Ints not equal in vars"); return false; } }
+                else if (thistemp is bool b && othertemp is bool bc)
+                { if (b != bc) { Console.WriteLine("Bool not equal in vars"); return false; } }
+                else if (thistemp is string s && othertemp is string st)
+                { if (!s.Equals(st)) { Console.WriteLine("String not equal in vars"); return false; } }
+                else if (thistemp is string[] sa && othertemp is string[] osa)
+                { if (!sa.SequenceEqual(osa)) { Console.WriteLine("String Arrays not equal in vars"); return false; } }
+                else if (thistemp is Player p && othertemp is Player op)
+                { if (!p.Equals(op)) { Console.WriteLine("Player not equal in vars"); return false; } }
+                else if (thistemp is List<Player> lp && othertemp is List<Player> olp)
+                { if (!lp.SequenceEqual(olp)) { Console.WriteLine("List Player not equal in vars"); return false; } }
+                else if (thistemp is List<Team> lt && othertemp is List<Team> olt)
+                { if (!lt.SequenceEqual(olt)) { Console.WriteLine("List Team not equal in vars"); return false; } }
+                else if (thistemp is Team t && othertemp is Team ot)
+                { if (!t.Equals(ot)) { Console.WriteLine("Team not equal in vars"); return false; } }
+                else if (thistemp is Card c && othertemp is Card oc)
+                { if (!c.Equals(oc)) { Console.WriteLine("Card not equal in vars"); return false; } }
+                else if (thistemp is List<Card> lc && othertemp is List<Card> olc)
+                { if (!lc.SequenceEqual(olc)) { Console.WriteLine("List Card not equal in vars"); return false; } }
+                else if (thistemp is CardCollection cc && othertemp is CardCollection occ)
+                { if (!cc.Equals(occ)) { Console.WriteLine("CardCollection not equal in vars"); return false; } }
                 else { throw new NotImplementedException(); }
             }
 
@@ -230,6 +230,8 @@ namespace CardStock.FreezeFrame
 
             return true;
         }
+        
+        public override int GetHashCode() { return 0; }
     }
 }
 
