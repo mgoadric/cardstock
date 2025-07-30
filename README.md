@@ -95,7 +95,7 @@ There are currently 51 games coded in RECYCLE
 
 1. Open `CardStock` folder in the project using Visual Studio Code.
 2. Install .NET Install Tool Extension
-3. Get .Net Core 8.0
+3. Get .Net Core 9.0
 4. Install C# Dev Kit Extension
 5. Open the CardStock subdirectory
 6. Write up your game in RECYCLE in the `games` subdirectory.
