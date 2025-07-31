@@ -52,6 +52,8 @@
 //  TODO a way to calculate all possible runs in cards.
 
 grammar Recycle;
+
+// Variables
 var : '\'' namegr ;
 vars : '\'' namegr ;
 varo : '\'' namegr ;
@@ -62,36 +64,33 @@ varc : '\'' namegr ;
 varcs : '\'' namegr ;
 varcard : '\'' namegr ;
 
+// Game Setup
 game : OPEN 'game' declare*? setup (multiaction | stage)+? scoring CLOSE ;
+  declare : OPEN 'declare' typed var CLOSE ;
 setup : OPEN 'setup' playercreate teamcreate? (OPEN (deckcreate | repeat) CLOSE)+? CLOSE ;
-stage : OPEN 'stage' ('player' | 'team') endcondition (multiaction | stage)+? CLOSE ;
 scoring : OPEN 'scoring' ('min' | 'max') int CLOSE ;
-endcondition : OPEN 'end' boolean CLOSE ;
 
-action : OPEN (initpoints | teamcreate | deckcreate | cycleaction | setaction | moveaction 
-         | incaction | setstraction | decaction | turnaction | shuffleaction | repeat) CLOSE | agg ;
+// Game Components
+stage : OPEN 'stage' ('player' | 'team') endcondition (multiaction | stage)+? CLOSE ;
+  endcondition : OPEN 'end' boolean CLOSE ;
 multiaction : OPEN 'choice' OPEN (condact)+? CLOSE CLOSE | OPEN 'do' OPEN (condact)+? CLOSE CLOSE | agg | let ;
 multiaction2 : OPEN 'do' OPEN (condact)+? CLOSE CLOSE | agg | let ;
 condact : OPEN boolean multiaction2 CLOSE | multiaction2 | OPEN boolean action CLOSE | action ;
-
 agg : OPEN ('any' | 'all') collection var condact CLOSE ;
-aggb : OPEN ('any' | 'all') collection var boolean CLOSE ;
-aggcs : OPEN 'all' collection var cstorage CLOSE ;
-aggi : OPEN 'all' collection var rawstorage CLOSE ;
 let : OPEN 'let' typed var (multiaction | action | condact) CLOSE ;
-declare : OPEN 'declare' typed var CLOSE ;
 
+// Actions
+action : OPEN (initpoints | teamcreate | deckcreate | cycleaction | setaction | moveaction 
+         | incaction | setstraction | decaction | turnaction | shuffleaction | repeat) CLOSE | agg ;
 playercreate : OPEN 'create' 'players' int CLOSE ;
 teamcreate : OPEN 'create' 'teams' teams+? CLOSE;
+  teams : OPEN (INTNUM ',')*? INTNUM teams*? CLOSE ;
 deckcreate : 'create' 'deck' str? cstorage deck ;
-deck : OPEN 'deck' attribute+? CLOSE ;
-teams : OPEN (INTNUM ',')*? INTNUM teams*? CLOSE ;
-attribute : OPEN (namegr ',')*? namegr attribute*? CLOSE ;
-
+  deck : OPEN 'deck' attribute+? CLOSE ;
+  attribute : OPEN (namegr ',')*? namegr attribute*? CLOSE ;
 initpoints : 'set' pointstorage OPEN awards+? CLOSE ;
-awards : OPEN subaward+? int CLOSE ;
-subaward : OPEN str ':' str CLOSE ;
-
+  awards : OPEN subaward+? int CLOSE ;
+  subaward : OPEN str ':' str CLOSE ;
 cycleaction : 'cycle' ('next' | 'current') (owner | 'current' | 'next' | 'previous' | varo ) ;
 setaction : 'set' rawstorage int ;
 setstraction : 'set' strstorage str ;
@@ -102,21 +101,16 @@ shuffleaction : 'shuffle' cstorage ;
 turnaction : 'turn' 'pass' ;
 repeat : 'repeat' int action | 'repeat' 'all' OPEN moveaction CLOSE ;
 
+// Point Map
+pointstorage : OPEN (varo | 'game' | who) 'points' str CLOSE ;
+
+// Cards
 card : varcard | maxof | minof | actual | OPEN ('top' | 'bottom' | int ) cstorage CLOSE ;
 actual : OPEN 'actual' card CLOSE ;
+maxof : OPEN 'max' cstorage 'using' pointstorage CLOSE ;
+minof : OPEN 'min' cstorage 'using' pointstorage CLOSE ;
 
-rawstorage : OPEN (varo | 'game' | who) 'sto' str CLOSE ;
-pointstorage : OPEN (varo | 'game' | who) 'points' str CLOSE ;
-strstorage : OPEN (varo | 'game' | who) 'str' str CLOSE ;
-cstorage : varcs | unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc str CLOSE | memstorage ;
-memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
-
-memset : tuple | partition | subset ;
-//run: OPEN 'runs' cstorage 'using' pointstorage CLOSE ;
-subset : OPEN 'subsets' cstorage CLOSE ; // add aggcs as in partition??
-tuple : OPEN 'tuples' int cstorage 'using' pointstorage CLOSE ;
-partition : OPEN 'partition' ((str (aggcs | cstorage+?)) | ('runs' (aggcs | cstorage+?) 'using' pointstorage)) CLOSE ;
-
+// Owners
 locpre : ('game' | varp | whop) ;
 locdesc : 'vloc'|'iloc'|'hloc' ;
 who : whot | whop ;
@@ -126,19 +120,35 @@ whodesc : int | 'previous' | 'next' | 'current' ;
 owner : OPEN 'owner' card CLOSE ;
 teamp : OPEN 'team' (varp | whop) CLOSE ;
 
-other : OPEN 'other' ('player' | 'team') CLOSE ;
-
+// Things that can be variables in let or declare
 typed : int | boolean | str | collection ;
+
+// Collections
 collection : varc | filter | cstorage | strcollection | cstoragecollection | 'player' | 'team'
              | whot | other | range ;
 strcollection : OPEN (namegr ',')*? namegr CLOSE ;
-cstoragecollection : memset | aggcs | let ;
 range : OPEN 'range' int '..' int CLOSE ;
+other : OPEN 'other' ('player' | 'team') CLOSE ;
 
+// CardCollections
+cstorage : varcs | unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc str CLOSE | memstorage ;
+sortof : OPEN 'sort' cstorage 'using' pointstorage CLOSE ;
+unionof : OPEN 'union' (aggcs | cstorage+?) CLOSE ;
+intersectof : OPEN 'intersect' (aggcs | cstorage+?) CLOSE ;
+disjunctionof : OPEN 'disjunction' (aggcs | cstorage+?) CLOSE ;
 filter : OPEN 'filter' collection var boolean CLOSE ;
+memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
 
-cardatt : OPEN 'cardatt' str card CLOSE ;
+// CardCollectionCollections
+cstoragecollection : memset | aggcs | let ;
+memset : tuple | partition | subset ;
+run: OPEN 'runs' cstorage 'using' pointstorage CLOSE ;
+subset : OPEN 'subsets' cstorage CLOSE ; // add aggcs as in partition??
+tuple : OPEN 'tuples' int cstorage 'using' pointstorage CLOSE ;
+partition : OPEN 'partition' ((str (aggcs | cstorage+?)) | ('runs' (aggcs | cstorage+?) 'using' pointstorage)) CLOSE ;
+aggcs : OPEN 'all' collection var cstorage CLOSE ;
 
+// Booleans
 boolean : OPEN (BOOLOP boolean boolean+? | intop int int | EQOP str str | EQOP card card
           | UNOP boolean | EQOP whop whop | EQOP whot whot) CLOSE | aggb ;
 BOOLOP : 'and' | 'or' ;
@@ -146,7 +156,13 @@ intop : COMPOP | EQOP ;
 COMPOP : '<' | '>' | '>=' | '<=' ;
 EQOP : '!=' | '==' ;
 UNOP : 'not' ;
+aggb : OPEN ('any' | 'all') collection var boolean CLOSE ;
 
+// Integers
+int : vari | sizeof | mult | subtract | mod | add | divide | exponent | triangular | fibonacci | random | sum | rawstorage | score | INTNUM+ ;
+INTNUM : [0-9] ;
+sum : OPEN 'sum' cstorage 'using' pointstorage CLOSE ;
+score : OPEN 'score' card 'using' pointstorage CLOSE ;
 add : OPEN '+' int int CLOSE ;
 mult : OPEN '*' int int CLOSE ;
 subtract : OPEN '-' int int CLOSE ;
@@ -156,25 +172,18 @@ exponent : OPEN '^' int int CLOSE ;
 triangular : OPEN 'tri' int CLOSE ;
 fibonacci : OPEN 'fib' int CLOSE ;
 random : OPEN 'random' int ('..' int)? CLOSE ;
-
 sizeof : OPEN 'size' collection CLOSE ;
-maxof : OPEN 'max' cstorage 'using' pointstorage CLOSE ;
-minof : OPEN 'min' cstorage 'using' pointstorage CLOSE ;
-sortof : OPEN 'sort' cstorage 'using' pointstorage CLOSE ;
-unionof : OPEN 'union' (aggcs | cstorage+?) CLOSE ;
-intersectof : OPEN 'intersect' (aggcs | cstorage+?) CLOSE ;
-disjunctionof : OPEN 'disjunction' (aggcs | cstorage+?) CLOSE ;
+aggi : OPEN 'all' collection var rawstorage CLOSE ;
+rawstorage : OPEN (varo | 'game' | who) 'sto' str CLOSE ;
 
-sum : OPEN 'sum' cstorage 'using' pointstorage CLOSE ;
-score : OPEN 'score' card 'using' pointstorage CLOSE ;
-
-int : vari | sizeof | mult | subtract | mod | add | divide | exponent | triangular | fibonacci | random | sum | rawstorage | score | INTNUM+ ;
-INTNUM : [0-9] ;
-
+// Strings
 str : namegr | strstorage | vars | cardatt ;
+strstorage : OPEN (varo | 'game' | who) 'str' str CLOSE ;
+cardatt : OPEN 'cardatt' str card CLOSE ;
 namegr : (LETT)+ ;
 LETT : [A-Z] ;
 
+// Other syntax
 OPEN : '(' ;
 CLOSE : ')' ;
 WS: [ \n\t\r]+ -> skip;

@@ -8,7 +8,7 @@
         (create players 2)
 
         ;; Create the deck source - French
-        (create deck (game iloc DISCARD) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, 
+        (create deck (game vloc DISCARD) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, 
                                                         SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                                 (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                                         (BLACK (SUIT (CLUBS, SPADES))))))      
@@ -19,7 +19,6 @@
         (all player 'P (== ('P str DEALER) TRUE)))
 
         (do (
-            (set ((current player) str DEALER) TRUE)
             (repeat all (move (top (game vloc DISCARD))
                               (top (game iloc STOCK))))
             (shuffle (game iloc STOCK))
@@ -43,6 +42,9 @@
             ;; Deal 6 cards to each player
             (all player 'P (repeat 6 (move (top (game iloc STOCK))
                                            (top ('P iloc HAND)))))
+            (set ((current player) str DEALER) TRUE)
+            (set ((current player) str STATE) PLAY)
+            (set ((next player) str STATE) PLAY)
         ))
 
         ;; each player picks two for the crib
@@ -78,42 +80,176 @@
 
                 ;; if you can add to the pile without going over
                 ((> (size (filter ((current player) iloc HAND) 'FC 
-                            (<= (+ (sum (union (all player 'P ('P vloc PILE))) using (game points PIPS)) 
+                            (<= (+ (game sto TOTAL)  
                                    (score 'FC using (game points PIPS))) 
                                 31))) 
                     0)
                  (any (filter ((current player) iloc HAND) 'FC 
-                            (<= (+ (sum (union (all player 'P ('P vloc PILE))) using (game points PIPS)) 
+                            (<= (+ (game sto TOTAL)  
                                    (score 'FC using (game points PIPS))) 
                                 31)) 'C 
                       (do (
-                         (move 'C 
-                               (top ((current player) vloc PILE)))
+                         ((== ((next player) str STATE) PLAY)
+                          (move 'C 
+                               (top ((current player) vloc PILE))))
 
-                         ;; fifteen for two
-                         ((== (sum (union (all player 'P ('P vloc PILE))))
-                              15)
-                              
-                         ;; thirty-one for two
-                         ((== (sum (union (all player 'P ('P vloc PILE))))
-                              31)
-                          (inc ((current player) sto SCORE) 2))
-
-                         ;; other scoring here TODO
+                         ((== ((next player) str STATE) GO)
+                          (do (
+                            (move 'C 
+                               (top ((current player) vloc EXTRA)))
+                            (cycle next current)
+                         )))
                       ))
-                 )
-                )
-
-
+                 ))
+                
+                ;; if you cannot add without going over 31, then you say GO to the other player
                 ((== (size (filter ((current player) iloc HAND) 'FC 
-                            (<= (+ (sum (union (all player 'P ('P vloc PILE))) using (game points PIPS)) 
+                            (<= (+ (game sto TOTAL)  
                                    (score 'FC using (game points PIPS))) 
                                 31)))
                      0)
-                 ())
+                 (set ((current player) str STATE) GO))
 
             ))
+            (do (
+
+                ;; reset the total, so calculations take less time
+                (set (game sto TOTAL) (sum (union (union (all player 'P ('P vloc PILE)))
+                                                  (union (all player 'P ('P vloc EXTRA))))
+                                           using (game points PIPS)))
+
+                ;; fifteen for two
+                ((== (game sto TOTAL) 15)
+                 (inc ((current player) sto SCORE) 1))
+                    
+                ;; thirty-one for two, end the round
+                ((== (game sto TOTAL) 31)
+                 (do (
+                    (inc ((current player) sto SCORE) 2)
+                    (all player 'P (set ('P str STATE) GO))
+                 ))
+                )
+
+                ;; OTHER SCORING HERE TODO
+                          
+                ;; neither player can play a card?
+                ((or (all player 'P (== ('P str STATE) GO))
+                     (all player 'P (== (size ('P iloc HAND)) 0)))
+                 (do (
+
+                    ;; Point for last card
+                    ((!= (game sto TOTAL) 31)
+                     (inc ((current player) sto SCORE) 1))
+
+                    ;; move cards to PLAYED for later scoring
+                    (all player 'P 
+                       (do (
+                          (repeat all (move (top ('P vloc EXTRA))
+                                                     (top ('P vloc PLAYED))))
+                          (repeat all (move (top ('P vloc PILE))
+                                                     (top ('P vloc PLAYED))))                       ))
+                    )
+
+                    ;; TEMP FOR NOW
+                    ;;(repeat all (move (top (game vloc PILE))
+                    ;;                  (top ((next player) vloc PLAYED))))
+
+                    ;; alternate putting the pile back??? TODO
+;;                    (repeat (// (size (game vloc PILE)) 2) 
+;;                                (move (top (game vloc PILE))
+;;                                      (top ((next player) vloc PLAYED)))
+;;                                (move (top (game vloc PILE))
+;;                                      (top ((current player) vloc PLAYED)))
+;;                    )
+;;                    ((> (size (game vloc PILE)) 0)
+;;                     (move (top (game vloc PILE))
+;;                                      (top ((next player) vloc PLAYED))))             
+
+                    (set ((current player) str STATE) PLAY)
+                    (set ((next player) str STATE) PLAY)
+                    (set (game sto TOTAL) 0)
+
+                 )))
+            ))
         )
+
+        ;; non-dealer scores first
+        (do (
+            (cycle current next)
+        ))
+
+        ;; now we score the players cards
+        (stage player (end (all player 'P (== (size ('P vloc PLAYED)) 0)))
+            (do (
+
+                ;; fifteen for two
+                (set (game str TESTING) FIFTEENS)
+                (all (subsets (union (game vloc START)
+                                     ((current player) vloc PLAYED))) 'CC
+                     ((== (sum 'CC using (game points PIPS))
+                          15)
+                      (inc ((current player) sto SCORE) 2)))
+
+                ;; Pair scoring
+                (set (game str TESTING) PAIRS)
+                (all (partition RANK (union (game vloc START)
+                                            ((current player) vloc PLAYED))) 'CC
+                     (do (
+                       ((== (size 'CC) 2) ;; Pair
+                        (inc ((current player) sto SCORE) 2))
+                       ((== (size 'CC) 3) ;; Pair Royal
+                        (inc ((current player) sto SCORE) 6))
+                       ((== (size 'CC) 4) ;; Double Pair Royal
+                        (inc ((current player) sto SCORE) 12))
+                     )))
+
+                ;; RUN SCORING TODO
+
+                ;; Flush scoring
+                (set (game str TESTING) FLUSH)
+                (all (partition SUIT ((current player) vloc PLAYED)) 'CC
+                     (do (
+                       ((== (size 'CC) 4) ;; all same suit in hand
+                        (do (
+                            (inc ((current player) sto SCORE) 4)
+                            ((== (cardatt SUIT (top 'CC))
+                                 (cardatt SUIT (top (game vloc START)))) ;; Bonus
+                                (inc ((current player) sto SCORE) 1))
+                        )))
+                     )))
+                
+                ;; One for His Nob
+                (set (game str TESTING) NOB)
+                ((any ((current player) vloc PLAYED) 'C 
+                      (and (== (cardatt RANK 'C) J)
+                           (== (cardatt SUIT 'C)
+                               (cardatt SUIT (top (game vloc START))))
+                      ))
+                 (inc ((current player) sto SCORE) 1))
+
+                 ;; Discard cards
+                 (repeat all (move (top ((current player) vloc PLAYED))
+                                   (top (game vloc DISCARD))))
+
+                
+                 ;; Move crib cards if it is the end of the dealer's turn to count points
+                 ((and (all player 'P (== (size ('P vloc PLAYED)) 0))
+                       (> (size (game iloc CRIB)) 0))
+                  (do (
+                    (repeat all (move (top (game iloc CRIB))
+                                    (top ((current player) vloc PLAYED))))
+                    (cycle next current)
+                  )))
+            
+            ))
+        )
+
+        ;; make sure turn passes correctly
+        (do (
+            (move (top (game vloc START))
+                  (top (game vloc DISCARD)))
+            (cycle current next)
+        ))
     )
     (scoring max ((current player) sto SCORE))
 )

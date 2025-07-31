@@ -1056,7 +1056,6 @@ namespace CardStock.FreezeFrame
                 for (int i = 0; i < idx; i++)
                 {
                     ret.Add(new CardMoveAction(card1, card2, script));
-
                 }
             }
             return ret;
