@@ -39,6 +39,23 @@
                     ((RANK : A) 1) 
                 ))
 
+            (set (game points SEQUENCE)
+                (
+                    ((RANK : K) 13) 
+                    ((RANK : Q) 12) 
+                    ((RANK : J) 11) 
+                    ((RANK : TEN) 10) 
+                    ((RANK : NINE) 9) 
+                    ((RANK : EIGHT) 8) 
+                    ((RANK : SEVEN) 7) 
+                    ((RANK : SIX) 6) 
+                    ((RANK : FIVE) 5) 
+                    ((RANK : FOUR) 4) 
+                    ((RANK : THREE) 3) 
+                    ((RANK : TWO) 2) 
+                    ((RANK : A) 1) 
+                ))
+
             ;; Deal 6 cards to each player
             (all player 'P (repeat 6 (move (top (game iloc STOCK))
                                            (top ('P iloc HAND)))))
@@ -89,16 +106,10 @@
                                    (score 'FC using (game points PIPS))) 
                                 31)) 'C 
                       (do (
-                         ((== ((next player) str STATE) PLAY)
-                          (move 'C 
-                               (top ((current player) vloc PILE))))
-
+                         (move 'C (top ((current player) vloc PILE)))
+                         (remember 'C (top (game mem SEQUENCE)))
                          ((== ((next player) str STATE) GO)
-                          (do (
-                            (move 'C 
-                               (top ((current player) vloc EXTRA)))
-                            (cycle next current)
-                         )))
+                          (cycle next current))
                       ))
                  ))
                 
@@ -114,9 +125,7 @@
             (do (
 
                 ;; reset the total, so calculations take less time
-                (set (game sto TOTAL) (sum (union (union (all player 'P ('P vloc PILE)))
-                                                  (union (all player 'P ('P vloc EXTRA))))
-                                           using (game points PIPS)))
+                (set (game sto TOTAL) (sum (game mem SEQUENCE) using (game points PIPS)))
 
                 ;; fifteen for two
                 ((== (game sto TOTAL) 15)
@@ -130,7 +139,28 @@
                  ))
                 )
 
-                ;; OTHER SCORING HERE TODO
+                ;; Looking for pairs in sequence
+                ((and (>= (size (game mem SEQUENCE)) 2)      
+                          (all (top 2 (game mem SEQUENCE)) 'C (== (cardatt RANK 'C)
+                                                (cardatt RANK (top (game mem SEQUENCE))))))
+                  (do (
+                    (inc ((current player) sto SCORE 2))
+                    ((and (>= (size (game mem SEQUENCE)) 3)      
+                        (all (top 3 (game mem SEQUENCE)) 'C (== (cardatt RANK 'C)
+                                                (cardatt RANK (top (game mem SEQUENCE))))))
+                      (do (
+                        (inc ((current player) sto SCORE 4))
+                        ((and (>= (size (game mem SEQUENCE)) 4)      
+                            (all (top 4 (game mem SEQUENCE)) 'C (== (cardatt RANK 'C)
+                                                        (cardatt RANK (top (game mem SEQUENCE))))))
+                            (inc ((current player) sto SCORE 6)))
+                      )))
+                  ))
+                )
+
+                ;; find runs in sequence
+
+
                           
                 ;; neither player can play a card?
                 ((or (all player 'P (== ('P str STATE) GO))
@@ -143,28 +173,11 @@
 
                     ;; move cards to PLAYED for later scoring
                     (all player 'P 
-                       (do (
-                          (repeat all (move (top ('P vloc EXTRA))
-                                                     (top ('P vloc PLAYED))))
                           (repeat all (move (top ('P vloc PILE))
-                                                     (top ('P vloc PLAYED))))                       ))
-                    )
+                                                     (top ('P vloc PLAYED))))                      
+                    )          
 
-                    ;; TEMP FOR NOW
-                    ;;(repeat all (move (top (game vloc PILE))
-                    ;;                  (top ((next player) vloc PLAYED))))
-
-                    ;; alternate putting the pile back??? TODO
-;;                    (repeat (// (size (game vloc PILE)) 2) 
-;;                                (move (top (game vloc PILE))
-;;                                      (top ((next player) vloc PLAYED)))
-;;                                (move (top (game vloc PILE))
-;;                                      (top ((current player) vloc PLAYED)))
-;;                    )
-;;                    ((> (size (game vloc PILE)) 0)
-;;                     (move (top (game vloc PILE))
-;;                                      (top ((next player) vloc PLAYED))))             
-
+                    (repeat all (forget (top (game mem SEQUENCE))))
                     (set ((current player) str STATE) PLAY)
                     (set ((next player) str STATE) PLAY)
                     (set (game sto TOTAL) 0)
@@ -204,6 +217,11 @@
                      )))
 
                 ;; RUN SCORING TODO
+                ;; Three cards of consecutive rank (irrespective of suit), such as ace-2-3, score 3 points for a run. 
+                ;; A hand such as 6-7-7-8 contains two runs of 3 (as well as two fifteens and a pair) and so would score 
+                ;; 12 altogether. A run of four cards, such as 9-10-J-Q scores 4 points (this is slightly illogical - you 
+                ;; might expect it to score 6 because it contains two runs of 3, but it doesn't. The runs of 3 within it 
+                ;; don't count - you just get 4), and a run of five cards scores 5.
 
                 ;; Flush scoring
                 (set (game str TESTING) FLUSH)

@@ -90,7 +90,7 @@ namespace CardStock.CardEngine
                 foreach (string k in dict.Keys)
                 {
                     CardCollection collection1 = dict[k];
-                    if (collection1.type == CCType.VISIBLE
+                    if (collection1.type == CCType.VISIBLE || collection1.type == CCType.MEMORY
                         || (collection1.type == CCType.INVISIBLE && owner.GetType() == typeof(Player)
                         && owner.id == playeridx) || (owner.GetType() == typeof(Team)
                         && ((Team)owner).IsMember(playeridx)))
@@ -120,7 +120,7 @@ namespace CardStock.CardEngine
                 foreach (string k in dict.Keys)
                 {
                     CardCollection collection1 = dict[k];
-                    if (collection1.type == CCType.VISIBLE
+                    if (collection1.type == CCType.VISIBLE || collection1.type == CCType.MEMORY
                         || (collection1.type == CCType.INVISIBLE && owner.GetType() == typeof(Player)
                         && owner.id == playeridx) || (owner.GetType() == typeof(Team)
                         && ((Team)owner).IsMember(playeridx)))

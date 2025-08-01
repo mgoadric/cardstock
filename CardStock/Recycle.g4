@@ -1,4 +1,8 @@
-// Version 0.5.9 of our REcursive CYclic Card game LanguagE
+// Version 0.5.10 of our REcursive CYclic Card game LanguagE
+
+// New in version 0.5.10
+//  faro shuffle option to interleave the first half with second half of a card collection
+//  sequence to select the top or bottom x cards from a card collection
 
 // New in version 0.5.9
 //  Partitioned Runs are possible. The run will be the maximum size possible.
@@ -80,8 +84,8 @@ agg : OPEN ('any' | 'all') collection var condact CLOSE ;
 let : OPEN 'let' typed var (multiaction | action | condact) CLOSE ;
 
 // Actions
-action : OPEN (initpoints | teamcreate | deckcreate | cycleaction | setaction | moveaction 
-         | incaction | setstraction | decaction | turnaction | shuffleaction | repeat) CLOSE | agg ;
+action : OPEN (initpoints | teamcreate | deckcreate | cycleaction | setaction | moveaction | copyaction
+         | incaction | setstraction | decaction | removeaction | turnaction | shuffleaction | repeat) CLOSE | agg ;
 playercreate : OPEN 'create' 'players' int CLOSE ;
 teamcreate : OPEN 'create' 'teams' teams+? CLOSE;
   teams : OPEN (INTNUM ',')*? INTNUM teams*? CLOSE ;
@@ -97,9 +101,11 @@ setstraction : 'set' strstorage str ;
 incaction : 'inc' rawstorage int ;
 decaction : 'dec' rawstorage int ;
 moveaction : 'move' card card ;
-shuffleaction : 'shuffle' cstorage ;
+copyaction : 'remember' card card ;
+removeaction: 'forget' card ;
+shuffleaction : 'shuffle' (cstorage | 'faro' cstorage cstorage) ;
 turnaction : 'turn' 'pass' ;
-repeat : 'repeat' int action | 'repeat' 'all' OPEN moveaction CLOSE ;
+repeat : 'repeat' int action | 'repeat' 'all' OPEN (moveaction | removeaction | copyaction) CLOSE ;
 
 // Point Map
 pointstorage : OPEN (varo | 'game' | who) 'points' str CLOSE ;
@@ -112,7 +118,7 @@ minof : OPEN 'min' cstorage 'using' pointstorage CLOSE ;
 
 // Owners
 locpre : ('game' | varp | whop) ;
-locdesc : 'vloc'|'iloc'|'hloc' ;
+locdesc : 'vloc'|'iloc'|'hloc'|'oloc'|'mem' ;
 who : whot | whop ;
 whop : OPEN whodesc 'player' CLOSE | owner ;
 whot : OPEN whodesc 'team' CLOSE | teamp ;
@@ -131,13 +137,14 @@ range : OPEN 'range' int '..' int CLOSE ;
 other : OPEN 'other' ('player' | 'team') CLOSE ;
 
 // CardCollections
-cstorage : varcs | unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc str CLOSE | memstorage ;
+cstorage : varcs | unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc str CLOSE | memstorage | sequence ;
 sortof : OPEN 'sort' cstorage 'using' pointstorage CLOSE ;
 unionof : OPEN 'union' (aggcs | cstorage+?) CLOSE ;
 intersectof : OPEN 'intersect' (aggcs | cstorage+?) CLOSE ;
 disjunctionof : OPEN 'disjunction' (aggcs | cstorage+?) CLOSE ;
 filter : OPEN 'filter' collection var boolean CLOSE ;
 memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
+sequence: OPEN ('top' | 'bottom') int cstorage CLOSE ;
 
 // CardCollectionCollections
 cstoragecollection : memset | aggcs | let ;

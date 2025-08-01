@@ -391,6 +391,26 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitMoveaction([NotNull] RecycleParser.MoveactionContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.copyaction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCopyaction([NotNull] RecycleParser.CopyactionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.copyaction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCopyaction([NotNull] RecycleParser.CopyactionContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.removeaction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRemoveaction([NotNull] RecycleParser.RemoveactionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.removeaction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRemoveaction([NotNull] RecycleParser.RemoveactionContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.shuffleaction"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -670,6 +690,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitMemstorage([NotNull] RecycleParser.MemstorageContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.sequence"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSequence([NotNull] RecycleParser.SequenceContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.sequence"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSequence([NotNull] RecycleParser.SequenceContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.cstoragecollection"/>.
 	/// </summary>

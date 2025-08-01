@@ -875,8 +875,15 @@ namespace CardStock.FreezeFrame
             }
             else if (actionNode.shuffleaction() is not null)
             {
-                var locations = ProcessLocation(actionNode.shuffleaction().cstorage());
-                ret.Add(ProcessShuffle(locations));
+                if (actionNode.shuffleaction().cstorage().Length == 1)
+                {
+                    var locations = ProcessLocation(actionNode.shuffleaction().cstorage()[0]);
+                    ret.Add(ProcessShuffle(locations));
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
             }
             else if (actionNode.setaction() is not null)
             {
@@ -909,6 +916,16 @@ namespace CardStock.FreezeFrame
             else if (actionNode.turnaction() is not null)
             {
                 ret.Add(new TurnAction(script));
+            }
+            else if (actionNode.copyaction() is not null)
+            {
+                Debug.WriteLine("REMEMBER: '" + actionNode.GetText() + "'");
+                ret.Add(ProcessCopy(actionNode.copyaction()));
+            }
+            else if (actionNode.removeaction() is not null)
+            {
+                Debug.WriteLine("FORGET: '" + actionNode.GetText() + "'");
+                ret.Add(ProcessRemove(actionNode.removeaction()));
             }
             else if (actionNode.repeat() is not null)
             {
@@ -1175,8 +1192,30 @@ namespace CardStock.FreezeFrame
         private CardMoveAction ProcessMove(RecycleParser.MoveactionContext move)
         {
             var locOne = ProcessCard(move.card()[0]);
+            if (locOne.Count() == 0)
+            {
+                Debug.WriteLine("Moving from empty, " + move.GetText());
+                throw new InvalidOperationException();
+            }
             var locTwo = ProcessCard(move.card()[1]);
             return new CardMoveAction(locOne, locTwo, script);
+        }
+
+        private CardRememberAction ProcessCopy(RecycleParser.CopyactionContext copy)
+        {
+            var cardOne = ProcessCard(copy.card()[0]);
+            if (cardOne.Count() == 0)
+            {
+                Debug.WriteLine("Copying from empty, " + copy.GetText());
+                throw new InvalidOperationException();
+            }
+            var cardTwo = ProcessCard(copy.card()[1]);
+            return new CardRememberAction(cardOne, cardTwo, script);
+        }
+
+        private CardForgetAction ProcessRemove(RecycleParser.RemoveactionContext removeAction)
+        {
+            return new CardForgetAction(ProcessCard(removeAction.card()));
         }
 
         private ShuffleAction ProcessShuffle(CardLocReference locations)
@@ -1713,6 +1752,10 @@ namespace CardStock.FreezeFrame
             else if (desc == "oloc")
             {
                 prefix = CCType.OTHERS;
+            }
+            else if (desc == "mem")
+            {
+                prefix = CCType.MEMORY;
             }
             else
             {

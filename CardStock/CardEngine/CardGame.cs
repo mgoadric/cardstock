@@ -176,7 +176,10 @@ namespace CardStock.CardEngine
                         // Look up card by index, and reference the new cloned card
                         var toAdd = tempsourceDeck[card.name][card.id];
                         tempCollection.Add(toAdd);
-                        toAdd.owner = tempCollection;
+                        if (collection.type != CCType.MEMORY)
+                        {
+                            toAdd.owner = tempCollection;
+                        }
                     }
                 }
             }
@@ -190,7 +193,7 @@ namespace CardStock.CardEngine
                 foreach (var collection in owner.cardBins.Values())
                 {
                     // WHAT ABOUT TEAMS???
-                    if (collection.type == CCType.VISIBLE || (
+                    if (collection.type == CCType.VISIBLE || collection.type == CCType.MEMORY || (
                             collection.type == CCType.INVISIBLE
                             && owner.GetType() == typeof(Player)
                             && owner.id == playerIdx))
@@ -204,8 +207,11 @@ namespace CardStock.CardEngine
 
                             var toAdd = tempsourceDeck[card.name][card.id];
                             tempCollection.Add(toAdd);
-                            toAdd.owner = tempCollection;
-                            free[card.name].Remove(card.id);
+                            if (collection.type != CCType.MEMORY)
+                            {
+                                toAdd.owner = tempCollection;
+                                free[card.name].Remove(card.id);
+                            }
                         }
 
                         Debug.WriteLine("Cloned Collection:" + tempCollection);

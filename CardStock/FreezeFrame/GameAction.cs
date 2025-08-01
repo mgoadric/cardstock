@@ -59,9 +59,15 @@ namespace CardStock.FreezeFrame {
         public CardCollection owner;
         public bool actualloc;
         public CardMoveAction(CardLocReference start, CardLocReference end, Transcript script) {
-            if (end.cardList.type == CCType.VIRTUAL) {
-				Debug.WriteLine("end is not physical");
-				throw new NotSupportedException();
+            if (start.cardList.type == CCType.MEMORY && !start.actual)
+            {
+                Debug.WriteLine("start is a mem loc " + start.name + ", " + end.name);
+                throw new NotSupportedException();
+            }
+            if (end.cardList.type == CCType.VIRTUAL || end.cardList.type == CCType.MEMORY)
+            {
+                Debug.WriteLine("end is not physical");
+                throw new NotSupportedException();
             }
             startLocation = start;
             endLocation = end;
@@ -133,8 +139,8 @@ namespace CardStock.FreezeFrame {
 
     public class ShuffleAction : GameAction
     {
-        private CardLocReference locations;
-        private CardCollection unshuffled;
+        private readonly CardLocReference locations;
+        private readonly CardCollection unshuffled;
 
         public ShuffleAction(CardLocReference locations, Transcript script)
         {
@@ -165,8 +171,69 @@ namespace CardStock.FreezeFrame {
 		}
     }
 
+    public class CardRememberAction : GameAction
+    {
+        readonly CardLocReference startLocation;
+        readonly CardLocReference endLocation;
+        public CardRememberAction(CardLocReference start, CardLocReference end, Transcript script)
+        {
+            startLocation = start;
+            endLocation = end;
+            this.script = script;
+            if (endLocation.cardList.type != CCType.MEMORY)
+            {
+                throw new InvalidOperationException();
+            }
+        }
+        public override void Execute()
+        {
+            endLocation.Add(startLocation.Get());
+            script.WriteToFile("m:" + endLocation.ToOutputString());
+        }
+        public override void Undo()
+        {
+            endLocation.Remove();
+        }
+        public override string ToString()
+        {
+            return "CardRememberAction: Starting loaction: " + startLocation.name + "; Ending location: " + endLocation.name;
+        }
+    }
 
-    public class TurnAction : GameAction {
+    public class CardForgetAction : GameAction
+    {
+        private readonly CardLocReference endLocation;
+        private readonly CardCollection notforgotten;
+
+        public CardForgetAction(CardLocReference end)
+        {
+            if (end.cardList.type == CCType.MEMORY)
+            {
+                endLocation = end;
+                notforgotten = new CardCollection(CCType.VIRTUAL);
+            }
+            else
+            {
+                Debug.WriteLine(end.name);
+                throw new InvalidOperationException();
+            }
+        }
+        public override void Execute()
+        {
+            notforgotten.Add(endLocation.Remove());
+        }
+        public override void Undo()
+        {
+            endLocation.Add(notforgotten.Remove());
+        }
+        public override string ToString()
+        {
+            return "CardForgetAction: To be removed: " + endLocation.name;
+        }
+    }
+
+    public class TurnAction : GameAction
+    {
         public TurnAction(Transcript script)
         {
             this.script = script;
@@ -176,17 +243,18 @@ namespace CardStock.FreezeFrame {
         {
             script.WriteToFile("P:passing");
         }
-        public override void Undo() {
+        public override void Undo()
+        {
 
         }
-		public override string ToString()
-		{
+        public override string ToString()
+        {
             return "TurnAction";
-		}
+        }
     }
 
     public class TeamCreateAction : GameAction {
-        private List<List<int>> teamList;
+        private readonly List<List<int>> teamList;
         public TeamCreateAction(List<List<int>> teamList, CardGame cg, Transcript script) {
             this.teamList = teamList;
             this.cg = cg;
@@ -225,10 +293,10 @@ namespace CardStock.FreezeFrame {
     }
 
     public class InitializeAction : GameAction {
-        CardCollection location;
-        CardCollection before;
-        Tree deck;
-        string name;
+        readonly CardCollection location;
+        readonly CardCollection before;
+        readonly Tree deck;
+        readonly string name;
         public InitializeAction(CardCollection loc, Tree d, string n, CardGame cg, Transcript script) {
             location = loc;
             before = new CardCollection(CCType.VIRTUAL);
@@ -260,9 +328,9 @@ namespace CardStock.FreezeFrame {
 
     public class IntAction : GameAction {
 
-        DefaultStorage<int> bins;
-        string key;
-        int value;
+        readonly DefaultStorage<int> bins;
+        readonly string key;
+        readonly int value;
         int oldValue;
 
         public IntAction(DefaultStorage<int> storage, string bKey, int v, Transcript script) {
@@ -293,11 +361,11 @@ namespace CardStock.FreezeFrame {
 		}
     }
 
-        public class StrAction : GameAction {
+    public class StrAction : GameAction {
 
-        DefaultStorage<string> bins;
-        string key;
-        string value;
+        readonly DefaultStorage<string> bins;
+        readonly string key;
+        readonly string value;
         string oldValue;
 
         public StrAction(DefaultStorage<string> storage, string bKey, string v, Transcript script) {
@@ -332,9 +400,9 @@ namespace CardStock.FreezeFrame {
     public class PointsAction : GameAction
     {
 
-        DefaultStorage<PointMap> bins;
-        string key;
-        PointMap value;
+        readonly DefaultStorage<PointMap> bins;
+        readonly string key;
+        readonly PointMap value;
         PointMap oldValue;
 
         public PointsAction(DefaultStorage<PointMap> storage, string bKey, PointMap v, Transcript script)
@@ -371,8 +439,8 @@ namespace CardStock.FreezeFrame {
 
     public class NextAction : GameAction
     {
-        private StageCycle<Player> playerCycle;
-        private int idx;
+        private readonly StageCycle<Player> playerCycle;
+        private readonly int idx;
         private int former = -1;
 
         public NextAction(StageCycle<Player> playerCycle, int idx) {
@@ -408,7 +476,7 @@ namespace CardStock.FreezeFrame {
 
     public class SetPlayerAction : GameAction
     {
-        private int idx;
+        private readonly int idx;
         private int former;
         public SetPlayerAction(int idx, CardGame cg, Transcript script) {
             this.idx = idx;

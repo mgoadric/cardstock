@@ -131,7 +131,7 @@ namespace CardStock.Scoring
                     var loc = locs[rnd.Next(0, locs.Count)];
                     var loctext = loc.GetText();
                     if (loctext.Contains("iloc") && !t.GetChild(1).GetText().Contains(loctext)){
-                        ret = ConstructShuffleString(t.cstorage().GetText(), loc.GetText());
+                        ret = ConstructShuffleString(t.cstorage()[0].GetText(), loc.GetText());
                         break;
                     }
                 }
