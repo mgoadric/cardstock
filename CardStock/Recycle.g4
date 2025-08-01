@@ -105,7 +105,7 @@ copyaction : 'remember' card card ;
 removeaction: 'forget' card ;
 shuffleaction : 'shuffle' (cstorage | 'faro' cstorage cstorage) ;
 turnaction : 'turn' 'pass' ;
-repeat : 'repeat' int action | 'repeat' 'all' OPEN (moveaction | removeaction | copyaction) CLOSE ;
+repeat : 'repeat' int action | 'repeat' 'all' OPEN (moveaction | removeaction ) CLOSE ;
 
 // Point Map
 pointstorage : OPEN (varo | 'game' | who) 'points' str CLOSE ;
@@ -117,7 +117,7 @@ maxof : OPEN 'max' cstorage 'using' pointstorage CLOSE ;
 minof : OPEN 'min' cstorage 'using' pointstorage CLOSE ;
 
 // Owners
-locpre : ('game' | varp | whop) ;
+locpre : 'game' | varp | whop ;
 locdesc : 'vloc'|'iloc'|'hloc'|'oloc'|'mem' ;
 who : whot | whop ;
 whop : OPEN whodesc 'player' CLOSE | owner ;

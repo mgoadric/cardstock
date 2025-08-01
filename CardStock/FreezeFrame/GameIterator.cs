@@ -1065,15 +1065,27 @@ namespace CardStock.FreezeFrame
                     ret.AddRange(ProcessAction(rep.action()));
                 }
             }
-            else
+            else if (rep.moveaction() is not null)
             { //'all'
                 var card1 = ProcessCard(rep.moveaction().card()[0]);
-                var card2 = ProcessCard(rep.moveaction().card()[1]);
                 idx = card1.cardList.Count;
                 for (int i = 0; i < idx; i++)
                 {
-                    ret.Add(new CardMoveAction(card1, card2, script));
+                    ret.Add(ProcessMove(rep.moveaction()));
                 }
+            }
+            else if (rep.removeaction() is not null)
+            {
+                var card1 = ProcessCard(rep.removeaction().card());
+                idx = card1.cardList.Count;
+                for (int i = 0; i < idx; i++)
+                {
+                    ret.Add(ProcessRemove(rep.removeaction()));
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
             }
             return ret;
         }
@@ -1545,6 +1557,31 @@ namespace CardStock.FreezeFrame
                 };
                 throw new NotImplementedException();
                 //return fancy;
+            }
+            else if (loc.sequence() is not null)
+            {
+                CardCollection temp = new(CCType.VIRTUAL);
+                var locs = ProcessLocation(loc.sequence().cstorage());
+                var count = ProcessInt(loc.sequence().@int());
+
+                for (int i = 0; i < count; i++)
+                {
+                    if (loc.sequence().GetChild(1).GetText() == "top")
+                    {
+                        temp.Add(locs.cardList.Get(i));
+                    }
+                    else
+                    {
+                        temp.Add(locs.cardList.Get(locs.cardList.Count - i - 1));
+                    }
+                }
+                var fancy = new CardLocReference()
+                {
+                    cardList = temp,
+                    name = name + "{SEQUENCE OF " + count + "}",
+                };
+                //throw new NotImplementedException();
+                return fancy;                
             }
 
             // CAN WE REMOVE THIS???? NO!!!
