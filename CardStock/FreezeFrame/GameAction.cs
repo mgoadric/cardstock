@@ -187,8 +187,9 @@ namespace CardStock.FreezeFrame {
         }
         public override void Execute()
         {
-            endLocation.Add(startLocation.Get());
-            script.WriteToFile("m:" + endLocation.ToOutputString());
+            var cardToCopy = startLocation.Get();
+            endLocation.Add(cardToCopy);
+            script.WriteToFile("r:" + cardToCopy.ToString() + " " + startLocation.cardList.TranscriptName() + "->" + endLocation.cardList.TranscriptName());
         }
         public override void Undo()
         {

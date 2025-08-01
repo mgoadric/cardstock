@@ -123,44 +123,48 @@
 
             ))
             (do (
+                ((!= ((current player) str STATE) GO)
+                    (do (
+                    ;; reset the total, so calculations take less time
+                    (set (game sto TOTAL) (sum (game mem SEQUENCE) using (game points PIPS)))
 
-                ;; reset the total, so calculations take less time
-                (set (game sto TOTAL) (sum (game mem SEQUENCE) using (game points PIPS)))
+                    ;; fifteen for two
+                    ((== (game sto TOTAL) 15)
+                    (inc ((current player) sto SCORE) 1))
+                        
+                    ;; thirty-one for two, end the round
+                    ((== (game sto TOTAL) 31)
+                        (do (
+                            (inc ((current player) sto SCORE) 2)
+                            (all player 'P (set ('P str STATE) GO))
+                        ))
+                    )
 
-                ;; fifteen for two
-                ((== (game sto TOTAL) 15)
-                 (inc ((current player) sto SCORE) 1))
-                    
-                ;; thirty-one for two, end the round
-                ((== (game sto TOTAL) 31)
-                 (do (
-                    (inc ((current player) sto SCORE) 2)
-                    (all player 'P (set ('P str STATE) GO))
-                 ))
-                )
-
-                ;; Looking for pairs in sequence
-                ((and (>= (size (game mem SEQUENCE)) 2)      
-                          (all (top 2 (game mem SEQUENCE)) 'C (== (cardatt RANK 'C)
-                                                (cardatt RANK (top (game mem SEQUENCE))))))
-                  (do (
-                    (inc ((current player) sto SCORE) 2)
-                    ((and (>= (size (game mem SEQUENCE)) 3)      
-                        (all (top 3 (game mem SEQUENCE)) 'C (== (cardatt RANK 'C)
-                                                (cardatt RANK (top (game mem SEQUENCE))))))
-                      (do (
-                        (inc ((current player) sto SCORE) 4)
-                        ((and (>= (size (game mem SEQUENCE)) 4)      
-                            (all (top 4 (game mem SEQUENCE)) 'C (== (cardatt RANK 'C)
+                    ;; Looking for pairs in sequence
+                    ((and (>= (size (game mem SEQUENCE)) 2)      
+                            (all (top 2 (game mem SEQUENCE)) 'C (== (cardatt RANK 'C)
+                                                    (cardatt RANK (top (game mem SEQUENCE))))))
+                        (do (
+                            (set (game str TESTING) BING)
+                            (inc ((current player) sto SCORE) 2)
+                            ((and (>= (size (game mem SEQUENCE)) 3)      
+                                (all (top 3 (game mem SEQUENCE)) 'C (== (cardatt RANK 'C)
                                                         (cardatt RANK (top (game mem SEQUENCE))))))
-                            (inc ((current player) sto SCORE) 6))
-                      )))
-                  ))
+                            (do (
+                                (set (game str TESTING) BONG)
+                                (inc ((current player) sto SCORE) 4)
+                                ((and (>= (size (game mem SEQUENCE)) 4)      
+                                    (all (top 4 (game mem SEQUENCE)) 'C (== (cardatt RANK 'C)
+                                                                (cardatt RANK (top (game mem SEQUENCE))))))
+                                    (inc ((current player) sto SCORE) 6))
+                            )))
+                        ))
+                    )
+
+                    ;; find runs in sequence
+
+                    ))
                 )
-
-                ;; find runs in sequence
-
-
                           
                 ;; neither player can play a card?
                 ((or (all player 'P (== ('P str STATE) GO))
