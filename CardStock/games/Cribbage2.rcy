@@ -161,7 +161,8 @@
                         ))
                     )
 
-                    ;; find runs in sequence
+                    ;; find longest run in sequence starting at and including the top
+                    (inc ((current player) sto SCORE) (size (top run (game mem SEQUENCE))))
 
                     ))
                 )

@@ -1568,11 +1568,11 @@ namespace CardStock.FreezeFrame
                 {
                     if (loc.sequence().GetChild(1).GetText() == "top")
                     {
-                        temp.Add(locs.cardList.Get(i));
+                        temp.Add(locs.cardList.Get(locs.cardList.Count - i - 1));
                     }
                     else
                     {
-                        temp.Add(locs.cardList.Get(locs.cardList.Count - i - 1));
+                        temp.Add(locs.cardList.Get(i));
                     }
                 }
                 var fancy = new CardLocReference()
@@ -1580,8 +1580,107 @@ namespace CardStock.FreezeFrame
                     cardList = temp,
                     name = name + "{SEQUENCE OF " + count + "}",
                 };
-                //throw new NotImplementedException();
-                return fancy;                
+                return fancy;
+            }
+            else if (loc.runsequence() is not null)
+            {
+                var locs = ProcessLocation(loc.runsequence().cstorage());
+                var points = ProcessPointStorage(loc.runsequence().pointstorage());
+                var scoring = points.Get();
+
+                if (loc.runsequence().GetChild(1).GetText() == "bottom")
+                {
+                    throw new NotSupportedException();
+                }
+
+                int start = locs.cardList.Count;
+
+                // this is code for making all the runs...
+                for (int i = locs.cardList.Count - 1; i >= 0; i--)
+                {
+
+                    var sortcards = locs.cardList.AllCards().ToArray();
+                    Array.Sort(sortcards, new CardComparer()
+                    {
+                        scoring = points.Get(),
+                    });
+
+                    var returnList = new List<CardLocReference>();
+                    var current = new List<CardCollection>
+                    {
+                        new(CCType.VIRTUAL)
+                    };
+
+                    for (int j = 0; j < sortcards.Length; j++)
+                    {
+                        Card card = sortcards[j];
+                        if (j != 0)
+                        {
+                            if (scoring.GetScore(card) == scoring.GetScore(sortcards[j - 1]))
+                            {
+                                // duplicate the current runs, swap out the last card with this one
+                                foreach (var c in current)
+                                {
+                                    if (c.Peek() == sortcards[j - 1])
+                                    {
+                                        var other = c.Clone();
+                                        other.Remove();
+                                        other.Add(card);
+                                        current.Add(other);
+                                    }
+                                }
+                            }
+                            else if (scoring.GetScore(card) != 1 + scoring.GetScore(sortcards[j - 1]))
+                            {
+                                foreach (var c in current)
+                                {
+                                    returnList.Add(new CardLocReference()
+                                    {
+                                        cardList = current[0],
+                                        name = "{partition runs}" + j,
+                                    });
+                                }
+                                current.Clear();
+                                current.Add(new CardCollection(CCType.VIRTUAL));
+                            }
+                            else
+                            {
+                                foreach (var c in current)
+                                {
+                                    c.Add(card);
+                                }
+                            }
+                        }
+                    }
+                    foreach (var c in current)
+                    {
+                        returnList.Add(new CardLocReference()
+                        {
+                            cardList = c,
+                            name = "{partition runs}",
+                        });
+                    }
+                    // mark off the score
+
+                    // did we make a run that includes the last card?  no dups?
+
+                    // record the starting index
+                }
+
+                CardCollection temp = new(CCType.VIRTUAL);
+                for (int i = start; i < locs.cardList.Count; i++)
+                {
+                    temp.Add(locs.cardList.Get(i));
+                }
+
+                var fancy = new CardLocReference()
+                {
+                    cardList = temp,
+                    name = name + "{SEQUENCE RUN}",
+                };
+                //return fancy;
+
+                throw new Exception();
             }
 
             // CAN WE REMOVE THIS???? NO!!!
@@ -1598,9 +1697,17 @@ namespace CardStock.FreezeFrame
             if (memset.tuple() is not null)
             {
                 var points = ProcessPointStorage(memset.tuple().pointstorage());
-                var findEm = new CardGrouping(13, points.Get());
-                var cardsToScore = new CardCollection(CCType.VIRTUAL);
                 var stor = ProcessLocation(memset.tuple().cstorage());
+
+                // TODO THIS IS HACKY, why only 13???
+                // it should really be all possible point values, based on the CardGrouping implementtion...
+                // What about this??
+                /*
+                var findEm = new CardGrouping(stor, points.Get());
+                */
+                var findEm = new CardGrouping(13, points.Get());
+
+                var cardsToScore = new CardCollection(CCType.VIRTUAL);
                 foreach (var card in stor.cardList.AllCards())
                 {
                     cardsToScore.Add(card);
@@ -1617,8 +1724,9 @@ namespace CardStock.FreezeFrame
                 }
                 return returnList;
             }
+
             // subset code  BUT NO NULL SET?
-            if (memset.subset() is not null)
+            else if (memset.subset() is not null)
             {
                 Debug.WriteLine("Found a subset");
                 var stor = ProcessLocation(memset.subset().cstorage());
@@ -1663,9 +1771,82 @@ namespace CardStock.FreezeFrame
             }
 
             // PARTITON CODE
-            if (memset.partition() is not null)
+            else if (memset.partition() is not null)
             {
                 return ProcessPartition(memset.partition());
+            }
+
+            else if (memset.run() is not null)
+            {
+                var locs = ProcessLocation(memset.run().cstorage());
+                var points = ProcessPointStorage(memset.run().pointstorage());
+                var scoring = points.Get();
+                int minsize = ProcessInt(memset.run().@int());
+                var sortcards = locs.cardList.AllCards().ToArray();
+                Array.Sort(sortcards, new CardComparer()
+                {
+                    scoring = points.Get(),
+                });
+
+                var returnList = new List<CardLocReference>();
+                var current = new List<CardCollection>
+                    {
+                        new(CCType.VIRTUAL)
+                    };
+
+                for (int j = 0; j < sortcards.Length; j++)
+                {
+                    Card card = sortcards[j];
+                    if (j != 0)
+                    {
+                        if (scoring.GetScore(card) == scoring.GetScore(sortcards[j - 1]))
+                        {
+                            // duplicate the current runs, swap out the last card with this one
+                            foreach (var c in current)
+                            {
+                                if (c.Peek() == sortcards[j - 1])
+                                {
+                                    var other = c.Clone();
+                                    other.Remove();
+                                    other.Add(card);
+                                    current.Add(other);
+                                }
+                            }
+                        }
+                        else if (scoring.GetScore(card) != 1 + scoring.GetScore(sortcards[j - 1]))
+                        {
+                            foreach (var c in current)
+                            {
+                                if (c.Count >= minsize)
+                                {
+                                    returnList.Add(new CardLocReference()
+                                    {
+                                        cardList = c,
+                                        name = "{all runs}" + j,
+                                    });
+                                }
+                            }
+                            current.Clear();
+                            current.Add(new CardCollection(CCType.VIRTUAL));
+                        }
+                        else
+                        {
+                            foreach (var c in current)
+                            {
+                                c.Add(card);
+                            }
+                        }
+                    }
+                }
+                foreach (var c in current)
+                {
+                    returnList.Add(new CardLocReference()
+                    {
+                        cardList = c,
+                        name = "{all runs}",
+                    });
+                }
+                return [.. returnList];
             }
             throw new Exception();
         }
@@ -1722,6 +1903,7 @@ namespace CardStock.FreezeFrame
                         else
                         {
                             Console.WriteLine("Card Duplicate!!! " + card);
+                            throw new InvalidOperationException();
                         }
                     }
                 }
