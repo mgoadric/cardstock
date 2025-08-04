@@ -1582,106 +1582,6 @@ namespace CardStock.FreezeFrame
                 };
                 return fancy;
             }
-            else if (loc.runsequence() is not null)
-            {
-                var locs = ProcessLocation(loc.runsequence().cstorage());
-                var points = ProcessPointStorage(loc.runsequence().pointstorage());
-                var scoring = points.Get();
-
-                if (loc.runsequence().GetChild(1).GetText() == "bottom")
-                {
-                    throw new NotSupportedException();
-                }
-
-                int start = locs.cardList.Count;
-
-                // this is code for making all the runs...
-                for (int i = locs.cardList.Count - 1; i >= 0; i--)
-                {
-
-                    var sortcards = locs.cardList.AllCards().ToArray();
-                    Array.Sort(sortcards, new CardComparer()
-                    {
-                        scoring = points.Get(),
-                    });
-
-                    var returnList = new List<CardLocReference>();
-                    var current = new List<CardCollection>
-                    {
-                        new(CCType.VIRTUAL)
-                    };
-
-                    for (int j = 0; j < sortcards.Length; j++)
-                    {
-                        Card card = sortcards[j];
-                        if (j != 0)
-                        {
-                            if (scoring.GetScore(card) == scoring.GetScore(sortcards[j - 1]))
-                            {
-                                // duplicate the current runs, swap out the last card with this one
-                                foreach (var c in current)
-                                {
-                                    if (c.Peek() == sortcards[j - 1])
-                                    {
-                                        var other = c.Clone();
-                                        other.Remove();
-                                        other.Add(card);
-                                        current.Add(other);
-                                    }
-                                }
-                            }
-                            else if (scoring.GetScore(card) != 1 + scoring.GetScore(sortcards[j - 1]))
-                            {
-                                foreach (var c in current)
-                                {
-                                    returnList.Add(new CardLocReference()
-                                    {
-                                        cardList = current[0],
-                                        name = "{partition runs}" + j,
-                                    });
-                                }
-                                current.Clear();
-                                current.Add(new CardCollection(CCType.VIRTUAL));
-                            }
-                            else
-                            {
-                                foreach (var c in current)
-                                {
-                                    c.Add(card);
-                                }
-                            }
-                        }
-                    }
-                    foreach (var c in current)
-                    {
-                        returnList.Add(new CardLocReference()
-                        {
-                            cardList = c,
-                            name = "{partition runs}",
-                        });
-                    }
-                    // mark off the score
-
-                    // did we make a run that includes the last card?  no dups?
-
-                    // record the starting index
-                }
-
-                CardCollection temp = new(CCType.VIRTUAL);
-                for (int i = start; i < locs.cardList.Count; i++)
-                {
-                    temp.Add(locs.cardList.Get(i));
-                }
-
-                var fancy = new CardLocReference()
-                {
-                    cardList = temp,
-                    name = name + "{SEQUENCE RUN}",
-                };
-                //return fancy;
-
-                throw new Exception();
-            }
 
             // CAN WE REMOVE THIS???? NO!!!
             else if (loc.varcs() is not null)
@@ -1778,77 +1678,99 @@ namespace CardStock.FreezeFrame
 
             else if (memset.run() is not null)
             {
-                var locs = ProcessLocation(memset.run().cstorage());
-                var points = ProcessPointStorage(memset.run().pointstorage());
-                var scoring = points.Get();
-                int minsize = ProcessInt(memset.run().@int());
-                var sortcards = locs.cardList.AllCards().ToArray();
-                Array.Sort(sortcards, new CardComparer()
+                if (memset.run().GetChild(2).GetText() == "largest")
                 {
-                    scoring = points.Get(),
-                });
+                    var locs = ProcessLocation(memset.run().cstorage());
+                    var points = ProcessPointStorage(memset.run().pointstorage());
+                    var scoring = points.Get();
+                    int minsize = ProcessInt(memset.run().@int());
+                    var sortcards = locs.cardList.AllCards().ToArray();
+                    Array.Sort(sortcards, new CardComparer()
+                    {
+                        scoring = points.Get(),
+                    });
 
-                var returnList = new List<CardLocReference>();
-                var current = new List<CardCollection>
+                    var returnList = new List<CardLocReference>();
+                    var current = new List<CardCollection>
                     {
                         new(CCType.VIRTUAL)
                     };
 
-                for (int j = 0; j < sortcards.Length; j++)
-                {
-                    Card card = sortcards[j];
-                    if (j != 0)
+                    for (int j = 0; j < sortcards.Length; j++)
                     {
-                        if (scoring.GetScore(card) == scoring.GetScore(sortcards[j - 1]))
+                        Card card = sortcards[j];
+                        if (j == 0)
                         {
-                            // duplicate the current runs, swap out the last card with this one
-                            foreach (var c in current)
-                            {
-                                if (c.Peek() == sortcards[j - 1])
-                                {
-                                    var other = c.Clone();
-                                    other.Remove();
-                                    other.Add(card);
-                                    current.Add(other);
-                                }
-                            }
-                        }
-                        else if (scoring.GetScore(card) != 1 + scoring.GetScore(sortcards[j - 1]))
-                        {
-                            foreach (var c in current)
-                            {
-                                if (c.Count >= minsize)
-                                {
-                                    returnList.Add(new CardLocReference()
-                                    {
-                                        cardList = c,
-                                        name = "{all runs}" + j,
-                                    });
-                                }
-                            }
-                            current.Clear();
-                            current.Add(new CardCollection(CCType.VIRTUAL));
+                            // starting first spot in run
+                            current[0].Add(card);
+
                         }
                         else
                         {
-                            foreach (var c in current)
+                            if (scoring.GetScore(card) == scoring.GetScore(sortcards[j - 1]))
                             {
-                                c.Add(card);
+                                // duplicate the current runs, swap out the last card with this one
+                                var toAdd = new List<CardCollection>();
+                                foreach (var c in current)
+                                {
+                                    if (c.Peek() == sortcards[j - 1])
+                                    {
+                                        Debug.WriteLine(c);
+                                        var other = c.DeepCopy();
+                                        Debug.WriteLine(other);
+                                        other.Remove();
+                                        other.Add(card);
+                                        toAdd.Add(other);
+                                    }
+                                }
+                                current.AddRange(toAdd);
+                            }
+                            else if (scoring.GetScore(card) == 1 + scoring.GetScore(sortcards[j - 1]))
+                            {
+                                // next in sequence, then add it
+                                foreach (var c in current)
+                                {
+                                    c.Add(card);
+                                }
+                            }
+                            else
+                            {
+                                // finalize the runs to return
+                                foreach (var c in current)
+                                {
+                                    if (c.Count >= minsize)
+                                    {
+                                        returnList.Add(new CardLocReference()
+                                        {
+                                            cardList = c,
+                                            name = "{all runs}" + j,
+                                        });
+                                    }
+                                }
+                                // start new runs
+                                current.Clear();
+                                current.Add(new CardCollection(CCType.VIRTUAL));
+                                current[0].Add(card);
                             }
                         }
                     }
-                }
-                foreach (var c in current)
-                {
-                    returnList.Add(new CardLocReference()
+                    // wrap up last run possibility at the end
+                    foreach (var c in current)
                     {
-                        cardList = c,
-                        name = "{all runs}",
-                    });
+                        if (c.Count >= minsize)
+                        {
+                            returnList.Add(new CardLocReference()
+                            {
+                                cardList = c,
+                                name = "{all runs end}",
+                            });
+                        }
+                    }
+                    return [.. returnList];
                 }
-                return [.. returnList];
             }
-            throw new Exception();
+            // This is a memset I don't recognize
+                throw new NotImplementedException();
         }
 
         private CardLocReference[] ProcessPartition(RecycleParser.PartitionContext partContext)
@@ -1857,99 +1779,36 @@ namespace CardStock.FreezeFrame
 
             // Splitting on a card attribute?
             var partition = new Dictionary<string, CardCollection>();
-            if (partContext.str() is not null)
+            
+            // Split up the cards
+            foreach (var stor in allLocs)
             {
-                // Split up the cards
-                foreach (var stor in allLocs)
+                foreach (var card in stor.cardList.AllCards())
                 {
-                    foreach (var card in stor.cardList.AllCards())
+                    var attr = card.ReadAttribute(ProcessString(partContext.str()));
+                    if (partition.TryGetValue(attr, out CardCollection? value))
                     {
-                        var attr = card.ReadAttribute(ProcessString(partContext.str()));
-                        if (partition.TryGetValue(attr, out CardCollection? value))
-                        {
-                            value.Add(card);
-                        }
-                        else
-                        {
-                            partition[attr] = new CardCollection(CCType.VIRTUAL);
-                            partition[attr].Add(card);
-                        }
+                        value.Add(card);
+                    }
+                    else
+                    {
+                        partition[attr] = new CardCollection(CCType.VIRTUAL);
+                        partition[attr].Add(card);
                     }
                 }
-
-                // Make new lists
-                var returnList = new List<CardLocReference>();
-                foreach (KeyValuePair<string, CardCollection> kvp in partition)
-                {
-                    returnList.Add(new CardLocReference()
-                    {
-                        cardList = kvp.Value,
-                        name = "{partition}" + "{part: " + kvp + "}"
-                    });
-                }
-                return [.. returnList];
             }
-            else if (partContext.GetChild(2).GetText() == "runs")
+
+            // Make new lists
+            var returnList = new List<CardLocReference>();
+            foreach (KeyValuePair<string, CardCollection> kvp in partition)
             {
-                HashSet<Card> allCards = [];
-                foreach (var stor in allLocs)
-                {
-                    foreach (var card in stor.cardList.AllCards())
-                    {
-                        if (!allCards.Contains(card))
-                        {
-                            allCards.Add(card);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Card Duplicate!!! " + card);
-                            throw new InvalidOperationException();
-                        }
-                    }
-                }
-
-                var scoring = ProcessPointStorage(partContext.pointstorage()).Get();
-
-                var sortcards = allCards.ToArray();
-                Array.Sort(sortcards, new CardComparer()
-                {
-                    scoring = scoring,
-                });
-
-                // Make new lists TODO
-                var returnList = new List<CardLocReference>();
-                var current = new CardCollection(CCType.VIRTUAL);
-                int start = 0;
-                for (int i = 0; i < sortcards.Length; i++)
-                {
-                    Card card = sortcards[i];
-                    if (i != 0 && scoring.GetScore(card) != 1 + scoring.GetScore(sortcards[i - 1]))
-                    {
-                        returnList.Add(new CardLocReference()
-                        {
-                            cardList = current,
-                            name = "{partition runs}" + start + "-" + i,
-                        });
-                        current = new CardCollection(CCType.VIRTUAL);
-                        start = i + 1;
-                    }
-                    current.Add(card);
-                }
                 returnList.Add(new CardLocReference()
                 {
-                    cardList = current,
-                    name = "{partition runs}",
+                    cardList = kvp.Value,
+                    name = "{partition}" + "{part: " + kvp + "}"
                 });
-                return [.. returnList];
-
-                //throw new NotImplementedException();
-                //return null;
             }
-            else
-            {
-                throw new NotImplementedException();
-                //return null;
-            }
+            return [.. returnList];
         }
 
         private CardLocReference ProcessSubLocation(RecycleParser.CstorageContext stor)

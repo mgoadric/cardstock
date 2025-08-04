@@ -125,6 +125,21 @@ namespace CardStock.CardEngine
             };
         }
 
+        public CardCollection DeepCopy()
+        {
+            var cc = new CardCollection(type)
+            {
+                name = name,
+                cards = [],
+                owner = owner
+            };
+            foreach (Card c in cards)
+            {
+                cc.Add(c);
+            }
+            return cc;
+        }
+
         public override string ToString()
         {
             StringBuilder ret = new StringBuilder();

@@ -340,7 +340,7 @@
             ;;  Run of three cards of the same suit - 20 bonus points
             ;;  Run of four cards of the same suit - 50 bonus points
             (all (partition SUIT (game vloc PLAYED)) 'PC 
-                (all (partition runs 'PC using (game points SEQUENCE)) 'PR
+                (all (runs largest 3 'PC using (game points SEQUENCE)) 'PR
                     (do (
                         ((== (size 'PR) 3)
                          (inc ((team (next player)) sto SCORE) 20))

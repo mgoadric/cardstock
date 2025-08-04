@@ -162,7 +162,7 @@
                     )
 
                     ;; find longest run in sequence starting at and including the top
-                    (inc ((current player) sto SCORE) (size (top run (game mem SEQUENCE))))
+                    ;;(inc ((current player) sto SCORE) (size (top run (game mem SEQUENCE))))
 
                     ))
                 )
@@ -227,6 +227,16 @@
                 ;; 12 altogether. A run of four cards, such as 9-10-J-Q scores 4 points (this is slightly illogical - you 
                 ;; might expect it to score 6 because it contains two runs of 3, but it doesn't. The runs of 3 within it 
                 ;; don't count - you just get 4), and a run of five cards scores 5.
+                (set (game str TESTING) RUNS)
+                (all (runs 3 ((current player) vloc PLAYED) using (game points SEQUENCE)) 'PR
+                     (do (
+                        ((== (size 'PR) 3)
+                         (inc ((current player) sto SCORE) 3))
+                        ((== (size 'PR) 4)
+                         (dec ((current player) sto SCORE) 4))
+                        ((== (size 'PR) 5)
+                         (dec ((current player) sto SCORE) 5))
+                     )))
 
                 ;; Flush scoring
                 (set (game str TESTING) FLUSH)
