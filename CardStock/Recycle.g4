@@ -1,8 +1,9 @@
 // Version 0.5.10 of our REcursive CYclic Card game LanguagE
 
 // New in version 0.5.10
-//  faro shuffle option to interleave the first half with second half of a card collection
 //  sequence to select the top or bottom x cards from a card collection
+//  Runs for both the longest possible (revised from partitioned runs earlier) and all possible working
+//  Largest Run that includes the top or bottom of a sequence is available
 
 // New in version 0.5.9
 //  Partitioned Runs are possible. The run will be the maximum size possible.
@@ -53,7 +54,6 @@
 //      or by index (0, 0), (1, 0), etc...
 //  TODO stages with count of number of times to cycle, this would avoid the awkward
 //     counters currently used
-//  TODO a way to calculate all possible runs in cards.
 
 grammar Recycle;
 
@@ -137,7 +137,7 @@ range : OPEN 'range' int '..' int CLOSE ;
 other : OPEN 'other' ('player' | 'team') CLOSE ;
 
 // CardCollections
-cstorage : varcs | unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc str CLOSE | memstorage | sequence | runsequence ;
+cstorage : varcs | unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc (str | int | 'new') CLOSE | memstorage | sequence | runsequence ;
 sortof : OPEN 'sort' cstorage 'using' pointstorage CLOSE ;
 unionof : OPEN 'union' (aggcs | cstorage+?) CLOSE ;
 intersectof : OPEN 'intersect' (aggcs | cstorage+?) CLOSE ;
@@ -145,7 +145,7 @@ disjunctionof : OPEN 'disjunction' (aggcs | cstorage+?) CLOSE ;
 filter : OPEN 'filter' collection var boolean CLOSE ;
 memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
 sequence: OPEN ('top' | 'bottom') int cstorage CLOSE ;
-runsequence: OPEN 'runs' ('top' | 'bottom') int cstorage 'using' pointstorage CLOSE;
+runsequence: OPEN 'run' ('top' | 'bottom') int cstorage 'using' pointstorage CLOSE;
 
 // CardCollectionCollections
 cstoragecollection : memset | aggcs | let ;

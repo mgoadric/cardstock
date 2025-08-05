@@ -1,7 +1,7 @@
 int numRndvRnd = 100;
 int numAIvRnd = 0;
 int numAIvAI = 0;
-string game = "Cribbage";
+string game = "Rummy";
 int players = 2;
 CardStock.Players.PlayerType ai = CardStock.Players.PlayerType.PIPMCNEW;
 

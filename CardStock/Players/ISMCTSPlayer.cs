@@ -12,7 +12,7 @@ namespace CardStock.Players
         private CardGame privategame;
         private GameIterator privateiterator;
         private int playeridx;
-        private static int NUMTESTS = 5; //previously 20
+        private static int NUMTESTS = 100; //previously 20
 
         public ISMCTSPlayer(Perspective perspective) : base(perspective)
         {
@@ -26,7 +26,6 @@ namespace CardStock.Players
         public override int MakeAction(int numChoices)
         {
             // GAME SIMULATIONS TEST
-
             int myidx = perspective.GetIdx();
             int deals = 10;
             // TEST ()
@@ -84,7 +83,6 @@ namespace CardStock.Players
                 }
             }
             Tuple<int, int> worstandbest = MinMaxIdx(moverankingarray);
-
             // TODO THIS IS MISSING LEAD HISTORY RECORDING!!
             // Record info for heuristic evaluation
             //RecordHeuristics(rankSum);

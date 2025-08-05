@@ -1,0 +1,104 @@
+;; Rummy
+;;
+;; https://www.pagat.com/rummy/rummy.html
+
+(game
+ (setup
+  (create players 2)
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (CLUBS, SPADES)))))))
+ (do (
+      ;; set scoring points for the cards
+      (set (game points POINTS)
+           (
+            ((RANK : K) 10)
+            ((RANK : Q) 10)
+            ((RANK : J) 10)
+            ((RANK : TEN) 10)
+            ((RANK : NINE) 9)
+            ((RANK : EIGHT) 8)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+            ((RANK : TWO) 2)
+            ((RANK : A) 1)))
+      (set (game points SEQUENCE)
+            (
+            ((SUIT : HEARTS) 100)
+            ((SUIT : CLUBS) 200)
+            ((SUIT : SPADES) 300)
+            ((SUIT : DIAMONDS) 400)
+            ((RANK : K) 13) 
+            ((RANK : Q) 12) 
+            ((RANK : J) 11) 
+            ((RANK : TEN) 10) 
+            ((RANK : NINE) 9) 
+            ((RANK : EIGHT) 8) 
+            ((RANK : SEVEN) 7) 
+            ((RANK : SIX) 6) 
+            ((RANK : FIVE) 5) 
+            ((RANK : FOUR) 4) 
+            ((RANK : THREE) 3) 
+            ((RANK : TWO) 2) 
+            ((RANK : A) 1) 
+            ))
+
+      ;; Shuffle the deck, give each player 10 cards
+      (shuffle (game iloc STOCK))    
+      (all player 'P
+           (repeat 10 (move (top (game iloc STOCK)) 
+                            (top ('P iloc HAND)))))
+      (move (top (game iloc STOCK))
+            (top (game vloc DISCARD)))
+ ))
+
+ ;; play the game until one player has no cards
+ (stage player
+        (end 
+          (any player 'P (== (size ('P iloc HAND)) 0))
+        )
+
+        ;; Draw a card
+        (choice (
+          (do (
+            ((== (size (game iloc STOCK)) 0)
+                  (repeat all (move (bottom (game vloc DISCARD))
+                                    (top (game iloc STOCK)))))
+            (move (top (game iloc STOCK)) 
+                  (top((current player) iloc HAND)))
+           ))
+          
+           (do (
+                (move (top (game vloc DISCARD)) 
+                      (top((current player) iloc HAND)))
+                (set ((current player) str DRAWFROM) DISCARD)))))
+        
+        ;; play a meld
+        (choice (
+            ;; run
+            (any (runs all 3 ((current player) iloc HAND) using (game points SEQUENCE)) 'R
+                (repeat all (move (top 'R)
+                                  (top (game vloc MELD)))))   ;; TODO Fix where they go, should be for current player, in new meld location
+            ;; set
+            (any (partition RANK ((current player) iloc HAND)) 'P 
+                ((>= (size 'P) 3)
+                 (repeat all (move (top 'P)
+                                   (top (game vloc MELD))))))
+            ;; do nothing
+            (turn pass)
+        ))
+
+        ;; Discard a card
+        (choice (
+            ((== (size ((current player) iloc HAND)) 0) 
+             (turn pass))
+            (any ((current player) iloc HAND) 'C 
+             (move 'C (top (game vloc DISCARD))))
+        ))
+ )
+
+ (scoring min (size ((current player) iloc HAND)))
+)

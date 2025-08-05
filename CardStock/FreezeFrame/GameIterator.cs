@@ -1737,61 +1737,52 @@ namespace CardStock.FreezeFrame
                 var points = ProcessPointStorage(memset.run().pointstorage());
                 var scoring = points.Get();
                 int minsize = ProcessInt(memset.run().@int());
-                int numcards = locs.cardList.AllCards().Count();
                 var returnList = new List<CardLocReference>();
 
-                if (memset.run().GetChild(2).GetText() == "largest")
+                var sortcards = locs.cardList.AllCards().ToArray();
+                Array.Sort(sortcards, new CardComparer()
                 {
-                    var sortcards = locs.cardList.AllCards().ToArray();
-                    Array.Sort(sortcards, new CardComparer()
-                    {
-                        scoring = points.Get(),
-                    });
+                    scoring = points.Get(),
+                });
 
-                    var current = new List<CardCollection>
+                var current = new List<CardCollection>
+                {
+                    new(CCType.VIRTUAL)
+                };
+                for (int j = 0; j < sortcards.Length; j++)
+                {
+                    Card card = sortcards[j];
+                    if (j == 0)
                     {
-                        new(CCType.VIRTUAL)
-                    };
-                    for (int j = 0; j < sortcards.Length; j++)
+                        // starting first spot in run
+                        current[0].Add(card);
+
+                    }
+                    else
                     {
-                        Card card = sortcards[j];
-                        if (j == 0)
+                        if (scoring.GetScore(card) == scoring.GetScore(sortcards[j - 1]))
                         {
-                            // starting first spot in run
-                            current[0].Add(card);
-
+                            // duplicate the current runs, swap out the last card with this one
+                            var toAdd = new List<CardCollection>();
+                            foreach (var c in current)
+                            {
+                                if (c.Peek() == sortcards[j - 1])
+                                {
+                                    Debug.WriteLine(c);
+                                    var other = c.DeepCopy();
+                                    Debug.WriteLine(other);
+                                    other.Remove();
+                                    other.Add(card);
+                                    toAdd.Add(other);
+                                }
+                            }
+                            current.AddRange(toAdd);
                         }
-                        else
+                        else if (scoring.GetScore(card) == 1 + scoring.GetScore(sortcards[j - 1]))
                         {
-                            if (scoring.GetScore(card) == scoring.GetScore(sortcards[j - 1]))
+                            // if you want all runs, then you should archive them no matter if you match or not.
+                            if (memset.run().GetChild(2).GetText() == "all")
                             {
-                                // duplicate the current runs, swap out the last card with this one
-                                var toAdd = new List<CardCollection>();
-                                foreach (var c in current)
-                                {
-                                    if (c.Peek() == sortcards[j - 1])
-                                    {
-                                        Debug.WriteLine(c);
-                                        var other = c.DeepCopy();
-                                        Debug.WriteLine(other);
-                                        other.Remove();
-                                        other.Add(card);
-                                        toAdd.Add(other);
-                                    }
-                                }
-                                current.AddRange(toAdd);
-                            }
-                            else if (scoring.GetScore(card) == 1 + scoring.GetScore(sortcards[j - 1]))
-                            {
-                                // next in sequence, then add it
-                                foreach (var c in current)
-                                {
-                                    c.Add(card);
-                                }
-                            }
-                            else
-                            {
-                                // finalize the runs to return
                                 foreach (var c in current)
                                 {
                                     if (c.Count >= minsize)
@@ -1803,27 +1794,49 @@ namespace CardStock.FreezeFrame
                                         });
                                     }
                                 }
-                                // start new runs
-                                current.Clear();
-                                current.Add(new CardCollection(CCType.VIRTUAL));
-                                current[0].Add(card);
+                            }
+
+                            // next in sequence, then add it
+                            foreach (var c in current)
+                            {
+                                c.Add(card);
                             }
                         }
-                    }
-                    // wrap up last run possibility at the end
-                    foreach (var c in current)
-                    {
-                        if (c.Count >= minsize)
+                        else
                         {
-                            returnList.Add(new CardLocReference()
+                            // finalize the runs to return when there is no match
+                            foreach (var c in current)
                             {
-                                cardList = c,
-                                name = "{all runs end}",
-                            });
+                                if (c.Count >= minsize)
+                                {
+                                    returnList.Add(new CardLocReference()
+                                    {
+                                        cardList = c,
+                                        name = "{all runs}" + j,
+                                    });
+                                }
+                            }
+                            // start new runs
+                            current.Clear();
+                            current.Add(new CardCollection(CCType.VIRTUAL));
+                            current[0].Add(card);
                         }
                     }
-                    return [.. returnList];
                 }
+                // wrap up last run possibility at the end
+                foreach (var c in current)
+                {
+                    if (c.Count >= minsize)
+                    {
+                        returnList.Add(new CardLocReference()
+                        {
+                            cardList = c,
+                            name = "{all runs end}",
+                        });
+                    }
+                }
+                return [.. returnList];
+                
             }
             // This is a memset I don't recognize
             throw new NotImplementedException();

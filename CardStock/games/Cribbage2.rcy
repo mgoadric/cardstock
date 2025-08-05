@@ -163,7 +163,7 @@
 
                     ;; find longest run in sequence starting at and including the top
                     (inc ((current player) sto SCORE) 
-                         (size (runs top 3 (game mem SEQUENCE) using (game points SEQUENCE))))
+                         (size (run top 3 (game mem SEQUENCE) using (game points SEQUENCE))))
                     ))
                 )
                           
