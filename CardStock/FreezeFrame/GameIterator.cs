@@ -1582,6 +1582,61 @@ namespace CardStock.FreezeFrame
                 };
                 return fancy;
             }
+            else if (loc.runsequence() is not null)
+            {
+                var locs = ProcessLocation(loc.runsequence().cstorage());
+                var points = ProcessPointStorage(loc.runsequence().pointstorage());
+                var scoring = points.Get();
+                int minsize = ProcessInt(loc.runsequence().@int());
+                int numcards = locs.cardList.AllCards().Count();
+                var best = new CardCollection(CCType.VIRTUAL);
+
+                for (int i = minsize; i < numcards + 1; i++)
+                {
+                    var sortcards = locs.cardList.AllCards().ToArray()[(numcards - i)..];
+                    if (loc.runsequence().GetChild(2).GetText() == "bottom")
+                    {
+                        sortcards = locs.cardList.AllCards().ToArray()[..i];
+                    }
+                    Array.Sort(sortcards, new CardComparer()
+                    {
+                        scoring = points.Get(),
+                    });
+                    var current = new CardCollection(CCType.VIRTUAL);
+                    current.Add(sortcards[0]);
+                    bool complete = true;
+                    for (int j = 0; j < sortcards.Length; j++)
+                    {
+                        Card card = sortcards[j];
+                        if (j != 0)
+                        {
+                            if (scoring.GetScore(card) == 1 + scoring.GetScore(sortcards[j - 1]))
+                            {
+                                // next in sequence, then add it
+                                current.Add(card);
+                            }
+                            else
+                            {
+                                current.Clear();
+                                complete = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (complete)
+                    {
+                        best = current;
+                        Debug.WriteLine("Found a run!");
+                    }
+                }
+                var fancy = new CardLocReference()
+                {
+                    cardList = best,
+                    name = name + "{run sequence " + loc.runsequence().GetChild(2).GetText() + "}",
+                };
+                return fancy;
+                
+            }
 
             // CAN WE REMOVE THIS???? NO!!!
             else if (loc.varcs() is not null)
@@ -1678,24 +1733,25 @@ namespace CardStock.FreezeFrame
 
             else if (memset.run() is not null)
             {
+                var locs = ProcessLocation(memset.run().cstorage());
+                var points = ProcessPointStorage(memset.run().pointstorage());
+                var scoring = points.Get();
+                int minsize = ProcessInt(memset.run().@int());
+                int numcards = locs.cardList.AllCards().Count();
+                var returnList = new List<CardLocReference>();
+
                 if (memset.run().GetChild(2).GetText() == "largest")
                 {
-                    var locs = ProcessLocation(memset.run().cstorage());
-                    var points = ProcessPointStorage(memset.run().pointstorage());
-                    var scoring = points.Get();
-                    int minsize = ProcessInt(memset.run().@int());
                     var sortcards = locs.cardList.AllCards().ToArray();
                     Array.Sort(sortcards, new CardComparer()
                     {
                         scoring = points.Get(),
                     });
 
-                    var returnList = new List<CardLocReference>();
                     var current = new List<CardCollection>
                     {
                         new(CCType.VIRTUAL)
                     };
-
                     for (int j = 0; j < sortcards.Length; j++)
                     {
                         Card card = sortcards[j];
@@ -1770,7 +1826,7 @@ namespace CardStock.FreezeFrame
                 }
             }
             // This is a memset I don't recognize
-                throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         private CardLocReference[] ProcessPartition(RecycleParser.PartitionContext partContext)

@@ -162,8 +162,8 @@
                     )
 
                     ;; find longest run in sequence starting at and including the top
-                    ;;(inc ((current player) sto SCORE) (size (top run (game mem SEQUENCE))))
-
+                    (inc ((current player) sto SCORE) 
+                         (size (runs top 3 (game mem SEQUENCE) using (game points SEQUENCE))))
                     ))
                 )
                           
@@ -173,6 +173,7 @@
                  (do (
 
                     ;; Point for last card
+                    (set (game str TESTING) LASTCARD)
                     ((!= (game sto TOTAL) 31)
                      (inc ((current player) sto SCORE) 1))
 
@@ -228,7 +229,7 @@
                 ;; might expect it to score 6 because it contains two runs of 3, but it doesn't. The runs of 3 within it 
                 ;; don't count - you just get 4), and a run of five cards scores 5.
                 (set (game str TESTING) RUNS)
-                (all (runs 3 ((current player) vloc PLAYED) using (game points SEQUENCE)) 'PR
+                (all (runs largest 3 ((current player) vloc PLAYED) using (game points SEQUENCE)) 'PR
                      (do (
                         ((== (size 'PR) 3)
                          (inc ((current player) sto SCORE) 3))
