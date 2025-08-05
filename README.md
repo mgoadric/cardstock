@@ -17,15 +17,16 @@ tournament of AI players. Please check back for further progress on these issues
 
 ## Games
 
-There are currently 51 games coded in RECYCLE
+There are currently 52 games coded in RECYCLE
 
 * Adding
     * [Caterpillar](http://www.parlettgames.uk/oricards/caterpil.html) (2p)
+    * [Cribbage](https://www.pagat.com/adders/crib6.html) (2p)
     * [Ninety Eight](https://www.pagat.com/adders/98.html) (4p)
 * Catch and Collect
     * Enchère (3p)
     * [GOPS](https://www.pagat.com/misc/gops.html) (2p)
-    * [Go Fish](https://www.pagat.com/quartet/gofish.html) (2p) *limited deck*
+    * [Go Fish](https://www.pagat.com/quartet/gofish.html) (4p)
     * [Turn the Tide](https://gamewright.com/pdfs/Rules/TurnTheTide-RULES.pdf) (3p)
 * Draw and Discard
     * [Golf Six](https://www.pagat.com/draw/golf.html) (2-4p)
