@@ -88,7 +88,7 @@ There are currently 52 games coded in RECYCLE
 ## Requirements
 
 * [Visual Studio Code](https://code.visualstudio.com/)
-* [.NET Core v 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+* [.NET Core v 9.0](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 * [C# Dev Kit Extension](https://marketplace.visualstudio.com/items/?itemName=ms-dotnettools.csdevkit)
 * [ANTLR4 grammar syntax support](https://marketplace.visualstudio.com/items/?itemName=mike-lischke.vscode-antlr4)
 
