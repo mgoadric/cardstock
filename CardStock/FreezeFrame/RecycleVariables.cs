@@ -169,7 +169,7 @@ namespace CardStock.FreezeFrame
                     ret.Add(key, newcoll);
                 }*/
 
-                else { Console.WriteLine("Error: object " + o + " is  type " + o.GetType()); throw new Exception(); }
+                else { Console.WriteLine("Error: key: " + key + ", object " + o + " is  type " + o.GetType()); throw new Exception(); }
             }
             /*Console.WriteLine("original:");
             foreach (object o in original){

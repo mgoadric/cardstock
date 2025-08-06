@@ -57,8 +57,11 @@ namespace CardStock.FreezeFrame {
         public CardLocReference startLocation;
         public CardLocReference endLocation;
         public CardCollection owner;
+        public Card cardToMove;
         public bool actualloc;
-        public CardMoveAction(CardLocReference start, CardLocReference end, Transcript script) {
+        public int ownerIndex;
+        public CardMoveAction(CardLocReference start, CardLocReference end, Transcript script)
+        {
             if (start.cardList.type == CCType.MEMORY && !start.actual)
             {
                 Debug.WriteLine("start is a mem loc " + start.name + ", " + end.name);
@@ -84,7 +87,7 @@ namespace CardStock.FreezeFrame {
             try {
                 if (startLocation.Count() != 0) {
 
-                    Card cardToMove = startLocation.Remove();
+                    cardToMove = startLocation.Remove();
                     if (startLocation.actual) {
                         actualloc = true;
                     }
@@ -123,9 +126,19 @@ namespace CardStock.FreezeFrame {
         {
             if (complete) {
                 Debug.WriteLine("Undoing FancyCardMoveAction. Putting back in: " + startLocation.name); 
-                var cardToMove = endLocation.Remove();
+                var cardFound = endLocation.Remove();
+                if (cardFound != cardToMove)
+                {
+                    Console.WriteLine("Cards are not equal!!!");
+                    throw new Exception();
+                }
                 startLocation.Add(cardToMove);
-                if (actualloc) {
+
+                // Is this going back in the right index location? I DON'T THINK SO
+                // I think it is always at the end of the list??
+                // Does it matter? I THINK SO
+                if (actualloc)
+                {
                     owner.Add(cardToMove);
                 }
                 cardToMove.owner = owner;

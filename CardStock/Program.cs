@@ -1,18 +1,18 @@
-int numRndvRnd = 0;
-int numAIvRnd = 1;
+int numRndvRnd = 10;
+int numAIvRnd = 0;
 int numAIvAI = 0;
-string game = "Rummy";
+string game = "GoFish";
 int players = 2;
 CardStock.Players.PlayerType ai = CardStock.Players.PlayerType.PIPMCNEW;
 
-/*
+
 Console.WriteLine(game + ", " + players);
 var p = new CardStock.Scoring.Scorer(game, players, numRndvRnd, numAIvRnd, numAIvAI, ai);
 var score = p.Score();
-*/
+
 
 // TEST THEM ALL
-
+/*
 string[] files = Directory.GetFiles("games/", "*.rcy");
 foreach (string filename in files)
 {
@@ -22,6 +22,6 @@ foreach (string filename in files)
     var p = new CardStock.Scoring.Scorer(name, play, numRndvRnd, numAIvRnd, numAIvAI, ai);
     var score = p.Score();
 }
-
+*/
 
 

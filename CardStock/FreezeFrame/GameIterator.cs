@@ -1341,7 +1341,7 @@ namespace CardStock.FreezeFrame
                     var fancy = new CardLocReference()
                     {
                         cardList = loc.cardList,
-                        locIdentifier = card.GetChild(1).GetText(),
+                        locIdentifier = card.GetChild(1).GetText(), // top or bottom
                         name = loc.name
                     };
 

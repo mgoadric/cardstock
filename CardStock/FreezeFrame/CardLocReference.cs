@@ -32,6 +32,8 @@ namespace CardStock.FreezeFrame{
                     break;
                 case "-1":
                     // SHOULD THIS THROW EXCEPTION INSTEAD?
+                    Console.WriteLine("Adding to a -1 loc ref");
+                    throw new Exception();
                     cardList.Add(c);
                     break;
                 default:
@@ -53,6 +55,7 @@ namespace CardStock.FreezeFrame{
                     e.MoveNext();
                     return e.Current;
                 case "-1":
+                    Console.WriteLine("Getting from a -1 loc ref");
                     // SHOULD THIS THROW EXCEPTION INSTEAD?
                     return cardList.Peek();
                 default:
@@ -61,21 +64,29 @@ namespace CardStock.FreezeFrame{
         }
 
         // TODO Can we speed up removal for the cardList if we know locIdentifier
-		public Card Remove(){
+        public Card Remove()
+        {
             var card = Get();
-            if (actual){
-                card.owner.Remove(card);
-            }
-            else if (cardList.type == CCType.VIRTUAL){
+            if (actual)
+            {
                 cardList.Remove(card);
-                card.owner.Remove(card);
+                card.owner.Remove(card);// where was it removed from? How do we save this for undo?
             }
-            else{
+            else if (cardList.type == CCType.VIRTUAL)
+            {
+                Console.WriteLine("Removing from Virtual without Actual..");
+                throw new Exception();
+                cardList.Remove(card);
+                card.owner.Remove(card); // where was it removed from? How do we save this for undo?
+            }
+            else
+            {
                 Debug.WriteLine("Pulling from Standard...");
                 cardList.Remove(card);
             }
             return card;
-		}
+            //return new Tuple<Card, int>(card, -1);
+        }
 
         public void SetLocId(Card c){
             for (int idx = 0; idx < cardList.Count; idx++){
