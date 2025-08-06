@@ -22,8 +22,7 @@
   )
  
  
- (do 
-     (
+ (do (
       (set (game points POINTS)
            (
             ((VALUE : TEN) 10)
@@ -64,8 +63,7 @@
  ;;                             (move (top (game iloc STOCK))
  ;;                                   (top ('P vloc HAND)))))))))
  ;;           
- (do 
-     (
+ (do (
       (cycle current (owner (min (union (all player 'P ('P vloc HAND))) using (game points POINTS))))))
  
  (stage player
@@ -74,11 +72,9 @@
               (>= (sum ('P vloc SCORING) using (game points POINTS)) (+ (// 60 'NUMP) 1)))) 
         
         ;; Shuffle and then throw out 5 cards for mystery      
-        (do 
-            (
+        (do (
              ((== (size (game iloc STOCK)) 0)
-              (do 
-                  (
+              (do (
                    (repeat all
                            (move (top (game iloc THROWOUT))
                                  (top (game iloc STOCK))))
@@ -91,33 +87,28 @@
                                  (top (game iloc THROWOUT)))))))))
         
         ;; players flip a card or bow out
-        (choice 
-         (
+        (choice (
           
           ((> (size ((current player) vloc HAND)) 0)
-           (do 
-               (
+           (do (
                 (move (actual (min (union (all player 'P ('P vloc HAND))) using (game points POINTS)))
                       (top ((current player) vloc SCORING)))
                 (repeat all
                         (move (top ((current player) vloc HAND))
                               (top (game vloc DISCARD)))))))
           
-          (do 
-              (
-               (move (top (game iloc STOCK))
-                     (top ((current player) vloc HAND)))))))
+          (move (top (game iloc STOCK))
+                (top ((current player) vloc HAND)))))
         
         ;; if pair, end the round
-        (do 
-            (
-             ((> (size (tuples 2 ((current player) vloc HAND) using (game points POINTS))) 0)
-              (do 
-                  (
-                   (move (actual (top (top (tuples 2 ((current player) vloc HAND) using (game points POINTS)))))
+        (do (
+            (let (tuples 2 ((current player) vloc HAND) using (game points POINTS)) 'PAIRS
+             ((> (size 'PAIRS) 0)
+              (do (
+                   (move (actual (top 'PAIRS))
                          (top ((current player) vloc SCORING)))
                    (repeat all
                            (move (top ((current player) vloc HAND))
-                                 (top (game vloc DISCARD))))))))))
+                                 (top (game vloc DISCARD)))))))))))
  
  (scoring min (sum ((current player) vloc SCORING) using (game points POINTS))))

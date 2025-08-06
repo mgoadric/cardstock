@@ -67,15 +67,9 @@ namespace CardStock.FreezeFrame{
         public Card Remove()
         {
             var card = Get();
-            if (actual)
+            if (cardList.type == CCType.VIRTUAL)
             {
-                cardList.Remove(card);
-                card.owner.Remove(card);// where was it removed from? How do we save this for undo?
-            }
-            else if (cardList.type == CCType.VIRTUAL)
-            {
-                Console.WriteLine("Removing from Virtual without Actual..");
-                throw new Exception();
+                Debug.WriteLine("Removing from Virtual...");
                 cardList.Remove(card);
                 card.owner.Remove(card); // where was it removed from? How do we save this for undo?
             }

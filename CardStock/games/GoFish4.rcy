@@ -33,7 +33,7 @@
                             (
                              (inc ('P sto SCORE) 1)
                              (repeat all
-                                  (move (actual (top 'MATCH))
+                                  (move (top 'MATCH)
                                         (top ('P vloc TRICKSTACK))))))))))))))))
  
  (stage player  ;; TURN LOOP START
@@ -75,7 +75,7 @@
                          ((> (size 'THEIRRANK) 0) 
                          
                               (repeat all
-                                   (move (actual (top 'THEIRRANK))
+                                   (move (top 'THEIRRANK)
                                         (top (game vloc PASSING)))
                               )))))
                )
@@ -114,7 +114,7 @@
                               (
                               (inc ((current player) sto SCORE) 1)
                               (repeat all
-                                   (move (actual (top 'MATCH))
+                                   (move (top 'MATCH)
                                          (top ((current player) vloc TRICKSTACK)))))))))))
 
              ;; determine if player goes again

@@ -146,7 +146,7 @@
              
              ;; Pass out the water level cards
              ;; Highest played gets lowest water
-             (move (actual (min (game vloc LEVEL) using (game points PRECEDENCE)))
+             (move (min (game vloc LEVEL) using (game points PRECEDENCE))
                    (top ((owner (max (union (all player 'P 
                        ('P vloc TRICK))) using (game points PRECEDENCE))) vloc LEVEL)))
 

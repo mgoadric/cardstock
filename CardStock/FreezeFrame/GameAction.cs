@@ -67,11 +67,11 @@ namespace CardStock.FreezeFrame {
                 Debug.WriteLine("start is a mem loc " + start.name + ", " + end.name);
                 throw new NotSupportedException();
             }
-            if (start.cardList.type == CCType.VIRTUAL && !start.actual)
+            if (start.cardList.type == CCType.VIRTUAL)
             {
                 Debug.WriteLine("start is a virtual loc " + start.name + ", " + end.name);
                 // TODO can we just have this default to an actual??? What problems does that cause?
-                throw new NotSupportedException();
+                actualloc = true;
             }
             if (end.cardList.type == CCType.VIRTUAL || end.cardList.type == CCType.MEMORY)
             {

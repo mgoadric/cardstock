@@ -102,9 +102,9 @@
         ;; if drew a pair, take the L, score, and keep going next time
         (do (
             (all (partition VALUE ((current player) vloc HAND)) 'CS 
-                  ((== (size 'CS) 2)
+                  (== (size 'CS) 1)
                    (do (
-                        (move (actual (top 'CS))
+                        (move (top (top 'CS))
                               (top ((current player) vloc SCORING)))
                         (repeat all
                               (move (top ((current player) vloc HAND))

@@ -2922,7 +2922,14 @@ namespace CardStock.FreezeFrame
             }
             else
             {
-                Console.WriteLine("Error, not a string, type is: " + temp.GetType());
+                Console.WriteLine("Error, type is: " + temp.GetType());
+                if (temp is List<CardLocReference> lc)
+                {
+                    foreach (var c in lc)
+                    {
+                        Console.WriteLine(c);
+                    }
+                }
                 throw new NotImplementedException();
             }
         }
