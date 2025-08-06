@@ -61,20 +61,30 @@
           (any player 'P (== (size ('P iloc HAND)) 0))
         )
 
+        ;; replenish the stock pile
+        (do (
+            ((== (size (game iloc STOCK)) 0)
+                (do (
+                        (repeat all (move (top (game vloc DISCARD))
+                                          (top (game iloc STOCK))))
+                        (shuffle (game iloc STOCK)) ;; shuffling is better than memorizing??
+                        (move (top (game iloc STOCK))
+                              (top (game vloc DISCARD)))
+                ))
+            )
+        ))
+
         ;; Draw a card
         (choice (
-          (do (
-            ((== (size (game iloc STOCK)) 0)
-                  (repeat all (move (bottom (game vloc DISCARD))
-                                    (top (game iloc STOCK)))))
-            (move (top (game iloc STOCK)) 
-                  (top((current player) iloc HAND)))
-           ))
           
-           (do (
+            (move (top (game iloc STOCK)) 
+                  (top ((current player) iloc HAND)))
+           
+            (do (
                 (move (top (game vloc DISCARD)) 
                       (top((current player) iloc HAND)))
-                (set ((current player) str DRAWFROM) DISCARD)))))
+                (remember (top ((current player) iloc HAND))
+                          (top ((current player) mem DRAW)))))))
         
         ;; play a meld
         (choice (
@@ -91,12 +101,21 @@
             (turn pass)
         ))
 
+        ;; TODO layoff to other melds
+
         ;; Discard a card
         (choice (
             ((== (size ((current player) iloc HAND)) 0) 
              (turn pass))
             (any ((current player) iloc HAND) 'C 
-             (move 'C (top (game vloc DISCARD))))
+             ((or (== (size ((current player) mem DRAW)) 0)
+                  (!= 'C (top ((current player) mem DRAWN))))
+              (move 'C (top (game vloc DISCARD)))))
+        ))
+
+        (do (
+            ((> (size ((current player) mem DRAW)) 0)
+             (forget (top ((current player) mem DRAW))))
         ))
  )
 

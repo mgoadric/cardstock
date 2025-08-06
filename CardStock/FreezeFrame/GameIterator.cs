@@ -1206,7 +1206,7 @@ namespace CardStock.FreezeFrame
             var locOne = ProcessCard(move.card()[0]);
             if (locOne.Count() == 0)
             {
-                Debug.WriteLine("Moving from empty, " + move.GetText());
+                Console.WriteLine("Moving from empty, " + move.GetText());
                 throw new InvalidOperationException();
             }
             var locTwo = ProcessCard(move.card()[1]);
@@ -1755,8 +1755,7 @@ namespace CardStock.FreezeFrame
                     if (j == 0)
                     {
                         // starting first spot in run
-                        current[0].Add(card);
-
+                        current[^1].Add(card);
                     }
                     else
                     {
@@ -1818,8 +1817,17 @@ namespace CardStock.FreezeFrame
                             }
                             // start new runs
                             current.Clear();
+                            if (memset.run().GetChild(2).GetText() == "largest")
+                        {
                             current.Add(new CardCollection(CCType.VIRTUAL));
-                            current[0].Add(card);
+                            current[^1].Add(card);
+                        }
+                        }
+
+                        if (memset.run().GetChild(2).GetText() == "all")
+                        {
+                            current.Add(new CardCollection(CCType.VIRTUAL));
+                            current[^1].Add(card);
                         }
                     }
                 }
