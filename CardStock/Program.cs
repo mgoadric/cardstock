@@ -5,13 +5,15 @@ string game = "Rummy";
 int players = 2;
 CardStock.Players.PlayerType ai = CardStock.Players.PlayerType.PIPMCNEW;
 
+/*
 Console.WriteLine(game + ", " + players);
 var p = new CardStock.Scoring.Scorer(game, players, numRndvRnd, numAIvRnd, numAIvAI, ai);
 var score = p.Score();
+*/
 
 // TEST THEM ALL
-/*
-string[] files = Directory.GetFiles("games/", "*.gdl");
+
+string[] files = Directory.GetFiles("games/", "*.rcy");
 foreach (string filename in files)
 {
     string name = filename[6..^5];
@@ -20,6 +22,6 @@ foreach (string filename in files)
     var p = new CardStock.Scoring.Scorer(name, play, numRndvRnd, numAIvRnd, numAIvAI, ai);
     var score = p.Score();
 }
-*/
+
 
 

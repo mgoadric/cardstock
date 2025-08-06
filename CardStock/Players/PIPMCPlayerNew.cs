@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using CardStock.CardEngine;
 using CardStock.FreezeFrame;
 
@@ -6,7 +6,7 @@ namespace CardStock.Players
 {
     public class PIPMCPlayerNew(Perspective perspective) : AIPlayer(perspective)
     {
-        private static readonly int NUMTESTS = 1000; //previously 20
+        private static readonly int NUMTESTS = 10; //previously 20
         private static readonly int NUMSAMPLES = 10;
 
         public override int MakeAction(int numMoves)

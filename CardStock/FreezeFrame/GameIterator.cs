@@ -133,7 +133,9 @@ namespace CardStock.FreezeFrame
             var allOptions = BuildOptions();
 
             /* DEBUG
-            foreach (GameActionCollection gac in allOptions) {
+            Console.WriteLine("There are " + allOptions.Count + " options...");
+            foreach (GameActionCollection gac in allOptions)
+            {
                 Console.WriteLine("New action list!");
                 foreach (GameAction action in gac)
                 {
@@ -1709,8 +1711,9 @@ namespace CardStock.FreezeFrame
                 }
                 Debug.WriteLine("there are now " + subsets.Count + " subsets");
                 var returnList = new List<CardLocReference>();
-                foreach (var cardlist in subsets)
+                for (int j = 0; j < subsets.Count; j++)
                 {
+                    var cardlist = subsets[j];
                     var cctemp = new CardCollection(CCType.VIRTUAL);
                     foreach (var card in cardlist)
                     {
@@ -1719,7 +1722,7 @@ namespace CardStock.FreezeFrame
                     returnList.Add(new CardLocReference()
                     {
                         cardList = cctemp,
-                        name = "{subset from " + stor.name + "}"
+                        name = "{subset " + j + " from " + stor.name + "}"
                     });
                 }
                 return [.. returnList];
@@ -1863,15 +1866,11 @@ namespace CardStock.FreezeFrame
                 foreach (var card in stor.cardList.AllCards())
                 {
                     var attr = card.ReadAttribute(ProcessString(partContext.str()));
-                    if (partition.TryGetValue(attr, out CardCollection? value))
-                    {
-                        value.Add(card);
-                    }
-                    else
+                    if (!partition.ContainsKey(attr))
                     {
                         partition[attr] = new CardCollection(CCType.VIRTUAL);
-                        partition[attr].Add(card);
                     }
+                    partition[attr].Add(card);
                 }
             }
 
