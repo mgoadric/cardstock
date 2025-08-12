@@ -57,10 +57,10 @@ public partial class ParseEngine
         /***********
          * Make the parse tree visualization
          ***********/
-        if (!exp.Evaluating)
-        {
-            DotVisualization.DOTMakerTop(tree, "output/" + fileName);
-        }
+        //if (!exp.Evaluating)
+        //{
+            DotVisualization.DOTMakerTop(tree, "output/" + exp.Game + "/" + exp.PlayerCount + "/parsetree");
+        //}
 
         return HasShuffleAndChoice(tree);
 

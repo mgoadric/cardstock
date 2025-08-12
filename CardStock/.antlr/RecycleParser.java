@@ -25,44 +25,46 @@ public class RecycleParser extends Parser {
 		T__45=46, T__46=47, T__47=48, T__48=49, T__49=50, T__50=51, T__51=52, 
 		T__52=53, T__53=54, T__54=55, T__55=56, T__56=57, T__57=58, T__58=59, 
 		T__59=60, T__60=61, T__61=62, T__62=63, T__63=64, T__64=65, T__65=66, 
-		T__66=67, T__67=68, T__68=69, T__69=70, BOOLOP=71, COMPOP=72, EQOP=73, 
-		UNOP=74, INTNUM=75, LETT=76, OPEN=77, CLOSE=78, WS=79, ANY=80;
+		T__66=67, T__67=68, T__68=69, T__69=70, T__70=71, T__71=72, T__72=73, 
+		T__73=74, T__74=75, T__75=76, T__76=77, T__77=78, BOOLOP=79, COMPOP=80, 
+		EQOP=81, UNOP=82, INTNUM=83, LETT=84, OPEN=85, CLOSE=86, WS=87, ANY=88;
 	public static final int
 		RULE_var = 0, RULE_vars = 1, RULE_varo = 2, RULE_varp = 3, RULE_vari = 4, 
-		RULE_varb = 5, RULE_varc = 6, RULE_varcs = 7, RULE_varcard = 8, RULE_game = 9, 
-		RULE_declare = 10, RULE_setup = 11, RULE_scoring = 12, RULE_stage = 13, 
-		RULE_endcondition = 14, RULE_multiaction = 15, RULE_multiaction2 = 16, 
-		RULE_condact = 17, RULE_agg = 18, RULE_let = 19, RULE_action = 20, RULE_playercreate = 21, 
-		RULE_teamcreate = 22, RULE_teams = 23, RULE_deckcreate = 24, RULE_deck = 25, 
-		RULE_attribute = 26, RULE_initpoints = 27, RULE_awards = 28, RULE_subaward = 29, 
-		RULE_cycleaction = 30, RULE_setaction = 31, RULE_setstraction = 32, RULE_incaction = 33, 
-		RULE_decaction = 34, RULE_moveaction = 35, RULE_shuffleaction = 36, RULE_turnaction = 37, 
-		RULE_repeat = 38, RULE_pointstorage = 39, RULE_card = 40, RULE_actual = 41, 
-		RULE_maxof = 42, RULE_minof = 43, RULE_locpre = 44, RULE_locdesc = 45, 
-		RULE_who = 46, RULE_whop = 47, RULE_whot = 48, RULE_whodesc = 49, RULE_owner = 50, 
-		RULE_teamp = 51, RULE_typed = 52, RULE_collection = 53, RULE_strcollection = 54, 
-		RULE_range = 55, RULE_other = 56, RULE_cstorage = 57, RULE_sortof = 58, 
-		RULE_unionof = 59, RULE_intersectof = 60, RULE_disjunctionof = 61, RULE_filter = 62, 
-		RULE_memstorage = 63, RULE_cstoragecollection = 64, RULE_memset = 65, 
-		RULE_run = 66, RULE_subset = 67, RULE_tuple = 68, RULE_partition = 69, 
-		RULE_aggcs = 70, RULE_boolean = 71, RULE_intop = 72, RULE_aggb = 73, RULE_int = 74, 
-		RULE_sum = 75, RULE_score = 76, RULE_add = 77, RULE_mult = 78, RULE_subtract = 79, 
-		RULE_mod = 80, RULE_divide = 81, RULE_exponent = 82, RULE_triangular = 83, 
-		RULE_fibonacci = 84, RULE_random = 85, RULE_sizeof = 86, RULE_aggi = 87, 
-		RULE_rawstorage = 88, RULE_str = 89, RULE_strstorage = 90, RULE_cardatt = 91, 
-		RULE_namegr = 92;
+		RULE_varb = 5, RULE_varc = 6, RULE_varcs = 7, RULE_varcsc = 8, RULE_varcard = 9, 
+		RULE_game = 10, RULE_declare = 11, RULE_setup = 12, RULE_scoring = 13, 
+		RULE_stage = 14, RULE_endcondition = 15, RULE_multiaction = 16, RULE_multiaction2 = 17, 
+		RULE_condact = 18, RULE_agg = 19, RULE_let = 20, RULE_action = 21, RULE_playercreate = 22, 
+		RULE_teamcreate = 23, RULE_teams = 24, RULE_deckcreate = 25, RULE_deck = 26, 
+		RULE_attribute = 27, RULE_initpoints = 28, RULE_awards = 29, RULE_subaward = 30, 
+		RULE_cycleaction = 31, RULE_setaction = 32, RULE_setstraction = 33, RULE_incaction = 34, 
+		RULE_decaction = 35, RULE_moveaction = 36, RULE_copyaction = 37, RULE_removeaction = 38, 
+		RULE_shuffleaction = 39, RULE_turnaction = 40, RULE_repeat = 41, RULE_pointstorage = 42, 
+		RULE_card = 43, RULE_actual = 44, RULE_maxof = 45, RULE_minof = 46, RULE_locpre = 47, 
+		RULE_locdesc = 48, RULE_who = 49, RULE_whop = 50, RULE_whot = 51, RULE_whodesc = 52, 
+		RULE_owner = 53, RULE_teamp = 54, RULE_typed = 55, RULE_collection = 56, 
+		RULE_strcollection = 57, RULE_range = 58, RULE_other = 59, RULE_cstorage = 60, 
+		RULE_sortof = 61, RULE_unionof = 62, RULE_intersectof = 63, RULE_disjunctionof = 64, 
+		RULE_filter = 65, RULE_memstorage = 66, RULE_sequence = 67, RULE_runsequence = 68, 
+		RULE_cstoragecollection = 69, RULE_memset = 70, RULE_run = 71, RULE_subset = 72, 
+		RULE_tuple = 73, RULE_partition = 74, RULE_aggcs = 75, RULE_boolean = 76, 
+		RULE_intop = 77, RULE_aggb = 78, RULE_int = 79, RULE_sum = 80, RULE_score = 81, 
+		RULE_add = 82, RULE_mult = 83, RULE_subtract = 84, RULE_mod = 85, RULE_divide = 86, 
+		RULE_exponent = 87, RULE_triangular = 88, RULE_fibonacci = 89, RULE_random = 90, 
+		RULE_sizeof = 91, RULE_aggi = 92, RULE_rawstorage = 93, RULE_str = 94, 
+		RULE_strstorage = 95, RULE_cardatt = 96, RULE_namegr = 97;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"var", "vars", "varo", "varp", "vari", "varb", "varc", "varcs", "varcard", 
-			"game", "declare", "setup", "scoring", "stage", "endcondition", "multiaction", 
-			"multiaction2", "condact", "agg", "let", "action", "playercreate", "teamcreate", 
-			"teams", "deckcreate", "deck", "attribute", "initpoints", "awards", "subaward", 
-			"cycleaction", "setaction", "setstraction", "incaction", "decaction", 
-			"moveaction", "shuffleaction", "turnaction", "repeat", "pointstorage", 
-			"card", "actual", "maxof", "minof", "locpre", "locdesc", "who", "whop", 
-			"whot", "whodesc", "owner", "teamp", "typed", "collection", "strcollection", 
-			"range", "other", "cstorage", "sortof", "unionof", "intersectof", "disjunctionof", 
-			"filter", "memstorage", "cstoragecollection", "memset", "run", "subset", 
+			"var", "vars", "varo", "varp", "vari", "varb", "varc", "varcs", "varcsc", 
+			"varcard", "game", "declare", "setup", "scoring", "stage", "endcondition", 
+			"multiaction", "multiaction2", "condact", "agg", "let", "action", "playercreate", 
+			"teamcreate", "teams", "deckcreate", "deck", "attribute", "initpoints", 
+			"awards", "subaward", "cycleaction", "setaction", "setstraction", "incaction", 
+			"decaction", "moveaction", "copyaction", "removeaction", "shuffleaction", 
+			"turnaction", "repeat", "pointstorage", "card", "actual", "maxof", "minof", 
+			"locpre", "locdesc", "who", "whop", "whot", "whodesc", "owner", "teamp", 
+			"typed", "collection", "strcollection", "range", "other", "cstorage", 
+			"sortof", "unionof", "intersectof", "disjunctionof", "filter", "memstorage", 
+			"sequence", "runsequence", "cstoragecollection", "memset", "run", "subset", 
 			"tuple", "partition", "aggcs", "boolean", "intop", "aggb", "int", "sum", 
 			"score", "add", "mult", "subtract", "mod", "divide", "exponent", "triangular", 
 			"fibonacci", "random", "sizeof", "aggi", "rawstorage", "str", "strstorage", 
@@ -77,13 +79,14 @@ public class RecycleParser extends Parser {
 			"'max'", "'stage'", "'player'", "'team'", "'end'", "'choice'", "'do'", 
 			"'any'", "'all'", "'let'", "'create'", "'players'", "'teams'", "','", 
 			"'deck'", "'set'", "':'", "'cycle'", "'next'", "'current'", "'previous'", 
-			"'inc'", "'dec'", "'move'", "'shuffle'", "'turn'", "'pass'", "'repeat'", 
-			"'points'", "'top'", "'bottom'", "'actual'", "'using'", "'vloc'", "'iloc'", 
-			"'hloc'", "'owner'", "'range'", "'..'", "'other'", "'sort'", "'union'", 
-			"'intersect'", "'disjunction'", "'filter'", "'runs'", "'subsets'", "'tuples'", 
-			"'partition'", "'sum'", "'score'", "'+'", "'*'", "'-'", "'%'", "'//'", 
-			"'^'", "'tri'", "'fib'", "'random'", "'size'", "'sto'", "'str'", "'cardatt'", 
-			null, null, null, "'not'", null, null, "'('", "')'"
+			"'inc'", "'dec'", "'move'", "'remember'", "'forget'", "'shuffle'", "'faro'", 
+			"'turn'", "'pass'", "'repeat'", "'points'", "'top'", "'bottom'", "'actual'", 
+			"'using'", "'vloc'", "'iloc'", "'hloc'", "'oloc'", "'mem'", "'owner'", 
+			"'range'", "'..'", "'other'", "'new'", "'sort'", "'union'", "'intersect'", 
+			"'disjunction'", "'filter'", "'run'", "'runs'", "'largest'", "'subsets'", 
+			"'tuples'", "'partition'", "'sum'", "'score'", "'+'", "'*'", "'-'", "'%'", 
+			"'//'", "'^'", "'tri'", "'fib'", "'random'", "'size'", "'sto'", "'str'", 
+			"'cardatt'", null, null, null, "'not'", null, null, "'('", "')'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -94,8 +97,9 @@ public class RecycleParser extends Parser {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, "BOOLOP", 
-			"COMPOP", "EQOP", "UNOP", "INTNUM", "LETT", "OPEN", "CLOSE", "WS", "ANY"
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, null, null, null, null, null, null, "BOOLOP", "COMPOP", "EQOP", 
+			"UNOP", "INTNUM", "LETT", "OPEN", "CLOSE", "WS", "ANY"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -158,6 +162,14 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_var; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVar(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVar(this);
+		}
 	}
 
 	public final VarContext var() throws RecognitionException {
@@ -166,9 +178,9 @@ public class RecycleParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(186);
+			setState(196);
 			match(T__0);
-			setState(187);
+			setState(197);
 			namegr();
 			}
 		}
@@ -192,6 +204,14 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_vars; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVars(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVars(this);
+		}
 	}
 
 	public final VarsContext vars() throws RecognitionException {
@@ -200,9 +220,9 @@ public class RecycleParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(189);
+			setState(199);
 			match(T__0);
-			setState(190);
+			setState(200);
 			namegr();
 			}
 		}
@@ -226,6 +246,14 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varo; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVaro(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVaro(this);
+		}
 	}
 
 	public final VaroContext varo() throws RecognitionException {
@@ -234,9 +262,9 @@ public class RecycleParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(192);
+			setState(202);
 			match(T__0);
-			setState(193);
+			setState(203);
 			namegr();
 			}
 		}
@@ -260,6 +288,14 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varp; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVarp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVarp(this);
+		}
 	}
 
 	public final VarpContext varp() throws RecognitionException {
@@ -268,9 +304,9 @@ public class RecycleParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(195);
+			setState(205);
 			match(T__0);
-			setState(196);
+			setState(206);
 			namegr();
 			}
 		}
@@ -294,6 +330,14 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_vari; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVari(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVari(this);
+		}
 	}
 
 	public final VariContext vari() throws RecognitionException {
@@ -302,9 +346,9 @@ public class RecycleParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(198);
+			setState(208);
 			match(T__0);
-			setState(199);
+			setState(209);
 			namegr();
 			}
 		}
@@ -328,6 +372,14 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varb; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVarb(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVarb(this);
+		}
 	}
 
 	public final VarbContext varb() throws RecognitionException {
@@ -336,9 +388,9 @@ public class RecycleParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(201);
+			setState(211);
 			match(T__0);
-			setState(202);
+			setState(212);
 			namegr();
 			}
 		}
@@ -362,6 +414,14 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varc; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVarc(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVarc(this);
+		}
 	}
 
 	public final VarcContext varc() throws RecognitionException {
@@ -370,9 +430,9 @@ public class RecycleParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(204);
+			setState(214);
 			match(T__0);
-			setState(205);
+			setState(215);
 			namegr();
 			}
 		}
@@ -396,6 +456,14 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varcs; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVarcs(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVarcs(this);
+		}
 	}
 
 	public final VarcsContext varcs() throws RecognitionException {
@@ -404,9 +472,51 @@ public class RecycleParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(207);
+			setState(217);
 			match(T__0);
-			setState(208);
+			setState(218);
+			namegr();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class VarcscContext extends ParserRuleContext {
+		public NamegrContext namegr() {
+			return getRuleContext(NamegrContext.class,0);
+		}
+		public VarcscContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_varcsc; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVarcsc(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVarcsc(this);
+		}
+	}
+
+	public final VarcscContext varcsc() throws RecognitionException {
+		VarcscContext _localctx = new VarcscContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_varcsc);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(220);
+			match(T__0);
+			setState(221);
 			namegr();
 			}
 		}
@@ -430,17 +540,25 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varcard; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVarcard(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVarcard(this);
+		}
 	}
 
 	public final VarcardContext varcard() throws RecognitionException {
 		VarcardContext _localctx = new VarcardContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_varcard);
+		enterRule(_localctx, 18, RULE_varcard);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(210);
+			setState(223);
 			match(T__0);
-			setState(211);
+			setState(224);
 			namegr();
 			}
 		}
@@ -487,56 +605,64 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_game; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterGame(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitGame(this);
+		}
 	}
 
 	public final GameContext game() throws RecognitionException {
 		GameContext _localctx = new GameContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_game);
+		enterRule(_localctx, 20, RULE_game);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(213);
+			setState(226);
 			match(OPEN);
-			setState(214);
+			setState(227);
 			match(T__1);
-			setState(218);
+			setState(231);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
 			while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					{
-					setState(215);
+					setState(228);
 					declare();
 					}
 					} 
 				}
-				setState(220);
+				setState(233);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
 			}
-			setState(221);
+			setState(234);
 			setup();
-			setState(224); 
+			setState(237); 
 			_errHandler.sync(this);
 			_alt = 1+1;
 			do {
 				switch (_alt) {
 				case 1+1:
 					{
-					setState(224);
+					setState(237);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 					case 1:
 						{
-						setState(222);
+						setState(235);
 						multiaction();
 						}
 						break;
 					case 2:
 						{
-						setState(223);
+						setState(236);
 						stage();
 						}
 						break;
@@ -546,13 +672,13 @@ public class RecycleParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(226); 
+				setState(239); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
 			} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-			setState(228);
+			setState(241);
 			scoring();
-			setState(229);
+			setState(242);
 			match(CLOSE);
 			}
 		}
@@ -581,23 +707,31 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_declare; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterDeclare(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitDeclare(this);
+		}
 	}
 
 	public final DeclareContext declare() throws RecognitionException {
 		DeclareContext _localctx = new DeclareContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_declare);
+		enterRule(_localctx, 22, RULE_declare);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(231);
+			setState(244);
 			match(OPEN);
-			setState(232);
+			setState(245);
 			match(T__2);
-			setState(233);
+			setState(246);
 			typed();
-			setState(234);
+			setState(247);
 			var();
-			setState(235);
+			setState(248);
 			match(CLOSE);
 			}
 		}
@@ -644,32 +778,40 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_setup; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSetup(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSetup(this);
+		}
 	}
 
 	public final SetupContext setup() throws RecognitionException {
 		SetupContext _localctx = new SetupContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_setup);
+		enterRule(_localctx, 24, RULE_setup);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(237);
+			setState(250);
 			match(OPEN);
-			setState(238);
+			setState(251);
 			match(T__3);
-			setState(239);
+			setState(252);
 			playercreate();
-			setState(241);
+			setState(254);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 			case 1:
 				{
-				setState(240);
+				setState(253);
 				teamcreate();
 				}
 				break;
 			}
-			setState(250); 
+			setState(263); 
 			_errHandler.sync(this);
 			_alt = 1+1;
 			do {
@@ -677,27 +819,27 @@ public class RecycleParser extends Parser {
 				case 1+1:
 					{
 					{
-					setState(243);
+					setState(256);
 					match(OPEN);
-					setState(246);
+					setState(259);
 					_errHandler.sync(this);
 					switch (_input.LA(1)) {
 					case T__16:
 						{
-						setState(244);
+						setState(257);
 						deckcreate();
 						}
 						break;
-					case T__33:
+					case T__36:
 						{
-						setState(245);
+						setState(258);
 						repeat();
 						}
 						break;
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(248);
+					setState(261);
 					match(CLOSE);
 					}
 					}
@@ -705,11 +847,11 @@ public class RecycleParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(252); 
+				setState(265); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-			setState(254);
+			setState(267);
 			match(CLOSE);
 			}
 		}
@@ -735,20 +877,28 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_scoring; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterScoring(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitScoring(this);
+		}
 	}
 
 	public final ScoringContext scoring() throws RecognitionException {
 		ScoringContext _localctx = new ScoringContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_scoring);
+		enterRule(_localctx, 26, RULE_scoring);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(256);
+			setState(269);
 			match(OPEN);
-			setState(257);
+			setState(270);
 			match(T__4);
-			setState(258);
+			setState(271);
 			_la = _input.LA(1);
 			if ( !(_la==T__5 || _la==T__6) ) {
 			_errHandler.recoverInline(this);
@@ -758,9 +908,9 @@ public class RecycleParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(259);
+			setState(272);
 			int_();
-			setState(260);
+			setState(273);
 			match(CLOSE);
 			}
 		}
@@ -798,21 +948,29 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_stage; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterStage(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitStage(this);
+		}
 	}
 
 	public final StageContext stage() throws RecognitionException {
 		StageContext _localctx = new StageContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_stage);
+		enterRule(_localctx, 28, RULE_stage);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(262);
+			setState(275);
 			match(OPEN);
-			setState(263);
+			setState(276);
 			match(T__7);
-			setState(264);
+			setState(277);
 			_la = _input.LA(1);
 			if ( !(_la==T__8 || _la==T__9) ) {
 			_errHandler.recoverInline(this);
@@ -822,27 +980,27 @@ public class RecycleParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(265);
+			setState(278);
 			endcondition();
-			setState(268); 
+			setState(281); 
 			_errHandler.sync(this);
 			_alt = 1+1;
 			do {
 				switch (_alt) {
 				case 1+1:
 					{
-					setState(268);
+					setState(281);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 					case 1:
 						{
-						setState(266);
+						setState(279);
 						multiaction();
 						}
 						break;
 					case 2:
 						{
-						setState(267);
+						setState(280);
 						stage();
 						}
 						break;
@@ -852,11 +1010,11 @@ public class RecycleParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(270); 
+				setState(283); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-			setState(272);
+			setState(285);
 			match(CLOSE);
 			}
 		}
@@ -882,21 +1040,29 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_endcondition; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterEndcondition(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitEndcondition(this);
+		}
 	}
 
 	public final EndconditionContext endcondition() throws RecognitionException {
 		EndconditionContext _localctx = new EndconditionContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_endcondition);
+		enterRule(_localctx, 30, RULE_endcondition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(274);
+			setState(287);
 			match(OPEN);
-			setState(275);
+			setState(288);
 			match(T__10);
-			setState(276);
+			setState(289);
 			boolean_();
-			setState(277);
+			setState(290);
 			match(CLOSE);
 			}
 		}
@@ -937,26 +1103,34 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multiaction; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMultiaction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMultiaction(this);
+		}
 	}
 
 	public final MultiactionContext multiaction() throws RecognitionException {
 		MultiactionContext _localctx = new MultiactionContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_multiaction);
+		enterRule(_localctx, 32, RULE_multiaction);
 		try {
 			int _alt;
-			setState(303);
+			setState(316);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(279);
+				setState(292);
 				match(OPEN);
-				setState(280);
+				setState(293);
 				match(T__11);
-				setState(281);
+				setState(294);
 				match(OPEN);
-				setState(283); 
+				setState(296); 
 				_errHandler.sync(this);
 				_alt = 1+1;
 				do {
@@ -964,7 +1138,7 @@ public class RecycleParser extends Parser {
 					case 1+1:
 						{
 						{
-						setState(282);
+						setState(295);
 						condact();
 						}
 						}
@@ -972,26 +1146,26 @@ public class RecycleParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(285); 
+					setState(298); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
 				} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-				setState(287);
+				setState(300);
 				match(CLOSE);
-				setState(288);
+				setState(301);
 				match(CLOSE);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(290);
+				setState(303);
 				match(OPEN);
-				setState(291);
+				setState(304);
 				match(T__12);
-				setState(292);
+				setState(305);
 				match(OPEN);
-				setState(294); 
+				setState(307); 
 				_errHandler.sync(this);
 				_alt = 1+1;
 				do {
@@ -999,7 +1173,7 @@ public class RecycleParser extends Parser {
 					case 1+1:
 						{
 						{
-						setState(293);
+						setState(306);
 						condact();
 						}
 						}
@@ -1007,27 +1181,27 @@ public class RecycleParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(296); 
+					setState(309); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
 				} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-				setState(298);
+				setState(311);
 				match(CLOSE);
-				setState(299);
+				setState(312);
 				match(CLOSE);
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(301);
+				setState(314);
 				agg();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(302);
+				setState(315);
 				let();
 				}
 				break;
@@ -1070,26 +1244,34 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multiaction2; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMultiaction2(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMultiaction2(this);
+		}
 	}
 
 	public final Multiaction2Context multiaction2() throws RecognitionException {
 		Multiaction2Context _localctx = new Multiaction2Context(_ctx, getState());
-		enterRule(_localctx, 32, RULE_multiaction2);
+		enterRule(_localctx, 34, RULE_multiaction2);
 		try {
 			int _alt;
-			setState(318);
+			setState(331);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(305);
+				setState(318);
 				match(OPEN);
-				setState(306);
+				setState(319);
 				match(T__12);
-				setState(307);
+				setState(320);
 				match(OPEN);
-				setState(309); 
+				setState(322); 
 				_errHandler.sync(this);
 				_alt = 1+1;
 				do {
@@ -1097,7 +1279,7 @@ public class RecycleParser extends Parser {
 					case 1+1:
 						{
 						{
-						setState(308);
+						setState(321);
 						condact();
 						}
 						}
@@ -1105,27 +1287,27 @@ public class RecycleParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(311); 
+					setState(324); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
 				} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-				setState(313);
+				setState(326);
 				match(CLOSE);
-				setState(314);
+				setState(327);
 				match(CLOSE);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(316);
+				setState(329);
 				agg();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(317);
+				setState(330);
 				let();
 				}
 				break;
@@ -1159,52 +1341,60 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_condact; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCondact(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCondact(this);
+		}
 	}
 
 	public final CondactContext condact() throws RecognitionException {
 		CondactContext _localctx = new CondactContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_condact);
+		enterRule(_localctx, 36, RULE_condact);
 		try {
-			setState(332);
+			setState(345);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(320);
+				setState(333);
 				match(OPEN);
-				setState(321);
+				setState(334);
 				boolean_();
-				setState(322);
+				setState(335);
 				multiaction2();
-				setState(323);
+				setState(336);
 				match(CLOSE);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(325);
+				setState(338);
 				multiaction2();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(326);
+				setState(339);
 				match(OPEN);
-				setState(327);
+				setState(340);
 				boolean_();
-				setState(328);
+				setState(341);
 				action();
-				setState(329);
+				setState(342);
 				match(CLOSE);
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(331);
+				setState(344);
 				action();
 				}
 				break;
@@ -1238,18 +1428,26 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_agg; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAgg(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAgg(this);
+		}
 	}
 
 	public final AggContext agg() throws RecognitionException {
 		AggContext _localctx = new AggContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_agg);
+		enterRule(_localctx, 38, RULE_agg);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(334);
+			setState(347);
 			match(OPEN);
-			setState(335);
+			setState(348);
 			_la = _input.LA(1);
 			if ( !(_la==T__13 || _la==T__14) ) {
 			_errHandler.recoverInline(this);
@@ -1259,13 +1457,13 @@ public class RecycleParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(336);
+			setState(349);
 			collection();
-			setState(337);
+			setState(350);
 			var();
-			setState(338);
+			setState(351);
 			condact();
-			setState(339);
+			setState(352);
 			match(CLOSE);
 			}
 		}
@@ -1303,45 +1501,53 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_let; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterLet(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitLet(this);
+		}
 	}
 
 	public final LetContext let() throws RecognitionException {
 		LetContext _localctx = new LetContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_let);
+		enterRule(_localctx, 40, RULE_let);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(341);
+			setState(354);
 			match(OPEN);
-			setState(342);
+			setState(355);
 			match(T__15);
-			setState(343);
+			setState(356);
 			typed();
-			setState(344);
+			setState(357);
 			var();
-			setState(348);
+			setState(361);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
 			case 1:
 				{
-				setState(345);
+				setState(358);
 				multiaction();
 				}
 				break;
 			case 2:
 				{
-				setState(346);
+				setState(359);
 				action();
 				}
 				break;
 			case 3:
 				{
-				setState(347);
+				setState(360);
 				condact();
 				}
 				break;
 			}
-			setState(350);
+			setState(363);
 			match(CLOSE);
 			}
 		}
@@ -1378,6 +1584,9 @@ public class RecycleParser extends Parser {
 		public MoveactionContext moveaction() {
 			return getRuleContext(MoveactionContext.class,0);
 		}
+		public CopyactionContext copyaction() {
+			return getRuleContext(CopyactionContext.class,0);
+		}
 		public IncactionContext incaction() {
 			return getRuleContext(IncactionContext.class,0);
 		}
@@ -1386,6 +1595,9 @@ public class RecycleParser extends Parser {
 		}
 		public DecactionContext decaction() {
 			return getRuleContext(DecactionContext.class,0);
+		}
+		public RemoveactionContext removeaction() {
+			return getRuleContext(RemoveactionContext.class,0);
 		}
 		public TurnactionContext turnaction() {
 			return getRuleContext(TurnactionContext.class,0);
@@ -1403,104 +1615,124 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_action; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAction(this);
+		}
 	}
 
 	public final ActionContext action() throws RecognitionException {
 		ActionContext _localctx = new ActionContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_action);
+		enterRule(_localctx, 42, RULE_action);
 		try {
-			setState(370);
+			setState(385);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(352);
-				match(OPEN);
 				setState(365);
+				match(OPEN);
+				setState(380);
 				_errHandler.sync(this);
 				switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
 				case 1:
 					{
-					setState(353);
+					setState(366);
 					initpoints();
 					}
 					break;
 				case 2:
 					{
-					setState(354);
+					setState(367);
 					teamcreate();
 					}
 					break;
 				case 3:
 					{
-					setState(355);
+					setState(368);
 					deckcreate();
 					}
 					break;
 				case 4:
 					{
-					setState(356);
+					setState(369);
 					cycleaction();
 					}
 					break;
 				case 5:
 					{
-					setState(357);
+					setState(370);
 					setaction();
 					}
 					break;
 				case 6:
 					{
-					setState(358);
+					setState(371);
 					moveaction();
 					}
 					break;
 				case 7:
 					{
-					setState(359);
-					incaction();
+					setState(372);
+					copyaction();
 					}
 					break;
 				case 8:
 					{
-					setState(360);
-					setstraction();
+					setState(373);
+					incaction();
 					}
 					break;
 				case 9:
 					{
-					setState(361);
-					decaction();
+					setState(374);
+					setstraction();
 					}
 					break;
 				case 10:
 					{
-					setState(362);
-					turnaction();
+					setState(375);
+					decaction();
 					}
 					break;
 				case 11:
 					{
-					setState(363);
-					shuffleaction();
+					setState(376);
+					removeaction();
 					}
 					break;
 				case 12:
 					{
-					setState(364);
+					setState(377);
+					turnaction();
+					}
+					break;
+				case 13:
+					{
+					setState(378);
+					shuffleaction();
+					}
+					break;
+				case 14:
+					{
+					setState(379);
 					repeat();
 					}
 					break;
 				}
-				setState(367);
+				setState(382);
 				match(CLOSE);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(369);
+				setState(384);
 				agg();
 				}
 				break;
@@ -1528,23 +1760,31 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_playercreate; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterPlayercreate(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitPlayercreate(this);
+		}
 	}
 
 	public final PlayercreateContext playercreate() throws RecognitionException {
 		PlayercreateContext _localctx = new PlayercreateContext(_ctx, getState());
-		enterRule(_localctx, 42, RULE_playercreate);
+		enterRule(_localctx, 44, RULE_playercreate);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(372);
+			setState(387);
 			match(OPEN);
-			setState(373);
+			setState(388);
 			match(T__16);
-			setState(374);
+			setState(389);
 			match(T__17);
-			setState(375);
+			setState(390);
 			int_();
-			setState(376);
+			setState(391);
 			match(CLOSE);
 			}
 		}
@@ -1573,22 +1813,30 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_teamcreate; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterTeamcreate(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitTeamcreate(this);
+		}
 	}
 
 	public final TeamcreateContext teamcreate() throws RecognitionException {
 		TeamcreateContext _localctx = new TeamcreateContext(_ctx, getState());
-		enterRule(_localctx, 44, RULE_teamcreate);
+		enterRule(_localctx, 46, RULE_teamcreate);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(378);
+			setState(393);
 			match(OPEN);
-			setState(379);
+			setState(394);
 			match(T__16);
-			setState(380);
+			setState(395);
 			match(T__18);
-			setState(382); 
+			setState(397); 
 			_errHandler.sync(this);
 			_alt = 1+1;
 			do {
@@ -1596,7 +1844,7 @@ public class RecycleParser extends Parser {
 				case 1+1:
 					{
 					{
-					setState(381);
+					setState(396);
 					teams();
 					}
 					}
@@ -1604,11 +1852,11 @@ public class RecycleParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(384); 
+				setState(399); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
 			} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-			setState(386);
+			setState(401);
 			match(CLOSE);
 			}
 		}
@@ -1641,54 +1889,62 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_teams; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterTeams(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitTeams(this);
+		}
 	}
 
 	public final TeamsContext teams() throws RecognitionException {
 		TeamsContext _localctx = new TeamsContext(_ctx, getState());
-		enterRule(_localctx, 46, RULE_teams);
+		enterRule(_localctx, 48, RULE_teams);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(388);
+			setState(403);
 			match(OPEN);
-			setState(393);
+			setState(408);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
 			while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					{
-					setState(389);
+					setState(404);
 					match(INTNUM);
-					setState(390);
+					setState(405);
 					match(T__19);
 					}
 					} 
 				}
-				setState(395);
+				setState(410);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
 			}
-			setState(396);
+			setState(411);
 			match(INTNUM);
-			setState(400);
+			setState(415);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
 			while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					{
-					setState(397);
+					setState(412);
 					teams();
 					}
 					} 
 				}
-				setState(402);
+				setState(417);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
 			}
-			setState(403);
+			setState(418);
 			match(CLOSE);
 			}
 		}
@@ -1718,31 +1974,39 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_deckcreate; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterDeckcreate(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitDeckcreate(this);
+		}
 	}
 
 	public final DeckcreateContext deckcreate() throws RecognitionException {
 		DeckcreateContext _localctx = new DeckcreateContext(_ctx, getState());
-		enterRule(_localctx, 48, RULE_deckcreate);
+		enterRule(_localctx, 50, RULE_deckcreate);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(405);
+			setState(420);
 			match(T__16);
-			setState(406);
+			setState(421);
 			match(T__20);
-			setState(408);
+			setState(423);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,20,_ctx) ) {
 			case 1:
 				{
-				setState(407);
+				setState(422);
 				str();
 				}
 				break;
 			}
-			setState(410);
+			setState(425);
 			cstorage();
-			setState(411);
+			setState(426);
 			deck();
 			}
 		}
@@ -1771,20 +2035,28 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_deck; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterDeck(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitDeck(this);
+		}
 	}
 
 	public final DeckContext deck() throws RecognitionException {
 		DeckContext _localctx = new DeckContext(_ctx, getState());
-		enterRule(_localctx, 50, RULE_deck);
+		enterRule(_localctx, 52, RULE_deck);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(413);
+			setState(428);
 			match(OPEN);
-			setState(414);
+			setState(429);
 			match(T__20);
-			setState(416); 
+			setState(431); 
 			_errHandler.sync(this);
 			_alt = 1+1;
 			do {
@@ -1792,7 +2064,7 @@ public class RecycleParser extends Parser {
 				case 1+1:
 					{
 					{
-					setState(415);
+					setState(430);
 					attribute();
 					}
 					}
@@ -1800,11 +2072,11 @@ public class RecycleParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(418); 
+				setState(433); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
 			} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-			setState(420);
+			setState(435);
 			match(CLOSE);
 			}
 		}
@@ -1839,54 +2111,62 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_attribute; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAttribute(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAttribute(this);
+		}
 	}
 
 	public final AttributeContext attribute() throws RecognitionException {
 		AttributeContext _localctx = new AttributeContext(_ctx, getState());
-		enterRule(_localctx, 52, RULE_attribute);
+		enterRule(_localctx, 54, RULE_attribute);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(422);
+			setState(437);
 			match(OPEN);
-			setState(428);
+			setState(443);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,22,_ctx);
 			while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					{
-					setState(423);
+					setState(438);
 					namegr();
-					setState(424);
+					setState(439);
 					match(T__19);
 					}
 					} 
 				}
-				setState(430);
+				setState(445);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,22,_ctx);
 			}
-			setState(431);
+			setState(446);
 			namegr();
-			setState(435);
+			setState(450);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,23,_ctx);
 			while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					{
-					setState(432);
+					setState(447);
 					attribute();
 					}
 					} 
 				}
-				setState(437);
+				setState(452);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,23,_ctx);
 			}
-			setState(438);
+			setState(453);
 			match(CLOSE);
 			}
 		}
@@ -1918,22 +2198,30 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_initpoints; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterInitpoints(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitInitpoints(this);
+		}
 	}
 
 	public final InitpointsContext initpoints() throws RecognitionException {
 		InitpointsContext _localctx = new InitpointsContext(_ctx, getState());
-		enterRule(_localctx, 54, RULE_initpoints);
+		enterRule(_localctx, 56, RULE_initpoints);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(440);
+			setState(455);
 			match(T__21);
-			setState(441);
+			setState(456);
 			pointstorage();
-			setState(442);
+			setState(457);
 			match(OPEN);
-			setState(444); 
+			setState(459); 
 			_errHandler.sync(this);
 			_alt = 1+1;
 			do {
@@ -1941,7 +2229,7 @@ public class RecycleParser extends Parser {
 				case 1+1:
 					{
 					{
-					setState(443);
+					setState(458);
 					awards();
 					}
 					}
@@ -1949,11 +2237,11 @@ public class RecycleParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(446); 
+				setState(461); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,24,_ctx);
 			} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-			setState(448);
+			setState(463);
 			match(CLOSE);
 			}
 		}
@@ -1985,18 +2273,26 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_awards; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAwards(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAwards(this);
+		}
 	}
 
 	public final AwardsContext awards() throws RecognitionException {
 		AwardsContext _localctx = new AwardsContext(_ctx, getState());
-		enterRule(_localctx, 56, RULE_awards);
+		enterRule(_localctx, 58, RULE_awards);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(450);
+			setState(465);
 			match(OPEN);
-			setState(452); 
+			setState(467); 
 			_errHandler.sync(this);
 			_alt = 1+1;
 			do {
@@ -2004,7 +2300,7 @@ public class RecycleParser extends Parser {
 				case 1+1:
 					{
 					{
-					setState(451);
+					setState(466);
 					subaward();
 					}
 					}
@@ -2012,13 +2308,13 @@ public class RecycleParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(454); 
+				setState(469); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,25,_ctx);
 			} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-			setState(456);
+			setState(471);
 			int_();
-			setState(457);
+			setState(472);
 			match(CLOSE);
 			}
 		}
@@ -2047,23 +2343,31 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_subaward; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSubaward(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSubaward(this);
+		}
 	}
 
 	public final SubawardContext subaward() throws RecognitionException {
 		SubawardContext _localctx = new SubawardContext(_ctx, getState());
-		enterRule(_localctx, 58, RULE_subaward);
+		enterRule(_localctx, 60, RULE_subaward);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(459);
+			setState(474);
 			match(OPEN);
-			setState(460);
+			setState(475);
 			str();
-			setState(461);
+			setState(476);
 			match(T__22);
-			setState(462);
+			setState(477);
 			str();
-			setState(463);
+			setState(478);
 			match(CLOSE);
 			}
 		}
@@ -2090,18 +2394,26 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_cycleaction; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCycleaction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCycleaction(this);
+		}
 	}
 
 	public final CycleactionContext cycleaction() throws RecognitionException {
 		CycleactionContext _localctx = new CycleactionContext(_ctx, getState());
-		enterRule(_localctx, 60, RULE_cycleaction);
+		enterRule(_localctx, 62, RULE_cycleaction);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(465);
+			setState(480);
 			match(T__23);
-			setState(466);
+			setState(481);
 			_la = _input.LA(1);
 			if ( !(_la==T__24 || _la==T__25) ) {
 			_errHandler.recoverInline(this);
@@ -2111,36 +2423,36 @@ public class RecycleParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(472);
+			setState(487);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case OPEN:
 				{
-				setState(467);
+				setState(482);
 				owner();
 				}
 				break;
 			case T__25:
 				{
-				setState(468);
+				setState(483);
 				match(T__25);
 				}
 				break;
 			case T__24:
 				{
-				setState(469);
+				setState(484);
 				match(T__24);
 				}
 				break;
 			case T__26:
 				{
-				setState(470);
+				setState(485);
 				match(T__26);
 				}
 				break;
 			case T__0:
 				{
-				setState(471);
+				setState(486);
 				varo();
 				}
 				break;
@@ -2172,19 +2484,27 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_setaction; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSetaction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSetaction(this);
+		}
 	}
 
 	public final SetactionContext setaction() throws RecognitionException {
 		SetactionContext _localctx = new SetactionContext(_ctx, getState());
-		enterRule(_localctx, 62, RULE_setaction);
+		enterRule(_localctx, 64, RULE_setaction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(474);
+			setState(489);
 			match(T__21);
-			setState(475);
+			setState(490);
 			rawstorage();
-			setState(476);
+			setState(491);
 			int_();
 			}
 		}
@@ -2211,19 +2531,27 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_setstraction; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSetstraction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSetstraction(this);
+		}
 	}
 
 	public final SetstractionContext setstraction() throws RecognitionException {
 		SetstractionContext _localctx = new SetstractionContext(_ctx, getState());
-		enterRule(_localctx, 64, RULE_setstraction);
+		enterRule(_localctx, 66, RULE_setstraction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(478);
+			setState(493);
 			match(T__21);
-			setState(479);
+			setState(494);
 			strstorage();
-			setState(480);
+			setState(495);
 			str();
 			}
 		}
@@ -2250,19 +2578,27 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_incaction; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterIncaction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitIncaction(this);
+		}
 	}
 
 	public final IncactionContext incaction() throws RecognitionException {
 		IncactionContext _localctx = new IncactionContext(_ctx, getState());
-		enterRule(_localctx, 66, RULE_incaction);
+		enterRule(_localctx, 68, RULE_incaction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(482);
+			setState(497);
 			match(T__27);
-			setState(483);
+			setState(498);
 			rawstorage();
-			setState(484);
+			setState(499);
 			int_();
 			}
 		}
@@ -2289,19 +2625,27 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_decaction; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterDecaction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitDecaction(this);
+		}
 	}
 
 	public final DecactionContext decaction() throws RecognitionException {
 		DecactionContext _localctx = new DecactionContext(_ctx, getState());
-		enterRule(_localctx, 68, RULE_decaction);
+		enterRule(_localctx, 70, RULE_decaction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(486);
+			setState(501);
 			match(T__28);
-			setState(487);
+			setState(502);
 			rawstorage();
-			setState(488);
+			setState(503);
 			int_();
 			}
 		}
@@ -2328,19 +2672,116 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_moveaction; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMoveaction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMoveaction(this);
+		}
 	}
 
 	public final MoveactionContext moveaction() throws RecognitionException {
 		MoveactionContext _localctx = new MoveactionContext(_ctx, getState());
-		enterRule(_localctx, 70, RULE_moveaction);
+		enterRule(_localctx, 72, RULE_moveaction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(490);
+			setState(505);
 			match(T__29);
-			setState(491);
+			setState(506);
 			card();
-			setState(492);
+			setState(507);
+			card();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class CopyactionContext extends ParserRuleContext {
+		public List<CardContext> card() {
+			return getRuleContexts(CardContext.class);
+		}
+		public CardContext card(int i) {
+			return getRuleContext(CardContext.class,i);
+		}
+		public CopyactionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_copyaction; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCopyaction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCopyaction(this);
+		}
+	}
+
+	public final CopyactionContext copyaction() throws RecognitionException {
+		CopyactionContext _localctx = new CopyactionContext(_ctx, getState());
+		enterRule(_localctx, 74, RULE_copyaction);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(509);
+			match(T__30);
+			setState(510);
+			card();
+			setState(511);
+			card();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class RemoveactionContext extends ParserRuleContext {
+		public CardContext card() {
+			return getRuleContext(CardContext.class,0);
+		}
+		public RemoveactionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_removeaction; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterRemoveaction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitRemoveaction(this);
+		}
+	}
+
+	public final RemoveactionContext removeaction() throws RecognitionException {
+		RemoveactionContext _localctx = new RemoveactionContext(_ctx, getState());
+		enterRule(_localctx, 76, RULE_removeaction);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(513);
+			match(T__31);
+			setState(514);
 			card();
 			}
 		}
@@ -2357,25 +2798,57 @@ public class RecycleParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ShuffleactionContext extends ParserRuleContext {
-		public CstorageContext cstorage() {
-			return getRuleContext(CstorageContext.class,0);
+		public List<CstorageContext> cstorage() {
+			return getRuleContexts(CstorageContext.class);
+		}
+		public CstorageContext cstorage(int i) {
+			return getRuleContext(CstorageContext.class,i);
 		}
 		public ShuffleactionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_shuffleaction; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterShuffleaction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitShuffleaction(this);
+		}
 	}
 
 	public final ShuffleactionContext shuffleaction() throws RecognitionException {
 		ShuffleactionContext _localctx = new ShuffleactionContext(_ctx, getState());
-		enterRule(_localctx, 72, RULE_shuffleaction);
+		enterRule(_localctx, 78, RULE_shuffleaction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(494);
-			match(T__30);
-			setState(495);
-			cstorage();
+			setState(516);
+			match(T__32);
+			setState(522);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case T__0:
+			case OPEN:
+				{
+				setState(517);
+				cstorage();
+				}
+				break;
+			case T__33:
+				{
+				setState(518);
+				match(T__33);
+				setState(519);
+				cstorage();
+				setState(520);
+				cstorage();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -2395,18 +2868,26 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_turnaction; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterTurnaction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitTurnaction(this);
+		}
 	}
 
 	public final TurnactionContext turnaction() throws RecognitionException {
 		TurnactionContext _localctx = new TurnactionContext(_ctx, getState());
-		enterRule(_localctx, 74, RULE_turnaction);
+		enterRule(_localctx, 80, RULE_turnaction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(497);
-			match(T__31);
-			setState(498);
-			match(T__32);
+			setState(524);
+			match(T__34);
+			setState(525);
+			match(T__35);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2429,46 +2910,73 @@ public class RecycleParser extends Parser {
 			return getRuleContext(ActionContext.class,0);
 		}
 		public TerminalNode OPEN() { return getToken(RecycleParser.OPEN, 0); }
+		public TerminalNode CLOSE() { return getToken(RecycleParser.CLOSE, 0); }
 		public MoveactionContext moveaction() {
 			return getRuleContext(MoveactionContext.class,0);
 		}
-		public TerminalNode CLOSE() { return getToken(RecycleParser.CLOSE, 0); }
+		public RemoveactionContext removeaction() {
+			return getRuleContext(RemoveactionContext.class,0);
+		}
 		public RepeatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_repeat; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterRepeat(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitRepeat(this);
+		}
 	}
 
 	public final RepeatContext repeat() throws RecognitionException {
 		RepeatContext _localctx = new RepeatContext(_ctx, getState());
-		enterRule(_localctx, 76, RULE_repeat);
+		enterRule(_localctx, 82, RULE_repeat);
 		try {
-			setState(510);
+			setState(540);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,27,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,29,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(500);
-				match(T__33);
-				setState(501);
+				setState(527);
+				match(T__36);
+				setState(528);
 				int_();
-				setState(502);
+				setState(529);
 				action();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(504);
-				match(T__33);
-				setState(505);
+				setState(531);
+				match(T__36);
+				setState(532);
 				match(T__14);
-				setState(506);
+				setState(533);
 				match(OPEN);
-				setState(507);
-				moveaction();
-				setState(508);
+				setState(536);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case T__29:
+					{
+					setState(534);
+					moveaction();
+					}
+					break;
+				case T__31:
+					{
+					setState(535);
+					removeaction();
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				setState(538);
 				match(CLOSE);
 				}
 				break;
@@ -2502,45 +3010,53 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_pointstorage; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterPointstorage(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitPointstorage(this);
+		}
 	}
 
 	public final PointstorageContext pointstorage() throws RecognitionException {
 		PointstorageContext _localctx = new PointstorageContext(_ctx, getState());
-		enterRule(_localctx, 78, RULE_pointstorage);
+		enterRule(_localctx, 84, RULE_pointstorage);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(512);
+			setState(542);
 			match(OPEN);
-			setState(516);
+			setState(546);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__0:
 				{
-				setState(513);
+				setState(543);
 				varo();
 				}
 				break;
 			case T__1:
 				{
-				setState(514);
+				setState(544);
 				match(T__1);
 				}
 				break;
 			case OPEN:
 				{
-				setState(515);
+				setState(545);
 				who();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(518);
-			match(T__34);
-			setState(519);
+			setState(548);
+			match(T__37);
+			setState(549);
 			str();
-			setState(520);
+			setState(550);
 			match(CLOSE);
 			}
 		}
@@ -2581,77 +3097,85 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_card; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCard(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCard(this);
+		}
 	}
 
 	public final CardContext card() throws RecognitionException {
 		CardContext _localctx = new CardContext(_ctx, getState());
-		enterRule(_localctx, 80, RULE_card);
+		enterRule(_localctx, 86, RULE_card);
 		try {
-			setState(535);
+			setState(565);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,30,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,32,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(522);
+				setState(552);
 				varcard();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(523);
+				setState(553);
 				maxof();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(524);
+				setState(554);
 				minof();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(525);
+				setState(555);
 				actual();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(526);
+				setState(556);
 				match(OPEN);
-				setState(530);
+				setState(560);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
-				case T__35:
+				case T__38:
 					{
-					setState(527);
-					match(T__35);
+					setState(557);
+					match(T__38);
 					}
 					break;
-				case T__36:
+				case T__39:
 					{
-					setState(528);
-					match(T__36);
+					setState(558);
+					match(T__39);
 					}
 					break;
 				case T__0:
 				case INTNUM:
 				case OPEN:
 					{
-					setState(529);
+					setState(559);
 					int_();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(532);
+				setState(562);
 				cstorage();
-				setState(533);
+				setState(563);
 				match(CLOSE);
 				}
 				break;
@@ -2679,21 +3203,29 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_actual; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterActual(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitActual(this);
+		}
 	}
 
 	public final ActualContext actual() throws RecognitionException {
 		ActualContext _localctx = new ActualContext(_ctx, getState());
-		enterRule(_localctx, 82, RULE_actual);
+		enterRule(_localctx, 88, RULE_actual);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(537);
+			setState(567);
 			match(OPEN);
-			setState(538);
-			match(T__37);
-			setState(539);
+			setState(568);
+			match(T__40);
+			setState(569);
 			card();
-			setState(540);
+			setState(570);
 			match(CLOSE);
 			}
 		}
@@ -2722,25 +3254,33 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_maxof; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMaxof(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMaxof(this);
+		}
 	}
 
 	public final MaxofContext maxof() throws RecognitionException {
 		MaxofContext _localctx = new MaxofContext(_ctx, getState());
-		enterRule(_localctx, 84, RULE_maxof);
+		enterRule(_localctx, 90, RULE_maxof);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(542);
+			setState(572);
 			match(OPEN);
-			setState(543);
+			setState(573);
 			match(T__6);
-			setState(544);
+			setState(574);
 			cstorage();
-			setState(545);
-			match(T__38);
-			setState(546);
+			setState(575);
+			match(T__41);
+			setState(576);
 			pointstorage();
-			setState(547);
+			setState(577);
 			match(CLOSE);
 			}
 		}
@@ -2769,25 +3309,33 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_minof; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMinof(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMinof(this);
+		}
 	}
 
 	public final MinofContext minof() throws RecognitionException {
 		MinofContext _localctx = new MinofContext(_ctx, getState());
-		enterRule(_localctx, 86, RULE_minof);
+		enterRule(_localctx, 92, RULE_minof);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(549);
+			setState(579);
 			match(OPEN);
-			setState(550);
+			setState(580);
 			match(T__5);
-			setState(551);
+			setState(581);
 			cstorage();
-			setState(552);
-			match(T__38);
-			setState(553);
+			setState(582);
+			match(T__41);
+			setState(583);
 			pointstorage();
-			setState(554);
+			setState(584);
 			match(CLOSE);
 			}
 		}
@@ -2814,38 +3362,46 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_locpre; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterLocpre(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitLocpre(this);
+		}
 	}
 
 	public final LocpreContext locpre() throws RecognitionException {
 		LocpreContext _localctx = new LocpreContext(_ctx, getState());
-		enterRule(_localctx, 88, RULE_locpre);
+		enterRule(_localctx, 94, RULE_locpre);
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(559);
+			setState(589);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__1:
+				enterOuterAlt(_localctx, 1);
 				{
-				setState(556);
+				setState(586);
 				match(T__1);
 				}
 				break;
 			case T__0:
+				enterOuterAlt(_localctx, 2);
 				{
-				setState(557);
+				setState(587);
 				varp();
 				}
 				break;
 			case OPEN:
+				enterOuterAlt(_localctx, 3);
 				{
-				setState(558);
+				setState(588);
 				whop();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
-			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -2865,18 +3421,26 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_locdesc; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterLocdesc(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitLocdesc(this);
+		}
 	}
 
 	public final LocdescContext locdesc() throws RecognitionException {
 		LocdescContext _localctx = new LocdescContext(_ctx, getState());
-		enterRule(_localctx, 90, RULE_locdesc);
+		enterRule(_localctx, 96, RULE_locdesc);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(561);
+			setState(591);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 7696581394432L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 272678883688448L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -2909,26 +3473,34 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_who; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterWho(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitWho(this);
+		}
 	}
 
 	public final WhoContext who() throws RecognitionException {
 		WhoContext _localctx = new WhoContext(_ctx, getState());
-		enterRule(_localctx, 92, RULE_who);
+		enterRule(_localctx, 98, RULE_who);
 		try {
-			setState(565);
+			setState(595);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,32,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,34,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(563);
+				setState(593);
 				whot();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(564);
+				setState(594);
 				whop();
 				}
 				break;
@@ -2959,32 +3531,40 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_whop; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterWhop(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitWhop(this);
+		}
 	}
 
 	public final WhopContext whop() throws RecognitionException {
 		WhopContext _localctx = new WhopContext(_ctx, getState());
-		enterRule(_localctx, 94, RULE_whop);
+		enterRule(_localctx, 100, RULE_whop);
 		try {
-			setState(573);
+			setState(603);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,33,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,35,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(567);
+				setState(597);
 				match(OPEN);
-				setState(568);
+				setState(598);
 				whodesc();
-				setState(569);
+				setState(599);
 				match(T__8);
-				setState(570);
+				setState(600);
 				match(CLOSE);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(572);
+				setState(602);
 				owner();
 				}
 				break;
@@ -3015,32 +3595,40 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_whot; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterWhot(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitWhot(this);
+		}
 	}
 
 	public final WhotContext whot() throws RecognitionException {
 		WhotContext _localctx = new WhotContext(_ctx, getState());
-		enterRule(_localctx, 96, RULE_whot);
+		enterRule(_localctx, 102, RULE_whot);
 		try {
-			setState(581);
+			setState(611);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,34,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,36,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(575);
+				setState(605);
 				match(OPEN);
-				setState(576);
+				setState(606);
 				whodesc();
-				setState(577);
+				setState(607);
 				match(T__9);
-				setState(578);
+				setState(608);
 				match(CLOSE);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(580);
+				setState(610);
 				teamp();
 				}
 				break;
@@ -3066,13 +3654,21 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_whodesc; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterWhodesc(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitWhodesc(this);
+		}
 	}
 
 	public final WhodescContext whodesc() throws RecognitionException {
 		WhodescContext _localctx = new WhodescContext(_ctx, getState());
-		enterRule(_localctx, 98, RULE_whodesc);
+		enterRule(_localctx, 104, RULE_whodesc);
 		try {
-			setState(587);
+			setState(617);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__0:
@@ -3080,28 +3676,28 @@ public class RecycleParser extends Parser {
 			case OPEN:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(583);
+				setState(613);
 				int_();
 				}
 				break;
 			case T__26:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(584);
+				setState(614);
 				match(T__26);
 				}
 				break;
 			case T__24:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(585);
+				setState(615);
 				match(T__24);
 				}
 				break;
 			case T__25:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(586);
+				setState(616);
 				match(T__25);
 				}
 				break;
@@ -3131,21 +3727,29 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_owner; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterOwner(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitOwner(this);
+		}
 	}
 
 	public final OwnerContext owner() throws RecognitionException {
 		OwnerContext _localctx = new OwnerContext(_ctx, getState());
-		enterRule(_localctx, 100, RULE_owner);
+		enterRule(_localctx, 106, RULE_owner);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(589);
+			setState(619);
 			match(OPEN);
-			setState(590);
-			match(T__42);
-			setState(591);
+			setState(620);
+			match(T__47);
+			setState(621);
 			card();
-			setState(592);
+			setState(622);
 			match(CLOSE);
 			}
 		}
@@ -3174,37 +3778,45 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_teamp; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterTeamp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitTeamp(this);
+		}
 	}
 
 	public final TeampContext teamp() throws RecognitionException {
 		TeampContext _localctx = new TeampContext(_ctx, getState());
-		enterRule(_localctx, 102, RULE_teamp);
+		enterRule(_localctx, 108, RULE_teamp);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(594);
+			setState(624);
 			match(OPEN);
-			setState(595);
+			setState(625);
 			match(T__9);
-			setState(598);
+			setState(628);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__0:
 				{
-				setState(596);
+				setState(626);
 				varp();
 				}
 				break;
 			case OPEN:
 				{
-				setState(597);
+				setState(627);
 				whop();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(600);
+			setState(630);
 			match(CLOSE);
 			}
 		}
@@ -3237,40 +3849,48 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_typed; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterTyped(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitTyped(this);
+		}
 	}
 
 	public final TypedContext typed() throws RecognitionException {
 		TypedContext _localctx = new TypedContext(_ctx, getState());
-		enterRule(_localctx, 104, RULE_typed);
+		enterRule(_localctx, 110, RULE_typed);
 		try {
-			setState(606);
+			setState(636);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,37,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,39,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(602);
+				setState(632);
 				int_();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(603);
+				setState(633);
 				boolean_();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(604);
+				setState(634);
 				str();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(605);
+				setState(635);
 				collection();
 				}
 				break;
@@ -3317,82 +3937,90 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_collection; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCollection(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCollection(this);
+		}
 	}
 
 	public final CollectionContext collection() throws RecognitionException {
 		CollectionContext _localctx = new CollectionContext(_ctx, getState());
-		enterRule(_localctx, 106, RULE_collection);
+		enterRule(_localctx, 112, RULE_collection);
 		try {
-			setState(618);
+			setState(648);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,38,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,40,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(608);
+				setState(638);
 				varc();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(609);
+				setState(639);
 				filter();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(610);
+				setState(640);
 				cstorage();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(611);
+				setState(641);
 				strcollection();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(612);
+				setState(642);
 				cstoragecollection();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(613);
+				setState(643);
 				match(T__8);
 				}
 				break;
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(614);
+				setState(644);
 				match(T__9);
 				}
 				break;
 			case 8:
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(615);
+				setState(645);
 				whot();
 				}
 				break;
 			case 9:
 				enterOuterAlt(_localctx, 9);
 				{
-				setState(616);
+				setState(646);
 				other();
 				}
 				break;
 			case 10:
 				enterOuterAlt(_localctx, 10);
 				{
-				setState(617);
+				setState(647);
 				range();
 				}
 				break;
@@ -3423,38 +4051,46 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_strcollection; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterStrcollection(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitStrcollection(this);
+		}
 	}
 
 	public final StrcollectionContext strcollection() throws RecognitionException {
 		StrcollectionContext _localctx = new StrcollectionContext(_ctx, getState());
-		enterRule(_localctx, 108, RULE_strcollection);
+		enterRule(_localctx, 114, RULE_strcollection);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(620);
+			setState(650);
 			match(OPEN);
-			setState(626);
+			setState(656);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,39,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,41,_ctx);
 			while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					{
-					setState(621);
+					setState(651);
 					namegr();
-					setState(622);
+					setState(652);
 					match(T__19);
 					}
 					} 
 				}
-				setState(628);
+				setState(658);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,39,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,41,_ctx);
 			}
-			setState(629);
+			setState(659);
 			namegr();
-			setState(630);
+			setState(660);
 			match(CLOSE);
 			}
 		}
@@ -3483,25 +4119,33 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_range; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterRange(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitRange(this);
+		}
 	}
 
 	public final RangeContext range() throws RecognitionException {
 		RangeContext _localctx = new RangeContext(_ctx, getState());
-		enterRule(_localctx, 110, RULE_range);
+		enterRule(_localctx, 116, RULE_range);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(632);
+			setState(662);
 			match(OPEN);
-			setState(633);
-			match(T__43);
-			setState(634);
+			setState(663);
+			match(T__48);
+			setState(664);
 			int_();
-			setState(635);
-			match(T__44);
-			setState(636);
+			setState(665);
+			match(T__49);
+			setState(666);
 			int_();
-			setState(637);
+			setState(667);
 			match(CLOSE);
 			}
 		}
@@ -3524,20 +4168,28 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_other; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterOther(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitOther(this);
+		}
 	}
 
 	public final OtherContext other() throws RecognitionException {
 		OtherContext _localctx = new OtherContext(_ctx, getState());
-		enterRule(_localctx, 112, RULE_other);
+		enterRule(_localctx, 118, RULE_other);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(639);
+			setState(669);
 			match(OPEN);
-			setState(640);
-			match(T__45);
-			setState(641);
+			setState(670);
+			match(T__50);
+			setState(671);
 			_la = _input.LA(1);
 			if ( !(_la==T__8 || _la==T__9) ) {
 			_errHandler.recoverInline(this);
@@ -3547,7 +4199,7 @@ public class RecycleParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(642);
+			setState(672);
 			match(CLOSE);
 			}
 		}
@@ -3589,88 +4241,139 @@ public class RecycleParser extends Parser {
 		public LocdescContext locdesc() {
 			return getRuleContext(LocdescContext.class,0);
 		}
+		public TerminalNode CLOSE() { return getToken(RecycleParser.CLOSE, 0); }
 		public StrContext str() {
 			return getRuleContext(StrContext.class,0);
 		}
-		public TerminalNode CLOSE() { return getToken(RecycleParser.CLOSE, 0); }
+		public IntContext int_() {
+			return getRuleContext(IntContext.class,0);
+		}
 		public MemstorageContext memstorage() {
 			return getRuleContext(MemstorageContext.class,0);
+		}
+		public SequenceContext sequence() {
+			return getRuleContext(SequenceContext.class,0);
+		}
+		public RunsequenceContext runsequence() {
+			return getRuleContext(RunsequenceContext.class,0);
 		}
 		public CstorageContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_cstorage; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCstorage(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCstorage(this);
+		}
 	}
 
 	public final CstorageContext cstorage() throws RecognitionException {
 		CstorageContext _localctx = new CstorageContext(_ctx, getState());
-		enterRule(_localctx, 114, RULE_cstorage);
+		enterRule(_localctx, 120, RULE_cstorage);
 		try {
-			setState(657);
+			setState(693);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,40,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,43,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(644);
+				setState(674);
 				varcs();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(645);
+				setState(675);
 				unionof();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(646);
+				setState(676);
 				intersectof();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(647);
+				setState(677);
 				disjunctionof();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(648);
+				setState(678);
 				sortof();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(649);
+				setState(679);
 				filter();
 				}
 				break;
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(650);
+				setState(680);
 				match(OPEN);
-				setState(651);
+				setState(681);
 				locpre();
-				setState(652);
+				setState(682);
 				locdesc();
-				setState(653);
-				str();
-				setState(654);
+				setState(686);
+				_errHandler.sync(this);
+				switch ( getInterpreter().adaptivePredict(_input,42,_ctx) ) {
+				case 1:
+					{
+					setState(683);
+					str();
+					}
+					break;
+				case 2:
+					{
+					setState(684);
+					int_();
+					}
+					break;
+				case 3:
+					{
+					setState(685);
+					match(T__51);
+					}
+					break;
+				}
+				setState(688);
 				match(CLOSE);
 				}
 				break;
 			case 8:
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(656);
+				setState(690);
 				memstorage();
+				}
+				break;
+			case 9:
+				enterOuterAlt(_localctx, 9);
+				{
+				setState(691);
+				sequence();
+				}
+				break;
+			case 10:
+				enterOuterAlt(_localctx, 10);
+				{
+				setState(692);
+				runsequence();
 				}
 				break;
 			}
@@ -3700,25 +4403,33 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_sortof; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSortof(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSortof(this);
+		}
 	}
 
 	public final SortofContext sortof() throws RecognitionException {
 		SortofContext _localctx = new SortofContext(_ctx, getState());
-		enterRule(_localctx, 116, RULE_sortof);
+		enterRule(_localctx, 122, RULE_sortof);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(659);
+			setState(695);
 			match(OPEN);
-			setState(660);
-			match(T__46);
-			setState(661);
+			setState(696);
+			match(T__52);
+			setState(697);
 			cstorage();
-			setState(662);
-			match(T__38);
-			setState(663);
+			setState(698);
+			match(T__41);
+			setState(699);
 			pointstorage();
-			setState(664);
+			setState(700);
 			match(CLOSE);
 			}
 		}
@@ -3750,31 +4461,39 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_unionof; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterUnionof(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitUnionof(this);
+		}
 	}
 
 	public final UnionofContext unionof() throws RecognitionException {
 		UnionofContext _localctx = new UnionofContext(_ctx, getState());
-		enterRule(_localctx, 118, RULE_unionof);
+		enterRule(_localctx, 124, RULE_unionof);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(666);
+			setState(702);
 			match(OPEN);
-			setState(667);
-			match(T__47);
-			setState(674);
+			setState(703);
+			match(T__53);
+			setState(710);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,42,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,45,_ctx) ) {
 			case 1:
 				{
-				setState(668);
+				setState(704);
 				aggcs();
 				}
 				break;
 			case 2:
 				{
-				setState(670); 
+				setState(706); 
 				_errHandler.sync(this);
 				_alt = 1+1;
 				do {
@@ -3782,7 +4501,7 @@ public class RecycleParser extends Parser {
 					case 1+1:
 						{
 						{
-						setState(669);
+						setState(705);
 						cstorage();
 						}
 						}
@@ -3790,14 +4509,14 @@ public class RecycleParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(672); 
+					setState(708); 
 					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,41,_ctx);
+					_alt = getInterpreter().adaptivePredict(_input,44,_ctx);
 				} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 				}
 				break;
 			}
-			setState(676);
+			setState(712);
 			match(CLOSE);
 			}
 		}
@@ -3829,31 +4548,39 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_intersectof; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterIntersectof(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitIntersectof(this);
+		}
 	}
 
 	public final IntersectofContext intersectof() throws RecognitionException {
 		IntersectofContext _localctx = new IntersectofContext(_ctx, getState());
-		enterRule(_localctx, 120, RULE_intersectof);
+		enterRule(_localctx, 126, RULE_intersectof);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(678);
+			setState(714);
 			match(OPEN);
-			setState(679);
-			match(T__48);
-			setState(686);
+			setState(715);
+			match(T__54);
+			setState(722);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,44,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,47,_ctx) ) {
 			case 1:
 				{
-				setState(680);
+				setState(716);
 				aggcs();
 				}
 				break;
 			case 2:
 				{
-				setState(682); 
+				setState(718); 
 				_errHandler.sync(this);
 				_alt = 1+1;
 				do {
@@ -3861,7 +4588,7 @@ public class RecycleParser extends Parser {
 					case 1+1:
 						{
 						{
-						setState(681);
+						setState(717);
 						cstorage();
 						}
 						}
@@ -3869,14 +4596,14 @@ public class RecycleParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(684); 
+					setState(720); 
 					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,43,_ctx);
+					_alt = getInterpreter().adaptivePredict(_input,46,_ctx);
 				} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 				}
 				break;
 			}
-			setState(688);
+			setState(724);
 			match(CLOSE);
 			}
 		}
@@ -3908,31 +4635,39 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_disjunctionof; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterDisjunctionof(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitDisjunctionof(this);
+		}
 	}
 
 	public final DisjunctionofContext disjunctionof() throws RecognitionException {
 		DisjunctionofContext _localctx = new DisjunctionofContext(_ctx, getState());
-		enterRule(_localctx, 122, RULE_disjunctionof);
+		enterRule(_localctx, 128, RULE_disjunctionof);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(690);
+			setState(726);
 			match(OPEN);
-			setState(691);
-			match(T__49);
-			setState(698);
+			setState(727);
+			match(T__55);
+			setState(734);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,46,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,49,_ctx) ) {
 			case 1:
 				{
-				setState(692);
+				setState(728);
 				aggcs();
 				}
 				break;
 			case 2:
 				{
-				setState(694); 
+				setState(730); 
 				_errHandler.sync(this);
 				_alt = 1+1;
 				do {
@@ -3940,7 +4675,7 @@ public class RecycleParser extends Parser {
 					case 1+1:
 						{
 						{
-						setState(693);
+						setState(729);
 						cstorage();
 						}
 						}
@@ -3948,14 +4683,14 @@ public class RecycleParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(696); 
+					setState(732); 
 					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,45,_ctx);
+					_alt = getInterpreter().adaptivePredict(_input,48,_ctx);
 				} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 				}
 				break;
 			}
-			setState(700);
+			setState(736);
 			match(CLOSE);
 			}
 		}
@@ -3987,25 +4722,33 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_filter; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterFilter(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitFilter(this);
+		}
 	}
 
 	public final FilterContext filter() throws RecognitionException {
 		FilterContext _localctx = new FilterContext(_ctx, getState());
-		enterRule(_localctx, 124, RULE_filter);
+		enterRule(_localctx, 130, RULE_filter);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(702);
+			setState(738);
 			match(OPEN);
-			setState(703);
-			match(T__50);
-			setState(704);
+			setState(739);
+			match(T__56);
+			setState(740);
 			collection();
-			setState(705);
+			setState(741);
 			var();
-			setState(706);
+			setState(742);
 			boolean_();
-			setState(707);
+			setState(743);
 			match(CLOSE);
 			}
 		}
@@ -4034,45 +4777,186 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_memstorage; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMemstorage(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMemstorage(this);
+		}
 	}
 
 	public final MemstorageContext memstorage() throws RecognitionException {
 		MemstorageContext _localctx = new MemstorageContext(_ctx, getState());
-		enterRule(_localctx, 126, RULE_memstorage);
+		enterRule(_localctx, 132, RULE_memstorage);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(709);
+			setState(745);
 			match(OPEN);
-			setState(713);
+			setState(749);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__35:
+			case T__38:
 				{
-				setState(710);
-				match(T__35);
+				setState(746);
+				match(T__38);
 				}
 				break;
-			case T__36:
+			case T__39:
 				{
-				setState(711);
-				match(T__36);
+				setState(747);
+				match(T__39);
 				}
 				break;
 			case T__0:
 			case INTNUM:
 			case OPEN:
 				{
-				setState(712);
+				setState(748);
 				int_();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(715);
+			setState(751);
 			memset();
-			setState(716);
+			setState(752);
+			match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class SequenceContext extends ParserRuleContext {
+		public TerminalNode OPEN() { return getToken(RecycleParser.OPEN, 0); }
+		public IntContext int_() {
+			return getRuleContext(IntContext.class,0);
+		}
+		public CstorageContext cstorage() {
+			return getRuleContext(CstorageContext.class,0);
+		}
+		public TerminalNode CLOSE() { return getToken(RecycleParser.CLOSE, 0); }
+		public SequenceContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_sequence; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSequence(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSequence(this);
+		}
+	}
+
+	public final SequenceContext sequence() throws RecognitionException {
+		SequenceContext _localctx = new SequenceContext(_ctx, getState());
+		enterRule(_localctx, 134, RULE_sequence);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(754);
+			match(OPEN);
+			setState(755);
+			_la = _input.LA(1);
+			if ( !(_la==T__38 || _la==T__39) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			setState(756);
+			int_();
+			setState(757);
+			cstorage();
+			setState(758);
+			match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class RunsequenceContext extends ParserRuleContext {
+		public TerminalNode OPEN() { return getToken(RecycleParser.OPEN, 0); }
+		public IntContext int_() {
+			return getRuleContext(IntContext.class,0);
+		}
+		public CstorageContext cstorage() {
+			return getRuleContext(CstorageContext.class,0);
+		}
+		public PointstorageContext pointstorage() {
+			return getRuleContext(PointstorageContext.class,0);
+		}
+		public TerminalNode CLOSE() { return getToken(RecycleParser.CLOSE, 0); }
+		public RunsequenceContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_runsequence; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterRunsequence(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitRunsequence(this);
+		}
+	}
+
+	public final RunsequenceContext runsequence() throws RecognitionException {
+		RunsequenceContext _localctx = new RunsequenceContext(_ctx, getState());
+		enterRule(_localctx, 136, RULE_runsequence);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(760);
+			match(OPEN);
+			setState(761);
+			match(T__57);
+			setState(762);
+			_la = _input.LA(1);
+			if ( !(_la==T__38 || _la==T__39) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			setState(763);
+			int_();
+			setState(764);
+			cstorage();
+			setState(765);
+			match(T__41);
+			setState(766);
+			pointstorage();
+			setState(767);
 			match(CLOSE);
 			}
 		}
@@ -4095,41 +4979,49 @@ public class RecycleParser extends Parser {
 		public AggcsContext aggcs() {
 			return getRuleContext(AggcsContext.class,0);
 		}
-		public LetContext let() {
-			return getRuleContext(LetContext.class,0);
+		public VarcscContext varcsc() {
+			return getRuleContext(VarcscContext.class,0);
 		}
 		public CstoragecollectionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_cstoragecollection; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCstoragecollection(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCstoragecollection(this);
+		}
 	}
 
 	public final CstoragecollectionContext cstoragecollection() throws RecognitionException {
 		CstoragecollectionContext _localctx = new CstoragecollectionContext(_ctx, getState());
-		enterRule(_localctx, 128, RULE_cstoragecollection);
+		enterRule(_localctx, 138, RULE_cstoragecollection);
 		try {
-			setState(721);
+			setState(772);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,48,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,51,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(718);
+				setState(769);
 				memset();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(719);
+				setState(770);
 				aggcs();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(720);
-				let();
+				setState(771);
+				varcsc();
 				}
 				break;
 			}
@@ -4156,38 +5048,56 @@ public class RecycleParser extends Parser {
 		public SubsetContext subset() {
 			return getRuleContext(SubsetContext.class,0);
 		}
+		public RunContext run() {
+			return getRuleContext(RunContext.class,0);
+		}
 		public MemsetContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_memset; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMemset(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMemset(this);
+		}
 	}
 
 	public final MemsetContext memset() throws RecognitionException {
 		MemsetContext _localctx = new MemsetContext(_ctx, getState());
-		enterRule(_localctx, 130, RULE_memset);
+		enterRule(_localctx, 140, RULE_memset);
 		try {
-			setState(726);
+			setState(778);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,49,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,52,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(723);
+				setState(774);
 				tuple();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(724);
+				setState(775);
 				partition();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(725);
+				setState(776);
 				subset();
+				}
+				break;
+			case 4:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(777);
+				run();
 				}
 				break;
 			}
@@ -4206,6 +5116,9 @@ public class RecycleParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class RunContext extends ParserRuleContext {
 		public TerminalNode OPEN() { return getToken(RecycleParser.OPEN, 0); }
+		public IntContext int_() {
+			return getRuleContext(IntContext.class,0);
+		}
 		public CstorageContext cstorage() {
 			return getRuleContext(CstorageContext.class,0);
 		}
@@ -4217,25 +5130,46 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_run; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterRun(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitRun(this);
+		}
 	}
 
 	public final RunContext run() throws RecognitionException {
 		RunContext _localctx = new RunContext(_ctx, getState());
-		enterRule(_localctx, 132, RULE_run);
+		enterRule(_localctx, 142, RULE_run);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(728);
+			setState(780);
 			match(OPEN);
-			setState(729);
-			match(T__51);
-			setState(730);
+			setState(781);
+			match(T__58);
+			setState(782);
+			_la = _input.LA(1);
+			if ( !(_la==T__14 || _la==T__59) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			setState(783);
+			int_();
+			setState(784);
 			cstorage();
-			setState(731);
-			match(T__38);
-			setState(732);
+			setState(785);
+			match(T__41);
+			setState(786);
 			pointstorage();
-			setState(733);
+			setState(787);
 			match(CLOSE);
 			}
 		}
@@ -4261,21 +5195,29 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_subset; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSubset(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSubset(this);
+		}
 	}
 
 	public final SubsetContext subset() throws RecognitionException {
 		SubsetContext _localctx = new SubsetContext(_ctx, getState());
-		enterRule(_localctx, 134, RULE_subset);
+		enterRule(_localctx, 144, RULE_subset);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(735);
+			setState(789);
 			match(OPEN);
-			setState(736);
-			match(T__52);
-			setState(737);
+			setState(790);
+			match(T__60);
+			setState(791);
 			cstorage();
-			setState(738);
+			setState(792);
 			match(CLOSE);
 			}
 		}
@@ -4307,27 +5249,35 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_tuple; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterTuple(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitTuple(this);
+		}
 	}
 
 	public final TupleContext tuple() throws RecognitionException {
 		TupleContext _localctx = new TupleContext(_ctx, getState());
-		enterRule(_localctx, 136, RULE_tuple);
+		enterRule(_localctx, 146, RULE_tuple);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(740);
+			setState(794);
 			match(OPEN);
-			setState(741);
-			match(T__53);
-			setState(742);
+			setState(795);
+			match(T__61);
+			setState(796);
 			int_();
-			setState(743);
+			setState(797);
 			cstorage();
-			setState(744);
-			match(T__38);
-			setState(745);
+			setState(798);
+			match(T__41);
+			setState(799);
 			pointstorage();
-			setState(746);
+			setState(800);
 			match(CLOSE);
 			}
 		}
@@ -4345,13 +5295,10 @@ public class RecycleParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class PartitionContext extends ParserRuleContext {
 		public TerminalNode OPEN() { return getToken(RecycleParser.OPEN, 0); }
-		public TerminalNode CLOSE() { return getToken(RecycleParser.CLOSE, 0); }
 		public StrContext str() {
 			return getRuleContext(StrContext.class,0);
 		}
-		public PointstorageContext pointstorage() {
-			return getRuleContext(PointstorageContext.class,0);
-		}
+		public TerminalNode CLOSE() { return getToken(RecycleParser.CLOSE, 0); }
 		public AggcsContext aggcs() {
 			return getRuleContext(AggcsContext.class,0);
 		}
@@ -4365,116 +5312,64 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_partition; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterPartition(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitPartition(this);
+		}
 	}
 
 	public final PartitionContext partition() throws RecognitionException {
 		PartitionContext _localctx = new PartitionContext(_ctx, getState());
-		enterRule(_localctx, 138, RULE_partition);
+		enterRule(_localctx, 148, RULE_partition);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(748);
+			setState(802);
 			match(OPEN);
-			setState(749);
-			match(T__54);
-			setState(771);
+			setState(803);
+			match(T__62);
+			setState(804);
+			str();
+			setState(811);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case T__0:
-			case LETT:
-			case OPEN:
+			switch ( getInterpreter().adaptivePredict(_input,54,_ctx) ) {
+			case 1:
 				{
-				{
-				setState(750);
-				str();
-				setState(757);
-				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,51,_ctx) ) {
-				case 1:
-					{
-					setState(751);
-					aggcs();
-					}
-					break;
-				case 2:
-					{
-					setState(753); 
-					_errHandler.sync(this);
-					_alt = 1+1;
-					do {
-						switch (_alt) {
-						case 1+1:
-							{
-							{
-							setState(752);
-							cstorage();
-							}
-							}
-							break;
-						default:
-							throw new NoViableAltException(this);
-						}
-						setState(755); 
-						_errHandler.sync(this);
-						_alt = getInterpreter().adaptivePredict(_input,50,_ctx);
-					} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-					}
-					break;
-				}
-				}
+				setState(805);
+				aggcs();
 				}
 				break;
-			case T__51:
+			case 2:
 				{
-				{
-				setState(759);
-				match(T__51);
-				setState(766);
+				setState(807); 
 				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,53,_ctx) ) {
-				case 1:
-					{
-					setState(760);
-					aggcs();
-					}
-					break;
-				case 2:
-					{
-					setState(762); 
-					_errHandler.sync(this);
-					_alt = 1+1;
-					do {
-						switch (_alt) {
-						case 1+1:
-							{
-							{
-							setState(761);
-							cstorage();
-							}
-							}
-							break;
-						default:
-							throw new NoViableAltException(this);
+				_alt = 1+1;
+				do {
+					switch (_alt) {
+					case 1+1:
+						{
+						{
+						setState(806);
+						cstorage();
 						}
-						setState(764); 
-						_errHandler.sync(this);
-						_alt = getInterpreter().adaptivePredict(_input,52,_ctx);
-					} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
 					}
-					break;
-				}
-				setState(768);
-				match(T__38);
-				setState(769);
-				pointstorage();
-				}
+					setState(809); 
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,53,_ctx);
+				} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
 			}
-			setState(773);
+			setState(813);
 			match(CLOSE);
 			}
 		}
@@ -4506,25 +5401,33 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_aggcs; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAggcs(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAggcs(this);
+		}
 	}
 
 	public final AggcsContext aggcs() throws RecognitionException {
 		AggcsContext _localctx = new AggcsContext(_ctx, getState());
-		enterRule(_localctx, 140, RULE_aggcs);
+		enterRule(_localctx, 150, RULE_aggcs);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(775);
+			setState(815);
 			match(OPEN);
-			setState(776);
+			setState(816);
 			match(T__14);
-			setState(777);
+			setState(817);
 			collection();
-			setState(778);
+			setState(818);
 			var();
-			setState(779);
+			setState(819);
 			cstorage();
-			setState(780);
+			setState(820);
 			match(CLOSE);
 			}
 		}
@@ -4592,31 +5495,39 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_boolean; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterBoolean(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitBoolean(this);
+		}
 	}
 
 	public final BooleanContext boolean_() throws RecognitionException {
 		BooleanContext _localctx = new BooleanContext(_ctx, getState());
-		enterRule(_localctx, 142, RULE_boolean);
+		enterRule(_localctx, 152, RULE_boolean);
 		try {
 			int _alt;
-			setState(817);
+			setState(857);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,57,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(782);
+				setState(822);
 				match(OPEN);
-				setState(812);
+				setState(852);
 				_errHandler.sync(this);
 				switch ( getInterpreter().adaptivePredict(_input,56,_ctx) ) {
 				case 1:
 					{
-					setState(783);
+					setState(823);
 					match(BOOLOP);
-					setState(784);
+					setState(824);
 					boolean_();
-					setState(786); 
+					setState(826); 
 					_errHandler.sync(this);
 					_alt = 1+1;
 					do {
@@ -4624,7 +5535,7 @@ public class RecycleParser extends Parser {
 						case 1+1:
 							{
 							{
-							setState(785);
+							setState(825);
 							boolean_();
 							}
 							}
@@ -4632,7 +5543,7 @@ public class RecycleParser extends Parser {
 						default:
 							throw new NoViableAltException(this);
 						}
-						setState(788); 
+						setState(828); 
 						_errHandler.sync(this);
 						_alt = getInterpreter().adaptivePredict(_input,55,_ctx);
 					} while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -4640,71 +5551,71 @@ public class RecycleParser extends Parser {
 					break;
 				case 2:
 					{
-					setState(790);
+					setState(830);
 					intop();
-					setState(791);
+					setState(831);
 					int_();
-					setState(792);
+					setState(832);
 					int_();
 					}
 					break;
 				case 3:
 					{
-					setState(794);
+					setState(834);
 					match(EQOP);
-					setState(795);
+					setState(835);
 					str();
-					setState(796);
+					setState(836);
 					str();
 					}
 					break;
 				case 4:
 					{
-					setState(798);
+					setState(838);
 					match(EQOP);
-					setState(799);
+					setState(839);
 					card();
-					setState(800);
+					setState(840);
 					card();
 					}
 					break;
 				case 5:
 					{
-					setState(802);
+					setState(842);
 					match(UNOP);
-					setState(803);
+					setState(843);
 					boolean_();
 					}
 					break;
 				case 6:
 					{
-					setState(804);
+					setState(844);
 					match(EQOP);
-					setState(805);
+					setState(845);
 					whop();
-					setState(806);
+					setState(846);
 					whop();
 					}
 					break;
 				case 7:
 					{
-					setState(808);
+					setState(848);
 					match(EQOP);
-					setState(809);
+					setState(849);
 					whot();
-					setState(810);
+					setState(850);
 					whot();
 					}
 					break;
 				}
-				setState(814);
+				setState(854);
 				match(CLOSE);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(816);
+				setState(856);
 				aggb();
 				}
 				break;
@@ -4729,16 +5640,24 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_intop; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterIntop(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitIntop(this);
+		}
 	}
 
 	public final IntopContext intop() throws RecognitionException {
 		IntopContext _localctx = new IntopContext(_ctx, getState());
-		enterRule(_localctx, 144, RULE_intop);
+		enterRule(_localctx, 154, RULE_intop);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(819);
+			setState(859);
 			_la = _input.LA(1);
 			if ( !(_la==COMPOP || _la==EQOP) ) {
 			_errHandler.recoverInline(this);
@@ -4778,18 +5697,26 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_aggb; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAggb(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAggb(this);
+		}
 	}
 
 	public final AggbContext aggb() throws RecognitionException {
 		AggbContext _localctx = new AggbContext(_ctx, getState());
-		enterRule(_localctx, 146, RULE_aggb);
+		enterRule(_localctx, 156, RULE_aggb);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(821);
+			setState(861);
 			match(OPEN);
-			setState(822);
+			setState(862);
 			_la = _input.LA(1);
 			if ( !(_la==T__13 || _la==T__14) ) {
 			_errHandler.recoverInline(this);
@@ -4799,13 +5726,13 @@ public class RecycleParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(823);
+			setState(863);
 			collection();
-			setState(824);
+			setState(864);
 			var();
-			setState(825);
+			setState(865);
 			boolean_();
-			setState(826);
+			setState(866);
 			match(CLOSE);
 			}
 		}
@@ -4872,118 +5799,126 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_int; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterInt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitInt(this);
+		}
 	}
 
 	public final IntContext int_() throws RecognitionException {
 		IntContext _localctx = new IntContext(_ctx, getState());
-		enterRule(_localctx, 148, RULE_int);
+		enterRule(_localctx, 158, RULE_int);
 		try {
 			int _alt;
-			setState(847);
+			setState(887);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,59,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(828);
+				setState(868);
 				vari();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(829);
+				setState(869);
 				sizeof();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(830);
+				setState(870);
 				mult();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(831);
+				setState(871);
 				subtract();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(832);
+				setState(872);
 				mod();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(833);
+				setState(873);
 				add();
 				}
 				break;
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(834);
+				setState(874);
 				divide();
 				}
 				break;
 			case 8:
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(835);
+				setState(875);
 				exponent();
 				}
 				break;
 			case 9:
 				enterOuterAlt(_localctx, 9);
 				{
-				setState(836);
+				setState(876);
 				triangular();
 				}
 				break;
 			case 10:
 				enterOuterAlt(_localctx, 10);
 				{
-				setState(837);
+				setState(877);
 				fibonacci();
 				}
 				break;
 			case 11:
 				enterOuterAlt(_localctx, 11);
 				{
-				setState(838);
+				setState(878);
 				random();
 				}
 				break;
 			case 12:
 				enterOuterAlt(_localctx, 12);
 				{
-				setState(839);
+				setState(879);
 				sum();
 				}
 				break;
 			case 13:
 				enterOuterAlt(_localctx, 13);
 				{
-				setState(840);
+				setState(880);
 				rawstorage();
 				}
 				break;
 			case 14:
 				enterOuterAlt(_localctx, 14);
 				{
-				setState(841);
+				setState(881);
 				score();
 				}
 				break;
 			case 15:
 				enterOuterAlt(_localctx, 15);
 				{
-				setState(843); 
+				setState(883); 
 				_errHandler.sync(this);
 				_alt = 1;
 				do {
@@ -4991,7 +5926,7 @@ public class RecycleParser extends Parser {
 					case 1:
 						{
 						{
-						setState(842);
+						setState(882);
 						match(INTNUM);
 						}
 						}
@@ -4999,7 +5934,7 @@ public class RecycleParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(845); 
+					setState(885); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,58,_ctx);
 				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -5032,25 +5967,33 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_sum; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSum(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSum(this);
+		}
 	}
 
 	public final SumContext sum() throws RecognitionException {
 		SumContext _localctx = new SumContext(_ctx, getState());
-		enterRule(_localctx, 150, RULE_sum);
+		enterRule(_localctx, 160, RULE_sum);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(849);
+			setState(889);
 			match(OPEN);
-			setState(850);
-			match(T__55);
-			setState(851);
+			setState(890);
+			match(T__63);
+			setState(891);
 			cstorage();
-			setState(852);
-			match(T__38);
-			setState(853);
+			setState(892);
+			match(T__41);
+			setState(893);
 			pointstorage();
-			setState(854);
+			setState(894);
 			match(CLOSE);
 			}
 		}
@@ -5079,25 +6022,33 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_score; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterScore(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitScore(this);
+		}
 	}
 
 	public final ScoreContext score() throws RecognitionException {
 		ScoreContext _localctx = new ScoreContext(_ctx, getState());
-		enterRule(_localctx, 152, RULE_score);
+		enterRule(_localctx, 162, RULE_score);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(856);
+			setState(896);
 			match(OPEN);
-			setState(857);
-			match(T__56);
-			setState(858);
+			setState(897);
+			match(T__64);
+			setState(898);
 			card();
-			setState(859);
-			match(T__38);
-			setState(860);
+			setState(899);
+			match(T__41);
+			setState(900);
 			pointstorage();
-			setState(861);
+			setState(901);
 			match(CLOSE);
 			}
 		}
@@ -5126,23 +6077,31 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_add; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAdd(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAdd(this);
+		}
 	}
 
 	public final AddContext add() throws RecognitionException {
 		AddContext _localctx = new AddContext(_ctx, getState());
-		enterRule(_localctx, 154, RULE_add);
+		enterRule(_localctx, 164, RULE_add);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(863);
+			setState(903);
 			match(OPEN);
-			setState(864);
-			match(T__57);
-			setState(865);
+			setState(904);
+			match(T__65);
+			setState(905);
 			int_();
-			setState(866);
+			setState(906);
 			int_();
-			setState(867);
+			setState(907);
 			match(CLOSE);
 			}
 		}
@@ -5171,23 +6130,31 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_mult; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMult(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMult(this);
+		}
 	}
 
 	public final MultContext mult() throws RecognitionException {
 		MultContext _localctx = new MultContext(_ctx, getState());
-		enterRule(_localctx, 156, RULE_mult);
+		enterRule(_localctx, 166, RULE_mult);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(869);
+			setState(909);
 			match(OPEN);
-			setState(870);
-			match(T__58);
-			setState(871);
+			setState(910);
+			match(T__66);
+			setState(911);
 			int_();
-			setState(872);
+			setState(912);
 			int_();
-			setState(873);
+			setState(913);
 			match(CLOSE);
 			}
 		}
@@ -5216,23 +6183,31 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_subtract; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSubtract(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSubtract(this);
+		}
 	}
 
 	public final SubtractContext subtract() throws RecognitionException {
 		SubtractContext _localctx = new SubtractContext(_ctx, getState());
-		enterRule(_localctx, 158, RULE_subtract);
+		enterRule(_localctx, 168, RULE_subtract);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(875);
+			setState(915);
 			match(OPEN);
-			setState(876);
-			match(T__59);
-			setState(877);
+			setState(916);
+			match(T__67);
+			setState(917);
 			int_();
-			setState(878);
+			setState(918);
 			int_();
-			setState(879);
+			setState(919);
 			match(CLOSE);
 			}
 		}
@@ -5261,23 +6236,31 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_mod; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMod(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMod(this);
+		}
 	}
 
 	public final ModContext mod() throws RecognitionException {
 		ModContext _localctx = new ModContext(_ctx, getState());
-		enterRule(_localctx, 160, RULE_mod);
+		enterRule(_localctx, 170, RULE_mod);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(881);
+			setState(921);
 			match(OPEN);
-			setState(882);
-			match(T__60);
-			setState(883);
+			setState(922);
+			match(T__68);
+			setState(923);
 			int_();
-			setState(884);
+			setState(924);
 			int_();
-			setState(885);
+			setState(925);
 			match(CLOSE);
 			}
 		}
@@ -5306,23 +6289,31 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_divide; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterDivide(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitDivide(this);
+		}
 	}
 
 	public final DivideContext divide() throws RecognitionException {
 		DivideContext _localctx = new DivideContext(_ctx, getState());
-		enterRule(_localctx, 162, RULE_divide);
+		enterRule(_localctx, 172, RULE_divide);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(887);
+			setState(927);
 			match(OPEN);
-			setState(888);
-			match(T__61);
-			setState(889);
+			setState(928);
+			match(T__69);
+			setState(929);
 			int_();
-			setState(890);
+			setState(930);
 			int_();
-			setState(891);
+			setState(931);
 			match(CLOSE);
 			}
 		}
@@ -5351,23 +6342,31 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_exponent; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterExponent(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitExponent(this);
+		}
 	}
 
 	public final ExponentContext exponent() throws RecognitionException {
 		ExponentContext _localctx = new ExponentContext(_ctx, getState());
-		enterRule(_localctx, 164, RULE_exponent);
+		enterRule(_localctx, 174, RULE_exponent);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(893);
+			setState(933);
 			match(OPEN);
-			setState(894);
-			match(T__62);
-			setState(895);
+			setState(934);
+			match(T__70);
+			setState(935);
 			int_();
-			setState(896);
+			setState(936);
 			int_();
-			setState(897);
+			setState(937);
 			match(CLOSE);
 			}
 		}
@@ -5393,21 +6392,29 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_triangular; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterTriangular(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitTriangular(this);
+		}
 	}
 
 	public final TriangularContext triangular() throws RecognitionException {
 		TriangularContext _localctx = new TriangularContext(_ctx, getState());
-		enterRule(_localctx, 166, RULE_triangular);
+		enterRule(_localctx, 176, RULE_triangular);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(899);
+			setState(939);
 			match(OPEN);
-			setState(900);
-			match(T__63);
-			setState(901);
+			setState(940);
+			match(T__71);
+			setState(941);
 			int_();
-			setState(902);
+			setState(942);
 			match(CLOSE);
 			}
 		}
@@ -5433,21 +6440,29 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_fibonacci; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterFibonacci(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitFibonacci(this);
+		}
 	}
 
 	public final FibonacciContext fibonacci() throws RecognitionException {
 		FibonacciContext _localctx = new FibonacciContext(_ctx, getState());
-		enterRule(_localctx, 168, RULE_fibonacci);
+		enterRule(_localctx, 178, RULE_fibonacci);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(904);
+			setState(944);
 			match(OPEN);
-			setState(905);
-			match(T__64);
-			setState(906);
+			setState(945);
+			match(T__72);
+			setState(946);
 			int_();
-			setState(907);
+			setState(947);
 			match(CLOSE);
 			}
 		}
@@ -5476,34 +6491,42 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_random; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterRandom(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitRandom(this);
+		}
 	}
 
 	public final RandomContext random() throws RecognitionException {
 		RandomContext _localctx = new RandomContext(_ctx, getState());
-		enterRule(_localctx, 170, RULE_random);
+		enterRule(_localctx, 180, RULE_random);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(909);
+			setState(949);
 			match(OPEN);
-			setState(910);
-			match(T__65);
-			setState(911);
+			setState(950);
+			match(T__73);
+			setState(951);
 			int_();
-			setState(914);
+			setState(954);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__44) {
+			if (_la==T__49) {
 				{
-				setState(912);
-				match(T__44);
-				setState(913);
+				setState(952);
+				match(T__49);
+				setState(953);
 				int_();
 				}
 			}
 
-			setState(916);
+			setState(956);
 			match(CLOSE);
 			}
 		}
@@ -5529,21 +6552,29 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_sizeof; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSizeof(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSizeof(this);
+		}
 	}
 
 	public final SizeofContext sizeof() throws RecognitionException {
 		SizeofContext _localctx = new SizeofContext(_ctx, getState());
-		enterRule(_localctx, 172, RULE_sizeof);
+		enterRule(_localctx, 182, RULE_sizeof);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(918);
+			setState(958);
 			match(OPEN);
-			setState(919);
-			match(T__66);
-			setState(920);
+			setState(959);
+			match(T__74);
+			setState(960);
 			collection();
-			setState(921);
+			setState(961);
 			match(CLOSE);
 			}
 		}
@@ -5575,25 +6606,33 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_aggi; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAggi(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAggi(this);
+		}
 	}
 
 	public final AggiContext aggi() throws RecognitionException {
 		AggiContext _localctx = new AggiContext(_ctx, getState());
-		enterRule(_localctx, 174, RULE_aggi);
+		enterRule(_localctx, 184, RULE_aggi);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(923);
+			setState(963);
 			match(OPEN);
-			setState(924);
+			setState(964);
 			match(T__14);
-			setState(925);
+			setState(965);
 			collection();
-			setState(926);
+			setState(966);
 			var();
-			setState(927);
+			setState(967);
 			rawstorage();
-			setState(928);
+			setState(968);
 			match(CLOSE);
 			}
 		}
@@ -5625,45 +6664,53 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_rawstorage; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterRawstorage(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitRawstorage(this);
+		}
 	}
 
 	public final RawstorageContext rawstorage() throws RecognitionException {
 		RawstorageContext _localctx = new RawstorageContext(_ctx, getState());
-		enterRule(_localctx, 176, RULE_rawstorage);
+		enterRule(_localctx, 186, RULE_rawstorage);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(930);
+			setState(970);
 			match(OPEN);
-			setState(934);
+			setState(974);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__0:
 				{
-				setState(931);
+				setState(971);
 				varo();
 				}
 				break;
 			case T__1:
 				{
-				setState(932);
+				setState(972);
 				match(T__1);
 				}
 				break;
 			case OPEN:
 				{
-				setState(933);
+				setState(973);
 				who();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(936);
-			match(T__67);
-			setState(937);
+			setState(976);
+			match(T__75);
+			setState(977);
 			str();
-			setState(938);
+			setState(978);
 			match(CLOSE);
 			}
 		}
@@ -5696,40 +6743,48 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_str; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterStr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitStr(this);
+		}
 	}
 
 	public final StrContext str() throws RecognitionException {
 		StrContext _localctx = new StrContext(_ctx, getState());
-		enterRule(_localctx, 178, RULE_str);
+		enterRule(_localctx, 188, RULE_str);
 		try {
-			setState(944);
+			setState(984);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,62,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(940);
+				setState(980);
 				namegr();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(941);
+				setState(981);
 				strstorage();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(942);
+				setState(982);
 				vars();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(943);
+				setState(983);
 				cardatt();
 				}
 				break;
@@ -5763,45 +6818,53 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_strstorage; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterStrstorage(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitStrstorage(this);
+		}
 	}
 
 	public final StrstorageContext strstorage() throws RecognitionException {
 		StrstorageContext _localctx = new StrstorageContext(_ctx, getState());
-		enterRule(_localctx, 180, RULE_strstorage);
+		enterRule(_localctx, 190, RULE_strstorage);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(946);
+			setState(986);
 			match(OPEN);
-			setState(950);
+			setState(990);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__0:
 				{
-				setState(947);
+				setState(987);
 				varo();
 				}
 				break;
 			case T__1:
 				{
-				setState(948);
+				setState(988);
 				match(T__1);
 				}
 				break;
 			case OPEN:
 				{
-				setState(949);
+				setState(989);
 				who();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(952);
-			match(T__68);
-			setState(953);
+			setState(992);
+			match(T__76);
+			setState(993);
 			str();
-			setState(954);
+			setState(994);
 			match(CLOSE);
 			}
 		}
@@ -5830,23 +6893,31 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_cardatt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCardatt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCardatt(this);
+		}
 	}
 
 	public final CardattContext cardatt() throws RecognitionException {
 		CardattContext _localctx = new CardattContext(_ctx, getState());
-		enterRule(_localctx, 182, RULE_cardatt);
+		enterRule(_localctx, 192, RULE_cardatt);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(956);
+			setState(996);
 			match(OPEN);
-			setState(957);
-			match(T__69);
-			setState(958);
+			setState(997);
+			match(T__77);
+			setState(998);
 			str();
-			setState(959);
+			setState(999);
 			card();
-			setState(960);
+			setState(1000);
 			match(CLOSE);
 			}
 		}
@@ -5871,16 +6942,24 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_namegr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterNamegr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitNamegr(this);
+		}
 	}
 
 	public final NamegrContext namegr() throws RecognitionException {
 		NamegrContext _localctx = new NamegrContext(_ctx, getState());
-		enterRule(_localctx, 184, RULE_namegr);
+		enterRule(_localctx, 194, RULE_namegr);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(963); 
+			setState(1003); 
 			_errHandler.sync(this);
 			_alt = 1;
 			do {
@@ -5888,7 +6967,7 @@ public class RecycleParser extends Parser {
 				case 1:
 					{
 					{
-					setState(962);
+					setState(1002);
 					match(LETT);
 					}
 					}
@@ -5896,7 +6975,7 @@ public class RecycleParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(965); 
+				setState(1005); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,64,_ctx);
 			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -5914,7 +6993,7 @@ public class RecycleParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001P\u03c8\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001X\u03f0\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
@@ -5936,577 +7015,599 @@ public class RecycleParser extends Parser {
 		"K\u0007K\u0002L\u0007L\u0002M\u0007M\u0002N\u0007N\u0002O\u0007O\u0002"+
 		"P\u0007P\u0002Q\u0007Q\u0002R\u0007R\u0002S\u0007S\u0002T\u0007T\u0002"+
 		"U\u0007U\u0002V\u0007V\u0002W\u0007W\u0002X\u0007X\u0002Y\u0007Y\u0002"+
-		"Z\u0007Z\u0002[\u0007[\u0002\\\u0007\\\u0001\u0000\u0001\u0000\u0001\u0000"+
+		"Z\u0007Z\u0002[\u0007[\u0002\\\u0007\\\u0002]\u0007]\u0002^\u0007^\u0002"+
+		"_\u0007_\u0002`\u0007`\u0002a\u0007a\u0001\u0000\u0001\u0000\u0001\u0000"+
 		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0002\u0001\u0002\u0001\u0002"+
 		"\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0004\u0001\u0004\u0001\u0004"+
 		"\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006\u0001\u0006"+
 		"\u0001\u0007\u0001\u0007\u0001\u0007\u0001\b\u0001\b\u0001\b\u0001\t\u0001"+
-		"\t\u0001\t\u0005\t\u00d9\b\t\n\t\f\t\u00dc\t\t\u0001\t\u0001\t\u0001\t"+
-		"\u0004\t\u00e1\b\t\u000b\t\f\t\u00e2\u0001\t\u0001\t\u0001\t\u0001\n\u0001"+
-		"\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\u000b\u0001\u000b\u0001\u000b"+
-		"\u0001\u000b\u0003\u000b\u00f2\b\u000b\u0001\u000b\u0001\u000b\u0001\u000b"+
-		"\u0003\u000b\u00f7\b\u000b\u0001\u000b\u0001\u000b\u0004\u000b\u00fb\b"+
-		"\u000b\u000b\u000b\f\u000b\u00fc\u0001\u000b\u0001\u000b\u0001\f\u0001"+
-		"\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\r\u0001\r\u0001\r\u0001\r\u0001"+
-		"\r\u0001\r\u0004\r\u010d\b\r\u000b\r\f\r\u010e\u0001\r\u0001\r\u0001\u000e"+
-		"\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000f\u0001\u000f"+
-		"\u0001\u000f\u0001\u000f\u0004\u000f\u011c\b\u000f\u000b\u000f\f\u000f"+
-		"\u011d\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001"+
-		"\u000f\u0001\u000f\u0004\u000f\u0127\b\u000f\u000b\u000f\f\u000f\u0128"+
-		"\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0003\u000f"+
-		"\u0130\b\u000f\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0004\u0010"+
-		"\u0136\b\u0010\u000b\u0010\f\u0010\u0137\u0001\u0010\u0001\u0010\u0001"+
-		"\u0010\u0001\u0010\u0001\u0010\u0003\u0010\u013f\b\u0010\u0001\u0011\u0001"+
-		"\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001"+
-		"\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0003\u0011\u014d"+
-		"\b\u0011\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001"+
-		"\u0012\u0001\u0012\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0001"+
-		"\u0013\u0001\u0013\u0001\u0013\u0003\u0013\u015d\b\u0013\u0001\u0013\u0001"+
-		"\u0013\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0001"+
-		"\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0001"+
-		"\u0014\u0001\u0014\u0003\u0014\u016e\b\u0014\u0001\u0014\u0001\u0014\u0001"+
-		"\u0014\u0003\u0014\u0173\b\u0014\u0001\u0015\u0001\u0015\u0001\u0015\u0001"+
-		"\u0015\u0001\u0015\u0001\u0015\u0001\u0016\u0001\u0016\u0001\u0016\u0001"+
-		"\u0016\u0004\u0016\u017f\b\u0016\u000b\u0016\f\u0016\u0180\u0001\u0016"+
-		"\u0001\u0016\u0001\u0017\u0001\u0017\u0001\u0017\u0005\u0017\u0188\b\u0017"+
-		"\n\u0017\f\u0017\u018b\t\u0017\u0001\u0017\u0001\u0017\u0005\u0017\u018f"+
-		"\b\u0017\n\u0017\f\u0017\u0192\t\u0017\u0001\u0017\u0001\u0017\u0001\u0018"+
-		"\u0001\u0018\u0001\u0018\u0003\u0018\u0199\b\u0018\u0001\u0018\u0001\u0018"+
-		"\u0001\u0018\u0001\u0019\u0001\u0019\u0001\u0019\u0004\u0019\u01a1\b\u0019"+
-		"\u000b\u0019\f\u0019\u01a2\u0001\u0019\u0001\u0019\u0001\u001a\u0001\u001a"+
-		"\u0001\u001a\u0001\u001a\u0005\u001a\u01ab\b\u001a\n\u001a\f\u001a\u01ae"+
-		"\t\u001a\u0001\u001a\u0001\u001a\u0005\u001a\u01b2\b\u001a\n\u001a\f\u001a"+
-		"\u01b5\t\u001a\u0001\u001a\u0001\u001a\u0001\u001b\u0001\u001b\u0001\u001b"+
-		"\u0001\u001b\u0004\u001b\u01bd\b\u001b\u000b\u001b\f\u001b\u01be\u0001"+
-		"\u001b\u0001\u001b\u0001\u001c\u0001\u001c\u0004\u001c\u01c5\b\u001c\u000b"+
-		"\u001c\f\u001c\u01c6\u0001\u001c\u0001\u001c\u0001\u001c\u0001\u001d\u0001"+
-		"\u001d\u0001\u001d\u0001\u001d\u0001\u001d\u0001\u001d\u0001\u001e\u0001"+
-		"\u001e\u0001\u001e\u0001\u001e\u0001\u001e\u0001\u001e\u0001\u001e\u0003"+
-		"\u001e\u01d9\b\u001e\u0001\u001f\u0001\u001f\u0001\u001f\u0001\u001f\u0001"+
+		"\t\u0001\t\u0001\n\u0001\n\u0001\n\u0005\n\u00e6\b\n\n\n\f\n\u00e9\t\n"+
+		"\u0001\n\u0001\n\u0001\n\u0004\n\u00ee\b\n\u000b\n\f\n\u00ef\u0001\n\u0001"+
+		"\n\u0001\n\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b"+
+		"\u0001\u000b\u0001\f\u0001\f\u0001\f\u0001\f\u0003\f\u00ff\b\f\u0001\f"+
+		"\u0001\f\u0001\f\u0003\f\u0104\b\f\u0001\f\u0001\f\u0004\f\u0108\b\f\u000b"+
+		"\f\f\f\u0109\u0001\f\u0001\f\u0001\r\u0001\r\u0001\r\u0001\r\u0001\r\u0001"+
+		"\r\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000e"+
+		"\u0004\u000e\u011a\b\u000e\u000b\u000e\f\u000e\u011b\u0001\u000e\u0001"+
+		"\u000e\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001"+
+		"\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0004\u0010\u0129\b\u0010\u000b"+
+		"\u0010\f\u0010\u012a\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0001"+
+		"\u0010\u0001\u0010\u0001\u0010\u0004\u0010\u0134\b\u0010\u000b\u0010\f"+
+		"\u0010\u0135\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010"+
+		"\u0003\u0010\u013d\b\u0010\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011"+
+		"\u0004\u0011\u0143\b\u0011\u000b\u0011\f\u0011\u0144\u0001\u0011\u0001"+
+		"\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0003\u0011\u014c\b\u0011\u0001"+
+		"\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001"+
+		"\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0003"+
+		"\u0012\u015a\b\u0012\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0001"+
+		"\u0013\u0001\u0013\u0001\u0013\u0001\u0014\u0001\u0014\u0001\u0014\u0001"+
+		"\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0003\u0014\u016a\b\u0014\u0001"+
+		"\u0014\u0001\u0014\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001"+
+		"\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001"+
+		"\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0003\u0015\u017d"+
+		"\b\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0003\u0015\u0182\b\u0015"+
+		"\u0001\u0016\u0001\u0016\u0001\u0016\u0001\u0016\u0001\u0016\u0001\u0016"+
+		"\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017\u0004\u0017\u018e\b\u0017"+
+		"\u000b\u0017\f\u0017\u018f\u0001\u0017\u0001\u0017\u0001\u0018\u0001\u0018"+
+		"\u0001\u0018\u0005\u0018\u0197\b\u0018\n\u0018\f\u0018\u019a\t\u0018\u0001"+
+		"\u0018\u0001\u0018\u0005\u0018\u019e\b\u0018\n\u0018\f\u0018\u01a1\t\u0018"+
+		"\u0001\u0018\u0001\u0018\u0001\u0019\u0001\u0019\u0001\u0019\u0003\u0019"+
+		"\u01a8\b\u0019\u0001\u0019\u0001\u0019\u0001\u0019\u0001\u001a\u0001\u001a"+
+		"\u0001\u001a\u0004\u001a\u01b0\b\u001a\u000b\u001a\f\u001a\u01b1\u0001"+
+		"\u001a\u0001\u001a\u0001\u001b\u0001\u001b\u0001\u001b\u0001\u001b\u0005"+
+		"\u001b\u01ba\b\u001b\n\u001b\f\u001b\u01bd\t\u001b\u0001\u001b\u0001\u001b"+
+		"\u0005\u001b\u01c1\b\u001b\n\u001b\f\u001b\u01c4\t\u001b\u0001\u001b\u0001"+
+		"\u001b\u0001\u001c\u0001\u001c\u0001\u001c\u0001\u001c\u0004\u001c\u01cc"+
+		"\b\u001c\u000b\u001c\f\u001c\u01cd\u0001\u001c\u0001\u001c\u0001\u001d"+
+		"\u0001\u001d\u0004\u001d\u01d4\b\u001d\u000b\u001d\f\u001d\u01d5\u0001"+
+		"\u001d\u0001\u001d\u0001\u001d\u0001\u001e\u0001\u001e\u0001\u001e\u0001"+
+		"\u001e\u0001\u001e\u0001\u001e\u0001\u001f\u0001\u001f\u0001\u001f\u0001"+
+		"\u001f\u0001\u001f\u0001\u001f\u0001\u001f\u0003\u001f\u01e8\b\u001f\u0001"+
 		" \u0001 \u0001 \u0001 \u0001!\u0001!\u0001!\u0001!\u0001\"\u0001\"\u0001"+
-		"\"\u0001\"\u0001#\u0001#\u0001#\u0001#\u0001$\u0001$\u0001$\u0001%\u0001"+
-		"%\u0001%\u0001&\u0001&\u0001&\u0001&\u0001&\u0001&\u0001&\u0001&\u0001"+
-		"&\u0001&\u0003&\u01ff\b&\u0001\'\u0001\'\u0001\'\u0001\'\u0003\'\u0205"+
-		"\b\'\u0001\'\u0001\'\u0001\'\u0001\'\u0001(\u0001(\u0001(\u0001(\u0001"+
-		"(\u0001(\u0001(\u0001(\u0003(\u0213\b(\u0001(\u0001(\u0001(\u0003(\u0218"+
-		"\b(\u0001)\u0001)\u0001)\u0001)\u0001)\u0001*\u0001*\u0001*\u0001*\u0001"+
-		"*\u0001*\u0001*\u0001+\u0001+\u0001+\u0001+\u0001+\u0001+\u0001+\u0001"+
-		",\u0001,\u0001,\u0003,\u0230\b,\u0001-\u0001-\u0001.\u0001.\u0003.\u0236"+
-		"\b.\u0001/\u0001/\u0001/\u0001/\u0001/\u0001/\u0003/\u023e\b/\u00010\u0001"+
-		"0\u00010\u00010\u00010\u00010\u00030\u0246\b0\u00011\u00011\u00011\u0001"+
-		"1\u00031\u024c\b1\u00012\u00012\u00012\u00012\u00012\u00013\u00013\u0001"+
-		"3\u00013\u00033\u0257\b3\u00013\u00013\u00014\u00014\u00014\u00014\u0003"+
-		"4\u025f\b4\u00015\u00015\u00015\u00015\u00015\u00015\u00015\u00015\u0001"+
-		"5\u00015\u00035\u026b\b5\u00016\u00016\u00016\u00016\u00056\u0271\b6\n"+
-		"6\f6\u0274\t6\u00016\u00016\u00016\u00017\u00017\u00017\u00017\u00017"+
-		"\u00017\u00017\u00018\u00018\u00018\u00018\u00018\u00019\u00019\u0001"+
-		"9\u00019\u00019\u00019\u00019\u00019\u00019\u00019\u00019\u00019\u0001"+
-		"9\u00039\u0292\b9\u0001:\u0001:\u0001:\u0001:\u0001:\u0001:\u0001:\u0001"+
-		";\u0001;\u0001;\u0001;\u0004;\u029f\b;\u000b;\f;\u02a0\u0003;\u02a3\b"+
-		";\u0001;\u0001;\u0001<\u0001<\u0001<\u0001<\u0004<\u02ab\b<\u000b<\f<"+
-		"\u02ac\u0003<\u02af\b<\u0001<\u0001<\u0001=\u0001=\u0001=\u0001=\u0004"+
-		"=\u02b7\b=\u000b=\f=\u02b8\u0003=\u02bb\b=\u0001=\u0001=\u0001>\u0001"+
-		">\u0001>\u0001>\u0001>\u0001>\u0001>\u0001?\u0001?\u0001?\u0001?\u0003"+
-		"?\u02ca\b?\u0001?\u0001?\u0001?\u0001@\u0001@\u0001@\u0003@\u02d2\b@\u0001"+
-		"A\u0001A\u0001A\u0003A\u02d7\bA\u0001B\u0001B\u0001B\u0001B\u0001B\u0001"+
-		"B\u0001B\u0001C\u0001C\u0001C\u0001C\u0001C\u0001D\u0001D\u0001D\u0001"+
-		"D\u0001D\u0001D\u0001D\u0001D\u0001E\u0001E\u0001E\u0001E\u0001E\u0004"+
-		"E\u02f2\bE\u000bE\fE\u02f3\u0003E\u02f6\bE\u0001E\u0001E\u0001E\u0004"+
-		"E\u02fb\bE\u000bE\fE\u02fc\u0003E\u02ff\bE\u0001E\u0001E\u0001E\u0003"+
-		"E\u0304\bE\u0001E\u0001E\u0001F\u0001F\u0001F\u0001F\u0001F\u0001F\u0001"+
-		"F\u0001G\u0001G\u0001G\u0001G\u0004G\u0313\bG\u000bG\fG\u0314\u0001G\u0001"+
-		"G\u0001G\u0001G\u0001G\u0001G\u0001G\u0001G\u0001G\u0001G\u0001G\u0001"+
-		"G\u0001G\u0001G\u0001G\u0001G\u0001G\u0001G\u0001G\u0001G\u0001G\u0001"+
-		"G\u0003G\u032d\bG\u0001G\u0001G\u0001G\u0003G\u0332\bG\u0001H\u0001H\u0001"+
-		"I\u0001I\u0001I\u0001I\u0001I\u0001I\u0001I\u0001J\u0001J\u0001J\u0001"+
-		"J\u0001J\u0001J\u0001J\u0001J\u0001J\u0001J\u0001J\u0001J\u0001J\u0001"+
-		"J\u0001J\u0004J\u034c\bJ\u000bJ\fJ\u034d\u0003J\u0350\bJ\u0001K\u0001"+
-		"K\u0001K\u0001K\u0001K\u0001K\u0001K\u0001L\u0001L\u0001L\u0001L\u0001"+
-		"L\u0001L\u0001L\u0001M\u0001M\u0001M\u0001M\u0001M\u0001M\u0001N\u0001"+
-		"N\u0001N\u0001N\u0001N\u0001N\u0001O\u0001O\u0001O\u0001O\u0001O\u0001"+
-		"O\u0001P\u0001P\u0001P\u0001P\u0001P\u0001P\u0001Q\u0001Q\u0001Q\u0001"+
-		"Q\u0001Q\u0001Q\u0001R\u0001R\u0001R\u0001R\u0001R\u0001R\u0001S\u0001"+
-		"S\u0001S\u0001S\u0001S\u0001T\u0001T\u0001T\u0001T\u0001T\u0001U\u0001"+
-		"U\u0001U\u0001U\u0001U\u0003U\u0393\bU\u0001U\u0001U\u0001V\u0001V\u0001"+
-		"V\u0001V\u0001V\u0001W\u0001W\u0001W\u0001W\u0001W\u0001W\u0001W\u0001"+
-		"X\u0001X\u0001X\u0001X\u0003X\u03a7\bX\u0001X\u0001X\u0001X\u0001X\u0001"+
-		"Y\u0001Y\u0001Y\u0001Y\u0003Y\u03b1\bY\u0001Z\u0001Z\u0001Z\u0001Z\u0003"+
-		"Z\u03b7\bZ\u0001Z\u0001Z\u0001Z\u0001Z\u0001[\u0001[\u0001[\u0001[\u0001"+
-		"[\u0001[\u0001\\\u0004\\\u03c4\b\\\u000b\\\f\\\u03c5\u0001\\\u0016\u00da"+
-		"\u00e2\u00fc\u010e\u011d\u0128\u0137\u0180\u0189\u0190\u01a2\u01ac\u01b3"+
-		"\u01be\u01c6\u0272\u02a0\u02ac\u02b8\u02f3\u02fc\u0314\u0000]\u0000\u0002"+
-		"\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a\u001c\u001e"+
-		" \"$&(*,.02468:<>@BDFHJLNPRTVXZ\\^`bdfhjlnprtvxz|~\u0080\u0082\u0084\u0086"+
-		"\u0088\u008a\u008c\u008e\u0090\u0092\u0094\u0096\u0098\u009a\u009c\u009e"+
-		"\u00a0\u00a2\u00a4\u00a6\u00a8\u00aa\u00ac\u00ae\u00b0\u00b2\u00b4\u00b6"+
-		"\u00b8\u0000\u0006\u0001\u0000\u0006\u0007\u0001\u0000\t\n\u0001\u0000"+
-		"\u000e\u000f\u0001\u0000\u0019\u001a\u0001\u0000(*\u0001\u0000HI\u03ef"+
-		"\u0000\u00ba\u0001\u0000\u0000\u0000\u0002\u00bd\u0001\u0000\u0000\u0000"+
-		"\u0004\u00c0\u0001\u0000\u0000\u0000\u0006\u00c3\u0001\u0000\u0000\u0000"+
-		"\b\u00c6\u0001\u0000\u0000\u0000\n\u00c9\u0001\u0000\u0000\u0000\f\u00cc"+
-		"\u0001\u0000\u0000\u0000\u000e\u00cf\u0001\u0000\u0000\u0000\u0010\u00d2"+
-		"\u0001\u0000\u0000\u0000\u0012\u00d5\u0001\u0000\u0000\u0000\u0014\u00e7"+
-		"\u0001\u0000\u0000\u0000\u0016\u00ed\u0001\u0000\u0000\u0000\u0018\u0100"+
-		"\u0001\u0000\u0000\u0000\u001a\u0106\u0001\u0000\u0000\u0000\u001c\u0112"+
-		"\u0001\u0000\u0000\u0000\u001e\u012f\u0001\u0000\u0000\u0000 \u013e\u0001"+
-		"\u0000\u0000\u0000\"\u014c\u0001\u0000\u0000\u0000$\u014e\u0001\u0000"+
-		"\u0000\u0000&\u0155\u0001\u0000\u0000\u0000(\u0172\u0001\u0000\u0000\u0000"+
-		"*\u0174\u0001\u0000\u0000\u0000,\u017a\u0001\u0000\u0000\u0000.\u0184"+
-		"\u0001\u0000\u0000\u00000\u0195\u0001\u0000\u0000\u00002\u019d\u0001\u0000"+
-		"\u0000\u00004\u01a6\u0001\u0000\u0000\u00006\u01b8\u0001\u0000\u0000\u0000"+
-		"8\u01c2\u0001\u0000\u0000\u0000:\u01cb\u0001\u0000\u0000\u0000<\u01d1"+
-		"\u0001\u0000\u0000\u0000>\u01da\u0001\u0000\u0000\u0000@\u01de\u0001\u0000"+
-		"\u0000\u0000B\u01e2\u0001\u0000\u0000\u0000D\u01e6\u0001\u0000\u0000\u0000"+
-		"F\u01ea\u0001\u0000\u0000\u0000H\u01ee\u0001\u0000\u0000\u0000J\u01f1"+
-		"\u0001\u0000\u0000\u0000L\u01fe\u0001\u0000\u0000\u0000N\u0200\u0001\u0000"+
-		"\u0000\u0000P\u0217\u0001\u0000\u0000\u0000R\u0219\u0001\u0000\u0000\u0000"+
-		"T\u021e\u0001\u0000\u0000\u0000V\u0225\u0001\u0000\u0000\u0000X\u022f"+
-		"\u0001\u0000\u0000\u0000Z\u0231\u0001\u0000\u0000\u0000\\\u0235\u0001"+
-		"\u0000\u0000\u0000^\u023d\u0001\u0000\u0000\u0000`\u0245\u0001\u0000\u0000"+
-		"\u0000b\u024b\u0001\u0000\u0000\u0000d\u024d\u0001\u0000\u0000\u0000f"+
-		"\u0252\u0001\u0000\u0000\u0000h\u025e\u0001\u0000\u0000\u0000j\u026a\u0001"+
-		"\u0000\u0000\u0000l\u026c\u0001\u0000\u0000\u0000n\u0278\u0001\u0000\u0000"+
-		"\u0000p\u027f\u0001\u0000\u0000\u0000r\u0291\u0001\u0000\u0000\u0000t"+
-		"\u0293\u0001\u0000\u0000\u0000v\u029a\u0001\u0000\u0000\u0000x\u02a6\u0001"+
-		"\u0000\u0000\u0000z\u02b2\u0001\u0000\u0000\u0000|\u02be\u0001\u0000\u0000"+
-		"\u0000~\u02c5\u0001\u0000\u0000\u0000\u0080\u02d1\u0001\u0000\u0000\u0000"+
-		"\u0082\u02d6\u0001\u0000\u0000\u0000\u0084\u02d8\u0001\u0000\u0000\u0000"+
-		"\u0086\u02df\u0001\u0000\u0000\u0000\u0088\u02e4\u0001\u0000\u0000\u0000"+
-		"\u008a\u02ec\u0001\u0000\u0000\u0000\u008c\u0307\u0001\u0000\u0000\u0000"+
-		"\u008e\u0331\u0001\u0000\u0000\u0000\u0090\u0333\u0001\u0000\u0000\u0000"+
-		"\u0092\u0335\u0001\u0000\u0000\u0000\u0094\u034f\u0001\u0000\u0000\u0000"+
-		"\u0096\u0351\u0001\u0000\u0000\u0000\u0098\u0358\u0001\u0000\u0000\u0000"+
-		"\u009a\u035f\u0001\u0000\u0000\u0000\u009c\u0365\u0001\u0000\u0000\u0000"+
-		"\u009e\u036b\u0001\u0000\u0000\u0000\u00a0\u0371\u0001\u0000\u0000\u0000"+
-		"\u00a2\u0377\u0001\u0000\u0000\u0000\u00a4\u037d\u0001\u0000\u0000\u0000"+
-		"\u00a6\u0383\u0001\u0000\u0000\u0000\u00a8\u0388\u0001\u0000\u0000\u0000"+
-		"\u00aa\u038d\u0001\u0000\u0000\u0000\u00ac\u0396\u0001\u0000\u0000\u0000"+
-		"\u00ae\u039b\u0001\u0000\u0000\u0000\u00b0\u03a2\u0001\u0000\u0000\u0000"+
-		"\u00b2\u03b0\u0001\u0000\u0000\u0000\u00b4\u03b2\u0001\u0000\u0000\u0000"+
-		"\u00b6\u03bc\u0001\u0000\u0000\u0000\u00b8\u03c3\u0001\u0000\u0000\u0000"+
-		"\u00ba\u00bb\u0005\u0001\u0000\u0000\u00bb\u00bc\u0003\u00b8\\\u0000\u00bc"+
-		"\u0001\u0001\u0000\u0000\u0000\u00bd\u00be\u0005\u0001\u0000\u0000\u00be"+
-		"\u00bf\u0003\u00b8\\\u0000\u00bf\u0003\u0001\u0000\u0000\u0000\u00c0\u00c1"+
-		"\u0005\u0001\u0000\u0000\u00c1\u00c2\u0003\u00b8\\\u0000\u00c2\u0005\u0001"+
-		"\u0000\u0000\u0000\u00c3\u00c4\u0005\u0001\u0000\u0000\u00c4\u00c5\u0003"+
-		"\u00b8\\\u0000\u00c5\u0007\u0001\u0000\u0000\u0000\u00c6\u00c7\u0005\u0001"+
-		"\u0000\u0000\u00c7\u00c8\u0003\u00b8\\\u0000\u00c8\t\u0001\u0000\u0000"+
-		"\u0000\u00c9\u00ca\u0005\u0001\u0000\u0000\u00ca\u00cb\u0003\u00b8\\\u0000"+
-		"\u00cb\u000b\u0001\u0000\u0000\u0000\u00cc\u00cd\u0005\u0001\u0000\u0000"+
-		"\u00cd\u00ce\u0003\u00b8\\\u0000\u00ce\r\u0001\u0000\u0000\u0000\u00cf"+
-		"\u00d0\u0005\u0001\u0000\u0000\u00d0\u00d1\u0003\u00b8\\\u0000\u00d1\u000f"+
-		"\u0001\u0000\u0000\u0000\u00d2\u00d3\u0005\u0001\u0000\u0000\u00d3\u00d4"+
-		"\u0003\u00b8\\\u0000\u00d4\u0011\u0001\u0000\u0000\u0000\u00d5\u00d6\u0005"+
-		"M\u0000\u0000\u00d6\u00da\u0005\u0002\u0000\u0000\u00d7\u00d9\u0003\u0014"+
-		"\n\u0000\u00d8\u00d7\u0001\u0000\u0000\u0000\u00d9\u00dc\u0001\u0000\u0000"+
-		"\u0000\u00da\u00db\u0001\u0000\u0000\u0000\u00da\u00d8\u0001\u0000\u0000"+
-		"\u0000\u00db\u00dd\u0001\u0000\u0000\u0000\u00dc\u00da\u0001\u0000\u0000"+
-		"\u0000\u00dd\u00e0\u0003\u0016\u000b\u0000\u00de\u00e1\u0003\u001e\u000f"+
-		"\u0000\u00df\u00e1\u0003\u001a\r\u0000\u00e0\u00de\u0001\u0000\u0000\u0000"+
-		"\u00e0\u00df\u0001\u0000\u0000\u0000\u00e1\u00e2\u0001\u0000\u0000\u0000"+
-		"\u00e2\u00e3\u0001\u0000\u0000\u0000\u00e2\u00e0\u0001\u0000\u0000\u0000"+
-		"\u00e3\u00e4\u0001\u0000\u0000\u0000\u00e4\u00e5\u0003\u0018\f\u0000\u00e5"+
-		"\u00e6\u0005N\u0000\u0000\u00e6\u0013\u0001\u0000\u0000\u0000\u00e7\u00e8"+
-		"\u0005M\u0000\u0000\u00e8\u00e9\u0005\u0003\u0000\u0000\u00e9\u00ea\u0003"+
-		"h4\u0000\u00ea\u00eb\u0003\u0000\u0000\u0000\u00eb\u00ec\u0005N\u0000"+
-		"\u0000\u00ec\u0015\u0001\u0000\u0000\u0000\u00ed\u00ee\u0005M\u0000\u0000"+
-		"\u00ee\u00ef\u0005\u0004\u0000\u0000\u00ef\u00f1\u0003*\u0015\u0000\u00f0"+
-		"\u00f2\u0003,\u0016\u0000\u00f1\u00f0\u0001\u0000\u0000\u0000\u00f1\u00f2"+
-		"\u0001\u0000\u0000\u0000\u00f2\u00fa\u0001\u0000\u0000\u0000\u00f3\u00f6"+
-		"\u0005M\u0000\u0000\u00f4\u00f7\u00030\u0018\u0000\u00f5\u00f7\u0003L"+
-		"&\u0000\u00f6\u00f4\u0001\u0000\u0000\u0000\u00f6\u00f5\u0001\u0000\u0000"+
-		"\u0000\u00f7\u00f8\u0001\u0000\u0000\u0000\u00f8\u00f9\u0005N\u0000\u0000"+
-		"\u00f9\u00fb\u0001\u0000\u0000\u0000\u00fa\u00f3\u0001\u0000\u0000\u0000"+
-		"\u00fb\u00fc\u0001\u0000\u0000\u0000\u00fc\u00fd\u0001\u0000\u0000\u0000"+
-		"\u00fc\u00fa\u0001\u0000\u0000\u0000\u00fd\u00fe\u0001\u0000\u0000\u0000"+
-		"\u00fe\u00ff\u0005N\u0000\u0000\u00ff\u0017\u0001\u0000\u0000\u0000\u0100"+
-		"\u0101\u0005M\u0000\u0000\u0101\u0102\u0005\u0005\u0000\u0000\u0102\u0103"+
-		"\u0007\u0000\u0000\u0000\u0103\u0104\u0003\u0094J\u0000\u0104\u0105\u0005"+
-		"N\u0000\u0000\u0105\u0019\u0001\u0000\u0000\u0000\u0106\u0107\u0005M\u0000"+
-		"\u0000\u0107\u0108\u0005\b\u0000\u0000\u0108\u0109\u0007\u0001\u0000\u0000"+
-		"\u0109\u010c\u0003\u001c\u000e\u0000\u010a\u010d\u0003\u001e\u000f\u0000"+
-		"\u010b\u010d\u0003\u001a\r\u0000\u010c\u010a\u0001\u0000\u0000\u0000\u010c"+
-		"\u010b\u0001\u0000\u0000\u0000\u010d\u010e\u0001\u0000\u0000\u0000\u010e"+
-		"\u010f\u0001\u0000\u0000\u0000\u010e\u010c\u0001\u0000\u0000\u0000\u010f"+
-		"\u0110\u0001\u0000\u0000\u0000\u0110\u0111\u0005N\u0000\u0000\u0111\u001b"+
-		"\u0001\u0000\u0000\u0000\u0112\u0113\u0005M\u0000\u0000\u0113\u0114\u0005"+
-		"\u000b\u0000\u0000\u0114\u0115\u0003\u008eG\u0000\u0115\u0116\u0005N\u0000"+
-		"\u0000\u0116\u001d\u0001\u0000\u0000\u0000\u0117\u0118\u0005M\u0000\u0000"+
-		"\u0118\u0119\u0005\f\u0000\u0000\u0119\u011b\u0005M\u0000\u0000\u011a"+
-		"\u011c\u0003\"\u0011\u0000\u011b\u011a\u0001\u0000\u0000\u0000\u011c\u011d"+
-		"\u0001\u0000\u0000\u0000\u011d\u011e\u0001\u0000\u0000\u0000\u011d\u011b"+
-		"\u0001\u0000\u0000\u0000\u011e\u011f\u0001\u0000\u0000\u0000\u011f\u0120"+
-		"\u0005N\u0000\u0000\u0120\u0121\u0005N\u0000\u0000\u0121\u0130\u0001\u0000"+
-		"\u0000\u0000\u0122\u0123\u0005M\u0000\u0000\u0123\u0124\u0005\r\u0000"+
-		"\u0000\u0124\u0126\u0005M\u0000\u0000\u0125\u0127\u0003\"\u0011\u0000"+
-		"\u0126\u0125\u0001\u0000\u0000\u0000\u0127\u0128\u0001\u0000\u0000\u0000"+
-		"\u0128\u0129\u0001\u0000\u0000\u0000\u0128\u0126\u0001\u0000\u0000\u0000"+
-		"\u0129\u012a\u0001\u0000\u0000\u0000\u012a\u012b\u0005N\u0000\u0000\u012b"+
-		"\u012c\u0005N\u0000\u0000\u012c\u0130\u0001\u0000\u0000\u0000\u012d\u0130"+
-		"\u0003$\u0012\u0000\u012e\u0130\u0003&\u0013\u0000\u012f\u0117\u0001\u0000"+
-		"\u0000\u0000\u012f\u0122\u0001\u0000\u0000\u0000\u012f\u012d\u0001\u0000"+
-		"\u0000\u0000\u012f\u012e\u0001\u0000\u0000\u0000\u0130\u001f\u0001\u0000"+
-		"\u0000\u0000\u0131\u0132\u0005M\u0000\u0000\u0132\u0133\u0005\r\u0000"+
-		"\u0000\u0133\u0135\u0005M\u0000\u0000\u0134\u0136\u0003\"\u0011\u0000"+
-		"\u0135\u0134\u0001\u0000\u0000\u0000\u0136\u0137\u0001\u0000\u0000\u0000"+
-		"\u0137\u0138\u0001\u0000\u0000\u0000\u0137\u0135\u0001\u0000\u0000\u0000"+
-		"\u0138\u0139\u0001\u0000\u0000\u0000\u0139\u013a\u0005N\u0000\u0000\u013a"+
-		"\u013b\u0005N\u0000\u0000\u013b\u013f\u0001\u0000\u0000\u0000\u013c\u013f"+
-		"\u0003$\u0012\u0000\u013d\u013f\u0003&\u0013\u0000\u013e\u0131\u0001\u0000"+
-		"\u0000\u0000\u013e\u013c\u0001\u0000\u0000\u0000\u013e\u013d\u0001\u0000"+
-		"\u0000\u0000\u013f!\u0001\u0000\u0000\u0000\u0140\u0141\u0005M\u0000\u0000"+
-		"\u0141\u0142\u0003\u008eG\u0000\u0142\u0143\u0003 \u0010\u0000\u0143\u0144"+
-		"\u0005N\u0000\u0000\u0144\u014d\u0001\u0000\u0000\u0000\u0145\u014d\u0003"+
-		" \u0010\u0000\u0146\u0147\u0005M\u0000\u0000\u0147\u0148\u0003\u008eG"+
-		"\u0000\u0148\u0149\u0003(\u0014\u0000\u0149\u014a\u0005N\u0000\u0000\u014a"+
-		"\u014d\u0001\u0000\u0000\u0000\u014b\u014d\u0003(\u0014\u0000\u014c\u0140"+
-		"\u0001\u0000\u0000\u0000\u014c\u0145\u0001\u0000\u0000\u0000\u014c\u0146"+
-		"\u0001\u0000\u0000\u0000\u014c\u014b\u0001\u0000\u0000\u0000\u014d#\u0001"+
-		"\u0000\u0000\u0000\u014e\u014f\u0005M\u0000\u0000\u014f\u0150\u0007\u0002"+
-		"\u0000\u0000\u0150\u0151\u0003j5\u0000\u0151\u0152\u0003\u0000\u0000\u0000"+
-		"\u0152\u0153\u0003\"\u0011\u0000\u0153\u0154\u0005N\u0000\u0000\u0154"+
-		"%\u0001\u0000\u0000\u0000\u0155\u0156\u0005M\u0000\u0000\u0156\u0157\u0005"+
-		"\u0010\u0000\u0000\u0157\u0158\u0003h4\u0000\u0158\u015c\u0003\u0000\u0000"+
-		"\u0000\u0159\u015d\u0003\u001e\u000f\u0000\u015a\u015d\u0003(\u0014\u0000"+
-		"\u015b\u015d\u0003\"\u0011\u0000\u015c\u0159\u0001\u0000\u0000\u0000\u015c"+
-		"\u015a\u0001\u0000\u0000\u0000\u015c\u015b\u0001\u0000\u0000\u0000\u015d"+
-		"\u015e\u0001\u0000\u0000\u0000\u015e\u015f\u0005N\u0000\u0000\u015f\'"+
-		"\u0001\u0000\u0000\u0000\u0160\u016d\u0005M\u0000\u0000\u0161\u016e\u0003"+
-		"6\u001b\u0000\u0162\u016e\u0003,\u0016\u0000\u0163\u016e\u00030\u0018"+
-		"\u0000\u0164\u016e\u0003<\u001e\u0000\u0165\u016e\u0003>\u001f\u0000\u0166"+
-		"\u016e\u0003F#\u0000\u0167\u016e\u0003B!\u0000\u0168\u016e\u0003@ \u0000"+
-		"\u0169\u016e\u0003D\"\u0000\u016a\u016e\u0003J%\u0000\u016b\u016e\u0003"+
-		"H$\u0000\u016c\u016e\u0003L&\u0000\u016d\u0161\u0001\u0000\u0000\u0000"+
-		"\u016d\u0162\u0001\u0000\u0000\u0000\u016d\u0163\u0001\u0000\u0000\u0000"+
-		"\u016d\u0164\u0001\u0000\u0000\u0000\u016d\u0165\u0001\u0000\u0000\u0000"+
-		"\u016d\u0166\u0001\u0000\u0000\u0000\u016d\u0167\u0001\u0000\u0000\u0000"+
-		"\u016d\u0168\u0001\u0000\u0000\u0000\u016d\u0169\u0001\u0000\u0000\u0000"+
-		"\u016d\u016a\u0001\u0000\u0000\u0000\u016d\u016b\u0001\u0000\u0000\u0000"+
-		"\u016d\u016c\u0001\u0000\u0000\u0000\u016e\u016f\u0001\u0000\u0000\u0000"+
-		"\u016f\u0170\u0005N\u0000\u0000\u0170\u0173\u0001\u0000\u0000\u0000\u0171"+
-		"\u0173\u0003$\u0012\u0000\u0172\u0160\u0001\u0000\u0000\u0000\u0172\u0171"+
-		"\u0001\u0000\u0000\u0000\u0173)\u0001\u0000\u0000\u0000\u0174\u0175\u0005"+
-		"M\u0000\u0000\u0175\u0176\u0005\u0011\u0000\u0000\u0176\u0177\u0005\u0012"+
-		"\u0000\u0000\u0177\u0178\u0003\u0094J\u0000\u0178\u0179\u0005N\u0000\u0000"+
-		"\u0179+\u0001\u0000\u0000\u0000\u017a\u017b\u0005M\u0000\u0000\u017b\u017c"+
-		"\u0005\u0011\u0000\u0000\u017c\u017e\u0005\u0013\u0000\u0000\u017d\u017f"+
-		"\u0003.\u0017\u0000\u017e\u017d\u0001\u0000\u0000\u0000\u017f\u0180\u0001"+
-		"\u0000\u0000\u0000\u0180\u0181\u0001\u0000\u0000\u0000\u0180\u017e\u0001"+
-		"\u0000\u0000\u0000\u0181\u0182\u0001\u0000\u0000\u0000\u0182\u0183\u0005"+
-		"N\u0000\u0000\u0183-\u0001\u0000\u0000\u0000\u0184\u0189\u0005M\u0000"+
-		"\u0000\u0185\u0186\u0005K\u0000\u0000\u0186\u0188\u0005\u0014\u0000\u0000"+
-		"\u0187\u0185\u0001\u0000\u0000\u0000\u0188\u018b\u0001\u0000\u0000\u0000"+
-		"\u0189\u018a\u0001\u0000\u0000\u0000\u0189\u0187\u0001\u0000\u0000\u0000"+
-		"\u018a\u018c\u0001\u0000\u0000\u0000\u018b\u0189\u0001\u0000\u0000\u0000"+
-		"\u018c\u0190\u0005K\u0000\u0000\u018d\u018f\u0003.\u0017\u0000\u018e\u018d"+
-		"\u0001\u0000\u0000\u0000\u018f\u0192\u0001\u0000\u0000\u0000\u0190\u0191"+
-		"\u0001\u0000\u0000\u0000\u0190\u018e\u0001\u0000\u0000\u0000\u0191\u0193"+
-		"\u0001\u0000\u0000\u0000\u0192\u0190\u0001\u0000\u0000\u0000\u0193\u0194"+
-		"\u0005N\u0000\u0000\u0194/\u0001\u0000\u0000\u0000\u0195\u0196\u0005\u0011"+
-		"\u0000\u0000\u0196\u0198\u0005\u0015\u0000\u0000\u0197\u0199\u0003\u00b2"+
-		"Y\u0000\u0198\u0197\u0001\u0000\u0000\u0000\u0198\u0199\u0001\u0000\u0000"+
-		"\u0000\u0199\u019a\u0001\u0000\u0000\u0000\u019a\u019b\u0003r9\u0000\u019b"+
-		"\u019c\u00032\u0019\u0000\u019c1\u0001\u0000\u0000\u0000\u019d\u019e\u0005"+
-		"M\u0000\u0000\u019e\u01a0\u0005\u0015\u0000\u0000\u019f\u01a1\u00034\u001a"+
-		"\u0000\u01a0\u019f\u0001\u0000\u0000\u0000\u01a1\u01a2\u0001\u0000\u0000"+
-		"\u0000\u01a2\u01a3\u0001\u0000\u0000\u0000\u01a2\u01a0\u0001\u0000\u0000"+
-		"\u0000\u01a3\u01a4\u0001\u0000\u0000\u0000\u01a4\u01a5\u0005N\u0000\u0000"+
-		"\u01a53\u0001\u0000\u0000\u0000\u01a6\u01ac\u0005M\u0000\u0000\u01a7\u01a8"+
-		"\u0003\u00b8\\\u0000\u01a8\u01a9\u0005\u0014\u0000\u0000\u01a9\u01ab\u0001"+
-		"\u0000\u0000\u0000\u01aa\u01a7\u0001\u0000\u0000\u0000\u01ab\u01ae\u0001"+
-		"\u0000\u0000\u0000\u01ac\u01ad\u0001\u0000\u0000\u0000\u01ac\u01aa\u0001"+
-		"\u0000\u0000\u0000\u01ad\u01af\u0001\u0000\u0000\u0000\u01ae\u01ac\u0001"+
-		"\u0000\u0000\u0000\u01af\u01b3\u0003\u00b8\\\u0000\u01b0\u01b2\u00034"+
-		"\u001a\u0000\u01b1\u01b0\u0001\u0000\u0000\u0000\u01b2\u01b5\u0001\u0000"+
-		"\u0000\u0000\u01b3\u01b4\u0001\u0000\u0000\u0000\u01b3\u01b1\u0001\u0000"+
-		"\u0000\u0000\u01b4\u01b6\u0001\u0000\u0000\u0000\u01b5\u01b3\u0001\u0000"+
-		"\u0000\u0000\u01b6\u01b7\u0005N\u0000\u0000\u01b75\u0001\u0000\u0000\u0000"+
-		"\u01b8\u01b9\u0005\u0016\u0000\u0000\u01b9\u01ba\u0003N\'\u0000\u01ba"+
-		"\u01bc\u0005M\u0000\u0000\u01bb\u01bd\u00038\u001c\u0000\u01bc\u01bb\u0001"+
-		"\u0000\u0000\u0000\u01bd\u01be\u0001\u0000\u0000\u0000\u01be\u01bf\u0001"+
-		"\u0000\u0000\u0000\u01be\u01bc\u0001\u0000\u0000\u0000\u01bf\u01c0\u0001"+
-		"\u0000\u0000\u0000\u01c0\u01c1\u0005N\u0000\u0000\u01c17\u0001\u0000\u0000"+
-		"\u0000\u01c2\u01c4\u0005M\u0000\u0000\u01c3\u01c5\u0003:\u001d\u0000\u01c4"+
-		"\u01c3\u0001\u0000\u0000\u0000\u01c5\u01c6\u0001\u0000\u0000\u0000\u01c6"+
-		"\u01c7\u0001\u0000\u0000\u0000\u01c6\u01c4\u0001\u0000\u0000\u0000\u01c7"+
-		"\u01c8\u0001\u0000\u0000\u0000\u01c8\u01c9\u0003\u0094J\u0000\u01c9\u01ca"+
-		"\u0005N\u0000\u0000\u01ca9\u0001\u0000\u0000\u0000\u01cb\u01cc\u0005M"+
-		"\u0000\u0000\u01cc\u01cd\u0003\u00b2Y\u0000\u01cd\u01ce\u0005\u0017\u0000"+
-		"\u0000\u01ce\u01cf\u0003\u00b2Y\u0000\u01cf\u01d0\u0005N\u0000\u0000\u01d0"+
-		";\u0001\u0000\u0000\u0000\u01d1\u01d2\u0005\u0018\u0000\u0000\u01d2\u01d8"+
-		"\u0007\u0003\u0000\u0000\u01d3\u01d9\u0003d2\u0000\u01d4\u01d9\u0005\u001a"+
-		"\u0000\u0000\u01d5\u01d9\u0005\u0019\u0000\u0000\u01d6\u01d9\u0005\u001b"+
-		"\u0000\u0000\u01d7\u01d9\u0003\u0004\u0002\u0000\u01d8\u01d3\u0001\u0000"+
-		"\u0000\u0000\u01d8\u01d4\u0001\u0000\u0000\u0000\u01d8\u01d5\u0001\u0000"+
-		"\u0000\u0000\u01d8\u01d6\u0001\u0000\u0000\u0000\u01d8\u01d7\u0001\u0000"+
-		"\u0000\u0000\u01d9=\u0001\u0000\u0000\u0000\u01da\u01db\u0005\u0016\u0000"+
-		"\u0000\u01db\u01dc\u0003\u00b0X\u0000\u01dc\u01dd\u0003\u0094J\u0000\u01dd"+
-		"?\u0001\u0000\u0000\u0000\u01de\u01df\u0005\u0016\u0000\u0000\u01df\u01e0"+
-		"\u0003\u00b4Z\u0000\u01e0\u01e1\u0003\u00b2Y\u0000\u01e1A\u0001\u0000"+
-		"\u0000\u0000\u01e2\u01e3\u0005\u001c\u0000\u0000\u01e3\u01e4\u0003\u00b0"+
-		"X\u0000\u01e4\u01e5\u0003\u0094J\u0000\u01e5C\u0001\u0000\u0000\u0000"+
-		"\u01e6\u01e7\u0005\u001d\u0000\u0000\u01e7\u01e8\u0003\u00b0X\u0000\u01e8"+
-		"\u01e9\u0003\u0094J\u0000\u01e9E\u0001\u0000\u0000\u0000\u01ea\u01eb\u0005"+
-		"\u001e\u0000\u0000\u01eb\u01ec\u0003P(\u0000\u01ec\u01ed\u0003P(\u0000"+
-		"\u01edG\u0001\u0000\u0000\u0000\u01ee\u01ef\u0005\u001f\u0000\u0000\u01ef"+
-		"\u01f0\u0003r9\u0000\u01f0I\u0001\u0000\u0000\u0000\u01f1\u01f2\u0005"+
-		" \u0000\u0000\u01f2\u01f3\u0005!\u0000\u0000\u01f3K\u0001\u0000\u0000"+
-		"\u0000\u01f4\u01f5\u0005\"\u0000\u0000\u01f5\u01f6\u0003\u0094J\u0000"+
-		"\u01f6\u01f7\u0003(\u0014\u0000\u01f7\u01ff\u0001\u0000\u0000\u0000\u01f8"+
-		"\u01f9\u0005\"\u0000\u0000\u01f9\u01fa\u0005\u000f\u0000\u0000\u01fa\u01fb"+
-		"\u0005M\u0000\u0000\u01fb\u01fc\u0003F#\u0000\u01fc\u01fd\u0005N\u0000"+
-		"\u0000\u01fd\u01ff\u0001\u0000\u0000\u0000\u01fe\u01f4\u0001\u0000\u0000"+
-		"\u0000\u01fe\u01f8\u0001\u0000\u0000\u0000\u01ffM\u0001\u0000\u0000\u0000"+
-		"\u0200\u0204\u0005M\u0000\u0000\u0201\u0205\u0003\u0004\u0002\u0000\u0202"+
-		"\u0205\u0005\u0002\u0000\u0000\u0203\u0205\u0003\\.\u0000\u0204\u0201"+
-		"\u0001\u0000\u0000\u0000\u0204\u0202\u0001\u0000\u0000\u0000\u0204\u0203"+
-		"\u0001\u0000\u0000\u0000\u0205\u0206\u0001\u0000\u0000\u0000\u0206\u0207"+
-		"\u0005#\u0000\u0000\u0207\u0208\u0003\u00b2Y\u0000\u0208\u0209\u0005N"+
-		"\u0000\u0000\u0209O\u0001\u0000\u0000\u0000\u020a\u0218\u0003\u0010\b"+
-		"\u0000\u020b\u0218\u0003T*\u0000\u020c\u0218\u0003V+\u0000\u020d\u0218"+
-		"\u0003R)\u0000\u020e\u0212\u0005M\u0000\u0000\u020f\u0213\u0005$\u0000"+
-		"\u0000\u0210\u0213\u0005%\u0000\u0000\u0211\u0213\u0003\u0094J\u0000\u0212"+
-		"\u020f\u0001\u0000\u0000\u0000\u0212\u0210\u0001\u0000\u0000\u0000\u0212"+
-		"\u0211\u0001\u0000\u0000\u0000\u0213\u0214\u0001\u0000\u0000\u0000\u0214"+
-		"\u0215\u0003r9\u0000\u0215\u0216\u0005N\u0000\u0000\u0216\u0218\u0001"+
-		"\u0000\u0000\u0000\u0217\u020a\u0001\u0000\u0000\u0000\u0217\u020b\u0001"+
-		"\u0000\u0000\u0000\u0217\u020c\u0001\u0000\u0000\u0000\u0217\u020d\u0001"+
-		"\u0000\u0000\u0000\u0217\u020e\u0001\u0000\u0000\u0000\u0218Q\u0001\u0000"+
-		"\u0000\u0000\u0219\u021a\u0005M\u0000\u0000\u021a\u021b\u0005&\u0000\u0000"+
-		"\u021b\u021c\u0003P(\u0000\u021c\u021d\u0005N\u0000\u0000\u021dS\u0001"+
-		"\u0000\u0000\u0000\u021e\u021f\u0005M\u0000\u0000\u021f\u0220\u0005\u0007"+
-		"\u0000\u0000\u0220\u0221\u0003r9\u0000\u0221\u0222\u0005\'\u0000\u0000"+
-		"\u0222\u0223\u0003N\'\u0000\u0223\u0224\u0005N\u0000\u0000\u0224U\u0001"+
-		"\u0000\u0000\u0000\u0225\u0226\u0005M\u0000\u0000\u0226\u0227\u0005\u0006"+
-		"\u0000\u0000\u0227\u0228\u0003r9\u0000\u0228\u0229\u0005\'\u0000\u0000"+
-		"\u0229\u022a\u0003N\'\u0000\u022a\u022b\u0005N\u0000\u0000\u022bW\u0001"+
-		"\u0000\u0000\u0000\u022c\u0230\u0005\u0002\u0000\u0000\u022d\u0230\u0003"+
-		"\u0006\u0003\u0000\u022e\u0230\u0003^/\u0000\u022f\u022c\u0001\u0000\u0000"+
-		"\u0000\u022f\u022d\u0001\u0000\u0000\u0000\u022f\u022e\u0001\u0000\u0000"+
-		"\u0000\u0230Y\u0001\u0000\u0000\u0000\u0231\u0232\u0007\u0004\u0000\u0000"+
-		"\u0232[\u0001\u0000\u0000\u0000\u0233\u0236\u0003`0\u0000\u0234\u0236"+
-		"\u0003^/\u0000\u0235\u0233\u0001\u0000\u0000\u0000\u0235\u0234\u0001\u0000"+
-		"\u0000\u0000\u0236]\u0001\u0000\u0000\u0000\u0237\u0238\u0005M\u0000\u0000"+
-		"\u0238\u0239\u0003b1\u0000\u0239\u023a\u0005\t\u0000\u0000\u023a\u023b"+
-		"\u0005N\u0000\u0000\u023b\u023e\u0001\u0000\u0000\u0000\u023c\u023e\u0003"+
-		"d2\u0000\u023d\u0237\u0001\u0000\u0000\u0000\u023d\u023c\u0001\u0000\u0000"+
-		"\u0000\u023e_\u0001\u0000\u0000\u0000\u023f\u0240\u0005M\u0000\u0000\u0240"+
-		"\u0241\u0003b1\u0000\u0241\u0242\u0005\n\u0000\u0000\u0242\u0243\u0005"+
-		"N\u0000\u0000\u0243\u0246\u0001\u0000\u0000\u0000\u0244\u0246\u0003f3"+
-		"\u0000\u0245\u023f\u0001\u0000\u0000\u0000\u0245\u0244\u0001\u0000\u0000"+
-		"\u0000\u0246a\u0001\u0000\u0000\u0000\u0247\u024c\u0003\u0094J\u0000\u0248"+
-		"\u024c\u0005\u001b\u0000\u0000\u0249\u024c\u0005\u0019\u0000\u0000\u024a"+
-		"\u024c\u0005\u001a\u0000\u0000\u024b\u0247\u0001\u0000\u0000\u0000\u024b"+
-		"\u0248\u0001\u0000\u0000\u0000\u024b\u0249\u0001\u0000\u0000\u0000\u024b"+
-		"\u024a\u0001\u0000\u0000\u0000\u024cc\u0001\u0000\u0000\u0000\u024d\u024e"+
-		"\u0005M\u0000\u0000\u024e\u024f\u0005+\u0000\u0000\u024f\u0250\u0003P"+
-		"(\u0000\u0250\u0251\u0005N\u0000\u0000\u0251e\u0001\u0000\u0000\u0000"+
-		"\u0252\u0253\u0005M\u0000\u0000\u0253\u0256\u0005\n\u0000\u0000\u0254"+
-		"\u0257\u0003\u0006\u0003\u0000\u0255\u0257\u0003^/\u0000\u0256\u0254\u0001"+
-		"\u0000\u0000\u0000\u0256\u0255\u0001\u0000\u0000\u0000\u0257\u0258\u0001"+
-		"\u0000\u0000\u0000\u0258\u0259\u0005N\u0000\u0000\u0259g\u0001\u0000\u0000"+
-		"\u0000\u025a\u025f\u0003\u0094J\u0000\u025b\u025f\u0003\u008eG\u0000\u025c"+
-		"\u025f\u0003\u00b2Y\u0000\u025d\u025f\u0003j5\u0000\u025e\u025a\u0001"+
-		"\u0000\u0000\u0000\u025e\u025b\u0001\u0000\u0000\u0000\u025e\u025c\u0001"+
-		"\u0000\u0000\u0000\u025e\u025d\u0001\u0000\u0000\u0000\u025fi\u0001\u0000"+
-		"\u0000\u0000\u0260\u026b\u0003\f\u0006\u0000\u0261\u026b\u0003|>\u0000"+
-		"\u0262\u026b\u0003r9\u0000\u0263\u026b\u0003l6\u0000\u0264\u026b\u0003"+
-		"\u0080@\u0000\u0265\u026b\u0005\t\u0000\u0000\u0266\u026b\u0005\n\u0000"+
-		"\u0000\u0267\u026b\u0003`0\u0000\u0268\u026b\u0003p8\u0000\u0269\u026b"+
-		"\u0003n7\u0000\u026a\u0260\u0001\u0000\u0000\u0000\u026a\u0261\u0001\u0000"+
-		"\u0000\u0000\u026a\u0262\u0001\u0000\u0000\u0000\u026a\u0263\u0001\u0000"+
-		"\u0000\u0000\u026a\u0264\u0001\u0000\u0000\u0000\u026a\u0265\u0001\u0000"+
-		"\u0000\u0000\u026a\u0266\u0001\u0000\u0000\u0000\u026a\u0267\u0001\u0000"+
-		"\u0000\u0000\u026a\u0268\u0001\u0000\u0000\u0000\u026a\u0269\u0001\u0000"+
-		"\u0000\u0000\u026bk\u0001\u0000\u0000\u0000\u026c\u0272\u0005M\u0000\u0000"+
-		"\u026d\u026e\u0003\u00b8\\\u0000\u026e\u026f\u0005\u0014\u0000\u0000\u026f"+
-		"\u0271\u0001\u0000\u0000\u0000\u0270\u026d\u0001\u0000\u0000\u0000\u0271"+
-		"\u0274\u0001\u0000\u0000\u0000\u0272\u0273\u0001\u0000\u0000\u0000\u0272"+
-		"\u0270\u0001\u0000\u0000\u0000\u0273\u0275\u0001\u0000\u0000\u0000\u0274"+
-		"\u0272\u0001\u0000\u0000\u0000\u0275\u0276\u0003\u00b8\\\u0000\u0276\u0277"+
-		"\u0005N\u0000\u0000\u0277m\u0001\u0000\u0000\u0000\u0278\u0279\u0005M"+
-		"\u0000\u0000\u0279\u027a\u0005,\u0000\u0000\u027a\u027b\u0003\u0094J\u0000"+
-		"\u027b\u027c\u0005-\u0000\u0000\u027c\u027d\u0003\u0094J\u0000\u027d\u027e"+
-		"\u0005N\u0000\u0000\u027eo\u0001\u0000\u0000\u0000\u027f\u0280\u0005M"+
-		"\u0000\u0000\u0280\u0281\u0005.\u0000\u0000\u0281\u0282\u0007\u0001\u0000"+
-		"\u0000\u0282\u0283\u0005N\u0000\u0000\u0283q\u0001\u0000\u0000\u0000\u0284"+
-		"\u0292\u0003\u000e\u0007\u0000\u0285\u0292\u0003v;\u0000\u0286\u0292\u0003"+
-		"x<\u0000\u0287\u0292\u0003z=\u0000\u0288\u0292\u0003t:\u0000\u0289\u0292"+
-		"\u0003|>\u0000\u028a\u028b\u0005M\u0000\u0000\u028b\u028c\u0003X,\u0000"+
-		"\u028c\u028d\u0003Z-\u0000\u028d\u028e\u0003\u00b2Y\u0000\u028e\u028f"+
-		"\u0005N\u0000\u0000\u028f\u0292\u0001\u0000\u0000\u0000\u0290\u0292\u0003"+
-		"~?\u0000\u0291\u0284\u0001\u0000\u0000\u0000\u0291\u0285\u0001\u0000\u0000"+
-		"\u0000\u0291\u0286\u0001\u0000\u0000\u0000\u0291\u0287\u0001\u0000\u0000"+
-		"\u0000\u0291\u0288\u0001\u0000\u0000\u0000\u0291\u0289\u0001\u0000\u0000"+
-		"\u0000\u0291\u028a\u0001\u0000\u0000\u0000\u0291\u0290\u0001\u0000\u0000"+
-		"\u0000\u0292s\u0001\u0000\u0000\u0000\u0293\u0294\u0005M\u0000\u0000\u0294"+
-		"\u0295\u0005/\u0000\u0000\u0295\u0296\u0003r9\u0000\u0296\u0297\u0005"+
-		"\'\u0000\u0000\u0297\u0298\u0003N\'\u0000\u0298\u0299\u0005N\u0000\u0000"+
-		"\u0299u\u0001\u0000\u0000\u0000\u029a\u029b\u0005M\u0000\u0000\u029b\u02a2"+
-		"\u00050\u0000\u0000\u029c\u02a3\u0003\u008cF\u0000\u029d\u029f\u0003r"+
-		"9\u0000\u029e\u029d\u0001\u0000\u0000\u0000\u029f\u02a0\u0001\u0000\u0000"+
-		"\u0000\u02a0\u02a1\u0001\u0000\u0000\u0000\u02a0\u029e\u0001\u0000\u0000"+
-		"\u0000\u02a1\u02a3\u0001\u0000\u0000\u0000\u02a2\u029c\u0001\u0000\u0000"+
-		"\u0000\u02a2\u029e\u0001\u0000\u0000\u0000\u02a3\u02a4\u0001\u0000\u0000"+
-		"\u0000\u02a4\u02a5\u0005N\u0000\u0000\u02a5w\u0001\u0000\u0000\u0000\u02a6"+
-		"\u02a7\u0005M\u0000\u0000\u02a7\u02ae\u00051\u0000\u0000\u02a8\u02af\u0003"+
-		"\u008cF\u0000\u02a9\u02ab\u0003r9\u0000\u02aa\u02a9\u0001\u0000\u0000"+
-		"\u0000\u02ab\u02ac\u0001\u0000\u0000\u0000\u02ac\u02ad\u0001\u0000\u0000"+
-		"\u0000\u02ac\u02aa\u0001\u0000\u0000\u0000\u02ad\u02af\u0001\u0000\u0000"+
-		"\u0000\u02ae\u02a8\u0001\u0000\u0000\u0000\u02ae\u02aa\u0001\u0000\u0000"+
-		"\u0000\u02af\u02b0\u0001\u0000\u0000\u0000\u02b0\u02b1\u0005N\u0000\u0000"+
-		"\u02b1y\u0001\u0000\u0000\u0000\u02b2\u02b3\u0005M\u0000\u0000\u02b3\u02ba"+
-		"\u00052\u0000\u0000\u02b4\u02bb\u0003\u008cF\u0000\u02b5\u02b7\u0003r"+
-		"9\u0000\u02b6\u02b5\u0001\u0000\u0000\u0000\u02b7\u02b8\u0001\u0000\u0000"+
-		"\u0000\u02b8\u02b9\u0001\u0000\u0000\u0000\u02b8\u02b6\u0001\u0000\u0000"+
-		"\u0000\u02b9\u02bb\u0001\u0000\u0000\u0000\u02ba\u02b4\u0001\u0000\u0000"+
-		"\u0000\u02ba\u02b6\u0001\u0000\u0000\u0000\u02bb\u02bc\u0001\u0000\u0000"+
-		"\u0000\u02bc\u02bd\u0005N\u0000\u0000\u02bd{\u0001\u0000\u0000\u0000\u02be"+
-		"\u02bf\u0005M\u0000\u0000\u02bf\u02c0\u00053\u0000\u0000\u02c0\u02c1\u0003"+
-		"j5\u0000\u02c1\u02c2\u0003\u0000\u0000\u0000\u02c2\u02c3\u0003\u008eG"+
-		"\u0000\u02c3\u02c4\u0005N\u0000\u0000\u02c4}\u0001\u0000\u0000\u0000\u02c5"+
-		"\u02c9\u0005M\u0000\u0000\u02c6\u02ca\u0005$\u0000\u0000\u02c7\u02ca\u0005"+
-		"%\u0000\u0000\u02c8\u02ca\u0003\u0094J\u0000\u02c9\u02c6\u0001\u0000\u0000"+
-		"\u0000\u02c9\u02c7\u0001\u0000\u0000\u0000\u02c9\u02c8\u0001\u0000\u0000"+
-		"\u0000\u02ca\u02cb\u0001\u0000\u0000\u0000\u02cb\u02cc\u0003\u0082A\u0000"+
-		"\u02cc\u02cd\u0005N\u0000\u0000\u02cd\u007f\u0001\u0000\u0000\u0000\u02ce"+
-		"\u02d2\u0003\u0082A\u0000\u02cf\u02d2\u0003\u008cF\u0000\u02d0\u02d2\u0003"+
-		"&\u0013\u0000\u02d1\u02ce\u0001\u0000\u0000\u0000\u02d1\u02cf\u0001\u0000"+
-		"\u0000\u0000\u02d1\u02d0\u0001\u0000\u0000\u0000\u02d2\u0081\u0001\u0000"+
-		"\u0000\u0000\u02d3\u02d7\u0003\u0088D\u0000\u02d4\u02d7\u0003\u008aE\u0000"+
-		"\u02d5\u02d7\u0003\u0086C\u0000\u02d6\u02d3\u0001\u0000\u0000\u0000\u02d6"+
-		"\u02d4\u0001\u0000\u0000\u0000\u02d6\u02d5\u0001\u0000\u0000\u0000\u02d7"+
-		"\u0083\u0001\u0000\u0000\u0000\u02d8\u02d9\u0005M\u0000\u0000\u02d9\u02da"+
-		"\u00054\u0000\u0000\u02da\u02db\u0003r9\u0000\u02db\u02dc\u0005\'\u0000"+
-		"\u0000\u02dc\u02dd\u0003N\'\u0000\u02dd\u02de\u0005N\u0000\u0000\u02de"+
-		"\u0085\u0001\u0000\u0000\u0000\u02df\u02e0\u0005M\u0000\u0000\u02e0\u02e1"+
-		"\u00055\u0000\u0000\u02e1\u02e2\u0003r9\u0000\u02e2\u02e3\u0005N\u0000"+
-		"\u0000\u02e3\u0087\u0001\u0000\u0000\u0000\u02e4\u02e5\u0005M\u0000\u0000"+
-		"\u02e5\u02e6\u00056\u0000\u0000\u02e6\u02e7\u0003\u0094J\u0000\u02e7\u02e8"+
-		"\u0003r9\u0000\u02e8\u02e9\u0005\'\u0000\u0000\u02e9\u02ea\u0003N\'\u0000"+
-		"\u02ea\u02eb\u0005N\u0000\u0000\u02eb\u0089\u0001\u0000\u0000\u0000\u02ec"+
-		"\u02ed\u0005M\u0000\u0000\u02ed\u0303\u00057\u0000\u0000\u02ee\u02f5\u0003"+
-		"\u00b2Y\u0000\u02ef\u02f6\u0003\u008cF\u0000\u02f0\u02f2\u0003r9\u0000"+
-		"\u02f1\u02f0\u0001\u0000\u0000\u0000\u02f2\u02f3\u0001\u0000\u0000\u0000"+
-		"\u02f3\u02f4\u0001\u0000\u0000\u0000\u02f3\u02f1\u0001\u0000\u0000\u0000"+
-		"\u02f4\u02f6\u0001\u0000\u0000\u0000\u02f5\u02ef\u0001\u0000\u0000\u0000"+
-		"\u02f5\u02f1\u0001\u0000\u0000\u0000\u02f6\u0304\u0001\u0000\u0000\u0000"+
-		"\u02f7\u02fe\u00054\u0000\u0000\u02f8\u02ff\u0003\u008cF\u0000\u02f9\u02fb"+
-		"\u0003r9\u0000\u02fa\u02f9\u0001\u0000\u0000\u0000\u02fb\u02fc\u0001\u0000"+
-		"\u0000\u0000\u02fc\u02fd\u0001\u0000\u0000\u0000\u02fc\u02fa\u0001\u0000"+
-		"\u0000\u0000\u02fd\u02ff\u0001\u0000\u0000\u0000\u02fe\u02f8\u0001\u0000"+
-		"\u0000\u0000\u02fe\u02fa\u0001\u0000\u0000\u0000\u02ff\u0300\u0001\u0000"+
-		"\u0000\u0000\u0300\u0301\u0005\'\u0000\u0000\u0301\u0302\u0003N\'\u0000"+
-		"\u0302\u0304\u0001\u0000\u0000\u0000\u0303\u02ee\u0001\u0000\u0000\u0000"+
-		"\u0303\u02f7\u0001\u0000\u0000\u0000\u0304\u0305\u0001\u0000\u0000\u0000"+
-		"\u0305\u0306\u0005N\u0000\u0000\u0306\u008b\u0001\u0000\u0000\u0000\u0307"+
-		"\u0308\u0005M\u0000\u0000\u0308\u0309\u0005\u000f\u0000\u0000\u0309\u030a"+
-		"\u0003j5\u0000\u030a\u030b\u0003\u0000\u0000\u0000\u030b\u030c\u0003r"+
-		"9\u0000\u030c\u030d\u0005N\u0000\u0000\u030d\u008d\u0001\u0000\u0000\u0000"+
-		"\u030e\u032c\u0005M\u0000\u0000\u030f\u0310\u0005G\u0000\u0000\u0310\u0312"+
-		"\u0003\u008eG\u0000\u0311\u0313\u0003\u008eG\u0000\u0312\u0311\u0001\u0000"+
-		"\u0000\u0000\u0313\u0314\u0001\u0000\u0000\u0000\u0314\u0315\u0001\u0000"+
-		"\u0000\u0000\u0314\u0312\u0001\u0000\u0000\u0000\u0315\u032d\u0001\u0000"+
-		"\u0000\u0000\u0316\u0317\u0003\u0090H\u0000\u0317\u0318\u0003\u0094J\u0000"+
-		"\u0318\u0319\u0003\u0094J\u0000\u0319\u032d\u0001\u0000\u0000\u0000\u031a"+
-		"\u031b\u0005I\u0000\u0000\u031b\u031c\u0003\u00b2Y\u0000\u031c\u031d\u0003"+
-		"\u00b2Y\u0000\u031d\u032d\u0001\u0000\u0000\u0000\u031e\u031f\u0005I\u0000"+
-		"\u0000\u031f\u0320\u0003P(\u0000\u0320\u0321\u0003P(\u0000\u0321\u032d"+
-		"\u0001\u0000\u0000\u0000\u0322\u0323\u0005J\u0000\u0000\u0323\u032d\u0003"+
-		"\u008eG\u0000\u0324\u0325\u0005I\u0000\u0000\u0325\u0326\u0003^/\u0000"+
-		"\u0326\u0327\u0003^/\u0000\u0327\u032d\u0001\u0000\u0000\u0000\u0328\u0329"+
-		"\u0005I\u0000\u0000\u0329\u032a\u0003`0\u0000\u032a\u032b\u0003`0\u0000"+
-		"\u032b\u032d\u0001\u0000\u0000\u0000\u032c\u030f\u0001\u0000\u0000\u0000"+
-		"\u032c\u0316\u0001\u0000\u0000\u0000\u032c\u031a\u0001\u0000\u0000\u0000"+
-		"\u032c\u031e\u0001\u0000\u0000\u0000\u032c\u0322\u0001\u0000\u0000\u0000"+
-		"\u032c\u0324\u0001\u0000\u0000\u0000\u032c\u0328\u0001\u0000\u0000\u0000"+
-		"\u032d\u032e\u0001\u0000\u0000\u0000\u032e\u032f\u0005N\u0000\u0000\u032f"+
-		"\u0332\u0001\u0000\u0000\u0000\u0330\u0332\u0003\u0092I\u0000\u0331\u030e"+
-		"\u0001\u0000\u0000\u0000\u0331\u0330\u0001\u0000\u0000\u0000\u0332\u008f"+
-		"\u0001\u0000\u0000\u0000\u0333\u0334\u0007\u0005\u0000\u0000\u0334\u0091"+
-		"\u0001\u0000\u0000\u0000\u0335\u0336\u0005M\u0000\u0000\u0336\u0337\u0007"+
-		"\u0002\u0000\u0000\u0337\u0338\u0003j5\u0000\u0338\u0339\u0003\u0000\u0000"+
-		"\u0000\u0339\u033a\u0003\u008eG\u0000\u033a\u033b\u0005N\u0000\u0000\u033b"+
-		"\u0093\u0001\u0000\u0000\u0000\u033c\u0350\u0003\b\u0004\u0000\u033d\u0350"+
-		"\u0003\u00acV\u0000\u033e\u0350\u0003\u009cN\u0000\u033f\u0350\u0003\u009e"+
-		"O\u0000\u0340\u0350\u0003\u00a0P\u0000\u0341\u0350\u0003\u009aM\u0000"+
-		"\u0342\u0350\u0003\u00a2Q\u0000\u0343\u0350\u0003\u00a4R\u0000\u0344\u0350"+
-		"\u0003\u00a6S\u0000\u0345\u0350\u0003\u00a8T\u0000\u0346\u0350\u0003\u00aa"+
-		"U\u0000\u0347\u0350\u0003\u0096K\u0000\u0348\u0350\u0003\u00b0X\u0000"+
-		"\u0349\u0350\u0003\u0098L\u0000\u034a\u034c\u0005K\u0000\u0000\u034b\u034a"+
-		"\u0001\u0000\u0000\u0000\u034c\u034d\u0001\u0000\u0000\u0000\u034d\u034b"+
-		"\u0001\u0000\u0000\u0000\u034d\u034e\u0001\u0000\u0000\u0000\u034e\u0350"+
-		"\u0001\u0000\u0000\u0000\u034f\u033c\u0001\u0000\u0000\u0000\u034f\u033d"+
-		"\u0001\u0000\u0000\u0000\u034f\u033e\u0001\u0000\u0000\u0000\u034f\u033f"+
-		"\u0001\u0000\u0000\u0000\u034f\u0340\u0001\u0000\u0000\u0000\u034f\u0341"+
-		"\u0001\u0000\u0000\u0000\u034f\u0342\u0001\u0000\u0000\u0000\u034f\u0343"+
-		"\u0001\u0000\u0000\u0000\u034f\u0344\u0001\u0000\u0000\u0000\u034f\u0345"+
-		"\u0001\u0000\u0000\u0000\u034f\u0346\u0001\u0000\u0000\u0000\u034f\u0347"+
-		"\u0001\u0000\u0000\u0000\u034f\u0348\u0001\u0000\u0000\u0000\u034f\u0349"+
-		"\u0001\u0000\u0000\u0000\u034f\u034b\u0001\u0000\u0000\u0000\u0350\u0095"+
-		"\u0001\u0000\u0000\u0000\u0351\u0352\u0005M\u0000\u0000\u0352\u0353\u0005"+
-		"8\u0000\u0000\u0353\u0354\u0003r9\u0000\u0354\u0355\u0005\'\u0000\u0000"+
-		"\u0355\u0356\u0003N\'\u0000\u0356\u0357\u0005N\u0000\u0000\u0357\u0097"+
-		"\u0001\u0000\u0000\u0000\u0358\u0359\u0005M\u0000\u0000\u0359\u035a\u0005"+
-		"9\u0000\u0000\u035a\u035b\u0003P(\u0000\u035b\u035c\u0005\'\u0000\u0000"+
-		"\u035c\u035d\u0003N\'\u0000\u035d\u035e\u0005N\u0000\u0000\u035e\u0099"+
-		"\u0001\u0000\u0000\u0000\u035f\u0360\u0005M\u0000\u0000\u0360\u0361\u0005"+
-		":\u0000\u0000\u0361\u0362\u0003\u0094J\u0000\u0362\u0363\u0003\u0094J"+
-		"\u0000\u0363\u0364\u0005N\u0000\u0000\u0364\u009b\u0001\u0000\u0000\u0000"+
-		"\u0365\u0366\u0005M\u0000\u0000\u0366\u0367\u0005;\u0000\u0000\u0367\u0368"+
-		"\u0003\u0094J\u0000\u0368\u0369\u0003\u0094J\u0000\u0369\u036a\u0005N"+
-		"\u0000\u0000\u036a\u009d\u0001\u0000\u0000\u0000\u036b\u036c\u0005M\u0000"+
-		"\u0000\u036c\u036d\u0005<\u0000\u0000\u036d\u036e\u0003\u0094J\u0000\u036e"+
-		"\u036f\u0003\u0094J\u0000\u036f\u0370\u0005N\u0000\u0000\u0370\u009f\u0001"+
-		"\u0000\u0000\u0000\u0371\u0372\u0005M\u0000\u0000\u0372\u0373\u0005=\u0000"+
-		"\u0000\u0373\u0374\u0003\u0094J\u0000\u0374\u0375\u0003\u0094J\u0000\u0375"+
-		"\u0376\u0005N\u0000\u0000\u0376\u00a1\u0001\u0000\u0000\u0000\u0377\u0378"+
-		"\u0005M\u0000\u0000\u0378\u0379\u0005>\u0000\u0000\u0379\u037a\u0003\u0094"+
-		"J\u0000\u037a\u037b\u0003\u0094J\u0000\u037b\u037c\u0005N\u0000\u0000"+
-		"\u037c\u00a3\u0001\u0000\u0000\u0000\u037d\u037e\u0005M\u0000\u0000\u037e"+
-		"\u037f\u0005?\u0000\u0000\u037f\u0380\u0003\u0094J\u0000\u0380\u0381\u0003"+
-		"\u0094J\u0000\u0381\u0382\u0005N\u0000\u0000\u0382\u00a5\u0001\u0000\u0000"+
-		"\u0000\u0383\u0384\u0005M\u0000\u0000\u0384\u0385\u0005@\u0000\u0000\u0385"+
-		"\u0386\u0003\u0094J\u0000\u0386\u0387\u0005N\u0000\u0000\u0387\u00a7\u0001"+
-		"\u0000\u0000\u0000\u0388\u0389\u0005M\u0000\u0000\u0389\u038a\u0005A\u0000"+
-		"\u0000\u038a\u038b\u0003\u0094J\u0000\u038b\u038c\u0005N\u0000\u0000\u038c"+
-		"\u00a9\u0001\u0000\u0000\u0000\u038d\u038e\u0005M\u0000\u0000\u038e\u038f"+
-		"\u0005B\u0000\u0000\u038f\u0392\u0003\u0094J\u0000\u0390\u0391\u0005-"+
-		"\u0000\u0000\u0391\u0393\u0003\u0094J\u0000\u0392\u0390\u0001\u0000\u0000"+
-		"\u0000\u0392\u0393\u0001\u0000\u0000\u0000\u0393\u0394\u0001\u0000\u0000"+
-		"\u0000\u0394\u0395\u0005N\u0000\u0000\u0395\u00ab\u0001\u0000\u0000\u0000"+
-		"\u0396\u0397\u0005M\u0000\u0000\u0397\u0398\u0005C\u0000\u0000\u0398\u0399"+
-		"\u0003j5\u0000\u0399\u039a\u0005N\u0000\u0000\u039a\u00ad\u0001\u0000"+
-		"\u0000\u0000\u039b\u039c\u0005M\u0000\u0000\u039c\u039d\u0005\u000f\u0000"+
-		"\u0000\u039d\u039e\u0003j5\u0000\u039e\u039f\u0003\u0000\u0000\u0000\u039f"+
-		"\u03a0\u0003\u00b0X\u0000\u03a0\u03a1\u0005N\u0000\u0000\u03a1\u00af\u0001"+
-		"\u0000\u0000\u0000\u03a2\u03a6\u0005M\u0000\u0000\u03a3\u03a7\u0003\u0004"+
-		"\u0002\u0000\u03a4\u03a7\u0005\u0002\u0000\u0000\u03a5\u03a7\u0003\\."+
-		"\u0000\u03a6\u03a3\u0001\u0000\u0000\u0000\u03a6\u03a4\u0001\u0000\u0000"+
-		"\u0000\u03a6\u03a5\u0001\u0000\u0000\u0000\u03a7\u03a8\u0001\u0000\u0000"+
-		"\u0000\u03a8\u03a9\u0005D\u0000\u0000\u03a9\u03aa\u0003\u00b2Y\u0000\u03aa"+
-		"\u03ab\u0005N\u0000\u0000\u03ab\u00b1\u0001\u0000\u0000\u0000\u03ac\u03b1"+
-		"\u0003\u00b8\\\u0000\u03ad\u03b1\u0003\u00b4Z\u0000\u03ae\u03b1\u0003"+
-		"\u0002\u0001\u0000\u03af\u03b1\u0003\u00b6[\u0000\u03b0\u03ac\u0001\u0000"+
-		"\u0000\u0000\u03b0\u03ad\u0001\u0000\u0000\u0000\u03b0\u03ae\u0001\u0000"+
-		"\u0000\u0000\u03b0\u03af\u0001\u0000\u0000\u0000\u03b1\u00b3\u0001\u0000"+
-		"\u0000\u0000\u03b2\u03b6\u0005M\u0000\u0000\u03b3\u03b7\u0003\u0004\u0002"+
-		"\u0000\u03b4\u03b7\u0005\u0002\u0000\u0000\u03b5\u03b7\u0003\\.\u0000"+
-		"\u03b6\u03b3\u0001\u0000\u0000\u0000\u03b6\u03b4\u0001\u0000\u0000\u0000"+
-		"\u03b6\u03b5\u0001\u0000\u0000\u0000\u03b7\u03b8\u0001\u0000\u0000\u0000"+
-		"\u03b8\u03b9\u0005E\u0000\u0000\u03b9\u03ba\u0003\u00b2Y\u0000\u03ba\u03bb"+
-		"\u0005N\u0000\u0000\u03bb\u00b5\u0001\u0000\u0000\u0000\u03bc\u03bd\u0005"+
-		"M\u0000\u0000\u03bd\u03be\u0005F\u0000\u0000\u03be\u03bf\u0003\u00b2Y"+
-		"\u0000\u03bf\u03c0\u0003P(\u0000\u03c0\u03c1\u0005N\u0000\u0000\u03c1"+
-		"\u00b7\u0001\u0000\u0000\u0000\u03c2\u03c4\u0005L\u0000\u0000\u03c3\u03c2"+
-		"\u0001\u0000\u0000\u0000\u03c4\u03c5\u0001\u0000\u0000\u0000\u03c5\u03c3"+
-		"\u0001\u0000\u0000\u0000\u03c5\u03c6\u0001\u0000\u0000\u0000\u03c6\u00b9"+
-		"\u0001\u0000\u0000\u0000A\u00da\u00e0\u00e2\u00f1\u00f6\u00fc\u010c\u010e"+
-		"\u011d\u0128\u012f\u0137\u013e\u014c\u015c\u016d\u0172\u0180\u0189\u0190"+
-		"\u0198\u01a2\u01ac\u01b3\u01be\u01c6\u01d8\u01fe\u0204\u0212\u0217\u022f"+
-		"\u0235\u023d\u0245\u024b\u0256\u025e\u026a\u0272\u0291\u02a0\u02a2\u02ac"+
-		"\u02ae\u02b8\u02ba\u02c9\u02d1\u02d6\u02f3\u02f5\u02fc\u02fe\u0303\u0314"+
-		"\u032c\u0331\u034d\u034f\u0392\u03a6\u03b0\u03b6\u03c5";
+		"\"\u0001\"\u0001#\u0001#\u0001#\u0001#\u0001$\u0001$\u0001$\u0001$\u0001"+
+		"%\u0001%\u0001%\u0001%\u0001&\u0001&\u0001&\u0001\'\u0001\'\u0001\'\u0001"+
+		"\'\u0001\'\u0001\'\u0003\'\u020b\b\'\u0001(\u0001(\u0001(\u0001)\u0001"+
+		")\u0001)\u0001)\u0001)\u0001)\u0001)\u0001)\u0001)\u0003)\u0219\b)\u0001"+
+		")\u0001)\u0003)\u021d\b)\u0001*\u0001*\u0001*\u0001*\u0003*\u0223\b*\u0001"+
+		"*\u0001*\u0001*\u0001*\u0001+\u0001+\u0001+\u0001+\u0001+\u0001+\u0001"+
+		"+\u0001+\u0003+\u0231\b+\u0001+\u0001+\u0001+\u0003+\u0236\b+\u0001,\u0001"+
+		",\u0001,\u0001,\u0001,\u0001-\u0001-\u0001-\u0001-\u0001-\u0001-\u0001"+
+		"-\u0001.\u0001.\u0001.\u0001.\u0001.\u0001.\u0001.\u0001/\u0001/\u0001"+
+		"/\u0003/\u024e\b/\u00010\u00010\u00011\u00011\u00031\u0254\b1\u00012\u0001"+
+		"2\u00012\u00012\u00012\u00012\u00032\u025c\b2\u00013\u00013\u00013\u0001"+
+		"3\u00013\u00013\u00033\u0264\b3\u00014\u00014\u00014\u00014\u00034\u026a"+
+		"\b4\u00015\u00015\u00015\u00015\u00015\u00016\u00016\u00016\u00016\u0003"+
+		"6\u0275\b6\u00016\u00016\u00017\u00017\u00017\u00017\u00037\u027d\b7\u0001"+
+		"8\u00018\u00018\u00018\u00018\u00018\u00018\u00018\u00018\u00018\u0003"+
+		"8\u0289\b8\u00019\u00019\u00019\u00019\u00059\u028f\b9\n9\f9\u0292\t9"+
+		"\u00019\u00019\u00019\u0001:\u0001:\u0001:\u0001:\u0001:\u0001:\u0001"+
+		":\u0001;\u0001;\u0001;\u0001;\u0001;\u0001<\u0001<\u0001<\u0001<\u0001"+
+		"<\u0001<\u0001<\u0001<\u0001<\u0001<\u0001<\u0001<\u0003<\u02af\b<\u0001"+
+		"<\u0001<\u0001<\u0001<\u0001<\u0003<\u02b6\b<\u0001=\u0001=\u0001=\u0001"+
+		"=\u0001=\u0001=\u0001=\u0001>\u0001>\u0001>\u0001>\u0004>\u02c3\b>\u000b"+
+		">\f>\u02c4\u0003>\u02c7\b>\u0001>\u0001>\u0001?\u0001?\u0001?\u0001?\u0004"+
+		"?\u02cf\b?\u000b?\f?\u02d0\u0003?\u02d3\b?\u0001?\u0001?\u0001@\u0001"+
+		"@\u0001@\u0001@\u0004@\u02db\b@\u000b@\f@\u02dc\u0003@\u02df\b@\u0001"+
+		"@\u0001@\u0001A\u0001A\u0001A\u0001A\u0001A\u0001A\u0001A\u0001B\u0001"+
+		"B\u0001B\u0001B\u0003B\u02ee\bB\u0001B\u0001B\u0001B\u0001C\u0001C\u0001"+
+		"C\u0001C\u0001C\u0001C\u0001D\u0001D\u0001D\u0001D\u0001D\u0001D\u0001"+
+		"D\u0001D\u0001D\u0001E\u0001E\u0001E\u0003E\u0305\bE\u0001F\u0001F\u0001"+
+		"F\u0001F\u0003F\u030b\bF\u0001G\u0001G\u0001G\u0001G\u0001G\u0001G\u0001"+
+		"G\u0001G\u0001G\u0001H\u0001H\u0001H\u0001H\u0001H\u0001I\u0001I\u0001"+
+		"I\u0001I\u0001I\u0001I\u0001I\u0001I\u0001J\u0001J\u0001J\u0001J\u0001"+
+		"J\u0004J\u0328\bJ\u000bJ\fJ\u0329\u0003J\u032c\bJ\u0001J\u0001J\u0001"+
+		"K\u0001K\u0001K\u0001K\u0001K\u0001K\u0001K\u0001L\u0001L\u0001L\u0001"+
+		"L\u0004L\u033b\bL\u000bL\fL\u033c\u0001L\u0001L\u0001L\u0001L\u0001L\u0001"+
+		"L\u0001L\u0001L\u0001L\u0001L\u0001L\u0001L\u0001L\u0001L\u0001L\u0001"+
+		"L\u0001L\u0001L\u0001L\u0001L\u0001L\u0001L\u0003L\u0355\bL\u0001L\u0001"+
+		"L\u0001L\u0003L\u035a\bL\u0001M\u0001M\u0001N\u0001N\u0001N\u0001N\u0001"+
+		"N\u0001N\u0001N\u0001O\u0001O\u0001O\u0001O\u0001O\u0001O\u0001O\u0001"+
+		"O\u0001O\u0001O\u0001O\u0001O\u0001O\u0001O\u0001O\u0004O\u0374\bO\u000b"+
+		"O\fO\u0375\u0003O\u0378\bO\u0001P\u0001P\u0001P\u0001P\u0001P\u0001P\u0001"+
+		"P\u0001Q\u0001Q\u0001Q\u0001Q\u0001Q\u0001Q\u0001Q\u0001R\u0001R\u0001"+
+		"R\u0001R\u0001R\u0001R\u0001S\u0001S\u0001S\u0001S\u0001S\u0001S\u0001"+
+		"T\u0001T\u0001T\u0001T\u0001T\u0001T\u0001U\u0001U\u0001U\u0001U\u0001"+
+		"U\u0001U\u0001V\u0001V\u0001V\u0001V\u0001V\u0001V\u0001W\u0001W\u0001"+
+		"W\u0001W\u0001W\u0001W\u0001X\u0001X\u0001X\u0001X\u0001X\u0001Y\u0001"+
+		"Y\u0001Y\u0001Y\u0001Y\u0001Z\u0001Z\u0001Z\u0001Z\u0001Z\u0003Z\u03bb"+
+		"\bZ\u0001Z\u0001Z\u0001[\u0001[\u0001[\u0001[\u0001[\u0001\\\u0001\\\u0001"+
+		"\\\u0001\\\u0001\\\u0001\\\u0001\\\u0001]\u0001]\u0001]\u0001]\u0003]"+
+		"\u03cf\b]\u0001]\u0001]\u0001]\u0001]\u0001^\u0001^\u0001^\u0001^\u0003"+
+		"^\u03d9\b^\u0001_\u0001_\u0001_\u0001_\u0003_\u03df\b_\u0001_\u0001_\u0001"+
+		"_\u0001_\u0001`\u0001`\u0001`\u0001`\u0001`\u0001`\u0001a\u0004a\u03ec"+
+		"\ba\u000ba\fa\u03ed\u0001a\u0015\u00e7\u00ef\u0109\u011b\u012a\u0135\u0144"+
+		"\u018f\u0198\u019f\u01b1\u01bb\u01c2\u01cd\u01d5\u0290\u02c4\u02d0\u02dc"+
+		"\u0329\u033c\u0000b\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014"+
+		"\u0016\u0018\u001a\u001c\u001e \"$&(*,.02468:<>@BDFHJLNPRTVXZ\\^`bdfh"+
+		"jlnprtvxz|~\u0080\u0082\u0084\u0086\u0088\u008a\u008c\u008e\u0090\u0092"+
+		"\u0094\u0096\u0098\u009a\u009c\u009e\u00a0\u00a2\u00a4\u00a6\u00a8\u00aa"+
+		"\u00ac\u00ae\u00b0\u00b2\u00b4\u00b6\u00b8\u00ba\u00bc\u00be\u00c0\u00c2"+
+		"\u0000\b\u0001\u0000\u0006\u0007\u0001\u0000\t\n\u0001\u0000\u000e\u000f"+
+		"\u0001\u0000\u0019\u001a\u0001\u0000+/\u0001\u0000\'(\u0002\u0000\u000f"+
+		"\u000f<<\u0001\u0000PQ\u0418\u0000\u00c4\u0001\u0000\u0000\u0000\u0002"+
+		"\u00c7\u0001\u0000\u0000\u0000\u0004\u00ca\u0001\u0000\u0000\u0000\u0006"+
+		"\u00cd\u0001\u0000\u0000\u0000\b\u00d0\u0001\u0000\u0000\u0000\n\u00d3"+
+		"\u0001\u0000\u0000\u0000\f\u00d6\u0001\u0000\u0000\u0000\u000e\u00d9\u0001"+
+		"\u0000\u0000\u0000\u0010\u00dc\u0001\u0000\u0000\u0000\u0012\u00df\u0001"+
+		"\u0000\u0000\u0000\u0014\u00e2\u0001\u0000\u0000\u0000\u0016\u00f4\u0001"+
+		"\u0000\u0000\u0000\u0018\u00fa\u0001\u0000\u0000\u0000\u001a\u010d\u0001"+
+		"\u0000\u0000\u0000\u001c\u0113\u0001\u0000\u0000\u0000\u001e\u011f\u0001"+
+		"\u0000\u0000\u0000 \u013c\u0001\u0000\u0000\u0000\"\u014b\u0001\u0000"+
+		"\u0000\u0000$\u0159\u0001\u0000\u0000\u0000&\u015b\u0001\u0000\u0000\u0000"+
+		"(\u0162\u0001\u0000\u0000\u0000*\u0181\u0001\u0000\u0000\u0000,\u0183"+
+		"\u0001\u0000\u0000\u0000.\u0189\u0001\u0000\u0000\u00000\u0193\u0001\u0000"+
+		"\u0000\u00002\u01a4\u0001\u0000\u0000\u00004\u01ac\u0001\u0000\u0000\u0000"+
+		"6\u01b5\u0001\u0000\u0000\u00008\u01c7\u0001\u0000\u0000\u0000:\u01d1"+
+		"\u0001\u0000\u0000\u0000<\u01da\u0001\u0000\u0000\u0000>\u01e0\u0001\u0000"+
+		"\u0000\u0000@\u01e9\u0001\u0000\u0000\u0000B\u01ed\u0001\u0000\u0000\u0000"+
+		"D\u01f1\u0001\u0000\u0000\u0000F\u01f5\u0001\u0000\u0000\u0000H\u01f9"+
+		"\u0001\u0000\u0000\u0000J\u01fd\u0001\u0000\u0000\u0000L\u0201\u0001\u0000"+
+		"\u0000\u0000N\u0204\u0001\u0000\u0000\u0000P\u020c\u0001\u0000\u0000\u0000"+
+		"R\u021c\u0001\u0000\u0000\u0000T\u021e\u0001\u0000\u0000\u0000V\u0235"+
+		"\u0001\u0000\u0000\u0000X\u0237\u0001\u0000\u0000\u0000Z\u023c\u0001\u0000"+
+		"\u0000\u0000\\\u0243\u0001\u0000\u0000\u0000^\u024d\u0001\u0000\u0000"+
+		"\u0000`\u024f\u0001\u0000\u0000\u0000b\u0253\u0001\u0000\u0000\u0000d"+
+		"\u025b\u0001\u0000\u0000\u0000f\u0263\u0001\u0000\u0000\u0000h\u0269\u0001"+
+		"\u0000\u0000\u0000j\u026b\u0001\u0000\u0000\u0000l\u0270\u0001\u0000\u0000"+
+		"\u0000n\u027c\u0001\u0000\u0000\u0000p\u0288\u0001\u0000\u0000\u0000r"+
+		"\u028a\u0001\u0000\u0000\u0000t\u0296\u0001\u0000\u0000\u0000v\u029d\u0001"+
+		"\u0000\u0000\u0000x\u02b5\u0001\u0000\u0000\u0000z\u02b7\u0001\u0000\u0000"+
+		"\u0000|\u02be\u0001\u0000\u0000\u0000~\u02ca\u0001\u0000\u0000\u0000\u0080"+
+		"\u02d6\u0001\u0000\u0000\u0000\u0082\u02e2\u0001\u0000\u0000\u0000\u0084"+
+		"\u02e9\u0001\u0000\u0000\u0000\u0086\u02f2\u0001\u0000\u0000\u0000\u0088"+
+		"\u02f8\u0001\u0000\u0000\u0000\u008a\u0304\u0001\u0000\u0000\u0000\u008c"+
+		"\u030a\u0001\u0000\u0000\u0000\u008e\u030c\u0001\u0000\u0000\u0000\u0090"+
+		"\u0315\u0001\u0000\u0000\u0000\u0092\u031a\u0001\u0000\u0000\u0000\u0094"+
+		"\u0322\u0001\u0000\u0000\u0000\u0096\u032f\u0001\u0000\u0000\u0000\u0098"+
+		"\u0359\u0001\u0000\u0000\u0000\u009a\u035b\u0001\u0000\u0000\u0000\u009c"+
+		"\u035d\u0001\u0000\u0000\u0000\u009e\u0377\u0001\u0000\u0000\u0000\u00a0"+
+		"\u0379\u0001\u0000\u0000\u0000\u00a2\u0380\u0001\u0000\u0000\u0000\u00a4"+
+		"\u0387\u0001\u0000\u0000\u0000\u00a6\u038d\u0001\u0000\u0000\u0000\u00a8"+
+		"\u0393\u0001\u0000\u0000\u0000\u00aa\u0399\u0001\u0000\u0000\u0000\u00ac"+
+		"\u039f\u0001\u0000\u0000\u0000\u00ae\u03a5\u0001\u0000\u0000\u0000\u00b0"+
+		"\u03ab\u0001\u0000\u0000\u0000\u00b2\u03b0\u0001\u0000\u0000\u0000\u00b4"+
+		"\u03b5\u0001\u0000\u0000\u0000\u00b6\u03be\u0001\u0000\u0000\u0000\u00b8"+
+		"\u03c3\u0001\u0000\u0000\u0000\u00ba\u03ca\u0001\u0000\u0000\u0000\u00bc"+
+		"\u03d8\u0001\u0000\u0000\u0000\u00be\u03da\u0001\u0000\u0000\u0000\u00c0"+
+		"\u03e4\u0001\u0000\u0000\u0000\u00c2\u03eb\u0001\u0000\u0000\u0000\u00c4"+
+		"\u00c5\u0005\u0001\u0000\u0000\u00c5\u00c6\u0003\u00c2a\u0000\u00c6\u0001"+
+		"\u0001\u0000\u0000\u0000\u00c7\u00c8\u0005\u0001\u0000\u0000\u00c8\u00c9"+
+		"\u0003\u00c2a\u0000\u00c9\u0003\u0001\u0000\u0000\u0000\u00ca\u00cb\u0005"+
+		"\u0001\u0000\u0000\u00cb\u00cc\u0003\u00c2a\u0000\u00cc\u0005\u0001\u0000"+
+		"\u0000\u0000\u00cd\u00ce\u0005\u0001\u0000\u0000\u00ce\u00cf\u0003\u00c2"+
+		"a\u0000\u00cf\u0007\u0001\u0000\u0000\u0000\u00d0\u00d1\u0005\u0001\u0000"+
+		"\u0000\u00d1\u00d2\u0003\u00c2a\u0000\u00d2\t\u0001\u0000\u0000\u0000"+
+		"\u00d3\u00d4\u0005\u0001\u0000\u0000\u00d4\u00d5\u0003\u00c2a\u0000\u00d5"+
+		"\u000b\u0001\u0000\u0000\u0000\u00d6\u00d7\u0005\u0001\u0000\u0000\u00d7"+
+		"\u00d8\u0003\u00c2a\u0000\u00d8\r\u0001\u0000\u0000\u0000\u00d9\u00da"+
+		"\u0005\u0001\u0000\u0000\u00da\u00db\u0003\u00c2a\u0000\u00db\u000f\u0001"+
+		"\u0000\u0000\u0000\u00dc\u00dd\u0005\u0001\u0000\u0000\u00dd\u00de\u0003"+
+		"\u00c2a\u0000\u00de\u0011\u0001\u0000\u0000\u0000\u00df\u00e0\u0005\u0001"+
+		"\u0000\u0000\u00e0\u00e1\u0003\u00c2a\u0000\u00e1\u0013\u0001\u0000\u0000"+
+		"\u0000\u00e2\u00e3\u0005U\u0000\u0000\u00e3\u00e7\u0005\u0002\u0000\u0000"+
+		"\u00e4\u00e6\u0003\u0016\u000b\u0000\u00e5\u00e4\u0001\u0000\u0000\u0000"+
+		"\u00e6\u00e9\u0001\u0000\u0000\u0000\u00e7\u00e8\u0001\u0000\u0000\u0000"+
+		"\u00e7\u00e5\u0001\u0000\u0000\u0000\u00e8\u00ea\u0001\u0000\u0000\u0000"+
+		"\u00e9\u00e7\u0001\u0000\u0000\u0000\u00ea\u00ed\u0003\u0018\f\u0000\u00eb"+
+		"\u00ee\u0003 \u0010\u0000\u00ec\u00ee\u0003\u001c\u000e\u0000\u00ed\u00eb"+
+		"\u0001\u0000\u0000\u0000\u00ed\u00ec\u0001\u0000\u0000\u0000\u00ee\u00ef"+
+		"\u0001\u0000\u0000\u0000\u00ef\u00f0\u0001\u0000\u0000\u0000\u00ef\u00ed"+
+		"\u0001\u0000\u0000\u0000\u00f0\u00f1\u0001\u0000\u0000\u0000\u00f1\u00f2"+
+		"\u0003\u001a\r\u0000\u00f2\u00f3\u0005V\u0000\u0000\u00f3\u0015\u0001"+
+		"\u0000\u0000\u0000\u00f4\u00f5\u0005U\u0000\u0000\u00f5\u00f6\u0005\u0003"+
+		"\u0000\u0000\u00f6\u00f7\u0003n7\u0000\u00f7\u00f8\u0003\u0000\u0000\u0000"+
+		"\u00f8\u00f9\u0005V\u0000\u0000\u00f9\u0017\u0001\u0000\u0000\u0000\u00fa"+
+		"\u00fb\u0005U\u0000\u0000\u00fb\u00fc\u0005\u0004\u0000\u0000\u00fc\u00fe"+
+		"\u0003,\u0016\u0000\u00fd\u00ff\u0003.\u0017\u0000\u00fe\u00fd\u0001\u0000"+
+		"\u0000\u0000\u00fe\u00ff\u0001\u0000\u0000\u0000\u00ff\u0107\u0001\u0000"+
+		"\u0000\u0000\u0100\u0103\u0005U\u0000\u0000\u0101\u0104\u00032\u0019\u0000"+
+		"\u0102\u0104\u0003R)\u0000\u0103\u0101\u0001\u0000\u0000\u0000\u0103\u0102"+
+		"\u0001\u0000\u0000\u0000\u0104\u0105\u0001\u0000\u0000\u0000\u0105\u0106"+
+		"\u0005V\u0000\u0000\u0106\u0108\u0001\u0000\u0000\u0000\u0107\u0100\u0001"+
+		"\u0000\u0000\u0000\u0108\u0109\u0001\u0000\u0000\u0000\u0109\u010a\u0001"+
+		"\u0000\u0000\u0000\u0109\u0107\u0001\u0000\u0000\u0000\u010a\u010b\u0001"+
+		"\u0000\u0000\u0000\u010b\u010c\u0005V\u0000\u0000\u010c\u0019\u0001\u0000"+
+		"\u0000\u0000\u010d\u010e\u0005U\u0000\u0000\u010e\u010f\u0005\u0005\u0000"+
+		"\u0000\u010f\u0110\u0007\u0000\u0000\u0000\u0110\u0111\u0003\u009eO\u0000"+
+		"\u0111\u0112\u0005V\u0000\u0000\u0112\u001b\u0001\u0000\u0000\u0000\u0113"+
+		"\u0114\u0005U\u0000\u0000\u0114\u0115\u0005\b\u0000\u0000\u0115\u0116"+
+		"\u0007\u0001\u0000\u0000\u0116\u0119\u0003\u001e\u000f\u0000\u0117\u011a"+
+		"\u0003 \u0010\u0000\u0118\u011a\u0003\u001c\u000e\u0000\u0119\u0117\u0001"+
+		"\u0000\u0000\u0000\u0119\u0118\u0001\u0000\u0000\u0000\u011a\u011b\u0001"+
+		"\u0000\u0000\u0000\u011b\u011c\u0001\u0000\u0000\u0000\u011b\u0119\u0001"+
+		"\u0000\u0000\u0000\u011c\u011d\u0001\u0000\u0000\u0000\u011d\u011e\u0005"+
+		"V\u0000\u0000\u011e\u001d\u0001\u0000\u0000\u0000\u011f\u0120\u0005U\u0000"+
+		"\u0000\u0120\u0121\u0005\u000b\u0000\u0000\u0121\u0122\u0003\u0098L\u0000"+
+		"\u0122\u0123\u0005V\u0000\u0000\u0123\u001f\u0001\u0000\u0000\u0000\u0124"+
+		"\u0125\u0005U\u0000\u0000\u0125\u0126\u0005\f\u0000\u0000\u0126\u0128"+
+		"\u0005U\u0000\u0000\u0127\u0129\u0003$\u0012\u0000\u0128\u0127\u0001\u0000"+
+		"\u0000\u0000\u0129\u012a\u0001\u0000\u0000\u0000\u012a\u012b\u0001\u0000"+
+		"\u0000\u0000\u012a\u0128\u0001\u0000\u0000\u0000\u012b\u012c\u0001\u0000"+
+		"\u0000\u0000\u012c\u012d\u0005V\u0000\u0000\u012d\u012e\u0005V\u0000\u0000"+
+		"\u012e\u013d\u0001\u0000\u0000\u0000\u012f\u0130\u0005U\u0000\u0000\u0130"+
+		"\u0131\u0005\r\u0000\u0000\u0131\u0133\u0005U\u0000\u0000\u0132\u0134"+
+		"\u0003$\u0012\u0000\u0133\u0132\u0001\u0000\u0000\u0000\u0134\u0135\u0001"+
+		"\u0000\u0000\u0000\u0135\u0136\u0001\u0000\u0000\u0000\u0135\u0133\u0001"+
+		"\u0000\u0000\u0000\u0136\u0137\u0001\u0000\u0000\u0000\u0137\u0138\u0005"+
+		"V\u0000\u0000\u0138\u0139\u0005V\u0000\u0000\u0139\u013d\u0001\u0000\u0000"+
+		"\u0000\u013a\u013d\u0003&\u0013\u0000\u013b\u013d\u0003(\u0014\u0000\u013c"+
+		"\u0124\u0001\u0000\u0000\u0000\u013c\u012f\u0001\u0000\u0000\u0000\u013c"+
+		"\u013a\u0001\u0000\u0000\u0000\u013c\u013b\u0001\u0000\u0000\u0000\u013d"+
+		"!\u0001\u0000\u0000\u0000\u013e\u013f\u0005U\u0000\u0000\u013f\u0140\u0005"+
+		"\r\u0000\u0000\u0140\u0142\u0005U\u0000\u0000\u0141\u0143\u0003$\u0012"+
+		"\u0000\u0142\u0141\u0001\u0000\u0000\u0000\u0143\u0144\u0001\u0000\u0000"+
+		"\u0000\u0144\u0145\u0001\u0000\u0000\u0000\u0144\u0142\u0001\u0000\u0000"+
+		"\u0000\u0145\u0146\u0001\u0000\u0000\u0000\u0146\u0147\u0005V\u0000\u0000"+
+		"\u0147\u0148\u0005V\u0000\u0000\u0148\u014c\u0001\u0000\u0000\u0000\u0149"+
+		"\u014c\u0003&\u0013\u0000\u014a\u014c\u0003(\u0014\u0000\u014b\u013e\u0001"+
+		"\u0000\u0000\u0000\u014b\u0149\u0001\u0000\u0000\u0000\u014b\u014a\u0001"+
+		"\u0000\u0000\u0000\u014c#\u0001\u0000\u0000\u0000\u014d\u014e\u0005U\u0000"+
+		"\u0000\u014e\u014f\u0003\u0098L\u0000\u014f\u0150\u0003\"\u0011\u0000"+
+		"\u0150\u0151\u0005V\u0000\u0000\u0151\u015a\u0001\u0000\u0000\u0000\u0152"+
+		"\u015a\u0003\"\u0011\u0000\u0153\u0154\u0005U\u0000\u0000\u0154\u0155"+
+		"\u0003\u0098L\u0000\u0155\u0156\u0003*\u0015\u0000\u0156\u0157\u0005V"+
+		"\u0000\u0000\u0157\u015a\u0001\u0000\u0000\u0000\u0158\u015a\u0003*\u0015"+
+		"\u0000\u0159\u014d\u0001\u0000\u0000\u0000\u0159\u0152\u0001\u0000\u0000"+
+		"\u0000\u0159\u0153\u0001\u0000\u0000\u0000\u0159\u0158\u0001\u0000\u0000"+
+		"\u0000\u015a%\u0001\u0000\u0000\u0000\u015b\u015c\u0005U\u0000\u0000\u015c"+
+		"\u015d\u0007\u0002\u0000\u0000\u015d\u015e\u0003p8\u0000\u015e\u015f\u0003"+
+		"\u0000\u0000\u0000\u015f\u0160\u0003$\u0012\u0000\u0160\u0161\u0005V\u0000"+
+		"\u0000\u0161\'\u0001\u0000\u0000\u0000\u0162\u0163\u0005U\u0000\u0000"+
+		"\u0163\u0164\u0005\u0010\u0000\u0000\u0164\u0165\u0003n7\u0000\u0165\u0169"+
+		"\u0003\u0000\u0000\u0000\u0166\u016a\u0003 \u0010\u0000\u0167\u016a\u0003"+
+		"*\u0015\u0000\u0168\u016a\u0003$\u0012\u0000\u0169\u0166\u0001\u0000\u0000"+
+		"\u0000\u0169\u0167\u0001\u0000\u0000\u0000\u0169\u0168\u0001\u0000\u0000"+
+		"\u0000\u016a\u016b\u0001\u0000\u0000\u0000\u016b\u016c\u0005V\u0000\u0000"+
+		"\u016c)\u0001\u0000\u0000\u0000\u016d\u017c\u0005U\u0000\u0000\u016e\u017d"+
+		"\u00038\u001c\u0000\u016f\u017d\u0003.\u0017\u0000\u0170\u017d\u00032"+
+		"\u0019\u0000\u0171\u017d\u0003>\u001f\u0000\u0172\u017d\u0003@ \u0000"+
+		"\u0173\u017d\u0003H$\u0000\u0174\u017d\u0003J%\u0000\u0175\u017d\u0003"+
+		"D\"\u0000\u0176\u017d\u0003B!\u0000\u0177\u017d\u0003F#\u0000\u0178\u017d"+
+		"\u0003L&\u0000\u0179\u017d\u0003P(\u0000\u017a\u017d\u0003N\'\u0000\u017b"+
+		"\u017d\u0003R)\u0000\u017c\u016e\u0001\u0000\u0000\u0000\u017c\u016f\u0001"+
+		"\u0000\u0000\u0000\u017c\u0170\u0001\u0000\u0000\u0000\u017c\u0171\u0001"+
+		"\u0000\u0000\u0000\u017c\u0172\u0001\u0000\u0000\u0000\u017c\u0173\u0001"+
+		"\u0000\u0000\u0000\u017c\u0174\u0001\u0000\u0000\u0000\u017c\u0175\u0001"+
+		"\u0000\u0000\u0000\u017c\u0176\u0001\u0000\u0000\u0000\u017c\u0177\u0001"+
+		"\u0000\u0000\u0000\u017c\u0178\u0001\u0000\u0000\u0000\u017c\u0179\u0001"+
+		"\u0000\u0000\u0000\u017c\u017a\u0001\u0000\u0000\u0000\u017c\u017b\u0001"+
+		"\u0000\u0000\u0000\u017d\u017e\u0001\u0000\u0000\u0000\u017e\u017f\u0005"+
+		"V\u0000\u0000\u017f\u0182\u0001\u0000\u0000\u0000\u0180\u0182\u0003&\u0013"+
+		"\u0000\u0181\u016d\u0001\u0000\u0000\u0000\u0181\u0180\u0001\u0000\u0000"+
+		"\u0000\u0182+\u0001\u0000\u0000\u0000\u0183\u0184\u0005U\u0000\u0000\u0184"+
+		"\u0185\u0005\u0011\u0000\u0000\u0185\u0186\u0005\u0012\u0000\u0000\u0186"+
+		"\u0187\u0003\u009eO\u0000\u0187\u0188\u0005V\u0000\u0000\u0188-\u0001"+
+		"\u0000\u0000\u0000\u0189\u018a\u0005U\u0000\u0000\u018a\u018b\u0005\u0011"+
+		"\u0000\u0000\u018b\u018d\u0005\u0013\u0000\u0000\u018c\u018e\u00030\u0018"+
+		"\u0000\u018d\u018c\u0001\u0000\u0000\u0000\u018e\u018f\u0001\u0000\u0000"+
+		"\u0000\u018f\u0190\u0001\u0000\u0000\u0000\u018f\u018d\u0001\u0000\u0000"+
+		"\u0000\u0190\u0191\u0001\u0000\u0000\u0000\u0191\u0192\u0005V\u0000\u0000"+
+		"\u0192/\u0001\u0000\u0000\u0000\u0193\u0198\u0005U\u0000\u0000\u0194\u0195"+
+		"\u0005S\u0000\u0000\u0195\u0197\u0005\u0014\u0000\u0000\u0196\u0194\u0001"+
+		"\u0000\u0000\u0000\u0197\u019a\u0001\u0000\u0000\u0000\u0198\u0199\u0001"+
+		"\u0000\u0000\u0000\u0198\u0196\u0001\u0000\u0000\u0000\u0199\u019b\u0001"+
+		"\u0000\u0000\u0000\u019a\u0198\u0001\u0000\u0000\u0000\u019b\u019f\u0005"+
+		"S\u0000\u0000\u019c\u019e\u00030\u0018\u0000\u019d\u019c\u0001\u0000\u0000"+
+		"\u0000\u019e\u01a1\u0001\u0000\u0000\u0000\u019f\u01a0\u0001\u0000\u0000"+
+		"\u0000\u019f\u019d\u0001\u0000\u0000\u0000\u01a0\u01a2\u0001\u0000\u0000"+
+		"\u0000\u01a1\u019f\u0001\u0000\u0000\u0000\u01a2\u01a3\u0005V\u0000\u0000"+
+		"\u01a31\u0001\u0000\u0000\u0000\u01a4\u01a5\u0005\u0011\u0000\u0000\u01a5"+
+		"\u01a7\u0005\u0015\u0000\u0000\u01a6\u01a8\u0003\u00bc^\u0000\u01a7\u01a6"+
+		"\u0001\u0000\u0000\u0000\u01a7\u01a8\u0001\u0000\u0000\u0000\u01a8\u01a9"+
+		"\u0001\u0000\u0000\u0000\u01a9\u01aa\u0003x<\u0000\u01aa\u01ab\u00034"+
+		"\u001a\u0000\u01ab3\u0001\u0000\u0000\u0000\u01ac\u01ad\u0005U\u0000\u0000"+
+		"\u01ad\u01af\u0005\u0015\u0000\u0000\u01ae\u01b0\u00036\u001b\u0000\u01af"+
+		"\u01ae\u0001\u0000\u0000\u0000\u01b0\u01b1\u0001\u0000\u0000\u0000\u01b1"+
+		"\u01b2\u0001\u0000\u0000\u0000\u01b1\u01af\u0001\u0000\u0000\u0000\u01b2"+
+		"\u01b3\u0001\u0000\u0000\u0000\u01b3\u01b4\u0005V\u0000\u0000\u01b45\u0001"+
+		"\u0000\u0000\u0000\u01b5\u01bb\u0005U\u0000\u0000\u01b6\u01b7\u0003\u00c2"+
+		"a\u0000\u01b7\u01b8\u0005\u0014\u0000\u0000\u01b8\u01ba\u0001\u0000\u0000"+
+		"\u0000\u01b9\u01b6\u0001\u0000\u0000\u0000\u01ba\u01bd\u0001\u0000\u0000"+
+		"\u0000\u01bb\u01bc\u0001\u0000\u0000\u0000\u01bb\u01b9\u0001\u0000\u0000"+
+		"\u0000\u01bc\u01be\u0001\u0000\u0000\u0000\u01bd\u01bb\u0001\u0000\u0000"+
+		"\u0000\u01be\u01c2\u0003\u00c2a\u0000\u01bf\u01c1\u00036\u001b\u0000\u01c0"+
+		"\u01bf\u0001\u0000\u0000\u0000\u01c1\u01c4\u0001\u0000\u0000\u0000\u01c2"+
+		"\u01c3\u0001\u0000\u0000\u0000\u01c2\u01c0\u0001\u0000\u0000\u0000\u01c3"+
+		"\u01c5\u0001\u0000\u0000\u0000\u01c4\u01c2\u0001\u0000\u0000\u0000\u01c5"+
+		"\u01c6\u0005V\u0000\u0000\u01c67\u0001\u0000\u0000\u0000\u01c7\u01c8\u0005"+
+		"\u0016\u0000\u0000\u01c8\u01c9\u0003T*\u0000\u01c9\u01cb\u0005U\u0000"+
+		"\u0000\u01ca\u01cc\u0003:\u001d\u0000\u01cb\u01ca\u0001\u0000\u0000\u0000"+
+		"\u01cc\u01cd\u0001\u0000\u0000\u0000\u01cd\u01ce\u0001\u0000\u0000\u0000"+
+		"\u01cd\u01cb\u0001\u0000\u0000\u0000\u01ce\u01cf\u0001\u0000\u0000\u0000"+
+		"\u01cf\u01d0\u0005V\u0000\u0000\u01d09\u0001\u0000\u0000\u0000\u01d1\u01d3"+
+		"\u0005U\u0000\u0000\u01d2\u01d4\u0003<\u001e\u0000\u01d3\u01d2\u0001\u0000"+
+		"\u0000\u0000\u01d4\u01d5\u0001\u0000\u0000\u0000\u01d5\u01d6\u0001\u0000"+
+		"\u0000\u0000\u01d5\u01d3\u0001\u0000\u0000\u0000\u01d6\u01d7\u0001\u0000"+
+		"\u0000\u0000\u01d7\u01d8\u0003\u009eO\u0000\u01d8\u01d9\u0005V\u0000\u0000"+
+		"\u01d9;\u0001\u0000\u0000\u0000\u01da\u01db\u0005U\u0000\u0000\u01db\u01dc"+
+		"\u0003\u00bc^\u0000\u01dc\u01dd\u0005\u0017\u0000\u0000\u01dd\u01de\u0003"+
+		"\u00bc^\u0000\u01de\u01df\u0005V\u0000\u0000\u01df=\u0001\u0000\u0000"+
+		"\u0000\u01e0\u01e1\u0005\u0018\u0000\u0000\u01e1\u01e7\u0007\u0003\u0000"+
+		"\u0000\u01e2\u01e8\u0003j5\u0000\u01e3\u01e8\u0005\u001a\u0000\u0000\u01e4"+
+		"\u01e8\u0005\u0019\u0000\u0000\u01e5\u01e8\u0005\u001b\u0000\u0000\u01e6"+
+		"\u01e8\u0003\u0004\u0002\u0000\u01e7\u01e2\u0001\u0000\u0000\u0000\u01e7"+
+		"\u01e3\u0001\u0000\u0000\u0000\u01e7\u01e4\u0001\u0000\u0000\u0000\u01e7"+
+		"\u01e5\u0001\u0000\u0000\u0000\u01e7\u01e6\u0001\u0000\u0000\u0000\u01e8"+
+		"?\u0001\u0000\u0000\u0000\u01e9\u01ea\u0005\u0016\u0000\u0000\u01ea\u01eb"+
+		"\u0003\u00ba]\u0000\u01eb\u01ec\u0003\u009eO\u0000\u01ecA\u0001\u0000"+
+		"\u0000\u0000\u01ed\u01ee\u0005\u0016\u0000\u0000\u01ee\u01ef\u0003\u00be"+
+		"_\u0000\u01ef\u01f0\u0003\u00bc^\u0000\u01f0C\u0001\u0000\u0000\u0000"+
+		"\u01f1\u01f2\u0005\u001c\u0000\u0000\u01f2\u01f3\u0003\u00ba]\u0000\u01f3"+
+		"\u01f4\u0003\u009eO\u0000\u01f4E\u0001\u0000\u0000\u0000\u01f5\u01f6\u0005"+
+		"\u001d\u0000\u0000\u01f6\u01f7\u0003\u00ba]\u0000\u01f7\u01f8\u0003\u009e"+
+		"O\u0000\u01f8G\u0001\u0000\u0000\u0000\u01f9\u01fa\u0005\u001e\u0000\u0000"+
+		"\u01fa\u01fb\u0003V+\u0000\u01fb\u01fc\u0003V+\u0000\u01fcI\u0001\u0000"+
+		"\u0000\u0000\u01fd\u01fe\u0005\u001f\u0000\u0000\u01fe\u01ff\u0003V+\u0000"+
+		"\u01ff\u0200\u0003V+\u0000\u0200K\u0001\u0000\u0000\u0000\u0201\u0202"+
+		"\u0005 \u0000\u0000\u0202\u0203\u0003V+\u0000\u0203M\u0001\u0000\u0000"+
+		"\u0000\u0204\u020a\u0005!\u0000\u0000\u0205\u020b\u0003x<\u0000\u0206"+
+		"\u0207\u0005\"\u0000\u0000\u0207\u0208\u0003x<\u0000\u0208\u0209\u0003"+
+		"x<\u0000\u0209\u020b\u0001\u0000\u0000\u0000\u020a\u0205\u0001\u0000\u0000"+
+		"\u0000\u020a\u0206\u0001\u0000\u0000\u0000\u020bO\u0001\u0000\u0000\u0000"+
+		"\u020c\u020d\u0005#\u0000\u0000\u020d\u020e\u0005$\u0000\u0000\u020eQ"+
+		"\u0001\u0000\u0000\u0000\u020f\u0210\u0005%\u0000\u0000\u0210\u0211\u0003"+
+		"\u009eO\u0000\u0211\u0212\u0003*\u0015\u0000\u0212\u021d\u0001\u0000\u0000"+
+		"\u0000\u0213\u0214\u0005%\u0000\u0000\u0214\u0215\u0005\u000f\u0000\u0000"+
+		"\u0215\u0218\u0005U\u0000\u0000\u0216\u0219\u0003H$\u0000\u0217\u0219"+
+		"\u0003L&\u0000\u0218\u0216\u0001\u0000\u0000\u0000\u0218\u0217\u0001\u0000"+
+		"\u0000\u0000\u0219\u021a\u0001\u0000\u0000\u0000\u021a\u021b\u0005V\u0000"+
+		"\u0000\u021b\u021d\u0001\u0000\u0000\u0000\u021c\u020f\u0001\u0000\u0000"+
+		"\u0000\u021c\u0213\u0001\u0000\u0000\u0000\u021dS\u0001\u0000\u0000\u0000"+
+		"\u021e\u0222\u0005U\u0000\u0000\u021f\u0223\u0003\u0004\u0002\u0000\u0220"+
+		"\u0223\u0005\u0002\u0000\u0000\u0221\u0223\u0003b1\u0000\u0222\u021f\u0001"+
+		"\u0000\u0000\u0000\u0222\u0220\u0001\u0000\u0000\u0000\u0222\u0221\u0001"+
+		"\u0000\u0000\u0000\u0223\u0224\u0001\u0000\u0000\u0000\u0224\u0225\u0005"+
+		"&\u0000\u0000\u0225\u0226\u0003\u00bc^\u0000\u0226\u0227\u0005V\u0000"+
+		"\u0000\u0227U\u0001\u0000\u0000\u0000\u0228\u0236\u0003\u0012\t\u0000"+
+		"\u0229\u0236\u0003Z-\u0000\u022a\u0236\u0003\\.\u0000\u022b\u0236\u0003"+
+		"X,\u0000\u022c\u0230\u0005U\u0000\u0000\u022d\u0231\u0005\'\u0000\u0000"+
+		"\u022e\u0231\u0005(\u0000\u0000\u022f\u0231\u0003\u009eO\u0000\u0230\u022d"+
+		"\u0001\u0000\u0000\u0000\u0230\u022e\u0001\u0000\u0000\u0000\u0230\u022f"+
+		"\u0001\u0000\u0000\u0000\u0231\u0232\u0001\u0000\u0000\u0000\u0232\u0233"+
+		"\u0003x<\u0000\u0233\u0234\u0005V\u0000\u0000\u0234\u0236\u0001\u0000"+
+		"\u0000\u0000\u0235\u0228\u0001\u0000\u0000\u0000\u0235\u0229\u0001\u0000"+
+		"\u0000\u0000\u0235\u022a\u0001\u0000\u0000\u0000\u0235\u022b\u0001\u0000"+
+		"\u0000\u0000\u0235\u022c\u0001\u0000\u0000\u0000\u0236W\u0001\u0000\u0000"+
+		"\u0000\u0237\u0238\u0005U\u0000\u0000\u0238\u0239\u0005)\u0000\u0000\u0239"+
+		"\u023a\u0003V+\u0000\u023a\u023b\u0005V\u0000\u0000\u023bY\u0001\u0000"+
+		"\u0000\u0000\u023c\u023d\u0005U\u0000\u0000\u023d\u023e\u0005\u0007\u0000"+
+		"\u0000\u023e\u023f\u0003x<\u0000\u023f\u0240\u0005*\u0000\u0000\u0240"+
+		"\u0241\u0003T*\u0000\u0241\u0242\u0005V\u0000\u0000\u0242[\u0001\u0000"+
+		"\u0000\u0000\u0243\u0244\u0005U\u0000\u0000\u0244\u0245\u0005\u0006\u0000"+
+		"\u0000\u0245\u0246\u0003x<\u0000\u0246\u0247\u0005*\u0000\u0000\u0247"+
+		"\u0248\u0003T*\u0000\u0248\u0249\u0005V\u0000\u0000\u0249]\u0001\u0000"+
+		"\u0000\u0000\u024a\u024e\u0005\u0002\u0000\u0000\u024b\u024e\u0003\u0006"+
+		"\u0003\u0000\u024c\u024e\u0003d2\u0000\u024d\u024a\u0001\u0000\u0000\u0000"+
+		"\u024d\u024b\u0001\u0000\u0000\u0000\u024d\u024c\u0001\u0000\u0000\u0000"+
+		"\u024e_\u0001\u0000\u0000\u0000\u024f\u0250\u0007\u0004\u0000\u0000\u0250"+
+		"a\u0001\u0000\u0000\u0000\u0251\u0254\u0003f3\u0000\u0252\u0254\u0003"+
+		"d2\u0000\u0253\u0251\u0001\u0000\u0000\u0000\u0253\u0252\u0001\u0000\u0000"+
+		"\u0000\u0254c\u0001\u0000\u0000\u0000\u0255\u0256\u0005U\u0000\u0000\u0256"+
+		"\u0257\u0003h4\u0000\u0257\u0258\u0005\t\u0000\u0000\u0258\u0259\u0005"+
+		"V\u0000\u0000\u0259\u025c\u0001\u0000\u0000\u0000\u025a\u025c\u0003j5"+
+		"\u0000\u025b\u0255\u0001\u0000\u0000\u0000\u025b\u025a\u0001\u0000\u0000"+
+		"\u0000\u025ce\u0001\u0000\u0000\u0000\u025d\u025e\u0005U\u0000\u0000\u025e"+
+		"\u025f\u0003h4\u0000\u025f\u0260\u0005\n\u0000\u0000\u0260\u0261\u0005"+
+		"V\u0000\u0000\u0261\u0264\u0001\u0000\u0000\u0000\u0262\u0264\u0003l6"+
+		"\u0000\u0263\u025d\u0001\u0000\u0000\u0000\u0263\u0262\u0001\u0000\u0000"+
+		"\u0000\u0264g\u0001\u0000\u0000\u0000\u0265\u026a\u0003\u009eO\u0000\u0266"+
+		"\u026a\u0005\u001b\u0000\u0000\u0267\u026a\u0005\u0019\u0000\u0000\u0268"+
+		"\u026a\u0005\u001a\u0000\u0000\u0269\u0265\u0001\u0000\u0000\u0000\u0269"+
+		"\u0266\u0001\u0000\u0000\u0000\u0269\u0267\u0001\u0000\u0000\u0000\u0269"+
+		"\u0268\u0001\u0000\u0000\u0000\u026ai\u0001\u0000\u0000\u0000\u026b\u026c"+
+		"\u0005U\u0000\u0000\u026c\u026d\u00050\u0000\u0000\u026d\u026e\u0003V"+
+		"+\u0000\u026e\u026f\u0005V\u0000\u0000\u026fk\u0001\u0000\u0000\u0000"+
+		"\u0270\u0271\u0005U\u0000\u0000\u0271\u0274\u0005\n\u0000\u0000\u0272"+
+		"\u0275\u0003\u0006\u0003\u0000\u0273\u0275\u0003d2\u0000\u0274\u0272\u0001"+
+		"\u0000\u0000\u0000\u0274\u0273\u0001\u0000\u0000\u0000\u0275\u0276\u0001"+
+		"\u0000\u0000\u0000\u0276\u0277\u0005V\u0000\u0000\u0277m\u0001\u0000\u0000"+
+		"\u0000\u0278\u027d\u0003\u009eO\u0000\u0279\u027d\u0003\u0098L\u0000\u027a"+
+		"\u027d\u0003\u00bc^\u0000\u027b\u027d\u0003p8\u0000\u027c\u0278\u0001"+
+		"\u0000\u0000\u0000\u027c\u0279\u0001\u0000\u0000\u0000\u027c\u027a\u0001"+
+		"\u0000\u0000\u0000\u027c\u027b\u0001\u0000\u0000\u0000\u027do\u0001\u0000"+
+		"\u0000\u0000\u027e\u0289\u0003\f\u0006\u0000\u027f\u0289\u0003\u0082A"+
+		"\u0000\u0280\u0289\u0003x<\u0000\u0281\u0289\u0003r9\u0000\u0282\u0289"+
+		"\u0003\u008aE\u0000\u0283\u0289\u0005\t\u0000\u0000\u0284\u0289\u0005"+
+		"\n\u0000\u0000\u0285\u0289\u0003f3\u0000\u0286\u0289\u0003v;\u0000\u0287"+
+		"\u0289\u0003t:\u0000\u0288\u027e\u0001\u0000\u0000\u0000\u0288\u027f\u0001"+
+		"\u0000\u0000\u0000\u0288\u0280\u0001\u0000\u0000\u0000\u0288\u0281\u0001"+
+		"\u0000\u0000\u0000\u0288\u0282\u0001\u0000\u0000\u0000\u0288\u0283\u0001"+
+		"\u0000\u0000\u0000\u0288\u0284\u0001\u0000\u0000\u0000\u0288\u0285\u0001"+
+		"\u0000\u0000\u0000\u0288\u0286\u0001\u0000\u0000\u0000\u0288\u0287\u0001"+
+		"\u0000\u0000\u0000\u0289q\u0001\u0000\u0000\u0000\u028a\u0290\u0005U\u0000"+
+		"\u0000\u028b\u028c\u0003\u00c2a\u0000\u028c\u028d\u0005\u0014\u0000\u0000"+
+		"\u028d\u028f\u0001\u0000\u0000\u0000\u028e\u028b\u0001\u0000\u0000\u0000"+
+		"\u028f\u0292\u0001\u0000\u0000\u0000\u0290\u0291\u0001\u0000\u0000\u0000"+
+		"\u0290\u028e\u0001\u0000\u0000\u0000\u0291\u0293\u0001\u0000\u0000\u0000"+
+		"\u0292\u0290\u0001\u0000\u0000\u0000\u0293\u0294\u0003\u00c2a\u0000\u0294"+
+		"\u0295\u0005V\u0000\u0000\u0295s\u0001\u0000\u0000\u0000\u0296\u0297\u0005"+
+		"U\u0000\u0000\u0297\u0298\u00051\u0000\u0000\u0298\u0299\u0003\u009eO"+
+		"\u0000\u0299\u029a\u00052\u0000\u0000\u029a\u029b\u0003\u009eO\u0000\u029b"+
+		"\u029c\u0005V\u0000\u0000\u029cu\u0001\u0000\u0000\u0000\u029d\u029e\u0005"+
+		"U\u0000\u0000\u029e\u029f\u00053\u0000\u0000\u029f\u02a0\u0007\u0001\u0000"+
+		"\u0000\u02a0\u02a1\u0005V\u0000\u0000\u02a1w\u0001\u0000\u0000\u0000\u02a2"+
+		"\u02b6\u0003\u000e\u0007\u0000\u02a3\u02b6\u0003|>\u0000\u02a4\u02b6\u0003"+
+		"~?\u0000\u02a5\u02b6\u0003\u0080@\u0000\u02a6\u02b6\u0003z=\u0000\u02a7"+
+		"\u02b6\u0003\u0082A\u0000\u02a8\u02a9\u0005U\u0000\u0000\u02a9\u02aa\u0003"+
+		"^/\u0000\u02aa\u02ae\u0003`0\u0000\u02ab\u02af\u0003\u00bc^\u0000\u02ac"+
+		"\u02af\u0003\u009eO\u0000\u02ad\u02af\u00054\u0000\u0000\u02ae\u02ab\u0001"+
+		"\u0000\u0000\u0000\u02ae\u02ac\u0001\u0000\u0000\u0000\u02ae\u02ad\u0001"+
+		"\u0000\u0000\u0000\u02af\u02b0\u0001\u0000\u0000\u0000\u02b0\u02b1\u0005"+
+		"V\u0000\u0000\u02b1\u02b6\u0001\u0000\u0000\u0000\u02b2\u02b6\u0003\u0084"+
+		"B\u0000\u02b3\u02b6\u0003\u0086C\u0000\u02b4\u02b6\u0003\u0088D\u0000"+
+		"\u02b5\u02a2\u0001\u0000\u0000\u0000\u02b5\u02a3\u0001\u0000\u0000\u0000"+
+		"\u02b5\u02a4\u0001\u0000\u0000\u0000\u02b5\u02a5\u0001\u0000\u0000\u0000"+
+		"\u02b5\u02a6\u0001\u0000\u0000\u0000\u02b5\u02a7\u0001\u0000\u0000\u0000"+
+		"\u02b5\u02a8\u0001\u0000\u0000\u0000\u02b5\u02b2\u0001\u0000\u0000\u0000"+
+		"\u02b5\u02b3\u0001\u0000\u0000\u0000\u02b5\u02b4\u0001\u0000\u0000\u0000"+
+		"\u02b6y\u0001\u0000\u0000\u0000\u02b7\u02b8\u0005U\u0000\u0000\u02b8\u02b9"+
+		"\u00055\u0000\u0000\u02b9\u02ba\u0003x<\u0000\u02ba\u02bb\u0005*\u0000"+
+		"\u0000\u02bb\u02bc\u0003T*\u0000\u02bc\u02bd\u0005V\u0000\u0000\u02bd"+
+		"{\u0001\u0000\u0000\u0000\u02be\u02bf\u0005U\u0000\u0000\u02bf\u02c6\u0005"+
+		"6\u0000\u0000\u02c0\u02c7\u0003\u0096K\u0000\u02c1\u02c3\u0003x<\u0000"+
+		"\u02c2\u02c1\u0001\u0000\u0000\u0000\u02c3\u02c4\u0001\u0000\u0000\u0000"+
+		"\u02c4\u02c5\u0001\u0000\u0000\u0000\u02c4\u02c2\u0001\u0000\u0000\u0000"+
+		"\u02c5\u02c7\u0001\u0000\u0000\u0000\u02c6\u02c0\u0001\u0000\u0000\u0000"+
+		"\u02c6\u02c2\u0001\u0000\u0000\u0000\u02c7\u02c8\u0001\u0000\u0000\u0000"+
+		"\u02c8\u02c9\u0005V\u0000\u0000\u02c9}\u0001\u0000\u0000\u0000\u02ca\u02cb"+
+		"\u0005U\u0000\u0000\u02cb\u02d2\u00057\u0000\u0000\u02cc\u02d3\u0003\u0096"+
+		"K\u0000\u02cd\u02cf\u0003x<\u0000\u02ce\u02cd\u0001\u0000\u0000\u0000"+
+		"\u02cf\u02d0\u0001\u0000\u0000\u0000\u02d0\u02d1\u0001\u0000\u0000\u0000"+
+		"\u02d0\u02ce\u0001\u0000\u0000\u0000\u02d1\u02d3\u0001\u0000\u0000\u0000"+
+		"\u02d2\u02cc\u0001\u0000\u0000\u0000\u02d2\u02ce\u0001\u0000\u0000\u0000"+
+		"\u02d3\u02d4\u0001\u0000\u0000\u0000\u02d4\u02d5\u0005V\u0000\u0000\u02d5"+
+		"\u007f\u0001\u0000\u0000\u0000\u02d6\u02d7\u0005U\u0000\u0000\u02d7\u02de"+
+		"\u00058\u0000\u0000\u02d8\u02df\u0003\u0096K\u0000\u02d9\u02db\u0003x"+
+		"<\u0000\u02da\u02d9\u0001\u0000\u0000\u0000\u02db\u02dc\u0001\u0000\u0000"+
+		"\u0000\u02dc\u02dd\u0001\u0000\u0000\u0000\u02dc\u02da\u0001\u0000\u0000"+
+		"\u0000\u02dd\u02df\u0001\u0000\u0000\u0000\u02de\u02d8\u0001\u0000\u0000"+
+		"\u0000\u02de\u02da\u0001\u0000\u0000\u0000\u02df\u02e0\u0001\u0000\u0000"+
+		"\u0000\u02e0\u02e1\u0005V\u0000\u0000\u02e1\u0081\u0001\u0000\u0000\u0000"+
+		"\u02e2\u02e3\u0005U\u0000\u0000\u02e3\u02e4\u00059\u0000\u0000\u02e4\u02e5"+
+		"\u0003p8\u0000\u02e5\u02e6\u0003\u0000\u0000\u0000\u02e6\u02e7\u0003\u0098"+
+		"L\u0000\u02e7\u02e8\u0005V\u0000\u0000\u02e8\u0083\u0001\u0000\u0000\u0000"+
+		"\u02e9\u02ed\u0005U\u0000\u0000\u02ea\u02ee\u0005\'\u0000\u0000\u02eb"+
+		"\u02ee\u0005(\u0000\u0000\u02ec\u02ee\u0003\u009eO\u0000\u02ed\u02ea\u0001"+
+		"\u0000\u0000\u0000\u02ed\u02eb\u0001\u0000\u0000\u0000\u02ed\u02ec\u0001"+
+		"\u0000\u0000\u0000\u02ee\u02ef\u0001\u0000\u0000\u0000\u02ef\u02f0\u0003"+
+		"\u008cF\u0000\u02f0\u02f1\u0005V\u0000\u0000\u02f1\u0085\u0001\u0000\u0000"+
+		"\u0000\u02f2\u02f3\u0005U\u0000\u0000\u02f3\u02f4\u0007\u0005\u0000\u0000"+
+		"\u02f4\u02f5\u0003\u009eO\u0000\u02f5\u02f6\u0003x<\u0000\u02f6\u02f7"+
+		"\u0005V\u0000\u0000\u02f7\u0087\u0001\u0000\u0000\u0000\u02f8\u02f9\u0005"+
+		"U\u0000\u0000\u02f9\u02fa\u0005:\u0000\u0000\u02fa\u02fb\u0007\u0005\u0000"+
+		"\u0000\u02fb\u02fc\u0003\u009eO\u0000\u02fc\u02fd\u0003x<\u0000\u02fd"+
+		"\u02fe\u0005*\u0000\u0000\u02fe\u02ff\u0003T*\u0000\u02ff\u0300\u0005"+
+		"V\u0000\u0000\u0300\u0089\u0001\u0000\u0000\u0000\u0301\u0305\u0003\u008c"+
+		"F\u0000\u0302\u0305\u0003\u0096K\u0000\u0303\u0305\u0003\u0010\b\u0000"+
+		"\u0304\u0301\u0001\u0000\u0000\u0000\u0304\u0302\u0001\u0000\u0000\u0000"+
+		"\u0304\u0303\u0001\u0000\u0000\u0000\u0305\u008b\u0001\u0000\u0000\u0000"+
+		"\u0306\u030b\u0003\u0092I\u0000\u0307\u030b\u0003\u0094J\u0000\u0308\u030b"+
+		"\u0003\u0090H\u0000\u0309\u030b\u0003\u008eG\u0000\u030a\u0306\u0001\u0000"+
+		"\u0000\u0000\u030a\u0307\u0001\u0000\u0000\u0000\u030a\u0308\u0001\u0000"+
+		"\u0000\u0000\u030a\u0309\u0001\u0000\u0000\u0000\u030b\u008d\u0001\u0000"+
+		"\u0000\u0000\u030c\u030d\u0005U\u0000\u0000\u030d\u030e\u0005;\u0000\u0000"+
+		"\u030e\u030f\u0007\u0006\u0000\u0000\u030f\u0310\u0003\u009eO\u0000\u0310"+
+		"\u0311\u0003x<\u0000\u0311\u0312\u0005*\u0000\u0000\u0312\u0313\u0003"+
+		"T*\u0000\u0313\u0314\u0005V\u0000\u0000\u0314\u008f\u0001\u0000\u0000"+
+		"\u0000\u0315\u0316\u0005U\u0000\u0000\u0316\u0317\u0005=\u0000\u0000\u0317"+
+		"\u0318\u0003x<\u0000\u0318\u0319\u0005V\u0000\u0000\u0319\u0091\u0001"+
+		"\u0000\u0000\u0000\u031a\u031b\u0005U\u0000\u0000\u031b\u031c\u0005>\u0000"+
+		"\u0000\u031c\u031d\u0003\u009eO\u0000\u031d\u031e\u0003x<\u0000\u031e"+
+		"\u031f\u0005*\u0000\u0000\u031f\u0320\u0003T*\u0000\u0320\u0321\u0005"+
+		"V\u0000\u0000\u0321\u0093\u0001\u0000\u0000\u0000\u0322\u0323\u0005U\u0000"+
+		"\u0000\u0323\u0324\u0005?\u0000\u0000\u0324\u032b\u0003\u00bc^\u0000\u0325"+
+		"\u032c\u0003\u0096K\u0000\u0326\u0328\u0003x<\u0000\u0327\u0326\u0001"+
+		"\u0000\u0000\u0000\u0328\u0329\u0001\u0000\u0000\u0000\u0329\u032a\u0001"+
+		"\u0000\u0000\u0000\u0329\u0327\u0001\u0000\u0000\u0000\u032a\u032c\u0001"+
+		"\u0000\u0000\u0000\u032b\u0325\u0001\u0000\u0000\u0000\u032b\u0327\u0001"+
+		"\u0000\u0000\u0000\u032c\u032d\u0001\u0000\u0000\u0000\u032d\u032e\u0005"+
+		"V\u0000\u0000\u032e\u0095\u0001\u0000\u0000\u0000\u032f\u0330\u0005U\u0000"+
+		"\u0000\u0330\u0331\u0005\u000f\u0000\u0000\u0331\u0332\u0003p8\u0000\u0332"+
+		"\u0333\u0003\u0000\u0000\u0000\u0333\u0334\u0003x<\u0000\u0334\u0335\u0005"+
+		"V\u0000\u0000\u0335\u0097\u0001\u0000\u0000\u0000\u0336\u0354\u0005U\u0000"+
+		"\u0000\u0337\u0338\u0005O\u0000\u0000\u0338\u033a\u0003\u0098L\u0000\u0339"+
+		"\u033b\u0003\u0098L\u0000\u033a\u0339\u0001\u0000\u0000\u0000\u033b\u033c"+
+		"\u0001\u0000\u0000\u0000\u033c\u033d\u0001\u0000\u0000\u0000\u033c\u033a"+
+		"\u0001\u0000\u0000\u0000\u033d\u0355\u0001\u0000\u0000\u0000\u033e\u033f"+
+		"\u0003\u009aM\u0000\u033f\u0340\u0003\u009eO\u0000\u0340\u0341\u0003\u009e"+
+		"O\u0000\u0341\u0355\u0001\u0000\u0000\u0000\u0342\u0343\u0005Q\u0000\u0000"+
+		"\u0343\u0344\u0003\u00bc^\u0000\u0344\u0345\u0003\u00bc^\u0000\u0345\u0355"+
+		"\u0001\u0000\u0000\u0000\u0346\u0347\u0005Q\u0000\u0000\u0347\u0348\u0003"+
+		"V+\u0000\u0348\u0349\u0003V+\u0000\u0349\u0355\u0001\u0000\u0000\u0000"+
+		"\u034a\u034b\u0005R\u0000\u0000\u034b\u0355\u0003\u0098L\u0000\u034c\u034d"+
+		"\u0005Q\u0000\u0000\u034d\u034e\u0003d2\u0000\u034e\u034f\u0003d2\u0000"+
+		"\u034f\u0355\u0001\u0000\u0000\u0000\u0350\u0351\u0005Q\u0000\u0000\u0351"+
+		"\u0352\u0003f3\u0000\u0352\u0353\u0003f3\u0000\u0353\u0355\u0001\u0000"+
+		"\u0000\u0000\u0354\u0337\u0001\u0000\u0000\u0000\u0354\u033e\u0001\u0000"+
+		"\u0000\u0000\u0354\u0342\u0001\u0000\u0000\u0000\u0354\u0346\u0001\u0000"+
+		"\u0000\u0000\u0354\u034a\u0001\u0000\u0000\u0000\u0354\u034c\u0001\u0000"+
+		"\u0000\u0000\u0354\u0350\u0001\u0000\u0000\u0000\u0355\u0356\u0001\u0000"+
+		"\u0000\u0000\u0356\u0357\u0005V\u0000\u0000\u0357\u035a\u0001\u0000\u0000"+
+		"\u0000\u0358\u035a\u0003\u009cN\u0000\u0359\u0336\u0001\u0000\u0000\u0000"+
+		"\u0359\u0358\u0001\u0000\u0000\u0000\u035a\u0099\u0001\u0000\u0000\u0000"+
+		"\u035b\u035c\u0007\u0007\u0000\u0000\u035c\u009b\u0001\u0000\u0000\u0000"+
+		"\u035d\u035e\u0005U\u0000\u0000\u035e\u035f\u0007\u0002\u0000\u0000\u035f"+
+		"\u0360\u0003p8\u0000\u0360\u0361\u0003\u0000\u0000\u0000\u0361\u0362\u0003"+
+		"\u0098L\u0000\u0362\u0363\u0005V\u0000\u0000\u0363\u009d\u0001\u0000\u0000"+
+		"\u0000\u0364\u0378\u0003\b\u0004\u0000\u0365\u0378\u0003\u00b6[\u0000"+
+		"\u0366\u0378\u0003\u00a6S\u0000\u0367\u0378\u0003\u00a8T\u0000\u0368\u0378"+
+		"\u0003\u00aaU\u0000\u0369\u0378\u0003\u00a4R\u0000\u036a\u0378\u0003\u00ac"+
+		"V\u0000\u036b\u0378\u0003\u00aeW\u0000\u036c\u0378\u0003\u00b0X\u0000"+
+		"\u036d\u0378\u0003\u00b2Y\u0000\u036e\u0378\u0003\u00b4Z\u0000\u036f\u0378"+
+		"\u0003\u00a0P\u0000\u0370\u0378\u0003\u00ba]\u0000\u0371\u0378\u0003\u00a2"+
+		"Q\u0000\u0372\u0374\u0005S\u0000\u0000\u0373\u0372\u0001\u0000\u0000\u0000"+
+		"\u0374\u0375\u0001\u0000\u0000\u0000\u0375\u0373\u0001\u0000\u0000\u0000"+
+		"\u0375\u0376\u0001\u0000\u0000\u0000\u0376\u0378\u0001\u0000\u0000\u0000"+
+		"\u0377\u0364\u0001\u0000\u0000\u0000\u0377\u0365\u0001\u0000\u0000\u0000"+
+		"\u0377\u0366\u0001\u0000\u0000\u0000\u0377\u0367\u0001\u0000\u0000\u0000"+
+		"\u0377\u0368\u0001\u0000\u0000\u0000\u0377\u0369\u0001\u0000\u0000\u0000"+
+		"\u0377\u036a\u0001\u0000\u0000\u0000\u0377\u036b\u0001\u0000\u0000\u0000"+
+		"\u0377\u036c\u0001\u0000\u0000\u0000\u0377\u036d\u0001\u0000\u0000\u0000"+
+		"\u0377\u036e\u0001\u0000\u0000\u0000\u0377\u036f\u0001\u0000\u0000\u0000"+
+		"\u0377\u0370\u0001\u0000\u0000\u0000\u0377\u0371\u0001\u0000\u0000\u0000"+
+		"\u0377\u0373\u0001\u0000\u0000\u0000\u0378\u009f\u0001\u0000\u0000\u0000"+
+		"\u0379\u037a\u0005U\u0000\u0000\u037a\u037b\u0005@\u0000\u0000\u037b\u037c"+
+		"\u0003x<\u0000\u037c\u037d\u0005*\u0000\u0000\u037d\u037e\u0003T*\u0000"+
+		"\u037e\u037f\u0005V\u0000\u0000\u037f\u00a1\u0001\u0000\u0000\u0000\u0380"+
+		"\u0381\u0005U\u0000\u0000\u0381\u0382\u0005A\u0000\u0000\u0382\u0383\u0003"+
+		"V+\u0000\u0383\u0384\u0005*\u0000\u0000\u0384\u0385\u0003T*\u0000\u0385"+
+		"\u0386\u0005V\u0000\u0000\u0386\u00a3\u0001\u0000\u0000\u0000\u0387\u0388"+
+		"\u0005U\u0000\u0000\u0388\u0389\u0005B\u0000\u0000\u0389\u038a\u0003\u009e"+
+		"O\u0000\u038a\u038b\u0003\u009eO\u0000\u038b\u038c\u0005V\u0000\u0000"+
+		"\u038c\u00a5\u0001\u0000\u0000\u0000\u038d\u038e\u0005U\u0000\u0000\u038e"+
+		"\u038f\u0005C\u0000\u0000\u038f\u0390\u0003\u009eO\u0000\u0390\u0391\u0003"+
+		"\u009eO\u0000\u0391\u0392\u0005V\u0000\u0000\u0392\u00a7\u0001\u0000\u0000"+
+		"\u0000\u0393\u0394\u0005U\u0000\u0000\u0394\u0395\u0005D\u0000\u0000\u0395"+
+		"\u0396\u0003\u009eO\u0000\u0396\u0397\u0003\u009eO\u0000\u0397\u0398\u0005"+
+		"V\u0000\u0000\u0398\u00a9\u0001\u0000\u0000\u0000\u0399\u039a\u0005U\u0000"+
+		"\u0000\u039a\u039b\u0005E\u0000\u0000\u039b\u039c\u0003\u009eO\u0000\u039c"+
+		"\u039d\u0003\u009eO\u0000\u039d\u039e\u0005V\u0000\u0000\u039e\u00ab\u0001"+
+		"\u0000\u0000\u0000\u039f\u03a0\u0005U\u0000\u0000\u03a0\u03a1\u0005F\u0000"+
+		"\u0000\u03a1\u03a2\u0003\u009eO\u0000\u03a2\u03a3\u0003\u009eO\u0000\u03a3"+
+		"\u03a4\u0005V\u0000\u0000\u03a4\u00ad\u0001\u0000\u0000\u0000\u03a5\u03a6"+
+		"\u0005U\u0000\u0000\u03a6\u03a7\u0005G\u0000\u0000\u03a7\u03a8\u0003\u009e"+
+		"O\u0000\u03a8\u03a9\u0003\u009eO\u0000\u03a9\u03aa\u0005V\u0000\u0000"+
+		"\u03aa\u00af\u0001\u0000\u0000\u0000\u03ab\u03ac\u0005U\u0000\u0000\u03ac"+
+		"\u03ad\u0005H\u0000\u0000\u03ad\u03ae\u0003\u009eO\u0000\u03ae\u03af\u0005"+
+		"V\u0000\u0000\u03af\u00b1\u0001\u0000\u0000\u0000\u03b0\u03b1\u0005U\u0000"+
+		"\u0000\u03b1\u03b2\u0005I\u0000\u0000\u03b2\u03b3\u0003\u009eO\u0000\u03b3"+
+		"\u03b4\u0005V\u0000\u0000\u03b4\u00b3\u0001\u0000\u0000\u0000\u03b5\u03b6"+
+		"\u0005U\u0000\u0000\u03b6\u03b7\u0005J\u0000\u0000\u03b7\u03ba\u0003\u009e"+
+		"O\u0000\u03b8\u03b9\u00052\u0000\u0000\u03b9\u03bb\u0003\u009eO\u0000"+
+		"\u03ba\u03b8\u0001\u0000\u0000\u0000\u03ba\u03bb\u0001\u0000\u0000\u0000"+
+		"\u03bb\u03bc\u0001\u0000\u0000\u0000\u03bc\u03bd\u0005V\u0000\u0000\u03bd"+
+		"\u00b5\u0001\u0000\u0000\u0000\u03be\u03bf\u0005U\u0000\u0000\u03bf\u03c0"+
+		"\u0005K\u0000\u0000\u03c0\u03c1\u0003p8\u0000\u03c1\u03c2\u0005V\u0000"+
+		"\u0000\u03c2\u00b7\u0001\u0000\u0000\u0000\u03c3\u03c4\u0005U\u0000\u0000"+
+		"\u03c4\u03c5\u0005\u000f\u0000\u0000\u03c5\u03c6\u0003p8\u0000\u03c6\u03c7"+
+		"\u0003\u0000\u0000\u0000\u03c7\u03c8\u0003\u00ba]\u0000\u03c8\u03c9\u0005"+
+		"V\u0000\u0000\u03c9\u00b9\u0001\u0000\u0000\u0000\u03ca\u03ce\u0005U\u0000"+
+		"\u0000\u03cb\u03cf\u0003\u0004\u0002\u0000\u03cc\u03cf\u0005\u0002\u0000"+
+		"\u0000\u03cd\u03cf\u0003b1\u0000\u03ce\u03cb\u0001\u0000\u0000\u0000\u03ce"+
+		"\u03cc\u0001\u0000\u0000\u0000\u03ce\u03cd\u0001\u0000\u0000\u0000\u03cf"+
+		"\u03d0\u0001\u0000\u0000\u0000\u03d0\u03d1\u0005L\u0000\u0000\u03d1\u03d2"+
+		"\u0003\u00bc^\u0000\u03d2\u03d3\u0005V\u0000\u0000\u03d3\u00bb\u0001\u0000"+
+		"\u0000\u0000\u03d4\u03d9\u0003\u00c2a\u0000\u03d5\u03d9\u0003\u00be_\u0000"+
+		"\u03d6\u03d9\u0003\u0002\u0001\u0000\u03d7\u03d9\u0003\u00c0`\u0000\u03d8"+
+		"\u03d4\u0001\u0000\u0000\u0000\u03d8\u03d5\u0001\u0000\u0000\u0000\u03d8"+
+		"\u03d6\u0001\u0000\u0000\u0000\u03d8\u03d7\u0001\u0000\u0000\u0000\u03d9"+
+		"\u00bd\u0001\u0000\u0000\u0000\u03da\u03de\u0005U\u0000\u0000\u03db\u03df"+
+		"\u0003\u0004\u0002\u0000\u03dc\u03df\u0005\u0002\u0000\u0000\u03dd\u03df"+
+		"\u0003b1\u0000\u03de\u03db\u0001\u0000\u0000\u0000\u03de\u03dc\u0001\u0000"+
+		"\u0000\u0000\u03de\u03dd\u0001\u0000\u0000\u0000\u03df\u03e0\u0001\u0000"+
+		"\u0000\u0000\u03e0\u03e1\u0005M\u0000\u0000\u03e1\u03e2\u0003\u00bc^\u0000"+
+		"\u03e2\u03e3\u0005V\u0000\u0000\u03e3\u00bf\u0001\u0000\u0000\u0000\u03e4"+
+		"\u03e5\u0005U\u0000\u0000\u03e5\u03e6\u0005N\u0000\u0000\u03e6\u03e7\u0003"+
+		"\u00bc^\u0000\u03e7\u03e8\u0003V+\u0000\u03e8\u03e9\u0005V\u0000\u0000"+
+		"\u03e9\u00c1\u0001\u0000\u0000\u0000\u03ea\u03ec\u0005T\u0000\u0000\u03eb"+
+		"\u03ea\u0001\u0000\u0000\u0000\u03ec\u03ed\u0001\u0000\u0000\u0000\u03ed"+
+		"\u03eb\u0001\u0000\u0000\u0000\u03ed\u03ee\u0001\u0000\u0000\u0000\u03ee"+
+		"\u00c3\u0001\u0000\u0000\u0000A\u00e7\u00ed\u00ef\u00fe\u0103\u0109\u0119"+
+		"\u011b\u012a\u0135\u013c\u0144\u014b\u0159\u0169\u017c\u0181\u018f\u0198"+
+		"\u019f\u01a7\u01b1\u01bb\u01c2\u01cd\u01d5\u01e7\u020a\u0218\u021c\u0222"+
+		"\u0230\u0235\u024d\u0253\u025b\u0263\u0269\u0274\u027c\u0288\u0290\u02ae"+
+		"\u02b5\u02c4\u02c6\u02d0\u02d2\u02dc\u02de\u02ed\u0304\u030a\u0329\u032b"+
+		"\u033c\u0354\u0359\u0375\u0377\u03ba\u03ce\u03d8\u03de\u03ed";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

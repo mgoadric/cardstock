@@ -111,6 +111,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitVarcs([NotNull] RecycleParser.VarcsContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.varcsc"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterVarcsc([NotNull] RecycleParser.VarcscContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.varcsc"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitVarcsc([NotNull] RecycleParser.VarcscContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.varcard"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -720,16 +730,6 @@ public interface IRecycleListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitCstoragecollection([NotNull] RecycleParser.CstoragecollectionContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.memset"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterMemset([NotNull] RecycleParser.MemsetContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.memset"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitMemset([NotNull] RecycleParser.MemsetContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.run"/>.
 	/// </summary>

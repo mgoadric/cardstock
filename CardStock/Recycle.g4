@@ -66,6 +66,7 @@ vari : '\'' namegr ;
 varb : '\'' namegr ;
 varc : '\'' namegr ;
 varcs : '\'' namegr ;
+varcsc : '\'' namegr ;
 varcard : '\'' namegr ;
 
 // Game Setup
@@ -143,13 +144,12 @@ unionof : OPEN 'union' (aggcs | cstorage+?) CLOSE ;
 intersectof : OPEN 'intersect' (aggcs | cstorage+?) CLOSE ;
 disjunctionof : OPEN 'disjunction' (aggcs | cstorage+?) CLOSE ;
 filter : OPEN 'filter' collection var boolean CLOSE ;
-memstorage :  OPEN ('top' | 'bottom' | int) memset CLOSE ;
+memstorage :  OPEN ('top' | 'bottom' | int) cstoragecollection CLOSE ;
 sequence: OPEN ('top' | 'bottom') int cstorage CLOSE ;
 runsequence: OPEN 'run' ('top' | 'bottom') int cstorage 'using' pointstorage CLOSE;
 
 // CardCollectionCollections
-cstoragecollection : memset | aggcs | let ;
-memset : tuple | partition | subset | run ;
+cstoragecollection : tuple | partition | subset | run | aggcs | varcsc ;
 run: OPEN 'runs' ('largest' | 'all') int cstorage 'using' pointstorage CLOSE ;
 subset : OPEN 'subsets' cstorage CLOSE ; // add aggcs as in partition??
 tuple : OPEN 'tuples' int cstorage 'using' pointstorage CLOSE ; // I want to remove this and replace with partition, errors though?

@@ -1381,22 +1381,228 @@ namespace CardStock.FreezeFrame
 
         private List<CardLocReference> ProcessCStorageCollection(RecycleParser.CstoragecollectionContext cstoragecoll)
         {
-            if (cstoragecoll.memset() is not null)
+            if (cstoragecoll.tuple() is not null)
             {
-                var lst = ProcessMemset(cstoragecoll.memset());
-                return [.. lst];
+                var points = ProcessPointStorage(cstoragecoll.tuple().pointstorage());
+                var stor = ProcessLocation(cstoragecoll.tuple().cstorage());
+
+                // TODO THIS IS HACKY, why only 13???
+                // it should really be all possible point values, based on the CardGrouping implementtion...
+                // What about this??
+                /*
+                var findEm = new CardGrouping(stor, points.Get());
+                */
+                var findEm = new CardGrouping(13, points.Get());
+
+                var cardsToScore = new CardCollection(CCType.VIRTUAL);
+                foreach (var card in stor.cardList.AllCards())
+                {
+                    cardsToScore.Add(card);
+                }
+                var pairs = findEm.TuplesOfSize(cardsToScore, ProcessInt(cstoragecoll.tuple().@int()));
+                var returnList = new CardLocReference[pairs.Count];
+                for (int i = 0; i < pairs.Count; ++i)
+                {
+                    returnList[i] = new CardLocReference()
+                    {
+                        cardList = pairs[i],
+                        name = "{mem}" + points.GetName() + "{p" + i + "}"
+                    };
+                }
+                return [.. returnList];
+            }
+
+            // subset code  BUT NO NULL SET?
+            else if (cstoragecoll.subset() is not null)
+            {
+                Debug.WriteLine("Found a subset");
+                var stor = ProcessLocation(cstoragecoll.subset().cstorage());
+                Debug.WriteLine("There are " + stor.cardList.AllCards().Count() + " cards here");
+
+                var subsets = new List<List<Card>>
+                {
+                    ([])
+                };
+
+                foreach (var card in stor.cardList.AllCards())
+                {
+                    var subsettemp = new List<List<Card>>();
+                    foreach (var set in subsets)
+                    {
+                        var subset = new List<Card>();
+                        foreach (var card2 in set)
+                        {
+                            subset.Add(card2);
+                        }
+                        subset.Add(card);
+                        subsettemp.Add(subset);
+                    }
+                    subsets.AddRange(subsettemp);
+                }
+                Debug.WriteLine("there are now " + subsets.Count + " subsets");
+                var returnList = new List<CardLocReference>();
+                for (int j = 0; j < subsets.Count; j++)
+                {
+                    var cardlist = subsets[j];
+                    var cctemp = new CardCollection(CCType.VIRTUAL);
+                    foreach (var card in cardlist)
+                    {
+                        cctemp.Add(card);
+                    }
+                    returnList.Add(new CardLocReference()
+                    {
+                        cardList = cctemp,
+                        name = "{subset " + j + " from " + stor.name + "}"
+                    });
+                }
+                return [.. returnList];
+            }
+
+            // PARTITON CODE
+            else if (cstoragecoll.partition() is not null)
+            {
+                var pcc = ProcessPartition(cstoragecoll.partition());
+                return [.. pcc];
+            }
+
+            else if (cstoragecoll.run() is not null)
+            {
+                var locs = ProcessLocation(cstoragecoll.run().cstorage());
+                var points = ProcessPointStorage(cstoragecoll.run().pointstorage());
+                var scoring = points.Get();
+                int minsize = ProcessInt(cstoragecoll.run().@int());
+                var returnList = new List<CardLocReference>();
+
+                var sortcards = locs.cardList.AllCards().ToArray();
+                Array.Sort(sortcards, new CardComparer()
+                {
+                    scoring = points.Get(),
+                });
+
+                var current = new List<CardCollection>
+                {
+                    new(CCType.VIRTUAL)
+                };
+                for (int j = 0; j < sortcards.Length; j++)
+                {
+                    Card card = sortcards[j];
+                    if (j == 0)
+                    {
+                        // starting first spot in run
+                        current[^1].Add(card);
+                    }
+                    else
+                    {
+                        if (scoring.GetScore(card) == scoring.GetScore(sortcards[j - 1]))
+                        {
+                            // duplicate the current runs, swap out the last card with this one
+                            var toAdd = new List<CardCollection>();
+                            foreach (var c in current)
+                            {
+                                if (c.Peek() == sortcards[j - 1])
+                                {
+                                    Debug.WriteLine(c);
+                                    var other = c.DeepCopy();
+                                    Debug.WriteLine(other);
+                                    other.Remove();
+                                    other.Add(card);
+                                    toAdd.Add(other);
+                                }
+                            }
+                            current.AddRange(toAdd);
+                        }
+                        else if (scoring.GetScore(card) == 1 + scoring.GetScore(sortcards[j - 1]))
+                        {
+                            // if you want all runs, then you should archive them no matter if you match or not.
+                            if (cstoragecoll.run().GetChild(2).GetText() == "all")
+                            {
+                                foreach (var c in current)
+                                {
+                                    if (c.Count >= minsize)
+                                    {
+                                        returnList.Add(new CardLocReference()
+                                        {
+                                            cardList = c,
+                                            name = "{all runs}" + j,
+                                        });
+                                    }
+                                }
+                            }
+
+                            // next in sequence, then add it
+                            foreach (var c in current)
+                            {
+                                c.Add(card);
+                            }
+                        }
+                        else
+                        {
+                            // finalize the runs to return when there is no match
+                            foreach (var c in current)
+                            {
+                                if (c.Count >= minsize)
+                                {
+                                    returnList.Add(new CardLocReference()
+                                    {
+                                        cardList = c,
+                                        name = "{all runs}" + j,
+                                    });
+                                }
+                            }
+                            // start new runs
+                            current.Clear();
+                            if (cstoragecoll.run().GetChild(2).GetText() == "largest")
+                        {
+                            current.Add(new CardCollection(CCType.VIRTUAL));
+                            current[^1].Add(card);
+                        }
+                        }
+
+                        if (cstoragecoll.run().GetChild(2).GetText() == "all")
+                        {
+                            current.Add(new CardCollection(CCType.VIRTUAL));
+                            current[^1].Add(card);
+                        }
+                    }
+                }
+                // wrap up last run possibility at the end
+                foreach (var c in current)
+                {
+                    if (c.Count >= minsize)
+                    {
+                        returnList.Add(new CardLocReference()
+                        {
+                            cardList = c,
+                            name = "{all runs end}",
+                        });
+                    }
+                }
+                return [.. returnList];
+                
             }
             else if (cstoragecoll.aggcs() is not null)
             {
                 return ProcessAggCStorage(cstoragecoll.aggcs());
             }
-            else if (cstoragecoll.let() is not null)
+            else if (cstoragecoll.varcsc() is not null)
             {
-                ProcessLet(cstoragecoll.let());
-                Debug.WriteLine("let, returning nothing");
-                return [];
+                return ProcessCStorageCollectionVar(cstoragecoll.varcsc());
             }
             throw new NotSupportedException();
+        }
+
+        private List<CardLocReference> ProcessCStorageCollectionVar(RecycleParser.VarcscContext cstoragecollvar)
+        {
+            var temp = variables.Get(cstoragecollvar.GetText());
+            if (temp is List<CardLocReference> csc)
+            {
+                return csc;
+            }
+            else
+            {
+                Console.WriteLine("Error, "+ cstoragecollvar.GetText() + " is not a CardStorageCollection, type is: " + temp.GetType());
+                throw new NotImplementedException();
+            }
         }
 
         private List<CardLocReference> CollectLocations(RecycleParser.CstorageContext[] cstorage, RecycleParser.AggcsContext aggcs)
@@ -1532,7 +1738,7 @@ namespace CardStock.FreezeFrame
             {
                 Debug.WriteLine("Tuple Track");
                 var identifier = loc.memstorage().GetChild(1).GetText();
-                var resultingSet = ProcessMemset(loc.memstorage().memset());
+                var resultingSet = ProcessCStorageCollection(loc.memstorage().cstoragecollection());
                 if (identifier == "top")
                 {
                     return resultingSet[0];
@@ -1647,210 +1853,6 @@ namespace CardStock.FreezeFrame
             }
 
             throw new NotSupportedException();
-        }
-
-        private CardLocReference[] ProcessMemset(RecycleParser.MemsetContext memset)
-        {
-            if (memset.tuple() is not null)
-            {
-                var points = ProcessPointStorage(memset.tuple().pointstorage());
-                var stor = ProcessLocation(memset.tuple().cstorage());
-
-                // TODO THIS IS HACKY, why only 13???
-                // it should really be all possible point values, based on the CardGrouping implementtion...
-                // What about this??
-                /*
-                var findEm = new CardGrouping(stor, points.Get());
-                */
-                var findEm = new CardGrouping(13, points.Get());
-
-                var cardsToScore = new CardCollection(CCType.VIRTUAL);
-                foreach (var card in stor.cardList.AllCards())
-                {
-                    cardsToScore.Add(card);
-                }
-                var pairs = findEm.TuplesOfSize(cardsToScore, ProcessInt(memset.tuple().@int()));
-                var returnList = new CardLocReference[pairs.Count];
-                for (int i = 0; i < pairs.Count; ++i)
-                {
-                    returnList[i] = new CardLocReference()
-                    {
-                        cardList = pairs[i],
-                        name = "{mem}" + points.GetName() + "{p" + i + "}"
-                    };
-                }
-                return returnList;
-            }
-
-            // subset code  BUT NO NULL SET?
-            else if (memset.subset() is not null)
-            {
-                Debug.WriteLine("Found a subset");
-                var stor = ProcessLocation(memset.subset().cstorage());
-                Debug.WriteLine("There are " + stor.cardList.AllCards().Count() + " cards here");
-
-                var subsets = new List<List<Card>>
-                {
-                    ([])
-                };
-
-                foreach (var card in stor.cardList.AllCards())
-                {
-                    var subsettemp = new List<List<Card>>();
-                    foreach (var set in subsets)
-                    {
-                        var subset = new List<Card>();
-                        foreach (var card2 in set)
-                        {
-                            subset.Add(card2);
-                        }
-                        subset.Add(card);
-                        subsettemp.Add(subset);
-                    }
-                    subsets.AddRange(subsettemp);
-                }
-                Debug.WriteLine("there are now " + subsets.Count + " subsets");
-                var returnList = new List<CardLocReference>();
-                for (int j = 0; j < subsets.Count; j++)
-                {
-                    var cardlist = subsets[j];
-                    var cctemp = new CardCollection(CCType.VIRTUAL);
-                    foreach (var card in cardlist)
-                    {
-                        cctemp.Add(card);
-                    }
-                    returnList.Add(new CardLocReference()
-                    {
-                        cardList = cctemp,
-                        name = "{subset " + j + " from " + stor.name + "}"
-                    });
-                }
-                return [.. returnList];
-            }
-
-            // PARTITON CODE
-            else if (memset.partition() is not null)
-            {
-                return ProcessPartition(memset.partition());
-            }
-
-            else if (memset.run() is not null)
-            {
-                var locs = ProcessLocation(memset.run().cstorage());
-                var points = ProcessPointStorage(memset.run().pointstorage());
-                var scoring = points.Get();
-                int minsize = ProcessInt(memset.run().@int());
-                var returnList = new List<CardLocReference>();
-
-                var sortcards = locs.cardList.AllCards().ToArray();
-                Array.Sort(sortcards, new CardComparer()
-                {
-                    scoring = points.Get(),
-                });
-
-                var current = new List<CardCollection>
-                {
-                    new(CCType.VIRTUAL)
-                };
-                for (int j = 0; j < sortcards.Length; j++)
-                {
-                    Card card = sortcards[j];
-                    if (j == 0)
-                    {
-                        // starting first spot in run
-                        current[^1].Add(card);
-                    }
-                    else
-                    {
-                        if (scoring.GetScore(card) == scoring.GetScore(sortcards[j - 1]))
-                        {
-                            // duplicate the current runs, swap out the last card with this one
-                            var toAdd = new List<CardCollection>();
-                            foreach (var c in current)
-                            {
-                                if (c.Peek() == sortcards[j - 1])
-                                {
-                                    Debug.WriteLine(c);
-                                    var other = c.DeepCopy();
-                                    Debug.WriteLine(other);
-                                    other.Remove();
-                                    other.Add(card);
-                                    toAdd.Add(other);
-                                }
-                            }
-                            current.AddRange(toAdd);
-                        }
-                        else if (scoring.GetScore(card) == 1 + scoring.GetScore(sortcards[j - 1]))
-                        {
-                            // if you want all runs, then you should archive them no matter if you match or not.
-                            if (memset.run().GetChild(2).GetText() == "all")
-                            {
-                                foreach (var c in current)
-                                {
-                                    if (c.Count >= minsize)
-                                    {
-                                        returnList.Add(new CardLocReference()
-                                        {
-                                            cardList = c,
-                                            name = "{all runs}" + j,
-                                        });
-                                    }
-                                }
-                            }
-
-                            // next in sequence, then add it
-                            foreach (var c in current)
-                            {
-                                c.Add(card);
-                            }
-                        }
-                        else
-                        {
-                            // finalize the runs to return when there is no match
-                            foreach (var c in current)
-                            {
-                                if (c.Count >= minsize)
-                                {
-                                    returnList.Add(new CardLocReference()
-                                    {
-                                        cardList = c,
-                                        name = "{all runs}" + j,
-                                    });
-                                }
-                            }
-                            // start new runs
-                            current.Clear();
-                            if (memset.run().GetChild(2).GetText() == "largest")
-                        {
-                            current.Add(new CardCollection(CCType.VIRTUAL));
-                            current[^1].Add(card);
-                        }
-                        }
-
-                        if (memset.run().GetChild(2).GetText() == "all")
-                        {
-                            current.Add(new CardCollection(CCType.VIRTUAL));
-                            current[^1].Add(card);
-                        }
-                    }
-                }
-                // wrap up last run possibility at the end
-                foreach (var c in current)
-                {
-                    if (c.Count >= minsize)
-                    {
-                        returnList.Add(new CardLocReference()
-                        {
-                            cardList = c,
-                            name = "{all runs end}",
-                        });
-                    }
-                }
-                return [.. returnList];
-                
-            }
-            // This is a memset I don't recognize
-            throw new NotImplementedException();
         }
 
         private CardLocReference[] ProcessPartition(RecycleParser.PartitionContext partContext)
