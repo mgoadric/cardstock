@@ -936,6 +936,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitAggcs([NotNull] RecycleParser.AggcsContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.bag"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBag([NotNull] RecycleParser.BagContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.bag"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBag([NotNull] RecycleParser.BagContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.boolean"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

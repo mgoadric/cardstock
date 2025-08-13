@@ -1552,10 +1552,10 @@ namespace CardStock.FreezeFrame
                             // start new runs
                             current.Clear();
                             if (cstoragecoll.run().GetChild(2).GetText() == "largest")
-                        {
-                            current.Add(new CardCollection(CCType.VIRTUAL));
-                            current[^1].Add(card);
-                        }
+                            {
+                                current.Add(new CardCollection(CCType.VIRTUAL));
+                                current[^1].Add(card);
+                            }
                         }
 
                         if (cstoragecoll.run().GetChild(2).GetText() == "all")
@@ -1927,7 +1927,12 @@ namespace CardStock.FreezeFrame
             Console.WriteLine(stor.GetText());*/
             if (stor.locpre().GetText() == "game")
             {
+
                 string name = ProcessString(stor.str());
+                if (stor.@int() is not null)
+                {
+                    name += ProcessInt(stor.@int());
+                }
                 var fancy = new CardLocReference()
                 {
                     cardList = game.table[0].cardBins[prefix, name],
@@ -1935,6 +1940,7 @@ namespace CardStock.FreezeFrame
                     name = "t " + prefix + " " + name
                 };
                 return fancy;
+                
             }
             if (stor.locpre().whop() is not null)
             {
@@ -1945,6 +1951,10 @@ namespace CardStock.FreezeFrame
                 player = ProcessPlayerVar(stor.locpre().varp());
             }
             var name2 = ProcessString(stor.str());
+            if (stor.@int() is not null)
+            {
+                name2 += ProcessInt(stor.@int());
+            }
             var fancy2 = new CardLocReference()
             {
                 cardList = player.cardBins[prefix, name2],

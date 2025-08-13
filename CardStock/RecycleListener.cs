@@ -781,6 +781,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitAggcs([NotNull] RecycleParser.AggcsContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.bag"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBag([NotNull] RecycleParser.BagContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.bag"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBag([NotNull] RecycleParser.BagContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.boolean"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

@@ -90,13 +90,24 @@
         (choice (
             ;; run
             (any (runs all 3 ((current player) iloc HAND) using (game points SEQUENCE)) 'R
-                (repeat all (move (top 'R)
-                                  (top (game vloc MELD)))))   ;; TODO Fix where they go, should be for current player, in new meld location
+                (do (
+                    (repeat all (move (top 'R)
+                                   (top (game vloc RUN (game sto RUNCOUNT)))))
+                    (inc (game sto RUNCOUNT) 1)
+                ))
+            )  
+
             ;; set
             (any (partition RANK ((current player) iloc HAND)) 'P 
                 ((>= (size 'P) 3)
-                 (repeat all (move (top 'P)
-                                   (top (game vloc MELD))))))
+                 (do (
+                    (repeat all (move (top 'P)
+                                   (top (game vloc SET (game sto SETCOUNT)))))
+                    (inc (game sto SETCOUNT) 1)
+                 ))
+                )
+            )
+
             ;; do nothing
             (turn pass)
         ))

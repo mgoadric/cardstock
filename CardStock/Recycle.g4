@@ -138,7 +138,7 @@ range : OPEN 'range' int '..' int CLOSE ;
 other : OPEN 'other' ('player' | 'team') CLOSE ;
 
 // CardCollections
-cstorage : varcs | unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc (str | int | 'new') CLOSE | memstorage | sequence | runsequence ;
+cstorage : varcs | unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc str int? CLOSE | memstorage | sequence | runsequence ;
 sortof : OPEN 'sort' cstorage 'using' pointstorage CLOSE ;
 unionof : OPEN 'union' (aggcs | cstorage+?) CLOSE ;
 intersectof : OPEN 'intersect' (aggcs | cstorage+?) CLOSE ;
@@ -149,12 +149,13 @@ sequence: OPEN ('top' | 'bottom') int cstorage CLOSE ;
 runsequence: OPEN 'run' ('top' | 'bottom') int cstorage 'using' pointstorage CLOSE;
 
 // CardCollectionCollections
-cstoragecollection : tuple | partition | subset | run | aggcs | varcsc ;
+cstoragecollection : tuple | partition | subset | run | aggcs | varcsc | bag;
 run: OPEN 'runs' ('largest' | 'all') int cstorage 'using' pointstorage CLOSE ;
 subset : OPEN 'subsets' cstorage CLOSE ; // add aggcs as in partition??
 tuple : OPEN 'tuples' int cstorage 'using' pointstorage CLOSE ; // I want to remove this and replace with partition, errors though?
 partition : OPEN 'partition' str (aggcs | cstorage+?) CLOSE ;
 aggcs : OPEN 'all' collection var cstorage CLOSE ;
+bag : OPEN 'all' locpre locdesc CLOSE ;
 
 // Booleans
 boolean : OPEN (BOOLOP boolean boolean+? | intop int int | EQOP str str | EQOP card card

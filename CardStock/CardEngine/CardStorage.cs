@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace CardStock.CardEngine
@@ -45,13 +46,12 @@ namespace CardStock.CardEngine
             string name = type + ":" + key;
             if (!dict.ContainsKey(name))
             {
-                CardCollection ncc = new CardCollection(type)
+                CardCollection ncc = new(type)
                 {
                     owner = this,
                     name = key
                 };
                 dict[name] = ncc;
-
             }
         }
 
@@ -60,6 +60,19 @@ namespace CardStock.CardEngine
          */
         public IEnumerable<CardCollection> Values() {
             return dict.Values;
+        }
+
+        public List<CardCollection> Bag(CCType type)
+        {
+            List<CardCollection> ret = [];
+            foreach (String k in dict.Keys)
+            {
+                if (k.StartsWith(type + ":bag"))
+                {
+                    ret.Add(dict[k]);
+                }
+            }
+            return ret;
         }
 
         public override bool Equals(object? obj)
@@ -73,14 +86,15 @@ namespace CardStock.CardEngine
 
             if (cs.owner.GetType() != owner.GetType())
             { Console.WriteLine("Owner types not equal"); return false; }
-            
+
             if (cs.owner.id != owner.id)
             { Console.WriteLine("Owner names not equal"); return false; }
-            
+
             if (!cs.dict.SequenceEqual(dict))
             { //Console.WriteLine("Dictionary of Card Collections not equal");
-                return false; }
-        
+                return false;
+            }
+
             return true;
         }
 
