@@ -1520,9 +1520,13 @@ namespace CardStock.FreezeFrame
                                 {
                                     if (c.Count >= minsize)
                                     {
+                                        var cl = new CardCollection(CCType.VIRTUAL);
+                                        foreach (var oldc in c.AllCards()) {
+                                            cl.Add(oldc);
+                                        }
                                         returnList.Add(new CardLocReference()
                                         {
-                                            cardList = c,
+                                            cardList = cl,
                                             name = "{all runs}" + j,
                                         });
                                     }
