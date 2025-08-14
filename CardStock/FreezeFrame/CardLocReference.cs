@@ -49,6 +49,10 @@ namespace CardStock.FreezeFrame{
             switch (locIdentifier)
             {
                 case "top":
+                    if (cardList.Count == 0)
+                    {
+                        Console.Write(name + " is empty??");
+                    }
                     return cardList.Peek();
                 case "bottom":
                     System.Collections.Generic.IEnumerator<Card> e = cardList.AllCards().GetEnumerator();
