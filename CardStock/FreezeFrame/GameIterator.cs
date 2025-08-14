@@ -1598,7 +1598,7 @@ namespace CardStock.FreezeFrame
                 CCType prefix = ProcessLocDesc(cstoragecoll.indexed().locdesc());
                 Owner player = ProcessLocPre(cstoragecoll.indexed().locpre());
                 string name = ProcessString(cstoragecoll.indexed().str());
-                var bins = player.cardBins.Indexed(prefix, name);
+                var bins = player.cardBins.Indexed(prefix, name + "-");
                 List<CardLocReference> ret = [];
                 foreach (CardCollection cc in bins)
                 {
@@ -1960,10 +1960,14 @@ namespace CardStock.FreezeFrame
             CCType prefix = ProcessLocDesc(stor.locdesc());
             Owner player = ProcessLocPre(stor.locpre());
 
-            string name = ProcessString(stor.str());
+            string name = ProcessString(stor.str()) + "-";
             if (stor.@int() is not null)
             {
                 name += ProcessInt(stor.@int());
+            }
+            else
+            {
+                name += 0;
             }
 
             var fancy = new CardLocReference()
