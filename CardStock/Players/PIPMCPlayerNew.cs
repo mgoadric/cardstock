@@ -66,7 +66,7 @@ namespace CardStock.Players
                         {
                             cloneContext.ProcessChoice();
                             count++;
-                            if (count > 200)
+                            if (count > ParseEngine.CHOICELIMIT)
                             {
                                 break;
                             }

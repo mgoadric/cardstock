@@ -14,7 +14,7 @@ public partial class ParseEngine
     public RecycleParser.GameContext tree;
     public World gameWorld;
     public string fileName;
-    public static int CHOICELIMIT = 500;
+    public const int CHOICELIMIT = 500;
 
         public ParseEngine(Experiment exp, World gameWorld)
         {
@@ -144,7 +144,7 @@ public partial class ParseEngine
                     if (gamePlay.totalChoices > CHOICELIMIT)
                     {
                         Console.WriteLine("Game " + (i + 1) + " Choices not processed (probably infinite loop)");
-                        compiling = false;
+                        //compiling = false;
                         break;
                     }
                 }
