@@ -62,12 +62,12 @@ namespace CardStock.CardEngine
             return dict.Values;
         }
 
-        public List<CardCollection> Bag(CCType type)
+        public List<CardCollection> Indexed(CCType type, string name)
         {
             List<CardCollection> ret = [];
             foreach (String k in dict.Keys)
             {
-                if (k.StartsWith(type + ":bag"))
+                if (k.StartsWith(type + ":" + name))
                 {
                     ret.Add(dict[k]);
                 }

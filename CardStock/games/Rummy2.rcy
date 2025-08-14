@@ -112,7 +112,21 @@
             (turn pass)
         ))
 
-        ;; TODO layoff to other melds
+        ;; TODO layoff to other melds. THIS SHOULD BE A STAGE TO DO MULTIPLE TIMES!!!
+        (choice (
+            ;; sets
+            (any ((current player) iloc HAND) 'C 
+              (any (indexed game vloc SET) 'S
+                ((== (cardatt RANK 'C)
+                     (cardatt RANK (top 'S)))
+                 (move 'C
+                       (top 'S)))))
+
+            ;; runs
+
+            ;; or pass
+            (turn pass)
+        ))
 
         ;; Discard a card
         (choice (

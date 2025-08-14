@@ -1521,7 +1521,8 @@ namespace CardStock.FreezeFrame
                                     if (c.Count >= minsize)
                                     {
                                         var cl = new CardCollection(CCType.VIRTUAL);
-                                        foreach (var oldc in c.AllCards()) {
+                                        foreach (var oldc in c.AllCards())
+                                        {
                                             cl.Add(oldc);
                                         }
                                         returnList.Add(new CardLocReference()
@@ -1582,7 +1583,7 @@ namespace CardStock.FreezeFrame
                     }
                 }
                 return [.. returnList];
-                
+
             }
             else if (cstoragecoll.aggcs() is not null)
             {
@@ -1591,6 +1592,23 @@ namespace CardStock.FreezeFrame
             else if (cstoragecoll.varcsc() is not null)
             {
                 return ProcessCStorageCollectionVar(cstoragecoll.varcsc());
+            }
+            else if (cstoragecoll.indexed() is not null)
+            {
+                CCType prefix = ProcessLocDesc(cstoragecoll.indexed().locdesc());
+                Owner player = ProcessLocPre(cstoragecoll.indexed().locpre());
+                string name = ProcessString(cstoragecoll.indexed().str());
+                var bins = player.cardBins.Indexed(prefix, name);
+                List<CardLocReference> ret = [];
+                foreach (CardCollection cc in bins)
+                {
+                    ret.Add(new CardLocReference()
+                    {
+                        cardList = cc,
+                        name = cc.name,
+                    });
+                }
+                return ret;
             }
             throw new NotSupportedException();
         }
@@ -1846,8 +1864,7 @@ namespace CardStock.FreezeFrame
                     cardList = best,
                     name = name + "{run sequence " + loc.runsequence().GetChild(2).GetText() + "}",
                 };
-                return fancy;
-                
+                return fancy; 
             }
 
             // CAN WE REMOVE THIS???? NO!!!
@@ -1893,78 +1910,69 @@ namespace CardStock.FreezeFrame
             return [.. returnList];
         }
 
-        private CardLocReference ProcessSubLocation(RecycleParser.CstorageContext stor)
+        private static CCType ProcessLocDesc(RecycleParser.LocdescContext locdesc)
         {
-            string desc = stor.locdesc().GetText();
-            CCType prefix;
+            string desc = locdesc.GetText();
             if (desc == "vloc")
             {
-                prefix = CCType.VISIBLE;
+                return CCType.VISIBLE;
             }
             else if (desc == "iloc")
             {
-                prefix = CCType.INVISIBLE;
+                return CCType.INVISIBLE;
             }
             else if (desc == "hloc")
             {
-                prefix = CCType.HIDDEN;
+                return CCType.HIDDEN;
             }
             else if (desc == "oloc")
             {
-                prefix = CCType.OTHERS;
+                return CCType.OTHERS;
             }
             else if (desc == "mem")
             {
-                prefix = CCType.MEMORY;
+                return CCType.MEMORY;
             }
             else
             {
-                prefix = CCType.VIRTUAL;
+                return CCType.VIRTUAL;
             }
+        }
 
-            Player player;
-            /*
-            Console.WriteLine("parent: " + stor.GetText());
-            Console.WriteLine("next parent: " + stor.GetText());
-            Console.WriteLine("next next parent " + stor.GetText());
-            Console.WriteLine(stor);
-            Console.WriteLine(stor.GetText());*/
-            if (stor.locpre().GetText() == "game")
+        private Owner ProcessLocPre(RecycleParser.LocpreContext locpre)
+        {
+            if (locpre.GetText() == "game")
             {
-
-                string name = ProcessString(stor.str());
-                if (stor.@int() is not null)
-                {
-                    name += ProcessInt(stor.@int());
-                }
-                var fancy = new CardLocReference()
-                {
-                    cardList = game.table[0].cardBins[prefix, name],
-                    locIdentifier = "top",
-                    name = "t " + prefix + " " + name
-                };
-                return fancy;
-                
+                return game.table[0];
             }
-            if (stor.locpre().whop() is not null)
+            else if (locpre.whop() is not null)
             {
-                player = ProcessWhop(stor.locpre().whop());
+                return ProcessWhop(locpre.whop());
             }
             else
             {
-                player = ProcessPlayerVar(stor.locpre().varp());
+                return ProcessPlayerVar(locpre.varp());
             }
-            var name2 = ProcessString(stor.str());
+        }
+
+        private CardLocReference ProcessSubLocation(RecycleParser.CstorageContext stor)
+        {
+            CCType prefix = ProcessLocDesc(stor.locdesc());
+            Owner player = ProcessLocPre(stor.locpre());
+
+            string name = ProcessString(stor.str());
             if (stor.@int() is not null)
             {
-                name2 += ProcessInt(stor.@int());
+                name += ProcessInt(stor.@int());
             }
-            var fancy2 = new CardLocReference()
+
+            var fancy = new CardLocReference()
             {
-                cardList = player.cardBins[prefix, name2],
-                name = player.name + " " + prefix + " " + name2
+                cardList = player.cardBins[prefix, name],
+                locIdentifier = "top",
+                name = player.name + " " + prefix + " " + name
             };
-            return fancy2;
+            return fancy;
         }
         private string ProcessCardatt(RecycleParser.CardattContext cardatt)
         {
