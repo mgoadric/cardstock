@@ -1,8 +1,8 @@
 int numRndvRnd = 100;
 int numAIvRnd = 0;
 int numAIvAI = 0;
-string game = "GolfSixOpt";
-int players = 2;
+string game = "Pairs";
+int players = 5;
 CardStock.Players.PlayerType ai = CardStock.Players.PlayerType.PIPMCNEW;
 
 

@@ -110,7 +110,7 @@
           ((> (size ((current player) vloc HAND)) 0)
            (do 
                (
-                (move (actual (min (union (all player 'P ('P vloc HAND))) using (game points POINTS)))
+                (move (min (union (all player 'P ('P vloc HAND))) using (game points POINTS))
                       (top ((current player) vloc SCORING)))
                 (repeat all
                         (move (top ((current player) vloc HAND))
@@ -128,12 +128,13 @@
                    (== (cardatt VALUE (top ((current player) vloc HAND)))
                        SEVEN))
               (cycle next current))
-             ((> (size (tuples 2 ((current player) vloc HAND) using (game points POINTS))) 0)
-              (do 
-                  (
-                   (move (actual (top (top (tuples 2 ((current player) vloc HAND) using (game points POINTS)))))
-                         (top ((current player) vloc SCORING)))
-                   (repeat all
-                           (move (top ((current player) vloc HAND))
-                                 (top (game vloc DISCARD))))))))))
+             (all (partition VALUE ((current player) vloc HAND)) 'CS 
+                  ((== (size 'CS) 2)
+                   (do (
+                        (move (top 'CS)
+                              (top ((current player) vloc SCORING)))
+                        (repeat all
+                              (move (top ((current player) vloc HAND))
+                                    (top (game vloc DISCARD))))))))     
+      )))
   (scoring min (sum ((current player) vloc SCORING) using (game points POINTS))))

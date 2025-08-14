@@ -20,8 +20,7 @@
   (repeat 10 (create deck (game iloc STOCK) (deck (VALUE (TEN))))))        
  
  ;; Assign points for cards, remove 5 cards from game
- (do 
-     (
+ (do (
       (set (game points POINTS)
            (
             ((VALUE : TEN) 10)
@@ -46,13 +45,11 @@
          (any player 'P 
               (>= (sum ('P vloc SCORING) using (game points POINTS)) (+ (// 60 'NUMP) 1))))
         
-        (do 
-            (
+        (do (
              
              ;; Reset the deck if not enough cards
              ((< (size (game iloc STOCK)) 'NUMP)
-              (do 
-                  (
+              (do (
                    (repeat all
                            (move (top (game iloc THROWOUT))
                                  (top (game iloc STOCK))))
@@ -80,13 +77,11 @@
                (end 
                 (== (game sto FINISHED) 1))
                
-               (do   
-                   (
+               (do (
                     
                     ;; Reset the deck if not enough cards
                     ((== (size (game iloc STOCK)) 0)
-                     (do 
-                         (
+                     (do (
                           (repeat all
                                   (move (top (game iloc THROWOUT))
                                         (top (game iloc STOCK))))
@@ -99,11 +94,9 @@
                                         (top (game iloc THROWOUT)))))))))
                
                ;; players flip a card or bow out
-               (choice 
-                (
-                 (do 
-                     (
-                      (move (actual (min (union (all player 'P ('P vloc HAND))) using (game points POINTS)))
+               (choice (
+                 (do (
+                      (move (min (union (all player 'P ('P vloc HAND))) using (game points POINTS))
                             (top ((current player) vloc SCORING)))
                       (set (game sto FINISHED) 1)))
                  
@@ -111,19 +104,20 @@
                        (top ((current player) vloc HAND)))))
                
                ;; if pair, end the round
-               ;; current player is similar to how all players was used previously, is this ok?
-               (do 
-                   (
-                    ((> (size (tuples 2 ((current player) vloc HAND) using (game points POINTS))) 0)
-                     (do 
-                         (
-                          (set (game sto FINISHED) 1)
-                          (move (actual (top (top (tuples 2 ((current player) vloc HAND) using (game points POINTS)))))
-                                (top ((current player) vloc SCORING)))))))))
+               (do (
+
+                    (all (partition VALUE ((current player) vloc HAND)) 'CS 
+                         ((== (size 'CS) 2)
+                          (do (
+                              (move (top 'CS)
+                                    (top ((current player) vloc SCORING)))
+                              (set (game sto FINISHED) 1)
+                        ))))
+              ))
+        )
         
         ;; Move all cards back to the discard pile
-        (do 
-            (
+        (do (
              (all player 'P
                   (repeat all
                           (move (top ('P vloc HAND))
