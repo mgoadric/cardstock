@@ -1520,11 +1520,7 @@ namespace CardStock.FreezeFrame
                                 {
                                     if (c.Count >= minsize)
                                     {
-                                        var cl = new CardCollection(CCType.VIRTUAL);
-                                        foreach (var oldc in c.AllCards())
-                                        {
-                                            cl.Add(oldc);
-                                        }
+                                        var cl = c.DeepCopy();//new CardCollection(CCType.VIRTUAL);
                                         returnList.Add(new CardLocReference()
                                         {
                                             cardList = cl,
