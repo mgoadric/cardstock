@@ -3,6 +3,7 @@
 // New in version 0.6.0
 //  indexed locations, with an int available after the string for the name
 //  useful for making new card locations dyanmically in Rummy for melds
+//  all locations default to index 0 if no int provided
 
 // New in version 0.5.10
 //  sequence to select the top or bottom x cards from a card collection

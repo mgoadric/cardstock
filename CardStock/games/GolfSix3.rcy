@@ -4,7 +4,7 @@
 (game
  (declare (range 1..6) 'PLOCS)
  (setup
-  (create players 4)
+  (create players 3)
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                               (BLACK (SUIT (CLUBS, SPADES)))))))
