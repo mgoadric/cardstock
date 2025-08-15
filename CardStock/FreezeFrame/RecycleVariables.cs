@@ -108,6 +108,26 @@ namespace CardStock.FreezeFrame
                     ret.Add(key, l);
 
                 }
+                else if (o is CardLocReference clr)
+                {
+                    var fancy = clr.ShallowCopy();
+                    string tempcc = clr.cardList.name;
+                    CCType temptype = clr.cardList.type;
+
+                    if (temptype == CCType.VIRTUAL)
+                    {
+                        CardCollection ccclone = clr.cardList.EmptyClone();
+                        foreach (Card oldc in clr.cardList.AllCards())
+                        {
+                            ccclone.Add(newgame.sourceDeck[oldc.name][oldc.id]);
+                        }
+                        ret.Add(key, ccclone);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException(); 
+                    }
+                }
                 else if (o is CardCollection cc) // NEED TO TEST XX
                 {
                     string tempcc = cc.name;
@@ -125,7 +145,6 @@ namespace CardStock.FreezeFrame
                     }
                     else
                     {
-
                         CardStorage collectionowner = cc.owner;
                         Owner owner = collectionowner.owner;
                         int idx = owner.id;
@@ -147,6 +166,7 @@ namespace CardStock.FreezeFrame
 
                 // TODO WHAT ABOUT List<Object>????
                 // it is really a List<CardLocReference>
+
                 /*else if (o is CardLocReference)
                 {
                     throw new NotImplementedException();

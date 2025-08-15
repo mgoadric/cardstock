@@ -1,5 +1,5 @@
 int numRndvRnd = 0;
-int numAIvRnd = 1;
+int numAIvRnd = 100;
 int numAIvAI = 0;
 string game = "President";
 int players = 4;
