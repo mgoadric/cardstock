@@ -46,6 +46,8 @@ There are currently 52 games coded in RECYCLE
     * [Pairs](https://cheapass.com/wp-content/uploads/2018/02/PairsCompanionBookWebFeb2018.pdf) (2-5p)
         * Continuous Pairs (4p)
         * Calamity Continuous Pairs (4p)
+* Rummy
+    * [Rummy](https://www.pagat.com/rummy/rummy.html) (2p) 
 * Shedding
     * [Comet](http://www.catsatcards.com/Games/Comet.html) (2p)
     * [Crazy Eights](https://www.pagat.com/eights/crazy8s.html) (4p)
