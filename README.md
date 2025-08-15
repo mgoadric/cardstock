@@ -28,6 +28,8 @@ There are currently 52 games coded in RECYCLE
     * [GOPS](https://www.pagat.com/misc/gops.html) (2p)
     * [Go Fish](https://www.pagat.com/quartet/gofish.html) (4p)
     * [Turn the Tide](https://gamewright.com/pdfs/Rules/TurnTheTide-RULES.pdf) (3p)
+* Climbing
+    * [President](https://www.pagat.com/climbing/president.html) (4p) 
 * Draw and Discard
     * [Golf Six](https://www.pagat.com/draw/golf.html) (2-4p)
     * [Lost Cities](https://cdn.1j1ju.com/medias/c8/66/47-lost-cities-rulebook.pdf) (2p)
