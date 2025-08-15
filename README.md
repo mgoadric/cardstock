@@ -17,7 +17,7 @@ tournament of AI players. Please check back for further progress on these issues
 
 ## Games
 
-There are currently 52 games coded in RECYCLE
+There are currently 54 games coded in RECYCLE
 
 * Adding
     * [Caterpillar](http://www.parlettgames.uk/oricards/caterpil.html) (2p)
