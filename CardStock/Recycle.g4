@@ -9,6 +9,7 @@
 //  sequence to select the top or bottom x cards from a card collection
 //  Runs for both the longest possible (revised from partitioned runs earlier) and all possible working
 //  Largest Run that includes the top or bottom of a sequence is available
+//  mem locations are back, necessary for Cribbage, oh well.
 
 // New in version 0.5.9
 //  Partitioned Runs are possible. The run will be the maximum size possible.
