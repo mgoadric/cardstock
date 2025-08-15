@@ -39,18 +39,18 @@
                    (move (top (game iloc STOCK))
                          (top ('P iloc HAND)))))))
    
- ;; players play until all players are out of cards     TODO
+ ;; players play until all players are out of cards
  (stage player
         (end 
-         (any player 'P 
+         (all player 'P 
               (== (size ('P iloc HAND)) 0)))
 
       (choice (
 
             ;; First of new trick, play anything
             ((== (size (game vloc TRICK)) 0)
-             (any (partition RANK ((current player) iloc HAND)) 'P
-                  (any (subsets 'P) 'S 
+             (any (partition RANK ((current player) iloc HAND)) 'PAR
+                  (any (subsets 'PAR) 'S 
                         ((> (size 'S) 0)
                          (do (
                               (set (game sto SIZE) (size 'S))
@@ -63,8 +63,8 @@
 
             ;; play anything that beats the current TRICK and is the same size
             ((> (size (game vloc TRICK)) 0)
-             (any (partition RANK ((current player) iloc HAND)) 'P
-                  (any (subsets 'P) 'S 
+             (any (partition RANK ((current player) iloc HAND)) 'PAR
+                  (any (subsets 'PAR) 'S 
                         ((and (== (size 'S) (game sto SIZE))
                               (> (score (top 'S) using (game points PRECEDENCE))
                                  (score (top (game vloc TRICK)) using (game points PRECEDENCE))))
@@ -75,7 +75,8 @@
             )
 
             ;; you can always pass if you are not the first player
-            ((> (size (game vloc TRICK)) 0)
+            ((or (> (size (game vloc TRICK)) 0)
+                 (== (size ((current player) iloc HAND)) 0))
              (inc (game sto PASSING) 1))
             
       ))
@@ -90,9 +91,15 @@
              ))
             )
 
-            ;; determine if someone won
-            ((any player 'P (== (size ('P iloc HAND)) 0))
-             (set ((current player) str WINNER) TRUE))
+            ;; determine your score if you go out
+            ((and (== (size ((current player) iloc HAND)) 0)
+                  (== ((current player) sto SCORE) 0))
+             (do (
+                 (set ((current player) sto SCORE) (game sto POINTS))
+                 ((> (game sto POINTS) 0)
+                  (dec (game sto POINTS) 1))
+             ))
+            )
       ))         
  )
 

@@ -115,7 +115,7 @@ namespace CardStock.FreezeFrame
 
                     if (temptype == CCType.VIRTUAL)
                     {
-                        CardCollection ccclone = cc.Clone();
+                        CardCollection ccclone = cc.EmptyClone();
                         foreach (Card oldc in cc.AllCards())
                         {
                             ccclone.Add(newgame.sourceDeck[oldc.name][oldc.id]);
@@ -144,6 +144,9 @@ namespace CardStock.FreezeFrame
                         ret.Add(key, newowner.cardBins[temptype, tempcc]);
                     }
                 }
+
+                // TODO WHAT ABOUT List<Object>????
+                // it is really a List<CardLocReference>
                 /*else if (o is CardLocReference)
                 {
                     throw new NotImplementedException();

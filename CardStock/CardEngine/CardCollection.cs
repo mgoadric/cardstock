@@ -2,7 +2,8 @@
 
 namespace CardStock.CardEngine
 {
-    public enum CCType {
+    public enum CCType
+    {
         VISIBLE, INVISIBLE, HIDDEN, OTHERS, VIRTUAL, MEMORY
     }
 
@@ -114,7 +115,7 @@ namespace CardStock.CardEngine
             return owner.owner.name + ":" + type + ":" + name;
         }
 
-        public CardCollection Clone()
+        public CardCollection EmptyClone()
         {
 
             return new CardCollection(type)
