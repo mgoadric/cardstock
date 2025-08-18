@@ -29,6 +29,8 @@ There are currently 54 games coded in RECYCLE
     * [Go Fish](https://www.pagat.com/quartet/gofish.html) (4p)
     * [Turn the Tide](https://gamewright.com/pdfs/Rules/TurnTheTide-RULES.pdf) (3p)
 * Climbing
+    * [Comet](http://www.catsatcards.com/Games/Comet.html) (2p)
+    * [LAMA](https://boardgamegeek.com/filepage/180052/lama-official-rules) (2-6p)
     * [President](https://www.pagat.com/climbing/president.html) (4p) 
 * Draw and Discard
     * [Golf Six](https://www.pagat.com/draw/golf.html) (2-4p)
@@ -45,13 +47,13 @@ There are currently 54 games coded in RECYCLE
     * [Leduc Poker](https://pettingzoo.farama.org/environments/classic/leduc_holdem/) (2p)
 * Press Your Luck
     * [BlackJack](https://www.pagat.com/banking/blackjack.html) (2p)
+    * [No Thanks](https://world-of-board-games.com.sg/docs/No-Thanks.pdf) (3-5p)
     * [Pairs](https://cheapass.com/wp-content/uploads/2018/02/PairsCompanionBookWebFeb2018.pdf) (2-5p)
         * Continuous Pairs (4p)
         * Calamity Continuous Pairs (4p)
 * Rummy
     * [Rummy](https://www.pagat.com/rummy/rummy.html) (2p) 
 * Shedding
-    * [Comet](http://www.catsatcards.com/Games/Comet.html) (2p)
     * [Crazy Eights](https://www.pagat.com/eights/crazy8s.html) (4p)
         * Sane Eights (4p)
     * [Simon's Cat](https://www.sjgames.com/simonscat/Simons-Cat-Rules.pdf) (4p)
@@ -76,6 +78,7 @@ There are currently 54 games coded in RECYCLE
        * [Duck Soup](http://www.parlettgames.uk/oricards/ducksoup.html) (2p)
        * [Euchre](https://www.pagat.com/euchre/euchre.html) (4p)
        * [German Whist](https://www.pagat.com/whist/german_whist.html) (2p)
+       * [Klaverjassen](https://www.pagat.com/jass/klaverjassen.html) (4p)
        * [Sheepshead](https://www.pagat.com/schafkopf/shep.html) (5p)
            * Cheesheads (5p)
        * [Skittgube](https://www.pagat.com/beating/skitgubbe.html) (3p)
@@ -86,8 +89,6 @@ There are currently 54 games coded in RECYCLE
 * Unique
     * [Coloretto](https://www.riograndegames.com/wp-content/uploads/2013/02/Coloretto-Rules.pdf) (4p)
     * [Coup](http://boardgame.bg/coup%20rules%20pdf.pdf) (4p)
-    * [LAMA](https://boardgamegeek.com/filepage/180052/lama-official-rules) (2-6p)
-    * [No Thanks](https://world-of-board-games.com.sg/docs/No-Thanks.pdf) (3-5p)
 
 ## Requirements
 
