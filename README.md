@@ -56,6 +56,7 @@ There are currently 55 games coded in RECYCLE
     * [Crazy Eights](https://www.pagat.com/eights/crazy8s.html) (4p)
         * Sane Eights (4p)
     * [Simon's Cat](https://www.sjgames.com/simonscat/Simons-Cat-Rules.pdf) (4p)
+    * [Skittgube](https://www.pagat.com/beating/skitgubbe.html) (3p)
 * Trick Taking
     * Avoidance
         * [Hearts](https://www.pagat.com/reverse/hearts.html) (3-5p)
@@ -80,7 +81,6 @@ There are currently 55 games coded in RECYCLE
        * [Klaverjassen](https://www.pagat.com/jass/klaverjassen.html) (4p)
        * [Sheepshead](https://www.pagat.com/schafkopf/shep.html) (5p)
            * Cheesheads (5p)
-       * [Skittgube](https://www.pagat.com/beating/skitgubbe.html) (3p)
        * [Spades](https://www.pagat.com/auctionwhist/spades.html) (4p)
        * [Sueca](https://www.pagat.com/aceten/sueca.html) (4p)
        * [The Bottle Imp](https://tesera.ru/images/items/11335/Bottle_Imp_Rules_EN.pdf) (3-4p)
