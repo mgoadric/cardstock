@@ -17,7 +17,7 @@ tournament of AI players. Please check back for further progress on these issues
 
 ## Games
 
-There are currently 54 games coded in RECYCLE
+There are currently 55 games coded in RECYCLE
 
 * Adding
     * [Caterpillar](http://www.parlettgames.uk/oricards/caterpil.html) (2p)
@@ -35,6 +35,7 @@ There are currently 54 games coded in RECYCLE
 * Draw and Discard
     * [Golf Six](https://www.pagat.com/draw/golf.html) (2-4p)
     * [Lost Cities](https://cdn.1j1ju.com/medias/c8/66/47-lost-cities-rulebook.pdf) (2p)
+    * [Rummy](https://www.pagat.com/rummy/rummy.html) (2p) 
     * [Spite and Malice](https://www.pagat.com/patience/spitemal.html) (2p)
 * Exchange
     * [Cuckoo](https://www.pagat.com/cuckoo/cuckoo.html) (6p)
@@ -51,8 +52,6 @@ There are currently 54 games coded in RECYCLE
     * [Pairs](https://cheapass.com/wp-content/uploads/2018/02/PairsCompanionBookWebFeb2018.pdf) (2-5p)
         * Continuous Pairs (4p)
         * Calamity Continuous Pairs (4p)
-* Rummy
-    * [Rummy](https://www.pagat.com/rummy/rummy.html) (2p) 
 * Shedding
     * [Crazy Eights](https://www.pagat.com/eights/crazy8s.html) (4p)
         * Sane Eights (4p)
