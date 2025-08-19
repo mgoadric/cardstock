@@ -1,8 +1,8 @@
-int numRndvRnd = 0;
-int numAIvRnd = 100;
+int numRndvRnd = 100;
+int numAIvRnd = 0;
 int numAIvAI = 0;
-string game = "President";
-int players = 4;
+string game = "Scopa";
+int players = 2;
 CardStock.Players.PlayerType ai = CardStock.Players.PlayerType.PIPMCNEW;
 
 

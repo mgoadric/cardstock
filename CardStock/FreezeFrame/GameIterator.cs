@@ -211,10 +211,10 @@ namespace CardStock.FreezeFrame
             for (int i = 0; i < game.players.Length; ++i)
             {
                 var working = ProcessInt(scoreMethod.@int());
-                script.WriteToFile("s:" + working + " " + i);
+                script.WriteToFile("S:" + working + " " + i);
                 ret.Add(new Tuple<int, int>(working, i));
                 game.CurrentPlayer().Next();
-                script.WriteToFile("t: " + game.CurrentPlayer().CurrentName());
+                script.WriteToFile("T:" + game.CurrentPlayer().CurrentName());
             }
             game.PopPlayer();
 
@@ -239,7 +239,7 @@ namespace CardStock.FreezeFrame
 
         private GameActionCollection ProcessSetup(RecycleParser.SetupContext setupNode)
         {
-            var ret = new GameActionCollection();
+            var ret = new GameActionCollection(script);
             if (setupNode.playercreate() is not null)
             {
                 Debug.WriteLine("Creating players.");
@@ -254,9 +254,9 @@ namespace CardStock.FreezeFrame
                     // Where is the int?
                     throw new Exception();
                 }
-                script.WriteToFile("nump:" + numPlayers);
+                script.WriteToFile("#:" + numPlayers);
                 game.AddPlayers(numPlayers, this);
-                script.WriteToFile("t: " + game.currentPlayer.Peek().CurrentName());
+                script.WriteToFile("T:" + game.currentPlayer.Peek().CurrentName());
                 gameWorld.numPlayers = numPlayers;
                 //gameWorld.PopulateLead();
             }
@@ -483,7 +483,6 @@ namespace CardStock.FreezeFrame
                 // iterate over stack of iterable items
                 while (stackTree.Count() != 0)
                 {
-
                     var current = stackTree.Pop();
                     if (current.tree is not null)
                     {
@@ -682,7 +681,7 @@ namespace CardStock.FreezeFrame
                     }
                 }
                 // end of loop over current stack of iteritems
-                var coll = new GameActionCollection();
+                var coll = new GameActionCollection(script);
                 foreach (GameAction act in stackAct.ToArray())
                 {
                     // add everythign but loop actions to coll
@@ -706,6 +705,7 @@ namespace CardStock.FreezeFrame
                     // adds list of actions to overall choice list to be returned 
                     coll.Reverse();
                     all.Add(coll);
+                    script.WriteToFile("...");
                 }
 
                 // if there are still loopactions,
@@ -732,7 +732,6 @@ namespace CardStock.FreezeFrame
                     // up one level - item before is loopaction & different level
                     // up one level - items need to be undone before finding loopaction, but is different level
                     // up n levels - 
-
                     while (stackAct.Count > 0 && stackAct.Peek() is not LoopAction)
                     {
                         Debug.WriteLine("popping off non-loop action (second time)" + stackAct.Peek());
@@ -817,12 +816,12 @@ namespace CardStock.FreezeFrame
                         if (text == "player")
                         {
                             game.CurrentPlayer().Next();
-                            script.WriteToFile("t: " + game.CurrentPlayer().CurrentName());
+                            script.WriteToFile("T:" + game.CurrentPlayer().CurrentName());
                         }
                         else if (text == "team")
                         {
                             game.CurrentTeam().Next();
-                            script.WriteToFile("t: " + game.CurrentTeam().CurrentName());
+                            script.WriteToFile("T:" + game.CurrentTeam().CurrentName());
                             Debug.WriteLine("Next team is " + game.CurrentTeam().Current());
                         }
                     }
@@ -858,7 +857,7 @@ namespace CardStock.FreezeFrame
         private GameActionCollection ProcessAction(RecycleParser.ActionContext actionNode)
         {
             Debug.WriteLine(actionNode.GetText());
-            var ret = new GameActionCollection();
+            var ret = new GameActionCollection(script);
             if (actionNode.teamcreate() is not null)
             {
                 var teamCreate = ProcessTeamCreate(actionNode.teamcreate(), game);
@@ -1057,7 +1056,7 @@ namespace CardStock.FreezeFrame
 
         private GameActionCollection ProcessRepeat(RecycleParser.RepeatContext rep)
         {
-            var ret = new GameActionCollection();
+            var ret = new GameActionCollection(script);
             int idx = 1;
             if (rep.@int() is not null)
             {
@@ -2449,7 +2448,7 @@ namespace CardStock.FreezeFrame
         {
             var ret = IterateAgg(agg.collection(), agg.var(), agg.GetChild(4));
             Debug.WriteLine(ret.Count);
-            GameActionCollection ret2 = [];
+            GameActionCollection ret2 = new GameActionCollection(script);
             foreach (var item in ret)
             {
                 if (item is GameAction ga)

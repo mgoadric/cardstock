@@ -7,7 +7,7 @@ using CardStock.Players;
 using CardStock.Scoring;
 
 namespace CardStock {
-public partial class ParseEngine
+public partial class GameSimulator
 {
 
     public Experiment exp;
@@ -16,7 +16,7 @@ public partial class ParseEngine
     public string fileName;
     public const int CHOICELIMIT = 500;
 
-        public ParseEngine(Experiment exp, World gameWorld)
+        public GameSimulator(Experiment exp, World gameWorld)
         {
             this.exp = exp;
             this.gameWorld = gameWorld;

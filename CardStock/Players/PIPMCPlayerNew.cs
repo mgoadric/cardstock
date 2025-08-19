@@ -66,7 +66,7 @@ namespace CardStock.Players
                         {
                             cloneContext.ProcessChoice();
                             count++;
-                            if (count > ParseEngine.CHOICELIMIT)
+                            if (count > GameSimulator.CHOICELIMIT)
                             {
                                 break;
                             }

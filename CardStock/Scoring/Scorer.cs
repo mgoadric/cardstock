@@ -80,7 +80,7 @@ namespace CardStock.Scoring
             List<double> empty = [0.0];
             for (int i = 0; i < exps.Count; i++){
                 Debug.WriteLine("Experiment " + i);
-                ParseEngine engine = new(exps[i], gameWorld);
+                GameSimulator engine = new(exps[i], gameWorld);
                 var tup = engine.Loader();
 
                 if (!tup.Item1) { Debug.WriteLine("not shuffling"); return empty; }
