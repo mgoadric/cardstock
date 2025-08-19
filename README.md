@@ -46,7 +46,7 @@ There are currently 55 games coded in RECYCLE
 * Poker
     * [Kuhn Poker](https://en.wikipedia.org/wiki/Kuhn_poker) (2p)
     * [Leduc Poker](https://pettingzoo.farama.org/environments/classic/leduc_holdem/) (2p)
-* Press Your Luck
+* Push Your Luck
     * [BlackJack](https://www.pagat.com/banking/blackjack.html) (2p)
     * [No Thanks](https://world-of-board-games.com.sg/docs/No-Thanks.pdf) (3-5p)
     * [Pairs](https://cheapass.com/wp-content/uploads/2018/02/PairsCompanionBookWebFeb2018.pdf) (2-5p)
