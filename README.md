@@ -1,6 +1,6 @@
 ﻿# RECYCLEd CardStock V2.0
 
-![UML Diagram](CardStock.png)
+![slider-1](https://github.com/user-attachments/assets/64ad3161-8626-444d-9e3d-89c5ebadcf45)
 
 ## Project Goals
 
