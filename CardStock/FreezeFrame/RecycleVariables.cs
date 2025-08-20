@@ -96,14 +96,14 @@ namespace CardStock.FreezeFrame
 
                 else if (o is Card c)
                 {
-                    ret.Add(key, newgame.sourceDeck[c.name][c.id]);
+                    ret.Add(key, newgame.sourceDeck[c.back][c.id]);
                 }
                 else if (o is List<Card> clist)
                 {
                     List<Card> l = [];
                     foreach (Card card in clist)
                     {
-                        l.Add(newgame.sourceDeck[card.name][card.id]);
+                        l.Add(newgame.sourceDeck[card.back][card.id]);
                     }
                     ret.Add(key, l);
 
@@ -119,7 +119,7 @@ namespace CardStock.FreezeFrame
                         CardCollection ccclone = clr.cardList.EmptyClone();
                         foreach (Card oldc in clr.cardList.AllCards())
                         {
-                            ccclone.Add(newgame.sourceDeck[oldc.name][oldc.id]);
+                            ccclone.Add(newgame.sourceDeck[oldc.back][oldc.id]);
                         }
                         ret.Add(key, ccclone);
                     }
@@ -138,7 +138,7 @@ namespace CardStock.FreezeFrame
                         CardCollection ccclone = cc.EmptyClone();
                         foreach (Card oldc in cc.AllCards())
                         {
-                            ccclone.Add(newgame.sourceDeck[oldc.name][oldc.id]);
+                            ccclone.Add(newgame.sourceDeck[oldc.back][oldc.id]);
                         }
                         ret.Add(key, ccclone);
 

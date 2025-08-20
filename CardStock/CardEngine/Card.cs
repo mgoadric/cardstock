@@ -9,17 +9,19 @@ namespace CardStock.CardEngine
         private readonly Dictionary<string, string> cardAtts = atts;
         public CardCollection owner { get; set; }
         public readonly int id = id;
-        public string name = n;
+        public int idX = id;
+        public string back = n;
 
         public Card Clone()
         {
-            return new Card(cardAtts, id, name); ;
+            return new Card(cardAtts, id, back); ;
         }
 
         public override string ToString()
         {
             //https://stackoverflow.com/questions/3871760/convert-dictionarystring-string-to-semicolon-separated-string-in-c-sharp
-            return id + "!" + string.Join(";", cardAtts.Select(x => x.Key + "=" + x.Value)) + ":" + name;
+            //return id + "!" + string.Join(";", cardAtts.Select(x => x.Key + "=" + x.Value)) + ":" + name;
+            return idX + ":" + back;
         }
 
         public override bool Equals(object? obj)
@@ -33,7 +35,7 @@ namespace CardStock.CardEngine
 
         public bool Equals(Card c)
         {
-            if ((c.id != this.id) || (c.name != this.name))
+            if ((c.id != this.id) || (c.back != this.back))
             { return false; }
 
             return true;

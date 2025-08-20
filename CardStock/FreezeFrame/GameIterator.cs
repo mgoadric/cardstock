@@ -41,6 +41,9 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Setting up game.");
                 ProcessSetup(rules.setup()).ExecuteAll();
 
+                // Mixup the card ids.
+                game.ReindexCards();
+
                 iterStack.Push(new Queue<IParseTree>());
                 var topLevel = iterStack.Peek();
                 for (int i = 3; i < rules.ChildCount - 2; ++i)
@@ -462,6 +465,7 @@ namespace CardStock.FreezeFrame
         {
             var all = new List<GameActionCollection>();
             // stack of iterating trees
+            script.WriteToFile("???");
             var stackTrees = new Stack<IteratingTree>();
             // iteratingtree = stack of iterable items (just has basic stack functionality) 
             //      -can store another iteratingtree, strings, or a key/value object

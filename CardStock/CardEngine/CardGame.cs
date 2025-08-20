@@ -8,6 +8,7 @@ namespace CardStock.CardEngine
     {
 
         public Dictionary<string, List<Card>> sourceDeck = [];
+        public Dictionary<string, int[]> cardMask = [];
         public Owner[] table = new Owner[1];
         public Player[] players;
         public List<Team> teams = [];
@@ -174,7 +175,7 @@ namespace CardStock.CardEngine
                     foreach (var card in collection.AllCards())
                     {
                         // Look up card by index, and reference the new cloned card
-                        var toAdd = tempsourceDeck[card.name][card.id];
+                        var toAdd = tempsourceDeck[card.back][card.id];
                         tempCollection.Add(toAdd);
                         if (collection.type != CCType.MEMORY)
                         {
@@ -205,12 +206,12 @@ namespace CardStock.CardEngine
                         {
                             // Look up card by index, and reference the new cloned card
 
-                            var toAdd = tempsourceDeck[card.name][card.id];
+                            var toAdd = tempsourceDeck[card.back][card.id];
                             tempCollection.Add(toAdd);
                             if (collection.type != CCType.MEMORY)
                             {
                                 toAdd.owner = tempCollection;
-                                free[card.name].Remove(card.id);
+                                free[card.back].Remove(card.id);
                             }
                         }
 
@@ -241,7 +242,7 @@ namespace CardStock.CardEngine
                         for (int i = 0; i < collection.Count; i++)
                         {
                             // figure out type of card
-                            string type = collection.Get(i).name;
+                            string type = collection.Get(i).back;
 
                             // Look up card by index, and reference the new cloned card
                             var toAdd = tempsourceDeck[type][cardsLeft[type].Current];
@@ -315,6 +316,30 @@ namespace CardStock.CardEngine
                     " " + loc.name);
             }
             //Console.ReadKey();
+        }
+
+        // Once all the decks are created, we should shuffle up the indices. Then these can be displayed
+        // to players without giving away hidden information on actions, like when drawing from an iloc STOCK
+        public void ReindexCards()
+        {
+            foreach (String key in sourceDeck.Keys)
+            {
+                Console.Write(key + ":");
+                int cc = sourceDeck[key].Count;
+                cardMask[key] = new int[cc];
+                for (int i = 0; i < cc; i++)
+                {
+                    cardMask[key][i] = i;
+                }
+                for (int i = 0; i < cc; i++)
+                {
+                    int dest = i + ThreadSafeRandom.Next(cc - i);
+                    (cardMask[key][i], cardMask[key][dest]) = (cardMask[key][dest], cardMask[key][i]);
+                    Console.Write(cardMask[key][i] + ",");
+                    sourceDeck[key][i].idX = cardMask[key][i];
+                }
+                Console.WriteLine();
+            }
         }
 
         public int PlayerMakeChoice(int numChoices, int playerIdx)

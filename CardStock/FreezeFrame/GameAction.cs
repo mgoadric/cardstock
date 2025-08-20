@@ -177,7 +177,7 @@ namespace CardStock.FreezeFrame {
                 unshuffled.Add(c);
             }
             locations.cardList.Shuffle();
-			script.WriteToFile(prefix + ":" + locations.cardList); 
+			script.WriteToFile(prefix + ":" + locations.name); 
 		}
         public override void Undo()
         {
@@ -287,7 +287,7 @@ namespace CardStock.FreezeFrame {
             this.teamList = teamList;
             this.cg = cg;
             this.script = script;
-            prefix = 'T';
+            prefix = 'E';
         }
 
         public override void Execute()
