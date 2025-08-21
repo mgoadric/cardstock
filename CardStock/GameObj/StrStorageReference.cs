@@ -1,15 +1,15 @@
-﻿using CardStock.CardEngine;
+using CardStock.CardEngine;
 
-namespace CardStock.FreezeFrame
+namespace CardStock.GameObj
 {
-    public class StrStorageReference(DefaultStorage<string> raw, string key)
+    public class StrStorageReference(DefaultStorage<string> raw, IString key) : IString
     {
         public DefaultStorage<string> Storage { get; set; } = raw;
-        public string Key { get; set; } = key;
+        public IString Key { get; set; } = key;
 
         public string Get()
         {
-            return this.Storage[this.Key];
+            return this.Storage[Key.Get()];
         }
 
         public string GetName()

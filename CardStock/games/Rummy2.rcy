@@ -163,6 +163,7 @@
             ;; if you have no cards left, pass
             ((== (size ((current player) iloc HAND)) 0) 
              (turn pass))
+             
             (any ((current player) iloc HAND) 'C 
              ;; cannot discard the card you drew from the discard pile
              ((or (== (size ((current player) mem DRAW)) 0)

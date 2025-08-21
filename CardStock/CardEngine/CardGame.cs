@@ -324,7 +324,7 @@ namespace CardStock.CardEngine
         {
             foreach (String key in sourceDeck.Keys)
             {
-                Console.Write(key + ":");
+                Debug.Write(key + ":");
                 int cc = sourceDeck[key].Count;
                 cardMask[key] = new int[cc];
                 for (int i = 0; i < cc; i++)
@@ -335,10 +335,10 @@ namespace CardStock.CardEngine
                 {
                     int dest = i + ThreadSafeRandom.Next(cc - i);
                     (cardMask[key][i], cardMask[key][dest]) = (cardMask[key][dest], cardMask[key][i]);
-                    Console.Write(cardMask[key][i] + ",");
+                    Debug.Write(cardMask[key][i] + ",");
                     sourceDeck[key][i].idX = cardMask[key][i];
                 }
-                Console.WriteLine();
+                Debug.WriteLine("");
             }
         }
 
