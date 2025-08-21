@@ -37,7 +37,9 @@
                 <DataTemplate>
                     
                     <Canvas Width="1" Height="1" Background="Black">
-                        <Ellipse Canvas.Left="-25" Canvas.Top="-25" Fill="Black" Height="50" Width="50"/>
+                        <Button Command="{Binding ResetColor}" Canvas.Left="-25" Canvas.Top="-25" Height="50" Width="50">
+                            <Ellipse Fill="{Binding Color}" Width="50" Height="50"/>
+                        </Button>
 
                         <Canvas Canvas.Top="-80" Width="1" Height="1" Background="Black">
                             <Rectangle Canvas.Left="-80" RadiusX="10" RadiusY="10" Stroke="Black" StrokeThickness="1" Fill="White" Height="70" Width="50"/>
@@ -49,27 +51,28 @@
                             <Rectangle Canvas.Left="40" RadiusX="10" RadiusY="10" Stroke="Black" StrokeThickness="1" Fill="White" Height="70" Width="50"/>
                         </Canvas>
 
-                        <TextBlock Canvas.Left="-25" Canvas.Top="20">Name</TextBlock>
+                        <TextBlock HorizontalAlignment="Center">Name</TextBlock>
+
 
                         <StackPanel MinWidth="80" Canvas.Top="40" Canvas.Left="-100" Orientation="Vertical">
                             <Grid ColumnDefinitions="*, Auto">                            
-                                <TextBlock>SCORE</TextBlock>
-                                <TextBlock Grid.Column="1">1</TextBlock>
+                                <TextBlock Margin="3">SCORE</TextBlock>
+                                <TextBlock Grid.Column="1" Margin="3">1</TextBlock>
                             </Grid>
                             <Grid ColumnDefinitions="*, Auto">                            
-                                <TextBlock>SCORE</TextBlock>
-                                <TextBlock Grid.Column="1">1</TextBlock>
+                                <TextBlock Margin="3">CHIPS</TextBlock>
+                                <TextBlock Grid.Column="5" Margin="3">1</TextBlock>
                             </Grid>
                         </StackPanel>               
 
                         <StackPanel  MinWidth="80" Canvas.Top="40" Canvas.Left="10" Orientation="Vertical">
                             <Grid ColumnDefinitions="*, Auto">                            
-                                <TextBlock>BID</TextBlock>
-                                <TextBlock Grid.Column="1">HIGH</TextBlock>
+                                <TextBlock Margin="3">BID</TextBlock>
+                                <TextBlock Grid.Column="1" Margin="3">HIGH</TextBlock>
                             </Grid>
                             <Grid ColumnDefinitions="*, Auto">                            
-                                <TextBlock>PASSING</TextBlock>
-                                <TextBlock Grid.Column="1">TRUE</TextBlock>
+                                <TextBlock Margin="3">PASSING</TextBlock>
+                                <TextBlock Grid.Column="1" Margin="3">TRUE</TextBlock>
                             </Grid>
                         </StackPanel>  
                     </Canvas>

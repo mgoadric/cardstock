@@ -25,6 +25,9 @@ public partial class ToDoItemViewModel : ViewModelBase
     private int _xPos;
 
     [ObservableProperty]
+    private string _color = "Blue";
+
+    [ObservableProperty]
     private int _yPos;
 
     /// <summary>
@@ -44,8 +47,8 @@ public partial class ToDoItemViewModel : ViewModelBase
         // Init the properties with the given values
         IsChecked = item.IsChecked;
         Content = item.Content;
-        XPos = (int)(350 + 200 * Math.Sin(2 * Math.PI * index/2));
-        YPos = (int)(400 + 300 * Math.Cos(2 * Math.PI * index/2));
+        XPos = (int)(350 + 200 * Math.Sin(2 * Math.PI * index / 2));
+        YPos = (int)(400 + 300 * Math.Cos(2 * Math.PI * index / 2));
         Console.WriteLine(XPos + "," + YPos);
     }
 
@@ -62,5 +65,10 @@ public partial class ToDoItemViewModel : ViewModelBase
             XPos = this.XPos,
             YPos = this.YPos
         };
+    }
+
+    public void ResetColor()
+    {
+        Color = "Red";
     }
 }
