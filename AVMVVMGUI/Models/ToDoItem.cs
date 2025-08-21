@@ -14,4 +14,7 @@ public class ToDoItem
     /// Gets or sets the content of the to-do item
     /// </summary>
     public string? Content { get; set; }
+
+    public int XPos { get; set; }
+    public int YPos { get; set; }
 }

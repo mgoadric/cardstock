@@ -27,7 +27,10 @@ public partial class MainWindowViewModel : ViewModelBase
     private void AddItem()
     {
         // Add a new item to the list
-        ToDoItems.Add(new ToDoItemViewModel() { Content = NewItemContent });
+        ToDoItems.Add(new ToDoItemViewModel(new Models.ToDoItem()
+        {
+            Content = NewItemContent
+        }, ToDoItems.Count));
 
         // reset the NewItemContent
         NewItemContent = null;

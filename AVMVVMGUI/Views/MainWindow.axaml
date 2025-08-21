@@ -5,56 +5,98 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Width="300" Height="500" Padding="4"
+        Width="1000" Height="800" Padding="4"
+        Background="Black"
         x:Class="AVMVVMGUI.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="SimpleToDoList">
+        Title="Card Stock ">
     <!-- We give a name to the root grid in order to access it later -->
-    <Grid RowDefinitions="Auto, *, Auto"
-          x:Name="Root">
+    <Grid ColumnDefinitions="*, Auto">
+        <!-- The game display-->
+        <!--
+        <Canvas Width="700">
+            <Rectangle RadiusX="10" RadiusY="10" Fill="Red" Height="70" Width="50" Margin="10"/>
+            <Rectangle Fill="Blue" Height="100" Width="100" Opacity="0.5"
+                        Canvas.Left="50" Canvas.Top="20"/>
+            <Rectangle Fill="Green" Height="100" Width="100" 
+                        Canvas.Left="60" Margin="40" Canvas.Top="40"/>
+            <Rectangle Fill="Orange" Height="100" Width="100" 
+                        Canvas.Right="70" Canvas.Bottom="60"/>
+        </Canvas>
 
-        <!-- This is our title text block.  -->
-        <TextBlock Text="My ToDo-List" />
+        -->
 
-        <ScrollViewer Grid.Row="1">
-            <!-- This ItemsControl show all added ToDoItems. -->
-            <!-- It needs to be placed inside a ScrollViewer because other than a ListBox it has not its own -->
-            <ItemsControl ItemsSource="{Binding ToDoItems}">
-                <ItemsControl.ItemTemplate>
-                    <!--  The ItemTemplate defines how each item should be represented  -->
-                    <!--  Our Item will be represented by a CheckBox and a Delete-Button  -->
-                    <DataTemplate DataType="vm:ToDoItemViewModel">
-                        <Grid ColumnDefinitions="*, Auto">
-                            <CheckBox Content="{Binding Content}"
-                                    IsChecked="{Binding IsChecked}" />
+        <ItemsControl ItemsSource="{Binding ToDoItems}" >
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Width="700" Height="800" Background="DarkGreen" Margin="3"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <Rectangle RadiusX="10" RadiusY="10" Stroke="Black" StrokeThickness="1" Fill="White" Height="70" Width="50"/>
+                        <Ellipse Fill="White" Height="40" Width="40" Grid.Row="1"/>
+                        <Rectangle RadiusX="10" RadiusY="10" Stroke="Blue" StrokeThickness="1" Fill="White" Height="70" Width="50" Grid.Row="2"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.Styles>
+                <Style Selector="ContentPresenter" x:DataType="vm:ToDoItemViewModel">
+                    <Setter Property="Canvas.Left" Value="{Binding XPos}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding YPos}"/>
+                </Style>
+            </ItemsControl.Styles>
+        </ItemsControl>
 
-                            <!--  Note how we use the Root-Grid to get the MainViewModel here. As we use compiled bindings we have to cast the DataContext  -->
-                            <Button Command="{Binding #Root.((vm:MainWindowViewModel)DataContext).RemoveItemCommand}"
-                                    CommandParameter="{Binding .}"
-                                    Grid.Column="1">
-                                Delete
-                            </Button>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+        <!-- The table data, and the move options-->
+        <Grid RowDefinitions="Auto, *, Auto"
+            x:Name="Root" Width="300" Grid.Column="1">
 
-        <!-- This TextBox can be used to add new ToDoItems -->
-        <TextBox Grid.Row="2"
-                Text="{Binding NewItemContent}"
-                Watermark="Add a new Item">
-            <TextBox.InnerRightContent>
-                <Button Command="{Binding AddItemCommand}" >
-                    Add
-                    <!-- <PathIcon Data="{DynamicResource AcceptIconData}" Foreground="Green" /> -->
-                </Button>
-            </TextBox.InnerRightContent>
-            <!--  KeyBindings allow us to define keyboard gestures  -->
-            <TextBox.KeyBindings>
-                <KeyBinding Command="{Binding AddItemCommand}" Gesture="Enter" />
-            </TextBox.KeyBindings>
-        </TextBox>
+            <!-- This is our title text block.  -->
+            <TextBlock Text="Game" />
+
+            <ScrollViewer Grid.Row="1">
+                <!-- This ItemsControl show all added ToDoItems. -->
+                <!-- It needs to be placed inside a ScrollViewer because other than a ListBox it has not its own -->
+                <ItemsControl ItemsSource="{Binding ToDoItems}">
+                    <ItemsControl.ItemTemplate>
+                        <!--  The ItemTemplate defines how each item should be represented  -->
+                        <!--  Our Item will be represented by a CheckBox and a Delete-Button  -->
+                        <DataTemplate DataType="vm:ToDoItemViewModel">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <CheckBox Content="{Binding Content}"
+                                        IsChecked="{Binding IsChecked}"
+                                        Grid.Column="0" />
+
+                                <!--  Note how we use the Root-Grid to get the MainViewModel here. As we use compiled bindings we have to cast the DataContext  -->
+                                <Button Command="{Binding #Root.((vm:MainWindowViewModel)DataContext).RemoveItemCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Grid.Column="1">
+                                    Delete
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!-- This TextBox can be used to add new ToDoItems -->
+            <TextBox Grid.Row="2"
+                    Text="{Binding NewItemContent}"
+                    Watermark="Add a new Item">
+                <TextBox.InnerRightContent>
+                    <Button Command="{Binding AddItemCommand}" >
+                        Add
+                        <!-- <PathIcon Data="{DynamicResource AcceptIconData}" Foreground="Green" /> -->
+                    </Button>
+                </TextBox.InnerRightContent>
+                <!--  KeyBindings allow us to define keyboard gestures  -->
+                <TextBox.KeyBindings>
+                    <KeyBinding Command="{Binding AddItemCommand}" Gesture="Enter" />
+                </TextBox.KeyBindings>
+            </TextBox>
+        </Grid>
     </Grid>
 </Window>

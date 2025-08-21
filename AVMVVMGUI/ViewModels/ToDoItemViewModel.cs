@@ -1,3 +1,4 @@
+using System;
 using AVMVVMGUI.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -20,6 +21,12 @@ public partial class ToDoItemViewModel : ViewModelBase
     [ObservableProperty]
     private string? _content;
 
+    [ObservableProperty]
+    private int _xPos;
+
+    [ObservableProperty]
+    private int _yPos;
+
     /// <summary>
     /// Creates a new blank ToDoItemViewModel
     /// </summary>
@@ -32,11 +39,14 @@ public partial class ToDoItemViewModel : ViewModelBase
     /// Creates a new ToDoItemViewModel for the given <see cref="Models.ToDoItem"/>
     /// </summary>
     /// <param name="item">The item to load</param>
-    public ToDoItemViewModel(ToDoItem item)
+    public ToDoItemViewModel(ToDoItem item, int index)
     {
         // Init the properties with the given values
         IsChecked = item.IsChecked;
         Content = item.Content;
+        XPos = (int)(325 + 175 * Math.Sin(2 * Math.PI * index/8));
+        YPos = (int)(310 + 200 * Math.Cos(2 * Math.PI * index/8));
+        Console.WriteLine(XPos + "," + YPos);
     }
 
     /// <summary>
@@ -48,7 +58,9 @@ public partial class ToDoItemViewModel : ViewModelBase
         return new ToDoItem()
         {
             IsChecked = this.IsChecked,
-            Content = this.Content
+            Content = this.Content,
+            XPos = this.XPos,
+            YPos = this.YPos
         };
     }
 }
