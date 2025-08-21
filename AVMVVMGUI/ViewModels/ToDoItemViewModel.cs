@@ -44,8 +44,8 @@ public partial class ToDoItemViewModel : ViewModelBase
         // Init the properties with the given values
         IsChecked = item.IsChecked;
         Content = item.Content;
-        XPos = (int)(325 + 175 * Math.Sin(2 * Math.PI * index/8));
-        YPos = (int)(310 + 200 * Math.Cos(2 * Math.PI * index/8));
+        XPos = (int)(350 + 200 * Math.Sin(2 * Math.PI * index/2));
+        YPos = (int)(400 + 300 * Math.Cos(2 * Math.PI * index/2));
         Console.WriteLine(XPos + "," + YPos);
     }
 

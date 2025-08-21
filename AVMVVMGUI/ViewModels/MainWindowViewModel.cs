@@ -15,6 +15,16 @@ public partial class MainWindowViewModel : ViewModelBase
     [NotifyCanExecuteChangedFor(nameof(AddItemCommand))] // This attribute will invalidate the command each time this property changes
     private string? _newItemContent;
 
+    public MainWindowViewModel()
+    {
+        ToDoItems.Add(new ToDoItemViewModel()
+        {
+            Content = "table",
+            XPos = 350,
+            YPos = 400
+        });
+    }
+
     /// <summary>
     /// Returns if a new Item can be added. We require to have the NewItem some Text
     /// </summary>
