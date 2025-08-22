@@ -27,7 +27,7 @@
 
         -->
 
-        <ItemsControl ItemsSource="{Binding ToDoItems}" >
+        <ItemsControl ItemsSource="{Binding Players}" >
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas Width="700" Height="800" Background="DarkGreen" Margin="3"/>
@@ -51,7 +51,7 @@
                             <Rectangle Canvas.Left="40" RadiusX="10" RadiusY="10" Stroke="Black" StrokeThickness="1" Fill="White" Height="70" Width="50"/>
                         </Canvas>
 
-                        <TextBlock HorizontalAlignment="Center">Name</TextBlock>
+                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"/>
 
 
                         <StackPanel MinWidth="80" Canvas.Top="40" Canvas.Left="-100" Orientation="Vertical">
@@ -79,7 +79,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.Styles>
-                <Style Selector="ContentPresenter" x:DataType="vm:ToDoItemViewModel">
+                <Style Selector="ContentPresenter" x:DataType="vm:PlayerViewModel">
                     <Setter Property="Canvas.Left" Value="{Binding XPos}"/>
                     <Setter Property="Canvas.Top" Value="{Binding YPos}"/>
                 </Style>

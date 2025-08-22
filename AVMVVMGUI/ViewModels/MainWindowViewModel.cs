@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using AVMVVMGUI.Models.CardEngine;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -7,6 +8,9 @@ namespace AVMVVMGUI.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     public ObservableCollection<ToDoItemViewModel> ToDoItems { get; } = [];
+    public ObservableCollection<PlayerViewModel> Players { get; } = [];
+
+    public CardGame game = new();
 
     /// <summary>
     /// Gets or set the content for new Items to add. If this string is not empty, the AddItemCommand will be enabled automatically
@@ -17,6 +21,11 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
+        game.AddPlayers(5);
+        foreach (Owner owner in game.players)
+        {
+            Players.Add(new PlayerViewModel(owner));
+        }
         ToDoItems.Add(new ToDoItemViewModel()
         {
             Content = "table",
