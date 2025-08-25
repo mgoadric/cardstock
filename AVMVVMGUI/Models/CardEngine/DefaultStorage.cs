@@ -67,6 +67,11 @@ namespace AVMVVMGUI.Models.CardEngine
             }
         }
 
+        public Dictionary<string, T>.KeyCollection Keys()
+        {
+            return dict.Keys;
+        }
+
         /*******
          * Clone the objects to make a complete copy
          */

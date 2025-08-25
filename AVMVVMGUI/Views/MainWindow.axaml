@@ -55,25 +55,29 @@
 
 
                         <StackPanel MinWidth="80" Canvas.Top="40" Canvas.Left="-100" Orientation="Vertical">
-                            <Grid ColumnDefinitions="*, Auto">                            
-                                <TextBlock Margin="3">SCORE</TextBlock>
-                                <TextBlock Grid.Column="1" Margin="3">1</TextBlock>
-                            </Grid>
-                            <Grid ColumnDefinitions="*, Auto">                            
-                                <TextBlock Margin="3">CHIPS</TextBlock>
-                                <TextBlock Grid.Column="5" Margin="3">1</TextBlock>
-                            </Grid>
+                            <ItemsControl ItemsSource="{Binding IntBins}" >
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="vm:StorageViewModel">
+                                                <Grid ColumnDefinitions="*, Auto">                            
+                                                    <TextBlock Margin="3" Text="{Binding Name}"></TextBlock>
+                                                    <TextBlock Grid.Column="1" Margin="3" Text="{Binding Value}"></TextBlock>
+                                                </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </StackPanel>               
 
                         <StackPanel  MinWidth="80" Canvas.Top="40" Canvas.Left="10" Orientation="Vertical">
-                            <Grid ColumnDefinitions="*, Auto">                            
-                                <TextBlock Margin="3">BID</TextBlock>
-                                <TextBlock Grid.Column="1" Margin="3">HIGH</TextBlock>
-                            </Grid>
-                            <Grid ColumnDefinitions="*, Auto">                            
-                                <TextBlock Margin="3">PASSING</TextBlock>
-                                <TextBlock Grid.Column="1" Margin="3">TRUE</TextBlock>
-                            </Grid>
+                            <ItemsControl ItemsSource="{Binding StrBins}" >
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="vm:StringStorageViewModel">
+                                                <Grid ColumnDefinitions="*, Auto">                            
+                                                    <TextBlock Margin="3" Text="{Binding Name}"></TextBlock>
+                                                    <TextBlock Grid.Column="1" Margin="3" Text="{Binding Value}"></TextBlock>
+                                                </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </StackPanel>  
                     </Canvas>
                 </DataTemplate>

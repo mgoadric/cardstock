@@ -22,8 +22,12 @@ public partial class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
         game.AddPlayers(5);
+        int i = 0;
         foreach (Owner owner in game.players)
         {
+            owner.intBins["BLAH"] = i++;
+            owner.intBins["WHAT"] = i++;
+            owner.stringBins["HELP"] = "ME";
             Players.Add(new PlayerViewModel(owner));
         }
         ToDoItems.Add(new ToDoItemViewModel()
@@ -50,6 +54,11 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Content = NewItemContent
         }, ToDoItems.Count));
+        game.players[0].stringBins["TODO"] = NewItemContent;
+        foreach (PlayerViewModel pvm in Players)
+        {
+            pvm.Update();
+        }
 
         // reset the NewItemContent
         NewItemContent = null;
