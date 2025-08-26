@@ -192,8 +192,8 @@ Booleans. They are only evaluated, never explicitly stated as literal True or Fa
 
 Booleans are also derived from Aggregation_.
 
-Owners
-======
+Owner
+=====
 
 There are three main Owners of data in Recycle: the Game_, each Player_, and each Team_.
 The Player_ and Team_ types are more specific types of Owners_, allowing
@@ -275,8 +275,8 @@ only be on one Team at a time.
     
   (team [Player])
 
-Collections
-===========
+Collection
+==========
 
 Many of the base data types can be grouped into Collections_. Collections provide a way for
 Aggregation_ to iterate through for actions to be taken or 
@@ -665,7 +665,7 @@ Card_ objects.
 
   (shuffle [CardCollection])
 
-CardMoveAction
+MoveAction
 --------------
 
 Once created, Card_ objects can be moved from location to location with the move
@@ -721,7 +721,7 @@ to be a particular String_.
   (set [StringStorage] [String])
 
 PointsAction
----------
+------------
 
 PointMap_ locations can be created in one way. We can set the storage
 to be a particular PointMap_.
@@ -798,8 +798,8 @@ to make the execution of the action dependent on the current state of the game.
   
   ([Boolean] [Action])
 
-Do
---
+MultiAction
+-----------
 
 Action_ blocks can be combined to form a sequence of actions. These can also
 be ConditionalAction_ objects. The aggregate of these actions is called a Do_, and
