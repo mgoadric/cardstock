@@ -7,7 +7,6 @@ namespace CardStock.FreezeFrame{
         // Can't remember why we need the default -1 here...
 		public string locIdentifier = "-1";
         public required string name;
-		public bool actual = false;
 
         public CardLocReference ShallowCopy()
         {
@@ -16,7 +15,6 @@ namespace CardStock.FreezeFrame{
                 cardList = cardList.ShallowCopy(),
                 locIdentifier = locIdentifier,
                 name = name + " - Copy",
-                actual = actual,
             };
             return loc;
         }
@@ -96,7 +94,7 @@ namespace CardStock.FreezeFrame{
 
         public override string ToString()
         {
-            return cardList + " " + locIdentifier + " " + actual;
+            return cardList + " " + locIdentifier;
         }
 
         public string ToOutputString(){

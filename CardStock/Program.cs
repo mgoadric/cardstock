@@ -3,7 +3,7 @@ int numAIvRnd = 0;
 int numAIvAI = 0;
 string game = "GOPS";
 int players = 2;
-CardStock.Players.PlayerType ai = CardStock.Players.PlayerType.PIPMCNEW;
+CardStock.Players.PlayerType ai = CardStock.Players.PlayerType.MCTS;
 
 
 Console.WriteLine(game + ", " + players);

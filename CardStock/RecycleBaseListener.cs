@@ -564,18 +564,6 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitCard([NotNull] RecycleParser.CardContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.actual"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterActual([NotNull] RecycleParser.ActualContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.actual"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitActual([NotNull] RecycleParser.ActualContext context) { }
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.maxof"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

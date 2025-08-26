@@ -95,7 +95,7 @@ public partial class GameSimulator
         StreamWriter expleadfile = new(filePath);
         expleadfile.WriteLine(exp.type);
         StreamWriter expchoicefile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-choicestats.txt");
-        expchoicefile.WriteLine(exp.type);
+        expchoicefile.WriteLine("move,player,choices,choice,game,type,iteration,numPlayers");
         StreamWriter expresultsfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-resultsstats.txt");
         expresultsfile.WriteLine(exp.type);
         StreamWriter expspreadfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-spreadstats.txt");
@@ -217,18 +217,14 @@ public partial class GameSimulator
                         }
                         winners[i] = results[0].Item2;
 
-                        expchoicefile.WriteLine("game" + i);
-                        foreach (Tuple<int, int> t in gamePlay.choiceList)
-                        {
-                            expchoicefile.Write(t.Item2 + ",");
-                        }
-                        expchoicefile.WriteLine();
-                        foreach (Tuple<int, int> t in gamePlay.choiceList)
-                        {
-                            expchoicefile.Write(t.Item1 + ",");
-                        }
-                        expchoicefile.WriteLine();
-
+                            // Tidy data formatting
+                            int m = 0;
+                            foreach (Tuple<int, int, int> t in gamePlay.choiceList)
+                            {
+                                expchoicefile.WriteLine(m + "," + t.Item1 + "," + t.Item2 + "," + t.Item3 + "," + exp.Game + "," + exp.type + "," + i + "," + exp.PlayerCount);
+                                m++;
+                            }
+ 
                         expleadfile.WriteLine("game" + i);
                         foreach (Tuple<int, double[]> allLeads in gamePlay.allLeadList)
                         {

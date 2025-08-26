@@ -16,7 +16,7 @@ namespace CardStock.FreezeFrame
         public CardGame game;
         public World gameWorld;
         public int totalChoices;
-        public List<Tuple<int, int>> choiceList = [];
+        public List<Tuple<int, int, int>> choiceList = [];
         public List<Tuple<int, double[]>> allLeadList = [];
         public List<Tuple<int, double>> spreadList = [];
 
@@ -171,7 +171,7 @@ namespace CardStock.FreezeFrame
             }
 
             PopCurrentNode();
-            choiceList.Add(new Tuple<int, int>(game.CurrentPlayer().idx, allOptions.Count));
+            choiceList.Add(new Tuple<int, int, int>(game.CurrentPlayer().idx, allOptions.Count, choice));
             totalChoices++;
             return choice;
         }
@@ -1317,13 +1317,7 @@ namespace CardStock.FreezeFrame
             {
                 return ProcessCardVar(card.varcard());
             }
-            if (card.actual() is not null)
-            {
-                var cardLocations = ProcessCard(card.actual().card());
-                cardLocations.actual = true;
-                return cardLocations;
-            }
-            else if (card.cstorage() is not null)
+            if (card.cstorage() is not null)
             {//cstorage
                 var loc = ProcessLocation(card.cstorage());
                 if (card.@int() is not null)

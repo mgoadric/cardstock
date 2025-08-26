@@ -118,8 +118,7 @@ repeat : 'repeat' int action | 'repeat' 'all' OPEN (moveaction | removeaction ) 
 pointstorage : OPEN (varo | 'game' | who) 'points' str CLOSE ;
 
 // Cards
-card : varcard | maxof | minof | actual | OPEN ('top' | 'bottom' | int ) cstorage CLOSE ;
-actual : OPEN 'actual' card CLOSE ;
+card : varcard | maxof | minof | OPEN ('top' | 'bottom' | int ) cstorage CLOSE ;
 maxof : OPEN 'max' cstorage 'using' pointstorage CLOSE ;
 minof : OPEN 'min' cstorage 'using' pointstorage CLOSE ;
 

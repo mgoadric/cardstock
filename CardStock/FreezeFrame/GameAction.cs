@@ -65,7 +65,7 @@ namespace CardStock.FreezeFrame {
         public int ownerIndex;
         public CardMoveAction(CardLocReference start, CardLocReference end, Transcript script)
         {
-            if (start.cardList.type == CCType.MEMORY && !start.actual)
+            if (start.cardList.type == CCType.MEMORY)
             {
                 Debug.WriteLine("start is a mem loc " + start.name + ", " + end.name);
                 throw new NotSupportedException();
@@ -91,9 +91,6 @@ namespace CardStock.FreezeFrame {
                 if (startLocation.Count() != 0) {
 
                     cardToMove = startLocation.Remove();
-                    if (startLocation.actual) {
-                        actualloc = true;
-                    }
 
                     endLocation.Add(cardToMove);
                     owner = cardToMove.owner;
