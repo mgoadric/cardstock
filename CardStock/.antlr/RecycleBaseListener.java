@@ -856,18 +856,6 @@ public class RecycleBaseListener implements RecycleListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMemset(RecycleParser.MemsetContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMemset(RecycleParser.MemsetContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterRun(RecycleParser.RunContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -923,6 +911,18 @@ public class RecycleBaseListener implements RecycleListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAggcs(RecycleParser.AggcsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIndexed(RecycleParser.IndexedContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIndexed(RecycleParser.IndexedContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -707,16 +707,6 @@ public interface RecycleListener extends ParseTreeListener {
 	 */
 	void exitCstoragecollection(RecycleParser.CstoragecollectionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RecycleParser#memset}.
-	 * @param ctx the parse tree
-	 */
-	void enterMemset(RecycleParser.MemsetContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link RecycleParser#memset}.
-	 * @param ctx the parse tree
-	 */
-	void exitMemset(RecycleParser.MemsetContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link RecycleParser#run}.
 	 * @param ctx the parse tree
 	 */
@@ -766,6 +756,16 @@ public interface RecycleListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAggcs(RecycleParser.AggcsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link RecycleParser#indexed}.
+	 * @param ctx the parse tree
+	 */
+	void enterIndexed(RecycleParser.IndexedContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link RecycleParser#indexed}.
+	 * @param ctx the parse tree
+	 */
+	void exitIndexed(RecycleParser.IndexedContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link RecycleParser#boolean}.
 	 * @param ctx the parse tree
