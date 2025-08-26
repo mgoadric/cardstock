@@ -896,6 +896,14 @@ following code is used to make a full 52 Card_ deck, with RANK, COLOR, and SUIT 
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                               (BLACK (SUIT (SPADES, CLUBS))))))
 
+If you need to have different decks with different backs, for example a prize deck and player cards
+which are separate and should not be mixed, you can add another String before the CardCollection.
+
+.. code-block:: racket
+  :linenos:
+  
+  (create deck PRIZE (game iloc STOCK) (deck (COLOR (RED, BLUE, GREEN))))
+
 Scoring
 =======
 
