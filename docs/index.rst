@@ -17,8 +17,8 @@ analyze the games to determine heuristics about the games
 such as fairness, decisiveness, drama, or clarity, and generate transcripts of
 each simulation for further study.
 
-There are currently 30 games coded in RECYCLE, from genres such as 
-press-your-luck, fishing, adding, matching, draw-and-discard, and trick-taking
+There are currently 55 games coded in RECYCLE, from genres such as 
+push-your-luck, fishing, adding, matching, draw-and-discard, and trick-taking
 games. 
 
 .. Attention:: We are currently in the process of abstracting and refactoring CardStock to allow
@@ -28,13 +28,14 @@ games.
 Requirements
 ============
 
-Visual Studio
+Visual Studio Code
+.NET 9.0
 
 - Mac_
 - Windows_ 
 	
-.. _Mac: https://www.visualstudio.com/vs/visual-studio-mac/
-.. _Windows: https://visualstudio.microsoft.com/vs/
+.. _Mac: https://code.visualstudio.com/
+.. _Windows: https://code.visualstudio.com/
 
 Code
 ====
