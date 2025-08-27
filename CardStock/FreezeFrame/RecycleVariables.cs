@@ -108,6 +108,23 @@ namespace CardStock.FreezeFrame
                     ret.Add(key, l);
 
                 }
+                else if (o is List<Object> intlist)
+                {
+                    var element = intlist.FirstOrDefault();
+                    if (element is int ii)
+                    {
+                        List<Object> newlist = [];
+                        foreach (int ij in intlist)
+                        {
+                            newlist.Add(ij);
+                        }
+                        ret.Add(key, newlist);
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
                 else if (o is CardLocReference clr)
                 {
                     var fancy = clr.ShallowCopy();
@@ -125,7 +142,7 @@ namespace CardStock.FreezeFrame
                     }
                     else
                     {
-                        throw new NotImplementedException(); 
+                        throw new NotImplementedException();
                     }
                 }
                 else if (o is CardCollection cc) // NEED TO TEST XX
