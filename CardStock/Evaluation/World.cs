@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CardStock.Scoring
+namespace CardStock.Evaluation
 {
     public class World
     { // a world contains all pertinent information for heuristics

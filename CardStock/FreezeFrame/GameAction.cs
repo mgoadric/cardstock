@@ -476,11 +476,12 @@ namespace CardStock.FreezeFrame {
         private readonly int idx;
         private int former = -1;
 
-        public NextAction(StageCycle<Player> playerCycle, int idx)
+        public NextAction(StageCycle<Player> playerCycle, int idx, Transcript script)
         {
             this.playerCycle = playerCycle;
             this.idx = idx;
             prefix = 'N';
+            this.script = script;
         }
 
         public override void Execute()

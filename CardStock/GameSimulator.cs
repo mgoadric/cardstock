@@ -4,7 +4,7 @@ using System.Diagnostics;
 using Antlr4.Runtime.Tree;
 using CardStock.CardEngine;
 using CardStock.Players;
-using CardStock.Scoring;
+using CardStock.Evaluation;
 
 namespace CardStock {
 public partial class GameSimulator
@@ -25,11 +25,6 @@ public partial class GameSimulator
     public Tuple<bool, bool> Loader() {
 
         Debug.AutoFlush = true;
-
-        if (exp.Logging)
-        {
-            File.WriteAllText("output/" + exp.Game + "/" + exp.PlayerCount + "/logging.txt", string.Empty);
-        }
 
         /************
          * Load up the game from the .rcy RECYCLE description
@@ -57,10 +52,7 @@ public partial class GameSimulator
         /***********
          * Make the parse tree visualization
          ***********/
-        //if (!exp.Evaluating)
-        //{
-            DotVisualization.DOTMakerTop(tree, "output/" + exp.Game + "/" + exp.PlayerCount + "/parsetree");
-        //}
+        DotVisualization.DOTMakerTop(tree, "output/" + exp.Game + "/" + exp.PlayerCount + "/parsetree");
 
         return HasShuffleAndChoice(tree);
 
@@ -95,7 +87,7 @@ public partial class GameSimulator
         StreamWriter expleadfile = new(filePath);
         expleadfile.WriteLine(exp.type);
         StreamWriter expchoicefile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-choicestats.txt");
-        expchoicefile.WriteLine("move,player,choices,choice,game,type,iteration,numPlayers");
+        expchoicefile.WriteLine("game,numPlayers,type,iteration,move,player,choices,choice");
         StreamWriter expresultsfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-resultsstats.txt");
         expresultsfile.WriteLine(exp.type);
         StreamWriter expspreadfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-spreadstats.txt");
@@ -152,7 +144,6 @@ public partial class GameSimulator
                 /************
 				 * SORT OUT RESULTS
 				 *************/
-                //if (!exp.evaluating) { Console.WriteLine("Results: Game " + (i + 1)); }
                 lock (this)
                 {
 
@@ -166,7 +157,6 @@ public partial class GameSimulator
                     {
 
                         aggregator[results[j].Item2, i / (exp.NumGames / exp.NumEpochs)] += results[j].Item1;
-                        //if (!exp.evaluating) { Console.WriteLine("Player " + results[j].Item2 + ":" + results[j].Item1); }
 
                         if (j != 0 && results[j].Item1 != results[j - 1].Item1)
                         {
@@ -221,7 +211,7 @@ public partial class GameSimulator
                             int m = 0;
                             foreach (Tuple<int, int, int> t in gamePlay.choiceList)
                             {
-                                expchoicefile.WriteLine(m + "," + t.Item1 + "," + t.Item2 + "," + t.Item3 + "," + exp.Game + "," + exp.type + "," + i + "," + exp.PlayerCount);
+                                expchoicefile.WriteLine(exp.Game + "," + exp.PlayerCount + "," + exp.type + "," + i + "," + m + "," + t.Item1 + "," + t.Item2 + "," + t.Item3);
                                 m++;
                             }
  
@@ -270,101 +260,54 @@ public partial class GameSimulator
 
         time.Stop();
 
-        if (!exp.Evaluating)
+        expresultsfile.WriteLine(time.Elapsed);
+        expresultsfile.WriteLine("Turns per game," + choiceAgg / (double)(exp.NumGames));
+        expresultsfile.WriteLine("Score: ");
+        for (int i = 0; i < numPlayers; ++i)
         {
-            // SHOW RESULTS TO CONSOLE
-            Console.WriteLine(time.Elapsed);
-            Console.WriteLine("Turns per game: " + choiceAgg / (double)(exp.NumGames));
-            Console.WriteLine("Score: ");
-            for (int i = 0; i < numPlayers; ++i)
+            for (int j = 0; j < exp.NumEpochs; j++)
             {
-                Console.Out.Write("Player" + i  + ":\t");
+                expresultsfile.Write(aggregator[i, j] / (double)(exp.NumGames / exp.NumEpochs) + ",");
 
-                for (int j = 0; j < exp.NumEpochs; j++)
-                {
-                    Console.Out.Write(aggregator[i, j] / (double)(exp.NumGames / exp.NumEpochs) + "\t");
-
-                }
-                Console.WriteLine();
             }
-			Console.WriteLine("Rank: ");
-
-			for (int i = 0; i < numPlayers; ++i)
-			{
-				Console.Out.Write("Player" + i + ":\t");
-
-				for (int j = 0; j < exp.NumEpochs; j++)
-				{
-					Console.Out.Write(playerRank[i, j] / (double)(exp.NumGames / exp.NumEpochs) + "\t");
-				}
-				Console.WriteLine();
-			}
-			Console.WriteLine("First: ");
-
-			for (int i = 0; i < numPlayers; ++i)
-			{
-				Console.Out.Write("Player" + i + ":\t");
-
-				for (int j = 0; j < exp.NumEpochs; j++)
-				{
-					Console.Out.Write(playerFirst[i, j] / (double)(exp.NumGames / exp.NumEpochs) + "\t");
-				}
-				Console.WriteLine();
-			}
-            Console.WriteLine();
-            // Console.Read();
+            expresultsfile.WriteLine();
         }
-        else
+        expresultsfile.WriteLine("Rank: ");
+
+        for (int i = 0; i < numPlayers; ++i)
         {
-
-            expresultsfile.WriteLine(time.Elapsed);
-            expresultsfile.WriteLine("Turns per game," + choiceAgg / (double)(exp.NumGames));
-            expresultsfile.WriteLine("Score: ");
-            for (int i = 0; i < numPlayers; ++i)
+            for (int j = 0; j < exp.NumEpochs; j++)
             {
-                for (int j = 0; j < exp.NumEpochs; j++)
-                {
-                    expresultsfile.Write(aggregator[i, j] / (double)(exp.NumGames / exp.NumEpochs) + ",");
-
-                }
-                expresultsfile.WriteLine();
+                expresultsfile.Write(playerRank[i, j] / (double)(exp.NumGames / exp.NumEpochs) + ",");
             }
-            expresultsfile.WriteLine("Rank: ");
-
-            for (int i = 0; i < numPlayers; ++i)
-            {
-                for (int j = 0; j < exp.NumEpochs; j++)
-                {
-                    expresultsfile.Write(playerRank[i, j] / (double)(exp.NumGames / exp.NumEpochs) + ",");
-                }
-                expresultsfile.WriteLine();
-            }
-
-            gameWorld.SetWinners(winners);
-            gameWorld.AddNumTurns(choiceAgg);
-
-            // USE RESULTS IN GENETIC ALGORITHM
-            var sum = 0.0;
-			for (int i = 0; i < exp.NumEpochs; i++)
-			{
-				sum += playerFirst[0, i];
-			}
-
-            if (exp.type == GameType.AllRnd)
-            {          
-                gameWorld.numFirstWins += sum;
-				gameWorld.numGames += exp.NumGames;
-            }
-            else if (exp.type == GameType.RndandAI)
-            {
-                gameWorld.numAIvsRnd += exp.NumGames;
-                gameWorld.numAIWins += sum;
-                gameWorld.SetRndVsAI(lead);
-            }
-            else {
-                gameWorld.SetAIVsAI(lead);
-            }
+            expresultsfile.WriteLine();
         }
+
+        gameWorld.SetWinners(winners);
+        gameWorld.AddNumTurns(choiceAgg);
+
+        // USE RESULTS IN GENETIC ALGORITHM
+        var sum = 0.0;
+        for (int i = 0; i < exp.NumEpochs; i++)
+        {
+            sum += playerFirst[0, i];
+        }
+
+        if (exp.type == GameType.AllRnd)
+        {          
+            gameWorld.numFirstWins += sum;
+            gameWorld.numGames += exp.NumGames;
+        }
+        else if (exp.type == GameType.RndandAI)
+        {
+            gameWorld.numAIvsRnd += exp.NumGames;
+            gameWorld.numAIWins += sum;
+            gameWorld.SetRndVsAI(lead);
+        }
+        else {
+            gameWorld.SetAIVsAI(lead);
+        }
+        
         expleadfile.Close();
         expchoicefile.Close();
         expresultsfile.Close();

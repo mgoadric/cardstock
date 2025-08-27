@@ -1,6 +1,6 @@
 ﻿using Antlr4.Runtime.Tree;
 using CardStock.CardEngine;
-using CardStock.Scoring;
+using CardStock.Evaluation;
 using System.Diagnostics;
 
 namespace CardStock.FreezeFrame
@@ -955,14 +955,14 @@ namespace CardStock.FreezeFrame
                 if (cycle.owner() is not null)
                 {
                     var idx = ProcessOwner(cycle.owner());
-                    return new NextAction(game.CurrentPlayer(), idx);
+                    return new NextAction(game.CurrentPlayer(), idx, script);
                 }
                 else if (cycle.varo() is not null)
                 {
                     var p = ProcessOwnerVar(cycle.varo());
                     if (p is Player p2)
                     {
-                        return new NextAction(game.CurrentPlayer(), p2.id);
+                        return new NextAction(game.CurrentPlayer(), p2.id, script);
                     }
                     else
                     {
@@ -973,15 +973,15 @@ namespace CardStock.FreezeFrame
                 }
                 else if (text2 == "next")
                 {
-                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().PeekNext().id);
+                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().PeekNext().id, script);
                 }
                 else if (text2 == "current")
                 {
-                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().Current().id);
+                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().Current().id, script);
                 }
                 else if (text2 == "previous")
                 {
-                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().PeekPrevious().id);
+                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().PeekPrevious().id, script);
                 }
             }
             else if (text1 == "current")

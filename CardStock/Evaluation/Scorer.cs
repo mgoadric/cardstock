@@ -1,8 +1,7 @@
 ﻿﻿using System.Diagnostics;
-using CardStock.Scoring.Heuristics;
 using CardStock.Players;
 
-namespace CardStock.Scoring
+namespace CardStock.Evaluation
 {
     class Scorer{
         private readonly List<Experiment> exps = [];
@@ -22,8 +21,6 @@ namespace CardStock.Scoring
                 PlayerCount = players,
                 NumGames = numRndvRnd,
                 NumEpochs = numRndvRnd,
-                Logging = false,
-                Evaluating = true,
                 ai = PlayerType.RANDOM,
             });
 
@@ -34,8 +31,6 @@ namespace CardStock.Scoring
                 PlayerCount = players,
                 NumGames = numAIvRnd,
                 NumEpochs = numAIvRnd,
-                Logging = false,
-                Evaluating = true,
                 type = GameType.RndandAI,
                 ai = ai,
             });
@@ -47,8 +42,6 @@ namespace CardStock.Scoring
                 PlayerCount = players,
                 NumGames = numAIvAI,
                 NumEpochs = numAIvAI,
-                Logging = false,
-                Evaluating = true,
                 type = GameType.AllAI,
                 ai = ai,
             });
@@ -56,23 +49,6 @@ namespace CardStock.Scoring
             gameWorld = new World();
 
         }
-
-        // list of heuristic values
-        private readonly List<Heuristic> hs = [
-            new Fairness(),
-            // TODO ADD CONVERGENCE
-            new MeaningfulMoves(),
-            //new Variance(),
-            //new Depth(),
-            //new ExcessRules(),
-            //new GameLength(),
-            //new NoTies(),
-            new Drama(),
-            new Decisiveness(),
-            // FIX ME!new Stability(),
-            //new Clarity(),
-            new Coolness()
-        ];
 
         // define heuristics here
         public List<double> Score(){
@@ -92,29 +68,7 @@ namespace CardStock.Scoring
 
             Debug.WriteLine("passed reasonable");
             List<double> total = [];
-            var cleanoutput = "";
-            StreamWriter heurfile = new("output/" + exps[0].Game + "/" + exps[0].PlayerCount + "/heuristics.txt");
-
-            foreach (Heuristic h in hs){
-                var score = h.Eval(gameWorld);
-                var output = h.ToString().Substring(32) + "\t" + (score / h.Weight()) +
-                        "\t" + h.Weight() + "\t" + score;
-                var split = h.ToString().Split('.');
-                var heuristic = split[split.Length - 1];
-                cleanoutput += heuristic + ": " + score + "\n";
-                text += "    " + output;
-				
-                Console.WriteLine(output);
-                heurfile.WriteLine(output);
-                total.Add(score);
-            }
-            heurfile.Close();
-			
             return total;
-        }
-        public static bool ParseBool(string line)
-        {
-            return line.Split(':')[1] == "T";
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using CardStock.CardEngine;
-using CardStock.Scoring;
+using CardStock.Evaluation;
 using CardStock.FreezeFrame;
 
 namespace CardStock.Players

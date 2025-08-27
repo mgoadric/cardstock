@@ -1,5 +1,5 @@
 ﻿using CardStock.CardEngine;
-using CardStock.Scoring;
+using CardStock.Evaluation;
 using CardStock.FreezeFrame;
 using System.Diagnostics;
 namespace CardStock.Players
