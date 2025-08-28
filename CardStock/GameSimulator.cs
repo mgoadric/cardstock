@@ -7,14 +7,14 @@ using CardStock.Players;
 using CardStock.Evaluation;
 
 namespace CardStock {
-public partial class GameSimulator
-{
+    public partial class GameSimulator
+    {
 
-    public Experiment exp;
-    public RecycleParser.GameContext tree;
-    public World gameWorld;
-    public string fileName;
-    public const int CHOICELIMIT = 500;
+        public Experiment exp;
+        public RecycleParser.GameContext tree;
+        public World gameWorld;
+        public string fileName;
+        public const int CHOICELIMIT = 500;
 
         public GameSimulator(Experiment exp, World gameWorld)
         {
@@ -22,81 +22,81 @@ public partial class GameSimulator
             this.gameWorld = gameWorld;
         }
 
-    public void Loader() {
+        public void Loader() {
 
-        Debug.AutoFlush = true;
+            Debug.AutoFlush = true;
 
-        /************
-         * Load up the game from the .rcy RECYCLE description
-         ************/
-        fileName = "games/" + exp.Game + exp.PlayerCount + ".rcy";
+            /************
+            * Load up the game from the .rcy RECYCLE description
+            ************/
+            fileName = "games/" + exp.Game + exp.PlayerCount + ".rcy";
 
-        Console.WriteLine("name: " + fileName);
+            Console.WriteLine("name: " + fileName);
 
-        var file = File.ReadAllText(fileName);
-        var regex = MyRegex();
-        file = regex.Replace(file, "\n");
+            var file = File.ReadAllText(fileName);
+            var regex = MyRegex();
+            file = regex.Replace(file, "\n");
 
-        /***********
-         * Parse the game with the Antlr grammar description
-         ***********/
-        AntlrInputStream stream = new(file);
-        ITokenSource lexer = new RecycleLexer(stream);
-        ITokenStream tokens = new CommonTokenStream(lexer);
-        var parser = new RecycleParser(tokens)
-        {
-            BuildParseTree = true
-        };
-        this.tree = parser.game();
+            /***********
+            * Parse the game with the Antlr grammar description
+            ***********/
+            AntlrInputStream stream = new(file);
+            ITokenSource lexer = new RecycleLexer(stream);
+            ITokenStream tokens = new CommonTokenStream(lexer);
+            var parser = new RecycleParser(tokens)
+            {
+                BuildParseTree = true
+            };
+            this.tree = parser.game();
 
-        /***********
-         * Make the parse tree visualization
-         ***********/
-        DotVisualization.DOTMakerTop(tree, "output/" + exp.Game + "/" + exp.PlayerCount + "/parsetree");
-    }
-
-    public bool Experimenter() {
-
-        int numPlayers = 0;
-
-		var aggregator = new int[10, exp.NumEpochs];
-        bool compiling = true;
-        int choiceAgg = 0;
-        int[,] playerRank = new int[10, exp.NumEpochs];
-        double[,] playerFirst = new double[10, exp.NumEpochs];
-
-        if (exp.type == GameType.AllAI)
-        {
-            gameWorld.numAIvsAI = exp.NumGames;
+            /***********
+            * Make the parse tree visualization
+            ***********/
+            DotVisualization.DOTMakerTop(tree, "output/" + exp.Game + "/" + exp.PlayerCount + "/parsetree");
         }
 
-        Stopwatch time = new();
-        time.Start();
+        public bool Experimenter() {
 
-        /***********
-         * Set up the data recording files
-         * THIS SHOULD ALL BE TIDY DATA
-         ***********/
+            int numPlayers = 0;
 
-        string filePath = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-leadstats.txt";
-        System.IO.FileInfo file = new(filePath);
-        file.Directory.Create(); // If the directory already exists, this method does nothing.
-        StreamWriter expleadfile = new(filePath);
-        expleadfile.WriteLine(exp.type);
-        StreamWriter expchoicefile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-choicestats.txt");
-        expchoicefile.WriteLine("game,numPlayers,type,iteration,move,player,choices,choice");
-        StreamWriter expresultsfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-resultsstats.txt");
-        expresultsfile.WriteLine(exp.type);
-        StreamWriter expspreadfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-spreadstats.txt");
-        expspreadfile.WriteLine(exp.type);
+            var aggregator = new int[10, exp.NumEpochs];
+            bool compiling = true;
+            int choiceAgg = 0;
+            int[,] playerRank = new int[10, exp.NumEpochs];
+            double[,] playerFirst = new double[10, exp.NumEpochs];
 
-        List<List<double>>[] lead = new List<List<double>>[exp.NumGames];
-        int[] winners = new int[exp.NumGames];
-        int numFinished = 0;
+            if (exp.type == GameType.AllAI)
+            {
+                gameWorld.numAIvsAI = exp.NumGames;
+            }
 
-        /***********
-         * Run the experiments
-         ***********/
+            Stopwatch time = new();
+            time.Start();
+
+            /***********
+            * Set up the data recording files
+            * THIS SHOULD ALL BE TIDY DATA
+            ***********/
+
+            string filePath = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-leadstats.txt";
+            System.IO.FileInfo file = new(filePath);
+            file.Directory.Create(); // If the directory already exists, this method does nothing.
+            StreamWriter expleadfile = new(filePath);
+            expleadfile.WriteLine(exp.type);
+            StreamWriter expchoicefile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-choicestats.txt");
+            expchoicefile.WriteLine("game,numPlayers,type,iteration,move,player,choices,choice");
+            StreamWriter expresultsfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-resultsstats.txt");
+            expresultsfile.WriteLine(exp.type);
+            StreamWriter expspreadfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-spreadstats.txt");
+            expspreadfile.WriteLine(exp.type);
+
+            List<List<double>>[] lead = new List<List<double>>[exp.NumGames];
+            int[] winners = new int[exp.NumGames];
+            int numFinished = 0;
+
+            /***********
+            * Run the experiments
+            ***********/
             //Parallel.For(0, exp.NumGames, i =>
             for (int i = 0; i < exp.NumGames; i++)
             {
@@ -145,6 +145,7 @@ public partial class GameSimulator
 
                     /************
                      * SORT OUT RESULTS
+                     * THIS FILE DOES TOO MUCH. CAN THE RESULTS BE SPLIT SOMEWHERE ELSE???
                      *************/
                     lock (this)
                     {
@@ -254,68 +255,68 @@ public partial class GameSimulator
         //);
         
 
-        // should fail as soon as a game stops compiling, not after all threads are finished TODO 
-        if (!compiling)
-        {
-            return false;
-        }
-
-        time.Stop();
-
-        expresultsfile.WriteLine(time.Elapsed);
-        expresultsfile.WriteLine("Turns per game," + choiceAgg / (double)(exp.NumGames));
-        expresultsfile.WriteLine("Score: ");
-        for (int i = 0; i < numPlayers; ++i)
-        {
-            for (int j = 0; j < exp.NumEpochs; j++)
+            // should fail as soon as a game stops compiling, not after all threads are finished TODO 
+            if (!compiling)
             {
-                expresultsfile.Write(aggregator[i, j] / (double)(exp.NumGames / exp.NumEpochs) + ",");
-
+                return false;
             }
-            expresultsfile.WriteLine();
-        }
-        expresultsfile.WriteLine("Rank: ");
 
-        for (int i = 0; i < numPlayers; ++i)
-        {
-            for (int j = 0; j < exp.NumEpochs; j++)
+            time.Stop();
+
+            expresultsfile.WriteLine(time.Elapsed);
+            expresultsfile.WriteLine("Turns per game," + choiceAgg / (double)(exp.NumGames));
+            expresultsfile.WriteLine("Score: ");
+            for (int i = 0; i < numPlayers; ++i)
             {
-                expresultsfile.Write(playerRank[i, j] / (double)(exp.NumGames / exp.NumEpochs) + ",");
+                for (int j = 0; j < exp.NumEpochs; j++)
+                {
+                    expresultsfile.Write(aggregator[i, j] / (double)(exp.NumGames / exp.NumEpochs) + ",");
+
+                }
+                expresultsfile.WriteLine();
             }
-            expresultsfile.WriteLine();
-        }
+            expresultsfile.WriteLine("Rank: ");
 
-        gameWorld.SetWinners(winners);
-        gameWorld.AddNumTurns(choiceAgg);
+            for (int i = 0; i < numPlayers; ++i)
+            {
+                for (int j = 0; j < exp.NumEpochs; j++)
+                {
+                    expresultsfile.Write(playerRank[i, j] / (double)(exp.NumGames / exp.NumEpochs) + ",");
+                }
+                expresultsfile.WriteLine();
+            }
 
-        // USE RESULTS IN GENETIC ALGORITHM
-        var sum = 0.0;
-        for (int i = 0; i < exp.NumEpochs; i++)
-        {
-            sum += playerFirst[0, i];
-        }
+            gameWorld.SetWinners(winners);
+            gameWorld.AddNumTurns(choiceAgg);
 
-        if (exp.type == GameType.AllRnd)
-        {          
-            gameWorld.numFirstWins += sum;
-            gameWorld.numGames += exp.NumGames;
+            // USE RESULTS IN GENETIC ALGORITHM
+            var sum = 0.0;
+            for (int i = 0; i < exp.NumEpochs; i++)
+            {
+                sum += playerFirst[0, i];
+            }
+
+            if (exp.type == GameType.AllRnd)
+            {          
+                gameWorld.numFirstWins += sum;
+                gameWorld.numGames += exp.NumGames;
+            }
+            else if (exp.type == GameType.RndandAI)
+            {
+                gameWorld.numAIvsRnd += exp.NumGames;
+                gameWorld.numAIWins += sum;
+                gameWorld.SetRndVsAI(lead);
+            }
+            else {
+                gameWorld.SetAIVsAI(lead);
+            }
+            
+            expleadfile.Close();
+            expchoicefile.Close();
+            expresultsfile.Close();
+            expspreadfile.Close();
+            return true;
         }
-        else if (exp.type == GameType.RndandAI)
-        {
-            gameWorld.numAIvsRnd += exp.NumGames;
-            gameWorld.numAIWins += sum;
-            gameWorld.SetRndVsAI(lead);
-        }
-        else {
-            gameWorld.SetAIVsAI(lead);
-        }
-        
-        expleadfile.Close();
-        expchoicefile.Close();
-        expresultsfile.Close();
-        expspreadfile.Close();
-        return true;
-    }
 
         [GeneratedRegex("(;;)(.*?)(\n)")]
         private static partial Regex MyRegex();
