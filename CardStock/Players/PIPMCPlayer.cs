@@ -10,7 +10,7 @@ namespace CardStock.Players
 
         private double[][] rankSum;
 
-        public override void Explore(int numMoves)
+        public override void Explore()
         {
 
             // https://stackoverflow.com/questions/16376191/measuring-code-execution-time-in-this-code
@@ -19,12 +19,12 @@ namespace CardStock.Players
             rankSum = new double[perspective.NumberOfPlayers()][];
             for (int i = 0; i < perspective.NumberOfPlayers(); i++)
             {
-                rankSum[i] = new double[numMoves];
+                rankSum[i] = new double[numChoices];
             }
 
             // can parallellize here TODO ?
             // FOR EACH POSSIBLE MOVE
-            for (int move = 0; move < numMoves; ++move)
+            for (int move = 0; move < numChoices; ++move)
             {
 
                 Parallel.For(0, NUMTESTS, i =>   //number of tests for certain decision

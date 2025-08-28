@@ -347,8 +347,15 @@ namespace CardStock.CardEngine
             Debug.WriteLine("In player make choice");
             Debug.WriteLine("Player turn: " + CurrentPlayer().idx);
 
+            var d = currentPlayer.Peek().memberList[playerIdx].decision;
+            d.numChoices = numChoices;
+
             // this method could be constrained by a time budget
-            currentPlayer.Peek().memberList[playerIdx].decision.Explore(numChoices);
+            //Thread thread = new (new ThreadStart(d.Explore));
+            //thread.Start();
+            //thread.Join();
+            // THREADING SEEMS TO ADD TIME!!!
+            currentPlayer.Peek().memberList[playerIdx].decision.Explore();
 
             var choice = currentPlayer.Peek().memberList[playerIdx].decision.Choose();
 

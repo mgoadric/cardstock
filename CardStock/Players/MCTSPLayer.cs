@@ -4,30 +4,18 @@ using CardStock.FreezeFrame;
 namespace CardStock.Players
 {
     //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
-    public class MCTSPLayer : AIPlayer
+    public class MCTSPLayer(Perspective perspective) : AIPlayer(perspective)
     {
-        public Dictionary<Tuple<CardGame, int>, int> plays; 
-        public Dictionary<Tuple<CardGame, int>, double> wins;
-        public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree;
+        public Dictionary<Tuple<CardGame, int>, int> plays = []; 
+        public Dictionary<Tuple<CardGame, int>, double> wins = [];
+        public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree = [];
         private CardGame privategame;
         private GameIterator privateiterator;
         private static readonly int NUMTESTS = 100; //previously 20
-                                           // Go for 1000 per move, and 10 determinizations???
 
-        private int numChoices;
 
-        public MCTSPLayer(Perspective perspective) : base(perspective)
+        public override void Explore()
         {
-            plays = [];
-            wins = [];
-            movestatetree = [];
-        }
-
-
-        public override void Explore(int numChoices)
-        {
-            this.numChoices = numChoices;
-
             // GAME SIMULATIONS TEST
             (privategame, privateiterator) = perspective.GetPrivateGame();
 

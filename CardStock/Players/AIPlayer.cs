@@ -19,13 +19,15 @@ namespace CardStock.Players
         protected Perspective perspective = perspective;
         protected List<double> leadList = [];
 
+        public int numChoices;
+
         /********
          * These are the critical method that needs to be overridden in any subclass
          * of AIPlayer. When a choice is found in the game, the number of potential 
          * GameActions will be passed in to Explore. This method could be stopped early
          * based on a time budget.
          */
-        public abstract void Explore(int numChoices);
+        public abstract void Explore();
 
          /*********
          * For Choose, The AIPlayer

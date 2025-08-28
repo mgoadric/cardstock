@@ -4,7 +4,7 @@ using CardStock.FreezeFrame;
 namespace CardStock.Players
 {
     //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
-    public class MCTSLitePLayer : AIPlayer
+    public class MCTSLitePLayer(Perspective perspective) : AIPlayer(perspective)
     {
         public Dictionary<Tuple<CardGame, int>, int> plays = [];
         public Dictionary<Tuple<CardGame, int>, double> wins = [];
@@ -12,15 +12,9 @@ namespace CardStock.Players
         private CardGame privategame;
         private GameIterator privateiterator;
         public Dictionary<int, CardGame> movestates = [];
-        private int numChoices;
 
-        public MCTSLitePLayer(Perspective perspective) : base(perspective) { }
-
-
-        public override void Explore(int numChoices) //
+        public override void Explore() //
         {
-            this.numChoices = numChoices;
-
             // GAME SIMULATIONS TEST
             (CardGame privategame, GameIterator privateiterator) = perspective.GetPrivateGame();
             movestates = [];

@@ -8,27 +8,16 @@ using System.Linq;
 namespace CardStock.Players
 {
     //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
-    public class OneSecondMCTS : AIPlayer
+    public class OneSecondMCTS(Perspective perspective) : AIPlayer(perspective)
     {
-        public Dictionary<Tuple<CardGame, int>, int> plays;
-        public Dictionary<Tuple<CardGame, int>, double> wins;
-        public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree;
+        public Dictionary<Tuple<CardGame, int>, int> plays = [];
+        public Dictionary<Tuple<CardGame, int>, double> wins = [];
+        public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree = [];
         private CardGame privategame;
         private GameIterator privateiterator;
-        private int numChoices;
-//        private static int NUMTESTS = 10; //previously 20
 
-        public OneSecondMCTS(Perspective perspective) : base(perspective)
+        public override void Explore()
         {
-            plays = [];
-            wins = [];
-            movestatetree = [];
-        }
-
-
-        public override void Explore(int numChoices)
-        {
-            this.numChoices = numChoices;
             // GAME SIMULATIONS TEST
             (privategame, privateiterator) = perspective.GetPrivateGame();
 

@@ -14,8 +14,6 @@ namespace CardStock.Players
         private int playeridx;
         private static int NUMTESTS = 100; //previously 20
 
-        private int numChoices;
-
         public ISMCTSPlayer(Perspective perspective) : base(perspective)
         {
             playeridx = perspective.GetIdx();
@@ -25,10 +23,9 @@ namespace CardStock.Players
         }
 
 
-        public override void Explore(int numChoices)
+        public override void Explore()
         {
             // GAME SIMULATIONS TEST
-            this.numChoices = numChoices;
             int deals = 10;
             // TEST ()
             /*(privategame, privateiterator) = perspective.GetPrivateGame();

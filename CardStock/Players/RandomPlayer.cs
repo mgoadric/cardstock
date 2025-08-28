@@ -9,13 +9,11 @@ namespace CardStock.Players
     public class RandomPlayer(Perspective perspective) : AIPlayer(perspective)
     {
 
-        private int numChoices;
-
-        public override void Explore(int numChoices)
+        public override void Explore()
         {
-            this.numChoices = numChoices;
+            
         }
-        
+
         /*****
          * Use the provided RNG to pick a random action
          */

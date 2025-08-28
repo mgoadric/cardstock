@@ -6,27 +6,30 @@ namespace CardStock.Players
 {
     public class PIPMCPlayerNew(Perspective perspective) : AIPlayer(perspective)
     {
-        private static readonly int NUMTESTS = 20; //previously 20
+        private static readonly int NUMTESTS = 1000; //previously 20
         private static readonly int NUMSAMPLES = 10;
+
+        private int[] completed;
 
         private double[][] rankSum;
         private double[][] scoreSum;
 
-        public override void Explore(int numMoves)
+        public override void Explore()
         {
             // https://stackoverflow.com/questions/16376191/measuring-code-execution-time-in-this-code
             Stopwatch stopwatch = Stopwatch.StartNew();
+            completed = new int[numChoices];
 
             rankSum = new double[perspective.NumberOfPlayers()][];
             for (int i = 0; i < perspective.NumberOfPlayers(); i++)
             {
-                rankSum[i] = new double[numMoves];
+                rankSum[i] = new double[numChoices];
             }
 
             scoreSum = new double[perspective.NumberOfPlayers()][];
             for (int i = 0; i < perspective.NumberOfPlayers(); i++)
             {
-                scoreSum[i] = new double[numMoves];
+                scoreSum[i] = new double[numChoices];
             }
 
             // MAKE THIS MANY DETERMINIZATIONS
@@ -37,13 +40,13 @@ namespace CardStock.Players
             }
 
             // FOR EACH POSSIBLE MOVE
-            for (int move = 0; move < numMoves; ++move)
+            for (int i = 0; i < NUMTESTS / NUMSAMPLES; i++)
             {
                 // USE THIS MANY DETERMINIZATIONS
                 for (int det = 0; det < NUMSAMPLES; det++)
                 {
                     // AND RUN THIS MANY ROLLOUTS
-                    Parallel.For(0, NUMTESTS / NUMSAMPLES, i =>   //number of tests for certain decision
+                    Parallel.For(0, numChoices, move =>   //number of tests for certain decision
                     {
 
                         CardGame cg = determinizations[det].Item1.Clone();
@@ -84,19 +87,19 @@ namespace CardStock.Players
                         {
                             for (int j = 0; j < numPlayers; ++j)
                             {
-
                                 if (j != 0 && winners[j].Item1 != winners[j - 1].Item1)
                                 {
                                     topRank = j;
                                 }
 
                                 // OLD RANK BASED 
-                                rankSum[winners[j].Item2][move] += (double)topRank / NUMTESTS;
+                                rankSum[winners[j].Item2][move] += (double)topRank;
 
                                 // NEW VALUE BASED
-                                scoreSum[winners[j].Item2][move] += (double)winners[j].Item1 * mult / NUMTESTS;
+                                scoreSum[winners[j].Item2][move] += (double)winners[j].Item1 * mult;
 
                             }
+                            completed[move]++;
                         }
 
                     });
@@ -104,9 +107,19 @@ namespace CardStock.Players
             }
             stopwatch.Stop();
             Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
+            Console.WriteLine("{0}", string.Join(", ", completed));
         }
         
         public override int Choose() {
+            for (int i = 0; i < numPlayers; i++)
+            {
+                for (int m = 0; m < numChoices; m++)
+                {
+                    scoreSum[i][m] /= completed[m];
+                    rankSum[i][m] /= completed[m];
+                }
+            }
+
             // FIND BEST (and worst) MOVE TO MAKE
             var tup = MinMaxIdx(scoreSum[perspective.GetIdx()]);
             
@@ -115,9 +128,6 @@ namespace CardStock.Players
 
             // Record info for heuristic evaluation
             RecordHeuristics(rankSum);
-
-            // OLD RANK (0 is best)
-            //return tup.Item1;
 
             // NEW SCORE (highest is best)
             return tup.Item2;
