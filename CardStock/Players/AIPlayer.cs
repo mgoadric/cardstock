@@ -52,51 +52,40 @@ namespace CardStock.Players
         // CODE FOR UPDATING STATISTICS FOR HEURISTICS
         public void RecordHeuristics(double[][] rankSums) 
         {
-            if (perspective.GetWorld() != null)
+            double[] rankSum = rankSums[perspective.GetIdx()];
+            double[] myLeadView = new double[rankSums.Length];
+
+            // WHAT DOES WRS stand for? probably winners
+            double[] wrs = new double[rankSum.Length];
+
+            for (int item = 0; item < rankSum.Length; ++item)
             {
-                double[] rankSum = rankSums[perspective.GetIdx()];
-                double[] myLeadView = new double[rankSums.Length];
-
-                // WHAT DOES WRS stand for?
-                double[] wrs = new double[rankSum.Length];
-
-                for (int item = 0; item < rankSum.Length; ++item)
-                {
-                    wrs[item] = ((numPlayers - 1) - rankSum[item]) /
-                        (numPlayers - 1);
-                }
-
-                (var minidx, var maxidx) = MinMaxIdx(rankSum);
-                var best = wrs[minidx];
-                var worst = wrs[maxidx];
-
-                double avg = 0;
-                for (int i = 0; i < wrs.Length; i++)
-                {
-                    avg += wrs[i];
-                }
-                avg /= (double)wrs.Length;
-
-                var variance = Math.Abs(best - worst);
-
-                perspective.GetWorld().AddInfo(variance, avg, wrs[minidx]);
-                for (int i = 0; i < myLeadView.Length; i++) {
-                    myLeadView[i] = ((numPlayers - 1) - rankSums[i][minidx]) /
-                        (numPlayers - 1);
-                    //Console.WriteLine("Converted " + rankSums[i][maxidx] + " into " + myLeadView[i]);
-                }
-                perspective.AddLeadsList(new Tuple<int, double[]>(perspective.GetIdx(), myLeadView));
-                perspective.AddSpreadList(new Tuple<int, double>(perspective.GetIdx(), variance));
-
-                leadList.Add(best);
+                wrs[item] = ((numPlayers - 1) - rankSum[item]) /
+                    (numPlayers - 1);
             }
+
+            (var minidx, var maxidx) = MinMaxIdx(rankSum);
+            var best = wrs[minidx];
+            var worst = wrs[maxidx];
+
+            // should this be on actual scores, not ranks?
+            var variance = Math.Abs(best - worst);
+
+            for (int i = 0; i < myLeadView.Length; i++) {
+                myLeadView[i] = ((numPlayers - 1) - rankSums[i][minidx]) /
+                    (numPlayers - 1);
+                //Console.WriteLine("Converted " + rankSums[i][maxidx] + " into " + myLeadView[i]);
+            }
+            perspective.AddLeadsList(new Tuple<int, double[]>(perspective.GetIdx(), myLeadView));
+            perspective.AddSpreadList(new Tuple<int, double>(perspective.GetIdx(), variance));
+
+            leadList.Add(best);
         }
 
         public virtual List<double> GetLead()
         {
             return leadList;
         }
-
 	}
 }
 

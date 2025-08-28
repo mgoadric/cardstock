@@ -18,16 +18,15 @@ Experiment exp = new()
 {
     Game = game,
     PlayerCount = numPlayers,
-    NumGames = 100,
-    NumEpochs = 100,
-    type = GameType.RndandAI, // GameType.AllRnd or GameType.AllAI
+    NumGames = 1000,
+    NumEpochs = 1000,
+    type = GameType.AllRnd, // GameType.AllRnd or GameType.AllAI
     ai = CardStock.Players.PlayerType.PIPMCNEW,
 };
 
 Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
 
-var gameWorld = new World();
-GameSimulator engine = new(exp, gameWorld);
+GameSimulator engine = new(exp);
 engine.Loader();
 var compiling = engine.Experimenter();
 

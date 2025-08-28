@@ -14,15 +14,13 @@ namespace CardStock.FreezeFrame
 
         public RecycleParser.GameContext rules;
         public CardGame game;
-        public World gameWorld;
         public int totalChoices;
         public List<Tuple<int, int, int>> choiceList = [];
         public List<Tuple<int, double[]>> allLeadList = [];
         public List<Tuple<int, double>> spreadList = [];
 
-        public GameIterator(RecycleParser.GameContext context, CardGame mygame, World gameWorld, string fileName, bool fresh = true)
+        public GameIterator(RecycleParser.GameContext context, CardGame mygame, string fileName, bool fresh = true)
         {
-            this.gameWorld = gameWorld;
             rules = context;
             game = mygame;
             iterStack = new Stack<Queue<IParseTree>>();
@@ -56,7 +54,7 @@ namespace CardStock.FreezeFrame
         public GameIterator Clone(CardGame newgame)
         {
 
-            var ret = new GameIterator(rules, newgame, gameWorld, "clone", false)
+            var ret = new GameIterator(rules, newgame, "clone", false)
             {
                 script = new Transcript(false, null)
             };
@@ -260,8 +258,6 @@ namespace CardStock.FreezeFrame
                 script.WriteToFile("#:" + numPlayers);
                 game.AddPlayers(numPlayers, this);
                 script.WriteToFile("T:" + game.currentPlayer.Peek().CurrentName());
-                gameWorld.numPlayers = numPlayers;
-                //gameWorld.PopulateLead();
             }
 
             Debug.WriteLine("Creating teams.");
@@ -2986,9 +2982,6 @@ namespace CardStock.FreezeFrame
 
             if (obj is not GameIterator other)
             { Console.WriteLine("obj as gameiterator is null"); return false; }
-
-            if (other.gameWorld != gameWorld)
-            { Console.WriteLine("gameworlds not equal"); return false; }
 
             if (other.rules != rules)
             { Console.WriteLine("rules not equal"); return false; }

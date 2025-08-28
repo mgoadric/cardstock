@@ -38,16 +38,13 @@ namespace CardStock.Players
         public int GetIdx()
         { return idx; }
 
-        public World GetWorld()
-        { return actualgameiterator.gameWorld; }
-
         public bool TestingClone()
         {
             CardGame cg = actualgameiterator.game.Clone();
             if (!cg.Equals(actualgameiterator.game))
             { Console.WriteLine("Clone CardGame Not Equal -- Returning false"); return false; }
 
-            GameIterator g1 = new(actualgameiterator.rules, cg, actualgameiterator.gameWorld, "blah", false);
+            GameIterator g1 = new(actualgameiterator.rules, cg, "blah", false);
             GameIterator g2 = actualgameiterator.Clone(cg);
             if (!g2.Equals(actualgameiterator))
             { Console.WriteLine("Clone GameIterator Not Equal -- Returning false"); return false; }
@@ -62,7 +59,7 @@ namespace CardStock.Players
             if (!cg.Equals(actualgameiterator.game))
             { Console.WriteLine("CloneSecret CardGame not equal -- Returning False"); return false; }
 
-            GameIterator g1 = new(actualgameiterator.rules, cg, actualgameiterator.gameWorld, "blah", false);
+            GameIterator g1 = new(actualgameiterator.rules, cg, "blah", false);
             GameIterator g2 = actualgameiterator.Clone(cg);
             if (!g2.Equals(actualgameiterator))
             { Console.WriteLine("CloneSecret GameIterator not equal -- Returning False"); return false; }
