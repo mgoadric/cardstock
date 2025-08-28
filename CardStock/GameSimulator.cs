@@ -260,7 +260,7 @@ namespace CardStock {
             {
                 for (int j = 0; j < exp.NumGames; j++)
                 {
-                    expresultsfile.WriteLine(exp.Game + "," + exp.PlayerCount + "," + exp.type + "," + j + "," + i + "," + aggregator[i, j] / (double)exp.NumGames + "," + playerRank[i, j] / (double)(exp.NumGames / exp.NumEpochs));
+                    expresultsfile.WriteLine(exp.Game + "," + exp.PlayerCount + "," + exp.type + "," + j + "," + i + "," + aggregator[i, j] / (double)exp.NumGames + "," + playerRank[i, j] / (double)exp.NumGames);
                 }
             }
             
