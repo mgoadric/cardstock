@@ -18,8 +18,7 @@ Experiment exp = new()
 {
     Game = game,
     PlayerCount = numPlayers,
-    NumGames = 1000,
-    NumEpochs = 1000,
+    NumGames = 100,
     type = GameType.AllRnd, // GameType.AllRnd or GameType.AllAI
     ai = CardStock.Players.PlayerType.PIPMCNEW,
 };

@@ -1,7 +1,6 @@
 using Antlr4.Runtime;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
-using Antlr4.Runtime.Tree;
 using CardStock.CardEngine;
 using CardStock.Players;
 using CardStock.Evaluation;
@@ -14,6 +13,7 @@ namespace CardStock {
         public RecycleParser.GameContext tree;
         public string fileName;
         public const int CHOICELIMIT = 500;
+        public const int MAXPLAYERS = 10;
 
         public GameSimulator(Experiment exp)
         {
@@ -57,11 +57,11 @@ namespace CardStock {
 
             int numPlayers = 0;
 
-            var aggregator = new int[10, exp.NumEpochs];
+            var aggregator = new int[MAXPLAYERS, exp.NumGames];
             bool compiling = true;
             int choiceAgg = 0;
-            int[,] playerRank = new int[10, exp.NumEpochs];
-            double[,] playerFirst = new double[10, exp.NumEpochs];
+            int[,] playerRank = new int[MAXPLAYERS, exp.NumGames];
+            double[,] playerFirst = new double[MAXPLAYERS, exp.NumGames];
 
             Stopwatch time = new();
             time.Start();
@@ -72,7 +72,7 @@ namespace CardStock {
             ***********/
 
             string filePath = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-leadstats.txt";
-            System.IO.FileInfo file = new(filePath);
+            FileInfo file = new(filePath);
             file.Directory.Create(); // If the directory already exists, this method does nothing.
             StreamWriter expleadfile = new(filePath);
             expleadfile.WriteLine(exp.type);
@@ -95,12 +95,15 @@ namespace CardStock {
             {
                 try
                 {
-                    System.GC.Collect();
+                    GC.Collect();
 
-                    // TODO Can the creation of the game go inside the GameIterator???
                     CardGame game = new();
-
                     var gamePlay = new FreezeFrame.GameIterator(tree, game, "output/" + exp.Game + "/" + exp.PlayerCount + "/simulation" + i + exp.type);
+                    if (game.players.Length > MAXPLAYERS)
+                    {
+                        Console.WriteLine("Too many players, max is " + MAXPLAYERS);
+                        throw new Exception();
+                    }
 
                     if (exp.type == GameType.AllAI)
                     {
@@ -152,11 +155,11 @@ namespace CardStock {
                         for (int j = 0; j < results.Count; ++j)
                         {
 
-                            aggregator[results[j].Item2, i / (exp.NumGames / exp.NumEpochs)] += results[j].Item1;
+                            aggregator[results[j].Item2, i / exp.NumGames] += results[j].Item1;
 
                             if (j != 0 && results[j].Item1 != results[j - 1].Item1)
                             {
-                                playerRank[results[j].Item2, i / (exp.NumGames / exp.NumEpochs)] += j;
+                                playerRank[results[j].Item2, i / exp.NumGames] += j;
                                 if (topRank == 0)
                                 {
                                     numWinners = j;
@@ -166,7 +169,7 @@ namespace CardStock {
                             }
                             else
                             {
-                                playerRank[results[j].Item2, i / (exp.NumGames / exp.NumEpochs)] += topRank;
+                                playerRank[results[j].Item2, i / exp.NumGames] += topRank;
                             }
 
                         }
@@ -175,7 +178,7 @@ namespace CardStock {
                         {
                             if (j == 0 || results[j].Item1 == results[j - 1].Item1)
                             {
-                                playerFirst[results[j].Item2, i / (exp.NumGames / exp.NumEpochs)] += 1.0 / numWinners;
+                                playerFirst[results[j].Item2, i / exp.NumGames] += 1.0 / numWinners;
                             }
                             else
                             {
@@ -255,9 +258,9 @@ namespace CardStock {
 
             for (int i = 0; i < numPlayers; ++i)
             {
-                for (int j = 0; j < exp.NumEpochs; j++)
+                for (int j = 0; j < exp.NumGames; j++)
                 {
-                    expresultsfile.WriteLine(exp.Game + "," + exp.PlayerCount + "," + exp.type + "," + j + "," + i + "," + aggregator[i, j] / (double)(exp.NumGames / exp.NumEpochs) + "," + playerRank[i, j] / (double)(exp.NumGames / exp.NumEpochs));
+                    expresultsfile.WriteLine(exp.Game + "," + exp.PlayerCount + "," + exp.type + "," + j + "," + i + "," + aggregator[i, j] / (double)exp.NumGames + "," + playerRank[i, j] / (double)(exp.NumGames / exp.NumEpochs));
                 }
             }
             

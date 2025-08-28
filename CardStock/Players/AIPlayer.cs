@@ -27,6 +27,9 @@ namespace CardStock.Players
          */
         public abstract int MakeAction(int numChoices);
 
+        // TODO for timing, should the MakeAction be split into two functions, one to start the work, and one to get results?
+        // This way we can kill the first function anytime we want, and the second needs to be online learning.
+
         public static Tuple<int, int> MinMaxIdx(double[] input)
         {
             double min = double.MaxValue;

@@ -7,7 +7,6 @@ namespace CardStock.Evaluation
         public required string Game;
         public required int PlayerCount;
         public required int NumGames;
-        public required int NumEpochs;
         public required PlayerType ai;
 
         public GameType type = GameType.AllRnd;
