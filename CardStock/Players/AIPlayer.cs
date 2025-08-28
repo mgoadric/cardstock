@@ -20,15 +20,19 @@ namespace CardStock.Players
         protected List<double> leadList = [];
 
         /********
-         * This is the critical method that needs to be overridden in any subclass
+         * These are the critical method that needs to be overridden in any subclass
          * of AIPlayer. When a choice is found in the game, the number of potential 
-         * GameActions will be passed in. The AIPlayer
+         * GameActions will be passed in to Explore. This method could be stopped early
+         * based on a time budget.
+         */
+        public abstract void Explore(int numChoices);
+
+         /*********
+         * For Choose, The AIPlayer
          * is expected to return an int which is the index of their chosen move.
          */
-        public abstract int MakeAction(int numChoices);
 
-        // TODO for timing, should the MakeAction be split into two functions, one to start the work, and one to get results?
-        // This way we can kill the first function anytime we want, and the second needs to be online learning.
+        public abstract int Choose();
 
         public static Tuple<int, int> MinMaxIdx(double[] input)
         {

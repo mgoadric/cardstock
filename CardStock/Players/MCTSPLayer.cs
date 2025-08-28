@@ -1,8 +1,5 @@
 ﻿using CardStock.CardEngine;
 using CardStock.FreezeFrame;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace CardStock.Players
 {
@@ -14,8 +11,10 @@ namespace CardStock.Players
         public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree;
         private CardGame privategame;
         private GameIterator privateiterator;
-        private static int NUMTESTS = 100; //previously 20
-        // Go for 1000 per move, and 10 determinizations???
+        private static readonly int NUMTESTS = 100; //previously 20
+                                           // Go for 1000 per move, and 10 determinizations???
+
+        private int numChoices;
 
         public MCTSPLayer(Perspective perspective) : base(perspective)
         {
@@ -23,32 +22,29 @@ namespace CardStock.Players
             wins = [];
             movestatetree = [];
         }
-        
 
-        public override int MakeAction(int numChoices)
+
+        public override void Explore(int numChoices)
         {
+            this.numChoices = numChoices;
+
             // GAME SIMULATIONS TEST
             (privategame, privateiterator) = perspective.GetPrivateGame();
-            int myidx = perspective.GetIdx();
 
             for (int i = 0; i < NUMTESTS * numChoices; i++)
             {
                 RunSimulation();
             }
-            //Console.WriteLine("Game after: " + cardGamesx[0]);
+        }
 
-            //int j = 0;
-            //foreach(var k in plays.Keys)
-            //{
-                //Console.WriteLine(j + " --> " + plays[k] + " --> " + wins[k]);
-           //     j++;
-           // }
+        public override int Choose()
+        {
 
+            int myidx = perspective.GetIdx();
             double[] moverankingarray = new double[numChoices];
             Tuple<CardGame, int>[] movestates = movestatetree[new Tuple<CardGame, int>(privategame, myidx)];
             for (int x = 0; x < numChoices; x++)
             {
-
                 if (movestates[x] != null)
                 {
                     Tuple<CardGame,int> stateandplayer = movestates[x];
@@ -165,7 +161,7 @@ namespace CardStock.Players
             // GO THROUGH VISITED STATES
             foreach (Tuple<CardGame, int> stateandplayer in visitedstates)
             {
-                if (plays.Keys.Contains(stateandplayer))
+                if (plays.ContainsKey(stateandplayer))
                 {
                     plays[stateandplayer] += 1;
                     wins[stateandplayer] += inverseRankSum[stateandplayer.Item2];

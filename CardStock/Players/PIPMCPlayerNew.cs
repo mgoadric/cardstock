@@ -9,18 +9,21 @@ namespace CardStock.Players
         private static readonly int NUMTESTS = 20; //previously 20
         private static readonly int NUMSAMPLES = 10;
 
-        public override int MakeAction(int numMoves)
+        private double[][] rankSum;
+        private double[][] scoreSum;
+
+        public override void Explore(int numMoves)
         {
             // https://stackoverflow.com/questions/16376191/measuring-code-execution-time-in-this-code
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            double[][] rankSum = new double[perspective.NumberOfPlayers()][];
+            rankSum = new double[perspective.NumberOfPlayers()][];
             for (int i = 0; i < perspective.NumberOfPlayers(); i++)
             {
                 rankSum[i] = new double[numMoves];
             }
-            
-            double[][] scoreSum = new double[perspective.NumberOfPlayers()][];
+
+            scoreSum = new double[perspective.NumberOfPlayers()][];
             for (int i = 0; i < perspective.NumberOfPlayers(); i++)
             {
                 scoreSum[i] = new double[numMoves];
@@ -99,13 +102,15 @@ namespace CardStock.Players
                     });
                 }
             }
-
+            stopwatch.Stop();
+            Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
+        }
+        
+        public override int Choose() {
             // FIND BEST (and worst) MOVE TO MAKE
             var tup = MinMaxIdx(scoreSum[perspective.GetIdx()]);
             
-            stopwatch.Stop();
-            Console.WriteLine(perspective.GetIdx() + "," + tup.Item2 + "," + stopwatch.ElapsedMilliseconds);
-
+            Console.WriteLine(perspective.GetIdx() + " choosing move " + tup.Item2);
             Console.WriteLine("{0}", string.Join(", ", scoreSum[perspective.GetIdx()]));
 
             // Record info for heuristic evaluation

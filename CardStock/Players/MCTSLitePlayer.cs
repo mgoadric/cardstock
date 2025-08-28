@@ -1,10 +1,5 @@
 ﻿using CardStock.CardEngine;
 using CardStock.FreezeFrame;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardStock.Players
 {
@@ -13,35 +8,35 @@ namespace CardStock.Players
     {
         public Dictionary<Tuple<CardGame, int>, int> plays = [];
         public Dictionary<Tuple<CardGame, int>, double> wins = [];
-        public Dictionary<int, CardGame> movestates = [];
         public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree = [];
         private CardGame privategame;
         private GameIterator privateiterator;
+        public Dictionary<int, CardGame> movestates = [];
+        private int numChoices;
+
         public MCTSLitePLayer(Perspective perspective) : base(perspective) { }
 
 
-        public override int MakeAction(int optioncount) //
+        public override void Explore(int numChoices) //
         {
+            this.numChoices = numChoices;
+
             // GAME SIMULATIONS TEST
             (CardGame privategame, GameIterator privateiterator) = perspective.GetPrivateGame();
-            int myidx = perspective.GetIdx();
             movestates = [];
 
-            for (int i = 0; i < 10 * optioncount; i++)
+            for (int i = 0; i < 10 * numChoices; i++)
             {
                 RunSimulation();
             }
-            //Console.WriteLine("Game after: " + cardGamesx[0]);
+        }
 
-            int j = 0;
-            foreach (var k in plays.Keys)
-            {
-                //Console.WriteLine(j + " --> " + plays[k] + " --> " + wins[k]);
-                j++;
-            }
+        public override int Choose() {
 
-            double[] moverankingarray = new double[optioncount];
-            for (int x = 0; x < optioncount; x++)
+            int myidx = perspective.GetIdx();
+
+            double[] moverankingarray = new double[numChoices];
+            for (int x = 0; x < numChoices; x++)
             {
                 if (movestates.Keys.Contains(x))
                 {

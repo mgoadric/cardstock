@@ -8,13 +8,15 @@ namespace CardStock.Players
     {
         private static readonly int NUMTESTS = 10; //previously 20
 
-        public override int MakeAction(int numMoves)
+        private double[][] rankSum;
+
+        public override void Explore(int numMoves)
         {
 
             // https://stackoverflow.com/questions/16376191/measuring-code-execution-time-in-this-code
-            Stopwatch stopwatch = Stopwatch.StartNew(); 
+            Stopwatch stopwatch = Stopwatch.StartNew();
 
-            double[][] rankSum = new double[perspective.NumberOfPlayers()][];
+            rankSum = new double[perspective.NumberOfPlayers()][];
             for (int i = 0; i < perspective.NumberOfPlayers(); i++)
             {
                 rankSum[i] = new double[numMoves];
@@ -68,13 +70,16 @@ namespace CardStock.Players
                     }
                 });
             }
+            stopwatch.Stop();
+            Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
 
+        }
+        
+        public override int Choose() {
             // FIND BEST (and worst) MOVE TO MAKE
             var tup = MinMaxIdx(rankSum[perspective.GetIdx()]);
 
-            stopwatch.Stop();
-            Console.WriteLine(perspective.GetIdx() + "," + tup.Item1 + "," + stopwatch.ElapsedMilliseconds);
-
+            Console.WriteLine(perspective.GetIdx() + " chose " + tup.Item1);
             Debug.WriteLine("{0}", string.Join(", ", rankSum[perspective.GetIdx()]));
 
             // Record info for heuristic evaluation

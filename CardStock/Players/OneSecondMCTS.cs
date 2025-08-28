@@ -15,6 +15,7 @@ namespace CardStock.Players
         public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree;
         private CardGame privategame;
         private GameIterator privateiterator;
+        private int numChoices;
 //        private static int NUMTESTS = 10; //previously 20
 
         public OneSecondMCTS(Perspective perspective) : base(perspective)
@@ -25,11 +26,11 @@ namespace CardStock.Players
         }
 
 
-        public override int MakeAction(int numChoices)
+        public override void Explore(int numChoices)
         {
+            this.numChoices = numChoices;
             // GAME SIMULATIONS TEST
             (privategame, privateiterator) = perspective.GetPrivateGame();
-            int myidx = perspective.GetIdx();
 
             int count = 0;
             Stopwatch sw = new();
@@ -53,6 +54,11 @@ namespace CardStock.Players
             //     j++;
             // }
 
+        }
+
+        public override int Choose()
+        {
+            int myidx = perspective.GetIdx();
             double[] moverankingarray = new double[numChoices];
             Tuple<CardGame, int>[] movestates = movestatetree[new Tuple<CardGame, int>(privategame, myidx)];
             for (int x = 0; x < numChoices; x++)
@@ -183,29 +189,3 @@ namespace CardStock.Players
         }
     }
 }
-
-
-
-
-/*
-Tuple<CardGame, GameIterator> temp =  perspective.GetPrivateGame();
-privategame = temp.Item1;
-privateiterator = temp.Item2;
-
-// TEST CLONE 
-if (perspective.TestingClone())
-{ Console.WriteLine("Clone Equals"); }
-else { Console.WriteLine(("Doesn't Equal")); }
-
-// TEST CLONESECRET
-perspective.TestingCloneSecret();
-
-// TEST CLONESECRETCLONE
-perspective.TestCloneSecretClone();
-
-//HASHCODE TESTING
-CardGame simgame = privateiterator.game.Clone();
-CardGame test = simgame.Clone();
-if (simgame.Equals(test)) { Console.WriteLine("equality check"); }
-Console.WriteLine("simgame hash: " + simgame.GetHashCode() + " vs. test hash: " + test.GetHashCode());
-*/

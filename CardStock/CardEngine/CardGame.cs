@@ -347,7 +347,10 @@ namespace CardStock.CardEngine
             Debug.WriteLine("In player make choice");
             Debug.WriteLine("Player turn: " + CurrentPlayer().idx);
 
-            var choice = currentPlayer.Peek().memberList[playerIdx].decision.MakeAction(numChoices);
+            // this method could be constrained by a time budget
+            currentPlayer.Peek().memberList[playerIdx].decision.Explore(numChoices);
+
+            var choice = currentPlayer.Peek().memberList[playerIdx].decision.Choose();
 
             Debug.WriteLine("Choice: " + choice);
             return choice;
