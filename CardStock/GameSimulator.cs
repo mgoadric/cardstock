@@ -22,7 +22,7 @@ public partial class GameSimulator
             this.gameWorld = gameWorld;
         }
 
-    public Tuple<bool, bool> Loader() {
+    public void Loader() {
 
         Debug.AutoFlush = true;
 
@@ -53,9 +53,6 @@ public partial class GameSimulator
          * Make the parse tree visualization
          ***********/
         DotVisualization.DOTMakerTop(tree, "output/" + exp.Game + "/" + exp.PlayerCount + "/parsetree");
-
-        return HasShuffleAndChoice(tree);
-
     }
 
     public bool Experimenter() {
@@ -77,9 +74,9 @@ public partial class GameSimulator
         time.Start();
 
         /***********
-         * Run the experiments
+         * Set up the data recording files
+         * THIS SHOULD ALL BE TIDY DATA
          ***********/
-        List<List<double>>[] lead = new List<List<double>>[exp.NumGames];
 
         string filePath = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-leadstats.txt";
         System.IO.FileInfo file = new(filePath);
@@ -92,120 +89,125 @@ public partial class GameSimulator
         expresultsfile.WriteLine(exp.type);
         StreamWriter expspreadfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-spreadstats.txt");
         expspreadfile.WriteLine(exp.type);
+
+        List<List<double>>[] lead = new List<List<double>>[exp.NumGames];
         int[] winners = new int[exp.NumGames];
         int numFinished = 0;
 
+        /***********
+         * Run the experiments
+         ***********/
             //Parallel.For(0, exp.NumGames, i =>
-        for (int i = 0; i < exp.NumGames; i++)
-        {
-            try
+            for (int i = 0; i < exp.NumGames; i++)
             {
-                System.GC.Collect();
-
-                // TODO Can the creation of the game go inside the GameIterator???
-                CardGame game = new();
-
-                var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld, "output/" + exp.Game + "/" + exp.PlayerCount + "/simulation" + i + exp.type);
-
-                if (exp.type == GameType.AllAI)
+                try
                 {
-                    Console.WriteLine("Making players");
-                    for (int j = 0; j < game.players.Length; j++)
+                    System.GC.Collect();
+
+                    // TODO Can the creation of the game go inside the GameIterator???
+                    CardGame game = new();
+
+                    var gamePlay = new FreezeFrame.GameIterator(tree, game, gameWorld, "output/" + exp.Game + "/" + exp.PlayerCount + "/simulation" + i + exp.type);
+
+                    if (exp.type == GameType.AllAI)
                     {
-                        Perspective perspective = new(j, gamePlay);
-                        game.players[j].decision = exp.ai.AI(perspective);
-                    }
-                }
-                else if (exp.type == GameType.RndandAI)
-                {
-                    Perspective perspective = new(0, gamePlay);
-                    game.players[0].decision =  exp.ai.AI(perspective);
-                }
-
-                /*********
-	             * PLAY THE GAME
-                 ***********/
-                while (!gamePlay.AdvanceToChoice())
-                {
-                    lock (this)
-                    {
-                        choiceAgg++;
-                    }
-                    gamePlay.ProcessChoice();
-
-                    if (gamePlay.totalChoices > CHOICELIMIT)
-                    {
-                        Console.WriteLine("Game " + (i + 1) + " Choices not processed (probably infinite loop)");
-                        //compiling = false;
-                        break;
-                    }
-                }
-
-                /************
-				 * SORT OUT RESULTS
-				 *************/
-                lock (this)
-                {
-
-                    var (results, mult) = gamePlay.ProcessScore();
-                    numPlayers = results.Count;
-
-                    int topRank = 0;
-                    int numWinners = 1;
-
-                    for (int j = 0; j < results.Count; ++j)
-                    {
-
-                        aggregator[results[j].Item2, i / (exp.NumGames / exp.NumEpochs)] += results[j].Item1;
-
-                        if (j != 0 && results[j].Item1 != results[j - 1].Item1)
+                        Console.WriteLine("Making players");
+                        for (int j = 0; j < game.players.Length; j++)
                         {
-                            playerRank[results[j].Item2, i / (exp.NumGames / exp.NumEpochs)] += j;
-                            if (topRank == 0)
-                            {
-                                numWinners = j;
-                            }
-                            topRank = j;
-
+                            Perspective perspective = new(j, gamePlay);
+                            game.players[j].decision = exp.ai.AI(perspective);
                         }
-                        else
-                        {
-                            playerRank[results[j].Item2, i / (exp.NumGames / exp.NumEpochs)] += topRank;
-                        }
-
+                    }
+                    else if (exp.type == GameType.RndandAI)
+                    {
+                        Perspective perspective = new(0, gamePlay);
+                        game.players[0].decision = exp.ai.AI(perspective);
                     }
 
-                    for (int j = 0; j < results.Count; ++j)
+                    /*********
+                     * PLAY THE GAME
+                     ***********/
+                    while (!gamePlay.AdvanceToChoice())
                     {
-                        if (j == 0 || results[j].Item1 == results[j - 1].Item1)
+                        lock (this)
                         {
-                            playerFirst[results[j].Item2, i / (exp.NumGames / exp.NumEpochs)] += 1.0 / numWinners;
+                            choiceAgg++;
                         }
-                        else
+                        gamePlay.ProcessChoice();
+
+                        if (gamePlay.totalChoices > CHOICELIMIT)
                         {
+                            Console.WriteLine("Game " + (i + 1) + " Choices not processed (probably infinite loop)");
+                            //compiling = false;
                             break;
                         }
                     }
 
-                    if (gameWorld != null)
+                    /************
+                     * SORT OUT RESULTS
+                     *************/
+                    lock (this)
                     {
-                        // also go get AIPlayer and get the chunk of data here about winners/choices
-                        // also lock this in the gameover method so that it's safe for multiple games to access 
-                        if (exp.type == GameType.AllAI)
+
+                        var (results, mult) = gamePlay.ProcessScore();
+                        numPlayers = results.Count;
+
+                        int topRank = 0;
+                        int numWinners = 1;
+
+                        for (int j = 0; j < results.Count; ++j)
                         {
-                            lead[i] = [];
-                            for (int j = 0; j < game.players.Length; j++)
+
+                            aggregator[results[j].Item2, i / (exp.NumGames / exp.NumEpochs)] += results[j].Item1;
+
+                            if (j != 0 && results[j].Item1 != results[j - 1].Item1)
                             {
-                                Console.WriteLine("Adding leads for P" + j + ", count of " + game.players[j].decision.GetLead().Count);
-                                lead[i].Add(game.players[j].decision.GetLead());
+                                playerRank[results[j].Item2, i / (exp.NumGames / exp.NumEpochs)] += j;
+                                if (topRank == 0)
+                                {
+                                    numWinners = j;
+                                }
+                                topRank = j;
+
+                            }
+                            else
+                            {
+                                playerRank[results[j].Item2, i / (exp.NumGames / exp.NumEpochs)] += topRank;
                             }
 
                         }
-                        else if (exp.type == GameType.RndandAI)
+
+                        for (int j = 0; j < results.Count; ++j)
                         {
-                            lead[i] = [game.players[0].decision.GetLead()];
+                            if (j == 0 || results[j].Item1 == results[j - 1].Item1)
+                            {
+                                playerFirst[results[j].Item2, i / (exp.NumGames / exp.NumEpochs)] += 1.0 / numWinners;
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
-                        winners[i] = results[0].Item2;
+
+                        if (gameWorld != null)
+                        {
+                            // also go get AIPlayer and get the chunk of data here about winners/choices
+                            // also lock this in the gameover method so that it's safe for multiple games to access 
+                            if (exp.type == GameType.AllAI)
+                            {
+                                lead[i] = [];
+                                for (int j = 0; j < game.players.Length; j++)
+                                {
+                                    Console.WriteLine("Adding leads for P" + j + ", count of " + game.players[j].decision.GetLead().Count);
+                                    lead[i].Add(game.players[j].decision.GetLead());
+                                }
+
+                            }
+                            else if (exp.type == GameType.RndandAI)
+                            {
+                                lead[i] = [game.players[0].decision.GetLead()];
+                            }
+                            winners[i] = results[0].Item2;
 
                             // Tidy data formatting
                             int m = 0;
@@ -214,41 +216,41 @@ public partial class GameSimulator
                                 expchoicefile.WriteLine(exp.Game + "," + exp.PlayerCount + "," + exp.type + "," + i + "," + m + "," + t.Item1 + "," + t.Item2 + "," + t.Item3);
                                 m++;
                             }
- 
-                        expleadfile.WriteLine("game" + i);
-                        foreach (Tuple<int, double[]> allLeads in gamePlay.allLeadList)
-                        {
-                            expleadfile.Write(allLeads.Item1 + ",");
-                            for (int k = 0; k < numPlayers; k++)
+
+                            expleadfile.WriteLine("game" + i);
+                            foreach (Tuple<int, double[]> allLeads in gamePlay.allLeadList)
                             {
-                                expleadfile.Write(allLeads.Item2[k] + ",");
+                                expleadfile.Write(allLeads.Item1 + ",");
+                                for (int k = 0; k < numPlayers; k++)
+                                {
+                                    expleadfile.Write(allLeads.Item2[k] + ",");
+                                }
+                                expleadfile.WriteLine();
                             }
-                            expleadfile.WriteLine();
+
+                            expspreadfile.WriteLine("game" + i);
+                            foreach (Tuple<int, double> s in gamePlay.spreadList)
+                            {
+                                expspreadfile.Write(s.Item2 + ",");
+                            }
+                            expspreadfile.WriteLine();
+                            foreach (Tuple<int, double> s in gamePlay.spreadList)
+                            {
+                                expspreadfile.Write(s.Item1 + ",");
+                            }
+                            expspreadfile.WriteLine();
                         }
 
-                        expspreadfile.WriteLine("game" + i);
-                        foreach (Tuple<int, double> s in gamePlay.spreadList)
-                        {
-                            expspreadfile.Write(s.Item2 + ",");
-                        }
-                        expspreadfile.WriteLine();
-                        foreach (Tuple<int, double> s in gamePlay.spreadList)
-                        {
-                            expspreadfile.Write(s.Item1 + ",");
-                        }
-                        expspreadfile.WriteLine();
+                        numFinished++;
+                        Console.WriteLine("Finished game " + numFinished + " of " + exp.NumGames);
                     }
-
-                    numFinished++;
-                    Console.WriteLine("Finished game " + numFinished + " of " + exp.NumGames);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(fileName + " failed from exception: " + e + "\n\n\n");
+                    compiling = false;
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(fileName + " failed from exception: " + e + "\n\n\n");
-                compiling = false;
-            }
-        }
         //);
         
 
@@ -313,33 +315,6 @@ public partial class GameSimulator
         expresultsfile.Close();
         expspreadfile.Close();
         return true;
-    }
-
-
-    static Tuple<bool, bool> HasShuffleAndChoice(IParseTree tree)
-    {
-        bool shuffle = false;
-        bool choice = false;
-        if (tree is RecycleParser.ShuffleactionContext)
-        {
-            shuffle = true;
-        }
-        else if (tree is RecycleParser.MultiactionContext)
-
-        {
-            if (tree.GetChild(1).GetText().Equals("choice"))
-                {
-                    choice = true;
-                }
-        }
-        if (shuffle && choice) { return new Tuple<bool, bool>(shuffle, choice); }
-        for (int i = 0; i < tree.ChildCount; i++)
-        {
-            var res = HasShuffleAndChoice(tree.GetChild(i));
-            shuffle |= res.Item1;
-            choice |= res.Item2;
-        }
-        return new Tuple<bool, bool>(shuffle, choice);
     }
 
         [GeneratedRegex("(;;)(.*?)(\n)")]

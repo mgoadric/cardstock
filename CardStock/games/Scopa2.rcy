@@ -8,12 +8,9 @@
   ;; Create the deck source
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, J, H, K))
                                        (SUIT (SWORDS, CUPS, COINS, BATONS)))))        
- (do 
-     (
-
+ (do (
        (set (game points POINTS)
-           (
-            ((RANK : K) 10) 
+           (((RANK : K) 10) 
             ((RANK : H) 9)
             ((RANK : J) 8)
             ((RANK : SEVEN) 7)
@@ -25,8 +22,7 @@
             ((RANK : A) 1)))
 
        (set (game points PRIMIERA)
-           (
-            ((RANK : K) 10) 
+           (((RANK : K) 10) 
             ((RANK : H) 10)
             ((RANK : J) 10)
             ((RANK : SEVEN) 21)
@@ -48,22 +44,20 @@
          (== (size (game iloc STOCK)) 0))
         
         ;; Deal the players 3 cards each
-        (do 
-            (
+        (do (
              (all player 'P
                   (repeat 3
                           (move (top (game iloc STOCK))
                                 (top ('P iloc HAND)))))))
         
-        
+        ;; Players play their cards one at a time until their hand is empty
         (stage player
                (end 
                 (all player 'P 
                      (== (size ('P iloc HAND)) 0)))
                
                ;; Pick a card to play to the pool
-               (choice 
-                (
+               (choice (
                  (any ((current player) iloc HAND) 'AC
                       (do (
                         (move 'AC 
@@ -74,8 +68,7 @@
                                  (== (cardatt RANK 'PC)
                                      (cardatt RANK (top ((current player) vloc TRICK)))))
                                    'PCF
-                                   (do 
-                                       (
+                                   (do (
                                         (move 'PCF 
                                               (top ((current player) vloc BUNDLE)))
                                         (set ((current player) sto MOVED) 1))))    
@@ -87,8 +80,7 @@
                                 (== (sum 'SUB using (game points POINTS))
                                     (score (top ((current player) vloc TRICK))
                                         using (game points POINTS))))) 'SUBMATCH
-                                            (do 
-                                                (
+                                            (do (
                                                     (all 'SUBMATCH 'MCARD  
                                                     (move 'MCARD 
                                                         (top ((current player) vloc BUNDLE))))
@@ -97,9 +89,8 @@
                  )
                 ))
                
-               (do 
-                  (
-                    ;; TODO CHECK FOR SCOPA (SWEEP OF THE POOL)
+               (do (
+                    ;; CHECK FOR SCOPA (SWEEP OF THE POOL)
                     ;; all turns except the last one
                     ((and (== (size (game vloc POOL)) 0)
                           (or (!= (size (game iloc STOCK)) 0)
@@ -118,11 +109,9 @@
                     (set ((current player) sto MOVED) 0)))))
 
 
-
-(stage player (end (all player 'P (== ('P str SCORING) MID))) 
-  (do (
-
-      ;; scopas scored when they happen
+ ;; First pass through scoring
+ (stage player (end (all player 'P (== ('P str SCORING) MID))) 
+    (do (
 
       ;; most cards worth one point
       ((> (size ((current player) vloc BUNDLE))
@@ -152,8 +141,9 @@
       (set ((current player) str SCORING) MID)
   )))
 
-(stage player (end (all player 'P (== ('P str SCORING) END))) 
-  (do (
+ ;; second scoring pass, after aggregation of Primera values
+ (stage player (end (all player 'P (== ('P str SCORING) END))) 
+   (do (
 
       ;; highest primiera scores one point
       ((> ((current player) sto PRIMIERA)
@@ -165,5 +155,4 @@
       (set ((current player) str SCORING) END)
   )))  
 
-;; need a lot of scoring here... TODO
  (scoring max ((current player) sto SCORE))))

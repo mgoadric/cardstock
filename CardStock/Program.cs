@@ -1,8 +1,8 @@
 using CardStock;
 using CardStock.Evaluation;
 
-string game = "GolfSix";
-int numPlayers = 3;
+string game = "Scopa";
+int numPlayers = 2;
 
 
 /*
@@ -18,9 +18,9 @@ Experiment exp = new()
 {
     Game = game,
     PlayerCount = numPlayers,
-    NumGames = 1,
-    NumEpochs = 1,
-    type = GameType.RndandAI,
+    NumGames = 100,
+    NumEpochs = 100,
+    type = GameType.RndandAI, // GameType.AllRnd or GameType.AllAI
     ai = CardStock.Players.PlayerType.PIPMCNEW,
 };
 
@@ -28,7 +28,7 @@ Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
 
 var gameWorld = new World();
 GameSimulator engine = new(exp, gameWorld);
-var tup = engine.Loader();
+engine.Loader();
 var compiling = engine.Experimenter();
 
 
