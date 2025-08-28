@@ -226,8 +226,9 @@ namespace CardStock.FreezeFrame {
         private readonly CardLocReference endLocation;
         private readonly CardCollection notforgotten;
 
-        public CardForgetAction(CardLocReference end)
+        public CardForgetAction(CardLocReference end, Transcript script)
         {
+            this.script = script;
             if (end.cardList.type == CCType.MEMORY)
             {
                 endLocation = end;

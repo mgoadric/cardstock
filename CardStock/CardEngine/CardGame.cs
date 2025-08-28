@@ -9,7 +9,7 @@ namespace CardStock.CardEngine
 
         public Dictionary<string, List<Card>> sourceDeck = [];
         public Dictionary<string, int[]> cardMask = [];
-        public Owner[] table = new Owner[1];
+        public Owner[] table = new Owner[1]; // why is this an array? It is always just one element TODO
         public Player[] players;
         public List<Team> teams = [];
         public Stack<StageCycle<Player>> currentPlayer = new();
@@ -478,7 +478,7 @@ namespace CardStock.CardEngine
         public int GetHashCode(Tuple<CardGame, int> tuple)
         {
             int hash = 0;
-            (CardGame game, int movera) = tuple;
+            (CardGame game, _) = tuple;
             foreach (var player in game.players) { hash ^= player.GetBetterHashCode(true, playeridx); }
             foreach (var team in game.teams) { hash ^= team.GetBetterHashCode(true, playeridx); }
             hash ^= game.table[0].GetBetterHashCode(true, playeridx);

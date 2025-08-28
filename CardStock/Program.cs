@@ -1,7 +1,7 @@
 using CardStock;
 using CardStock.Evaluation;
 
-string game = "Scopa";
+string game = "Cribbage";
 int numPlayers = 2;
 
 
@@ -18,9 +18,9 @@ Experiment exp = new()
 {
     Game = game,
     PlayerCount = numPlayers,
-    NumGames = 100,
+    NumGames = 1,
     type = GameType.RndandAI, // GameType.AllRnd or GameType.AllAI
-    ai = CardStock.Players.PlayerType.PIPMCNEW,
+    ai = CardStock.Players.PlayerType.MCTS,
 };
 
 Console.WriteLine(exp.Game + ", " + exp.PlayerCount);

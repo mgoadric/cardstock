@@ -1,4 +1,5 @@
-﻿using CardStock.CardEngine;
+﻿using System.Diagnostics;
+using CardStock.CardEngine;
 using CardStock.FreezeFrame;
 
 namespace CardStock.Players
@@ -11,11 +12,13 @@ namespace CardStock.Players
         public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree = [];
         private CardGame privategame;
         private GameIterator privateiterator;
-        private static readonly int NUMTESTS = 100; //previously 20
+        private static readonly int NUMTESTS = 200; //previously 20
 
 
         public override void Explore()
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
             // GAME SIMULATIONS TEST
             (privategame, privateiterator) = perspective.GetPrivateGame();
 
@@ -23,6 +26,9 @@ namespace CardStock.Players
             {
                 RunSimulation();
             }
+
+            stopwatch.Stop();
+            Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
         }
 
         public override int Choose()
@@ -57,6 +63,7 @@ namespace CardStock.Players
             // Its key should be a state and the idx of the player in charge
 
             HashSet<Tuple<CardGame, int>> visitedstates = [];
+
             CardGame cg = privategame.Clone();
             GameIterator gameIterator = privateiterator.Clone(cg);
             for (int j = 0; j < numPlayers; j++)
@@ -77,9 +84,9 @@ namespace CardStock.Players
                 if (expand)
                 {
                     int choicenum = allOptions.Count;
-                    Tuple<CardGame, int> deliberator = Tuple.Create<CardGame, int>(cg.Clone(), idx); 
+                    Tuple<CardGame, int> deliberator = Tuple.Create<CardGame, int>(cg.Clone(), idx);
 
-                    if (!movestatetree.Keys.Contains(deliberator))
+                    if (!movestatetree.ContainsKey(deliberator))
                     {
                         movestatetree[deliberator] = new Tuple<CardGame, int>[choicenum];
                     }
@@ -120,19 +127,22 @@ namespace CardStock.Players
                 else { c = gameIterator.ProcessChoice(); }
 
                 CardGame savestate = gameIterator.game.Clone();
-               
+
                 // Stateandplayer is Tuple with state after move, and the idx of the player who made the move
                 Tuple<CardGame, int> stateandplayer = Tuple.Create<CardGame, int>(savestate, idx);
 
                 // IF THIS IS THE FIRST SIMULATION WHICH HAS ARRIVED AT THIS STATE::
-                if (expand && (!plays.Keys.Contains(stateandplayer)))
+                if (expand)
                 {
-                    expand = false;
-                    plays[stateandplayer] = 0;
-                    wins[stateandplayer] = 0;
-                    movelist[c] = stateandplayer;
+                    visitedstates.Add(stateandplayer);
+                    if (!plays.ContainsKey(stateandplayer))
+                    {
+                        expand = false;
+                        plays[stateandplayer] = 0;
+                        wins[stateandplayer] = 0;
+                        movelist[c] = stateandplayer;
+                    }
                 }
-                visitedstates.Add(stateandplayer);
             }
 
             // ProcessScore returns a sorted list 
@@ -149,38 +159,9 @@ namespace CardStock.Players
             // GO THROUGH VISITED STATES
             foreach (Tuple<CardGame, int> stateandplayer in visitedstates)
             {
-                if (plays.ContainsKey(stateandplayer))
-                {
-                    plays[stateandplayer] += 1;
-                    wins[stateandplayer] += inverseRankSum[stateandplayer.Item2];
-                }
+                plays[stateandplayer] += 1;
+                wins[stateandplayer] += inverseRankSum[stateandplayer.Item2];
             }
         }
     }
 }
-
-
-
-
-/*
-Tuple<CardGame, GameIterator> temp =  perspective.GetPrivateGame();
-privategame = temp.Item1;
-privateiterator = temp.Item2;
-
-// TEST CLONE 
-if (perspective.TestingClone())
-{ Console.WriteLine("Clone Equals"); }
-else { Console.WriteLine(("Doesn't Equal")); }
-
-// TEST CLONESECRET
-perspective.TestingCloneSecret();
-
-// TEST CLONESECRETCLONE
-perspective.TestCloneSecretClone();
-
-//HASHCODE TESTING
-CardGame simgame = privateiterator.game.Clone();
-CardGame test = simgame.Clone();
-if (simgame.Equals(test)) { Console.WriteLine("equality check"); }
-Console.WriteLine("simgame hash: " + simgame.GetHashCode() + " vs. test hash: " + test.GetHashCode());
-*/

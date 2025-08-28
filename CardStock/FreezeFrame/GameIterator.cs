@@ -1228,7 +1228,7 @@ namespace CardStock.FreezeFrame
 
         private CardForgetAction ProcessRemove(RecycleParser.RemoveactionContext removeAction)
         {
-            return new CardForgetAction(ProcessCard(removeAction.card()));
+            return new CardForgetAction(ProcessCard(removeAction.card()), script);
         }
 
         private ShuffleAction ProcessShuffle(CardLocReference locations)

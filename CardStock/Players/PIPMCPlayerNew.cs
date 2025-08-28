@@ -6,7 +6,7 @@ namespace CardStock.Players
 {
     public class PIPMCPlayerNew(Perspective perspective) : AIPlayer(perspective)
     {
-        private static readonly int NUMTESTS = 1000; //previously 20
+        private static readonly int NUMTESTS = 20; //previously 20
         private static readonly int NUMSAMPLES = 10;
 
         private int[] completed;
