@@ -155,11 +155,11 @@ namespace CardStock {
                         for (int j = 0; j < results.Count; ++j)
                         {
 
-                            aggregator[results[j].Item2, i / exp.NumGames] += results[j].Item1;
+                            aggregator[results[j].Item2, i] += results[j].Item1;
 
                             if (j != 0 && results[j].Item1 != results[j - 1].Item1)
                             {
-                                playerRank[results[j].Item2, i / exp.NumGames] += j;
+                                playerRank[results[j].Item2, i] += j;
                                 if (topRank == 0)
                                 {
                                     numWinners = j;
@@ -169,7 +169,7 @@ namespace CardStock {
                             }
                             else
                             {
-                                playerRank[results[j].Item2, i / exp.NumGames] += topRank;
+                                playerRank[results[j].Item2, i] += topRank;
                             }
 
                         }
@@ -178,7 +178,7 @@ namespace CardStock {
                         {
                             if (j == 0 || results[j].Item1 == results[j - 1].Item1)
                             {
-                                playerFirst[results[j].Item2, i / exp.NumGames] += 1.0 / numWinners;
+                                playerFirst[results[j].Item2, i] += 1.0 / numWinners;
                             }
                             else
                             {
