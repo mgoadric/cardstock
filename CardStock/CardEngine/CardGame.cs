@@ -395,12 +395,12 @@ namespace CardStock.CardEngine
             //{ Console.WriteLine("Source Deck not equal"); return false; }
 
             if (!table[0].Equals(othergame.table[0]))
-            { return false; }
+            { //Console.WriteLine("Tables are not equal.");
+                return false; }
 
             if (!players.SequenceEqual(othergame.players))
             { //Console.WriteLine("Player list not equal");
-                return false;
-            }
+                return false; }
 
             if (!teams.SequenceEqual(othergame.teams))
             { Console.WriteLine("Team List not equal"); return false; }

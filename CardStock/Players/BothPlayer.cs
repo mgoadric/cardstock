@@ -5,16 +5,23 @@ using CardStock.FreezeFrame;
 namespace CardStock.Players
 {
     //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
-    public class MCTSPLayer(Perspective perspective) : AIPlayer(perspective)
+    public class BothPlayer(Perspective perspective) : AIPlayer(perspective)
     {
-        public Dictionary<Tuple<CardGame, int>, int> plays = []; 
+        public Dictionary<Tuple<CardGame, int>, int> plays = [];
+        public double[] choiceplays;
+        public double[] movescores;
         public Dictionary<Tuple<CardGame, int>, double> wins = [];
         public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree = [];
         private CardGame privategame;
         private GameIterator privateiterator;
 
-        public double[] choiceplays;
-        public double[] movescores;
+
+        private int[] completed;
+
+        private double[][] rankSum;
+        private double[][] scoreSum;
+
+        private List<Tuple<CardGame, GameIterator>> determinizations;
 
         public override void Explore()
         {
@@ -33,10 +40,68 @@ namespace CardStock.Players
             }
             stopwatch.Stop();
             Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
+            Console.WriteLine("{0}", string.Join(", ", choiceplays));
+
+            // https://stackoverflow.com/questions/16376191/measuring-code-execution-time-in-this-code
+            Stopwatch stopwatch2 = Stopwatch.StartNew();
+            completed = new int[numChoices];
+
+            rankSum = new double[perspective.NumberOfPlayers()][];
+            for (int i = 0; i < perspective.NumberOfPlayers(); i++)
+            {
+                rankSum[i] = new double[numChoices];
+            }
+
+            scoreSum = new double[perspective.NumberOfPlayers()][];
+            for (int i = 0; i < perspective.NumberOfPlayers(); i++)
+            {
+                scoreSum[i] = new double[numChoices];
+            }
+
+            // MAKE THIS MANY DETERMINIZATIONS
+            determinizations = [];
+            for (int det = 0; det < GameSimulator.NUMSAMPLES; det++)
+            {
+                determinizations.Add(perspective.GetPrivateGame());
+            }
+
+            // FOR EACH POSSIBLE MOVE
+            for (int i = 0; i < GameSimulator.NUMTESTS / GameSimulator.NUMSAMPLES; i++)
+            {
+                // USE THIS MANY DETERMINIZATIONS
+                for (int det = 0; det < GameSimulator.NUMSAMPLES; det++)
+                {
+                    // AND RUN THIS MANY ROLLOUTS
+                    Parallel.For(0, numChoices, move =>   //number of tests for certain decision
+                    {
+
+                        RunSimulation(det, move);
+
+                    });
+                }
+            }
+            stopwatch2.Stop();
+            Console.WriteLine("Time: " + stopwatch2.ElapsedMilliseconds);
+            Console.WriteLine("{0}", string.Join(", ", completed));
         }
 
         public override int Choose()
         {
+
+            int myidx = perspective.GetIdx();
+            double[] moverankingarray = new double[numChoices];
+            Tuple<CardGame, int>[] movestates = movestatetree[new Tuple<CardGame, int>(privategame, myidx)];
+            for (int x = 0; x < numChoices; x++)
+            {
+                if (movestates[x] != null)
+                {
+                    Tuple<CardGame, int> stateandplayer = movestates[x];
+                    moverankingarray[x] = wins[stateandplayer] / plays[stateandplayer];
+                    //Console.WriteLine(plays[stateandplayer]);
+                }
+            }
+            
+
 
             for (int m = 0; m < numChoices; m++)
             {
@@ -51,6 +116,21 @@ namespace CardStock.Players
             Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
             Console.WriteLine("{0}", string.Join(", ", movescores));
 
+
+            for (int i = 0; i < numPlayers; i++)
+            {
+                for (int m = 0; m < numChoices; m++)
+                {
+                    scoreSum[i][m] /= completed[m];
+                    rankSum[i][m] /= completed[m];
+                }
+            }
+
+            // FIND BEST (and worst) MOVE TO MAKE
+            var (min2, max2) = MinMaxIdx(scoreSum[perspective.GetIdx()]);
+
+            Console.WriteLine(perspective.GetIdx() + " choosing move " + max2);
+            Console.WriteLine("{0}", string.Join(", ", scoreSum[perspective.GetIdx()]));
             return max;
         }
 
@@ -76,7 +156,7 @@ namespace CardStock.Players
             bool first = true;
             Tuple<CardGame, int> og = null;
             int om = -1;
-            
+
             // "Playing a simulated game"
             // Should be loop that stops when you hit GameSimulator.CHOICELIMIT
             while (!gameIterator.AdvanceToChoice())
@@ -90,7 +170,6 @@ namespace CardStock.Players
 
                     int choicenum = allOptions.Count;
                     Tuple<CardGame, int> deliberator = Tuple.Create(cg.Clone(), idx);
-
                     if (!movestatetree.ContainsKey(deliberator))
                     {
                         movestatetree[deliberator] = new Tuple<CardGame, int>[choicenum];
@@ -162,6 +241,7 @@ namespace CardStock.Players
             foreach (Tuple<CardGame, int> stateandplayer in visitedstates)
             {
                 plays[stateandplayer] += 1;
+
                 for (int j = 0; j < numPlayers; j++)
                 {
                     if (winners[j].Item2 == stateandplayer.Item2)
@@ -171,8 +251,66 @@ namespace CardStock.Players
                         {
                             movescores[om] += winners[j].Item1 * mult;
                             //Console.WriteLine(movescores[om]);
-                        }                    }
+                        }
+                    }
                 }
+            }
+        }
+        
+        
+        public void RunSimulation(int det, int move)
+        {
+            CardGame cg = determinizations[det].Item1.Clone();
+            GameIterator cloneContext = determinizations[det].Item2.Clone(cg);
+
+            // Make the chosen move
+            List<GameActionCollection> allOptions = cloneContext.BuildOptions();
+            allOptions[move].ExecuteAll();
+            cloneContext.PopCurrentNode();
+
+            // Assign the AI players for rollout game, with the 
+            // selected item chosen first when you get your turn
+            for (int j = 0; j < numPlayers; j++)
+            {
+                cg.players[j].decision = new RandomPlayer(perspective);
+            }
+
+            // Play the game until termination  WHAT ABOUT NONTERMINAL GAMES???
+            // Do a cutoff like ParseEngine does at 200???
+            // WHO WINS IN THOSE GAMES??
+            int count = 0;
+            while (!cloneContext.AdvanceToChoice())
+            {
+                cloneContext.ProcessChoice();
+                count++;
+                if (count > GameSimulator.CHOICELIMIT)
+                {
+                    break;
+                }
+            }
+
+            // ProcessScore returns a sorted list 
+            // where the winner is rank 0 for either min/max games.
+            var (winners, mult) = cloneContext.ProcessScore();
+
+            int topRank = 0;
+            lock (this)
+            {
+                for (int j = 0; j < numPlayers; ++j)
+                {
+                    if (j != 0 && winners[j].Item1 != winners[j - 1].Item1)
+                    {
+                        topRank = j;
+                    }
+
+                    // OLD RANK BASED 
+                    rankSum[winners[j].Item2][move] += (double)topRank;
+
+                    // NEW VALUE BASED
+                    scoreSum[winners[j].Item2][move] += (double)winners[j].Item1 * mult;
+
+                }
+                completed[move]++;
             }
         }
     }

@@ -6,7 +6,6 @@ namespace CardStock.Players
 {
     public class PIPMCPlayer(Perspective perspective) : AIPlayer(perspective)
     {
-        private static readonly int NUMTESTS = 10; //previously 20
 
         private double[][] rankSum;
 
@@ -27,7 +26,7 @@ namespace CardStock.Players
             for (int move = 0; move < numChoices; ++move)
             {
 
-                Parallel.For(0, NUMTESTS, i =>   //number of tests for certain decision
+                Parallel.For(0, GameSimulator.NUMTESTS, i =>   //number of tests for certain decision
                 {
                     // USE A SEPERATE CLONESECRET FOR EACH GAME
                     (CardGame cg, GameIterator cloneContext) = perspective.GetPrivateGame();
@@ -65,7 +64,7 @@ namespace CardStock.Players
                                 topRank = j;
                             }
 
-                            rankSum[winners[j].Item2][move] += (double)topRank / NUMTESTS;
+                            rankSum[winners[j].Item2][move] += (double)topRank / GameSimulator.NUMTESTS;
                         }
                     }
                 });
@@ -77,15 +76,15 @@ namespace CardStock.Players
         
         public override int Choose() {
             // FIND BEST (and worst) MOVE TO MAKE
-            var tup = MinMaxIdx(rankSum[perspective.GetIdx()]);
+            var (min, max) = MinMaxIdx(rankSum[perspective.GetIdx()]);
 
-            Console.WriteLine(perspective.GetIdx() + " chose " + tup.Item1);
+            Console.WriteLine(perspective.GetIdx() + " chose " + min);
             Debug.WriteLine("{0}", string.Join(", ", rankSum[perspective.GetIdx()]));
 
             // Record info for heuristic evaluation
             RecordHeuristics(rankSum);
 
-            return tup.Item1;
+            return min;
         }
     }
 }

@@ -12,9 +12,10 @@ namespace CardStock {
         public Experiment exp;
         public RecycleParser.GameContext tree;
         public string fileName;
-        public const int CHOICELIMIT = 500;
-        public const int MAXPLAYERS = 10;
-
+        public const int CHOICELIMIT = 500; // The upper bound on the number of moves in a game before it is called.
+        public const int MAXPLAYERS = 10; // This makes some things easier to store as arrays.
+        public const int NUMTESTS = 200; //make 1000 for comparison.  This is PER MOVE
+        public const int NUMSAMPLES = 10; // how many determinizations the AIs should create
         public GameSimulator(Experiment exp)
         {
             this.exp = exp;
@@ -71,16 +72,16 @@ namespace CardStock {
             * THIS SHOULD ALL BE TIDY DATA
             ***********/
 
-            string filePath = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-leadstats.txt";
+            string filePath = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-" + exp.ai + "-leadstats.txt";
             FileInfo file = new(filePath);
             file.Directory.Create(); // If the directory already exists, this method does nothing.
             StreamWriter expleadfile = new(filePath);
             expleadfile.WriteLine(exp.type);
-            StreamWriter expchoicefile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-choicestats.txt");
-            expchoicefile.WriteLine("game,numPlayers,type,iteration,move,player,choices,choice");
-            StreamWriter expresultsfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-resultsstats.txt");
-            expresultsfile.WriteLine("game,numPlayers,type,iteration,player,score,rank");
-            StreamWriter expspreadfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-spreadstats.txt");
+            StreamWriter expchoicefile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-" + exp.ai + "-choicestats.txt");
+            expchoicefile.WriteLine("game,numPlayers,type,ai,iteration,move,player,choices,choice");
+            StreamWriter expresultsfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-" + exp.ai + "-resultsstats.txt");
+            expresultsfile.WriteLine("game,numPlayers,type,ai,iteration,player,score,rank");
+            StreamWriter expspreadfile = new("output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "-" + exp.ai + "-spreadstats.txt");
             expspreadfile.WriteLine(exp.type);
 
             List<List<double>>[] lead = new List<List<double>>[exp.NumGames];
@@ -208,7 +209,7 @@ namespace CardStock {
                         int m = 0;
                         foreach (Tuple<int, int, int> t in gamePlay.choiceList)
                         {
-                            expchoicefile.WriteLine(exp.Game + "," + exp.PlayerCount + "," + exp.type + "," + i + "," + m + "," + t.Item1 + "," + t.Item2 + "," + t.Item3);
+                            expchoicefile.WriteLine(exp.Game + "," + exp.PlayerCount + "," + exp.type + "," + exp.ai + "," + i + "," + m + "," + t.Item1 + "," + t.Item2 + "," + t.Item3);
                             m++;
                         }
 
@@ -238,6 +239,7 @@ namespace CardStock {
 
                     numFinished++;
                     Console.WriteLine("Finished game " + numFinished + " of " + exp.NumGames);
+
                     
                 }
                 catch (Exception e)
@@ -260,7 +262,7 @@ namespace CardStock {
             {
                 for (int j = 0; j < exp.NumGames; j++)
                 {
-                    expresultsfile.WriteLine(exp.Game + "," + exp.PlayerCount + "," + exp.type + "," + j + "," + i + "," + aggregator[i, j] / (double)exp.NumGames + "," + playerRank[i, j] / (double)exp.NumGames);
+                    expresultsfile.WriteLine(exp.Game + "," + exp.PlayerCount + "," + exp.type + "," + exp.ai + "," + j + "," + i + "," + aggregator[i, j] + "," + playerRank[i, j]);
                 }
             }
             
@@ -268,6 +270,7 @@ namespace CardStock {
             expchoicefile.Close();
             expresultsfile.Close();
             expspreadfile.Close();
+
             return true;
         }
 

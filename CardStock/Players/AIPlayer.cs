@@ -36,7 +36,7 @@ namespace CardStock.Players
 
         public abstract int Choose();
 
-        public static Tuple<int, int> MinMaxIdx(double[] input)
+        public static (int min, int max) MinMaxIdx(double[] input)
         {
             double min = double.MaxValue;
             double max = double.MinValue;
@@ -55,7 +55,7 @@ namespace CardStock.Players
                     minIdx = i;
                 }
             }
-            return new Tuple<int, int>(minIdx, maxIdx);
+            return (minIdx, maxIdx);
         }
 
         // CODE FOR UPDATING STATISTICS FOR HEURISTICS

@@ -38,9 +38,9 @@ namespace CardStock.Players
                     moverankingarray[x] = wins[stateandplayer] / plays[stateandplayer];
                 }
             }
-            Tuple<int, int> worstandbest = MinMaxIdx(moverankingarray);
+            var (min, max)= MinMaxIdx(moverankingarray);
 
-            return worstandbest.Item2;
+            return max;
         }
 
         public void RunSimulation()

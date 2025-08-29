@@ -59,13 +59,13 @@ namespace CardStock.Players
                     moverankingarray[x] = wins[stateandplayer] / plays[stateandplayer];
                 }
             }
-            Tuple<int, int> worstandbest = MinMaxIdx(moverankingarray);
+            var (min, max) = MinMaxIdx(moverankingarray);
 
             // TODO THIS IS MISSING LEAD HISTORY RECORDING!!
             // Record info for heuristic evaluation
             //RecordHeuristics(rankSum);
 
-            return worstandbest.Item2;
+            return max;
         }
 
         public void RunSimulation()
