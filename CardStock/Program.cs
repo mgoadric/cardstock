@@ -1,8 +1,8 @@
-using CardStock;
 using CardStock.Evaluation;
+using CardStock.Players;
 
-string game = "Agram";
-int numPlayers = 3;
+string game = "Scopa";
+int numPlayers = 2;
 
 
 /*
@@ -18,17 +18,16 @@ Experiment exp = new()
 {
     Game = game,
     PlayerCount = numPlayers,
-    NumGames = 100,
+    NumGames = 1,
     type = GameType.RndandAI, // GameType.AllRnd or GameType.AllAI
-    ai = CardStock.Players.PlayerType.MCTS,
+    AI = PlayerType.PIPMCNEW,
 };
 
 Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
 
 GameSimulator engine = new(exp);
-engine.Loader();
-var compiling = engine.Experimenter();
-
+engine.LoadGame();
+engine.RunExperiment();
 
 
 //}

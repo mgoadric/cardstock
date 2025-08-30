@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using CardStock.CardEngine;
 using CardStock.FreezeFrame;
+using CardStock.Evaluation;
 
 namespace CardStock.Players
 {
@@ -90,8 +91,7 @@ namespace CardStock.Players
             GameIterator cloneContext = determinizations[det].Item2.Clone(cg);
 
             // Make the chosen move
-            List<GameActionCollection> allOptions = cloneContext.BuildOptions();
-            allOptions[move].ExecuteAll();
+            cloneContext.BuildOptions()[move].ExecuteAll();
             cloneContext.PopCurrentNode();
 
             // Assign the AI players for rollout game, with the 

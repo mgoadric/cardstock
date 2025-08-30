@@ -1,10 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 using System.Text;
 using Antlr4.Runtime.Tree;
 
-namespace CardStock
+namespace CardStock.Evaluation
 {
     public class DotVisualization
     {
