@@ -5,19 +5,15 @@ using CardStock.CardEngine;
 using CardStock.Players;
 
 namespace CardStock.Evaluation {
-    public partial class GameSimulator
+    public partial class GameSimulator(Experiment exp)
     {
 
-        public Experiment exp;
-        public RecycleParser.GameContext tree;
+        private readonly Experiment exp = exp;
+        private RecycleParser.GameContext tree;
         public const int MAXPLAYERS = 9; // This makes some things easier to store as arrays.
         public const int CHOICELIMIT = 500; // The upper bound on the number of moves in a game before it is called.
-        public const int NUMTESTS = 1000; //make 1000 for comparison.  This is PER MOVE
+        public const int NUMTESTS = 20; //make 1000 for comparison.  This is PER MOVE
         public const int NUMSAMPLES = 10; // how many determinizations the AIs should create
-        public GameSimulator(Experiment exp)
-        {
-            this.exp = exp;
-        }
 
         public void LoadGame() {
 
@@ -75,14 +71,19 @@ namespace CardStock.Evaluation {
                 {
                     GC.Collect();
 
+                    string path = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "/" + exp.AI + "/simulation/";
+                    FileInfo file = new(path);
+                    file.Directory.Create();
+
                     CardGame game = new();
-                    var gamePlay = new FreezeFrame.GameIterator(tree, game, "output/" + exp.Game + "/" + exp.PlayerCount + "/simulation" + i + exp.type);
+                    var gamePlay = new FreezeFrame.GameIterator(tree, game, "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "/" + exp.AI + "/simulation/" + i);
                     if (game.players.Length > MAXPLAYERS)
                     {
                         Console.WriteLine("Too many players, max is " + MAXPLAYERS);
                         throw new Exception();
                     }
 
+                    // Make this more abstract, so we can have PvP instead of only P vs Random.
                     if (exp.type == GameType.AllAI)
                     {
                         Console.WriteLine("Making players");
@@ -134,7 +135,6 @@ namespace CardStock.Evaluation {
         
             time.Stop();
 
-            dc.Aggregate();
             dc.Close();
 
             return true;

@@ -9,10 +9,6 @@ namespace CardStock.Evaluation
         private readonly Dictionary<string, StreamWriter> dataFiles = [];
         private readonly Experiment exp;
 
-        private readonly int[,] aggregator;
-        private readonly int[,] playerRank;
-        private readonly double[,] playerFirst;
-
         public DataCollector(Experiment exp)
         {
             this.exp = exp;
@@ -35,10 +31,6 @@ namespace CardStock.Evaluation
             CSVOutput("choice", "game", "numPlayers", "type,ai", "run", "move", "player", "choices", "choice");
             CSVOutput("results", "game", "numPlayers", "type,ai", "run", "player", "score", "rank");
             dataFiles["spread"].WriteLine(exp.type);
-
-            aggregator = new int[GameSimulator.MAXPLAYERS, exp.NumGames];
-            playerRank = new int[GameSimulator.MAXPLAYERS, exp.NumGames];
-            playerFirst = new double[GameSimulator.MAXPLAYERS, exp.NumGames];
         }
 
         private void CSVOutput(string file, params object[] values)
@@ -54,29 +46,32 @@ namespace CardStock.Evaluation
             lock (this)
             {
 
+                int aggregator = 0;
+                int playerRank = 0;
                 int topRank = 0;
                 int numWinners = 1;
 
+                /*******
+                 * Record rank and results
+                 ******/
                 for (int j = 0; j < results.Count; ++j)
                 {
-
-                    aggregator[results[j].Item2, run] += results[j].Item1;
+                    aggregator += results[j].Item1;
 
                     if (j != 0 && results[j].Item1 != results[j - 1].Item1)
                     {
-                        playerRank[results[j].Item2, run] += j;
+                        playerRank += j;
                         if (topRank == 0)
                         {
                             numWinners = j;
                         }
                         topRank = j;
-
                     }
                     else
                     {
-                        playerRank[results[j].Item2, run] += topRank;
+                        playerRank += topRank;
                     }
-
+                    CSVOutput("results", exp.Game, exp.PlayerCount, exp.type, exp.AI, run, results[j].Item2, aggregator, playerRank);
                 }
 
                 /*****
@@ -117,17 +112,6 @@ namespace CardStock.Evaluation
                     dataFiles["spread"].Write(s.Item1 + ",");
                 }
                 dataFiles["spread"].WriteLine();
-            }
-        }
-
-        public void Aggregate()
-        {
-            for (int player = 0; player < exp.PlayerCount; player++)
-            {
-                for (int run = 0; run < exp.NumGames; run++)
-                {
-                    CSVOutput("results", exp.Game, exp.PlayerCount, exp.type, exp.AI, run, player, aggregator[player, run], playerRank[player, run]);
-                }
             }
         }
 

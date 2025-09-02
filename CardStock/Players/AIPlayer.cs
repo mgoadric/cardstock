@@ -18,6 +18,7 @@ namespace CardStock.Players
         protected int numPlayers = perspective.NumberOfPlayers();
         protected Perspective perspective = perspective;
         protected List<double> leadList = [];
+        protected DataCollector dc;
 
         public int numChoices;
 

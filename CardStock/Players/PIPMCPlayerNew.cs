@@ -57,7 +57,6 @@ namespace CardStock.Players
             }
             stopwatch.Stop();
             Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
-            Console.WriteLine("{0}", string.Join(", ", completed));
         }
 
         public override int Choose()

@@ -8,6 +8,7 @@ int numPlayers = 2;
 /*
 // Test them all
 string[] files = Directory.GetFiles("games/", "*.rcy");
+Array.Sort(files);
 foreach (string filename in files)
 {
     string game = filename[6..^5];
@@ -18,9 +19,9 @@ Experiment exp = new()
 {
     Game = game,
     PlayerCount = numPlayers,
-    NumGames = 1,
-    type = GameType.RndandAI, // GameType.AllRnd or GameType.AllAI
-    AI = PlayerType.PIPMCNEW,
+    NumGames = 100,
+    type = GameType.AllRnd, // GameType.AllRnd or GameType.AllAI
+    AI = PlayerType.RANDOM,
 };
 
 Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
