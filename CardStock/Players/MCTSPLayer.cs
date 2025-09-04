@@ -36,7 +36,7 @@ namespace CardStock.Players
             Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
         }
 
-        public override int Choose()
+        public override int ChooseOption()
         {
 
             for (int m = 0; m < numChoices; m++)

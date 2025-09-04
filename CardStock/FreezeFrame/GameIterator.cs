@@ -15,9 +15,6 @@ namespace CardStock.FreezeFrame
         public RecycleParser.GameContext rules;
         public CardGame game;
         public int totalChoices;
-        public List<Tuple<int, int, int>> choiceList = [];
-        public List<Tuple<int, double[]>> allLeadList = [];
-        public List<Tuple<int, double>> spreadList = [];
 
         public GameIterator(RecycleParser.GameContext context, CardGame mygame, string fileName, bool fresh = true)
         {
@@ -80,16 +77,6 @@ namespace CardStock.FreezeFrame
             return ret;
         }
 
-        public void AddLeadsList(Tuple<int, double[]> leads)
-        {
-            allLeadList.Add(leads);
-        }
-
-        public void AddSpreadList(Tuple<int, double> spreads)
-        {
-            spreadList.Add(spreads);
-        }
-
         public IParseTree CurrentNode()
         {
             var ret = iterStack.Peek().Peek();
@@ -133,31 +120,7 @@ namespace CardStock.FreezeFrame
         {
             var allOptions = BuildOptions();
 
-            /* DEBUG
-            Console.WriteLine("There are " + allOptions.Count + " options...");
-            foreach (GameActionCollection gac in allOptions)
-            {
-                Console.WriteLine("New action list!");
-                foreach (GameAction action in gac)
-                {
-                    Console.WriteLine("\t" + action);
-                }
-            }
-            */
-
-
-            int choice = game.PlayerMakeChoice(allOptions.Count, game.CurrentPlayer().idx);
-
-            if (allOptions.Count != 0)
-            {
-                Debug.WriteLine("processed choices");
-                Debug.WriteLine("Choice count for P" + game.CurrentPlayer().idx + ":" + allOptions.Count);
-                allOptions[choice].ExecuteAll();
-
-                Debug.WriteLine("player choice made");
-                Debug.WriteLine(game.CurrentPlayer().memberList.Count);
-            }
-            else
+            if (allOptions.Count == 0)
             {
                 Console.WriteLine("NO Choice Available");
                 var bins = game.players[game.CurrentPlayer().idx].cardBins;
@@ -168,8 +131,11 @@ namespace CardStock.FreezeFrame
                 throw new InvalidOperationException();
             }
 
+            Debug.WriteLine("processed choices");
+            Debug.WriteLine("Choice count for P" + game.CurrentPlayer().idx + ":" + allOptions.Count);
+            int choice = game.PlayerMakeChoice(allOptions.Count, game.CurrentPlayer().idx);
+            allOptions[choice].ExecuteAll();
             PopCurrentNode();
-            choiceList.Add(new Tuple<int, int, int>(game.CurrentPlayer().idx, allOptions.Count, choice));
             totalChoices++;
             return choice;
         }
@@ -202,9 +168,9 @@ namespace CardStock.FreezeFrame
             throw new Exception();
         }
 
-        public Tuple<List<Tuple<int, int>>, int> ProcessScore()
+        public (List<Tuple<int, int>> results, int mult) ProcessScore()
         {
-            var ret = new List<Tuple<int, int>>();
+            var results = new List<Tuple<int, int>>();
             var scoreMethod = rules.scoring();
 
             game.PushPlayer();
@@ -213,21 +179,21 @@ namespace CardStock.FreezeFrame
             {
                 var working = ProcessInt(scoreMethod.@int());
                 script.WriteToFile("S:" + working + " " + i);
-                ret.Add(new Tuple<int, int>(working, i));
+                results.Add(new Tuple<int, int>(working, i));
                 game.CurrentPlayer().Next();
                 script.WriteToFile("T:" + game.CurrentPlayer().CurrentName());
             }
             game.PopPlayer();
 
-            ret.Sort();
+            results.Sort();
             int mult = -1;
             if (scoreMethod.GetChild(2).GetText() == "max")
             {
-                ret.Reverse();
+                results.Reverse();
                 mult = 1;
             }
 
-            return new Tuple<List<Tuple<int, int>>, int>(ret, mult);
+            return (results, mult);
         }
 
         /************
@@ -245,19 +211,18 @@ namespace CardStock.FreezeFrame
             {
                 Debug.WriteLine("Creating players.");
                 var playerCreate = setupNode.playercreate() as RecycleParser.PlayercreateContext;
-                var numPlayers = 2;
                 if (playerCreate.@int() is not null)
                 {
-                    numPlayers = ProcessInt(playerCreate.@int());
+                    var numPlayers = ProcessInt(playerCreate.@int());
+                    script.WriteToFile("#:" + numPlayers);
+                    game.AddPlayers(numPlayers, this);
+                    script.WriteToFile("T:" + game.currentPlayer.Peek().CurrentName());
                 }
                 else
                 {
                     // Where is the int?
                     throw new Exception();
                 }
-                script.WriteToFile("#:" + numPlayers);
-                game.AddPlayers(numPlayers, this);
-                script.WriteToFile("T:" + game.currentPlayer.Peek().CurrentName());
             }
 
             Debug.WriteLine("Creating teams.");
@@ -290,7 +255,7 @@ namespace CardStock.FreezeFrame
 
             return ret;
         }
-        private List<List<int>> ProcessTeamCreate(RecycleParser.TeamcreateContext? teamcreate, CardGame cg)
+        private static List<List<int>> ProcessTeamCreate(RecycleParser.TeamcreateContext? teamcreate, CardGame cg)
         {
             var ret = new List<List<int>>();
             if (teamcreate is not null)

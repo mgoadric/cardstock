@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CardStock.Evaluation;
 
 namespace CardStock.Players
 {
@@ -17,7 +18,7 @@ namespace CardStock.Players
         /*****
          * Use the provided RNG to pick a random action
          */
-        public override int Choose()
+        public override int ChooseOption()
         {
             return ThreadSafeRandom.Next(0, numChoices);
         }

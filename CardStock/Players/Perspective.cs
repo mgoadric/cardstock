@@ -26,15 +26,6 @@ namespace CardStock.Players
         public int NumberOfPlayers()
         { return actualgameiterator.game.players.Length; }
 
-        public void AddLeadsList(Tuple<int, double[]> leads) {
-            actualgameiterator.AddLeadsList(leads);
-        }
-
-        public void AddSpreadList(Tuple<int, double> spreads)
-        {
-            actualgameiterator.AddSpreadList(spreads);
-        }
-
         public int GetIdx()
         { return idx; }
 

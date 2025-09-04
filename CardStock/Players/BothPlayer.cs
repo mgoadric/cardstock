@@ -86,7 +86,7 @@ namespace CardStock.Players
             Console.WriteLine("{0}", string.Join(", ", completed));
         }
 
-        public override int Choose()
+        public override int ChooseOption()
         {
 
             int myidx = perspective.GetIdx();

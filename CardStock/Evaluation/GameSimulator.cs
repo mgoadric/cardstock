@@ -76,7 +76,7 @@ namespace CardStock.Evaluation {
                     file.Directory.Create();
 
                     CardGame game = new();
-                    var gamePlay = new FreezeFrame.GameIterator(tree, game, "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "/" + exp.AI + "/simulation/" + i);
+                    var gamePlay = new FreezeFrame.GameIterator(tree, game, path + i);
                     if (game.players.Length > MAXPLAYERS)
                     {
                         Console.WriteLine("Too many players, max is " + MAXPLAYERS);
@@ -84,42 +84,42 @@ namespace CardStock.Evaluation {
                     }
 
                     // Make this more abstract, so we can have PvP instead of only P vs Random.
-                    if (exp.type == GameType.AllAI)
+                    for (int j = 0; j < game.players.Length; j++)
                     {
-                        Console.WriteLine("Making players");
-                        for (int j = 0; j < game.players.Length; j++)
+                        Perspective perspective = new(j, gamePlay);
+
+                        if ((j == 0 && exp.type == GameType.RndandAI) || exp.type == GameType.AllAI)
                         {
-                            Perspective perspective = new(j, gamePlay);
                             game.players[j].decision = exp.AI.AI(perspective);
                         }
-                    }
-                    else if (exp.type == GameType.RndandAI)
-                    {
-                        Perspective perspective = new(0, gamePlay);
-                        game.players[0].decision = exp.AI.AI(perspective);
+                        else
+                        {
+                            game.players[j].decision = PlayerType.RANDOM.AI(perspective);
+                        }
+                        game.players[j].decision.dc = dc;
                     }
 
                     /*********
-                     * PLAY THE GAME
-                     ***********/
-                    while (!gamePlay.AdvanceToChoice())
-                    {
-                        gamePlay.ProcessChoice();
-
-                        if (gamePlay.totalChoices > CHOICELIMIT)
+                         * PLAY THE GAME
+                         ***********/
+                        while (!gamePlay.AdvanceToChoice())
                         {
-                            Console.WriteLine("Game " + (i + 1) + " Choices not processed (probably infinite loop)");
-                            //compiling = false;
-                            break;
+                            gamePlay.ProcessChoice();
+
+                            if (gamePlay.totalChoices > CHOICELIMIT)
+                            {
+                                Console.WriteLine("Game " + (i + 1) + " Choices not processed (probably infinite loop)");
+                                //compiling = false;
+                                break;
+                            }
                         }
-                    }
 
                     var (results, mult) = gamePlay.ProcessScore();
 
                     /************
                      * WRITE OUT STATS
                      *************/
-                    dc.RecordGameStatistics(i, results, mult, gamePlay.choiceList, gamePlay.allLeadList, gamePlay.spreadList);
+                    dc.RecordGameStatistics(i, results, mult);
 
                     numFinished++;
                     Console.WriteLine("Finished game " + numFinished + " of " + exp.NumGames);

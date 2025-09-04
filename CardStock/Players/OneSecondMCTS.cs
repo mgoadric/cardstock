@@ -1,4 +1,5 @@
 ﻿using CardStock.CardEngine;
+using CardStock.Evaluation;
 using CardStock.FreezeFrame;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace CardStock.Players
 
         }
 
-        public override int Choose()
+        public override int ChooseOption()
         {
             int myidx = perspective.GetIdx();
             double[] moverankingarray = new double[numChoices];

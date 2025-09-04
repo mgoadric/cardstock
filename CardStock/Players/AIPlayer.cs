@@ -1,8 +1,4 @@
-﻿﻿using System;
-using System.Collections.Generic;
-using CardStock.CardEngine;
-using CardStock.Evaluation;
-using CardStock.FreezeFrame;
+﻿﻿using CardStock.Evaluation;
 
 namespace CardStock.Players
 {
@@ -17,8 +13,9 @@ namespace CardStock.Players
     {
         protected int numPlayers = perspective.NumberOfPlayers();
         protected Perspective perspective = perspective;
+        protected DataCollector dataCollector;
         protected List<double> leadList = [];
-        protected DataCollector dc;
+        public DataCollector dc;
 
         public int numChoices;
 
@@ -30,12 +27,18 @@ namespace CardStock.Players
          */
         public abstract void Explore();
 
-         /*********
-         * For Choose, The AIPlayer
-         * is expected to return an int which is the index of their chosen move.
-         */
+        /*********
+        * For Choose, The AIPlayer
+        * is expected to return an int which is the index of their chosen move.
+        */
+        public int Choose()
+        {
+            int choice = ChooseOption();
+            dc?.AddChoiceList(new Tuple<int, int, int>(perspective.GetIdx(), numChoices, choice));
+            return choice;
+        }
 
-        public abstract int Choose();
+        public abstract int ChooseOption();
 
         public static (int min, int max) MinMaxIdx(double[] input)
         {
@@ -60,7 +63,8 @@ namespace CardStock.Players
         }
 
         // CODE FOR UPDATING STATISTICS FOR HEURISTICS
-        public void RecordHeuristics(double[][] rankSums) 
+        // CAN WE MOVE THIS INSIDE Choose? So it happens for everyone?
+        public void RecordHeuristics(double[][] rankSums)
         {
             double[] rankSum = rankSums[perspective.GetIdx()];
             double[] myLeadView = new double[rankSums.Length];
@@ -70,7 +74,7 @@ namespace CardStock.Players
 
             for (int item = 0; item < rankSum.Length; ++item)
             {
-                wrs[item] = ((numPlayers - 1) - rankSum[item]) /
+                wrs[item] = (numPlayers - 1 - rankSum[item]) /
                     (numPlayers - 1);
             }
 
@@ -81,13 +85,14 @@ namespace CardStock.Players
             // should this be on actual scores, not ranks?
             var variance = Math.Abs(best - worst);
 
-            for (int i = 0; i < myLeadView.Length; i++) {
-                myLeadView[i] = ((numPlayers - 1) - rankSums[i][minidx]) /
+            for (int i = 0; i < myLeadView.Length; i++)
+            {
+                myLeadView[i] = (numPlayers - 1 - rankSums[i][minidx]) /
                     (numPlayers - 1);
                 //Console.WriteLine("Converted " + rankSums[i][maxidx] + " into " + myLeadView[i]);
             }
-            perspective.AddLeadsList(new Tuple<int, double[]>(perspective.GetIdx(), myLeadView));
-            perspective.AddSpreadList(new Tuple<int, double>(perspective.GetIdx(), variance));
+            dc.AddLeadsList(new Tuple<int, double[]>(perspective.GetIdx(), myLeadView));
+            dc.AddSpreadList(new Tuple<int, double>(perspective.GetIdx(), variance));
 
             leadList.Add(best);
         }

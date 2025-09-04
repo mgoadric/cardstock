@@ -59,7 +59,7 @@ namespace CardStock.Players
             Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
         }
 
-        public override int Choose()
+        public override int ChooseOption()
         {
             for (int i = 0; i < numPlayers; i++)
             {

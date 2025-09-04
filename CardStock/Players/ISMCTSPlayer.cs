@@ -69,7 +69,7 @@ namespace CardStock.Players
             // }
         }
 
-        public override int Choose()
+        public override int ChooseOption()
         {
             int myidx = perspective.GetIdx();
             double[] moverankingarray = new double[numChoices];

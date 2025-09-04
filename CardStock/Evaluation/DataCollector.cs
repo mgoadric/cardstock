@@ -9,6 +9,10 @@ namespace CardStock.Evaluation
         private readonly Dictionary<string, StreamWriter> dataFiles = [];
         private readonly Experiment exp;
 
+        public List<Tuple<int, int, int>> choiceList = [];
+        public List<Tuple<int, double[]>> allLeadList = [];
+        public List<Tuple<int, double>> spreadList = [];
+
         public DataCollector(Experiment exp)
         {
             this.exp = exp;
@@ -38,8 +42,7 @@ namespace CardStock.Evaluation
             dataFiles[file].WriteLine(string.Join(",", values));
         }
 
-        public void RecordGameStatistics(int run, List<Tuple<int, int>> results, int mult, List<Tuple<int, int, int>> choiceList,
-                                        List<Tuple<int, double[]>> allLeadList, List<Tuple<int, double>> spreadList)
+        public void RecordGameStatistics(int run, List<Tuple<int, int>> results, int mult)
         {
             // TODO Should we move the choice, allLead, and spread lists to live here?
             // Maybe give the DataCollector to the GameIterator????
@@ -115,6 +118,20 @@ namespace CardStock.Evaluation
             }
         }
 
+        public void AddLeadsList(Tuple<int, double[]> leads)
+        {
+            allLeadList.Add(leads);
+        }
+
+        public void AddSpreadList(Tuple<int, double> spreads)
+        {
+            spreadList.Add(spreads);
+        }
+
+        public void AddChoiceList(Tuple<int, int, int> choices)
+        {
+            choiceList.Add(choices);
+        }
         public void Close()
         {
             foreach (StreamWriter file in dataFiles.Values)

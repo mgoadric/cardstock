@@ -75,7 +75,7 @@ namespace CardStock.Players
 
         }
         
-        public override int Choose() {
+        public override int ChooseOption() {
             // FIND BEST (and worst) MOVE TO MAKE
             var (min, max) = MinMaxIdx(rankSum[perspective.GetIdx()]);
 
