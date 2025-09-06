@@ -19,7 +19,7 @@ Experiment exp = new()
 {
     Game = game,
     PlayerCount = numPlayers,
-    NumGames = 100,
+    NumGames = 10,
     type = GameType.RndandAI, // GameType.AllRnd or GameType.AllAI
     AI = PlayerType.PIPMCNEW,
 };

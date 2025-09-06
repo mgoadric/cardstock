@@ -31,10 +31,10 @@ namespace CardStock.Evaluation
                 dataFiles[f] = new(path + f + ".csv");
             }
 
-            dataFiles["lead"].WriteLine(exp.type);
+            CSVOutput("lead", "game", "numPlayers", "type,ai", "run", "move", "recorder", "player", "rankestimate");
             CSVOutput("choice", "game", "numPlayers", "type,ai", "run", "move", "player", "choices", "choice");
             CSVOutput("results", "game", "numPlayers", "type,ai", "run", "player", "score", "rank");
-            dataFiles["spread"].WriteLine(exp.type);
+            CSVOutput("spread", "game", "numPlayers", "type,ai", "run", "pmove", "player", "spread");
         }
 
         private void CSVOutput(string file, params object[] values)
@@ -69,31 +69,25 @@ namespace CardStock.Evaluation
                 /******
                  * Record Lead
                  */
-                dataFiles["lead"].WriteLine("game" + run);
+                move = 0;
                 foreach (Tuple<int, double[]> allLeads in allLeadList)
                 {
-                    dataFiles["lead"].Write(allLeads.Item1 + ",");
                     for (int k = 0; k < exp.PlayerCount; k++)
                     {
-                        dataFiles["lead"].Write(allLeads.Item2[k] + ",");
+                        CSVOutput("lead", exp.Game, exp.PlayerCount, exp.type, exp.AI, run, move, allLeads.Item1, k, allLeads.Item2[k]);
                     }
-                    dataFiles["lead"].WriteLine();
+                    move++;
                 }
 
                 /******
                  * Record Spread
                  */
-                dataFiles["spread"].WriteLine("game" + run);
+                move = 0;
                 foreach (Tuple<int, double> s in spreadList)
                 {
-                    dataFiles["spread"].Write(s.Item2 + ",");
+                    CSVOutput("spread", exp.Game, exp.PlayerCount, exp.type, exp.AI, run, move, s.Item1, s.Item2);
+                    move++;
                 }
-                dataFiles["spread"].WriteLine();
-                foreach (Tuple<int, double> s in spreadList)
-                {
-                    dataFiles["spread"].Write(s.Item1 + ",");
-                }
-                dataFiles["spread"].WriteLine();
             }
         }
 
