@@ -11,6 +11,7 @@ namespace CardStock.Evaluation
 
         public List<Tuple<int, int, int>> choiceList = [];
         public List<Tuple<int, double[]>> allLeadList = [];
+        public List<Tuple<int, double[]>> allScoresList = [];
         public List<Tuple<int, double>> spreadList = [];
 
         public DataCollector(Experiment exp)
@@ -31,7 +32,7 @@ namespace CardStock.Evaluation
                 dataFiles[f] = new(path + f + ".csv");
             }
 
-            CSVOutput("lead", "game", "numPlayers", "type,ai", "run", "move", "recorder", "player", "rankestimate");
+            CSVOutput("lead", "game", "numPlayers", "type,ai", "run", "move", "recorder", "player", "score", "rankestimate");
             CSVOutput("choice", "game", "numPlayers", "type,ai", "run", "move", "player", "choices", "choice");
             CSVOutput("results", "game", "numPlayers", "type,ai", "run", "player", "score", "rank");
             CSVOutput("spread", "game", "numPlayers", "type,ai", "run", "pmove", "player", "spread");
@@ -69,14 +70,14 @@ namespace CardStock.Evaluation
                 /******
                  * Record Lead
                  */
-                move = 0;
-                foreach (Tuple<int, double[]> allLeads in allLeadList)
+                for (move = 0; move < allLeadList.Count; move++)
                 {
+                    Tuple<int, double[]> allLeads = allLeadList[move];
+                    Tuple<int, double[]> allScores = allScoresList[move];
                     for (int k = 0; k < exp.PlayerCount; k++)
                     {
-                        CSVOutput("lead", exp.Game, exp.PlayerCount, exp.type, exp.AI, run, move, allLeads.Item1, k, allLeads.Item2[k]);
+                        CSVOutput("lead", exp.Game, exp.PlayerCount, exp.type, exp.AI, run, move, allLeads.Item1, k, allScores.Item2[k], allLeads.Item2[k]);
                     }
-                    move++;
                 }
 
                 /******
@@ -88,6 +89,11 @@ namespace CardStock.Evaluation
                     CSVOutput("spread", exp.Game, exp.PlayerCount, exp.type, exp.AI, run, move, s.Item1, s.Item2);
                     move++;
                 }
+
+                choiceList = [];
+                allLeadList = [];
+                allScoresList = [];
+                spreadList = [];
             }
         }
 
@@ -121,6 +127,11 @@ namespace CardStock.Evaluation
         public void AddLeadsList(Tuple<int, double[]> leads)
         {
             allLeadList.Add(leads);
+        }
+
+        public void AddScoresList(Tuple<int, double[]> scores)
+        {
+            allScoresList.Add(scores);
         }
 
         public void AddSpreadList(Tuple<int, double> spreads)

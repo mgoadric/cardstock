@@ -23,7 +23,7 @@ namespace CardStock.Players
                 case PlayerType.ISMCTS:
                     return new ISMCTSPlayer(perspective);
                 case PlayerType.PIPMCNEW:
-                    return new PIPMCPlayerNew(perspective);
+                    return new PIPMCPlayerOld(perspective);
                 case PlayerType.ONESECMCTS:
                     return new OneSecondMCTS(perspective);
                 default:

@@ -21,7 +21,7 @@ Experiment exp = new()
     PlayerCount = numPlayers,
     NumGames = 10,
     type = GameType.RndandAI, // GameType.AllRnd or GameType.AllAI
-    AI = PlayerType.PIPMCNEW,
+    AI = PlayerType.PIPMC,
 };
 
 Console.WriteLine(exp.Game + ", " + exp.PlayerCount);

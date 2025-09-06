@@ -14,7 +14,6 @@ namespace CardStock.Players
         protected int numPlayers = perspective.NumberOfPlayers();
         protected Perspective perspective = perspective;
         protected DataCollector dataCollector;
-        protected List<double> leadList = [];
         public DataCollector dc;
 
         public int numChoices;
@@ -64,42 +63,40 @@ namespace CardStock.Players
 
         // CODE FOR UPDATING STATISTICS FOR HEURISTICS
         // CAN WE MOVE THIS INSIDE Choose? So it happens for everyone?
-        public void RecordHeuristics(double[][] rankSums)
+        public void RecordHeuristics(double[][] scoreSums, double[][] rankSums)
         {
             double[] rankSum = rankSums[perspective.GetIdx()];
+            double[] scoreSum = scoreSums[perspective.GetIdx()];
             double[] myLeadView = new double[rankSums.Length];
+            double[] myScoreView = new double[scoreSums.Length];
 
+            /*
             // WHAT DOES WRS stand for? probably winners
             double[] wrs = new double[rankSum.Length];
-
             for (int item = 0; item < rankSum.Length; ++item)
             {
                 wrs[item] = (numPlayers - 1 - rankSum[item]) /
                     (numPlayers - 1);
             }
+            */
 
-            (var minidx, var maxidx) = MinMaxIdx(rankSum);
-            var best = wrs[minidx];
-            var worst = wrs[maxidx];
+            (var minidx, var maxidx) = MinMaxIdx(scoreSum);
+            var best = scoreSum[maxidx];
+            var worst = scoreSum[minidx];
 
             // should this be on actual scores, not ranks?
             var variance = Math.Abs(best - worst);
 
+
             for (int i = 0; i < myLeadView.Length; i++)
             {
-                myLeadView[i] = (numPlayers - 1 - rankSums[i][minidx]) /
+                myLeadView[i] = (numPlayers - 1 - rankSums[i][maxidx]) /
                     (numPlayers - 1);
-                //Console.WriteLine("Converted " + rankSums[i][maxidx] + " into " + myLeadView[i]);
+                myScoreView[i] = scoreSums[i][maxidx];
             }
             dc.AddLeadsList(new Tuple<int, double[]>(perspective.GetIdx(), myLeadView));
+            dc.AddScoresList(new Tuple<int, double[]>(perspective.GetIdx(), myScoreView));
             dc.AddSpreadList(new Tuple<int, double>(perspective.GetIdx(), variance));
-
-            leadList.Add(best);
-        }
-
-        public virtual List<double> GetLead()
-        {
-            return leadList;
         }
 	}
 }
