@@ -42,42 +42,21 @@ namespace CardStock.Evaluation
             dataFiles[file].WriteLine(string.Join(",", values));
         }
 
-        public void RecordGameStatistics(int run, List<Tuple<int, int>> results, int mult)
+        public void RecordGameStatistics(int run, int[] results, int mult)
         {
-            // TODO Should we move the choice, allLead, and spread lists to live here?
-            // Maybe give the DataCollector to the GameIterator????
             lock (this)
             {
-
-                int aggregator = 0;
-                int playerRank = 0;
-                int topRank = 0;
-                int numWinners = 1;
 
                 /*******
                  * Record rank and results
                  ******/
-                for (int j = 0; j < results.Count; ++j)
+                int[] ranks = FindRanks(results, mult);
+                for (int j = 0; j < results.Length; ++j)
                 {
-                    aggregator += results[j].Item1;
-
-                    if (j != 0 && results[j].Item1 != results[j - 1].Item1)
-                    {
-                        playerRank += j;
-                        if (topRank == 0)
-                        {
-                            numWinners = j;
-                        }
-                        topRank = j;
-                    }
-                    else
-                    {
-                        playerRank += topRank;
-                    }
-                    CSVOutput("results", exp.Game, exp.PlayerCount, exp.type, exp.AI, run, results[j].Item2, aggregator, playerRank);
+                    CSVOutput("results", exp.Game, exp.PlayerCount, exp.type, exp.AI, run, j, results[j], ranks[j]);
                 }
 
-                /*****
+                /******
                  * Record choice
                  */
                 int move = 0;
@@ -87,7 +66,7 @@ namespace CardStock.Evaluation
                     move++;
                 }
 
-                /*****
+                /******
                  * Record Lead
                  */
                 dataFiles["lead"].WriteLine("game" + run);
@@ -101,7 +80,7 @@ namespace CardStock.Evaluation
                     dataFiles["lead"].WriteLine();
                 }
 
-                /*****
+                /******
                  * Record Spread
                  */
                 dataFiles["spread"].WriteLine("game" + run);
@@ -116,6 +95,33 @@ namespace CardStock.Evaluation
                 }
                 dataFiles["spread"].WriteLine();
             }
+        }
+
+
+        public static int[] FindRanks(int[] results, int mult)
+        {
+            var resultsList = new List<Tuple<int, int>>();
+            for (int i = 0; i < results.Length; i++)
+            {
+                resultsList.Add(new Tuple<int, int>(results[i], i));
+            }
+            resultsList.Sort();
+            if (mult == 1)
+            {
+                resultsList.Reverse();
+            }
+
+            int topRank = 0;
+            int[] ranks = new int[results.Length];
+            for (int j = 0; j < results.Length; j++)
+            {
+                if (j != 0 && resultsList[j].Item1 != resultsList[j - 1].Item1)
+                {
+                    topRank = j;
+                }
+                ranks[resultsList[j].Item2] = topRank;
+            }
+            return ranks;
         }
 
         public void AddLeadsList(Tuple<int, double[]> leads)

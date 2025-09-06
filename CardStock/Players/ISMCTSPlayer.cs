@@ -1,6 +1,7 @@
 ﻿using CardStock.CardEngine;
 using CardStock.FreezeFrame;
 using CardStock.Evaluation;
+using System.Globalization;
 
 namespace CardStock.Players
 {
@@ -191,14 +192,14 @@ namespace CardStock.Players
 
             // ProcessScore returns a sorted list 
             // where the winner is rank 0 for either min/max games.
-            var (winners, mult) = gameIterator.ProcessScore();
+
+            // NEED TO FIX ALL THIS NEXT
+            var (results, mult) = gameIterator.ProcessScore();
             double[] inverseRankSum = new double[numPlayers];
 
-            int p = 0;
-            foreach (Tuple<int, int> scoreandidx in winners)
+            for (int j = 0; j < results.Length; j++)
             {
-                inverseRankSum[scoreandidx.Item2] = ((double)1) / (p + 1);
-                p++;
+                inverseRankSum[j] = results[j] * mult;
             }
             // GO THROUGH VISITED STATES
 

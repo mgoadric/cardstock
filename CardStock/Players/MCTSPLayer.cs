@@ -157,7 +157,7 @@ namespace CardStock.Players
 
             // ProcessScore returns a sorted list 
             // where the winner is rank 0 for either min/max games.
-            var (winners, mult) = gameIterator.ProcessScore();
+            var (results, mult) = gameIterator.ProcessScore();
 
             // GO THROUGH VISITED STATES
             foreach (Tuple<CardGame, int> stateandplayer in visitedstates)
@@ -165,12 +165,12 @@ namespace CardStock.Players
                 plays[stateandplayer] += 1;
                 for (int j = 0; j < numPlayers; j++)
                 {
-                    if (winners[j].Item2 == stateandplayer.Item2)
+                    if (j == stateandplayer.Item2)
                     {
-                        wins[stateandplayer] += (double)winners[j].Item1 * mult;//inverseRankSum[stateandplayer.Item2];
+                        wins[stateandplayer] += (double)results[j] * mult;//inverseRankSum[stateandplayer.Item2];
                         if (stateandplayer.Equals(og))
                         {
-                            movescores[om] += winners[j].Item1 * mult;
+                            movescores[om] += results[j] * mult;
                             //Console.WriteLine(movescores[om]);
                         }                    }
                 }

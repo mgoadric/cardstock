@@ -20,8 +20,8 @@ Experiment exp = new()
     Game = game,
     PlayerCount = numPlayers,
     NumGames = 100,
-    type = GameType.AllRnd, // GameType.AllRnd or GameType.AllAI
-    AI = PlayerType.RANDOM,
+    type = GameType.RndandAI, // GameType.AllRnd or GameType.AllAI
+    AI = PlayerType.PIPMCNEW,
 };
 
 Console.WriteLine(exp.Game + ", " + exp.PlayerCount);

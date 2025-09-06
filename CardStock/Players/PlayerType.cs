@@ -26,8 +26,6 @@ namespace CardStock.Players
                     return new PIPMCPlayerNew(perspective);
                 case PlayerType.ONESECMCTS:
                     return new OneSecondMCTS(perspective);
-                case PlayerType.BOTH:
-                    return new BothPlayer(perspective);
                 default:
                     return new RandomPlayer(perspective);
             }

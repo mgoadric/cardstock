@@ -168,29 +168,27 @@ namespace CardStock.FreezeFrame
             throw new Exception();
         }
 
-        public (List<Tuple<int, int>> results, int mult) ProcessScore()
+        public (int[] results, int mult) ProcessScore()
         {
-            var results = new List<Tuple<int, int>>();
+            var results = new int[game.players.Length];
             var scoreMethod = rules.scoring();
 
             game.PushPlayer();
             game.CurrentPlayer().SetMember(0);
-            for (int i = 0; i < game.players.Length; ++i)
+            for (int i = 0; i < results.Length; i++)
             {
-                var working = ProcessInt(scoreMethod.@int());
-                script.WriteToFile("S:" + working + " " + i);
-                results.Add(new Tuple<int, int>(working, i));
+                var score = ProcessInt(scoreMethod.@int());
+                script.WriteToFile("S:" + score + " " + i);
+                results[i] = score;
                 game.CurrentPlayer().Next();
                 script.WriteToFile("T:" + game.CurrentPlayer().CurrentName());
             }
             game.PopPlayer();
 
-            results.Sort();
-            int mult = -1;
-            if (scoreMethod.GetChild(2).GetText() == "max")
+            int mult = 1;
+            if (scoreMethod.GetChild(2).GetText() == "min")
             {
-                results.Reverse();
-                mult = 1;
+                mult = -1;
             }
 
             return (results, mult);
