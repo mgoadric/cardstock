@@ -71,7 +71,7 @@ namespace CardStock.Evaluation {
                 {
                     GC.Collect();
 
-                    string path = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.type + "/" + exp.AI + "/simulation/";
+                    string path = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.PlayerAbv() + "/simulation/";
                     FileInfo file = new(path);
                     file.Directory.Create();
 
@@ -83,14 +83,20 @@ namespace CardStock.Evaluation {
                         throw new Exception();
                     }
 
-                    // Make this more abstract, so we can have PvP instead of only P vs Random.
+                    if (exp.Players.Count > game.players.Length)
+                    {
+                        Console.WriteLine("Too Many Players Specified!!!!");
+                        throw new Exception();
+                    }
+
+                    // Fill in the players. If not specificed, make a Random player.
                     for (int j = 0; j < game.players.Length; j++)
                     {
                         Perspective perspective = new(j, gamePlay);
 
-                        if ((j == 0 && exp.type == GameType.RndandAI) || exp.type == GameType.AllAI)
+                        if (j < exp.Players.Count)
                         {
-                            game.players[j].decision = exp.AI.AI(perspective);
+                            game.players[j].decision = exp.Players[j].AI(perspective);
                         }
                         else
                         {

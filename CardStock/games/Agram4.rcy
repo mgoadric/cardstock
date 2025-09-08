@@ -17,8 +17,7 @@
 
  
  ;; Shuffle and deal each player 6 cards
- (do 
-     (
+ (do (
       (shuffle (game iloc STOCK))
       (set (game str LEAD) NONE)
       (all player 'P 
@@ -38,8 +37,7 @@
                 (all player 'P 
                      (> (size ('P vloc TRICK)) 0)))
                
-               (choice 
-                (
+               (choice (
                  
                  ;; if following player cannot follow SUIT
                  ;;   play any card, and end your turn   
@@ -72,8 +70,7 @@
                                  (cardatt SUIT (top ((current player) vloc TRICK)))))))))))
         
         ;; after players play hand, computer wraps up trick
-        (do 
-            (
+        (do (
              ;; solidfy card recedence
              (set (game points PRECEDENCE) 
                   (

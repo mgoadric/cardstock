@@ -7,12 +7,13 @@ namespace CardStock.Evaluation
         public required string Game;
         public required int PlayerCount;
         public required int NumGames;
-        public required PlayerType AI;
+        public required List<PlayerType> Players;
 
-        public GameType type = GameType.AllRnd;
-    }
+        public string PlayerAbv()
+        {
+            var ps = Players.Select(s => s.ToString()[0]);
+            return string.Join("", ps) + new String('R', Math.Max(0, PlayerCount - Players.Count));
+        }
 
-    public enum GameType {
-        AllAI, AllRnd, RndandAI, TOURNAMENT
     }
 }
