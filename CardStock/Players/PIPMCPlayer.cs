@@ -77,7 +77,7 @@ namespace CardStock.Players
             Console.WriteLine("{0}", string.Join(", ", scoreSum[perspective.GetIdx()]));
 
             // Record info for heuristic evaluation
-            RecordHeuristics(scoreSum, rankSum);
+            dc.RecordHeuristics(scoreSum, rankSum, perspective.GetIdx());
 
             // NEW SCORE (highest is best)
             return max;

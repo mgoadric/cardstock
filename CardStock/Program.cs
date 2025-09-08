@@ -1,8 +1,8 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "Scopa";
-int numPlayers = 2;
+string game = "Agram";
+int numPlayers = 3;
 
 
 /*
@@ -21,7 +21,7 @@ Experiment exp = new()
     PlayerCount = numPlayers,
     NumGames = 10,
     type = GameType.RndandAI, // GameType.AllRnd or GameType.AllAI
-    AI = PlayerType.PIPMC,
+    AI = PlayerType.MCTS,
 };
 
 Console.WriteLine(exp.Game + ", " + exp.PlayerCount);

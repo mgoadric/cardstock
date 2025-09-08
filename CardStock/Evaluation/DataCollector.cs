@@ -1,6 +1,7 @@
 using System.IO.Enumeration;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
+using CardStock.Players;
 
 namespace CardStock.Evaluation
 {
@@ -124,19 +125,28 @@ namespace CardStock.Evaluation
             return ranks;
         }
 
-        public void AddLeadsList(Tuple<int, double[]> leads)
+        public void RecordHeuristics(double[][] scoreSums, double[][] rankSums, int playerIdx)
         {
-            allLeadList.Add(leads);
-        }
+            double[] scoreSum = scoreSums[playerIdx];
+            double[] myLeadView = new double[rankSums.Length];
+            double[] myScoreView = new double[scoreSums.Length];
 
-        public void AddScoresList(Tuple<int, double[]> scores)
-        {
-            allScoresList.Add(scores);
-        }
+            (var minidx, var maxidx) = AIPlayer.MinMaxIdx(scoreSum);
+            var best = scoreSum[maxidx];
+            var worst = scoreSum[minidx];
 
-        public void AddSpreadList(Tuple<int, double> spreads)
-        {
-            spreadList.Add(spreads);
+            var variance = Math.Abs(best - worst);
+
+            for (int i = 0; i < myLeadView.Length; i++)
+            {
+                myLeadView[i] = (exp.PlayerCount - 1 - rankSums[i][maxidx]) /
+                    (exp.PlayerCount - 1);
+                myScoreView[i] = scoreSums[i][maxidx];
+            }
+            
+            allLeadList.Add(new Tuple<int, double[]>(playerIdx, myLeadView));
+            allScoresList.Add(new Tuple<int, double[]>(playerIdx, myScoreView));
+            spreadList.Add(new Tuple<int, double>(playerIdx, variance));
         }
 
         public void AddChoiceList(Tuple<int, int, int> choices)

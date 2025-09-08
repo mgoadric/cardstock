@@ -1,6 +1,5 @@
 ﻿using Antlr4.Runtime.Tree;
 using CardStock.CardEngine;
-using CardStock.Evaluation;
 using System.Diagnostics;
 
 namespace CardStock.FreezeFrame
@@ -118,6 +117,7 @@ namespace CardStock.FreezeFrame
 
         public int ProcessChoice()
         {
+            script.WriteToFile("???");
             var allOptions = BuildOptions();
 
             if (allOptions.Count == 0)
@@ -178,10 +178,9 @@ namespace CardStock.FreezeFrame
             for (int i = 0; i < results.Length; i++)
             {
                 var score = ProcessInt(scoreMethod.@int());
-                script.WriteToFile("S:" + score + " " + i);
+                script.WriteToFile("Q:" + i + " " + score);
                 results[i] = score;
                 game.CurrentPlayer().Next();
-                script.WriteToFile("T:" + game.CurrentPlayer().CurrentName());
             }
             game.PopPlayer();
 
@@ -424,7 +423,6 @@ namespace CardStock.FreezeFrame
         {
             var all = new List<GameActionCollection>();
             // stack of iterating trees
-            script.WriteToFile("???");
             var stackTrees = new Stack<IteratingTree>();
             // iteratingtree = stack of iterable items (just has basic stack functionality) 
             //      -can store another iteratingtree, strings, or a key/value object
