@@ -12,7 +12,7 @@ namespace CardStock.Evaluation {
         private RecycleParser.GameContext tree;
         public const int MAXPLAYERS = 9; // This makes some things easier to store as arrays.
         public const int CHOICELIMIT = 500; // The upper bound on the number of moves in a game before it is called.
-        public const int NUMTESTS = 100; //make 1000 for comparison.  This is PER MOVE
+        public const int NUMTESTS = 1000; //make 1000 for comparison.  This is PER MOVE
         public const int NUMSAMPLES = 10; // how many determinizations the AIs should create
 
         public void LoadGame() {
@@ -80,12 +80,6 @@ namespace CardStock.Evaluation {
                     if (game.players.Length > MAXPLAYERS)
                     {
                         Console.WriteLine("Too many players, max is " + MAXPLAYERS);
-                        throw new Exception();
-                    }
-
-                    if (exp.Players.Count > game.players.Length)
-                    {
-                        Console.WriteLine("Too Many Players Specified!!!!");
                         throw new Exception();
                     }
 

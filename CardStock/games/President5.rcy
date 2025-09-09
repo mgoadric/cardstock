@@ -1,0 +1,106 @@
+;; President
+;;
+;; https://www.pagat.com/climbing/president.html
+
+(game
+ (declare 5 'NUMP)
+ (setup 
+  (create players 'NUMP)
+  
+  ;; Create the deck source
+  (create deck (game iloc STOCK) (deck (RANK (ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (CLUBS, SPADES)))))))         
+ 
+ 
+ ;; Shuffle and deal each player 18 cards
+ (do 
+     (
+      (shuffle (game iloc STOCK))
+      (set (game sto POINTS) 2)
+      (set (game points PRECEDENCE) 
+        (
+            ((RANK : TWO) 15)
+            ((RANK : ACE) 14)
+            ((RANK : KING) 13)
+            ((RANK : QUEEN) 12)
+            ((RANK : JACK) 11)
+            ((RANK : TEN) 10)
+            ((RANK : NINE) 9)
+            ((RANK : EIGHT) 8)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+      ))         
+      (all player 'P 
+           (repeat (// 52 'NUMP)
+                   (move (top (game iloc STOCK))
+                         (top ('P iloc HAND)))))))
+   
+ ;; players play until all players are out of cards
+ (stage player
+        (end 
+         (all player 'P 
+              (== (size ('P iloc HAND)) 0)))
+
+      (choice (
+
+            ;; First of new trick, play anything
+            ((== (size (game vloc TRICK)) 0)
+             (any (partition RANK ((current player) iloc HAND)) 'PAR
+                  (any (subsets 'PAR) 'S 
+                        ((> (size 'S) 0)
+                         (do (
+                              (set (game sto SIZE) (size 'S))
+                              (repeat all
+                                    (move (top 'S) 
+                                          (top (game vloc TRICK)))))
+                         ))
+             ))
+            )
+
+            ;; play anything that beats the current TRICK and is the same size
+            ((> (size (game vloc TRICK)) 0)
+             (any (partition RANK ((current player) iloc HAND)) 'PAR
+                  (any (subsets 'PAR) 'S 
+                        ((and (== (size 'S) (game sto SIZE))
+                              (> (score (top 'S) using (game points PRECEDENCE))
+                                 (score (top (game vloc TRICK)) using (game points PRECEDENCE))))
+                         (repeat all 
+                                    (move (top 'S) 
+                                          (top (game vloc TRICK)))))
+             ))
+            )
+
+            ;; you can always pass if you are not the first player
+            ((or (> (size (game vloc TRICK)) 0)
+                 (== (size ((current player) iloc HAND)) 0))
+             (inc (game sto PASSING) 1))
+            
+      ))
+
+      (do (
+            ;; if everyone passed, then discard the TRICK
+            ((== (game sto PASSING) (- 'NUMP 1))
+             (do (
+                  (set (game sto PASSING) 0)
+                  (repeat all (move (top (game vloc TRICK))
+                                    (top (game vloc DISCARD))))
+             ))
+            )
+
+            ;; determine your score if you go out
+            ((and (== (size ((current player) iloc HAND)) 0)
+                  (== ((current player) sto SCORE) 0))
+             (do (
+                 (set ((current player) sto SCORE) (game sto POINTS))
+                 ((> (game sto POINTS) 0)
+                  (dec (game sto POINTS) 1))
+             ))
+            )
+      ))         
+ )
+
+ (scoring max ((current player) sto SCORE)))

@@ -12,23 +12,16 @@ namespace CardStock.Players
     public static class Extensions
 {
         public static AIPlayer AI(this PlayerType type, Perspective perspective) {
-            switch (type)
+            return type switch
             {
-                case PlayerType.RANDOM:
-                    return new RandomPlayer(perspective);
-                case PlayerType.PIPMC:
-                    return new PIPMCPlayer(perspective);
-                case PlayerType.MCTS:
-                    return new MCTSPLayer(perspective);
-                case PlayerType.ISMCTS:
-                    return new ISMCTSPlayer(perspective);
-                case PlayerType.PIPMCOLD:
-                    return new PIPMCPlayerOld(perspective);
-                case PlayerType.ONESECMCTS:
-                    return new OneSecondMCTS(perspective);
-                default:
-                    return new RandomPlayer(perspective);
-            }
+                PlayerType.RANDOM => new RandomPlayer(perspective),
+                PlayerType.PIPMC => new PIPMCPlayer(perspective),
+                PlayerType.MCTS => new MCTSPLayer(perspective),
+                PlayerType.ISMCTS => new ISMCTSPlayer(perspective),
+                PlayerType.PIPMCOLD => new PIPMCPlayerOld(perspective),
+                PlayerType.ONESECMCTS => new OneSecondMCTS(perspective),
+                _ => new RandomPlayer(perspective),
+            };
         }
        
 }

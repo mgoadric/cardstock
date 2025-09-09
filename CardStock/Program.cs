@@ -1,7 +1,7 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "Scopa";
+string game = "Escoba";
 int numPlayers = 2;
 
 
@@ -20,7 +20,7 @@ Experiment exp = new()
     Game = game,
     PlayerCount = numPlayers,
     NumGames = 100,
-    Players = [PlayerType.PIPMC]
+    Players = []
 };
 
 Console.WriteLine(exp.Game + ", " + exp.PlayerCount);

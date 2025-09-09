@@ -172,7 +172,8 @@ namespace CardStock.Players
                         {
                             movescores[om] += results[j] * mult;
                             //Console.WriteLine(movescores[om]);
-                        }                    }
+                        }
+                    }
                 }
             }
         }

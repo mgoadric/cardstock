@@ -129,26 +129,29 @@ namespace CardStock.Evaluation
 
         public void RecordHeuristics(double[][] scoreSums, double[][] rankSums, int playerIdx)
         {
-            double[] scoreSum = scoreSums[playerIdx];
-            double[] myLeadView = new double[rankSums.Length];
-            double[] myScoreView = new double[scoreSums.Length];
-
-            (var minidx, var maxidx) = AIPlayer.MinMaxIdx(scoreSum);
-            var best = scoreSum[maxidx];
-            var worst = scoreSum[minidx];
-
-            var variance = Math.Abs(best - worst);
-
-            for (int i = 0; i < myLeadView.Length; i++)
+            lock (this)
             {
-                myLeadView[i] = (exp.PlayerCount - 1 - rankSums[i][maxidx]) /
-                    (exp.PlayerCount - 1);
-                myScoreView[i] = scoreSums[i][maxidx];
+                double[] scoreSum = scoreSums[playerIdx];
+                double[] myLeadView = new double[rankSums.Length];
+                double[] myScoreView = new double[scoreSums.Length];
+
+                (var minidx, var maxidx) = AIPlayer.MinMaxIdx(scoreSum);
+                var best = scoreSum[maxidx];
+                var worst = scoreSum[minidx];
+
+                var variance = Math.Abs(best - worst);
+
+                for (int i = 0; i < myLeadView.Length; i++)
+                {
+                    myLeadView[i] = (exp.PlayerCount - 1 - rankSums[i][maxidx]) /
+                        (exp.PlayerCount - 1);
+                    myScoreView[i] = scoreSums[i][maxidx];
+                }
+
+                allLeadList.Add(new Tuple<int, double[]>(playerIdx, myLeadView));
+                allScoresList.Add(new Tuple<int, double[]>(playerIdx, myScoreView));
+                spreadList.Add(new Tuple<int, double>(playerIdx, variance));
             }
-            
-            allLeadList.Add(new Tuple<int, double[]>(playerIdx, myLeadView));
-            allScoresList.Add(new Tuple<int, double[]>(playerIdx, myScoreView));
-            spreadList.Add(new Tuple<int, double>(playerIdx, variance));
         }
 
         public void AddChoiceList(Tuple<int, int, int> choices)

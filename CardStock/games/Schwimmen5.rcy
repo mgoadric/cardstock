@@ -55,7 +55,13 @@
 
     (stage player 
         (end (or (< (size (game iloc STOCK)) 3)
-                 (== (game sto CLOSE) 5)))
+                 (== (game sto CLOSE) 'NUMP)
+                 (any player 'P 
+                    (or (any (partition RANK ('P iloc HAND)) 'RP 
+                            (== (sum 'RP using (game points SCORE)) 33))
+                        (any (partition SUIT ('P iloc HAND)) 'RP
+                            (== (sum 'RP using (game points SCORE)) 31))))
+             ))
     
         (stage player 
             (end (or (== (game sto PASS) 'NUMP)
