@@ -84,7 +84,8 @@
                                                     (all 'SUBMATCH 'MCARD  
                                                     (move 'MCARD 
                                                         (top ((current player) vloc BUNDLE))))
-                                                    (set ((current player) sto MOVED) 1))))  
+                                                    (set ((current player) sto MOVED) 1)
+                                                    (set (game sto LAST) (pid (current player))))))  
                       ))  
                  )
                 ))
@@ -108,6 +109,12 @@
                            
                     (set ((current player) sto MOVED) 0)))))
 
+ ;; Move remaining cards to the last player to make a capture
+ (do (
+    ((> (size (game vloc POOL)) 0)
+     (repeat all (move (top (game vloc POOL))
+                       (top (((game sto LAST) player) vloc BUNDLE)))))
+ ))
 
  ;; First pass through scoring
  (stage player (end (all player 'P (== ('P str SCORING) MID))) 

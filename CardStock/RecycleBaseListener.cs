@@ -1152,6 +1152,30 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitRawstorage([NotNull] RecycleParser.RawstorageContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.pid"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterPid([NotNull] RecycleParser.PidContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.pid"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitPid([NotNull] RecycleParser.PidContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.tid"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterTid([NotNull] RecycleParser.TidContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.tid"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitTid([NotNull] RecycleParser.TidContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.str"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

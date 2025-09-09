@@ -1,4 +1,7 @@
-// Version 0.6.0 of our REcursive CYclic Card game LanguagE
+// Version 0.6.1 of our REcursive CYclic Card game LanguagE
+
+// New in version 0.6.1
+//  a way to extract the id from a player or team as an int
 
 // New in version 0.6.0
 //  indexed locations, with an int available after the string for the name
@@ -173,7 +176,7 @@ UNOP : 'not' ;
 aggb : OPEN ('any' | 'all') collection var boolean CLOSE ;
 
 // Integers
-int : vari | sizeof | mult | subtract | mod | add | divide | exponent | triangular | fibonacci | random | sum | rawstorage | score | INTNUM+ ;
+int : vari | sizeof | mult | subtract | mod | add | divide | exponent | triangular | fibonacci | random | sum | rawstorage | score | pid | tid | INTNUM+ ;
 INTNUM : [0-9] ;
 sum : OPEN 'sum' cstorage 'using' pointstorage CLOSE ;
 score : OPEN 'score' card 'using' pointstorage CLOSE ;
@@ -189,6 +192,8 @@ random : OPEN 'random' int ('..' int)? CLOSE ;
 sizeof : OPEN 'size' collection CLOSE ;
 aggi : OPEN 'all' collection var rawstorage CLOSE ;
 rawstorage : OPEN (varo | 'game' | who) 'sto' str CLOSE ;
+pid : OPEN 'pid' whop CLOSE ;
+tid : OPEN 'tid' whot CLOSE ;
 
 // Strings
 str : namegr | strstorage | vars | cardatt ;

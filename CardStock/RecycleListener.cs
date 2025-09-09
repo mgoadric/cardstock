@@ -961,6 +961,26 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitRawstorage([NotNull] RecycleParser.RawstorageContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.pid"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPid([NotNull] RecycleParser.PidContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.pid"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPid([NotNull] RecycleParser.PidContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.tid"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTid([NotNull] RecycleParser.TidContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.tid"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTid([NotNull] RecycleParser.TidContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.str"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

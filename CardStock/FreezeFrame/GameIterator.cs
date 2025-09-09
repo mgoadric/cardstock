@@ -2106,6 +2106,16 @@ namespace CardStock.FreezeFrame
                 var fancy = ProcessIntStorage(intNode.rawstorage());
                 return fancy.Get();
             }
+            else if (intNode.pid() is not null)
+            {
+                var player = ProcessWhop(intNode.pid().whop());
+                return player.id;
+            }
+            else if (intNode.tid() is not null)
+            {
+                var team = ProcessWhot(intNode.tid().whot());
+                return team.id;
+            }
             else if (intNode.INTNUM() is not null && intNode.INTNUM().Any())
             {
                 Debug.WriteLine(intNode.GetText());
