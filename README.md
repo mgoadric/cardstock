@@ -17,7 +17,7 @@ tournament of AI players. Please check back for further progress on these issues
 
 ## Games
 
-There are currently 55 games coded in RECYCLE
+There are currently 56 games coded in RECYCLE
 
 * Adding
     * [Caterpillar](http://www.parlettgames.uk/oricards/caterpil.html) (2p)
@@ -26,12 +26,12 @@ There are currently 55 games coded in RECYCLE
 * Catch and Collect
     * Enchère (3p)
     * [GOPS](https://www.pagat.com/misc/gops.html) (2p)
-    * [Go Fish](https://www.pagat.com/quartet/gofish.html) (4p)
+    * [Go Fish](https://www.pagat.com/quartet/gofish.html) (2-4p)
     * [Turn the Tide](https://gamewright.com/pdfs/Rules/TurnTheTide-RULES.pdf) (3p)
 * Climbing
     * [Comet](http://www.catsatcards.com/Games/Comet.html) (2p)
     * [LAMA](https://boardgamegeek.com/filepage/180052/lama-official-rules) (2-6p)
-    * [President](https://www.pagat.com/climbing/president.html) (4p) 
+    * [President](https://www.pagat.com/climbing/president.html) (4-5p) 
 * Draw and Discard
     * [Golf Six](https://www.pagat.com/draw/golf.html) (2-4p)
     * [Lost Cities](https://cdn.1j1ju.com/medias/c8/66/47-lost-cities-rulebook.pdf) (2p)
@@ -41,6 +41,7 @@ There are currently 55 games coded in RECYCLE
     * [Cuckoo](https://www.pagat.com/cuckoo/cuckoo.html) (6p)
     * [Schwimmen](https://www.pagat.com/commerce/schwimmen.html) (5p)
 * Fishing
+    * [Escoba](https://www.pagat.com/fishing/escoba.html) (2p)
     * [Scopa](https://www.pagat.com/fishing/scopa.html) (2p)
     * [Stealing Bundles](https://www.pagat.com/fishing/bundle.html) (2-4p)
 * Poker
@@ -98,16 +99,20 @@ There are currently 55 games coded in RECYCLE
 
 ## Setup
 
-1. Open `CardStock` folder in the project using Visual Studio Code.
-2. Install .NET Install Tool Extension
-3. Get .Net Core 9.0
-4. Install C# Dev Kit Extension
-5. Open the CardStock subdirectory
-6. Write up your game in RECYCLE in the `games` subdirectory.
-7. Alter the `Program.cs` class to specify the name of your game.
-8. Run the program in either Release or Debug mode.
-9. For Release mode, in the terminal type "dotnet run --configuration Release"
-10. Choose "Release Mode" to only see the results, or "Debug Mode" to see all game actions (better logs in the future).
+1. Install .NET Install Tool Extension
+2. Get .Net Core 9.0
+3. Install C# Dev Kit Extension
+4. Open `CardStock` folder in the project using Visual Studio Code.
+
+## Usage
+
+6. Open the CardStock subdirectory
+7. Write up your game in RECYCLE in the `games` subdirectory.
+8. Alter the `Program.cs` class to specify the name of your game.
+9. Run the program in either Release or Debug mode.
+   10. For Release mode, in the terminal type "dotnet run --configuration Release"
+   11. Choose "Release Mode" to only see the results, or "Debug Mode" to see all game actions (better logs in the future).
+10. Analyse your results (found in the `output` subdirectory) with the Jupyter Notebooks in the `Analysis` directory.
 
 ## References
 
