@@ -24,6 +24,7 @@ namespace CardStock.Players
             movescores = new double[numChoices];
 
             // GAME SIMULATIONS
+            // TODO can we do these in parallel?? Need to store the privategame, privateiterators like in PIPMC
             for (int det = 0; det < GameSimulator.NUMSAMPLES; det++)
             {
                 (privategame, privateiterator) = perspective.GetPrivateGame();

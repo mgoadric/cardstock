@@ -57,7 +57,7 @@ namespace CardStock.Evaluation
                 int[] ranks = FindRanks(results, mult);
                 for (int j = 0; j < results.Length; ++j)
                 {
-                    CSVOutput("results", exp.Game, exp.PlayerCount, ai, run, j, results[j], ranks[j]);
+                    CSVOutput("results", exp.Game, exp.PlayerCount, ai, run + 1, j + 1, results[j], ranks[j] + 1);
                 }
 
                 /******
@@ -66,7 +66,7 @@ namespace CardStock.Evaluation
                 int move = 0;
                 foreach (Tuple<int, int, int> t in choiceList)
                 {
-                    CSVOutput("choice", exp.Game, exp.PlayerCount, ai, run, move, t.Item1, t.Item2, t.Item3);
+                    CSVOutput("choice", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, t.Item1 + 1, t.Item2, t.Item3 + 1);
                     move++;
                 }
 

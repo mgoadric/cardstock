@@ -76,4 +76,4 @@
                            
                     (set ((current player) sto MOVED) 0)))))
 
- (scoring max (size ((current player) sto BUNDLE))))
+ (scoring max (size ((current player) vloc BUNDLE))))

@@ -1,0 +1,131 @@
+;; Clocktowers by Alan Moon and Aaron Weissblum 2004
+
+(game
+ (declare 2 'NUMP)
+ (declare (ROOF, CLOCK, STORY) 'DECKS)
+ (setup
+  (create players 'NUMP)
+  
+  (repeat 4 (create deck ROOF (game iloc ROOF) (deck (TYPE (ROOF)) (COLOR (BLUE, GREEN,YELLOW, RED, GREY)))))
+  (repeat 9 (create deck CLOCK (game iloc CLOCK) (deck (TYPE (CLOCK)) (ANIMAL (MOUSE, NONE)))))
+  (repeat 5 (create deck STORY (game iloc STORY) (deck (TYPE (STORY)) (STORY (ONE, TWO)) (ANIMAL (NONE, CAT)))))
+  (repeat 4 (create deck STORY (game iloc STORY) (deck (TYPE (STORY)) (STORY (ONE, TWO)) (ANIMAL (MOUSE)))))
+ )
+ 
+ (do (     
+      ;; deal 1 story with cat, 1 story with mouse, 1 clock with mice to each player
+      (all player 'P 
+           (do (
+                (move (top (filter (game iloc CLOCK) 'C (== (cardatt ANIMAL 'C) MOUSE)))
+                      (top ('P iloc HAND)))
+                (move (top (filter (game iloc STORY) 'C (== (cardatt ANIMAL 'C) MOUSE)))
+                      (top ('P iloc HAND)))
+                (move (top (filter (game iloc STORY) 'C (== (cardatt ANIMAL 'C) CAT)))
+                      (top ('P iloc HAND)))                      
+      )))
+
+      (all 'DECKS 'D 
+            (do (
+                  ;; shuffle the decks separately
+                  (shuffle (game iloc 'D))
+
+                  ;; make top card of each deck faceup
+                  (move (top (game iloc 'D))
+                        (top (game vloc 'D)))
+            ))
+      )
+
+      (set (game points STORIES) 
+           (
+            ((STORY : ONE) 1)
+            ((STORY : TWO) 2)
+      ))
+ ))
+ 
+ (stage player
+      (end (all player 'P (== (size ('P iloc HAND)) 0)))
+        
+      ;; Play a card
+      (choice (
+
+            ;; Create a new tower with a story card
+            (any (filter ((current player) iloc HAND) 'FC (== (cardatt TYPE 'FC) STORY)) 'C
+                  (do (
+                        (move 'C (top ((current player) vloc TOWER ((current player) sto TOWERS))))
+                        (inc ((current player) sto TOWERS) 1)
+                  ))
+            )
+
+            ;; Add a story or clock to an unfinished tower with only stories
+            (any (filter ((current player) iloc HAND) 'FC (or (== (cardatt TYPE 'FC) STORY)
+                                                              (== (cardatt TYPE 'FC) CLOCK))) 'C
+                  (any (indexed ((current player) vloc TOWER)) 'TC
+
+                         ;; the tower currently has a story on top
+                        ((== (cardatt TYPE (top ('TC))) STORY)
+
+                         (move 'C
+                               (top 'TC))
+                        )
+                  )
+            )
+
+            ;; Finish a clocktower with a roof card
+            (any (filter ((current player) iloc HAND) 'FC (== (cardatt TYPE 'FC) ROOF)) 'C
+                  (any (indexed ((current player) vloc TOWER)) 'TC
+
+                              ;; the tower currently has a clock on top
+                        ((and (== (cardatt TYPE (top ('TC))) CLOCK)
+                        
+                              ;; the tower is bigger than all of that color (+ 1 because 'TC currently has no roof)
+                              (all player 'P
+                                    (all (filter (indexed ('P vloc TOWER)) 'PTC
+                                          (== (size (filter 'PTC 'PTCC (and (== (cardatt TYPE 'PTCC) ROOF)
+                                                                            (== (cardatt COLOR 'PTCC) (cardatt COLOR 'C)))))
+                                              1)) 'COMPLETE
+                                          (> (+ 1 (sum 'TC using (game points STORIES))) (sum 'COMPLETE using (game points STORIES)))
+                                    )
+                              )
+
+                              ;; the tower is 1 bigger than any of that color (== because 'TC currently has no roof)
+                              (all player 'P
+                                    (any (filter (indexed ('P vloc TOWER)) 'PTC
+                                          (== (size (filter 'PTC 'PTCC (and (== (cardatt TYPE 'PTCC) ROOF)
+                                                                            (== (cardatt COLOR 'PTCC) (cardatt COLOR 'C)))))
+                                              1)) 'COMPLETE
+                                          (== (sum 'TC using (game points STORIES)) (sum 'COMPLETE using (game points STORIES)))
+                                    )
+                              )
+                         )
+                         (move 'C
+                               (top 'TC))
+                        )
+                  )
+            )
+
+            ;; always have the option to discard any card
+            (any ((current player) iloc HAND) 'C
+                  (move 'C
+                        (top (game iloc DISCARD)))
+            )
+      ))
+      
+      ;; Draw a card from any deck that is not empty
+      (choice (
+            (all 'DECKS 'D 
+                  ((> (size (game vloc 'D)) 0)
+                   (do (
+                        (move (top (game iloc 'D))
+                              (top ((current player) iloc HAND)))
+                        ((> (size (game iloc 'D)) 0)
+                         (move (top (game iloc 'D))
+                               (top (game vloc 'D))))
+                   ))
+                  )
+            )
+            ((all 'DECKS 'D (== (size 'D) 0))
+             (turn pass))
+      ))
+ )
+ 
+ (scoring max (size (filter (indexed ((current player) vloc TOWER)) 'T (any 'T 'TC (== (cardatt TYPE 'TC) ROOF))))

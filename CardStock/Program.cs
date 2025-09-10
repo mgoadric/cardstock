@@ -1,36 +1,37 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "Cuckoo";
-int numPlayers = 6;
+//string game = "FishingBasic";
+//int numPlayers = 2;
 
 
-/*
 // Test them all
 string[] files = Directory.GetFiles("games/", "*.rcy");
 Array.Sort(files);
 foreach (string filename in files)
 {
-    string game = filename[6..^5];
-    int numPlayers = filename[^5] - '0';
-*/
+    Console.WriteLine(filename);
+    if (filename.CompareTo("games/Coup4.rcy") > 0)
+    {
+        string game = filename[6..^5];
+        int numPlayers = filename[^5] - '0';
 
-Experiment exp = new()
-{
-    Game = game,
-    PlayerCount = numPlayers,
-    NumGames = 100,
-    Players = []
-};
+        Experiment exp = new()
+        {
+            Game = game,
+            PlayerCount = numPlayers,
+            NumGames = 100,
+            Players = [PlayerType.PIPMC]
+        };
 
-Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
+        Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
 
-GameSimulator engine = new(exp);
-engine.LoadGame();
-engine.RunExperiment();
+        GameSimulator engine = new(exp);
+        engine.LoadGame();
+        engine.RunExperiment();
 
-
-//}
+    }
+}
 
 
 
