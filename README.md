@@ -111,8 +111,8 @@ There are currently 57 games coded in RECYCLE
 7. Write up your game in RECYCLE in the `games` subdirectory.
 8. Alter the `Program.cs` class to specify the name of your game.
 9. Run the program in either Release or Debug mode.
-   10. For Release mode, in the terminal type "dotnet run --configuration Release"
-   11. Choose "Release Mode" to only see the results, or "Debug Mode" to see all game actions (better logs in the future).
+    1. For Release mode, in the terminal type "dotnet run --configuration Release"
+    2. Choose "Release Mode" to only see the results, or "Debug Mode" to see all game actions (better logs in the future).
 10. Analyse your results (found in the `output` subdirectory) with the Jupyter Notebooks in the `Analysis` directory.
 
 ## References
