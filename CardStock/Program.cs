@@ -1,10 +1,10 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-//string game = "FishingBasic";
-//int numPlayers = 2;
+string game = "BustedJunk/Clocktowers";
+int numPlayers = 2;
 
-
+/*
 // Test them all
 string[] files = Directory.GetFiles("games/", "*.rcy");
 Array.Sort(files);
@@ -15,12 +15,12 @@ foreach (string filename in files)
     {
         string game = filename[6..^5];
         int numPlayers = filename[^5] - '0';
-
+*/
         Experiment exp = new()
         {
             Game = game,
             PlayerCount = numPlayers,
-            NumGames = 100,
+            NumGames = 1,
             Players = [PlayerType.PIPMC]
         };
 
@@ -30,8 +30,8 @@ foreach (string filename in files)
         engine.LoadGame();
         engine.RunExperiment();
 
-    }
-}
+    //}
+//}
 
 
 

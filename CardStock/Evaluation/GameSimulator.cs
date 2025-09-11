@@ -76,7 +76,7 @@ namespace CardStock.Evaluation {
                     file.Directory.Create();
 
                     CardGame game = new();
-                    var gamePlay = new FreezeFrame.GameIterator(tree, game, path + i);
+                    var gamePlay = new FreezeFrame.GameIterator(tree, game, path + (i + 1));
                     if (game.players.Length > MAXPLAYERS)
                     {
                         Console.WriteLine("Too many players, max is " + MAXPLAYERS);
