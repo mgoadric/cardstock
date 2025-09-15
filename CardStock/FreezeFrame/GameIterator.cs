@@ -2176,6 +2176,42 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Sum:" + total);
                 return total;
             }
+            else if (intNode.scoremax() is not null)
+            {
+                var sum = intNode.scoremax();
+                var scoring = ProcessPointStorage(sum.pointstorage()).Get();
+                var coll = ProcessLocation(sum.cstorage());
+                int maximum = -1;
+                Debug.WriteLine("This is what? " + coll);
+                foreach (var c in coll.cardList.AllCards())
+                {
+                    int s = scoring.GetScore(c);
+                    if (s > maximum)
+                    {
+                        maximum = s;
+                    }
+                }
+                Debug.WriteLine("Scoremax:" + maximum);
+                return maximum;
+            }
+            else if (intNode.scoremin() is not null)
+            {
+                var sum = intNode.scoremin();
+                var scoring = ProcessPointStorage(sum.pointstorage()).Get();
+                var coll = ProcessLocation(sum.cstorage());
+                int minimum = int.MaxValue;
+                Debug.WriteLine("This is what? " + coll);
+                foreach (var c in coll.cardList.AllCards())
+                {
+                    int s = scoring.GetScore(c);
+                    if (s < minimum)
+                    {
+                        minimum = s;
+                    }
+                }
+                Debug.WriteLine("Scoremin:" + minimum);
+                return minimum;
+            }
             else if (intNode.score() is not null)
             {
                 Debug.WriteLine("trying to score" + intNode.GetText());

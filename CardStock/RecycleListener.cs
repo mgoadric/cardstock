@@ -831,6 +831,26 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitSum([NotNull] RecycleParser.SumContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.scoremax"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterScoremax([NotNull] RecycleParser.ScoremaxContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.scoremax"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitScoremax([NotNull] RecycleParser.ScoremaxContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.scoremin"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterScoremin([NotNull] RecycleParser.ScoreminContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.scoremin"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitScoremin([NotNull] RecycleParser.ScoreminContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.score"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

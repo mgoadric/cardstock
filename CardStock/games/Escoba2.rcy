@@ -100,7 +100,7 @@
                            
                     (set ((current player) sto MOVED) 0)))))
 
- ;; Move remaining cards to the last player to make a capture TODO
+ ;; Move remaining cards to the last player to make a capture
  (do (
     ((> (size (game vloc POOL)) 0)
      (repeat all (move (top (game vloc POOL))
@@ -132,7 +132,7 @@
       (let (partition SUIT ((current player) vloc BUNDLE)) 'PART  ;; split up by suit
             ((== (size 'PART) 4)  ;; if at least one card in each suit
              (all 'PART 'PP (inc ((current player) sto PRIMIERA) ;; add up the scores
-                (score (max 'PP using (game points PRIMIERA)) using (game points PRIMIERA))))) ;; find the highest, get the score
+                (scoremax 'PP using (game points PRIMIERA)) ))) ;; find the highest, get the score
       )
 
       ;; mid scoring turn is done
@@ -153,4 +153,4 @@
       (set ((current player) str SCORING) END)
   )))  
 
- (scoring max ((current player) sto SCORE))))
+ (scoring max ((current player) sto SCORE)))

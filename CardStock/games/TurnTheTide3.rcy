@@ -170,8 +170,8 @@
                   (set ('P sto SCORED) 1))))
 
              ;; Find the highest level of the player level cards
-             (set (game sto HIGHESTLEVEL) (score (max (union (all player 'P 
-                       ('P vloc LEVEL))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))      
+             (set (game sto HIGHESTLEVEL) (scoremax (union (all player 'P 
+                       ('P vloc LEVEL))) using (game points PRECEDENCE)) )))      
              
 
         (stage player

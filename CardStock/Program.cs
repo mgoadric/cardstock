@@ -1,7 +1,7 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "BustedJunk/Clocktowers";
+string game = "Scopa";
 int numPlayers = 2;
 
 /*
@@ -20,7 +20,7 @@ foreach (string filename in files)
         {
             Game = game,
             PlayerCount = numPlayers,
-            NumGames = 1,
+            NumGames = 100,
             Players = [PlayerType.PIPMC]
         };
 

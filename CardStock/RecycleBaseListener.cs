@@ -996,6 +996,30 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitSum([NotNull] RecycleParser.SumContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.scoremax"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterScoremax([NotNull] RecycleParser.ScoremaxContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.scoremax"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitScoremax([NotNull] RecycleParser.ScoremaxContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.scoremin"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterScoremin([NotNull] RecycleParser.ScoreminContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.scoremin"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitScoremin([NotNull] RecycleParser.ScoreminContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.score"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

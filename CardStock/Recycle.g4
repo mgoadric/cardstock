@@ -176,9 +176,11 @@ UNOP : 'not' ;
 aggb : OPEN ('any' | 'all') collection var boolean CLOSE ;
 
 // Integers
-int : vari | sizeof | mult | subtract | mod | add | divide | exponent | triangular | fibonacci | random | sum | rawstorage | score | pid | tid | INTNUM+ ;
+int : vari | sizeof | mult | subtract | mod | add | divide | exponent | triangular | fibonacci | random | sum | rawstorage | score | pid | tid | scoremax | scoremin | INTNUM+ ;
 INTNUM : [0-9] ;
 sum : OPEN 'sum' cstorage 'using' pointstorage CLOSE ;
+scoremax : OPEN 'scoremax' cstorage 'using' pointstorage CLOSE ;
+scoremin : OPEN 'scoremin' cstorage 'using' pointstorage CLOSE ;
 score : OPEN 'score' card 'using' pointstorage CLOSE ;
 add : OPEN '+' int int CLOSE ;
 mult : OPEN '*' int int CLOSE ;
