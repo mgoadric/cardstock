@@ -17,7 +17,7 @@ tournament of AI players. Please check back for further progress on these issues
 
 ## Games
 
-There are currently 56 games coded in RECYCLE
+There are currently 57 games coded in RECYCLE
 
 * Adding
     * [Caterpillar](http://www.parlettgames.uk/oricards/caterpil.html) (2p)
@@ -32,7 +32,8 @@ There are currently 56 games coded in RECYCLE
     * [Comet](http://www.catsatcards.com/Games/Comet.html) (2p)
     * [LAMA](https://boardgamegeek.com/filepage/180052/lama-official-rules) (2-6p)
     * [President](https://www.pagat.com/climbing/president.html) (4-5p) 
-* Draw and Discard
+* Draw and Discard (or Discard and Draw)
+    * [Clocktowers](https://boardgamegeek.com/boardgame/12538/clocktowers) (2p)
     * [Golf Six](https://www.pagat.com/draw/golf.html) (2-4p)
     * [Lost Cities](https://cdn.1j1ju.com/medias/c8/66/47-lost-cities-rulebook.pdf) (2p)
     * [Rummy](https://www.pagat.com/rummy/rummy.html) (2p) 
@@ -110,8 +111,8 @@ There are currently 56 games coded in RECYCLE
 7. Write up your game in RECYCLE in the `games` subdirectory.
 8. Alter the `Program.cs` class to specify the name of your game.
 9. Run the program in either Release or Debug mode.
-   10. For Release mode, in the terminal type "dotnet run --configuration Release"
-   11. Choose "Release Mode" to only see the results, or "Debug Mode" to see all game actions (better logs in the future).
+    1. For Release mode, in the terminal type "dotnet run --configuration Release"
+    2. Choose "Release Mode" to only see the results, or "Debug Mode" to see all game actions (better logs in the future).
 10. Analyse your results (found in the `output` subdirectory) with the Jupyter Notebooks in the `Analysis` directory.
 
 ## References
