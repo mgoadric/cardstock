@@ -1,10 +1,5 @@
 ﻿using CardStock.CardEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace CardStock.FreezeFrame
 {
@@ -108,15 +103,25 @@ namespace CardStock.FreezeFrame
                     ret.Add(key, l);
 
                 }
-                else if (o is List<Object> intlist)
+                else if (o is List<object> olist)
                 {
-                    var element = intlist.FirstOrDefault();
+                    var element = olist.FirstOrDefault();
+                    Debug.WriteLine("what is this???" + key + ":" + element.GetType());
                     if (element is int ii)
                     {
-                        List<Object> newlist = [];
-                        foreach (int ij in intlist)
+                        List<object> newlist = [];
+                        foreach (int ij in olist.Select(v => (int)v))
                         {
                             newlist.Add(ij);
+                        }
+                        ret.Add(key, newlist);
+                    }
+                    else if (element is Card cc)
+                    {
+                        List<Card> newlist = [];
+                        foreach (Card cd in olist.Select(v => (Card)v))
+                        {
+                            newlist.Add(newgame.sourceDeck[cd.back][cd.id]);
                         }
                         ret.Add(key, newlist);
                     }

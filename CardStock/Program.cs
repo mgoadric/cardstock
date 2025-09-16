@@ -1,7 +1,7 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "Scopa";
+string game = "LostCities";
 int numPlayers = 2;
 
 /*

@@ -1,5 +1,7 @@
-;; Scopa in the GDL
-;; https://www.pagat.com/fishing/scopa.html
+;; Basics of Fishing Games in the GDL
+;;
+;; https://www.pagat.com/fishing/
+
 (game
  (setup  
   ;; Set up the players, 2 players each on their own team

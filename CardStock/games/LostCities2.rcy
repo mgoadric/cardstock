@@ -15,8 +15,7 @@
   (repeat 3 (create deck (game iloc STOCK) (deck (RANK (HS))
                                                  (COLOR (WHITE, BLUE, GREEN, RED, YELLOW))))))
  
- (do 
-     (
+ (do (
       (set (game sto ROUNDS) 0)
       (set (game points PRECEDENCE)
            (
@@ -39,8 +38,7 @@
          (== (game sto ROUNDS) 1))
         
         ;; Shuffle and deal 8 cards to each player
-        (do 
-            ( 
+        (do ( 
              (shuffle (game iloc STOCK))
              (all player 'P 
                   (repeat 8 
@@ -53,8 +51,7 @@
                 (== (size (game iloc STOCK)) 0))
                
                ;; Play a card from your hand
-               (choice 
-                (
+               (choice (
                  
                  ;; Play to the center of the table and record where you played it
                  (any 'COLORS 'C                      
@@ -62,10 +59,9 @@
                         ((> (size 'MYCOLOR) 0)
                          
                          (any 'MYCOLOR 'AC
-                              (do 
-                                  (
+                              (do (
                                    (move 'AC (top (game vloc 'C)))
-                                   (set (game sto 'C) 1)))))))
+                                   (set (game str MIDDLE) 'C)))))))
                  
                  ;; Play a card to your side, any card if there are none there
                  (any 'COLORS 'C 
@@ -88,35 +84,28 @@
                                        (top ((current player) vloc 'C)))))))))))
                
                ;; Draw a card            
-               (choice 
-                (
+               (choice (
                  
                  ;; from STOCK  
                  (move (top (game iloc STOCK))
                        (top ((current player) iloc HAND)))
                  
                  ;; or from the table, but not where you just played 
-                 (do 
-                     (
-                      (all 'COLORS 'C
-                           (do 
-                               (
+                 (any 'COLORS 'C
+                           (do (
                                 ((and (> (size (game vloc 'C)) 0)
-                                      (!= (game sto 'C) 1))
+                                      (!= (game str MIDDLE) 'C))
                                  (move (top (game vloc 'C))
-                                       (top ((current player) iloc HAND)))))))))))
+                                       (top ((current player) iloc HAND)))))))))
                
                ;; Reset the marker for what card was played to the table
-               (do 
-                   (
-                    (all 'COLORS 'C
-                         (set (game sto 'C) 0)))))
+               (do (
+                    (set (game str MIDDLE) NONE))))
         
         (stage player ;;scoring
                (end 
                 (all player 'P (== ('P sto PROC) 1)))
-               (do 
-                   (
+               (do (
                     (all 'COLORS 'C
                          ((> (size ((current player) vloc 'C)) 0)
                           (inc ((current player) sto SCORE) 
@@ -132,8 +121,7 @@
                                        (top (game iloc STOCK))))))))
         
         ;; Put the card back for next round
-        (do 
-            (
+        (do (
              (all 'COLORS 'C
                   (repeat all
                           (move (top (game vloc 'C))
