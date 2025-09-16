@@ -1,7 +1,7 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "LostCities";
+string game = "BustedJunk/DuckSoup";
 int numPlayers = 2;
 
 /*
@@ -21,7 +21,7 @@ foreach (string filename in files)
             Game = game,
             PlayerCount = numPlayers,
             NumGames = 100,
-            Players = [PlayerType.PIPMC]
+            Players = []
         };
 
         Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
