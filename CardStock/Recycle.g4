@@ -1,4 +1,8 @@
-// Version 0.6.1 of our REcursive CYclic Card game LanguagE
+// Version 0.6.2 of our REcursive CYclic Card game LanguagE
+
+// New in version 0.6.2
+//  cycle syntax cleaned up, using a real player now instead of just "current" or "next"
+//  this is much more flexible, allows for (1 player) etc, and keeps owner.
 
 // New in version 0.6.1
 //  a way to extract the id from a player or team as an int
@@ -57,12 +61,12 @@
 //  random number (0-?) or (?-?) with ? inclusive
 //  change range to be inclusive
 
-//  TODO store other player as a storage variable?
 //  TODO make a graph for the locations? Only make explicit if needed?
 //     would also need ways to talk about neighbors (left, right, up, down) grammar
 //      or by index (0, 0), (1, 0), etc...
 //  TODO stages with count of number of times to cycle, this would avoid the awkward
 //     counters currently used
+//  TODO make simultaneous cycles, everyone gets one turn to make the choice within.
 
 grammar Recycle;
 

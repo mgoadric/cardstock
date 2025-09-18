@@ -136,34 +136,47 @@
                               ((RANK : TWO) 2)))
                     )
 
-                   (set (game sto TRICKWINNER) (id (owner (max (union (all player 'P ('P vloc TRICK))) using (game points CARDSCORE)))))
-                   (set (game sto TRICKLOSER) (id (owner (min (union (all player 'P ('P vloc TRICK))) using (game points CARDSCORE)))))
-                   (cycle next (game sto TRICKWINNER))
-                   (inc ((next player) sto SCORE)
-                        (game sto TRICKSCORE)))))
+                   (set (game sto TRICKWINNER) (pid (owner (max (union (all player 'P ('P vloc TRICK))) using (game points CARDSCORE)))))
+                   (set (game sto TRICKLOSER) (pid (owner (min (union (all player 'P ('P vloc TRICK))) using (game points CARDSCORE)))))
+               )))
           
 
              ;; score quack hand if only one card per player
              ((== (game sto QUACKED) 1)
-              (inc ((next player) sto SCORE) 2))
+              (do (
+                    (set (game sto TRICKSCORE) 2)
+                    (set (game sto TRICKWINNER) (pid (next player)))
+                    (set (game sto TRICKLOSER) (pid (current player)))
+             )))
              
              ;; score quack hand if three in a row
              ((== (game sto QUACKED) 2)
               (do (
-                   (cycle next current)                        
-                   (inc ((next player) sto SCORE) 2)
+                    (set (game sto TRICKSCORE) 2)
+                    (set (game sto TRICKWINNER) (pid (current player)))
+                    (set (game sto TRICKLOSER) (pid (next player)))
                    ((== (cardatt SUIT (top ((current player) vloc TRICK)))
                         (cardatt SUIT (top ((next player) vloc TRICK))))
-                    (inc ((next player) sto SCORE) 1))
+                    (inc (game sto TRICKSCORE) 1))
                    ((!= (cardatt SUIT (top ((current player) vloc TRICK)))
                         (cardatt SUIT (top ((next player) vloc TRICK))))
-                    (inc ((next player) sto SCORE) 2))
+                    (inc (game sto TRICKSCORE) 2))
                    )))
              
              ;; score quack hand if only one card per player
              ((== (game sto QUACKED) 3)
-              (inc ((next player) sto SCORE) 4))
+              (do (
+                    (set (game sto TRICKSCORE) 4)
+                    (set (game sto TRICKWINNER) (pid (next player)))
+                    (set (game sto TRICKLOSER) (pid (current player)))
+             )))
              
+             ;; set the next player
+             (cycle next ((game sto TRICKWINNER) player))
+
+             ;; give the winner points for the trick
+             (inc (((game sto TRICKWINNER) player) sto SCORE)
+                  (game sto TRICKSCORE))
 
              ;; when in duck stage
              ;; winner should take the faceup card
@@ -171,22 +184,28 @@
                    (> (size (game vloc STOCK)) 0))
               (do (
                     (move (top (game vloc STOCK))
-                          (top ((next player) iloc HAND)))
+                          (top (((game sto TRICKWINNER) player) iloc HAND)))
+                    (move (top (game iloc STOCK))
+                          (top (((game sto TRICKLOSER) player) iloc HAND)))
               )))
 
-               ;; draw card if in duck stage 
-               ;; TWICE IF THE TRICK SIZE WAS BIGGER AND THERE ARE CARDS LEFT
-               ((and (== (game str COURSE) DUCK)
-                     (> (size (game iloc STOCK)) 0))
+             ((and (== (game str COURSE) DUCK)
+                   (> (size (game iloc STOCK)) 0)
+                   (== (size ((current player) vloc TRICK)) 2))
+              (do (
                     (move (top (game iloc STOCK))
-                         (top ('P iloc HAND))))
+                          (top (((game sto TRICKWINNER) player) iloc HAND)))
+                    (move (top (game iloc STOCK))
+                          (top (((game sto TRICKLOSER) player) iloc HAND)))
+              )))
 
-             
+             ;; discard your cards
              (all player 'P
                   (repeat all
                           (move (top ('P vloc TRICK))
                                 (top (game vloc DISCARD)))))            
              
+
              (set (game str LEAD) NONE)
              (set (game sto QUACKED) 0)
              (set (game sto FINISHED) 0)

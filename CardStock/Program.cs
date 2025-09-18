@@ -1,8 +1,8 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "Pitch";
-int numPlayers = 4;
+string game = "BustedJunk/DuckSoup";
+int numPlayers = 2;
 
 /*
 // Test them all
@@ -21,7 +21,7 @@ foreach (string filename in files)
             Game = game,
             PlayerCount = numPlayers,
             NumGames = 100,
-            Players = [PlayerType.MCTS] 
+            Players = [] 
         };
 
         Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
