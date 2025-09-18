@@ -119,6 +119,14 @@ numbers.
    (random [Integer])
    (random [Integer] .. [Integer])
 
+Each player and team has an id number (player 0, team 1, etc) that can be used as an _Integer.
+The syntax for the id is as follows:
+
+.. code-block:: racket
+
+   (pid (current player))
+   (tid (next team))
+
 Integers are also derived from Aggregation_.
 
 IntegerStorage
@@ -742,8 +750,9 @@ of a particular Card_, such as the winning card of a trick.
 .. code-block:: racket
 
   (cycle next (owner [Card]))
-  (cycle next current)
-  (cycle next previous)
+  (cycle next (current player))
+  (cycle next (previous player))
+  (cycle next (1 player))
 
 SetPlayerAction
 ---------------
@@ -754,8 +763,9 @@ similar actions.
 .. code-block:: racket
 
   (cycle current (owner [Card]))
-  (cycle current next)
-  (cycle current previous)
+  (cycle current (next player))
+  (cycle current (previous player))
+  (cycle current (0 player))
 
 TurnAction
 ----------

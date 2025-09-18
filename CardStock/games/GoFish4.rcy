@@ -18,23 +18,19 @@
        ;; DEALING START
       (shuffle (game iloc STOCK))
       (all player 'P 
-           (do 
-               (
+           (do (
                 (repeat 5 
                         (move (top (game iloc STOCK)) 
                               (top ('P iloc HAND))))
                 
                 ;; Check for rank match on deal               
-                (let (partition RANK ('P iloc HAND)) 'MYMATCHES
-                   (do (
-                   (all 'MYMATCHES 'MATCH
+                   (all (partition RANK ('P iloc HAND)) 'MATCH
                       ((== (size 'MATCH) 4) 
-                          (do 
-                            (
+                          (do (
                              (inc ('P sto SCORE) 1)
                              (repeat all
                                   (move (top 'MATCH)
-                                        (top ('P vloc TRICKSTACK))))))))))))))))
+                                        (top ('P vloc TRICKSTACK)))))))))))))
  
  (stage player  ;; TURN LOOP START
         
@@ -57,15 +53,22 @@
                        ;; Record player and rank in sto and str
                        (do 
                            (
-                            (set ('OP str WHO) CHOSEN) ;; 
-                            (set ((current player) str WHO) ASKED) ;; 
+                            ;;(set ('OP str WHO) CHOSEN) 
+                            ;;(set ((current player) str WHO) ASKED) 
+
+                            (set (game sto ASKED) (pid (current player)))
+                            (cycle current 'OP)
                             (set (game str RANK) 'R)))))))))
+
+      ;;    (do (
+      ;;         (cycle current next)
+      ;;    ))        
+      ;;    (stage player (end (all player 'P (!= ('P str WHO) ASKED)))
+      ;;      (do (
+      ;;         ((== ((current player) str WHO) CHOSEN)
+
+
           (do (
-               (cycle current next)
-          ))        
-          (stage player (end (all player 'P (!= ('P str WHO) ASKED)))
-            (do (
-               ((== ((current player) str WHO) CHOSEN)
                     (let (filter ((current player) iloc HAND) 'TR 
                      (== (cardatt RANK 'TR) 
                          (game str RANK))) 'THEIRRANK ;; Makes a collection of cards that player X has in rank R	
@@ -76,11 +79,16 @@
                          
                               (repeat all
                                    (move (top 'THEIRRANK)
-                                        (top (game vloc PASSING)))
+                                         (top (game vloc PASSING)))
                               )))))
-               )
-               ((== ((current player) str WHO) ASKED)
-                  (do (
+
+
+               ;;)
+               ;;((== ((current player) str WHO) ASKED)
+               (cycle current ((game sto ASKED) player))
+
+
+                  ;;(do (
                     ((== (size (game vloc PASSING)) 0)
                      (do (
                          (move (top (game iloc STOCK))
@@ -96,32 +104,34 @@
                                    (top ((current player) iloc HAND))))
                          (set ((current player) str MATCH) TRUE)
                      )))
-                    (all player 'P (set ('P str WHO) NONE))
-                  ))
-               )
-            ))
+                  ;;))
 
-          )
-          (do (
-               (cycle current previous)
-          )) 
-          (do (
+
+         ;; ))
+
+               ;;)
+           ;; ))
+
+        ;;  )
+        ;;  (do (
+        ;;       (cycle current previous)
+         ;; )) 
+
+         ;; (do (
                ;; Check for rank match             
-               (let (partition RANK ((current player) iloc HAND)) 'MYMATCHES
-                    (do ((all 'MYMATCHES 'MATCH
-                       ((== (size 'MATCH) 4)  
-                         (do 
-                              (
-                              (inc ((current player) sto SCORE) 1)
-                              (repeat all
-                                   (move (top 'MATCH)
-                                         (top ((current player) vloc TRICKSTACK)))))))))))
+               (all (partition RANK ((current player) iloc HAND)) 'MATCH
+                    ((== (size 'MATCH) 4)  
+                    (do (
+                         (inc ((current player) sto SCORE) 1)
+                         (repeat all
+                              (move (top 'MATCH)
+                                    (top ((current player) vloc TRICKSTACK))))))))
 
-             ;; determine if player goes again
+               ;; determine if player goes again
                ((== ((current player) str MATCH) TRUE)
                  (do (
                     (set ((current player) str MATCH) FALSE)
-                    (cycle next current)
+                    (cycle next (current player))
                  ))
                )
           )))
