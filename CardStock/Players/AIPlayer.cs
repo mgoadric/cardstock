@@ -1,4 +1,6 @@
-﻿﻿using CardStock.Evaluation;
+﻿﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using CardStock.Evaluation;
 
 namespace CardStock.Players
 {
@@ -11,9 +13,10 @@ namespace CardStock.Players
      */
 	public abstract class AIPlayer(Perspective perspective)
     {
+        // SHOULD WE ABSTRACT EVEN MORE, A PLAYER vs AN AI PLAYER, SO WE CAN HAVE RANDOM, OR HUMAN, NOT AI???
         protected int numPlayers = perspective.NumberOfPlayers();
         protected Perspective perspective = perspective;
-        protected DataCollector dataCollector;
+        protected Stopwatch stopwatch = new();
         public DataCollector dc;
 
         public int numChoices;
@@ -26,6 +29,23 @@ namespace CardStock.Players
          */
         public abstract void Explore();
 
+        public void ExploreOptions()
+        {
+            if (dc is not null)
+            {
+                // https://stackoverflow.com/questions/16376191/measuring-code-execution-time-in-this-code
+                stopwatch.Restart();
+                Explore();
+                stopwatch.Stop();
+                dc.AddTime(stopwatch.ElapsedMilliseconds);
+                Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
+            }
+            else
+            {
+                Explore();
+            }
+        }
+
         /*********
         * For Choose, The AIPlayer
         * is expected to return an int which is the index of their chosen move.
@@ -33,7 +53,7 @@ namespace CardStock.Players
         public int Choose()
         {
             int choice = ChooseOption();
-            dc?.AddChoiceList(new Tuple<int, int, int>(perspective.GetIdx(), numChoices, choice));
+            dc?.AddChoices(new Tuple<int, int, int>(perspective.GetIdx(), numChoices, choice));
             return choice;
         }
 

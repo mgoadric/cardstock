@@ -73,7 +73,7 @@ namespace CardStock.FreezeFrame{
             {
                 Debug.WriteLine("Removing from Virtual...");
                 cardList.Remove(card);
-                card.owner.Remove(card); // where was it removed from? How do we save this for undo?
+                card.Owner.Remove(card); // where was it removed from? How do we save this for undo?
             }
             else
             {

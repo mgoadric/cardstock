@@ -88,13 +88,14 @@ namespace CardStock.FreezeFrame {
 
         public override void Execute() {
             try {
-                if (startLocation.Count() != 0) {
+                if (startLocation.Count() != 0)
+                {
 
                     cardToMove = startLocation.Remove();
 
                     endLocation.Add(cardToMove);
-                    owner = cardToMove.owner;
-                    cardToMove.owner = endLocation.cardList;
+                    owner = cardToMove.Owner;
+                    cardToMove.Owner = endLocation.cardList;
 
                     var arrow = " -> ";
                     if (inChoice) { arrow = " ?-> "; }
@@ -102,8 +103,12 @@ namespace CardStock.FreezeFrame {
                     script.WriteToFile(prefix + ":" + cardToMove.ToString() + " " + owner.TranscriptName() + arrow + endLocation.cardList.TranscriptName());
 
                     Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
+
+                    // Track here to see if it moved from a visible to invisible location TODO
+                    // Then record the invisible as the last known location.
                 }
-                else {
+                else
+                {
                     Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
                     Console.WriteLine("moving to " + endLocation.ToString());
                     throw new Exception();
@@ -140,7 +145,7 @@ namespace CardStock.FreezeFrame {
                 {
                     owner.Add(cardToMove);
                 }
-                cardToMove.owner = owner;
+                cardToMove.Owner = owner;
             }
             else {
                 Debug.WriteLine("move has not been executed yet");

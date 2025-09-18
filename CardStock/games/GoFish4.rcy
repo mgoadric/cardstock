@@ -57,8 +57,8 @@
                        ;; Record player and rank in sto and str
                        (do 
                            (
-                            (set ('OP str WHO) CHOSEN) ;; THIS WILL NOT WORK RIGHT NOW
-                            (set ((current player) str WHO) ASKED) ;; THIS WILL NOT WORK RIGHT NOW
+                            (set ('OP str WHO) CHOSEN) ;; 
+                            (set ((current player) str WHO) ASKED) ;; 
                             (set (game str RANK) 'R)))))))))
           (do (
                (cycle current next)

@@ -56,6 +56,7 @@ namespace CardStock.Players
                 }
             }
             stopwatch.Stop();
+            dc.AddTime(stopwatch.ElapsedMilliseconds);
             Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
         }
 

@@ -15,6 +15,7 @@ namespace CardStock.Evaluation
         public List<Tuple<int, double[]>> allLeadList = [];
         public List<Tuple<int, double[]>> allScoresList = [];
         public List<Tuple<int, double>> spreadList = [];
+        public List<long> timeList = [];
 
         public DataCollector(Experiment exp)
         {
@@ -36,8 +37,8 @@ namespace CardStock.Evaluation
             }
 
             CSVOutput("lead", "game", "numPlayers", "ai", "run", "move", "recorder", "player", "score", "rankestimate");
-            CSVOutput("choice", "game", "numPlayers", "ai", "run", "move", "player", "choices", "choice");
-            CSVOutput("results", "game", "numPlayers", "ai", "run", "player", "score", "rank");
+            CSVOutput("choice", "game", "numPlayers", "ai", "run", "move", "player", "choices", "choice", "time");
+            CSVOutput("results", "game", "numPlayers", "ai", "run", "player", "score", "rank", "time");
             CSVOutput("spread", "game", "numPlayers", "ai", "run", "pmove", "player", "spread");
         }
 
@@ -46,7 +47,7 @@ namespace CardStock.Evaluation
             dataFiles[file].WriteLine(string.Join(",", values));
         }
 
-        public void RecordGameStatistics(int run, int[] results, int mult)
+        public void RecordGameStatistics(int run, int[] results, int mult, long time)
         {
             lock (this)
             {
@@ -57,7 +58,7 @@ namespace CardStock.Evaluation
                 int[] ranks = FindRanks(results, mult);
                 for (int j = 0; j < results.Length; ++j)
                 {
-                    CSVOutput("results", exp.Game, exp.PlayerCount, ai, run + 1, j + 1, results[j], ranks[j] + 1);
+                    CSVOutput("results", exp.Game, exp.PlayerCount, ai, run + 1, j + 1, results[j], ranks[j] + 1, time);
                 }
 
                 /******
@@ -66,7 +67,7 @@ namespace CardStock.Evaluation
                 int move = 0;
                 foreach (Tuple<int, int, int> t in choiceList)
                 {
-                    CSVOutput("choice", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, t.Item1 + 1, t.Item2, t.Item3 + 1);
+                    CSVOutput("choice", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, t.Item1 + 1, t.Item2, t.Item3 + 1, timeList[move]);
                     move++;
                 }
 
@@ -79,8 +80,13 @@ namespace CardStock.Evaluation
                     Tuple<int, double[]> allScores = allScoresList[move];
                     for (int k = 0; k < exp.PlayerCount; k++)
                     {
-                        CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run, move, allLeads.Item1, k, allScores.Item2[k], allLeads.Item2[k]);
+                        CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, allLeads.Item1, k, allScores.Item2[k], allLeads.Item2[k]);
                     }
+                }
+                // tack on the final results at the end of the lead list
+                for (int k = 0; k < exp.PlayerCount; k++)
+                {
+                    CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, k + 1, k + 1, results[k], ranks[k] + 1);
                 }
 
                 /******
@@ -89,7 +95,7 @@ namespace CardStock.Evaluation
                 move = 0;
                 foreach (Tuple<int, double> s in spreadList)
                 {
-                    CSVOutput("spread", exp.Game, exp.PlayerCount,ai, run, move, s.Item1, s.Item2);
+                    CSVOutput("spread", exp.Game, exp.PlayerCount,ai, run + 1, move + 1, s.Item1, s.Item2);
                     move++;
                 }
 
@@ -154,10 +160,16 @@ namespace CardStock.Evaluation
             }
         }
 
-        public void AddChoiceList(Tuple<int, int, int> choices)
+        public void AddChoices(Tuple<int, int, int> choices)
         {
             choiceList.Add(choices);
         }
+
+        public void AddTime(long time)
+        {
+            timeList.Add(time);
+        }
+
         public void Close()
         {
             foreach (StreamWriter file in dataFiles.Values)

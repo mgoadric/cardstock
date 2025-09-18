@@ -741,16 +741,6 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitSubset([NotNull] RecycleParser.SubsetContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.tuple"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTuple([NotNull] RecycleParser.TupleContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.tuple"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTuple([NotNull] RecycleParser.TupleContext context);
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.partition"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

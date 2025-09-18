@@ -160,7 +160,7 @@ namespace CardStock.CardEngine
         }
         public override string ToString()
         {
-            StringBuilder ret = new StringBuilder();
+            StringBuilder ret = new();
             foreach (string s in dict.Keys)
             {
                 ret.Append(dict[s].ToString());

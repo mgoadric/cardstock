@@ -50,8 +50,7 @@ namespace CardStock.Evaluation {
 
         public bool RunExperiment() {
 
-            Stopwatch time = new();
-            time.Start();
+            Stopwatch stopwatch = new();
 
             /***********
             * Set up the data recording files
@@ -67,10 +66,11 @@ namespace CardStock.Evaluation {
             //Parallel.For(0, exp.NumGames, i =>
             for (int i = 0; i < exp.NumGames; i++)
             {
+                GC.Collect();
+
+                stopwatch.Restart();
                 try
                 {
-                    GC.Collect();
-
                     string path = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.PlayerAbv() + "/simulation/";
                     FileInfo file = new(path);
                     file.Directory.Create();
@@ -102,24 +102,25 @@ namespace CardStock.Evaluation {
                     /*********
                          * PLAY THE GAME
                          ***********/
-                        while (!gamePlay.AdvanceToChoice())
-                        {
-                            gamePlay.ProcessChoice();
+                    while (!gamePlay.AdvanceToChoice())
+                    {
+                        gamePlay.ProcessChoice();
 
-                            if (gamePlay.totalChoices > CHOICELIMIT)
-                            {
-                                Console.WriteLine("Game " + (i + 1) + " Choices not processed (probably infinite loop)");
-                                //compiling = false;
-                                break;
-                            }
+                        if (gamePlay.totalChoices > CHOICELIMIT)
+                        {
+                            Console.WriteLine("Game " + (i + 1) + " Choices not processed (probably infinite loop)");
+                            //compiling = false;
+                            break;
                         }
+                    }
 
                     var (results, mult) = gamePlay.ProcessScore();
+                    stopwatch.Stop();
 
                     /************
                      * WRITE OUT STATS
                      *************/
-                    dc.RecordGameStatistics(i, results, mult);
+                    dc.RecordGameStatistics(i, results, mult, stopwatch.ElapsedMilliseconds);
 
                     numFinished++;
                     Console.WriteLine("Finished game " + numFinished + " of " + exp.NumGames);
@@ -127,13 +128,13 @@ namespace CardStock.Evaluation {
                 }
                 catch (Exception e)
                 {
+                    stopwatch.Stop();
                     Console.WriteLine(exp.Game + " failed from exception: " + e + "\n\n\n");
                     return false;
                 }
             }
         //);
         
-            time.Stop();
 
             dc.Close();
 

@@ -1058,7 +1058,7 @@ namespace CardStock.FreezeFrame
             Debug.WriteLine("Got to OWNER");
             var resultingCard = ProcessCard(owner.card()).Get();
             Debug.WriteLine("Result :" + resultingCard);
-            return ((Player)resultingCard.owner.owner.owner).id;
+            return ((Player)resultingCard.Owner.owner.owner).id;
             // Will this crash if not owned by a player?
         }
 
@@ -1335,39 +1335,7 @@ namespace CardStock.FreezeFrame
 
         private List<CardLocReference> ProcessCStorageCollection(RecycleParser.CstoragecollectionContext cstoragecoll)
         {
-            if (cstoragecoll.tuple() is not null)
-            {
-                var points = ProcessPointStorage(cstoragecoll.tuple().pointstorage());
-                var stor = ProcessLocation(cstoragecoll.tuple().cstorage());
-
-                // TODO THIS IS HACKY, why only 13???
-                // it should really be all possible point values, based on the CardGrouping implementtion...
-                // What about this??
-                /*
-                var findEm = new CardGrouping(stor, points.Get());
-                */
-                var findEm = new CardGrouping(13, points.Get());
-
-                var cardsToScore = new CardCollection(CCType.VIRTUAL);
-                foreach (var card in stor.cardList.AllCards())
-                {
-                    cardsToScore.Add(card);
-                }
-                var pairs = findEm.TuplesOfSize(cardsToScore, ProcessInt(cstoragecoll.tuple().@int()));
-                var returnList = new CardLocReference[pairs.Count];
-                for (int i = 0; i < pairs.Count; ++i)
-                {
-                    returnList[i] = new CardLocReference()
-                    {
-                        cardList = pairs[i],
-                        name = "{mem}" + points.GetName() + "{p" + i + "}"
-                    };
-                }
-                return [.. returnList];
-            }
-
-            // subset code  BUT NO NULL SET?
-            else if (cstoragecoll.subset() is not null)
+            if (cstoragecoll.subset() is not null)
             {
                 Debug.WriteLine("Found a subset");
                 var stor = ProcessLocation(cstoragecoll.subset().cstorage());
@@ -1963,7 +1931,7 @@ namespace CardStock.FreezeFrame
             if (who.owner() is not null)
             {
                 var loc = ProcessCard(who.owner().card());
-                return (Player)loc.Get().owner.owner.owner;
+                return (Player)loc.Get().Owner.owner.owner;
             }
             else
             {
@@ -2887,7 +2855,7 @@ namespace CardStock.FreezeFrame
             }
             else if (ret is Card c)
             {
-                CardCollection cardl = c.owner.ShallowCopy();
+                CardCollection cardl = c.Owner.ShallowCopy();
                 CardLocReference clr = new() { cardList = cardl, name = "manufactured variable" };
                 clr.SetLocId(c);
                 return clr;

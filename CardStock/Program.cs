@@ -1,7 +1,7 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "BustedJunk/DuckSoup";
+string game = "Agram";
 int numPlayers = 2;
 
 /*
@@ -21,7 +21,7 @@ foreach (string filename in files)
             Game = game,
             PlayerCount = numPlayers,
             NumGames = 100,
-            Players = []
+            Players = [PlayerType.MCTS] 
         };
 
         Console.WriteLine(exp.Game + ", " + exp.PlayerCount);

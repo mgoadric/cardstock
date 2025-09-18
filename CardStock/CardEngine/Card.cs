@@ -3,14 +3,15 @@ using System.Diagnostics;
 
 namespace CardStock.CardEngine
 {
-    public class Card(Dictionary<string, string> atts, int id, string n)
+    public class Card(Dictionary<string, string> atts, int id, string back)
     {
 
         private readonly Dictionary<string, string> cardAtts = atts;
-        public CardCollection owner { get; set; }
+        public CardCollection Owner { get; set; }
         public readonly int id = id;
         public int idX = id;
-        public string back = n;
+        // a card should have a back, separate from the last known place, per player.
+        public string back = back;
 
         public Card Clone()
         {
@@ -19,7 +20,7 @@ namespace CardStock.CardEngine
 
         public override string ToString()
         {
-            //https://stackoverflow.com/questions/3871760/convert-dictionarystring-string-to-semicolon-separated-string-in-c-sharp
+            // https://stackoverflow.com/questions/3871760/convert-dictionarystring-string-to-semicolon-separated-string-in-c-sharp
             return id + "!" + string.Join(";", cardAtts.Select(x => x.Key + "=" + x.Value)) + ":" + back;
             //return idX + ":" + back;
         }

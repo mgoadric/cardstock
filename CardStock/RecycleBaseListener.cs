@@ -888,18 +888,6 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitSubset([NotNull] RecycleParser.SubsetContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.tuple"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterTuple([NotNull] RecycleParser.TupleContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.tuple"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitTuple([NotNull] RecycleParser.TupleContext context) { }
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.partition"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

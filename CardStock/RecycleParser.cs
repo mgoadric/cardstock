@@ -47,8 +47,8 @@ public partial class RecycleParser : Parser {
 		T__59=60, T__60=61, T__61=62, T__62=63, T__63=64, T__64=65, T__65=66, 
 		T__66=67, T__67=68, T__68=69, T__69=70, T__70=71, T__71=72, T__72=73, 
 		T__73=74, T__74=75, T__75=76, T__76=77, T__77=78, T__78=79, T__79=80, 
-		T__80=81, BOOLOP=82, COMPOP=83, EQOP=84, UNOP=85, INTNUM=86, LETT=87, 
-		OPEN=88, CLOSE=89, WS=90, ANY=91;
+		BOOLOP=81, COMPOP=82, EQOP=83, UNOP=84, INTNUM=85, LETT=86, OPEN=87, CLOSE=88, 
+		WS=89, ANY=90;
 	public const int
 		RULE_var = 0, RULE_vars = 1, RULE_varo = 2, RULE_varp = 3, RULE_vari = 4, 
 		RULE_varb = 5, RULE_varc = 6, RULE_varcs = 7, RULE_varcsc = 8, RULE_varcard = 9, 
@@ -66,14 +66,14 @@ public partial class RecycleParser : Parser {
 		RULE_range = 57, RULE_other = 58, RULE_cstorage = 59, RULE_sortof = 60, 
 		RULE_unionof = 61, RULE_intersectof = 62, RULE_disjunctionof = 63, RULE_filter = 64, 
 		RULE_memstorage = 65, RULE_sequence = 66, RULE_runsequence = 67, RULE_cstoragecollection = 68, 
-		RULE_run = 69, RULE_subset = 70, RULE_tuple = 71, RULE_partition = 72, 
-		RULE_aggcs = 73, RULE_indexed = 74, RULE_boolean = 75, RULE_intop = 76, 
-		RULE_aggb = 77, RULE_int = 78, RULE_sum = 79, RULE_scoremax = 80, RULE_scoremin = 81, 
-		RULE_score = 82, RULE_add = 83, RULE_mult = 84, RULE_subtract = 85, RULE_mod = 86, 
-		RULE_divide = 87, RULE_exponent = 88, RULE_triangular = 89, RULE_fibonacci = 90, 
-		RULE_random = 91, RULE_sizeof = 92, RULE_aggi = 93, RULE_rawstorage = 94, 
-		RULE_pid = 95, RULE_tid = 96, RULE_str = 97, RULE_strstorage = 98, RULE_cardatt = 99, 
-		RULE_namegr = 100;
+		RULE_run = 69, RULE_subset = 70, RULE_partition = 71, RULE_aggcs = 72, 
+		RULE_indexed = 73, RULE_boolean = 74, RULE_intop = 75, RULE_aggb = 76, 
+		RULE_int = 77, RULE_sum = 78, RULE_scoremax = 79, RULE_scoremin = 80, 
+		RULE_score = 81, RULE_add = 82, RULE_mult = 83, RULE_subtract = 84, RULE_mod = 85, 
+		RULE_divide = 86, RULE_exponent = 87, RULE_triangular = 88, RULE_fibonacci = 89, 
+		RULE_random = 90, RULE_sizeof = 91, RULE_aggi = 92, RULE_rawstorage = 93, 
+		RULE_pid = 94, RULE_tid = 95, RULE_str = 96, RULE_strstorage = 97, RULE_cardatt = 98, 
+		RULE_namegr = 99;
 	public static readonly string[] ruleNames = {
 		"var", "vars", "varo", "varp", "vari", "varb", "varc", "varcs", "varcsc", 
 		"varcard", "game", "declare", "setup", "scoring", "stage", "endcondition", 
@@ -85,11 +85,11 @@ public partial class RecycleParser : Parser {
 		"locdesc", "who", "whop", "whot", "whodesc", "owner", "teamp", "typed", 
 		"collection", "strcollection", "range", "other", "cstorage", "sortof", 
 		"unionof", "intersectof", "disjunctionof", "filter", "memstorage", "sequence", 
-		"runsequence", "cstoragecollection", "run", "subset", "tuple", "partition", 
-		"aggcs", "indexed", "boolean", "intop", "aggb", "int", "sum", "scoremax", 
-		"scoremin", "score", "add", "mult", "subtract", "mod", "divide", "exponent", 
-		"triangular", "fibonacci", "random", "sizeof", "aggi", "rawstorage", "pid", 
-		"tid", "str", "strstorage", "cardatt", "namegr"
+		"runsequence", "cstoragecollection", "run", "subset", "partition", "aggcs", 
+		"indexed", "boolean", "intop", "aggb", "int", "sum", "scoremax", "scoremin", 
+		"score", "add", "mult", "subtract", "mod", "divide", "exponent", "triangular", 
+		"fibonacci", "random", "sizeof", "aggi", "rawstorage", "pid", "tid", "str", 
+		"strstorage", "cardatt", "namegr"
 	};
 
 	private static readonly string[] _LiteralNames = {
@@ -101,11 +101,10 @@ public partial class RecycleParser : Parser {
 		"'pass'", "'repeat'", "'points'", "'top'", "'bottom'", "'using'", "'vloc'", 
 		"'iloc'", "'hloc'", "'oloc'", "'mem'", "'owner'", "'range'", "'..'", "'other'", 
 		"'sort'", "'union'", "'intersect'", "'disjunction'", "'filter'", "'run'", 
-		"'runs'", "'largest'", "'subsets'", "'tuples'", "'partition'", "'indexed'", 
-		"'sum'", "'scoremax'", "'scoremin'", "'score'", "'+'", "'*'", "'-'", "'%'", 
-		"'//'", "'^'", "'tri'", "'fib'", "'random'", "'size'", "'sto'", "'pid'", 
-		"'tid'", "'str'", "'cardatt'", null, null, null, "'not'", null, null, 
-		"'('", "')'"
+		"'runs'", "'largest'", "'subsets'", "'partition'", "'indexed'", "'sum'", 
+		"'scoremax'", "'scoremin'", "'score'", "'+'", "'*'", "'-'", "'%'", "'//'", 
+		"'^'", "'tri'", "'fib'", "'random'", "'size'", "'sto'", "'pid'", "'tid'", 
+		"'str'", "'cardatt'", null, null, null, "'not'", null, null, "'('", "')'"
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
@@ -114,8 +113,8 @@ public partial class RecycleParser : Parser {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, "BOOLOP", 
-		"COMPOP", "EQOP", "UNOP", "INTNUM", "LETT", "OPEN", "CLOSE", "WS", "ANY"
+		null, null, null, null, null, null, null, null, null, "BOOLOP", "COMPOP", 
+		"EQOP", "UNOP", "INTNUM", "LETT", "OPEN", "CLOSE", "WS", "ANY"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -177,9 +176,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 202;
+			State = 200;
 			Match(T__0);
-			State = 203;
+			State = 201;
 			namegr();
 			}
 		}
@@ -222,9 +221,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 205;
+			State = 203;
 			Match(T__0);
-			State = 206;
+			State = 204;
 			namegr();
 			}
 		}
@@ -267,9 +266,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 208;
+			State = 206;
 			Match(T__0);
-			State = 209;
+			State = 207;
 			namegr();
 			}
 		}
@@ -312,9 +311,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 211;
+			State = 209;
 			Match(T__0);
-			State = 212;
+			State = 210;
 			namegr();
 			}
 		}
@@ -357,9 +356,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 214;
+			State = 212;
 			Match(T__0);
-			State = 215;
+			State = 213;
 			namegr();
 			}
 		}
@@ -402,9 +401,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 217;
+			State = 215;
 			Match(T__0);
-			State = 218;
+			State = 216;
 			namegr();
 			}
 		}
@@ -447,9 +446,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 220;
+			State = 218;
 			Match(T__0);
-			State = 221;
+			State = 219;
 			namegr();
 			}
 		}
@@ -492,9 +491,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 223;
+			State = 221;
 			Match(T__0);
-			State = 224;
+			State = 222;
 			namegr();
 			}
 		}
@@ -537,9 +536,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 226;
+			State = 224;
 			Match(T__0);
-			State = 227;
+			State = 225;
 			namegr();
 			}
 		}
@@ -582,9 +581,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 229;
+			State = 227;
 			Match(T__0);
-			State = 230;
+			State = 228;
 			namegr();
 			}
 		}
@@ -651,47 +650,47 @@ public partial class RecycleParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 232;
+			State = 230;
 			Match(OPEN);
-			State = 233;
+			State = 231;
 			Match(T__1);
-			State = 237;
+			State = 235;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,0,Context);
 			while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					{
-					State = 234;
+					State = 232;
 					declare();
 					}
 					} 
 				}
-				State = 239;
+				State = 237;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,0,Context);
 			}
-			State = 240;
+			State = 238;
 			setup();
-			State = 243;
+			State = 241;
 			ErrorHandler.Sync(this);
 			_alt = 1+1;
 			do {
 				switch (_alt) {
 				case 1+1:
 					{
-					State = 243;
+					State = 241;
 					ErrorHandler.Sync(this);
 					switch ( Interpreter.AdaptivePredict(TokenStream,1,Context) ) {
 					case 1:
 						{
-						State = 241;
+						State = 239;
 						multiaction();
 						}
 						break;
 					case 2:
 						{
-						State = 242;
+						State = 240;
 						stage();
 						}
 						break;
@@ -701,13 +700,13 @@ public partial class RecycleParser : Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 245;
+				State = 243;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,2,Context);
 			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 247;
+			State = 245;
 			scoring();
-			State = 248;
+			State = 246;
 			Match(CLOSE);
 			}
 		}
@@ -755,15 +754,15 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 250;
+			State = 248;
 			Match(OPEN);
-			State = 251;
+			State = 249;
 			Match(T__2);
-			State = 252;
+			State = 250;
 			typed();
-			State = 253;
+			State = 251;
 			var();
-			State = 254;
+			State = 252;
 			Match(CLOSE);
 			}
 		}
@@ -830,23 +829,23 @@ public partial class RecycleParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 256;
+			State = 254;
 			Match(OPEN);
-			State = 257;
+			State = 255;
 			Match(T__3);
-			State = 258;
+			State = 256;
 			playercreate();
-			State = 260;
+			State = 258;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,3,Context) ) {
 			case 1:
 				{
-				State = 259;
+				State = 257;
 				teamcreate();
 				}
 				break;
 			}
-			State = 269;
+			State = 267;
 			ErrorHandler.Sync(this);
 			_alt = 1+1;
 			do {
@@ -854,27 +853,27 @@ public partial class RecycleParser : Parser {
 				case 1+1:
 					{
 					{
-					State = 262;
+					State = 260;
 					Match(OPEN);
-					State = 265;
+					State = 263;
 					ErrorHandler.Sync(this);
 					switch (TokenStream.LA(1)) {
 					case T__16:
 						{
-						State = 263;
+						State = 261;
 						deckcreate();
 						}
 						break;
 					case T__36:
 						{
-						State = 264;
+						State = 262;
 						repeat();
 						}
 						break;
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 267;
+					State = 265;
 					Match(CLOSE);
 					}
 					}
@@ -882,11 +881,11 @@ public partial class RecycleParser : Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 271;
+				State = 269;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,5,Context);
 			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 273;
+			State = 271;
 			Match(CLOSE);
 			}
 		}
@@ -932,11 +931,11 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 275;
+			State = 273;
 			Match(OPEN);
-			State = 276;
+			State = 274;
 			Match(T__4);
-			State = 277;
+			State = 275;
 			_la = TokenStream.LA(1);
 			if ( !(_la==T__5 || _la==T__6) ) {
 			ErrorHandler.RecoverInline(this);
@@ -945,9 +944,9 @@ public partial class RecycleParser : Parser {
 				ErrorHandler.ReportMatch(this);
 			    Consume();
 			}
-			State = 278;
+			State = 276;
 			@int();
-			State = 279;
+			State = 277;
 			Match(CLOSE);
 			}
 		}
@@ -1006,11 +1005,11 @@ public partial class RecycleParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 281;
+			State = 279;
 			Match(OPEN);
-			State = 282;
+			State = 280;
 			Match(T__7);
-			State = 283;
+			State = 281;
 			_la = TokenStream.LA(1);
 			if ( !(_la==T__8 || _la==T__9) ) {
 			ErrorHandler.RecoverInline(this);
@@ -1019,27 +1018,27 @@ public partial class RecycleParser : Parser {
 				ErrorHandler.ReportMatch(this);
 			    Consume();
 			}
-			State = 284;
+			State = 282;
 			endcondition();
-			State = 287;
+			State = 285;
 			ErrorHandler.Sync(this);
 			_alt = 1+1;
 			do {
 				switch (_alt) {
 				case 1+1:
 					{
-					State = 287;
+					State = 285;
 					ErrorHandler.Sync(this);
 					switch ( Interpreter.AdaptivePredict(TokenStream,6,Context) ) {
 					case 1:
 						{
-						State = 285;
+						State = 283;
 						multiaction();
 						}
 						break;
 					case 2:
 						{
-						State = 286;
+						State = 284;
 						stage();
 						}
 						break;
@@ -1049,11 +1048,11 @@ public partial class RecycleParser : Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 289;
+				State = 287;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,7,Context);
 			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 291;
+			State = 289;
 			Match(CLOSE);
 			}
 		}
@@ -1098,13 +1097,13 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 293;
+			State = 291;
 			Match(OPEN);
-			State = 294;
+			State = 292;
 			Match(T__10);
-			State = 295;
+			State = 293;
 			boolean();
-			State = 296;
+			State = 294;
 			Match(CLOSE);
 			}
 		}
@@ -1163,19 +1162,19 @@ public partial class RecycleParser : Parser {
 		EnterRule(_localctx, 32, RULE_multiaction);
 		try {
 			int _alt;
-			State = 322;
+			State = 320;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,10,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
+				State = 296;
+				Match(OPEN);
+				State = 297;
+				Match(T__11);
 				State = 298;
 				Match(OPEN);
-				State = 299;
-				Match(T__11);
 				State = 300;
-				Match(OPEN);
-				State = 302;
 				ErrorHandler.Sync(this);
 				_alt = 1+1;
 				do {
@@ -1183,7 +1182,7 @@ public partial class RecycleParser : Parser {
 					case 1+1:
 						{
 						{
-						State = 301;
+						State = 299;
 						condact();
 						}
 						}
@@ -1191,26 +1190,26 @@ public partial class RecycleParser : Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 304;
+					State = 302;
 					ErrorHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(TokenStream,8,Context);
 				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-				State = 306;
+				State = 304;
 				Match(CLOSE);
-				State = 307;
+				State = 305;
 				Match(CLOSE);
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
+				State = 307;
+				Match(OPEN);
+				State = 308;
+				Match(T__12);
 				State = 309;
 				Match(OPEN);
-				State = 310;
-				Match(T__12);
 				State = 311;
-				Match(OPEN);
-				State = 313;
 				ErrorHandler.Sync(this);
 				_alt = 1+1;
 				do {
@@ -1218,7 +1217,7 @@ public partial class RecycleParser : Parser {
 					case 1+1:
 						{
 						{
-						State = 312;
+						State = 310;
 						condact();
 						}
 						}
@@ -1226,27 +1225,27 @@ public partial class RecycleParser : Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 315;
+					State = 313;
 					ErrorHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(TokenStream,9,Context);
 				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-				State = 317;
+				State = 315;
 				Match(CLOSE);
-				State = 318;
+				State = 316;
 				Match(CLOSE);
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 320;
+				State = 318;
 				agg();
 				}
 				break;
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 321;
+				State = 319;
 				let();
 				}
 				break;
@@ -1307,19 +1306,19 @@ public partial class RecycleParser : Parser {
 		EnterRule(_localctx, 34, RULE_multiaction2);
 		try {
 			int _alt;
-			State = 337;
+			State = 335;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,12,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
+				State = 322;
+				Match(OPEN);
+				State = 323;
+				Match(T__12);
 				State = 324;
 				Match(OPEN);
-				State = 325;
-				Match(T__12);
 				State = 326;
-				Match(OPEN);
-				State = 328;
 				ErrorHandler.Sync(this);
 				_alt = 1+1;
 				do {
@@ -1327,7 +1326,7 @@ public partial class RecycleParser : Parser {
 					case 1+1:
 						{
 						{
-						State = 327;
+						State = 325;
 						condact();
 						}
 						}
@@ -1335,27 +1334,27 @@ public partial class RecycleParser : Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 330;
+					State = 328;
 					ErrorHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(TokenStream,11,Context);
 				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-				State = 332;
+				State = 330;
 				Match(CLOSE);
-				State = 333;
+				State = 331;
 				Match(CLOSE);
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 335;
+				State = 333;
 				agg();
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 336;
+				State = 334;
 				let();
 				}
 				break;
@@ -1406,46 +1405,46 @@ public partial class RecycleParser : Parser {
 		CondactContext _localctx = new CondactContext(Context, State);
 		EnterRule(_localctx, 36, RULE_condact);
 		try {
-			State = 351;
+			State = 349;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,13,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 339;
+				State = 337;
 				Match(OPEN);
-				State = 340;
+				State = 338;
 				boolean();
-				State = 341;
+				State = 339;
 				multiaction2();
-				State = 342;
+				State = 340;
 				Match(CLOSE);
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 344;
+				State = 342;
 				multiaction2();
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 345;
+				State = 343;
 				Match(OPEN);
-				State = 346;
+				State = 344;
 				boolean();
-				State = 347;
+				State = 345;
 				action();
-				State = 348;
+				State = 346;
 				Match(CLOSE);
 				}
 				break;
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 350;
+				State = 348;
 				action();
 				}
 				break;
@@ -1499,9 +1498,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 353;
+			State = 351;
 			Match(OPEN);
-			State = 354;
+			State = 352;
 			_la = TokenStream.LA(1);
 			if ( !(_la==T__13 || _la==T__14) ) {
 			ErrorHandler.RecoverInline(this);
@@ -1510,13 +1509,13 @@ public partial class RecycleParser : Parser {
 				ErrorHandler.ReportMatch(this);
 			    Consume();
 			}
-			State = 355;
+			State = 353;
 			collection();
-			State = 356;
+			State = 354;
 			var();
-			State = 357;
+			State = 355;
 			condact();
-			State = 358;
+			State = 356;
 			Match(CLOSE);
 			}
 		}
@@ -1573,37 +1572,37 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 360;
+			State = 358;
 			Match(OPEN);
-			State = 361;
+			State = 359;
 			Match(T__15);
-			State = 362;
+			State = 360;
 			typed();
-			State = 363;
+			State = 361;
 			var();
-			State = 367;
+			State = 365;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,14,Context) ) {
 			case 1:
 				{
-				State = 364;
+				State = 362;
 				multiaction();
 				}
 				break;
 			case 2:
 				{
-				State = 365;
+				State = 363;
 				action();
 				}
 				break;
 			case 3:
 				{
-				State = 366;
+				State = 364;
 				condact();
 				}
 				break;
 			}
-			State = 369;
+			State = 367;
 			Match(CLOSE);
 			}
 		}
@@ -1688,110 +1687,110 @@ public partial class RecycleParser : Parser {
 		ActionContext _localctx = new ActionContext(Context, State);
 		EnterRule(_localctx, 42, RULE_action);
 		try {
-			State = 391;
+			State = 389;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,16,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 371;
+				State = 369;
 				Match(OPEN);
-				State = 386;
+				State = 384;
 				ErrorHandler.Sync(this);
 				switch ( Interpreter.AdaptivePredict(TokenStream,15,Context) ) {
 				case 1:
 					{
-					State = 372;
+					State = 370;
 					initpoints();
 					}
 					break;
 				case 2:
 					{
-					State = 373;
+					State = 371;
 					teamcreate();
 					}
 					break;
 				case 3:
 					{
-					State = 374;
+					State = 372;
 					deckcreate();
 					}
 					break;
 				case 4:
 					{
-					State = 375;
+					State = 373;
 					cycleaction();
 					}
 					break;
 				case 5:
 					{
-					State = 376;
+					State = 374;
 					setaction();
 					}
 					break;
 				case 6:
 					{
-					State = 377;
+					State = 375;
 					moveaction();
 					}
 					break;
 				case 7:
 					{
-					State = 378;
+					State = 376;
 					copyaction();
 					}
 					break;
 				case 8:
 					{
-					State = 379;
+					State = 377;
 					incaction();
 					}
 					break;
 				case 9:
 					{
-					State = 380;
+					State = 378;
 					setstraction();
 					}
 					break;
 				case 10:
 					{
-					State = 381;
+					State = 379;
 					decaction();
 					}
 					break;
 				case 11:
 					{
-					State = 382;
+					State = 380;
 					removeaction();
 					}
 					break;
 				case 12:
 					{
-					State = 383;
+					State = 381;
 					turnaction();
 					}
 					break;
 				case 13:
 					{
-					State = 384;
+					State = 382;
 					shuffleaction();
 					}
 					break;
 				case 14:
 					{
-					State = 385;
+					State = 383;
 					repeat();
 					}
 					break;
 				}
-				State = 388;
+				State = 386;
 				Match(CLOSE);
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 390;
+				State = 388;
 				agg();
 				}
 				break;
@@ -1838,15 +1837,15 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 393;
+			State = 391;
 			Match(OPEN);
-			State = 394;
+			State = 392;
 			Match(T__16);
-			State = 395;
+			State = 393;
 			Match(T__17);
-			State = 396;
+			State = 394;
 			@int();
-			State = 397;
+			State = 395;
 			Match(CLOSE);
 			}
 		}
@@ -1895,13 +1894,13 @@ public partial class RecycleParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 399;
+			State = 397;
 			Match(OPEN);
-			State = 400;
+			State = 398;
 			Match(T__16);
-			State = 401;
+			State = 399;
 			Match(T__18);
-			State = 403;
+			State = 401;
 			ErrorHandler.Sync(this);
 			_alt = 1+1;
 			do {
@@ -1909,7 +1908,7 @@ public partial class RecycleParser : Parser {
 				case 1+1:
 					{
 					{
-					State = 402;
+					State = 400;
 					teams();
 					}
 					}
@@ -1917,11 +1916,11 @@ public partial class RecycleParser : Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 405;
+				State = 403;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,17,Context);
 			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 407;
+			State = 405;
 			Match(CLOSE);
 			}
 		}
@@ -1974,45 +1973,45 @@ public partial class RecycleParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 409;
+			State = 407;
 			Match(OPEN);
-			State = 414;
+			State = 412;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,18,Context);
 			while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					{
-					State = 410;
+					State = 408;
 					Match(INTNUM);
-					State = 411;
+					State = 409;
 					Match(T__19);
 					}
 					} 
 				}
-				State = 416;
+				State = 414;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,18,Context);
 			}
-			State = 417;
+			State = 415;
 			Match(INTNUM);
-			State = 421;
+			State = 419;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,19,Context);
 			while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					{
-					State = 418;
+					State = 416;
 					teams();
 					}
 					} 
 				}
-				State = 423;
+				State = 421;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,19,Context);
 			}
-			State = 424;
+			State = 422;
 			Match(CLOSE);
 			}
 		}
@@ -2061,23 +2060,23 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 426;
+			State = 424;
 			Match(T__16);
-			State = 427;
+			State = 425;
 			Match(T__20);
-			State = 429;
+			State = 427;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,20,Context) ) {
 			case 1:
 				{
-				State = 428;
+				State = 426;
 				str();
 				}
 				break;
 			}
-			State = 431;
+			State = 429;
 			cstorage();
-			State = 432;
+			State = 430;
 			deck();
 			}
 		}
@@ -2126,11 +2125,11 @@ public partial class RecycleParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 434;
+			State = 432;
 			Match(OPEN);
-			State = 435;
+			State = 433;
 			Match(T__20);
-			State = 437;
+			State = 435;
 			ErrorHandler.Sync(this);
 			_alt = 1+1;
 			do {
@@ -2138,7 +2137,7 @@ public partial class RecycleParser : Parser {
 				case 1+1:
 					{
 					{
-					State = 436;
+					State = 434;
 					attribute();
 					}
 					}
@@ -2146,11 +2145,11 @@ public partial class RecycleParser : Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 439;
+				State = 437;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,21,Context);
 			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 441;
+			State = 439;
 			Match(CLOSE);
 			}
 		}
@@ -2205,45 +2204,45 @@ public partial class RecycleParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 443;
+			State = 441;
 			Match(OPEN);
-			State = 449;
+			State = 447;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,22,Context);
 			while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					{
-					State = 444;
+					State = 442;
 					namegr();
-					State = 445;
+					State = 443;
 					Match(T__19);
 					}
 					} 
 				}
-				State = 451;
+				State = 449;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,22,Context);
 			}
-			State = 452;
+			State = 450;
 			namegr();
-			State = 456;
+			State = 454;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,23,Context);
 			while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					{
-					State = 453;
+					State = 451;
 					attribute();
 					}
 					} 
 				}
-				State = 458;
+				State = 456;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,23,Context);
 			}
-			State = 459;
+			State = 457;
 			Match(CLOSE);
 			}
 		}
@@ -2295,13 +2294,13 @@ public partial class RecycleParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 461;
+			State = 459;
 			Match(T__21);
-			State = 462;
+			State = 460;
 			pointstorage();
-			State = 463;
+			State = 461;
 			Match(OPEN);
-			State = 465;
+			State = 463;
 			ErrorHandler.Sync(this);
 			_alt = 1+1;
 			do {
@@ -2309,7 +2308,7 @@ public partial class RecycleParser : Parser {
 				case 1+1:
 					{
 					{
-					State = 464;
+					State = 462;
 					awards();
 					}
 					}
@@ -2317,11 +2316,11 @@ public partial class RecycleParser : Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 467;
+				State = 465;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,24,Context);
 			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 469;
+			State = 467;
 			Match(CLOSE);
 			}
 		}
@@ -2373,9 +2372,9 @@ public partial class RecycleParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 471;
+			State = 469;
 			Match(OPEN);
-			State = 473;
+			State = 471;
 			ErrorHandler.Sync(this);
 			_alt = 1+1;
 			do {
@@ -2383,7 +2382,7 @@ public partial class RecycleParser : Parser {
 				case 1+1:
 					{
 					{
-					State = 472;
+					State = 470;
 					subaward();
 					}
 					}
@@ -2391,13 +2390,13 @@ public partial class RecycleParser : Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 475;
+				State = 473;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,25,Context);
 			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 477;
+			State = 475;
 			@int();
-			State = 478;
+			State = 476;
 			Match(CLOSE);
 			}
 		}
@@ -2445,15 +2444,15 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 480;
+			State = 478;
 			Match(OPEN);
+			State = 479;
+			str();
+			State = 480;
+			Match(T__22);
 			State = 481;
 			str();
 			State = 482;
-			Match(T__22);
-			State = 483;
-			str();
-			State = 484;
 			Match(CLOSE);
 			}
 		}
@@ -2500,9 +2499,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 486;
+			State = 484;
 			Match(T__23);
-			State = 487;
+			State = 485;
 			_la = TokenStream.LA(1);
 			if ( !(_la==T__24 || _la==T__25) ) {
 			ErrorHandler.RecoverInline(this);
@@ -2511,36 +2510,36 @@ public partial class RecycleParser : Parser {
 				ErrorHandler.ReportMatch(this);
 			    Consume();
 			}
-			State = 493;
+			State = 491;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case OPEN:
 				{
-				State = 488;
+				State = 486;
 				owner();
 				}
 				break;
 			case T__25:
 				{
-				State = 489;
+				State = 487;
 				Match(T__25);
 				}
 				break;
 			case T__24:
 				{
-				State = 490;
+				State = 488;
 				Match(T__24);
 				}
 				break;
 			case T__26:
 				{
-				State = 491;
+				State = 489;
 				Match(T__26);
 				}
 				break;
 			case T__0:
 				{
-				State = 492;
+				State = 490;
 				varo();
 				}
 				break;
@@ -2591,11 +2590,11 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 495;
+			State = 493;
 			Match(T__21);
-			State = 496;
+			State = 494;
 			rawstorage();
-			State = 497;
+			State = 495;
 			@int();
 			}
 		}
@@ -2641,11 +2640,11 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 499;
+			State = 497;
 			Match(T__21);
-			State = 500;
+			State = 498;
 			strstorage();
-			State = 501;
+			State = 499;
 			str();
 			}
 		}
@@ -2691,11 +2690,11 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 503;
+			State = 501;
 			Match(T__27);
-			State = 504;
+			State = 502;
 			rawstorage();
-			State = 505;
+			State = 503;
 			@int();
 			}
 		}
@@ -2741,11 +2740,11 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 507;
+			State = 505;
 			Match(T__28);
-			State = 508;
+			State = 506;
 			rawstorage();
-			State = 509;
+			State = 507;
 			@int();
 			}
 		}
@@ -2791,11 +2790,11 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 511;
+			State = 509;
 			Match(T__29);
-			State = 512;
+			State = 510;
 			card();
-			State = 513;
+			State = 511;
 			card();
 			}
 		}
@@ -2841,11 +2840,11 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 515;
+			State = 513;
 			Match(T__30);
-			State = 516;
+			State = 514;
 			card();
-			State = 517;
+			State = 515;
 			card();
 			}
 		}
@@ -2888,9 +2887,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 519;
+			State = 517;
 			Match(T__31);
-			State = 520;
+			State = 518;
 			card();
 			}
 		}
@@ -2936,25 +2935,25 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 522;
+			State = 520;
 			Match(T__32);
-			State = 528;
+			State = 526;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case T__0:
 			case OPEN:
 				{
-				State = 523;
+				State = 521;
 				cstorage();
 				}
 				break;
 			case T__33:
 				{
-				State = 524;
+				State = 522;
 				Match(T__33);
-				State = 525;
+				State = 523;
 				cstorage();
-				State = 526;
+				State = 524;
 				cstorage();
 				}
 				break;
@@ -2999,9 +2998,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 530;
+			State = 528;
 			Match(T__34);
-			State = 531;
+			State = 529;
 			Match(T__35);
 			}
 		}
@@ -3053,48 +3052,48 @@ public partial class RecycleParser : Parser {
 		RepeatContext _localctx = new RepeatContext(Context, State);
 		EnterRule(_localctx, 82, RULE_repeat);
 		try {
-			State = 546;
+			State = 544;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,29,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 533;
+				State = 531;
 				Match(T__36);
-				State = 534;
+				State = 532;
 				@int();
-				State = 535;
+				State = 533;
 				action();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 537;
+				State = 535;
 				Match(T__36);
-				State = 538;
+				State = 536;
 				Match(T__14);
-				State = 539;
+				State = 537;
 				Match(OPEN);
-				State = 542;
+				State = 540;
 				ErrorHandler.Sync(this);
 				switch (TokenStream.LA(1)) {
 				case T__29:
 					{
-					State = 540;
+					State = 538;
 					moveaction();
 					}
 					break;
 				case T__31:
 					{
-					State = 541;
+					State = 539;
 					removeaction();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 544;
+				State = 542;
 				Match(CLOSE);
 				}
 				break;
@@ -3147,37 +3146,37 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 548;
+			State = 546;
 			Match(OPEN);
-			State = 552;
+			State = 550;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case T__0:
 				{
-				State = 549;
+				State = 547;
 				varo();
 				}
 				break;
 			case T__1:
 				{
-				State = 550;
+				State = 548;
 				Match(T__1);
 				}
 				break;
 			case OPEN:
 				{
-				State = 551;
+				State = 549;
 				who();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			State = 554;
+			State = 552;
 			Match(T__37);
-			State = 555;
+			State = 553;
 			str();
-			State = 556;
+			State = 554;
 			Match(CLOSE);
 			}
 		}
@@ -3232,47 +3231,47 @@ public partial class RecycleParser : Parser {
 		CardContext _localctx = new CardContext(Context, State);
 		EnterRule(_localctx, 86, RULE_card);
 		try {
-			State = 570;
+			State = 568;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,32,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 558;
+				State = 556;
 				varcard();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 559;
+				State = 557;
 				maxof();
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 560;
+				State = 558;
 				minof();
 				}
 				break;
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 561;
+				State = 559;
 				Match(OPEN);
-				State = 565;
+				State = 563;
 				ErrorHandler.Sync(this);
 				switch (TokenStream.LA(1)) {
 				case T__38:
 					{
-					State = 562;
+					State = 560;
 					Match(T__38);
 					}
 					break;
 				case T__39:
 					{
-					State = 563;
+					State = 561;
 					Match(T__39);
 					}
 					break;
@@ -3280,16 +3279,16 @@ public partial class RecycleParser : Parser {
 				case INTNUM:
 				case OPEN:
 					{
-					State = 564;
+					State = 562;
 					@int();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 567;
+				State = 565;
 				cstorage();
-				State = 568;
+				State = 566;
 				Match(CLOSE);
 				}
 				break;
@@ -3339,17 +3338,17 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 572;
+			State = 570;
 			Match(OPEN);
-			State = 573;
+			State = 571;
 			Match(T__6);
-			State = 574;
+			State = 572;
 			cstorage();
-			State = 575;
+			State = 573;
 			Match(T__40);
-			State = 576;
+			State = 574;
 			pointstorage();
-			State = 577;
+			State = 575;
 			Match(CLOSE);
 			}
 		}
@@ -3397,17 +3396,17 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 579;
+			State = 577;
 			Match(OPEN);
-			State = 580;
+			State = 578;
 			Match(T__5);
-			State = 581;
+			State = 579;
 			cstorage();
-			State = 582;
+			State = 580;
 			Match(T__40);
-			State = 583;
+			State = 581;
 			pointstorage();
-			State = 584;
+			State = 582;
 			Match(CLOSE);
 			}
 		}
@@ -3451,27 +3450,27 @@ public partial class RecycleParser : Parser {
 		LocpreContext _localctx = new LocpreContext(Context, State);
 		EnterRule(_localctx, 92, RULE_locpre);
 		try {
-			State = 589;
+			State = 587;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case T__1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 586;
+				State = 584;
 				Match(T__1);
 				}
 				break;
 			case T__0:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 587;
+				State = 585;
 				varp();
 				}
 				break;
 			case OPEN:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 588;
+				State = 586;
 				whop();
 				}
 				break;
@@ -3516,7 +3515,7 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 591;
+			State = 589;
 			_la = TokenStream.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 136339441844224L) != 0)) ) {
 			ErrorHandler.RecoverInline(this);
@@ -3567,20 +3566,20 @@ public partial class RecycleParser : Parser {
 		WhoContext _localctx = new WhoContext(Context, State);
 		EnterRule(_localctx, 96, RULE_who);
 		try {
-			State = 595;
+			State = 593;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,34,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 593;
+				State = 591;
 				whot();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 594;
+				State = 592;
 				whop();
 				}
 				break;
@@ -3628,26 +3627,26 @@ public partial class RecycleParser : Parser {
 		WhopContext _localctx = new WhopContext(Context, State);
 		EnterRule(_localctx, 98, RULE_whop);
 		try {
-			State = 603;
+			State = 601;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,35,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 597;
+				State = 595;
 				Match(OPEN);
-				State = 598;
+				State = 596;
 				whodesc();
-				State = 599;
+				State = 597;
 				Match(T__8);
-				State = 600;
+				State = 598;
 				Match(CLOSE);
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 602;
+				State = 600;
 				owner();
 				}
 				break;
@@ -3695,26 +3694,26 @@ public partial class RecycleParser : Parser {
 		WhotContext _localctx = new WhotContext(Context, State);
 		EnterRule(_localctx, 100, RULE_whot);
 		try {
-			State = 611;
+			State = 609;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,36,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 605;
+				State = 603;
 				Match(OPEN);
-				State = 606;
+				State = 604;
 				whodesc();
-				State = 607;
+				State = 605;
 				Match(T__9);
-				State = 608;
+				State = 606;
 				Match(CLOSE);
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 610;
+				State = 608;
 				teamp();
 				}
 				break;
@@ -3757,7 +3756,7 @@ public partial class RecycleParser : Parser {
 		WhodescContext _localctx = new WhodescContext(Context, State);
 		EnterRule(_localctx, 102, RULE_whodesc);
 		try {
-			State = 617;
+			State = 615;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case T__0:
@@ -3765,28 +3764,28 @@ public partial class RecycleParser : Parser {
 			case OPEN:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 613;
+				State = 611;
 				@int();
 				}
 				break;
 			case T__26:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 614;
+				State = 612;
 				Match(T__26);
 				}
 				break;
 			case T__24:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 615;
+				State = 613;
 				Match(T__24);
 				}
 				break;
 			case T__25:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 616;
+				State = 614;
 				Match(T__25);
 				}
 				break;
@@ -3835,13 +3834,13 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 619;
+			State = 617;
 			Match(OPEN);
-			State = 620;
+			State = 618;
 			Match(T__46);
-			State = 621;
+			State = 619;
 			card();
-			State = 622;
+			State = 620;
 			Match(CLOSE);
 			}
 		}
@@ -3889,29 +3888,29 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 624;
+			State = 622;
 			Match(OPEN);
-			State = 625;
+			State = 623;
 			Match(T__9);
-			State = 628;
+			State = 626;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case T__0:
 				{
-				State = 626;
+				State = 624;
 				varp();
 				}
 				break;
 			case OPEN:
 				{
-				State = 627;
+				State = 625;
 				whop();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			State = 630;
+			State = 628;
 			Match(CLOSE);
 			}
 		}
@@ -3961,34 +3960,34 @@ public partial class RecycleParser : Parser {
 		TypedContext _localctx = new TypedContext(Context, State);
 		EnterRule(_localctx, 108, RULE_typed);
 		try {
-			State = 636;
+			State = 634;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,39,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 632;
+				State = 630;
 				@int();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 633;
+				State = 631;
 				boolean();
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 634;
+				State = 632;
 				str();
 				}
 				break;
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 635;
+				State = 633;
 				collection();
 				}
 				break;
@@ -4052,76 +4051,76 @@ public partial class RecycleParser : Parser {
 		CollectionContext _localctx = new CollectionContext(Context, State);
 		EnterRule(_localctx, 110, RULE_collection);
 		try {
-			State = 648;
+			State = 646;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,40,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 638;
+				State = 636;
 				varc();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 639;
+				State = 637;
 				filter();
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 640;
+				State = 638;
 				cstorage();
 				}
 				break;
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 641;
+				State = 639;
 				strcollection();
 				}
 				break;
 			case 5:
 				EnterOuterAlt(_localctx, 5);
 				{
-				State = 642;
+				State = 640;
 				cstoragecollection();
 				}
 				break;
 			case 6:
 				EnterOuterAlt(_localctx, 6);
 				{
-				State = 643;
+				State = 641;
 				Match(T__8);
 				}
 				break;
 			case 7:
 				EnterOuterAlt(_localctx, 7);
 				{
-				State = 644;
+				State = 642;
 				Match(T__9);
 				}
 				break;
 			case 8:
 				EnterOuterAlt(_localctx, 8);
 				{
-				State = 645;
+				State = 643;
 				whot();
 				}
 				break;
 			case 9:
 				EnterOuterAlt(_localctx, 9);
 				{
-				State = 646;
+				State = 644;
 				other();
 				}
 				break;
 			case 10:
 				EnterOuterAlt(_localctx, 10);
 				{
-				State = 647;
+				State = 645;
 				range();
 				}
 				break;
@@ -4172,29 +4171,29 @@ public partial class RecycleParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 650;
+			State = 648;
 			Match(OPEN);
-			State = 656;
+			State = 654;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,41,Context);
 			while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					{
-					State = 651;
+					State = 649;
 					namegr();
-					State = 652;
+					State = 650;
 					Match(T__19);
 					}
 					} 
 				}
-				State = 658;
+				State = 656;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,41,Context);
 			}
-			State = 659;
+			State = 657;
 			namegr();
-			State = 660;
+			State = 658;
 			Match(CLOSE);
 			}
 		}
@@ -4242,17 +4241,17 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 662;
+			State = 660;
 			Match(OPEN);
-			State = 663;
+			State = 661;
 			Match(T__47);
+			State = 662;
+			@int();
+			State = 663;
+			Match(T__48);
 			State = 664;
 			@int();
 			State = 665;
-			Match(T__48);
-			State = 666;
-			@int();
-			State = 667;
 			Match(CLOSE);
 			}
 		}
@@ -4295,11 +4294,11 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 669;
+			State = 667;
 			Match(OPEN);
-			State = 670;
+			State = 668;
 			Match(T__49);
-			State = 671;
+			State = 669;
 			_la = TokenStream.LA(1);
 			if ( !(_la==T__8 || _la==T__9) ) {
 			ErrorHandler.RecoverInline(this);
@@ -4308,7 +4307,7 @@ public partial class RecycleParser : Parser {
 				ErrorHandler.ReportMatch(this);
 			    Consume();
 			}
-			State = 672;
+			State = 670;
 			Match(CLOSE);
 			}
 		}
@@ -4388,94 +4387,94 @@ public partial class RecycleParser : Parser {
 		EnterRule(_localctx, 118, RULE_cstorage);
 		int _la;
 		try {
-			State = 692;
+			State = 690;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,43,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 674;
+				State = 672;
 				varcs();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 675;
+				State = 673;
 				unionof();
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 676;
+				State = 674;
 				intersectof();
 				}
 				break;
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 677;
+				State = 675;
 				disjunctionof();
 				}
 				break;
 			case 5:
 				EnterOuterAlt(_localctx, 5);
 				{
-				State = 678;
+				State = 676;
 				sortof();
 				}
 				break;
 			case 6:
 				EnterOuterAlt(_localctx, 6);
 				{
-				State = 679;
+				State = 677;
 				filter();
 				}
 				break;
 			case 7:
 				EnterOuterAlt(_localctx, 7);
 				{
-				State = 680;
+				State = 678;
 				Match(OPEN);
-				State = 681;
+				State = 679;
 				locpre();
-				State = 682;
+				State = 680;
 				locdesc();
-				State = 683;
+				State = 681;
 				str();
-				State = 685;
+				State = 683;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
 				if (_la==T__0 || _la==INTNUM || _la==OPEN) {
 					{
-					State = 684;
+					State = 682;
 					@int();
 					}
 				}
 
-				State = 687;
+				State = 685;
 				Match(CLOSE);
 				}
 				break;
 			case 8:
 				EnterOuterAlt(_localctx, 8);
 				{
-				State = 689;
+				State = 687;
 				memstorage();
 				}
 				break;
 			case 9:
 				EnterOuterAlt(_localctx, 9);
 				{
-				State = 690;
+				State = 688;
 				sequence();
 				}
 				break;
 			case 10:
 				EnterOuterAlt(_localctx, 10);
 				{
-				State = 691;
+				State = 689;
 				runsequence();
 				}
 				break;
@@ -4525,17 +4524,17 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 694;
+			State = 692;
 			Match(OPEN);
-			State = 695;
+			State = 693;
 			Match(T__50);
-			State = 696;
+			State = 694;
 			cstorage();
-			State = 697;
+			State = 695;
 			Match(T__40);
-			State = 698;
+			State = 696;
 			pointstorage();
-			State = 699;
+			State = 697;
 			Match(CLOSE);
 			}
 		}
@@ -4587,22 +4586,22 @@ public partial class RecycleParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 701;
+			State = 699;
 			Match(OPEN);
-			State = 702;
+			State = 700;
 			Match(T__51);
-			State = 709;
+			State = 707;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,45,Context) ) {
 			case 1:
 				{
-				State = 703;
+				State = 701;
 				aggcs();
 				}
 				break;
 			case 2:
 				{
-				State = 705;
+				State = 703;
 				ErrorHandler.Sync(this);
 				_alt = 1+1;
 				do {
@@ -4610,7 +4609,7 @@ public partial class RecycleParser : Parser {
 					case 1+1:
 						{
 						{
-						State = 704;
+						State = 702;
 						cstorage();
 						}
 						}
@@ -4618,14 +4617,14 @@ public partial class RecycleParser : Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 707;
+					State = 705;
 					ErrorHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(TokenStream,44,Context);
 				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
 				}
 				break;
 			}
-			State = 711;
+			State = 709;
 			Match(CLOSE);
 			}
 		}
@@ -4677,22 +4676,22 @@ public partial class RecycleParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 713;
+			State = 711;
 			Match(OPEN);
-			State = 714;
+			State = 712;
 			Match(T__52);
-			State = 721;
+			State = 719;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,47,Context) ) {
 			case 1:
 				{
-				State = 715;
+				State = 713;
 				aggcs();
 				}
 				break;
 			case 2:
 				{
-				State = 717;
+				State = 715;
 				ErrorHandler.Sync(this);
 				_alt = 1+1;
 				do {
@@ -4700,7 +4699,7 @@ public partial class RecycleParser : Parser {
 					case 1+1:
 						{
 						{
-						State = 716;
+						State = 714;
 						cstorage();
 						}
 						}
@@ -4708,14 +4707,14 @@ public partial class RecycleParser : Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 719;
+					State = 717;
 					ErrorHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(TokenStream,46,Context);
 				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
 				}
 				break;
 			}
-			State = 723;
+			State = 721;
 			Match(CLOSE);
 			}
 		}
@@ -4767,22 +4766,22 @@ public partial class RecycleParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 725;
+			State = 723;
 			Match(OPEN);
-			State = 726;
+			State = 724;
 			Match(T__53);
-			State = 733;
+			State = 731;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,49,Context) ) {
 			case 1:
 				{
-				State = 727;
+				State = 725;
 				aggcs();
 				}
 				break;
 			case 2:
 				{
-				State = 729;
+				State = 727;
 				ErrorHandler.Sync(this);
 				_alt = 1+1;
 				do {
@@ -4790,7 +4789,7 @@ public partial class RecycleParser : Parser {
 					case 1+1:
 						{
 						{
-						State = 728;
+						State = 726;
 						cstorage();
 						}
 						}
@@ -4798,14 +4797,14 @@ public partial class RecycleParser : Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 731;
+					State = 729;
 					ErrorHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(TokenStream,48,Context);
 				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
 				}
 				break;
 			}
-			State = 735;
+			State = 733;
 			Match(CLOSE);
 			}
 		}
@@ -4856,17 +4855,17 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 737;
+			State = 735;
 			Match(OPEN);
-			State = 738;
+			State = 736;
 			Match(T__54);
-			State = 739;
+			State = 737;
 			collection();
-			State = 740;
+			State = 738;
 			var();
-			State = 741;
+			State = 739;
 			boolean();
-			State = 742;
+			State = 740;
 			Match(CLOSE);
 			}
 		}
@@ -4914,20 +4913,20 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 744;
+			State = 742;
 			Match(OPEN);
-			State = 748;
+			State = 746;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case T__38:
 				{
-				State = 745;
+				State = 743;
 				Match(T__38);
 				}
 				break;
 			case T__39:
 				{
-				State = 746;
+				State = 744;
 				Match(T__39);
 				}
 				break;
@@ -4935,16 +4934,16 @@ public partial class RecycleParser : Parser {
 			case INTNUM:
 			case OPEN:
 				{
-				State = 747;
+				State = 745;
 				@int();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			State = 750;
+			State = 748;
 			cstoragecollection();
-			State = 751;
+			State = 749;
 			Match(CLOSE);
 			}
 		}
@@ -4993,9 +4992,9 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 753;
+			State = 751;
 			Match(OPEN);
-			State = 754;
+			State = 752;
 			_la = TokenStream.LA(1);
 			if ( !(_la==T__38 || _la==T__39) ) {
 			ErrorHandler.RecoverInline(this);
@@ -5004,11 +5003,11 @@ public partial class RecycleParser : Parser {
 				ErrorHandler.ReportMatch(this);
 			    Consume();
 			}
-			State = 755;
+			State = 753;
 			@int();
-			State = 756;
+			State = 754;
 			cstorage();
-			State = 757;
+			State = 755;
 			Match(CLOSE);
 			}
 		}
@@ -5060,11 +5059,11 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 759;
+			State = 757;
 			Match(OPEN);
-			State = 760;
+			State = 758;
 			Match(T__55);
-			State = 761;
+			State = 759;
 			_la = TokenStream.LA(1);
 			if ( !(_la==T__38 || _la==T__39) ) {
 			ErrorHandler.RecoverInline(this);
@@ -5073,15 +5072,15 @@ public partial class RecycleParser : Parser {
 				ErrorHandler.ReportMatch(this);
 			    Consume();
 			}
-			State = 762;
+			State = 760;
 			@int();
-			State = 763;
+			State = 761;
 			cstorage();
-			State = 764;
+			State = 762;
 			Match(T__40);
-			State = 765;
+			State = 763;
 			pointstorage();
-			State = 766;
+			State = 764;
 			Match(CLOSE);
 			}
 		}
@@ -5097,9 +5096,6 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class CstoragecollectionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public TupleContext tuple() {
-			return GetRuleContext<TupleContext>(0);
-		}
 		[System.Diagnostics.DebuggerNonUserCode] public PartitionContext partition() {
 			return GetRuleContext<PartitionContext>(0);
 		}
@@ -5140,55 +5136,48 @@ public partial class RecycleParser : Parser {
 		CstoragecollectionContext _localctx = new CstoragecollectionContext(Context, State);
 		EnterRule(_localctx, 136, RULE_cstoragecollection);
 		try {
-			State = 775;
+			State = 772;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,51,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 768;
-				tuple();
+				State = 766;
+				partition();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 769;
-				partition();
+				State = 767;
+				subset();
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 770;
-				subset();
+				State = 768;
+				run();
 				}
 				break;
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 771;
-				run();
+				State = 769;
+				aggcs();
 				}
 				break;
 			case 5:
 				EnterOuterAlt(_localctx, 5);
 				{
-				State = 772;
-				aggcs();
+				State = 770;
+				varcsc();
 				}
 				break;
 			case 6:
 				EnterOuterAlt(_localctx, 6);
 				{
-				State = 773;
-				varcsc();
-				}
-				break;
-			case 7:
-				EnterOuterAlt(_localctx, 7);
-				{
-				State = 774;
+				State = 771;
 				indexed();
 				}
 				break;
@@ -5242,11 +5231,11 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 777;
+			State = 774;
 			Match(OPEN);
-			State = 778;
+			State = 775;
 			Match(T__56);
-			State = 779;
+			State = 776;
 			_la = TokenStream.LA(1);
 			if ( !(_la==T__14 || _la==T__57) ) {
 			ErrorHandler.RecoverInline(this);
@@ -5255,15 +5244,15 @@ public partial class RecycleParser : Parser {
 				ErrorHandler.ReportMatch(this);
 			    Consume();
 			}
-			State = 780;
+			State = 777;
 			@int();
-			State = 781;
+			State = 778;
 			cstorage();
-			State = 782;
+			State = 779;
 			Match(T__40);
-			State = 783;
+			State = 780;
 			pointstorage();
-			State = 784;
+			State = 781;
 			Match(CLOSE);
 			}
 		}
@@ -5308,76 +5297,13 @@ public partial class RecycleParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 786;
+			State = 783;
 			Match(OPEN);
-			State = 787;
+			State = 784;
 			Match(T__58);
-			State = 788;
+			State = 785;
 			cstorage();
-			State = 789;
-			Match(CLOSE);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class TupleContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
-			return GetRuleContext<IntContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
-			return GetRuleContext<CstorageContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public PointstorageContext pointstorage() {
-			return GetRuleContext<PointstorageContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		public TupleContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_tuple; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IRecycleListener typedListener = listener as IRecycleListener;
-			if (typedListener != null) typedListener.EnterTuple(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IRecycleListener typedListener = listener as IRecycleListener;
-			if (typedListener != null) typedListener.ExitTuple(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public TupleContext tuple() {
-		TupleContext _localctx = new TupleContext(Context, State);
-		EnterRule(_localctx, 142, RULE_tuple);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 791;
-			Match(OPEN);
-			State = 792;
-			Match(T__59);
-			State = 793;
-			@int();
-			State = 794;
-			cstorage();
-			State = 795;
-			Match(T__40);
-			State = 796;
-			pointstorage();
-			State = 797;
+			State = 786;
 			Match(CLOSE);
 			}
 		}
@@ -5427,29 +5353,29 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public PartitionContext partition() {
 		PartitionContext _localctx = new PartitionContext(Context, State);
-		EnterRule(_localctx, 144, RULE_partition);
+		EnterRule(_localctx, 142, RULE_partition);
 		try {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 799;
+			State = 788;
 			Match(OPEN);
-			State = 800;
-			Match(T__60);
-			State = 801;
+			State = 789;
+			Match(T__59);
+			State = 790;
 			str();
-			State = 808;
+			State = 797;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,53,Context) ) {
 			case 1:
 				{
-				State = 802;
+				State = 791;
 				aggcs();
 				}
 				break;
 			case 2:
 				{
-				State = 804;
+				State = 793;
 				ErrorHandler.Sync(this);
 				_alt = 1+1;
 				do {
@@ -5457,7 +5383,7 @@ public partial class RecycleParser : Parser {
 					case 1+1:
 						{
 						{
-						State = 803;
+						State = 792;
 						cstorage();
 						}
 						}
@@ -5465,14 +5391,14 @@ public partial class RecycleParser : Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 806;
+					State = 795;
 					ErrorHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(TokenStream,52,Context);
 				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
 				}
 				break;
 			}
-			State = 810;
+			State = 799;
 			Match(CLOSE);
 			}
 		}
@@ -5519,21 +5445,21 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public AggcsContext aggcs() {
 		AggcsContext _localctx = new AggcsContext(Context, State);
-		EnterRule(_localctx, 146, RULE_aggcs);
+		EnterRule(_localctx, 144, RULE_aggcs);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 812;
+			State = 801;
 			Match(OPEN);
-			State = 813;
+			State = 802;
 			Match(T__14);
-			State = 814;
+			State = 803;
 			collection();
-			State = 815;
+			State = 804;
 			var();
-			State = 816;
+			State = 805;
 			cstorage();
-			State = 817;
+			State = 806;
 			Match(CLOSE);
 			}
 		}
@@ -5580,21 +5506,21 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public IndexedContext indexed() {
 		IndexedContext _localctx = new IndexedContext(Context, State);
-		EnterRule(_localctx, 148, RULE_indexed);
+		EnterRule(_localctx, 146, RULE_indexed);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 819;
+			State = 808;
 			Match(OPEN);
-			State = 820;
-			Match(T__61);
-			State = 821;
+			State = 809;
+			Match(T__60);
+			State = 810;
 			locpre();
-			State = 822;
+			State = 811;
 			locdesc();
-			State = 823;
+			State = 812;
 			str();
-			State = 824;
+			State = 813;
 			Match(CLOSE);
 			}
 		}
@@ -5677,27 +5603,27 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public BooleanContext boolean() {
 		BooleanContext _localctx = new BooleanContext(Context, State);
-		EnterRule(_localctx, 150, RULE_boolean);
+		EnterRule(_localctx, 148, RULE_boolean);
 		try {
 			int _alt;
-			State = 861;
+			State = 850;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,56,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 826;
+				State = 815;
 				Match(OPEN);
-				State = 856;
+				State = 845;
 				ErrorHandler.Sync(this);
 				switch ( Interpreter.AdaptivePredict(TokenStream,55,Context) ) {
 				case 1:
 					{
-					State = 827;
+					State = 816;
 					Match(BOOLOP);
-					State = 828;
+					State = 817;
 					boolean();
-					State = 830;
+					State = 819;
 					ErrorHandler.Sync(this);
 					_alt = 1+1;
 					do {
@@ -5705,7 +5631,7 @@ public partial class RecycleParser : Parser {
 						case 1+1:
 							{
 							{
-							State = 829;
+							State = 818;
 							boolean();
 							}
 							}
@@ -5713,7 +5639,7 @@ public partial class RecycleParser : Parser {
 						default:
 							throw new NoViableAltException(this);
 						}
-						State = 832;
+						State = 821;
 						ErrorHandler.Sync(this);
 						_alt = Interpreter.AdaptivePredict(TokenStream,54,Context);
 					} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
@@ -5721,71 +5647,71 @@ public partial class RecycleParser : Parser {
 					break;
 				case 2:
 					{
-					State = 834;
+					State = 823;
 					intop();
-					State = 835;
+					State = 824;
 					@int();
-					State = 836;
+					State = 825;
 					@int();
 					}
 					break;
 				case 3:
 					{
-					State = 838;
+					State = 827;
 					Match(EQOP);
-					State = 839;
+					State = 828;
 					str();
-					State = 840;
+					State = 829;
 					str();
 					}
 					break;
 				case 4:
 					{
-					State = 842;
+					State = 831;
 					Match(EQOP);
-					State = 843;
+					State = 832;
 					card();
-					State = 844;
+					State = 833;
 					card();
 					}
 					break;
 				case 5:
 					{
-					State = 846;
+					State = 835;
 					Match(UNOP);
-					State = 847;
+					State = 836;
 					boolean();
 					}
 					break;
 				case 6:
 					{
-					State = 848;
+					State = 837;
 					Match(EQOP);
-					State = 849;
+					State = 838;
 					whop();
-					State = 850;
+					State = 839;
 					whop();
 					}
 					break;
 				case 7:
 					{
-					State = 852;
+					State = 841;
 					Match(EQOP);
-					State = 853;
+					State = 842;
 					whot();
-					State = 854;
+					State = 843;
 					whot();
 					}
 					break;
 				}
-				State = 858;
+				State = 847;
 				Match(CLOSE);
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 860;
+				State = 849;
 				aggb();
 				}
 				break;
@@ -5825,12 +5751,12 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public IntopContext intop() {
 		IntopContext _localctx = new IntopContext(Context, State);
-		EnterRule(_localctx, 152, RULE_intop);
+		EnterRule(_localctx, 150, RULE_intop);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 863;
+			State = 852;
 			_la = TokenStream.LA(1);
 			if ( !(_la==COMPOP || _la==EQOP) ) {
 			ErrorHandler.RecoverInline(this);
@@ -5884,14 +5810,14 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public AggbContext aggb() {
 		AggbContext _localctx = new AggbContext(Context, State);
-		EnterRule(_localctx, 154, RULE_aggb);
+		EnterRule(_localctx, 152, RULE_aggb);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 865;
+			State = 854;
 			Match(OPEN);
-			State = 866;
+			State = 855;
 			_la = TokenStream.LA(1);
 			if ( !(_la==T__13 || _la==T__14) ) {
 			ErrorHandler.RecoverInline(this);
@@ -5900,13 +5826,13 @@ public partial class RecycleParser : Parser {
 				ErrorHandler.ReportMatch(this);
 			    Consume();
 			}
-			State = 867;
+			State = 856;
 			collection();
-			State = 868;
+			State = 857;
 			var();
-			State = 869;
+			State = 858;
 			boolean();
-			State = 870;
+			State = 859;
 			Match(CLOSE);
 			}
 		}
@@ -6000,142 +5926,142 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public IntContext @int() {
 		IntContext _localctx = new IntContext(Context, State);
-		EnterRule(_localctx, 156, RULE_int);
+		EnterRule(_localctx, 154, RULE_int);
 		try {
 			int _alt;
-			State = 895;
+			State = 884;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,58,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 872;
+				State = 861;
 				vari();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 873;
+				State = 862;
 				@sizeof();
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 874;
+				State = 863;
 				mult();
 				}
 				break;
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 875;
+				State = 864;
 				subtract();
 				}
 				break;
 			case 5:
 				EnterOuterAlt(_localctx, 5);
 				{
-				State = 876;
+				State = 865;
 				mod();
 				}
 				break;
 			case 6:
 				EnterOuterAlt(_localctx, 6);
 				{
-				State = 877;
+				State = 866;
 				add();
 				}
 				break;
 			case 7:
 				EnterOuterAlt(_localctx, 7);
 				{
-				State = 878;
+				State = 867;
 				divide();
 				}
 				break;
 			case 8:
 				EnterOuterAlt(_localctx, 8);
 				{
-				State = 879;
+				State = 868;
 				exponent();
 				}
 				break;
 			case 9:
 				EnterOuterAlt(_localctx, 9);
 				{
-				State = 880;
+				State = 869;
 				triangular();
 				}
 				break;
 			case 10:
 				EnterOuterAlt(_localctx, 10);
 				{
-				State = 881;
+				State = 870;
 				fibonacci();
 				}
 				break;
 			case 11:
 				EnterOuterAlt(_localctx, 11);
 				{
-				State = 882;
+				State = 871;
 				random();
 				}
 				break;
 			case 12:
 				EnterOuterAlt(_localctx, 12);
 				{
-				State = 883;
+				State = 872;
 				sum();
 				}
 				break;
 			case 13:
 				EnterOuterAlt(_localctx, 13);
 				{
-				State = 884;
+				State = 873;
 				rawstorage();
 				}
 				break;
 			case 14:
 				EnterOuterAlt(_localctx, 14);
 				{
-				State = 885;
+				State = 874;
 				score();
 				}
 				break;
 			case 15:
 				EnterOuterAlt(_localctx, 15);
 				{
-				State = 886;
+				State = 875;
 				pid();
 				}
 				break;
 			case 16:
 				EnterOuterAlt(_localctx, 16);
 				{
-				State = 887;
+				State = 876;
 				tid();
 				}
 				break;
 			case 17:
 				EnterOuterAlt(_localctx, 17);
 				{
-				State = 888;
+				State = 877;
 				scoremax();
 				}
 				break;
 			case 18:
 				EnterOuterAlt(_localctx, 18);
 				{
-				State = 889;
+				State = 878;
 				scoremin();
 				}
 				break;
 			case 19:
 				EnterOuterAlt(_localctx, 19);
 				{
-				State = 891;
+				State = 880;
 				ErrorHandler.Sync(this);
 				_alt = 1;
 				do {
@@ -6143,7 +6069,7 @@ public partial class RecycleParser : Parser {
 					case 1:
 						{
 						{
-						State = 890;
+						State = 879;
 						Match(INTNUM);
 						}
 						}
@@ -6151,7 +6077,7 @@ public partial class RecycleParser : Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 893;
+					State = 882;
 					ErrorHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(TokenStream,57,Context);
 				} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
@@ -6199,21 +6125,21 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public SumContext sum() {
 		SumContext _localctx = new SumContext(Context, State);
-		EnterRule(_localctx, 158, RULE_sum);
+		EnterRule(_localctx, 156, RULE_sum);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 897;
+			State = 886;
 			Match(OPEN);
-			State = 898;
-			Match(T__62);
-			State = 899;
+			State = 887;
+			Match(T__61);
+			State = 888;
 			cstorage();
-			State = 900;
+			State = 889;
 			Match(T__40);
-			State = 901;
+			State = 890;
 			pointstorage();
-			State = 902;
+			State = 891;
 			Match(CLOSE);
 			}
 		}
@@ -6257,21 +6183,21 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public ScoremaxContext scoremax() {
 		ScoremaxContext _localctx = new ScoremaxContext(Context, State);
-		EnterRule(_localctx, 160, RULE_scoremax);
+		EnterRule(_localctx, 158, RULE_scoremax);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 904;
+			State = 893;
 			Match(OPEN);
-			State = 905;
-			Match(T__63);
-			State = 906;
+			State = 894;
+			Match(T__62);
+			State = 895;
 			cstorage();
-			State = 907;
+			State = 896;
 			Match(T__40);
-			State = 908;
+			State = 897;
 			pointstorage();
-			State = 909;
+			State = 898;
 			Match(CLOSE);
 			}
 		}
@@ -6315,21 +6241,21 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public ScoreminContext scoremin() {
 		ScoreminContext _localctx = new ScoreminContext(Context, State);
-		EnterRule(_localctx, 162, RULE_scoremin);
+		EnterRule(_localctx, 160, RULE_scoremin);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 911;
+			State = 900;
 			Match(OPEN);
-			State = 912;
-			Match(T__64);
-			State = 913;
+			State = 901;
+			Match(T__63);
+			State = 902;
 			cstorage();
-			State = 914;
+			State = 903;
 			Match(T__40);
-			State = 915;
+			State = 904;
 			pointstorage();
-			State = 916;
+			State = 905;
 			Match(CLOSE);
 			}
 		}
@@ -6373,21 +6299,21 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public ScoreContext score() {
 		ScoreContext _localctx = new ScoreContext(Context, State);
-		EnterRule(_localctx, 164, RULE_score);
+		EnterRule(_localctx, 162, RULE_score);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 918;
+			State = 907;
 			Match(OPEN);
-			State = 919;
-			Match(T__65);
-			State = 920;
+			State = 908;
+			Match(T__64);
+			State = 909;
 			card();
-			State = 921;
+			State = 910;
 			Match(T__40);
-			State = 922;
+			State = 911;
 			pointstorage();
-			State = 923;
+			State = 912;
 			Match(CLOSE);
 			}
 		}
@@ -6431,19 +6357,19 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public AddContext add() {
 		AddContext _localctx = new AddContext(Context, State);
-		EnterRule(_localctx, 166, RULE_add);
+		EnterRule(_localctx, 164, RULE_add);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 925;
+			State = 914;
 			Match(OPEN);
-			State = 926;
-			Match(T__66);
-			State = 927;
+			State = 915;
+			Match(T__65);
+			State = 916;
 			@int();
-			State = 928;
+			State = 917;
 			@int();
-			State = 929;
+			State = 918;
 			Match(CLOSE);
 			}
 		}
@@ -6487,19 +6413,19 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public MultContext mult() {
 		MultContext _localctx = new MultContext(Context, State);
-		EnterRule(_localctx, 168, RULE_mult);
+		EnterRule(_localctx, 166, RULE_mult);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 931;
+			State = 920;
 			Match(OPEN);
-			State = 932;
-			Match(T__67);
-			State = 933;
+			State = 921;
+			Match(T__66);
+			State = 922;
 			@int();
-			State = 934;
+			State = 923;
 			@int();
-			State = 935;
+			State = 924;
 			Match(CLOSE);
 			}
 		}
@@ -6543,19 +6469,19 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public SubtractContext subtract() {
 		SubtractContext _localctx = new SubtractContext(Context, State);
-		EnterRule(_localctx, 170, RULE_subtract);
+		EnterRule(_localctx, 168, RULE_subtract);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 937;
+			State = 926;
 			Match(OPEN);
-			State = 938;
-			Match(T__68);
-			State = 939;
+			State = 927;
+			Match(T__67);
+			State = 928;
 			@int();
-			State = 940;
+			State = 929;
 			@int();
-			State = 941;
+			State = 930;
 			Match(CLOSE);
 			}
 		}
@@ -6599,19 +6525,19 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public ModContext mod() {
 		ModContext _localctx = new ModContext(Context, State);
-		EnterRule(_localctx, 172, RULE_mod);
+		EnterRule(_localctx, 170, RULE_mod);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 943;
+			State = 932;
 			Match(OPEN);
-			State = 944;
-			Match(T__69);
-			State = 945;
+			State = 933;
+			Match(T__68);
+			State = 934;
 			@int();
-			State = 946;
+			State = 935;
 			@int();
-			State = 947;
+			State = 936;
 			Match(CLOSE);
 			}
 		}
@@ -6655,19 +6581,19 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public DivideContext divide() {
 		DivideContext _localctx = new DivideContext(Context, State);
-		EnterRule(_localctx, 174, RULE_divide);
+		EnterRule(_localctx, 172, RULE_divide);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 949;
+			State = 938;
 			Match(OPEN);
-			State = 950;
-			Match(T__70);
-			State = 951;
+			State = 939;
+			Match(T__69);
+			State = 940;
 			@int();
-			State = 952;
+			State = 941;
 			@int();
-			State = 953;
+			State = 942;
 			Match(CLOSE);
 			}
 		}
@@ -6711,19 +6637,19 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public ExponentContext exponent() {
 		ExponentContext _localctx = new ExponentContext(Context, State);
-		EnterRule(_localctx, 176, RULE_exponent);
+		EnterRule(_localctx, 174, RULE_exponent);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 955;
+			State = 944;
 			Match(OPEN);
-			State = 956;
-			Match(T__71);
-			State = 957;
+			State = 945;
+			Match(T__70);
+			State = 946;
 			@int();
-			State = 958;
+			State = 947;
 			@int();
-			State = 959;
+			State = 948;
 			Match(CLOSE);
 			}
 		}
@@ -6764,17 +6690,17 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public TriangularContext triangular() {
 		TriangularContext _localctx = new TriangularContext(Context, State);
-		EnterRule(_localctx, 178, RULE_triangular);
+		EnterRule(_localctx, 176, RULE_triangular);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 961;
+			State = 950;
 			Match(OPEN);
-			State = 962;
-			Match(T__72);
-			State = 963;
+			State = 951;
+			Match(T__71);
+			State = 952;
 			@int();
-			State = 964;
+			State = 953;
 			Match(CLOSE);
 			}
 		}
@@ -6815,17 +6741,17 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public FibonacciContext fibonacci() {
 		FibonacciContext _localctx = new FibonacciContext(Context, State);
-		EnterRule(_localctx, 180, RULE_fibonacci);
+		EnterRule(_localctx, 178, RULE_fibonacci);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 966;
+			State = 955;
 			Match(OPEN);
-			State = 967;
-			Match(T__73);
-			State = 968;
+			State = 956;
+			Match(T__72);
+			State = 957;
 			@int();
-			State = 969;
+			State = 958;
 			Match(CLOSE);
 			}
 		}
@@ -6869,30 +6795,30 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public RandomContext random() {
 		RandomContext _localctx = new RandomContext(Context, State);
-		EnterRule(_localctx, 182, RULE_random);
+		EnterRule(_localctx, 180, RULE_random);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 971;
+			State = 960;
 			Match(OPEN);
-			State = 972;
-			Match(T__74);
-			State = 973;
+			State = 961;
+			Match(T__73);
+			State = 962;
 			@int();
-			State = 976;
+			State = 965;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
 			if (_la==T__48) {
 				{
-				State = 974;
+				State = 963;
 				Match(T__48);
-				State = 975;
+				State = 964;
 				@int();
 				}
 			}
 
-			State = 978;
+			State = 967;
 			Match(CLOSE);
 			}
 		}
@@ -6933,17 +6859,17 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public SizeofContext @sizeof() {
 		SizeofContext _localctx = new SizeofContext(Context, State);
-		EnterRule(_localctx, 184, RULE_sizeof);
+		EnterRule(_localctx, 182, RULE_sizeof);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 980;
+			State = 969;
 			Match(OPEN);
-			State = 981;
-			Match(T__75);
-			State = 982;
+			State = 970;
+			Match(T__74);
+			State = 971;
 			collection();
-			State = 983;
+			State = 972;
 			Match(CLOSE);
 			}
 		}
@@ -6990,21 +6916,21 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public AggiContext aggi() {
 		AggiContext _localctx = new AggiContext(Context, State);
-		EnterRule(_localctx, 186, RULE_aggi);
+		EnterRule(_localctx, 184, RULE_aggi);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 985;
+			State = 974;
 			Match(OPEN);
-			State = 986;
+			State = 975;
 			Match(T__14);
-			State = 987;
+			State = 976;
 			collection();
-			State = 988;
+			State = 977;
 			var();
-			State = 989;
+			State = 978;
 			rawstorage();
-			State = 990;
+			State = 979;
 			Match(CLOSE);
 			}
 		}
@@ -7051,41 +6977,41 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public RawstorageContext rawstorage() {
 		RawstorageContext _localctx = new RawstorageContext(Context, State);
-		EnterRule(_localctx, 188, RULE_rawstorage);
+		EnterRule(_localctx, 186, RULE_rawstorage);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 992;
+			State = 981;
 			Match(OPEN);
-			State = 996;
+			State = 985;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case T__0:
 				{
-				State = 993;
+				State = 982;
 				varo();
 				}
 				break;
 			case T__1:
 				{
-				State = 994;
+				State = 983;
 				Match(T__1);
 				}
 				break;
 			case OPEN:
 				{
-				State = 995;
+				State = 984;
 				who();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			State = 998;
-			Match(T__76);
-			State = 999;
+			State = 987;
+			Match(T__75);
+			State = 988;
 			str();
-			State = 1000;
+			State = 989;
 			Match(CLOSE);
 			}
 		}
@@ -7126,17 +7052,17 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public PidContext pid() {
 		PidContext _localctx = new PidContext(Context, State);
-		EnterRule(_localctx, 190, RULE_pid);
+		EnterRule(_localctx, 188, RULE_pid);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1002;
+			State = 991;
 			Match(OPEN);
-			State = 1003;
-			Match(T__77);
-			State = 1004;
+			State = 992;
+			Match(T__76);
+			State = 993;
 			whop();
-			State = 1005;
+			State = 994;
 			Match(CLOSE);
 			}
 		}
@@ -7177,17 +7103,17 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public TidContext tid() {
 		TidContext _localctx = new TidContext(Context, State);
-		EnterRule(_localctx, 192, RULE_tid);
+		EnterRule(_localctx, 190, RULE_tid);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1007;
+			State = 996;
 			Match(OPEN);
-			State = 1008;
-			Match(T__78);
-			State = 1009;
+			State = 997;
+			Match(T__77);
+			State = 998;
 			whot();
-			State = 1010;
+			State = 999;
 			Match(CLOSE);
 			}
 		}
@@ -7235,36 +7161,36 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public StrContext str() {
 		StrContext _localctx = new StrContext(Context, State);
-		EnterRule(_localctx, 194, RULE_str);
+		EnterRule(_localctx, 192, RULE_str);
 		try {
-			State = 1016;
+			State = 1005;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,61,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 1012;
+				State = 1001;
 				namegr();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 1013;
+				State = 1002;
 				strstorage();
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 1014;
+				State = 1003;
 				vars();
 				}
 				break;
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 1015;
+				State = 1004;
 				cardatt();
 				}
 				break;
@@ -7313,41 +7239,41 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public StrstorageContext strstorage() {
 		StrstorageContext _localctx = new StrstorageContext(Context, State);
-		EnterRule(_localctx, 196, RULE_strstorage);
+		EnterRule(_localctx, 194, RULE_strstorage);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1018;
+			State = 1007;
 			Match(OPEN);
-			State = 1022;
+			State = 1011;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case T__0:
 				{
-				State = 1019;
+				State = 1008;
 				varo();
 				}
 				break;
 			case T__1:
 				{
-				State = 1020;
+				State = 1009;
 				Match(T__1);
 				}
 				break;
 			case OPEN:
 				{
-				State = 1021;
+				State = 1010;
 				who();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			State = 1024;
-			Match(T__79);
-			State = 1025;
+			State = 1013;
+			Match(T__78);
+			State = 1014;
 			str();
-			State = 1026;
+			State = 1015;
 			Match(CLOSE);
 			}
 		}
@@ -7391,19 +7317,19 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public CardattContext cardatt() {
 		CardattContext _localctx = new CardattContext(Context, State);
-		EnterRule(_localctx, 198, RULE_cardatt);
+		EnterRule(_localctx, 196, RULE_cardatt);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1028;
+			State = 1017;
 			Match(OPEN);
-			State = 1029;
-			Match(T__80);
-			State = 1030;
+			State = 1018;
+			Match(T__79);
+			State = 1019;
 			str();
-			State = 1031;
+			State = 1020;
 			card();
-			State = 1032;
+			State = 1021;
 			Match(CLOSE);
 			}
 		}
@@ -7443,12 +7369,12 @@ public partial class RecycleParser : Parser {
 	[RuleVersion(0)]
 	public NamegrContext namegr() {
 		NamegrContext _localctx = new NamegrContext(Context, State);
-		EnterRule(_localctx, 200, RULE_namegr);
+		EnterRule(_localctx, 198, RULE_namegr);
 		try {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1035;
+			State = 1024;
 			ErrorHandler.Sync(this);
 			_alt = 1;
 			do {
@@ -7456,7 +7382,7 @@ public partial class RecycleParser : Parser {
 				case 1:
 					{
 					{
-					State = 1034;
+					State = 1023;
 					Match(LETT);
 					}
 					}
@@ -7464,7 +7390,7 @@ public partial class RecycleParser : Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 1037;
+				State = 1026;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,63,Context);
 			} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
@@ -7482,7 +7408,7 @@ public partial class RecycleParser : Parser {
 	}
 
 	private static int[] _serializedATN = {
-		4,1,91,1040,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
+		4,1,90,1029,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
 		7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,14,
 		2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,21,
 		2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,2,27,7,27,2,28,7,28,
@@ -7496,339 +7422,334 @@ public partial class RecycleParser : Parser {
 		2,78,7,78,2,79,7,79,2,80,7,80,2,81,7,81,2,82,7,82,2,83,7,83,2,84,7,84,
 		2,85,7,85,2,86,7,86,2,87,7,87,2,88,7,88,2,89,7,89,2,90,7,90,2,91,7,91,
 		2,92,7,92,2,93,7,93,2,94,7,94,2,95,7,95,2,96,7,96,2,97,7,97,2,98,7,98,
-		2,99,7,99,2,100,7,100,1,0,1,0,1,0,1,1,1,1,1,1,1,2,1,2,1,2,1,3,1,3,1,3,
-		1,4,1,4,1,4,1,5,1,5,1,5,1,6,1,6,1,6,1,7,1,7,1,7,1,8,1,8,1,8,1,9,1,9,1,
-		9,1,10,1,10,1,10,5,10,236,8,10,10,10,12,10,239,9,10,1,10,1,10,1,10,4,10,
-		244,8,10,11,10,12,10,245,1,10,1,10,1,10,1,11,1,11,1,11,1,11,1,11,1,11,
-		1,12,1,12,1,12,1,12,3,12,261,8,12,1,12,1,12,1,12,3,12,266,8,12,1,12,1,
-		12,4,12,270,8,12,11,12,12,12,271,1,12,1,12,1,13,1,13,1,13,1,13,1,13,1,
-		13,1,14,1,14,1,14,1,14,1,14,1,14,4,14,288,8,14,11,14,12,14,289,1,14,1,
-		14,1,15,1,15,1,15,1,15,1,15,1,16,1,16,1,16,1,16,4,16,303,8,16,11,16,12,
-		16,304,1,16,1,16,1,16,1,16,1,16,1,16,1,16,4,16,314,8,16,11,16,12,16,315,
-		1,16,1,16,1,16,1,16,1,16,3,16,323,8,16,1,17,1,17,1,17,1,17,4,17,329,8,
-		17,11,17,12,17,330,1,17,1,17,1,17,1,17,1,17,3,17,338,8,17,1,18,1,18,1,
-		18,1,18,1,18,1,18,1,18,1,18,1,18,1,18,1,18,1,18,3,18,352,8,18,1,19,1,19,
-		1,19,1,19,1,19,1,19,1,19,1,20,1,20,1,20,1,20,1,20,1,20,1,20,3,20,368,8,
-		20,1,20,1,20,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,
-		21,1,21,1,21,1,21,3,21,387,8,21,1,21,1,21,1,21,3,21,392,8,21,1,22,1,22,
-		1,22,1,22,1,22,1,22,1,23,1,23,1,23,1,23,4,23,404,8,23,11,23,12,23,405,
-		1,23,1,23,1,24,1,24,1,24,5,24,413,8,24,10,24,12,24,416,9,24,1,24,1,24,
-		5,24,420,8,24,10,24,12,24,423,9,24,1,24,1,24,1,25,1,25,1,25,3,25,430,8,
-		25,1,25,1,25,1,25,1,26,1,26,1,26,4,26,438,8,26,11,26,12,26,439,1,26,1,
-		26,1,27,1,27,1,27,1,27,5,27,448,8,27,10,27,12,27,451,9,27,1,27,1,27,5,
-		27,455,8,27,10,27,12,27,458,9,27,1,27,1,27,1,28,1,28,1,28,1,28,4,28,466,
-		8,28,11,28,12,28,467,1,28,1,28,1,29,1,29,4,29,474,8,29,11,29,12,29,475,
-		1,29,1,29,1,29,1,30,1,30,1,30,1,30,1,30,1,30,1,31,1,31,1,31,1,31,1,31,
-		1,31,1,31,3,31,494,8,31,1,32,1,32,1,32,1,32,1,33,1,33,1,33,1,33,1,34,1,
-		34,1,34,1,34,1,35,1,35,1,35,1,35,1,36,1,36,1,36,1,36,1,37,1,37,1,37,1,
-		37,1,38,1,38,1,38,1,39,1,39,1,39,1,39,1,39,1,39,3,39,529,8,39,1,40,1,40,
-		1,40,1,41,1,41,1,41,1,41,1,41,1,41,1,41,1,41,1,41,3,41,543,8,41,1,41,1,
-		41,3,41,547,8,41,1,42,1,42,1,42,1,42,3,42,553,8,42,1,42,1,42,1,42,1,42,
-		1,43,1,43,1,43,1,43,1,43,1,43,1,43,3,43,566,8,43,1,43,1,43,1,43,3,43,571,
-		8,43,1,44,1,44,1,44,1,44,1,44,1,44,1,44,1,45,1,45,1,45,1,45,1,45,1,45,
-		1,45,1,46,1,46,1,46,3,46,590,8,46,1,47,1,47,1,48,1,48,3,48,596,8,48,1,
-		49,1,49,1,49,1,49,1,49,1,49,3,49,604,8,49,1,50,1,50,1,50,1,50,1,50,1,50,
-		3,50,612,8,50,1,51,1,51,1,51,1,51,3,51,618,8,51,1,52,1,52,1,52,1,52,1,
-		52,1,53,1,53,1,53,1,53,3,53,629,8,53,1,53,1,53,1,54,1,54,1,54,1,54,3,54,
-		637,8,54,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,3,55,649,8,
-		55,1,56,1,56,1,56,1,56,5,56,655,8,56,10,56,12,56,658,9,56,1,56,1,56,1,
-		56,1,57,1,57,1,57,1,57,1,57,1,57,1,57,1,58,1,58,1,58,1,58,1,58,1,59,1,
-		59,1,59,1,59,1,59,1,59,1,59,1,59,1,59,1,59,1,59,3,59,686,8,59,1,59,1,59,
-		1,59,1,59,1,59,3,59,693,8,59,1,60,1,60,1,60,1,60,1,60,1,60,1,60,1,61,1,
-		61,1,61,1,61,4,61,706,8,61,11,61,12,61,707,3,61,710,8,61,1,61,1,61,1,62,
-		1,62,1,62,1,62,4,62,718,8,62,11,62,12,62,719,3,62,722,8,62,1,62,1,62,1,
-		63,1,63,1,63,1,63,4,63,730,8,63,11,63,12,63,731,3,63,734,8,63,1,63,1,63,
-		1,64,1,64,1,64,1,64,1,64,1,64,1,64,1,65,1,65,1,65,1,65,3,65,749,8,65,1,
-		65,1,65,1,65,1,66,1,66,1,66,1,66,1,66,1,66,1,67,1,67,1,67,1,67,1,67,1,
-		67,1,67,1,67,1,67,1,68,1,68,1,68,1,68,1,68,1,68,1,68,3,68,776,8,68,1,69,
-		1,69,1,69,1,69,1,69,1,69,1,69,1,69,1,69,1,70,1,70,1,70,1,70,1,70,1,71,
-		1,71,1,71,1,71,1,71,1,71,1,71,1,71,1,72,1,72,1,72,1,72,1,72,4,72,805,8,
-		72,11,72,12,72,806,3,72,809,8,72,1,72,1,72,1,73,1,73,1,73,1,73,1,73,1,
-		73,1,73,1,74,1,74,1,74,1,74,1,74,1,74,1,74,1,75,1,75,1,75,1,75,4,75,831,
-		8,75,11,75,12,75,832,1,75,1,75,1,75,1,75,1,75,1,75,1,75,1,75,1,75,1,75,
-		1,75,1,75,1,75,1,75,1,75,1,75,1,75,1,75,1,75,1,75,1,75,1,75,3,75,857,8,
-		75,1,75,1,75,1,75,3,75,862,8,75,1,76,1,76,1,77,1,77,1,77,1,77,1,77,1,77,
-		1,77,1,78,1,78,1,78,1,78,1,78,1,78,1,78,1,78,1,78,1,78,1,78,1,78,1,78,
-		1,78,1,78,1,78,1,78,1,78,1,78,4,78,892,8,78,11,78,12,78,893,3,78,896,8,
-		78,1,79,1,79,1,79,1,79,1,79,1,79,1,79,1,80,1,80,1,80,1,80,1,80,1,80,1,
-		80,1,81,1,81,1,81,1,81,1,81,1,81,1,81,1,82,1,82,1,82,1,82,1,82,1,82,1,
-		82,1,83,1,83,1,83,1,83,1,83,1,83,1,84,1,84,1,84,1,84,1,84,1,84,1,85,1,
-		85,1,85,1,85,1,85,1,85,1,86,1,86,1,86,1,86,1,86,1,86,1,87,1,87,1,87,1,
-		87,1,87,1,87,1,88,1,88,1,88,1,88,1,88,1,88,1,89,1,89,1,89,1,89,1,89,1,
-		90,1,90,1,90,1,90,1,90,1,91,1,91,1,91,1,91,1,91,3,91,977,8,91,1,91,1,91,
-		1,92,1,92,1,92,1,92,1,92,1,93,1,93,1,93,1,93,1,93,1,93,1,93,1,94,1,94,
-		1,94,1,94,3,94,997,8,94,1,94,1,94,1,94,1,94,1,95,1,95,1,95,1,95,1,95,1,
-		96,1,96,1,96,1,96,1,96,1,97,1,97,1,97,1,97,3,97,1017,8,97,1,98,1,98,1,
-		98,1,98,3,98,1023,8,98,1,98,1,98,1,98,1,98,1,99,1,99,1,99,1,99,1,99,1,
-		99,1,100,4,100,1036,8,100,11,100,12,100,1037,1,100,21,237,245,271,289,
-		304,315,330,405,414,421,439,449,456,467,475,656,707,719,731,806,832,0,
-		101,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,
-		48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80,82,84,86,88,90,92,94,
-		96,98,100,102,104,106,108,110,112,114,116,118,120,122,124,126,128,130,
-		132,134,136,138,140,142,144,146,148,150,152,154,156,158,160,162,164,166,
-		168,170,172,174,176,178,180,182,184,186,188,190,192,194,196,198,200,0,
+		2,99,7,99,1,0,1,0,1,0,1,1,1,1,1,1,1,2,1,2,1,2,1,3,1,3,1,3,1,4,1,4,1,4,
+		1,5,1,5,1,5,1,6,1,6,1,6,1,7,1,7,1,7,1,8,1,8,1,8,1,9,1,9,1,9,1,10,1,10,
+		1,10,5,10,234,8,10,10,10,12,10,237,9,10,1,10,1,10,1,10,4,10,242,8,10,11,
+		10,12,10,243,1,10,1,10,1,10,1,11,1,11,1,11,1,11,1,11,1,11,1,12,1,12,1,
+		12,1,12,3,12,259,8,12,1,12,1,12,1,12,3,12,264,8,12,1,12,1,12,4,12,268,
+		8,12,11,12,12,12,269,1,12,1,12,1,13,1,13,1,13,1,13,1,13,1,13,1,14,1,14,
+		1,14,1,14,1,14,1,14,4,14,286,8,14,11,14,12,14,287,1,14,1,14,1,15,1,15,
+		1,15,1,15,1,15,1,16,1,16,1,16,1,16,4,16,301,8,16,11,16,12,16,302,1,16,
+		1,16,1,16,1,16,1,16,1,16,1,16,4,16,312,8,16,11,16,12,16,313,1,16,1,16,
+		1,16,1,16,1,16,3,16,321,8,16,1,17,1,17,1,17,1,17,4,17,327,8,17,11,17,12,
+		17,328,1,17,1,17,1,17,1,17,1,17,3,17,336,8,17,1,18,1,18,1,18,1,18,1,18,
+		1,18,1,18,1,18,1,18,1,18,1,18,1,18,3,18,350,8,18,1,19,1,19,1,19,1,19,1,
+		19,1,19,1,19,1,20,1,20,1,20,1,20,1,20,1,20,1,20,3,20,366,8,20,1,20,1,20,
+		1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,
+		1,21,3,21,385,8,21,1,21,1,21,1,21,3,21,390,8,21,1,22,1,22,1,22,1,22,1,
+		22,1,22,1,23,1,23,1,23,1,23,4,23,402,8,23,11,23,12,23,403,1,23,1,23,1,
+		24,1,24,1,24,5,24,411,8,24,10,24,12,24,414,9,24,1,24,1,24,5,24,418,8,24,
+		10,24,12,24,421,9,24,1,24,1,24,1,25,1,25,1,25,3,25,428,8,25,1,25,1,25,
+		1,25,1,26,1,26,1,26,4,26,436,8,26,11,26,12,26,437,1,26,1,26,1,27,1,27,
+		1,27,1,27,5,27,446,8,27,10,27,12,27,449,9,27,1,27,1,27,5,27,453,8,27,10,
+		27,12,27,456,9,27,1,27,1,27,1,28,1,28,1,28,1,28,4,28,464,8,28,11,28,12,
+		28,465,1,28,1,28,1,29,1,29,4,29,472,8,29,11,29,12,29,473,1,29,1,29,1,29,
+		1,30,1,30,1,30,1,30,1,30,1,30,1,31,1,31,1,31,1,31,1,31,1,31,1,31,3,31,
+		492,8,31,1,32,1,32,1,32,1,32,1,33,1,33,1,33,1,33,1,34,1,34,1,34,1,34,1,
+		35,1,35,1,35,1,35,1,36,1,36,1,36,1,36,1,37,1,37,1,37,1,37,1,38,1,38,1,
+		38,1,39,1,39,1,39,1,39,1,39,1,39,3,39,527,8,39,1,40,1,40,1,40,1,41,1,41,
+		1,41,1,41,1,41,1,41,1,41,1,41,1,41,3,41,541,8,41,1,41,1,41,3,41,545,8,
+		41,1,42,1,42,1,42,1,42,3,42,551,8,42,1,42,1,42,1,42,1,42,1,43,1,43,1,43,
+		1,43,1,43,1,43,1,43,3,43,564,8,43,1,43,1,43,1,43,3,43,569,8,43,1,44,1,
+		44,1,44,1,44,1,44,1,44,1,44,1,45,1,45,1,45,1,45,1,45,1,45,1,45,1,46,1,
+		46,1,46,3,46,588,8,46,1,47,1,47,1,48,1,48,3,48,594,8,48,1,49,1,49,1,49,
+		1,49,1,49,1,49,3,49,602,8,49,1,50,1,50,1,50,1,50,1,50,1,50,3,50,610,8,
+		50,1,51,1,51,1,51,1,51,3,51,616,8,51,1,52,1,52,1,52,1,52,1,52,1,53,1,53,
+		1,53,1,53,3,53,627,8,53,1,53,1,53,1,54,1,54,1,54,1,54,3,54,635,8,54,1,
+		55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,1,55,3,55,647,8,55,1,56,1,56,
+		1,56,1,56,5,56,653,8,56,10,56,12,56,656,9,56,1,56,1,56,1,56,1,57,1,57,
+		1,57,1,57,1,57,1,57,1,57,1,58,1,58,1,58,1,58,1,58,1,59,1,59,1,59,1,59,
+		1,59,1,59,1,59,1,59,1,59,1,59,1,59,3,59,684,8,59,1,59,1,59,1,59,1,59,1,
+		59,3,59,691,8,59,1,60,1,60,1,60,1,60,1,60,1,60,1,60,1,61,1,61,1,61,1,61,
+		4,61,704,8,61,11,61,12,61,705,3,61,708,8,61,1,61,1,61,1,62,1,62,1,62,1,
+		62,4,62,716,8,62,11,62,12,62,717,3,62,720,8,62,1,62,1,62,1,63,1,63,1,63,
+		1,63,4,63,728,8,63,11,63,12,63,729,3,63,732,8,63,1,63,1,63,1,64,1,64,1,
+		64,1,64,1,64,1,64,1,64,1,65,1,65,1,65,1,65,3,65,747,8,65,1,65,1,65,1,65,
+		1,66,1,66,1,66,1,66,1,66,1,66,1,67,1,67,1,67,1,67,1,67,1,67,1,67,1,67,
+		1,67,1,68,1,68,1,68,1,68,1,68,1,68,3,68,773,8,68,1,69,1,69,1,69,1,69,1,
+		69,1,69,1,69,1,69,1,69,1,70,1,70,1,70,1,70,1,70,1,71,1,71,1,71,1,71,1,
+		71,4,71,794,8,71,11,71,12,71,795,3,71,798,8,71,1,71,1,71,1,72,1,72,1,72,
+		1,72,1,72,1,72,1,72,1,73,1,73,1,73,1,73,1,73,1,73,1,73,1,74,1,74,1,74,
+		1,74,4,74,820,8,74,11,74,12,74,821,1,74,1,74,1,74,1,74,1,74,1,74,1,74,
+		1,74,1,74,1,74,1,74,1,74,1,74,1,74,1,74,1,74,1,74,1,74,1,74,1,74,1,74,
+		1,74,3,74,846,8,74,1,74,1,74,1,74,3,74,851,8,74,1,75,1,75,1,76,1,76,1,
+		76,1,76,1,76,1,76,1,76,1,77,1,77,1,77,1,77,1,77,1,77,1,77,1,77,1,77,1,
+		77,1,77,1,77,1,77,1,77,1,77,1,77,1,77,1,77,1,77,4,77,881,8,77,11,77,12,
+		77,882,3,77,885,8,77,1,78,1,78,1,78,1,78,1,78,1,78,1,78,1,79,1,79,1,79,
+		1,79,1,79,1,79,1,79,1,80,1,80,1,80,1,80,1,80,1,80,1,80,1,81,1,81,1,81,
+		1,81,1,81,1,81,1,81,1,82,1,82,1,82,1,82,1,82,1,82,1,83,1,83,1,83,1,83,
+		1,83,1,83,1,84,1,84,1,84,1,84,1,84,1,84,1,85,1,85,1,85,1,85,1,85,1,85,
+		1,86,1,86,1,86,1,86,1,86,1,86,1,87,1,87,1,87,1,87,1,87,1,87,1,88,1,88,
+		1,88,1,88,1,88,1,89,1,89,1,89,1,89,1,89,1,90,1,90,1,90,1,90,1,90,3,90,
+		966,8,90,1,90,1,90,1,91,1,91,1,91,1,91,1,91,1,92,1,92,1,92,1,92,1,92,1,
+		92,1,92,1,93,1,93,1,93,1,93,3,93,986,8,93,1,93,1,93,1,93,1,93,1,94,1,94,
+		1,94,1,94,1,94,1,95,1,95,1,95,1,95,1,95,1,96,1,96,1,96,1,96,3,96,1006,
+		8,96,1,97,1,97,1,97,1,97,3,97,1012,8,97,1,97,1,97,1,97,1,97,1,98,1,98,
+		1,98,1,98,1,98,1,98,1,99,4,99,1025,8,99,11,99,12,99,1026,1,99,21,235,243,
+		269,287,302,313,328,403,412,419,437,447,454,465,473,654,705,717,729,795,
+		821,0,100,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,
+		44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80,82,84,86,88,90,
+		92,94,96,98,100,102,104,106,108,110,112,114,116,118,120,122,124,126,128,
+		130,132,134,136,138,140,142,144,146,148,150,152,154,156,158,160,162,164,
+		166,168,170,172,174,176,178,180,182,184,186,188,190,192,194,196,198,0,
 		8,1,0,6,7,1,0,9,10,1,0,14,15,1,0,25,26,1,0,42,46,1,0,39,40,2,0,15,15,58,
-		58,1,0,83,84,1080,0,202,1,0,0,0,2,205,1,0,0,0,4,208,1,0,0,0,6,211,1,0,
-		0,0,8,214,1,0,0,0,10,217,1,0,0,0,12,220,1,0,0,0,14,223,1,0,0,0,16,226,
-		1,0,0,0,18,229,1,0,0,0,20,232,1,0,0,0,22,250,1,0,0,0,24,256,1,0,0,0,26,
-		275,1,0,0,0,28,281,1,0,0,0,30,293,1,0,0,0,32,322,1,0,0,0,34,337,1,0,0,
-		0,36,351,1,0,0,0,38,353,1,0,0,0,40,360,1,0,0,0,42,391,1,0,0,0,44,393,1,
-		0,0,0,46,399,1,0,0,0,48,409,1,0,0,0,50,426,1,0,0,0,52,434,1,0,0,0,54,443,
-		1,0,0,0,56,461,1,0,0,0,58,471,1,0,0,0,60,480,1,0,0,0,62,486,1,0,0,0,64,
-		495,1,0,0,0,66,499,1,0,0,0,68,503,1,0,0,0,70,507,1,0,0,0,72,511,1,0,0,
-		0,74,515,1,0,0,0,76,519,1,0,0,0,78,522,1,0,0,0,80,530,1,0,0,0,82,546,1,
-		0,0,0,84,548,1,0,0,0,86,570,1,0,0,0,88,572,1,0,0,0,90,579,1,0,0,0,92,589,
-		1,0,0,0,94,591,1,0,0,0,96,595,1,0,0,0,98,603,1,0,0,0,100,611,1,0,0,0,102,
-		617,1,0,0,0,104,619,1,0,0,0,106,624,1,0,0,0,108,636,1,0,0,0,110,648,1,
-		0,0,0,112,650,1,0,0,0,114,662,1,0,0,0,116,669,1,0,0,0,118,692,1,0,0,0,
-		120,694,1,0,0,0,122,701,1,0,0,0,124,713,1,0,0,0,126,725,1,0,0,0,128,737,
-		1,0,0,0,130,744,1,0,0,0,132,753,1,0,0,0,134,759,1,0,0,0,136,775,1,0,0,
-		0,138,777,1,0,0,0,140,786,1,0,0,0,142,791,1,0,0,0,144,799,1,0,0,0,146,
-		812,1,0,0,0,148,819,1,0,0,0,150,861,1,0,0,0,152,863,1,0,0,0,154,865,1,
-		0,0,0,156,895,1,0,0,0,158,897,1,0,0,0,160,904,1,0,0,0,162,911,1,0,0,0,
-		164,918,1,0,0,0,166,925,1,0,0,0,168,931,1,0,0,0,170,937,1,0,0,0,172,943,
-		1,0,0,0,174,949,1,0,0,0,176,955,1,0,0,0,178,961,1,0,0,0,180,966,1,0,0,
-		0,182,971,1,0,0,0,184,980,1,0,0,0,186,985,1,0,0,0,188,992,1,0,0,0,190,
-		1002,1,0,0,0,192,1007,1,0,0,0,194,1016,1,0,0,0,196,1018,1,0,0,0,198,1028,
-		1,0,0,0,200,1035,1,0,0,0,202,203,5,1,0,0,203,204,3,200,100,0,204,1,1,0,
-		0,0,205,206,5,1,0,0,206,207,3,200,100,0,207,3,1,0,0,0,208,209,5,1,0,0,
-		209,210,3,200,100,0,210,5,1,0,0,0,211,212,5,1,0,0,212,213,3,200,100,0,
-		213,7,1,0,0,0,214,215,5,1,0,0,215,216,3,200,100,0,216,9,1,0,0,0,217,218,
-		5,1,0,0,218,219,3,200,100,0,219,11,1,0,0,0,220,221,5,1,0,0,221,222,3,200,
-		100,0,222,13,1,0,0,0,223,224,5,1,0,0,224,225,3,200,100,0,225,15,1,0,0,
-		0,226,227,5,1,0,0,227,228,3,200,100,0,228,17,1,0,0,0,229,230,5,1,0,0,230,
-		231,3,200,100,0,231,19,1,0,0,0,232,233,5,88,0,0,233,237,5,2,0,0,234,236,
-		3,22,11,0,235,234,1,0,0,0,236,239,1,0,0,0,237,238,1,0,0,0,237,235,1,0,
-		0,0,238,240,1,0,0,0,239,237,1,0,0,0,240,243,3,24,12,0,241,244,3,32,16,
-		0,242,244,3,28,14,0,243,241,1,0,0,0,243,242,1,0,0,0,244,245,1,0,0,0,245,
-		246,1,0,0,0,245,243,1,0,0,0,246,247,1,0,0,0,247,248,3,26,13,0,248,249,
-		5,89,0,0,249,21,1,0,0,0,250,251,5,88,0,0,251,252,5,3,0,0,252,253,3,108,
-		54,0,253,254,3,0,0,0,254,255,5,89,0,0,255,23,1,0,0,0,256,257,5,88,0,0,
-		257,258,5,4,0,0,258,260,3,44,22,0,259,261,3,46,23,0,260,259,1,0,0,0,260,
-		261,1,0,0,0,261,269,1,0,0,0,262,265,5,88,0,0,263,266,3,50,25,0,264,266,
-		3,82,41,0,265,263,1,0,0,0,265,264,1,0,0,0,266,267,1,0,0,0,267,268,5,89,
-		0,0,268,270,1,0,0,0,269,262,1,0,0,0,270,271,1,0,0,0,271,272,1,0,0,0,271,
-		269,1,0,0,0,272,273,1,0,0,0,273,274,5,89,0,0,274,25,1,0,0,0,275,276,5,
-		88,0,0,276,277,5,5,0,0,277,278,7,0,0,0,278,279,3,156,78,0,279,280,5,89,
-		0,0,280,27,1,0,0,0,281,282,5,88,0,0,282,283,5,8,0,0,283,284,7,1,0,0,284,
-		287,3,30,15,0,285,288,3,32,16,0,286,288,3,28,14,0,287,285,1,0,0,0,287,
-		286,1,0,0,0,288,289,1,0,0,0,289,290,1,0,0,0,289,287,1,0,0,0,290,291,1,
-		0,0,0,291,292,5,89,0,0,292,29,1,0,0,0,293,294,5,88,0,0,294,295,5,11,0,
-		0,295,296,3,150,75,0,296,297,5,89,0,0,297,31,1,0,0,0,298,299,5,88,0,0,
-		299,300,5,12,0,0,300,302,5,88,0,0,301,303,3,36,18,0,302,301,1,0,0,0,303,
-		304,1,0,0,0,304,305,1,0,0,0,304,302,1,0,0,0,305,306,1,0,0,0,306,307,5,
-		89,0,0,307,308,5,89,0,0,308,323,1,0,0,0,309,310,5,88,0,0,310,311,5,13,
-		0,0,311,313,5,88,0,0,312,314,3,36,18,0,313,312,1,0,0,0,314,315,1,0,0,0,
-		315,316,1,0,0,0,315,313,1,0,0,0,316,317,1,0,0,0,317,318,5,89,0,0,318,319,
-		5,89,0,0,319,323,1,0,0,0,320,323,3,38,19,0,321,323,3,40,20,0,322,298,1,
-		0,0,0,322,309,1,0,0,0,322,320,1,0,0,0,322,321,1,0,0,0,323,33,1,0,0,0,324,
-		325,5,88,0,0,325,326,5,13,0,0,326,328,5,88,0,0,327,329,3,36,18,0,328,327,
-		1,0,0,0,329,330,1,0,0,0,330,331,1,0,0,0,330,328,1,0,0,0,331,332,1,0,0,
-		0,332,333,5,89,0,0,333,334,5,89,0,0,334,338,1,0,0,0,335,338,3,38,19,0,
-		336,338,3,40,20,0,337,324,1,0,0,0,337,335,1,0,0,0,337,336,1,0,0,0,338,
-		35,1,0,0,0,339,340,5,88,0,0,340,341,3,150,75,0,341,342,3,34,17,0,342,343,
-		5,89,0,0,343,352,1,0,0,0,344,352,3,34,17,0,345,346,5,88,0,0,346,347,3,
-		150,75,0,347,348,3,42,21,0,348,349,5,89,0,0,349,352,1,0,0,0,350,352,3,
-		42,21,0,351,339,1,0,0,0,351,344,1,0,0,0,351,345,1,0,0,0,351,350,1,0,0,
-		0,352,37,1,0,0,0,353,354,5,88,0,0,354,355,7,2,0,0,355,356,3,110,55,0,356,
-		357,3,0,0,0,357,358,3,36,18,0,358,359,5,89,0,0,359,39,1,0,0,0,360,361,
-		5,88,0,0,361,362,5,16,0,0,362,363,3,108,54,0,363,367,3,0,0,0,364,368,3,
-		32,16,0,365,368,3,42,21,0,366,368,3,36,18,0,367,364,1,0,0,0,367,365,1,
-		0,0,0,367,366,1,0,0,0,368,369,1,0,0,0,369,370,5,89,0,0,370,41,1,0,0,0,
-		371,386,5,88,0,0,372,387,3,56,28,0,373,387,3,46,23,0,374,387,3,50,25,0,
-		375,387,3,62,31,0,376,387,3,64,32,0,377,387,3,72,36,0,378,387,3,74,37,
-		0,379,387,3,68,34,0,380,387,3,66,33,0,381,387,3,70,35,0,382,387,3,76,38,
-		0,383,387,3,80,40,0,384,387,3,78,39,0,385,387,3,82,41,0,386,372,1,0,0,
-		0,386,373,1,0,0,0,386,374,1,0,0,0,386,375,1,0,0,0,386,376,1,0,0,0,386,
-		377,1,0,0,0,386,378,1,0,0,0,386,379,1,0,0,0,386,380,1,0,0,0,386,381,1,
-		0,0,0,386,382,1,0,0,0,386,383,1,0,0,0,386,384,1,0,0,0,386,385,1,0,0,0,
-		387,388,1,0,0,0,388,389,5,89,0,0,389,392,1,0,0,0,390,392,3,38,19,0,391,
-		371,1,0,0,0,391,390,1,0,0,0,392,43,1,0,0,0,393,394,5,88,0,0,394,395,5,
-		17,0,0,395,396,5,18,0,0,396,397,3,156,78,0,397,398,5,89,0,0,398,45,1,0,
-		0,0,399,400,5,88,0,0,400,401,5,17,0,0,401,403,5,19,0,0,402,404,3,48,24,
-		0,403,402,1,0,0,0,404,405,1,0,0,0,405,406,1,0,0,0,405,403,1,0,0,0,406,
-		407,1,0,0,0,407,408,5,89,0,0,408,47,1,0,0,0,409,414,5,88,0,0,410,411,5,
-		86,0,0,411,413,5,20,0,0,412,410,1,0,0,0,413,416,1,0,0,0,414,415,1,0,0,
-		0,414,412,1,0,0,0,415,417,1,0,0,0,416,414,1,0,0,0,417,421,5,86,0,0,418,
-		420,3,48,24,0,419,418,1,0,0,0,420,423,1,0,0,0,421,422,1,0,0,0,421,419,
-		1,0,0,0,422,424,1,0,0,0,423,421,1,0,0,0,424,425,5,89,0,0,425,49,1,0,0,
-		0,426,427,5,17,0,0,427,429,5,21,0,0,428,430,3,194,97,0,429,428,1,0,0,0,
-		429,430,1,0,0,0,430,431,1,0,0,0,431,432,3,118,59,0,432,433,3,52,26,0,433,
-		51,1,0,0,0,434,435,5,88,0,0,435,437,5,21,0,0,436,438,3,54,27,0,437,436,
-		1,0,0,0,438,439,1,0,0,0,439,440,1,0,0,0,439,437,1,0,0,0,440,441,1,0,0,
-		0,441,442,5,89,0,0,442,53,1,0,0,0,443,449,5,88,0,0,444,445,3,200,100,0,
-		445,446,5,20,0,0,446,448,1,0,0,0,447,444,1,0,0,0,448,451,1,0,0,0,449,450,
-		1,0,0,0,449,447,1,0,0,0,450,452,1,0,0,0,451,449,1,0,0,0,452,456,3,200,
-		100,0,453,455,3,54,27,0,454,453,1,0,0,0,455,458,1,0,0,0,456,457,1,0,0,
-		0,456,454,1,0,0,0,457,459,1,0,0,0,458,456,1,0,0,0,459,460,5,89,0,0,460,
-		55,1,0,0,0,461,462,5,22,0,0,462,463,3,84,42,0,463,465,5,88,0,0,464,466,
-		3,58,29,0,465,464,1,0,0,0,466,467,1,0,0,0,467,468,1,0,0,0,467,465,1,0,
-		0,0,468,469,1,0,0,0,469,470,5,89,0,0,470,57,1,0,0,0,471,473,5,88,0,0,472,
-		474,3,60,30,0,473,472,1,0,0,0,474,475,1,0,0,0,475,476,1,0,0,0,475,473,
-		1,0,0,0,476,477,1,0,0,0,477,478,3,156,78,0,478,479,5,89,0,0,479,59,1,0,
-		0,0,480,481,5,88,0,0,481,482,3,194,97,0,482,483,5,23,0,0,483,484,3,194,
-		97,0,484,485,5,89,0,0,485,61,1,0,0,0,486,487,5,24,0,0,487,493,7,3,0,0,
-		488,494,3,104,52,0,489,494,5,26,0,0,490,494,5,25,0,0,491,494,5,27,0,0,
-		492,494,3,4,2,0,493,488,1,0,0,0,493,489,1,0,0,0,493,490,1,0,0,0,493,491,
-		1,0,0,0,493,492,1,0,0,0,494,63,1,0,0,0,495,496,5,22,0,0,496,497,3,188,
-		94,0,497,498,3,156,78,0,498,65,1,0,0,0,499,500,5,22,0,0,500,501,3,196,
-		98,0,501,502,3,194,97,0,502,67,1,0,0,0,503,504,5,28,0,0,504,505,3,188,
-		94,0,505,506,3,156,78,0,506,69,1,0,0,0,507,508,5,29,0,0,508,509,3,188,
-		94,0,509,510,3,156,78,0,510,71,1,0,0,0,511,512,5,30,0,0,512,513,3,86,43,
-		0,513,514,3,86,43,0,514,73,1,0,0,0,515,516,5,31,0,0,516,517,3,86,43,0,
-		517,518,3,86,43,0,518,75,1,0,0,0,519,520,5,32,0,0,520,521,3,86,43,0,521,
-		77,1,0,0,0,522,528,5,33,0,0,523,529,3,118,59,0,524,525,5,34,0,0,525,526,
-		3,118,59,0,526,527,3,118,59,0,527,529,1,0,0,0,528,523,1,0,0,0,528,524,
-		1,0,0,0,529,79,1,0,0,0,530,531,5,35,0,0,531,532,5,36,0,0,532,81,1,0,0,
-		0,533,534,5,37,0,0,534,535,3,156,78,0,535,536,3,42,21,0,536,547,1,0,0,
-		0,537,538,5,37,0,0,538,539,5,15,0,0,539,542,5,88,0,0,540,543,3,72,36,0,
-		541,543,3,76,38,0,542,540,1,0,0,0,542,541,1,0,0,0,543,544,1,0,0,0,544,
-		545,5,89,0,0,545,547,1,0,0,0,546,533,1,0,0,0,546,537,1,0,0,0,547,83,1,
-		0,0,0,548,552,5,88,0,0,549,553,3,4,2,0,550,553,5,2,0,0,551,553,3,96,48,
-		0,552,549,1,0,0,0,552,550,1,0,0,0,552,551,1,0,0,0,553,554,1,0,0,0,554,
-		555,5,38,0,0,555,556,3,194,97,0,556,557,5,89,0,0,557,85,1,0,0,0,558,571,
-		3,18,9,0,559,571,3,88,44,0,560,571,3,90,45,0,561,565,5,88,0,0,562,566,
-		5,39,0,0,563,566,5,40,0,0,564,566,3,156,78,0,565,562,1,0,0,0,565,563,1,
-		0,0,0,565,564,1,0,0,0,566,567,1,0,0,0,567,568,3,118,59,0,568,569,5,89,
-		0,0,569,571,1,0,0,0,570,558,1,0,0,0,570,559,1,0,0,0,570,560,1,0,0,0,570,
-		561,1,0,0,0,571,87,1,0,0,0,572,573,5,88,0,0,573,574,5,7,0,0,574,575,3,
-		118,59,0,575,576,5,41,0,0,576,577,3,84,42,0,577,578,5,89,0,0,578,89,1,
-		0,0,0,579,580,5,88,0,0,580,581,5,6,0,0,581,582,3,118,59,0,582,583,5,41,
-		0,0,583,584,3,84,42,0,584,585,5,89,0,0,585,91,1,0,0,0,586,590,5,2,0,0,
-		587,590,3,6,3,0,588,590,3,98,49,0,589,586,1,0,0,0,589,587,1,0,0,0,589,
-		588,1,0,0,0,590,93,1,0,0,0,591,592,7,4,0,0,592,95,1,0,0,0,593,596,3,100,
-		50,0,594,596,3,98,49,0,595,593,1,0,0,0,595,594,1,0,0,0,596,97,1,0,0,0,
-		597,598,5,88,0,0,598,599,3,102,51,0,599,600,5,9,0,0,600,601,5,89,0,0,601,
-		604,1,0,0,0,602,604,3,104,52,0,603,597,1,0,0,0,603,602,1,0,0,0,604,99,
-		1,0,0,0,605,606,5,88,0,0,606,607,3,102,51,0,607,608,5,10,0,0,608,609,5,
-		89,0,0,609,612,1,0,0,0,610,612,3,106,53,0,611,605,1,0,0,0,611,610,1,0,
-		0,0,612,101,1,0,0,0,613,618,3,156,78,0,614,618,5,27,0,0,615,618,5,25,0,
-		0,616,618,5,26,0,0,617,613,1,0,0,0,617,614,1,0,0,0,617,615,1,0,0,0,617,
-		616,1,0,0,0,618,103,1,0,0,0,619,620,5,88,0,0,620,621,5,47,0,0,621,622,
-		3,86,43,0,622,623,5,89,0,0,623,105,1,0,0,0,624,625,5,88,0,0,625,628,5,
-		10,0,0,626,629,3,6,3,0,627,629,3,98,49,0,628,626,1,0,0,0,628,627,1,0,0,
-		0,629,630,1,0,0,0,630,631,5,89,0,0,631,107,1,0,0,0,632,637,3,156,78,0,
-		633,637,3,150,75,0,634,637,3,194,97,0,635,637,3,110,55,0,636,632,1,0,0,
-		0,636,633,1,0,0,0,636,634,1,0,0,0,636,635,1,0,0,0,637,109,1,0,0,0,638,
-		649,3,12,6,0,639,649,3,128,64,0,640,649,3,118,59,0,641,649,3,112,56,0,
-		642,649,3,136,68,0,643,649,5,9,0,0,644,649,5,10,0,0,645,649,3,100,50,0,
-		646,649,3,116,58,0,647,649,3,114,57,0,648,638,1,0,0,0,648,639,1,0,0,0,
-		648,640,1,0,0,0,648,641,1,0,0,0,648,642,1,0,0,0,648,643,1,0,0,0,648,644,
-		1,0,0,0,648,645,1,0,0,0,648,646,1,0,0,0,648,647,1,0,0,0,649,111,1,0,0,
-		0,650,656,5,88,0,0,651,652,3,200,100,0,652,653,5,20,0,0,653,655,1,0,0,
-		0,654,651,1,0,0,0,655,658,1,0,0,0,656,657,1,0,0,0,656,654,1,0,0,0,657,
-		659,1,0,0,0,658,656,1,0,0,0,659,660,3,200,100,0,660,661,5,89,0,0,661,113,
-		1,0,0,0,662,663,5,88,0,0,663,664,5,48,0,0,664,665,3,156,78,0,665,666,5,
-		49,0,0,666,667,3,156,78,0,667,668,5,89,0,0,668,115,1,0,0,0,669,670,5,88,
-		0,0,670,671,5,50,0,0,671,672,7,1,0,0,672,673,5,89,0,0,673,117,1,0,0,0,
-		674,693,3,14,7,0,675,693,3,122,61,0,676,693,3,124,62,0,677,693,3,126,63,
-		0,678,693,3,120,60,0,679,693,3,128,64,0,680,681,5,88,0,0,681,682,3,92,
-		46,0,682,683,3,94,47,0,683,685,3,194,97,0,684,686,3,156,78,0,685,684,1,
-		0,0,0,685,686,1,0,0,0,686,687,1,0,0,0,687,688,5,89,0,0,688,693,1,0,0,0,
-		689,693,3,130,65,0,690,693,3,132,66,0,691,693,3,134,67,0,692,674,1,0,0,
-		0,692,675,1,0,0,0,692,676,1,0,0,0,692,677,1,0,0,0,692,678,1,0,0,0,692,
-		679,1,0,0,0,692,680,1,0,0,0,692,689,1,0,0,0,692,690,1,0,0,0,692,691,1,
-		0,0,0,693,119,1,0,0,0,694,695,5,88,0,0,695,696,5,51,0,0,696,697,3,118,
-		59,0,697,698,5,41,0,0,698,699,3,84,42,0,699,700,5,89,0,0,700,121,1,0,0,
-		0,701,702,5,88,0,0,702,709,5,52,0,0,703,710,3,146,73,0,704,706,3,118,59,
-		0,705,704,1,0,0,0,706,707,1,0,0,0,707,708,1,0,0,0,707,705,1,0,0,0,708,
-		710,1,0,0,0,709,703,1,0,0,0,709,705,1,0,0,0,710,711,1,0,0,0,711,712,5,
-		89,0,0,712,123,1,0,0,0,713,714,5,88,0,0,714,721,5,53,0,0,715,722,3,146,
-		73,0,716,718,3,118,59,0,717,716,1,0,0,0,718,719,1,0,0,0,719,720,1,0,0,
-		0,719,717,1,0,0,0,720,722,1,0,0,0,721,715,1,0,0,0,721,717,1,0,0,0,722,
-		723,1,0,0,0,723,724,5,89,0,0,724,125,1,0,0,0,725,726,5,88,0,0,726,733,
-		5,54,0,0,727,734,3,146,73,0,728,730,3,118,59,0,729,728,1,0,0,0,730,731,
-		1,0,0,0,731,732,1,0,0,0,731,729,1,0,0,0,732,734,1,0,0,0,733,727,1,0,0,
-		0,733,729,1,0,0,0,734,735,1,0,0,0,735,736,5,89,0,0,736,127,1,0,0,0,737,
-		738,5,88,0,0,738,739,5,55,0,0,739,740,3,110,55,0,740,741,3,0,0,0,741,742,
-		3,150,75,0,742,743,5,89,0,0,743,129,1,0,0,0,744,748,5,88,0,0,745,749,5,
-		39,0,0,746,749,5,40,0,0,747,749,3,156,78,0,748,745,1,0,0,0,748,746,1,0,
-		0,0,748,747,1,0,0,0,749,750,1,0,0,0,750,751,3,136,68,0,751,752,5,89,0,
-		0,752,131,1,0,0,0,753,754,5,88,0,0,754,755,7,5,0,0,755,756,3,156,78,0,
-		756,757,3,118,59,0,757,758,5,89,0,0,758,133,1,0,0,0,759,760,5,88,0,0,760,
-		761,5,56,0,0,761,762,7,5,0,0,762,763,3,156,78,0,763,764,3,118,59,0,764,
-		765,5,41,0,0,765,766,3,84,42,0,766,767,5,89,0,0,767,135,1,0,0,0,768,776,
-		3,142,71,0,769,776,3,144,72,0,770,776,3,140,70,0,771,776,3,138,69,0,772,
-		776,3,146,73,0,773,776,3,16,8,0,774,776,3,148,74,0,775,768,1,0,0,0,775,
-		769,1,0,0,0,775,770,1,0,0,0,775,771,1,0,0,0,775,772,1,0,0,0,775,773,1,
-		0,0,0,775,774,1,0,0,0,776,137,1,0,0,0,777,778,5,88,0,0,778,779,5,57,0,
-		0,779,780,7,6,0,0,780,781,3,156,78,0,781,782,3,118,59,0,782,783,5,41,0,
-		0,783,784,3,84,42,0,784,785,5,89,0,0,785,139,1,0,0,0,786,787,5,88,0,0,
-		787,788,5,59,0,0,788,789,3,118,59,0,789,790,5,89,0,0,790,141,1,0,0,0,791,
-		792,5,88,0,0,792,793,5,60,0,0,793,794,3,156,78,0,794,795,3,118,59,0,795,
-		796,5,41,0,0,796,797,3,84,42,0,797,798,5,89,0,0,798,143,1,0,0,0,799,800,
-		5,88,0,0,800,801,5,61,0,0,801,808,3,194,97,0,802,809,3,146,73,0,803,805,
-		3,118,59,0,804,803,1,0,0,0,805,806,1,0,0,0,806,807,1,0,0,0,806,804,1,0,
-		0,0,807,809,1,0,0,0,808,802,1,0,0,0,808,804,1,0,0,0,809,810,1,0,0,0,810,
-		811,5,89,0,0,811,145,1,0,0,0,812,813,5,88,0,0,813,814,5,15,0,0,814,815,
-		3,110,55,0,815,816,3,0,0,0,816,817,3,118,59,0,817,818,5,89,0,0,818,147,
-		1,0,0,0,819,820,5,88,0,0,820,821,5,62,0,0,821,822,3,92,46,0,822,823,3,
-		94,47,0,823,824,3,194,97,0,824,825,5,89,0,0,825,149,1,0,0,0,826,856,5,
-		88,0,0,827,828,5,82,0,0,828,830,3,150,75,0,829,831,3,150,75,0,830,829,
-		1,0,0,0,831,832,1,0,0,0,832,833,1,0,0,0,832,830,1,0,0,0,833,857,1,0,0,
-		0,834,835,3,152,76,0,835,836,3,156,78,0,836,837,3,156,78,0,837,857,1,0,
-		0,0,838,839,5,84,0,0,839,840,3,194,97,0,840,841,3,194,97,0,841,857,1,0,
-		0,0,842,843,5,84,0,0,843,844,3,86,43,0,844,845,3,86,43,0,845,857,1,0,0,
-		0,846,847,5,85,0,0,847,857,3,150,75,0,848,849,5,84,0,0,849,850,3,98,49,
-		0,850,851,3,98,49,0,851,857,1,0,0,0,852,853,5,84,0,0,853,854,3,100,50,
-		0,854,855,3,100,50,0,855,857,1,0,0,0,856,827,1,0,0,0,856,834,1,0,0,0,856,
-		838,1,0,0,0,856,842,1,0,0,0,856,846,1,0,0,0,856,848,1,0,0,0,856,852,1,
-		0,0,0,857,858,1,0,0,0,858,859,5,89,0,0,859,862,1,0,0,0,860,862,3,154,77,
-		0,861,826,1,0,0,0,861,860,1,0,0,0,862,151,1,0,0,0,863,864,7,7,0,0,864,
-		153,1,0,0,0,865,866,5,88,0,0,866,867,7,2,0,0,867,868,3,110,55,0,868,869,
-		3,0,0,0,869,870,3,150,75,0,870,871,5,89,0,0,871,155,1,0,0,0,872,896,3,
-		8,4,0,873,896,3,184,92,0,874,896,3,168,84,0,875,896,3,170,85,0,876,896,
-		3,172,86,0,877,896,3,166,83,0,878,896,3,174,87,0,879,896,3,176,88,0,880,
-		896,3,178,89,0,881,896,3,180,90,0,882,896,3,182,91,0,883,896,3,158,79,
-		0,884,896,3,188,94,0,885,896,3,164,82,0,886,896,3,190,95,0,887,896,3,192,
-		96,0,888,896,3,160,80,0,889,896,3,162,81,0,890,892,5,86,0,0,891,890,1,
-		0,0,0,892,893,1,0,0,0,893,891,1,0,0,0,893,894,1,0,0,0,894,896,1,0,0,0,
-		895,872,1,0,0,0,895,873,1,0,0,0,895,874,1,0,0,0,895,875,1,0,0,0,895,876,
-		1,0,0,0,895,877,1,0,0,0,895,878,1,0,0,0,895,879,1,0,0,0,895,880,1,0,0,
-		0,895,881,1,0,0,0,895,882,1,0,0,0,895,883,1,0,0,0,895,884,1,0,0,0,895,
-		885,1,0,0,0,895,886,1,0,0,0,895,887,1,0,0,0,895,888,1,0,0,0,895,889,1,
-		0,0,0,895,891,1,0,0,0,896,157,1,0,0,0,897,898,5,88,0,0,898,899,5,63,0,
-		0,899,900,3,118,59,0,900,901,5,41,0,0,901,902,3,84,42,0,902,903,5,89,0,
-		0,903,159,1,0,0,0,904,905,5,88,0,0,905,906,5,64,0,0,906,907,3,118,59,0,
-		907,908,5,41,0,0,908,909,3,84,42,0,909,910,5,89,0,0,910,161,1,0,0,0,911,
-		912,5,88,0,0,912,913,5,65,0,0,913,914,3,118,59,0,914,915,5,41,0,0,915,
-		916,3,84,42,0,916,917,5,89,0,0,917,163,1,0,0,0,918,919,5,88,0,0,919,920,
-		5,66,0,0,920,921,3,86,43,0,921,922,5,41,0,0,922,923,3,84,42,0,923,924,
-		5,89,0,0,924,165,1,0,0,0,925,926,5,88,0,0,926,927,5,67,0,0,927,928,3,156,
-		78,0,928,929,3,156,78,0,929,930,5,89,0,0,930,167,1,0,0,0,931,932,5,88,
-		0,0,932,933,5,68,0,0,933,934,3,156,78,0,934,935,3,156,78,0,935,936,5,89,
-		0,0,936,169,1,0,0,0,937,938,5,88,0,0,938,939,5,69,0,0,939,940,3,156,78,
-		0,940,941,3,156,78,0,941,942,5,89,0,0,942,171,1,0,0,0,943,944,5,88,0,0,
-		944,945,5,70,0,0,945,946,3,156,78,0,946,947,3,156,78,0,947,948,5,89,0,
-		0,948,173,1,0,0,0,949,950,5,88,0,0,950,951,5,71,0,0,951,952,3,156,78,0,
-		952,953,3,156,78,0,953,954,5,89,0,0,954,175,1,0,0,0,955,956,5,88,0,0,956,
-		957,5,72,0,0,957,958,3,156,78,0,958,959,3,156,78,0,959,960,5,89,0,0,960,
-		177,1,0,0,0,961,962,5,88,0,0,962,963,5,73,0,0,963,964,3,156,78,0,964,965,
-		5,89,0,0,965,179,1,0,0,0,966,967,5,88,0,0,967,968,5,74,0,0,968,969,3,156,
-		78,0,969,970,5,89,0,0,970,181,1,0,0,0,971,972,5,88,0,0,972,973,5,75,0,
-		0,973,976,3,156,78,0,974,975,5,49,0,0,975,977,3,156,78,0,976,974,1,0,0,
-		0,976,977,1,0,0,0,977,978,1,0,0,0,978,979,5,89,0,0,979,183,1,0,0,0,980,
-		981,5,88,0,0,981,982,5,76,0,0,982,983,3,110,55,0,983,984,5,89,0,0,984,
-		185,1,0,0,0,985,986,5,88,0,0,986,987,5,15,0,0,987,988,3,110,55,0,988,989,
-		3,0,0,0,989,990,3,188,94,0,990,991,5,89,0,0,991,187,1,0,0,0,992,996,5,
-		88,0,0,993,997,3,4,2,0,994,997,5,2,0,0,995,997,3,96,48,0,996,993,1,0,0,
-		0,996,994,1,0,0,0,996,995,1,0,0,0,997,998,1,0,0,0,998,999,5,77,0,0,999,
-		1000,3,194,97,0,1000,1001,5,89,0,0,1001,189,1,0,0,0,1002,1003,5,88,0,0,
-		1003,1004,5,78,0,0,1004,1005,3,98,49,0,1005,1006,5,89,0,0,1006,191,1,0,
-		0,0,1007,1008,5,88,0,0,1008,1009,5,79,0,0,1009,1010,3,100,50,0,1010,1011,
-		5,89,0,0,1011,193,1,0,0,0,1012,1017,3,200,100,0,1013,1017,3,196,98,0,1014,
-		1017,3,2,1,0,1015,1017,3,198,99,0,1016,1012,1,0,0,0,1016,1013,1,0,0,0,
-		1016,1014,1,0,0,0,1016,1015,1,0,0,0,1017,195,1,0,0,0,1018,1022,5,88,0,
-		0,1019,1023,3,4,2,0,1020,1023,5,2,0,0,1021,1023,3,96,48,0,1022,1019,1,
-		0,0,0,1022,1020,1,0,0,0,1022,1021,1,0,0,0,1023,1024,1,0,0,0,1024,1025,
-		5,80,0,0,1025,1026,3,194,97,0,1026,1027,5,89,0,0,1027,197,1,0,0,0,1028,
-		1029,5,88,0,0,1029,1030,5,81,0,0,1030,1031,3,194,97,0,1031,1032,3,86,43,
-		0,1032,1033,5,89,0,0,1033,199,1,0,0,0,1034,1036,5,87,0,0,1035,1034,1,0,
-		0,0,1036,1037,1,0,0,0,1037,1035,1,0,0,0,1037,1038,1,0,0,0,1038,201,1,0,
-		0,0,64,237,243,245,260,265,271,287,289,304,315,322,330,337,351,367,386,
-		391,405,414,421,429,439,449,456,467,475,493,528,542,546,552,565,570,589,
-		595,603,611,617,628,636,648,656,685,692,707,709,719,721,731,733,748,775,
-		806,808,832,856,861,893,895,976,996,1016,1022,1037
+		58,1,0,82,83,1069,0,200,1,0,0,0,2,203,1,0,0,0,4,206,1,0,0,0,6,209,1,0,
+		0,0,8,212,1,0,0,0,10,215,1,0,0,0,12,218,1,0,0,0,14,221,1,0,0,0,16,224,
+		1,0,0,0,18,227,1,0,0,0,20,230,1,0,0,0,22,248,1,0,0,0,24,254,1,0,0,0,26,
+		273,1,0,0,0,28,279,1,0,0,0,30,291,1,0,0,0,32,320,1,0,0,0,34,335,1,0,0,
+		0,36,349,1,0,0,0,38,351,1,0,0,0,40,358,1,0,0,0,42,389,1,0,0,0,44,391,1,
+		0,0,0,46,397,1,0,0,0,48,407,1,0,0,0,50,424,1,0,0,0,52,432,1,0,0,0,54,441,
+		1,0,0,0,56,459,1,0,0,0,58,469,1,0,0,0,60,478,1,0,0,0,62,484,1,0,0,0,64,
+		493,1,0,0,0,66,497,1,0,0,0,68,501,1,0,0,0,70,505,1,0,0,0,72,509,1,0,0,
+		0,74,513,1,0,0,0,76,517,1,0,0,0,78,520,1,0,0,0,80,528,1,0,0,0,82,544,1,
+		0,0,0,84,546,1,0,0,0,86,568,1,0,0,0,88,570,1,0,0,0,90,577,1,0,0,0,92,587,
+		1,0,0,0,94,589,1,0,0,0,96,593,1,0,0,0,98,601,1,0,0,0,100,609,1,0,0,0,102,
+		615,1,0,0,0,104,617,1,0,0,0,106,622,1,0,0,0,108,634,1,0,0,0,110,646,1,
+		0,0,0,112,648,1,0,0,0,114,660,1,0,0,0,116,667,1,0,0,0,118,690,1,0,0,0,
+		120,692,1,0,0,0,122,699,1,0,0,0,124,711,1,0,0,0,126,723,1,0,0,0,128,735,
+		1,0,0,0,130,742,1,0,0,0,132,751,1,0,0,0,134,757,1,0,0,0,136,772,1,0,0,
+		0,138,774,1,0,0,0,140,783,1,0,0,0,142,788,1,0,0,0,144,801,1,0,0,0,146,
+		808,1,0,0,0,148,850,1,0,0,0,150,852,1,0,0,0,152,854,1,0,0,0,154,884,1,
+		0,0,0,156,886,1,0,0,0,158,893,1,0,0,0,160,900,1,0,0,0,162,907,1,0,0,0,
+		164,914,1,0,0,0,166,920,1,0,0,0,168,926,1,0,0,0,170,932,1,0,0,0,172,938,
+		1,0,0,0,174,944,1,0,0,0,176,950,1,0,0,0,178,955,1,0,0,0,180,960,1,0,0,
+		0,182,969,1,0,0,0,184,974,1,0,0,0,186,981,1,0,0,0,188,991,1,0,0,0,190,
+		996,1,0,0,0,192,1005,1,0,0,0,194,1007,1,0,0,0,196,1017,1,0,0,0,198,1024,
+		1,0,0,0,200,201,5,1,0,0,201,202,3,198,99,0,202,1,1,0,0,0,203,204,5,1,0,
+		0,204,205,3,198,99,0,205,3,1,0,0,0,206,207,5,1,0,0,207,208,3,198,99,0,
+		208,5,1,0,0,0,209,210,5,1,0,0,210,211,3,198,99,0,211,7,1,0,0,0,212,213,
+		5,1,0,0,213,214,3,198,99,0,214,9,1,0,0,0,215,216,5,1,0,0,216,217,3,198,
+		99,0,217,11,1,0,0,0,218,219,5,1,0,0,219,220,3,198,99,0,220,13,1,0,0,0,
+		221,222,5,1,0,0,222,223,3,198,99,0,223,15,1,0,0,0,224,225,5,1,0,0,225,
+		226,3,198,99,0,226,17,1,0,0,0,227,228,5,1,0,0,228,229,3,198,99,0,229,19,
+		1,0,0,0,230,231,5,87,0,0,231,235,5,2,0,0,232,234,3,22,11,0,233,232,1,0,
+		0,0,234,237,1,0,0,0,235,236,1,0,0,0,235,233,1,0,0,0,236,238,1,0,0,0,237,
+		235,1,0,0,0,238,241,3,24,12,0,239,242,3,32,16,0,240,242,3,28,14,0,241,
+		239,1,0,0,0,241,240,1,0,0,0,242,243,1,0,0,0,243,244,1,0,0,0,243,241,1,
+		0,0,0,244,245,1,0,0,0,245,246,3,26,13,0,246,247,5,88,0,0,247,21,1,0,0,
+		0,248,249,5,87,0,0,249,250,5,3,0,0,250,251,3,108,54,0,251,252,3,0,0,0,
+		252,253,5,88,0,0,253,23,1,0,0,0,254,255,5,87,0,0,255,256,5,4,0,0,256,258,
+		3,44,22,0,257,259,3,46,23,0,258,257,1,0,0,0,258,259,1,0,0,0,259,267,1,
+		0,0,0,260,263,5,87,0,0,261,264,3,50,25,0,262,264,3,82,41,0,263,261,1,0,
+		0,0,263,262,1,0,0,0,264,265,1,0,0,0,265,266,5,88,0,0,266,268,1,0,0,0,267,
+		260,1,0,0,0,268,269,1,0,0,0,269,270,1,0,0,0,269,267,1,0,0,0,270,271,1,
+		0,0,0,271,272,5,88,0,0,272,25,1,0,0,0,273,274,5,87,0,0,274,275,5,5,0,0,
+		275,276,7,0,0,0,276,277,3,154,77,0,277,278,5,88,0,0,278,27,1,0,0,0,279,
+		280,5,87,0,0,280,281,5,8,0,0,281,282,7,1,0,0,282,285,3,30,15,0,283,286,
+		3,32,16,0,284,286,3,28,14,0,285,283,1,0,0,0,285,284,1,0,0,0,286,287,1,
+		0,0,0,287,288,1,0,0,0,287,285,1,0,0,0,288,289,1,0,0,0,289,290,5,88,0,0,
+		290,29,1,0,0,0,291,292,5,87,0,0,292,293,5,11,0,0,293,294,3,148,74,0,294,
+		295,5,88,0,0,295,31,1,0,0,0,296,297,5,87,0,0,297,298,5,12,0,0,298,300,
+		5,87,0,0,299,301,3,36,18,0,300,299,1,0,0,0,301,302,1,0,0,0,302,303,1,0,
+		0,0,302,300,1,0,0,0,303,304,1,0,0,0,304,305,5,88,0,0,305,306,5,88,0,0,
+		306,321,1,0,0,0,307,308,5,87,0,0,308,309,5,13,0,0,309,311,5,87,0,0,310,
+		312,3,36,18,0,311,310,1,0,0,0,312,313,1,0,0,0,313,314,1,0,0,0,313,311,
+		1,0,0,0,314,315,1,0,0,0,315,316,5,88,0,0,316,317,5,88,0,0,317,321,1,0,
+		0,0,318,321,3,38,19,0,319,321,3,40,20,0,320,296,1,0,0,0,320,307,1,0,0,
+		0,320,318,1,0,0,0,320,319,1,0,0,0,321,33,1,0,0,0,322,323,5,87,0,0,323,
+		324,5,13,0,0,324,326,5,87,0,0,325,327,3,36,18,0,326,325,1,0,0,0,327,328,
+		1,0,0,0,328,329,1,0,0,0,328,326,1,0,0,0,329,330,1,0,0,0,330,331,5,88,0,
+		0,331,332,5,88,0,0,332,336,1,0,0,0,333,336,3,38,19,0,334,336,3,40,20,0,
+		335,322,1,0,0,0,335,333,1,0,0,0,335,334,1,0,0,0,336,35,1,0,0,0,337,338,
+		5,87,0,0,338,339,3,148,74,0,339,340,3,34,17,0,340,341,5,88,0,0,341,350,
+		1,0,0,0,342,350,3,34,17,0,343,344,5,87,0,0,344,345,3,148,74,0,345,346,
+		3,42,21,0,346,347,5,88,0,0,347,350,1,0,0,0,348,350,3,42,21,0,349,337,1,
+		0,0,0,349,342,1,0,0,0,349,343,1,0,0,0,349,348,1,0,0,0,350,37,1,0,0,0,351,
+		352,5,87,0,0,352,353,7,2,0,0,353,354,3,110,55,0,354,355,3,0,0,0,355,356,
+		3,36,18,0,356,357,5,88,0,0,357,39,1,0,0,0,358,359,5,87,0,0,359,360,5,16,
+		0,0,360,361,3,108,54,0,361,365,3,0,0,0,362,366,3,32,16,0,363,366,3,42,
+		21,0,364,366,3,36,18,0,365,362,1,0,0,0,365,363,1,0,0,0,365,364,1,0,0,0,
+		366,367,1,0,0,0,367,368,5,88,0,0,368,41,1,0,0,0,369,384,5,87,0,0,370,385,
+		3,56,28,0,371,385,3,46,23,0,372,385,3,50,25,0,373,385,3,62,31,0,374,385,
+		3,64,32,0,375,385,3,72,36,0,376,385,3,74,37,0,377,385,3,68,34,0,378,385,
+		3,66,33,0,379,385,3,70,35,0,380,385,3,76,38,0,381,385,3,80,40,0,382,385,
+		3,78,39,0,383,385,3,82,41,0,384,370,1,0,0,0,384,371,1,0,0,0,384,372,1,
+		0,0,0,384,373,1,0,0,0,384,374,1,0,0,0,384,375,1,0,0,0,384,376,1,0,0,0,
+		384,377,1,0,0,0,384,378,1,0,0,0,384,379,1,0,0,0,384,380,1,0,0,0,384,381,
+		1,0,0,0,384,382,1,0,0,0,384,383,1,0,0,0,385,386,1,0,0,0,386,387,5,88,0,
+		0,387,390,1,0,0,0,388,390,3,38,19,0,389,369,1,0,0,0,389,388,1,0,0,0,390,
+		43,1,0,0,0,391,392,5,87,0,0,392,393,5,17,0,0,393,394,5,18,0,0,394,395,
+		3,154,77,0,395,396,5,88,0,0,396,45,1,0,0,0,397,398,5,87,0,0,398,399,5,
+		17,0,0,399,401,5,19,0,0,400,402,3,48,24,0,401,400,1,0,0,0,402,403,1,0,
+		0,0,403,404,1,0,0,0,403,401,1,0,0,0,404,405,1,0,0,0,405,406,5,88,0,0,406,
+		47,1,0,0,0,407,412,5,87,0,0,408,409,5,85,0,0,409,411,5,20,0,0,410,408,
+		1,0,0,0,411,414,1,0,0,0,412,413,1,0,0,0,412,410,1,0,0,0,413,415,1,0,0,
+		0,414,412,1,0,0,0,415,419,5,85,0,0,416,418,3,48,24,0,417,416,1,0,0,0,418,
+		421,1,0,0,0,419,420,1,0,0,0,419,417,1,0,0,0,420,422,1,0,0,0,421,419,1,
+		0,0,0,422,423,5,88,0,0,423,49,1,0,0,0,424,425,5,17,0,0,425,427,5,21,0,
+		0,426,428,3,192,96,0,427,426,1,0,0,0,427,428,1,0,0,0,428,429,1,0,0,0,429,
+		430,3,118,59,0,430,431,3,52,26,0,431,51,1,0,0,0,432,433,5,87,0,0,433,435,
+		5,21,0,0,434,436,3,54,27,0,435,434,1,0,0,0,436,437,1,0,0,0,437,438,1,0,
+		0,0,437,435,1,0,0,0,438,439,1,0,0,0,439,440,5,88,0,0,440,53,1,0,0,0,441,
+		447,5,87,0,0,442,443,3,198,99,0,443,444,5,20,0,0,444,446,1,0,0,0,445,442,
+		1,0,0,0,446,449,1,0,0,0,447,448,1,0,0,0,447,445,1,0,0,0,448,450,1,0,0,
+		0,449,447,1,0,0,0,450,454,3,198,99,0,451,453,3,54,27,0,452,451,1,0,0,0,
+		453,456,1,0,0,0,454,455,1,0,0,0,454,452,1,0,0,0,455,457,1,0,0,0,456,454,
+		1,0,0,0,457,458,5,88,0,0,458,55,1,0,0,0,459,460,5,22,0,0,460,461,3,84,
+		42,0,461,463,5,87,0,0,462,464,3,58,29,0,463,462,1,0,0,0,464,465,1,0,0,
+		0,465,466,1,0,0,0,465,463,1,0,0,0,466,467,1,0,0,0,467,468,5,88,0,0,468,
+		57,1,0,0,0,469,471,5,87,0,0,470,472,3,60,30,0,471,470,1,0,0,0,472,473,
+		1,0,0,0,473,474,1,0,0,0,473,471,1,0,0,0,474,475,1,0,0,0,475,476,3,154,
+		77,0,476,477,5,88,0,0,477,59,1,0,0,0,478,479,5,87,0,0,479,480,3,192,96,
+		0,480,481,5,23,0,0,481,482,3,192,96,0,482,483,5,88,0,0,483,61,1,0,0,0,
+		484,485,5,24,0,0,485,491,7,3,0,0,486,492,3,104,52,0,487,492,5,26,0,0,488,
+		492,5,25,0,0,489,492,5,27,0,0,490,492,3,4,2,0,491,486,1,0,0,0,491,487,
+		1,0,0,0,491,488,1,0,0,0,491,489,1,0,0,0,491,490,1,0,0,0,492,63,1,0,0,0,
+		493,494,5,22,0,0,494,495,3,186,93,0,495,496,3,154,77,0,496,65,1,0,0,0,
+		497,498,5,22,0,0,498,499,3,194,97,0,499,500,3,192,96,0,500,67,1,0,0,0,
+		501,502,5,28,0,0,502,503,3,186,93,0,503,504,3,154,77,0,504,69,1,0,0,0,
+		505,506,5,29,0,0,506,507,3,186,93,0,507,508,3,154,77,0,508,71,1,0,0,0,
+		509,510,5,30,0,0,510,511,3,86,43,0,511,512,3,86,43,0,512,73,1,0,0,0,513,
+		514,5,31,0,0,514,515,3,86,43,0,515,516,3,86,43,0,516,75,1,0,0,0,517,518,
+		5,32,0,0,518,519,3,86,43,0,519,77,1,0,0,0,520,526,5,33,0,0,521,527,3,118,
+		59,0,522,523,5,34,0,0,523,524,3,118,59,0,524,525,3,118,59,0,525,527,1,
+		0,0,0,526,521,1,0,0,0,526,522,1,0,0,0,527,79,1,0,0,0,528,529,5,35,0,0,
+		529,530,5,36,0,0,530,81,1,0,0,0,531,532,5,37,0,0,532,533,3,154,77,0,533,
+		534,3,42,21,0,534,545,1,0,0,0,535,536,5,37,0,0,536,537,5,15,0,0,537,540,
+		5,87,0,0,538,541,3,72,36,0,539,541,3,76,38,0,540,538,1,0,0,0,540,539,1,
+		0,0,0,541,542,1,0,0,0,542,543,5,88,0,0,543,545,1,0,0,0,544,531,1,0,0,0,
+		544,535,1,0,0,0,545,83,1,0,0,0,546,550,5,87,0,0,547,551,3,4,2,0,548,551,
+		5,2,0,0,549,551,3,96,48,0,550,547,1,0,0,0,550,548,1,0,0,0,550,549,1,0,
+		0,0,551,552,1,0,0,0,552,553,5,38,0,0,553,554,3,192,96,0,554,555,5,88,0,
+		0,555,85,1,0,0,0,556,569,3,18,9,0,557,569,3,88,44,0,558,569,3,90,45,0,
+		559,563,5,87,0,0,560,564,5,39,0,0,561,564,5,40,0,0,562,564,3,154,77,0,
+		563,560,1,0,0,0,563,561,1,0,0,0,563,562,1,0,0,0,564,565,1,0,0,0,565,566,
+		3,118,59,0,566,567,5,88,0,0,567,569,1,0,0,0,568,556,1,0,0,0,568,557,1,
+		0,0,0,568,558,1,0,0,0,568,559,1,0,0,0,569,87,1,0,0,0,570,571,5,87,0,0,
+		571,572,5,7,0,0,572,573,3,118,59,0,573,574,5,41,0,0,574,575,3,84,42,0,
+		575,576,5,88,0,0,576,89,1,0,0,0,577,578,5,87,0,0,578,579,5,6,0,0,579,580,
+		3,118,59,0,580,581,5,41,0,0,581,582,3,84,42,0,582,583,5,88,0,0,583,91,
+		1,0,0,0,584,588,5,2,0,0,585,588,3,6,3,0,586,588,3,98,49,0,587,584,1,0,
+		0,0,587,585,1,0,0,0,587,586,1,0,0,0,588,93,1,0,0,0,589,590,7,4,0,0,590,
+		95,1,0,0,0,591,594,3,100,50,0,592,594,3,98,49,0,593,591,1,0,0,0,593,592,
+		1,0,0,0,594,97,1,0,0,0,595,596,5,87,0,0,596,597,3,102,51,0,597,598,5,9,
+		0,0,598,599,5,88,0,0,599,602,1,0,0,0,600,602,3,104,52,0,601,595,1,0,0,
+		0,601,600,1,0,0,0,602,99,1,0,0,0,603,604,5,87,0,0,604,605,3,102,51,0,605,
+		606,5,10,0,0,606,607,5,88,0,0,607,610,1,0,0,0,608,610,3,106,53,0,609,603,
+		1,0,0,0,609,608,1,0,0,0,610,101,1,0,0,0,611,616,3,154,77,0,612,616,5,27,
+		0,0,613,616,5,25,0,0,614,616,5,26,0,0,615,611,1,0,0,0,615,612,1,0,0,0,
+		615,613,1,0,0,0,615,614,1,0,0,0,616,103,1,0,0,0,617,618,5,87,0,0,618,619,
+		5,47,0,0,619,620,3,86,43,0,620,621,5,88,0,0,621,105,1,0,0,0,622,623,5,
+		87,0,0,623,626,5,10,0,0,624,627,3,6,3,0,625,627,3,98,49,0,626,624,1,0,
+		0,0,626,625,1,0,0,0,627,628,1,0,0,0,628,629,5,88,0,0,629,107,1,0,0,0,630,
+		635,3,154,77,0,631,635,3,148,74,0,632,635,3,192,96,0,633,635,3,110,55,
+		0,634,630,1,0,0,0,634,631,1,0,0,0,634,632,1,0,0,0,634,633,1,0,0,0,635,
+		109,1,0,0,0,636,647,3,12,6,0,637,647,3,128,64,0,638,647,3,118,59,0,639,
+		647,3,112,56,0,640,647,3,136,68,0,641,647,5,9,0,0,642,647,5,10,0,0,643,
+		647,3,100,50,0,644,647,3,116,58,0,645,647,3,114,57,0,646,636,1,0,0,0,646,
+		637,1,0,0,0,646,638,1,0,0,0,646,639,1,0,0,0,646,640,1,0,0,0,646,641,1,
+		0,0,0,646,642,1,0,0,0,646,643,1,0,0,0,646,644,1,0,0,0,646,645,1,0,0,0,
+		647,111,1,0,0,0,648,654,5,87,0,0,649,650,3,198,99,0,650,651,5,20,0,0,651,
+		653,1,0,0,0,652,649,1,0,0,0,653,656,1,0,0,0,654,655,1,0,0,0,654,652,1,
+		0,0,0,655,657,1,0,0,0,656,654,1,0,0,0,657,658,3,198,99,0,658,659,5,88,
+		0,0,659,113,1,0,0,0,660,661,5,87,0,0,661,662,5,48,0,0,662,663,3,154,77,
+		0,663,664,5,49,0,0,664,665,3,154,77,0,665,666,5,88,0,0,666,115,1,0,0,0,
+		667,668,5,87,0,0,668,669,5,50,0,0,669,670,7,1,0,0,670,671,5,88,0,0,671,
+		117,1,0,0,0,672,691,3,14,7,0,673,691,3,122,61,0,674,691,3,124,62,0,675,
+		691,3,126,63,0,676,691,3,120,60,0,677,691,3,128,64,0,678,679,5,87,0,0,
+		679,680,3,92,46,0,680,681,3,94,47,0,681,683,3,192,96,0,682,684,3,154,77,
+		0,683,682,1,0,0,0,683,684,1,0,0,0,684,685,1,0,0,0,685,686,5,88,0,0,686,
+		691,1,0,0,0,687,691,3,130,65,0,688,691,3,132,66,0,689,691,3,134,67,0,690,
+		672,1,0,0,0,690,673,1,0,0,0,690,674,1,0,0,0,690,675,1,0,0,0,690,676,1,
+		0,0,0,690,677,1,0,0,0,690,678,1,0,0,0,690,687,1,0,0,0,690,688,1,0,0,0,
+		690,689,1,0,0,0,691,119,1,0,0,0,692,693,5,87,0,0,693,694,5,51,0,0,694,
+		695,3,118,59,0,695,696,5,41,0,0,696,697,3,84,42,0,697,698,5,88,0,0,698,
+		121,1,0,0,0,699,700,5,87,0,0,700,707,5,52,0,0,701,708,3,144,72,0,702,704,
+		3,118,59,0,703,702,1,0,0,0,704,705,1,0,0,0,705,706,1,0,0,0,705,703,1,0,
+		0,0,706,708,1,0,0,0,707,701,1,0,0,0,707,703,1,0,0,0,708,709,1,0,0,0,709,
+		710,5,88,0,0,710,123,1,0,0,0,711,712,5,87,0,0,712,719,5,53,0,0,713,720,
+		3,144,72,0,714,716,3,118,59,0,715,714,1,0,0,0,716,717,1,0,0,0,717,718,
+		1,0,0,0,717,715,1,0,0,0,718,720,1,0,0,0,719,713,1,0,0,0,719,715,1,0,0,
+		0,720,721,1,0,0,0,721,722,5,88,0,0,722,125,1,0,0,0,723,724,5,87,0,0,724,
+		731,5,54,0,0,725,732,3,144,72,0,726,728,3,118,59,0,727,726,1,0,0,0,728,
+		729,1,0,0,0,729,730,1,0,0,0,729,727,1,0,0,0,730,732,1,0,0,0,731,725,1,
+		0,0,0,731,727,1,0,0,0,732,733,1,0,0,0,733,734,5,88,0,0,734,127,1,0,0,0,
+		735,736,5,87,0,0,736,737,5,55,0,0,737,738,3,110,55,0,738,739,3,0,0,0,739,
+		740,3,148,74,0,740,741,5,88,0,0,741,129,1,0,0,0,742,746,5,87,0,0,743,747,
+		5,39,0,0,744,747,5,40,0,0,745,747,3,154,77,0,746,743,1,0,0,0,746,744,1,
+		0,0,0,746,745,1,0,0,0,747,748,1,0,0,0,748,749,3,136,68,0,749,750,5,88,
+		0,0,750,131,1,0,0,0,751,752,5,87,0,0,752,753,7,5,0,0,753,754,3,154,77,
+		0,754,755,3,118,59,0,755,756,5,88,0,0,756,133,1,0,0,0,757,758,5,87,0,0,
+		758,759,5,56,0,0,759,760,7,5,0,0,760,761,3,154,77,0,761,762,3,118,59,0,
+		762,763,5,41,0,0,763,764,3,84,42,0,764,765,5,88,0,0,765,135,1,0,0,0,766,
+		773,3,142,71,0,767,773,3,140,70,0,768,773,3,138,69,0,769,773,3,144,72,
+		0,770,773,3,16,8,0,771,773,3,146,73,0,772,766,1,0,0,0,772,767,1,0,0,0,
+		772,768,1,0,0,0,772,769,1,0,0,0,772,770,1,0,0,0,772,771,1,0,0,0,773,137,
+		1,0,0,0,774,775,5,87,0,0,775,776,5,57,0,0,776,777,7,6,0,0,777,778,3,154,
+		77,0,778,779,3,118,59,0,779,780,5,41,0,0,780,781,3,84,42,0,781,782,5,88,
+		0,0,782,139,1,0,0,0,783,784,5,87,0,0,784,785,5,59,0,0,785,786,3,118,59,
+		0,786,787,5,88,0,0,787,141,1,0,0,0,788,789,5,87,0,0,789,790,5,60,0,0,790,
+		797,3,192,96,0,791,798,3,144,72,0,792,794,3,118,59,0,793,792,1,0,0,0,794,
+		795,1,0,0,0,795,796,1,0,0,0,795,793,1,0,0,0,796,798,1,0,0,0,797,791,1,
+		0,0,0,797,793,1,0,0,0,798,799,1,0,0,0,799,800,5,88,0,0,800,143,1,0,0,0,
+		801,802,5,87,0,0,802,803,5,15,0,0,803,804,3,110,55,0,804,805,3,0,0,0,805,
+		806,3,118,59,0,806,807,5,88,0,0,807,145,1,0,0,0,808,809,5,87,0,0,809,810,
+		5,61,0,0,810,811,3,92,46,0,811,812,3,94,47,0,812,813,3,192,96,0,813,814,
+		5,88,0,0,814,147,1,0,0,0,815,845,5,87,0,0,816,817,5,81,0,0,817,819,3,148,
+		74,0,818,820,3,148,74,0,819,818,1,0,0,0,820,821,1,0,0,0,821,822,1,0,0,
+		0,821,819,1,0,0,0,822,846,1,0,0,0,823,824,3,150,75,0,824,825,3,154,77,
+		0,825,826,3,154,77,0,826,846,1,0,0,0,827,828,5,83,0,0,828,829,3,192,96,
+		0,829,830,3,192,96,0,830,846,1,0,0,0,831,832,5,83,0,0,832,833,3,86,43,
+		0,833,834,3,86,43,0,834,846,1,0,0,0,835,836,5,84,0,0,836,846,3,148,74,
+		0,837,838,5,83,0,0,838,839,3,98,49,0,839,840,3,98,49,0,840,846,1,0,0,0,
+		841,842,5,83,0,0,842,843,3,100,50,0,843,844,3,100,50,0,844,846,1,0,0,0,
+		845,816,1,0,0,0,845,823,1,0,0,0,845,827,1,0,0,0,845,831,1,0,0,0,845,835,
+		1,0,0,0,845,837,1,0,0,0,845,841,1,0,0,0,846,847,1,0,0,0,847,848,5,88,0,
+		0,848,851,1,0,0,0,849,851,3,152,76,0,850,815,1,0,0,0,850,849,1,0,0,0,851,
+		149,1,0,0,0,852,853,7,7,0,0,853,151,1,0,0,0,854,855,5,87,0,0,855,856,7,
+		2,0,0,856,857,3,110,55,0,857,858,3,0,0,0,858,859,3,148,74,0,859,860,5,
+		88,0,0,860,153,1,0,0,0,861,885,3,8,4,0,862,885,3,182,91,0,863,885,3,166,
+		83,0,864,885,3,168,84,0,865,885,3,170,85,0,866,885,3,164,82,0,867,885,
+		3,172,86,0,868,885,3,174,87,0,869,885,3,176,88,0,870,885,3,178,89,0,871,
+		885,3,180,90,0,872,885,3,156,78,0,873,885,3,186,93,0,874,885,3,162,81,
+		0,875,885,3,188,94,0,876,885,3,190,95,0,877,885,3,158,79,0,878,885,3,160,
+		80,0,879,881,5,85,0,0,880,879,1,0,0,0,881,882,1,0,0,0,882,880,1,0,0,0,
+		882,883,1,0,0,0,883,885,1,0,0,0,884,861,1,0,0,0,884,862,1,0,0,0,884,863,
+		1,0,0,0,884,864,1,0,0,0,884,865,1,0,0,0,884,866,1,0,0,0,884,867,1,0,0,
+		0,884,868,1,0,0,0,884,869,1,0,0,0,884,870,1,0,0,0,884,871,1,0,0,0,884,
+		872,1,0,0,0,884,873,1,0,0,0,884,874,1,0,0,0,884,875,1,0,0,0,884,876,1,
+		0,0,0,884,877,1,0,0,0,884,878,1,0,0,0,884,880,1,0,0,0,885,155,1,0,0,0,
+		886,887,5,87,0,0,887,888,5,62,0,0,888,889,3,118,59,0,889,890,5,41,0,0,
+		890,891,3,84,42,0,891,892,5,88,0,0,892,157,1,0,0,0,893,894,5,87,0,0,894,
+		895,5,63,0,0,895,896,3,118,59,0,896,897,5,41,0,0,897,898,3,84,42,0,898,
+		899,5,88,0,0,899,159,1,0,0,0,900,901,5,87,0,0,901,902,5,64,0,0,902,903,
+		3,118,59,0,903,904,5,41,0,0,904,905,3,84,42,0,905,906,5,88,0,0,906,161,
+		1,0,0,0,907,908,5,87,0,0,908,909,5,65,0,0,909,910,3,86,43,0,910,911,5,
+		41,0,0,911,912,3,84,42,0,912,913,5,88,0,0,913,163,1,0,0,0,914,915,5,87,
+		0,0,915,916,5,66,0,0,916,917,3,154,77,0,917,918,3,154,77,0,918,919,5,88,
+		0,0,919,165,1,0,0,0,920,921,5,87,0,0,921,922,5,67,0,0,922,923,3,154,77,
+		0,923,924,3,154,77,0,924,925,5,88,0,0,925,167,1,0,0,0,926,927,5,87,0,0,
+		927,928,5,68,0,0,928,929,3,154,77,0,929,930,3,154,77,0,930,931,5,88,0,
+		0,931,169,1,0,0,0,932,933,5,87,0,0,933,934,5,69,0,0,934,935,3,154,77,0,
+		935,936,3,154,77,0,936,937,5,88,0,0,937,171,1,0,0,0,938,939,5,87,0,0,939,
+		940,5,70,0,0,940,941,3,154,77,0,941,942,3,154,77,0,942,943,5,88,0,0,943,
+		173,1,0,0,0,944,945,5,87,0,0,945,946,5,71,0,0,946,947,3,154,77,0,947,948,
+		3,154,77,0,948,949,5,88,0,0,949,175,1,0,0,0,950,951,5,87,0,0,951,952,5,
+		72,0,0,952,953,3,154,77,0,953,954,5,88,0,0,954,177,1,0,0,0,955,956,5,87,
+		0,0,956,957,5,73,0,0,957,958,3,154,77,0,958,959,5,88,0,0,959,179,1,0,0,
+		0,960,961,5,87,0,0,961,962,5,74,0,0,962,965,3,154,77,0,963,964,5,49,0,
+		0,964,966,3,154,77,0,965,963,1,0,0,0,965,966,1,0,0,0,966,967,1,0,0,0,967,
+		968,5,88,0,0,968,181,1,0,0,0,969,970,5,87,0,0,970,971,5,75,0,0,971,972,
+		3,110,55,0,972,973,5,88,0,0,973,183,1,0,0,0,974,975,5,87,0,0,975,976,5,
+		15,0,0,976,977,3,110,55,0,977,978,3,0,0,0,978,979,3,186,93,0,979,980,5,
+		88,0,0,980,185,1,0,0,0,981,985,5,87,0,0,982,986,3,4,2,0,983,986,5,2,0,
+		0,984,986,3,96,48,0,985,982,1,0,0,0,985,983,1,0,0,0,985,984,1,0,0,0,986,
+		987,1,0,0,0,987,988,5,76,0,0,988,989,3,192,96,0,989,990,5,88,0,0,990,187,
+		1,0,0,0,991,992,5,87,0,0,992,993,5,77,0,0,993,994,3,98,49,0,994,995,5,
+		88,0,0,995,189,1,0,0,0,996,997,5,87,0,0,997,998,5,78,0,0,998,999,3,100,
+		50,0,999,1000,5,88,0,0,1000,191,1,0,0,0,1001,1006,3,198,99,0,1002,1006,
+		3,194,97,0,1003,1006,3,2,1,0,1004,1006,3,196,98,0,1005,1001,1,0,0,0,1005,
+		1002,1,0,0,0,1005,1003,1,0,0,0,1005,1004,1,0,0,0,1006,193,1,0,0,0,1007,
+		1011,5,87,0,0,1008,1012,3,4,2,0,1009,1012,5,2,0,0,1010,1012,3,96,48,0,
+		1011,1008,1,0,0,0,1011,1009,1,0,0,0,1011,1010,1,0,0,0,1012,1013,1,0,0,
+		0,1013,1014,5,79,0,0,1014,1015,3,192,96,0,1015,1016,5,88,0,0,1016,195,
+		1,0,0,0,1017,1018,5,87,0,0,1018,1019,5,80,0,0,1019,1020,3,192,96,0,1020,
+		1021,3,86,43,0,1021,1022,5,88,0,0,1022,197,1,0,0,0,1023,1025,5,86,0,0,
+		1024,1023,1,0,0,0,1025,1026,1,0,0,0,1026,1024,1,0,0,0,1026,1027,1,0,0,
+		0,1027,199,1,0,0,0,64,235,241,243,258,263,269,285,287,302,313,320,328,
+		335,349,365,384,389,403,412,419,427,437,447,454,465,473,491,526,540,544,
+		550,563,568,587,593,601,609,615,626,634,646,654,683,690,705,707,717,719,
+		729,731,746,772,795,797,821,845,850,882,884,965,985,1005,1011,1026
 	};
 
 	public static readonly ATN _ATN =

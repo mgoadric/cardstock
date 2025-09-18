@@ -157,10 +157,9 @@ sequence: OPEN ('top' | 'bottom') int cstorage CLOSE ;
 runsequence: OPEN 'run' ('top' | 'bottom') int cstorage 'using' pointstorage CLOSE;
 
 // CardCollectionCollections
-cstoragecollection : tuple | partition | subset | run | aggcs | varcsc | indexed;
+cstoragecollection : partition | subset | run | aggcs | varcsc | indexed;
 run: OPEN 'runs' ('largest' | 'all') int cstorage 'using' pointstorage CLOSE ;
 subset : OPEN 'subsets' cstorage CLOSE ; // add aggcs as in partition??
-tuple : OPEN 'tuples' int cstorage 'using' pointstorage CLOSE ; // I want to remove this and replace with partition, errors though?
 partition : OPEN 'partition' str (aggcs | cstorage+?) CLOSE ;
 aggcs : OPEN 'all' collection var cstorage CLOSE ;
 indexed : OPEN 'indexed' locpre locdesc str CLOSE ;

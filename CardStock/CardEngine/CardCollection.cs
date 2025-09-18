@@ -150,7 +150,7 @@ namespace CardStock.CardEngine
             {
                 ret.Append(card.ToString() + "\r\n");
             }
-            return ret.ToString()[..^1];
+            return ret.ToString();
         }
 
         public override bool Equals(object? obj) 

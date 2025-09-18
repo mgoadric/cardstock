@@ -19,7 +19,6 @@ namespace CardStock.Players
 
         public override void Explore()
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
             choiceplays = new double[numChoices];
             movescores = new double[numChoices];
 
@@ -33,8 +32,6 @@ namespace CardStock.Players
                     RunSimulation();
                 }
             }
-            stopwatch.Stop();
-            Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
         }
 
         public override int ChooseOption()
@@ -73,7 +70,6 @@ namespace CardStock.Players
                 cg.players[j].decision = new RandomPlayer(perspective);
             }
 
-
             bool expand = true;
             bool first = true;
             Tuple<CardGame, int> og = null;
@@ -106,6 +102,7 @@ namespace CardStock.Players
                         double bestscore = 0;
                         c = 0;
                         double totalplays = 0;
+                        // CAN WE USE DELIBERATOR HERE AND AVOID THE FOR LOOP??? TODO
                         foreach (Tuple<CardGame, int> stateandplay in movelist)
                         {
                             totalplays += plays[stateandplay];
@@ -114,8 +111,11 @@ namespace CardStock.Players
                         for (int i = 0; i < movelist.Length; i++)
                         {
                             Tuple<CardGame, int> stateandplay = movelist[i];
-                            double temp = wins[stateandplay] / plays[stateandplay];
-                            temp += Math.Sqrt(2 * totalplays / plays[stateandplay]);
+                            int n = plays[stateandplay];
+                            double temp = wins[stateandplay] / n;
+                            // should there be a c parameter?
+                            // does this still work if recording score, not 1--0 win record?
+                            temp += Math.Sqrt(2 * totalplays / n);
                             if (temp > bestscore)
                             {
                                 bestscore = temp;

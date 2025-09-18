@@ -36,7 +36,7 @@ namespace CardStock.Evaluation
          *********/
         public static void DOTMaker(IParseTree node, string nodeName, StringBuilder builder)
         {
-            for (int i = 0; i < node.ChildCount; ++i)
+            for (int i = 0; i < node.ChildCount; i++)
             {
                 var dontCreate = false;
                 var newNodeName = nodeName + "_" + i;

@@ -7,6 +7,7 @@ namespace CardStock.CardEngine
     public class CardGame
     {
 
+        // need to expand this for all player perspectives, and update when cards become invisible. TODO
         public Dictionary<string, List<Card>> sourceDeck = [];
         public Dictionary<string, int[]> cardMask = [];
         public Owner[] table = new Owner[1]; // why is this an array? It is always just one element TODO
@@ -179,7 +180,7 @@ namespace CardStock.CardEngine
                         tempCollection.Add(toAdd);
                         if (collection.type != CCType.MEMORY)
                         {
-                            toAdd.owner = tempCollection;
+                            toAdd.Owner = tempCollection;
                         }
                     }
                 }
@@ -210,7 +211,7 @@ namespace CardStock.CardEngine
                             tempCollection.Add(toAdd);
                             if (collection.type != CCType.MEMORY)
                             {
-                                toAdd.owner = tempCollection;
+                                toAdd.Owner = tempCollection;
                                 free[card.back].Remove(card.id);
                             }
                         }
@@ -248,7 +249,7 @@ namespace CardStock.CardEngine
                             var toAdd = tempsourceDeck[type][cardsLeft[type].Current];
                             cardsLeft[type].MoveNext();
                             tempCollection.Add(toAdd);
-                            toAdd.owner = tempCollection;
+                            toAdd.Owner = tempCollection;
                         }
 
                         Debug.WriteLine("Reconstructed Collection:" + tempCollection);
@@ -307,7 +308,7 @@ namespace CardStock.CardEngine
                 }
                 var newCard = new Card(combo.Flatten(), sourceDeck[name].Count, name)
                 {
-                    owner = loc
+                    Owner = loc
                 };
                 // use the name to determine which sourceDeck to add
                 sourceDeck[name].Add(newCard);
@@ -354,8 +355,8 @@ namespace CardStock.CardEngine
             //Thread thread = new (new ThreadStart(d.Explore));
             //thread.Start();
             //thread.Join();
-            // THREADING SEEMS TO ADD TIME!!!
-            currentPlayer.Peek().memberList[playerIdx].decision.Explore();
+            // THREADING SEEMS TO ADD TIME!!! BOOO!
+            currentPlayer.Peek().memberList[playerIdx].decision.ExploreOptions();
 
             var choice = currentPlayer.Peek().memberList[playerIdx].decision.Choose();
 
