@@ -52,6 +52,7 @@ namespace CardStock.CardEngine
         }
 
         // This is a readonly struct, so no cloning necessary.
+        // IS THIS TRUE FOR MCTS????
         public object Clone()
         {
             return this;
@@ -71,12 +72,19 @@ namespace CardStock.CardEngine
 
             foreach (string key in pointLookups.Keys)
             {
+                if (!p.pointLookups.ContainsKey(key)) {
+                    return false;
+                }
                 var otherscores = p.pointLookups[key];
                 if (otherscores.Count != p.pointLookups[key].Count)
                 { return false; }
 
                 foreach (string key2 in pointLookups[key].Keys)
                 {
+                    if (!otherscores.ContainsKey(key2))
+                    {
+                        return false;
+                    }
                     if (otherscores[key2] != pointLookups[key][key2])
                     { return false; }
                 }
