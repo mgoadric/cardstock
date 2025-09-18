@@ -109,7 +109,7 @@
                          (move 'C (top ((current player) vloc PILE)))
                          (remember 'C (top (game mem SEQUENCE)))
                          ((== ((next player) str STATE) GO)
-                          (cycle next current))
+                          (cycle next (current player)))
                       ))
                  ))
                 
@@ -194,7 +194,7 @@
 
         ;; non-dealer scores first
         (do (
-            (cycle current next)
+             (cycle current (next player))
         ))
 
         ;; now we score the players cards
@@ -272,7 +272,7 @@
                   (do (
                     (repeat all (move (top (game iloc CRIB))
                                     (top ((current player) vloc PLAYED))))
-                    (cycle next current)
+                    (cycle next (current player))
                   )))
             
             ))
@@ -282,7 +282,7 @@
         (do (
             (move (top (game vloc START))
                   (top (game vloc DISCARD)))
-            (cycle current next)
+            (cycle current (next player))
         ))
     )
     (scoring max ((current player) sto SCORE))

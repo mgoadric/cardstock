@@ -125,8 +125,7 @@
                         (do (
                             (move 'C
                                   (top 'S))
-                            (set (game str TESTING) SUCCESS)
-                            (cycle next current))))))
+                            (cycle next (current player)))))))
 
                 ;; runs
                 (any ((current player) iloc HAND) 'C 
@@ -138,13 +137,12 @@
                                 (do ((move 'C
                                            (top 'S))
                                     (set (game str TESTING) SUCCESS)
-                                    (cycle next current))))
+                                    (cycle next (current player)))))
                             ((== (- 1 (score 'C using (game points SEQUENCE)))
                                 ( score (bottom 'S) using (game points SEQUENCE)))
                                 (do ((move 'C
                                            (bottom 'S))
-                                    (set (game str TESTING) SUCCESS)
-                                    (cycle next current))))
+                                    (cycle next (current player)))))
                         ))
                     )
                 )

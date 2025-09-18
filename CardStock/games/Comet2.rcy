@@ -129,7 +129,7 @@
                         (== (score 'FC using (game points PRECEDENCE))
                               (+ 1 (score (top (game vloc SEQUENCE)) 
                                     using (game points PRECEDENCE)))))) 0))
-             (cycle next current)
+             (cycle next (current player))
             )
 
             ;; if Comet played, then two points to the player

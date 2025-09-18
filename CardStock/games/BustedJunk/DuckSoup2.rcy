@@ -19,11 +19,13 @@
            (repeat 13
                    (move (top (game iloc STOCK))
                          (top ('P iloc HAND)))))
-      (set (game str LEAD) NONE)
+
 
       ;; turn top card face up...
-      ;; MISSING!!!
+      (move (top (game iloc STOCK))
+            (top (game vloc STOCK)))
 
+      (set (game str LEAD) NONE)
       (set (game str COURSE) DUCK)))
  
  (stage player
@@ -134,7 +136,9 @@
                               ((RANK : TWO) 2)))
                     )
 
-                   (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points CARDSCORE))))
+                   (set (game sto TRICKWINNER) (id (owner (max (union (all player 'P ('P vloc TRICK))) using (game points CARDSCORE)))))
+                   (set (game sto TRICKLOSER) (id (owner (min (union (all player 'P ('P vloc TRICK))) using (game points CARDSCORE)))))
+                   (cycle next (game sto TRICKWINNER))
                    (inc ((next player) sto SCORE)
                         (game sto TRICKSCORE)))))
           
@@ -160,26 +164,39 @@
              ((== (game sto QUACKED) 3)
               (inc ((next player) sto SCORE) 4))
              
-            ;; winner should take the faceup card TODO FIX ME
-            (all player 'P
+
+             ;; when in duck stage
+             ;; winner should take the faceup card
+             ((and (== (game str COURSE) DUCK)
+                   (> (size (game vloc STOCK)) 0))
+              (do (
+                    (move (top (game vloc STOCK))
+                          (top ((next player) iloc HAND)))
+              )))
+
                ;; draw card if in duck stage 
                ;; TWICE IF THE TRICK SIZE WAS BIGGER AND THERE ARE CARDS LEFT
                ((and (== (game str COURSE) DUCK)
                      (> (size (game iloc STOCK)) 0))
                     (move (top (game iloc STOCK))
-                         (top ('P iloc HAND)))))
+                         (top ('P iloc HAND))))
 
-             (set (game str LEAD) NONE)
-             (set (game sto QUACKED) 0)
-             (set (game sto FINISHED) 0)
              
              (all player 'P
                   (repeat all
                           (move (top ('P vloc TRICK))
                                 (top (game vloc DISCARD)))))            
              
-             ;; MISSING TURN TOP STOCK FACE UP!!
+             (set (game str LEAD) NONE)
+             (set (game sto QUACKED) 0)
+             (set (game sto FINISHED) 0)
 
+             ;; turn top of the stock faceup
+             ((> (size (game iloc STOCK)) 0)
+              (move (top (game iloc STOCK))
+                    (top (game vloc STOCK))))
+
+             ;; move to phase 2 SOUP when the stock is empty
              ((and (== (size (game iloc STOCK)) 0)
                    (== (game str COURSE) DUCK))
               (do (

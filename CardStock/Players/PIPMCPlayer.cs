@@ -17,8 +17,6 @@ namespace CardStock.Players
 
         public override void Explore()
         {
-            // https://stackoverflow.com/questions/16376191/measuring-code-execution-time-in-this-code
-            Stopwatch stopwatch = Stopwatch.StartNew();
             completed = new int[numChoices];
 
             rankSum = new double[perspective.NumberOfPlayers()][];
@@ -55,9 +53,6 @@ namespace CardStock.Players
                     });
                 }
             }
-            stopwatch.Stop();
-            dc.AddTime(stopwatch.ElapsedMilliseconds);
-            Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
         }
 
         public override int ChooseOption()
@@ -74,8 +69,8 @@ namespace CardStock.Players
             // FIND BEST (and worst) MOVE TO MAKE
             var (min, max) = MinMaxIdx(scoreSum[perspective.GetIdx()]);
 
-            Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
-            Console.WriteLine("{0}", string.Join(", ", scoreSum[perspective.GetIdx()]));
+            //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
+            //Console.WriteLine("{0}", string.Join(", ", scoreSum[perspective.GetIdx()]));
 
             // Record info for heuristic evaluation
             dc.RecordHeuristics(scoreSum, rankSum, perspective.GetIdx());

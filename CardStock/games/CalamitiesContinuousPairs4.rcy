@@ -127,7 +127,7 @@
              ((and (> (size ((current player) vloc HAND)) 0)
                    (== (cardatt VALUE (top ((current player) vloc HAND)))
                        SEVEN))
-              (cycle next current))
+              (cycle next (current player)))
              (all (partition VALUE ((current player) vloc HAND)) 'CS 
                   ((== (size 'CS) 2)
                    (do (

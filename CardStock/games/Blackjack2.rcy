@@ -88,7 +88,7 @@
                 
                 ((or (< (sum ((current player) iloc HAND) using (game points POINTSHIGH)) 22)
                      (< (sum ((current player) iloc HAND) using (game points POINTSLOW)) 22))
-                 (cycle next current)))))
+                 (cycle next (current player))))))
           
           ;; STAY
           ((or (< (sum ((current player) iloc HAND) using (game points POINTSHIGH)) 22)

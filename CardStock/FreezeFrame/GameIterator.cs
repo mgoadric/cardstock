@@ -905,76 +905,25 @@ namespace CardStock.FreezeFrame
         private GameAction CycleAction(RecycleParser.CycleactionContext cycle)
         {
             string text1 = cycle.GetChild(1).GetText();
-            string text2 = cycle.GetChild(2).GetText();
+            var idx = -1;
+            if (cycle.whop() is not null)
+            {
+                idx = ProcessWhop(cycle.whop()).id;
+            }
+            else if (cycle.varp() is not null)
+            {
+                idx = ProcessPlayerVar(cycle.varp()).id;
+            }
+
             if (text1 == "next")
             {
                 //Set next player
-                if (cycle.owner() is not null)
-                {
-                    var idx = ProcessOwner(cycle.owner());
-                    return new NextAction(game.CurrentPlayer(), idx, script);
-                }
-                else if (cycle.varo() is not null)
-                {
-                    var p = ProcessOwnerVar(cycle.varo());
-                    if (p is Player p2)
-                    {
-                        return new NextAction(game.CurrentPlayer(), p2.id, script);
-                    }
-                    else
-                    {
-                        // THIS IS A TEAM??
-                        // TODO better exeption type mismatch
-                        throw new NotImplementedException();
-                    }
-                }
-                else if (text2 == "next")
-                {
-                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().PeekNext().id, script);
-                }
-                else if (text2 == "current")
-                {
-                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().Current().id, script);
-                }
-                else if (text2 == "previous")
-                {
-                    return new NextAction(game.CurrentPlayer(), game.CurrentPlayer().PeekPrevious().id, script);
-                }
+                return new NextAction(game.CurrentPlayer(), idx, script);
             }
             else if (text1 == "current")
             {
-                //Set next player
-                if (cycle.owner() is not null)
-                {
-                    var idx = ProcessOwner(cycle.owner());
-                    return new SetPlayerAction(idx, game, script);
-                }
-                else if (cycle.varo() is not null)
-                {
-                    var p = ProcessOwnerVar(cycle.varo());
-                    if (p is Player p2)
-                    {
-                        return new SetPlayerAction(p2.id, game, script);
-                    }
-                    else
-                    {
-                        // THIS IS A TEAM??
-                        // TODO better exeption type mismatch
-                        throw new NotImplementedException();
-                    }
-                }
-                else if (text2 == "next")
-                {
-                    return new SetPlayerAction(game.CurrentPlayer().PeekNext().id, game, script);
-                }
-                else if (text2 == "current")
-                {
-                    return new SetPlayerAction(game.CurrentPlayer().Current().id, game, script);
-                }
-                else if (text2 == "previous")
-                {
-                    return new SetPlayerAction(game.CurrentPlayer().PeekPrevious().id, game, script);
-                }
+                //Reset current player
+                return new SetPlayerAction(idx, game, script);
             }
             throw new NotImplementedException();
             //return null;
@@ -1050,16 +999,6 @@ namespace CardStock.FreezeFrame
                 throw new NotImplementedException();
             }
             return ret;
-        }
-
-        // TODO if cards can belong to the table or teams, need more cases
-        private int ProcessOwner(RecycleParser.OwnerContext owner)
-        {
-            Debug.WriteLine("Got to OWNER");
-            var resultingCard = ProcessCard(owner.card()).Get();
-            Debug.WriteLine("Result :" + resultingCard);
-            return ((Player)resultingCard.Owner.owner.owner).id;
-            // Will this crash if not owned by a player?
         }
 
         private bool ProcessBoolean(RecycleParser.BooleanContext boolNode)

@@ -38,7 +38,7 @@ namespace CardStock.Players
                 Explore();
                 stopwatch.Stop();
                 dc.AddTime(stopwatch.ElapsedMilliseconds);
-                Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
+                //Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
             }
             else
             {

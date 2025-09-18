@@ -84,6 +84,11 @@ namespace CardStock.FreezeFrame {
             endLocation = end;
             this.script = script;
             prefix = 'M';
+
+            if (start.cardList.type == CCType.VISIBLE && end.cardList.type != CCType.VISIBLE)
+            {
+                //Console.WriteLine("Hiding a card that is known!!! " + start.name + " -> " + end.name);
+            }
         }
 
         public override void Execute() {

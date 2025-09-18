@@ -69,7 +69,7 @@
                 (top ((current player) vloc HAND)))
           (inc ((current player) sto CHIPS) (game sto CHIPS))
           (set (game sto CHIPS) 0)
-          (cycle next current)
+          (cycle next (current player))
          ))
 
          ((!= ((current player) sto CHIPS) 0)

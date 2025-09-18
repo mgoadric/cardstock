@@ -105,7 +105,7 @@ deckcreate : 'create' 'deck' str? cstorage deck ;
 initpoints : 'set' pointstorage OPEN awards+? CLOSE ;
   awards : OPEN subaward+? int CLOSE ;
   subaward : OPEN str ':' str CLOSE ;
-cycleaction : 'cycle' ('next' | 'current') (owner | 'current' | 'next' | 'previous' | varo ) ;
+cycleaction : 'cycle' ('next' | 'current') (whop | varp) ;
 setaction : 'set' rawstorage int ;
 setstraction : 'set' strstorage str ;
 incaction : 'inc' rawstorage int ;

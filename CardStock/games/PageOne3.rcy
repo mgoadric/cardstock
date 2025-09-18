@@ -55,7 +55,7 @@
                       (
                        (move (top (game iloc STOCK))
                              (top ((current player) iloc HAND)))
-                       (cycle next current))))                 
+                       (cycle next (current player)))))                 
                  
                  ;; if following player and can follow SUIT or have the JOKER
                  ;;   play any card that follows SUIT

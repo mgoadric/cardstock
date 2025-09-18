@@ -132,7 +132,7 @@
                           (do (
                                (move 'C 
                                      (top (game vloc 'T)))
-                               (cycle next current))))))))
+                               (cycle next (current player)))))))))
           
           (do 
               (
@@ -151,7 +151,7 @@
                                    (
                                     (move (top ((current player) vloc 'L)) 
                                           (top (game vloc 'T)))
-                                    (cycle next current))))))))))
+                                    (cycle next (current player)))))))))))
           
           (do 
               (
@@ -169,7 +169,7 @@
                                 ((> (size ((current player) hloc PILE)) 0)
                                 (move (top ((current player) hloc PILE)) 
                                       (top ((current player) vloc CURRENT))))
-                               (cycle next current)))))))))
+                               (cycle next (current player))))))))))
           
           (do 
               (
@@ -184,7 +184,7 @@
                                (do (
                                     (move 'C 
                                           (top (game vloc 'T)))
-                                    (cycle next current))))))))))
+                                    (cycle next (current player)))))))))))
           
           (do 
               (
@@ -201,7 +201,7 @@
                                (do (
                                     (move (top ((current player) vloc 'L)) 
                                           (top (game vloc 'T)))
-                                    (cycle next current))))))))))
+                                    (cycle next (current player)))))))))))
           
           (do 
               (
@@ -218,6 +218,6 @@
                                 ((> (size ((current player) hloc PILE)) 0)
                                 (move (top ((current player) hloc PILE)) 
                                       (top ((current player) vloc CURRENT))))
-                               (cycle next current))))))))))))
+                               (cycle next (current player)))))))))))))
  (scoring min (size (union ((current player) hloc PILE) ((current player) vloc CURRENT)))))
 
