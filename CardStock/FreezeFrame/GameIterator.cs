@@ -26,7 +26,7 @@ namespace CardStock.FreezeFrame
 
             if (fresh)
             {
-                script = new Transcript(true, fileName);
+                script = new Transcript(fileName);
 
                 Debug.WriteLine("Processing declarations.");
                 foreach (RecycleParser.DeclareContext declare in rules.declare())
