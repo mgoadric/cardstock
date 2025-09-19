@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime.Tree;
 using CardStock.CardEngine;
+using CardStock.Evaluation;
 using System.Diagnostics;
 
 namespace CardStock.FreezeFrame
@@ -9,7 +10,7 @@ namespace CardStock.FreezeFrame
         private readonly Stack<Queue<IParseTree>> iterStack;
         private readonly HashSet<IParseTree> iteratingSet;
         private RecycleVariables variables;
-        private Transcript script;
+        private readonly Transcript script;
 
         public RecycleParser.GameContext rules;
         public CardGame game;
@@ -26,6 +27,7 @@ namespace CardStock.FreezeFrame
             if (fresh)
             {
                 script = new Transcript(true, fileName);
+
                 Debug.WriteLine("Processing declarations.");
                 foreach (RecycleParser.DeclareContext declare in rules.declare())
                 {
@@ -35,7 +37,7 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Setting up game.");
                 ProcessSetup(rules.setup()).ExecuteAll();
 
-                // Mixup the card ids.
+                // Mixup the card ids ????
                 game.ReindexCards();
 
                 iterStack.Push(new Queue<IParseTree>());
@@ -50,10 +52,7 @@ namespace CardStock.FreezeFrame
         public GameIterator Clone(CardGame newgame)
         {
 
-            var ret = new GameIterator(rules, newgame, "clone", false)
-            {
-                script = new Transcript(false, null)
-            };
+            var ret = new GameIterator(rules, newgame, "clone", false);
 
             foreach (var queue in iterStack.Reverse())
             {
@@ -101,7 +100,7 @@ namespace CardStock.FreezeFrame
             while (iterStack.Count != 0 && !ProcessSubStage())
             {
                 count++;
-                if (count > 200)
+                if (count > GameSimulator.LOOPLIMIT)
                 {
                     Console.WriteLine("Game stuck in loop");
                     return true; // game stuck in loop
@@ -203,7 +202,7 @@ namespace CardStock.FreezeFrame
 
         private GameActionCollection ProcessSetup(RecycleParser.SetupContext setupNode)
         {
-            var ret = new GameActionCollection(script);
+            var ret = new GameActionCollection();
             if (setupNode.playercreate() is not null)
             {
                 Debug.WriteLine("Creating players.");
@@ -642,7 +641,7 @@ namespace CardStock.FreezeFrame
                     }
                 }
                 // end of loop over current stack of iteritems
-                var coll = new GameActionCollection(script);
+                var coll = new GameActionCollection();
                 foreach (GameAction act in stackAct.ToArray())
                 {
                     // add everythign but loop actions to coll
@@ -818,7 +817,7 @@ namespace CardStock.FreezeFrame
         private GameActionCollection ProcessAction(RecycleParser.ActionContext actionNode)
         {
             Debug.WriteLine(actionNode.GetText());
-            var ret = new GameActionCollection(script);
+            var ret = new GameActionCollection();
             if (actionNode.teamcreate() is not null)
             {
                 var teamCreate = ProcessTeamCreate(actionNode.teamcreate(), game);
@@ -966,7 +965,7 @@ namespace CardStock.FreezeFrame
 
         private GameActionCollection ProcessRepeat(RecycleParser.RepeatContext rep)
         {
-            var ret = new GameActionCollection(script);
+            var ret = new GameActionCollection();
             int idx = 1;
             if (rep.@int() is not null)
             {
@@ -2356,7 +2355,7 @@ namespace CardStock.FreezeFrame
         {
             var ret = IterateAgg(agg.collection(), agg.var(), agg.GetChild(4));
             Debug.WriteLine(ret.Count);
-            GameActionCollection ret2 = new GameActionCollection(script);
+            GameActionCollection ret2 = [];
             foreach (var item in ret)
             {
                 if (item is GameAction ga)

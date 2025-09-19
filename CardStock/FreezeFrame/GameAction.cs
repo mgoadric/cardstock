@@ -1,14 +1,15 @@
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame {
 
-    public abstract class GameAction {
+    public abstract class GameAction(char prefix, Transcript script) {
         public bool inChoice = false;
         public bool complete;
         public CardGame cg;
-        public Transcript script;
-        public char prefix = 'X';
+        public Transcript? script = script;
+        public char prefix = prefix;
         public void ExecuteActual()
         {
             inChoice = false;
@@ -25,10 +26,8 @@ namespace CardStock.FreezeFrame {
         public abstract void Undo();
     }
 
-    public class GameActionCollection(Transcript script) : List<GameAction>()
+    public class GameActionCollection : List<GameAction>
     {
-
-        public Transcript script = script;
 
         public void ExecuteAll()
         {
@@ -63,7 +62,7 @@ namespace CardStock.FreezeFrame {
         public Card cardToMove;
         public bool actualloc;
         public int ownerIndex;
-        public CardMoveAction(CardLocReference start, CardLocReference end, Transcript script)
+        public CardMoveAction(CardLocReference start, CardLocReference end, Transcript script) : base('M', script)
         {
             if (start.cardList.type == CCType.MEMORY)
             {
@@ -82,12 +81,10 @@ namespace CardStock.FreezeFrame {
             }
             startLocation = start;
             endLocation = end;
-            this.script = script;
-            prefix = 'M';
 
             if (start.cardList.type == CCType.VISIBLE && end.cardList.type != CCType.VISIBLE)
             {
-                //Console.WriteLine("Hiding a card that is known!!! " + start.name + " -> " + end.name);
+                //Console.WriteLine("Hiding a card that is known!!! " + start.cardList.name + " -> " + end.car);
             }
         }
 
@@ -105,7 +102,7 @@ namespace CardStock.FreezeFrame {
                     var arrow = " -> ";
                     if (inChoice) { arrow = " ?-> "; }
 
-                    script.WriteToFile(prefix + ":" + cardToMove.ToString() + " " + owner.TranscriptName() + arrow + endLocation.cardList.TranscriptName());
+                    script?.WriteToFile(prefix + ":" + cardToMove.ToString() + " " + owner.TranscriptName() + arrow + endLocation.cardList.TranscriptName());
 
                     Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
 
@@ -159,9 +156,7 @@ namespace CardStock.FreezeFrame {
         }
         public override string ToString()
         {
-            return "CardMoveAction: StartLocation: "
-                                                         + startLocation.name + "; EndLocation: " + endLocation.name;
-            
+            return "CardMoveAction: StartLocation: " + startLocation.name + "; EndLocation: " + endLocation.name;
         }
     }
 
@@ -170,12 +165,10 @@ namespace CardStock.FreezeFrame {
         private readonly CardLocReference locations;
         private readonly CardCollection unshuffled;
 
-        public ShuffleAction(CardLocReference locations, Transcript script)
+        public ShuffleAction(CardLocReference locations, Transcript script) : base('O', script)
         {
             this.locations = locations;
             unshuffled = new CardCollection(CCType.VIRTUAL);
-            this.script = script;
-            prefix = 'O';
         }
 
         public override void Execute() {
@@ -184,7 +177,7 @@ namespace CardStock.FreezeFrame {
                 unshuffled.Add(c);
             }
             locations.cardList.Shuffle();
-			script.WriteToFile(prefix + ":" + locations.name); 
+			script?.WriteToFile(prefix + ":" + locations.name); 
 		}
         public override void Undo()
         {
@@ -204,12 +197,10 @@ namespace CardStock.FreezeFrame {
     {
         readonly CardLocReference startLocation;
         readonly CardLocReference endLocation;
-        public CardRememberAction(CardLocReference start, CardLocReference end, Transcript script)
+        public CardRememberAction(CardLocReference start, CardLocReference end, Transcript script) : base('R', script)
         {
             startLocation = start;
             endLocation = end;
-            this.script = script;
-            prefix = 'R';
             if (endLocation.cardList.type != CCType.MEMORY)
             {
                 throw new InvalidOperationException();
@@ -219,7 +210,7 @@ namespace CardStock.FreezeFrame {
         {
             var cardToCopy = startLocation.Get();
             endLocation.Add(cardToCopy);
-            script.WriteToFile(prefix + ":" + cardToCopy.ToString() + " " + startLocation.cardList.TranscriptName() + "->" + endLocation.cardList.TranscriptName());
+            script?.WriteToFile(prefix + ":" + cardToCopy.ToString() + " " + startLocation.cardList.TranscriptName() + "->" + endLocation.cardList.TranscriptName());
         }
         public override void Undo()
         {
@@ -236,9 +227,8 @@ namespace CardStock.FreezeFrame {
         private readonly CardLocReference endLocation;
         private readonly CardCollection notforgotten;
 
-        public CardForgetAction(CardLocReference end, Transcript script)
+        public CardForgetAction(CardLocReference end, Transcript script) : base('F', script)
         {
-            this.script = script;
             if (end.cardList.type == CCType.MEMORY)
             {
                 endLocation = end;
@@ -249,7 +239,6 @@ namespace CardStock.FreezeFrame {
                 Debug.WriteLine(end.name);
                 throw new InvalidOperationException();
             }
-            prefix = 'F';
         }
         public override void Execute()
         {
@@ -266,17 +255,14 @@ namespace CardStock.FreezeFrame {
         }
     }
 
-    public class TurnAction : GameAction
+    /************
+     * Passing Action
+     ********/
+    public class TurnAction(Transcript script) : GameAction('Y', script)
     {
-        public TurnAction(Transcript script)
-        {
-            this.script = script;
-            prefix = 'P';
-        }
-
         public override void Execute()
         {
-            script.WriteToFile(prefix + ":passing");
+            script?.WriteToFile(prefix + ":passing");
         }
         public override void Undo()
         {
@@ -290,12 +276,10 @@ namespace CardStock.FreezeFrame {
 
     public class TeamCreateAction : GameAction {
         private readonly List<List<int>> teamList;
-        public TeamCreateAction(List<List<int>> teamList, CardGame cg, Transcript script)
+        public TeamCreateAction(List<List<int>> teamList, CardGame cg, Transcript script) : base('E', script)
         {
             this.teamList = teamList;
             this.cg = cg;
-            this.script = script;
-            prefix = 'E';
         }
 
         public override void Execute()
@@ -331,18 +315,15 @@ namespace CardStock.FreezeFrame {
 
     public class InitializeAction : GameAction {
         readonly CardCollection location;
-        readonly CardCollection before;
+        readonly CardCollection before = new(CCType.VIRTUAL);
         readonly Tree deck;
         readonly string name;
-        public InitializeAction(CardCollection loc, Tree d, string n, CardGame cg, Transcript script)
+        public InitializeAction(CardCollection loc, Tree d, string n, CardGame cg, Transcript script) : base('D', script)
         {
             location = loc;
-            before = new CardCollection(CCType.VIRTUAL);
             deck = d;
-            this.name = n;
+            name = n;
             this.cg = cg;
-            this.script = script;
-            prefix = 'D';
         }
         public override void Execute() {
             foreach (Card c in location.AllCards())
@@ -365,26 +346,18 @@ namespace CardStock.FreezeFrame {
 		}
     }
 
-    public class IntAction : GameAction {
+    public class IntAction(DefaultStorage<int> storage, string bKey, int v, Transcript script) : GameAction('S', script) {
 
-        readonly DefaultStorage<int> bins;
-        readonly string key;
-        readonly int value;
+        readonly DefaultStorage<int> bins = storage;
+        readonly string key = bKey;
+        readonly int value = v;
         int oldValue;
 
-        public IntAction(DefaultStorage<int> storage, string bKey, int v, Transcript script)
-        {
-            bins = storage;
-            key = bKey;
-            value = v;
-            this.script = script;
-            prefix = 'S';
-        }
         public override void Execute() {
             oldValue = bins[key];
             bins[key] = value;
             complete = true;
-            script.WriteToFile(prefix + ":" + bins.owner.name + " " + key + " " + value);
+            script?.WriteToFile(prefix + ":" + bins.owner.name + " " + key + " " + value);
         }
         public override void Undo() {
             if (complete)
@@ -402,26 +375,18 @@ namespace CardStock.FreezeFrame {
 		}
     }
 
-    public class StrAction : GameAction {
+    public class StrAction(DefaultStorage<string> storage, string bKey, string v, Transcript script) : GameAction('G', script) {
 
-        readonly DefaultStorage<string> bins;
-        readonly string key;
-        readonly string value;
+        readonly DefaultStorage<string> bins = storage;
+        readonly string key = bKey;
+        readonly string value = v;
         string oldValue;
 
-        public StrAction(DefaultStorage<string> storage, string bKey, string v, Transcript script)
-        {
-            bins = storage;
-            key = bKey;
-            value = v;
-            this.script = script;
-            prefix = 'G';
-        }
         public override void Execute() {
             oldValue = bins[key];
             bins[key] = value;
             complete = true;
-            script.WriteToFile(prefix + ":" + bins.owner.name + " " + key + " " + value);
+            script?.WriteToFile(prefix + ":" + bins.owner.name + " " + key + " " + value);
         }
         public override void Undo() {
             if (complete)
@@ -439,29 +404,20 @@ namespace CardStock.FreezeFrame {
 		}
     }
 
-
-    public class PointsAction : GameAction
+    public class PointsAction(DefaultStorage<PointMap> storage, string bKey, PointMap v, Transcript script) : GameAction('P', script)
     {
 
-        readonly DefaultStorage<PointMap> bins;
-        readonly string key;
-        readonly PointMap value;
-        PointMap oldValue;
+        private readonly DefaultStorage<PointMap> bins = storage;
+        private readonly string key = bKey;
+        private readonly PointMap value = v;
+        private PointMap oldValue;
 
-        public PointsAction(DefaultStorage<PointMap> storage, string bKey, PointMap v, Transcript script)
-        {
-            bins = storage;
-            key = bKey;
-            value = v;
-            this.script = script;
-            prefix = 'P';
-        }
         public override void Execute()
         {
             oldValue = bins[key];
             bins[key] = value;
             complete = true;
-            script.WriteToFile(prefix + ":" + bins.owner.name + " " + key + " " + value);
+            script?.WriteToFile(prefix + ":" + bins.owner.name + " " + key + " " + value);
         }
         public override void Undo()
         {
@@ -481,19 +437,11 @@ namespace CardStock.FreezeFrame {
         }
     }
 
-    public class NextAction : GameAction
+    public class NextAction(StageCycle<Player> playerCycle, int idx, Transcript script) : GameAction('N', script)
     {
-        private readonly StageCycle<Player> playerCycle;
-        private readonly int idx;
+        private readonly StageCycle<Player> playerCycle = playerCycle;
+        private readonly int idx = idx;
         private int former = -1;
-
-        public NextAction(StageCycle<Player> playerCycle, int idx, Transcript script)
-        {
-            this.playerCycle = playerCycle;
-            this.idx = idx;
-            prefix = 'N';
-            this.script = script;
-        }
 
         public override void Execute()
         {
@@ -502,7 +450,7 @@ namespace CardStock.FreezeFrame {
                 former = playerCycle.queuedNext;
 			}
             playerCycle.SetNext(idx);
-            script.WriteToFile(prefix + ": p" + idx);
+            script?.WriteToFile(prefix + ":p" + idx);
         }
 
         public override void Undo()
@@ -526,19 +474,17 @@ namespace CardStock.FreezeFrame {
     {
         private readonly int idx;
         private int former;
-        public SetPlayerAction(int idx, CardGame cg, Transcript script)
+        public SetPlayerAction(int idx, CardGame cg, Transcript script) : base('T', script)
         {
             this.idx = idx;
             this.cg = cg;
-            this.script = script;
-            prefix = 'T';
         }
 
         public override void Execute()
         {
             former = cg.CurrentPlayer().Current().id;
             cg.CurrentPlayer().SetMember(idx);
-            script.WriteToFile(prefix + ":" + cg.CurrentPlayer().CurrentName());
+            script?.WriteToFile(prefix + ":" + cg.CurrentPlayer().CurrentName());
         }
 
         public override void Undo()
@@ -554,16 +500,10 @@ namespace CardStock.FreezeFrame {
     }
 
     // NOT A REAL GAME ACTION, USED IN RECURSEDO FOR GENERATING CHOICES...
-    public class LoopAction : GameAction{
-        public string var;
-        public object item;
-        public int level;
-
-        public LoopAction(string v, object item, int level){
-            this.var = v;
-            this.item = item;
-            this.level = level;
-        }
+    public class LoopAction(string v, object item, int level) : GameAction('L', null){
+        public string var = v;
+        public object item = item;
+        public int level = level;
 
         public override void Execute()
         {

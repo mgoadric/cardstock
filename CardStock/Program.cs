@@ -1,7 +1,7 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "SpiteMalice";
+string game = "Agram";
 int numPlayers = 2;
 
 /*
