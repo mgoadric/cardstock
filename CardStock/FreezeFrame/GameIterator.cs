@@ -2812,7 +2812,7 @@ namespace CardStock.FreezeFrame
                     name = "{cardvar}"
                 };
             }
-            Debug.WriteLine("error, not a card, type is " + ret.GetType());
+            Debug.WriteLine("Error, " + card.GetText() + " is not a  card, type is " + ret.GetType());
             throw new NotImplementedException();
         }
 
@@ -2825,7 +2825,7 @@ namespace CardStock.FreezeFrame
             }
             else
             {
-                Debug.WriteLine("Error, not a string, type is: " + temp.GetType());
+                Console.WriteLine("Error, " + var.GetText() + " is not a string, type is: " + temp.GetType());
                 throw new NotImplementedException();
             }
         }

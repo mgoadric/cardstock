@@ -1,8 +1,8 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "GoFish";
-int numPlayers = 3;
+string game = "SpiteMalice";
+int numPlayers = 2;
 
 /*
 // Test them all
