@@ -2,9 +2,8 @@
 ;;
 ;; https://www.pagat.com/quartet/gofish.html
 
-(game ;; MATCH START
- 
- (declare (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K) 'RANKS) ;;SIX, 
+(game  
+ (declare (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K) 'RANKS) 
  (setup  
   ;; Set up the players
   (create players 2)
@@ -13,117 +12,85 @@
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                               (BLACK (SUIT (CLUBS, SPADES)))))))
  
- (do 
-     ( 
-       ;; DEALING START
+ (do ( 
       (shuffle (game iloc STOCK))
       (all player 'P 
-           (do 
-               (
-                (repeat 5 
-                        (move (top (game iloc STOCK)) 
-                              (top ('P iloc HAND))))
+           (do (
+               ;; Deal each player 5 cards
+               (repeat 5 
+                    (move (top (game iloc STOCK)) 
+                          (top ('P iloc HAND))))
                 
                 ;; Check for rank match on deal               
-                (let (partition RANK ('P iloc HAND)) 'MYMATCHES
-                   (do (
-                   (all 'MYMATCHES 'MATCH
-                      ((== (size 'MATCH) 4) 
-                          (do 
-                            (
+               (all (partition RANK ('P iloc HAND)) 'MATCH
+                    ((== (size 'MATCH) 4) 
+                         (do (
                              (inc ('P sto SCORE) 1)
                              (repeat all
                                   (move (top 'MATCH)
-                                        (top ('P vloc TRICKSTACK))))))))))))))))
+                                        (top ('P vloc TRICKSTACK)))))))))))))
  
- (stage player  ;; TURN LOOP START
-        
-        (end 
-         (or (== (size (game iloc STOCK)) 0) 
-             (any player 'P 
+ (stage player 
+     (end (or (== (size (game iloc STOCK)) 0) 
+              (any player 'P 
                   (== (size ('P iloc HAND)) 0))))
-        
-        (choice 
-         (
-          (any 'RANKS 'R    ;; CHOICE GENERATION START
-               
-               (let (filter ((current player) iloc HAND) 'MR 
-                            (== (cardatt RANK 'MR) 
-                                'R)) 'MYRANK ;; save each card we have in rank R
-                 ((> (size 'MYRANK) 0)
-                  
-                  (any (other player) 'OP
-                       
-                       ;; Record player and rank in sto and str
-                       (do 
-                           (
-                            (set ('OP str WHO) CHOSEN) ;; THIS WILL NOT WORK RIGHT NOW
-                            (set ((current player) str WHO) ASKED) ;; THIS WILL NOT WORK RIGHT NOW
-                            (set (game str RANK) 'R)))))))))
-          (do (
-               (cycle current next)
-          ))        
-          (stage player (end (all player 'P (!= ('P str WHO) ASKED)))
-            (do (
-               ((== ((current player) str WHO) CHOSEN)
-                    (let (filter ((current player) iloc HAND) 'TR 
-                     (== (cardatt RANK 'TR) 
-                         (game str RANK))) 'THEIRRANK ;; Makes a collection of cards that player X has in rank R	
-                     (do (						
+     
+     ;; For each rank you have, ask any other player for all cards of that rank
+     (choice (
+          (any 'RANKS 'R    
+               ((> (size (filter ((current player) iloc HAND) 'MR 
+                              (== (cardatt RANK 'MR) 'R))) 0)
+                (any (other player) 'OP
+                    (do (
+                         (set (game sto ASKED) (pid (current player)))
+                         (cycle current 'OP)
+                         (set (game str RANK) 'R))))))))
 
-                         ;; If they have cards in rank R -- Take their cards and play another turn
-                         ((> (size 'THEIRRANK) 0) 
-                         
-                              (repeat all
-                                   (move (top 'THEIRRANK)
-                                         (top (game vloc PASSING)))
-                              )))))
-               )
-               ((== ((current player) str WHO) ASKED)
-                  (do (
-                    ((== (size (game vloc PASSING)) 0)
-                     (do (
-                         (move (top (game iloc STOCK))
-                              (top ((current player) iloc HAND)))
-                         ((== (cardatt RANK (top ((current player) iloc HAND))) 
-                              (game str RANK)) 
-                              (set ((current player) str MATCH) TRUE))
-                     )))
-                    ((> (size (game vloc PASSING)) 0)
-                     (do (
-                         (repeat all
-                              (move (top (game vloc PASSING))
-                                    (top ((current player) iloc HAND))))
-                         (set ((current player) str MATCH) TRUE)
-                     )))
-                    (all player 'P (set ('P str WHO) NONE))
-                  ))
-               )
-            ))
+     (do (
+          ;; Makes a collection of cards that new player has in rank R
+          (let (filter ((current player) iloc HAND) 'TR 
+                    (== (cardatt RANK 'TR) (game str RANK))) 'THEIRRANK 
+               (do (						
 
-          )
-          (do (
-               (cycle current previous)
-          )) 
-          (do (
-               ;; Check for rank match             
-               (let (partition RANK ((current player) iloc HAND)) 'MYMATCHES
-                    (do ((all 'MYMATCHES 'MATCH
-                       ((== (size 'MATCH) 4)  
-                         (do 
-                              (
-                              (inc ((current player) sto SCORE) 1)
-                              (repeat all
-                                   (move (top 'MATCH)
-                                         (top ((current player) vloc TRICKSTACK)))))))))))
+                    ;; If they have cards in rank R, pass them back
+                    ((> (size 'THEIRRANK) 0) 
+                     (repeat all
+                         (move (top 'THEIRRANK)
+                                   (top (game vloc PASSING))))))))
 
-             ;; determine if player goes again
-               ((== ((current player) str MATCH) TRUE)
-                 (do (
-                    (set ((current player) str MATCH) FALSE)
-                    (cycle next current)
-                 ))
-               )
-          )))
+          ;; switch back to the asking player
+          (cycle current ((game sto ASKED) player))
+
+          ;; if they had no cards to give, pick a card from the stock
+          ((== (size (game vloc PASSING)) 0)
+           (do (
+               (move (top (game iloc STOCK))
+                     (top ((current player) iloc HAND)))
+               ((== (cardatt RANK (top ((current player) iloc HAND))) 
+                    (game str RANK)) 
+                (set ((current player) str MATCH) TRUE)))))
+
+          ;; if they passed you a card, take them and remember
+          ((> (size (game vloc PASSING)) 0)
+           (do (
+               (repeat all
+                    (move (top (game vloc PASSING))
+                          (top ((current player) iloc HAND))))
+               (set ((current player) str MATCH) TRUE))))
+ 
+          ;; Check for rank match             
+          (all (partition RANK ((current player) iloc HAND)) 'MATCH
+               ((== (size 'MATCH) 4)  
+               (do (
+                    (inc ((current player) sto SCORE) 1)
+                    (repeat all
+                         (move (top 'MATCH)
+                               (top ((current player) vloc TRICKSTACK))))))))
+
+          ;; determine if player goes again
+          ((== ((current player) str MATCH) TRUE)
+           (do (
+               (set ((current player) str MATCH) FALSE)
+               (cycle next (current player))))))))
 
  (scoring max ((current player) sto SCORE)))
