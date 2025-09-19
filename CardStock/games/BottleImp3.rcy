@@ -33,8 +33,7 @@
   (create deck (game vloc IMP) (deck (RANK (NINETEEN)))))       
  
  ;; Stages of the game
- (do 
-     (
+ (do (
       (shuffle (game iloc STOCK))
       (all player 'P           
            (repeat 12
@@ -96,8 +95,7 @@
         (end 
          (all player 'P 
               (== (size ('P iloc HAND)) 11)))
-        (choice
-         (
+        (choice(
           (any ((current player) iloc HAND) 'C
                (move 'C (top (game iloc IMPTRICK)))))))
  
@@ -106,18 +104,15 @@
         (end 
          (all player 'P 
               (== (size ('P iloc HAND)) 9)))
-        (choice
-         (
+        (choice (
           (any ((current player) iloc HAND) 'C
                (move 'C (top ((previous player) hloc PASSED))))))
-        (choice
-         (
+        (choice (
           (any ((current player) iloc HAND) 'C
                (move 'C (top ((next player) hloc PASSED)))))))
  
  ;; PICK UP CARDS FROM OTHER PLAYERS
- (do 
-     (
+ (do (
       (all player 'P
            (repeat all (move (top ('P hloc PASSED))
                              (top ('P iloc HAND)))))))
@@ -136,8 +131,7 @@
                 (all player 'P
                      (> (size ('P vloc TRICK)) 0)))
                
-               (choice 
-                (
+               (choice (
                  
                  ;; if following player and cannot follow SUIT
                  ;;   play any card, and end your turn
@@ -163,8 +157,7 @@
                  ;; if first player, play any card, remember it in the lead spot, and end your turn
                  ((== (game str LEAD) NONE)                       
                   (any ((current player) iloc HAND) 'C
-                       (do 
-                           (
+                       (do (
                             (move 'C 
                                   (top ((current player) vloc TRICK)))
                             (set (game str LEAD)
@@ -185,15 +178,13 @@
              ;; any cards less than bottle imp, top of those lower wins
              ((< (score (min (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)) 
                  (score (top (game vloc IMP)) using (game points PRECEDENCE)))
-              (do 
-                  (
+              (do (
                    (cycle next (owner (max (filter (union (all player 'P ('P vloc TRICK))) 'TC (< (score 'TC using (game points PRECEDENCE))
                                                                                                   (score (top (game vloc IMP)) using (game points PRECEDENCE)))) using (game points PRECEDENCE))))
                    ;; move old imp card to owner's winnings
                    (all player 'P
                         ((== ('P sto HOLDINGIMP) 1)
-                         (do 
-                             (
+                         (do (
                               (set ('P sto HOLDINGIMP) 0)
                               (move (top (game vloc IMP))
                                     (top ('P vloc TRICKSWON)))))))
@@ -214,8 +205,7 @@
         (end 
          (all player 'P 
               (== (size ('P vloc TRICKSWON)) 0)))
-        (do 
-            (
+        (do (
              ((== ((current player) sto HOLDINGIMP) 0)
               (set ((current player) sto SCORE) (sum ((current player) vloc TRICKSWON) using (game points COINVALUE))))
              ((== ((current player) sto HOLDINGIMP) 1)

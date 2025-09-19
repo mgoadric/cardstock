@@ -15,7 +15,6 @@
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                               (BLACK (SUIT (CLUBS)))))))
 
- 
  ;; Shuffle and deal each player 6 cards
  (do 
      (
@@ -38,8 +37,7 @@
                 (all player 'P 
                      (> (size ('P vloc TRICK)) 0)))
                
-               (choice 
-                (
+               (choice (
                  
                  ;; if following player cannot follow SUIT
                  ;;   play any card, and end your turn   
@@ -64,16 +62,14 @@
                  ;; if first player, play any card, remember it in the lead spot, and end your turn
                  ((== (game str LEAD) NONE)                      
                   (any ((current player) iloc HAND) 'AC
-                       (do 
-                           (
+                       (do  (
                             (move 'AC
                                   (top ((current player) vloc TRICK)))
                             (set (game str LEAD)
                                  (cardatt SUIT (top ((current player) vloc TRICK)))))))))))
         
         ;; after players play hand, computer wraps up trick
-        (do 
-            (
+        (do  (
              ;; solidfy card recedence
              (set (game points PRECEDENCE) 
                   (

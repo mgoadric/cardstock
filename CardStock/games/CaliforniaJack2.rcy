@@ -15,8 +15,7 @@
                                               (BLACK (SUIT (CLUBS, SPADES)))))))        
  
  ;; Stages of the game
- (do 
-     (
+ (do (
       (shuffle (game iloc STOCK))
       (all player 'P
            (repeat 6
@@ -39,8 +38,7 @@
               (== (size ('P iloc HAND)) 0)))
         
         ;; when cards available, flip top
-        (do 
-            (
+        (do (
              ((> (size (game iloc STOCK)) 0)
               (move (top (game iloc STOCK))
                     (top (game vloc TOPSTOCK))))))
@@ -51,8 +49,7 @@
                 (all player 'P
                      (> (size ('P vloc TRICK)) 0)))
                
-               (choice 
-                (
+               (choice (
                  
                  ;; if following player and cannot follow SUIT
                  ;;   play any card, and end your turn
@@ -78,8 +75,7 @@
                  ;; if first player, play any card, remember it in the lead spot, and end your turn
                  ((== (game str LEAD) NONE)                       
                   (any ((current player) iloc HAND) 'C
-                       (do 
-                           (
+                       (do (
                             (move 'C 
                                   (top ((current player) vloc TRICK)))
                             (set (game str LEAD) (cardatt SUIT (top ((current player) vloc TRICK)))))))))))
@@ -113,8 +109,7 @@
              
              ;; otherwise, deal out cards
              ((> (size (game iloc STOCK)) 0)
-              (do 
-                  (
+              (do (
                    (move (top (game vloc TOPSTOCK))
                          (top ((next player) iloc HAND)))
                    (move (top (game iloc STOCK))
@@ -127,11 +122,9 @@
                   (move (top ('P vloc TRICK)) 
                         (top ((next player) vloc TRICKSWON)))))))
  
- (do 
-     (
+ (do (
       (all player 'P
-           (do 
-               (
+           (do (
                 (set ('P sto GAMESCORE) (sum ('P vloc TRICKSWON) using (game points GAME)))
                 (inc ('P sto SCORE) 
                      (size (filter ('P vloc TRICKSWON) 'C 
@@ -147,15 +140,12 @@
  (stage player
         (end 
          (all player 'P (== (size ('P vloc TRICKSWON)) 0)))
-        (do
-            (
+        (do(
              ((> ((current player) sto GAMESCORE) ((next player) sto GAMESCORE))
               (inc ((current player) sto SCORE) 1))
              (repeat all
                      (move (top ((current player) vloc TRICKSWON))
-                           (top (game vloc DISCARD)))))))
-                
-                
+                           (top (game vloc DISCARD)))))))         
                 
  (scoring max ((current player) sto SCORE)))
 

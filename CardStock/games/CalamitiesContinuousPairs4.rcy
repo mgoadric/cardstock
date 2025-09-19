@@ -21,8 +21,7 @@
   (repeat 10 (create deck (game iloc STOCK) (deck (VALUE (TEN))))))         
  
  
- (do 
-     (
+ (do (
       (set (game points POINTS)
            (
             ((VALUE : TEN) 10)
@@ -77,8 +76,7 @@
  ;;                             (move (top (game iloc STOCK))
  ;;                                   (top ('P vloc HAND)))))))))
  ;;           
- (do 
-     (
+ (do (
       (cycle current (owner (min (union (all player 'P ('P vloc HAND))) using (game points FIRST))))))
  
  (stage player
@@ -87,11 +85,9 @@
               (>= (sum ('P vloc SCORING) using (game points POINTS)) (+ (// 60 'NUMP) 1)))) 
         
         ;; Shuffle and then throw out 5 cards for mystery      
-        (do 
-            (
+        (do (
              ((== (size (game iloc STOCK)) 0)
-              (do 
-                  (
+              (do (
                    (repeat all
                            (move (top (game iloc THROWOUT))
                                  (top (game iloc STOCK))))
@@ -104,26 +100,22 @@
                                  (top (game iloc THROWOUT)))))))))
         
         ;; players flip a card or bow out
-        (choice 
-         (
+        (choice (
           
           ((> (size ((current player) vloc HAND)) 0)
-           (do 
-               (
+           (do (
                 (move (min (union (all player 'P ('P vloc HAND))) using (game points POINTS))
                       (top ((current player) vloc SCORING)))
                 (repeat all
                         (move (top ((current player) vloc HAND))
                               (top (game vloc DISCARD)))))))
           
-          (do 
-              (
+          (do (
                (move (top (game iloc STOCK))
                      (top ((current player) vloc HAND)))))))
         
         ;; if pair, end the round
-        (do 
-            (
+        (do (
              ((and (> (size ((current player) vloc HAND)) 0)
                    (== (cardatt VALUE (top ((current player) vloc HAND)))
                        SEVEN))

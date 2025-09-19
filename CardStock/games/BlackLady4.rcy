@@ -15,8 +15,7 @@
  (stage player
         (end 
          (any player 'P (!= ('P sto SCORE) 0))) ;; ONE ROUND ONLY, NOT THE FULL 100
-        (do 
-            (
+        (do (
              (repeat all
                      (move (top (game vloc DISCARD)) 
                            (top (game iloc STOCK))))
@@ -44,8 +43,7 @@
                        (all player 'P 
                             (== (size ('P vloc TRICK)) 1)))
                       
-                      (choice  
-                       (         
+                      (choice (         
                         
                         ;; if first player 
                         ;;   play any card, remember it in the lead spot, and end your turn
@@ -112,8 +110,7 @@
         (stage player
                (end 
                 (all player 'P (== (size ('P vloc TRICKSWON)) 0)))
-               (do 
-                   (                                       
+               (do (                                       
                     (inc ((current player) sto SCORE) (sum ((current player) vloc TRICKSWON) using (game points SCORE)))
                     
                     (repeat all

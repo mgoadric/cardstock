@@ -41,8 +41,7 @@
              (any player 'P 
                   (== ('P sto COURTSHORT) 1))))
         
-        (choice 
-         (
+        (choice (
           
           ;; First check if COURTSHORT
           (let (filter ((current player) iloc HAND) 'NH 
@@ -71,11 +70,9 @@
                                                                         (move 'C 
                                                                               (top (game vloc TOPCAT)))))))
         
-        (do 
-            (
+        (do (
              ((> (size (game vloc TOPCAT)) 0)
-              (do 
-                  (
+              (do (
                    
                    ;; determine score from last played card                   
                    (let (sum (union (game vloc CAT) (game vloc TOPCAT)) using (game points POINTS)) 'SUM
@@ -98,8 +95,7 @@
         (end 
          (all player 'P 
               (== ('P sto SCORED) 1)))
-        (do 
-            (
+        (do (
              ((== ((current player) sto COURTSHORT) 1)
               (inc ((current player) sto SCORE)
                    (* (size (filter ((next player) iloc HAND) 'CC 

@@ -14,8 +14,7 @@
   )       
  
  ;; Stages of the game
- (do 
-     (
+ (do (
       (repeat all
               (move (top (game vloc DISCARD)) 
                     (top (game iloc STOCK))))
@@ -44,10 +43,8 @@
  ;; Will anyone pick up the blind?
  (stage player
         (end
-         (any player 'P (== ('P sto PICKER) 1))
-         )
-        (choice
-         (
+         (any player 'P (== ('P sto PICKER) 1)))
+        (choice (
           
            (set ((current player) sto PICKER) 1)
            
@@ -107,8 +104,7 @@
                 (all player 'P 
                      (== (size ('P vloc TRICK)) 1)))
                       
-               (choice  
-                (         
+               (choice  (         
                         
                  ;; if first player 
                  ;;   play any card, remember it in the lead spot, and end your turn
@@ -210,8 +206,7 @@
  (stage player
         (end 
          (all player 'P (!= ('P sto SCORED) 0)))
-        (do 
-            (
+        (do (
              (set ((current player) sto SCORED) 1)
              
              ;; picker
@@ -262,9 +257,6 @@
                 
              )))
         
-
-       
-  
  (scoring max ((current player) sto SCORE)))
 
 
