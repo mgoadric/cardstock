@@ -143,7 +143,6 @@ namespace CardStock.FreezeFrame
         {
             Debug.WriteLine("trying to process choice (in processchoice)");
             Debug.WriteLine("Player turn: " + game.CurrentPlayer().idx);
-            Debug.WriteLine("Processing choice.");
             var sub = CurrentNode();
             if (sub is RecycleParser.MultiactionContext choice)
             {
@@ -164,6 +163,7 @@ namespace CardStock.FreezeFrame
                 }
                 return allOptions;
             }
+            Console.WriteLine("Not a choice, why are we in BuildOptions???");
             throw new Exception();
         }
 
@@ -217,6 +217,7 @@ namespace CardStock.FreezeFrame
                 else
                 {
                     // Where is the int?
+                    Console.WriteLine("Number of players not defined!!!");
                     throw new Exception();
                 }
             }
@@ -244,6 +245,7 @@ namespace CardStock.FreezeFrame
                     }
                     else
                     {
+                        Console.WriteLine("Invalid call to repeat for deck creation!!!");
                         throw new InvalidDataException();
                     }
                 }
@@ -350,7 +352,7 @@ namespace CardStock.FreezeFrame
             }
             else
             {
-                Debug.WriteLine(sub.GetType());
+                Console.WriteLine(sub.GetType() + " is not a substage!!");
                 throw new NotSupportedException();
             }
             return false;
@@ -375,7 +377,7 @@ namespace CardStock.FreezeFrame
                 }
                 else if (multiaction.GetChild(1).GetText() == "choice")
                 {
-                    Debug.WriteLine("Processing multiaction choice block in PROCESSMULTIACTION????.");
+                    Console.WriteLine("Processing multiaction choice block in PROCESSMULTIACTION????.");
                     throw new NotImplementedException();
                     //ProcessSubChoice(multiaction.condact());
                 }
@@ -681,6 +683,7 @@ namespace CardStock.FreezeFrame
                     else
                     {
                         // Should never happen??
+                        Console.WriteLine("Expected a loop action here!!!");
                         throw new NotImplementedException();
                     }
                 }
@@ -718,6 +721,7 @@ namespace CardStock.FreezeFrame
                         else
                         {
                             // Should never happen??
+                            Console.WriteLine("Expected a loop action here!!!");
                             throw new NotImplementedException();
                         }
                     }
@@ -843,6 +847,7 @@ namespace CardStock.FreezeFrame
                 }
                 else
                 {
+                    Console.WriteLine("Faro shuffle not implemented");
                     throw new NotImplementedException();
                 }
             }
@@ -903,7 +908,6 @@ namespace CardStock.FreezeFrame
         // TODO What about teams????
         private GameAction CycleAction(RecycleParser.CycleactionContext cycle)
         {
-            string text1 = cycle.GetChild(1).GetText();
             var idx = -1;
             if (cycle.whop() is not null)
             {
@@ -914,18 +918,13 @@ namespace CardStock.FreezeFrame
                 idx = ProcessPlayerVar(cycle.varp()).id;
             }
 
-            if (text1 == "next")
-            {
-                //Set next player
-                return new NextAction(game.CurrentPlayer(), idx, script);
+            switch (cycle.GetChild(1).GetText()) {
+                case "next": return new NextAction(game.CurrentPlayer(), idx, script);
+                case "current": return new SetPlayerAction(idx, game, script);
             }
-            else if (text1 == "current")
-            {
-                //Reset current player
-                return new SetPlayerAction(idx, game, script);
-            }
+
+            Console.WriteLine("Unknown Player reference for cycle change.");
             throw new NotImplementedException();
-            //return null;
         }
 
         private void ProcessDo(RecycleParser.CondactContext[] condact)
@@ -995,6 +994,7 @@ namespace CardStock.FreezeFrame
             }
             else
             {
+                Console.WriteLine("Invalid Repeat action.");
                 throw new NotImplementedException();
             }
             return ret;
@@ -1098,6 +1098,7 @@ namespace CardStock.FreezeFrame
             {
                 return (bool)ProcessAggBool(boolNode.aggb());
             }
+            Console.WriteLine("Invalid boolean expression");
             throw new NotSupportedException();
         }
 
@@ -1172,8 +1173,7 @@ namespace CardStock.FreezeFrame
                 };
                 return fancy;
             }
-
-            if (card.minof() is not null)
+            else if (card.minof() is not null)
             {
                 var scoring = ProcessPointStorage(card.minof().pointstorage()).Get();
                 var coll = ProcessLocation(card.minof().cstorage());
@@ -1207,12 +1207,11 @@ namespace CardStock.FreezeFrame
                 };
                 return fancy;
             }
-
-            if (card.varcard() is not null)
+            else if (card.varcard() is not null)
             {
                 return ProcessCardVar(card.varcard());
             }
-            if (card.cstorage() is not null)
+            else if (card.cstorage() is not null)
             {//cstorage
                 var loc = ProcessLocation(card.cstorage());
                 if (card.@int() is not null)
@@ -1240,6 +1239,7 @@ namespace CardStock.FreezeFrame
                     return fancy;
                 }
             }
+            Console.WriteLine("Invalid Card definition");
             throw new NotSupportedException();
         }
 
@@ -1259,6 +1259,7 @@ namespace CardStock.FreezeFrame
             else
             {
                 // TEAMS BROKEN!!! NOT IMPLEMENTED!!!
+                Console.WriteLine("Other not implemented for teams");
                 throw new NotImplementedException();
                 /*
                 foreach (Team t in game.teams)
@@ -1343,6 +1344,9 @@ namespace CardStock.FreezeFrame
                 {
                     new(CCType.VIRTUAL)
                 };
+
+                bool all = cstoragecoll.run().GetChild(2).GetText() == "all";
+                bool largest = cstoragecoll.run().GetChild(2).GetText() == "largest";
                 for (int j = 0; j < sortcards.Length; j++)
                 {
                     Card card = sortcards[j];
@@ -1374,7 +1378,7 @@ namespace CardStock.FreezeFrame
                         else if (scoring.GetScore(card) == 1 + scoring.GetScore(sortcards[j - 1]))
                         {
                             // if you want all runs, then you should archive them no matter if you match or not.
-                            if (cstoragecoll.run().GetChild(2).GetText() == "all")
+                            if (all)
                             {
                                 foreach (var c in current)
                                 {
@@ -1412,14 +1416,14 @@ namespace CardStock.FreezeFrame
                             }
                             // start new runs
                             current.Clear();
-                            if (cstoragecoll.run().GetChild(2).GetText() == "largest")
+                            if (largest)
                             {
                                 current.Add(new CardCollection(CCType.VIRTUAL));
                                 current[^1].Add(card);
                             }
                         }
 
-                        if (cstoragecoll.run().GetChild(2).GetText() == "all")
+                        if (all)
                         {
                             current.Add(new CardCollection(CCType.VIRTUAL));
                             current[^1].Add(card);
@@ -1466,6 +1470,7 @@ namespace CardStock.FreezeFrame
                 }
                 return ret;
             }
+            Console.WriteLine("Invalid Card Collection definition.");
             throw new NotSupportedException();
         }
 
@@ -1617,17 +1622,11 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Tuple Track");
                 var identifier = loc.memstorage().GetChild(1).GetText();
                 var resultingSet = ProcessCStorageCollection(loc.memstorage().cstoragecollection());
-                if (identifier == "top")
+                switch (identifier)
                 {
-                    return resultingSet[0];
-                }
-                else if (identifier == "bottom")
-                {
-                    return resultingSet[^1];
-                }
-                else
-                {
-                    return resultingSet[int.Parse(identifier)];
+                    case "top": return resultingSet[0];
+                    case "bottom": return resultingSet[^1];
+                    default: return resultingSet[int.Parse(identifier)];
                 }
             }
             else if (loc.sortof() is not null)
@@ -1641,6 +1640,7 @@ namespace CardStock.FreezeFrame
                     cardList = temp,
                     name = name + "{SORTED}"
                 };
+                Console.WriteLine("Sorting not implemented yet");
                 throw new NotImplementedException();
                 //return fancy;
             }
@@ -1649,10 +1649,11 @@ namespace CardStock.FreezeFrame
                 CardCollection temp = new(CCType.VIRTUAL);
                 var locs = ProcessLocation(loc.sequence().cstorage());
                 var count = ProcessInt(loc.sequence().@int());
+                bool top = loc.sequence().GetChild(1).GetText() == "top";
 
                 for (int i = 0; i < count; i++)
                 {
-                    if (loc.sequence().GetChild(1).GetText() == "top")
+                    if (top)
                     {
                         temp.Add(locs.cardList.Get(locs.cardList.Count - i - 1));
                     }
@@ -1676,11 +1677,12 @@ namespace CardStock.FreezeFrame
                 int minsize = ProcessInt(loc.runsequence().@int());
                 int numcards = locs.cardList.AllCards().Count();
                 var best = new CardCollection(CCType.VIRTUAL);
+                bool bottom = loc.runsequence().GetChild(2).GetText() == "bottom";
 
                 for (int i = minsize; i < numcards + 1; i++)
                 {
                     var sortcards = locs.cardList.AllCards().ToArray()[(numcards - i)..];
-                    if (loc.runsequence().GetChild(2).GetText() == "bottom")
+                    if (bottom)
                     {
                         sortcards = locs.cardList.AllCards().ToArray()[..i];
                     }
@@ -1718,7 +1720,7 @@ namespace CardStock.FreezeFrame
                 var fancy = new CardLocReference()
                 {
                     cardList = best,
-                    name = name + "{run sequence " + loc.runsequence().GetChild(2).GetText() + "}",
+                    name = name + "{run sequence " + (bottom ? "bottom" : "top") + "}",
                 };
                 return fancy; 
             }
@@ -1729,6 +1731,7 @@ namespace CardStock.FreezeFrame
                 return ProcessCardStorageVar(loc.varcs());
             }
 
+            Console.WriteLine("Card Location reference not defined.");
             throw new NotSupportedException();
         }
 
@@ -1768,31 +1771,15 @@ namespace CardStock.FreezeFrame
 
         private static CCType ProcessLocDesc(RecycleParser.LocdescContext locdesc)
         {
-            string desc = locdesc.GetText();
-            if (desc == "vloc")
+            return locdesc.GetText() switch
             {
-                return CCType.VISIBLE;
-            }
-            else if (desc == "iloc")
-            {
-                return CCType.INVISIBLE;
-            }
-            else if (desc == "hloc")
-            {
-                return CCType.HIDDEN;
-            }
-            else if (desc == "oloc")
-            {
-                return CCType.OTHERS;
-            }
-            else if (desc == "mem")
-            {
-                return CCType.MEMORY;
-            }
-            else
-            {
-                return CCType.VIRTUAL;
-            }
+                "vloc" => CCType.VISIBLE,
+                "iloc" => CCType.INVISIBLE,
+                "hloc" => CCType.HIDDEN,
+                "oloc" => CCType.OTHERS,
+                "mem" => CCType.MEMORY,
+                _ => CCType.VIRTUAL,
+            };
         }
 
         private Owner ProcessLocPre(RecycleParser.LocpreContext locpre)
@@ -1861,6 +1848,7 @@ namespace CardStock.FreezeFrame
             {
                 return ProcessWhot(who.whot());
             }
+            Console.WriteLine("Unknown Who portion.");
             throw new Exception();
         }
 
@@ -1873,24 +1861,18 @@ namespace CardStock.FreezeFrame
             }
             else
             {
-                string text = who.GetChild(1).GetText();
-                if (text == "current")
+                switch (who.GetChild(1).GetText())
                 {
-                    return game.CurrentPlayer().Current();
+                    case "current": return game.CurrentPlayer().Current();
+                    case "next": return game.CurrentPlayer().PeekNext();
+                    case "previous": return game.CurrentPlayer().PeekPrevious();
                 }
-                else if (text == "next")
-                {
-                    return game.CurrentPlayer().PeekNext();
-                }
-                else if (text == "previous")
-                {
-                    return game.CurrentPlayer().PeekPrevious();
-                }
-                else if (who.whodesc().@int() is not null)
+                if (who.whodesc().@int() is not null)
                 {
                     return game.players[ProcessInt(who.whodesc().@int())];
                 }
             }
+            Console.WriteLine("Unknown Player description");
             throw new Exception();
         }
 
@@ -1901,14 +1883,7 @@ namespace CardStock.FreezeFrame
                 if (who.teamp().varp() is not null)
                 {
                     var p = ProcessPlayerVar(who.teamp().varp());
-                    if (p is not null)
-                    {
-                        return p.team;
-                    }
-                    else
-                    {
-                        throw new NotImplementedException();
-                    }
+                    return p.team;
                 }
                 else
                 {
@@ -1917,26 +1892,18 @@ namespace CardStock.FreezeFrame
             }
             else
             {
-                string text = who.GetChild(1).GetText();
-                if (text == "current")
+                switch (who.GetChild(1).GetText())
                 {
-                    return game.CurrentTeam().Current();
+                    case "current": return game.CurrentTeam().Current();
+                    case "next": return game.CurrentTeam().PeekNext();
+                    case "previous": return game.CurrentTeam().PeekPrevious();
                 }
-                else if (text == "next")
-                {
-                    //throw new NotImplementedException();
-                    return game.CurrentTeam().PeekNext();
-                }
-                else if (text == "previous")
-                {
-                    //throw new NotImplementedException();
-                    return game.CurrentTeam().PeekPrevious();
-                }
-                else if (who.whodesc().@int() is not null)
+                if (who.whodesc().@int() is not null)
                 {
                     return game.teams[ProcessInt(who.whodesc().@int())];
                 }
             }
+            Console.WriteLine("Unknown Team Description.");
             throw new Exception();
         }
 
@@ -2133,6 +2100,7 @@ namespace CardStock.FreezeFrame
             }
             else
             {
+                Console.WriteLine("Undefined Int Expression.");
                 throw new InvalidDataException();
             }
         }
@@ -2309,6 +2277,7 @@ namespace CardStock.FreezeFrame
             }
             else
             {
+                Console.WriteLine("Filter is missing required pieces");
                 throw new NotSupportedException();
             }
 
@@ -2481,13 +2450,22 @@ namespace CardStock.FreezeFrame
 
         private IEnumerable<object> ProcessCollection(RecycleParser.CollectionContext collection)
         {
-
-            if (collection.varc() is not null)
+            string text = collection.GetText();
+            if (text == "player")
+            {
+                Debug.WriteLine("Processing collection type: players.");
+                return game.players;
+            }
+            else if (text == "team")
+            {
+                Debug.WriteLine("Processing collection type: team.");
+                return game.teams;
+            }
+            else if (collection.varc() is not null)
             {
                 return ProcessCollectionVar(collection.varc());
             }
-            string text = collection.GetText();
-            if (collection.cstorage() is not null)
+            else if (collection.cstorage() is not null)
             {
                 Debug.WriteLine("Processing collection type: Cstorage.");
                 var stor = ProcessLocation(collection.cstorage());
@@ -2553,17 +2531,6 @@ namespace CardStock.FreezeFrame
 
 
             }
-            else if (text == "player")
-            {
-                Debug.WriteLine("Processing collection type: players.");
-
-                return game.players;
-            }
-            else if (text == "team")
-            {
-                Debug.WriteLine("Processing collection type: team.");
-                return game.teams;
-            }
             else if (collection.other() is not null)
             {
                 return ProcessOther(collection.other());
@@ -2574,7 +2541,6 @@ namespace CardStock.FreezeFrame
                 throw new Exception();
                 //return (IEnumerable<object>)Get(collection.GetText());
             }
-            throw new NotSupportedException();
         }
 
         private List<object> ProcessCollectionFilter(RecycleParser.FilterContext filter)
@@ -2600,6 +2566,7 @@ namespace CardStock.FreezeFrame
             }
             else
             {
+                Console.WriteLine("Collection Filter missing the collection??");
                 throw new NotSupportedException();
             }
         }
@@ -2629,6 +2596,7 @@ namespace CardStock.FreezeFrame
             }
             else
             {
+                Console.WriteLine("Card Storage Collection Filter missing collection???");
                 throw new NotSupportedException();
             }
         }
@@ -2691,6 +2659,7 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Processing type: collection");
                 return ProcessCollection(typed.collection());
             }
+            Console.WriteLine("Missing a typed expression???");
             throw new NotSupportedException();
         }
 
@@ -2738,6 +2707,7 @@ namespace CardStock.FreezeFrame
             }
             else
             {
+                Console.WriteLine("This is not a string...");
                 throw new InvalidDataException();
             }
         }
@@ -2811,7 +2781,7 @@ namespace CardStock.FreezeFrame
                     name = "{cardvar}"
                 };
             }
-            Debug.WriteLine("Error, " + card.GetText() + " is not a  card, type is " + ret.GetType());
+            Console.WriteLine("Error, " + card.GetText() + " is not a  card, type is " + ret.GetType());
             throw new NotImplementedException();
         }
 
@@ -2873,7 +2843,7 @@ namespace CardStock.FreezeFrame
             }
             else
             {
-                Debug.WriteLine("Error, type is: " + temp.GetType());
+                Console.WriteLine("Error, type is: " + temp.GetType());
                 throw new NotImplementedException();
             }
         }

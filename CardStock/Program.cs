@@ -1,37 +1,42 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "Agram";
-int numPlayers = 2;
+string game = "President";
+int numPlayers = 5;
 
-/*
-// Test them all
-string[] files = Directory.GetFiles("games/", "*.rcy");
-Array.Sort(files);
-foreach (string filename in files)
+runExperiment(game, numPlayers);
+//runAllGames();
+
+static void runExperiment(string game, int numPlayers)
 {
-    Console.WriteLine(filename);
-    if (filename.CompareTo("games/Coup4.rcy") > 0)
+    Experiment exp = new()
     {
+        Game = game,
+        PlayerCount = numPlayers,
+        NumGames = 100,
+        Players = []
+    };
+
+    Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
+
+    GameSimulator engine = new(exp);
+    engine.LoadGame();
+    engine.RunExperiment();
+}
+
+static void runAllGames()
+{
+    string[] files = Directory.GetFiles("games/", "*.rcy");
+    Array.Sort(files);
+    foreach (string filename in files)
+    {
+        Console.WriteLine(filename);
         string game = filename[6..^5];
         int numPlayers = filename[^5] - '0';
-*/
-        Experiment exp = new()
-        {
-            Game = game,
-            PlayerCount = numPlayers,
-            NumGames = 100,
-            Players = [] 
-        };
 
-        Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
-
-        GameSimulator engine = new(exp);
-        engine.LoadGame();
-        engine.RunExperiment();
-
-    //}
-//}
+        runExperiment(game, numPlayers);
+    }
+}
 
 
 

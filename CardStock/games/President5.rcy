@@ -33,15 +33,16 @@
             ((RANK : FIVE) 5)
             ((RANK : FOUR) 4)
             ((RANK : THREE) 3)
-      ))
-      (stage player (end (== (size (game iloc STOCK)) 0))
-            (do (
-                  (move (top (game iloc STOCK))
-                         (top ((current player) iloc HAND)))
-            ))
-      )         
+      ))       
  ))
-   
+
+ (stage player (end (== (size (game iloc STOCK)) 0))
+      (do (
+            (move (top (game iloc STOCK))
+                  (top ((current player) iloc HAND)))
+      ))
+ )  
+ 
  ;; players play until all players are out of cards
  (stage player
         (end 

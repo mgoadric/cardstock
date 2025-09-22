@@ -32,8 +32,8 @@ namespace CardStock.FreezeFrame{
                     // SHOULD THIS THROW EXCEPTION INSTEAD?
                     Console.WriteLine("Adding to a -1 loc ref");
                     throw new Exception();
-                    cardList.Add(c);
-                    break;
+                    //cardList.Add(c);
+                    //break;
                 default:
                     cardList.Add(c, int.Parse(locIdentifier));
                     break;
@@ -59,7 +59,8 @@ namespace CardStock.FreezeFrame{
                 case "-1":
                     Console.WriteLine("Getting from a -1 loc ref");
                     // SHOULD THIS THROW EXCEPTION INSTEAD?
-                    return cardList.Peek();
+                    throw new Exception();
+                    //return cardList.Peek();
                 default:
                     return cardList.Get(int.Parse(locIdentifier));
             }
