@@ -10,7 +10,7 @@ namespace CardStock.FreezeFrame
     public class GameIterator
     {
         private readonly Stack<Queue<IParseTree>> iterStack;
-        private readonly HashSet<IParseTree> iteratingSet;
+        private HashSet<IParseTree> iteratingSet; // could this be a stack??
         private RecycleVariables variables;
         private readonly Transcript script;
 
@@ -54,25 +54,16 @@ namespace CardStock.FreezeFrame
         public GameIterator Clone(CardGame newgame)
         {
 
-            var ret = new GameIterator(rules, newgame, "clone", false);
+            var ret = new GameIterator(rules, newgame, "clone", false)
+            {
+                iteratingSet = [.. iteratingSet],
+                variables = variables.Clone(newgame)
+            };
 
             foreach (var queue in iterStack.Reverse())
             {
-                var newQueue = new Queue<IParseTree>();
-                foreach (var thing in queue)
-                {
-                    newQueue.Enqueue(thing);
-                }
-
-                ret.iterStack.Push(newQueue);
+                ret.iterStack.Push(new Queue<IParseTree>(queue));
             }
-
-            foreach (var node in iteratingSet)
-            {
-                ret.iteratingSet.Add(node);
-            }
-
-            ret.variables = variables.Clone(newgame);
 
             return ret;
         }
@@ -1143,7 +1134,7 @@ namespace CardStock.FreezeFrame
                 var coll = ProcessLocation(card.maxof().cstorage());
                 var max = -1;
 
-                if (coll.cardList.AllCards().Count() == 0)
+                if (!coll.cardList.AllCards().Any())
                 {
                     Console.WriteLine("Can't find the max of an empty CardCollection.");
                     throw new InvalidOperationException();
@@ -1177,7 +1168,7 @@ namespace CardStock.FreezeFrame
                 var scoring = ProcessPointStorage(card.minof().pointstorage()).Get();
                 var coll = ProcessLocation(card.minof().cstorage());
                 var min = int.MaxValue;
-                if (coll.cardList.AllCards().Count() == 0)
+                if (!coll.cardList.AllCards().Any())
                 {
                     Console.WriteLine("Can't find the min of an empty CardCollection.");
                     throw new InvalidOperationException();
@@ -1317,7 +1308,7 @@ namespace CardStock.FreezeFrame
                         name = "{subset " + j + " from " + stor.name + "}"
                     });
                 }
-                return [.. returnList];
+                return returnList;
             }
 
             // PARTITON CODE
@@ -1443,7 +1434,7 @@ namespace CardStock.FreezeFrame
                         });
                     }
                 }
-                return [.. returnList];
+                return returnList;
 
             }
             else if (cstoragecoll.aggcs() is not null)
@@ -1678,6 +1669,10 @@ namespace CardStock.FreezeFrame
                 int minsize = ProcessInt(loc.runsequence().@int());
                 int numcards = locs.cardList.AllCards().Count();
                 var best = new CardCollection(CCType.VIRTUAL);
+                var comp = new CardComparer()
+                {
+                    scoring = points.Get(),
+                };
                 bool bottom = loc.runsequence().GetChild(2).GetText() == "bottom";
 
                 for (int i = minsize; i < numcards + 1; i++)
@@ -1687,10 +1682,7 @@ namespace CardStock.FreezeFrame
                     {
                         sortcards = locs.cardList.AllCards().ToArray()[..i];
                     }
-                    Array.Sort(sortcards, new CardComparer()
-                    {
-                        scoring = points.Get(),
-                    });
+                    Array.Sort(sortcards, comp);
                     var current = new CardCollection(CCType.VIRTUAL);
                     current.Add(sortcards[0]);
                     bool complete = true;
@@ -1917,7 +1909,7 @@ namespace CardStock.FreezeFrame
             {
                 childs.Add(new Node
                 {
-                    Value = "combo" + i,
+                    Value = $"combo{i}",
                     children = ProcessAttribute(deck.attribute(i))
                 });
             }

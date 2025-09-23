@@ -14,9 +14,6 @@ namespace CardStock.CardEngine
             return rootNode.ToString();
         }
 
-        public Dictionary<string, string> Flatten() {
-            return rootNode.Flatten();
-        }
         public List<List<Node>> UniqueOptions()
         {
             var retList = new List<List<Node>>();
