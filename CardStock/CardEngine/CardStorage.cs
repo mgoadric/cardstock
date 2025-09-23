@@ -64,9 +64,9 @@ namespace CardStock.CardEngine
         public List<CardCollection> Indexed(CCType type, string name)
         {
             List<CardCollection> ret = [];
-            foreach (String k in dict.Keys)
+            foreach (string k in dict.Keys) // this could be time-consuming. Better way to organize?
             {
-                if (k.StartsWith(type + ":" + name))
+                if (k.StartsWith(type + ":" + name)) // this could also be slow?
                 {
                     ret.Add(dict[k]);
                 }

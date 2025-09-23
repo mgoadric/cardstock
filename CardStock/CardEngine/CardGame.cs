@@ -69,7 +69,7 @@ namespace CardStock.CardEngine
             }
 
             // Reconstruct team and player cycles
-            foreach (var cycle in this.currentPlayer.Reverse())
+            foreach (var cycle in currentPlayer.Reverse())
             {
                 var newCycle = new StageCycle<Player>(temp.players)
                 {
@@ -79,7 +79,7 @@ namespace CardStock.CardEngine
                 temp.currentPlayer.Push(newCycle);
             }
 
-            foreach (var cycle in this.currentTeam.Reverse())
+            foreach (var cycle in currentTeam.Reverse())
             {
                 var newCycle = new StageCycle<Team>(temp.teams)
                 {
@@ -120,6 +120,7 @@ namespace CardStock.CardEngine
             CloneVisibleCards(teams, temp.teams, temp.sourceDeck, free, -1);
             CloneVisibleCards(table, temp.table, temp.sourceDeck, free, -1);
 
+            // Make the free sets into list, so we can shuffle them
             Dictionary<string, List<int>> vals = [];
             foreach (KeyValuePair<string, HashSet<int>> kvp in free)
             {
@@ -140,7 +141,6 @@ namespace CardStock.CardEngine
                 cardsLeft[kvp.Key] = vals[kvp.Key].GetEnumerator();
                 cardsLeft[kvp.Key].MoveNext();
             }
-
 
             // Assigning will need card's name
             AssignNonVisibleCards(players, temp.players, temp.sourceDeck, cardsLeft, playerIdx);
@@ -323,7 +323,7 @@ namespace CardStock.CardEngine
         // to players without giving away hidden information on actions, like when drawing from an iloc STOCK
         public void ReindexCards()
         {
-            foreach (String key in sourceDeck.Keys)
+            foreach (string key in sourceDeck.Keys)
             {
                 Debug.Write(key + ":");
                 int cc = sourceDeck[key].Count;
@@ -450,28 +450,28 @@ namespace CardStock.CardEngine
             (CardGame game2, _) = g2;
 
 
-            if (!(game1.teams.Count == game2.teams.Count))
+            if (game1.teams.Count != game2.teams.Count)
             { Console.WriteLine("Player count or team count not equal"); return false; }
 
-            if (!(game1.table[0].BetterEquals(game2.table[0], true, playeridx)))
+            if (!game1.table[0].BetterEquals(game2.table[0], true, playeridx))
             { return false; }
 
             for (int i = 0; i < g1.Item1.players.Length; i++)
             {
-                if (!(game1.players[i].BetterEquals(game2.players[i], true, playeridx)))
+                if (!game1.players[i].BetterEquals(game2.players[i], true, playeridx))
                 { return false; }
             }
 
             for (int i = 0; i < g1.Item1.players.Length; i++)
             {
-                if (!(game1.teams[i].BetterEquals(game2.teams[i], true, playeridx)))
+                if (!game1.teams[i].BetterEquals(game2.teams[i], true, playeridx))
                 { return false; }
             }
 
-            if (!(game1.currentPlayer.SequenceEqual(game2.currentPlayer)))
+            if (!game1.currentPlayer.SequenceEqual(game2.currentPlayer))
             { Console.WriteLine("Stack of player cycles not equal"); return false; }
 
-            if (!(game1.currentTeam.SequenceEqual(game2.currentTeam)))
+            if (!game1.currentTeam.SequenceEqual(game2.currentTeam))
             { Console.WriteLine("Stack of team StageCycles not equal"); return false; }
 
             return true;

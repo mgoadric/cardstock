@@ -14,8 +14,15 @@ namespace CardStock.CardEngine
         public CardStorage owner;
         private List<Card> cards = [];
 
-        public CardCollection(CCType type) {
+        public CardCollection(CCType type)
+        {
             this.type = type;
+        }
+
+        public CardCollection(CCType type, List<Card> cards)
+        {
+            this.type = type;
+            this.cards = cards;
         }
 
         public int Count
@@ -143,7 +150,7 @@ namespace CardStock.CardEngine
 
         public override string ToString()
         {
-            StringBuilder ret = new StringBuilder();
+            StringBuilder ret = new();
             ret.Append("CardCollection " + name + " (CC TYPE: " + type.ToString() + ")\r\n");
             if (cards.Count == 0) { ret.Append("|CardCollection is empty|\r\n"); }
             foreach (Card card in cards)

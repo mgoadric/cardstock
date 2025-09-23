@@ -85,6 +85,7 @@ namespace CardStock.CardEngine
                 return ret;
             }
         }
+        
         public static List<Node> Perm(List<Node> thingOne, List<Node> thingTwo, bool first)
         {
 

@@ -1027,9 +1027,9 @@ namespace CardStock.FreezeFrame
                 if (text == "or")
                 {
                     bool flag = false;
-                    foreach (var boolean in boolNode.boolean())
+                    for (int i = 0; i < boolNode.boolean().Length; i++)
                     {
-                        flag |= ProcessBoolean(boolean);
+                        flag |= ProcessBoolean(boolNode.boolean()[i]);
                         if (flag)
                         {
                             return flag;
@@ -1040,9 +1040,9 @@ namespace CardStock.FreezeFrame
                 else if (text == "and")
                 {
                     bool flag = true;
-                    foreach (var boolean in boolNode.boolean())
+                    for (int i = 0; i < boolNode.boolean().Length; i++)
                     {
-                        flag &= ProcessBoolean(boolean);
+                        flag &= ProcessBoolean(boolNode.boolean()[i]);
                         if (!flag)
                         {
                             return flag;
@@ -1282,12 +1282,10 @@ namespace CardStock.FreezeFrame
                     var subsettemp = new List<List<Card>>();
                     foreach (var set in subsets)
                     {
-                        var subset = new List<Card>();
-                        foreach (var card2 in set)
+                        var subset = new List<Card>(set)
                         {
-                            subset.Add(card2);
-                        }
-                        subset.Add(card);
+                            card
+                        };
                         subsettemp.Add(subset);
                     }
                     subsets.AddRange(subsettemp);
@@ -1297,11 +1295,8 @@ namespace CardStock.FreezeFrame
                 for (int j = 0; j < subsets.Count; j++)
                 {
                     var cardlist = subsets[j];
-                    var cctemp = new CardCollection(CCType.VIRTUAL);
-                    foreach (var card in cardlist)
-                    {
-                        cctemp.Add(card);
-                    }
+                    var cctemp = new CardCollection(CCType.VIRTUAL, cardlist);
+
                     returnList.Add(new CardLocReference()
                     {
                         cardList = cctemp,
@@ -1971,7 +1966,8 @@ namespace CardStock.FreezeFrame
             {
                 Debug.WriteLine(intNode.GetText());
                 // Can I cache this, so I don't need to parse a string every time? NO!!!
-                return int.Parse(intNode.GetText());
+                //return int.Parse(intNode.GetText());
+                return intNode.GetInt();
             }
             else if (intNode.rawstorage() is not null)
             {

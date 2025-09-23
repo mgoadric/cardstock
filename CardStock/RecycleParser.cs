@@ -5830,6 +5830,19 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class IntContext : ParserRuleContext {
+
+		private int cache;
+		private bool empty = true;
+
+		public int GetInt()
+		{
+			if (empty)
+			{
+				cache = int.Parse(GetText());
+				empty = false;
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public VariContext vari() {
 			return GetRuleContext<VariContext>(0);
 		}
@@ -7327,6 +7340,17 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class NamegrContext : ParserRuleContext {
+
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] LETT() { return GetTokens(RecycleParser.LETT); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LETT(int i) {
 			return GetToken(RecycleParser.LETT, i);

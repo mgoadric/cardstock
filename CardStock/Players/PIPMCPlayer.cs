@@ -10,8 +10,8 @@ namespace CardStock.Players
 
         private int[] completed;
 
-        private double[][] rankSum;
-        private double[][] scoreSum;
+        private readonly double[][] rankSum = new double[perspective.NumberOfPlayers()][];
+        private readonly double[][] scoreSum = new double[perspective.NumberOfPlayers()][];
 
         private List<Tuple<CardGame, GameIterator>> determinizations;
 
@@ -19,15 +19,9 @@ namespace CardStock.Players
         {
             completed = new int[numChoices];
 
-            rankSum = new double[perspective.NumberOfPlayers()][];
             for (int i = 0; i < perspective.NumberOfPlayers(); i++)
             {
                 rankSum[i] = new double[numChoices];
-            }
-
-            scoreSum = new double[perspective.NumberOfPlayers()][];
-            for (int i = 0; i < perspective.NumberOfPlayers(); i++)
-            {
                 scoreSum[i] = new double[numChoices];
             }
 

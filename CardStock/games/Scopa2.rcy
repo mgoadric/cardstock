@@ -73,7 +73,7 @@
                                               (top ((current player) vloc BUNDLE)))
                                         (set ((current player) sto MOVED) 1))))    
 
-                        ;; match subsets of cards IF NO SINGLES
+                        ;; match subsets of cards IF NO SINGLES???
                         (any (filter (subsets (game vloc POOL)) 'SUB 
                             (and (!= ((current player) sto MOVED) 1)
                                 (> (size 'SUB) 1)

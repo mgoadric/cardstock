@@ -66,13 +66,12 @@
 
                         ;; match subsets of cards IF NO SINGLES
                         (any (filter (subsets (game vloc POOL)) 'SUB 
-                            (and (!= ((current player) sto MOVED) 1)
-                                (> (size 'SUB) 1)
+                            (and (> (size 'SUB) 1)
                                 (== (+ (sum 'SUB using (game points POINTS))
                                        (score (top ((current player) vloc TRICK)) using (game points POINTS)))
                                     15))) 'SUBMATCH
                                             (do (
-                                                    (all 'SUBMATCH 'MCARD  
+                                                (all 'SUBMATCH 'MCARD  
                                                     (move 'MCARD 
                                                         (top ((current player) vloc BUNDLE))))
                                                     (set ((current player) sto MOVED) 1)

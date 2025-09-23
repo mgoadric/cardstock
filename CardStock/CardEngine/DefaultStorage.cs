@@ -7,10 +7,7 @@ namespace CardStock.CardEngine
      * A Dictionary with a default value provided. Useful for
      * storing PointMaps, integers, strings
      */
-    [method: SetsRequiredMembers]    /********
-     * A Dictionary with a default value provided. Useful for
-     * storing PointMaps, integers, strings
-     */
+    [method: SetsRequiredMembers]    
     public class DefaultStorage<T>(T defaultT, Owner owner)
     {
         private readonly Dictionary<string, T> dict = [];
