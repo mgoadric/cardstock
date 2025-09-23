@@ -7,12 +7,13 @@ namespace CardStock.FreezeFrame{
     {
         TOP, BOTTOM, UNDEFINED, NUMBER
     }
-    
+
 	public class CardLocReference
     {
         public required CardCollection cardList;
         // Can't remember why we need the default -1 here...
-        public string locIdentifier = "-1";
+        public CardLocTypes locIdentifier = CardLocTypes.UNDEFINED;
+        public int locid;
         public required string name;
 
         public CardLocReference ShallowCopy()
@@ -21,6 +22,7 @@ namespace CardStock.FreezeFrame{
             {
                 cardList = cardList.ShallowCopy(),
                 locIdentifier = locIdentifier,
+                locid = locid,
                 name = name + " - Copy",
             };
             return loc;
@@ -30,20 +32,18 @@ namespace CardStock.FreezeFrame{
         {
             switch (locIdentifier)
             {
-                case "top":
+                case CardLocTypes.TOP:
                     cardList.Add(c);
                     break;
-                case "bottom":
+                case CardLocTypes.BOTTOM:
                     cardList.AddBottom(c);
                     break;
-                case "-1":
+                case CardLocTypes.UNDEFINED:
                     // SHOULD THIS THROW EXCEPTION INSTEAD?
                     Console.WriteLine("Adding to a -1 loc ref");
                     throw new Exception();
-                //cardList.Add(c);
-                //break;
                 default:
-                    cardList.Add(c, int.Parse(locIdentifier));
+                    cardList.Add(c, locid);
                     break;
             }
         }
@@ -56,23 +56,23 @@ namespace CardStock.FreezeFrame{
             //Console.WriteLine("locid:" + locIdentifier);
             switch (locIdentifier)
             {
-                case "top":
+                case CardLocTypes.TOP:
                     if (cardList.Count == 0)
                     {
                         Console.Write(name + " is empty??");
                     }
                     return cardList.Peek();
-                case "bottom":
+                case CardLocTypes.BOTTOM:
                     System.Collections.Generic.IEnumerator<Card> e = cardList.AllCards().GetEnumerator();
                     e.MoveNext();
                     return e.Current;
-                case "-1":
+                case CardLocTypes.UNDEFINED:
                     Console.WriteLine("Getting from a -1 loc ref");
                     // SHOULD THIS THROW EXCEPTION INSTEAD?
                     throw new Exception();
                 //return cardList.Peek();
                 default:
-                    return cardList.Get(int.Parse(locIdentifier));
+                    return cardList.Get(locid);
             }
         }
 
@@ -101,7 +101,8 @@ namespace CardStock.FreezeFrame{
             {
                 if (c.Equals(cardList.Get(idx)))
                 {
-                    locIdentifier = idx.ToString();
+                    locIdentifier = CardLocTypes.NUMBER;
+                    locid = idx;
                 }
             }
         }

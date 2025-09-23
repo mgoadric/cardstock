@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Tree;
 using CardStock.CardEngine;
 using CardStock.Evaluation;
+using System.Collections;
 using System.Diagnostics;
 using System.Text;
 
@@ -17,9 +18,6 @@ namespace CardStock.FreezeFrame
         public CardGame game;
         public int totalChoices;
 
-        // Trying out caching...
-        private Dictionary<RecycleParser.IntContext, int> intCache;
-
         public GameIterator(RecycleParser.GameContext context, CardGame mygame, string fileName, bool fresh = true)
         {
             rules = context;
@@ -27,7 +25,6 @@ namespace CardStock.FreezeFrame
             iterStack = new Stack<Queue<IParseTree>>();
             iteratingSet = [];
             variables = new RecycleVariables();
-            intCache = [];
 
             if (fresh)
             {
@@ -75,8 +72,6 @@ namespace CardStock.FreezeFrame
                 ret.iteratingSet.Add(node);
             }
 
-            ret.intCache = intCache;
-
             ret.variables = variables.Clone(newgame);
 
             return ret;
@@ -123,17 +118,12 @@ namespace CardStock.FreezeFrame
 
         public int ProcessChoice()
         {
-            script.WriteToFile("???");
+            script?.WriteToFile("???");
             var allOptions = BuildOptions();
 
             if (allOptions.Count == 0)
             {
                 Console.WriteLine("NO Choice Available");
-                var bins = game.players[game.CurrentPlayer().idx].cardBins;
-                foreach (var b in bins[CCType.INVISIBLE, "HAND"].AllCards())
-                {
-                    Console.WriteLine(b);
-                }
                 throw new InvalidOperationException();
             }
 
@@ -184,7 +174,7 @@ namespace CardStock.FreezeFrame
             for (int i = 0; i < results.Length; i++)
             {
                 var score = ProcessInt(scoreMethod.@int());
-                script.WriteToFile("Q:" + i + " " + score);
+                script?.WriteToFile("Q:" + i + " " + score);
                 results[i] = score;
                 game.CurrentPlayer().Next();
             }
@@ -674,7 +664,7 @@ namespace CardStock.FreezeFrame
                     // adds list of actions to overall choice list to be returned 
                     coll.Reverse();
                     all.Add(coll);
-                    script.WriteToFile("...");
+                    script?.WriteToFile("...");
                 }
 
                 // if there are still loopactions,
@@ -750,13 +740,14 @@ namespace CardStock.FreezeFrame
 
                 if (!iteratingSet.Contains(stage))
                 {
-                    if (text == "player")
+                    switch (text)
                     {
-                        game.PushPlayer();
-                    }
-                    else if (text == "team")
-                    {
-                        game.PushTeam();
+                        case "player":
+                            game.PushPlayer();
+                            break;
+                        case "team":
+                            game.PushTeam();
+                            break;
                     }
                 }
 
@@ -784,19 +775,20 @@ namespace CardStock.FreezeFrame
                     }
                     if (iteratingSet.Contains(stage))
                     {
-                        if (text == "player")
+                        switch (text)
                         {
-                            game.CurrentPlayer().Next();
-                            script.WriteToFile("T:" + game.CurrentPlayer().CurrentName());
-                        }
-                        else if (text == "team")
-                        {
-                            game.CurrentTeam().Next();
-                            script.WriteToFile("T:" + game.CurrentTeam().CurrentName());
-                            Debug.WriteLine("Next team is " + game.CurrentTeam().Current());
+                            case "player":
+
+                                game.CurrentPlayer().Next();
+                                script?.WriteToFile("T:" + game.CurrentPlayer().CurrentName());
+                                break;
+
+                            case "team":
+                                game.CurrentTeam().Next();
+                                script?.WriteToFile("T:" + game.CurrentTeam().CurrentName());
+                                break;
                         }
                     }
-
                 }
                 else
                 {
@@ -805,15 +797,15 @@ namespace CardStock.FreezeFrame
                     if (iteratingSet.Contains(stage))
                     {
                         iteratingSet.Remove(stage);
-                        if (text == "player")
+                        switch (text)
                         {
-                            game.PopPlayer();
+                            case "player":
+                                game.PopPlayer();
+                                break;
+                            case "team":
+                                game.PopTeam();
+                                break;
                         }
-                        else if (text == "team")
-                        {
-                            game.PopTeam();
-                        }
-
                     }
                     return false;
                 }
@@ -1175,7 +1167,7 @@ namespace CardStock.FreezeFrame
                 var fancy = new CardLocReference()
                 {
                     cardList = lst,
-                    locIdentifier = "top",
+                    locIdentifier = CardLocTypes.TOP,
                     name = coll.name + "{MAX}"
                 };
                 return fancy;
@@ -1209,7 +1201,7 @@ namespace CardStock.FreezeFrame
                 var fancy = new CardLocReference()
                 {
                     cardList = lst,
-                    locIdentifier = "top",
+                    locIdentifier = CardLocTypes.TOP,
                     name = coll.name + "{MIN}"
                 };
                 return fancy;
@@ -1227,7 +1219,8 @@ namespace CardStock.FreezeFrame
                     var fancy = new CardLocReference()
                     {
                         cardList = loc.cardList,
-                        locIdentifier = "" + ProcessInt(card.@int()),
+                        locIdentifier = CardLocTypes.NUMBER,
+                        locid = ProcessInt(card.@int()),
                         name = loc.name
                     };
 
@@ -1236,10 +1229,11 @@ namespace CardStock.FreezeFrame
                 }
                 else
                 {
+                    _ = Enum.TryParse(card.GetChild(1).GetText(), out CardLocTypes locType);
                     var fancy = new CardLocReference()
                     {
                         cardList = loc.cardList,
-                        locIdentifier = card.GetChild(1).GetText(), // top or bottom
+                        locIdentifier = locType, // top or bottom
                         name = loc.name
                     };
 
@@ -1823,7 +1817,7 @@ namespace CardStock.FreezeFrame
             var fancy = new CardLocReference()
             {
                 cardList = player.cardBins[prefix, name],
-                locIdentifier = "top",
+                locIdentifier = CardLocTypes.TOP,
                 name = player.name + " " + prefix + " " + name
             };
             return fancy;
@@ -1981,17 +1975,11 @@ namespace CardStock.FreezeFrame
 
         private int ProcessInt(RecycleParser.IntContext intNode)
         {
-            if (intCache.TryGetValue(intNode, out int value))
-            {
-                return value;
-            }
-            else if (intNode.INTNUM() is not null && intNode.INTNUM().Length != 0)
+            if (intNode.INTNUM() is not null && intNode.INTNUM().Length != 0)
             {
                 Debug.WriteLine(intNode.GetText());
-                // Can I cache this, so I don't need to parse a string every time?
-                int x = int.Parse(intNode.GetText());
-                intCache[intNode] = x;
-                return x;
+                // Can I cache this, so I don't need to parse a string every time? NO!!!
+                return int.Parse(intNode.GetText());
             }
             else if (intNode.rawstorage() is not null)
             {
@@ -2238,7 +2226,7 @@ namespace CardStock.FreezeFrame
                 --value.Length;
                 string k = key.ToString();
                 string v = value.ToString();
-                script.WriteToFile("A:" + v + " " + reward);
+                script?.WriteToFile("A:" + v + " " + reward);
                 temp.Add(new ValueTuple<string, string, int>(k, v, reward));
             }
             var setValue = new PointMap(temp);
@@ -2388,7 +2376,7 @@ namespace CardStock.FreezeFrame
         }
         private bool ProcessAggBool(RecycleParser.AggbContext agg)
         {
-            Debug.WriteLine("Processing agg + Boolean: " + (((RecycleParser.BooleanContext)agg.GetChild(4)).GetText()));
+            Debug.WriteLine("Processing agg + Boolean: " + ((RecycleParser.BooleanContext)agg.GetChild(4)).GetText());
 
             var ret = IterateAgg(agg.collection(), agg.var(), agg.GetChild(4));
 
@@ -2768,7 +2756,7 @@ namespace CardStock.FreezeFrame
             if (ret is CardLocReference loc)
             {
                 Debug.WriteLine("Are We Here??");
-                if (loc.locIdentifier != "-1")
+                if (loc.locIdentifier != CardLocTypes.UNDEFINED)
                 {
                     return loc.ShallowCopy();
                 }
