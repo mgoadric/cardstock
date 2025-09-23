@@ -34,6 +34,8 @@ namespace CardStock.CardEngine
             int total = 0;
             foreach (var key in pointLookups.Keys)
             {
+                // Keys will have "," if more than one attribute pair required for a match
+                // This is efficient.
                 var arrAtts = key.Split(',');
                 var attStr = "";
                 foreach (var att in arrAtts)

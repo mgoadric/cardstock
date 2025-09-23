@@ -2,6 +2,7 @@
 using CardStock.CardEngine;
 using CardStock.Evaluation;
 using System.Diagnostics;
+using System.Text;
 
 namespace CardStock.FreezeFrame
 {
@@ -16,6 +17,9 @@ namespace CardStock.FreezeFrame
         public CardGame game;
         public int totalChoices;
 
+        // Trying out caching...
+        private Dictionary<RecycleParser.IntContext, int> intCache;
+
         public GameIterator(RecycleParser.GameContext context, CardGame mygame, string fileName, bool fresh = true)
         {
             rules = context;
@@ -23,6 +27,7 @@ namespace CardStock.FreezeFrame
             iterStack = new Stack<Queue<IParseTree>>();
             iteratingSet = [];
             variables = new RecycleVariables();
+            intCache = [];
 
             if (fresh)
             {
@@ -69,6 +74,8 @@ namespace CardStock.FreezeFrame
             {
                 ret.iteratingSet.Add(node);
             }
+
+            ret.intCache = intCache;
 
             ret.variables = variables.Clone(newgame);
 
@@ -458,7 +465,6 @@ namespace CardStock.FreezeFrame
                             {
                                 if (condact.action() is not null)
                                 {
-
                                     stackTree.Push(condact.action());
                                 }
                                 if (condact.multiaction2() is not null)
@@ -624,7 +630,8 @@ namespace CardStock.FreezeFrame
                         }
                         else
                         {
-                            Debug.WriteLine("failed to parse type " + current.GetType());
+                            Console.WriteLine("failed to parse type " + current.GetType());
+                            throw new Exception();
                         }
                     }
                     else
@@ -1974,7 +1981,19 @@ namespace CardStock.FreezeFrame
 
         private int ProcessInt(RecycleParser.IntContext intNode)
         {
-            if (intNode.rawstorage() is not null)
+            if (intCache.TryGetValue(intNode, out int value))
+            {
+                return value;
+            }
+            else if (intNode.INTNUM() is not null && intNode.INTNUM().Length != 0)
+            {
+                Debug.WriteLine(intNode.GetText());
+                // Can I cache this, so I don't need to parse a string every time?
+                int x = int.Parse(intNode.GetText());
+                intCache[intNode] = x;
+                return x;
+            }
+            else if (intNode.rawstorage() is not null)
             {
                 var fancy = ProcessIntStorage(intNode.rawstorage());
                 return fancy.Get();
@@ -1988,11 +2007,6 @@ namespace CardStock.FreezeFrame
             {
                 var team = ProcessWhot(intNode.tid().whot());
                 return team.id;
-            }
-            else if (intNode.INTNUM() is not null && intNode.INTNUM().Any())
-            {
-                Debug.WriteLine(intNode.GetText());
-                return int.Parse(intNode.GetText());
             }
             else if (intNode.@sizeof() is not null)
             {
@@ -2209,22 +2223,23 @@ namespace CardStock.FreezeFrame
             var awards = points.awards();
             foreach (RecycleParser.AwardsContext award in awards)
             {
-                string key = "";
-                string value = "";
+                StringBuilder key = new();
+                StringBuilder value = new();
                 int reward = ProcessInt(award.@int());
                 var iter = award.subaward();
                 foreach (RecycleParser.SubawardContext i in iter)
                 {
                     // TODO Is this working properly? I don't think so!
-                    key += ProcessString(i.str()[0]) + ",";
-                    value += ProcessString(i.str()[1]) + ",";
+                    key.Append(ProcessString(i.str()[0])).Append(',');
+                    value.Append(ProcessString(i.str()[1])).Append(',');
                     Debug.WriteLine("*** Found ...)" + value);
-
                 }
-                key = key.Substring(0, key.Length - 1);
-                value = value.Substring(0, value.Length - 1);
-                script.WriteToFile("A:" + value + " " + reward);
-                temp.Add(new ValueTuple<string, string, int>(key, value, reward));
+                --key.Length;
+                --value.Length;
+                string k = key.ToString();
+                string v = value.ToString();
+                script.WriteToFile("A:" + v + " " + reward);
+                temp.Add(new ValueTuple<string, string, int>(k, v, reward));
             }
             var setValue = new PointMap(temp);
             return new PointsAction(bin.Storage, bin.Key, setValue, script);

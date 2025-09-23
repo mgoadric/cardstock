@@ -56,11 +56,7 @@ namespace CardStock.CardEngine
             }
             catch
             {
-                Debug.WriteLine("KEYS");
-                foreach (var key in cardAtts.Keys)
-                {
-                    Debug.WriteLine(key);
-                }
+                Debug.WriteLine("KEY MISSING");
                 return "";
             }
         }

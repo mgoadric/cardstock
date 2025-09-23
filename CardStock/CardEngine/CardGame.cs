@@ -297,7 +297,7 @@ namespace CardStock.CardEngine
             currentTeam.Pop();
         }
 
-        public void SetDeck(Tree cardAttributes, CardCollection loc, string name, Transcript script)
+        public void SetDeck(Tree cardAttributes, CardCollection loc, string name, Transcript? script)
         {
             var combos = cardAttributes.Combinations();
             foreach (var combo in combos)
@@ -313,7 +313,7 @@ namespace CardStock.CardEngine
                 // use the name to determine which sourceDeck to add
                 sourceDeck[name].Add(newCard);
                 loc.Add(newCard);
-                script.WriteToFile("C:" + newCard.ToString() + " " + loc.owner.owner.name + " " + loc.type +
+                script?.WriteToFile("C:" + newCard.ToString() + " " + loc.owner.owner.name + " " + loc.type +
                     " " + loc.name);
             }
             //Console.ReadKey();

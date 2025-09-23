@@ -2,10 +2,17 @@ using CardStock.CardEngine;
 using System.Diagnostics;
 
 namespace CardStock.FreezeFrame{
-	public class CardLocReference{
-		public required CardCollection cardList;
+
+    public enum CardLocTypes
+    {
+        TOP, BOTTOM, UNDEFINED, NUMBER
+    }
+    
+	public class CardLocReference
+    {
+        public required CardCollection cardList;
         // Can't remember why we need the default -1 here...
-		public string locIdentifier = "-1";
+        public string locIdentifier = "-1";
         public required string name;
 
         public CardLocReference ShallowCopy()
@@ -19,7 +26,8 @@ namespace CardStock.FreezeFrame{
             return loc;
         }
 
-        public void Add(Card c){
+        public void Add(Card c)
+        {
             switch (locIdentifier)
             {
                 case "top":
@@ -32,17 +40,19 @@ namespace CardStock.FreezeFrame{
                     // SHOULD THIS THROW EXCEPTION INSTEAD?
                     Console.WriteLine("Adding to a -1 loc ref");
                     throw new Exception();
-                    //cardList.Add(c);
-                    //break;
+                //cardList.Add(c);
+                //break;
                 default:
                     cardList.Add(c, int.Parse(locIdentifier));
                     break;
             }
         }
-		public int Count(){
-			return cardList.Count;
-		}
-		public Card Get(){
+        public int Count()
+        {
+            return cardList.Count;
+        }
+        public Card Get()
+        {
             //Console.WriteLine("locid:" + locIdentifier);
             switch (locIdentifier)
             {
@@ -60,7 +70,7 @@ namespace CardStock.FreezeFrame{
                     Console.WriteLine("Getting from a -1 loc ref");
                     // SHOULD THIS THROW EXCEPTION INSTEAD?
                     throw new Exception();
-                    //return cardList.Peek();
+                //return cardList.Peek();
                 default:
                     return cardList.Get(int.Parse(locIdentifier));
             }
@@ -85,9 +95,12 @@ namespace CardStock.FreezeFrame{
             //return new Tuple<Card, int>(card, -1);
         }
 
-        public void SetLocId(Card c){
-            for (int idx = 0; idx < cardList.Count; idx++){
-                if (c.Equals(cardList.Get(idx))){
+        public void SetLocId(Card c)
+        {
+            for (int idx = 0; idx < cardList.Count; idx++)
+            {
+                if (c.Equals(cardList.Get(idx)))
+                {
                     locIdentifier = idx.ToString();
                 }
             }
@@ -98,7 +111,8 @@ namespace CardStock.FreezeFrame{
             return cardList + " " + locIdentifier;
         }
 
-        public string ToOutputString(){
+        public string ToOutputString()
+        {
             return cardList.ToString();
         }
     }	

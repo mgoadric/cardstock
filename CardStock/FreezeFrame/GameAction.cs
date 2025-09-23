@@ -243,7 +243,7 @@ namespace CardStock.FreezeFrame {
         public override void Execute()
         {
             notforgotten.Add(endLocation.Remove());
-            script.WriteToFile(prefix + ":" + endLocation.cardList.TranscriptName());
+            script?.WriteToFile(prefix + ":" + endLocation.cardList.TranscriptName());
         }
         public override void Undo()
         {
@@ -296,7 +296,7 @@ namespace CardStock.FreezeFrame {
                 }
                 teamStr += i + " ";
                 cg.teams.Add(newTeam);
-                script.WriteToFile(teamStr);
+                script?.WriteToFile(teamStr);
             }
 
             cg.currentTeam.Push(new StageCycle<Team>(cg.teams));

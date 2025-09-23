@@ -108,13 +108,13 @@
                 ((and (== (game str LEAD) (game str TRUMP))
                       (> (size (filter ((current player) iloc HAND) 'L 
                                  (> (score 'L using (game points PRECEDENCE)) 
-                                     (score (max (union (all player 'P 
-                                                ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE))))) 
+                                     (scoremax (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE))))) 
                          0))
                  (any (filter ((current player) iloc HAND) 'L 
                                  (> (score 'L using (game points PRECEDENCE)) 
-                                     (score (max (union (all player 'P 
-                                                ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE))))
+                                     (scoremax (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE))))
                     'C
                     (move 'C (top ((current player) vloc TRICK)))))
 
@@ -125,23 +125,23 @@
                 ((and (== (game str LEAD) (game str TRUMP))
                       (== (size (filter ((current player) iloc HAND) 'L 
                                  (> (score 'L using (game points PRECEDENCE)) 
-                                     (score (max (union (all player 'P 
-                                                ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))
+                                     (scoremax (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)))))
                          0)
                       (> (size (filter ((current player) iloc HAND) 'L 
                             (and (== (cardatt SUIT 'L)
                                      (game str LEAD))
                                  (< (score 'L using (game points PRECEDENCE)) 
-                                     (score (max (union (all player 'P 
-                                                ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))) 
+                                     (scoremax (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)))))) 
                          0)
                  )
                  (any (filter ((current player) iloc HAND) 'L 
                             (and (== (cardatt SUIT 'L)
                                      (game str LEAD))
                                  (< (score 'L using (game points PRECEDENCE)) 
-                                     (score (max (union (all player 'P 
-                                                ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))
+                                     (scoremax (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)))))
                     'C
                     (move 'C (top ((current player) vloc TRICK)))))
 
@@ -177,16 +177,16 @@
                                  (and (== (cardatt SUIT 'L)
                                           (game str TRUMP))
                                   (> (score 'L using (game points PRECEDENCE)) 
-                                     (score (max (union (all player 'P 
-                                                ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))) 
+                                     (scoremax (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)))))) 
                          0)                          
                  )
                  (any (filter ((current player) iloc HAND) 'L 
                                  (and (== (cardatt SUIT 'L)
                                           (game str TRUMP))
                                   (> (score 'L using (game points PRECEDENCE)) 
-                                     (score (max (union (all player 'P 
-                                                ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))
+                                     (scoremax (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)))))
                     'C
                     (move 'C (top ((current player) vloc TRICK)))))
                     
@@ -206,8 +206,8 @@
                                  (and (== (cardatt SUIT 'L)
                                           (game str TRUMP))
                                   (> (score 'L using (game points PRECEDENCE)) 
-                                     (score (max (union (all player 'P 
-                                                ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))) 
+                                     (scoremax (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)))))) 
                          0)                          
                  )
                  (any (filter ((current player) iloc HAND) 'L 
@@ -232,15 +232,15 @@
                                  (and (== (cardatt SUIT 'L)
                                           (game str TRUMP))
                                   (> (score 'L using (game points PRECEDENCE)) 
-                                     (score (max (union (all player 'P 
-                                                ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))) 
+                                     (scoremax (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)))))) 
                          0)
                       (== (size (filter ((current player) iloc HAND) 'L 
                                  (and (== (cardatt SUIT 'L)
                                           (game str TRUMP))
                                   (< (score 'L using (game points PRECEDENCE)) 
-                                     (score (max (union (all player 'P 
-                                                ('P vloc TRICK))) using (game points PRECEDENCE)) using (game points PRECEDENCE)))))) 
+                                     (scoremax (union (all player 'P 
+                                                ('P vloc TRICK))) using (game points PRECEDENCE)))))) 
                           (size ((current player) iloc HAND)))                             
                  )
                  (any ((current player) iloc HAND) 'C
