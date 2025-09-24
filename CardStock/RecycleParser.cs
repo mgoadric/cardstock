@@ -29,6 +29,7 @@ using Antlr4.Runtime.Atn;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using DFA = Antlr4.Runtime.Dfa.DFA;
+using System.Formats.Asn1;
 
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.13.1")]
 [System.CLSCompliant(false)]
@@ -689,6 +690,10 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class GameContext : ParserRuleContext {
+
+		private MultiactionContext[] macs;
+		private StageContext[] stages;
+
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public SetupContext setup() {
 			return GetRuleContext<SetupContext>(0);
@@ -704,13 +709,21 @@ public partial class RecycleParser : Parser {
 			return GetRuleContext<DeclareContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public MultiactionContext[] multiaction() {
-			return GetRuleContexts<MultiactionContext>();
+			if (macs is null)
+			{
+				macs = GetRuleContexts<MultiactionContext>();
+			}
+			return macs;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public MultiactionContext multiaction(int i) {
 			return GetRuleContext<MultiactionContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public StageContext[] stage() {
-			return GetRuleContexts<StageContext>();
+			if (stages is null)
+			{
+				stages = GetRuleContexts<StageContext>();
+			}
+			return stages;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public StageContext stage(int i) {
 			return GetRuleContext<StageContext>(i);
@@ -1052,19 +1065,31 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class StageContext : ParserRuleContext {
+
+		private MultiactionContext[] macs;
+		private StageContext[] stages;
+
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public EndconditionContext endcondition() {
 			return GetRuleContext<EndconditionContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public MultiactionContext[] multiaction() {
-			return GetRuleContexts<MultiactionContext>();
+			if (macs is null)
+			{
+				macs = GetRuleContexts<MultiactionContext>();
+			}
+			return macs;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public MultiactionContext multiaction(int i) {
 			return GetRuleContext<MultiactionContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public StageContext[] stage() {
-			return GetRuleContexts<StageContext>();
+			if (stages is null)
+			{
+				stages = GetRuleContexts<StageContext>();
+			}
+			return stages;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public StageContext stage(int i) {
 			return GetRuleContext<StageContext>(i);
@@ -1209,6 +1234,8 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class MultiactionContext : ParserRuleContext {
+
+		private CondactContext[] conds;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] OPEN() { return GetTokens(RecycleParser.OPEN); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN(int i) {
 			return GetToken(RecycleParser.OPEN, i);
@@ -1218,7 +1245,11 @@ public partial class RecycleParser : Parser {
 			return GetToken(RecycleParser.CLOSE, i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public CondactContext[] condact() {
-			return GetRuleContexts<CondactContext>();
+			if (conds is null)
+			{
+				conds = GetRuleContexts<CondactContext>();
+			}
+			return conds;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public CondactContext condact(int i) {
 			return GetRuleContext<CondactContext>(i);
@@ -1353,6 +1384,7 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class Multiaction2Context : ParserRuleContext {
+		private CondactContext[] conds;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] OPEN() { return GetTokens(RecycleParser.OPEN); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN(int i) {
 			return GetToken(RecycleParser.OPEN, i);
@@ -1362,7 +1394,11 @@ public partial class RecycleParser : Parser {
 			return GetToken(RecycleParser.CLOSE, i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public CondactContext[] condact() {
-			return GetRuleContexts<CondactContext>();
+			if (conds is null)
+			{
+				conds = GetRuleContexts<CondactContext>();
+			}
+			return conds;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public CondactContext condact(int i) {
 			return GetRuleContext<CondactContext>(i);
@@ -2348,13 +2384,19 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class InitpointsContext : ParserRuleContext {
+		private AwardsContext[] aws;
+
 		[System.Diagnostics.DebuggerNonUserCode] public PointstorageContext pointstorage() {
 			return GetRuleContext<PointstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public AwardsContext[] awards() {
-			return GetRuleContexts<AwardsContext>();
+			if (aws is null)
+			{
+				aws = GetRuleContexts<AwardsContext>();
+			}
+			return aws;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public AwardsContext awards(int i) {
 			return GetRuleContext<AwardsContext>(i);
@@ -2426,13 +2468,18 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class AwardsContext : ParserRuleContext {
+		private SubawardContext[] subs;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
 			return GetRuleContext<IntContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public SubawardContext[] subaward() {
-			return GetRuleContexts<SubawardContext>();
+			if (subs is null)
+			{
+				subs = GetRuleContexts<SubawardContext>();
+			}
+			return subs;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public SubawardContext subaward(int i) {
 			return GetRuleContext<SubawardContext>(i);
@@ -2502,9 +2549,15 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class SubawardContext : ParserRuleContext {
+		private StrContext[] strs;
+
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public StrContext[] str() {
-			return GetRuleContexts<StrContext>();
+			if (strs is null)
+			{
+				strs = GetRuleContexts<StrContext>();
+			}
+			return strs;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public StrContext str(int i) {
 			return GetRuleContext<StrContext>(i);
@@ -2832,8 +2885,13 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class MoveactionContext : ParserRuleContext {
+		private CardContext[] cards;
 		[System.Diagnostics.DebuggerNonUserCode] public CardContext[] card() {
-			return GetRuleContexts<CardContext>();
+			if (cards is null)
+			{
+				cards = GetRuleContexts<CardContext>();
+			}
+			return cards;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public CardContext card(int i) {
 			return GetRuleContext<CardContext>(i);
@@ -5608,11 +5666,21 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class BooleanContext : ParserRuleContext {
+		private BooleanContext[] bs;
+		private IntContext[] iis;
+		private StrContext[] strs;
+		private CardContext[] cards;
+		private WhopContext[] whops;
+		private WhotContext[] whots;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode BOOLOP() { return GetToken(RecycleParser.BOOLOP, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public BooleanContext[] boolean() {
-			return GetRuleContexts<BooleanContext>();
+			if (bs is null)
+			{
+				bs = GetRuleContexts<BooleanContext>();
+			}
+			return bs;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public BooleanContext boolean(int i) {
 			return GetRuleContext<BooleanContext>(i);
@@ -5621,33 +5689,52 @@ public partial class RecycleParser : Parser {
 			return GetRuleContext<IntopContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public IntContext[] @int() {
-			return GetRuleContexts<IntContext>();
+			if (iis is null)
+			{
+				iis = GetRuleContexts<IntContext>();
+			}
+			return iis;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
 			return GetRuleContext<IntContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode EQOP() { return GetToken(RecycleParser.EQOP, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public StrContext[] str() {
-			return GetRuleContexts<StrContext>();
+			if (strs is null)
+			{
+				strs = GetRuleContexts<StrContext>();
+			}
+			return strs;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public StrContext str(int i) {
 			return GetRuleContext<StrContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public CardContext[] card() {
-			return GetRuleContexts<CardContext>();
+			if (cards is null)
+			{
+				cards = GetRuleContexts<CardContext>();
+			}
+			return cards;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public CardContext card(int i) {
 			return GetRuleContext<CardContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNOP() { return GetToken(RecycleParser.UNOP, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public WhopContext[] whop() {
-			return GetRuleContexts<WhopContext>();
-		}
+			if (whops is null)
+			{
+				whops = GetRuleContexts<WhopContext>();
+			}
+			return whops;		}
 		[System.Diagnostics.DebuggerNonUserCode] public WhopContext whop(int i) {
 			return GetRuleContext<WhopContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public WhotContext[] whot() {
-			return GetRuleContexts<WhotContext>();
+			if (whots is null)
+			{
+				whots = GetRuleContexts<WhotContext>();
+			}
+			return whots;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public WhotContext whot(int i) {
 			return GetRuleContext<WhotContext>(i);
@@ -6456,9 +6543,14 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class AddContext : ParserRuleContext {
+		private IntContext[] ints;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public IntContext[] @int() {
-			return GetRuleContexts<IntContext>();
+			if (ints is null)
+			{
+				ints = GetRuleContexts<IntContext>();
+			}
+			return ints;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
 			return GetRuleContext<IntContext>(i);
@@ -6512,9 +6604,16 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class MultContext : ParserRuleContext {
+		private IntContext[] ints;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext[] @int() {
-			return GetRuleContexts<IntContext>();
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext[] @int()
+		{
+			if (ints is null)
+			{
+				ints = GetRuleContexts<IntContext>();
+			}
+			return ints;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
 			return GetRuleContext<IntContext>(i);
@@ -6568,9 +6667,16 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class SubtractContext : ParserRuleContext {
+		private IntContext[] ints;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext[] @int() {
-			return GetRuleContexts<IntContext>();
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext[] @int()
+		{
+			if (ints is null)
+			{
+				ints = GetRuleContexts<IntContext>();
+			}
+			return ints;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
 			return GetRuleContext<IntContext>(i);
