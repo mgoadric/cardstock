@@ -412,7 +412,7 @@ namespace CardStock.FreezeFrame
         {
             var all = new List<GameActionCollection>();
             // stack of iterating trees
-            var stackTrees = new Stack<IteratingTree>();
+            var stackTrees = new Stack<IteratingTree>(100);
             // iteratingtree = stack of iterable items (just has basic stack functionality) 
             //      -can store another iteratingtree, strings, or a key/value object
             //      -can copy
@@ -423,7 +423,7 @@ namespace CardStock.FreezeFrame
             //    for each ALTERNATIVE (any, etc) action
             //    so that all possible choices can be found
             stackTrees.Push(stackTree);
-            var stackAct = new Stack<GameAction>();
+            var stackAct = new Stack<GameAction>(100);
             // iterate over stack of stacks
             while (stackTrees.Count != 0)
             {

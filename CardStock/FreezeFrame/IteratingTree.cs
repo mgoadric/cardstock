@@ -9,7 +9,7 @@ namespace CardStock.FreezeFrame
         public int level;
 
         public IteratingTree(){
-            trees = new Stack<IterItem>();
+            trees = new Stack<IterItem>(100);
             level = 0;
         }
 
@@ -30,7 +30,7 @@ namespace CardStock.FreezeFrame
         }
 
         public void Push(string k, object v){
-            trees.Push(new  IterItem(k, v));
+            trees.Push(new IterItem(k, v));
         }
 
         public IterItem Pop(){

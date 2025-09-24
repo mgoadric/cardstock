@@ -13,7 +13,7 @@ static void runExperiment(string game, int numPlayers)
     {
         Game = game,
         PlayerCount = numPlayers,
-        NumGames = 10,
+        NumGames = 100,
         Players = [PlayerType.PIPMC]
     };
 
