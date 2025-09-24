@@ -474,9 +474,10 @@ namespace CardStock.FreezeFrame
                             { // is do
                               // push all condacts onto current stack
                               // to be processed
-                                for (int i = multi2.condact().Length - 1; i >= 0; i--)
+                                var c = multi2.condact();
+                                for (int i = c.Length - 1; i >= 0; i--)
                                 {
-                                    stackTree.Push(multi2.condact()[i]);
+                                    stackTree.Push(c[i]);
                                 }
                             }
                         }
@@ -500,11 +501,11 @@ namespace CardStock.FreezeFrame
                             { // is do
                               // push all condacts onto current stack
                               // to be processed
-
-                                for (int i = multi.condact().Length - 1; i >= 0; i--)
+                                var c = multi.condact();
+                                for (int i = c.Length - 1; i >= 0; i--)
                                 {
-                                    Debug.WriteLine(multi.condact()[i].GetType());
-                                    stackTree.Push(multi.condact()[i]);
+                                    Debug.WriteLine(c[i].GetType());
+                                    stackTree.Push(c[i]);
                                 }
                             }
 
@@ -1027,9 +1028,10 @@ namespace CardStock.FreezeFrame
                 if (text == "or")
                 {
                     bool flag = false;
-                    for (int i = 0; i < boolNode.boolean().Length; i++)
+                    var b = boolNode.boolean();
+                    for (int i = 0; i < b.Length; i++)
                     {
-                        flag |= ProcessBoolean(boolNode.boolean()[i]);
+                        flag |= ProcessBoolean(b[i]);
                         if (flag)
                         {
                             return flag;
@@ -1040,9 +1042,10 @@ namespace CardStock.FreezeFrame
                 else if (text == "and")
                 {
                     bool flag = true;
-                    for (int i = 0; i < boolNode.boolean().Length; i++)
+                    var b = boolNode.boolean();
+                    for (int i = 0; i < b.Length; i++)
                     {
-                        flag &= ProcessBoolean(boolNode.boolean()[i]);
+                        flag &= ProcessBoolean(b[i]);
                         if (!flag)
                         {
                             return flag;
@@ -1061,26 +1064,30 @@ namespace CardStock.FreezeFrame
 
                 if (boolNode.str().Length > 0)
                 {
-                    var t1 = ProcessString(boolNode.str()[0]);
-                    var t2 = ProcessString(boolNode.str()[1]);
+                    var b = boolNode.str();
+                    var t1 = ProcessString(b[0]);
+                    var t2 = ProcessString(b[1]);
                     return eq == t1.Equals(t2);
                 }
                 else if (boolNode.card().Length > 0)
                 {
-                    var card1 = ProcessCard(boolNode.card()[0]);
-                    var card2 = ProcessCard(boolNode.card()[1]);
+                    var b = boolNode.card();
+                    var card1 = ProcessCard(b[0]);
+                    var card2 = ProcessCard(b[1]);
                     return eq == card1.Equals(card2);
                 }
                 else if (boolNode.whop().Length > 0)
                 {
-                    var p1 = ProcessWhop(boolNode.whop()[0]);
-                    var p2 = ProcessWhop(boolNode.whop()[1]);
+                    var b = boolNode.whop();
+                    var p1 = ProcessWhop(b[0]);
+                    var p2 = ProcessWhop(b[1]);
                     return eq == p1.Equals(p2);
                 }
                 else if (boolNode.whot().Length > 0)
                 {
-                    var t1 = ProcessWhot(boolNode.whot()[0]);
-                    var t2 = ProcessWhot(boolNode.whot()[1]);
+                    var b = boolNode.whot();
+                    var t1 = ProcessWhot(b[0]);
+                    var t2 = ProcessWhot(b[1]);
                     return eq == t1.Equals(t2);
                 }
             }
@@ -1094,25 +1101,27 @@ namespace CardStock.FreezeFrame
 
         private CardMoveAction ProcessMove(RecycleParser.MoveactionContext move)
         {
-            var locOne = ProcessCard(move.card()[0]);
+            var c = move.card();
+            var locOne = ProcessCard(c[0]);
             if (locOne.Count() == 0)
             {
                 Console.WriteLine("Moving from empty, " + move.GetText());
                 throw new InvalidOperationException();
             }
-            var locTwo = ProcessCard(move.card()[1]);
+            var locTwo = ProcessCard(c[1]);
             return new CardMoveAction(locOne, locTwo, script);
         }
 
         private CardRememberAction ProcessCopy(RecycleParser.CopyactionContext copy)
         {
-            var cardOne = ProcessCard(copy.card()[0]);
+            var c = copy.card();
+            var cardOne = ProcessCard(c[0]);
             if (cardOne.Count() == 0)
             {
                 Debug.WriteLine("Copying from empty, " + copy.GetText());
                 throw new InvalidOperationException();
             }
-            var cardTwo = ProcessCard(copy.card()[1]);
+            var cardTwo = ProcessCard(c[1]);
             return new CardRememberAction(cardOne, cardTwo, script);
         }
 
@@ -1962,7 +1971,7 @@ namespace CardStock.FreezeFrame
 
         private int ProcessInt(RecycleParser.IntContext intNode)
         {
-            if (intNode.INTNUM() is not null && intNode.INTNUM().Length != 0)
+            if (intNode.intgr() is not null)
             {
                 Debug.WriteLine(intNode.GetText());
                 // Can I cache this, so I don't need to parse a string every time? NO!!!
@@ -2097,8 +2106,9 @@ namespace CardStock.FreezeFrame
 
         private List<int> ProcessRange(RecycleParser.RangeContext range)
         {
-            int int1 = ProcessInt(range.@int()[0]);
-            int int2 = ProcessInt(range.@int()[1]);
+            var i = range.@int();
+            int int1 = ProcessInt(i[0]);
+            int int2 = ProcessInt(i[1]);
             List<int> ret = [];
             for (int idx = int1; idx <= int2; idx++)
             {
@@ -2109,11 +2119,12 @@ namespace CardStock.FreezeFrame
 
         private int ProcessRandom(RecycleParser.RandomContext random)
         {
-            int int1 = ProcessInt(random.@int()[0]);
+            var i = random.@int();
+            int int1 = ProcessInt(i[0]);
             if (random.GetChild(4) is not null) // if second integer is included
             {
                 // Console.WriteLine("Second variable included.");
-                int int2 = ProcessInt(random.@int()[1]);
+                int int2 = ProcessInt(i[1]);
                 return ThreadSafeRandom.Next(int1, int2 + 1);
             }
             else // if no second integer
@@ -2206,8 +2217,9 @@ namespace CardStock.FreezeFrame
                 foreach (RecycleParser.SubawardContext i in iter)
                 {
                     // TODO Is this working properly? I don't think so!
-                    key.Append(ProcessString(i.str()[0])).Append(',');
-                    value.Append(ProcessString(i.str()[1])).Append(',');
+                    var ii = i.str();
+                    key.Append(ProcessString(ii[0])).Append(',');
+                    value.Append(ProcessString(ii[1])).Append(',');
                     Debug.WriteLine("*** Found ...)" + value);
                 }
                 --key.Length;
@@ -2337,7 +2349,7 @@ namespace CardStock.FreezeFrame
 
             Debug.WriteLine(ret.Count);
 
-            Debug.WriteLine("Processing agg + Cstorage: " + (((RecycleParser.CstorageContext)agg.GetChild(4)).GetText()));
+            Debug.WriteLine("Processing agg + Cstorage: " + ((RecycleParser.CstorageContext)agg.GetChild(4)).GetText());
             var coll = new List<CardLocReference>();
             foreach (object obj in ret)
             {
@@ -2755,7 +2767,7 @@ namespace CardStock.FreezeFrame
             else if (ret is Card c)
             {
                 CardCollection cardl = c.Owner.ShallowCopy();
-                CardLocReference clr = new() { cardList = cardl, name = "manufactured variable" };
+                CardLocReference clr = new() { cardList = cardl, name = "manufactured variable"};
                 clr.SetLocId(c);
                 return clr;
             }

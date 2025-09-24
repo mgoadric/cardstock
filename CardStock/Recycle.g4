@@ -179,7 +179,8 @@ UNOP : 'not' ;
 aggb : OPEN ('any' | 'all') collection var boolean CLOSE ;
 
 // Integers
-int : vari | sizeof | mult | subtract | mod | add | divide | exponent | triangular | fibonacci | random | sum | rawstorage | score | pid | tid | scoremax | scoremin | INTNUM+ ;
+int : vari | sizeof | mult | subtract | mod | add | divide | exponent | triangular | fibonacci | random | sum | rawstorage | score | pid | tid | scoremax | scoremin | intgr ;
+intgr : INTNUM+ ;
 INTNUM : [0-9] ;
 sum : OPEN 'sum' cstorage 'using' pointstorage CLOSE ;
 scoremax : OPEN 'scoremax' cstorage 'using' pointstorage CLOSE ;

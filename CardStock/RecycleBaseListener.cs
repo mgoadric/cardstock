@@ -972,6 +972,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitInt([NotNull] RecycleParser.IntContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.intgr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterIntgr([NotNull] RecycleParser.IntgrContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.intgr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitIntgr([NotNull] RecycleParser.IntgrContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.sum"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

@@ -114,6 +114,7 @@ namespace CardStock.FreezeFrame{
                 {
                     locIdentifier = CardLocTypes.NUMBER;
                     locid = idx;
+                    break;
                 }
             }
         }
