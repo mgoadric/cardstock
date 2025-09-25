@@ -1,4 +1,4 @@
-﻿using Antlr4.Runtime.Tree;
+using Antlr4.Runtime.Tree;
 using CardStock.CardEngine;
 using CardStock.Evaluation;
 using System.Collections;
