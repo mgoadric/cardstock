@@ -36,7 +36,7 @@ namespace CardStock.Evaluation
                 dataFiles[f] = new(path + f + ".csv");
             }
 
-            CSVOutput("lead", "game", "numPlayers", "ai", "run", "move", "recorder", "player", "score", "rankestimate");
+            CSVOutput("lead", "game", "numPlayers", "ai", "run", "move", "recorder", "player", "score", "rank", "rankestimate");
             CSVOutput("choice", "game", "numPlayers", "ai", "run", "move", "player", "choices", "choice", "time");
             CSVOutput("results", "game", "numPlayers", "ai", "run", "player", "score", "rank", "time");
             CSVOutput("spread", "game", "numPlayers", "ai", "run", "pmove", "player", "spread");
@@ -80,15 +80,15 @@ namespace CardStock.Evaluation
                     Tuple<int, double[]> allScores = allScoresList[move];
                     for (int k = 0; k < exp.PlayerCount; k++)
                     {
-                        CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, allLeads.Item1 + 1, k + 1, allScores.Item2[k], allLeads.Item2[k]);
+                        CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, allLeads.Item1 + 1, k + 1, allScores.Item2[k], ranks[k], allLeads.Item2[k]);
                     }
                 }
                 // tack on the final results at the end of the lead list
                 for (int k = 0; k < exp.PlayerCount; k++)
                 {
                     double r = (exp.PlayerCount - 1 - ranks[k]) /
-                        (exp.PlayerCount - 1);
-                    CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, k + 1, k + 1, results[k], r);
+                        (double)(exp.PlayerCount - 1);
+                    CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, k + 1, k + 1, results[k], ranks[k], r);
                 }
 
                 /******

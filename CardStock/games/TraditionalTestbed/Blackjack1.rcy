@@ -1,0 +1,147 @@
+;; BLACKJACK simple rules
+;;
+;; https://www.pagat.com/banking/blackjack.html
+
+(game
+ (setup  
+  ;; Set up the players
+  (create players 1)
+  
+  ;; Create the deck source
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (CLUBS, SPADES)))))))          
+ 
+ ;; Set up the game with 100 chips per person and 2 cards
+ (do (
+      (shuffle (game iloc STOCK))
+      (set (game points HARD) 
+           (((RANK : A) 1)))
+      (set (game points SOFT) 
+           (((RANK : A) 11)))
+      (set (game points OTHER) 
+           (((RANK : K) 10) 
+            ((RANK : Q) 10)
+            ((RANK : J) 10)
+            ((RANK : TEN) 10)
+            ((RANK : NINE) 9)
+            ((RANK : EIGHT) 8)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+            ((RANK : TWO) 2)))
+      (set ((current player) sto CHIPS) 15)))
+
+ ;; player makes a bet
+ (choice (
+    (any (range 2..10) 'B
+        ((== (% 'B 2) 0)
+         (do (
+            (set ((current player) sto BET) 'B)
+            (dec ((current player) sto CHIPS) 'B)))))))
+
+ (do (
+      ;; dealer hand dealt
+      (move (top (game iloc STOCK))
+            (top (game iloc HAND)))
+      (move (top (game iloc STOCK))
+            (top (game vloc HAND)))
+
+      ;; player hand dealt
+      (repeat 2
+            (move (top (game iloc STOCK))
+                  (top ((current player) vloc HAND))))
+      (set ((current player) sto SPLITS) 0)
+      (set ((current player) sto CURRENT) 0)
+ ))
+ 
+ ;; Buy insurance??? It is half your original bid
+ (choice (
+    ((or (== (score (top (game vloc HAND)) using (game points OTHER)) 10)
+         (== (score (top (game vloc HAND)) using (game points SOFT)) 11))
+     (do (
+        (set ((current player) sto INSURANCE) (// ((current player) sto BET) 2))
+        (dec ((current player) sto CHIPS) (// ((current player) sto BET) 2)))))
+    (turn pass)
+ ))
+
+ ;; determine what happens if the dealer has blackjack
+ (do (
+     ((== (+ (sum (union (game vloc HAND) (game iloc HAND)) using (game points OTHER)) 
+             (sum (union (game iloc HAND) (game iloc HAND)) using (game points SOFT))) 21)
+      (do (
+            (set (game sto OVER) 1)
+
+            ;; reveal the dealer's hand
+            (move (top (game iloc HAND))
+                  (top (game vloc HAND)))
+
+            ;; if player also has blackjack, they regain their bid
+            ((== (+ (sum ((current player) iloc HAND) using (game points OTHER)) 
+                    (sum ((current player) iloc HAND) using (game points SOFT))) 21)
+             (inc ((current player) sto CHIPS) ((current player) sto BID)))
+
+            ;; if the player bought insurance, they get the money back payout 2:1
+            (inc ((current player) sto CHIPS) (* 2 ((current player) sto INSURANCE)))
+      )))
+ ))
+
+ ;; DOUBLE DOWN???
+
+ ;; SPLIT HANDS???
+
+ ;; player get cards until FINISHED or BUSTED 
+ (stage player
+        (end (== (game sto OVER) (+ 1 ((current player) sto SPLITS))))
+        
+        (choice (        
+            ;; HIT
+            (move (top (game iloc STOCK)) 
+                  (top ((current player) vloc HAND ((current player) sto CURRENT))))
+          
+            ;; STAY
+            (do (
+                (inc (game sto OVER) 1)
+                ((< ((current player) sto CURRENT) ((current player) sto SPLITS))
+                 (inc ((current player) sto CURRENT) 1))
+            ))
+        ))
+
+        ;; Determine if busted
+        (do (
+            (let (size (filter ((current player) vloc HAND) 'HC 
+                               (== (cardatt RANK 'HC) A))) 'ACECOUNT
+                ((all (range 0..'ACECOUNT) 'R
+                    (> (+ (sum ((current player) vloc HAND ((current player) sto CURRENT)) using (game points OTHER))
+                          (+ 'R (* 11 (- 'ACECOUNT 'R)))) 21))
+
+                 (do (
+                    (inc (game sto OVER) 1)
+                    ((< ((current player) sto CURRENT) ((current player) sto SPLITS))
+                     (inc ((current player) sto CURRENT) 1))
+                )))
+            )
+        ))
+ )
+ 
+ ;; Determine best way to score each hand
+ (do (
+    (let (size (filter ((current player) vloc HAND) 'HC 
+                        (== (cardatt RANK 'HC) A))) 'ACECOUNT
+        (all (range 0..'ACECOUNT) 'R
+          (do (
+            (set (game str TESTING) HELLO)
+            (let (+ (sum ((current player) vloc HAND ((current player) sto CURRENT)) using (game points OTHER))
+                    (+ 'R (* 11 (- 'ACECOUNT 'R)))) 'TEMPSCORE
+              (do (
+                (set (game sto TESTING) 'TEMPSCORE)
+                ((and (<= 'TEMPSCORE 21)
+                      (> 'TEMPSCORE ((current player) sto SCORE)))
+                 (set ((current player) sto SCORE) 'TEMPSCORE)))))
+          ))
+        ))
+ ))
+
+ (scoring max ((current player) sto SCORE)))

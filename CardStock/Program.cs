@@ -1,8 +1,8 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "TraditionalTestbed/Scopa";
-int numPlayers = 2;
+string game = "TraditionalTestbed/Blackjack";
+int numPlayers = 1;
 
 runExperiment(game, numPlayers);
 //runAllGames();
@@ -14,7 +14,7 @@ static void runExperiment(string game, int numPlayers)
         Game = game,
         PlayerCount = numPlayers,
         NumGames = 100,
-        Players = [PlayerType.PIPMC]
+        Players = []
     };
 
     Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
@@ -26,7 +26,7 @@ static void runExperiment(string game, int numPlayers)
 
 static void runAllGames()
 {
-    string[] files = Directory.GetFiles("games/", "*.rcy");
+    string[] files = Directory.GetFiles("games/TraditionalTestbed/", "*.rcy");
     Array.Sort(files);
     foreach (string filename in files)
     {

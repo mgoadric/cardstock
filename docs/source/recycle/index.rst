@@ -88,7 +88,7 @@ triangular numbers (1, 3, 6, 10, 15, 21, ...) or fibonacci (1, 1, 2, 3, 5, 8, 13
     (tri [Integer])
     (fib [Integer])
 
-Three functions will return Integers. 
+Five functions will return Integers. 
 First, a Card_ can be scored using the values 
 mapped through a PointMap_.
 
@@ -102,6 +102,16 @@ PointMap_ and then these scores are summed.
 .. code-block:: racket
 
    (sum [CardCollection] using [PointMap])
+
+One can find either the minimum or maximum card in a collection when
+given a PointMap_ from the card dictionaries to an integer, and the score
+can be returned. If there is a tie,
+the max or min is decided randomly among all tied cards.
+
+.. code-block:: racket
+
+   (scoremax [CardCollection] using [PointMap])
+   (scoremin [CardCollection] using [PointMap])
 
 The size of a CardCollection_ can be calculated and returned as an Integer.
 
