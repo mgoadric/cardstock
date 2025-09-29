@@ -72,7 +72,7 @@
      ((== (+ (sum (union (game vloc HAND) (game iloc HAND)) using (game points OTHER)) 
              (sum (union (game iloc HAND) (game iloc HAND)) using (game points SOFT))) 21)
       (do (
-            (set (game sto OVER) 1)
+            (set (game str STATE) END)
 
             ;; reveal the dealer's hand
             (move (top (game iloc HAND))
@@ -84,7 +84,7 @@
              (inc ((current player) sto CHIPS) ((current player) sto BID)))
 
             ;; if the player bought insurance, they get the money back payout 2:1
-            (inc ((current player) sto CHIPS) (* 2 ((current player) sto INSURANCE)))
+            (inc ((current player) sto CHIPS) (* 3 ((current player) sto INSURANCE)))
       )))
  ))
 
@@ -94,7 +94,8 @@
 
  ;; player get cards until FINISHED or BUSTED 
  (stage player
-        (end (== (game sto OVER) (+ 1 ((current player) sto SPLITS))))
+        (end (or (== (game str STATE) END)
+                 (== ((current player) sto OVER) (+ 1 ((current player) sto SPLITS)))))
         
         (choice (        
             ;; HIT
@@ -103,7 +104,7 @@
           
             ;; STAY
             (do (
-                (inc (game sto OVER) 1)
+                (inc ((current player) sto OVER) 1)
                 ((< ((current player) sto CURRENT) ((current player) sto SPLITS))
                  (inc ((current player) sto CURRENT) 1))
             ))
@@ -118,7 +119,7 @@
                           (+ 'R (* 11 (- 'ACECOUNT 'R)))) 21))
 
                  (do (
-                    (inc (game sto OVER) 1)
+                    (inc ((current player) sto OVER) 1)
                     ((< ((current player) sto CURRENT) ((current player) sto SPLITS))
                      (inc ((current player) sto CURRENT) 1))
                 )))
@@ -126,22 +127,82 @@
         ))
  )
  
- ;; Determine best way to score each hand
- (do (
+(do (
+  ;; if still playing, wrap up the hands
+  ((!= (game str STATE) END)
+   (do (
+
+    ;; Determine best way to score player hand
+    ;; TODO for all player hands when they split...
+    (set ((current player) sto SCORE) 0)
     (let (size (filter ((current player) vloc HAND) 'HC 
                         (== (cardatt RANK 'HC) A))) 'ACECOUNT
         (all (range 0..'ACECOUNT) 'R
-          (do (
-            (set (game str TESTING) HELLO)
             (let (+ (sum ((current player) vloc HAND ((current player) sto CURRENT)) using (game points OTHER))
                     (+ 'R (* 11 (- 'ACECOUNT 'R)))) 'TEMPSCORE
-              (do (
-                (set (game sto TESTING) 'TEMPSCORE)
                 ((and (<= 'TEMPSCORE 21)
                       (> 'TEMPSCORE ((current player) sto SCORE)))
-                 (set ((current player) sto SCORE) 'TEMPSCORE)))))
-          ))
-        ))
- ))
+                 (set ((current player) sto SCORE) 'TEMPSCORE))
+            )
+        )
+    ) 
 
- (scoring max ((current player) sto SCORE)))
+    ;; reveal the dealer's hand
+    (move (top (game iloc HAND))
+           (top (game vloc HAND)))
+    )))
+))
+            
+ ;; dealer flips until 17
+ (stage player (end (or (== ((current player) sto SCORE) 0)
+                        (== (game str STATE) END)
+                        (== (game str DEALER) FINISHED)))
+    (do (
+        (set (game sto SCORE) 0)
+
+        ;; calculate best dealer
+        (let (size (filter (game vloc HAND) 'HC 
+                        (== (cardatt RANK 'HC) A))) 'ACECOUNT
+          (all (range 0..'ACECOUNT) 'R
+            (let (+ (sum (game vloc HAND) using (game points OTHER))
+                    (+ 'R (* 11 (- 'ACECOUNT 'R)))) 'TEMPSCORE
+                ((and (<= 'TEMPSCORE 21)
+                      (> 'TEMPSCORE (game sto SCORE)))
+                 (set (game sto SCORE) 'TEMPSCORE))
+            )
+        ))
+
+        ;; stop when equal or over 17
+        ((or (>= (game sto SCORE) 17)
+             (== (game sto SCORE) 0))
+         (set (game str DEALER) FINISHED))
+
+        ;; less than 17, flip one more card
+        ((< (game sto SCORE) 17)
+         (move (top (game iloc STOCK))
+               (top (game vloc HAND))))
+    
+    ))
+ )
+
+ ;; If player larger than dealer, player wins their bet
+(do (
+  ((!= (game str STATE) END)
+   (do (
+
+        ;; equal and unbusted, player bet returned on a push
+        ((and (!= ((current player) sto SCORE) 0)
+              (== ((current player) sto SCORE) (game sto SCORE)))
+         (inc ((current player) sto CHIPS) ((current player) sto BET)))
+
+        ;; beat the dealer, player bet wins 2:1
+        ((and (!= ((current player) sto SCORE) 0)
+              (> ((current player) sto SCORE) (game sto SCORE)))
+         (do (
+            (inc ((current player) sto CHIPS) (* 2 ((current player) sto BET)))
+            ((== ((current player) sto SCORE) 21)
+             (inc ((current player) sto CHIPS) ((current player) sto BET)))
+         )))
+   )))
+))
+ (scoring max ((current player) sto CHIPS)))
