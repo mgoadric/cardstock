@@ -384,6 +384,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitInitpoints([NotNull] RecycleParser.InitpointsContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.updatepoints"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterUpdatepoints([NotNull] RecycleParser.UpdatepointsContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.updatepoints"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitUpdatepoints([NotNull] RecycleParser.UpdatepointsContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.awards"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -479,6 +491,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitMoveaction([NotNull] RecycleParser.MoveactionContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.swapaction"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterSwapaction([NotNull] RecycleParser.SwapactionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.swapaction"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitSwapaction([NotNull] RecycleParser.SwapactionContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.copyaction"/>.
 	/// <para>The default implementation does nothing.</para>

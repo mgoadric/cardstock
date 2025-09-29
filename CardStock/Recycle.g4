@@ -1,5 +1,11 @@
 // Version 0.6.2 of our REcursive CYclic Card game LanguagE
 
+// new in version 0.6.3
+//  addition and multiplication now accept 2+ arguments
+//  inc and dec default to +1 -1 when no int argument
+//  pointmaps can be updated
+//  swap for cards and cardlocations 
+
 // New in version 0.6.2
 //  cycle syntax cleaned up, using a real player now instead of just "current" or "next"
 //  this is much more flexible, allows for (1 player) etc, and keeps owner.
@@ -107,14 +113,16 @@ deckcreate : 'create' 'deck' str? cstorage deck ;
   deck : OPEN 'deck' attribute+? CLOSE ;
   attribute : OPEN (namegr ',')*? namegr attribute*? CLOSE ;
 initpoints : 'set' pointstorage OPEN awards+? CLOSE ;
+updatepoints : 'update' pointstorage OPEN awards+? CLOSE ;
   awards : OPEN subaward+? int CLOSE ;
   subaward : OPEN str ':' str CLOSE ;
 cycleaction : 'cycle' ('next' | 'current') (whop | varp) ;
 setaction : 'set' rawstorage int ;
 setstraction : 'set' strstorage str ;
-incaction : 'inc' rawstorage int ;
-decaction : 'dec' rawstorage int ;
+incaction : 'inc' rawstorage int? ;
+decaction : 'dec' rawstorage int? ;
 moveaction : 'move' card card ;
+swapaction : 'swap' (card card) | (cstorage cstorage) ;
 copyaction : 'remember' card card ;
 removeaction: 'forget' card ;
 shuffleaction : 'shuffle' (cstorage | 'faro' cstorage cstorage) ;
@@ -186,8 +194,8 @@ sum : OPEN 'sum' cstorage 'using' pointstorage CLOSE ;
 scoremax : OPEN 'scoremax' cstorage 'using' pointstorage CLOSE ;
 scoremin : OPEN 'scoremin' cstorage 'using' pointstorage CLOSE ;
 score : OPEN 'score' card 'using' pointstorage CLOSE ;
-add : OPEN '+' int int CLOSE ;
-mult : OPEN '*' int int CLOSE ;
+add : OPEN '+' int int+? CLOSE ;
+mult : OPEN '*' int int+? CLOSE ;
 subtract : OPEN '-' int int CLOSE ;
 mod : OPEN '%' int int CLOSE ;
 divide : OPEN '//' int int CLOSE ;

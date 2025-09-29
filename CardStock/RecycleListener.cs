@@ -321,6 +321,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitInitpoints([NotNull] RecycleParser.InitpointsContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.updatepoints"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterUpdatepoints([NotNull] RecycleParser.UpdatepointsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.updatepoints"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitUpdatepoints([NotNull] RecycleParser.UpdatepointsContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.awards"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -400,6 +410,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitMoveaction([NotNull] RecycleParser.MoveactionContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.swapaction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSwapaction([NotNull] RecycleParser.SwapactionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.swapaction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSwapaction([NotNull] RecycleParser.SwapactionContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.copyaction"/>.
 	/// </summary>
