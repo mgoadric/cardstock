@@ -81,7 +81,7 @@
             ;; you can always pass if you are not the first player
             ((or (> (size (game vloc TRICK)) 0)
                  (== (size ((current player) iloc HAND)) 0))
-             (inc (game sto PASSING) 1))
+             (inc (game sto PASSING)))
             
       ))
 
@@ -101,7 +101,7 @@
              (do (
                  (set ((current player) sto SCORE) (game sto POINTS))
                  ((> (game sto POINTS) 0)
-                  (dec (game sto POINTS) 1))
+                  (dec (game sto POINTS)))
              ))
             )
       ))         

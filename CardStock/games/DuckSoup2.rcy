@@ -62,7 +62,7 @@
                             ;; if the same rank, the player QUACKS!!                          
                             ((== (cardatt RANK (top ((next player) vloc TRICK)))
                                 (cardatt RANK (top ((current player) vloc TRICK))))
-                             (inc (game sto QUACKED) 1)
+                             (inc (game sto QUACKED))
                             )
                        )))
                  )
@@ -75,7 +75,7 @@
                               (cardatt RANK 'MH))) 'C
                        (do (
                             (move 'C (top ((current player) vloc TRICK)))
-                            (inc (game sto QUACKED) 1)
+                            (inc (game sto QUACKED))
                        )))
                  )
 
@@ -157,7 +157,7 @@
                     (set (game sto TRICKLOSER) (pid (next player)))
                    ((== (cardatt SUIT (top ((current player) vloc TRICK)))
                         (cardatt SUIT (top ((next player) vloc TRICK))))
-                    (inc (game sto TRICKSCORE) 1))
+                    (inc (game sto TRICKSCORE)))
                    ((!= (cardatt SUIT (top ((current player) vloc TRICK)))
                         (cardatt SUIT (top ((next player) vloc TRICK))))
                     (inc (game sto TRICKSCORE) 2))

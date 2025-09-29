@@ -75,7 +75,7 @@
 
     ;; Income
   	
-    (inc ((current player) sto HUNDREDMILLIONDOLLARS) 1)	
+    (inc ((current player) sto HUNDREDMILLIONDOLLARS))	
   
     ;; Foreign Aid
     
@@ -101,7 +101,7 @@
      ((== (sum         ((current player) iloc HAND)   using (game points BASIC)) 
           (sum (union (all player 'P ('P iloc HAND))) using (game points BASIC))) 
       (do ( 
-       (inc ((current player) sto WON) 1))))
+       (inc ((current player) sto WON)))))
 
     ;; Ambassador swap (Draw two cards (four total now in hand) then discard any two)
   		  

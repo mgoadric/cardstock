@@ -130,7 +130,7 @@
 
                     ;; fifteen for two
                     ((== (game sto TOTAL) 15)
-                    (inc ((current player) sto SCORE) 1))
+                    (inc ((current player) sto SCORE)))
                         
                     ;; thirty-one for two, end the round
                     ((== (game sto TOTAL) 31)
@@ -248,7 +248,7 @@
                             (inc ((current player) sto SCORE) 4)
                             ((== (cardatt SUIT (top 'CC))
                                  (cardatt SUIT (top (game vloc START)))) ;; Bonus
-                                (inc ((current player) sto SCORE) 1))
+                                (inc ((current player) sto SCORE)))
                         )))
                      )))
                 
@@ -259,7 +259,7 @@
                            (== (cardatt SUIT 'C)
                                (cardatt SUIT (top (game vloc START))))
                       ))
-                 (inc ((current player) sto SCORE) 1))
+                 (inc ((current player) sto SCORE)))
 
                  ;; Discard cards
                  (repeat all (move (top ((current player) vloc PLAYED))

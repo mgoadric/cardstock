@@ -74,8 +74,8 @@
 
          ((!= ((current player) sto CHIPS) 0)
           (do (
-            (inc (game sto CHIPS) 1)
-            (dec ((current player) sto CHIPS) 1)
+            (inc (game sto CHIPS))
+            (dec ((current player) sto CHIPS))
           ))
          )
       ))

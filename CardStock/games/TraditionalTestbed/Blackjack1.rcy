@@ -104,9 +104,9 @@
           
             ;; STAY
             (do (
-                (inc ((current player) sto OVER) 1)
+                (inc ((current player) sto OVER))
                 ((< ((current player) sto CURRENT) ((current player) sto SPLITS))
-                 (inc ((current player) sto CURRENT) 1))
+                 (inc ((current player) sto CURRENT)))
             ))
         ))
 
@@ -119,9 +119,9 @@
                           (+ 'R (* 11 (- 'ACECOUNT 'R)))) 21))
 
                  (do (
-                    (inc ((current player) sto OVER) 1)
+                    (inc ((current player) sto OVER))
                     ((< ((current player) sto CURRENT) ((current player) sto SPLITS))
-                     (inc ((current player) sto CURRENT) 1))
+                     (inc ((current player) sto CURRENT)))
                 )))
             )
         ))

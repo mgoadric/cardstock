@@ -94,6 +94,6 @@
              ;; if that was the last round, give the winner a point
              ((all player 'P
                    (== (size ('P iloc HAND)) 0))
-              (inc ((next player) sto SCORE) 1)))))
+              (inc ((next player) sto SCORE))))))
  
  (scoring max ((current player) sto SCORE)))

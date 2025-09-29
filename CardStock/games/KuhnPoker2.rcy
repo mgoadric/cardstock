@@ -24,8 +24,8 @@
       ;; Each player adds one to the pot and is dealt a card
       (all player 'P 
         (do (
-            (dec ('P sto CHIPS) 1)
-            (inc (game sto POT) 1)
+            (dec ('P sto CHIPS))
+            (inc (game sto POT))
             (move (top (game iloc STOCK)) 
                   (top ('P iloc HAND)))
         )))
@@ -47,8 +47,8 @@
                  ((!= ((previous player) str MOVE) BET) 
                     (do (
                         (set ((current player) str MOVE) BET)
-                        (dec ((current player) sto CHIPS) 1)
-                        (inc (game sto POT) 1)
+                        (dec ((current player) sto CHIPS))
+                        (inc (game sto POT))
                  )))
                  ((== ((previous player) str MOVE) BET) 
                     (do (
@@ -58,8 +58,8 @@
                  ((== ((previous player) str MOVE) BET) 
                     (do (
                         (set ((current player) str MOVE) CALL)
-                        (dec ((current player) sto CHIPS) 1)
-                        (inc (game sto POT) 1))))
+                        (dec ((current player) sto CHIPS))
+                        (inc (game sto POT)))))
             ))
  )
  (do

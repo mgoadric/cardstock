@@ -146,8 +146,8 @@
                     (set (game str LEAD) NONE)
                     (cycle next (owner (max (union (all player 'P 
                                                         ('P vloc TRICK))) using (game points PRECEDENCE))))
-                    (inc ((next player) sto TRICKSWON) 1)
-                    (inc ((team (next player)) sto TRICKSWON) 1)
+                    (inc ((next player) sto TRICKSWON))
+                    (inc ((team (next player)) sto TRICKSWON))
                     
                     ;; if winner played trump and trump not broken, trump is now broken
                     ((and (== (cardatt SUIT (top ((next player) vloc TRICK))) 

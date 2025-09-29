@@ -74,7 +74,7 @@
                 ))
             (choice (
                 ;; pass
-                (inc (game sto PASS) 1)
+                (inc (game sto PASS))
 
                 ((== (game sto CLOSE) 0)
                  (set (game sto CLOSE) 1))
@@ -104,7 +104,7 @@
              ))
              (do (
                 ((!= (game sto CLOSE) 0)
-                 (inc (game sto CLOSE) 1))
+                 (inc (game sto CLOSE)))
              ))
         )
 

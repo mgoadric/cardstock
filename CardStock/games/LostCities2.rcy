@@ -126,7 +126,7 @@
                   (repeat all
                           (move (top (game vloc 'C))
                                 (top (game iloc STOCK)))))
-             (inc (game sto ROUNDS) 1)
+             (inc (game sto ROUNDS))
              (all player 'P
                   (set ('P sto PROC) 0)))))
  

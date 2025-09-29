@@ -79,7 +79,7 @@
                                     (+ 1 (score (top (game vloc SEQUENCE)) 
                                           using (game points PRECEDENCE))))
                                   (== (cardatt COLOR 'FC) RED)))) 0))
-             (inc (game sto PASSING) 1)
+             (inc (game sto PASSING))
             )
 
             ;; play anything that matches the current sequence

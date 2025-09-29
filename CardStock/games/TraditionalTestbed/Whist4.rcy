@@ -107,7 +107,7 @@
                     (set (game str LEAD) NONE)
                     (cycle next (owner (max (union (all player 'P 
                                                         ('P vloc TRICK))) using (game points PRECEDENCE))))
-                    (inc ((next player) sto TRICKSWON) 1)   
+                    (inc ((next player) sto TRICKSWON))   
                     
                     ;; discard all the played cards
                     (all player 'P

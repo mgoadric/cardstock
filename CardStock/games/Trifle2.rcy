@@ -108,7 +108,7 @@
             (set ('P sto SCORE) (sum ('P vloc TRICKSWON) using (game points SCORE))))
 
       ((== ((current player) sto SCORE) ((next player) sto SCORE)) 
-       (inc (((game sto LAST) player) sto SCORE) 1))
+       (inc (((game sto LAST) player) sto SCORE)))
  ))
  
  (scoring max ((current player) sto SCORE)))

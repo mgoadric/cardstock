@@ -93,7 +93,7 @@
                 (do (
                     (repeat all (move (top 'R)
                                    (top (game vloc RUN (game sto RUNCOUNT)))))
-                    (inc (game sto RUNCOUNT) 1)
+                    (inc (game sto RUNCOUNT))
                 ))
             )  
 
@@ -103,7 +103,7 @@
                  (do (
                     (repeat all (move (top 'P)
                                    (top (game vloc SET (game sto SETCOUNT)))))
-                    (inc (game sto SETCOUNT) 1)
+                    (inc (game sto SETCOUNT))
                  ))
                 )
             )

@@ -269,7 +269,7 @@
                     (set (game str LEADSUIT) NONE)
                     (cycle next (owner (max (union (all player 'P 
                                                         ('P vloc TRICK))) using (game points PRECEDENCE))))
-                    (inc ((next player) sto TRICKSWON) 1)   
+                    (inc ((next player) sto TRICKSWON))   
                     
                     ;; discard all the played cards
                     (all player 'P
@@ -295,10 +295,10 @@
                               (set ('TP sto TRICKSWON) 0))))
                     ((and (>= ((current team) sto TRICKSWON) 3)
                           (== ((current team) str BID) MAKER))
-                     (inc ((current team) sto SCORE) 1))
+                     (inc ((current team) sto SCORE)))
                     ((and (== ((current team) sto TRICKSWON) 5)
                           (== ((current team) str BID) MAKER))
-                     (inc ((current team) sto SCORE) 1))
+                     (inc ((current team) sto SCORE)))
                     ((and (== ((current team) str BID) MAKER)
                           (== ((current team) sto SCORE) 2)
                           (any (current team) 'TP (== ('TP str BID) ALONE)))

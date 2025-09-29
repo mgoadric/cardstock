@@ -86,7 +86,7 @@
                     ((and (== (size (game vloc POOL)) 0)
                           (or (!= (size (game iloc STOCK)) 0)
                               (any player 'P (> (size ('P iloc HAND)) 0))))
-                     (inc ((current player) sto SCORE) 1))
+                     (inc ((current player) sto SCORE)))
             
                     ;; move trick card to bundle or pool depending 
                     ((== ((current player) sto MOVED) 0)
@@ -113,19 +113,19 @@
       ;; most cards worth one point
       ((> (size ((current player) vloc BUNDLE))
           (size ((next player) vloc BUNDLE)))
-         (inc ((current player) sto SCORE) 1)
+         (inc ((current player) sto SCORE))
       )
 
       ;; Most coins worth one point
       ((> (size (filter ((current player) vloc BUNDLE) 'C (== (cardatt SUIT 'C) COINS)))
           (size (filter ((next player) vloc BUNDLE) 'C (== (cardatt SUIT 'C) COINS))))
-         (inc ((current player) sto SCORE) 1)
+         (inc ((current player) sto SCORE))
       )
 
       ;; 7 of coins worth one point
       ((any ((current player) vloc BUNDLE) 'C (and (== (cardatt SUIT 'C) COINS)
                                                    (== (cardatt RANK 'C) SEVEN))) 
-         (inc ((current player) sto SCORE) 1))
+         (inc ((current player) sto SCORE)))
 
       ;; best primiera scores 1 point, this gets a potential prime score
       (let (partition SUIT ((current player) vloc BUNDLE)) 'PART  ;; split up by suit
@@ -145,7 +145,7 @@
       ;; highest primiera scores one point
       ((> ((current player) sto PRIMIERA)
           ((next player) sto PRIMIERA))
-         (inc ((current player) sto SCORE) 1)
+         (inc ((current player) sto SCORE))
       )
 
       ;; scoring turn is done

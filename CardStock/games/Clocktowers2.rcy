@@ -60,7 +60,7 @@
             (any (filter ((current player) iloc HAND) 'FC (== (cardatt TYPE 'FC) STORY)) 'C
                   (do (
                         (move 'C (top ((current player) vloc TOWER ((current player) sto TOWERS))))
-                        (inc ((current player) sto TOWERS) 1)
+                        (inc ((current player) sto TOWERS))
                   ))
             )
 

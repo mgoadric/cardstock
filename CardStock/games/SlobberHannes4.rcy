@@ -97,9 +97,9 @@
              ;; point added if won trick on first or last hand
              ((or (== (game sto TURN) 0)
                   (== (game sto TURN) 7))
-              (inc ((next player) sto SCORE) 1))
+              (inc ((next player) sto SCORE)))
                    
-             (inc (game sto TURN) 1)
+             (inc (game sto TURN))
              
              ;; discard all the played cards
              (all player 'P
@@ -113,7 +113,7 @@
                (
                 (inc ('P sto SCORE) (sum ('P vloc TRICKSWON) using (game points AVOID)))
                 ((== ('P sto SCORE) 3)
-                 (inc ('P sto SCORE) 1)))))))
+                 (inc ('P sto SCORE))))))))
              
  
  (scoring min ((current player) sto SCORE)))

@@ -44,7 +44,7 @@
             ;; not the last, you can pass, or you are last and someone already bid
             ((or (!= (game sto BIDS) 3)
                  (any player 'P (== ('P str BID) MAX)))
-             (inc (game sto BIDS) 1))
+             (inc (game sto BIDS)))
 
             ;; bid between 2 and 5, must be greater than previous
             (any (range 2..5) 'B
@@ -57,7 +57,7 @@
                         (set ((current player) str BID) MAX)
                         (set ((current player) sto BID) 'B)
                         (set ((team (current player)) sto BID) 'B)
-                        (inc (game sto BIDS) 1)))))))
+                        (inc (game sto BIDS))))))))
       )
 
  ;; the highest bidder goes first
@@ -152,7 +152,7 @@
                                                  ('P vloc TRICK))) using (game points PRECEDENCE))))
  
              ;; count the number of tricks won per team
-             (inc ((team (next player)) sto SMUDGE) 1)
+             (inc ((team (next player)) sto SMUDGE))
 
              ;; discard all the played cards
              (all player 'P
@@ -184,7 +184,7 @@
         (do
             (
              ((> ((current team) sto GAMESCORE) ((next team) sto GAMESCORE))
-              (inc ((current team) sto TEMPSCORE) 1))
+              (inc ((current team) sto TEMPSCORE)))
 
              ;; nonbidding team, get any points scored
              ((all (current team) 'TP (!= ('TP str BID) MAX))

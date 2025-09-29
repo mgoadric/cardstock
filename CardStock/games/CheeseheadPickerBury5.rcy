@@ -49,7 +49,7 @@
            (set ((current player) sto PICKER) 1)
            
           ((!= (game sto PASS) 4)
-           (inc (game sto PASS) 1)
+           (inc (game sto PASS))
            )
           ))
         )
@@ -235,11 +235,11 @@
              ((and (== ((current player) sto PARTNER) 1)
                    (>= (game sto CALLERS) 31)
                    )
-              (inc ((current player) sto SCORE) 1))
+              (inc ((current player) sto SCORE)))
              ((and (== ((current player) sto PARTNER) 1)
                    (< (game sto CALLERS) 31)
                    )
-              (dec ((current player) sto SCORE) 1))
+              (dec ((current player) sto SCORE)))
 
              ;; others
              ((and (!= (game sto LEASTER) 1)
@@ -247,13 +247,13 @@
                    (!= ((current player) sto PARTNER) 1)
                    (>= (game sto CALLERS) 31)
                    )
-              (dec ((current player) sto SCORE) 1))
+              (dec ((current player) sto SCORE)))
              ((and (!= (game sto LEASTER) 1)
                    (!= ((current player) sto PICKER) 1)
                    (!= ((current player) sto PARTNER) 1)
                    (< (game sto CALLERS) 31)
                    )
-              (inc ((current player) sto SCORE) 1))
+              (inc ((current player) sto SCORE)))
                 
              )))
         

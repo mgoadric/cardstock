@@ -144,7 +144,7 @@
         (do
             (
              ((> ((current player) sto GAMESCORE) ((next player) sto GAMESCORE))
-              (inc ((current player) sto SCORE) 1))
+              (inc ((current player) sto SCORE)))
              (repeat all
                      (move (top ((current player) vloc TRICKSWON))
                            (top (game vloc DISCARD)))))))

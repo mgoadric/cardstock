@@ -77,7 +77,7 @@
             ;; you can always pass if you are not the first player
             ((or (> (size (game vloc TRICK)) 0)
                  (== (size ((current player) iloc HAND)) 0))
-             (inc (game sto PASSING) 1))
+             (inc (game sto PASSING)))
             
       ))
 

@@ -212,7 +212,7 @@
      (do (
       (inc ((current player) sto CHIPS) ('P sto BET))
       (dec ('P sto CHIPS) ('P sto BET))
-      (inc (game sto ROUNDS) 1)
+      (inc (game sto ROUNDS))
       (repeat all
                      (move (top    (game vloc DISCARD))
                            (bottom (game iloc STOCK))))

@@ -25,7 +25,7 @@
                (all (partition RANK ('P iloc HAND)) 'MATCH
                     ((== (size 'MATCH) 4) 
                          (do (
-                             (inc ('P sto SCORE) 1)
+                             (inc ('P sto SCORE))
                              (repeat all
                                   (move (top 'MATCH)
                                         (top ('P vloc TRICKSTACK)))))))))))))
@@ -82,7 +82,7 @@
           (all (partition RANK ((current player) iloc HAND)) 'MATCH
                ((== (size 'MATCH) 4)  
                (do (
-                    (inc ((current player) sto SCORE) 1)
+                    (inc ((current player) sto SCORE))
                     (repeat all
                          (move (top 'MATCH)
                                (top ((current player) vloc TRICKSTACK))))))))

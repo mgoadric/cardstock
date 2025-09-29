@@ -24,8 +24,8 @@
       ;; Each player adds one to the pot and is dealt a card
       (all player 'P 
         (do (
-            (dec ('P sto CHIPS) 1)
-            (inc (game sto POT) 1)
+            (dec ('P sto CHIPS))
+            (inc (game sto POT))
             (move (top (game iloc STOCK)) 
                   (top ('P iloc HAND)))
         )))
@@ -69,7 +69,7 @@
  )
  (do 
     (
-        (inc (game sto ROUND) 1)
+        (inc (game sto ROUND))
         (inc (game sto RAISE) 2)
         ((<= (game sto ROUND) 2)
         (move (top (game iloc STOCK)) 

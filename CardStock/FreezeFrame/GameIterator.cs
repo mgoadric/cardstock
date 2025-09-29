@@ -2236,16 +2236,30 @@ namespace CardStock.FreezeFrame
         private IntAction IncAction(RecycleParser.IncactionContext setAction)
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
-            var setValue = ProcessInt(setAction.@int());
-            var newVal = bin.Get() + setValue;
-            return new IntAction(bin.Storage, bin.Key, newVal, script);
+            if (setAction.@int() is not null)
+            {
+                var setValue = ProcessInt(setAction.@int());
+                var newVal = bin.Get() + setValue;
+                return new IntAction(bin.Storage, bin.Key, newVal, script);
+            }
+            else
+            {
+                return new IntAction(bin.Storage, bin.Key, bin.Get() + 1, script);
+            }
         }
         private IntAction DecAction(RecycleParser.DecactionContext setAction)
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
-            var setValue = ProcessInt(setAction.@int());
-            var newVal = bin.Get() - setValue;
-            return new IntAction(bin.Storage, bin.Key, newVal, script);
+            if (setAction.@int() is not null)
+            {
+                var setValue = ProcessInt(setAction.@int());
+                var newVal = bin.Get() - setValue;
+                return new IntAction(bin.Storage, bin.Key, newVal, script);
+            }
+            else
+            {
+                return new IntAction(bin.Storage, bin.Key, bin.Get() - 1, script);
+            }
         }
 
         private CardLocReference ProcessCStorageFilter(RecycleParser.FilterContext filter)

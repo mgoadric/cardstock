@@ -105,7 +105,7 @@
              
              ;; if second stage, give them a point
              ((== (size (game iloc STOCK)) 0)
-              (inc ((next player) sto TRICKSWON) 1))
+              (inc ((next player) sto TRICKSWON)))
              
              ;; otherwise, deal out cards
              ((> (size (game iloc STOCK)) 0)
