@@ -44,8 +44,7 @@
             (all player 'P
                   (> (size ('P vloc TRICK)) 0)))
             
-            (choice 
-            (
+            (choice (
             
             ;; if following player and cannot follow SUIT
             ;;   play any card
@@ -71,8 +70,7 @@
             ;; if first player, play any card, remember it in the lead spot
             ((== (game str LEAD) NONE)                       
                   (any ((current player) iloc HAND) 'C
-                  (do 
-                        (
+                  (do (
                         (move 'C 
                               (top ((current player) vloc TRICK)))
                         (set (game str LEAD)
@@ -82,8 +80,7 @@
       (do (
             ;; solidfy card precedence
             (set (game points PRECEDENCE)
-                  (
-                  ((SUIT : (game str TRUMP)) 200)
+                 (((SUIT : (game str TRUMP)) 200)
                   ((SUIT : (game str LEAD)) 100)
                   ((RANK : A) 11)
                   ((RANK : SEVEN) 10)
