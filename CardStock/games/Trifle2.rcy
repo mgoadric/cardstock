@@ -78,6 +78,7 @@
              
              ;; determine who won the hand, set them first next time             
              (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE))))
+             (set (game sto LAST) (pid (next player)))
 
              ;; if cards left in the STOCK, each player gets one
              ((!= (size (game iloc STOCK)) 0)
@@ -100,5 +101,14 @@
 
              (set (game str LEAD) NONE)
      )))
+
+ ;; tie breaker rule
+ (do (
+      (all player 'P 
+            (set ('P sto SCORE) (sum ('P vloc TRICKSWON) using (game points SCORE))))
+
+      ((== ((current player) sto SCORE) ((next player) sto SCORE)) 
+       (inc (((game sto LAST) player) sto SCORE) 1))
+ ))
  
- (scoring max (sum ((current player) vloc TRICKSWON) using (game points SCORE))))
+ (scoring max ((current player) sto SCORE)))
