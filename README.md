@@ -17,7 +17,7 @@ tournament of AI players. Please check back for further progress on these issues
 
 ## Games
 
-There are currently 57 games coded in RECYCLE
+There are currently 59 games coded in RECYCLE
 
 * Adding
     * [Caterpillar](http://www.parlettgames.uk/oricards/caterpil.html) (2p)
@@ -60,6 +60,15 @@ There are currently 57 games coded in RECYCLE
     * [Simon's Cat](https://www.sjgames.com/simonscat/Simons-Cat-Rules.pdf) (4p)
     * [Skittgube](https://www.pagat.com/beating/skitgubbe.html) (3p)
 * Trick Taking
+    * Ace-Ten
+       * [Briscola](https://www.pagat.com/aceten/briscola.html) (2p)
+       * [Klaverjassen](https://www.pagat.com/jass/klaverjassen.html) (4p)
+       * [Sueca](https://www.pagat.com/aceten/sueca.html) (4p)
+       * [Trifle]([https://www.pagat.com/aceten/sueca.html](https://docs.google.com/document/d/1iA_T4TFRV0yHf20Vufhqci0CJfEHRTM9alF2f76J-tE/edit?tab=t.0)) (2p)
+    * All Fours
+        * [California Jack](https://www.bicyclecards.com/how-to-play/california-jack/) (2p)
+        * [Pitch](https://www.pagat.com/allfours/pitch.html#players) (4p)
+        * [Shasta Sam](https://www.bicyclecards.com/how-to-play/shasta-sam/) (4p)
     * Avoidance
         * [Hearts](https://www.pagat.com/reverse/hearts.html) (3-5p)
            * Omnibus Hearts (4p)
@@ -71,22 +80,17 @@ There are currently 57 games coded in RECYCLE
         * [Knaves](http://whiteknucklecards.com/games/knaves.html) (3-4p)
         * [Polignac](http://whiteknucklecards.com/games/polignac.html) (4p)
         * [Slobberhannes](http://whiteknucklecards.com/games/slobberhannes.html) (4p)
-    * All Fours
-        * [California Jack](https://www.bicyclecards.com/how-to-play/california-jack/) (2p)
-        * [Pitch](https://www.pagat.com/allfours/pitch.html#players) (4p)
-        * [Shasta Sam](https://www.bicyclecards.com/how-to-play/shasta-sam/) (4p)
+    * Whist
+       * [German Whist](https://www.pagat.com/whist/german_whist.html) (2p)
+       * [Spades](https://www.pagat.com/auctionwhist/spades.html) (4p)
+       * [Whist](https://www.pagat.com/whist/whist.html) (4p)
     * Others
        * [Agram](https://www.pagat.com/last/agram.html) (2-5p)
        * [Duck Soup](http://www.parlettgames.uk/oricards/ducksoup.html) (2p)
        * [Euchre](https://www.pagat.com/euchre/euchre.html) (4p)
-       * [German Whist](https://www.pagat.com/whist/german_whist.html) (2p)
-       * [Klaverjassen](https://www.pagat.com/jass/klaverjassen.html) (4p)
        * [Sheepshead](https://www.pagat.com/schafkopf/shep.html) (5p)
            * Cheesheads (5p)
-       * [Spades](https://www.pagat.com/auctionwhist/spades.html) (4p)
-       * [Sueca](https://www.pagat.com/aceten/sueca.html) (4p)
        * [The Bottle Imp](https://tesera.ru/images/items/11335/Bottle_Imp_Rules_EN.pdf) (3-4p)
-       * [Whist](https://www.pagat.com/whist/whist.html) (4p)
 * Unique
     * [Coloretto](https://www.riograndegames.com/wp-content/uploads/2013/02/Coloretto-Rules.pdf) (4p)
     * [Coup](http://boardgame.bg/coup%20rules%20pdf.pdf) (4p)
