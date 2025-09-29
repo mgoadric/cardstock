@@ -63,6 +63,8 @@ There are currently 59 games coded in RECYCLE
     * Ace-Ten
        * [Briscola](https://www.pagat.com/aceten/briscola.html) (2p)
        * [Klaverjassen](https://www.pagat.com/jass/klaverjassen.html) (4p)
+       * [Sheepshead](https://www.pagat.com/schafkopf/shep.html) (5p)
+           * Cheesheads (5p)
        * [Sueca](https://www.pagat.com/aceten/sueca.html) (4p)
        * [Trifle]([https://www.pagat.com/aceten/sueca.html](https://docs.google.com/document/d/1iA_T4TFRV0yHf20Vufhqci0CJfEHRTM9alF2f76J-tE/edit?tab=t.0)) (2p)
     * All Fours
@@ -88,8 +90,6 @@ There are currently 59 games coded in RECYCLE
        * [Agram](https://www.pagat.com/last/agram.html) (2-5p)
        * [Duck Soup](http://www.parlettgames.uk/oricards/ducksoup.html) (2p)
        * [Euchre](https://www.pagat.com/euchre/euchre.html) (4p)
-       * [Sheepshead](https://www.pagat.com/schafkopf/shep.html) (5p)
-           * Cheesheads (5p)
        * [The Bottle Imp](https://tesera.ru/images/items/11335/Bottle_Imp_Rules_EN.pdf) (3-4p)
 * Unique
     * [Coloretto](https://www.riograndegames.com/wp-content/uploads/2013/02/Coloretto-Rules.pdf) (4p)
