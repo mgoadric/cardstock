@@ -116,7 +116,8 @@
                                (== (cardatt RANK 'HC) A))) 'ACECOUNT
                 ((all (range 0..'ACECOUNT) 'R
                     (> (+ (sum ((current player) vloc HAND ((current player) sto CURRENT)) using (game points OTHER))
-                          (+ 'R (* 11 (- 'ACECOUNT 'R)))) 21))
+                          'R 
+                          (* 11 (- 'ACECOUNT 'R))) 21))
 
                  (do (
                     (inc ((current player) sto OVER))
@@ -139,7 +140,8 @@
                         (== (cardatt RANK 'HC) A))) 'ACECOUNT
         (all (range 0..'ACECOUNT) 'R
             (let (+ (sum ((current player) vloc HAND ((current player) sto CURRENT)) using (game points OTHER))
-                    (+ 'R (* 11 (- 'ACECOUNT 'R)))) 'TEMPSCORE
+                    'R 
+                    (* 11 (- 'ACECOUNT 'R))) 'TEMPSCORE
                 ((and (<= 'TEMPSCORE 21)
                       (> 'TEMPSCORE ((current player) sto SCORE)))
                  (set ((current player) sto SCORE) 'TEMPSCORE))
@@ -165,7 +167,8 @@
                         (== (cardatt RANK 'HC) A))) 'ACECOUNT
           (all (range 0..'ACECOUNT) 'R
             (let (+ (sum (game vloc HAND) using (game points OTHER))
-                    (+ 'R (* 11 (- 'ACECOUNT 'R)))) 'TEMPSCORE
+                    'R 
+                    (* 11 (- 'ACECOUNT 'R))) 'TEMPSCORE
                 ((and (<= 'TEMPSCORE 21)
                       (> 'TEMPSCORE (game sto SCORE)))
                  (set (game sto SCORE) 'TEMPSCORE))

@@ -3,8 +3,8 @@
 // new in version 0.6.3
 //  addition and multiplication now accept 2+ arguments
 //  inc and dec default to +1 -1 when no int argument
-//  pointmaps can be updated
-//  swap for cards and cardlocations 
+//  * pointmaps can be updated
+//  * swap for cards and cardlocations 
 
 // New in version 0.6.2
 //  cycle syntax cleaned up, using a real player now instead of just "current" or "next"

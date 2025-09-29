@@ -2000,7 +2000,12 @@ namespace CardStock.FreezeFrame
             }
             else if (intNode.mult() is not null)
             {
-                return ProcessInt(intNode.mult().@int(0)) * ProcessInt(intNode.mult().@int(1));
+                int val = ProcessInt(intNode.mult().@int(0));
+                for (int i = 0; i < intNode.mult().@int().Length; i++)
+                {
+                    val *= ProcessInt(intNode.mult().@int(i));
+                }
+                return val;
             }
             else if (intNode.subtract() is not null)
             {
@@ -2016,7 +2021,12 @@ namespace CardStock.FreezeFrame
             }
             else if (intNode.@add() is not null)
             {
-                return ProcessInt(intNode.@add().@int(0)) + ProcessInt(intNode.@add().@int(1));
+                int val = ProcessInt(intNode.@add().@int(0));
+                for (int i = 1; i < intNode.@add().@int().Length; i++)
+                {
+                    val += ProcessInt(intNode.@add().@int(i));
+                }
+                return val;
             }
             else if (intNode.exponent() is not null)
             {

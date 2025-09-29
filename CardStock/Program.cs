@@ -1,11 +1,11 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "Trifle";
-int numPlayers = 2;
+string game = "TraditionalTestbed/Blackjack";
+int numPlayers = 1;
 
-//runExperiment(game, numPlayers);
-runAllGames();
+runExperiment(game, numPlayers);
+//runAllGames();
 
 static void runExperiment(string game, int numPlayers)
 {
