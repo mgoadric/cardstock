@@ -1,0 +1,104 @@
+;; Trifle by Sean Ross
+;; a relative of Briscola
+;;
+;; https://docs.google.com/document/d/1iA_T4TFRV0yHf20Vufhqci0CJfEHRTM9alF2f76J-tE/edit?tab=t.0
+
+(game
+ (declare 2 'NUMP)
+ (setup 
+  (create players 'NUMP)
+  
+  ;; Create the deck source Italian Deck
+  (create deck (game iloc STOCK) (deck (RANK (ZERO, ONE, TWO, THREE, FOUR, FIVE, Q))
+                                         (SUIT (SWORDS, CUPS, COINS, CLUBS))))
+  )
+
+ ;; Shuffle and deal each player 3 cards
+ (do (
+      (shuffle (game iloc STOCK))
+      (set (game points SCORE)
+            (((RANK : ONE) 1) 
+             ((RANK : TWO) 2) 
+             ((RANK : THREE) 3) 
+             ((RANK : FOUR) 4) 
+             ((RANK : FIVE) 5) 
+      ))
+      (set (game str LEAD) NONE)
+      (all player 'P 
+           (repeat 3 
+                   (move (top (game iloc STOCK))
+                         (top ('P iloc HAND)))))
+
+      ;; flip a card, and make the suit TRUMP
+      (move (top (game iloc STOCK))
+            (top (game vloc BRISCOLA)))
+      (set (game str TRUMP) (cardatt SUIT (top (game vloc BRISCOLA))))
+))
+   
+ ;; players play until all cards played        
+ (stage player
+        (end 
+         (all player 'P 
+              (== (size ('P iloc HAND)) 0)))
+
+        ;; players play a hand once     
+        (stage player
+               (end 
+                (all player 'P 
+                     (> (size ('P vloc TRICK)) 0)))
+               
+               (choice (
+
+                 ;; both players play any card they want, no suit or lead restrictions
+                 (any ((current player) iloc HAND) 'AC
+                      (move 'AC 
+                            (top ((current player) vloc TRICK))))))
+               
+               ;; if first player, then record the lead for later
+               (do (
+                    ((== (game str LEAD) NONE)
+                     (set (game str LEAD) (cardatt SUIT (top ((current player) vloc TRICK)))))
+               ))
+        )
+        
+        ;; after players play hand, computer wraps up trick
+        (do (
+             ;; solidfy card recedence
+             (set (game points PRECEDENCE)
+                  (
+                  ((SUIT : (game str TRUMP)) 200)
+                  ((SUIT : (game str LEAD)) 100)
+                  ((RANK : Q) 6)
+                  ((RANK : FIVE) 4)
+                  ((RANK : FOUR) 3)
+                  ((RANK : THREE) 10)
+                  ((RANK : TWO) 2)
+                  ((RANK : ONE) 1)
+             ))
+             
+             ;; determine who won the hand, set them first next time             
+             (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE))))
+
+             ;; if cards left in the STOCK, each player gets one
+             ((!= (size (game iloc STOCK)) 0)
+              (do (
+                 (move (top (game iloc STOCK)) 
+                       (top ((next player) iloc HAND)))
+                 ((== (size (game iloc STOCK)) 0)
+                  (move (top (game vloc BRISCOLA)) 
+                        (top ((owner (min (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE))) iloc HAND))))
+                 ((!= (size (game iloc STOCK)) 0)
+                  (move (top (game iloc STOCK))
+                        (top ((owner (min (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE))) iloc HAND))))
+              ))                    
+             )
+
+             ;; trick winner takes the cards from the trick
+             (all player 'P 
+                  (move (top ('P vloc TRICK)) 
+                        (top ((next player) vloc TRICKSWON))))
+
+             (set (game str LEAD) NONE)
+     )))
+ 
+ (scoring max (sum ((current player) vloc TRICKSWON) using (game points SCORE))))

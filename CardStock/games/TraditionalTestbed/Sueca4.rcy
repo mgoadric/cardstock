@@ -11,20 +11,18 @@
   
   ;; Create the deck source
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, M, H, K))
-                                         (SUIT (SWORDS, CUPS, COINS, CLUBS)))
-                                                ))        
+                                         (SUIT (SWORDS, CUPS, COINS, CLUBS))))
+ )        
  
  ;; Play one round the game
-(do 
-(
+(do (
       (set (game points SCORE)
-      (
-            ((RANK : A) 11) 
+            (((RANK : A) 11) 
             ((RANK : SEVEN) 10) 
             ((RANK : K) 4) 
             ((RANK : H) 3) 
             ((RANK : M) 2) 
-            ))
+      ))
 
       (shuffle (game iloc STOCK))
       (all player 'P
@@ -113,15 +111,13 @@
       (end 
       (all player 'P 
             (== (size ('P vloc TRICKSWON)) 0)))
-      (do 
-            (
+      (do (
                                                 
             ;; team sums up player points
             (all (current team) 'TP
-                  (do 
-                  (
+               (do (
                   (inc ((current team) sto SCORE) 
-                        (sum ('TP vloc TRICKSWON) using (game points SCORE)))
+                       (sum ('TP vloc TRICKSWON) using (game points SCORE)))
                   (repeat all
                         (move (top ('TP vloc TRICKSWON))
                               (top (game vloc DISCARD))))))))))
