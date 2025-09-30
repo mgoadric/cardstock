@@ -4,7 +4,7 @@
 //  addition and multiplication now accept 2+ arguments
 //  inc and dec default to +1 -1 when no int argument
 //  * pointmaps can be updated
-//  * swap for cards and cardlocations 
+//  swap for cards and cardlocations 
 
 // New in version 0.6.2
 //  cycle syntax cleaned up, using a real player now instead of just "current" or "next"
@@ -104,10 +104,10 @@ agg : OPEN ('any' | 'all') collection var condact CLOSE ;
 let : OPEN 'let' typed var (multiaction | action | condact) CLOSE ;
 
 // Actions
-action : OPEN (initpoints | teamcreate | deckcreate | cycleaction | setaction | moveaction | copyaction
+action : OPEN (initpoints | teamcreate | deckcreate | cycleaction | setaction | moveaction | copyaction | swapaction
          | incaction | setstraction | decaction | removeaction | turnaction | shuffleaction | repeat) CLOSE | agg ;
 playercreate : OPEN 'create' 'players' int CLOSE ;
-teamcreate : OPEN 'create' 'teams' teams+? CLOSE;
+teamcreate : OPEN 'create' 'teams' teams+? CLOSE ;
   teams : OPEN (INTNUM ',')*? INTNUM teams*? CLOSE ;
 deckcreate : 'create' 'deck' str? cstorage deck ;
   deck : OPEN 'deck' attribute+? CLOSE ;

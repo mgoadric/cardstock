@@ -2,6 +2,7 @@ using Antlr4.Runtime.Tree;
 using CardStock.CardEngine;
 using CardStock.Evaluation;
 using System.Collections;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Text;
 
@@ -831,6 +832,13 @@ namespace CardStock.FreezeFrame
                 var move = actionNode.moveaction();
                 ret.Add(ProcessMove(move));
             }
+            /*
+            else if (actionNode.swapaction().Length >= 0)
+            {
+                Debug.WriteLine("SWAP: '" + actionNode.GetText() + "'");
+                var swap = actionNode.swapaction();
+                ret.Add(ProcessSwap(swap));
+            }*/
             else if (actionNode.shuffleaction() is not null)
             {
                 if (actionNode.shuffleaction().cstorage().Length == 1)
@@ -1112,6 +1120,24 @@ namespace CardStock.FreezeFrame
             }
             var locTwo = ProcessCard(c[1]);
             return new CardMoveAction(locOne, locTwo, script);
+        }
+
+        private CardSwapAction ProcessSwap(RecycleParser.SwapactionContext swap)
+        {
+            var c = swap.card();
+            var locOne = ProcessCard(c[0]);
+            if (locOne.Count() == 0)
+            {
+                Console.WriteLine("Moving from empty, " + swap.GetText());
+                throw new InvalidOperationException();
+            }
+            var locTwo = ProcessCard(c[1]);
+            if (locTwo.Count() == 0)
+            {
+                Console.WriteLine("Swapping from empty," + swap.GetText());
+                throw new InvalidOperationException();
+            }
+            return new CardSwapAction(locOne, locTwo, script);
         }
 
         private CardRememberAction ProcessCopy(RecycleParser.CopyactionContext copy)
