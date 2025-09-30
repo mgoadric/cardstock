@@ -6,18 +6,10 @@ namespace CardStock.CardEngine
      * A Dictionary with default values provided, specific to
      * CardCollections because they act differently
      */
-    public class CardStorage
+    public class CardStorage(Owner owner)
     {
         private readonly Dictionary<string, CardCollection> dict = [];
-        public Owner owner;
-
-        /*******
-         * Set up four CardCollection defaults
-         */
-        public CardStorage(Owner owner)
-        {
-            this.owner = owner;
-        }
+        public Owner owner = owner;
 
         /*******
          * Access methods, that have the KeyCheck
@@ -83,11 +75,11 @@ namespace CardStock.CardEngine
             if (obj is not CardStorage cs)
             { return false; }
 
-            if (cs.owner.GetType() != owner.GetType())
-            { Console.WriteLine("Owner types not equal"); return false; }
-
             if (cs.owner.id != owner.id)
             { Console.WriteLine("Owner names not equal"); return false; }
+
+            if (cs.owner.GetType() != owner.GetType())
+            { Console.WriteLine("Owner types not equal"); return false; }
 
             if (!cs.dict.SequenceEqual(dict))
             { //Console.WriteLine("Dictionary of Card Collections not equal");
@@ -97,56 +89,57 @@ namespace CardStock.CardEngine
             return true;
         }
 
-    
-            public bool InfoSetEqual(CardStorage s2, int playeridx)
+
+        public bool InfoSetEqual(CardStorage s2, int playeridx)
+        {
+            foreach (string k in dict.Keys)
             {
-                foreach (string k in dict.Keys)
+                CardCollection collection1 = dict[k];
+                if (collection1.type == CCType.VISIBLE || collection1.type == CCType.MEMORY
+                    || (collection1.type == CCType.INVISIBLE && owner.GetType() == typeof(Player)
+                    && owner.id == playeridx) || (owner.GetType() == typeof(Team)
+                    && ((Team)owner).IsMember(playeridx)))
                 {
-                    CardCollection collection1 = dict[k];
-                    if (collection1.type == CCType.VISIBLE || collection1.type == CCType.MEMORY
-                        || (collection1.type == CCType.INVISIBLE && owner.GetType() == typeof(Player)
-                        && owner.id == playeridx) || (owner.GetType() == typeof(Team)
-                        && ((Team)owner).IsMember(playeridx)))
+                    if (s2.dict.ContainsKey(k))
                     {
-                        if (s2.dict.ContainsKey(k))
-                        {
-                            if (!collection1.Equals(s2.dict[k]))
-                            { return false; }
-                        }
-                        else
+                        if (!collection1.Equals(s2.dict[k]))
                         { return false; }
                     }
                     else
-                    {
-                        if (dict[k].Count != s2.dict[k].Count)
-                        {
-                            return false;
-                        }
-                    }
+                    { return false; }
                 }
-                return true;
-            }
-            public int GetInfoSetHashCode(int playeridx)
-            {
-                int ret = 0;
-
-                foreach (string k in dict.Keys)
+                else
                 {
-                    CardCollection collection1 = dict[k];
-                    if (collection1.type == CCType.VISIBLE || collection1.type == CCType.MEMORY
-                        || (collection1.type == CCType.INVISIBLE && owner.GetType() == typeof(Player)
-                        && owner.id == playeridx) || (owner.GetType() == typeof(Team)
-                        && ((Team)owner).IsMember(playeridx)))
+                    if (dict[k].Count != s2.dict[k].Count)
                     {
-                        ret ^= dict[k].GetHashCode();
-                    }
-                    else
-                    {
-                        ret ^= dict[k].Count;
+                        return false;
                     }
                 }
-                return ret;
             }
+            return true;
+        }
+        
+        public int GetInfoSetHashCode(int playeridx)
+        {
+            int ret = 0;
+
+            foreach (string k in dict.Keys)
+            {
+                CardCollection collection1 = dict[k];
+                if (collection1.type == CCType.VISIBLE || collection1.type == CCType.MEMORY
+                    || (collection1.type == CCType.INVISIBLE && owner.GetType() == typeof(Player)
+                    && owner.id == playeridx) || (owner.GetType() == typeof(Team)
+                    && ((Team)owner).IsMember(playeridx)))
+                {
+                    ret ^= dict[k].GetHashCode();
+                }
+                else
+                {
+                    ret ^= dict[k].Count;
+                }
+            }
+            return ret;
+        }
      
 
         public override int GetHashCode()

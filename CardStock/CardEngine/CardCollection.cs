@@ -168,15 +168,15 @@ namespace CardStock.CardEngine
             if (obj is not CardCollection othercardcollection)
             { return false; }
           
-            if (owner.owner.GetType() != othercardcollection.owner.owner.GetType())
+            if (type != othercardcollection.type)
             { return false; }
-           
+                        
             if (owner.owner.id != othercardcollection.owner.owner.id)
             { return false; }
 
-            if (type != othercardcollection.type)
+            if (owner.owner.GetType() != othercardcollection.owner.owner.GetType())
             { return false; }
-            
+
             if (!cards.SequenceEqual(othercardcollection.cards))
             { return false; }
 

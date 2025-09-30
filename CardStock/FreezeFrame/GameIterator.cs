@@ -39,6 +39,8 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Setting up game.");
                 ProcessSetup(rules.setup()).ExecuteAll();
 
+                game.OptimizeCardSource();
+
                 // Mixup the card ids ????
                 game.ReindexCards();
 

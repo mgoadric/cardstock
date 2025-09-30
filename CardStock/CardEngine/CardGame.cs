@@ -1,6 +1,7 @@
 using CardStock.Players;
 using CardStock.FreezeFrame;
 using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace CardStock.CardEngine
 {
@@ -8,12 +9,14 @@ namespace CardStock.CardEngine
     {
 
         // need to expand this for all player perspectives, and update when cards become invisible. TODO
-        public Dictionary<string, List<Card>> sourceDeck = [];
+        public Dictionary<string, List<Card>> tempSource = [];
+        public Dictionary<string, Card[]> sourceDeck = [];
         public Dictionary<string, int[]> cardMask = [];
         public Owner[] table = new Owner[1]; // why is this an array? It is always just one element TODO
         public Player[] players;
-        public List<Team> teams = [];
         public Stack<StageCycle<Player>> currentPlayer = new();
+        public bool activeTeams = false;
+        public List<Team> teams = [];
         public Stack<StageCycle<Team>> currentTeam = new();
 
         public CardGame()
@@ -30,16 +33,16 @@ namespace CardStock.CardEngine
 
             // Clone Source Deck and Index Cards
             //*****************
-            foreach (KeyValuePair<string, List<Card>> kvp in sourceDeck)
+            foreach (KeyValuePair<string, Card[]> kvp in sourceDeck)
             {
                 if (!temp.sourceDeck.ContainsKey(kvp.Key))
                 {
-                    temp.sourceDeck[kvp.Key] = [];
+                    temp.sourceDeck[kvp.Key] = new Card[kvp.Value.Length];
                 }
-                for (int i = 0; i < sourceDeck[kvp.Key].Count; i++)
+                for (int i = 0; i < sourceDeck[kvp.Key].Length; i++)
                 {
                     Card c = sourceDeck[kvp.Key][i].Clone();
-                    temp.sourceDeck[kvp.Key].Add(c);
+                    temp.sourceDeck[kvp.Key][i] = c;
                 }
             }
 
@@ -55,6 +58,17 @@ namespace CardStock.CardEngine
                 temp.players[i] = newPlayer;
             }
 
+            // Reconstruct team and player cycles
+            foreach (var cycle in currentPlayer.Reverse())
+            {
+                var newCycle = new StageCycle<Player>(temp.players)
+                {
+                    idx = cycle.idx,
+                    queuedNext = cycle.queuedNext
+                };
+                temp.currentPlayer.Push(newCycle);
+            }
+
             // Clone teams in the same team order, look up their players
             foreach (Team orig in teams)
             {
@@ -66,17 +80,6 @@ namespace CardStock.CardEngine
                     newTeam.teamPlayers.Add(newPlayer);
                 }
                 temp.teams.Add(newTeam);
-            }
-
-            // Reconstruct team and player cycles
-            foreach (var cycle in currentPlayer.Reverse())
-            {
-                var newCycle = new StageCycle<Player>(temp.players)
-                {
-                    idx = cycle.idx,
-                    queuedNext = cycle.queuedNext
-                };
-                temp.currentPlayer.Push(newCycle);
             }
 
             foreach (var cycle in currentTeam.Reverse())
@@ -107,10 +110,10 @@ namespace CardStock.CardEngine
 
             // Make set of indicies for all the cards, to be removed when they are seen
             Dictionary<string, HashSet<int>> free = [];
-            foreach (KeyValuePair<string, List<Card>> kvp in sourceDeck)
+            foreach (KeyValuePair<string, Card[]> kvp in sourceDeck)
             {
                 free[kvp.Key] = [];
-                for (int i = 0; i < kvp.Value.Count; i++)
+                for (int i = 0; i < kvp.Value.Length; i++)
                 {
                     free[kvp.Key].Add(i);
                 }
@@ -165,7 +168,7 @@ namespace CardStock.CardEngine
         }
 
         private static void CloneCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
-                               Dictionary<string, List<Card>> tempsourceDeck)
+                               Dictionary<string, Card[]> tempsourceDeck)
         {
             foreach (Owner owner in owners)
             {
@@ -188,7 +191,7 @@ namespace CardStock.CardEngine
         }
 
         private static void CloneVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
-                                      Dictionary<string, List<Card>> tempsourceDeck, Dictionary<string, HashSet<int>> free, int playerIdx)
+                                      Dictionary<string, Card[]> tempsourceDeck, Dictionary<string, HashSet<int>> free, int playerIdx)
         {
             foreach (Owner owner in owners)
             {
@@ -223,7 +226,7 @@ namespace CardStock.CardEngine
         }
 
         private static void AssignNonVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
-                                          Dictionary<string, List<Card>> tempsourceDeck, Dictionary<string, IEnumerator<int>> cardsLeft, int playerIdx)
+                                          Dictionary<string, Card[]> tempsourceDeck, Dictionary<string, IEnumerator<int>> cardsLeft, int playerIdx)
         {
 
             foreach (Owner owner in owners)
@@ -302,21 +305,33 @@ namespace CardStock.CardEngine
             var combos = cardAttributes.Combinations();
             foreach (var combo in combos)
             {
-                if (!sourceDeck.ContainsKey(name))
+                if (!tempSource.ContainsKey(name))
                 {
-                    sourceDeck[name] = [];
+                    tempSource[name] = [];
                 }
-                var newCard = new Card(combo.Flatten(), sourceDeck[name].Count, name)
+                var newCard = new Card(combo.Flatten(), tempSource[name].Count, name)
                 {
                     Owner = loc
                 };
                 // use the name to determine which sourceDeck to add
-                sourceDeck[name].Add(newCard);
+                tempSource[name].Add(newCard);
                 loc.Add(newCard);
                 script?.WriteToFile("C:" + newCard.ToString() + " " + loc.owner.owner.name + " " + loc.type +
                     " " + loc.name);
             }
             //Console.ReadKey();
+        }
+
+        public void OptimizeCardSource()
+        {
+            foreach (KeyValuePair<string, List<Card>> kvp in tempSource)
+            {
+                sourceDeck[kvp.Key] = new Card[kvp.Value.Count];
+                for (int i = 0; i < sourceDeck[kvp.Key].Length; i++)
+                {
+                    sourceDeck[kvp.Key][i] = kvp.Value[i];
+                }
+            }
         }
 
         // Once all the decks are created, we should shuffle up the indices. Then these can be displayed
@@ -326,7 +341,7 @@ namespace CardStock.CardEngine
             foreach (string key in sourceDeck.Keys)
             {
                 Debug.Write(key + ":");
-                int cc = sourceDeck[key].Count;
+                int cc = sourceDeck[key].Length;
                 cardMask[key] = new int[cc];
                 for (int i = 0; i < cc; i++)
                 {
@@ -349,19 +364,27 @@ namespace CardStock.CardEngine
             Debug.WriteLine("Player turn: " + CurrentPlayer().idx);
 
             var d = currentPlayer.Peek().memberList[playerIdx].decision;
-            d.numChoices = numChoices;
+            if (d is not null)
+            {
+                d.numChoices = numChoices;
 
-            // this method could be constrained by a time budget
-            //Thread thread = new (new ThreadStart(d.Explore));
-            //thread.Start();
-            //thread.Join();
-            // THREADING SEEMS TO ADD TIME!!! BOOO!
-            currentPlayer.Peek().memberList[playerIdx].decision.ExploreOptions();
+                // this method could be constrained by a time budget
+                //Thread thread = new (new ThreadStart(d.Explore));
+                //thread.Start();
+                //thread.Join();
+                // THREADING SEEMS TO ADD TIME!!! BOOO!
 
-            var choice = currentPlayer.Peek().memberList[playerIdx].decision.Choose();
+                d.ExploreOptions();
+                var choice = d.Choose();
 
-            Debug.WriteLine("Choice: " + choice);
-            return choice;
+                Debug.WriteLine("Choice: " + choice);
+                return choice;
+            }
+            else
+            {
+                // in a clone, doing a random rollout
+                return ThreadSafeRandom.Next(0, numChoices);
+            } 
         }
 
         public override string ToString()

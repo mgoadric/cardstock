@@ -85,11 +85,21 @@ namespace CardStock.CardEngine
             if (GetType() != otherowner.GetType())
             { Console.WriteLine("Types not equal"); return false; }
 
+            if (name != otherowner.name)
+            { //Console.WriteLine("owner names not equal");
+                return false; }
+            
+            if (id != otherowner.id)
+            { //Console.WriteLine("owner ids not equal");
+                return false; }
+
             if (this is Player thisplayer && otherowner is Player otherplayer)
             {
                 if (thisplayer.team.id != otherplayer.team.id)
-                { Console.WriteLine("Player Specific Owner failure");
-                       return false; }
+                {
+                    Console.WriteLine("Player Specific Owner failure");
+                    return false;
+                }
             }
 
             if (this is Team thisteam && otherowner is Team otherteam)
@@ -105,11 +115,11 @@ namespace CardStock.CardEngine
             }
             //SPECIAL THINGS FOR OTHER OWNERS??
 
-            if (!(intBins.Equals(otherowner.intBins)))
+            if (!intBins.Equals(otherowner.intBins))
             { //Console.WriteLine("owner intBins not equal");
                 return false; }
             
-            if (!(stringBins.Equals(otherowner.stringBins)))
+            if (!stringBins.Equals(otherowner.stringBins))
             { //Console.WriteLine("owner stringbins not equal");
                 return false;
             }
@@ -117,22 +127,15 @@ namespace CardStock.CardEngine
             if (infoset) {
                 if (!cardBins.InfoSetEqual(otherowner.cardBins, playeridx))
                     { return false; } 
-            } else if (!(cardBins.Equals(otherowner.cardBins)))
+            } else if (!cardBins.Equals(otherowner.cardBins))
             { //Console.WriteLine("owner stringbins not equal");
                 return false;
             }
 
-            if (!(pointBins.Equals(otherowner.pointBins)))
+            if (!pointBins.Equals(otherowner.pointBins))
             { //Console.WriteLine("owner pointbins not equal");
                 return false; }
             
-            if (name != otherowner.name)
-            { //Console.WriteLine("owner names not equal");
-                return false; }
-            
-            if (id != otherowner.id)
-            { //Console.WriteLine("owner ids not equal");
-                return false; }
             //Console.WriteLine("Passed all team equality checks.");
             return true;
         }

@@ -13,7 +13,7 @@ namespace CardStock.Players
         private readonly double[][] rankSum = new double[perspective.NumberOfPlayers()][];
         private readonly double[][] scoreSum = new double[perspective.NumberOfPlayers()][];
 
-        private List<Tuple<CardGame, GameIterator>> determinizations;
+        private readonly Tuple<CardGame, GameIterator>[] determinizations = new Tuple<CardGame, GameIterator>[GameSimulator.NUMSAMPLES];
 
         public override void Explore()
         {
@@ -26,10 +26,9 @@ namespace CardStock.Players
             }
 
             // MAKE THIS MANY DETERMINIZATIONS
-            determinizations = [];
             for (int det = 0; det < GameSimulator.NUMSAMPLES; det++)
             {
-                determinizations.Add(perspective.GetPrivateGame());
+                determinizations[det] = perspective.GetPrivateGame();
             }
 
             // FOR EACH POSSIBLE MOVE
@@ -61,7 +60,7 @@ namespace CardStock.Players
             }
 
             // FIND BEST (and worst) MOVE TO MAKE
-            var (min, max) = MinMaxIdx(scoreSum[perspective.GetIdx()]);
+            var (_, max) = MinMaxIdx(scoreSum[perspective.GetIdx()]);
 
             //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
             //Console.WriteLine("{0}", string.Join(", ", scoreSum[perspective.GetIdx()]));
@@ -87,7 +86,7 @@ namespace CardStock.Players
             // selected item chosen first when you get your turn
             for (int j = 0; j < numPlayers; j++)
             {
-                cg.players[j].decision = new RandomPlayer(perspective);
+                cg.players[j].decision = null;
             }
 
             // Play the game until termination  WHAT ABOUT NONTERMINAL GAMES???

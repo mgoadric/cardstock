@@ -55,6 +55,7 @@ namespace CardStock.CardEngine
 
         // This is a readonly struct, so no cloning necessary.
         // IS THIS TRUE FOR MCTS????
+        // will be changin with update pointmap action
         public object Clone()
         {
             return this;

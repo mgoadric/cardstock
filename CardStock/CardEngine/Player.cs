@@ -7,17 +7,14 @@ namespace CardStock.CardEngine
      * They have an AIPlayer that is called on to make a
      * decision when a "choice" is found in the game
      */
-    public class Player : Owner {
+    public class Player(string name, int id) : Owner(name, id) {
 
         // Players can be part of Teams of Players, and can access
         // their shared storage
         public Team team;
 
         // The particular AI is supplied by the GameIterator later
-        public AIPlayer decision;
-
-        public Player(string name, int id) : base(name, id) {
-        }
+        public AIPlayer? decision;
 
         // Not much happening here, everything taken care of in the 
         // Owner class, again decisions are handled later 

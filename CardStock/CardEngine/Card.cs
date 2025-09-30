@@ -29,17 +29,12 @@ namespace CardStock.CardEngine
         {
             if (obj is Card c)
             {
-                return Equals(c);
+                if ((c.id != this.id) || (c.back != this.back))
+                { return false; }
+
+                return true;
             }
             return false;
-        }
-
-        public bool Equals(Card c)
-        {
-            if ((c.id != this.id) || (c.back != this.back))
-            { return false; }
-
-            return true;
         }
 
         public override int GetHashCode()

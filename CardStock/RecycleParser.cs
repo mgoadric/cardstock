@@ -5847,6 +5847,15 @@ public partial class RecycleParser : Parser {
 		private CardContext[] cards;
 		private WhopContext[] whops;
 		private WhotContext[] whots;
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode BOOLOP() { return GetToken(RecycleParser.BOOLOP, 0); }

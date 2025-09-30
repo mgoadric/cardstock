@@ -76,32 +76,37 @@ namespace CardStock.FreezeFrame{
             }
         }
 
-        // TODO Can we speed up removal for the cardList if we know locIdentifier
-        public Card Remove()
+        public Card SimpleRemove()
         {
-            Card card;
-
             switch (locIdentifier)
             {
                 case CardLocTypes.TOP:
-                    card = cardList.Remove();
-                    break;
+                    return cardList.Remove();
                 case CardLocTypes.BOTTOM:
-                    card = cardList.RemoveAt(0);
-                    break;
+                    return cardList.RemoveAt(0);
                 case CardLocTypes.NUMBER:
-                    card = cardList.RemoveAt(locid);
-                    break;
+                    return cardList.RemoveAt(locid);
                 default:
                     Console.WriteLine("Getting from a -1 loc ref");
                     // SHOULD THIS THROW EXCEPTION INSTEAD?
                     throw new Exception();
             }
+        }
+
+        public void VirtualRemove(Card card)
+        {
             if (cardList.type == CCType.VIRTUAL)
             {
                 Debug.WriteLine("Removing from Virtual...");
                 card.Owner.Remove(card); // where was it removed from? How do we save this for undo?
             }
+        }
+
+        // TODO Can we speed up removal for the cardList if we know locIdentifier
+        public Card Remove()
+        {
+            Card card = SimpleRemove();
+            VirtualRemove(card);
             return card;
             //return new Tuple<Card, int>(card, -1);
         }
