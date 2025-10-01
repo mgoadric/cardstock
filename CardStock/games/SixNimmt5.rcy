@@ -1,0 +1,157 @@
+;; 6 Nimmt
+;;
+;; https://cdn.1j1ju.com/medias/c6/c2/f9-6-nimmt-rulebook.pdf
+
+(game
+ (setup  
+  ;; Set up the players, 5
+  (create players 5)
+  
+  ;; Create the deck source
+  (create deck (game iloc STOCK) (deck (ONES (ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE))
+                                       (TENS (ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE))))
+  (create deck (game iloc STOCK) (deck (ONES (ZERO))
+                                       (TENS (ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE))))
+ (create deck (game iloc STOCK) (deck (ONES (ZERO, ONE, TWO, THREE, FOUR))
+                                       (HUNDREDS (ONE))))
+ )
+
+ (do ( 
+      
+      ;; Create the bullheads points
+      (set (game points BULLS) (
+            ((ONES : FIVE) 1)
+            ((ONES : ZERO) 2) 
+            ((ONES : ONE) (TENS: ONE) 4)
+            ((ONES : TWO) (TENS: TWO) 4)
+            ((ONES : THREE) (TENS: THREE) 4)
+            ((ONES : FOUR) (TENS: FOUR) 4)
+            ((ONES : FIVE) (TENS: FIVE) 5)
+            ((ONES : SIX) (TENS: SIX) 4)
+            ((ONES : SEVEN) (TENS: SEVEN) 4)
+            ((ONES : EIGHT) (TENS: EIGHT) 4)
+            ((ONES : NINE) (TENS: NINE) 4)
+      ))
+
+      (set (game points POINTS) (
+            ((ONES : ONE) 1)
+            ((ONES : TWO) 2) 
+            ((ONES : THREE) 3)
+            ((ONES : FOUR) 4) 
+            ((ONES : FIVE) 5)
+            ((ONES : SIX) 6) 
+            ((ONES : SEVEN) 7)
+            ((ONES : EIGHT) 8) 
+            ((ONES : NINE) 9)
+            ((TENS : ONE) 10)
+            ((TENS : TWO) 20) 
+            ((TENS : THREE) 30)
+            ((TENS : FOUR) 40) 
+            ((TENS : FIVE) 50)
+            ((TENS : SIX) 60) 
+            ((TENS : SEVEN) 70)
+            ((TENS : EIGHT) 80) 
+            ((TENS : NINE) 90)
+            ((HUNDREDS : ONE) 100)
+      ))
+      
+      (shuffle (game iloc STOCK))
+      (all (range 1..4) 'R
+            (move (top (game iloc STOCK)) 
+                  (top (game vloc ROW 'R))))
+      (all player 'P
+            (repeat 10
+              (move (top (game iloc STOCK)) 
+                    (top ('P iloc HAND)))))
+ ))
+ 
+ ;; Stages of the game
+ (stage player
+      (end 
+         (all player 'P (== (size ('P iloc HAND)) 0)))
+        
+      ;; Stages of the game
+      (stage player
+            (end 
+                (all player 'P (== (size ('P iloc HIDDENTRICK)) 1)))               
+               
+            ;; players play a hidden card
+            (choice (
+                 (do (
+                      (any ((current player) iloc HAND) 'C
+                           (move 'C 
+                                 (top ((current player) iloc HIDDENTRICK)))))))))
+        
+      (do (
+            ;; Move the card to visible
+            (all player 'P 
+                  (move (top ('P iloc HIDDENTRICK))
+                        (top ('P vloc TRICK))))
+      ))
+
+      (stage player 
+            (end 
+                  (all player 'P (== (size ('P vloc TRICK)) 0)))
+            
+            (do (
+                  ;; Determine smallest card
+                  (set (game sto SMALLEST) (pid (owner (max 
+                        (union (all player 'P ('P vloc TRICK))) using (game points POINTS)))))
+
+                  ;; Determine where it goes
+                  (set (game sto BESTROW) 0)
+                  (set (game sto DIFFERENCE) 105)
+                  (all (range 1..4) 'R
+                    (let (- (score (top (((game sto SMALLEST) player) vloc TRICK)) using (game points POINTS))
+                                    (score (top (game vloc ROW 'R)) using (game points POINTS))) 'DIFF
+                        ((and (> 'DIFF 0)
+                              (< 'DIFF (game sto DIFFERENCE)))
+                         (do (
+                              (set (game sto BESTROW) 'R)
+                              (set (game sto DIFFERENCE) 'DIFF)
+                         )))
+                    )
+                  )
+
+                  ;; found a place, there is no room
+                  (set (game sto ROWSIZE) (size (game vloc ROW (game sto BESTROW))))
+                  ((and (!= (game sto BESTROW) 0)
+                        (== (game sto ROWSIZE) 5))
+                   (do (
+                        (repeat all
+                              (move (top (game vloc ROW (game sto BESTROW)))
+                                    (top (((game sto SMALLEST) player) vloc TAKEN))))
+                        (move (top (((game sto SMALLEST) player) vloc TRICK))
+                              (top (game vloc ROW (game sto BESTROW))))  
+                   ))) 
+
+                  ;; found a place, there is room
+                  ((and (!= (game sto BESTROW) 0)
+                        (!= (game sto ROWSIZE) 5))
+                   (move (top (((game sto SMALLEST) player) vloc TRICK))
+                         (top (game vloc ROW (game sto BESTROW)))))                 
+
+            ))
+            (stage player (end (!= (game sto BESTROW) 0))
+                  (do (
+                        (cycle current ((game sto SMALLEST) player))
+                  ))
+                  (choice (
+                        (any (range 1..4) 'R
+                              (set (game sto BESTROW) 'R))
+                  ))
+                  (do (
+                        (repeat all
+                              (move (top (game vloc ROW (game sto BESTROW)))
+                                    (top ((current player) vloc TAKEN)))) 
+                        (move (top ((current player) vloc TRICK))
+                              (top (game vloc ROW (game sto BESTROW)))) 
+                  ))
+            )              
+            
+      )
+)
+ 
+ (scoring min (+ (size ((current player) vloc TAKEN)) (sum ((current player) vloc TAKEN) using (game points BULLS)))))
+
+
