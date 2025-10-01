@@ -138,8 +138,8 @@ namespace CardStock.FreezeFrame
             if (sub is RecycleParser.MultiactionContext choice)
             {
                 var choices = choice.condact();
-                var allOptions = new List<GameActionCollection>();
-                for (int i = 0; i < choices.Length; ++i)
+                var allOptions = new List<GameActionCollection>(16);
+                for (int i = 0; i < choices.Length; i++)
                 {
                     Debug.WriteLine("choice info: " + choices[i].GetType() + choices[i].GetText());
                     // PROBLEM! TODO when gets through for loop here without pushing any actions (specifically actions)
@@ -1147,17 +1147,17 @@ namespace CardStock.FreezeFrame
 
         private CardSwapAllAction ProcessSwapAll(RecycleParser.SwapactionContext swap)
         {
-            var c = swap.cstorage();
-            var locOne = ProcessLocation(c[0]);
+            var c = swap.basecstorage();
+            var locOne = ProcessSubLocation(c[0]);
             if (locOne.Count() == 0)
             {
-                Console.WriteLine("Swapping all from empty, " + swap.GetText());
+                Console.WriteLine("Swapping all from empty, " + locOne);
                 throw new InvalidOperationException();
             }
-            var locTwo = ProcessLocation(c[1]);
+            var locTwo = ProcessSubLocation(c[1]);
             if (locTwo.Count() == 0)
             {
-                Console.WriteLine("Swapping all from empty," + swap.GetText());
+                Console.WriteLine("Swapping all from empty," + locTwo);
                 throw new InvalidOperationException();
             }
             return new CardSwapAllAction(locOne, locTwo, script);
@@ -1323,7 +1323,7 @@ namespace CardStock.FreezeFrame
             return lst;
         }
 
-        private List<CardLocReference> ProcessCStorageCollection(RecycleParser.CstoragecollectionContext cstoragecoll)
+        private CardLocReference[] ProcessCStorageCollection(RecycleParser.CstoragecollectionContext cstoragecoll)
         {
             if (cstoragecoll.subset() is not null)
             {
@@ -1350,17 +1350,17 @@ namespace CardStock.FreezeFrame
                     subsets.AddRange(subsettemp);
                 }
                 Debug.WriteLine("there are now " + subsets.Count + " subsets");
-                var returnList = new List<CardLocReference>();
+                var returnList = new CardLocReference[subsets.Count];
                 for (int j = 0; j < subsets.Count; j++)
                 {
                     var cardlist = subsets[j];
                     var cctemp = new CardCollection(CCType.VIRTUAL, cardlist);
 
-                    returnList.Add(new CardLocReference()
+                    returnList[j] = new CardLocReference()
                     {
                         cardList = cctemp,
                         name = "{subset " + j + " from " + stor.name + "}"
-                    });
+                    };
                 }
                 return returnList;
             }
@@ -1368,8 +1368,7 @@ namespace CardStock.FreezeFrame
             // PARTITON CODE
             else if (cstoragecoll.partition() is not null)
             {
-                var pcc = ProcessPartition(cstoragecoll.partition());
-                return [.. pcc];
+                return ProcessPartition(cstoragecoll.partition());
             }
 
             else if (cstoragecoll.run() is not null)
@@ -1488,16 +1487,16 @@ namespace CardStock.FreezeFrame
                         });
                     }
                 }
-                return returnList;
+                return [.. returnList];
 
             }
             else if (cstoragecoll.aggcs() is not null)
             {
-                return ProcessAggCStorage(cstoragecoll.aggcs());
+                return [.. ProcessAggCStorage(cstoragecoll.aggcs())];
             }
             else if (cstoragecoll.varcsc() is not null)
             {
-                return ProcessCStorageCollectionVar(cstoragecoll.varcsc());
+                return [.. ProcessCStorageCollectionVar(cstoragecoll.varcsc())];
             }
             else if (cstoragecoll.indexed() is not null)
             {
@@ -1505,14 +1504,16 @@ namespace CardStock.FreezeFrame
                 Owner player = ProcessLocPre(cstoragecoll.indexed().locpre());
                 string name = ProcessString(cstoragecoll.indexed().str());
                 var bins = player.cardBins.Indexed(prefix, name + ":");
-                List<CardLocReference> ret = [];
+                CardLocReference[] ret = new CardLocReference[bins.Count];
+                int i = 0;
                 foreach (CardCollection cc in bins)
                 {
-                    ret.Add(new CardLocReference()
+                    ret[i] = new CardLocReference()
                     {
                         cardList = cc,
                         name = cc.name,
-                    });
+                    };
+                    i++;
                 }
                 return ret;
             }
@@ -1658,10 +1659,10 @@ namespace CardStock.FreezeFrame
                 // OH YES IT DID! IN WEIRD WAYS
                 return ProcessCStorageFilter(loc.filter());
             }
-            else if (loc.locpre() is not null)
+            else if (loc.basecstorage() is not null)
             {
                 Debug.WriteLine("Loc");
-                return ProcessSubLocation(loc);
+                return ProcessSubLocation(loc.basecstorage());
             }
             else if (loc.memstorage() is not null)
             {
@@ -1788,6 +1789,7 @@ namespace CardStock.FreezeFrame
 
             // Splitting on a card attribute?
             var partition = new Dictionary<string, CardCollection>();
+            int count = 0;
             
             // Split up the cards
             foreach (var stor in allLocs)
@@ -1795,25 +1797,30 @@ namespace CardStock.FreezeFrame
                 foreach (var card in stor.cardList.AllCards())
                 {
                     var attr = card.ReadAttribute(ProcessString(partContext.str()));
-                    if (!partition.ContainsKey(attr))
+                    if (!partition.TryGetValue(attr, out CardCollection? value))
                     {
-                        partition[attr] = new CardCollection(CCType.VIRTUAL);
+                        value = new CardCollection(CCType.VIRTUAL);
+                        partition[attr] = value;
+                        count++;
                     }
-                    partition[attr].Add(card);
+
+                    value.Add(card);
                 }
             }
 
             // Make new lists
-            var returnList = new List<CardLocReference>();
+            var returnList = new CardLocReference[count];
+            count = 0;
             foreach (KeyValuePair<string, CardCollection> kvp in partition)
             {
-                returnList.Add(new CardLocReference()
+                returnList[count] = new CardLocReference()
                 {
                     cardList = kvp.Value,
-                    name = "{partition}" + "{part: " + kvp + "}"
-                });
+                    name = "{partition}" + "{part: " + kvp.Key + "}"
+                };
+                count++;
             }
-            return [.. returnList];
+            return returnList;
         }
 
         private static CCType ProcessLocDesc(RecycleParser.LocdescContext locdesc)
@@ -1845,7 +1852,7 @@ namespace CardStock.FreezeFrame
             }
         }
 
-        private CardLocReference ProcessSubLocation(RecycleParser.CstorageContext stor)
+        private CardLocReference ProcessSubLocation(RecycleParser.BasecstorageContext stor)
         {
             CCType prefix = ProcessLocDesc(stor.locdesc());
             Owner player = ProcessLocPre(stor.locpre());
@@ -2382,7 +2389,7 @@ namespace CardStock.FreezeFrame
         private List<object> IterateAgg(RecycleParser.CollectionContext coll, RecycleParser.VarContext var, IParseTree tree)
         {
             var stor = ProcessCollection(coll);
-            var ret = new List<object>();
+            var ret = new List<object>(20);
             foreach (var t in stor)
             {
                 Debug.WriteLine("Iterating over aggregation of: " + t.GetType());

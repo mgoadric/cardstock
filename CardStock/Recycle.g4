@@ -5,7 +5,7 @@
 //  inc and dec default to +1 -1 when no int argument
 //  * pointmaps can be updated
 //  swap for cards and cardlocations 
-//  base card storage separated out
+//  base card storage separated out to own rule
 
 // New in version 0.6.2
 //  cycle syntax cleaned up, using a real player now instead of just "current" or "next"
@@ -123,7 +123,7 @@ setstraction : 'set' strstorage str ;
 incaction : 'inc' rawstorage int? ;
 decaction : 'dec' rawstorage int? ;
 moveaction : 'move' card card ;
-swapaction : 'swap' (card card) | (basecstorage basecstorage) ;
+swapaction : 'swap' ((card card) | (basecstorage basecstorage)) ;
 copyaction : 'remember' card card ;
 removeaction: 'forget' card ;
 shuffleaction : 'shuffle' (cstorage | 'faro' cstorage cstorage) ;

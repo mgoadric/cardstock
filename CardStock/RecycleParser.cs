@@ -3047,14 +3047,24 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class SwapactionContext : ParserRuleContext {
+		private CardContext[] cards;
+		private BasecstorageContext[] bases;
 		[System.Diagnostics.DebuggerNonUserCode] public CardContext[] card() {
-			return GetRuleContexts<CardContext>();
+			if (cards is null)
+			{
+				cards = GetRuleContexts<CardContext>();
+			}
+			return cards;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public CardContext card(int i) {
 			return GetRuleContext<CardContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public BasecstorageContext[] basecstorage() {
-			return GetRuleContexts<BasecstorageContext>();
+			if (bases is null)
+			{
+				bases = GetRuleContexts<BasecstorageContext>();
+			}
+			return bases;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public BasecstorageContext basecstorage(int i) {
 			return GetRuleContext<BasecstorageContext>(i);
@@ -3081,14 +3091,15 @@ public partial class RecycleParser : Parser {
 		SwapactionContext _localctx = new SwapactionContext(Context, State);
 		EnterRule(_localctx, 76, RULE_swapaction);
 		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 531;
+			Match(T__30);
 			State = 538;
 			ErrorHandler.Sync(this);
-			switch (TokenStream.LA(1)) {
-			case T__30:
-				EnterOuterAlt(_localctx, 1);
+			switch ( Interpreter.AdaptivePredict(TokenStream,30,Context) ) {
+			case 1:
 				{
-				State = 531;
-				Match(T__30);
 				{
 				State = 532;
 				card();
@@ -3097,8 +3108,7 @@ public partial class RecycleParser : Parser {
 				}
 				}
 				break;
-			case OPEN:
-				EnterOuterAlt(_localctx, 2);
+			case 2:
 				{
 				{
 				State = 535;
@@ -3108,8 +3118,7 @@ public partial class RecycleParser : Parser {
 				}
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -5676,6 +5685,7 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class PartitionContext : ParserRuleContext {
+		private CstorageContext[] stors;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public StrContext str() {
 			return GetRuleContext<StrContext>(0);
@@ -5685,7 +5695,11 @@ public partial class RecycleParser : Parser {
 			return GetRuleContext<AggcsContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext[] cstorage() {
-			return GetRuleContexts<CstorageContext>();
+			if (stors == null)
+			{
+				stors = GetRuleContexts<CstorageContext>();
+			}
+			return stors;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage(int i) {
 			return GetRuleContext<CstorageContext>(i);
@@ -8022,7 +8036,7 @@ public partial class RecycleParser : Parser {
 		1,0,0,0,46,406,1,0,0,0,48,416,1,0,0,0,50,433,1,0,0,0,52,441,1,0,0,0,54,
 		450,1,0,0,0,56,468,1,0,0,0,58,478,1,0,0,0,60,488,1,0,0,0,62,497,1,0,0,
 		0,64,503,1,0,0,0,66,509,1,0,0,0,68,513,1,0,0,0,70,517,1,0,0,0,72,522,1,
-		0,0,0,74,527,1,0,0,0,76,538,1,0,0,0,78,540,1,0,0,0,80,544,1,0,0,0,82,547,
+		0,0,0,74,527,1,0,0,0,76,531,1,0,0,0,78,540,1,0,0,0,80,544,1,0,0,0,82,547,
 		1,0,0,0,84,555,1,0,0,0,86,571,1,0,0,0,88,573,1,0,0,0,90,595,1,0,0,0,92,
 		597,1,0,0,0,94,604,1,0,0,0,96,614,1,0,0,0,98,616,1,0,0,0,100,620,1,0,0,
 		0,102,628,1,0,0,0,104,636,1,0,0,0,106,642,1,0,0,0,108,644,1,0,0,0,110,
@@ -8124,9 +8138,9 @@ public partial class RecycleParser : Parser {
 		0,0,517,518,5,28,0,0,518,520,3,194,97,0,519,521,3,160,80,0,520,519,1,0,
 		0,0,520,521,1,0,0,0,521,71,1,0,0,0,522,523,5,29,0,0,523,525,3,194,97,0,
 		524,526,3,160,80,0,525,524,1,0,0,0,525,526,1,0,0,0,526,73,1,0,0,0,527,
-		528,5,30,0,0,528,529,3,90,45,0,529,530,3,90,45,0,530,75,1,0,0,0,531,532,
+		528,5,30,0,0,528,529,3,90,45,0,529,530,3,90,45,0,530,75,1,0,0,0,531,538,
 		5,31,0,0,532,533,3,90,45,0,533,534,3,90,45,0,534,539,1,0,0,0,535,536,3,
-		124,62,0,536,537,3,124,62,0,537,539,1,0,0,0,538,531,1,0,0,0,538,535,1,
+		124,62,0,536,537,3,124,62,0,537,539,1,0,0,0,538,532,1,0,0,0,538,535,1,
 		0,0,0,539,77,1,0,0,0,540,541,5,32,0,0,541,542,3,90,45,0,542,543,3,90,45,
 		0,543,79,1,0,0,0,544,545,5,33,0,0,545,546,3,90,45,0,546,81,1,0,0,0,547,
 		553,5,34,0,0,548,554,3,122,61,0,549,550,5,35,0,0,550,551,3,122,61,0,551,

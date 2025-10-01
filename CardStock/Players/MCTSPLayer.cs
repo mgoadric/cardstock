@@ -139,10 +139,9 @@ namespace CardStock.Players
                         c = gameIterator.ProcessChoice();
                     }
 
-                    CardGame savestate = gameIterator.game.Clone();
-
                     // Stateandplayer is Tuple with state after move, and the idx of the player who made the move
-                    Tuple<CardGame, int> stateandplayer = Tuple.Create<CardGame, int>(savestate, idx);
+                    CardGame savestate = gameIterator.game.Clone();
+                    Tuple<CardGame, int> stateandplayer = Tuple.Create(savestate, idx);
 
                     visitedstates.Add(stateandplayer);
 

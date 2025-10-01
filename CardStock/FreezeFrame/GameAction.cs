@@ -343,12 +343,16 @@ namespace CardStock.FreezeFrame {
                     foreach (var card in endLocation.cardList.AllCards())
                     {
                         startLocation.cardList.Add(card);
+                        card.Owner = startLocation.cardList;
                     }
                     endLocation.cardList.Clear();
                     foreach (var card in temp)
                     {
                         endLocation.cardList.Add(card);
+                        card.Owner = endLocation.cardList;
                     }
+
+                    Debug.WriteLine("loc Counts " + startLocation.Count() + ", " + endLocation.Count());
 
                     var arrow = " <-> ";
                     if (inChoice) { arrow = " ?<-> "; }
@@ -392,11 +396,13 @@ namespace CardStock.FreezeFrame {
                 foreach (var card in endLocation.cardList.AllCards())
                 {
                     startLocation.cardList.Add(card);
+                    card.Owner = startLocation.cardList;
                 }
                 endLocation.cardList.Clear();
                 foreach (var card in temp)
                 {
                     endLocation.cardList.Add(card);
+                    card.Owner = endLocation.cardList;
                 }
             }
             else

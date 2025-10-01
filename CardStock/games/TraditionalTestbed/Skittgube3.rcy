@@ -13,8 +13,7 @@
                                               (BLACK (SUIT (SPADES, CLUBS)))))))
  
  ;; Shuffle and deal each player 3 cards
- (do 
-     (
+ (do (
       (shuffle (game iloc STOCK))
       ;; solidfy card precedence
       (set (game points PHASEONE)

@@ -74,7 +74,7 @@
                 
                 ;; exchange all cards with the middle
                 (do (
-                    (swap ((current player) iloc HAND) (game iloc EXTRA))
+                    (swap ((current player) iloc HAND) (game vloc MIDDLE))
                     (set (game sto PASS) 0)
 
                 ))
