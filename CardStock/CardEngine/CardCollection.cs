@@ -12,7 +12,7 @@ namespace CardStock.CardEngine
         public string name;
         public CCType type;
         public CardStorage owner;
-        private List<Card> cards = [];
+        private List<Card> cards = new(4);
 
         public CardCollection(CCType type)
         {
@@ -186,9 +186,9 @@ namespace CardStock.CardEngine
         public override int GetHashCode()
         {
             int hash = 0;
-            for (int i = 0; i < this.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                hash ^= this.Get(i).GetHashCode();
+                hash ^= Get(i).GetHashCode();
             }
             return hash;
         }

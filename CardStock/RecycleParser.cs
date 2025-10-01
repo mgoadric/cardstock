@@ -4916,13 +4916,18 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class UnionofContext : ParserRuleContext {
+		private CstorageContext[] stors;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public AggcsContext aggcs() {
 			return GetRuleContext<AggcsContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext[] cstorage() {
-			return GetRuleContexts<CstorageContext>();
+			if (stors is null)
+			{
+				stors = GetRuleContexts<CstorageContext>();
+			}
+			return stors;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage(int i) {
 			return GetRuleContext<CstorageContext>(i);
