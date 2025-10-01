@@ -25,7 +25,7 @@ categorized by genre:
     * [Cribbage](https://www.pagat.com/adders/crib6.html) (2p)
     * [Ninety Eight](https://www.pagat.com/adders/98.html) (4p)
 * Catch and Collect
-    * [6 Nimmt]([https://www.pagat.com/misc/gops.html](https://cdn.1j1ju.com/medias/c6/c2/f9-6-nimmt-rulebook.pdf)) (5p)
+    * [6 Nimmt](https://cdn.1j1ju.com/medias/c6/c2/f9-6-nimmt-rulebook.pdf) (5p)
     * Enchère (3p)
     * [GOPS](https://www.pagat.com/misc/gops.html) (2p)
     * [Go Fish](https://www.pagat.com/quartet/gofish.html) (2-4p)
