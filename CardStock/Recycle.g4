@@ -5,6 +5,7 @@
 //  inc and dec default to +1 -1 when no int argument
 //  * pointmaps can be updated
 //  swap for cards and cardlocations 
+//  base card storage separated out
 
 // New in version 0.6.2
 //  cycle syntax cleaned up, using a real player now instead of just "current" or "next"
@@ -122,7 +123,7 @@ setstraction : 'set' strstorage str ;
 incaction : 'inc' rawstorage int? ;
 decaction : 'dec' rawstorage int? ;
 moveaction : 'move' card card ;
-swapaction : 'swap' (card card) | (cstorage cstorage) ;
+swapaction : 'swap' (card card) | (basecstorage basecstorage) ;
 copyaction : 'remember' card card ;
 removeaction: 'forget' card ;
 shuffleaction : 'shuffle' (cstorage | 'faro' cstorage cstorage) ;
@@ -158,7 +159,8 @@ range : OPEN 'range' int '..' int CLOSE ;
 other : OPEN 'other' ('player' | 'team') CLOSE ;
 
 // CardCollections
-cstorage : varcs | unionof | intersectof | disjunctionof | sortof | filter | OPEN locpre locdesc str int? CLOSE | memstorage | sequence | runsequence ;
+cstorage : varcs | unionof | intersectof | disjunctionof | sortof | filter | basecstorage | memstorage | sequence | runsequence ;
+basecstorage : OPEN locpre locdesc str int? CLOSE ;
 sortof : OPEN 'sort' cstorage 'using' pointstorage CLOSE ;
 unionof : OPEN 'union' (aggcs | cstorage+?) CLOSE ;
 intersectof : OPEN 'intersect' (aggcs | cstorage+?) CLOSE ;

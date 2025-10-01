@@ -780,6 +780,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitCstorage([NotNull] RecycleParser.CstorageContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.basecstorage"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBasecstorage([NotNull] RecycleParser.BasecstorageContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.basecstorage"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBasecstorage([NotNull] RecycleParser.BasecstorageContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.sortof"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

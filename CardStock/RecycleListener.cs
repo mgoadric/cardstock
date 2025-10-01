@@ -651,6 +651,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitCstorage([NotNull] RecycleParser.CstorageContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.basecstorage"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBasecstorage([NotNull] RecycleParser.BasecstorageContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.basecstorage"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBasecstorage([NotNull] RecycleParser.BasecstorageContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.sortof"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

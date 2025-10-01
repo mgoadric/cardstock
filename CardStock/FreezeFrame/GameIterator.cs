@@ -832,13 +832,18 @@ namespace CardStock.FreezeFrame
                 var move = actionNode.moveaction();
                 ret.Add(ProcessMove(move));
             }
-            /*
-            else if (actionNode.swapaction().Length >= 0)
+            else if (actionNode.swapaction() is not null && actionNode.swapaction().card().Length > 0)
             {
                 Debug.WriteLine("SWAP: '" + actionNode.GetText() + "'");
                 var swap = actionNode.swapaction();
                 ret.Add(ProcessSwap(swap));
-            }*/
+            }
+            else if (actionNode.swapaction() is not null && actionNode.swapaction().basecstorage().Length > 0)
+            {
+                Debug.WriteLine("SWAPAll: '" + actionNode.GetText() + "'");
+                var swap = actionNode.swapaction();
+                ret.Add(ProcessSwapAll(swap));
+            }
             else if (actionNode.shuffleaction() is not null)
             {
                 if (actionNode.shuffleaction().cstorage().Length == 1)
@@ -1128,7 +1133,7 @@ namespace CardStock.FreezeFrame
             var locOne = ProcessCard(c[0]);
             if (locOne.Count() == 0)
             {
-                Console.WriteLine("Moving from empty, " + swap.GetText());
+                Console.WriteLine("Swapping from empty, " + swap.GetText());
                 throw new InvalidOperationException();
             }
             var locTwo = ProcessCard(c[1]);
@@ -1140,6 +1145,23 @@ namespace CardStock.FreezeFrame
             return new CardSwapAction(locOne, locTwo, script);
         }
 
+        private CardSwapAllAction ProcessSwapAll(RecycleParser.SwapactionContext swap)
+        {
+            var c = swap.cstorage();
+            var locOne = ProcessLocation(c[0]);
+            if (locOne.Count() == 0)
+            {
+                Console.WriteLine("Swapping all from empty, " + swap.GetText());
+                throw new InvalidOperationException();
+            }
+            var locTwo = ProcessLocation(c[1]);
+            if (locTwo.Count() == 0)
+            {
+                Console.WriteLine("Swapping all from empty," + swap.GetText());
+                throw new InvalidOperationException();
+            }
+            return new CardSwapAllAction(locOne, locTwo, script);
+        }
         private CardRememberAction ProcessCopy(RecycleParser.CopyactionContext copy)
         {
             var c = copy.card();
