@@ -17,7 +17,7 @@ tournament of AI players. Please post any issues you find.
 
 ## Games
 
-There are currently 60 games coded in RECYCLE, a mixture of classic and modern games, 
+There are currently 61 games coded in RECYCLE, a mixture of classic and modern games, 
 categorized by genre:
 
 * Adding
@@ -92,6 +92,7 @@ categorized by genre:
        * [Agram](https://www.pagat.com/last/agram.html) (2-5p)
        * [Duck Soup](http://www.parlettgames.uk/oricards/ducksoup.html) (2p)
        * [Euchre](https://www.pagat.com/euchre/euchre.html) (4p)
+       * [The Fox in the Forest](https://boardgamegeek.com/filepage/148606/official-english-rulebook)  (2p)
        * [The Bottle Imp](https://tesera.ru/images/items/11335/Bottle_Imp_Rules_EN.pdf) (3-4p)
 * Unique
     * [Coloretto](https://www.riograndegames.com/wp-content/uploads/2013/02/Coloretto-Rules.pdf) (4p)
