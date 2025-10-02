@@ -11,19 +11,21 @@ analyze the games to determine heuristics about the games
 such as fairness, decisiveness, drama, or clarity, and generate transcripts of
 each simulation for further study.
 
-We are currently in the process of abstracting and refactoring CardStock to allow
+We are currently abstracting and refactoring CardStock to allow
 for new game functionality and setting up a modular system for a
-tournament of AI players. Please check back for further progress on these issues.
+tournament of AI players. Please post any issues you find. 
 
 ## Games
 
-There are currently 59 games coded in RECYCLE
+There are currently 60 games coded in RECYCLE, a mixture of classic and modern games, 
+categorized by genre:
 
 * Adding
     * [Caterpillar](http://www.parlettgames.uk/oricards/caterpil.html) (2p)
     * [Cribbage](https://www.pagat.com/adders/crib6.html) (2p)
     * [Ninety Eight](https://www.pagat.com/adders/98.html) (4p)
 * Catch and Collect
+    * [6 Nimmt](https://cdn.1j1ju.com/medias/c6/c2/f9-6-nimmt-rulebook.pdf) (5p)
     * Enchère (3p)
     * [GOPS](https://www.pagat.com/misc/gops.html) (2p)
     * [Go Fish](https://www.pagat.com/quartet/gofish.html) (2-4p)
@@ -95,6 +97,9 @@ There are currently 59 games coded in RECYCLE
     * [Coloretto](https://www.riograndegames.com/wp-content/uploads/2013/02/Coloretto-Rules.pdf) (4p)
     * [Coup](http://boardgame.bg/coup%20rules%20pdf.pdf) (4p)
 
+Please check the [wishlist](https://github.com/mgoadric/cardstock/issues/44) for games that we would love 
+to have implemented in Recycle. Pull requests are welcome and encouraged!
+
 ## Requirements
 
 * [Visual Studio Code](https://code.visualstudio.com/)
@@ -125,3 +130,16 @@ There are currently 59 games coded in RECYCLE
 * [ReadTheDocs.io](http://cardstock.readthedocs.io)
 * [Automated Playtesting with RECYCLEd CardStock](http://mark.goadrich.com/articles/issue-2-1-09-recycled.pdf), Connor Bell and Mark Goadrich, *Game & Puzzle Design Journal*, Vol 2, Issue 1, July 2016
 * [Quantifying the Space of Hearts Variants](http://mark.goadrich.com/articles/Hearts_ACS_2021.pdf), Mark Goadrich and Collin Shaddox, *Advances in Computer Games 2021*, November 2021
+
+## Citation
+
+To cite this project, please use the following reference
+
+```text
+@article{Bell_Goadrich_2016,
+         title={Automated Playtesting with RECYCLEd CardStock},
+         author={Bell, Connor and Goadrich, Mark},
+         journal={Game & Puzzle Design},
+         volume={2}, number={1},
+         year={2016}, pages={71–83}}
+```
