@@ -1,8 +1,8 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "FoxInTheForest";
-int numPlayers = 2;
+string game = "SixNimmt";
+int numPlayers = 5;
 
 runExperiment(game, numPlayers);
 //runAllGames();
@@ -14,7 +14,7 @@ static void runExperiment(string game, int numPlayers)
         Game = game,
         PlayerCount = numPlayers,
         NumGames = 100,
-        Players = []
+        Players = [PlayerType.PIPMC, PlayerType.PIPMC, PlayerType.PIPMC, PlayerType.PIPMC, PlayerType.PIPMC, PlayerType.PIPMC, ]
     };
 
     Console.WriteLine(exp.Game + ", " + exp.PlayerCount);

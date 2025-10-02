@@ -4532,9 +4532,14 @@ public partial class RecycleParser : Parser {
 	}
 
 	public partial class RangeContext : ParserRuleContext {
+		private IntContext[] ints;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public IntContext[] @int() {
-			return GetRuleContexts<IntContext>();
+			if (ints is null)
+			{
+				ints = GetRuleContexts<IntContext>();
+			}
+			return ints;
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
 			return GetRuleContext<IntContext>(i);

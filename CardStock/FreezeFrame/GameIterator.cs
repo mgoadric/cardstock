@@ -1492,7 +1492,7 @@ namespace CardStock.FreezeFrame
             }
             else if (cstoragecoll.aggcs() is not null)
             {
-                return [.. ProcessAggCStorage(cstoragecoll.aggcs())];
+                return ProcessAggCStorage(cstoragecoll.aggcs());
             }
             else if (cstoragecoll.varcsc() is not null)
             {
@@ -1535,14 +1535,16 @@ namespace CardStock.FreezeFrame
             }
         }
 
-        private List<CardLocReference> CollectLocations(RecycleParser.CstorageContext[] cstorage, RecycleParser.AggcsContext aggcs)
+        private CardLocReference[] CollectLocations(RecycleParser.CstorageContext[] cstorage, RecycleParser.AggcsContext aggcs)
         {
             if (cstorage.Length > 0)
             {
-                var allLocs = new List<CardLocReference>();
+                var allLocs = new CardLocReference[cstorage.Length];
+                int i = 0;
                 foreach (var locChild in cstorage)
                 {
-                    allLocs.Add(ProcessLocation(locChild));
+                    allLocs[i] = ProcessLocation(locChild);
+                    i++;
                 }
                 return allLocs;
             }
@@ -2424,17 +2426,17 @@ namespace CardStock.FreezeFrame
             return ret2;
         }
 
-        private List<CardLocReference> ProcessAggCStorage(RecycleParser.AggcsContext agg)
+        private CardLocReference[] ProcessAggCStorage(RecycleParser.AggcsContext agg)
         {
             var ret = IterateAgg(agg.collection(), agg.var(), agg.GetChild(4));
 
             Debug.WriteLine(ret.Count);
 
             Debug.WriteLine("Processing agg + Cstorage: " + ((RecycleParser.CstorageContext)agg.GetChild(4)).GetText());
-            var coll = new List<CardLocReference>();
-            foreach (object obj in ret)
+            var coll = new CardLocReference[ret.Count];
+            for (int i = 0; i < ret.Count; i++)
             {
-                coll.Add((CardLocReference)obj);
+                coll[i] = (CardLocReference)ret[i];
             }
             return coll;
         }

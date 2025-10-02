@@ -9,9 +9,11 @@
   
   ;; Create the deck source
   (create deck (game iloc STOCK) (deck (ONES (ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE))
-                                       (TENS (ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE))))
+                                       (TENS (ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE))
+                                       (HUNDREDS (ZERO))))
   (create deck (game iloc STOCK) (deck (ONES (ZERO))
-                                       (TENS (ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE))))
+                                       (TENS (ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE))
+                                       (HUNDREDS (ZERO))))
  (create deck (game iloc STOCK) (deck (ONES (ZERO, ONE, TWO, THREE, FOUR))
                                        (HUNDREDS (ONE))))
  )

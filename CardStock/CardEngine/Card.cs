@@ -44,16 +44,11 @@ namespace CardStock.CardEngine
 
         public string ReadAttribute(string attributeName)
         {
-
-            try
+            if (!cardAtts.TryGetValue(attributeName, out string? value))
             {
-                return cardAtts[attributeName];
-            }
-            catch
-            {
-                Debug.WriteLine("KEY MISSING");
                 return "";
             }
+            return value;
         }
     }
     
