@@ -105,7 +105,7 @@ agg : OPEN ('any' | 'all') collection var condact CLOSE ;
 let : OPEN 'let' typed var (multiaction | action | condact) CLOSE ;
 
 // Actions
-action : OPEN (initpoints | teamcreate | deckcreate | cycleaction | setaction | moveaction | copyaction | swapaction
+action : OPEN (initpoints | teamcreate | deckcreate | cycleaction | setaction | moveaction | copyaction | swapaction | updatepoints
          | incaction | setstraction | decaction | removeaction | turnaction | shuffleaction | repeat) CLOSE | agg ;
 playercreate : OPEN 'create' 'players' int CLOSE ;
 teamcreate : OPEN 'create' 'teams' teams+? CLOSE ;

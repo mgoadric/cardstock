@@ -8,7 +8,7 @@ namespace CardStock.FreezeFrame{
         TOP, BOTTOM, UNDEFINED, NUMBER
     }
 
-	public class CardLocReference
+    public class CardLocReference
     {
         public required CardCollection cardList;
         // Can't remember why we need the default -1 here...
@@ -72,7 +72,7 @@ namespace CardStock.FreezeFrame{
                     Console.WriteLine("Getting from a -1 loc ref");
                     // SHOULD THIS THROW EXCEPTION INSTEAD?
                     throw new Exception();
-                //return cardList.Peek();
+                    //return cardList.Peek();
             }
         }
 
@@ -126,12 +126,21 @@ namespace CardStock.FreezeFrame{
 
         public override string ToString()
         {
-            return cardList + " " + locIdentifier;
+            return cardList + " " + locIdentifier + ":" + locid;
         }
 
         public string ToOutputString()
         {
             return cardList.ToString();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is CardLocReference other)
+            {
+                return Get().Equals(other.Get());
+            }
+            return false;
         }
     }	
 }

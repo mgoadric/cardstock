@@ -1,0 +1,225 @@
+;; The Fox in the Forest
+;;
+;; https://boardgamegeek.com/filepage/148606/official-english-rulebook
+
+(game
+    (declare 2 'NUMP)
+    (setup 
+        (create players 'NUMP)
+  
+        ;; Create the deck source 
+        (create deck (game iloc STOCK) (deck (RANK (ONE, TWO, THREE, FOUR, FIVE, 
+                                                    SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN)) 
+                                             (SUIT (BELL, KEY, MOON)))))
+
+    ;; Shuffle and deal each player 6 cards
+    (do (
+        (shuffle (game iloc STOCK))
+        (set (game str LEAD) NONE)
+        (all player 'P 
+            (repeat 13 
+                (move (top (game iloc STOCK))
+                      (top ('P iloc HAND)))))
+        (move (top (game iloc STOCK))
+              (top (game vloc DECREE)))
+        (set (game str TRUMP) (cardatt SUIT (top (game vloc DECREE))))
+        (set (game points RANKING) (
+                ((RANK : ELEVEN) 11)
+                ((RANK : TEN) 10)
+                ((RANK : NINE) 9)
+                ((RANK : EIGHT) 8)
+                ((RANK : SEVEN) 7)
+                ((RANK : SIX) 6)
+                ((RANK : FIVE) 5)
+                ((RANK : FOUR) 4)
+                ((RANK : THREE) 3)
+                ((RANK : TWO) 2)
+                ((RANK : ONE) 1)
+        ))
+    ))
+   
+    ;; players play a round 13 times         
+    (stage player
+        (end (all player 'P 
+                (== (size ('P iloc HAND)) 0)))
+
+        ;; players play a hand once     
+        (stage player
+            (end (all player 'P 
+                    (> (size ('P vloc TRICK)) 0)))
+               
+            (choice (
+                 
+                 ;; if first player, play any card, remember it in the lead spot
+                 ((== (game str LEAD) NONE)                      
+                  (any ((current player) iloc HAND) 'AC
+                       (do  (
+                            (move 'AC
+                                  (top ((current player) vloc TRICK)))
+                            (set (game str LEAD)
+                                 (cardatt SUIT (top ((current player) vloc TRICK))))
+
+                            ;; Monarch ability
+                            ((== (cardatt RANK (top ((current player) vloc TRICK))) ELEVEN)
+                             (set (game str MONARCH) TRUE))
+                        ))))
+                 
+                 ;; if following player and can follow SUIT
+                 ;;   play any card that follows SUIT
+                 ((and (!= (game str MONARCH) TRUE)
+                       (!= (game str LEAD) NONE))
+                  (any (filter ((current player) iloc HAND) 'T 
+                              (== (cardatt SUIT 'T) (game str LEAD))) 'C
+                        (move 'C 
+                              (top ((current player) vloc TRICK)))))
+
+                 ;; if following player and can follow SUIT and the MONARCH was led
+                 ;;   play highest card that follows SUIT or the 1
+                 ((and (== (game str MONARCH) TRUE)
+                       (!= (game str LEAD) NONE))
+                  (let (filter ((current player) iloc HAND) 'T 
+                              (== (cardatt SUIT 'T) (game str LEAD))) 'SUITCARDS
+                   (any (filter 'SUITCARDS 'TT 
+                              (or (== (cardatt RANK 'TT) ONE)
+                                  (== (max 'SUITCARDS using (game points RANKING)) 'TT))) 'C        
+                        (move 'C 
+                              (top ((current player) vloc TRICK))))))
+
+                 ;; if following player cannot follow SUIT
+                 ;;   play any card
+                 ((and (!= (game str LEAD) NONE)
+                       (== (size (filter ((current player) iloc HAND) 'C 
+                                         (== (cardatt SUIT 'C)
+                                             (game str LEAD)))) 0))
+                  (any ((current player) iloc HAND) 'AC
+                       (move 'AC 
+                             (top ((current player) vloc TRICK)))))
+            ))
+
+            (do (
+                ;; record Swan ability
+                ((== (cardatt RANK (top ((current player) vloc TRICK))) ONE)
+                 (do (
+                    (inc (game sto SWAN))
+                    (set (game sto SWANID) (pid (current player)))
+                 )))
+
+                ;; record Witch ability
+                ((== (cardatt RANK (top ((current player) vloc TRICK))) NINE)
+                 (do (
+                    (inc (game sto WITCH))
+                    (set (game sto WITCHID) (pid (current player)))
+                    (set (game sto WITCHOTHERID) (pid (next player)))
+                 )))
+            ))
+
+            (choice (
+                ;; Fox ability
+                ((== (cardatt RANK (top ((current player) vloc TRICK))) THREE)
+                 (do (
+                    (any ((current player) iloc HAND) 'C 
+                        (swap 'C (top (game vloc DECREE))))
+                    (set (game str TRUMP) (cardatt SUIT (top (game vloc DECREE))))
+                 )))
+
+                ;; Woodcutter ability
+                ((== (cardatt RANK (top ((current player) vloc TRICK))) FIVE)
+                 (do (
+                    (move (top (game iloc STOCK))
+                          (top ((current player) iloc HAND)))
+                    (any ((current player) iloc HAND) 'C 
+                        (move 'C (bottom (game iloc STOCK))))
+                 )))
+
+                ;; can pass Fox, or if neither active this should be the only option
+                ((!= (cardatt RANK (top ((current player) vloc TRICK))) FIVE)
+                 (turn pass))
+            ))
+        )
+        
+        ;; after players play hand, computer wraps up trick
+        (do (
+            ;; solidfy card recedence
+            (set (game points PRECEDENCE) (
+                ((SUIT : (game str TRUMP)) 200)
+                ((SUIT : (game str LEAD)) 100)
+                ((RANK : ELEVEN) 11)
+                ((RANK : TEN) 10)
+                ((RANK : NINE) 9)
+                ((RANK : EIGHT) 8)
+                ((RANK : SEVEN) 7)
+                ((RANK : SIX) 6)
+                ((RANK : FIVE) 5)
+                ((RANK : FOUR) 4)
+                ((RANK : THREE) 3)
+                ((RANK : TWO) 2)
+                ((RANK : ONE) 1)
+            ))
+            
+            ;; determine who won the hand
+            (set (game sto TRICKWINNER) (pid (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE)))))
+            (set (game sto TRICKLOSER) (pid (owner (min (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE)))))
+
+            ;; one witch? it becomes trump suit
+            ((and (== (game sto WITCH) 1)
+                  (>= (+ (score (top (((game sto WITCHID) player) vloc TRICK)) using (game points RANKING)) 200)
+                      (scoremax (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE))))
+             (do (
+                 (set (game sto TRICKWINNER) (game sto WITCHID))
+                 (set (game sto TRICKLOSER) (game sto WITCHOTHERID))
+             ))
+            )
+
+            ;; set the winner first next time, accounting for the swans
+            ((== (game sto SWAN) 0)         
+                (cycle next ((game sto TRICKWINNER) player))
+            )
+            ((== (game sto SWAN) 1)         
+                (cycle next ((game sto SWANID) player))
+            )
+            ((== (game sto SWAN) 2)         
+                (cycle next ((game sto TRICKLOSER) player))
+            )
+
+            ;; winner scores a trick point
+            (inc ((next player) sto TRICKSWON))
+
+            ;; Treasure ability
+            (let (size (filter (union (all player 'P ('P vloc TRICK))) 'TC
+                            (== (cardatt RANK 'TC) SEVEN))) 'T
+            ((> 'T 0)
+              (inc ((next player) sto SCORE) 'T))
+            )
+
+            ;; discard and reset for next trick
+            (all player 'P 
+                  (move (top ('P vloc TRICK)) 
+                        (top (game vloc DISCARD))))
+
+            (set (game str LEAD) NONE)
+            (set (game str MONARCH) FALSE)
+            (set (game sto SWAN) 0)
+            (set (game sto WITCH) 0)
+        ))
+    )
+
+    ;; calculate round points
+    (do (
+        (all player 'P
+            (do (
+                ((<= ('P sto TRICKSWON) 3)
+                 (inc ('P sto SCORE) 6))
+                ((== ('P sto TRICKSWON) 4)
+                 (inc ('P sto SCORE) 1))
+                ((== ('P sto TRICKSWON) 5)
+                 (inc ('P sto SCORE) 2))
+                ((== ('P sto TRICKSWON) 6)
+                 (inc ('P sto SCORE) 3))
+                ((and (>= ('P sto TRICKSWON) 7)
+                      (<= ('P sto TRICKSWON) 9))
+                 (inc ('P sto SCORE) 6))
+            ))
+        )
+    ))
+ 
+    (scoring max ((current player) sto SCORE)))

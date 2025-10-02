@@ -15,8 +15,7 @@
   (create deck (game iloc STOCK) (deck (RANK (JOKER)))))
  
  ;; Shuffle and deal each player 4 cards
- (do 
-     (
+ (do (
       (shuffle (game iloc STOCK))
       (set (game str LEAD) NONE)
       (all player 'P 
@@ -40,8 +39,7 @@
                          (> (size ('P vloc TRICK)) 0))
                     (== (game sto DRAW) 1)))
                
-               (choice 
-                (
+               (choice (
                  
                  ;; if following player cannot follow SUIT and no joker (size is 0 of filter)
                  ;;   draw a card and go again  
@@ -51,8 +49,7 @@
                                                  JOKER)
                                              (== (cardatt SUIT 'C)
                                                  (game str LEAD))))) 0))
-                  (do 
-                      (
+                  (do (
                        (move (top (game iloc STOCK))
                              (top ((current player) iloc HAND)))
                        (cycle next (current player)))))                 
@@ -75,18 +72,15 @@
                  ((or (== (game str LEAD) NONE)
                       (== (game str LEAD) JOKER))
                   (any ((current player) iloc HAND) 'AC
-                       (do 
-                           (
+                       (do (
                             (move 'AC
                                   (top ((current player) vloc TRICK)))
                             (set (game str LEAD) (cardatt SUIT (top ((current player) vloc TRICK))))))))))
                
                ;; Restock the deck if necessary
-               (do 
-                   (
+               (do (
                     ((== (size (game iloc STOCK)) 0)
-                     (do 
-                         (
+                     (do (
                           (repeat all
                                   (move (top (game vloc DISCARD)) 
                                         (top (game iloc STOCK))))
@@ -97,8 +91,7 @@
                      (set (game sto DRAW) 1)))))
         
         ;; after players play hand, computer wraps up trick
-        (do 
-            (
+        (do (
              ;; solidfy card precedence
              (set (game points PRECEDENCE)
                   (

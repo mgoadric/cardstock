@@ -1,0 +1,123 @@
+;; Nanuk
+;;
+;; 
+
+(game 
+    (declare 'NUMP 6)
+    (setup
+        (create players 'NUMP)
+        (create deck (game iloc STOCK) 
+        (repeat 'NUMP (create deck (game vloc HUNT) 
+        (repeat 'NUMP (create deck (game vloc DOOM) 
+        )
+    )
+    (do (
+        ;; shuffle the deck
+        (shuffle (game iloc STOCK))
+
+        (all player 'P
+            (do (
+                ;; give each player a hunt card and a doom card, privately
+                (move (top (game vloc HUNT))
+                      (top ('P iloc HUNTDOOM)))
+                (move (top (game vloc DOOM))
+                      (top ('P iloc HUNTDOOM)))
+
+                ;; deal everyone three cards
+                (repeat 3 (move (top (game iloc STOCK))
+                                (top ('P iloc HAND))))
+            )))
+    ))
+    (stage player (end ())
+        (do (
+            ;; flip the coin for clockwise or counterclockwise
+            ;; TODO
+
+        ))
+
+        ;; bidding, until someone says DOOM
+        (stage player (end ())
+            (choice (
+                ;; raise the bid for animals
+                (set (game sto ANIMALS) (range (+ 1 (game sto ANIMALS))..12))
+
+                ;; raise the bid for days
+                (set (game sto DAYS) (range (+ 1 (game sto DAYS))..12))
+
+                ;; raise the bid for both
+                (do (
+
+                ))
+
+                ;; or declare the hunt is DOOMED!
+                (set (game str HUNT) DOOMED)
+            )) 
+        )
+
+        (do (
+            ;; set turn order
+            (cycle current ((game sto DOOMSAYER) player))
+        ))
+
+        ;; blind bid for who joins the hunt and who dooms
+        (stage player (end ())
+            (choice (
+
+                ;; choose hunt card or doom card
+                (any ((current player) iloc HUNTDOOM) 'HDC 
+                    (move 'HDC (top ((current player) iloc TEMP)))
+                )
+            ))
+        )
+
+        ;; reveal the bid cards
+        (do (
+            (all player 'P 
+                (move (top ('P iloc TEMP))
+                      (top ('P vloc TEAM))))
+        ))
+
+        (stage player (end ())
+            (choice (
+                ;; if hunting, play 1-3 cards to pool
+
+                ;; if dooming, ante one card privately
+            ))
+        )
+
+        (do (
+            ;; reveal the hunt pool cards
+        ))
+
+        ;; flip cards until days met or Nanuk not countered by Inuksuk
+        (stage player (end ())
+            (do (
+                ;; reveal a card from the deck, add to the days pile
+
+                ;; if not enough cards, take from EXTRA and players hands
+                ;; shuffle to make the draw deck
+                ;; this is the last round
+            ))
+        )
+
+        (do (
+            ;; add doom ante cards to pool
+
+            ;; determine if hunt was successful or doomed
+
+            ;; successful leader or correct doomsayer gets one card
+
+            ;; if doomed and you doomed, or if successful and hunting, you get cards
+
+            ;; put leftover cards in EXTRA spot
+
+            ;; deal everyone back up to three cards
+
+                ;; if not enough in stock, put EXTRA in STOCK
+
+                ;; if still not enough, then the game is over
+
+            ;; put doom/hunt card back in hand
+        ))
+    )
+    (scoring (max (size ((current player) vloc REWARDS))))

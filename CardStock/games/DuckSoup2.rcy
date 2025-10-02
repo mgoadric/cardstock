@@ -13,13 +13,11 @@
  
  ;; Shuffle and deal each player 13 cards, set the play mode to DUCK
  (do (
-      
       (shuffle (game iloc STOCK))
       (all player 'P
            (repeat 13
                    (move (top (game iloc STOCK))
                          (top ('P iloc HAND)))))
-
 
       ;; turn top card face up...
       (move (top (game iloc STOCK))
@@ -140,7 +138,6 @@
                    (set (game sto TRICKLOSER) (pid (owner (min (union (all player 'P ('P vloc TRICK))) using (game points CARDSCORE)))))
                )))
           
-
              ;; score quack hand if only one card per player
              ((== (game sto QUACKED) 1)
               (do (
