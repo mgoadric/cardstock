@@ -1,0 +1,37 @@
+using CardStock.CardEngine;
+
+namespace CardStock.FreezeFrame.Actions
+{
+    public class NextAction(StageCycle<Player> playerCycle, int idx, Transcript script) : GameAction('N', script)
+    {
+        private readonly StageCycle<Player> playerCycle = playerCycle;
+        private readonly int idx = idx;
+        private int former = -1;
+
+        public override void Execute()
+        {
+            // someone already in the queue
+            if (playerCycle.queuedNext != -1) {
+                former = playerCycle.queuedNext;
+			}
+            playerCycle.SetNext(idx);
+            script?.WriteToFile(prefix + ":p" + idx);
+        }
+
+        public override void Undo()
+        {
+            if (former != -1)
+            {
+                playerCycle.SetNext(former);
+            } else {
+                playerCycle.RevertNext();
+            }
+            //Console.WriteLine("Reverting: " + former);
+
+        }
+		public override string ToString()
+		{
+            return "NextAction: Next player: " + idx.ToString();
+		}
+    }
+}
