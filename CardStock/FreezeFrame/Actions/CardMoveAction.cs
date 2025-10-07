@@ -58,15 +58,18 @@ namespace CardStock.FreezeFrame.Actions
 
                     Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
 
+                    if (!inChoice) {
+                        script?.AddToMovementFile(owner, endLocation.cardList);
+                    }
                     // Track here to see if it moved from a visible to invisible location TODO
                     // Then record the invisible as the last known location.
                 }
-                else
-                {
-                    Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
-                    Console.WriteLine("moving to " + endLocation.ToString());
-                    throw new Exception();
-                }
+                    else
+                    {
+                        Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
+                        Console.WriteLine("moving to " + endLocation.ToString());
+                        throw new Exception();
+                    }
             }
             catch
             {

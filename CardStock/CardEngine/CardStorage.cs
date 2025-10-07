@@ -8,6 +8,7 @@ namespace CardStock.CardEngine
      */
     public class CardStorage(Owner owner)
     {
+        public const char delimiter = '_';
         private readonly Dictionary<string, CardCollection> dict = [];
         public Owner owner = owner;
 
@@ -19,12 +20,12 @@ namespace CardStock.CardEngine
             get
             {
                 KeyCheck(type, key);
-                return dict[type + ":" + key];
+                return dict[type + delimiter + key];
             }
             set
             {
                 KeyCheck(type, key);
-                dict[type + ":" + key] = value;
+                dict[type + delimiter + key] = value;
             }
         }
 
@@ -34,7 +35,7 @@ namespace CardStock.CardEngine
          */
         private void KeyCheck(CCType type, string key)
         {
-            string name = type + ":" + key;
+            string name = type + delimiter + key;
             if (!dict.ContainsKey(name))
             {
                 CardCollection ncc = new(type)
@@ -58,7 +59,7 @@ namespace CardStock.CardEngine
             List<CardCollection> ret = [];
             foreach (string k in dict.Keys) // this could be time-consuming. Better way to organize?
             {
-                if (k.StartsWith(type + ":" + name)) // this could also be slow?
+                if (k.StartsWith(type + delimiter + name)) // this could also be slow?
                 {
                     ret.Add(dict[k]);
                 }

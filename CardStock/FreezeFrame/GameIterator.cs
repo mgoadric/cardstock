@@ -14,11 +14,12 @@ namespace CardStock.FreezeFrame
         private readonly Stack<Queue<IParseTree>> iterStack;
         private HashSet<IParseTree> iteratingSet; // could this be a stack??
         private RecycleVariables variables;
-        private readonly Transcript script;
+        public readonly Transcript script;
 
         public RecycleParser.GameContext rules;
         public CardGame game;
         public int totalChoices;
+        public int run;
 
         public GameIterator(RecycleParser.GameContext context, CardGame mygame, string fileName, bool fresh = true)
         {
@@ -1504,7 +1505,7 @@ namespace CardStock.FreezeFrame
                 CCType prefix = ProcessLocDesc(cstoragecoll.indexed().locdesc());
                 Owner player = ProcessLocPre(cstoragecoll.indexed().locpre());
                 string name = ProcessString(cstoragecoll.indexed().str());
-                var bins = player.cardBins.Indexed(prefix, name + ":");
+                var bins = player.cardBins.Indexed(prefix, name + CardStorage.delimiter);
                 CardLocReference[] ret = new CardLocReference[bins.Count];
                 int i = 0;
                 foreach (CardCollection cc in bins)
@@ -1860,7 +1861,7 @@ namespace CardStock.FreezeFrame
             CCType prefix = ProcessLocDesc(stor.locdesc());
             Owner player = ProcessLocPre(stor.locpre());
 
-            string name = ProcessString(stor.str()) + ":";
+            string name = ProcessString(stor.str()) + CardStorage.delimiter;
             if (stor.@int() is not null)
             {
                 name += ProcessInt(stor.@int());

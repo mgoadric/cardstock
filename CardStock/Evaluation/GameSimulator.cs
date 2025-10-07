@@ -101,8 +101,8 @@ namespace CardStock.Evaluation {
                     }
 
                     /*********
-                         * PLAY THE GAME
-                         ***********/
+                     * PLAY THE GAME
+                     ***********/
                     while (!gamePlay.AdvanceToChoice())
                     {
                         gamePlay.ProcessChoice();
@@ -125,6 +125,8 @@ namespace CardStock.Evaluation {
 
                     numFinished++;
                     Console.WriteLine("Finished game " + numFinished + " of " + exp.NumGames);
+
+                    gamePlay.script.WriteMovementFile();
 
                 }
                 catch (Exception e)

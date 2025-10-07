@@ -7,10 +7,10 @@
     (setup
         (create players 'NUMP)
         (create deck (game iloc STOCK) 
-        (repeat 'NUMP (create deck (game vloc HUNT) 
-        (repeat 'NUMP (create deck (game vloc DOOM) 
-        )
+        (repeat 'NUMP (create deck HUNT (game vloc HUNT) (CHOICE (HUNT)))) 
+        (repeat 'NUMP (create deck HUNT (game vloc DOOM) (CHOICE (DOOM)))) 
     )
+    
     (do (
         ;; shuffle the deck
         (shuffle (game iloc STOCK))
@@ -29,11 +29,11 @@
             )))
     ))
     (stage player (end ())
-        (do (
+        ;;(do (
             ;; flip the coin for clockwise or counterclockwise
             ;; TODO
 
-        ))
+        ;;))
 
         ;; bidding, until someone says DOOM
         (stage player (end ())
@@ -60,7 +60,7 @@
         ))
 
         ;; blind bid for who joins the hunt and who dooms
-        (stage player (end ())
+        (stage player (end (all player 'P (== (size ('P iloc TEMP)) 1)))
             (choice (
 
                 ;; choose hunt card or doom card
@@ -87,6 +87,8 @@
 
         (do (
             ;; reveal the hunt pool cards
+            (repeat all (move (top (game iloc HUNTPOOL))
+                              (top (game vloc HUNTPOOL))))
         ))
 
         ;; flip cards until days met or Nanuk not countered by Inuksuk
@@ -101,9 +103,11 @@
         )
 
         (do (
-            ;; add doom ante cards to pool
-
             ;; determine if hunt was successful or doomed
+
+            ;; add doom ante cards to pool
+            (repeat all (move (top (game iloc DOOMANTE))
+                              (top (game vloc HUNTPOOL))))
 
             ;; successful leader or correct doomsayer gets one card
 

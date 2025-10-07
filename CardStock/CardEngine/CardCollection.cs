@@ -122,6 +122,10 @@ namespace CardStock.CardEngine
             return owner.owner.name + ":" + type + ":" + name;
         }
 
+        public string MovementName()
+        {
+            return owner.owner.name + "_" + type + "_" + name;
+        }
         public CardCollection EmptyClone()
         {
 
