@@ -2,7 +2,7 @@ using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions
 {
-    public class NextAction(StageCycle<Player> playerCycle, int idx, Transcript script) : GameAction('N', script)
+    public class PlayerNextAction(StageCycle<Player> playerCycle, int idx, Transcript script) : GameAction('N', script)
     {
         private readonly StageCycle<Player> playerCycle = playerCycle;
         private readonly int idx = idx;
@@ -31,7 +31,7 @@ namespace CardStock.FreezeFrame.Actions
         }
 		public override string ToString()
 		{
-            return "NextAction: Next player: " + idx.ToString();
+            return "PlayerNextAction: Next player: " + idx.ToString();
 		}
     }
 }

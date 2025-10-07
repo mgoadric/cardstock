@@ -1,6 +1,7 @@
 ﻿using CardStock.CardEngine;
 using CardStock.FreezeFrame;
 using CardStock.Evaluation;
+using CardStock.FreezeFrame.Actions;
 
 namespace CardStock.Players
 {
@@ -85,9 +86,14 @@ namespace CardStock.Players
             int depth = 0;
 
             // "Playing a simulated game"
-            // Should be loop that stops when you hit GameSimulator.CHOICELIMIT
             while (!gameIterator.AdvanceToChoice())
             {
+                // Should be loop that stops when you hit GameSimulator.CHOICELIMIT
+                if (depth > GameSimulator.CHOICELIMIT)
+                {
+                    break;
+                }
+                
                 if (expand)
                 {
                     // Each turn, need to check to see if we have enough information to make a move using UCB

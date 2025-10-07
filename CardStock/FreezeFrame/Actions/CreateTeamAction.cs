@@ -3,9 +3,9 @@ using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions
 {
-        public class TeamCreateAction : GameAction {
+        public class CreateTeamAction : GameAction {
         private readonly List<List<int>> teamList;
-        public TeamCreateAction(List<List<int>> teamList, CardGame cg, Transcript script) : base('E', script)
+        public CreateTeamAction(List<List<int>> teamList, CardGame cg, Transcript script) : base('E', script)
         {
             this.teamList = teamList;
             this.cg = cg;
@@ -38,7 +38,7 @@ namespace CardStock.FreezeFrame.Actions
         }
 		public override string ToString()
 		{
-            return "TeamCreateAction: " + teamList.ToString();
+            return "CreateTeamAction: " + teamList.ToString();
 		}
     }
 }

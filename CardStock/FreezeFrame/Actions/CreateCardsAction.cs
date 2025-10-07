@@ -3,12 +3,12 @@ using CardStock.CardEngine;
 namespace CardStock.FreezeFrame.Actions
 {
     
-    public class InitializeAction : GameAction {
+    public class CreateCardsAction : GameAction {
         readonly CardCollection location;
         readonly CardCollection before = new(CCType.VIRTUAL);
-        readonly Tree deck;
+        readonly CardTree deck;
         readonly string name;
-        public InitializeAction(CardCollection loc, Tree d, string n, CardGame cg, Transcript script) : base('D', script)
+        public CreateCardsAction(CardCollection loc, CardTree d, string n, CardGame cg, Transcript script) : base('D', script)
         {
             location = loc;
             deck = d;
@@ -32,7 +32,7 @@ namespace CardStock.FreezeFrame.Actions
         }
 		public override string ToString()
 		{
-            return "InitializeAction: " + "Location: " + location.name + "; Cards: " + location.AllCards();
+            return "CreateCardsAction: " + "Location: " + location.name + "; Cards: " + location.AllCards();
 		}
     }
 }

@@ -4,16 +4,37 @@ using Antlr4.Runtime.Tree;
 
 namespace CardStock.FreezeFrame
 {
-    class IteratingTree{
+    class IterItem{
+        public IParseTree tree;
+        public string varContext;
+        public object item;
+
+        public IterItem(IParseTree tree){
+            this.tree = tree;
+        }
+        public IterItem(string k)
+        {
+            varContext = k;
+        }
+        public IterItem(string k, object v){
+            varContext = k;
+            item = v;
+        }
+    }
+    
+    class IteratingTree
+    {
         public Stack<IterItem> trees;
         public int level;
 
-        public IteratingTree(){
+        public IteratingTree()
+        {
             trees = new Stack<IterItem>(100);
             level = 0;
         }
 
-        public IteratingTree Copy(){
+        public IteratingTree Copy()
+        {
             return new IteratingTree
             {
                 trees = new Stack<IterItem>(trees),
@@ -21,37 +42,46 @@ namespace CardStock.FreezeFrame
             };
         }
 
-        public void Push(IParseTree tree){
+        public void Push(IParseTree tree)
+        {
             trees.Push(new IterItem(tree));
         }
 
-        public void Push(string k){
+        public void Push(string k)
+        {
             trees.Push(new IterItem(k));
         }
 
-        public void Push(string k, object v){
+        public void Push(string k, object v)
+        {
             trees.Push(new IterItem(k, v));
         }
 
-        public IterItem Pop(){
+        public IterItem Pop()
+        {
             return trees.Pop();
         }
-        public IterItem Peek(){
+        public IterItem Peek()
+        {
             return trees.Peek();
         }
 
-        public int Count(){
+        public int Count()
+        {
             return trees.Count;
         }
 
-        public override string ToString(){
+        public override string ToString()
+        {
             var ret = "";
             foreach (var obj in trees)
             {
-                if (obj.tree is not null){
+                if (obj.tree is not null)
+                {
                     ret += obj.tree.GetText();
                 }
-                else{
+                else
+                {
                     ret += " var context " + obj.varContext + " " + obj.item;
                 }
             }

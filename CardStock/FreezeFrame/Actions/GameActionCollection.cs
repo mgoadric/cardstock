@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace CardStock.FreezeFrame.Actions
 {
-       public class GameActionCollection : List<GameAction>
+    public class GameActionCollection : List<GameAction>
     {
 
         public void ExecuteAll()

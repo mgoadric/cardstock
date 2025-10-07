@@ -300,7 +300,7 @@ namespace CardStock.CardEngine
             currentTeam.Pop();
         }
 
-        public void SetDeck(Tree cardAttributes, CardCollection loc, string name, Transcript? script)
+        public void SetDeck(CardTree cardAttributes, CardCollection loc, string name, Transcript? script)
         {
             var combos = cardAttributes.Combinations();
             foreach (var combo in combos)

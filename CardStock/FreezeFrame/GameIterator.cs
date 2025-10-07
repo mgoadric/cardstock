@@ -216,7 +216,7 @@ namespace CardStock.FreezeFrame
 
             Debug.WriteLine("Creating teams.");
             var teamCreate = ProcessTeamCreate(setupNode.teamcreate(), game);
-            ret.Add(new TeamCreateAction(teamCreate, game, script));
+            ret.Add(new CreateTeamAction(teamCreate, game, script));
 
             if (setupNode.deckcreate() is not null)
             {
@@ -286,17 +286,17 @@ namespace CardStock.FreezeFrame
             return false;
         }
 
-        private InitializeAction ProcessDeckCreate(RecycleParser.DeckcreateContext deckinit)
+        private CreateCardsAction ProcessDeckCreate(RecycleParser.DeckcreateContext deckinit)
         {
             var locstorage = ProcessLocation(deckinit.cstorage());
             var deckTree = ProcessDeck(deckinit.deck());
             if (deckinit.str() is null)
             {
-                return new InitializeAction(locstorage.cardList, deckTree, "DEFAULT", game, script);
+                return new CreateCardsAction(locstorage.cardList, deckTree, "DEFAULT", game, script);
             }
             else
             {
-                return new InitializeAction(locstorage.cardList, deckTree, ProcessString(deckinit.str()), game, script);
+                return new CreateCardsAction(locstorage.cardList, deckTree, ProcessString(deckinit.str()), game, script);
             }
         }
 
@@ -820,12 +820,12 @@ namespace CardStock.FreezeFrame
             if (actionNode.teamcreate() is not null)
             {
                 var teamCreate = ProcessTeamCreate(actionNode.teamcreate(), game);
-                ret.Add(new TeamCreateAction(teamCreate, game, script));
+                ret.Add(new CreateTeamAction(teamCreate, game, script));
             }
             else if (actionNode.initpoints() is not null)
             {
                 var pointAction = actionNode.initpoints();
-                ret.Add(PointAction(pointAction));
+                ret.Add(ProcessPoints(pointAction));
             }
             else if (actionNode.moveaction() is not null)
             {
@@ -888,7 +888,7 @@ namespace CardStock.FreezeFrame
             }
             else if (actionNode.turnaction() is not null)
             {
-                ret.Add(new TurnAction(script));
+                ret.Add(new PassAction(script));
             }
             else if (actionNode.copyaction() is not null)
             {
@@ -926,8 +926,8 @@ namespace CardStock.FreezeFrame
             }
 
             switch (cycle.GetChild(1).GetText()) {
-                case "next": return new NextAction(game.CurrentPlayer(), idx, script);
-                case "current": return new SetPlayerAction(idx, game, script);
+                case "next": return new PlayerNextAction(game.CurrentPlayer(), idx, script);
+                case "current": return new PlayerNowAction(idx, game, script);
             }
 
             Console.WriteLine("Unknown Player reference for cycle change.");
@@ -1964,22 +1964,22 @@ namespace CardStock.FreezeFrame
             throw new Exception();
         }
 
-        private static Tree ProcessDeck(RecycleParser.DeckContext deck)
+        private static CardTree ProcessDeck(RecycleParser.DeckContext deck)
         {
             //var attributeCount = deck.ChildCount - 3;
 
-            List<Node> childs = [];
+            List<AttributeNode> childs = [];
             for (int i = 0; i < deck.attribute().Length; ++i)
             {
-                childs.Add(new Node
+                childs.Add(new AttributeNode
                 {
                     Value = $"combo{i}",
                     children = ProcessAttribute(deck.attribute(i))
                 });
             }
-            return new Tree
+            return new CardTree
             {
-                rootNode = new Node
+                rootNode = new AttributeNode
                 {
                     Value = "Attrs",
                     children = childs
@@ -1988,9 +1988,9 @@ namespace CardStock.FreezeFrame
         }
 
 
-        private static List<Node> ProcessAttribute(RecycleParser.AttributeContext attr) //TODO make this array!!
+        private static List<AttributeNode> ProcessAttribute(RecycleParser.AttributeContext attr) //TODO make this array!!
         {
-            var ret = new List<Node>();
+            var ret = new List<AttributeNode>();
             if (attr.attribute()[0].attribute().Length == 0)
             {
                 var terminalTitle = attr.namegr()[0];
@@ -1999,7 +1999,7 @@ namespace CardStock.FreezeFrame
                 var trueCount = (subNode.ChildCount - 3) / 2 + 1;
                 for (int i = 0; i < trueCount; ++i)
                 {
-                    ret.Add(new Node
+                    ret.Add(new AttributeNode
                     {
                         Key = terminalTitle.GetText(),
                         Value = subNode.namegr(i).GetText()
@@ -2013,12 +2013,12 @@ namespace CardStock.FreezeFrame
 
                 foreach (var subNode in children)
                 {
-                    var childs = new List<Node>();
+                    var childs = new List<AttributeNode>();
                     foreach (var att in subNode.attribute())
                     {
                         childs.AddRange(ProcessAttribute(att));
                     }
-                    ret.Add(new Node
+                    ret.Add(new AttributeNode
                     {
                         Key = terminalTitle.GetText(),
                         Value = subNode.namegr()[0].GetText(),
@@ -2216,7 +2216,7 @@ namespace CardStock.FreezeFrame
             return (int1 * (int1 + 1)) / 2;
         }
 
-        private IntStorageReference ProcessIntStorage(RecycleParser.RawstorageContext intSto)
+        private StorageReference<int> ProcessIntStorage(RecycleParser.RawstorageContext intSto)
         {
             var who = game.table[0];
             if (intSto.who() is not null)
@@ -2227,10 +2227,10 @@ namespace CardStock.FreezeFrame
             {
                 who = ProcessOwnerVar(intSto.varo());
             }
-            return new IntStorageReference(who.intBins, ProcessString(intSto.str()));
+            return new StorageReference<int>(who.intBins, ProcessString(intSto.str()));
         }
 
-        private StrStorageReference ProcessStrStorage(RecycleParser.StrstorageContext strSto)
+        private StorageReference<string> ProcessStrStorage(RecycleParser.StrstorageContext strSto)
         {
             var who = game.table[0];
             if (strSto.who() is not null)
@@ -2241,10 +2241,10 @@ namespace CardStock.FreezeFrame
             {
                 who = ProcessOwnerVar(strSto.varo());
             }
-            return new StrStorageReference(who.stringBins, ProcessString(strSto.str()));
+            return new StorageReference<string>(who.stringBins, ProcessString(strSto.str()));
         }
 
-        private PointStorageReference ProcessPointStorage(RecycleParser.PointstorageContext ptSto)
+        private StorageReference<PointMap> ProcessPointStorage(RecycleParser.PointstorageContext ptSto)
         {
             var who = game.table[0];
             if (ptSto.who() is not null)
@@ -2255,24 +2255,24 @@ namespace CardStock.FreezeFrame
             {
                 who = ProcessOwnerVar(ptSto.varo());
             }
-            return new PointStorageReference(who.pointBins, ProcessString(ptSto.str()));
+            return new StorageReference<PointMap>(who.pointBins, ProcessString(ptSto.str()));
         }
 
-        private IntAction SetAction(RecycleParser.SetactionContext setAction)
+        private SetAction<int> SetAction(RecycleParser.SetactionContext setAction)
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
             var setValue = ProcessInt(setAction.@int());
-            return new IntAction(bin.Storage, bin.Key, setValue, script);
+            return new SetAction<int>(bin.Storage, bin.Key, setValue, script);
         }
 
-        private StrAction SetStrAction(RecycleParser.SetstractionContext setAction)
+        private SetAction<string> SetStrAction(RecycleParser.SetstractionContext setAction)
         {
             var bin = ProcessStrStorage(setAction.strstorage());
             var setValue = ProcessString(setAction.str());
-            return new StrAction(bin.Storage, bin.Key, setValue, script);
+            return new SetAction<string>(bin.Storage, bin.Key, setValue, script);
         }
 
-        private PointsAction PointAction(RecycleParser.InitpointsContext points)
+        private SetAction<PointMap> ProcessPoints(RecycleParser.InitpointsContext points)
         {
             var bin = ProcessPointStorage(points.pointstorage());
 
@@ -2300,35 +2300,35 @@ namespace CardStock.FreezeFrame
                 temp.Add(new ValueTuple<string, string, int>(k, v, reward));
             }
             var setValue = new PointMap(temp);
-            return new PointsAction(bin.Storage, bin.Key, setValue, script);
+            return new SetAction<PointMap>(bin.Storage, bin.Key, setValue, script);
         }
 
-        private IntAction IncAction(RecycleParser.IncactionContext setAction)
+        private SetAction<int> IncAction(RecycleParser.IncactionContext setAction)
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
             if (setAction.@int() is not null)
             {
                 var setValue = ProcessInt(setAction.@int());
                 var newVal = bin.Get() + setValue;
-                return new IntAction(bin.Storage, bin.Key, newVal, script);
+                return new SetAction<int>(bin.Storage, bin.Key, newVal, script);
             }
             else
             {
-                return new IntAction(bin.Storage, bin.Key, bin.Get() + 1, script);
+                return new SetAction<int>(bin.Storage, bin.Key, bin.Get() + 1, script);
             }
         }
-        private IntAction DecAction(RecycleParser.DecactionContext setAction)
+        private SetAction<int> DecAction(RecycleParser.DecactionContext setAction)
         {
             var bin = ProcessIntStorage(setAction.rawstorage());
             if (setAction.@int() is not null)
             {
                 var setValue = ProcessInt(setAction.@int());
                 var newVal = bin.Get() - setValue;
-                return new IntAction(bin.Storage, bin.Key, newVal, script);
+                return new SetAction<int>(bin.Storage, bin.Key, newVal, script);
             }
             else
             {
-                return new IntAction(bin.Storage, bin.Key, bin.Get() - 1, script);
+                return new SetAction<int>(bin.Storage, bin.Key, bin.Get() - 1, script);
             }
         }
 
@@ -2452,7 +2452,7 @@ namespace CardStock.FreezeFrame
             var sum = 0;
             foreach (object obj in ret)
             {
-                var raw = (IntStorageReference)obj;
+                var raw = (StorageReference<int>)obj;
                 sum += raw.Get();
             }
             return sum;
@@ -2803,7 +2803,7 @@ namespace CardStock.FreezeFrame
         private int ProcessIntVar(RecycleParser.VariContext varContext)
         {
             var temp = variables.Get(varContext.GetText());
-            if (temp is IntStorageReference raw)
+            if (temp is StorageReference<int> raw)
             {
                 return raw.Get();
             }

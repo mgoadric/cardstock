@@ -2,11 +2,11 @@ using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions
 {
-        public class SetPlayerAction : GameAction
+        public class PlayerNowAction : GameAction
     {
         private readonly int idx;
         private int former;
-        public SetPlayerAction(int idx, CardGame cg, Transcript script) : base('T', script)
+        public PlayerNowAction(int idx, CardGame cg, Transcript script) : base('T', script)
         {
             this.idx = idx;
             this.cg = cg;
@@ -27,7 +27,7 @@ namespace CardStock.FreezeFrame.Actions
 
 		public override string ToString()
 		{
-            return "SetPlayerAction: Set player: " + idx.ToString();
+            return "PlayerNowAction: Set player: " + idx.ToString();
 		}
     }
 }
