@@ -17,7 +17,7 @@ analyze the games to determine heuristics about the games
 such as fairness, decisiveness, drama, or clarity, and generate transcripts of
 each simulation for further study.
 
-There are currently 55 games coded in RECYCLE, from genres such as 
+There are currently 61 games coded in RECYCLE, from genres such as 
 push-your-luck, fishing, adding, matching, draw-and-discard, and trick-taking
 games. 
 

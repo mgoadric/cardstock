@@ -648,7 +648,7 @@ Action
 Actions are the way that RECYCLE allows either the players or the game to update
 the data structures and rearrange the cards in the game.
 
-TeamCreateAction
+CreateTeamAction
 ----------------
 
 Teams can be created at any time during the game, and can be created in the initialization
@@ -683,7 +683,7 @@ Card_ objects.
 
   (shuffle [CardCollection])
 
-MoveAction
+CardMoveAction
 --------------
 
 Once created, Card_ objects can be moved from location to location with the move
@@ -693,6 +693,20 @@ cannot be a memory or a virtual location.
 .. code-block:: racket
 
   (move [Card] [Card])
+
+
+CardSwapAction
+--------------
+
+Card_ objects can also be swapped from location to location. 
+The first Card_ must not refer to a memory location, and the second card
+cannot be a memory or a virtual location. Whole Card_ locations can be swapped,
+for when players trade their hands, or swap with a pool of cards in the middle.
+
+.. code-block:: racket
+
+  (swap [Card] [Card])
+  (swap [CardCollection] [CardCollection])
 
 CardRememberAction
 ------------------
@@ -749,7 +763,7 @@ to be a particular PointMap_.
   (set [PointMapStorage] [PointMap])
 
 
-NextAction
+PlayerNextAction
 ----------
 
 The order in the current cycle can be altered in two ways. The first is to change
@@ -764,7 +778,7 @@ of a particular Card_, such as the winning card of a trick.
   (cycle next (previous player))
   (cycle next (1 player))
 
-SetPlayerAction
+PlayerNowAction
 ---------------
 
 Second, the current player in the cycle can be altered immediately with the following 
@@ -777,7 +791,7 @@ similar actions.
   (cycle current (previous player))
   (cycle current (0 player))
 
-TurnAction
+PassAction
 ----------
 
 A player sometimes needs the opportunity to pass. This Action is a way to have

@@ -1,0 +1,116 @@
+Example
+=======
+
+The following is an example game written in RECYCLE called Agram.
+Agram is a simple Nigerian trick-taking card
+game for 2 to 6 players.  Players are dealt six
+cards from a reduced French deck, and play six
+tricks. To win a trick, players must follow the
+suit of the lead player with a higher card; there
+is no trump suit.  The object of the game is to
+win the last trick.
+
+.. code-block:: racket
+    :linenos:
+
+    ;; Agram
+    ;;
+    ;; https://www.pagat.com/last/agram.html
+
+    (game
+    (declare 4 'NUMP)
+    (setup 
+      (create players 'NUMP)
+      
+      ;; Create the deck source 
+      (create deck (game iloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN))
+                                          (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                  (BLACK (SUIT (SPADES, CLUBS))))))
+      (create deck (game iloc STOCK) (deck (RANK (ACE)) 
+                                          (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                                  (BLACK (SUIT (CLUBS)))))))
+
+    
+    ;; Shuffle and deal each player 6 cards
+    (do (
+          (shuffle (game iloc STOCK))
+          (set (game str LEAD) NONE)
+          (all player 'P 
+              (repeat 6 
+                      (move (top (game iloc STOCK))
+                            (top ('P iloc HAND)))))))
+      
+    ;; players play a round 6 times         
+    (stage player
+            (end 
+            (all player 'P 
+                  (== (size ('P iloc HAND)) 0)))
+
+            ;; players play a hand once     
+            (stage player
+                  (end 
+                    (all player 'P 
+                        (> (size ('P vloc TRICK)) 0)))
+                  
+                  (choice (
+                    
+                    ;; if following player cannot follow SUIT
+                    ;;   play any card, and end your turn   
+                    ((and (!= (game str LEAD) NONE)
+                          (== (size (filter ((current player) iloc HAND) 'C 
+                                            (== (cardatt SUIT 'C)
+                                                (game str LEAD)))) 0))
+                      (any ((current player) iloc HAND) 'AC
+                          (move 'AC 
+                                (top ((current player) vloc TRICK)))))
+                    
+                    ;; if following player and can follow SUIT
+                    ;;   play any card that follows SUIT, and end your turn
+                    (any (filter ((current player) iloc HAND) 'T 
+                                  (== (cardatt SUIT 'T)
+                                      (game str LEAD)))
+                          'C
+                                    ((!= (game str LEAD) NONE)
+                                    (move 'C 
+                                          (top ((current player) vloc TRICK)))))
+                    
+                    ;; if first player, play any card, remember it in the lead spot, and end your turn
+                    ((== (game str LEAD) NONE)                      
+                      (any ((current player) iloc HAND) 'AC
+                          (do 
+                              (
+                                (move 'AC
+                                      (top ((current player) vloc TRICK)))
+                                (set (game str LEAD)
+                                    (cardatt SUIT (top ((current player) vloc TRICK)))))))))))
+            
+            ;; after players play hand, computer wraps up trick
+            (do (
+                ;; solidfy card recedence
+                (set (game points PRECEDENCE) 
+                      (
+                      ((SUIT : (game str LEAD)) 100)
+                      ((RANK : ACE) 14)
+                      ((RANK : TEN) 10)
+                      ((RANK : NINE) 9)
+                      ((RANK : EIGHT) 8)
+                      ((RANK : SEVEN) 7)
+                      ((RANK : SIX) 6)
+                      ((RANK : FIVE) 5)
+                      ((RANK : FOUR) 4)
+                      ((RANK : THREE) 3)))
+                
+                ;; determine who won the hand, set them first next time             
+                (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE))))
+                
+                (all player 'P 
+                      (move (top ('P vloc TRICK)) 
+                            (top (game vloc DISCARD))))
+                (set (game str LEAD) NONE)
+                
+                ;; if that was the last round, give the winner a point
+                ((all player 'P
+                      (== (size ('P iloc HAND)) 0))
+                  (inc ((next player) sto SCORE) 1)))))
+    
+    (scoring max ((current player) sto SCORE)))
