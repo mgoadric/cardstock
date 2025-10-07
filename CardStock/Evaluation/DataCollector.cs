@@ -55,10 +55,10 @@ namespace CardStock.Evaluation
                 /*******
                  * Record rank and results
                  ******/
-                int[] ranks = FindRanks(results, mult);
+                int[,] ranks = FindRanks(results, mult);
                 for (int j = 0; j < results.Length; ++j)
                 {
-                    CSVOutput("results", exp.Game, exp.PlayerCount, ai, run + 1, j + 1, results[j], ranks[j] + 1, time);
+                    CSVOutput("results", exp.Game, exp.PlayerCount, ai, run + 1, j + 1, results[j], ranks[j, 0] + 1, time);
                 }
 
                 /******
@@ -80,15 +80,16 @@ namespace CardStock.Evaluation
                     Tuple<int, double[]> allScores = allScoresList[move];
                     for (int k = 0; k < exp.PlayerCount; k++)
                     {
-                        CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, allLeads.Item1 + 1, k + 1, allScores.Item2[k], ranks[k], allLeads.Item2[k]);
+                        CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, allLeads.Item1 + 1, k + 1, allScores.Item2[k], ranks[k, 1], allLeads.Item2[k]);
                     }
                 }
+                
                 // tack on the final results at the end of the lead list
                 for (int k = 0; k < exp.PlayerCount; k++)
                 {
-                    double r = (exp.PlayerCount - 1 - ranks[k]) /
+                    double r = (exp.PlayerCount - 1 - ranks[k, 0]) /
                         (double)(exp.PlayerCount - 1);
-                    CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, k + 1, k + 1, results[k], ranks[k], r);
+                    CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, k + 1, k + 1, results[k], ranks[k, 1], r);
                 }
 
                 /******
@@ -109,7 +110,7 @@ namespace CardStock.Evaluation
         }
 
 
-        public static int[] FindRanks(int[] results, int mult)
+        public static int[,] FindRanks(int[] results, int mult)
         {
             var resultsList = new List<Tuple<int, int>>();
             for (int i = 0; i < results.Length; i++)
@@ -123,14 +124,21 @@ namespace CardStock.Evaluation
             }
 
             int topRank = 0;
-            int[] ranks = new int[results.Length];
+            int tie = 0;
+            int[,] ranks = new int[results.Length,2];
             for (int j = 0; j < results.Length; j++)
             {
                 if (j != 0 && resultsList[j].Item1 != resultsList[j - 1].Item1)
                 {
                     topRank = j;
+                    tie = 0;
                 }
-                ranks[resultsList[j].Item2] = topRank;
+                else
+                {
+                    tie++;
+                }
+                ranks[resultsList[j].Item2,0] = topRank;
+                ranks[resultsList[j].Item2,1] = topRank + tie;
             }
             return ranks;
         }

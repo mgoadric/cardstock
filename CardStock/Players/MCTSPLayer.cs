@@ -1,15 +1,19 @@
-﻿using System.Diagnostics;
-using CardStock.CardEngine;
+﻿using CardStock.CardEngine;
 using CardStock.FreezeFrame;
 using CardStock.Evaluation;
 
 namespace CardStock.Players
 {
+    public record NodeStats
+    {
+        public int plays;
+        public double wins;
+    }
+
     //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
     public class MCTSPLayer(Perspective perspective) : AIPlayer(perspective)
     {
-        public Dictionary<Tuple<CardGame, int>, int>[] plays = new Dictionary<Tuple<CardGame, int>, int>[GameSimulator.NUMSAMPLES]; 
-        public Dictionary<Tuple<CardGame, int>, double>[] wins = new Dictionary<Tuple<CardGame, int>, double>[GameSimulator.NUMSAMPLES];
+        public Dictionary<Tuple<CardGame, int>, NodeStats>[] stats = new Dictionary<Tuple<CardGame, int>, NodeStats>[GameSimulator.NUMSAMPLES];
         public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]>[] movestatetree = new Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]>[GameSimulator.NUMSAMPLES];
 
         private readonly Tuple<CardGame, GameIterator>[] determinizations = new Tuple<CardGame, GameIterator>[GameSimulator.NUMSAMPLES];
@@ -27,8 +31,7 @@ namespace CardStock.Players
             for (int det = 0; det < GameSimulator.NUMSAMPLES; det++)
             {
                 determinizations[det] = perspective.GetPrivateGame();
-                plays[det] = [];
-                wins[det] = [];
+                stats[det] = [];
                 movestatetree[det] = [];
             }
 
@@ -58,6 +61,7 @@ namespace CardStock.Players
             //RecordHeuristics(rankSum);
             //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
             //Console.WriteLine("{0}", string.Join(", ", movescores));
+            //Console.WriteLine("{0}", string.Join(", ", choiceplays));
 
             return max;
         }
@@ -83,7 +87,16 @@ namespace CardStock.Players
             bool first = true;
             Tuple<CardGame, int> og = null;
             int om = -1;
-            
+            int previdx = -1;
+            Tuple<CardGame, int> parent = Tuple.Create(cg.Clone(), previdx);
+            NodeStats nodeState = new NodeStats();
+            if (!stats[det].ContainsKey(parent))
+            {
+                stats[det][parent] = new NodeStats();
+            }
+            visitedstates.Add(parent);
+            int depth = 0;
+
             // "Playing a simulated game"
             // Should be loop that stops when you hit GameSimulator.CHOICELIMIT
             while (!gameIterator.AdvanceToChoice())
@@ -91,20 +104,19 @@ namespace CardStock.Players
                 if (expand)
                 {
                     List<GameActionCollection> allOptions = gameIterator.BuildOptions();
-                    int idx = cg.currentPlayer.Peek().idx;
                     Tuple<CardGame, int>[] movelist = null;
                     int c = 0;
 
                     int choicenum = allOptions.Count;
-                    Tuple<CardGame, int> deliberator = Tuple.Create(cg.Clone(), idx);
 
-                    if (!movestatetree[det].ContainsKey(deliberator))
+                    if (!movestatetree[det].ContainsKey(parent))
                     {
-                        movestatetree[det][deliberator] = new Tuple<CardGame, int>[choicenum];
+                        movestatetree[det][parent] = new Tuple<CardGame, int>[choicenum];
                     }
-                    movelist = movestatetree[det][deliberator];
+                    movelist = movestatetree[det][parent];
 
-                    //Console.WriteLine("Choice num: " + choicenum + " Movelist Count: " + movelist.Count(s => s != null));
+                    int idx = cg.currentPlayer.Peek().idx;
+
                     if (movelist.Count(s => s != null) == choicenum)
                     {
                         // USE UCB
@@ -112,16 +124,18 @@ namespace CardStock.Players
                         c = 0;
                         double totalplays = 0;
                         // CAN WE USE DELIBERATOR HERE AND AVOID THE FOR LOOP??? TODO
-                        foreach (Tuple<CardGame, int> stateandplay in movelist)
+                        foreach (Tuple<CardGame, int> child in movelist)
                         {
-                            totalplays += plays[det][stateandplay];
+                            totalplays += stats[det][child].plays;
                         }
+                        Console.WriteLine(depth + ":" + totalplays + "," + stats[det][parent].plays);
                         totalplays = Math.Log(totalplays);
                         for (int i = 0; i < movelist.Length; i++)
                         {
-                            Tuple<CardGame, int> stateandplay = movelist[i];
-                            int n = plays[det][stateandplay];
-                            double temp = wins[det][stateandplay] / n;
+                            Tuple<CardGame, int> child = movelist[i];
+                            NodeStats node = stats[det][child];
+                            int n = node.plays;
+                            double temp = node.wins / n;
                             // should there be a c parameter?
                             // does this still work if recording score, not 1--0 win record?
                             temp += Math.Sqrt(2 * totalplays / n);
@@ -141,23 +155,25 @@ namespace CardStock.Players
 
                     // Stateandplayer is Tuple with state after move, and the idx of the player who made the move
                     CardGame savestate = gameIterator.game.Clone();
-                    Tuple<CardGame, int> stateandplayer = Tuple.Create(savestate, idx);
+                    Tuple<CardGame, int> chosen = Tuple.Create(savestate, idx);
+                    previdx = idx;
+                    parent = chosen;
+                    depth++;
 
-                    visitedstates.Add(stateandplayer);
+                    visitedstates.Add(chosen);
 
                     // IF THIS IS THE FIRST SIMULATION WHICH HAS ARRIVED AT THIS STATE::
-                    if (!plays[det].ContainsKey(stateandplayer))
+                    if (!stats[det].ContainsKey(chosen))
                     {
                         expand = false;
-                        plays[det][stateandplayer] = 0;
-                        wins[det][stateandplayer] = 0;
-                        movelist[c] = stateandplayer;
+                        stats[det][chosen] = new NodeStats();
+                        movelist[c] = chosen;
                     }
                     if (first)
                     {
                         choiceplays[c]++;
                         om = c;
-                        og = stateandplayer;
+                        og = chosen;
                         first = false;
                     }
                 }
@@ -171,16 +187,20 @@ namespace CardStock.Players
             // GO THROUGH VISITED STATES
             foreach (Tuple<CardGame, int> stateandplayer in visitedstates)
             {
-                plays[det][stateandplayer] += 1;
+                NodeStats node = stats[det][stateandplayer];
+                node.plays += 1;
                 for (int j = 0; j < numPlayers; j++)
                 {
                     if (j == stateandplayer.Item2)
                     {
-                        wins[det][stateandplayer] += (double)results[j] * mult;//inverseRankSum[stateandplayer.Item2];
+                        node.wins += (double)results[j] * mult;//inverseRankSum[stateandplayer.Item2];
                         if (stateandplayer.Equals(og))
                         {
                             lock (this)
                             {
+                                //Console.WriteLine("counting up");
+                                //Console.WriteLine(node.plays + ", " + node.wins);
+
                                 movescores[om] += results[j] * mult;
                             }
                             //Console.WriteLine(movescores[om]);

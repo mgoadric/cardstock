@@ -52,13 +52,13 @@ namespace CardStock.Players
                     // ProcessScore returns a sorted list 
                     // where the winner is rank 0 for either min/max games.
                     var (results, mult) = cloneContext.ProcessScore();
-                    int[] ranks = DataCollector.FindRanks(results, mult);
+                    int[,] ranks = DataCollector.FindRanks(results, mult);
                     lock (this)
                     {
                         for (int j = 0; j < numPlayers; ++j)
                         {
                             // OLD RANK BASED 
-                            rankSum[j][move] += ranks[j];
+                            rankSum[j][move] += ranks[j,0];
 
                         }
                     }

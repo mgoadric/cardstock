@@ -1496,7 +1496,7 @@ namespace CardStock.FreezeFrame
             }
             else if (cstoragecoll.varcsc() is not null)
             {
-                return [.. ProcessCStorageCollectionVar(cstoragecoll.varcsc())];
+                return ProcessCStorageCollectionVar(cstoragecoll.varcsc());
             }
             else if (cstoragecoll.indexed() is not null)
             {
@@ -1521,12 +1521,12 @@ namespace CardStock.FreezeFrame
             throw new NotSupportedException();
         }
 
-        private List<CardLocReference> ProcessCStorageCollectionVar(RecycleParser.VarcscContext cstoragecollvar)
+        private CardLocReference[] ProcessCStorageCollectionVar(RecycleParser.VarcscContext cstoragecollvar)
         {
             var temp = variables.Get(cstoragecollvar.GetText());
             if (temp is List<CardLocReference> csc)
             {
-                return csc;
+                return [.. csc];
             }
             else
             {
@@ -2657,7 +2657,7 @@ namespace CardStock.FreezeFrame
             }
         }
 
-        private List<CardLocReference> ProcessCStorageCollectionFilter(RecycleParser.FilterContext filter)
+        private CardLocReference[] ProcessCStorageCollectionFilter(RecycleParser.FilterContext filter)
         {
 
             if (filter.collection().cstoragecollection() is not null)
@@ -2665,20 +2665,21 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Phew!");
                 var cstorage = ProcessCStorageCollection(filter.collection().cstoragecollection());
 
-                var flist = new List<CardLocReference>();
+                var ret = new List<CardLocReference>(cstorage.Length);
 
-                foreach (CardLocReference cardloc in cstorage)
+                for (int i = 0; i < cstorage.Length; i++)
                 {
                     string text = filter.var().GetText();
+                    var cardloc = cstorage[i];
                     variables.Put(text, cardloc);
                     // WHY DO WE NEED cardloc.Count() > 0???
                     if (cardloc.Count() > 0 && ProcessBoolean(filter.boolean()))
                     {
-                        flist.Add(cardloc);
+                        ret.Add(cardloc);
                     }
                     variables.Remove(text);
                 }
-                return flist;
+                return [.. ret];
             }
             else
             {

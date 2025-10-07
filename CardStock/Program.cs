@@ -1,8 +1,8 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "SixNimmt";
-int numPlayers = 5;
+string game = "TraditionalTestbed/Agram";
+int numPlayers = 3;
 
 runExperiment(game, numPlayers);
 //runAllGames();
@@ -13,8 +13,8 @@ static void runExperiment(string game, int numPlayers)
     {
         Game = game,
         PlayerCount = numPlayers,
-        NumGames = 100,
-        Players = [PlayerType.PIPMC, PlayerType.PIPMC, PlayerType.PIPMC, PlayerType.PIPMC, PlayerType.PIPMC, PlayerType.PIPMC, ]
+        NumGames = 1,
+        Players = [PlayerType.MCTS]
     };
 
     Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
