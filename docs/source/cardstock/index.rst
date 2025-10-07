@@ -12,5 +12,5 @@ CardStock
 
    cardengine
    freezeframe
-   heuristic
+   evaluation
    experiment
