@@ -1,7 +1,7 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "TraditionalTestbed/GOPS";
+string game = "TraditionalTestbed/Cribbage";
 int numPlayers = 2;
 
 runExperiment(game, numPlayers);
@@ -13,7 +13,7 @@ static void runExperiment(string game, int numPlayers)
     {
         Game = game,
         PlayerCount = numPlayers,
-        NumGames = 1,
+        NumGames = 100,
         Players = [PlayerType.MCTS, PlayerType.PIPMC]
     };
 
