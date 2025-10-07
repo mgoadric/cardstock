@@ -1,8 +1,8 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "TraditionalTestbed/Agram";
-int numPlayers = 3;
+string game = "TraditionalTestbed/GOPS";
+int numPlayers = 2;
 
 runExperiment(game, numPlayers);
 //runAllGames();
@@ -14,7 +14,7 @@ static void runExperiment(string game, int numPlayers)
         Game = game,
         PlayerCount = numPlayers,
         NumGames = 1,
-        Players = [PlayerType.MCTS]
+        Players = [PlayerType.MCTS, PlayerType.PIPMC]
     };
 
     Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
