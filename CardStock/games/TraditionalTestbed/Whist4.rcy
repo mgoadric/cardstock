@@ -10,20 +10,14 @@
   (create teams (0, 2) (1, 3))
   
   ;; Create the deck source
-  (create deck (game vloc DISCARD) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                          (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                                 (BLACK (SUIT (CLUBS, SPADES)))))))        
  
  ;; Stages of the game
- (stage player
-        (end 
-         (any team 'T 
-              (> ('T sto SCORE) 0)))
-        (do 
-            (
-             (repeat all
-                     (move (top (game vloc DISCARD)) 
-                           (top (game iloc STOCK))))
+
+        (do (
+
              (shuffle (game iloc STOCK))
              (all player 'P
                   (do 
@@ -130,7 +124,7 @@
                               (inc ((current team) sto TRICKSWON) ('TP sto TRICKSWON))
                               (set ('TP sto TRICKSWON) 0))))
                     ((> ((current team) sto TRICKSWON) 6)
-                     (inc ((current team) sto SCORE) (- ((current team) sto TRICKSWON) 6)))))))
+                     (inc ((current team) sto SCORE) (- ((current team) sto TRICKSWON) 6))))))
  
  (scoring max ((team (current player)) sto SCORE)))
 

@@ -4,11 +4,11 @@ using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions {
 
-    public abstract class GameAction(char prefix, Transcript script) {
+    public abstract class GameAction(char prefix, Logger script) {
         public bool inChoice = false;
         public bool complete;
         public CardGame cg;
-        public Transcript? script = script;
+        public Logger? script = script;
         public char prefix = prefix;
         public void ExecuteActual()
         {

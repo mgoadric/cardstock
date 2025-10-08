@@ -14,7 +14,7 @@ namespace CardStock.FreezeFrame.Actions
         public Card card2;
         public bool actualloc1;
         public bool actualloc2;
-        public CardSwapAction(CardLocReference start, CardLocReference end, Transcript script) : base('W', script)
+        public CardSwapAction(CardLocReference start, CardLocReference end, Logger script) : base('W', script)
         {
             if (start.cardList.type == CCType.MEMORY)
             {
@@ -72,7 +72,10 @@ namespace CardStock.FreezeFrame.Actions
                     if (inChoice) { arrow = " ?<-> "; }
 
                     script?.WriteToFile(prefix + ":" + card1.ToString() + " " + owner1.TranscriptName() + arrow + card2.ToString() +  owner2.TranscriptName());
-
+                    if (!inChoice) {
+                        script?.AddToMovementFile(owner1, owner2);
+                        script?.AddToMovementFile(owner2, owner1);
+                    }
                     Debug.WriteLine("Swapped Cards '" + card1 + " to " + endLocation.locIdentifier);
 
                     // Track here to see if it moved from a visible to invisible location TODO

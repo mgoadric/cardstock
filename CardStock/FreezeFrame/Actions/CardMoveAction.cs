@@ -12,7 +12,7 @@ namespace CardStock.FreezeFrame.Actions
         public Card cardToMove;
         public bool actualloc;
         public int ownerIndex;
-        public CardMoveAction(CardLocReference start, CardLocReference end, Transcript script) : base('M', script)
+        public CardMoveAction(CardLocReference start, CardLocReference end, Logger script) : base('M', script)
         {
             if (start.cardList.type == CCType.MEMORY)
             {

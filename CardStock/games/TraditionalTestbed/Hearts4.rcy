@@ -7,22 +7,14 @@
   ;; Set up the players, 4 players each on their own team
   (create players 4)
   ;; Create the deck source
-  (create deck (game vloc DISCARD) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                          (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                                 (BLACK (SUIT (CLUBS, SPADES)))))))       
  
  ;; Stages of the game
- (stage player
-        (end 
-         (any player 'P (!= ('P sto SCORE) 0))) ;; ONE ROUND ONLY, NOT THE FULL 100
-        (do 
-            (
-             (repeat all
-                     (move (top (game vloc DISCARD)) 
-                           (top (game iloc STOCK))))
+         (do (
              (set (game points SCORE)
-                  (
-                   ((SUIT : HEARTS) 1) 
+                  (((SUIT : HEARTS) 1) 
                    ((RANK : Q) (SUIT : SPADES) 13)))
              (shuffle (game iloc STOCK))
              (all player 'P
@@ -53,8 +45,7 @@
                          (any (filter ((current player) iloc HAND) 'NH 
                                       (!= (cardatt SUIT 'NH) HEARTS))
                               'C     
-                              (do 
-                                  (
+                              (do (
                                    (move 'C  
                                          (top ((current player) vloc TRICK)))               
                                    (set (game str LEAD) (cardatt SUIT (top ((current player) vloc TRICK))))))))
@@ -65,8 +56,7 @@
                                                 (!= (cardatt SUIT 'NH) HEARTS))) 0))
                          
                          (any ((current player) iloc HAND) 'C
-                              (do 
-                                  (
+                              (do (
                                    (move 'C 
                                          (top ((current player) vloc TRICK)))
                                    (set (game str LEAD) (cardatt SUIT (top ((current player) vloc TRICK))))))))
@@ -143,8 +133,7 @@
         (stage player
                (end 
                 (all player 'P (== (size ('P vloc TRICKSWON)) 0)))
-               (do 
-                   (
+               (do (
                     
                     ((== (sum ((current player) vloc TRICKSWON) using (game points SCORE)) 26)
                      (dec ((current player) sto SCORE) 26))
@@ -154,7 +143,7 @@
                     
                     (repeat all
                             (move (top ((current player) vloc TRICKSWON))
-                                  (top (game vloc DISCARD))))))))
+                                  (top (game vloc DISCARD)))))))
  
  (scoring min ((current player) sto SCORE)))
 

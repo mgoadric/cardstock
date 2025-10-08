@@ -14,14 +14,16 @@ namespace CardStock.FreezeFrame
         private readonly Stack<Queue<IParseTree>> iterStack;
         private HashSet<IParseTree> iteratingSet; // could this be a stack??
         private RecycleVariables variables;
-        public readonly Transcript script;
+        public readonly Logger script;
 
         public RecycleParser.GameContext rules;
         public CardGame game;
         public int totalChoices;
         public int run;
 
-        public GameIterator(RecycleParser.GameContext context, CardGame mygame, string fileName, bool fresh = true)
+        public Experiment exp;
+
+        public GameIterator(RecycleParser.GameContext context, CardGame mygame, string fileName, Experiment exp, bool fresh = true)
         {
             rules = context;
             game = mygame;
@@ -31,7 +33,7 @@ namespace CardStock.FreezeFrame
 
             if (fresh)
             {
-                script = new Transcript(fileName);
+                script = new Logger(fileName, exp);
 
                 Debug.WriteLine("Processing declarations.");
                 foreach (RecycleParser.DeclareContext declare in rules.declare())
@@ -59,7 +61,7 @@ namespace CardStock.FreezeFrame
         public GameIterator Clone(CardGame newgame)
         {
 
-            var ret = new GameIterator(rules, newgame, "clone", false)
+            var ret = new GameIterator(rules, newgame, "clone", exp, false)
             {
                 iteratingSet = [.. iteratingSet],
                 variables = variables.Clone(newgame)

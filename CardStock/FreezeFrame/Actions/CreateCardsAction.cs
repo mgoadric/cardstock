@@ -8,7 +8,7 @@ namespace CardStock.FreezeFrame.Actions
         readonly CardCollection before = new(CCType.VIRTUAL);
         readonly CardTree deck;
         readonly string name;
-        public CreateCardsAction(CardCollection loc, CardTree d, string n, CardGame cg, Transcript script) : base('D', script)
+        public CreateCardsAction(CardCollection loc, CardTree d, string n, CardGame cg, Logger script) : base('D', script)
         {
             location = loc;
             deck = d;

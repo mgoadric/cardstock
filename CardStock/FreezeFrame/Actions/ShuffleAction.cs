@@ -7,7 +7,7 @@ namespace CardStock.FreezeFrame.Actions
         private readonly CardLocReference locations;
         private readonly CardCollection unshuffled;
 
-        public ShuffleAction(CardLocReference locations, Transcript script) : base('O', script)
+        public ShuffleAction(CardLocReference locations, Logger script) : base('O', script)
         {
             this.locations = locations;
             unshuffled = new CardCollection(CCType.VIRTUAL);

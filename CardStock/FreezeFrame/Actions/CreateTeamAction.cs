@@ -5,7 +5,7 @@ namespace CardStock.FreezeFrame.Actions
 {
         public class CreateTeamAction : GameAction {
         private readonly List<List<int>> teamList;
-        public CreateTeamAction(List<List<int>> teamList, CardGame cg, Transcript script) : base('E', script)
+        public CreateTeamAction(List<List<int>> teamList, CardGame cg, Logger script) : base('E', script)
         {
             this.teamList = teamList;
             this.cg = cg;

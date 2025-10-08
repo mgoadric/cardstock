@@ -3,7 +3,7 @@ namespace CardStock.FreezeFrame.Actions
     /************
      * Passing Action
      ********/
-    public class PassAction(Transcript script) : GameAction('Y', script)
+    public class PassAction(Logger script) : GameAction('Y', script)
     {
         public override void Execute()
         {

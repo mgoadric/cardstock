@@ -35,7 +35,7 @@
     (choice (
         (turn pass)
 
-        ;; dealer can swap their hand if the want with the extra
+        ;; dealer can swap their hand if the7 want with the extra
         (swap ((current player) iloc HAND) (game iloc EXTRA))
     ))
 

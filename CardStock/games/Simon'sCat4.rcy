@@ -9,19 +9,19 @@
   (create players 'NUMP)
   (repeat 12
           (create deck SIMON (game vloc SIMON) (deck (ANIMAL (SIMON)))))
-  (create deck (game vloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN,
+  (create deck (game iloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN,
                                                    EIGHT, NINE, TEN, ELEVEN, TWELVE))
                                        (TYPE (CAT))))
-  (create deck (game vloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT,
+  (create deck (game iloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT,
                                                    NINE, TEN))
                                        (TYPE (KITTEN))))
-  (create deck (game vloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT))
+  (create deck (game iloc STOCK) (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT))
                                        (TYPE (HEDGEHOG))))
-  (create deck (game vloc STOCK) (deck (RANK (ONE, TWO, THREE, FOUR, FIVE, SIX))
+  (create deck (game iloc STOCK) (deck (RANK (ONE, TWO, THREE, FOUR, FIVE, SIX))
                                        (TYPE (DOG))))
-  (create deck (game vloc STOCK) (deck (RANK (ONE, TWO, THREE, FOUR))
+  (create deck (game iloc STOCK) (deck (RANK (ONE, TWO, THREE, FOUR))
                                        (TYPE (MOUSE))))
-  (create deck (game vloc STOCK) (deck (RANK (ONE, TWO))
+  (create deck (game iloc STOCK) (deck (RANK (ONE, TWO))
                                        (TYPE (GNOME)))))
  
  (stage player
@@ -30,10 +30,10 @@
               (>= (size ('P vloc SIMON)) 1))) ;; should be 3 for full game
         (do 
             (
-             (shuffle (game vloc STOCK))
+             (shuffle (game iloc STOCK))
              (all player 'P
                   (repeat 'HANDSIZE
-                          (move (top (game vloc STOCK))
+                          (move (top (game iloc STOCK))
                                 (top ('P iloc HAND)))))))
         
         (stage player
@@ -72,7 +72,7 @@
                                      (top ((current player) vloc MESSCARDS)))
                                (repeat all
                                        (move (top (game vloc CURRENT))
-                                             (top (game vloc STOCK))))
+                                             (top (game vloc DISCARD))))
                                (any ((current player) iloc HAND) 'AC
                                     (move 'AC 
                                           (top (game vloc CURRENT)))))))
@@ -95,10 +95,10 @@
              (all player 'P
                   (repeat all
                           (move (top ('P vloc MESSCARDS))
-                                (top (game vloc STOCK)))))
+                                (top (game vloc DISCARD)))))
              (repeat all
                      (move (top (game vloc CURRENT))
-                           (top (game vloc STOCK))))
+                           (top (game vloc DISCARD))))
              (set (game sto TOPMESS) 0))))
  
  ;; scoring here - everyone with 3 simon cards loses

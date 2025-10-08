@@ -1,21 +1,24 @@
 ﻿using System;
 using System.IO;
 using CardStock.CardEngine;
+using CardStock.Evaluation;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace CardStock.FreezeFrame
 {
-    public class Transcript
+    public class Logger
     {
         private readonly Dictionary<Tuple<string, string>, int> edges = [];
         private readonly HashSet<Tuple<string, CCType, string>> locations = [];
 
         // For writing the game transcript
         private readonly string? fileName;
+        private readonly Experiment exp;
 
-        public Transcript(string? fileName)
+        public Logger(string? fileName, Experiment exp)
         {
             this.fileName = fileName;
+            this.exp = exp;
             using StreamWriter file = new(fileName + ".txt");
             file.WriteLine(";; Starting Transcript");
         }
@@ -53,8 +56,15 @@ namespace CardStock.FreezeFrame
 
         public void WriteMovementFile()
         {
+            var gs = exp.Game.Split("/");
+            string name = gs.Length == 1 ? gs[0] : gs[1];
             using StreamWriter file = new(fileName + ".dot");
             file.WriteLine("digraph {");
+            file.WriteLine("overlap=scale;");
+            file.WriteLine("labelloc=\"t\";");
+            file.WriteLine("label=\"" + name + "\";");
+            file.WriteLine("fontname=\"Futura\";");
+
 
             Dictionary<string, List<Tuple<string, CCType, string>>> who = [];
             foreach (var cc in locations)
@@ -71,10 +81,11 @@ namespace CardStock.FreezeFrame
             foreach (var w in who)
             {
                 file.WriteLine("subgraph cluster_" + w.Key + " {");
-                file.WriteLine("color = red;label=\"" + w.Key + "\"");
+                file.WriteLine("style=filled;fillcolor=ghostwhite;label=\"" + w.Key + "\"");
                 foreach (var loc in w.Value)
                 {
-                    string color = "grey";
+                    string color = "blue";
+                    string style = "filled,rounded";
                     switch (loc.Item2)
                     {
                         case CCType.INVISIBLE:
@@ -86,17 +97,33 @@ namespace CardStock.FreezeFrame
                         case CCType.HIDDEN:
                             color = "khaki";
                             break;
+                        case CCType.OTHERS:
+                            color = "plum1";
+                            break;
+                        case CCType.MEMORY:
+                            color = "grey90";
+                            style += ",dotted";
+                            break;
                     }
                     var s = loc.Item3.Split("_");
                     file.WriteLine(w.Key + "_" + loc.Item2 + "_" + loc.Item3 +
-                        "[fillcolor=" + color + ",style=\"filled,rounded\",shape=\"box\",label=<" + s[0] + "<SUB>" + s[1] + "</SUB>" + ">]");
+                        "[fontname=Futura,fillcolor=" + color + ",style=\"" + style + "\",shape=\"box\",label=<" + s[0] + "<SUB>" + s[1] + "</SUB>" + ">]");
                 }
                 file.WriteLine("}");
             }
 
             foreach (var kvp in edges)
             {
-                file.WriteLine(kvp.Key.Item1 + " -> " + kvp.Key.Item2 + " [label=\"" + kvp.Value + "\"];");
+                string edgecolor = "black";
+                if (!kvp.Key.Item1.Contains("INVISIBLE") && kvp.Key.Item1.Contains("VISIBLE") &&
+                   (kvp.Key.Item2.Contains("INVISIBLE") || kvp.Key.Item2.Contains("HIDDEN"))) {
+                    edgecolor = "red,penwidth=4,";
+                }
+                if (kvp.Key.Item1.Contains("INVISIBLE") && (kvp.Key.Item1[1] != 'a') && (kvp.Key.Item1[1] != kvp.Key.Item2[1]) &&
+                   (kvp.Key.Item2.Contains("INVISIBLE") || kvp.Key.Item2.Contains("HIDDEN"))) {
+                    edgecolor = "blue,penwidth=3";
+                }
+                file.WriteLine(kvp.Key.Item1 + " -> " + kvp.Key.Item2 + " [fontname=Futura,fontsize=11,label=\"" + kvp.Value + "\",color=" + edgecolor + "];");
             }
             file.WriteLine("}");
         }

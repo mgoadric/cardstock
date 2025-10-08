@@ -8,7 +8,7 @@ namespace CardStock.FreezeFrame.Actions
         private readonly CardLocReference endLocation;
         private readonly CardCollection notforgotten;
 
-        public CardForgetAction(CardLocReference end, Transcript script) : base('F', script)
+        public CardForgetAction(CardLocReference end, Logger script) : base('F', script)
         {
             if (end.cardList.type == CCType.MEMORY)
             {

@@ -2,7 +2,7 @@ using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions
 {
-    public class PlayerNextAction(StageCycle<Player> playerCycle, int idx, Transcript script) : GameAction('N', script)
+    public class PlayerNextAction(StageCycle<Player> playerCycle, int idx, Logger script) : GameAction('N', script)
     {
         private readonly StageCycle<Player> playerCycle = playerCycle;
         private readonly int idx = idx;

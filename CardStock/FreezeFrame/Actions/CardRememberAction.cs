@@ -7,7 +7,7 @@ namespace CardStock.FreezeFrame.Actions
     {
         readonly CardLocReference startLocation;
         readonly CardLocReference endLocation;
-        public CardRememberAction(CardLocReference start, CardLocReference end, Transcript script) : base('R', script)
+        public CardRememberAction(CardLocReference start, CardLocReference end, Logger script) : base('R', script)
         {
             startLocation = start;
             endLocation = end;
@@ -21,6 +21,9 @@ namespace CardStock.FreezeFrame.Actions
             var cardToCopy = startLocation.Get();
             endLocation.Add(cardToCopy);
             script?.WriteToFile(prefix + ":" + cardToCopy.ToString() + " " + startLocation.cardList.TranscriptName() + "->" + endLocation.cardList.TranscriptName());
+            if (!inChoice) {
+                script?.AddToMovementFile(cardToCopy.Owner, endLocation.cardList);
+            }
         }
         public override void Undo()
         {

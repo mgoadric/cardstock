@@ -1,7 +1,7 @@
 using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions {
-    public class SetAction<T>(DefaultStorage<T> storage, string bKey, T v, Transcript script) : GameAction('S', script) {
+    public class SetAction<T>(DefaultStorage<T> storage, string bKey, T v, Logger script) : GameAction('S', script) {
 
         readonly DefaultStorage<T> bins = storage;
         readonly string key = bKey;

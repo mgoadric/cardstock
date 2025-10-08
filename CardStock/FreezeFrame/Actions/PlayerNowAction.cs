@@ -6,7 +6,7 @@ namespace CardStock.FreezeFrame.Actions
     {
         private readonly int idx;
         private int former;
-        public PlayerNowAction(int idx, CardGame cg, Transcript script) : base('T', script)
+        public PlayerNowAction(int idx, CardGame cg, Logger script) : base('T', script)
         {
             this.idx = idx;
             this.cg = cg;
