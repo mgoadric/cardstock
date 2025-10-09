@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 using CardStock.CardEngine;
 using CardStock.Evaluation;
 using static System.Net.Mime.MediaTypeNames;
@@ -10,6 +11,7 @@ namespace CardStock.FreezeFrame
     {
         private readonly Dictionary<Tuple<string, string>, int> edges = [];
         private readonly HashSet<Tuple<string, CCType, string>> locations = [];
+        private readonly HashSet<string> starting = [];
 
         // For writing the game transcript
         private readonly string? fileName;
@@ -37,6 +39,11 @@ namespace CardStock.FreezeFrame
             {
                 locations.Add(cctup);
             }
+        }
+
+        public void AddStart(string s)
+        {
+            starting.Add(s);
         }
 
         public void AddToMovementFile(CardCollection start, CardCollection end)
@@ -105,9 +112,15 @@ namespace CardStock.FreezeFrame
                             style += ",dotted";
                             break;
                     }
+                    var node = w.Key + "_" + loc.Item2 + "_" + loc.Item3;
+                    string border = "";
+                    if (starting.Contains(node))
+                    {
+                        border = "penwidth=3,";
+                    }
                     var s = loc.Item3.Split("_");
-                    file.WriteLine(w.Key + "_" + loc.Item2 + "_" + loc.Item3 +
-                        "[fontname=Futura,fillcolor=" + color + ",style=\"" + style + "\",shape=\"box\",label=<" + s[0] + "<SUB>" + s[1] + "</SUB>" + ">]");
+                    file.WriteLine(node +
+                        "[fontname=Futura," + border + "fillcolor=" + color + ",style=\"" + style + "\",shape=\"box\",label=<" + s[0] + "<SUB>" + s[1] + "</SUB>" + ">]");
                 }
                 file.WriteLine("}");
             }
@@ -117,13 +130,17 @@ namespace CardStock.FreezeFrame
                 string edgecolor = "black";
                 if (!kvp.Key.Item1.Contains("INVISIBLE") && kvp.Key.Item1.Contains("VISIBLE") &&
                    (kvp.Key.Item2.Contains("INVISIBLE") || kvp.Key.Item2.Contains("HIDDEN"))) {
-                    edgecolor = "red,penwidth=4,";
+                    edgecolor = "red,penwidth=3,";
                 }
                 if (kvp.Key.Item1.Contains("INVISIBLE") && (kvp.Key.Item1[1] != 'a') && (kvp.Key.Item1[1] != kvp.Key.Item2[1]) &&
                    (kvp.Key.Item2.Contains("INVISIBLE") || kvp.Key.Item2.Contains("HIDDEN"))) {
                     edgecolor = "blue,penwidth=3";
                 }
-                file.WriteLine(kvp.Key.Item1 + " -> " + kvp.Key.Item2 + " [fontname=Futura,fontsize=11,label=\"" + kvp.Value + "\",color=" + edgecolor + "];");
+                if (!kvp.Key.Item2.Contains("INVISIBLE") && kvp.Key.Item2.Contains("VISIBLE")) {
+                    edgecolor = "green,penwidth=3,";
+                }
+                file.WriteLine(kvp.Key.Item1 + " -> " + kvp.Key.Item2 + " [fontname=Futura,fontsize=11,color=" + edgecolor + "];");
+                //file.WriteLine(kvp.Key.Item1 + " -> " + kvp.Key.Item2 + " [fontname=Futura,fontsize=11,label=\"" + kvp.Value + "\",color=" + edgecolor + "];");
             }
             file.WriteLine("}");
         }

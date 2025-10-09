@@ -8,7 +8,7 @@
         (create players 2)
 
         ;; Create the deck source - French
-        (create deck (game vloc DISCARD) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, 
+        (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, 
                                                         SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                                 (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                                         (BLACK (SUIT (CLUBS, SPADES))))))      
@@ -19,8 +19,6 @@
         (all player 'P (== ('P str DEALER) TRUE)))
 
         (do (
-            (repeat all (move (top (game vloc DISCARD))
-                              (top (game iloc STOCK))))
             (shuffle (game iloc STOCK))
             (set (game points PIPS)
                 (
@@ -282,6 +280,8 @@
         (do (
             (move (top (game vloc START))
                   (top (game vloc DISCARD)))
+            (repeat all (move (top (game vloc DISCARD))
+                              (top (game iloc STOCK))))
             (cycle current (next player))
         ))
     )

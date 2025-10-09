@@ -15,12 +15,14 @@ namespace CardStock.FreezeFrame.Actions
             name = n;
             this.cg = cg;
         }
-        public override void Execute() {
+        public override void Execute()
+        {
             foreach (Card c in location.AllCards())
             {
                 before.Add(c);
             }
             cg.SetDeck(deck, location, name, script);
+            script?.AddStart(location.MovementName());
         }
         public override void Undo()
         {
