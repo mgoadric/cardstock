@@ -97,15 +97,23 @@ namespace CardStock.FreezeFrame
                     {
                         case CCType.INVISIBLE:
                             color = "lightblue";
-                            break;
-                        case CCType.VISIBLE:
-                            color = "lightgreen";
+                            if (w.Key.Equals("table"))
+                            {
+                                color = "khaki";
+                            }
                             break;
                         case CCType.HIDDEN:
                             color = "khaki";
                             break;
                         case CCType.OTHERS:
                             color = "plum1";
+                            if (w.Key.Equals("table"))
+                            {
+                                color = "lightgreen";
+                            }
+                            break;
+                        case CCType.VISIBLE:
+                            color = "lightgreen";
                             break;
                         case CCType.MEMORY:
                             color = "grey90";
@@ -119,8 +127,14 @@ namespace CardStock.FreezeFrame
                         border = "penwidth=3,";
                     }
                     var s = loc.Item3.Split("_");
-                    file.WriteLine(node +
-                        "[fontname=Futura," + border + "fillcolor=" + color + ",style=\"" + style + "\",shape=\"box\",label=<" + s[0] + "<SUB>" + s[1] + "</SUB>" + ">]");
+                    string label = s[0];
+                    if (s[1] != "0")
+                    {
+                        label = "<" + s[0] + "<SUB>" + s[1] + "</SUB>>";
+                    }
+                    file.WriteLine(node + " [fontname=Futura," + border + "fillcolor=" + color + ",style=\"" +
+                                    style + "\",shape=box,label=" + label + "];");
+                    
                 }
                 file.WriteLine("}");
             }

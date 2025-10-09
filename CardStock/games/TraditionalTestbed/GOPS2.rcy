@@ -8,11 +8,11 @@
   (create players 2)
   
   ;; Create the deck source
+  (create deck ONE (game iloc ONE) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                       (COLOR (BLACK (SUIT (CLUBS))))))
   (create deck DEFAULT (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                        (COLOR (RED (SUIT (DIAMONDS))))))
-  (create deck ONE (game iloc CLUBS) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
-                                       (COLOR (BLACK (SUIT (CLUBS))))))
-  (create deck TWO (game iloc SPADES) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+  (create deck TWO (game iloc TWO) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                         (COLOR (BLACK (SUIT (SPADES)))))))
  (do 
      ( 
@@ -36,10 +36,10 @@
       
       (shuffle (game iloc STOCK))
       (repeat all
-              (move (top (game iloc CLUBS)) 
+              (move (top (game iloc ONE)) 
                     (top ((current player) iloc HAND))))
       (repeat all
-              (move (top (game iloc SPADES)) 
+              (move (top (game iloc TWO)) 
                     (top ((next player) iloc HAND))))))
  
  ;; Stages of the game

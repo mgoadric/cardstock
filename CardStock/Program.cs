@@ -1,8 +1,8 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "TraditionalTestbed/Cuckoo";
-int numPlayers = 6;
+string game = "TraditionalTestbed/Euchre";
+int numPlayers = 4;
 
 runExperiment(game, numPlayers);
 //runAllGames();

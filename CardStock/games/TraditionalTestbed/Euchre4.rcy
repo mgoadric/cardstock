@@ -162,7 +162,7 @@
                          (do (
                             (set ('TP str BID) DUMMY)
                             (repeat all (move (top ('TP iloc HAND))
-                                              (top (game iloc ALONE)))))))
+                                              (top ('TP iloc ALONE)))))))
                   ))
                )))
         )
