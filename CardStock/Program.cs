@@ -4,8 +4,8 @@ using CardStock.Players;
 string game = "TraditionalTestbed/GoFish";
 int numPlayers = 4;
 
-runExperiment(game, numPlayers);
-//runAllGames();
+//runExperiment(game, numPlayers);
+runAllGames();
 
 static void runExperiment(string game, int numPlayers)
 {

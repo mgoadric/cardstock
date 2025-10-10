@@ -2906,11 +2906,15 @@ namespace CardStock.FreezeFrame
             }
             else if (temp is List<Card> cards)
             {
-                CardCollection mycards = new(CCType.VIRTUAL);
+                // Why does this happen???
+                // I don't think I want to ever be in this method...
+                /*CardCollection mycards = new(CCType.VIRTUAL);
                 foreach (var card in cards)
                 {
                     mycards.Add(card);
                 }
+                */
+                CardCollection mycards = new(CCType.VIRTUAL, cards);
                 var fancy = new CardLocReference()
                 {
                     cardList = mycards,
@@ -2928,6 +2932,7 @@ namespace CardStock.FreezeFrame
                         Console.WriteLine(c);
                     }
                 }
+                // WHY ARE YOU BROKEN???
                 throw new NotImplementedException();
             }
         }

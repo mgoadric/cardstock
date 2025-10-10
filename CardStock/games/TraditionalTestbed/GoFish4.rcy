@@ -54,13 +54,13 @@
 
                     ;; If they have cards in rank R, pass them back
                     ((> (size 'THEIRRANK) 0) 
-                     (all 'THEIRRANK 'C
-                         (move 'C
-                               (top (game vloc PASSING))))))))
+                     ;;(all 'THEIRRANK 'C
+                     ;;    (move 'C
+                     ;;          (top (game vloc PASSING))))))))
 
-                     ;;(repeat all
-                     ;;    (move (top 'THEIRRANK)
-                     ;;          (top (game vloc PASSING)))))))) 
+                     (repeat all
+                         (move (top 'THEIRRANK)
+                               (top (game vloc PASSING)))))))) 
 
           ;; switch back to the asking player
           (cycle current ((game sto ASKED) player))
