@@ -1,7 +1,7 @@
 ;; Coloretto by Michale Schacht 2003
 
 (game
- (declare (ONE, TWO, THREE, FOUR) 'ROWS)
+ (declare (range 1..4) 'ROWS)
  (declare (BROWN, GREY, BLUE, GREEN, YELLOW, PINK, RED) 'COLORS)
  (declare 4 'NUMP)
  (setup
@@ -40,12 +40,12 @@
                         (top (game vloc ROWS))))
              (all 'ROWS 'R
                   (move (top (game vloc ROWS))
-                        (top (game vloc 'R))))))
+                        (top (game vloc ROW 'R))))))
         
         ;; A round where players build and then choose a row
         (stage player
                (end
-                (all 'ROWS 'R (== (size (game vloc 'R)) 0)))
+                (all 'ROWS 'R (== (size (game vloc ROW 'R)) 0)))
                
                (choice 
                 (
@@ -57,20 +57,20 @@
                  ;; Draw and place a card
                  (any 'ROWS 'R
                       ((and (== (size ((current player) vloc ROW)) 0)
-                            (> (size (game vloc 'R)) 0)
-                            (< (size (game vloc 'R)) 4))
+                            (> (size (game vloc ROW 'R)) 0)
+                            (< (size (game vloc ROW 'R)) 4))
                        (move (top (game iloc STOCK))
-                             (top (game vloc 'R)))))
+                             (top (game vloc ROW 'R)))))
                  
                  ;; Take a card row
                  (any 'ROWS 'R
                       ((and (== (size ((current player) vloc ROW)) 0)
-                            (> (size (game vloc 'R)) 1))
+                            (> (size (game vloc ROW 'R)) 1))
                        (do 
                            (
-                            (move (bottom (game vloc 'R))
+                            (move (bottom (game vloc ROW 'R))
                                   (top ((current player) vloc ROW)))
-                            (repeat all (move (top (game vloc 'R))
+                            (repeat all (move (top (game vloc ROW 'R))
                                               (top ((current player) vloc HAND)))))))))))
         
         ;; Somehow record who goes next.... player who took last row TODO

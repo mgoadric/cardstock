@@ -35,10 +35,7 @@ namespace CardStock.FreezeFrame
         private void AddLocation(CardCollection cc)
         {
             var cctup = Tuple.Create(cc.owner.owner.name, cc.type, cc.name);
-            if (!locations.Contains(cctup))
-            {
-                locations.Add(cctup);
-            }
+            locations.Add(cctup);
         }
 
         public void AddStart(string s)
@@ -154,7 +151,6 @@ namespace CardStock.FreezeFrame
                     edgecolor = "green,penwidth=3,";
                 }
                 file.WriteLine(kvp.Key.Item1 + " -> " + kvp.Key.Item2 + " [fontname=Futura,fontsize=11,color=" + edgecolor + "];");
-                //file.WriteLine(kvp.Key.Item1 + " -> " + kvp.Key.Item2 + " [fontname=Futura,fontsize=11,label=\"" + kvp.Value + "\",color=" + edgecolor + "];");
             }
             file.WriteLine("}");
         }

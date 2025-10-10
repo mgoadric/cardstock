@@ -2373,9 +2373,9 @@ namespace CardStock.FreezeFrame
 
             if (stor2 is not null)
             {
+                string text = filter.var().GetText();
                 foreach (Card card in stor2)
                 {
-                    string text = filter.var().GetText();
                     variables.Put(text, card);
                     if (ProcessBoolean(filter.boolean()))
                     {
@@ -2383,6 +2383,13 @@ namespace CardStock.FreezeFrame
                     }
                     variables.Remove(text);
                 }
+                /*
+                if (text == "'TR" && cList.Count > 0 && script is not null)
+                {
+                    Console.WriteLine("Found some matches!!");
+                    Console.WriteLine(cList);
+                }
+                */
             }
             var fancy = new CardLocReference()
             {

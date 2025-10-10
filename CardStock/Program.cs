@@ -1,7 +1,7 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "TraditionalTestbed/Euchre";
+string game = "TraditionalTestbed/GoFish";
 int numPlayers = 4;
 
 runExperiment(game, numPlayers);
@@ -26,7 +26,8 @@ static void runExperiment(string game, int numPlayers)
 
 static void runAllGames()
 {
-    string[] files = Directory.GetFiles("games/TraditionalTestbed/", "*.rcy");
+    //string[] files = Directory.GetFiles("games/TraditionalTestbed/", "*.rcy");
+    string[] files = Directory.GetFiles("games/", "*.rcy");
     Array.Sort(files);
     foreach (string filename in files)
     {

@@ -8,6 +8,7 @@ namespace CardStock.FreezeFrame.Actions
     {
         public CardLocReference startLocation;
         public CardLocReference endLocation;
+        public CardCollection oldOwner;
         public CardCollection owner;
         public Card cardToMove;
         public bool actualloc;
@@ -44,7 +45,6 @@ namespace CardStock.FreezeFrame.Actions
             {
                 if (startLocation.Count() != 0)
                 {
-
                     cardToMove = startLocation.Remove();
 
                     endLocation.Add(cardToMove);
@@ -99,6 +99,8 @@ namespace CardStock.FreezeFrame.Actions
                 // Is this going back in the right index location? I DON'T THINK SO
                 // I think it is always at the end of the list??
                 // Does it matter? I THINK SO
+                // WHAT? Testing and they are equal before and after??? Weird.
+                // Then what is causing the problems??
                 if (actualloc)
                 {
                     owner.Add(cardToMove);
