@@ -1,0 +1,138 @@
+;; Pairs Port Variant
+;;
+;; https://cheapass.com/wp-content/uploads/2018/02/PairsCompanionBookWebFeb2018.pdf
+
+(game
+ (declare 4 'NUMP)
+ (setup  
+  (create players 'NUMP)
+  
+  ;; Create the deck source
+  (repeat 1 (create deck (game iloc STOCK) (deck (VALUE (ONE))))) 
+  (repeat 2 (create deck (game iloc STOCK) (deck (VALUE (TWO)))))        
+  (repeat 3 (create deck (game iloc STOCK) (deck (VALUE (THREE)))))         
+  (repeat 4 (create deck (game iloc STOCK) (deck (VALUE (FOUR)))))       
+  (repeat 5 (create deck (game iloc STOCK) (deck (VALUE (FIVE)))))        
+  (repeat 6 (create deck (game iloc STOCK) (deck (VALUE (SIX)))))       
+  (repeat 7 (create deck (game iloc STOCK) (deck (VALUE (SEVEN)))))         
+  (repeat 8 (create deck (game iloc STOCK) (deck (VALUE (EIGHT)))))         
+  (repeat 9 (create deck (game iloc STOCK) (deck (VALUE (NINE)))))       
+  (repeat 10 (create deck (game iloc STOCK) (deck (VALUE (TEN))))))        
+ 
+ ;; Assign points for cards, remove 5 cards from game
+ (do (
+      (set (game points POINTS)
+           (
+            ((VALUE : TEN) 10)
+            ((VALUE : NINE) 9)
+            ((VALUE : EIGHT) 8)
+            ((VALUE : SEVEN) 7)
+            ((VALUE : SIX) 6)
+            ((VALUE : FIVE) 5)
+            ((VALUE : FOUR) 4)
+            ((VALUE : THREE) 3)
+            ((VALUE : TWO) 2)
+            ((VALUE : ONE) 1)))
+      
+      (shuffle (game iloc STOCK))
+      (repeat 5 
+              (move (top (game iloc STOCK))
+                    (top (game iloc THROWOUT))))))
+ 
+ ;; Play the game until one player has enough points to lose
+ (stage player
+        (end 
+         (any player 'P 
+              (>= ('P sto SCORE) 21)))
+        
+        (do (
+             
+             ;; Reset the deck if not enough cards
+             ((< (size (game iloc STOCK)) 'NUMP)
+              (do (
+                   (repeat all
+                           (move (top (game iloc THROWOUT))
+                                 (top (game iloc STOCK))))
+                   (repeat all
+                           (move (top (game vloc DISCARD))
+                                 (top (game iloc STOCK))))
+                   (shuffle (game iloc STOCK))
+                   (repeat 5 
+                           (move (top (game iloc STOCK))
+                                 (top (game iloc THROWOUT)))))))
+             
+             ;; Give each player a card
+             (all player 'P 
+                  (move (top (game iloc STOCK))
+                        (top ('P vloc HAND))))
+             
+             ;; TODO Stage here, find the player with smallest card
+             ;; if tied, deal new card and try again
+             ;; Stage, for tied players if dealt a pair, then discard and do it again
+             (cycle current (owner (min (union (all player 'P 
+                                                    ('P vloc HAND))) using (game points POINTS))))))
+        
+        ;; Players take turns pressing their luck until everyone has locked or busted
+        (stage player
+               (end 
+                (all player 'P (or (== ('P str STATE) LOCK)
+                                       (== (size ('P vloc HAND)) 0))))
+               
+               (do (
+                    
+                    ;; Reset the deck if not enough cards
+                    ((== (size (game iloc STOCK)) 0)
+                     (do (
+                          (repeat all
+                                  (move (top (game iloc THROWOUT))
+                                        (top (game iloc STOCK))))
+                          (repeat all
+                                  (move (top (game vloc DISCARD))
+                                        (top (game iloc STOCK))))
+                          (shuffle (game iloc STOCK))
+                          (repeat 5 
+                                  (move (top (game iloc STOCK))
+                                        (top (game iloc THROWOUT)))))))))
+               
+               ;; players flip a card or lock their hand
+               (choice (
+                 ((and (> (size ((current player) vloc HAND)) 0)
+                       (!= ((current player) str STATE) LOCK))
+                  (set ((current player) str STATE) LOCK))
+                 
+                 ((and (> (size ((current player) vloc HAND)) 0)
+                       (!= ((current player) str STATE) LOCK))                 
+                  (move (top (game iloc STOCK))
+                        (top ((current player) vloc HAND))))
+
+                 ((or (== (size ((current player) vloc HAND)) 0)
+                      (== ((current player) str STATE) LOCK))
+                  (turn pass))
+               ))
+                     
+               ;; if pair, player is busted
+               (do (
+                    (all (partition VALUE ((current player) vloc HAND)) 'CS 
+                         ((== (size 'CS) 2)
+                          (repeat all (move (top ((current player) vloc HAND))
+                                            (top ((current player) vloc DISCARD))))))
+               ))
+        )
+        
+        ;; Score the players who have not busted
+        (do (
+             (all player 'P
+                  (all player 'OP
+                        ((and (> (size ('OP vloc HAND)) 0)
+                              (>= (sum ('OP vloc HAND) using (game points POINTS))
+                                  (sum ('P vloc HAND) using (game points POINTS))))
+                         (inc ('OP sto SCORE)))))
+             (all player 'P
+                  (repeat all
+                        (move (top ('P vloc HAND))
+                              (top (game vloc DISCARD)))))
+        ))
+ )
+ 
+ ;; Player with the higest score wins
+ (scoring max ((current player) sto SCORE)))
