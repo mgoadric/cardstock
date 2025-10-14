@@ -11,7 +11,7 @@
   
   ;; Create the deck source
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, M, H, K))
-                                         (SUIT (SWORDS, CUPS, COINS, CLUBS))))
+                                       (SUIT (SWORDS, CUPS, COINS, CLUBS))))
  )        
  
  ;; Play one round the game
@@ -29,10 +29,11 @@
          (repeat 10
             (move (top (game iloc STOCK))
                   (top ('P iloc HAND)))))
-      (set (game str LEAD) NONE)      
+      (set (game str LEAD) NONE)    
+      ;; show the card TODO 
       (set (game str TRUMP) (cardatt SUIT (top ((previous player) iloc HAND))))))
 
-;; players play a round 13 times     
+;; players play a round 10 times     
 (stage player
       (end 
       (all player 'P 

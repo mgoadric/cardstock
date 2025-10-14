@@ -13,8 +13,7 @@
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                               (BLACK (SUIT (CLUBS, SPADES)))))))         
  
- (do 
-     (
+ (do (
       (set (game points SCORE)
            (
             ((RANK : A) 1)
@@ -54,8 +53,7 @@
               (== (size ('P iloc HAND)) 0)))
         
         ;; player makes a choice
-        (choice 
-         (
+        (choice (
           
           ;; Play a card that matches suit or rank on top of discard
           ((!= (cardatt RANK (top (game vloc DISCARD))) 
@@ -86,8 +84,7 @@
                        (== (cardatt RANK 'NH)
                            EIGHT))
                        'C
-                        (do
-                            (
+                        (do (
                              (move 'C 
                                    (top (game vloc DISCARD)))
 
@@ -101,14 +98,12 @@
           
           ;; Pass and wait for the stock to be refilled
           ((== (size (game iloc STOCK)) 0)
-           (turn pass))))
+           (cycle next current))))
         
         ;; if STOCK is empty, resupply from discard
-        (do 
-            (             
+        (do (             
              ((== (size (game iloc STOCK)) 0)
-              (do 
-                  (
+              (do (
                    (move (top (game vloc DISCARD))
                          (top (game vloc TEMP)))
                    (repeat all 

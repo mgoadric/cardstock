@@ -8,8 +8,7 @@
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                               (BLACK (SUIT (CLUBS, SPADES)))))))
- (do 
-     (
+ (do (
       ;; set scoring points for the cards
       (set (game points POSITIVE)
            (
@@ -33,7 +32,10 @@
       (all player 'P
            (all 'PLOCS 'L
                 (move (top (game iloc STOCK)) 
-                      (top ('P hloc LOC 'L)))))))
+                      (top ('P hloc LOC 'L)))))
+      ;; Start the discard pile
+      (move (top (game iloc STOCK))
+            (top (game vloc DISCARD)))))
  
  ;; each player turns over two spots
  (stage player
