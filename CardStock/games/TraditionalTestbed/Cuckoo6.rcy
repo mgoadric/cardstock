@@ -51,7 +51,9 @@
                   (move (top ((current player) iloc PASSED)) 
                         (top ((previous player) iloc HAND)))
                   (move (top ((current player) iloc HAND)) 
-                        (top ((current player) vloc HAND))))))))
+                        (top ((current player) vloc HAND)))))
+
+            )))
 
         ;; Potentially trade with the next player
         (choice (
@@ -91,6 +93,11 @@
      (all player 'P 
        ((!= (size ('P iloc HAND)) 0) 
          (move (top ('P iloc HAND)) 
-               (top ('P vloc HAND)))))))
+               (top ('P vloc HAND)))))
+     (all player 'P
+       ((== (sum ('P vloc HAND) using (game points PRECEDENCE))
+            (scoremin (union (all player 'EP ('EP vloc HAND))) using (game points PRECEDENCE)))
+        (inc ('P sto SCORE))))
+     ))
 
- (scoring max (sum ((current player) vloc HAND) using (game points PRECEDENCE))))
+ (scoring min ((current player) sto SCORE)))
