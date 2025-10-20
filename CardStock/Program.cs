@@ -1,7 +1,7 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "TraditionalTestbed/GOPS";
+string game = "TraditionalTestbed/LeducPoker";
 int numPlayers = 2;
 
 runExperiment(game, numPlayers);
@@ -13,8 +13,9 @@ static void runExperiment(string game, int numPlayers)
     {
         Game = game,
         PlayerCount = numPlayers,
-        NumGames = 1000,
-        Players = []
+        NumGames = 100,
+        Players = [PlayerType.PIPMC],
+        Logging = false
     };
 
     Console.WriteLine(exp.Game + ", " + exp.PlayerCount);

@@ -9,6 +9,8 @@ namespace CardStock.Evaluation
         public required int NumGames;
         public required List<PlayerType> Players;
 
+        public bool Logging = true;
+
         public string PlayerAbv()
         {
             var ps = Players.Select(s => s.ToString()[0]);

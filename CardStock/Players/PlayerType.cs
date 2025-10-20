@@ -6,7 +6,7 @@ namespace CardStock.Players
 {
     public enum PlayerType
     {
-        RANDOM, PIPMC, MCTS, ISMCTS, PIPMCOLD, ONESECMCTS
+        RANDOM, PIPMC, MCTS, ISMCTS, PIPMCOLD, ONESECMCTS, NONE
     }
 
     public static class Extensions

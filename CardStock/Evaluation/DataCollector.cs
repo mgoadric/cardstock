@@ -47,7 +47,7 @@ namespace CardStock.Evaluation
             dataFiles[file].WriteLine(string.Join(",", values));
         }
 
-        public void RecordGameStatistics(int run, int[] results, int mult, long time)
+        public void RecordGameStatistics(int run, int[] results, int mult, double time)
         {
             lock (this)
             {

@@ -33,7 +33,10 @@ namespace CardStock.FreezeFrame
 
             if (fresh)
             {
-                //script = new Logger(fileName, exp);
+                if (exp.Logging)
+                {
+                    script = new Logger(fileName, exp);
+                }
 
                 Debug.WriteLine("Processing declarations.");
                 foreach (RecycleParser.DeclareContext declare in rules.declare())
