@@ -36,52 +36,54 @@
  
 ;; ADD a stage to let the betting happen twice. Only reveal after first round
  (stage player (end (> (game sto ROUND) 2))
- ;; Stages of the game
- (stage player
-        (end 
-         (or (any player 'P (== ('P str MOVE) FOLD))
-             (all player 'P (== ('P str MOVE) CHECK))
-             (and (== ((previous player) str MOVE) BET)
-                  (== ((current player) str MOVE) CALL))))
-        
-               ;; players make a choice
-               (choice 
-                (
-                 ((!= ((previous player) str MOVE) BET) 
-                    (set ((current player) str MOVE) CHECK))
-                 ((!= ((previous player) str MOVE) BET) 
-                    (do (
-                        (set ((current player) str MOVE) BET)
-                        (dec ((current player) sto CHIPS) (game sto RAISE))
-                        (inc (game sto POT) (game sto RAISE))
-                 )))
-                 ((== ((previous player) str MOVE) BET) 
-                    (do (
-                        (set ((current player) str MOVE) FOLD)
-                        (inc ((previous player) sto CHIPS) (game sto POT))
-                 )))
-                 ((== ((previous player) str MOVE) BET) 
-                    (do (
-                        (set ((current player) str MOVE) CALL)
-                        (dec ((current player) sto CHIPS) (game sto RAISE))
-                        (inc (game sto POT) (game sto RAISE)))))
-            ))
- )
- (do 
-    (
+    ;; Stages of the game
+    (stage player
+            (end 
+            (or (any player 'P (== ('P str MOVE) FOLD))
+                (all player 'P (== ('P str MOVE) CHECK))
+                (and (== ((previous player) str MOVE) BET)
+                    (== ((current player) str MOVE) CALL))))
+            
+                ;; players make a choice
+                (choice 
+                    (
+                    ((!= ((previous player) str MOVE) BET) 
+                        (set ((current player) str MOVE) CHECK))
+                    ((!= ((previous player) str MOVE) BET) 
+                        (do (
+                            (set ((current player) str MOVE) BET)
+                            (dec ((current player) sto CHIPS) (game sto RAISE))
+                            (inc (game sto POT) (game sto RAISE))
+                    )))
+                    ((== ((previous player) str MOVE) BET) 
+                        (do (
+                            (set ((current player) str MOVE) FOLD)
+                            (inc ((previous player) sto CHIPS) (game sto POT))
+                    )))
+                    ((== ((previous player) str MOVE) BET) 
+                        (do (
+                            (set ((current player) str MOVE) CALL)
+                            (dec ((current player) sto CHIPS) (game sto RAISE))
+                            (inc (game sto POT) (game sto RAISE)))))
+                ))
+    )
+    (do (
         (inc (game sto ROUND))
         (inc (game sto RAISE) 2)
         ((<= (game sto ROUND) 2)
-        (move (top (game iloc STOCK)) 
-              (top (game vloc FACEUP))))
+         (move (top (game iloc STOCK)) 
+               (top (game vloc FACEUP))))
         (all player 'P ((!= ('P str MOVE) FOLD)
-                         (set ('P str MOVE) NONE)))
+            (set ('P str MOVE) NONE)))
+            
+        ;; keep the same player starting each round
+        (cycle next current)
     ))
  )
- (do
-    (
+ (do (
     ((all player 'P (!= ('P str MOVE) FOLD))  ;; if showdown
         (do (
+
         ;; Move the card to visible
         (all player 'P 
             (move (top ('P iloc HAND))

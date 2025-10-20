@@ -5,7 +5,7 @@
 (game
  (declare (HEARTS, DIAMONDS, CLUBS, SPADES) 'SUITS)
  (setup  
-  ;; Set up the players, 4 players each on their own team
+  ;; Set up the players, 3 players each on their own team
   (create players 4)
   
   ;; Create the deck source
@@ -13,8 +13,7 @@
                                        (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                                               (BLACK (SUIT (CLUBS, SPADES)))))))         
  
- (do 
-     (
+ (do (
       (set (game points SCORE)
            (
             ((RANK : A) 1)
@@ -54,17 +53,17 @@
               (== (size ('P iloc HAND)) 0)))
         
         ;; player makes a choice
-        (choice 
-         (
+        (choice (
           
           ;; Play a card that matches suit or rank on top of discard
           ((!= (cardatt RANK (top (game vloc DISCARD))) 
                EIGHT)
            (any (filter ((current player) iloc HAND) 'NH 
-                        (or (== (cardatt SUIT 'NH)
-                                (cardatt SUIT (top (game vloc DISCARD))))
-                            (== (cardatt RANK 'NH)
-                                (cardatt RANK (top (game vloc DISCARD))))))
+                        (and (!= (cardatt RANK 'NH) EIGHT)
+                             (or (== (cardatt SUIT 'NH)
+                                     (cardatt SUIT (top (game vloc DISCARD))))
+                                 (== (cardatt RANK 'NH)
+                                     (cardatt RANK (top (game vloc DISCARD)))))))
                 'C
                          
                          (move 'C 
@@ -74,8 +73,9 @@
           ((== (cardatt RANK (top (game vloc DISCARD)))
                EIGHT)
            (any (filter ((current player) iloc HAND) 'NH 
-                        (== (cardatt SUIT 'NH)
-                            (game str EIGHTSUIT)))
+                        (and (!= (cardatt RANK 'NH) EIGHT)
+                             (== (cardatt SUIT 'NH)
+                                 (game str EIGHTSUIT))))
                 'C
                          
                          (move 'C 
@@ -83,32 +83,32 @@
           
           ;; Can play eight any time
           (any (filter ((current player) iloc HAND) 'NH 
-                       (== (cardatt RANK 'NH)
-                           EIGHT))
-                       'C
-                        (do
-                            (
+                       (== (cardatt RANK 'NH) EIGHT))
+               'C
+                        (do (
                              (move 'C 
                                    (top (game vloc DISCARD)))
 
                              (any 'SUITS 'S
                                   (set (game str EIGHTSUIT) 'S)))))                  
           
-          ;; Draw from the Stock
-          ((> (size (game iloc STOCK)) 0)
-           (move (top (game iloc STOCK))
-                 (top ((current player) iloc HAND))))
-          
-          ;; Pass and wait for the stock to be refilled
-          ((== (size (game iloc STOCK)) 0)
-           (turn pass))))
+          ;; Draw from the Stock when no other options available
+          ((== (size (filter ((current player) iloc HAND) 'NH 
+                        (or (== (cardatt RANK 'NH) EIGHT)
+                            (and (== (cardatt RANK (top (game vloc DISCARD))) EIGHT)
+                                 (== (cardatt SUIT 'NH) (game str EIGHTSUIT)))
+                            (and (!= (cardatt RANK (top (game vloc DISCARD))) EIGHT)
+                                 (or (== (cardatt SUIT 'NH)
+                                         (cardatt SUIT (top (game vloc DISCARD))))
+                                     (== (cardatt RANK 'NH)
+                                         (cardatt RANK (top (game vloc DISCARD)))))))
+                  )) 0)
+           
         
-        ;; if STOCK is empty, resupply from discard
-        (do 
-            (             
+           (do (   
+             ;; if STOCK is empty, resupply from discard
              ((== (size (game iloc STOCK)) 0)
-              (do 
-                  (
+              (do (
                    (move (top (game vloc DISCARD))
                          (top (game vloc TEMP)))
                    (repeat all 
@@ -116,7 +116,12 @@
                                  (top (game iloc STOCK))))
                    (move (top (game vloc TEMP))
                          (top (game vloc DISCARD)))
-                   (shuffle (game iloc STOCK))))))))
+                   (shuffle (game iloc STOCK)))))
+
+              ;; draw a card from the stock
+              (move (top (game iloc STOCK))
+                 (top ((current player) iloc HAND)))
+        ))))))
  
  ;; Player with the smallest hand size wins
  (scoring min (sum ((current player) iloc HAND) using (game points SCORE))))

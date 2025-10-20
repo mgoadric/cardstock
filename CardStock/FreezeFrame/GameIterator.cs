@@ -33,7 +33,7 @@ namespace CardStock.FreezeFrame
 
             if (fresh)
             {
-                script = new Logger(fileName, exp);
+                //script = new Logger(fileName, exp);
 
                 Debug.WriteLine("Processing declarations.");
                 foreach (RecycleParser.DeclareContext declare in rules.declare())
@@ -205,9 +205,9 @@ namespace CardStock.FreezeFrame
                 if (playerCreate.@int() is not null)
                 {
                     var numPlayers = ProcessInt(playerCreate.@int());
-                    script.WriteToFile("#:" + numPlayers);
+                    script?.WriteToFile("#:" + numPlayers);
                     game.AddPlayers(numPlayers, this);
-                    script.WriteToFile("T:" + game.currentPlayer.Peek().CurrentName());
+                    script?.WriteToFile("T:" + game.currentPlayer.Peek().CurrentName());
                 }
                 else
                 {
