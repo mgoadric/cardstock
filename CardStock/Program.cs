@@ -1,8 +1,8 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "TraditionalTestbed/LeducPoker";
-int numPlayers = 2;
+string game = "TraditionalTestbed/GolfSix";
+int numPlayers = 4;
 
 runExperiment(game, numPlayers);
 //runAllGames();
@@ -14,7 +14,7 @@ static void runExperiment(string game, int numPlayers)
         Game = game,
         PlayerCount = numPlayers,
         NumGames = 100,
-        Players = [PlayerType.PIPMC],
+        Players = [PlayerType.MCTS],
         Logging = false
     };
 

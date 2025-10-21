@@ -4,7 +4,7 @@ using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions {
 
-    public abstract class GameAction(char prefix, Logger script) {
+    public abstract class GameAction(char prefix, Logger? script) {
         public bool inChoice = false;
         public bool complete;
         public CardGame cg;

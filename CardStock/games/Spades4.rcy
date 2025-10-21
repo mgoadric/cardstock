@@ -15,54 +15,45 @@
  
  ;; Stages of the game
  (stage player
-        (end 
-         (any team 'T 
-              (!= ('T sto SCORE) 0)))
-        (do 
-            (
-             (repeat all
-                     (move (top (game vloc DISCARD)) 
-                           (top (game iloc STOCK))))
-             (set (game str TRUMP) SPADES)
-             (set (game str LEAD) NONE)
-             (shuffle (game iloc STOCK))
-             (set (game sto BROKEN) 0)
-             (all player 'P
-                  (do 
-                      (
+      (end 
+         (any team 'T (!= ('T sto SCORE) 0)))
+      (do (
+            (repeat all
+                  (move (top (game vloc DISCARD)) 
+                        (top (game iloc STOCK))))
+            (set (game str TRUMP) SPADES)
+            (set (game str LEAD) NONE)
+            (shuffle (game iloc STOCK))
+            (set (game sto BROKEN) 0)
+            (all player 'P
+                  (do (
                        (repeat 13
                                (move (top (game iloc STOCK))
                                      (top ('P iloc HAND))))
                        (set ('P sto TRICKSWON) 0)
                        (set ('P sto BID) 14))))))
         
-        ;; bidding for number of tricks expected
-        (stage player
-               (end 
-                (all player 'P 
-                     (<= ('P sto BID) 13)))
-               (choice 
-                (
-                 (any (range 1..5) 'B
-                      (do (
+      ;; bidding for number of tricks expected
+      (stage player
+            (end 
+                (all player 'P (<= ('P sto BID) 13)))
+            (choice (
+                  (any (range 1..5) 'B
+                        (do (
                            (set ((current player) sto BID) 'B)
                            (inc ((team (current player)) sto BID) 'B)))))))
         
-        ;; players play a round 13 times     
-        (stage player
-               (end 
-                (all player 'P 
-                     (== (size ('P iloc HAND)) 0)))
+      ;; players play a round 13 times     
+      (stage player
+            (end 
+                (all player 'P (== (size ('P iloc HAND)) 0)))
                
-               ;; players play a hand once
-               (stage player
-                      (end 
-                       (all player 'P 
-                            (> (size ('P vloc TRICK)) 0)))
+            ;; players play a hand once
+            (stage player
+                  (end 
+                       (all player 'P (> (size ('P vloc TRICK)) 0)))
                       
-                      (choice 
-                       
-                       (
+                  (choice (
                         ;; if following player and cannot follow SUIT
                         ;;   play any card, and end your turn
                         ((and (!= (game str LEAD) NONE)
@@ -99,8 +90,7 @@
                         ;;   play any card, remember it in the lead spot, and end your turn
                         ((and (== (game str LEAD) NONE)
                               (== (game sto BROKEN) 1))
-                         (do 
-                             (
+                         (do (
                               (any ((current player) iloc HAND) 'C
                                    (move 'C 
                                          (top ((current player) vloc TRICK))))
@@ -112,17 +102,15 @@
                               (== (size (filter ((current player) iloc HAND) 'S (!= (cardatt SUIT 'S) 
                                                                                     (game str TRUMP)))) 0))
                          (any ((current player) iloc HAND) 'C
-                              (do 
-                                  (
+                              (do (
                                    (move 'C
                                          (top ((current player) vloc TRICK)))
                                    (set (game str LEAD)
                               (cardatt SUIT (top ((current player) vloc TRICK)))))))))))
                
                
-               ;; after players play hand, computer wraps up trick
-               (do 
-                   (
+            ;; after players play hand, computer wraps up trick
+            (do (
                     ;; solidfy card recedence
                     (set (game points PRECEDENCE) 
                          (
@@ -160,13 +148,11 @@
                          (move (top ('P vloc TRICK)) 
                                (top (game vloc DISCARD)))))))
         
-        ;; determine team score
-        (stage team
-               (end 
-                (all player 'P 
-                     (== ('P sto TRICKSWON) 0)))
-               (do 
-                   (
+      ;; determine team score
+      (stage team
+            (end 
+                (all player 'P (== ('P sto TRICKSWON) 0)))
+            (do (
                     ;; team made their cumulative bid, score positive points
                     ((>= ((current team) sto TRICKSWON) 
                          ((current team) sto BID))
@@ -189,6 +175,3 @@
                          (set ('R sto TRICKSWON) 0))))))
  
  (scoring max ((team (current player)) sto SCORE)))
-
-
-

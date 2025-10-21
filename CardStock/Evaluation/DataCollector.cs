@@ -28,7 +28,8 @@ namespace CardStock.Evaluation
             ***********/
             string path = string.Join("/", ["output", exp.Game, exp.PlayerCount, ai]) + "/";
             FileInfo file = new(path);
-            file.Directory.Create(); // If the directory already exists, this method does nothing.
+            DirectoryInfo? directoryInfo = file.Directory;
+            directoryInfo?.Create(); // If the directory already exists, this method does nothing.
 
             List<String> fileStrings = ["lead", "choice", "results", "spread"];
             foreach (string f in fileStrings)

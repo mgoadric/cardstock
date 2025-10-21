@@ -74,7 +74,8 @@ namespace CardStock.Evaluation {
                 {
                     string path = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.PlayerAbv() + "/simulation/";
                     FileInfo file = new(path);
-                    file.Directory.Create();
+                    DirectoryInfo? directoryInfo = file.Directory;
+                    directoryInfo?.Create();
 
                     CardGame game = new();
                     var gamePlay = new FreezeFrame.GameIterator(tree, game, path + (i + 1), exp);

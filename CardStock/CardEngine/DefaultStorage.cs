@@ -52,7 +52,8 @@ namespace CardStock.CardEngine
             if (DefaultT is null)
             {
                 throw new NullReferenceException();
-            } else if (DefaultT is ICloneable dt)
+            }
+            else if (DefaultT is ICloneable dt)
             {
                 return (T)dt.Clone();
             }
