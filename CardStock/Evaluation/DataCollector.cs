@@ -134,7 +134,7 @@ namespace CardStock.Evaluation
                     topRank = j;
                     tie = 0;
                 }
-                else
+                else if (j != 0)
                 {
                     tie++;
                 }
