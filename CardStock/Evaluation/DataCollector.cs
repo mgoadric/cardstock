@@ -81,7 +81,7 @@ namespace CardStock.Evaluation
                     Tuple<int, double[]> allScores = allScoresList[move];
                     for (int k = 0; k < exp.PlayerCount; k++)
                     {
-                        CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, allLeads.Item1 + 1, k + 1, allScores.Item2[k], ranks[k, 1], allLeads.Item2[k]);
+                        CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, allLeads.Item1 + 1, k + 1, allScores.Item2[k], ranks[k, 1] + 1, allLeads.Item2[k]);
                     }
                 }
                 
@@ -90,7 +90,7 @@ namespace CardStock.Evaluation
                 {
                     double r = (exp.PlayerCount - 1 - ranks[k, 0]) /
                         (double)(exp.PlayerCount - 1);
-                    CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, k + 1, k + 1, results[k], ranks[k, 1], r);
+                    CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, k + 1, k + 1, results[k], ranks[k, 1] + 1, r);
                 }
 
                 /******
