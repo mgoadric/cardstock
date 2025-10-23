@@ -17,7 +17,7 @@ tournament of AI players. Please post any issues you find.
 
 ## Games
 
-There are currently 61 games coded in RECYCLE, a mixture of classic and modern games, 
+There are currently 60+ games coded in RECYCLE, a mixture of classic and modern games, 
 categorized by genre:
 
 * Adding
@@ -29,6 +29,8 @@ categorized by genre:
     * Enchère (3p)
     * [GOPS](https://www.pagat.com/misc/gops.html) (2p)
     * [Go Fish](https://www.pagat.com/quartet/gofish.html) (2-4p)
+    * Pico (2p)
+        * Pico 2
     * [Turn the Tide](https://gamewright.com/pdfs/Rules/TurnTheTide-RULES.pdf) (3p)
 * Climbing
     * [Comet](http://www.catsatcards.com/Games/Comet.html) (2p)
