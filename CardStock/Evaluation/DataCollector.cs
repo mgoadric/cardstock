@@ -91,6 +91,7 @@ namespace CardStock.Evaluation
                     double r = (exp.PlayerCount - 1 - ranks[k, 0]) /
                         (double)(exp.PlayerCount - 1);
                     CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, k + 1, k + 1, results[k], ranks[k, 1] + 1, r);
+
                 }
 
                 /******
@@ -138,8 +139,8 @@ namespace CardStock.Evaluation
                 {
                     tie++;
                 }
-                ranks[resultsList[j].Item2,0] = topRank;
-                ranks[resultsList[j].Item2,1] = topRank + tie;
+                ranks[resultsList[j].Item2, 0] = topRank;
+                ranks[resultsList[j].Item2, 1] = topRank + tie;
             }
             return ranks;
         }

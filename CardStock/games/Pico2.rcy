@@ -1,0 +1,101 @@
+;; Pico
+
+;; http://doris-frank.de/PlayPico.html
+
+(game
+ (setup  
+  ;; Set up the players, 2 players each on their own team
+  (create players 2)
+  
+  ;; Create the deck source
+  (create deck (game iloc STOCK) (deck (RANK (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, 
+                                             THIRTEEN, SIXTEEN))))
+  )
+ (do ( 
+      
+      ;; Create the deck points
+      (set (game points PRECEDENCE) (
+            ((RANK : SIXTEEN) 16)
+            ((RANK : THIRTEEN) 13) 
+            ((RANK : TEN) 10)
+            ((RANK : NINE) 9)
+            ((RANK : EIGHT) 8)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+            ((RANK : TWO) 2)
+      ))
+
+      (set (game points DOTS) (
+            ((RANK : SIXTEEN) 5)
+            ((RANK : THIRTEEN) 3) 
+            ((RANK : TEN) 3)
+            ((RANK : NINE) 3)
+            ((RANK : EIGHT) 3)
+            ((RANK : SEVEN) 2)
+            ((RANK : SIX) 2)
+            ((RANK : FIVE) 2)
+            ((RANK : FOUR) 2)
+            ((RANK : THREE) 1)
+            ((RANK : TWO) 1)
+      ))
+      
+      (shuffle (game iloc STOCK))
+      ;; each player gets 5 cards
+      (all player 'P
+            (repeat 5
+                  (move (top (game iloc STOCK)) 
+                        (top ('P iloc HAND)))))
+      
+      ;; last one is turned face up
+      (move (top (game iloc STOCK)) 
+            (top (game vloc FACEUP)))))
+ 
+ ;; Stages of the game
+ (stage player
+        (end 
+         (any player 'P (== (size ('P iloc HAND)) 1)))
+        
+        ;; Stages of the game
+        (stage player
+               (end 
+                (all player 'P (== (size ('P iloc HIDDENTRICK)) 1)))               
+               
+               ;; players play a hidden card
+               (choice (
+                 (do (
+                      (any ((current player) iloc HAND) 'C
+                           (move 'C 
+                                 (top ((current player) iloc HIDDENTRICK)))))))))
+        
+        (do (
+
+             ;; Move the card to visible
+             (all player 'P 
+                  (move (top ('P iloc HIDDENTRICK))
+                        (top ('P vloc TRICK))))
+             
+             ;; Determine who won
+             (set (game sto HIGH) (scoremax (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE)))
+             (set (game sto LOW) (scoremin (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE)))
+             (set (game sto HIGHPLAYER) (pid (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE)))))
+             (set (game sto LOWPLAYER) (pid (owner (min (union (all player 'P ('P vloc TRICK))) using (game points PRECEDENCE)))))
+             ((<= (game sto HIGH) (* 2 (game sto LOW)))
+                  (do (
+                        (move (top (((game sto HIGHPLAYER) player) vloc TRICK))
+                              (top (((game sto HIGHPLAYER) player) vloc WON)))
+                        (move (top (((game sto LOWPLAYER) player) vloc TRICK))
+                              (top (((game sto LOWPLAYER) player) iloc HAND))))))
+             ((> (game sto HIGH) (* 2 (game sto LOW)))
+                  (do (
+                        (move (top (((game sto LOWPLAYER) player) vloc TRICK))
+                              (top (((game sto LOWPLAYER) player) vloc WON)))
+                        (move (top (((game sto HIGHPLAYER) player) vloc TRICK))
+                              (top (((game sto HIGHPLAYER) player) iloc HAND))))))
+      )))
+ 
+ (scoring max (sum ((current player) vloc WON) using (game points DOTS))))
+
+

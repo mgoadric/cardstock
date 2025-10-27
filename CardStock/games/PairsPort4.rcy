@@ -115,7 +115,7 @@
                     (all (partition VALUE ((current player) vloc HAND)) 'CS 
                          ((== (size 'CS) 2)
                           (repeat all (move (top ((current player) vloc HAND))
-                                            (top ((current player) vloc DISCARD))))))
+                                            (top (game vloc DISCARD))))))
                ))
         )
         
@@ -128,9 +128,13 @@
                                   (sum ('P vloc HAND) using (game points POINTS))))
                          (inc ('OP sto SCORE)))))
              (all player 'P
-                  (repeat all
-                        (move (top ('P vloc HAND))
-                              (top (game vloc DISCARD)))))
+                  (do (
+                        (repeat all
+                              (move (top ('P vloc HAND))
+                                    (top (game vloc DISCARD))))
+                        (set ('P str STATE) NONE)
+                  ))
+             )
         ))
  )
  

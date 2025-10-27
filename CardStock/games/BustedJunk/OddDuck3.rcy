@@ -1,0 +1,90 @@
+(game
+ 
+ (setup
+  ;; Set up the players
+  (create players 3)
+  
+  ;; Create the deck source
+  (create deck (game iloc STOCK) (deck (RANK  (ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE))
+                                       (COLOR (BLACK, BLUE, GREEN, RED, YELLOW)))))
+ (do (
+    (shuffle (game iloc STOCK))
+    (all player 'P
+        (repeat 5 (move (top (game iloc STOCK))
+                        (top ('P iloc HAND)))))
+    (move (top (game iloc STOCK))
+          (top (game vloc POND)))
+    (set (game points POINTS) (
+        ((RANK : NINE) 9)
+        ((RANK : EIGHT) 8)
+        ((RANK : SEVEN) 7)
+        ((RANK : SIX) 6)
+        ((RANK : FIVE) 5)
+        ((RANK : FOUR) 4)
+        ((RANK : THREE) 3)
+        ((RANK : TWO) 2)
+        ((RANK : ONE) 1)
+    ))    
+ ))
+ (stage player (end
+    (or (== (size (game iloc STOCK)) 0)
+        (any player 'P (== (size ('P iloc HAND)) 0))
+        (any player 'P (== (size (partition RANK ('P iloc HAND))) 9))))
+    
+    ;; you can play any card you want
+    (choice (
+        (any ((current player) iloc HAND) 'C
+            (move 'C (top ((current player) vloc DUCK))))
+    ))
+
+    ;; and there are consequences to most plays
+    (do (
+        ;; repeat number? move all POND to hand
+        ((any (game vloc POND) 'PC
+            (== (cardatt RANK (top ((current player) vloc DUCK)))
+                (cardatt RANK 'PC)))
+         (repeat all 
+            (move (top (game vloc POND))
+                  (top ((current player) iloc HAND)))))
+
+        ;; discard any other cards in hand that match the rank you played
+        (let (filter ((current player) iloc HAND) 'HC
+                (== (cardatt RANK (top ((current player) vloc DUCK)))
+                    (cardatt RANK 'HC))) 'FHC
+             (repeat all (move (top 'FHC) (top (game vloc DISCARD)))))
+
+        ((> (size (game vloc POND)) 0)
+            (do (
+                ;; sum from two possible? 
+                (any (subsets (game vloc POND)) 'PS
+                    ((and (== (size 'PS) 2)
+                         (== (sum 'PS using (game points POINTS))
+                             (score (top ((current player) vloc DUCK)) using (game points POINTS))))
+
+                    ;;take all into your hand
+                    (repeat all 
+                        (move (top 'PS)
+                              (top ((current player) iloc HAND))))
+                 ))
+
+                ;; new color added, draw a card from the stock
+                ((all (game vloc POND) 'PC
+                    (!= (cardatt COLOR (top ((current player) vloc DUCK)))
+                        (cardatt COLOR 'PC)))
+                (move (top (game iloc STOCK))
+                    (top ((current player) iloc HAND))))
+            )))
+
+        ;; move the Duck to the POND
+        (move (top ((current player) vloc DUCK))
+              (top (game vloc POND)))
+    ))
+ )
+
+ (do (
+    (all player 'P 
+        ((== (size (partition RANK ('P iloc HAND))) 9)
+         (repeat all (move (top ('P iloc HAND)) (top (game vloc DISCARD))))))
+ ))
+
+ (scoring min (sum ((current player) iloc HAND) using (game points POINTS))))

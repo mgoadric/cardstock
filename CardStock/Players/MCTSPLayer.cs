@@ -45,12 +45,17 @@ namespace CardStock.Players
 
             double[] movescores = new double[numChoices];
             int[] choiceplays = new int[numChoices];
+
             for (int m = 0; m < numChoices; m++)
             {
                 for (int det = 0; det < GameSimulator.NUMSAMPLES; det++)
                 {
-                    movescores[m] += choiceStats[det][m].wins / choiceStats[det][m].plays;
-                    choiceplays[m] += choiceStats[det][m].plays;
+                    // check for small sample numbers, some moves might be 0
+                    if (choiceStats[det][m] is not null)
+                    {
+                        movescores[m] += choiceStats[det][m].wins / choiceStats[det][m].plays;
+                        choiceplays[m] += choiceStats[det][m].plays;
+                    }
                 }
                 movescores[m] /= GameSimulator.NUMSAMPLES;
             }
@@ -60,9 +65,9 @@ namespace CardStock.Players
             // TODO THIS IS MISSING LEAD HISTORY RECORDING!!
             // Record info for heuristic evaluation
             //RecordHeuristics(rankSum);
-            //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
-            //Console.WriteLine("{0}", string.Join(", ", movescores));
-            //Console.WriteLine("{0}", string.Join(", ", choiceplays));
+            Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
+            Console.WriteLine("{0}", string.Join(", ", movescores));
+            Console.WriteLine("{0}", string.Join(", ", choiceplays));
 
             return max;
         }
