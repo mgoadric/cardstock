@@ -15,7 +15,7 @@ namespace CardStock.FreezeFrame.Actions
                 former = playerCycle.queuedNext;
 			}
             playerCycle.SetNext(idx);
-            script?.WriteToFile(prefix + ":p" + idx);
+            script?.WriteToFile(prefix + ":p" + (idx + 1));
         }
 
         public override void Undo()

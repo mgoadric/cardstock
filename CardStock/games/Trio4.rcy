@@ -1,0 +1,112 @@
+﻿;; Go Fish
+;;
+;; https://www.pagat.com/quartet/gofish.html
+
+(game
+ (declare 8 'NUMMIDDLE)
+ (setup  
+  ;; Set up the players
+  (create players 4)
+  ;; Create the deck source
+  (repeat 3 (create deck (game iloc STOCK) (deck (RANK (ONE, TWO, THREE, FOUR, FIVE, SIX, 
+                                                        SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE))))))
+ 
+ (do (
+     (shuffle (game iloc STOCK))
+     
+     ;; Deal each player 7 cards
+     (all player 'P 
+          (repeat 7 
+               (move (top (game iloc STOCK)) 
+                     (top ('P iloc HAND))))
+
+          ;; Players sort their hands.... TODO
+          ;;(sort ('P iloc HAND))
+     )
+
+     ;; deal 8 to the middle of the table
+     (all (range 1..'NUMMIDDLE) 'LOC
+          (move (top (game iloc STOCK)) 
+                (top (game iloc MIDDLE 'LOC))))
+))
+ 
+ (stage player 
+     (end (or (any player 'P
+                  (== (size (filter ('P vloc TRIOS) 'TC (== (cardatt RANK 'TC) SEVEN))) 3))
+              (any player 'P
+                  (== (size (partition RANK ('P vloc TRIOS))) 3))))
+     
+     (choice (
+          ;; flip any card in the middle
+          (any (range 1..'NUMMIDDLE) 'LOC
+               ((!= (size (game iloc MIDDLE 'LOC)) 0)
+                (do (
+                    (remember (top (game iloc MIDDLE 'LOC)) (top (game mem SEEN)))
+                    (move (top (game iloc MIDDLE 'LOC)) (top (game vloc MIDDLE 'LOC)))
+                ))
+               )
+          )
+
+          ;; ask any player to reveal their HIGHEST card
+          (any player 'P
+               ((> (size ('P iloc HAND)) 0)
+                (do (
+                    (remember (top ('P iloc HAND)) (top (game mem SEEN)))
+                    (move (top ('P iloc HAND)) (top ('P vloc TOP)))
+                ))
+               )
+          )
+
+          ;; ask any player to reveal their LOWEST card 
+          ;; (need more than one card, or the action is duplicated)
+          (any player 'P
+               ((> (size ('P iloc HAND)) 1)
+                (do (
+                    (remember (bottom ('P iloc HAND)) (top (game mem SEEN)))
+                    (move (bottom ('P iloc HAND)) (top ('P vloc BOTTOM)))
+                ))
+               )
+          )
+     ))
+
+     (do (
+          ;; found a trio, collect it
+          ((and (== (size (game mem SEEN)) 3)
+                (all (game mem SEEN) 'SC
+                    (== (cardatt RANK 'SC)
+                        (cardatt RANK (top (game mem SEEN))))))
+           (do (
+               (all player 'P
+                    (do (
+                         (repeat all (move (top ('P vloc TOP)) (top ((current player) vloc TRIOS))))
+                         (repeat all (move (top ('P vloc BOTTOM)) (top ((current player) vloc TRIOS))))
+                    )))
+               (all (range 1..'NUMMIDDLE) 'LOC 
+                    (repeat all (move (top (game vloc MIDDLE 'LOC)) (top ((current player) vloc TRIOS)))))
+               (repeat all (forget (top (game mem SEEN))))
+           )))
+
+          ;; no match, return all cards
+          ((and (> (size (game mem SEEN)) 1)
+                (any (game mem SEEN) 'SC
+                    (!= (cardatt RANK 'SC)
+                        (cardatt RANK (top (game mem SEEN))))))
+           (do (
+               (all player 'P
+                    (do (
+                         (repeat all (move (top ('P vloc TOP)) (top ('P iloc HAND))))
+                         (repeat all (move (top ('P vloc BOTTOM)) (bottom ('P iloc HAND))))
+                    )))
+               (all (range 1..'NUMMIDDLE) 'LOC 
+                    (repeat all (move (top (game vloc MIDDLE 'LOC)) (top (game iloc MIDDLE 'LOC)))))
+               (repeat all (forget (top (game mem SEEN))))
+           )))
+
+          ;; determine if player goes again
+          ((and (> (size (game mem SEEN)) 0)
+                (all (game mem SEEN) 'SC
+                    (== (cardatt RANK 'SC)
+                        (cardatt RANK (top (game mem SEEN))))))
+           (cycle next (current player))))))
+
+ (scoring max ((current player) sto SCORE)))

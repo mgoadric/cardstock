@@ -12,7 +12,7 @@ namespace CardStock.CardEngine
         public Dictionary<string, List<Card>> tempSource = [];
         public Dictionary<string, Card[]> sourceDeck = [];
         public Dictionary<string, int[]> cardMask = [];
-        public Owner[] table = new Owner[1]; // why is this an array? It is always just one element TODO
+        public Owner[] table = new Owner[1]; // This is an array to make cloning faster
         public Player[] players;
         public Stack<StageCycle<Player>> currentPlayer = new();
         public bool activeTeams = false;
@@ -198,10 +198,14 @@ namespace CardStock.CardEngine
                 foreach (var collection in owner.cardBins.Values())
                 {
                     // WHAT ABOUT TEAMS???
-                    if (collection.type == CCType.VISIBLE || collection.type == CCType.MEMORY || (
-                            collection.type == CCType.INVISIBLE
-                            && owner.GetType() == typeof(Player)
-                            && owner.id == playerIdx))
+                    if (collection.type == CCType.VISIBLE ||
+                        collection.type == CCType.MEMORY || (
+                        collection.type == CCType.INVISIBLE &&
+                             owner.GetType() == typeof(Player) &&
+                             owner.id == playerIdx) || (
+                        collection.type == CCType.OTHERS &&
+                             owner.GetType() == typeof(Player) &&
+                             owner.id != playerIdx))
                     {
                         Debug.WriteLine("Initial Collection:" + collection);
 
@@ -235,9 +239,10 @@ namespace CardStock.CardEngine
                 {
                     // WHAT ABOUT TEAMS
                     if (collection.type == CCType.HIDDEN ||
-                        (collection.type == CCType.INVISIBLE
-                                                  && (owner.GetType() != typeof(Player)
-                                                      || owner.id != playerIdx)))
+                        (collection.type == CCType.INVISIBLE &&
+                            (owner.GetType() != typeof(Player) || owner.id != playerIdx)) ||
+                        (collection.type == CCType.OTHERS &&
+                            (owner.GetType() != typeof(Player) || owner.id == playerIdx)))
                     {
                         Debug.WriteLine("Initial Collection:" + collection);
 

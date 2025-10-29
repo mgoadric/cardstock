@@ -1,7 +1,7 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "PairsPort";
+string game = "Trio";
 int numPlayers = 4;
 
 runExperiment(game, numPlayers);
@@ -13,9 +13,9 @@ static void runExperiment(string game, int numPlayers)
     {
         Game = game,
         PlayerCount = numPlayers,
-        NumGames = 100,
+        NumGames = 10,
         Players = [],
-        Logging = false
+        Logging = true
     };
 
     Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
