@@ -116,6 +116,16 @@ namespace CardStock.CardEngine
                 (cards[n], cards[k]) = (cards[k], cards[n]);
             }
         }
+
+        public void Sort(PointMap pointMap)
+        {
+            cards.Sort(delegate (Card a, Card b)
+            {
+                if (pointMap.GetScore(a) == pointMap.GetScore(b)) return 0;
+                else if (pointMap.GetScore(a) > pointMap.GetScore(b)) return -1;
+                else return 1;
+            });
+        }
  
         public string TranscriptName()
         {

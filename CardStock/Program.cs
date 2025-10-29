@@ -13,9 +13,9 @@ static void runExperiment(string game, int numPlayers)
     {
         Game = game,
         PlayerCount = numPlayers,
-        NumGames = 10,
-        Players = [],
-        Logging = true
+        NumGames = 1,
+        Players = [PlayerType.PIPMC],
+        Logging = false
     };
 
     Console.WriteLine(exp.Game + ", " + exp.PlayerCount);

@@ -5,6 +5,7 @@ using CardStock.FreezeFrame.Actions;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 namespace CardStock.FreezeFrame
@@ -1286,7 +1287,7 @@ namespace CardStock.FreezeFrame
                 }
                 else
                 {
-                    _ = Enum.TryParse(card.GetChild(1).GetText(), out CardLocTypes locType);
+                    _ = Enum.TryParse(card.GetChild(1).GetText().ToUpper(), out CardLocTypes locType);
                     var fancy = new CardLocReference()
                     {
                         cardList = loc.cardList,
@@ -1678,27 +1679,55 @@ namespace CardStock.FreezeFrame
                 Debug.WriteLine("Tuple Track");
                 var identifier = loc.memstorage().GetChild(1).GetText();
                 var resultingSet = ProcessCStorageCollection(loc.memstorage().cstoragecollection());
-                switch (identifier)
+                return identifier switch
                 {
-                    case "top": return resultingSet[0];
-                    case "bottom": return resultingSet[^1];
-                    default: return resultingSet[int.Parse(identifier)];
-                }
+                    "top" => resultingSet[0],
+                    "bottom" => resultingSet[^1],
+                    _ => resultingSet[int.Parse(identifier)],
+                };
             }
+            // This should really be an ACTION, not a vitrual card loc
             else if (loc.sortof() is not null)
             {
-                CardCollection temp = new(CCType.VIRTUAL);
                 var locs = ProcessLocation(loc.sortof().cstorage());
+                var points = ProcessPointStorage(loc.sortof().pointstorage()).Get();
+
+                // HACK FOR NOW
+                locs.cardList.Sort(points);
+                /*
                 // Sort the cards here, be efficient! TODO
+                List<Card> cards = [];
+                foreach (Card card in locs.cardList.AllCards())
+                {
+                    cards.Add(card);
+                }
+
+                // Sort cards.
+
+                cards.Sort(delegate (Card a, Card b)
+                {
+                    if (points.GetScore(a) == points.GetScore(b)) return 0;
+                    else if (points.GetScore(a) > points.GetScore(b)) return -1;
+                    else return 1;
+                });
+
+                CardCollection temp = new(CCType.VIRTUAL);
+                foreach (Card card in cards)
+                {
+                    temp.Add(card);
+                }
 
                 var fancy = new CardLocReference()
                 {
                     cardList = temp,
                     name = name + "{SORTED}"
                 };
-                Console.WriteLine("Sorting not implemented yet");
-                throw new NotImplementedException();
-                //return fancy;
+                //Console.WriteLine("Sorting not implemented yet");
+                //throw new NotImplementedException();
+                return fancy;
+                */
+                return locs;
+                
             }
             else if (loc.sequence() is not null)
             {
@@ -1779,7 +1808,7 @@ namespace CardStock.FreezeFrame
                     cardList = best,
                     name = name + "{run sequence " + (bottom ? "bottom" : "top") + "}",
                 };
-                return fancy; 
+                return fancy;
             }
 
             // CAN WE REMOVE THIS???? NO!!!

@@ -28,6 +28,21 @@
      (all (range 1..'NUMMIDDLE) 'LOC
           (move (top (game iloc STOCK)) 
                 (top (game iloc MIDDLE 'LOC))))
+
+    (set (game points POINTS) (
+        ((RANK : TWELVE) 12)
+        ((RANK : ELEVEN) 11)
+        ((RANK : TEN) 10)
+        ((RANK : NINE) 9)
+        ((RANK : EIGHT) 8)
+        ((RANK : SEVEN) 7)
+        ((RANK : SIX) 6)
+        ((RANK : FIVE) 5)
+        ((RANK : FOUR) 4)
+        ((RANK : THREE) 3)
+        ((RANK : TWO) 2)
+        ((RANK : ONE) 1)
+    ))  
 ))
  
  (stage player 
@@ -51,8 +66,8 @@
           (any player 'P
                ((> (size ('P iloc HAND)) 0)
                 (do (
-                    (remember (top ('P iloc HAND)) (top (game mem SEEN)))
-                    (move (top ('P iloc HAND)) (top ('P vloc TOP)))
+                    (remember (top (sort ('P iloc HAND) using (game points POINTS))) (top (game mem SEEN)))
+                    (move (top (sort ('P iloc HAND) using (game points POINTS))) (top ('P vloc TOP)))
                 ))
                )
           )
@@ -62,8 +77,8 @@
           (any player 'P
                ((> (size ('P iloc HAND)) 1)
                 (do (
-                    (remember (bottom ('P iloc HAND)) (top (game mem SEEN)))
-                    (move (bottom ('P iloc HAND)) (top ('P vloc BOTTOM)))
+                    (remember (bottom (sort ('P iloc HAND) using (game points POINTS))) (top (game mem SEEN)))
+                    (move (bottom (sort ('P iloc HAND) using (game points POINTS))) (top ('P vloc BOTTOM)))
                 ))
                )
           )
@@ -108,5 +123,12 @@
                     (== (cardatt RANK 'SC)
                         (cardatt RANK (top (game mem SEEN))))))
            (cycle next (current player))))))
+ (do (
+     (all player 'P
+          ((or (== (size (filter ('P vloc TRIOS) 'TC (== (cardatt RANK 'TC) SEVEN))) 3)
+               (== (size (partition RANK ('P vloc TRIOS))) 3))
+           (set ('P sto SCORE) 1))
+     )
+ ))
 
  (scoring max ((current player) sto SCORE)))
