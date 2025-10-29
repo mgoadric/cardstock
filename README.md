@@ -31,6 +31,7 @@ categorized by genre:
     * [Go Fish](https://www.pagat.com/quartet/gofish.html) (2-4p)
     * Pico (2p)
         * Pico 2
+    * [Trio](https://desktopgames.com.ua/games/8469/trio_rules_ua.pdf?srsltid=AfmBOoqfuC6zq1nDtEVy4m1z32k5_Pz76XzDyzoOJ94PuKZx0Ym-rgau) (4p)
     * [Turn the Tide](https://gamewright.com/pdfs/Rules/TurnTheTide-RULES.pdf) (3p)
 * Climbing
     * [Comet](http://www.catsatcards.com/Games/Comet.html) (2p)
