@@ -55,6 +55,7 @@ categorized by genre:
     * [Leduc Poker](https://pettingzoo.farama.org/environments/classic/leduc_holdem/) (2p)
 * Push Your Luck
     * [BlackJack](https://www.pagat.com/banking/blackjack.html) (2p)
+    * [Diamant](https://cdn.1j1ju.com/medias/90/3c/55-diamant-rulebook.pdf) (8p)
     * [No Thanks](https://world-of-board-games.com.sg/docs/No-Thanks.pdf) (3-5p)
     * [Pairs](https://cheapass.com/wp-content/uploads/2018/02/PairsCompanionBookWebFeb2018.pdf) (2-5p)
         * Continuous Pairs (4p)
