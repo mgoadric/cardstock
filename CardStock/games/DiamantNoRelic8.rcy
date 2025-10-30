@@ -12,7 +12,7 @@
   (create deck (game iloc STOCK) (deck (TYPE (TREASURE)) (VALUE (ONE, TWO, THREE, FOUR, FIVE, FIVE, SEVEN, SEVEN, 
                                                   NINE, ELEVEN, ELEVEN, THIRTEEN, FOURTEEN, FIFTEEN, SEVENTEEN))))
   (repeat 3 (create deck (game iloc STOCK) (deck (TYPE (TRAP)) (VALUE (SNAKE, SPIDER, LAVA, BOULDER, RAM)))))
-  (repeat 5 (create deck (game iloc STOCK) (deck (TYPE (RELIC)))))
+  ;;(repeat 5 (create deck (game iloc STOCK) (deck (TYPE (RELIC)))))
 
   (repeat 'NUMP (create deck DECISION (game vloc EXIT) (deck (CHOICE (EXIT)))))
   (repeat 'NUMP (create deck DECISION (game vloc CONTINUE) (deck (CHOICE (CONTINUE)))))
@@ -33,8 +33,6 @@
             ((VALUE : FOUR) 4)
             ((VALUE : THREE) 3)
             ((VALUE : TWO) 2)))
-      (set (game sto RELICPRIZE) 5)
-      (set (game sto RELICCOUNT) 5)
       
       (all player 'P
             (do (
@@ -47,7 +45,7 @@
  
  ;; Play five rounds
  (stage player
-      (end (== (game sto BARRICADE) 5))
+      (end (== (game sto BARRICADE) 1))
 
       (do (
             (shuffle (game iloc STOCK))
@@ -79,9 +77,6 @@
                         )
                         (move (top (game vloc CAVE))
                               (top (game vloc DISCARD)))
-                        (let (filter (game vloc CAVE) 'C (== (cardatt TYPE 'C) RELIC)) 'FC
-                              ((> (size 'FC) 0)
-                               (repeat all (move (top 'FC) (top (game vloc DISCARD))))))                      
                         (repeat all (move (top (game vloc CAVE))
                                           (top (game iloc STOCK))))
                    ))
@@ -162,24 +157,6 @@
                                      ))
                                     )
 
-                                    ((== (game sto LEAVING) 1)
-                                     (do (
-                                          (let (filter (game vloc CAVE) 'C (== (cardatt TYPE 'C) RELIC)) 'FC
-                                                ((> (size 'FC) 0)
-                                                 (do (
-                                                      (all 'FC 'FCC
-                                                            (do (
-                                                                  (inc ('P sto SCORE) (game sto RELICPRIZE))
-                                                                  (dec (game sto RELICCOUNT))
-                                                                  ((<= (game sto RELICCOUNT) 2)
-                                                                   (set (game sto RELICPRIZE) 10))
-                                                            ))
-                                                      )
-                                                      (repeat all (move (top 'FC) (top ('P vloc RELIC)))))) 
-                                                 )
-                                          )
-                                     )))
-
                                     ;; Everyone move the card back to hand
                                     (move (top ('P vloc CHOICE))
                                           (top ('P iloc HAND)))
@@ -194,15 +171,6 @@
       )
       (do (
             (inc (game sto BARRICADE))
-            ((> (size (game vloc CAVE)) 0)
-             (do (
-                  (let (filter (game vloc CAVE) 'C (== (cardatt TYPE 'C) RELIC)) 'FC
-                        ((> (size 'FC) 0)
-                              (repeat all (move (top 'FC) (top (game vloc DISCARD))))))                      
-                  (repeat all (move (top (game vloc CAVE))
-                                    (top (game iloc STOCK))))
-             ))
-            )
       ))
  )
  

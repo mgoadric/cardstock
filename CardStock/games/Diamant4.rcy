@@ -3,9 +3,9 @@
 ;; https://cdn.1j1ju.com/medias/90/3c/55-diamant-rulebook.pdf
 
 (game
- (declare 8 'NUMP)
+ (declare 4 'NUMP)
  (setup  
-  ;; Set up the players, 8 players
+  ;; Set up the players, 4 players
   (create players 'NUMP)
   
   ;; Create the decks source
