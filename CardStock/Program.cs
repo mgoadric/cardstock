@@ -1,8 +1,8 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "Trio";
-int numPlayers = 4;
+string game = "Diamant";
+int numPlayers = 8;
 
 runExperiment(game, numPlayers);
 //runAllGames();
@@ -13,9 +13,9 @@ static void runExperiment(string game, int numPlayers)
     {
         Game = game,
         PlayerCount = numPlayers,
-        NumGames = 1,
+        NumGames = 100,
         Players = [PlayerType.PIPMC],
-        Logging = false
+        Logging = true
     };
 
     Console.WriteLine(exp.Game + ", " + exp.PlayerCount);

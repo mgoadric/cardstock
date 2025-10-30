@@ -1,0 +1,179 @@
+;; Diamant
+;;
+;; https://cdn.1j1ju.com/medias/90/3c/55-diamant-rulebook.pdf
+
+(game
+ (declare 8 'NUMP)
+ (setup  
+  ;; Set up the players, 8 players
+  (create players 'NUMP)
+  
+  ;; Create the decks source
+  (create deck (game iloc STOCK) (deck (TYPE (TREASURE)) (VALUE (ONE, TWO, THREE, FOUR, FIVE, FIVE, SEVEN, SEVEN, 
+                                                  NINE, ELEVEN, ELEVEN, THIRTEEN, FOURTEEN, FIFTEEN, SEVENTEEN))))
+  (repeat 3 (create deck (game iloc STOCK) (deck (TYPE (TRAP)) (VALUE (SNAKE, SPIDER, LAVA, BOULDER, RAM)))))
+  ;;(repeat 5 (create deck (game iloc STOCK) (deck (TYPE (RELIC)))))
+
+  (repeat 'NUMP (create deck DECISION (game vloc EXIT) (deck (CHOICE (EXIT)))))
+  (repeat 'NUMP (create deck DECISION (game vloc CONTINUE) (deck (CHOICE (CONTINUE)))))
+
+ )
+ (do ( 
+      
+      ;; Assign treasure points
+      (set (game points POINTS)
+           (((VALUE : SEVENTEEN) 17)
+            ((VALUE : FIFTEEN) 15)
+            ((VALUE : FOURTEEN) 14)
+            ((VALUE : THIRTEEN) 13) 
+            ((VALUE : ELEVEN) 11)
+            ((VALUE : NINE) 9)
+            ((VALUE : SEVEN) 7)
+            ((VALUE : FIVE) 5)
+            ((VALUE : FOUR) 4)
+            ((VALUE : THREE) 3)
+            ((VALUE : TWO) 2)))
+      
+      (all player 'P
+            (do (
+                ;; give each player an exit card and a continue card, privately
+                (move (top (game vloc EXIT))
+                      (top ('P iloc HAND)))
+                (move (top (game vloc CONTINUE))
+                      (top ('P iloc HAND))))))
+ ))
+ 
+ ;; Play five rounds
+ (stage player
+      (end (== (game sto BARRICADE) 1))
+
+      (do (
+            (shuffle (game iloc STOCK))
+            (set (game sto REMAINING) 'NUMP)
+            (all player 'P 
+                  (set ('P str STATE) READY))
+      ))
+
+      ;; one individual round
+      (stage player 
+            (end (all player 'P (== ('P str STATE) EXIT)))
+            (do (
+                  (move (top (game iloc STOCK))
+                        (top (game vloc CAVE)))
+
+                  ;; determine if there is a double trap
+                  ((any (partition VALUE (game vloc CAVE)) 'CC
+                        (and (== (cardatt TYPE (top 'CC)) TRAP)
+                             (== (size 'CC) 2)))
+                   
+                   (do (
+
+                        ;; everyone is out, wipe stored jewels, discard one trap
+                        (all player 'P
+                              (do (
+                                    (set ('P sto BESIDE) 0)
+                                    (set ('P str STATE) EXIT)
+                              ))
+                        )
+                        (move (top (game vloc CAVE))
+                              (top (game vloc DISCARD)))
+                        (repeat all (move (top (game vloc CAVE))
+                                          (top (game iloc STOCK))))
+                   ))
+                  )
+
+                  ;; no trap, but treasure, those in get to divide the jewels
+                  ((and (all (partition VALUE (game vloc CAVE)) 'CC
+                              (or (!= (cardatt TYPE (top 'CC)) TRAP)
+                                  (!= (size 'CC) 2)))
+                        (== (cardatt TYPE (top (game vloc CAVE))) TREASURE))
+                   
+                   (do (
+
+                        ;; everyone in gets jewels divided
+                        (all player 'P
+                              ((!= ('P str STATE) EXIT)
+                               (set ('P sto BESIDE) (// (score (top (game vloc CAVE)) 
+                                                         using (game points POINTS))
+                                                        (game sto REMAINING)))
+                              )
+                        )
+
+                        ;; leave the remainder behind
+                        (inc (game sto LEFT) (% (score (top (game vloc CAVE)) 
+                                                 using (game points POINTS))
+                                                (game sto REMAINING)))
+                   ))
+                  )
+            ))
+        
+            ;; Stages of the game
+            (stage player
+                  (end (or (all player 'P (== ('P str STATE) EXIT))
+                           (all (filter player 'FP (!= ('FP str STATE) EXIT)) 'P (== (size ('P iloc HIDDEN)) 1))))              
+               
+                  ;; players play a hidden card
+                  (choice (
+                        ((!= ((current player) str STATE) EXIT)
+                         (any ((current player) iloc HAND) 'C
+                              (move 'C 
+                                    (top ((current player) iloc HIDDEN)))))
+
+                        ;; exited players don't bid
+                        ((== ((current player) str STATE) EXIT)
+                         (turn pass))
+                  ))
+            )
+        
+            (do (
+                  ((any player 'P (!= ('P str STATE) EXIT))
+                   (do (
+                        (set (game sto LEAVING) 0)
+
+                        ;; Move the card to visible
+                        (all (filter player 'FP (!= ('FP str STATE) EXIT)) 'P 
+                              (do (
+                                    (move (top ('P iloc HIDDEN))
+                                          (top ('P vloc CHOICE)))
+                                    ((== (cardatt CHOICE (top ('P vloc CHOICE))) EXIT)
+                                     (do (
+                                          (inc (game sto LEAVING))
+                                          (dec (game sto REMAINING))
+                                     ))
+                                    )
+                              ))
+                        )          
+                  
+                        ;; See if anyone left, 
+                        (all (filter player 'FP (!= ('FP str STATE) EXIT))  'P
+                              (do (
+                                    ;; Those who leave, take their rubies and run
+                                    ((== (cardatt CHOICE (top ('P vloc CHOICE))) EXIT)
+                                     (do (
+                                          (inc ('P sto SCORE) ('P sto BESIDE))
+                                          (set ('P sto BESIDE) 0)
+                                          (set ('P str STATE) EXIT)
+                                          (inc ('P sto SCORE) (// (game sto LEFT) (game sto LEAVING)))
+                                     ))
+                                    )
+
+                                    ;; Everyone move the card back to hand
+                                    (move (top ('P vloc CHOICE))
+                                          (top ('P iloc HAND)))
+                              ))
+                        )
+
+                        ((> (game sto LEAVING) 0)
+                         (set (game sto LEFT) (% (game sto LEFT) (game sto LEAVING))))
+                   ))
+                  )
+            ))
+      )
+      (do (
+            (inc (game sto BARRICADE))
+      ))
+ )
+ 
+ (scoring max ((current player) sto SCORE)))
+
+

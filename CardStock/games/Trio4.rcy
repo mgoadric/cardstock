@@ -1,6 +1,6 @@
-﻿;; Go Fish
+﻿;; Trio
 ;;
-;; https://www.pagat.com/quartet/gofish.html
+;; https://desktopgames.com.ua/games/8469/trio_rules_ua.pdf?srsltid=AfmBOoqfuC6zq1nDtEVy4m1z32k5_Pz76XzDyzoOJ94PuKZx0Ym-rgau
 
 (game
  (declare 8 'NUMMIDDLE)

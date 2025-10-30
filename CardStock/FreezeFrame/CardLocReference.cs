@@ -81,11 +81,9 @@ namespace CardStock.FreezeFrame{
             switch (locIdentifier)
             {
                 case CardLocTypes.TOP:
-                    Card c = cardList.Remove();
-                    return c;
+                    return cardList.Remove();
                 case CardLocTypes.BOTTOM:
-                    Card d = cardList.RemoveAt(0);
-                    return d;
+                    return cardList.RemoveAt(0);
                 case CardLocTypes.NUMBER:
                     return cardList.RemoveAt(locid);
                 default:
