@@ -225,6 +225,25 @@ namespace CardStock.CardEngine
 
                         Debug.WriteLine("Cloned Collection:" + tempCollection);
                     }
+
+                    // For watched known cards.
+                    if ((collection.type == CCType.INVISIBLE &&
+                             (owner.GetType() != typeof(Player) || owner.id != playerIdx)) || collection.type == CCType.HIDDEN)
+                    {
+                        var tempCollection = tempowners[owner.id].cardBins[collection.type, collection.name];
+                        foreach (var card in collection.AllKnownCards())
+                        {
+                            // Look up card by index, and reference the new cloned card
+                            
+                            var toAdd = tempsourceDeck[card.back][card.id];
+                            tempCollection.Add(toAdd);
+
+                            toAdd.Owner = tempCollection;
+                            free[card.back].Remove(card.id);
+
+                            Console.WriteLine("Cloned Known Collection:" + tempCollection);
+                        }
+                    }
                 }
             }
         }
@@ -248,7 +267,7 @@ namespace CardStock.CardEngine
 
                         var tempCollection = tempowners[owner.id].cardBins[collection.type, collection.name];
 
-                        for (int i = 0; i < collection.Count; i++)
+                        for (int i = 0; i < collection.Count - collection.KnownCount(); i++)
                         {
                             // figure out type of card
                             string type = collection.Get(i).back;
@@ -261,6 +280,12 @@ namespace CardStock.CardEngine
                         }
 
                         Debug.WriteLine("Reconstructed Collection:" + tempCollection);
+
+                        if (collection.KnownCount() > 0)
+                        {
+                            Console.WriteLine(collection);
+                            Console.WriteLine(tempCollection);
+                        }
                     }
                 }
             }

@@ -13,6 +13,7 @@ namespace CardStock.CardEngine
         public CCType type;
         public CardStorage owner;
         private List<Card> cards = new(4);
+        private List<Card> knownCards = new(4);
 
         public CardCollection(CCType type)
         {
@@ -41,6 +42,35 @@ namespace CardStock.CardEngine
         public void Add(Card c)
         {
             cards.Add(c);
+        }
+
+        // Trying to add some memory to the engine
+        public void AddKnown(Card c)
+        {
+            knownCards.Add(c);
+            if (knownCards.Count > cards.Count)
+            {
+                throw new Exception();
+            }
+        }
+
+        // wiping memory
+        public void ClearKnown()
+        {
+            if (knownCards.Count != 0)
+            {
+                knownCards.Clear();
+            }
+        }
+
+        public IEnumerable<Card> AllKnownCards()
+        {
+            return knownCards;
+        }
+
+        public int KnownCount()
+        {
+            return knownCards.Count;
         }
 
         public void Add(Card c, int idx)

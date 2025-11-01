@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Security.Cryptography;
 using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions
@@ -32,11 +33,6 @@ namespace CardStock.FreezeFrame.Actions
             }
             startLocation = start;
             endLocation = end;
-
-            if (start.cardList.type == CCType.VISIBLE && end.cardList.type != CCType.VISIBLE)
-            {
-                //Console.WriteLine("Hiding a card that is known!!! " + start.cardList.name + " -> " + end.car);
-            }
         }
 
         public override void Execute()
@@ -60,6 +56,16 @@ namespace CardStock.FreezeFrame.Actions
 
                     if (!inChoice) {
                         script?.AddToMovementFile(owner, endLocation.cardList);
+                        if (startLocation.cardList.type == CCType.VISIBLE && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
+                        {
+                            //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
+                            endLocation.cardList.AddKnown(cardToMove);
+                        }
+                        if (startLocation.cardList.type == CCType.INVISIBLE || startLocation.cardList.type == CCType.HIDDEN)
+                        {
+                            //Console.WriteLine("Clearing out " + startLocation.cardList.name);
+                            startLocation.cardList.ClearKnown();
+                        }
                     }
                     // Track here to see if it moved from a visible to invisible location TODO
                     // Then record the invisible as the last known location.
