@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Security.Cryptography;
 using CardStock.CardEngine;
+using CardStock.Evaluation;
 
 namespace CardStock.FreezeFrame.Actions
 {
@@ -56,21 +57,24 @@ namespace CardStock.FreezeFrame.Actions
 
                     if (!inChoice) {
                         script?.AddToMovementFile(owner, endLocation.cardList);
-                        if (owner.type == CCType.VISIBLE && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
+                        if (GameSimulator.imperfectLevel >= ImperfectLevel.TAKEN)
                         {
-                            //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
-                            endLocation.cardList.AddKnown(cardToMove);
-                        }
-                        if (owner.type == CCType.INVISIBLE || startLocation.cardList.type == CCType.HIDDEN)
-                        {
-                            //Console.WriteLine("Clearing out " + startLocation.cardList.name);
-                            if (endLocation.cardList.type == CCType.VISIBLE)
+                            if (owner.type == CCType.VISIBLE && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
                             {
-                                owner.RemoveKnown(cardToMove);
+                                //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
+                                endLocation.cardList.AddKnown(cardToMove);
                             }
-                            else
+                            if (owner.type == CCType.INVISIBLE || startLocation.cardList.type == CCType.HIDDEN)
                             {
-                                owner.ClearKnown();
+                                //Console.WriteLine("Clearing out " + startLocation.cardList.name);
+                                if (endLocation.cardList.type == CCType.VISIBLE)
+                                {
+                                    owner.RemoveKnown(cardToMove);
+                                }
+                                else
+                                {
+                                    owner.ClearKnown();
+                                }
                             }
                         }
                     }

@@ -16,6 +16,8 @@ namespace CardStock.Evaluation {
         public const int NUMTESTS = 10; //make 1000 for comparison.  This is PER MOVE
         public const int NUMSAMPLES = 10; // how many determinizations the AIs should create
 
+        public const ImperfectLevel imperfectLevel = ImperfectLevel.TAKEN;
+
         public void LoadGame() {
 
             Debug.AutoFlush = true;

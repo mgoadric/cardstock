@@ -10,6 +10,8 @@ namespace CardStock.Evaluation
         public required List<PlayerType> Players;
 
         public bool Logging = true;
+        public int numSamples = 1000; // rollouts per move
+        public int numTests = 10; // determinizations
 
         public string PlayerAbv()
         {

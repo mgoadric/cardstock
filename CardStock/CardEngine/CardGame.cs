@@ -2,6 +2,7 @@ using CardStock.Players;
 using CardStock.FreezeFrame;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using CardStock.Evaluation;
 
 namespace CardStock.CardEngine
 {
@@ -227,21 +228,23 @@ namespace CardStock.CardEngine
                     }
 
                     // For watched known cards.
-                    if ((collection.type == CCType.INVISIBLE &&
-                             (owner.GetType() != typeof(Player) || owner.id != playerIdx)) || collection.type == CCType.HIDDEN)
-                    {
-                        var tempCollection = tempowners[owner.id].cardBins[collection.type, collection.name];
-                        foreach (var card in collection.AllKnownCards())
+                    if (GameSimulator.imperfectLevel >= ImperfectLevel.TAKEN) {
+                        if ((collection.type == CCType.INVISIBLE &&
+                                (owner.GetType() != typeof(Player) || owner.id != playerIdx)) || collection.type == CCType.HIDDEN)
                         {
-                            // Look up card by index, and reference the new cloned card
-                            
-                            var toAdd = tempsourceDeck[card.back][card.id];
-                            tempCollection.Add(toAdd);
+                            var tempCollection = tempowners[owner.id].cardBins[collection.type, collection.name];
+                            foreach (var card in collection.AllKnownCards())
+                            {
+                                // Look up card by index, and reference the new cloned card
 
-                            toAdd.Owner = tempCollection;
-                            free[card.back].Remove(card.id);
+                                var toAdd = tempsourceDeck[card.back][card.id];
+                                tempCollection.Add(toAdd);
 
-                            //Console.WriteLine("Cloned Known Collection:" + tempCollection);
+                                toAdd.Owner = tempCollection;
+                                free[card.back].Remove(card.id);
+
+                                //Console.WriteLine("Cloned Known Collection:" + tempCollection);
+                            }
                         }
                     }
                 }
@@ -266,8 +269,12 @@ namespace CardStock.CardEngine
                         Debug.WriteLine("Initial Collection:" + collection);
 
                         var tempCollection = tempowners[owner.id].cardBins[collection.type, collection.name];
-
-                        for (int i = 0; i < collection.Count - collection.KnownCount(); i++)
+                        int cardsNeeded = collection.Count;
+                        if (GameSimulator.imperfectLevel >= ImperfectLevel.TAKEN)
+                        {
+                            cardsNeeded -= collection.KnownCount();
+                        }
+                        for (int i = 0; i < cardsNeeded; i++)
                         {
                             // figure out type of card
                             string type = collection.Get(i).back;
