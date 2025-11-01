@@ -13,7 +13,7 @@ namespace CardStock.CardEngine
         public CCType type;
         public CardStorage owner;
         private List<Card> cards = new(4);
-        private List<Card> knownCards = new(4);
+        private readonly HashSet<Card> knownCards = new(4);
 
         public CardCollection(CCType type)
         {
@@ -50,6 +50,19 @@ namespace CardStock.CardEngine
             knownCards.Add(c);
             if (knownCards.Count > cards.Count)
             {
+                Console.WriteLine(knownCards.Count + ">" + cards.Count);
+                Console.WriteLine("Known records ... ");
+                foreach (Card kc in knownCards)
+                {
+                    Console.WriteLine(kc);
+                }
+
+                Console.WriteLine("Actual cards.. ");
+                foreach (Card cc in cards)
+                {
+                    Console.WriteLine(cc);
+                }
+
                 throw new Exception();
             }
         }
@@ -61,6 +74,12 @@ namespace CardStock.CardEngine
             {
                 knownCards.Clear();
             }
+        }
+
+        // wiping memory
+        public void RemoveKnown(Card c)
+        {
+            knownCards.Remove(c);
         }
 
         public IEnumerable<Card> AllKnownCards()

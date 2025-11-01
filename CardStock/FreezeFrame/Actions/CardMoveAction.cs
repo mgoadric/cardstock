@@ -56,15 +56,22 @@ namespace CardStock.FreezeFrame.Actions
 
                     if (!inChoice) {
                         script?.AddToMovementFile(owner, endLocation.cardList);
-                        if (startLocation.cardList.type == CCType.VISIBLE && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
+                        if (owner.type == CCType.VISIBLE && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
                         {
                             //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
                             endLocation.cardList.AddKnown(cardToMove);
                         }
-                        if (startLocation.cardList.type == CCType.INVISIBLE || startLocation.cardList.type == CCType.HIDDEN)
+                        if (owner.type == CCType.INVISIBLE || startLocation.cardList.type == CCType.HIDDEN)
                         {
                             //Console.WriteLine("Clearing out " + startLocation.cardList.name);
-                            startLocation.cardList.ClearKnown();
+                            if (endLocation.cardList.type == CCType.VISIBLE)
+                            {
+                                owner.RemoveKnown(cardToMove);
+                            }
+                            else
+                            {
+                                owner.ClearKnown();
+                            }
                         }
                     }
                     // Track here to see if it moved from a visible to invisible location TODO

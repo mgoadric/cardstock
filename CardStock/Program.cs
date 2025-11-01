@@ -2,8 +2,8 @@ using CardStock.CardEngine;
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "GoFish";
-int numPlayers = 4;
+string game = "TraditionalTestbed/Rummy";
+int numPlayers = 2;
 
 runExperiment(game, numPlayers);
 //runAllGames();
@@ -14,9 +14,9 @@ static void runExperiment(string game, int numPlayers)
     {
         Game = game,
         PlayerCount = numPlayers,
-        NumGames = 1,
-        Players = [PlayerType.PIPMC],
-        Logging = true
+        NumGames = 100,
+        Players = [PlayerType.PIPMC, PlayerType.NONE, PlayerType.NONE, PlayerType.NONE,],
+        Logging = false
     };
 
     Console.WriteLine(exp.Game + ", " + exp.PlayerCount);

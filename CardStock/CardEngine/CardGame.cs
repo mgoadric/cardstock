@@ -241,7 +241,7 @@ namespace CardStock.CardEngine
                             toAdd.Owner = tempCollection;
                             free[card.back].Remove(card.id);
 
-                            Console.WriteLine("Cloned Known Collection:" + tempCollection);
+                            //Console.WriteLine("Cloned Known Collection:" + tempCollection);
                         }
                     }
                 }
@@ -281,11 +281,13 @@ namespace CardStock.CardEngine
 
                         Debug.WriteLine("Reconstructed Collection:" + tempCollection);
 
+                        /*
                         if (collection.KnownCount() > 0)
                         {
                             Console.WriteLine(collection);
                             Console.WriteLine(tempCollection);
                         }
+                        */
                     }
                 }
             }
