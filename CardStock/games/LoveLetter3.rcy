@@ -1,0 +1,213 @@
+;; Love Letter
+;; https://cdn.1j1ju.com/medias/83/b2/32-love-letter-rulebook.pdf
+
+(game
+ (declare (PRINCESS, COUNTESS, KING, PRINCE, HANDMAID, BARON, PRIEST, GUARD) 'COURT)
+ (setup
+  (create players 3)
+  (create deck (game iloc STOCK) (deck (CHARACTER (PRINCESS)) (RANK (EIGHT))))
+  (create deck (game iloc STOCK) (deck (CHARACTER (COUNTESS)) (RANK (SEVEN))))
+  (create deck (game iloc STOCK) (deck (CHARACTER (KING)) (RANK (SIX))))
+  (repeat 2 (create deck (game iloc STOCK) (deck (CHARACTER (PRINCE)) (RANK (FIVE)))))
+  (repeat 2 (create deck (game iloc STOCK) (deck (CHARACTER (HANDMAID)) (RANK (FOUR)))))
+  (repeat 2 (create deck (game iloc STOCK) (deck (CHARACTER (BARON)) (RANK (THREE)))))
+  (repeat 2 (create deck (game iloc STOCK) (deck (CHARACTER (PRIEST)) (RANK (TWO)))))
+  (repeat 5 (create deck (game iloc STOCK) (deck (CHARACTER (GUARD)) (RANK (ONE)))))
+ )
+
+ (do (
+
+      ;; Shuffle the deck, give each player one card in each of their locations
+      (shuffle (game iloc STOCK))    
+      (all player 'P
+            (move (top (game iloc STOCK)) 
+                  (top ('P iloc HAND))))
+      (move (top (game iloc STOCK))
+            (top (game iloc ASIDE)))
+      (set (game str GUESS) NONE)
+      (set (game points PROXIMITY)
+           (((RANK : EIGHT) 8)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+            ((RANK : TWO) 2)
+            ((RANK : ONE) 1)))
+ ))
+ 
+ ;; play the game until one player has all faceup cards
+ (stage player
+      (end 
+            (or (== (size (game iloc STOCK)) 0)
+                (== (size (filter player 'P 
+                              (!= (size ('P iloc HAND)) 0))) 1)))
+
+      ;; Draw a card
+      (do (
+            ((> (size ((current player) iloc HAND)) 0)
+             (move (top (game iloc STOCK)) 
+                   (top ((current player) iloc HAND)))
+            )
+      ))
+        
+      ;; Play a card
+      (choice (
+            
+            ((and (> (size ((current player) iloc HAND)) 0)
+                  (== (size (filter ((current player) iloc HAND) 'FC (== (cardatt CHARACTER 'FC) COUNTESS))) 1)
+                  (== (size (filter ((current player) iloc HAND) 'FC (or (== (cardatt CHARACTER 'FC) PRINCE)
+                                                                         (== (cardatt CHARACTER 'FC) KING)))) 1))
+             (move (top (filter ((current player) iloc HAND) 'FC (== (cardatt CHARACTER 'FC) COUNTESS)))
+                   (top ((current player) vloc DISCARD))))
+
+            ((and (> (size ((current player) iloc HAND)) 0)
+                  (or (!= (size (filter ((current player) iloc HAND) 'FC (== (cardatt CHARACTER 'FC) COUNTESS))) 1)
+                      (!= (size (filter ((current player) iloc HAND) 'FC (or (== (cardatt CHARACTER 'FC) PRINCE)
+                                                                             (== (cardatt CHARACTER 'FC) KING)))) 1)))
+             (any ((current player) iloc HAND) 'C
+                  (move 'C (top ((current player) vloc DISCARD)))))
+
+            ((== (size ((current player) iloc HAND)) 0)
+             (turn pass))    
+      ))
+        
+      ;; resolve the card action
+      (choice (
+            ((== (size ((current player) iloc HAND)) 0)
+             (turn pass))
+
+            ;; Princess, you are out of the round
+            ((and (!= (size ((current player) iloc HAND)) 0)
+                  (== (cardatt CHARACTER (top ((current player) vloc DISCARD))) PRINCESS))
+             (move (top ((current player) iloc HAND))
+                   (top ((current player) vloc OUT))))
+
+            ;; Countess, no direct action
+            ((and (!= (size ((current player) iloc HAND)) 0)
+                  (== (cardatt CHARACTER (top ((current player) vloc DISCARD))) COUNTESS))
+             (turn pass))
+
+            ;; King, trade hands with another player
+            ((and (!= (size ((current player) iloc HAND)) 0)
+                  (== (cardatt CHARACTER (top ((current player) vloc DISCARD))) KING))
+             (any (filter (other player) 'FP (and (> (size ('FP iloc HAND)) 0)
+                                                  (or (== (size ('FP vloc DISCARD)) 0)
+                                                      (!= (cardatt CHARACTER (top ('FP vloc DISCARD))) HANDMAID)))) 'P
+                  (swap (top ((current player) iloc HAND))
+                        (top ('P iloc HAND)))
+             )
+            )
+
+            ;; no target available for the action besides yourself
+            ((and (!= (size ((current player) iloc HAND)) 0)
+                  (or (== (cardatt CHARACTER (top ((current player) vloc DISCARD))) KING)
+                      (== (cardatt CHARACTER (top ((current player) vloc DISCARD))) BARON)
+                      (== (cardatt CHARACTER (top ((current player) vloc DISCARD))) GUARD)
+                      (== (cardatt CHARACTER (top ((current player) vloc DISCARD))) PRIEST))
+                  (== (size (filter (other player) 'FP (and (> (size ('FP iloc HAND)) 0)
+                                          (or (== (size ('FP vloc DISCARD)) 0)
+                                              (!= (cardatt CHARACTER (top ('FP vloc DISCARD))) HANDMAID))))) 0))
+             (turn pass))
+                  
+            ;; Prince, pick another player, they discard and draw
+            ((and (!= (size ((current player) iloc HAND)) 0)
+                  (== (cardatt CHARACTER (top ((current player) vloc DISCARD))) PRINCE))
+             (any (filter player 'FP (and (> (size ('FP iloc HAND)) 0)
+                                                  (or (== (size ('FP vloc DISCARD)) 0)
+                                                      (!= (cardatt CHARACTER (top ('FP vloc DISCARD))) HANDMAID)))) 'P
+                  (do (
+                        (move (top ('P iloc HAND))
+                              (top ('P vloc DISCARD)))
+                        
+                        ((!= (cardatt CHARACTER (top ('P vloc DISCARD))) PRINCESS)
+                         (do (
+                              ((!= (size (game iloc STOCK)) 0)
+                                    (move (top (game iloc STOCK))
+                                          (top ('P iloc HAND))))
+                              ((== (size (game iloc STOCK)) 0)
+                                    (move (top (game iloc ASIDE))
+                                          (top ('P iloc HAND))))
+                        ))
+                       )
+                  ))
+             )
+            )
+
+            ;; Handmaid, you get immunity, no direct action
+            ((and (!= (size ((current player) iloc HAND)) 0)
+                  (== (cardatt CHARACTER (top ((current player) vloc DISCARD))) HANDMAID))
+             (turn pass))
+
+            ;; Baron, compare, lowest drops out
+            ((and (!= (size ((current player) iloc HAND)) 0)
+                  (== (cardatt CHARACTER (top ((current player) vloc DISCARD))) BARON))
+             (any (filter (other player) 'FP (and (> (size ('FP iloc HAND)) 0)
+                                                  (or (== (size ('FP vloc DISCARD)) 0)
+                                                      (!= (cardatt CHARACTER (top ('FP vloc DISCARD))) HANDMAID)))) 'P
+                  (do (
+                        ((== (score (top ((current player) iloc HAND)) using (game points PROXIMITY))
+                             (score (top ('P iloc HAND)) using (game points PROXIMITY)))
+                         (turn pass))                        
+                        ((> (score (top ((current player) iloc HAND)) using (game points PROXIMITY))
+                            (score (top ('P iloc HAND)) using (game points PROXIMITY)))
+                         (move (top ('P iloc HAND))
+                               (top ('P vloc OUT))))
+                        ((and (> (size ('P iloc HAND)) 0)
+                              (< (score (top ((current player) iloc HAND)) using (game points PROXIMITY))
+                                 (score (top ('P iloc HAND)) using (game points PROXIMITY))))
+                         (move (top ((current player) iloc HAND))
+                               (top ((current player) vloc OUT))))
+                  ))
+             )
+            )
+
+            ;; Priest, look at someone's hand
+            ((and (!= (size ((current player) iloc HAND)) 0)
+                  (== (cardatt CHARACTER (top ((current player) vloc DISCARD))) PRIEST))
+             (any (filter (other player) 'FP (and (> (size ('FP iloc HAND)) 0)
+                                                  (or (== (size ('FP vloc DISCARD)) 0)
+                                                      (!= (cardatt CHARACTER (top ('FP vloc DISCARD))) HANDMAID)))) 'P
+                  (do (
+                        (move (top ('P iloc HAND))
+                              (top ((current player) iloc HAND)))
+                        (move (top ((current player) iloc HAND))
+                              (top ('P iloc HAND)))
+                  ))
+             )
+            )
+
+            ;; Guard, guess someone's hand.
+            ((and (!= (size ((current player) iloc HAND)) 0)
+                  (== (cardatt CHARACTER (top ((current player) vloc DISCARD))) GUARD))
+             (any (filter (other player) 'FP (and (> (size ('FP iloc HAND)) 0)
+                                                  (or (== (size ('FP vloc DISCARD)) 0)
+                                                      (!= (cardatt CHARACTER (top ('FP vloc DISCARD))) HANDMAID)))) 'P
+                  (any 'COURT 'GUESS
+                        (do (
+                              (set (game str GUESS) 'GUESS)
+                              (set (game sto WHO) (pid (owner (top ('P iloc HAND))))) ;; AUGHHH
+                        ))
+                  )
+             )
+            )
+      ))
+
+      ;; resolve the Guard guess if there is one
+      (do (
+            ((and (!= (game str GUESS) NONE)
+                  (== (game str GUESS) (cardatt CHARACTER (top (((game sto WHO) player) iloc HAND)))))
+             (move (top (((game sto WHO) player) iloc HAND))
+                   (top (((game sto WHO) player) vloc OUT)))
+            )
+            (set (game str GUESS) NONE)
+      ))
+ )
+ 
+ (do (
+      ;; Find the winner
+      (inc ((owner (max (union (all player 'P ('P iloc HAND))) 
+                    using (game points PROXIMITY))) sto SCORE))
+ ))
+
+ (scoring max ((current player) sto SCORE)))

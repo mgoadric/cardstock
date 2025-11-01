@@ -1,7 +1,7 @@
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "Diamant";
+string game = "LoveLetter";
 int numPlayers = 4;
 
 runExperiment(game, numPlayers);
@@ -14,7 +14,7 @@ static void runExperiment(string game, int numPlayers)
         Game = game,
         PlayerCount = numPlayers,
         NumGames = 100,
-        Players = [PlayerType.PIPMC, PlayerType.PIPMC, PlayerType.PIPMC, PlayerType.PIPMC, ],
+        Players = [PlayerType.PIPMC],
         Logging = true
     };
 

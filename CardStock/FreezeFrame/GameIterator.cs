@@ -1141,13 +1141,13 @@ namespace CardStock.FreezeFrame
             var locOne = ProcessCard(c[0]);
             if (locOne.Count() == 0)
             {
-                Console.WriteLine("Swapping from empty, " + swap.GetText());
+                Console.WriteLine("Swapping from empty, " + locOne + swap.GetText());
                 throw new InvalidOperationException();
             }
             var locTwo = ProcessCard(c[1]);
             if (locTwo.Count() == 0)
             {
-                Console.WriteLine("Swapping from empty," + swap.GetText());
+                Console.WriteLine("Swapping to empty," + locTwo + swap.GetText());
                 throw new InvalidOperationException();
             }
             return new CardSwapAction(locOne, locTwo, script);
@@ -1204,6 +1204,7 @@ namespace CardStock.FreezeFrame
                 if (!coll.cardList.AllCards().Any())
                 {
                     Console.WriteLine("Can't find the max of an empty CardCollection.");
+                    Console.WriteLine(coll);
                     throw new InvalidOperationException();
                 }
 

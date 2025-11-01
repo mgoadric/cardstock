@@ -50,7 +50,6 @@ namespace CardStock.FreezeFrame.Actions
             {
                 if (startLocation.Count() != 0 && endLocation.Count() != 0)
                 {
-
                     card1 = startLocation.Remove();
                     card2 = endLocation.Remove();
                     startLocation.Add(card2);

@@ -11,8 +11,7 @@
  (do (
       ;; set scoring points for the cards
       (set (game points POSITIVE)
-           (
-            ((RANK : Q) 10)
+           (((RANK : Q) 10)
             ((RANK : J) 10)
             ((RANK : TEN) 10)
             ((RANK : NINE) 9)
@@ -24,8 +23,7 @@
             ((RANK : THREE) 3)
             ((RANK : A) 1)))
       (set (game points NEGATIVE)
-           (
-            ((RANK : TWO) 2)))
+           (((RANK : TWO) 2)))
 
       ;; Shuffle the deck, give each player one card in each of their locations
       (shuffle (game iloc STOCK))    
@@ -61,21 +59,18 @@
         )
 
         ;; Draw a card
-        (choice 
-         (
+        (choice (
           ((> (size (game iloc STOCK)) 0)
            (move (top (game iloc STOCK)) 
                 (top((current player) iloc HAND))))
           ((> (size (game vloc DISCARD)) 0)
-           (do 
-               (
+           (do (
                 (move (top (game vloc DISCARD)) 
                       (top((current player) iloc HAND)))
                 (set ((current player) str DRAWFROM) DISCARD))))))
         
         ;; Play a card
-        (choice 
-         (
+        (choice (
 
           ((!= ((current player) str DRAWFROM) DISCARD)
            (move (top ((current player) iloc HAND)) 
@@ -94,8 +89,7 @@
                           (top ((current player) vloc LOC 'L))))))))
         
         ;; Forget if you drew from the discard pile
-        (do 
-            (
+        (do (
              (set ((current player) str DRAWFROM) NONE))))
 
  ;; Calculate your scores
