@@ -41,6 +41,7 @@ categorized by genre:
     * [Clocktowers](https://boardgamegeek.com/boardgame/12538/clocktowers) (2p)
     * [Golf Six](https://www.pagat.com/draw/golf.html) (2-4p)
     * [Lost Cities](https://cdn.1j1ju.com/medias/c8/66/47-lost-cities-rulebook.pdf) (2p)
+    * [Love Letter](https://cdn.1j1ju.com/medias/83/b2/32-love-letter-rulebook.pdf) (3-4p)
     * [Rummy](https://www.pagat.com/rummy/rummy.html) (2p) 
     * [Spite and Malice](https://www.pagat.com/patience/spitemal.html) (2p)
 * Exchange
