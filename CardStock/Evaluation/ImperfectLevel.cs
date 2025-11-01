@@ -2,6 +2,6 @@ namespace CardStock.Evaluation
 {
     public enum ImperfectLevel
     {
-        NONE, BACK, HIDDEN, PRIVATE, TAKEN, PASSED, ATTRIBUTE
+        NONE, BACK, HIDDEN, PRIVATE, OTHERS, TAKEN, PASSED, ATTRIBUTE
     }
 }

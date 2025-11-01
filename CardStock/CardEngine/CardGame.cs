@@ -198,15 +198,22 @@ namespace CardStock.CardEngine
             {
                 foreach (var collection in owner.cardBins.Values())
                 {
+                    bool visible = false;
+                    if (GameSimulator.imperfectLevel >= ImperfectLevel.HIDDEN)
+                    {
+                        visible = visible || collection.type == CCType.VISIBLE || collection.type == CCType.MEMORY;
+                    }
+                    if (GameSimulator.imperfectLevel >= ImperfectLevel.PRIVATE)
+                    {
+                        visible = visible || (collection.type == CCType.INVISIBLE && owner.GetType() == typeof(Player) && owner.id == playerIdx);
+                    }
+                    if (GameSimulator.imperfectLevel >= ImperfectLevel.OTHERS)
+                    {
+                        visible = visible || (collection.type == CCType.OTHERS && owner.GetType() == typeof(Player) && owner.id != playerIdx);
+                    }
+
                     // WHAT ABOUT TEAMS???
-                    if (collection.type == CCType.VISIBLE ||
-                        collection.type == CCType.MEMORY || (
-                        collection.type == CCType.INVISIBLE &&
-                             owner.GetType() == typeof(Player) &&
-                             owner.id == playerIdx) || (
-                        collection.type == CCType.OTHERS &&
-                             owner.GetType() == typeof(Player) &&
-                             owner.id != playerIdx))
+                    if (visible)
                     {
                         Debug.WriteLine("Initial Collection:" + collection);
 
@@ -260,11 +267,24 @@ namespace CardStock.CardEngine
                 foreach (var collection in owner.cardBins.Values())
                 {
                     // WHAT ABOUT TEAMS
-                    if (collection.type == CCType.HIDDEN ||
-                        (collection.type == CCType.INVISIBLE &&
-                            (owner.GetType() != typeof(Player) || owner.id != playerIdx)) ||
-                        (collection.type == CCType.OTHERS &&
-                            (owner.GetType() != typeof(Player) || owner.id == playerIdx)))
+
+                    bool hidden = false;
+                    if (GameSimulator.imperfectLevel >= ImperfectLevel.HIDDEN)
+                    {
+                        hidden = hidden || collection.type == CCType.HIDDEN;
+                    }
+                    if (GameSimulator.imperfectLevel >= ImperfectLevel.PRIVATE)
+                    {
+                        hidden = hidden || (collection.type == CCType.INVISIBLE &&
+                            (owner.GetType() != typeof(Player) || owner.id != playerIdx));
+                    }
+                    if (GameSimulator.imperfectLevel >= ImperfectLevel.OTHERS)
+                    {
+                        hidden = hidden || (collection.type == CCType.OTHERS &&
+                            (owner.GetType() != typeof(Player) || owner.id == playerIdx));
+                    }
+
+                    if (hidden)
                     {
                         Debug.WriteLine("Initial Collection:" + collection);
 

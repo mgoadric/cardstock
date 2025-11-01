@@ -15,7 +15,7 @@ static void runExperiment(string game, int numPlayers)
         Game = game,
         PlayerCount = numPlayers,
         NumGames = 100,
-        Players = [],
+        Players = [PlayerType.NONE, PlayerType.NONE, PlayerType.NONE, PlayerType.NONE,],
         Logging = true
     };
 
