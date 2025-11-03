@@ -2,6 +2,7 @@ using CardStock.Players;
 using CardStock.FreezeFrame;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using CardStock.Evaluation;
 
 namespace CardStock.CardEngine
 {
@@ -197,15 +198,22 @@ namespace CardStock.CardEngine
             {
                 foreach (var collection in owner.cardBins.Values())
                 {
+                    bool visible = false;
+                    if (GameSimulator.imperfectLevel >= ImperfectLevel.HIDDEN)
+                    {
+                        visible = visible || collection.type == CCType.VISIBLE || collection.type == CCType.MEMORY;
+                    }
+                    if (GameSimulator.imperfectLevel >= ImperfectLevel.PRIVATE)
+                    {
+                        visible = visible || (collection.type == CCType.INVISIBLE && owner.GetType() == typeof(Player) && owner.id == playerIdx);
+                    }
+                    if (GameSimulator.imperfectLevel >= ImperfectLevel.OTHERS)
+                    {
+                        visible = visible || (collection.type == CCType.OTHERS && owner.GetType() == typeof(Player) && owner.id != playerIdx);
+                    }
+
                     // WHAT ABOUT TEAMS???
-                    if (collection.type == CCType.VISIBLE ||
-                        collection.type == CCType.MEMORY || (
-                        collection.type == CCType.INVISIBLE &&
-                             owner.GetType() == typeof(Player) &&
-                             owner.id == playerIdx) || (
-                        collection.type == CCType.OTHERS &&
-                             owner.GetType() == typeof(Player) &&
-                             owner.id != playerIdx))
+                    if (visible)
                     {
                         Debug.WriteLine("Initial Collection:" + collection);
 
@@ -225,6 +233,27 @@ namespace CardStock.CardEngine
 
                         Debug.WriteLine("Cloned Collection:" + tempCollection);
                     }
+
+                    // For watched known cards.
+                    if (GameSimulator.imperfectLevel >= ImperfectLevel.TAKEN) {
+                        if ((collection.type == CCType.INVISIBLE &&
+                                (owner.GetType() != typeof(Player) || owner.id != playerIdx)) || collection.type == CCType.HIDDEN)
+                        {
+                            var tempCollection = tempowners[owner.id].cardBins[collection.type, collection.name];
+                            foreach (var card in collection.AllKnownCards())
+                            {
+                                // Look up card by index, and reference the new cloned card
+
+                                var toAdd = tempsourceDeck[card.back][card.id];
+                                tempCollection.Add(toAdd);
+
+                                toAdd.Owner = tempCollection;
+                                free[card.back].Remove(card.id);
+
+                                //Console.WriteLine("Cloned Known Collection:" + tempCollection);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -238,17 +267,34 @@ namespace CardStock.CardEngine
                 foreach (var collection in owner.cardBins.Values())
                 {
                     // WHAT ABOUT TEAMS
-                    if (collection.type == CCType.HIDDEN ||
-                        (collection.type == CCType.INVISIBLE &&
-                            (owner.GetType() != typeof(Player) || owner.id != playerIdx)) ||
-                        (collection.type == CCType.OTHERS &&
-                            (owner.GetType() != typeof(Player) || owner.id == playerIdx)))
+
+                    bool hidden = false;
+                    if (GameSimulator.imperfectLevel >= ImperfectLevel.HIDDEN)
+                    {
+                        hidden = hidden || collection.type == CCType.HIDDEN;
+                    }
+                    if (GameSimulator.imperfectLevel >= ImperfectLevel.PRIVATE)
+                    {
+                        hidden = hidden || (collection.type == CCType.INVISIBLE &&
+                            (owner.GetType() != typeof(Player) || owner.id != playerIdx));
+                    }
+                    if (GameSimulator.imperfectLevel >= ImperfectLevel.OTHERS)
+                    {
+                        hidden = hidden || (collection.type == CCType.OTHERS &&
+                            (owner.GetType() != typeof(Player) || owner.id == playerIdx));
+                    }
+
+                    if (hidden)
                     {
                         Debug.WriteLine("Initial Collection:" + collection);
 
                         var tempCollection = tempowners[owner.id].cardBins[collection.type, collection.name];
-
-                        for (int i = 0; i < collection.Count; i++)
+                        int cardsNeeded = collection.Count;
+                        if (GameSimulator.imperfectLevel >= ImperfectLevel.TAKEN)
+                        {
+                            cardsNeeded -= collection.KnownCount();
+                        }
+                        for (int i = 0; i < cardsNeeded; i++)
                         {
                             // figure out type of card
                             string type = collection.Get(i).back;
@@ -261,6 +307,14 @@ namespace CardStock.CardEngine
                         }
 
                         Debug.WriteLine("Reconstructed Collection:" + tempCollection);
+
+                        /*
+                        if (collection.KnownCount() > 0)
+                        {
+                            Console.WriteLine(collection);
+                            Console.WriteLine(tempCollection);
+                        }
+                        */
                     }
                 }
             }
