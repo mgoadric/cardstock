@@ -24,6 +24,7 @@ categorized by genre:
     * [Caterpillar](http://www.parlettgames.uk/oricards/caterpil.html) (2p)
     * [Cribbage](https://www.pagat.com/adders/crib6.html) (2p)
     * [Ninety Eight](https://www.pagat.com/adders/98.html) (4p)
+    * [Poison](https://reglur.spilavinir.is/Poison.pdf) (5p)
 * Catch and Collect
     * [6 Nimmt](https://cdn.1j1ju.com/medias/c6/c2/f9-6-nimmt-rulebook.pdf) (5p)
     * Enchère (3p)
