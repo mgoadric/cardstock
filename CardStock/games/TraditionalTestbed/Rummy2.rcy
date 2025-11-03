@@ -164,7 +164,7 @@
              
             (any ((current player) iloc HAND) 'C 
              ;; cannot discard the card you drew from the discard pile
-             ((or (<= (size ((current player) mem DRAW)) 1)
+             ((or (<= (size ((current player) mem DRAW)) 1) ;; unless it is your last card
                   (!= 'C (top ((current player) mem DRAW))))
               (move 'C (top (game vloc DISCARD)))))
         ))

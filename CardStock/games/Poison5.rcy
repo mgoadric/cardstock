@@ -1,0 +1,67 @@
+﻿;; Poison
+;;
+;; https://reglur.spilavinir.is/Poison.pdf
+
+(game
+ (setup  
+  (create players 5)
+  (repeat 8 (create deck (game iloc STOCK) (deck (RANK (FOUR)) (COLOR (POISON)))))
+  (repeat 2 (create deck (game iloc STOCK) (deck (RANK (FOUR)) (COLOR (RED, BLUE, PURPLE)))))
+  (repeat 3 (create deck (game iloc STOCK) (deck (RANK (ONE, TWO, FIVE, SEVEN)) (COLOR (RED, BLUE, PURPLE)))))
+ )
+ 
+ (do (
+       (set (game points POINTS)
+           (((RANK : SEVEN) 7)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : TWO) 2)
+            ((RANK : ONE) 1)))
+      
+       (set (game points SCORING)
+           (((COLOR : POISON) 2)
+            ((COLOR : RED) 1)
+            ((COLOR : BLUE) 1)
+            ((COLOR : PURPLE) 1)))
+
+      ;; DEALING START
+      (shuffle (game iloc STOCK))
+      (all player 'P 
+           (repeat 10
+                   (move (top (game iloc STOCK)) 
+                         (top ('P iloc HAND)))))))
+ 
+ (stage player
+      (end (all player 'P (== (size ('P iloc HAND)) 0)))
+        
+      ;; Put any card you want on the Pile
+      (choice (
+            (any (range 1..3) 'CAULDRON
+                  (any ((current player) iloc HAND) 'C
+                        ((or (== (cardatt COLOR 'C) POISON)
+                             (and (== (size (filter (union (all (range 1..3) 'R (game vloc PILE 'R))) 'FC (== (cardatt COLOR 'FC) 
+                                                                                                              (cardatt COLOR 'C)))) 0)
+                                  (== (size (filter (game vloc PILE 'CAULDRON) 'FC (and (!= (cardatt COLOR 'FC) (cardatt COLOR 'C)) 
+                                                                                        (!= (cardatt COLOR 'FC) POISON)))) 0))
+                             (> (size (filter (game vloc PILE 'CAULDRON) 'FC (== (cardatt COLOR 'FC) (cardatt COLOR 'C)))) 0))
+                         (do (
+                              (move 'C (top ((current player) vloc PLAYED)))
+                              (set (game sto CHOSEN) 'CAULDRON)
+                         )))
+                  )
+            )
+      ))
+        
+      (do (
+            ((> (sum (union ((current player) vloc PLAYED) (game vloc PILE (game sto CHOSEN))) using (game points POINTS)) 13)
+             (do (
+                  (repeat all
+                        (move (top (game vloc PILE (game sto CHOSEN)))
+                              (top ((current player) vloc COLLECTED))))
+             )))
+            (move (top ((current player) vloc PLAYED))
+                  (top (game vloc PILE (game sto CHOSEN))))
+      ))
+ )
+ 
+ (scoring min (sum ((current player) vloc COLLECTED) using (game points SCORING))))

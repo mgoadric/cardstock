@@ -62,23 +62,23 @@
                )
           )
 
-          ;; ask any player to reveal their HIGHEST card
+          ;; ask any player to reveal their LOWEST card
           (any player 'P
                ((> (size ('P iloc HAND)) 0)
                 (do (
-                    (remember (top (sort ('P iloc HAND) using (game points POINTS))) (top (game mem SEEN)))
-                    (move (top (sort ('P iloc HAND) using (game points POINTS))) (top ('P vloc TOP)))
+                    (remember (min ('P iloc HAND) using (game points POINTS)) (top (game mem SEEN)))
+                    (move (min ('P iloc HAND) using (game points POINTS)) (top ('P vloc FLIPPED)))
                 ))
                )
           )
 
-          ;; ask any player to reveal their LOWEST card 
+          ;; ask any player to reveal their HIGHEST card 
           ;; (need more than one card, or the action is duplicated)
           (any player 'P
                ((> (size ('P iloc HAND)) 1)
                 (do (
-                    (remember (bottom (sort ('P iloc HAND) using (game points POINTS))) (top (game mem SEEN)))
-                    (move (bottom (sort ('P iloc HAND) using (game points POINTS))) (top ('P vloc BOTTOM)))
+                    (remember (max ('P iloc HAND) using (game points POINTS)) (top (game mem SEEN)))
+                    (move (max ('P iloc HAND) using (game points POINTS)) (top ('P vloc FLIPPED)))
                 ))
                )
           )
@@ -92,10 +92,7 @@
                         (cardatt RANK (top (game mem SEEN))))))
            (do (
                (all player 'P
-                    (do (
-                         (repeat all (move (top ('P vloc TOP)) (top ((current player) vloc TRIOS))))
-                         (repeat all (move (top ('P vloc BOTTOM)) (top ((current player) vloc TRIOS))))
-                    )))
+                    (repeat all (move (top ('P vloc FLIPPED)) (top ((current player) vloc TRIOS)))))
                (all (range 1..'NUMMIDDLE) 'LOC 
                     (repeat all (move (top (game vloc MIDDLE 'LOC)) (top ((current player) vloc TRIOS)))))
                (repeat all (forget (top (game mem SEEN))))
@@ -108,10 +105,7 @@
                         (cardatt RANK (top (game mem SEEN))))))
            (do (
                (all player 'P
-                    (do (
-                         (repeat all (move (top ('P vloc TOP)) (top ('P iloc HAND))))
-                         (repeat all (move (top ('P vloc BOTTOM)) (bottom ('P iloc HAND))))
-                    )))
+                    (repeat all (move (top ('P vloc FLIPPED)) (top ('P iloc HAND)))))
                (all (range 1..'NUMMIDDLE) 'LOC 
                     (repeat all (move (top (game vloc MIDDLE 'LOC)) (top (game iloc MIDDLE 'LOC)))))
                (repeat all (forget (top (game mem SEEN))))
@@ -126,9 +120,16 @@
  (do (
      (all player 'P
           ((or (== (size (filter ('P vloc TRIOS) 'TC (== (cardatt RANK 'TC) SEVEN))) 3)
-               (== (size (partition RANK ('P vloc TRIOS))) 3))
-           (set ('P sto SCORE) 1))
+               (!= (size (partition RANK ('P vloc TRIOS))) 3))
+           (set ('P sto SCORE) 3))
      )
+
+     (all player 'P
+          ((or (== (size (filter ('P vloc TRIOS) 'TC (== (cardatt RANK 'TC) SEVEN))) 3)
+               (!= (size (partition RANK ('P vloc TRIOS))) 3))
+           (set ('P sto SCORE) 3))
+     )
+
  ))
 
- (scoring max ((current player) sto SCORE)))
+ (scoring max (size (partition RANK ((current player) vloc TRIOS)))))

@@ -19,8 +19,9 @@ namespace CardStock.FreezeFrame.Actions
         public override void Execute()
         {
             var cardToCopy = startLocation.Get();
+            var owner = cardToCopy.Owner;
             endLocation.Add(cardToCopy);
-            script?.WriteToFile(prefix + ":" + cardToCopy.ToString() + " " + startLocation.cardList.TranscriptName() + "->" + endLocation.cardList.TranscriptName());
+            script?.WriteToFile(prefix + ":" + cardToCopy.ToString() + " " + owner.TranscriptName() + "->" + endLocation.cardList.TranscriptName());
             if (!inChoice) {
                 script?.AddToMovementFile(cardToCopy.Owner, endLocation.cardList);
             }
