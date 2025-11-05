@@ -36,6 +36,7 @@ categorized by genre:
     * [Turn the Tide](https://gamewright.com/pdfs/Rules/TurnTheTide-RULES.pdf) (3p)
 * Climbing
     * [Comet](http://www.catsatcards.com/Games/Comet.html) (2p)
+    * [Escalation!](https://boardgamegeek.com/boardgame/26884/escalation) (4p)
     * [LAMA](https://boardgamegeek.com/filepage/180052/lama-official-rules) (2-6p)
     * [President](https://www.pagat.com/climbing/president.html) (4-5p) 
 * Draw and Discard (or Discard and Draw)
