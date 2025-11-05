@@ -2203,6 +2203,10 @@ namespace CardStock.FreezeFrame
             {
                 return ProcessIntVar(intNode.vari());
             }
+            else if (intNode.aggi() is not null)
+            {
+                return ProcessAggIntStorage(intNode.aggi());
+            }
             else
             {
                 Console.WriteLine("Undefined Int Expression.");
@@ -2491,7 +2495,7 @@ namespace CardStock.FreezeFrame
 
             Debug.WriteLine(ret.Count);
 
-            Debug.WriteLine("Processing agg + IntStorage: " + (((RecycleParser.RawstorageContext)agg.GetChild(4)).GetText()));
+            Debug.WriteLine("Processing agg + IntStorage: " + ((RecycleParser.RawstorageContext)agg.GetChild(4)).GetText());
             var sum = 0;
             foreach (object obj in ret)
             {

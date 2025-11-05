@@ -1,4 +1,9 @@
-// Version 0.6.2 of our REcursive CYclic Card game LanguagE
+// Version 0.6.4 of our REcursive CYclic Card game LanguagE
+
+// new in version 0.6.4
+//  adding aggi for int
+//  * simultaneous stages
+//  * once around stages
 
 // new in version 0.6.3
 //  addition and multiplication now accept 2+ arguments
@@ -96,7 +101,7 @@ setup : OPEN 'setup' playercreate teamcreate? (OPEN (deckcreate | repeat) CLOSE)
 scoring : OPEN 'scoring' ('min' | 'max') int CLOSE ;
 
 // Game Components
-stage : OPEN 'stage' ('player' | 'team') endcondition (multiaction | stage)+? CLOSE ;
+stage : OPEN 'stage' ('player' | 'team') (endcondition | 'simultaneous' | 'once') (multiaction | stage)+? CLOSE ;
   endcondition : OPEN 'end' boolean CLOSE ;
 multiaction : OPEN 'choice' OPEN (condact)+? CLOSE CLOSE | OPEN 'do' OPEN (condact)+? CLOSE CLOSE | agg | let ;
 multiaction2 : OPEN 'do' OPEN (condact)+? CLOSE CLOSE | agg | let ;
@@ -189,7 +194,7 @@ UNOP : 'not' ;
 aggb : OPEN ('any' | 'all') collection var boolean CLOSE ;
 
 // Integers
-int : vari | sizeof | mult | subtract | mod | add | divide | exponent | triangular | fibonacci | random | sum | rawstorage | score | pid | tid | scoremax | scoremin | intgr ;
+int : vari | sizeof | mult | subtract | mod | add | divide | exponent | triangular | fibonacci | random | sum | rawstorage | score | pid | tid | aggi | scoremax | scoremin | intgr;
 intgr : INTNUM+ ;
 INTNUM : [0-9] ;
 sum : OPEN 'sum' cstorage 'using' pointstorage CLOSE ;

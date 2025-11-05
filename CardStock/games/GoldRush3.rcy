@@ -50,8 +50,7 @@
          ;; if claims left, and mine not claimed by player, can place it
          (let (cardatt MINE (top ((current player) vloc CARD))) 'MINE
             ((and (== (cardatt TYPE (top ((current player) vloc CARD))) PROSPECTOR)
-                  (> ((current player) sto CLAIMS) 0)
-                  (== ((current player) sto 'MINE) 0))
+                  (> ((current player) sto CLAIMS) 0))
              (do (
                (move (top ((current player) vloc CARD))
                      (top (game vloc 'MINE 'PLOC)))
@@ -91,8 +90,9 @@
       (all player 'P
          (all 'MINES 'MINE
             ((> ('P sto 'MINE) 0)
-             (inc ('P sto SCORE) (// (sum (game vloc 'MINE 'GLOC) using (game points VALUE)) 
-                                     (size (filter player 'FP (> ('FP sto 'MINE) 0))))))
+             (inc ('P sto SCORE) (* ('P sto 'MINE)
+                                    (// (sum (game vloc 'MINE 'GLOC) using (game points VALUE)) 
+                                        (all player 'FP ('FP sto 'MINE))))))
          )
       )
    ))

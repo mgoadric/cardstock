@@ -16,7 +16,7 @@ static void runExperiment(string game, int numPlayers)
         PlayerCount = numPlayers,
         NumGames = 100,
         Players = [],
-        Logging = false
+        Logging = true
     };
 
     Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
