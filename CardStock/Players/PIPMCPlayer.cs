@@ -62,8 +62,8 @@ namespace CardStock.Players
             // FIND BEST (and worst) MOVE TO MAKE
             var (_, max) = MinMaxIdx(scoreSum[perspective.GetIdx()]);
 
-            Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
-            Console.WriteLine("{0}", string.Join(", ", scoreSum[perspective.GetIdx()]));
+            //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
+            //Console.WriteLine("{0}", string.Join(", ", scoreSum[perspective.GetIdx()]));
 
             // Record info for heuristic evaluation
             dc.RecordHeuristics(scoreSum, rankSum, perspective.GetIdx());

@@ -13,10 +13,10 @@ namespace CardStock.Evaluation {
         public const int MAXPLAYERS = 9; // This makes some things easier to store as arrays.
         public const int CHOICELIMIT = 500; // The upper bound on the number of moves in a game before it is called.
         public const int LOOPLIMIT = 200; // The upper bound on the number of actions without a choice interrupting
-        public const int NUMTESTS = 10; //make 1000 for comparison.  This is PER MOVE
+        public const int NUMTESTS = 1000; //make 1000 for comparison.  This is PER MOVE
         public const int NUMSAMPLES = 10; // how many determinizations the AIs should create
 
-        public const ImperfectLevel imperfectLevel = ImperfectLevel.TAKEN;
+        public const ImperfectLevel imperfectLevel = ImperfectLevel.PRIVATE;
 
         public void LoadGame() {
 
