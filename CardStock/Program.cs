@@ -2,8 +2,8 @@ using CardStock.CardEngine;
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "Escalation";
-int numPlayers = 4;
+string game = "GoldRush";
+int numPlayers = 3;
 
 runExperiment(game, numPlayers);
 //runAllGames();

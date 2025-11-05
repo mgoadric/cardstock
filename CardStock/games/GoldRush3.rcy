@@ -1,0 +1,100 @@
+;; Gold Rush (Goldrausch) by Reiner Knizia
+;;
+(game 
+   (declare (ORANGE, RED, PINK, BROWN, BLUE, GRAY) 'MINES)
+   (declare 1 'PLOC)
+   (declare 2 'GLOC)
+   (setup  
+      ;; Set up the players, 3 players
+      (create players 3)
+
+      ;; Create the deck source
+      (repeat 4 (create deck (game iloc STOCK) (deck (VALUE (ONE, TWO, THREE, FOUR)) (TYPE (GOLD)))))
+      (create deck (game iloc STOCK) (deck (VALUE (SIX, TEN)) (TYPE (GOLD))))
+      (repeat 18 (create deck (game iloc STOCK) (deck (VALUE (SCRAP)) (TYPE (GOLD)))))
+      (repeat 5 (create deck (game iloc STOCK) (deck (TYPE (PROSPECTOR)) (MINE (ORANGE, RED, PINK, BROWN, BLUE, GRAY)))))
+   )
+    
+   (do (
+        (shuffle (game iloc STOCK))
+        (all player 'P (set ('P sto CLAIMS) 3))
+        (set (game points VALUE) 
+           (
+            ((VALUE : TEN) 10)
+            ((VALUE : SIX) 6)
+            ((VALUE : FOUR) 4)
+            ((VALUE : THREE) 3)
+            ((VALUE : TWO) 2)
+            ((VALUE : ONE) 1)
+         ))  
+   ))
+
+   ;; Stage of the game
+   (stage player
+      (end (== (size (game iloc STOCK)) 0))
+
+      ;; flip a card for the player
+      (do (
+         (move (top (game iloc STOCK))
+               (top ((current player) vloc CARD)))
+      ))
+
+      (choice (   
+         ;; prospector cards go on their mine
+         ((== (cardatt TYPE (top ((current player) vloc CARD))) PROSPECTOR)
+          (move (top ((current player) vloc CARD))
+                (top (game vloc (cardatt MINE (top ((current player) vloc CARD))) 'PLOC)))
+         )
+
+         ;; prospector cards go on their mine, and
+         ;; if claims left, and mine not claimed by player, can place it
+         (let (cardatt MINE (top ((current player) vloc CARD))) 'MINE
+            ((and (== (cardatt TYPE (top ((current player) vloc CARD))) PROSPECTOR)
+                  (> ((current player) sto CLAIMS) 0)
+                  (== ((current player) sto 'MINE) 0))
+             (do (
+               (move (top ((current player) vloc CARD))
+                     (top (game vloc 'MINE 'PLOC)))
+               (inc ((current player) sto 'MINE))
+               (dec ((current player) sto CLAIMS))
+             ))
+            )
+         )
+
+         ;; gold or scrap cards go on any mine less than 6 in size with a prospector
+         (any 'MINES 'MINE
+            ((and (== (cardatt TYPE (top ((current player) vloc CARD))) GOLD)
+                  (> (size (game vloc 'MINE 'PLOC)) 0)
+                  (< (size (game vloc 'MINE 'GLOC)) 6))
+             (move (top ((current player) vloc CARD))
+                   (top (game vloc 'MINE 'GLOC)))
+            )
+         )
+
+         ;; gold or scrap cards go on any mine less than 6 if all prospector sites are full
+         (any 'MINES 'MINE
+            ((and (== (cardatt TYPE (top ((current player) vloc CARD))) GOLD)
+                  (== (size (game vloc 'MINE 'PLOC)) 0)
+                  (< (size (game vloc 'MINE 'GLOC)) 6)
+                  (all 'MINES 'MM (or (== (size (game vloc 'MM 'PLOC)) 0)
+                                      (and (> (size (game vloc 'MM 'PLOC)) 0)
+                                           (== (size (game vloc 'MM 'GLOC)) 6)))))
+             (move (top ((current player) vloc CARD))
+                   (top (game vloc 'MINE 'GLOC)))
+            )
+         )
+      ))
+   )
+      
+   ;; the mines claimed payout
+   (do (
+      (all player 'P
+         (all 'MINES 'MINE
+            ((> ('P sto 'MINE) 0)
+             (inc ('P sto SCORE) (// (sum (game vloc 'MINE 'GLOC) using (game points VALUE)) 
+                                     (size (filter player 'FP (> ('FP sto 'MINE) 0))))))
+         )
+      )
+   ))
+
+   (scoring max ((current player) sto SCORE)))
