@@ -17,7 +17,7 @@ tournament of AI players. Please post any issues you find.
 
 ## Games
 
-There are currently 60+ games coded in RECYCLE, a mixture of classic and modern games, 
+There are currently 70+ games coded in RECYCLE, a mixture of classic and modern games, 
 categorized by genre:
 
 * Adding
@@ -59,6 +59,7 @@ categorized by genre:
 * Push Your Luck
     * [BlackJack](https://www.pagat.com/banking/blackjack.html) (2p)
     * [Diamant](https://cdn.1j1ju.com/medias/90/3c/55-diamant-rulebook.pdf) (8p)
+    * [Gold Rush](https://boardgamegeek.com/boardgame/290/gold-digger) (3p)
     * [No Thanks](https://world-of-board-games.com.sg/docs/No-Thanks.pdf) (3-5p)
     * [Pairs](https://cheapass.com/wp-content/uploads/2018/02/PairsCompanionBookWebFeb2018.pdf) (2-5p)
         * Continuous Pairs (4p)
