@@ -1,0 +1,326 @@
+;; Abandon All Artichokes
+
+(game
+ (setup
+    (create players 2)
+    (repeat 6 (create deck (game iloc STOCK) (deck (VEG (BEET, BROCCOLI, CARROT, CORN, EGGPLANT,
+                                                         LEEK, ONION, PEAS, PEPPER, POTATO)))))
+    (repeat 40 (create deck (game vloc ARTICHOKE) (deck (VEG (ARTICHOKE)))))
+ )
+
+ ;; PREPARATION
+ (do (
+
+    ;; everyone gets 10 artichokes, 5 in their deck, 5 in their hand
+    (all player 'P
+        (do (
+            (repeat 5
+                (move (top (game vloc ARTICHOKE))
+                    (top ('P hloc DECK))))
+            (repeat 5
+                (move (top (game vloc ARTICHOKE))
+                    (top ('P iloc HAND))))
+        ))
+    )
+
+    ;; shuffle the veg cards
+    (shuffle (game iloc STOCK))
+
+    ;; Set up the Garden Row
+    (repeat 5
+        (move (top (game iloc STOCK))
+              (top (game vloc ROW))))
+ ))
+
+ (stage player 
+    (end (any player 'P (== ('P sto WINNER) 1)))
+
+    ;; REPLENISH the ROW up to 5 cards, if possible
+    (stage player   ;; stage necessary for looping when 4 match found
+        (end (or (== (size (game vloc ROW)) 5)
+                 (== (size (game iloc STOCK)) 0)))
+        (do (
+            ;; fill up the row to 5 cards
+            (let (- 5 (size (game vloc ROW))) 'NEEDED
+                (do (
+                    ((<= 'NEEDED (size (game iloc STOCK)))
+                     (repeat 'NEEDED
+                        (move (top (game iloc STOCK))
+                            (top (game vloc ROW)))))
+                    ((> 'NEEDED (size (game iloc STOCK)))
+                     (repeat all 
+                        (move (top (game iloc STOCK))
+                            (top (game vloc ROW)))))
+                ))
+            )
+
+            ;; if >= 4 of any veg type, put them all back and shuffle
+            ((any (partition VEG (game vloc ROW)) 'V
+                (>= (size 'V) 4))
+             (do (
+                (repeat all
+                    (move (top (game vloc ROW))
+                        (top (game iloc STOCK))))
+                (shuffle (game iloc STOCK))
+             ))
+            )
+        ))
+    )
+
+    ;; HARVEST take a card from the ROW
+    (choice (
+        (any (game vloc ROW) 'RC
+            (move 'RC (top ((current player) iloc HAND))))
+    ))
+
+    ;; PLAY as many cards as you want from your hand
+    (stage player 
+        (end (== ((current player) str STATE) FINISHED))
+        (choice (
+
+            ;; BEET
+            (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) BEET)) 'BC
+                (any (other player) 'OP
+                    ((and (> (size 'BC) 0)
+                          (>= (size ((current player) iloc HAND)) 2)) ;; one for the Beet card, one for the random card
+                     (do (
+                        (move (top 'BC) (top ((current player) vloc DISCARD)))
+                        (move ((random (- (size ((current player) iloc HAND)) 1)) ((current player) iloc HAND)) 
+                              (top ((current player) vloc BEET)))
+                        (move ((random (- (size ('OP iloc HAND)) 1)) ('OP iloc HAND)) 
+                              (top ('OP vloc BEET)))
+                        ((or (!= (cardatt VEG (top ((current player) vloc BEET))) ARTICHOKE)
+                             (!= (cardatt VEG (top (game vloc BEET))) ARTICHOKE))
+                            (do (
+                                (move (top ((current player) vloc BEET))
+                                      (top ('OP iloc HAND)))
+                                (move (top ('OP vloc BEET))
+                                      (top ((current player) iloc HAND)))
+                            ))
+                        )
+                        ((and (== (cardatt VEG (top ((current player) vloc BEET))) ARTICHOKE)
+                              (== (cardatt VEG (top ('OP vloc BEET))) ARTICHOKE))
+                            (do (
+                                (move (top ((current player) vloc BEET))
+                                      (top (game vloc COMPOST)))
+                                (move (top ('OP vloc BEET))
+                                      (top (game vloc COMPOST)))
+                            ))
+                        )
+                     ))
+                    )
+                )
+            )
+
+            ;; BROCCOLI
+            (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) BROCCOLI)) 'BC
+                (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) ARTICHOKE)) 'AC
+                    ((and (>= (size 'AC) 3)
+                          (> (size 'BC) 0))
+                     (do (
+                        (move (top 'AC) (top (game vloc COMPOST)))
+                        (move (top 'BC) (top ((current player) vloc DISCARD)))
+                     ))
+                    )
+                )
+            )
+
+            ;; CORN
+            (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) CORN)) 'CC
+                (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) ARTICHOKE)) 'AC
+                    (any (game vloc ROW) 'RC
+                        ((and (> (size 'AC) 0)
+                              (> (size 'CC) 0))
+                         (do (
+                            (move (top 'AC) (top ((current player) vloc DISCARD)))
+                            (move 'RC (top ((current player) hloc DECK)))
+                            (move (top 'CC) (top ((current player) vloc DISCARD)))
+                         ))
+                        )
+                    )
+                )
+            )
+ 
+            ;; CARROT
+            (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) CARROT)) 'CC
+                (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) ARTICHOKE)) 'AC
+                    ((and (== ((current player) str STATE) READY)
+                          (>= (size 'AC) 2)
+                          (> (size 'CC) 0))
+                     (do (
+                        (repeat 2
+                            (move (top 'AC)
+                                  (top (game vloc COMPOST))))
+                        (move (top 'CC) (top (game vloc COMPOST)))
+                        (set ((current player) str STATE) FINISHED)
+                     ))  
+                    )
+                )
+            )
+
+            ;; EGGPLANT
+            (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) EGGPLANT)) 'EC
+                (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) ARTICHOKE)) 'AC
+                    ((and (> (size 'AC) 0)
+                          (> (size 'EC) 0))
+                     (do (
+                        (move (top 'AC) (top (game vloc COMPOST))))
+                        (move (top 'CC) (top (game vloc COMPOST)))
+                        (all player 'P
+                            (set ('P str EGGPLANT) READY))
+                     ))  
+                    )
+                )
+            )
+            ;; LEEK
+
+            ;; ONION
+            (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) ONION)) 'OC
+                (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) ARTICHOKE)) 'AC
+                    (any (other player) 'OP
+                        ((and (> (size 'AC) 0)
+                            (> (size 'OC) 0))
+                         (do (
+                            (move (top 'AC) (top (game vloc COMPOST)))
+                            (move (top 'OC) (top ('OP vloc DISCARD)))
+                         ))
+                        )
+                    )
+                )
+            )
+
+            ;; PEPPER
+            (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) PEPPER)) 'PC
+                (any ((current player) vloc DISCARD) 'DC
+                    ((> (size 'PC) 0)
+                     (do (
+                        (move 'DC (top ((current player) hloc DECK)))
+                        (move (top 'PC) (top ((current player) vloc DISCARD)))
+                     ))
+                    )
+                )
+            )
+
+            ;; PEAS
+            (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) PEAS)) 'PC
+                ((and (> (size 'PC) 0)
+                      (>= (size (game iloc STOCK)) 2))
+                    (do (
+                        (repeat 2 
+                            (move (top (game iloc STOCK))
+                                  (top ((current player) vloc PEAS))))
+                        (move (top 'PC) (top ((current player) vloc DISCARD)))
+                    ))
+                )
+            )
+
+            ;; POTATO
+            (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) POTATO)) 'PC
+                ((and (> (size 'PC) 0)
+                      (> (size (union ((current player) hloc DECK) ((current player) vloc DISCARD))) 0))
+                 (do (
+                    ((== (size ((current player) hloc DECK)) 0)
+                     (do (
+                        (repeat all
+                            (move (top ((current player) vloc DISCARD))
+                                  (top ((current player) hloc DECK))))
+                        (shuffle ((current player) hloc DECK))
+                     ))
+                    )
+                    (move (top ((current player) hloc DECK)) 
+                          (top ((current player) vloc POTATO)))
+                    ((!= (cardatt VEG (top ((current player) vloc POTATO))) ARTICHOKE)
+                     (move (top ((current player) vloc POTATO))
+                           (top ((current player) vloc DISCARD))))
+                    ((== (cardatt VEG (top ((current player) vloc POTATO))) ARTICHOKE)
+                     (move (top ((current player) vloc POTATO))
+                           (top (game vloc COMPOST))))
+                    (move (top 'PC) (top ((current player) vloc DISCARD)))
+                 ))
+                )
+            )
+
+            ;; stop playing cards, always available
+            (set ((current player) str STATE) FINISHED)
+        ))
+
+        ;; stage to wrap up
+         ;; NEED TO PASS CARDS TO OTHER PLAYERS
+ ;;(stage player
+ ;;       (end 
+ ;;        (all player 'P 
+ ;;             (== (size ('P iloc HAND)) 9)))
+ ;;       (choice (
+ ;;         (any ((current player) iloc HAND) 'C
+ ;;              (move 'C (top ((previous player) hloc PASSED))))))
+ ;;       (choice (
+ ;;         (any ((current player) iloc HAND) 'C
+ ;;              (move 'C (top ((next player) hloc PASSED)))))))
+ 
+ ;; PICK UP CARDS FROM OTHER PLAYERS
+ ;;(do (
+ ;;     (all player 'P
+ ;;          (repeat all (move (top ('P hloc PASSED))
+ ;;                            (top ('P iloc HAND)))))))
+        
+            ;; pass cards for EGGPLANT
+
+            ;; wrap up the LEEK and PEAS choices
+
+
+        (do (
+            ((!= ((current player) str STATE) FINISHED)
+             (set ((current player) str STATE) PLAYED))
+            (cycle next (current player))
+        ))
+    )
+
+    ;; DISCARD unplayed cards
+    (do (
+        (repeat all
+            (move (top ((current player) iloc HAND))
+                  (top ((current player) vloc DISCARD))))
+    ))
+
+    ;; DRAW 5 new cards, if possible
+    (do (
+        
+        ;; If deck is less than five, take what you can, move over and shuffle the discard
+        ((< (size ((current player) hloc DECK)) 5)
+         (do (
+            (repeat all
+                (move (top ((current player) hloc DECK))
+                      (top ((current player) iloc HAND))))
+            (repeat all
+                (move (top ((current player) vloc DISCARD))
+                      (top ((current player) hloc DECK))))
+            (shuffle ((current player) hloc DECK))
+         ))
+        )
+
+        ;; Take as many as you can from deck to get 5 cards in hand
+        (let (- 5 (size ((current player) iloc HAND))) 'NEEDED
+            (do (
+                ((<= 'NEEDED (size ((current player) hloc DECK)))
+                 (repeat 'NEEDED
+                    (move (top ((current player) hloc DECK))
+                        (top ((current player) iloc HAND)))))
+                ((> 'NEEDED (size ((current player) hloc DECK)))
+                 (repeat all 
+                    (move (top ((current player) hloc DECK))
+                        (top ((current player) iloc HAND)))))
+            ))
+        )
+
+        (set ((current player) str STATE) READY)
+    ))
+
+    ;; END GAME CHECK (no artichokes in hand, you win!)
+    (do (
+        ((== (size (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) ARTICHOKE))) 0)
+         (set ((current player) sto WINNER) 1))
+    ))
+ )
+
+ (scoring max ((current player) sto WINNER))
+)

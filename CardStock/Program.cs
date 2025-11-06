@@ -2,8 +2,8 @@ using CardStock.CardEngine;
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "GoldRush";
-int numPlayers = 3;
+string game = "AbandonAllArtichokes";
+int numPlayers = 2;
 
 runExperiment(game, numPlayers);
 //runAllGames();

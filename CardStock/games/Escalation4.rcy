@@ -137,12 +137,12 @@
             )
       ))      
  )
-;; remaining cards added to the player's collected cards
-(do (
+ ;; remaining cards added to the player's collected cards
+ (do (
       (all player 'P
             (repeat all
                   (move (top ('P iloc HAND))
                         (top ('P vloc COLLECTED)))))
-))   
+ ))   
 
  (scoring min (size ((current player) vloc COLLECTED))))

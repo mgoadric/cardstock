@@ -53,7 +53,7 @@ namespace CardStock.FreezeFrame.Actions
 
                     script?.WriteToFile(prefix + ":" + cardToMove.ToString() + " " + owner.TranscriptName() + arrow + endLocation.cardList.TranscriptName());
 
-                    Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation.locIdentifier);
+                    Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation);
 
                     if (!inChoice) {
                         script?.AddToMovementFile(owner, endLocation.cardList);
@@ -109,6 +109,7 @@ namespace CardStock.FreezeFrame.Actions
                 if (cardFound != cardToMove)
                 {
                     Console.WriteLine("Cards are not equal!!!");
+                    Console.WriteLine("Undoing move Card '" + cardToMove + " to " + endLocation + " but found " + cardFound);
                     throw new Exception();
                 }
                 startLocation.Add(cardToMove);
