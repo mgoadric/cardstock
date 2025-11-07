@@ -14,8 +14,8 @@ static void runExperiment(string game, int numPlayers)
     {
         Game = game,
         PlayerCount = numPlayers,
-        NumGames = 100,
-        Players = [],
+        NumGames = 1,
+        Players = [PlayerType.PIPMC, ],
         Logging = true
     };
 

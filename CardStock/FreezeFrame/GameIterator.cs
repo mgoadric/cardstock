@@ -107,6 +107,7 @@ namespace CardStock.FreezeFrame
                 if (count > GameSimulator.LOOPLIMIT)
                 {
                     Console.WriteLine("Game stuck in loop");
+                    throw new Exception();
                     return true; // game stuck in loop
                 }
             }

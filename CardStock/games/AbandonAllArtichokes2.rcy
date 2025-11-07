@@ -5,7 +5,7 @@
     (create players 2)
     (repeat 6 (create deck (game iloc STOCK) (deck (VEG (BEET, BROCCOLI, CARROT, CORN, EGGPLANT,
                                                          LEEK, ONION, PEAS, PEPPER, POTATO)))))
-    (repeat 40 (create deck (game vloc ARTICHOKE) (deck (VEG (ARTICHOKE)))))
+    (repeat 20 (create deck (game vloc ARTICHOKE) (deck (VEG (ARTICHOKE)))))
  )
 
  ;; PREPARATION
@@ -33,7 +33,8 @@
  ))
 
  (stage player 
-    (end (any player 'P (== ('P sto WINNER) 1)))
+    (end (or (any player 'P (== ('P sto WINNER) 1))
+             (== (size (game vloc ROW)) 0)))
 
     ;; REPLENISH the ROW up to 5 cards, if possible
     (stage player   ;; stage necessary for looping when 4 match found
@@ -41,18 +42,13 @@
                  (== (size (game iloc STOCK)) 0)))
         (do (
             ;; fill up the row to 5 cards
-            (let (- 5 (size (game vloc ROW))) 'NEEDED
-                (do (
-                    ((<= 'NEEDED (size (game iloc STOCK)))
-                     (repeat 'NEEDED
-                        (move (top (game iloc STOCK))
-                            (top (game vloc ROW)))))
-                    ((> 'NEEDED (size (game iloc STOCK)))
-                     (repeat all 
-                        (move (top (game iloc STOCK))
-                            (top (game vloc ROW)))))
-                ))
-            )
+            (set (game sto NEEDED) (- 5 (size (game vloc ROW))))
+            ((> (game sto NEEDED) (size (game iloc STOCK)))
+             (set (game sto NEEDED) (size (game iloc STOCK))))
+
+            (repeat (game sto NEEDED) 
+                (move (top (game iloc STOCK))
+                      (top (game vloc ROW))))
 
             ;; if >= 4 of any veg type, put them all back and shuffle
             ((any (partition VEG (game vloc ROW)) 'V
@@ -173,7 +169,30 @@
                     )
                 )
             )
+
             ;; LEEK
+            (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) LEEK)) 'LC
+                (any (other player) 'OP
+                    ((and (> (size 'LC) 0)
+                          (> (size (union ('OP hloc DECK) ('OP vloc DISCARD))) 0))
+                     (do (
+                        ((== (size ('OP hloc DECK)) 0)
+                         (do (
+                            (repeat all
+                                (move (top ('OPvloc DISCARD))
+                                      (top ('OP hloc DECK))))
+                            (shuffle ('OP hloc DECK))
+                         ))
+                        )
+                        (set ((current player) sto WHO) (pid (owner (top ('OP hloc DECK))))) ;; AUGHHH can't use 'OP right now...
+                        (move (top ('OP hloc DECK)) 
+                              (top ((current player) vloc LEEK)))
+                        (set ((current player) str STATE) LEEK)
+                        (move (top 'LC) (top ((current player) vloc DISCARD)))
+                     ))
+                    )
+                )
+            )
 
             ;; ONION
             (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) ONION)) 'OC
@@ -278,7 +297,20 @@
             )
         ))
         
-            ;; wrap up the LEEK
+        ;; WRAP UP LEEK
+        (stage player
+            (end (!= ((current player) str STATE) LEEK))
+
+            (choice (
+                (move (top ((current player) vloc LEEK))
+                      (top ((current player) iloc HAND)))
+                (move (top ((current player) vloc LEEK))
+                      (top ((((current player) sto WHO) player) vloc DISCARD)))            
+            ))
+            (do (
+                (set ((current player) str STATE) NOLEEK)
+            ))
+        )
 
         ;; WRAP UP PEAS
         (stage player
@@ -337,18 +369,13 @@
         )
 
         ;; Take as many as you can from deck to get 5 cards in hand
-        (let (- 5 (size ((current player) iloc HAND))) 'NEEDED
-            (do (
-                ((<= 'NEEDED (size ((current player) hloc DECK)))
-                 (repeat 'NEEDED
-                    (move (top ((current player) hloc DECK))
-                        (top ((current player) iloc HAND)))))
-                ((> 'NEEDED (size ((current player) hloc DECK)))
-                 (repeat all 
-                    (move (top ((current player) hloc DECK))
-                        (top ((current player) iloc HAND)))))
-            ))
-        )
+        (set ((current player) sto NEEDED) (- 5 (size ((current player) iloc HAND))))
+        ((> ((current player) sto NEEDED) (size ((current player) hloc DECK)))
+         (set ((current player) sto NEEDED) (size ((current player) hloc DECK))))
+
+        (repeat ((current player) sto NEEDED)
+            (move (top ((current player) hloc DECK))
+                (top ((current player) iloc HAND))))
 
         (set ((current player) str STATE) READY)
     ))
