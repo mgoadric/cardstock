@@ -38,7 +38,9 @@ categorized by genre:
     * [Comet](http://www.catsatcards.com/Games/Comet.html) (2p)
     * [Escalation!](https://boardgamegeek.com/boardgame/26884/escalation) (4p)
     * [LAMA](https://boardgamegeek.com/filepage/180052/lama-official-rules) (2-6p)
-    * [President](https://www.pagat.com/climbing/president.html) (4-5p) 
+    * [President](https://www.pagat.com/climbing/president.html) (4-5p)
+* Deck Building
+    * [Abandon All Artichokes](https://gamewright.com/pdfs/Rules/AAArules_v2.pdf) (2p)
 * Draw and Discard (or Discard and Draw)
     * [Clocktowers](https://boardgamegeek.com/boardgame/12538/clocktowers) (2p)
     * [Golf Six](https://www.pagat.com/draw/golf.html) (2-4p)
