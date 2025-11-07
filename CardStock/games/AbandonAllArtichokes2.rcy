@@ -164,8 +164,9 @@
                     ((and (> (size 'AC) 0)
                           (> (size 'EC) 0))
                      (do (
-                        (move (top 'AC) (top (game vloc COMPOST))))
-                        (move (top 'CC) (top (game vloc COMPOST)))
+                        (move (top 'AC) (top (game vloc COMPOST)))
+                        (move (top 'EC) (top (game vloc COMPOST)))
+                        (set ((current player) str STATE) EGGPLANT)
                         (all player 'P
                             (set ('P str EGGPLANT) READY))
                      ))  
@@ -210,6 +211,7 @@
                             (move (top (game iloc STOCK))
                                   (top ((current player) vloc PEAS))))
                         (move (top 'PC) (top ((current player) vloc DISCARD)))
+                        (set ((current player) str STATE) PEAS)
                     ))
                 )
             )
@@ -244,28 +246,64 @@
             (set ((current player) str STATE) FINISHED)
         ))
 
-        ;; stage to wrap up
-         ;; NEED TO PASS CARDS TO OTHER PLAYERS
- ;;(stage player
- ;;       (end 
- ;;        (all player 'P 
- ;;             (== (size ('P iloc HAND)) 9)))
- ;;       (choice (
- ;;         (any ((current player) iloc HAND) 'C
- ;;              (move 'C (top ((previous player) hloc PASSED))))))
- ;;       (choice (
- ;;         (any ((current player) iloc HAND) 'C
- ;;              (move 'C (top ((next player) hloc PASSED)))))))
+        ;; EGGPLANT NEEDS TO PASS CARDS TO OTHER PLAYERS
+        (stage player
+            (end (all player 'P 
+                    (!= ('P str EGGPLANT) READY)))
+            (choice (
+                (any ((current player) iloc HAND) 'C
+                    (move 'C (top ((previous player) hloc PASSED))))
+                ((== (size ((current player) iloc HAND)) 0)
+                 (turn pass)
+                )
+            ))
+            (choice (
+                (any ((current player) iloc HAND) 'C
+                    (move 'C (top ((next player) hloc PASSED))))
+                ((== (size ((current player) iloc HAND)) 0)
+                 (turn pass)
+                )
+            ))
+            (do (
+                (set ((current player) str EGGPLANT) FINISHED)
+            ))
+        )
  
- ;; PICK UP CARDS FROM OTHER PLAYERS
- ;;(do (
- ;;     (all player 'P
- ;;          (repeat all (move (top ('P hloc PASSED))
- ;;                            (top ('P iloc HAND)))))))
+        ;; PICK UP EGGPLANT CARDS FROM OTHER PLAYERS
+        (do (
+            ((== ((current player) str STATE) EGGPLANT)
+             (all player 'P
+                (repeat all (move (top ('P hloc PASSED))
+                                  (top ('P iloc HAND)))))
+            )
+        ))
         
-            ;; pass cards for EGGPLANT
+            ;; wrap up the LEEK
 
-            ;; wrap up the LEEK and PEAS choices
+        ;; WRAP UP PEAS
+        (stage player
+            (end (== (size ((current player) vloc PEAS)) 0))
+            
+            ;; determine who gets which card
+            (choice (
+                (any (other player) 'OP 
+                    (do (
+                        (move (top ((current player) vloc PEAS))
+                            (top ((current player) vloc DISCARD)))
+                        (move (top ((current player) vloc PEAS))
+                            (top ('OP vloc DISCARD)))
+                    ))
+                )
+                (any (other player) 'OP 
+                    (do (
+                        (move (top ((current player) vloc PEAS))
+                            (top ('OP vloc DISCARD)))
+                        (move (top ((current player) vloc PEAS))
+                            (top ((current player) vloc DISCARD)))
+                    ))
+                )
+            ))
+        )
 
 
         (do (
