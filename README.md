@@ -70,6 +70,7 @@ categorized by genre:
 * Shedding
     * [Crazy Eights](https://www.pagat.com/eights/crazy8s.html) (4p)
         * Sane Eights (4p)
+    * [Page One](https://www.pagat.com/inflation/page_one.html) (3p)
     * [Simon's Cat](https://www.sjgames.com/simonscat/Simons-Cat-Rules.pdf) (4p)
     * [Skittgube](https://www.pagat.com/beating/skitgubbe.html) (3p)
 * Trick Taking
