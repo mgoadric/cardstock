@@ -8,7 +8,7 @@ namespace CardStock.Evaluation
     public class DataCollector
     {
         private readonly Dictionary<string, StreamWriter> dataFiles = [];
-        private readonly Experiment exp;
+        public readonly Experiment exp;
         private readonly string ai;
 
         public List<Tuple<int, int, int>> choiceList = [];
@@ -37,10 +37,10 @@ namespace CardStock.Evaluation
                 dataFiles[f] = new(path + f + ".csv");
             }
 
-            CSVOutput("lead", "game", "numPlayers", "ai", "run", "move", "recorder", "player", "score", "rank", "rankestimate");
-            CSVOutput("choice", "game", "numPlayers", "ai", "run", "move", "player", "choices", "choice", "time");
-            CSVOutput("results", "game", "numPlayers", "ai", "run", "player", "score", "rank", "time");
-            CSVOutput("spread", "game", "numPlayers", "ai", "run", "pmove", "player", "spread");
+            CSVOutput("lead", "game", "numPlayers", "ai", "imperfect", "samples", "tests", "run", "move", "recorder", "player", "score", "rank", "rankestimate");
+            CSVOutput("choice", "game", "numPlayers", "ai", "imperfect", "samples", "tests", "run", "move", "player", "choices", "choice", "time");
+            CSVOutput("results", "game", "numPlayers", "ai", "imperfect", "samples", "tests", "run", "player", "score", "rank", "time");
+            CSVOutput("spread", "game", "numPlayers", "ai", "imperfect", "samples", "tests", "run", "pmove", "player", "spread");
         }
 
         private void CSVOutput(string file, params object[] values)
@@ -59,7 +59,7 @@ namespace CardStock.Evaluation
                 int[,] ranks = FindRanks(results, mult);
                 for (int j = 0; j < results.Length; ++j)
                 {
-                    CSVOutput("results", exp.Game, exp.PlayerCount, ai, run + 1, j + 1, results[j], ranks[j, 0] + 1, time);
+                    CSVOutput("results", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, j + 1, results[j], ranks[j, 0] + 1, time);
                 }
 
                 /******
@@ -68,7 +68,7 @@ namespace CardStock.Evaluation
                 int move = 0;
                 foreach (Tuple<int, int, int> t in choiceList)
                 {
-                    CSVOutput("choice", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, t.Item1 + 1, t.Item2, t.Item3 + 1, timeList[move]);
+                    CSVOutput("choice", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, move + 1, t.Item1 + 1, t.Item2, t.Item3 + 1, timeList[move]);
                     move++;
                 }
 
@@ -81,7 +81,7 @@ namespace CardStock.Evaluation
                     Tuple<int, double[]> allScores = allScoresList[move];
                     for (int k = 0; k < exp.PlayerCount; k++)
                     {
-                        CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, allLeads.Item1 + 1, k + 1, allScores.Item2[k], ranks[k, 1] + 1, allLeads.Item2[k]);
+                        CSVOutput("lead", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, move + 1, allLeads.Item1 + 1, k + 1, allScores.Item2[k], ranks[k, 1] + 1, allLeads.Item2[k]);
                     }
                 }
                 
@@ -90,7 +90,7 @@ namespace CardStock.Evaluation
                 {
                     double r = (exp.PlayerCount - 1 - ranks[k, 0]) /
                         (double)(exp.PlayerCount - 1);
-                    CSVOutput("lead", exp.Game, exp.PlayerCount, ai, run + 1, move + 1, k + 1, k + 1, results[k], ranks[k, 1] + 1, r);
+                    CSVOutput("lead", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, move + 1, k + 1, k + 1, results[k], ranks[k, 1] + 1, r);
 
                 }
 
@@ -100,7 +100,7 @@ namespace CardStock.Evaluation
                 move = 0;
                 foreach (Tuple<int, double> s in spreadList)
                 {
-                    CSVOutput("spread", exp.Game, exp.PlayerCount,ai, run + 1, move + 1, s.Item1, s.Item2);
+                    CSVOutput("spread", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, move + 1, s.Item1, s.Item2);
                     move++;
                 }
 

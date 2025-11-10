@@ -10,7 +10,7 @@ using System.Linq;
 namespace CardStock.Players
 {
     //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
-    public class OneSecondMCTS(Perspective perspective) : AIPlayer(perspective)
+    public class OneSecondMCTS(Perspective perspective, DataCollector dc) : AIPlayer(perspective, dc)
     {
         public Dictionary<Tuple<CardGame, int>, int> plays = [];
         public Dictionary<Tuple<CardGame, int>, double> wins = [];
@@ -83,7 +83,7 @@ namespace CardStock.Players
             GameIterator gameIterator = privateiterator.Clone(cg);
             for (int j = 0; j < numPlayers; j++)
             {
-                cg.players[j].decision = new RandomPlayer(perspective);
+                cg.players[j].decision = null;
             }
 
 

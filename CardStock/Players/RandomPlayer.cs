@@ -7,7 +7,7 @@ namespace CardStock.Players
     /********
      * An AIPlayer that will choose a random action from their options
      */
-    public class RandomPlayer(Perspective perspective) : AIPlayer(perspective)
+    public class RandomPlayer(Perspective perspective, DataCollector dc) : AIPlayer(perspective, dc)
     {
 
         public override void Explore()

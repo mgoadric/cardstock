@@ -6,7 +6,7 @@ using CardStock.FreezeFrame.Actions;
 
 namespace CardStock.Players
 {
-    public class PIPMCPlayerOld(Perspective perspective) : AIPlayer(perspective)
+    public class PIPMCPlayerOld(Perspective perspective, DataCollector dc) : AIPlayer(perspective, dc)
     {
 
         private double[][] rankSum;
@@ -28,7 +28,7 @@ namespace CardStock.Players
             for (int move = 0; move < numChoices; ++move)
             {
 
-                Parallel.For(0, GameSimulator.NUMTESTS, i =>   //number of tests for certain decision
+                Parallel.For(0, dc.exp.numTests, i =>   //number of tests for certain decision
                 {
                     // USE A SEPERATE CLONESECRET FOR EACH GAME
                     (CardGame cg, GameIterator cloneContext) = perspective.GetPrivateGame();
@@ -42,7 +42,7 @@ namespace CardStock.Players
                     // selected item chosen first when you get your turn
                     for (int j = 0; j < numPlayers; j++)
                     {
-                        cg.players[j].decision = new RandomPlayer(perspective);
+                        cg.players[j].decision = null;
                     }
 
                     while (!cloneContext.AdvanceToChoice())

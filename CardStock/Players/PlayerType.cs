@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CardStock.Evaluation;
 using CardStock.Players;
 
 namespace CardStock.Players
@@ -11,16 +12,16 @@ namespace CardStock.Players
 
     public static class Extensions
 {
-        public static AIPlayer AI(this PlayerType type, Perspective perspective) {
+        public static AIPlayer AI(this PlayerType type, Perspective perspective, DataCollector dc) {
             return type switch
             {
-                PlayerType.RANDOM => new RandomPlayer(perspective),
-                PlayerType.PIPMC => new PIPMCPlayer(perspective),
-                PlayerType.MCTS => new MCTSPLayer(perspective),
-                PlayerType.ISMCTS => new ISMCTSPlayer(perspective),
-                PlayerType.PIPMCOLD => new PIPMCPlayerOld(perspective),
-                PlayerType.ONESECMCTS => new OneSecondMCTS(perspective),
-                _ => new RandomPlayer(perspective),
+                PlayerType.RANDOM => new RandomPlayer(perspective, dc),
+                PlayerType.PIPMC => new PIPMCPlayer(perspective, dc),
+                PlayerType.MCTS => new MCTSPLayer(perspective, dc),
+                PlayerType.ISMCTS => new ISMCTSPlayer(perspective, dc),
+                PlayerType.PIPMCOLD => new PIPMCPlayerOld(perspective, dc),
+                PlayerType.ONESECMCTS => new OneSecondMCTS(perspective, dc),
+                _ => new RandomPlayer(perspective, dc),
             };
         }
        

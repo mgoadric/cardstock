@@ -16,7 +16,7 @@ namespace CardStock.Players
         private GameIterator privateiterator;
         private int playeridx;
 
-        public ISMCTSPlayer(Perspective perspective) : base(perspective)
+        public ISMCTSPlayer(Perspective perspective, DataCollector dc) : base(perspective, dc)
         {
             playeridx = perspective.GetIdx();
             plays = new Dictionary<Tuple<CardGame, int>, int>(new InfoSetComparison(playeridx));
@@ -52,11 +52,11 @@ namespace CardStock.Players
             Console.ReadLine();
             Environment.Exit(0);*/
 
-            for (int d = 1; d <= GameSimulator.NUMSAMPLES; d++)
+            for (int d = 1; d <= dc.exp.numSamples; d++)
             {
                 (privategame, privateiterator) = perspective.GetPrivateGame();
                 //Console.WriteLine("Deal: " + d + " Play Count: " + plays.Count + "\r\n");
-                for (int i = 0; i < GameSimulator.NUMTESTS * numChoices; i++)
+                for (int i = 0; i < dc.exp.numTests * numChoices; i++)
                 {
                     RunSimulation();
                 }
@@ -109,7 +109,7 @@ namespace CardStock.Players
             GameIterator gameIterator = privateiterator.Clone(cg);
             for (int j = 0; j < numPlayers; j++)
             {
-                cg.players[j].decision = new RandomPlayer(perspective);
+                cg.players[j].decision = null;
             }
 
 

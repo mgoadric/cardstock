@@ -12,17 +12,17 @@ namespace CardStock.Players
     }
 
     //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
-    public class MCTSPLayer(Perspective perspective) : AIPlayer(perspective)
+    public class MCTSPLayer(Perspective perspective, DataCollector dc) : AIPlayer(perspective, dc)
     {
-        private readonly Dictionary<Tuple<CardGame, int>, NodeStats>[] stats = new Dictionary<Tuple<CardGame, int>, NodeStats>[GameSimulator.NUMSAMPLES];
-        private readonly Dictionary<Tuple<CardGame, int>, NodeStats[]>[] movestatetree = new Dictionary<Tuple<CardGame, int>, NodeStats[]>[GameSimulator.NUMSAMPLES];
-        private readonly Tuple<CardGame, GameIterator>[] determinizations = new Tuple<CardGame, GameIterator>[GameSimulator.NUMSAMPLES];
-        private readonly NodeStats[][] choiceStats = new NodeStats[GameSimulator.NUMSAMPLES][];
+        private readonly Dictionary<Tuple<CardGame, int>, NodeStats>[] stats = new Dictionary<Tuple<CardGame, int>, NodeStats>[dc.exp.numSamples];
+        private readonly Dictionary<Tuple<CardGame, int>, NodeStats[]>[] movestatetree = new Dictionary<Tuple<CardGame, int>, NodeStats[]>[dc.exp.numSamples];
+        private readonly Tuple<CardGame, GameIterator>[] determinizations = new Tuple<CardGame, GameIterator>[dc.exp.numSamples];
+        private readonly NodeStats[][] choiceStats = new NodeStats[dc.exp.numSamples][];
 
         public override void Explore()
         {
             // MAKE THIS MANY DETERMINIZATIONS
-            for (int det = 0; det < GameSimulator.NUMSAMPLES; det++)
+            for (int det = 0; det < dc.exp.numSamples; det++)
             {
                 determinizations[det] = perspective.GetPrivateGame();
                 stats[det] = [];
@@ -31,9 +31,9 @@ namespace CardStock.Players
             }
 
             // GAME SIMULATIONS
-            Parallel.For(0, GameSimulator.NUMSAMPLES, det =>
+            Parallel.For(0, dc.exp.numSamples, det =>
             {
-                for (int i = 0; i < GameSimulator.NUMTESTS / GameSimulator.NUMSAMPLES * numChoices; i++)
+                for (int i = 0; i < dc.exp.numTests / dc.exp.numSamples * numChoices; i++)
                 {
                     RunSimulation(det, i);
                 }
@@ -48,7 +48,7 @@ namespace CardStock.Players
 
             for (int m = 0; m < numChoices; m++)
             {
-                for (int det = 0; det < GameSimulator.NUMSAMPLES; det++)
+                for (int det = 0; det < dc.exp.numSamples; det++)
                 {
                     // check for small sample numbers, some moves might be 0
                     if (choiceStats[det][m] is not null)
@@ -57,7 +57,7 @@ namespace CardStock.Players
                         choiceplays[m] += choiceStats[det][m].plays;
                     }
                 }
-                movescores[m] /= GameSimulator.NUMSAMPLES;
+                movescores[m] /= dc.exp.numSamples;
             }
 
             var (min, max) = MinMaxIdx(movescores);

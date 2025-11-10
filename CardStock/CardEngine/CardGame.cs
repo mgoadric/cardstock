@@ -326,9 +326,11 @@ namespace CardStock.CardEngine
             players = new Player[numPlayers];
             for (int i = 0; i < numPlayers; ++i)
             {
-                players[i] = new Player("p" + (i + 1), i);
-                Perspective perspective = new(i, gameContext);
-                players[i].decision = new RandomPlayer(perspective);
+                players[i] = new Player("p" + (i + 1), i)
+                {
+                    //Perspective perspective = new(i, gameContext);
+                    decision = null
+                };
             }
             currentPlayer.Push(new StageCycle<Player>(players));
         }

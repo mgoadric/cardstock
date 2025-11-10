@@ -11,13 +11,13 @@ namespace CardStock.Players
      * a List that can track the player's estimates of their current
      * game position
      */
-	public abstract class AIPlayer(Perspective perspective)
+	public abstract class AIPlayer(Perspective perspective, DataCollector dc)
     {
         // SHOULD WE ABSTRACT EVEN MORE, A PLAYER vs AN AI PLAYER, SO WE CAN HAVE RANDOM, OR HUMAN, NOT AI???
         protected int numPlayers = perspective.NumberOfPlayers();
         protected Perspective perspective = perspective;
         protected Stopwatch stopwatch = new();
-        public DataCollector dc;
+        public DataCollector dc = dc;
 
         public int numChoices;
 

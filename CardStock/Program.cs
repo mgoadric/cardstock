@@ -2,8 +2,8 @@ using CardStock.CardEngine;
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "AbandonAllArtichokes";
-int numPlayers = 2;
+string game = "TurnTheTide";
+int numPlayers = 3;
 
 runExperiment(game, numPlayers);
 //runAllGames();
@@ -15,8 +15,11 @@ static void runExperiment(string game, int numPlayers)
         Game = game,
         PlayerCount = numPlayers,
         NumGames = 1,
-        Players = [PlayerType.PIPMC, ],
-        Logging = true
+        Players = [PlayerType.PIPMC],
+        Logging = true,
+        numTests = 20,
+        numSamples = 10,
+        imperfectLevel = ImperfectLevel.TAKEN,
     };
 
     Console.WriteLine(exp.Game + ", " + exp.PlayerCount);

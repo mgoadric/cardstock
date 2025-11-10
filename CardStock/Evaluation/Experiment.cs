@@ -13,6 +13,8 @@ namespace CardStock.Evaluation
         public int numSamples = 1000; // rollouts per move
         public int numTests = 10; // determinizations
 
+        public ImperfectLevel imperfectLevel = ImperfectLevel.PRIVATE;
+
         public string PlayerAbv()
         {
             var ps = Players.Select(s => s.ToString()[0]);

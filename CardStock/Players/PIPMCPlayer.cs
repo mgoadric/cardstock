@@ -5,7 +5,7 @@ using CardStock.Evaluation;
 
 namespace CardStock.Players
 {
-    public class PIPMCPlayer(Perspective perspective) : AIPlayer(perspective)
+    public class PIPMCPlayer(Perspective perspective, DataCollector dc) : AIPlayer(perspective, dc)
     {
 
         private int[] completed;
@@ -13,7 +13,7 @@ namespace CardStock.Players
         private readonly double[][] rankSum = new double[perspective.NumberOfPlayers()][];
         private readonly double[][] scoreSum = new double[perspective.NumberOfPlayers()][];
 
-        private readonly Tuple<CardGame, GameIterator>[] determinizations = new Tuple<CardGame, GameIterator>[GameSimulator.NUMSAMPLES];
+        private readonly Tuple<CardGame, GameIterator>[] determinizations = new Tuple<CardGame, GameIterator>[dc.exp.numSamples];
 
         public override void Explore()
         {
@@ -26,16 +26,16 @@ namespace CardStock.Players
             }
 
             // MAKE THIS MANY DETERMINIZATIONS
-            for (int det = 0; det < GameSimulator.NUMSAMPLES; det++)
+            for (int det = 0; det < dc.exp.numSamples; det++)
             {
                 determinizations[det] = perspective.GetPrivateGame();
             }
 
             // FOR EACH POSSIBLE MOVE
-            for (int i = 0; i < GameSimulator.NUMTESTS / GameSimulator.NUMSAMPLES; i++)
+            for (int i = 0; i < dc.exp.numTests / dc.exp.numSamples; i++)
             {
                 // USE THIS MANY DETERMINIZATIONS
-                for (int det = 0; det < GameSimulator.NUMSAMPLES; det++)
+                for (int det = 0; det < dc.exp.numSamples; det++)
                 {
                     // AND RUN THIS MANY ROLLOUTS
                     Parallel.For(0, numChoices, move =>   //number of tests for certain decision

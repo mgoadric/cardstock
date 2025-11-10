@@ -1,10 +1,11 @@
-;; Scopa in the GDL
-;; https://www.pagat.com/fishing/scopa.html
+;; Scopone in the GDL
+;; https://www.pagat.com/fishing/scopone.html
 (game
  (setup  
-  ;; Set up the players, 2 players each on their own team
-  (create players 2)
-  
+  ;; Set up the players, 4 players on two teams
+  (create players 4)
+  (create teams (0, 2) (1, 3))
+
   ;; Create the deck source
   (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, J, H, K))
                                        (SUIT (SWORDS, CUPS, COINS, BATONS)))))        
@@ -34,22 +35,15 @@
             ((RANK : A) 16)))
 
       (shuffle (game iloc STOCK))
+      ;; Deal the players 9 cards each
+      (all player 'P
+            (repeat 9
+                (move (top (game iloc STOCK))
+                      (top ('P iloc HAND)))))     
       (repeat 4
               (move (top (game iloc STOCK))
                     (top (game vloc POOL))))))
   
- ;; Stages of the game
- (stage player
-        (end 
-         (== (size (game iloc STOCK)) 0))
-        
-        ;; Deal the players 3 cards each
-        (do (
-             (all player 'P
-                  (repeat 3
-                          (move (top (game iloc STOCK))
-                                (top ('P iloc HAND)))))))
-        
         ;; Players play their cards one at a time until their hand is empty
         (stage player
                (end 
@@ -72,7 +66,7 @@
                                         (move 'PCF 
                                               (top ((current player) vloc BUNDLE)))
                                         (set ((current player) sto MOVED) 1)
-                                        (set (game sto LAST) (pid (current player))))))    
+                                        )))    
 
                         ;; match subsets of cards IF NO SINGLES???
                         ((!= ((current player) sto MOVED) 1)
@@ -110,7 +104,7 @@
                      (move (top ((current player) vloc TRICK))
                            (top ((current player) vloc BUNDLE))))
                            
-                    (set ((current player) sto MOVED) 0)))))
+                    (set ((current player) sto MOVED) 0))))
 
  ;; Move remaining cards to the last player to make a capture
  (do (
@@ -120,7 +114,7 @@
  ))
 
  ;; First pass through scoring
- (stage player (end (all player 'P (== ('P str SCORING) MID))) 
+ (stage team (end (all player 'P (== ('P str SCORING) MID))) 
     (do (
 
       ;; most cards worth one point
@@ -148,21 +142,21 @@
       )
 
       ;; mid scoring turn is done
-      (set ((current player) str SCORING) MID)
+      (all (filter player 'P (== (team 'P) (current team))) 'P (set (('P str SCORING) MID)))
   )))
 
  ;; second scoring pass, after aggregation of Primera values
- (stage player (end (all player 'P (== ('P str SCORING) END))) 
+ (stage team (end (all team 'T (== ('T str SCORING) END))) 
    (do (
 
       ;; highest primiera scores one point
-      ((> ((current player) sto PRIMIERA)
-          ((next player) sto PRIMIERA))
-         (inc ((current player) sto SCORE))
+      ((> ((current team) sto PRIMIERA)
+          ((next team) sto PRIMIERA))
+         (inc ((current team) sto SCORE))
       )
 
       ;; scoring turn is done
-      (set ((current player) str SCORING) END)
+      (set ((current team) str SCORING) END)
   )))  
 
- (scoring max ((current player) sto SCORE)))
+ (scoring max ((team (current player)) sto SCORE)))
