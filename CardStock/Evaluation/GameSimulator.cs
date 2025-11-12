@@ -14,7 +14,7 @@ namespace CardStock.Evaluation {
         public const int CHOICELIMIT = 500; // The upper bound on the number of moves in a game before it is called.
         public const int LOOPLIMIT = 200; // The upper bound on the number of actions without a choice interrupting
 
-        public const ImperfectLevel imperfectLevel = ImperfectLevel.PRIVATE;
+        public const ImperfectLevel imperfectLevel = ImperfectLevel.TAKEN;
 
         public void LoadGame() {
 

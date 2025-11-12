@@ -2114,7 +2114,12 @@ namespace CardStock.FreezeFrame
             }
             else if (intNode.divide() is not null)
             {
-                return ProcessInt(intNode.divide().@int(0)) / ProcessInt(intNode.divide().@int(1));
+                var divisor = ProcessInt(intNode.divide().@int(1));
+                if (divisor == 0)
+                {
+                    Console.WriteLine("Division by zero: " + intNode.GetText());
+                }
+                return ProcessInt(intNode.divide().@int(0)) / divisor;
             }
             else if (intNode.@add() is not null)
             {

@@ -14,10 +14,10 @@ static void runExperiment(string game, int numPlayers)
     {
         Game = game,
         PlayerCount = numPlayers,
-        NumGames = 1,
+        NumGames = 100,
         Players = [PlayerType.PIPMC],
         Logging = true,
-        numTests = 20,
+        numTests = 100,
         numSamples = 10,
         imperfectLevel = ImperfectLevel.TAKEN,
     };
