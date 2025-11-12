@@ -1,14 +1,18 @@
-;; Nanuk
+;; Nanuk by Mark Goadrich and Brett Myers
 ;;
 ;; 
 
 (game 
-    (declare 'NUMP 6)
+    (declare 6 'NUMP)
+    (declare (DEER, SEAL, FISH, BIRD) 'ANIMALS)
     (setup
         (create players 'NUMP)
-        (create deck (game iloc STOCK) 
-        (repeat 'NUMP (create deck HUNT (game vloc HUNT) (CHOICE (HUNT)))) 
-        (repeat 'NUMP (create deck HUNT (game vloc DOOM) (CHOICE (DOOM)))) 
+        (repeat 4 (create deck (game iloc STOCK) (deck (ANIMAL (INUKSUK)))))
+        (repeat 18 (create deck (game iloc STOCK) (deck (ANIMAL (DEER, SEAL, FISH, BIRD)) (COUNT (ONE)))))
+        (repeat 3 (create deck (game iloc STOCK) (deck (ANIMAL (DEER, SEAL, FISH, BIRD)) (COUNT (TWO)))))
+        (repeat 3 (create deck (game iloc STOCK) (deck (ANIMAL (DEER, SEAL, FISH, BIRD)) (COUNT (ONE)) (HAZARD (NANUK)))))
+        (repeat 'NUMP (create deck HUNT (game vloc HUNT) (deck (CHOICE (HUNT))))) 
+        (repeat 'NUMP (create deck HUNT (game vloc DOOM) (deck (CHOICE (DOOM)))))
     )
     
     (do (
@@ -28,49 +32,88 @@
                                 (top ('P iloc HAND))))
             )))
     ))
-    (stage player (end ())
-        ;;(do (
+
+    ;; Play multiple rounds of the game
+    ;;(stage player (end ())
+        (do (
             ;; flip the coin for clockwise or counterclockwise
             ;; TODO
 
-        ;;))
+            (set (game sto DAYS) 1)
+            (set (game sto ANIMALS) 0)
+            (set (game str ANIMAL) NONE)
+        ))
 
         ;; bidding, until someone says DOOM
-        (stage player (end (== ())))
+        (stage player (end (== (game str HUNT) DOOMED))
             (choice (
                 ;; raise the bid for animals
-                (set (game sto ANIMALS) (range (+ 1 (game sto ANIMALS))..12))
+                (any (range (+ 1 (game sto ANIMALS))..12) 'R
+                    (do (
+                        (set (game sto ANIMALS) 'R)
+                        (any 'ANIMALS 'A
+                            (set (game str ANIMAL) 'A)
+                        )
+                    ))
+                )
 
                 ;; raise the bid for days
-                (set (game sto DAYS) (range (+ 1 (game sto DAYS))..12))
+                ((> (game sto ANIMALS) 0)
+                 (any (range (+ 1 (game sto DAYS))..12) 'R
+                    (set (game sto DAYS) 'R)))
 
                 ;; raise the bid for both
-                (do (
-                    (set (game sto ANIMALS) (range (+ 1 (game sto ANIMALS))..12))
-                    (set (game sto DAYS) (range (+ 1 (game sto DAYS))..12))
-                ))
+                (any (range (+ 1 (game sto DAYS))..12) 'DR
+                    (any (range (+ 1 (game sto ANIMALS))..12) 'AR
+
+                        (do (
+                            (set (game sto ANIMALS) 'AR)
+                            (set (game sto DAYS) 'DR)
+                            (any 'ANIMALS 'A
+                                (set (game str ANIMAL) 'A)
+                            )
+                        ))
+
+                    )
+                )
 
                 ;; or declare the hunt is DOOMED!
-                (do (
+                ((> (game sto ANIMALS) 0)
+                 (do (
                     (set (game str HUNT) DOOMED)
                     (set (game sto DOOMSAYER) (pid (current player)))
                     (set (game sto HUNTLEADER) (pid (previous player)))
-                ))
-            )) 
+                 ))
+                )
+            ))
         )
 
         (do (
             ;; set turn order
             (cycle current ((game sto DOOMSAYER) player))
+            (set (game str HUNT) ACTIVE)
         ))
 
         ;; blind bid for who joins the hunt and who dooms
         (stage player (end (all player 'P (== (size ('P iloc TEMP)) 1)))
             (choice (
 
+                ((== (pid (current player)) (game sto HUNTLEADER))
+                 (move (top (filter ((current player) iloc HUNTDOOM) 'FC (== (cardatt CHOICE 'FC) HUNT)))
+                       (top ((current player) iloc TEMP)))
+                )
+
+                ((== (pid (current player)) (game sto DOOMSAYER))
+                 (move (top (filter ((current player) iloc HUNTDOOM) 'FC (== (cardatt CHOICE 'FC) DOOM)))
+                       (top ((current player) iloc TEMP)))
+                )
+               
                 ;; choose hunt card or doom card
-                (any ((current player) iloc HUNTDOOM) 'HDC 
+                ((and (!= (pid (current player)) (game sto HUNTLEADER))
+                      (!= (pid (current player)) (game sto DOOMSAYER)))
+                 (any ((current player) iloc HUNTDOOM) 'HDC 
                     (move 'HDC (top ((current player) iloc TEMP)))
+                 )
                 )
             ))
         )
@@ -82,7 +125,8 @@
                       (top ('P vloc TEAM))))
         ))
 
-        (stage player (end ())
+        ;; each player contributes to the hunt, or antes up as a doomer
+        (stage player (end (all player 'P (== ('P str STATE) FINISHED)))
             (choice (
                 ;; if hunting, play 1-3 cards to pool
                 ((== (cardatt CHOICE (top ((current player) vloc TEAM))) HUNT)
@@ -98,18 +142,26 @@
                     (move 'C (top ((current player) iloc ANTE))))
                 )
             ))
+
+            (do (
+                (set ((current player) str STATE) FINISHED)
+            ))
         )
 
         (do (
             ;; reveal the hunt pool cards
-            (repeat all (move (top (game iloc HUNTPOOL))
-                              (top (game vloc HUNTPOOL))))
+            (repeat all (move (top (game iloc POOL))
+                              (top (game vloc POOL))))
         ))
 
         ;; flip cards until days met or Nanuk not countered by Inuksuk
-        (stage player (end ())
+        (stage player (end (or (== (size (game vloc DAYS)) (game sto DAYS))
+                               (> (size (filter (game vloc DAYS) 'FC (== (cardatt HAZARD 'FC) NANUK)))
+                                  (size (filter (union (game vloc POOL) (game vloc DAYS)) 'FC (== (cardatt ANIMAL 'FC) INUKSUK))))))
             (do (
                 ;; reveal a card from the deck, add to the days pile
+                (move (top (game iloc STOCK))
+                      (top (game vloc DAYS)))
 
                 ;; if not enough cards, take from EXTRA and players hands
                 ;; shuffle to make the draw deck
@@ -119,16 +171,56 @@
 
         (do (
             ;; determine if hunt was successful or doomed
+            ((or (> (size (filter (game vloc DAYS) 'FC (== (cardatt HAZARD 'FC) NANUK)))
+                    (size (filter (union (game vloc POOL) (game vloc DAYS)) 'FC (== (cardatt ANIMAL 'FC) INUKSUK))))
+                 (< (game sto ANIMALS)
+                    (size (filter (union (game vloc POOL) (game vloc DAYS)) 'FC (== (cardatt ANIMAL 'FC) (game str ANIMAL))))))
+             (set (game str HUNT) DOOM)
+            )
+
+            ((and (<= (size (filter (game vloc DAYS) 'FC (== (cardatt HAZARD 'FC) NANUK)))
+                      (size (filter (union (game vloc POOL) (game vloc DAYS)) 'FC (== (cardatt ANIMAL 'FC) INUKSUK))))
+                  (>= (game sto ANIMALS)
+                      (size (filter (union (game vloc POOL) (game vloc DAYS)) 'FC (== (cardatt ANIMAL 'FC) (game str ANIMAL))))))
+             (set (game str HUNT) HUNT)
+            )
+
+            ;; add day cards to pool
+            (repeat all (move (top (game vloc DAYS))
+                              (top (game vloc POOL))))            
 
             ;; add doom ante cards to pool
-            (repeat all (move (top (game iloc DOOMANTE))
-                              (top (game vloc HUNTPOOL))))
+            (repeat all (move (top (game iloc ANTE))
+                              (top (game vloc POOL))))
+
+            (set (game sto WINNERS) (size (filter player 'P (== (cardatt CHOICE (top ('P vloc TEAM))) (game str HUNT)))))
 
             ;; successful leader or correct doomsayer gets one card
+            ((== (game str HUNT) HUNT)
+             (move (top (game vloc POOL))
+                   (top (((game sto HUNTLEADER) player) vloc REWARDS)))
+            )
+
+            ((== (game str HUNT) DOOM)
+             (move (top (game vloc POOL))
+                   (top (((game sto DOOMSAYER) player) vloc REWARDS)))
+            )
+
+            (set (game sto DIVVY) (// (size (game vloc POOL)) (game sto WINNERS)))
 
             ;; if doomed and you doomed, or if successful and hunting, you get cards
+            (all player 'P
+                ((== (game str HUNT)
+                     (cardatt CHOICE (top ('P vloc TEAM))))
+                 (repeat (game sto DIVVY)
+                    (move (top (game vloc POOL))
+                          (top ('P vloc REWARDS)))))
+            )
 
             ;; put leftover cards in EXTRA spot
+            (repeat all
+                (move (top (game vloc POOL))
+                      (top (game vloc EXTRA))))
 
             ;; deal everyone back up to three cards
 
@@ -141,5 +233,5 @@
                 (move (top ('P vloc TEAM))
                       (top ('P iloc HUNTDOOM))))           
         ))
-    )
-    (scoring (max (size ((current player) vloc REWARDS))))
+    ;;)
+    (scoring max (size ((current player) vloc REWARDS))))

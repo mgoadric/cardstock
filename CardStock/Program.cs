@@ -2,8 +2,8 @@ using CardStock.CardEngine;
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "TurnTheTide";
-int numPlayers = 3;
+string game = "BustedJunk/Nanuk";
+int numPlayers = 6;
 
 runExperiment(game, numPlayers);
 //runAllGames();
