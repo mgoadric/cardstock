@@ -1,0 +1,88 @@
+;; Sushi Go
+;;
+;; https://cdn.1j1ju.com/medias/e5/92/74-sushi-go-rulebook.pdf
+
+(game
+    (setup
+        (create players 4)
+        (repeat 14 (create deck (game iloc STOCK) (deck (ITEM (TEMPURA, SASHIMI, DUMPLING)))))
+        (repeat 12 (create deck (game iloc STOCK) (deck (ITEM (SUSHI)) (COUNT (TWO)))))
+        (repeat 8 (create deck (game iloc STOCK) (deck (ITEM (SUSHI)) (COUNT (THREE)))))
+        (repeat 6 (create deck (game iloc STOCK) (deck (ITEM (SUSHI)) (COUNT (ONE)))))
+        (repeat 10 (create deck (game iloc STOCK) (deck (ITEM (NIGIRI)) (TYPE (SALMON)))))
+        (repeat 5 (create deck (game iloc STOCK) (deck (ITEM (NIGIRI)) (TYPE (SQUID, EGG)))))
+        (repeat 10 (create deck (game iloc STOCK) (deck (ITEM (PUDDING)))))
+        (repeat 6 (create deck (game iloc STOCK) (deck (ITEM (WASABI)))))
+        (repeat 4 (create deck (game iloc STOCK) (deck (ITEM (CHOPSTICKS)))))
+    )
+
+    ;; shuffle and assign points
+    (do (
+        (shuffle (game iloc STOCK))
+
+        (set (game points POINTS) 
+        )
+    ))
+
+    ;; Play three rounds
+    (stage player
+        (end (== (game sto ROUND) 3))
+
+        ;; deal cards to each player
+        (do (
+            (all player 'P
+                (repeat 9
+                    (move (top (game iloc STOCK))
+                          (top ('P iloc HAND)))))
+        ))
+
+        ;; Choose a card and pass, simultaneous
+        (stage player 
+            (end (all player 'P (== (size ('P iloc HAND)) 0)))
+
+            (stage player
+                (end (all player 'P (== (size ('P iloc SELECTED)) 1)))
+
+                ;; pick a card
+                (choice (
+                    (any ((current player) iloc HAND) 'C
+                        (move 'C 
+                            (top ((current player) iloc SELECTED))))
+                ))
+
+                (do (
+                    (repeat all
+                        (move (top ((current player) iloc HAND))
+                              (top ((next player) hloc NEXTHAND))))
+                ))
+            )
+
+            (do (
+                ;; add card to Collected cards
+                (all player 'P
+                    (do (
+                        (move (top ('P iloc SELECTED))
+                              (top ('P vloc COLLECTED)))
+                        (repeat all
+                            (move (top ('P hloc NEXTHAND))
+                                  (top ('P iloc HAND))))
+                    ))
+                )
+            ))
+        )
+
+        ;; Round Scoring
+        (do (
+
+
+            (inc (game sto ROUND))
+        ))
+    )
+
+    ;; final scoring
+    (do (
+
+    ))
+
+    (scoring max ((current player) sto SCORE))
+)

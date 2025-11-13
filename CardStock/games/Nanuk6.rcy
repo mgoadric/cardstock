@@ -1,6 +1,6 @@
 ;; Nanuk by Mark Goadrich and Brett Myers
 ;;
-;; 
+;; https://www.sjgames.com/nanuk/img/nanuk_rules.pdf
 
 (game 
     (declare 6 'NUMP)
@@ -18,6 +18,10 @@
     (do (
         ;; shuffle the deck
         (shuffle (game iloc STOCK))
+
+        (set (game points NUMBER)
+           (((COUNT : ONE) 1)
+            ((COUNT : TWO) 2)))
 
         (all player 'P
             (do (
@@ -170,17 +174,21 @@
         )
 
         (do (
+
+            (set (game sto ANIMALS) (game sto ANIMALS))
+            (set (game sto HUNTANIMALS) (sum (filter (union (game vloc POOL) (game vloc DAYS)) 'FC (== (cardatt ANIMAL 'FC) (game str ANIMAL))) using (game points NUMBER)))
+
             ;; determine if hunt was successful or doomed
             ((or (> (size (filter (game vloc DAYS) 'FC (== (cardatt HAZARD 'FC) NANUK)))
                     (size (filter (union (game vloc POOL) (game vloc DAYS)) 'FC (== (cardatt ANIMAL 'FC) INUKSUK))))
-                 (< (game sto ANIMALS)
-                    (size (filter (union (game vloc POOL) (game vloc DAYS)) 'FC (== (cardatt ANIMAL 'FC) (game str ANIMAL))))))
+                 (< (sum (filter (union (game vloc POOL) (game vloc DAYS)) 'FC (== (cardatt ANIMAL 'FC) (game str ANIMAL))) using (game points NUMBER))
+                    (game sto ANIMALS)))
              (set (game str HUNT) DOOM))
 
             ((and (<= (size (filter (game vloc DAYS) 'FC (== (cardatt HAZARD 'FC) NANUK)))
                       (size (filter (union (game vloc POOL) (game vloc DAYS)) 'FC (== (cardatt ANIMAL 'FC) INUKSUK))))
-                  (>= (game sto ANIMALS)
-                      (size (filter (union (game vloc POOL) (game vloc DAYS)) 'FC (== (cardatt ANIMAL 'FC) (game str ANIMAL))))))
+                  (>= (sum (filter (union (game vloc POOL) (game vloc DAYS)) 'FC (== (cardatt ANIMAL 'FC) (game str ANIMAL))) using (game points NUMBER))
+                      (game sto ANIMALS)))
              (set (game str HUNT) HUNT))
 
             ;; add day cards to pool
