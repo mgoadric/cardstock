@@ -77,7 +77,7 @@ namespace CardStock.Evaluation {
                     DirectoryInfo? directoryInfo = file.Directory;
                     directoryInfo?.Create();
 
-                    CardGame game = new();
+                    CardGame game = new(exp);
                     var gamePlay = new FreezeFrame.GameIterator(tree, game, path + (i + 1), exp);
                     if (game.players.Length > MAXPLAYERS)
                     {

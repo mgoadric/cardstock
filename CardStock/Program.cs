@@ -15,9 +15,9 @@ static void runExperiment(string game, int numPlayers)
         Game = game,
         PlayerCount = numPlayers,
         NumGames = 100,
-        Players = [PlayerType.PIPMC],
-        Logging = true,
-        numTests = 100,
+        Players = [PlayerType.PIPMC, PlayerType.PIPMC, PlayerType.PIPMC, PlayerType.PIPMC, PlayerType.PIPMC, PlayerType.PIPMC, ],
+        Logging = false,
+        numTests = 500,
         numSamples = 10,
         imperfectLevel = ImperfectLevel.TAKEN,
     };

@@ -19,18 +19,20 @@ namespace CardStock.CardEngine
         public bool activeTeams = false;
         public List<Team> teams = [];
         public Stack<StageCycle<Team>> currentTeam = new();
+        public Experiment exp;
 
-        public CardGame()
+        public CardGame(Experiment exp)
         {
             table[0] = new Owner("table", 0);
             // ADDING HERE TO MAKE HASHCODE NOT FAIL
             players = [];
+            this.exp = exp;
 
         }
 
         private CardGame CloneCommon()
         {
-            var temp = new CardGame(); //here, players is being initialzed as an empty list of players
+            var temp = new CardGame(exp); //here, players is being initialzed as an empty list of players
 
             // Clone Source Deck and Index Cards
             //*****************
@@ -191,7 +193,7 @@ namespace CardStock.CardEngine
             }
         }
 
-        private static void CloneVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
+        private void CloneVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
                                       Dictionary<string, Card[]> tempsourceDeck, Dictionary<string, HashSet<int>> free, int playerIdx)
         {
             foreach (Owner owner in owners)
@@ -199,15 +201,15 @@ namespace CardStock.CardEngine
                 foreach (var collection in owner.cardBins.Values())
                 {
                     bool visible = false;
-                    if (GameSimulator.imperfectLevel >= ImperfectLevel.HIDDEN)
+                    if (exp.imperfectLevel >= ImperfectLevel.HIDDEN)
                     {
                         visible = visible || collection.type == CCType.VISIBLE || collection.type == CCType.MEMORY;
                     }
-                    if (GameSimulator.imperfectLevel >= ImperfectLevel.PRIVATE)
+                    if (exp.imperfectLevel >= ImperfectLevel.PRIVATE)
                     {
                         visible = visible || (collection.type == CCType.INVISIBLE && owner.GetType() == typeof(Player) && owner.id == playerIdx);
                     }
-                    if (GameSimulator.imperfectLevel >= ImperfectLevel.OTHERS)
+                    if (exp.imperfectLevel >= ImperfectLevel.OTHERS)
                     {
                         visible = visible || (collection.type == CCType.OTHERS && owner.GetType() == typeof(Player) && owner.id != playerIdx);
                     }
@@ -235,7 +237,7 @@ namespace CardStock.CardEngine
                     }
 
                     // For watched known cards.
-                    if (GameSimulator.imperfectLevel >= ImperfectLevel.TAKEN) {
+                    if (exp.imperfectLevel >= ImperfectLevel.TAKEN) {
                         if ((collection.type == CCType.INVISIBLE &&
                                 (owner.GetType() != typeof(Player) || owner.id != playerIdx)) || collection.type == CCType.HIDDEN)
                         {
@@ -258,7 +260,7 @@ namespace CardStock.CardEngine
             }
         }
 
-        private static void AssignNonVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
+        private void AssignNonVisibleCards(IEnumerable<Owner> owners, IReadOnlyList<Owner> tempowners,
                                           Dictionary<string, Card[]> tempsourceDeck, Dictionary<string, IEnumerator<int>> cardsLeft, int playerIdx)
         {
 
@@ -269,16 +271,16 @@ namespace CardStock.CardEngine
                     // WHAT ABOUT TEAMS
 
                     bool hidden = false;
-                    if (GameSimulator.imperfectLevel >= ImperfectLevel.HIDDEN)
+                    if (exp.imperfectLevel >= ImperfectLevel.HIDDEN)
                     {
                         hidden = hidden || collection.type == CCType.HIDDEN;
                     }
-                    if (GameSimulator.imperfectLevel >= ImperfectLevel.PRIVATE)
+                    if (exp.imperfectLevel >= ImperfectLevel.PRIVATE)
                     {
                         hidden = hidden || (collection.type == CCType.INVISIBLE &&
                             (owner.GetType() != typeof(Player) || owner.id != playerIdx));
                     }
-                    if (GameSimulator.imperfectLevel >= ImperfectLevel.OTHERS)
+                    if (exp.imperfectLevel >= ImperfectLevel.OTHERS)
                     {
                         hidden = hidden || (collection.type == CCType.OTHERS &&
                             (owner.GetType() != typeof(Player) || owner.id == playerIdx));
@@ -290,7 +292,7 @@ namespace CardStock.CardEngine
 
                         var tempCollection = tempowners[owner.id].cardBins[collection.type, collection.name];
                         int cardsNeeded = collection.Count;
-                        if (GameSimulator.imperfectLevel >= ImperfectLevel.TAKEN)
+                        if (exp.imperfectLevel >= ImperfectLevel.TAKEN)
                         {
                             cardsNeeded -= collection.KnownCount();
                         }
