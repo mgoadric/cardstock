@@ -20,8 +20,15 @@
     (do (
         (shuffle (game iloc STOCK))
 
-        (set (game points POINTS) 
-        )
+      (set (game points SUSHI)
+           (((COUNT : ONE) 1) 
+            ((COUNT : TWO) 2)
+            ((COUNT : THREE) 3)))
+
+      (set (game points NIGIRI)
+           (((TYPE : EGG) 1) 
+            ((TYPE : SALMON) 2)
+            ((TYPE : SQUID) 3)))
     ))
 
     ;; Play three rounds
@@ -31,7 +38,7 @@
         ;; deal cards to each player
         (do (
             (all player 'P
-                (repeat 9
+                (repeat 8
                     (move (top (game iloc STOCK))
                           (top ('P iloc HAND)))))
         ))
@@ -50,6 +57,8 @@
                             (top ((current player) iloc SELECTED))))
                 ))
 
+                ;; how to handle chopsticks??? TODO
+
                 (do (
                     (repeat all
                         (move (top ((current player) iloc HAND))
@@ -61,8 +70,19 @@
                 ;; add card to Collected cards
                 (all player 'P
                     (do (
-                        (move (top ('P iloc SELECTED))
-                              (top ('P vloc COLLECTED)))
+                        ;; catch NIGIRI and WASABI
+                        ((and (== (cardatt ITEM (top ('P iloc SELECTED))) NIGIRI)
+                              (> (size (filter ('P vloc COLLECTED) 'FC (== (cardatt ITEM 'FC) WASABI))) 0))
+                         (do (
+                            (move (top ('P iloc SELECTED))
+                                  (top ('P vloc NIGIRI)))
+                            (move (top (filter ('P vloc COLLECTED) 'FC (== (cardatt ITEM 'FC) WASABI)))
+                                  (top ('P vloc WASABI)))
+                         )))
+
+
+                        (repeat all (move (top ('P iloc SELECTED))
+                                          (top ('P vloc COLLECTED))))
                         (repeat all
                             (move (top ('P hloc NEXTHAND))
                                   (top ('P iloc HAND))))
@@ -74,14 +94,86 @@
         ;; Round Scoring
         (do (
 
+            (all player 'P
+                (do (
+                    (all (partition ITEM ('P vloc COLLECTED)) 'PC
+                        (do (
+                            ((== (cardatt ITEM (top 'PC)) SUSHI)
+                             (set ('P sto ROLLS) (sum 'PC using (game points SUSHI))))
+                            ((== (cardatt ITEM (top 'PC)) TEMPURA)
+                             (inc ('P sto SCORE) (// (size 'PC) 2)))
+                            ((== (cardatt ITEM (top 'PC)) SASHIMI)
+                             (inc ('P sto SCORE) (// (size 'PC) 3)))
+                            ((and (== (cardatt ITEM (top 'PC)) DUMPLING)
+                                  (<= (size 'PC) 5))
+                             (inc ('P sto SCORE) (tri (size 'PC))))
+                            ((and (== (cardatt ITEM (top 'PC)) DUMPLING)
+                                  (> (size 'PC) 5))
+                             (inc ('P sto SCORE) 15))
+                            ((== (cardatt ITEM (top 'PC)) NIGIRI)
+                             (inc ('P sto SCORE) (sum 'PC using (game points NIGIRI))))
+                        ))
+                    )
+                    (inc ('P sto SCORE) (* 3 (sum ('P vloc NIGIRI) using (game points NIGIRI))))
+                ))
+            )
+        ))
 
+        ;; check for most SUSHI
+        (stage player 
+            (end (all player 'P (== ('P str SUSHICOUNT) FINISHED)))
+
+            (do (
+                ;; clear first place
+                ((and (> ((current player) sto ROLLS) 0)
+                      (all (other player) 'OP
+                        (> ((current player) sto ROLLS) ('OP sto ROLLS))))
+                 (inc ((current player) sto SCORE) 6))
+
+                ;; tied for first place
+                ((and (> ((current player) sto ROLLS) 0)
+                      (all (other player) 'OP
+                        (>= ((current player) sto ROLLS) ('OP sto ROLLS)))
+                      (> (size (filter (other player) 'FP (== ((current player) sto ROLLS) ('FP sto ROLLS)))) 0))
+                 (inc ((current player) sto SCORE) (// 6 (size (filter player 'FP (== ((current player) sto ROLLS) ('FP sto ROLLS)))))))
+
+                ;; one second place
+                ((and (> ((current player) sto ROLLS) 0)
+                      (== (size (filter (other player) 'FP (< ((current player) sto ROLLS) ('FP sto ROLLS)))) 1) ;; one above
+                      (== (size (filter (other player) 'FP (> ((current player) sto ROLLS) ('FP sto ROLLS)))) (- (size (other player)) 1)) ;; all others below
+                 )
+                 (inc ((current player) sto SCORE) 3))
+
+                ;; tied for second place
+                ((and (> ((current player) sto ROLLS) 0)
+                      (== (size (filter (other player) 'FP (< ((current player) sto ROLLS) ('FP sto ROLLS)))) 1) ;; one above
+                      (== (size (filter (other player) 'FP (>= ((current player) sto ROLLS) ('FP sto ROLLS)))) (- (size (other player)) 1)) ;; all others equal or below
+                      (> (size (filter (other player) 'FP (== ((current player) sto ROLLS) ('FP sto ROLLS)))) 0) ;; some equal
+                 )
+                 (inc ((current player) sto SCORE) (// 3 (size (filter player 'FP (== ((current player) sto ROLLS) ('FP sto ROLLS)))))))
+
+                (set ((current player) str SUSHICOUNT) FINISHED)
+            ))
+        )
+
+        (do (
+
+            (all player 'P
+                (set ('P str SUSHICOUNT) READY))
             (inc (game sto ROUND))
         ))
     )
 
-    ;; final scoring
+    ;; final scoring for puddings
     (do (
 
+        (all player 'P
+            (do (
+                (set ('P sto PUDDINGS) (sum (filter ('P vloc COLLECTED) 'FC (== (cardatt ITEM 'FC) PUDDING)) using (game points PUDDING)))
+            ))
+        )
+
+        ;; check for everyone's pudding score
     ))
 
     (scoring max ((current player) sto SCORE))
