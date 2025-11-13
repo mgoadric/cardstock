@@ -14,7 +14,7 @@ static void runExperiment(string game, int numPlayers)
     {
         Game = game,
         PlayerCount = numPlayers,
-        NumGames = 1,
+        NumGames = 100,
         Players =  [],
         Logging = true,
         numTests = 200,

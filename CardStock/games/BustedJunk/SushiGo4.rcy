@@ -20,12 +20,12 @@
     (do (
         (shuffle (game iloc STOCK))
 
-      (set (game points SUSHI)
+        (set (game points SUSHI)
            (((COUNT : ONE) 1) 
             ((COUNT : TWO) 2)
             ((COUNT : THREE) 3)))
 
-      (set (game points NIGIRI)
+        (set (game points NIGIRI)
            (((TYPE : EGG) 1) 
             ((TYPE : SALMON) 2)
             ((TYPE : SQUID) 3)))
@@ -100,20 +100,31 @@
                         (do (
                             ((== (cardatt ITEM (top 'PC)) SUSHI)
                              (set ('P sto ROLLS) (sum 'PC using (game points SUSHI))))
+
+                            (set ('P str TESTING) TEMPURA)
                             ((== (cardatt ITEM (top 'PC)) TEMPURA)
                              (inc ('P sto SCORE) (// (size 'PC) 2)))
+
+                            (set ('P str TESTING) SASHIMI)
                             ((== (cardatt ITEM (top 'PC)) SASHIMI)
                              (inc ('P sto SCORE) (// (size 'PC) 3)))
+
+                            (set ('P str TESTING) DUMPLING)
                             ((and (== (cardatt ITEM (top 'PC)) DUMPLING)
                                   (<= (size 'PC) 5))
                              (inc ('P sto SCORE) (tri (size 'PC))))
                             ((and (== (cardatt ITEM (top 'PC)) DUMPLING)
                                   (> (size 'PC) 5))
                              (inc ('P sto SCORE) 15))
+
+                            (set ('P str TESTING) NIGIRI)
                             ((== (cardatt ITEM (top 'PC)) NIGIRI)
                              (inc ('P sto SCORE) (sum 'PC using (game points NIGIRI))))
                         ))
                     )
+                    (set ('P str TESTING) WNIGIRI)
+                    (set ('P sto TESTINGSUM) (sum ('P vloc NIGIRI) using (game points NIGIRI)))
+                    (set ('P sto TESTINGMULT) (* 3 (sum ('P vloc NIGIRI) using (game points NIGIRI))))
                     (inc ('P sto SCORE) (* 3 (sum ('P vloc NIGIRI) using (game points NIGIRI))))
                 ))
             )

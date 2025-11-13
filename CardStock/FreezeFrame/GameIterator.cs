@@ -2098,7 +2098,7 @@ namespace CardStock.FreezeFrame
             else if (intNode.mult() is not null)
             {
                 int val = ProcessInt(intNode.mult().@int(0));
-                for (int i = 0; i < intNode.mult().@int().Length; i++)
+                for (int i = 1; i < intNode.mult().@int().Length; i++)
                 {
                     val *= ProcessInt(intNode.mult().@int(i));
                 }
