@@ -48,13 +48,29 @@
             (end (all player 'P (== (size ('P iloc HAND)) 0)))
 
             (stage player
-                (end (all player 'P (== (size ('P iloc SELECTED)) 1)))
+                (end (all player 'P (>= (size ('P iloc SELECTED)) 1)))
 
                 ;; pick a card
                 (choice (
                     (any ((current player) iloc HAND) 'C
                         (move 'C 
                             (top ((current player) iloc SELECTED))))
+
+                    ((and (> (size ((current player) iloc HAND)) 1)
+                          (> (size (filter ((current player) vloc COLLECTED) 'FC (== (cardatt ITEM 'FC) CHOPSTICKS))) 0))
+                     (do (
+                        (any (subsets ((current player) iloc HAND)) 'S
+                            ((== (size 'S) 2)
+                             (do (
+                                (repeat all
+                                    (move (top 'S)
+                                          (top ((current player) iloc SELECTED))))                      
+                                (move (top (filter ((current player) vloc COLLECTED) 'FC (== (cardatt ITEM 'FC) CHOPSTICKS)))
+                                      (top ((next player) hloc NEXTHAND)))
+                             ))
+                            )
+                        )
+                     )))
                 ))
 
                 ;; how to handle chopsticks??? TODO
