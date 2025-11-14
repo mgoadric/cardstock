@@ -101,15 +101,12 @@
                             ((== (cardatt ITEM (top 'PC)) SUSHI)
                              (set ('P sto ROLLS) (sum 'PC using (game points SUSHI))))
 
-                            (set ('P str TESTING) TEMPURA)
                             ((== (cardatt ITEM (top 'PC)) TEMPURA)
                              (inc ('P sto SCORE) (// (size 'PC) 2)))
 
-                            (set ('P str TESTING) SASHIMI)
                             ((== (cardatt ITEM (top 'PC)) SASHIMI)
                              (inc ('P sto SCORE) (// (size 'PC) 3)))
 
-                            (set ('P str TESTING) DUMPLING)
                             ((and (== (cardatt ITEM (top 'PC)) DUMPLING)
                                   (<= (size 'PC) 5))
                              (inc ('P sto SCORE) (tri (size 'PC))))
@@ -117,14 +114,10 @@
                                   (> (size 'PC) 5))
                              (inc ('P sto SCORE) 15))
 
-                            (set ('P str TESTING) NIGIRI)
                             ((== (cardatt ITEM (top 'PC)) NIGIRI)
                              (inc ('P sto SCORE) (sum 'PC using (game points NIGIRI))))
                         ))
                     )
-                    (set ('P str TESTING) WNIGIRI)
-                    (set ('P sto TESTINGSUM) (sum ('P vloc NIGIRI) using (game points NIGIRI)))
-                    (set ('P sto TESTINGMULT) (* 3 (sum ('P vloc NIGIRI) using (game points NIGIRI))))
                     (inc ('P sto SCORE) (* 3 (sum ('P vloc NIGIRI) using (game points NIGIRI))))
                 ))
             )
@@ -135,31 +128,16 @@
             (end (all player 'P (== ('P str SUSHICOUNT) FINISHED)))
 
             (do (
-                ;; clear first place
+                ;; first place
                 ((and (> ((current player) sto ROLLS) 0)
                       (all (other player) 'OP
-                        (> ((current player) sto ROLLS) ('OP sto ROLLS))))
-                 (inc ((current player) sto SCORE) 6))
-
-                ;; tied for first place
-                ((and (> ((current player) sto ROLLS) 0)
-                      (all (other player) 'OP
-                        (>= ((current player) sto ROLLS) ('OP sto ROLLS)))
-                      (> (size (filter (other player) 'FP (== ((current player) sto ROLLS) ('FP sto ROLLS)))) 0))
+                        (<= ('OP sto ROLLS) ((current player) sto ROLLS))))
                  (inc ((current player) sto SCORE) (// 6 (size (filter player 'FP (== ((current player) sto ROLLS) ('FP sto ROLLS)))))))
 
-                ;; one second place
+                ;; second place
                 ((and (> ((current player) sto ROLLS) 0)
-                      (== (size (filter (other player) 'FP (< ((current player) sto ROLLS) ('FP sto ROLLS)))) 1) ;; one above
-                      (== (size (filter (other player) 'FP (> ((current player) sto ROLLS) ('FP sto ROLLS)))) (- (size (other player)) 1)) ;; all others below
-                 )
-                 (inc ((current player) sto SCORE) 3))
-
-                ;; tied for second place
-                ((and (> ((current player) sto ROLLS) 0)
-                      (== (size (filter (other player) 'FP (< ((current player) sto ROLLS) ('FP sto ROLLS)))) 1) ;; one above
-                      (== (size (filter (other player) 'FP (>= ((current player) sto ROLLS) ('FP sto ROLLS)))) (- (size (other player)) 1)) ;; all others equal or below
-                      (> (size (filter (other player) 'FP (== ((current player) sto ROLLS) ('FP sto ROLLS)))) 0) ;; some equal
+                      (== (size (filter (other player) 'FP (> ('FP sto ROLLS) ((current player) sto ROLLS)))) 1) ;; one above
+                      (== (size (filter (other player) 'FP (<= ('FP sto ROLLS) ((current player) sto ROLLS)))) (- (size (other player)) 1)) ;; all others equal or below
                  )
                  (inc ((current player) sto SCORE) (// 3 (size (filter player 'FP (== ((current player) sto ROLLS) ('FP sto ROLLS)))))))
 
@@ -168,7 +146,6 @@
         )
 
         (do (
-
             (all player 'P
                 (set ('P str SUSHICOUNT) READY))
             (inc (game sto ROUND))
@@ -179,13 +156,28 @@
     (do (
 
         (all player 'P
-            (do (
-                (set ('P sto PUDDINGS) (sum (filter ('P vloc COLLECTED) 'FC (== (cardatt ITEM 'FC) PUDDING)) using (game points PUDDING)))
-            ))
+            (set ('P sto PUDDINGS) (size (filter ('P vloc COLLECTED) 'FC (== (cardatt ITEM 'FC) PUDDING))))
         )
-
-        ;; check for everyone's pudding score
     ))
+
+    ;; check for most and least pudding
+    (stage player 
+        (end (all player 'P (== ('P str PUDDINGCOUNT) FINISHED)))
+
+        (do (
+            ;; first place
+            ((all (other player) 'OP
+                (<= ('OP sto PUDDINGS) ((current player) sto PUDDINGS)))
+             (inc ((current player) sto SCORE) (// 6 (size (filter player 'FP (== ((current player) sto PUDDINGS) ('FP sto PUDDINGS)))))))
+
+            ;; last place
+            ((all (other player) 'OP
+                (>= ('OP sto PUDDINGS) ((current player) sto PUDDINGS)))
+             (dec ((current player) sto SCORE) (// 6 (size (filter player 'FP (== ((current player) sto PUDDINGS) ('FP sto PUDDINGS)))))))
+
+            (set ((current player) str PUDDINGCOUNT) FINISHED)
+        ))
+    )        
 
     (scoring max ((current player) sto SCORE))
 )
