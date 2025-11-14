@@ -41,6 +41,8 @@ categorized by genre:
     * [President](https://www.pagat.com/climbing/president.html) (4-5p)
 * Deck Building
     * [Abandon All Artichokes](https://gamewright.com/pdfs/Rules/AAArules_v2.pdf) (2p)
+* Drafting
+    * [Sushi Go!](https://cdn.1j1ju.com/medias/e5/92/74-sushi-go-rulebook.pdf) (4p)
 * Draw and Discard (or Discard and Draw)
     * [Clocktowers](https://boardgamegeek.com/boardgame/12538/clocktowers) (2p)
     * [Golf Six](https://www.pagat.com/draw/golf.html) (2-4p)
