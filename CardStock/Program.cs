@@ -2,7 +2,7 @@ using CardStock.CardEngine;
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "BustedJunk/SushiGo";
+string game = "Escalation";
 int numPlayers = 4;
 
 runExperiment(game, numPlayers);
@@ -17,7 +17,7 @@ static void runExperiment(string game, int numPlayers)
         NumGames = 100,
         Players =  [PlayerType.PIPMC],
         Logging = true,
-        numTests = 20,
+        numTests = 200,
         numSamples = 10,
         imperfectLevel = ImperfectLevel.TAKEN,
     };
