@@ -8,22 +8,24 @@ CreateTeamAction
 ----------------
 
 Teams can be created at any time during the game, and can be created in the initialization
-section of the game. The following code will make four teams, one for each player, in a 
-four-person game. Players are indexed starting at 0.
+section of the game. If there is no team declaration, the default will be for every 
+player to be on their own team. The following code will do the same, make four teams, 
+one for each player, in a four-person game. Players are indexed starting at 1.
 
 .. code-block:: racket
   :linenos:
   
-  (create teams (0) (1) (2) (3))  
+  (create teams (1) (2) (3) (4))  
 
-To add more than one player to a team, write a comma-separated list with each
+
+To add more than one player to a team, use a comma-separated list with each
 team member. This code will create two teams in a four-person game, where team
 members are seated opposite each other.
 
 .. code-block:: racket
   :linenos:
   
-  (create teams (0, 2) (1, 3))
+  (create teams (1, 3) (2, 4))
 
 
 .. InitializeAction

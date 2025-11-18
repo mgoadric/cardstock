@@ -1963,7 +1963,7 @@ namespace CardStock.FreezeFrame
                 }
                 if (who.whodesc().@int() is not null)
                 {
-                    return game.players[ProcessInt(who.whodesc().@int())];
+                    return game.players[ProcessInt(who.whodesc().@int()) - 1];
                 }
             }
             Console.WriteLine("Unknown Player description");
@@ -1994,7 +1994,7 @@ namespace CardStock.FreezeFrame
                 }
                 if (who.whodesc().@int() is not null)
                 {
-                    return game.teams[ProcessInt(who.whodesc().@int())];
+                    return game.teams[ProcessInt(who.whodesc().@int()) - 1];
                 }
             }
             Console.WriteLine("Unknown Team Description.");
@@ -2083,12 +2083,12 @@ namespace CardStock.FreezeFrame
             else if (intNode.pid() is not null)
             {
                 var player = ProcessWhop(intNode.pid().whop());
-                return player.id;
+                return player.id + 1;
             }
             else if (intNode.tid() is not null)
             {
                 var team = ProcessWhot(intNode.tid().whot());
-                return team.id;
+                return team.id + 1;
             }
             else if (intNode.@sizeof() is not null)
             {

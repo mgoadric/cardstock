@@ -5,8 +5,8 @@ using CardStock.Players;
 string game = "Slobberhannes";
 int numPlayers = 4;
 
-runExperiment(game, numPlayers);
-//runAllGames();
+//runExperiment(game, numPlayers);
+runAllGames();
 
 static void runExperiment(string game, int numPlayers)
 {
@@ -16,7 +16,7 @@ static void runExperiment(string game, int numPlayers)
         PlayerCount = numPlayers,
         NumGames = 100,
         Players =  [],
-        Logging = true,
+        Logging = false,
         numTests = 1000,
         numSamples = 10,
         imperfectLevel = ImperfectLevel.TAKEN,

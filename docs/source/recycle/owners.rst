@@ -26,8 +26,8 @@ Player
 ------
 
 As above, a Player tracks storage for Integer_, String_, PointMap_, or CardCollection_ data. These are referenced
-by a String_ name. To reference an individual Player, we can directly refer to the 
-turn order of a Player.
+by a String_ name. To reference an individual Player, we can directly refer to the initial
+index of a Player, starting with 1.
 
 .. code-block:: racket
     
@@ -56,7 +56,7 @@ Team
 
 As above, a Player tracks storage for Integer_, String_, PointMap_, or CardCollection_ data. These are referenced
 by a String_ name. To reference an individual Team, we can directly refer to the 
-turn order of a Team.
+initial index of a Team, starting with 1.
 
 .. code-block:: racket
 

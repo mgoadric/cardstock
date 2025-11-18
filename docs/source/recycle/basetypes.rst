@@ -106,7 +106,7 @@ numbers.
    (random [Integer])
    (random [Integer] .. [Integer])
 
-Each player and team has an id number (player 0, team 1, etc) that can be used as an _Integer.
+Each player and team has an id number (player 1, team 2, etc) that can be used as an _Integer.
 The syntax for the id is as follows:
 
 .. code-block:: racket
