@@ -119,14 +119,14 @@ to have implemented in Recycle. Pull requests are welcome and encouraged!
 ## Requirements
 
 * [Visual Studio Code](https://code.visualstudio.com/)
-* [.NET Core v 9.0](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+* [.NET Core v 10.0](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 * [C# Dev Kit Extension](https://marketplace.visualstudio.com/items/?itemName=ms-dotnettools.csdevkit)
 * [ANTLR4 grammar syntax support](https://marketplace.visualstudio.com/items/?itemName=mike-lischke.vscode-antlr4)
 
 ## Setup
 
 1. Install .NET Install Tool Extension
-2. Get .Net Core 9.0
+2. Get .Net Core 10.0
 3. Install C# Dev Kit Extension
 4. Open `CardStock` folder in the project using Visual Studio Code.
 
