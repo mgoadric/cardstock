@@ -16,14 +16,14 @@ namespace CardStock.FreezeFrame.Actions
             var numTeams = teamList.Count;
             for (int i = 0; i < numTeams; i++)
             {
-                var newTeam = new Team("" + i, i);
-                var teamStr = prefix + ":";
+                var newTeam = new Team("t" + (i + 1), i);
+                var teamStr = prefix + ":t" + (i + 1) + "-> ";
                 for (int j = 0; j < teamList[i].Count; j++)
                 {
-                    newTeam.teamPlayers.Add(cg.players[teamList[i][j]]);
-                    cg.players[teamList[i][j]].team = newTeam;
+                    newTeam.teamPlayers.Add(cg.players[teamList[i][j] - 1]);
+                    cg.players[teamList[i][j] - 1].team = newTeam;
+                    teamStr +=  teamList[i][j] + ",";
                 }
-                teamStr += i + " ";
                 cg.teams.Add(newTeam);
                 script?.WriteToFile(teamStr);
             }

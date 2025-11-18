@@ -115,6 +115,7 @@
 
  ;; First pass through scoring
  (stage team (end (all player 'P (== ('P str SCORING) MID))) 
+  (let (filter player 'P (== (team 'P) (current team))) 'MYP
     (do (
 
       ;; most cards worth one point
@@ -142,8 +143,8 @@
       )
 
       ;; mid scoring turn is done
-      (all (filter player 'P (== (team 'P) (current team))) 'P (set (('P str SCORING) MID)))
-  )))
+      (all 'MYP 'P (set ((current player) str SCORING) MID)
+  ))))
 
  ;; second scoring pass, after aggregation of Primera values
  (stage team (end (all team 'T (== ('T str SCORING) END))) 

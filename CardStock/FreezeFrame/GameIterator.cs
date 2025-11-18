@@ -275,7 +275,7 @@ namespace CardStock.FreezeFrame
                 var numTeams = cg.players.Length;
                 for (int i = 0; i < numTeams; i++)
                 {
-                    ret.Add([i]);
+                    ret.Add([i + 1]);
                 }
             }
             return ret;
