@@ -2,7 +2,7 @@ using CardStock.CardEngine;
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "Slobberhannes";
+string game = "TraditionalTestbed/GolfSix";
 int numPlayers = 4;
 
 //runExperiment(game, numPlayers);
@@ -15,11 +15,11 @@ static void runExperiment(string game, int numPlayers)
         Game = game,
         PlayerCount = numPlayers,
         NumGames = 100,
-        Players =  [],
+        Players =  [PlayerType.MCTS],
         Logging = false,
         numTests = 1000,
         numSamples = 10,
-        imperfectLevel = ImperfectLevel.TAKEN,
+        imperfectLevel = ImperfectLevel.PRIVATE,
     };
 
     Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
@@ -31,7 +31,7 @@ static void runExperiment(string game, int numPlayers)
 
 static void runAllGames()
 {
-    string[] files = Directory.GetFiles("games/TraditionalTestbed/", "*.rcy");
+    string[] files = Directory.GetFiles("games/TraditionalTestbed", "*.rcy");
     //string[] files = Directory.GetFiles("games/", "*.rcy");
     Array.Sort(files);
     foreach (string filename in files)

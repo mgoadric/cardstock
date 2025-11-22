@@ -51,12 +51,11 @@
             ((== (size (game vloc TRICK)) 0)
              (any (partition RANK ((current player) iloc HAND)) 'PAR
                   (any (subsets 'PAR) 'S 
-                        ((> (size 'S) 0)
                          (do (
                               (set (game sto SIZE) (size 'S))
                               (repeat all
                                     (move (top 'S) 
-                                          (top (game vloc TRICK)))))
+                                          (top (game vloc TRICK))))
                          ))
              ))
             )

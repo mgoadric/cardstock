@@ -178,7 +178,7 @@ runsequence: OPEN 'run' ('top' | 'bottom') int cstorage 'using' pointstorage CLO
 // CardCollectionCollections
 cstoragecollection : partition | subset | run | aggcs | varcsc | indexed;
 run: OPEN 'runs' ('largest' | 'all') int cstorage 'using' pointstorage CLOSE ;
-subset : OPEN 'subsets' cstorage CLOSE ; // add aggcs as in partition??
+subset : OPEN 'subsets' cstorage (intop int)? CLOSE ; // add aggcs as in partition??
 partition : OPEN 'partition' str (aggcs | cstorage+?) CLOSE ;
 aggcs : OPEN 'all' collection var cstorage CLOSE ;
 indexed : OPEN 'indexed' locpre locdesc str CLOSE ;

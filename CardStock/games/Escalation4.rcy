@@ -48,8 +48,7 @@
             (any (partition RANK (filter ((current player) iloc HAND) 'FC (and (!= (cardatt RANK 'FC) WATCH)
                                                                                (!= (cardatt RANK 'FC) JOKER)))) 'PAR
                   (any (subsets 'PAR) 'S 
-                        ((> (size 'S) 0)
-                         (do (
+                        (do (
                               ((<= (sum 'S using (game points PRECEDENCE))
                                    (game sto TOTAL))
                                (repeat all
@@ -60,8 +59,7 @@
                               (repeat all
                                     (move (top 'S) 
                                           (top (game vloc TRICK))))
-                         ))
-                        )
+                        ))
                   )
             )
 
@@ -70,9 +68,7 @@
                                                                                (!= (cardatt RANK 'FC) JOKER)))) 'PAR
                   (any (subsets 'PAR) 'S 
                         (any (subsets (filter ((current player) iloc HAND) 'FC (== (cardatt RANK 'FC) JOKER))) 'JS
-                              ((and (> (size 'S) 0) 
-                                    (> (size 'JS) 0)
-                                    (<= (score (top 'S) using (game points PRECEDENCE)) 7))
+                              ((<= (score (top 'S) using (game points PRECEDENCE)) 7)
                                (let (+ (sum 'S using (game points PRECEDENCE))
                                        (* (size 'JS) (score (top 'S) using (game points PRECEDENCE)))) 'NEWTOTAL
                                     (do (
@@ -98,7 +94,6 @@
             ;; you can play jokers by themselves, value 1-7
             (any (subsets (filter ((current player) iloc HAND) 'FC (== (cardatt RANK 'FC) JOKER))) 'JS
                   (any (range 1..7) 'JVALUE
-                        ((> (size 'JS) 0)
                          (let (* (size 'JS) 'JVALUE) 'NEWTOTAL
                               (do (
                                     ((<= 'NEWTOTAL (game sto TOTAL))
@@ -112,7 +107,6 @@
                                                 (top (game vloc TRICK))))
                               ))
                          )
-                        )
                   )
             )
 

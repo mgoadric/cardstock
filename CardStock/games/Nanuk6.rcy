@@ -135,9 +135,8 @@
                 ;; if hunting, play 1-3 cards to pool
                 ((== (cardatt CHOICE (top ((current player) vloc TEAM))) HUNT)
                  (any (subsets ((current player) iloc HAND)) 'S
-                    ((> (size 'S) 0)
                         (repeat all
-                            (move (top 'S) (top (game iloc POOL))))))
+                            (move (top 'S) (top (game iloc POOL)))))
                 )
 
                 ;; if dooming, ante one card privately

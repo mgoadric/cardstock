@@ -50,7 +50,6 @@
             (any (partition RANK (filter ((current player) iloc HAND) 'FC (and (!= (cardatt RANK 'FC) WATCH)
                                                                                (!= (cardatt RANK 'FC) JOKER)))) 'PAR
                   (any (subsets 'PAR) 'S 
-                        ((> (size 'S) 0)
                          (do (
                               ((<= (sum 'S using (game points PRECEDENCE))
                                    (game sto TOTAL))
@@ -63,7 +62,6 @@
                                     (move (top 'S) 
                                           (top (game vloc TRICK))))
                          ))
-                        )
                   )
             )
 

@@ -1348,7 +1348,7 @@ namespace CardStock.FreezeFrame
 
                 foreach (var card in stor.cardList.AllCards())
                 {
-                    var subsettemp = new List<List<Card>>();
+                    var subsettemp = new List<List<Card>>(subsets.Count);
                     foreach (var set in subsets)
                     {
                         var subset = new List<Card>(set)
@@ -1360,13 +1360,14 @@ namespace CardStock.FreezeFrame
                     subsets.AddRange(subsettemp);
                 }
                 Debug.WriteLine("there are now " + subsets.Count + " subsets");
-                var returnList = new CardLocReference[subsets.Count];
-                for (int j = 0; j < subsets.Count; j++)
+                var returnList = new CardLocReference[subsets.Count - 1];
+                // subsets[0] should be the empty set, so ignoring this
+                for (int j = 1; j < subsets.Count; j++)
                 {
                     var cardlist = subsets[j];
                     var cctemp = new CardCollection(CCType.VIRTUAL, cardlist);
 
-                    returnList[j] = new CardLocReference()
+                    returnList[j-1] = new CardLocReference()
                     {
                         cardList = cctemp,
                         name = "{subset " + j + " from " + stor.name + "}"
