@@ -95,7 +95,7 @@
             ((!= (cardatt RANK (top ((current player) vloc TRICK)))
                  (cardatt RANK (top ((next player) vloc TRICK))))
               (do (
-                  (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PHASAEONE))))
+                  (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) using (game points PHASEONE))))
                   
                   ;; winner gets the cards to save for phase 2
                   (all player 'P 

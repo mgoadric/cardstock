@@ -2,11 +2,11 @@ using CardStock.CardEngine;
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "TraditionalTestbed/GolfSix";
-int numPlayers = 4;
+string game = "TraditionalTestbed/Skittgube";
+int numPlayers = 3;
 
-//runExperiment(game, numPlayers);
-runAllGames();
+runExperiment(game, numPlayers);
+//runAllGames();
 
 static void runExperiment(string game, int numPlayers)
 {

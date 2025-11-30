@@ -14,8 +14,8 @@ namespace CardStock.Players
     //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
     public class MCTSPLayer(Perspective perspective, DataCollector dc) : AIPlayer(perspective, dc)
     {
-        private readonly Dictionary<Tuple<CardGame, int>, NodeStats>[] stats = new Dictionary<Tuple<CardGame, int>, NodeStats>[dc.exp.numSamples];
-        private readonly Dictionary<Tuple<CardGame, int>, NodeStats[]>[] movestatetree = new Dictionary<Tuple<CardGame, int>, NodeStats[]>[dc.exp.numSamples];
+        private readonly Dictionary<Tuple<CardGame, int, int>, NodeStats>[] stats = new Dictionary<Tuple<CardGame, int, int>, NodeStats>[dc.exp.numSamples];
+        private readonly Dictionary<Tuple<CardGame, int, int>, NodeStats[]>[] movestatetree = new Dictionary<Tuple<CardGame, int, int>, NodeStats[]>[dc.exp.numSamples];
         private readonly Tuple<CardGame, GameIterator>[] determinizations = new Tuple<CardGame, GameIterator>[dc.exp.numSamples];
         private readonly NodeStats[][] choiceStats = new NodeStats[dc.exp.numSamples][];
 
@@ -74,7 +74,7 @@ namespace CardStock.Players
 
         public void RunSimulation(int det, int sim)
         {
-            HashSet<Tuple<CardGame, int>> visitedstates = [];
+            HashSet<Tuple<CardGame, int, int>> visitedstates = [];
 
             CardGame cg = determinizations[det].Item1.Clone();
             GameIterator gameIterator = determinizations[det].Item2.Clone(cg);
@@ -86,9 +86,9 @@ namespace CardStock.Players
             bool expand = true;
             bool first = true;
             int previdx = -1;
-            Tuple<CardGame, int> parent = Tuple.Create(cg.Clone(), previdx);
-
             int depth = 0;
+            Tuple<CardGame, int, int> parent = Tuple.Create(cg.Clone(), previdx, depth);
+
 
             // "Playing a simulated game"
             while (!gameIterator.AdvanceToChoice())
@@ -113,10 +113,17 @@ namespace CardStock.Players
                         movestatetree[det][parent] = value;
                     }
                     movelist = value;
+                    if (choicenum != movelist.Length)
+                    {
+                        Console.WriteLine("What is this weirdness? cl = " + choicenum + ",mvl = " + movelist.Length);
+                        Console.WriteLine("Depth = " + depth);
+                        Console.WriteLine(parent);
+                    }
 
                     int idx = cg.currentPlayer.Peek().idx;
 
                     int choice = 0;
+                    bool boop = true;
                     if (movelist.Count(s => s is not null) == choicenum)
                     {
                         // USE UCB
@@ -126,7 +133,7 @@ namespace CardStock.Players
                         totalplays = Math.Log(totalplays);
                         for (int i = 0; i < movelist.Length; i++)
                         {
-                            NodeStats child = movelist[i];
+                            NodeStats child = movelist[i];  // How could this be null????
                             int n = child.plays;
 
                             // c parameter is the sqrt(2) part
@@ -145,20 +152,38 @@ namespace CardStock.Players
                     else
                     {
                         choice = gameIterator.ProcessChoice();
+                        boop = false;
                     }
 
                     // Chosen is Tuple with state after move, and the idx of the player who made the move
                     CardGame savestate = gameIterator.game.Clone();
-                    Tuple<CardGame, int> chosen = Tuple.Create(savestate, idx);
-                    previdx = idx;
-                    parent = chosen;
                     depth++;
+                    Tuple<CardGame, int, int> chosen = Tuple.Create(savestate, idx, depth);
+                    previdx = idx;
+                    var oldparent = parent;
+                    parent = chosen;
 
                     visitedstates.Add(chosen);
 
                     // IF THIS IS THE FIRST SIMULATION WHICH HAS ARRIVED AT THIS STATE
                     if (!stats[det].ContainsKey(chosen))
                     {
+                        if (choice >= movelist.Length)
+                        {
+                            Console.WriteLine("AUGH! Choice is " + choice + ", numMoves is " + movelist.Length);
+                            Console.WriteLine("Depth = " + depth);
+                            Console.WriteLine("Old Choice = " + boop);
+                            Console.WriteLine(oldparent);
+                            Console.WriteLine("The match is with...");
+                            foreach (var b in movestatetree[det].Keys)
+                            {
+                                if (b.Equals(oldparent))
+                                {
+                                    Console.WriteLine("A MATCH!!");
+                                    Console.WriteLine(b);
+                                }
+                            }
+                        }
                         expand = false;
                         NodeStats cstats = new();
                         stats[det][chosen] = cstats;
@@ -179,7 +204,7 @@ namespace CardStock.Players
             var (results, mult) = gameIterator.ProcessScore();
 
             // GO THROUGH VISITED STATES
-            foreach (Tuple<CardGame, int> stateandplayer in visitedstates)
+            foreach (Tuple<CardGame, int, int> stateandplayer in visitedstates)
             {
                 NodeStats node = stats[det][stateandplayer];
                 node.plays += 1;

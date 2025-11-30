@@ -1,0 +1,174 @@
+;; Block Rummy
+;;
+;; https://www.pagat.com/rummy/rummy.html
+
+(game
+ (setup
+  (create players 2)
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+                                       (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                                              (BLACK (SUIT (CLUBS, SPADES)))))))
+ (do (
+      ;; set scoring points for the cards
+      (set (game points POINTS)
+           (
+            ((RANK : K) 10)
+            ((RANK : Q) 10)
+            ((RANK : J) 10)
+            ((RANK : TEN) 10)
+            ((RANK : NINE) 9)
+            ((RANK : EIGHT) 8)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+            ((RANK : TWO) 2)
+            ((RANK : A) 1)))
+      (set (game points SEQUENCE)
+            (
+            ((SUIT : HEARTS) 100)
+            ((SUIT : CLUBS) 200)
+            ((SUIT : SPADES) 300)
+            ((SUIT : DIAMONDS) 400)
+            ((RANK : K) 13) 
+            ((RANK : Q) 12) 
+            ((RANK : J) 11) 
+            ((RANK : TEN) 10) 
+            ((RANK : NINE) 9) 
+            ((RANK : EIGHT) 8) 
+            ((RANK : SEVEN) 7) 
+            ((RANK : SIX) 6) 
+            ((RANK : FIVE) 5) 
+            ((RANK : FOUR) 4) 
+            ((RANK : THREE) 3) 
+            ((RANK : TWO) 2) 
+            ((RANK : A) 1) 
+            ))
+
+      ;; Shuffle the deck, give each player 10 cards
+      (shuffle (game iloc STOCK))    
+      (all player 'P
+           (repeat 10 (move (top (game iloc STOCK)) 
+                            (top ('P iloc HAND)))))
+      (move (top (game iloc STOCK))
+            (top (game vloc DISCARD)))
+ ))
+
+ ;; play the game until one player has no cards
+ (stage player
+        (end 
+          (or (any player 'P (== (size ('P iloc HAND)) 0))
+              (== (size (game iloc STOCK)) 0))
+        )
+
+        (do (
+            (set ((current player) str LAYOFF) DRAWING)
+        ))
+        
+        ;; Draw a card
+        (choice (
+          
+            (move (top (game iloc STOCK)) 
+                  (top ((current player) iloc HAND)))
+           
+            (do (
+                (move (top (game vloc DISCARD)) 
+                      (top((current player) iloc HAND)))
+                (remember (top ((current player) iloc HAND))
+                          (top ((current player) mem DRAW)))))))
+
+        (do (
+            (set ((current player) str LAYOFF) MELDING)
+        ))
+
+        ;; play a meld
+        (choice (
+            ;; run
+            (any (runs all 3 ((current player) iloc HAND) using (game points SEQUENCE)) 'R
+                (do (
+                    (repeat all (move (top 'R)
+                                   (top (game vloc RUN (game sto RUNCOUNT)))))
+                    (inc (game sto RUNCOUNT))
+                ))
+            )  
+
+            ;; set
+            (any (partition RANK ((current player) iloc HAND)) 'P 
+                ((>= (size 'P) 3)
+                 (do (
+                    (repeat all (move (top 'P)
+                                   (top (game vloc SET (game sto SETCOUNT)))))
+                    (inc (game sto SETCOUNT))
+                 ))
+                )
+            )
+
+            ;; do nothing
+            (turn pass)
+        ))
+
+        (do (
+            (set ((current player) str LAYOFF) READY)
+        ))
+
+        (stage player (end (any player 'P (== ('P str LAYOFF) DONE)))
+
+            ;; layoff to other melds.
+            (choice (
+                ;; sets
+                (any ((current player) iloc HAND) 'C 
+                    (any (indexed game vloc SET) 'S
+                        ((== (cardatt RANK 'C)
+                            (cardatt RANK (top 'S)))
+                        (do (
+                            (move 'C
+                                  (top 'S))
+                            (cycle next (current player)))))))
+
+                ;; runs
+                (any ((current player) iloc HAND) 'C 
+                    (any (filter (indexed game vloc RUN) 'FS (> (size 'FS) 0))
+                        'S
+                        (do (
+                            ((== (+ 1 (score 'C using (game points SEQUENCE)))
+                                 (score (top 'S) using (game points SEQUENCE)))
+                                (do ((move 'C
+                                           (top 'S))
+                                    (set (game str TESTING) SUCCESS)
+                                    (cycle next (current player)))))
+                            ((== (- 1 (score 'C using (game points SEQUENCE)))
+                                ( score (bottom 'S) using (game points SEQUENCE)))
+                                (do ((move 'C
+                                           (bottom 'S))
+                                    (cycle next (current player)))))
+                        ))
+                    )
+                )
+
+                ;; or pass
+                (set ((current player) str LAYOFF) DONE)
+            ))
+        )
+
+        ;; Discard a card
+        (choice (
+            ;; if you have no cards left, pass
+            ((== (size ((current player) iloc HAND)) 0) 
+             (turn pass))
+             
+            (any ((current player) iloc HAND) 'C 
+             ;; cannot discard the card you drew from the discard pile
+             ((or (<= (size ((current player) mem DRAW)) 1) ;; unless it is your last card
+                  (!= 'C (top ((current player) mem DRAW))))
+              (move 'C (top (game vloc DISCARD)))))
+        ))
+
+        (do (
+            ((> (size ((current player) mem DRAW)) 0)
+             (forget (top ((current player) mem DRAW))))
+        ))
+ )
+
+ (scoring min (sum ((current player) iloc HAND) using (game points POINTS)))
+)
