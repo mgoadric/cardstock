@@ -2,7 +2,7 @@ using CardStock.CardEngine;
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "TraditionalTestbed/Skittgube";
+string game = "TraditionalTestbed/Scarto";
 int numPlayers = 3;
 
 runExperiment(game, numPlayers);
@@ -15,7 +15,7 @@ static void runExperiment(string game, int numPlayers)
         Game = game,
         PlayerCount = numPlayers,
         NumGames = 100,
-        Players =  [PlayerType.MCTS],
+        Players =  [],
         Logging = false,
         numTests = 1000,
         numSamples = 10,
