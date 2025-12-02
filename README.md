@@ -107,6 +107,7 @@ categorized by genre:
        * [Agram](https://www.pagat.com/last/agram.html) (2-5p)
        * [Duck Soup](http://www.parlettgames.uk/oricards/ducksoup.html) (2p)
        * [Euchre](https://www.pagat.com/euchre/euchre.html) (4p)
+       * [Scarto](https://en.wikipedia.org/wiki/Scarto) (3p)
        * [The Fox in the Forest](https://boardgamegeek.com/filepage/148606/official-english-rulebook)  (2p)
        * [The Bottle Imp](https://tesera.ru/images/items/11335/Bottle_Imp_Rules_EN.pdf) (3-4p)
 * Unique
