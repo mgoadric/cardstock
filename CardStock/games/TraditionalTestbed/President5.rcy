@@ -37,45 +37,45 @@
   (end (all player 'P (== (size ('P iloc HAND)) 0)))
   (choice (
 
-   ;; First of new trick, play anything
-   ((== (size (game vloc TRICK)) 0)
+   ;; First, play anything
+   ((== (size (game vloc PLAY)) 0)
     (any (partition RANK ((current player) iloc HAND)) 'PAR
      (any (subsets 'PAR) 'S 
       (do (
        (set (game sto SIZE) (size 'S))
        (repeat all
         (move (top 'S) 
-              (top (game vloc TRICK))))
+              (top (game vloc PLAY))))
       ))
     ))
    )
 
-   ;; play anything that beats the current TRICK and is the same size
-   ((> (size (game vloc TRICK)) 0)
+   ;; play anything that beats the current PLAY and is the same size
+   ((> (size (game vloc PLAY)) 0)
     (any (partition RANK ((current player) iloc HAND)) 'PAR
      (any (subsets 'PAR) 'S 
       ((and (== (size 'S) (game sto SIZE))
             (> (score (top 'S) using (game points PRECEDENCE))
-               (score (top (game vloc TRICK)) using (game points PRECEDENCE))))
+               (score (top (game vloc PLAY)) using (game points PRECEDENCE))))
        (repeat all 
         (move (top 'S) 
-              (top (game vloc TRICK)))))
+              (top (game vloc PLAY)))))
     ))
    )
 
    ;; you can always pass if you are not the first player
-   ((or (> (size (game vloc TRICK)) 0)
+   ((or (> (size (game vloc PLAY)) 0)
         (== (size ((current player) iloc HAND)) 0))
     (inc (game sto PASSING)))
   ))
 
   (do (
-   ;; if everyone passed, then discard the TRICK
+   ;; if everyone passed, then discard the PLAY
    ((== (game sto PASSING) (- 'NUMP 1))
     (do (
      (set (game sto PASSING) 0)
      (repeat all 
-      (move (top (game vloc TRICK))
+      (move (top (game vloc PLAY))
             (top (game vloc DISCARD))))
     ))
    )

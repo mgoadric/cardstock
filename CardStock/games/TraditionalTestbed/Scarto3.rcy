@@ -19,8 +19,7 @@
  
  ;; Stages of the game
  (do (
-  (set (game points SCORE)
-   (
+  (set (game points SCORE) (
       ((RANK : KING) 4)
       ((RANK : PAGAT) 4)
       ((RANK : ANGEL) 4)
@@ -198,10 +197,12 @@
 
                   ;; Adding 1 to size accounts for the fool
                     (inc ((current player) sto SCORE) (// (+ 1 (size ((current player) vloc TRICKSWON))) 3))
+
+                    ;; should we subtract 26 from each score? Authentic, but not important for one round.
                     (repeat all
                             (move (top ((current player) vloc TRICKSWON))
                                   (top (game vloc DISCARD)))))))
  
- (scoring min ((current player) sto SCORE)))
+ (scoring max ((current player) sto SCORE)))
 
 
