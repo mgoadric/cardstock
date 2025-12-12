@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.Json;
 
 namespace CardStock.CardEngine
 {
@@ -179,6 +180,17 @@ namespace CardStock.CardEngine
         public string TranscriptName()
         {
             return owner.owner.name + ":" + type + ":" + name;
+        }
+
+        public Dictionary<string, string> ToJSON()
+        {
+            var data = new Dictionary<string, string>
+            {
+                ["owner"] = owner.owner.name,
+                ["type"] = type.ToString(),
+                ["name"] = name,
+            };
+            return data;
         }
 
         public string MovementName()

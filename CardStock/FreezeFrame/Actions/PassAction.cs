@@ -1,13 +1,19 @@
+using System.Text.Json;
+
 namespace CardStock.FreezeFrame.Actions
 {
     /************
      * Passing Action
      ********/
-    public class PassAction(Logger script) : GameAction('Y', script)
+    public class PassAction(Logger script) : GameAction("pass", script)
     {
         public override void Execute()
         {
-            script?.WriteToFile(prefix + ":passing");
+            var data = new Dictionary<string, string>
+            {
+                ["action"] = prefix,
+            };
+            script?.WriteToFile(JsonSerializer.Serialize(data));
         }
         public override void Undo()
         {

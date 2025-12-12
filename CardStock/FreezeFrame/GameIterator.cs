@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
+using System.Text.Json;
 
 namespace CardStock.FreezeFrame
 {
@@ -174,14 +175,24 @@ namespace CardStock.FreezeFrame
 
             game.PushPlayer();
             game.CurrentPlayer().SetMember(0);
+            var r = new List<Dictionary<string, object>>();
+            var data = new Dictionary<string, object> {
+                ["results"] = r
+            };
             for (int i = 0; i < results.Length; i++)
             {
                 var score = ProcessInt(scoreMethod.@int());
-                script?.WriteToFile("Q:" + i + " " + score);
+                var s = new Dictionary<string, object>
+                {
+                    ["player"] = "p" + (i + 1),
+                    ["score"] = score
+                };
+                r.Add(s);
                 results[i] = score;
                 game.CurrentPlayer().Next();
             }
             game.PopPlayer();
+            script?.WriteToFile(JsonSerializer.Serialize(data));                
 
             int mult = 1;
             if (scoreMethod.GetChild(2).GetText() == "min")
@@ -210,9 +221,20 @@ namespace CardStock.FreezeFrame
                 if (playerCreate.@int() is not null)
                 {
                     var numPlayers = ProcessInt(playerCreate.@int());
-                    script?.WriteToFile("#:" + numPlayers);
+                    var data = new Dictionary<string, object>
+                    {
+                        ["action"] = "players",
+                        ["count"] = numPlayers,
+                    };
+                    script?.WriteToFile(JsonSerializer.Serialize(data));
                     game.AddPlayers(numPlayers, this);
-                    script?.WriteToFile("T:" + game.currentPlayer.Peek().CurrentName());
+                    data = new Dictionary<string, object>
+                    {
+                        ["action"] = "cycle",
+                        ["type"] = "now",
+                        ["who"] = game.currentPlayer.Peek().CurrentName(),
+                    };                    
+                    script?.WriteToFile(JsonSerializer.Serialize(data));
                 }
                 else
                 {
@@ -784,12 +806,24 @@ namespace CardStock.FreezeFrame
                             case "player":
 
                                 game.CurrentPlayer().Next();
-                                script?.WriteToFile("T:" + game.CurrentPlayer().CurrentName());
+                                var data = new Dictionary<string, object>
+                                {
+                                    ["action"] = "cycle",
+                                    ["type"] = "now",
+                                    ["who"] = game.CurrentPlayer().CurrentName(),
+                                };                    
+                                script?.WriteToFile(JsonSerializer.Serialize(data));
                                 break;
 
                             case "team":
                                 game.CurrentTeam().Next();
-                                script?.WriteToFile("T:" + game.CurrentTeam().CurrentName());
+                                data = new Dictionary<string, object>
+                                {
+                                    ["action"] = "cycle",
+                                    ["type"] = "now",
+                                    ["who"] = game.CurrentTeam().CurrentName(),
+                                };                    
+                                script?.WriteToFile(JsonSerializer.Serialize(data));
                                 break;
                         }
                     }
@@ -2343,7 +2377,6 @@ namespace CardStock.FreezeFrame
                 --value.Length;
                 string k = key.ToString();
                 string v = value.ToString();
-                script?.WriteToFile("A:" + v + " " + reward);
                 temp.Add(new ValueTuple<string, string, int>(k, v, reward));
             }
             var setValue = new PointMap(temp);

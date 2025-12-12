@@ -14,7 +14,7 @@ namespace CardStock.FreezeFrame.Actions
         public Card card2;
         public bool actualloc1;
         public bool actualloc2;
-        public CardSwapAction(CardLocReference start, CardLocReference end, Logger script) : base('W', script)
+        public CardSwapAction(CardLocReference start, CardLocReference end, Logger script) : base("swap", script)
         {
             if (start.cardList.type == CCType.MEMORY)
             {

@@ -2,8 +2,8 @@ using CardStock.CardEngine;
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "TraditionalTestbed/Scarto";
-int numPlayers = 3;
+string game = "Agram";
+int numPlayers = 2;
 
 runExperiment(game, numPlayers);
 //runAllGames();
@@ -14,9 +14,9 @@ static void runExperiment(string game, int numPlayers)
     {
         Game = game,
         PlayerCount = numPlayers,
-        NumGames = 100,
-        Players =  [PlayerType.PIPMC],
-        Logging = false,
+        NumGames = 1,
+        Players =  [],
+        Logging = true,
         numTests = 1000,
         numSamples = 10,
         imperfectLevel = ImperfectLevel.PRIVATE,

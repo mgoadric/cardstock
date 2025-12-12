@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Diagnostics;
+using System.Reflection.Metadata.Ecma335;
 
 namespace CardStock.CardEngine
 {
@@ -25,6 +26,16 @@ namespace CardStock.CardEngine
             //return idX + ":" + back;
         }
 
+        public Dictionary<string, object> ToJSON()
+        {
+            var data = new Dictionary<string, object>
+            {
+                ["id"] = id,
+                ["attributes"] = cardAtts,
+                ["back"] = back
+            };
+            return data;
+        }
         public override bool Equals(object? obj)
         {
             if (obj is Card c)

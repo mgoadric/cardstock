@@ -1,11 +1,12 @@
 using System.Diagnostics;
+using System.Text.Json;
 using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions
 {
         public class CreateTeamAction : GameAction {
         private readonly List<List<int>> teamList;
-        public CreateTeamAction(List<List<int>> teamList, CardGame cg, Logger? script) : base('E', script)
+        public CreateTeamAction(List<List<int>> teamList, CardGame cg, Logger? script) : base("createteams", script)
         {
             this.teamList = teamList;
             this.cg = cg;
@@ -25,7 +26,13 @@ namespace CardStock.FreezeFrame.Actions
                     teamStr +=  teamList[i][j] + ",";
                 }
                 cg.teams.Add(newTeam);
-                script?.WriteToFile(teamStr);
+                var data = new Dictionary<string, object>
+                {
+                    ["action"] = prefix,
+                    ["team"] = "t" + (i + 1),
+                    ["members"] = teamList[i]
+                };                    
+                script?.WriteToFile(JsonSerializer.Serialize(data));
             }
 
             cg.currentTeam.Push(new StageCycle<Team>(cg.teams));

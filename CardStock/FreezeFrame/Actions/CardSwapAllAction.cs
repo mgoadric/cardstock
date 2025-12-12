@@ -8,7 +8,7 @@ namespace CardStock.FreezeFrame.Actions
         public CardLocReference startLocation;
         public CardLocReference endLocation;
 
-        public CardSwapAllAction(CardLocReference start, CardLocReference end, Logger script) : base('W', script)
+        public CardSwapAllAction(CardLocReference start, CardLocReference end, Logger script) : base("swapall", script)
         {
             if (start.cardList.type == CCType.MEMORY)
             {

@@ -61,6 +61,11 @@ namespace CardStock.CardEngine
             return this;
         }
 
+        public Dictionary<string, Dictionary<string, int>> ToJSON()
+        {
+            return pointLookups;
+        }
+
         public override bool Equals(object? obj)
         {
 

@@ -1,8 +1,9 @@
+using System.Text.Json;
 using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions
 {
-    public class PlayerNextAction(StageCycle<Player> playerCycle, int idx, Logger script) : GameAction('N', script)
+    public class PlayerNextAction(StageCycle<Player> playerCycle, int idx, Logger script) : GameAction("cycle", script)
     {
         private readonly StageCycle<Player> playerCycle = playerCycle;
         private readonly int idx = idx;
@@ -15,7 +16,13 @@ namespace CardStock.FreezeFrame.Actions
                 former = playerCycle.queuedNext;
 			}
             playerCycle.SetNext(idx);
-            script?.WriteToFile(prefix + ":p" + (idx + 1));
+            var data = new Dictionary<string, string>
+            {
+                ["action"] = prefix,
+                ["type"] = "next",
+                ["who"] = "p" + (idx + 1),
+            };
+            script?.WriteToFile(JsonSerializer.Serialize(data));
         }
 
         public override void Undo()

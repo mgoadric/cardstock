@@ -7,7 +7,7 @@ namespace CardStock.FreezeFrame.Actions
     {
         readonly CardLocReference startLocation;
         readonly CardLocReference endLocation;
-        public CardRememberAction(CardLocReference start, CardLocReference end, Logger script) : base('R', script)
+        public CardRememberAction(CardLocReference start, CardLocReference end, Logger script) : base("remember", script)
         {
             startLocation = start;
             endLocation = end;

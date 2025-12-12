@@ -3,6 +3,7 @@ using CardStock.FreezeFrame;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using CardStock.Evaluation;
+using System.Text.Json;
 
 namespace CardStock.CardEngine
 {
@@ -379,8 +380,13 @@ namespace CardStock.CardEngine
                 // use the name to determine which sourceDeck to add
                 tempSource[name].Add(newCard);
                 loc.Add(newCard);
-                script?.WriteToFile("C:" + newCard.ToString() + " " + loc.owner.owner.name + " " + loc.type +
-                    " " + loc.name);
+                var data = new Dictionary<string, object>
+                {
+                    ["action"] = "createcard",
+                    ["card"] = newCard.ToJSON(),
+                    ["location"] = loc.ToJSON(),
+                };
+                script?.WriteToFile(JsonSerializer.Serialize(data));
             }
             //Console.ReadKey();
         }

@@ -1,3 +1,4 @@
+using System.Text.Json;
 using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions
@@ -6,7 +7,7 @@ namespace CardStock.FreezeFrame.Actions
     {
         private readonly int idx;
         private int former;
-        public PlayerNowAction(int idx, CardGame cg, Logger script) : base('T', script)
+        public PlayerNowAction(int idx, CardGame cg, Logger script) : base("cycle", script)
         {
             this.idx = idx;
             this.cg = cg;
@@ -16,7 +17,13 @@ namespace CardStock.FreezeFrame.Actions
         {
             former = cg.CurrentPlayer().Current().id;
             cg.CurrentPlayer().SetMember(idx);
-            script?.WriteToFile(prefix + ":" + cg.CurrentPlayer().CurrentName());
+            var data = new Dictionary<string, string>
+            {
+                ["action"] = prefix,
+                ["type"] = "now",
+                ["who"] = "p" + (idx + 1),
+            };
+            script?.WriteToFile(JsonSerializer.Serialize(data));
         }
 
         public override void Undo()

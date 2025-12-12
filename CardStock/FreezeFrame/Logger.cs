@@ -22,10 +22,9 @@ namespace CardStock.FreezeFrame
             this.fileName = fileName;
             this.exp = exp;
             using StreamWriter file = new(fileName + ".txt");
-            file.WriteLine(";; Starting Transcript");
+            file.WriteLine("{\"name\":\"" + exp.Game + "\",\"actions\":[");
         }
 
-        // TODO Can we move this to another location and call it a Logging class?
         public void WriteToFile(string text)
         {
             using StreamWriter file = new(fileName + ".txt", true);
