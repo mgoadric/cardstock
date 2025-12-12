@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Text.Json;
 using CardStock.CardEngine;
 using CardStock.Evaluation;
 using static System.Net.Mime.MediaTypeNames;
@@ -15,22 +16,29 @@ namespace CardStock.FreezeFrame
 
         // For writing the game transcript
         private readonly string? fileName;
+        private readonly string fileJSON;
         private readonly Experiment exp;
 
         public Logger(string? fileName, Experiment exp)
         {
             this.fileName = fileName;
+            this.fileJSON = this.fileName + ".json";
             this.exp = exp;
-            using StreamWriter file = new(fileName + ".txt");
+            using StreamWriter file = new(fileJSON);
             file.WriteLine("{\"name\":\"" + exp.Game + "\",\"actions\":[");
         }
 
         public void WriteToFile(string text)
         {
-            using StreamWriter file = new(fileName + ".txt", true);
+            using StreamWriter file = new(fileJSON, true);
             file.WriteLine(text);
         }
 
+        public void WriteToJSON(Dictionary<string, object> data)
+        {
+            using StreamWriter file = new(fileJSON, true);
+            file.WriteLine(JsonSerializer.Serialize(data) + ",");
+        }
         private void AddLocation(CardCollection cc)
         {
             var cctup = Tuple.Create(cc.owner.owner.name, cc.type, cc.name);

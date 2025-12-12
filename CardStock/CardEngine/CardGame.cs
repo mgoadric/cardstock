@@ -386,7 +386,7 @@ namespace CardStock.CardEngine
                     ["card"] = newCard.ToJSON(),
                     ["location"] = loc.ToJSON(),
                 };
-                script?.WriteToFile(JsonSerializer.Serialize(data));
+                script?.WriteToJSON(data);
             }
             //Console.ReadKey();
         }

@@ -13,17 +13,17 @@ namespace CardStock.FreezeFrame.Actions
             this.cg = cg;
         }
 
-        public override void Execute()
+        public override void Execute(bool inChoice = false)
         {
             former = cg.CurrentPlayer().Current().id;
             cg.CurrentPlayer().SetMember(idx);
-            var data = new Dictionary<string, string>
+            var data = new Dictionary<string, object>
             {
                 ["action"] = prefix,
                 ["type"] = "now",
                 ["who"] = "p" + (idx + 1),
             };
-            script?.WriteToFile(JsonSerializer.Serialize(data));
+            script?.WriteToJSON(data);
         }
 
         public override void Undo()

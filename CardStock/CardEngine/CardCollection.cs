@@ -93,6 +93,18 @@ namespace CardStock.CardEngine
             return knownCards.Count;
         }
 
+        public int IndexOf(Card c)
+        {
+            for (int i = 0; i < cards.Count; i++)
+            {
+                if (cards[i].Equals(c))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
         public void Add(Card c, int idx)
         {
             cards.Insert(idx, c);
@@ -182,13 +194,15 @@ namespace CardStock.CardEngine
             return owner.owner.name + ":" + type + ":" + name;
         }
 
-        public Dictionary<string, string> ToJSON()
+        public Dictionary<string, object> ToJSON()
         {
-            var data = new Dictionary<string, string>
+            string[] split = name.Split("_");
+            var data = new Dictionary<string, object>
             {
                 ["owner"] = owner.owner.name,
                 ["type"] = type.ToString(),
-                ["name"] = name,
+                ["name"] = split[0],
+                ["index"] = int.Parse(split[1])
             };
             return data;
         }

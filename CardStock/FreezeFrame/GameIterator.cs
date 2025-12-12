@@ -122,7 +122,7 @@ namespace CardStock.FreezeFrame
 
         public int ProcessChoice()
         {
-            script?.WriteToFile("???");
+            script?.WriteToFile("{\"choice\":{\"player\":" + (game.CurrentPlayer().idx + 1) + ",\"choices\":[[");
             var allOptions = BuildOptions();
 
             if (allOptions.Count == 0)
@@ -192,7 +192,8 @@ namespace CardStock.FreezeFrame
                 game.CurrentPlayer().Next();
             }
             game.PopPlayer();
-            script?.WriteToFile(JsonSerializer.Serialize(data));                
+            script?.WriteToJSON(data);
+            script?.WriteToFile("]}");
 
             int mult = 1;
             if (scoreMethod.GetChild(2).GetText() == "min")
@@ -226,7 +227,7 @@ namespace CardStock.FreezeFrame
                         ["action"] = "players",
                         ["count"] = numPlayers,
                     };
-                    script?.WriteToFile(JsonSerializer.Serialize(data));
+                    script?.WriteToJSON(data);
                     game.AddPlayers(numPlayers, this);
                     data = new Dictionary<string, object>
                     {
@@ -234,7 +235,7 @@ namespace CardStock.FreezeFrame
                         ["type"] = "now",
                         ["who"] = game.currentPlayer.Peek().CurrentName(),
                     };                    
-                    script?.WriteToFile(JsonSerializer.Serialize(data));
+                    script?.WriteToJSON(data);
                 }
                 else
                 {
@@ -641,7 +642,7 @@ namespace CardStock.FreezeFrame
                                 // TODO where cycle actions are pushed 
                                 Debug.WriteLine("pushed action" + action);
                                 stackAct.Push(action);
-                                action.TempExecute();
+                                action.Execute(true);
                             }
                         }
                         else
@@ -690,7 +691,7 @@ namespace CardStock.FreezeFrame
                     // adds list of actions to overall choice list to be returned 
                     coll.Reverse();
                     all.Add(coll);
-                    script?.WriteToFile("...");
+                    script?.WriteToFile("],[");
                 }
 
                 // if there are still loopactions,
@@ -812,7 +813,7 @@ namespace CardStock.FreezeFrame
                                     ["type"] = "now",
                                     ["who"] = game.CurrentPlayer().CurrentName(),
                                 };                    
-                                script?.WriteToFile(JsonSerializer.Serialize(data));
+                                script?.WriteToJSON(data);
                                 break;
 
                             case "team":
@@ -822,8 +823,8 @@ namespace CardStock.FreezeFrame
                                     ["action"] = "cycle",
                                     ["type"] = "now",
                                     ["who"] = game.CurrentTeam().CurrentName(),
-                                };                    
-                                script?.WriteToFile(JsonSerializer.Serialize(data));
+                                };    
+                                script?.WriteToJSON(data);
                                 break;
                         }
                     }

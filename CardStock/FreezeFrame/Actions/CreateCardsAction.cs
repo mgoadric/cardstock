@@ -15,7 +15,7 @@ namespace CardStock.FreezeFrame.Actions
             name = n;
             this.cg = cg;
         }
-        public override void Execute()
+        public override void Execute(bool inChoice = false)
         {
             foreach (Card c in location.AllCards())
             {

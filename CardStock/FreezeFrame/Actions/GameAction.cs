@@ -5,22 +5,12 @@ using CardStock.CardEngine;
 namespace CardStock.FreezeFrame.Actions {
 
     public abstract class GameAction(string prefix, Logger? script) {
-        public bool inChoice = false;
         public bool complete;
         public CardGame cg;
         public Logger? script = script;
         public string prefix = prefix;
-        public void ExecuteActual()
-        {
-            inChoice = false;
-            Execute();
-        }
-        public void TempExecute()
-        {
-            inChoice = true;
-            Execute();
-        }
-        public abstract void Execute();
+
+        public abstract void Execute(bool inChoice = false);
         public abstract void Undo();
     }
     
@@ -30,7 +20,7 @@ namespace CardStock.FreezeFrame.Actions {
         public object item = item;
         public int level = level;
 
-        public override void Execute()
+        public override void Execute(bool inChoice = false)
         {
             throw new Exception();
         }

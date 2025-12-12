@@ -9,7 +9,7 @@ namespace CardStock.FreezeFrame.Actions
         {
             foreach (var gameColl in this)
             {
-                gameColl.ExecuteActual();
+                gameColl.Execute();
             }
         }
         public void UndoAll()

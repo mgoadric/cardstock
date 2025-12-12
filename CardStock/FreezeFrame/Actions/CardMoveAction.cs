@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Security.Cryptography;
+using System.Text.Json;
 using CardStock.CardEngine;
 using CardStock.Evaluation;
 
@@ -36,22 +37,37 @@ namespace CardStock.FreezeFrame.Actions
             endLocation = end;
         }
 
-        public override void Execute()
+        public override void Execute(bool inChoice = false)
         {
             try
             {
                 if (startLocation.Count() != 0)
                 {
+                    if (script is not null)
+                    {
+                        cardToMove = startLocation.Get();
+                        owner = cardToMove.Owner;
+                        var data = new Dictionary<string, object>
+                        {
+                            ["action"] = prefix,
+                            ["origin"] = new Dictionary<string, object> {
+                                ["location"] = owner.ToJSON(),
+                                ["index"] = owner.IndexOf(cardToMove)
+                            },
+                            ["destination"] = new Dictionary<string, object> {
+                                ["location"] = endLocation.cardList.ToJSON(),
+                                ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid : 
+                                              endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
+                                                endLocation.cardList.Count 
+                            }
+                        };
+                        script?.WriteToJSON(data);
+                    }
                     cardToMove = startLocation.Remove();
 
                     endLocation.Add(cardToMove);
                     owner = cardToMove.Owner;
                     cardToMove.Owner = endLocation.cardList;
-
-                    var arrow = " -> ";
-                    if (inChoice) { arrow = " ?-> "; }
-
-                    script?.WriteToFile(prefix + ":" + cardToMove.ToString() + " " + owner.TranscriptName() + arrow + endLocation.cardList.TranscriptName());
 
                     Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation);
 

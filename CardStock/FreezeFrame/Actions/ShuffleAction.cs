@@ -8,7 +8,7 @@ namespace CardStock.FreezeFrame.Actions
         private readonly CardLocReference location = location;
         private readonly CardCollection unshuffled = new(CCType.VIRTUAL);
 
-        public override void Execute()
+        public override void Execute(bool inChoice = false)
         {
             foreach (Card c in location.cardList.AllCards())
             {
@@ -21,7 +21,7 @@ namespace CardStock.FreezeFrame.Actions
                 ["action"] = prefix,
                 ["location"] = location.cardList.ToJSON(),
             };
-            script?.WriteToFile(JsonSerializer.Serialize(data));
+            script?.WriteToJSON(data);
         }
         public override void Undo()
         {

@@ -44,7 +44,7 @@ namespace CardStock.FreezeFrame.Actions
             }
         }
 
-        public override void Execute()
+        public override void Execute(bool inChoice = false)
         {
             try
             {

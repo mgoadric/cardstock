@@ -16,7 +16,7 @@ namespace CardStock.FreezeFrame.Actions
                 throw new InvalidOperationException();
             }
         }
-        public override void Execute()
+        public override void Execute(bool inChoice = false)
         {
             var cardToCopy = startLocation.Get();
             var owner = cardToCopy.Owner;

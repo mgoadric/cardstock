@@ -12,7 +12,7 @@ namespace CardStock.FreezeFrame.Actions
             this.cg = cg;
         }
 
-        public override void Execute()
+        public override void Execute(bool inChoice = false)
         {
             var numTeams = teamList.Count;
             for (int i = 0; i < numTeams; i++)
@@ -32,7 +32,7 @@ namespace CardStock.FreezeFrame.Actions
                     ["team"] = "t" + (i + 1),
                     ["members"] = teamList[i]
                 };                    
-                script?.WriteToFile(JsonSerializer.Serialize(data));
+                script?.WriteToJSON(data);
             }
 
             cg.currentTeam.Push(new StageCycle<Team>(cg.teams));

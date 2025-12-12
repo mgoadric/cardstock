@@ -9,20 +9,20 @@ namespace CardStock.FreezeFrame.Actions
         private readonly int idx = idx;
         private int former = -1;
 
-        public override void Execute()
+        public override void Execute(bool inChoice = false)
         {
             // someone already in the queue
             if (playerCycle.queuedNext != -1) {
                 former = playerCycle.queuedNext;
 			}
             playerCycle.SetNext(idx);
-            var data = new Dictionary<string, string>
+            var data = new Dictionary<string, object>
             {
                 ["action"] = prefix,
                 ["type"] = "next",
                 ["who"] = "p" + (idx + 1),
             };
-            script?.WriteToFile(JsonSerializer.Serialize(data));
+            script?.WriteToJSON(data);
         }
 
         public override void Undo()

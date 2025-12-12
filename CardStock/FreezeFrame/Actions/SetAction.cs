@@ -9,7 +9,7 @@ namespace CardStock.FreezeFrame.Actions {
         readonly T value = v;
         T oldValue;
 
-        public override void Execute() {
+        public override void Execute(bool inChoice = false) {
             oldValue = bins[key];
             bins[key] = value;
             complete = true;
@@ -28,7 +28,7 @@ namespace CardStock.FreezeFrame.Actions {
                 data["value"] = pm.ToJSON();
             }
 
-            script?.WriteToFile(JsonSerializer.Serialize(data));
+            script?.WriteToJSON(data);
         }
         public override void Undo() {
             if (complete)
