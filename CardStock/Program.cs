@@ -2,7 +2,7 @@ using CardStock.CardEngine;
 using CardStock.Evaluation;
 using CardStock.Players;
 
-string game = "Agram";
+string game = "Scopa";
 int numPlayers = 2;
 
 runExperiment(game, numPlayers);

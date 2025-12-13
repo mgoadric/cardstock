@@ -150,19 +150,30 @@ namespace CardStock.FreezeFrame
             {
                 var choices = choice.condact();
                 var allOptions = new List<GameActionCollection>(16);
+                var allData = new List<List<Dictionary<string, object>>>(16);
                 for (int i = 0; i < choices.Length; i++)
                 {
                     Debug.WriteLine("choice info: " + choices[i].GetType() + choices[i].GetText());
                     // PROBLEM! TODO when gets through for loop here without pushing any actions (specifically actions)
                     //  then throws off number of choices, indexing choices[1] becomes impossible. 
                     Debug.WriteLine("in for loop");
-                    var gacs = RecurseDo(choices[i]);
+                    var (gacs, temp) = RecurseDo(choices[i]);
                     if (gacs.Count > 0)
                     {
                         Debug.WriteLine("gacs.count > 0");
                         allOptions.AddRange(gacs);
+                        allData.AddRange(temp);
                     }
                 }
+                var data3 = new Dictionary<string, object>
+                {
+                    ["choice"] = new Dictionary<string, object>
+                    {
+                        ["player"] = game.CurrentPlayer().idx + 1,
+                        ["choices"] = allData
+                    }
+                };
+                script?.WriteToJSON(data3);
                 return allOptions;
             }
             Console.WriteLine("Not a choice, why are we in BuildOptions???");
@@ -193,8 +204,7 @@ namespace CardStock.FreezeFrame
                 game.CurrentPlayer().Next();
             }
             game.PopPlayer();
-            script?.WriteToJSON(data);
-            script?.WriteToFile("]}");
+            script?.WriteToJSON(data, "]}");
 
             int mult = 1;
             if (scoreMethod.GetChild(2).GetText() == "min")
@@ -444,7 +454,7 @@ namespace CardStock.FreezeFrame
             return lst;
         }
 
-        private List<GameActionCollection> RecurseDo(RecycleParser.CondactContext cond)
+        private (List<GameActionCollection>, List<List<Dictionary<string, object>>>) RecurseDo(RecycleParser.CondactContext cond)
         {
             var all = new List<GameActionCollection>();
             var allData = new List<List<Dictionary<string, object>>>();
@@ -767,16 +777,7 @@ namespace CardStock.FreezeFrame
                     }
                 }
             }
-            var data3 = new Dictionary<string, object>
-            {
-                ["choice"] = new Dictionary<string, object>
-                {
-                    ["player"] = game.CurrentPlayer().idx,
-                    ["choices"] = allData
-                }
-            };
-            script?.WriteToJSON(data3);
-            return all;
+            return (all, allData);
         }
 
         //this just queues the appropriate actions if condition is met, doesn't execute
