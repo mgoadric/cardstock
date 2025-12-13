@@ -44,7 +44,7 @@ namespace CardStock.FreezeFrame.Actions
             }
         }
 
-        public override void Execute(bool inChoice = false)
+        public override Dictionary<string, object> Execute(bool inChoice = false)
         {
             try
             {
@@ -79,6 +79,8 @@ namespace CardStock.FreezeFrame.Actions
 
                     // Track here to see if it moved from a visible to invisible location TODO
                     // Then record the invisible as the last known location.
+                    complete = true;
+                    return null;
                 }
                 else
                 {
@@ -96,7 +98,6 @@ namespace CardStock.FreezeFrame.Actions
                 }
                 throw;
             }
-            complete = true;
         }
 
         public override void Undo()

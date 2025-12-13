@@ -5,13 +5,17 @@ namespace CardStock.FreezeFrame.Actions
     public class GameActionCollection : List<GameAction>
     {
 
-        public void ExecuteAll()
+        public List<Dictionary<string, object>> ExecuteAll()
         {
+            var coll = new List<Dictionary<string, object>>();
             foreach (var gameColl in this)
             {
-                gameColl.Execute();
+                var data = gameColl.Execute();
+                coll.Add(data);
             }
+            return coll;
         }
+        
         public void UndoAll()
         {
             foreach (var gameColl in this)

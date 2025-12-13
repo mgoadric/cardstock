@@ -364,9 +364,10 @@ namespace CardStock.CardEngine
             currentTeam.Pop();
         }
 
-        public void SetDeck(CardTree cardAttributes, CardCollection loc, string name, Logger? script)
+        public List<Dictionary<string, object>> SetDeck(CardTree cardAttributes, CardCollection loc, string name, Logger? script)
         {
             var combos = cardAttributes.Combinations();
+            var cards = new List<Dictionary<string, object>>();
             foreach (var combo in combos)
             {
                 if (!tempSource.ContainsKey(name))
@@ -380,15 +381,19 @@ namespace CardStock.CardEngine
                 // use the name to determine which sourceDeck to add
                 tempSource[name].Add(newCard);
                 loc.Add(newCard);
+
+                cards.Add(newCard.ToJSON());
+
                 var data = new Dictionary<string, object>
                 {
                     ["action"] = "createcard",
                     ["card"] = newCard.ToJSON(),
                     ["location"] = loc.ToJSON(),
                 };
-                script?.WriteToJSON(data);
+                //script?.WriteToJSON(data);
             }
             //Console.ReadKey();
+            return cards;
         }
 
         public void OptimizeCardSource()

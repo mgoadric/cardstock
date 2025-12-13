@@ -12,9 +12,16 @@ namespace CardStock.FreezeFrame.Actions
             this.cg = cg;
         }
 
-        public override void Execute(bool inChoice = false)
+        public override Dictionary<string, object> Execute(bool inChoice = false)
         {
             var numTeams = teamList.Count;
+            var teams = new List<Dictionary<string, object>>();
+            var data = new Dictionary<string, object>()
+            {
+                ["action"] = prefix,
+                ["teams"] = teams
+            };
+
             for (int i = 0; i < numTeams; i++)
             {
                 var newTeam = new Team("t" + (i + 1), i);
@@ -26,17 +33,18 @@ namespace CardStock.FreezeFrame.Actions
                     teamStr +=  teamList[i][j] + ",";
                 }
                 cg.teams.Add(newTeam);
-                var data = new Dictionary<string, object>
+                var tdata = new Dictionary<string, object>
                 {
-                    ["action"] = prefix,
                     ["team"] = "t" + (i + 1),
                     ["members"] = teamList[i]
                 };                    
-                script?.WriteToJSON(data);
+                //script?.WriteToJSON(tdata);
+                teams.Add(tdata);
             }
 
             cg.currentTeam.Push(new StageCycle<Team>(cg.teams));
             Debug.WriteLine("NUMTEAMS:" + cg.teams.Count);
+            return data;
 		}
 
         public override void Undo()

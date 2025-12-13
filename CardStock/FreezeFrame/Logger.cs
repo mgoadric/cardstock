@@ -34,11 +34,20 @@ namespace CardStock.FreezeFrame
             file.WriteLine(text);
         }
 
-        public void WriteToJSON(Dictionary<string, object> data)
+        public void WriteToJSON(Dictionary<string, object> data, string end = ",")
         {
             using StreamWriter file = new(fileJSON, true);
-            file.WriteLine(JsonSerializer.Serialize(data) + ",");
+            file.WriteLine(JsonSerializer.Serialize(data) + end);
         }
+
+        public void WriteToJSON(List<Dictionary<string, object>> data, string end = ",")
+        {
+            using StreamWriter file = new(fileJSON, true);
+            foreach (var d in data) {
+                file.WriteLine(JsonSerializer.Serialize(d) + end);
+            }
+        }
+
         private void AddLocation(CardCollection cc)
         {
             var cctup = Tuple.Create(cc.owner.owner.name, cc.type, cc.name);

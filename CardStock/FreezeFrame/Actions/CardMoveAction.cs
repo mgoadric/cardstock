@@ -37,36 +37,37 @@ namespace CardStock.FreezeFrame.Actions
             endLocation = end;
         }
 
-        public override void Execute(bool inChoice = false)
+        public override Dictionary<string, object> Execute(bool inChoice = false)
         {
+
             try
             {
                 if (startLocation.Count() != 0)
                 {
+
+
+                    var data = new Dictionary<string, object>();
                     if (script is not null)
                     {
                         cardToMove = startLocation.Get();
                         owner = cardToMove.Owner;
-                        var data = new Dictionary<string, object>
-                        {
-                            ["action"] = prefix,
-                            ["origin"] = new Dictionary<string, object> {
+                        data["action"] = prefix;
+                        data["origin"] = new Dictionary<string, object> {
                                 ["location"] = owner.ToJSON(),
                                 ["index"] = owner.IndexOf(cardToMove)
-                            },
-                            ["destination"] = new Dictionary<string, object> {
+                            };
+                        data["destination"] = new Dictionary<string, object> {
                                 ["location"] = endLocation.cardList.ToJSON(),
                                 ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid : 
                                               endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
                                                 endLocation.cardList.Count 
-                            }
-                        };
-                        script?.WriteToJSON(data);
+                            };
+                        //script?.WriteToJSON(data);
                     }
-                    cardToMove = startLocation.Remove();
 
-                    endLocation.Add(cardToMove);
+                    cardToMove = startLocation.Remove();
                     owner = cardToMove.Owner;
+                    endLocation.Add(cardToMove);
                     cardToMove.Owner = endLocation.cardList;
 
                     Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation);
@@ -94,15 +95,20 @@ namespace CardStock.FreezeFrame.Actions
                             }
                         }
                     }
+                    
                     // Track here to see if it moved from a visible to invisible location TODO
                     // Then record the invisible as the last known location.
+                    complete = true;
+                    return data;
+
                 }
-                    else
-                    {
-                        Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
-                        Console.WriteLine("moving to " + endLocation.ToString());
-                        throw new Exception();
-                    }
+                else
+                {
+                    Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
+                    Console.WriteLine("moving to " + endLocation.ToString());
+                    throw new Exception();
+                }
+
             }
             catch
             {
@@ -113,7 +119,6 @@ namespace CardStock.FreezeFrame.Actions
                 }
                 throw;
             }
-            complete = true;
         }
 
         public override void Undo()

@@ -16,15 +16,34 @@ namespace CardStock.FreezeFrame.Actions
                 throw new InvalidOperationException();
             }
         }
-        public override void Execute(bool inChoice = false)
+        public override Dictionary<string, object> Execute(bool inChoice = false)
         {
             var cardToCopy = startLocation.Get();
             var owner = cardToCopy.Owner;
+
+            var data = new Dictionary<string, object>();
+            if (script is not null)
+            {
+                data["action"] = prefix;
+                data["origin"] = new Dictionary<string, object> {
+                        ["location"] = owner.ToJSON(),
+                        ["index"] = owner.IndexOf(cardToCopy)
+                    };
+                data["destination"] = new Dictionary<string, object> {
+                        ["location"] = endLocation.cardList.ToJSON(),
+                        ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid : 
+                                        endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
+                                        endLocation.cardList.Count 
+                    };
+                //script?.WriteToJSON(data);
+            }
+
             endLocation.Add(cardToCopy);
             script?.WriteToFile(prefix + ":" + cardToCopy.ToString() + " " + owner.TranscriptName() + "->" + endLocation.cardList.TranscriptName());
             if (!inChoice) {
                 script?.AddToMovementFile(cardToCopy.Owner, endLocation.cardList);
             }
+            return data;
         }
         public override void Undo()
         {

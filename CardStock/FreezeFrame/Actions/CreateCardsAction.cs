@@ -15,14 +15,22 @@ namespace CardStock.FreezeFrame.Actions
             name = n;
             this.cg = cg;
         }
-        public override void Execute(bool inChoice = false)
+        public override Dictionary<string, object> Execute(bool inChoice = false)
         {
             foreach (Card c in location.AllCards())
             {
                 before.Add(c);
             }
-            cg.SetDeck(deck, location, name, script);
+            var data = new Dictionary<string, object>
+            {
+                ["action"] = prefix,
+                ["cards"] = cg.SetDeck(deck, location, name, script),
+                ["location"] = location.ToJSON()
+            };
+            //script?.WriteToJSON(data);
+                    
             script?.AddStart(location.MovementName());
+            return data;
         }
         public override void Undo()
         {

@@ -47,7 +47,8 @@ namespace CardStock.FreezeFrame
                 }
 
                 Debug.WriteLine("Setting up game.");
-                ProcessSetup(rules.setup()).ExecuteAll();
+                var data = ProcessSetup(rules.setup()).ExecuteAll();
+                script?.WriteToJSON(data);
 
                 game.OptimizeCardSource();
 
@@ -122,7 +123,6 @@ namespace CardStock.FreezeFrame
 
         public int ProcessChoice()
         {
-            script?.WriteToFile("{\"choice\":{\"player\":" + (game.CurrentPlayer().idx + 1) + ",\"choices\":[[");
             var allOptions = BuildOptions();
 
             if (allOptions.Count == 0)
@@ -134,7 +134,8 @@ namespace CardStock.FreezeFrame
             Debug.WriteLine("processed choices");
             Debug.WriteLine("Choice count for P" + game.CurrentPlayer().idx + ":" + allOptions.Count);
             int choice = game.PlayerMakeChoice(allOptions.Count, game.CurrentPlayer().idx);
-            allOptions[choice].ExecuteAll();
+            var data = allOptions[choice].ExecuteAll();
+            script?.WriteToJSON(data);
             PopCurrentNode();
             totalChoices++;
             return choice;
@@ -446,6 +447,7 @@ namespace CardStock.FreezeFrame
         private List<GameActionCollection> RecurseDo(RecycleParser.CondactContext cond)
         {
             var all = new List<GameActionCollection>();
+            var allData = new List<List<Dictionary<string, object>>>();
             // stack of iterating trees
             var stackTrees = new Stack<IteratingTree>(100);
             // iteratingtree = stack of iterable items (just has basic stack functionality) 
@@ -459,6 +461,7 @@ namespace CardStock.FreezeFrame
             //    so that all possible choices can be found
             stackTrees.Push(stackTree);
             var stackAct = new Stack<GameAction>(100);
+            var stackData = new Stack<Dictionary<string, object>>(100);
             // iterate over stack of stacks
             while (stackTrees.Count != 0)
             {
@@ -642,7 +645,8 @@ namespace CardStock.FreezeFrame
                                 // TODO where cycle actions are pushed 
                                 Debug.WriteLine("pushed action" + action);
                                 stackAct.Push(action);
-                                action.Execute(true);
+                                var data = action.Execute(true);
+                                stackData.Push(data);
                             }
                         }
                         else
@@ -670,7 +674,7 @@ namespace CardStock.FreezeFrame
                 var coll = new GameActionCollection();
                 foreach (GameAction act in stackAct.ToArray())
                 {
-                    // add everythign but loop actions to coll
+                    // add everything but loop actions to coll
                     if (act is not LoopAction)
                     {
                         Debug.WriteLine(act);
@@ -679,19 +683,27 @@ namespace CardStock.FreezeFrame
                     }
                 }
 
+                if (stackData.Count > 0)
+                {
+                    var td = stackData.ToList();
+                    td.Reverse();
+                    allData.Add(td);
+                }
                 while (stackAct.Count > 0 && stackAct.Peek() is not LoopAction)
                 {
                     var temp = stackAct.Pop();
+                    stackData.Pop();
                     Debug.WriteLine("Popping non-loop action off (first time)" + temp);
                     temp.Undo();
                 }
+                // CAN THE WHILE LOOP BE SWAPPED WITH THIS IF STATEMENT?? COULD COMBINE THE UPPER IF WITH THIS ONE
                 if (coll.Count > 0)
                 {
                     // puts game action collection back in stack order 
                     // adds list of actions to overall choice list to be returned 
                     coll.Reverse();
                     all.Add(coll);
-                    script?.WriteToFile("],[");
+                    //script?.WriteToFile("],[");
                 }
 
                 // if there are still loopactions,
@@ -755,6 +767,15 @@ namespace CardStock.FreezeFrame
                     }
                 }
             }
+            var data3 = new Dictionary<string, object>
+            {
+                ["choice"] = new Dictionary<string, object>
+                {
+                    ["player"] = game.CurrentPlayer().idx,
+                    ["choices"] = allData
+                }
+            };
+            script?.WriteToJSON(data3);
             return all;
         }
 
@@ -1002,13 +1023,17 @@ namespace CardStock.FreezeFrame
                 foreach (var act in actions)
                 {
                     //Console.WriteLine(act);
-                    act?.ExecuteAll();
+                    if (act is not null) {
+                        var data = act.ExecuteAll();
+                        script?.WriteToJSON(data);
+                    }
                 }
             }
             else
             {
                 Debug.WriteLine("Processing conditional action.");
-                ProcessAction(cond.action()).ExecuteAll();
+                var data2 = ProcessAction(cond.action()).ExecuteAll();
+                script?.WriteToJSON(data2);
             }
         }
 

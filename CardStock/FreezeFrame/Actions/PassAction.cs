@@ -7,13 +7,14 @@ namespace CardStock.FreezeFrame.Actions
      ********/
     public class PassAction(Logger script) : GameAction("pass", script)
     {
-        public override void Execute(bool inChoice = false)
+        public override Dictionary<string, object> Execute(bool inChoice = false)
         {
             var data = new Dictionary<string, object>
             {
                 ["action"] = prefix,
             };
-            script?.WriteToJSON(data);
+            //script?.WriteToJSON(data);
+            return data;
         }
         public override void Undo()
         {

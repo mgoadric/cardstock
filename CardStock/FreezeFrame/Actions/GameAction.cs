@@ -10,7 +10,7 @@ namespace CardStock.FreezeFrame.Actions {
         public Logger? script = script;
         public string prefix = prefix;
 
-        public abstract void Execute(bool inChoice = false);
+        public abstract Dictionary<string, object> Execute(bool inChoice = false);
         public abstract void Undo();
     }
     
@@ -20,7 +20,7 @@ namespace CardStock.FreezeFrame.Actions {
         public object item = item;
         public int level = level;
 
-        public override void Execute(bool inChoice = false)
+        public override Dictionary<string, object> Execute(bool inChoice = false)
         {
             throw new Exception();
         }

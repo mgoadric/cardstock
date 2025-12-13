@@ -13,7 +13,7 @@ namespace CardStock.FreezeFrame.Actions
             this.cg = cg;
         }
 
-        public override void Execute(bool inChoice = false)
+        public override Dictionary<string, object> Execute(bool inChoice = false)
         {
             former = cg.CurrentPlayer().Current().id;
             cg.CurrentPlayer().SetMember(idx);
@@ -23,7 +23,8 @@ namespace CardStock.FreezeFrame.Actions
                 ["type"] = "now",
                 ["who"] = "p" + (idx + 1),
             };
-            script?.WriteToJSON(data);
+            //cript?.WriteToJSON(data);
+            return data;
         }
 
         public override void Undo()
