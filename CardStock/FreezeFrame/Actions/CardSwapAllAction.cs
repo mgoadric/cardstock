@@ -45,6 +45,16 @@ namespace CardStock.FreezeFrame.Actions
             {
                 if (startLocation.Count() != 0 && endLocation.Count() != 0)
                 {
+
+                    var data = new Dictionary<string, object>();
+                    if (script is not null)
+                    {
+                        data["action"] = prefix;
+                        data["first"] = startLocation.cardList.ToJSON();
+                        data["second"] = endLocation.cardList.ToJSON();
+                        //script?.WriteToJSON(data);
+                    }
+
                     Queue<Card> temp = new();  
                     foreach (var card in startLocation.cardList.AllCards())
                     {
@@ -83,7 +93,7 @@ namespace CardStock.FreezeFrame.Actions
                     // Track here to see if it moved from a visible to invisible location TODO
                     // Then record the invisible as the last known location.
                     complete = true;
-                    return null;
+                    return data;
                 }
                 else
                 {

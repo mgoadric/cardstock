@@ -50,6 +50,27 @@ namespace CardStock.FreezeFrame.Actions
             {
                 if (startLocation.Count() != 0 && endLocation.Count() != 0)
                 {
+                    var data = new Dictionary<string, object>();
+                    if (script is not null)
+                    {
+                        data["action"] = prefix;
+                        card1 = startLocation.Get();
+                        owner1 = card1.Owner;
+                        data["first"] = new Dictionary<string, object> {
+                                ["card"] = card1.ToJSON(),
+                                ["location"] = owner1.ToJSON(),
+                                ["index"] = owner1.IndexOf(card1)
+                            };
+                        card2 = startLocation.Get();
+                        owner2 = card2.Owner;
+                        data["second"] = new Dictionary<string, object> {
+                                ["card"] = card2.ToJSON(),
+                                ["location"] = owner2.ToJSON(),
+                                ["index"] = owner2.IndexOf(card2)
+                            };
+                        //script?.WriteToJSON(data);
+                    }
+
                     card1 = startLocation.Remove();
                     card2 = endLocation.Remove();
                     startLocation.Add(card2);
@@ -80,7 +101,7 @@ namespace CardStock.FreezeFrame.Actions
                     // Track here to see if it moved from a visible to invisible location TODO
                     // Then record the invisible as the last known location.
                     complete = true;
-                    return null;
+                    return data;
                 }
                 else
                 {

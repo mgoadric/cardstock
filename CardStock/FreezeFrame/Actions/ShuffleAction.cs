@@ -21,7 +21,7 @@ namespace CardStock.FreezeFrame.Actions
                 ["action"] = prefix,
                 ["location"] = location.cardList.ToJSON(),
             };
-            script?.WriteToJSON(data);
+            //script?.WriteToJSON(data);
             return data;
         }
         public override void Undo()

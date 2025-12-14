@@ -52,6 +52,7 @@ namespace CardStock.FreezeFrame.Actions
                         cardToMove = startLocation.Get();
                         owner = cardToMove.Owner;
                         data["action"] = prefix;
+                        data["card"] = cardToMove.ToJSON();
                         data["origin"] = new Dictionary<string, object> {
                                 ["location"] = owner.ToJSON(),
                                 ["index"] = owner.IndexOf(cardToMove)
