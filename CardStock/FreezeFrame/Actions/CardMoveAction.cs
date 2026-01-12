@@ -75,6 +75,9 @@ namespace CardStock.FreezeFrame.Actions
 
                     if (!inChoice) {
                         script?.AddToMovementFile(owner, endLocation.cardList);
+
+                        // Track here to see if it moved from a visible to invisible location TODO
+                        // Then record the invisible as the last known location.
                         if (GameSimulator.imperfectLevel >= ImperfectLevel.TAKEN)
                         {
                             if (owner.type == CCType.VISIBLE && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
@@ -82,23 +85,26 @@ namespace CardStock.FreezeFrame.Actions
                                 //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
                                 endLocation.cardList.AddKnown(cardToMove);
                             }
-                            if (owner.type == CCType.INVISIBLE || startLocation.cardList.type == CCType.HIDDEN)
+                            if (owner.type == CCType.INVISIBLE || owner.type == CCType.HIDDEN)
                             {
                                 //Console.WriteLine("Clearing out " + startLocation.cardList.name);
                                 if (endLocation.cardList.type == CCType.VISIBLE)
                                 {
                                     owner.RemoveKnown(cardToMove);
                                 }
-                                else
-                                {
+                                else 
+                                {                                
                                     owner.ClearKnown();
+                                }
+
+                                if (GameSimulator.imperfectLevel >= ImperfectLevel.PASSED && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
+                                {
+                                    //endLocation.cardList.AddPerceived(owner.owner.owner, cardToMove);
                                 }
                             }
                         }
                     }
-                    
-                    // Track here to see if it moved from a visible to invisible location TODO
-                    // Then record the invisible as the last known location.
+                
                     complete = true;
                     return data;
 

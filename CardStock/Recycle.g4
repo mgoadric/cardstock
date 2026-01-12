@@ -2,13 +2,10 @@
 
 // new in version 0.6.4
 //  adding aggi for int
-//  * simultaneous stages
-//  * once around stages
 
 // new in version 0.6.3
 //  addition and multiplication now accept 2+ arguments
 //  inc and dec default to +1 -1 when no int argument
-//  * pointmaps can be updated
 //  swap for cards and cardlocations 
 //  base card storage separated out to own rule
 
@@ -73,12 +70,20 @@
 //  random number (0-?) or (?-?) with ? inclusive
 //  change range to be inclusive
 
-//  TODO make a graph for the locations? Only make explicit if needed?
+// ROADMAP for 1.0
+//  make a graph for the locations? Only make explicit if needed?
 //     would also need ways to talk about neighbors (left, right, up, down) grammar
 //      or by index (0, 0), (1, 0), etc...
-//  TODO stages with count of number of times to cycle, this would avoid the awkward
+//  stages with count of number of times to cycle, this would avoid the awkward
 //     counters currently used
-//  TODO make simultaneous cycles, everyone gets one turn to make the choice within.
+//  make simultaneous cycles, everyone gets one turn to make the choice within.
+//  pointmaps can be updated
+//  subsets should have a filter, so the engine doesn't need to generate every set in the powerset
+//  Players can be eliminated from the current stage
+//  Teams should have the ability to hold cards. need this for Scopone?
+//  Most of the time cards are placed on the top of a location. Make this default?
+//  Replensishing the stock is common, make this a simple language action?
+//  rotation of cards, make them like dominoes
 
 grammar Recycle;
 

@@ -16,8 +16,7 @@
                                               (BLACK (SUIT (CLUBS, SPADES)))))))        
  
  ;; Stages of the game
- (do 
-     (
+ (do (
       (shuffle (game iloc STOCK))
       (all player 'P
            (repeat 6

@@ -15,6 +15,7 @@ namespace CardStock.CardEngine
         public CardStorage owner;
         private List<Card> cards = new(4);
         private readonly HashSet<Card> knownCards = new(4);
+        private readonly Dictionary<string, HashSet<Card>> percievedCards = new(4);
 
         public CardCollection(CCType type)
         {

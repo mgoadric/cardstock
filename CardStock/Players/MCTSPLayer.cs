@@ -65,9 +65,9 @@ namespace CardStock.Players
             // TODO THIS IS MISSING LEAD HISTORY RECORDING!!
             // Record info for heuristic evaluation
             //RecordHeuristics(rankSum);
-            Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
-            Console.WriteLine("{0}", string.Join(", ", movescores));
-            Console.WriteLine("{0}", string.Join(", ", choiceplays));
+            //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
+            //Console.WriteLine("{0}", string.Join(", ", movescores));
+            //Console.WriteLine("{0}", string.Join(", ", choiceplays));
 
             return max;
         }

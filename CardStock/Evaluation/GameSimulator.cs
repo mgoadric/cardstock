@@ -52,6 +52,7 @@ namespace CardStock.Evaluation {
         public bool RunExperiment() {
 
             Stopwatch stopwatch = new();
+            double totalTime = 0;
 
             /***********
             * Set up the data recording files
@@ -122,6 +123,7 @@ namespace CardStock.Evaluation {
                      * WRITE OUT STATS
                      *************/
                     dc.RecordGameStatistics(i, results, mult, stopwatch.Elapsed.TotalMilliseconds);
+                    totalTime += stopwatch.Elapsed.TotalMilliseconds;
 
                     numFinished++;
                     Console.WriteLine("Finished game " + numFinished + " of " + exp.NumGames);
@@ -140,6 +142,7 @@ namespace CardStock.Evaluation {
         
 
             dc.Close();
+            Console.WriteLine("Total Time: " + totalTime);
 
             return true;
         }

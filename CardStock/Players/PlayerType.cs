@@ -24,6 +24,5 @@ namespace CardStock.Players
                 _ => new RandomPlayer(perspective, dc),
             };
         }
-       
 }
 }

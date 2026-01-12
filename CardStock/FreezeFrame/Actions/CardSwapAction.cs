@@ -95,11 +95,13 @@ namespace CardStock.FreezeFrame.Actions
                     if (!inChoice) {
                         script?.AddToMovementFile(owner1, owner2);
                         script?.AddToMovementFile(owner2, owner1);
+
+                        // Track here to see if it moved from a visible to invisible location TODO
+                        // Then record the invisible as the last known location.
+
                     }
                     Debug.WriteLine("Swapped Cards '" + card1 + " to " + endLocation.locIdentifier);
 
-                    // Track here to see if it moved from a visible to invisible location TODO
-                    // Then record the invisible as the last known location.
                     complete = true;
                     return data;
                 }
