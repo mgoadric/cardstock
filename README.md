@@ -133,13 +133,24 @@ to have implemented in Recycle. Pull requests are welcome and encouraged!
 
 ## Usage
 
-6. Open the CardStock subdirectory
-7. Write up your game in RECYCLE in the `games` subdirectory.
-8. Alter the `Program.cs` class to specify the name of your game.
-9. Run the program in either Release or Debug mode.
-    1. For Release mode, in the terminal type "dotnet run --configuration Release"
-    2. Choose "Release Mode" to only see the results, or "Debug Mode" to see all game actions (better logs in the future).
-10. Analyse your results (found in the `output` subdirectory) with the Jupyter Notebooks in the `Analysis` directory.
+5. Open the CardStock subdirectory
+6. Write up your game in RECYCLE in the `games` subdirectory.
+7. Run the program in the terminal by typeing "dotnet run --configuration Release"
+   1. Command line arguments specify the name of the game, player count, and other parameters show below.
+9. Analyse your results (found in the `output` subdirectory) with the Jupyter Notebooks in the `Analysis` directory.
+
+| Argument | Parameter | Options | Default |
+|----------|-----------|---------|---------|
+| 0 | Game | any game in the games directory | Agram |
+| 1 | Player Count | 1-9 | 2 |
+| 2 | Number of Games | 1-1000 | 1 |
+| 3 | AI Players | one letter for each player denoting the AI strategy used: M for Monte Carlo Tree Search, P for Pure Monte Carlo, R for Random | all players use Random |
+| 4 | Logging | true/false | false |
+| 5 | Number of Tests | 1-1000 | 1000 | 
+| 6 | Number of Samples | 1-100 | 10 |
+| 7 | Level of Imperfection | NONE, BACK, HIDDEN, PRIVATE, OTHERS, TAKEN, PASSED, ATTRIBUTE | PRIVATE | 
+
+For example "dotnet run --configuration Release Scopa 2 100 MP true" would run 100 simulation of Scopa for 2 players, with the first player using Monte Carlo Tree Search, and the second player using Pure Monte Carlo. The individual choices and a transcript of each simulation would be logged.
 
 ## References
 
