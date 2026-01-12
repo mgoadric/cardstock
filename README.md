@@ -150,7 +150,7 @@ to have implemented in Recycle. Pull requests are welcome and encouraged!
 | 6 | Number of Samples | 1-100 | 10 |
 | 7 | Level of Imperfection | NONE, BACK, HIDDEN, PRIVATE, OTHERS, TAKEN, PASSED, ATTRIBUTE | PRIVATE | 
 
-For example "dotnet run --configuration Release Scopa 2 100 MP true" would run 100 simulation of Scopa for 2 players, with the first player using Monte Carlo Tree Search, and the second player using Pure Monte Carlo. The individual choices and a transcript of each simulation would be logged.
+For example "dotnet run --configuration Release Scopa 2 100 MP true" would run 100 simulations of Scopa for 2 players, with the first player using Monte Carlo Tree Search, and the second player using Pure Monte Carlo. The individual choices and a transcript of each simulation would be logged.
 
 ## References
 
