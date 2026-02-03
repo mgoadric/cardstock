@@ -134,8 +134,8 @@ to have implemented in Recycle. Pull requests are welcome and encouraged!
 ## Usage
 
 5. Open the CardStock subdirectory
-6. Write up your game in RECYCLE in the `games` subdirectory.
-7. Run the program in the terminal by typeing "dotnet run --configuration Release"
+6. Write up your game in RECYCLE in the `games` subdirectory. Name it with the name of the game, followed by the number of players, with the .rcy extension, like `Scopa2.rcy`.
+7. Run the program in the terminal by typing `dotnet run --configuration Release`.
    1. Command line arguments specify the name of the game, player count, and other parameters show below.
 9. Analyse your results (found in the `output` subdirectory) with the Jupyter Notebooks in the `Analysis` directory.
 
