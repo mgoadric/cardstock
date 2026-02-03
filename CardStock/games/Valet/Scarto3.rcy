@@ -33,16 +33,20 @@
       (repeat 25
             (move (top (game iloc STOCK))
                   (top ('P iloc HAND)))))
+
+;; FIXES!!!!
+;; ADD THE LEFTOVER CARDS TO DEALER PLAYER TRICKS
+;; NEED TO MAKE THEM INVISIBLE FOR NOW, THEN REVEAL
+
   (repeat 3
       (move (top (game iloc STOCK))
-            (top ((current player) vloc TRICKSWON))))
+            (top ((previous player) iloc TRICKSWON))))
   (set (game str LEAD) NONE)
  ))
         
       ;; FIRST PLAYER CAN EXCHANGE CARDS WITH THE STOCK (SCARTO)
       ;; SKIPPING FOR NOW
 
-      ;; ADD THE LEFTOVER CARDS TO FIRST PLAYER TRICKS
 
         ;; players play a round 25 times     
         (stage player
@@ -186,7 +190,14 @@
                          ((> (size ('P vloc TRICK)) 0)
                          (move (top ('P vloc TRICK)) 
                                (top ((next player) vloc TRICKSWON))))))))
-        
+        (do (
+            (all player 'P 
+                  (repeat all
+                        (move (top ('P iloc TRICKSWON))
+                              (top ('P vloc TRICKSWON)))))
+        ))
+
+
         ;; determine score
         (stage player
                (end 
