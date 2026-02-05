@@ -48,7 +48,7 @@
 
     (stage player 
         (end (or (< (size (game iloc STOCK)) 3)
-                 (== (game sto CLOSE) 'NUMP)
+                 (> (game sto CLOSE) 'NUMP)
                  (any player 'P 
                     (or (any (partition RANK ('P iloc HAND)) 'RP 
                             (== (sum 'RP using (game points SCORE)) 33))
@@ -58,7 +58,7 @@
     
         (stage player 
             (end (or (== (game sto PASS) 'NUMP)
-                     (== (game sto CLOSE) 'NUMP)
+                     (> (game sto CLOSE) 'NUMP)
                      (any player 'P 
                       (or (any (partition RANK ('P iloc HAND)) 'RP 
                                (== (sum 'RP using (game points SCORE)) 33))
@@ -68,9 +68,6 @@
             (choice (
                 ;; pass
                 (inc (game sto PASS))
-
-                ((== (game sto CLOSE) 0)
-                 (set (game sto CLOSE) 1))
                 
                 ;; exchange all cards with the middle
                 (do (
@@ -87,16 +84,31 @@
                             (set (game sto PASS) 0)
                         ))))
              ))
-             (do (
+
+            (choice (
+                ;; close the game
+                ((== (game sto CLOSE) 0)
+                 (do (
+                    (set (game sto CLOSE) 1)
+                    (set (game sto PASS) 0)
+                 )))
+
+                ;; continue the game
+                (turn pass)
+
+            ))
+
+            ;; if someone has ended the game, increment the counter
+            (do (
                 ((!= (game sto CLOSE) 0)
                  (inc (game sto CLOSE)))
-             ))
+            ))
         )
 
         ;; discard the MIDDLE and deal out 3 more cards
         (do (
             (set (game sto PASS) 0)
-            ((> (size (game iloc STOCK)) 2)
+            ((>= (size (game iloc STOCK)) 3)
              (do (
                  (repeat all (move (top (game vloc MIDDLE))
                                    (top (game vloc DISCARD))))

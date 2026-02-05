@@ -84,9 +84,9 @@ namespace CardStock.FreezeFrame.Actions
                     var arrow = " <-> ";
                     if (inChoice) { arrow = " ?<-> "; }
 
-                    script?.WriteToFile(prefix + ":" + startLocation + arrow + endLocation);
+                    //script?.WriteToFile(prefix + ":" + startLocation + arrow + endLocation);
                     if (!inChoice) {
-                        script?.AddToMovementFile(startLocation.cardList, endLocation.cardList);
+                        //script?.AddToMovementFile(startLocation.cardList, endLocation.cardList);
                     }
                     Debug.WriteLine("Swapped Cards from'" + startLocation + " to " + endLocation);
 

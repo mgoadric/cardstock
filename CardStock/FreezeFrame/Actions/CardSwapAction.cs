@@ -91,10 +91,10 @@ namespace CardStock.FreezeFrame.Actions
                     var arrow = " <-> ";
                     if (inChoice) { arrow = " ?<-> "; }
 
-                    script?.WriteToFile(prefix + ":" + card1.ToString() + " " + owner1.TranscriptName() + arrow + card2.ToString() +  owner2.TranscriptName());
+                    //script?.WriteToFile(prefix + ":" + card1.ToString() + " " + owner1.TranscriptName() + arrow + card2.ToString() +  owner2.TranscriptName());
                     if (!inChoice) {
-                        script?.AddToMovementFile(owner1, owner2);
-                        script?.AddToMovementFile(owner2, owner1);
+                        //script?.AddToMovementFile(owner1, owner2);
+                        //script?.AddToMovementFile(owner2, owner1);
 
                         // Track here to see if it moved from a visible to invisible location TODO
                         // Then record the invisible as the last known location.
