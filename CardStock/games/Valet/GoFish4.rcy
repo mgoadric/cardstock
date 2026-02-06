@@ -43,8 +43,8 @@
                 (any (other player) 'OP
                     (do (
                          (set (game sto ASKED) (pid (current player)))
-                         (cycle current 'OP)
-                         (set (game str RANK) 'R))))))))
+                         (set (game str RANK) 'R)                         
+                         (cycle current 'OP))))))))
 
      (do (
           ;; Makes a collection of cards that new player has in rank R
@@ -71,8 +71,13 @@
                (move (top (game iloc STOCK))
                      (top ((current player) iloc HAND)))
                ((== (cardatt RANK (top ((current player) iloc HAND))) 
-                    (game str RANK)) 
-                (set ((current player) str MATCH) TRUE)))))
+                    (game str RANK))
+                (do (
+                    (move (top ((current player) iloc HAND))
+                          (top (game vloc PASSING)))
+                    (move (top (game vloc PASSING))
+                          (top ((current player) iloc HAND))) 
+                    (set ((current player) str MATCH) TRUE)))))))
 
           ;; if they passed you a card, take them and remember
           ((> (size (game vloc PASSING)) 0)
