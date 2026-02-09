@@ -16,8 +16,8 @@
  ;; Stages of the game
  (do (
   (set (game points SCORE)
-       (((SUIT : HEARTS) 1) 
-        ((RANK : Q) (SUIT : SPADES) 13)))
+   (((SUIT : HEARTS)             1) 
+    ((RANK : Q) (SUIT : SPADES) 13)))
   (shuffle (game iloc STOCK))
   (all player 'P
   (repeat 13
@@ -88,20 +88,12 @@
    (do ( 
     ;; solidfy card recedence
     (set (game points PRECEDENCE)
-           (((SUIT : (game str LEAD)) 100)
-            ((RANK : A) 14)
-            ((RANK : K) 13) 
-            ((RANK : Q) 12)
-            ((RANK : J) 11)
-            ((RANK : TEN) 10)
-            ((RANK : NINE) 9)
-            ((RANK : EIGHT) 8)
-            ((RANK : SEVEN) 7)
-            ((RANK : SIX) 6)
-            ((RANK : FIVE) 5)
-            ((RANK : FOUR) 4)
-            ((RANK : THREE) 3)
-            ((RANK : TWO) 2)))
+     (((SUIT : (game str LEAD)) 100)
+      ((RANK : A)    14) ((RANK : K)    13) ((RANK : Q)    12)
+      ((RANK : J)    11) ((RANK : TEN)  10) ((RANK : NINE)  9)
+      ((RANK : EIGHT) 8) ((RANK : SEVEN) 7) ((RANK : SIX)   6)
+      ((RANK : FIVE)  5) ((RANK : FOUR)  4) ((RANK : THREE) 3)
+      ((RANK : TWO)   2)))
       
     ;; determine who won the hand, set them first next time, and give them a point
     (set (game str LEAD) NONE)
