@@ -1,141 +1,132 @@
 ;; Schwimmen
-
 ;; https://www.pagat.com/commerce/schwimmen.html
+;; Scoring is doubled to keep scores integers
+
 (game
-    (declare 5 'NUMP)
-    (setup
-        (create players 'NUMP)
+ (declare 5 'NUMP)
+ (setup
+  (create players 'NUMP)
 
-        ;; Create the deck source, 32 card piquet pack
-        (create deck (game iloc STOCK) (deck (RANK (SEVEN, EIGHT, NINE, TEN, J, Q, K, A))
-                                         (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
-                                                (BLACK (SUIT (CLUBS, SPADES))))))  
-    )
-    (do (
-        (shuffle (game iloc STOCK))
+  ;; Create the deck source, 32 card piquet pack
+  (create deck (game iloc STOCK) 
+   (deck (RANK (SEVEN, EIGHT, NINE, TEN, J, Q, K, A))
+         (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                (BLACK (SUIT (CLUBS, SPADES)))))))
+ (do (
+  (shuffle (game iloc STOCK))
 
-        ;; give everyone 3 cards, put 3 aside on the table
-        (all player 'P 
-            (repeat 3 (move (top (game iloc STOCK))
-                            (top ('P iloc HAND)))))
-        (repeat 3 (move (top (game iloc STOCK))
-                        (top (game iloc EXTRA))))
-        (set (game points SCORE)
-          (
-            ((RANK : A) 11) 
-            ((RANK : K) 10) 
-            ((RANK : Q) 10) 
-            ((RANK : J) 10) 
-            ((RANK : TEN) 10) 
-            ((RANK : NINE) 9) 
-            ((RANK : EIGHT) 8) 
-            ((RANK : SEVEN) 7) 
-        ))
-    ))
-    (choice (
-        (turn pass)
-
-        ;; dealer can swap their hand if the7 want with the extra
-        (swap ((current player) iloc HAND) (game iloc EXTRA))
-    ))
-
-    ;; flip what is left in EXTRA to the MIDDLE for everyone to see
-    (do (
-        (repeat all (move (top (game iloc EXTRA))
-                          (top (game vloc MIDDLE))))      
-    ))
-
-
-    (stage player 
-        (end (or (< (size (game iloc STOCK)) 3)
-                 (> (game sto CLOSE) 'NUMP)
-                 (any player 'P 
-                    (or (any (partition RANK ('P iloc HAND)) 'RP 
-                            (== (sum 'RP using (game points SCORE)) 33))
-                        (any (partition SUIT ('P iloc HAND)) 'RP
-                            (== (sum 'RP using (game points SCORE)) 31))))
-             ))
-    
-        (stage player 
-            (end (or (== (game sto PASS) 'NUMP)
-                     (> (game sto CLOSE) 'NUMP)
-                     (any player 'P 
-                      (or (any (partition RANK ('P iloc HAND)) 'RP 
-                               (== (sum 'RP using (game points SCORE)) 33))
-                          (any (partition SUIT ('P iloc HAND)) 'RP
-                               (== (sum 'RP using (game points SCORE)) 31))))
-                ))
-            (choice (
-                ;; pass
-                (inc (game sto PASS))
+  ;; give everyone 3 cards, put 3 aside on the table
+  (all player 'P 
+   (repeat 3 (move (top (game iloc STOCK))
+                   (top ('P iloc HAND)))))
+  (repeat 3 (move (top (game iloc STOCK))
+                  (top (game iloc EXTRA))))
                 
-                ;; exchange all cards with the middle
-                (do (
-                    (swap ((current player) iloc HAND) (game vloc MIDDLE))
-                    (set (game sto PASS) 0)
+  ;; set the scores for the cards
+  (set (game points SCORE)
+   (((RANK : A)    11) ((RANK : K)    10) ((RANK : Q)   10) 
+    ((RANK : J)    10) ((RANK : TEN)  10) ((RANK : NINE) 9) 
+    ((RANK : EIGHT) 8) ((RANK : SEVEN) 7)))))
 
-                ))
+ ;; dealer can swap their hand if they want with the extra
+ (choice (
+  (swap ((current player) iloc HAND) (game iloc EXTRA))
 
-                ;; exchange one card in hand for one card on table
-                (any ((current player) iloc HAND) 'HC
-                    (any (game vloc MIDDLE) 'MC 
-                        (do (
-                            (swap 'HC 'MC)
-                            (set (game sto PASS) 0)
-                        ))))
-             ))
+  (turn pass)))
 
-            (choice (
-                ;; close the game
-                ((== (game sto CLOSE) 0)
-                 (do (
-                    (set (game sto CLOSE) 1)
-                    (set (game sto PASS) 0)
-                 )))
+ ;; flip what is left in EXTRA to the MIDDLE for everyone to see
+ (do (
+  (repeat all (move (top (game iloc EXTRA))
+                    (top (game vloc MIDDLE))))))
 
-                ;; continue the game
-                (turn pass)
+ ;; play the game until there are no more cards, 
+ ;; someone closes and all have a turn, or someone has high score
+ (stage player 
+  (end (or (< (size (game iloc STOCK)) 3)
+           (> (game sto CLOSE) 'NUMP)
+           (any player 'P 
+            (or (any (partition RANK ('P iloc HAND)) 'RP 
+                     (== (sum 'RP using (game points SCORE)) 33))
+                (any (partition SUIT ('P iloc HAND)) 'RP
+                     (== (sum 'RP using (game points SCORE)) 31))))))
+    
+  ;; play a round until everyone passes,
+  ;; someone closes and all have a turn, or someone has high score
+  (stage player 
+   (end (or (== (game sto PASS) 'NUMP)
+            (> (game sto CLOSE) 'NUMP)
+            (any player 'P 
+             (or (any (partition RANK ('P iloc HAND)) 'RP 
+                      (== (sum 'RP using (game points SCORE)) 33))
+                 (any (partition SUIT ('P iloc HAND)) 'RP
+                      (== (sum 'RP using (game points SCORE)) 31))))))
 
-            ))
-
-            ;; if someone has ended the game, increment the counter
-            (do (
-                ((!= (game sto CLOSE) 0)
-                 (inc (game sto CLOSE)))
-            ))
-        )
-
-        ;; discard the MIDDLE and deal out 3 more cards
-        (do (
-            (set (game sto PASS) 0)
-            ((>= (size (game iloc STOCK)) 3)
-             (do (
-                 (repeat all (move (top (game vloc MIDDLE))
-                                   (top (game vloc DISCARD))))
-                 (repeat 3 (move (top (game iloc STOCK))
-                                 (top (game vloc MIDDLE))))
-             )))
-        ))
-    )
-
-    ;; calculate the scores
-    (stage player (end (all player 'P (== (size ('P iloc HAND)) 0)))
+   ;; exchange or pass
+   (choice (
+    ;; pass
+    (inc (game sto PASS))
+                
+    ;; exchange all cards with the middle
     (do (
+     (swap ((current player) iloc HAND) (game vloc MIDDLE))
+     (set (game sto PASS) 0)))
 
-        (all (partition SUIT ((current player) iloc HAND)) 'RP 
-           (let (sum 'RP using (game points SCORE)) 'RS 
-             ((> 'RS ((current player) sto SCORE))
-              (set ((current player) sto SCORE) (* 2 'RS)))))
+    ;; exchange one card in hand for one card on table
+    (any ((current player) iloc HAND) 'HC
+     (any (game vloc MIDDLE) 'MC 
+      (do (
+       (swap 'HC 'MC)
+       (set (game sto PASS) 0)))))))
 
-        ((== ((current player) sto SCORE) 66)
-         (set ((current player) sto SCORE) 64))
+   ;; possibly close the game
+   (choice (
+    ((== (game sto CLOSE) 0)
+     (do (
+      (set (game sto CLOSE) 1)
+      (set (game sto PASS) 0))))
 
-        ((any (partition RANK ((current player) iloc HAND)) 'RP
-              (== (size 'RP) 3))
-         (set ((current player) sto SCORE) 61))
+    (turn pass)))
 
-        (repeat all (move (top ((current player) iloc HAND))
-                          (top (game vloc DISCARD))))
-    )))
-    (scoring max ((current player) sto SCORE))
-)
+   ;; if someone has ended the game, increment the counter
+   (do (
+    ((!= (game sto CLOSE) 0)
+     (inc (game sto CLOSE))))))
+
+   ;; when everyone passed, discard the MIDDLE 
+   ;; and deal out 3 more cards
+   (do (
+    (set (game sto PASS) 0)
+    ((>= (size (game iloc STOCK)) 3)
+     (do (
+      (repeat all (move (top (game vloc MIDDLE))
+                        (top (game vloc DISCARD))))
+      (repeat 3 (move (top (game iloc STOCK))
+                      (top (game vloc MIDDLE))))))))))
+
+ ;; calculate the scores (times 2 for simplicity)
+ (stage player 
+  (end (all player 'P (== (size ('P iloc HAND)) 0)))
+  (do (
+
+   ;; best score in one suit is kept
+   (all (partition SUIT ((current player) iloc HAND)) 'RP 
+    (let (sum 'RP using (game points SCORE)) 'RS 
+     ((> 'RS ((current player) sto SCORE))
+      (set ((current player) sto SCORE) (* 2 'RS)))))
+
+   ;; Feuer (fire): a hand of three aces is only 32
+   ((any (partition RANK ((current player) iloc HAND)) 'RP
+         (and (== (size 'RP) 3)
+              (== (cardatt RANK (top 'RP)) A)))
+    (set ((current player) sto SCORE) 64))
+
+   ;; Other three of a kind scores 30.5
+   ((any (partition RANK ((current player) iloc HAND)) 'RP
+         (and (== (size 'RP) 3)
+              (!= (cardatt RANK (top 'RP)) A)))
+    (set ((current player) sto SCORE) 61))
+
+   (repeat all (move (top ((current player) iloc HAND))
+                     (top (game vloc DISCARD)))))))
+
+ (scoring max ((current player) sto SCORE)))

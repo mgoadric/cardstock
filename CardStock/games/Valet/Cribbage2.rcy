@@ -1,18 +1,17 @@
 ;; Cribbage for 2
-;;
 ;; https://www.pagat.com/adders/crib6.html
 
 (game
-    (setup
-        ;; Set up the players, 2 players each on their own team
-        (create players 2)
+ (setup
+  ;; Set up the players, 2 players each on their own team
+  (create players 2)
 
-        ;; Create the deck source - French
-        (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, 
-                                                        SEVEN, EIGHT, NINE, TEN, J, Q, K))
-                                                (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
-                                                        (BLACK (SUIT (CLUBS, SPADES))))))      
-    )
+  ;; Create the deck source - French
+  (create deck (game iloc STOCK) 
+   (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, 
+                SEVEN, EIGHT, NINE, TEN, J, Q, K))
+         (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                (BLACK (SUIT (CLUBS, SPADES)))))))
 
     ;; for testing, each is the dealer once
     (stage player (end 

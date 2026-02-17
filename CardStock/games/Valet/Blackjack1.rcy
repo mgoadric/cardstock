@@ -1,5 +1,4 @@
-;; BLACKJACK simple rules
-;;
+;; BlackJack simple rules
 ;; https://www.pagat.com/banking/blackjack.html
 
 (game
@@ -9,7 +8,8 @@
   
   ;; Create the deck source
   (create deck (game iloc STOCK) 
-   (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+   (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, 
+                SEVEN, EIGHT, NINE, TEN, J, Q, K))
          (COLOR (RED   (SUIT (HEARTS, DIAMONDS)))
                 (BLACK (SUIT (SPADES, CLUBS)))))))          
  

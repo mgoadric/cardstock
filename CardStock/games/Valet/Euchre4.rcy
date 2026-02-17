@@ -1,5 +1,4 @@
 ;; Euchre (American Rules)
-;;
 ;; https://www.pagat.com/euchre/euchre.html
 
 (game
@@ -9,306 +8,238 @@
   (create teams (1, 3) (2, 4))
   
   ;; Create the deck source
-  (create deck (game iloc STOCK) (deck (RANK (NINE, TEN, J, Q, K, A))
-                                         (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
-                                                (BLACK (SUIT (CLUBS, SPADES)))))))        
+  (create deck (game iloc STOCK) 
+   (deck (RANK (NINE, TEN, J, Q, K, A))
+         (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
+                (BLACK (SUIT (CLUBS, SPADES)))))))        
  
-  ;; Stages of the game
-        (do 
-            (
-            ;; JUST FOR TESTING
-             ;;(set ((team (current player)) str BID) MAKER)
-             ;;(set ((team (next player)) str BID) DEFENDER)
+;; Prepare for the game
+ (do (
+  (shuffle (game iloc STOCK))
+  (all player 'P
+   (repeat 5 (move (top (game iloc STOCK))
+                   (top ('P iloc HAND)))))
+  (move (top (game iloc STOCK))
+        (top (game vloc TURNED)))
+  (set (game str LEADSUIT) NONE)
+  (set (game str TRUMPSUIT) (cardatt SUIT (top (game vloc TURNED))))
+  (set (game str TRUMPCOLOR) (cardatt COLOR (top (game vloc TURNED))))))
+                         
+ ;; First chance for bidding
+ (stage player
+  (end (or (all player 'P (== ('P str BID) PASS))
+           (any team 'T (== ('T str BID) MAKER))))
+  (choice (
+   (set ((current player) str BID) PASS)
+   (do (
+    (set ((current player) str BID) PICKUP)
+    (set ((team (current player)) str BID) MAKER)
+    (set ((team (next player)) str BID) DEFENDER)))
 
-             (shuffle (game iloc STOCK))
-             (all player 'P
-                  (repeat 5
-                        (move (top (game iloc STOCK))
-                              (top ('P iloc HAND)))))
-             (move (top (game iloc STOCK))
-                   (top (game vloc TURNED)))
-             (set (game str LEADSUIT) NONE)
-             (set (game str TRUMPSUIT) (cardatt SUIT (top (game vloc TURNED))))
-             (set (game str TRUMPCOLOR) (cardatt COLOR (top (game vloc TURNED))))
-            ))
-                       
-        
-        ;; DETERMINE THE TRUMP AND BIDDING TEAM
-        (stage player
-               (end 
-               (or (all player 'P (== ('P str BID) PASS))
-                   (any team 'T (== ('T str BID) MAKER))))
-             (choice (
-                  (set ((current player) str BID) PASS)
-                  (do (
-                        (set ((current player) str BID) PICKUP)
-                        (set ((team (current player)) str BID) MAKER)
-                        (set ((team (next player)) str BID) DEFENDER)
-                  ))
-                  (do (
-                        (set ((current player) str BID) ALONE)
-                        (set ((team (current player)) str BID) MAKER)
-                        (set ((team (next player)) str BID) DEFENDER)
-                  ))
-             ))
-        )
+   (do (
+    (set ((current player) str BID) ALONE)
+    (set ((team (current player)) str BID) MAKER)
+    (set ((team (next player)) str BID) DEFENDER))))))
 
-        ;; if someone said PICKUP or ALONE, then the dealer takes the card
-        ;; all pass bids are wiped
-        (do (
-            ((any team 'T (== ('T str BID) MAKER))
-             (move (top (game vloc TURNED))
-                   (top ((previous player) iloc HAND))))
-            (all player 'P 
-                ((== ('P str BID) PASS)
-                 (set ('P str BID) NONE)))
-        ))
+ ;; if someone said PICKUP or ALONE, then the dealer takes the card
+ ;; all pass bids are wiped
+ (do (
+  ((any team 'T (== ('T str BID) MAKER))
+   (move (top (game vloc TURNED))
+         (top ((previous player) iloc HAND))))
+  (all player 'P 
+   ((== ('P str BID) PASS)
+    (set ('P str BID) NONE)))))
 
-        ;; if PICKUP or ALONE, Dealer swaps out trump card for one of their own
-        (stage player 
-            (end (all player 'P (== (size ('P iloc HAND)) 5)))
-            (choice (
-               ((== (size ((current player) iloc HAND)) 6)
-                 (any ((current player) iloc HAND) 'C 
-                   (move 'C (top (game iloc STOCK))))
-               )
-               ((== (size ((current player) iloc HAND)) 5)
-                 (turn pass)
-               )
-            ))
-        )
+ ;; if PICKUP or ALONE, Dealer swaps out trump card for one of their own
+ (stage player 
+  (end (all player 'P (== (size ('P iloc HAND)) 5)))
+  (choice (
+   ((== (size ((current player) iloc HAND)) 6)
+    (any ((current player) iloc HAND) 'C 
+         (move 'C (top (game iloc STOCK)))))
+   ((== (size ((current player) iloc HAND)) 5)
+    (turn pass)))))
 
-        ;; If no one picked up earlier,
-        ;; now the players get to pick the suit, not the one shown earlier
-        ;; dealer is forced to make a bid (Stick the Dealer rules)
-        (stage player
-               (end 
-               (any team 'T (== ('T str BID) MAKER)))
-             (choice (
-                  ((any (other player) 'OP (!= ('OP str BID) PASS)) 
-                     (set ((current player) str BID) PASS))
-                  ((!= HEARTS (game str TRUMPSUIT))
-                    (do (
-                       (set ((current player) str BID) ALONE)
-                       (set ((team (current player)) str BID) MAKER)
-                       (set ((team (next player)) str BID) DEFENDER)
-                       (set (game str TRUMPSUIT) HEARTS)
-                       (set (game str TRUMPCOLOR) RED)
-                    )))
-                  ((!= DIAMONDS (game str TRUMPSUIT))
-                    (do (
-                       (set ((current player) str BID) ALONE)
-                       (set ((team (current player)) str BID) MAKER)
-                       (set ((team (next player)) str BID) DEFENDER)
-                       (set (game str TRUMPSUIT) DIAMONDS)
-                       (set (game str TRUMPCOLOR) RED)
-                    )))
-                  ((!= SPADES (game str TRUMPSUIT))
-                    (do (
-                       (set ((current player) str BID) ALONE)
-                       (set ((team (current player)) str BID) MAKER)
-                       (set ((team (next player)) str BID) DEFENDER)
-                       (set (game str TRUMPSUIT) SPADES)
-                       (set (game str TRUMPCOLOR) BLACK)
-                    )))
-                  ((!= CLUBS (game str TRUMPSUIT))
-                    (do (
-                       (set ((current player) str BID) ALONE)
-                       (set ((team (current player)) str BID) MAKER)
-                       (set ((team (next player)) str BID) DEFENDER)
-                       (set (game str TRUMPSUIT) CLUBS)
-                       (set (game str TRUMPCOLOR) BLACK)
-                    )))
-                  ((!= HEARTS (game str TRUMPSUIT))
-                    (do (
-                       (set ((team (current player)) str BID) MAKER)
-                       (set ((team (next player)) str BID) DEFENDER)
-                       (set (game str TRUMPSUIT) HEARTS)
-                       (set (game str TRUMPCOLOR) RED)
-                    )))
-                  ((!= DIAMONDS (game str TRUMPSUIT))
-                    (do (
-                       (set ((team (current player)) str BID) MAKER)
-                       (set ((team (next player)) str BID) DEFENDER)
-                       (set (game str TRUMPSUIT) DIAMONDS)
-                       (set (game str TRUMPCOLOR) RED)
-                    )))
-                  ((!= SPADES (game str TRUMPSUIT))
-                    (do (
-                       (set ((team (current player)) str BID) MAKER)
-                       (set ((team (next player)) str BID) DEFENDER)
-                       (set (game str TRUMPSUIT) SPADES)
-                       (set (game str TRUMPCOLOR) BLACK)
-                    )))
-                  ((!= CLUBS (game str TRUMPSUIT))
-                    (do (
-                       (set ((team (current player)) str BID) MAKER)
-                       (set ((team (next player)) str BID) DEFENDER)
-                       (set (game str TRUMPSUIT) CLUBS)
-                       (set (game str TRUMPCOLOR) BLACK)
-                    )))
-             ))    
-        )
+ ;; If no one picked up earlier,
+ ;; now the players get to pick the suit, not the one shown earlier
+ ;; dealer is forced to make a bid (Stick the Dealer rules)
+ (stage player
+  (end (any team 'T (== ('T str BID) MAKER)))
+  (choice (
+   ((any (other player) 'OP (!= ('OP str BID) PASS)) 
+    (set ((current player) str BID) PASS))
+   ((!= HEARTS (game str TRUMPSUIT))
+    (do (
+     (set ((current player) str BID) ALONE)
+     (set ((team (current player)) str BID) MAKER)
+     (set ((team (next player)) str BID) DEFENDER)
+     (set (game str TRUMPSUIT) HEARTS)
+     (set (game str TRUMPCOLOR) RED))))
+   ((!= DIAMONDS (game str TRUMPSUIT))
+    (do (
+     (set ((current player) str BID) ALONE)
+     (set ((team (current player)) str BID) MAKER)
+     (set ((team (next player)) str BID) DEFENDER)
+     (set (game str TRUMPSUIT) DIAMONDS)
+     (set (game str TRUMPCOLOR) RED))))
+   ((!= SPADES (game str TRUMPSUIT))
+    (do (
+     (set ((current player) str BID) ALONE)
+     (set ((team (current player)) str BID) MAKER)
+     (set ((team (next player)) str BID) DEFENDER)
+     (set (game str TRUMPSUIT) SPADES)
+     (set (game str TRUMPCOLOR) BLACK))))
+   ((!= CLUBS (game str TRUMPSUIT))
+    (do (
+     (set ((current player) str BID) ALONE)
+     (set ((team (current player)) str BID) MAKER)
+     (set ((team (next player)) str BID) DEFENDER)
+     (set (game str TRUMPSUIT) CLUBS)
+     (set (game str TRUMPCOLOR) BLACK))))
+   ((!= HEARTS (game str TRUMPSUIT))
+    (do (
+     (set ((team (current player)) str BID) MAKER)
+     (set ((team (next player)) str BID) DEFENDER)
+     (set (game str TRUMPSUIT) HEARTS)
+     (set (game str TRUMPCOLOR) RED))))
+   ((!= DIAMONDS (game str TRUMPSUIT))
+    (do (
+     (set ((team (current player)) str BID) MAKER)
+     (set ((team (next player)) str BID) DEFENDER)
+     (set (game str TRUMPSUIT) DIAMONDS)
+     (set (game str TRUMPCOLOR) RED))))
+   ((!= SPADES (game str TRUMPSUIT))
+    (do (
+     (set ((team (current player)) str BID) MAKER)
+     (set ((team (next player)) str BID) DEFENDER)
+     (set (game str TRUMPSUIT) SPADES)
+     (set (game str TRUMPCOLOR) BLACK))))
+   ((!= CLUBS (game str TRUMPSUIT))
+    (do (
+     (set ((team (current player)) str BID) MAKER)
+     (set ((team (next player)) str BID) DEFENDER)
+     (set (game str TRUMPSUIT) CLUBS)
+     (set (game str TRUMPCOLOR) BLACK)))))))
 
-        ;; if partner going alone, then discard all of your cards
-        (stage team
-               (end (all player 'P (== ('P str READY) TRUE)))
-               (do (
-                  (all (current team) 'TP
-                  (do (
-                        (set ('TP str READY) TRUE)
-                        ((and (any (current team) 'CT (== ('CT str BID) ALONE)) 
-                              (!= ('TP str BID) ALONE))
-                         (do (
-                            (set ('TP str BID) DUMMY)
-                            (repeat all (move (top ('TP iloc HAND))
-                                              (top ('TP iloc ALONE)))))))
-                  ))
-               )))
-        )
+ ;; if partner going alone, then discard all of your cards
+ (stage team
+  (end (all player 'P (== ('P str READY) TRUE)))
+  (do (
+   (all (current team) 'TP
+    (do (
+     (set ('TP str READY) TRUE)
+     ((and (any (current team) 'CT (== ('CT str BID) ALONE)) 
+           (!= ('TP str BID) ALONE))
+      (do (
+       (set ('TP str BID) DUMMY)
+       (repeat all (move (top ('TP iloc HAND))
+                         (top ('TP iloc ALONE)))))))))))))
 
-        ;; players play a round 5 times     
-        (stage player
-               (end 
-                (all player 'P 
-                     (== (size ('P iloc HAND)) 0)))
+ ;; players play a round 5 times     
+ (stage player
+  (end (all player 'P (== (size ('P iloc HAND)) 0)))
                
-               ;; players play a hand once
-               (stage player
-                      (end 
-                       (all player 'P
-                            (or (> (size ('P vloc TRICK)) 0)
-                                (== ('P str BID) DUMMY)
-                       )))
+  ;; players play a hand once
+  (stage player (end (all player 'P (or (> (size ('P vloc TRICK)) 0)
+                                        (== ('P str BID) DUMMY))))
                       
-                      (choice 
-                       (
-
-                        ;; if dummy player (partner going alone) then pass)
-                        ((== ((current player) str BID) DUMMY)
-                         (turn pass))
+   (choice (
+    ;; if dummy player (partner going alone) then pass)
+    ((== ((current player) str BID) DUMMY)
+     (turn pass))
                         
-                        ;; if first player, play any card, remember it in the lead spot
-                        ((== (game str LEADSUIT) NONE)                       
-                         (any ((current player) iloc HAND) 'C
-                              (do 
-                                  (
-                                   ((or (!= (cardatt RANK 'C) J)
-                                        (and (== (cardatt RANK 'C) J)
-                                             (!= (cardatt COLOR 'C) (game str TRUMPCOLOR))))
-                                    (set (game str LEADSUIT) (cardatt SUIT 'C)))
-                                   ((and (== (cardatt RANK 'C) J)
-                                         (== (cardatt COLOR 'C) (game str TRUMPCOLOR)))
-                                    (set (game str LEADSUIT) (game str TRUMPSUIT)))
-                                   (move 'C 
-                                         (top ((current player) vloc TRICK)))
-                                   ))))
+    ;; if first player, play any card, remember it in the lead spot
+    ((== (game str LEADSUIT) NONE)                       
+     (any ((current player) iloc HAND) 'C
+      (do (
+       ((or (!= (cardatt RANK 'C) J)
+            (and (== (cardatt RANK 'C) J)
+                 (!= (cardatt COLOR 'C) (game str TRUMPCOLOR))))
+        (set (game str LEADSUIT) (cardatt SUIT 'C)))
+       ((and (== (cardatt RANK 'C) J)
+             (== (cardatt COLOR 'C) (game str TRUMPCOLOR)))
+        (set (game str LEADSUIT) (game str TRUMPSUIT)))
+       (move 'C (top ((current player) vloc TRICK)))))))
                                              
-                        ;; if following player and cannot follow SUIT
-                        ;;   play any card
-                        ((and (!= (game str LEADSUIT) NONE)
-                              (== (size (filter ((current player) iloc HAND) 'L 
-                                        (or 
-                                             (and (== (cardatt RANK 'L) J)
-                                                  (== (cardatt COLOR 'L) (game str TRUMPCOLOR))
-                                                  (== (game str LEADSUIT) (game str TRUMPSUIT)))
-                                                  
-                                             (and (== (cardatt RANK 'L) J)
-                                                  (!= (cardatt COLOR 'L) (game str TRUMPCOLOR))
-                                                  (== (cardatt SUIT 'L) (game str LEADSUIT)))
-                                                  
-                                             (and (!= (cardatt RANK 'L) J)
-                                                  (== (cardatt SUIT 'L) (game str LEADSUIT)))
-                                        )                                    
-                                   )) 0))
-                         (any ((current player) iloc HAND) 'C
-                              (move 'C 
-                                    (top ((current player) vloc TRICK)))))
+    ;; if following player and cannot follow SUIT
+    ;;   play any card
+    ((and (!= (game str LEADSUIT) NONE)
+          (== (size (filter ((current player) iloc HAND) 'L 
+                     (or (and (== (cardatt RANK 'L) J)
+                              (== (cardatt COLOR 'L) (game str TRUMPCOLOR))
+                              (== (game str LEADSUIT) (game str TRUMPSUIT)))    
+                         (and (== (cardatt RANK 'L) J)
+                              (!= (cardatt COLOR 'L) (game str TRUMPCOLOR))
+                              (== (cardatt SUIT 'L) (game str LEADSUIT)))    
+                         (and (!= (cardatt RANK 'L) J)
+                              (== (cardatt SUIT 'L) (game str LEADSUIT)))))) 0))
+     (any ((current player) iloc HAND) 'C
+      (move 'C (top ((current player) vloc TRICK)))))
                         
-                        ;; if following player and can follow SUIT
-                        ;;   play any card that follows SUIT
-                        ((!= (game str LEADSUIT) NONE)
-                         (any (filter ((current player) iloc HAND) 'L 
-                                   (or 
-                                        (and (== (cardatt RANK 'L) J)
-                                             (== (cardatt COLOR 'L) (game str TRUMPCOLOR))
-                                             (== (game str LEADSUIT) (game str TRUMPSUIT)))
-                                             
-                                        (and (== (cardatt RANK 'L) J)
-                                             (!= (cardatt COLOR 'L) (game str TRUMPCOLOR))
-                                             (== (cardatt SUIT 'L) (game str LEADSUIT)))
-                                             
-                                        (and (!= (cardatt RANK 'L) J)
-                                             (== (cardatt SUIT 'L) (game str LEADSUIT)))
-                                   )   
-                              ) 
-                              'C
-                              
-                              (move 'C 
-                                    (top ((current player) vloc TRICK)))))
-                        
-                        )))
+    ;; if following player and can follow SUIT
+    ;;   play any card that follows SUIT
+    ((!= (game str LEADSUIT) NONE)
+     (any (filter ((current player) iloc HAND) 'L 
+           (or (and (== (cardatt RANK 'L) J)
+                    (== (cardatt COLOR 'L) (game str TRUMPCOLOR))
+                    (== (game str LEADSUIT) (game str TRUMPSUIT)))    
+               (and (== (cardatt RANK 'L) J)
+                    (!= (cardatt COLOR 'L) (game str TRUMPCOLOR))
+                    (== (cardatt SUIT 'L) (game str LEADSUIT)))
+               (and (!= (cardatt RANK 'L) J)
+                    (== (cardatt SUIT 'L) (game str LEADSUIT))))) 'C
+      (move 'C (top ((current player) vloc TRICK))))))))
                
-               ;; after players play hand, computer wraps up trick
-               (do (
-                    ;; solidfy card recedence
-                    (set (game points PRECEDENCE)
-                         (
-                          ((SUIT : (game str TRUMPSUIT)) 200)
-                          ((RANK : J) (SUIT : (game str TRUMPSUIT)) 1)
-                          ((RANK : J) (COLOR : (game str TRUMPCOLOR)) 304)
-                          ((SUIT : (game str LEADSUIT)) 100)
-                          ((RANK : A) 14)
-                          ((RANK : K) 13) 
-                          ((RANK : Q) 12)
-                          ((RANK : J) 11)
-                          ((RANK : TEN) 10)
-                          ((RANK : NINE) 9)))
+  ;; after players play hand, computer wraps up trick
+  (do (
+   ;; solidfy card recedence
+   (set (game points PRECEDENCE)
+    (((SUIT : (game str TRUMPSUIT)) 200)
+     ((RANK : J) (SUIT : (game str TRUMPSUIT)) 1)
+     ((RANK : J) (COLOR : (game str TRUMPCOLOR)) 304)
+     ((SUIT : (game str LEADSUIT)) 100)
+     ((RANK : A) 14) ((RANK : K)   13) ((RANK : Q)   12)
+     ((RANK : J) 11) ((RANK : TEN) 10) ((RANK : NINE) 9)))
                     
-                    ;; determine who won the hand, set them first next time, and give them a point
-                    (set (game str LEADSUIT) NONE)
-                    (cycle next (owner (max (union (all player 'P 
-                                                        ('P vloc TRICK))) using (game points PRECEDENCE))))
-                    (inc ((next player) sto TRICKSWON))   
+   ;; determine who won the hand, set them first next time, and give them a point
+   (set (game str LEADSUIT) NONE)
+   (cycle next (owner (max (union (all player 'P ('P vloc TRICK))) 
+                       using (game points PRECEDENCE))))
+   (inc ((next player) sto TRICKSWON))   
                     
-                    ;; discard all the played cards
-                    (all player 'P
-                         ((> (size ('P vloc TRICK)) 0) 
-                          (move (top ('P vloc TRICK)) 
-                                (top (game vloc DISCARD))))
-                               ))))
+   ;; discard all the played cards
+   (all player 'P
+    ((> (size ('P vloc TRICK)) 0) 
+     (move (top ('P vloc TRICK)) 
+      (top (game vloc DISCARD))))))))
         
-        ;; determine team score
-        (stage team
-               (end 
-                (all player 'P 
-                     (== ('P sto TRICKSWON) 0)))
-               (do 
-                   (
-                    
-                    ;; team made their cumulative bid, score positive points
-                    (set ((current team) sto TRICKSWON) 0)
-                    (all (current team) 'TP
-                         (do 
-                             (
-                              (inc ((current team) sto TRICKSWON) ('TP sto TRICKSWON))
-                              (set ('TP sto TRICKSWON) 0))))
-                    ((and (>= ((current team) sto TRICKSWON) 3)
-                          (== ((current team) str BID) MAKER))
-                     (inc ((current team) sto SCORE)))
-                    ((and (== ((current team) sto TRICKSWON) 5)
-                          (== ((current team) str BID) MAKER))
-                     (inc ((current team) sto SCORE)))
-                    ((and (== ((current team) str BID) MAKER)
-                          (== ((current team) sto SCORE) 2)
-                          (any (current team) 'TP (== ('TP str BID) ALONE)))
-                     (inc ((current team) sto SCORE) 2))
-                    ((and (>= ((current team) sto TRICKSWON) 3)
-                          (== ((current team) str BID) DEFENDER))
-                     (inc ((current team) sto SCORE) 2))  
-                     )))
+ ;; determine team score
+ (stage team
+  (end (all player 'P (== ('P sto TRICKSWON) 0)))
+  (do (
+   (set ((current team) sto TRICKSWON) 0)
+   (all (current team) 'TP
+    (do (
+     (inc ((current team) sto TRICKSWON) ('TP sto TRICKSWON))
+     (set ('TP sto TRICKSWON) 0))))
+
+   ;; team made their cumulative bid, score positive points
+   ((and (>= ((current team) sto TRICKSWON) 3)
+         (== ((current team) str BID) MAKER))
+    (inc ((current team) sto SCORE)))
+   ;; bonus for all five tricks
+   ((and (== ((current team) sto TRICKSWON) 5)
+         (== ((current team) str BID) MAKER))
+    (inc ((current team) sto SCORE)))
+   ;; bonus for going alone and getting all five tricks
+   ((and (== ((current team) str BID) MAKER)
+         (== ((current team) sto SCORE) 2)
+         (any (current team) 'TP (== ('TP str BID) ALONE)))
+    (inc ((current team) sto SCORE) 2))
+   ;; points for defenders if successful Euchre
+   ((and (>= ((current team) sto TRICKSWON) 3)
+         (== ((current team) str BID) DEFENDER))
+    (inc ((current team) sto SCORE) 2)))))
  
  (scoring max ((team (current player)) sto SCORE)))
-
-
-

@@ -1,5 +1,4 @@
 ;; GOPS or Goofspiel
-;;
 ;; https://www.pagat.com/misc/gops.html
 
 (game
@@ -9,13 +8,16 @@
   
   ;; Create the deck source
   (create deck ONE (game iloc ONE) 
-   (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+   (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, 
+                SEVEN, EIGHT, NINE, TEN, J, Q, K))
          (COLOR (BLACK (SUIT (CLUBS))))))
   (create deck DEFAULT (game iloc STOCK) 
-   (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+   (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, 
+                SEVEN, EIGHT, NINE, TEN, J, Q, K))
          (COLOR (RED (SUIT (DIAMONDS))))))
   (create deck TWO (game iloc TWO) (deck 
-         (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+         (RANK (A, TWO, THREE, FOUR, FIVE, SIX, 
+                SEVEN, EIGHT, NINE, TEN, J, Q, K))
          (COLOR (BLACK (SUIT (SPADES)))))))
  (do ( 
       
