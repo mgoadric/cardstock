@@ -1,5 +1,4 @@
 ;; Scarto
-;;
 ;; https://en.wikipedia.org/wiki/Scarto
 
 (game
@@ -7,213 +6,153 @@
   ;; Set up the players, 3 players 
   (create players 3)
   ;; Create the deck source
-  (create deck (game iloc STOCK) (deck (RANK (ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, KNAVE, CAVALIER, QUEEN, KING))
-                                       (COLOR (ROUND (SUIT (COINS, CUPS)))
-                                              (LONG (SUIT (SWORDS, BATONS))))))
-  (create deck (game iloc STOCK) (deck (RANK (FOOL))
-                                       (SUIT (NONE))))
-  (create deck (game iloc STOCK) (deck (RANK (PAGAT, POPESS, EMPERESS, EMPEROR, POPE, LOVERS, CHARIOT, JUSTICE, HERMIT, WHEEL, STRENGTH,
-                                              HANGED, DEATH, TEMPERANCE, DEVIL, TOWER, STAR, MOON, SUN, ANGEL, WORLD))
-                                       (SUIT (TRUMP))))
- )
+  (create deck (game iloc STOCK) 
+   (deck (RANK (ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, 
+                EIGHT, NINE, TEN, KNAVE, CAVALIER, QUEEN, KING))
+         (COLOR (ROUND (SUIT (COINS, CUPS)))
+                (LONG (SUIT (SWORDS, BATONS))))))
+  (create deck (game iloc STOCK) 
+   (deck (RANK (FOOL)) (SUIT (NONE))))
+  (create deck (game iloc STOCK) 
+   (deck (RANK (PAGAT, POPESS, EMPERESS, EMPEROR, POPE, LOVERS, 
+                CHARIOT, JUSTICE, HERMIT, WHEEL, STRENGTH,
+                HANGED, DEATH, TEMPERANCE, DEVIL, TOWER, STAR, 
+                MOON, SUN, ANGEL, WORLD))
+         (SUIT (TRUMP)))))
  
  ;; Stages of the game
  (do (
-  (set (game points SCORE) (
-      ((RANK : KING) 4)
-      ((RANK : PAGAT) 4)
-      ((RANK : ANGEL) 4)
-      ((RANK : QUEEN) 3)
-      ((RANK : FOOL) 3)
-      ((RANK : CAVALIER) 2)
-      ((RANK : KNAVE) 1)
-  ))
+  (set (game points SCORE) 
+   (((RANK : KING)  4) ((RANK : PAGAT) 4) ((RANK : ANGEL)    4)
+    ((RANK : QUEEN) 3) ((RANK : FOOL)  3) ((RANK : CAVALIER) 2)
+    ((RANK : KNAVE) 1)))
   (shuffle (game iloc STOCK))
   (all player 'P
       (repeat 25
             (move (top (game iloc STOCK))
                   (top ('P iloc HAND)))))
-
-;; FIXES!!!!
-;; ADD THE LEFTOVER CARDS TO DEALER PLAYER TRICKS
-;; NEED TO MAKE THEM INVISIBLE FOR NOW, THEN REVEAL
-
   (repeat 3
       (move (top (game iloc STOCK))
             (top ((previous player) iloc TRICKSWON))))
-  (set (game str LEAD) NONE)
- ))
+  (set (game str LEAD) NONE)))
         
-      ;; FIRST PLAYER CAN EXCHANGE CARDS WITH THE STOCK (SCARTO)
-      ;; SKIPPING FOR NOW
-
-
-        ;; players play a round 25 times     
-        (stage player
-               (end 
-                (all player 'P 
-                     (== (size ('P iloc HAND)) 0)))
+ ;; players play a round 25 times     
+ (stage player
+  (end (all player 'P (== (size ('P iloc HAND)) 0)))
                
-               ;; players play a hand once
-               (stage player
-                      (end 
-                       (all player 'P 
-                            (== (size ('P vloc TRICK)) 1)))
+  ;; players play a hand once
+  (stage player
+   (end (all player 'P (== (size ('P vloc TRICK)) 1)))
                       
-                      (choice  (         
-                        ;; if following player and cannot follow SUIT or TRUMP
-                        ;;   play any card not the FOOL
-                        ((and (!= (game str LEAD) NONE)
-                              (== (size (filter ((current player) iloc HAND) 'L 
-                                                (== (cardatt SUIT 'L) 
-                                                    (game str LEAD)))) 0)
-                              (== (size (filter ((current player) iloc HAND) 'L 
-                                                (== (cardatt SUIT 'L) 
-                                                    TRUMP))) 0)
-                         )
-                         (any (filter ((current player) iloc HAND) 'FC (!= (cardatt RANK 'FC) FOOL)) 'C
-                              (move 'C 
-                                    (top ((current player) vloc TRICK)))))
+   (choice (         
+    ;; if following player and cannot follow SUIT or TRUMP
+    ;;   play any card not the FOOL
+    ((and (!= (game str LEAD) NONE)
+          (== (size (filter ((current player) iloc HAND) 'L 
+                     (== (cardatt SUIT 'L) 
+                         (game str LEAD)))) 0)
+          (== (size (filter ((current player) iloc HAND) 'L 
+                     (== (cardatt SUIT 'L) TRUMP))) 0))
+     (any (filter ((current player) iloc HAND) 'FC (!= (cardatt RANK 'FC) FOOL)) 'C
+      (move 'C (top ((current player) vloc TRICK)))))
                         
-                        ;; if following player and cannot follow SUIT
-                        ;;  but the player has TRUMP
-                        ;;   play any card that follows TRUMP
-                        ((and (!= (game str LEAD) NONE)
-                              (== (size (filter ((current player) iloc HAND) 'L 
-                                                (== (cardatt SUIT 'L) 
-                                                    (game str LEAD)))) 0))
-                         (any (filter ((current player) iloc HAND) 'L 
-                                      (== (cardatt SUIT 'L)
-                                          TRUMP)) 
-                              'C       
-                              (move 'C 
-                                    (top ((current player) vloc TRICK)))))
+    ;; if following player and cannot follow SUIT
+    ;;  but the player has TRUMP
+    ;;   play any card that follows TRUMP
+    ((and (!= (game str LEAD) NONE)
+          (== (size (filter ((current player) iloc HAND) 'L 
+                     (== (cardatt SUIT 'L) (game str LEAD)))) 0))
+     (any (filter ((current player) iloc HAND) 'L 
+           (== (cardatt SUIT 'L) TRUMP)) 'C       
+      (move 'C (top ((current player) vloc TRICK)))))
 
-                        ;; if following player and can follow SUIT
-                        ;;   play any card that follows SUIT
-                        ((!= (game str LEAD) NONE)
-                         (any (filter ((current player) iloc HAND) 'L 
-                                      (== (cardatt SUIT 'L)
-                                          (game str LEAD))) 
-                              'C       
-                              (move 'C 
-                                    (top ((current player) vloc TRICK)))))
+    ;; if following player and can follow SUIT
+    ;;   play any card that follows SUIT
+    ((!= (game str LEAD) NONE)
+     (any (filter ((current player) iloc HAND) 'L 
+           (== (cardatt SUIT 'L) (game str LEAD))) 'C       
+      (move 'C (top ((current player) vloc TRICK)))))
 
-                        ;; if first player or following the FOOL being led, play any card, remember it in the lead spot
-                        ((== (game str LEAD) NONE)                       
-                         (any (filter ((current player) iloc HAND) 'FC (!= (cardatt RANK 'FC) FOOL)) 'C
-                              (do (
-                                   (move 'C 
-                                         (top ((current player) vloc TRICK)))
-                                   (set (game str LEAD)
-                                        (cardatt SUIT (top ((current player) vloc TRICK))))
-                                    ))))
+    ;; if first player or following the FOOL being led, 
+    ;;  play any card, remember it in the lead spot
+    ((== (game str LEAD) NONE)                       
+     (any (filter ((current player) iloc HAND) 'FC 
+           (!= (cardatt RANK 'FC) FOOL)) 'C
+      (do (
+       (move 'C (top ((current player) vloc TRICK)))
+       (set (game str LEAD)
+            (cardatt SUIT (top ((current player) vloc TRICK))))))))
 
-                        ;; FOOL can be played anytime
-                        (any (filter ((current player) iloc HAND) 'FC (== (cardatt RANK 'FC) FOOL)) 'C
-                              (move 'C (top ((current player) vloc TRICK))))
-                  ))
-             )
+    ;; FOOL can be played anytime
+    (any (filter ((current player) iloc HAND) 'FC 
+          (== (cardatt RANK 'FC) FOOL)) 'C
+     (move 'C (top ((current player) vloc TRICK)))))))
                
-               ;; after players play hand, computer wraps up trick
-               (do ( 
-                    ;; solidfy card recedence
-                    (set (game points PRECEDENCE)
-                         (
-                          ((SUIT : TRUMP) 200)
-                          ((SUIT : (game str LEAD)) 100)
-                          ((RANK : KING) (COLOR : LONG) 14) 
-                          ((RANK : QUEEN) (COLOR : LONG) 13)
-                          ((RANK : CAVALIER) (COLOR : LONG) 13)
-                          ((RANK : KNAVE) (COLOR : LONG) 11)
-                          ((RANK : TEN) (COLOR : LONG) 10)
-                          ((RANK : NINE) (COLOR : LONG) 9)
-                          ((RANK : EIGHT) (COLOR : LONG) 8)
-                          ((RANK : SEVEN) (COLOR : LONG) 7)
-                          ((RANK : SIX) (COLOR : LONG) 6)
-                          ((RANK : FIVE) (COLOR : LONG) 5)
-                          ((RANK : FOUR) (COLOR : LONG) 4)
-                          ((RANK : THREE) (COLOR : LONG) 3)
-                          ((RANK : TWO) (COLOR : LONG) 2)
-                          ((RANK : ACE) (COLOR : LONG) 1)
-                          ((RANK : KING) (COLOR : ROUND) 14) 
-                          ((RANK : QUEEN) (COLOR : ROUND) 13)
-                          ((RANK : CAVALIER) (COLOR : ROUND) 13)
-                          ((RANK : KNAVE) (COLOR : ROUND) 11)
-                          ((RANK : TEN) (COLOR : ROUND) 1)
-                          ((RANK : NINE) (COLOR : ROUND) 2)
-                          ((RANK : EIGHT) (COLOR : ROUND) 3)
-                          ((RANK : SEVEN) (COLOR : ROUND) 4)
-                          ((RANK : SIX) (COLOR : ROUND) 5)
-                          ((RANK : FIVE) (COLOR : ROUND) 6)
-                          ((RANK : FOUR) (COLOR : ROUND) 7)
-                          ((RANK : THREE) (COLOR : ROUND) 8)
-                          ((RANK : TWO) (COLOR : ROUND) 9)
-                          ((RANK : ACE) (COLOR : ROUND) 10)
-
-                          ((RANK : PAGAT) 1)
-                          ((RANK : POPESS) 2)
-                          ((RANK : EMPERESS) 3)
-                          ((RANK : EMPEROR) 4)
-                          ((RANK : POPE) 5)
-                          ((RANK : LOVERS) 6)
-                          ((RANK : CHARIOT) 7)
-                          ((RANK : JUSTICE) 8)
-                          ((RANK : HERMIT) 9)
-                          ((RANK : WHEEL) 10)
-                          ((RANK : STRENGTH) 11)
-                          ((RANK : HANGED) 12)
-                          ((RANK : DEATH) 13)
-                          ((RANK : TEMPERANCE) 14)
-                          ((RANK : EVIL) 15)
-                          ((RANK : TOWER) 16)
-                          ((RANK : STAR) 17)
-                          ((RANK : MOON) 18)
-                          ((RANK : SUN) 19)
-                          ((RANK : ANGEL) 21)
-                          ((RANK : WORLD) 20)
-                          ))
+  ;; after players play hand, computer wraps up trick
+  (do ( 
+   ;; solidfy card recedence
+   (set (game points PRECEDENCE)
+    (((SUIT : TRUMP) 200) ((SUIT : (game str LEAD)) 100)
+     ((RANK : KING) (COLOR : LONG) 14)      ((RANK : QUEEN) (COLOR : LONG) 13)
+     ((RANK : CAVALIER) (COLOR : LONG) 13)  ((RANK : KNAVE) (COLOR : LONG) 11)
+     ((RANK : TEN) (COLOR : LONG) 10)       ((RANK : NINE) (COLOR : LONG) 9)
+     ((RANK : EIGHT) (COLOR : LONG) 8)      ((RANK : SEVEN) (COLOR : LONG) 7)
+     ((RANK : SIX) (COLOR : LONG) 6)        ((RANK : FIVE) (COLOR : LONG) 5)
+     ((RANK : FOUR) (COLOR : LONG) 4)       ((RANK : THREE) (COLOR : LONG) 3)
+     ((RANK : TWO) (COLOR : LONG) 2)        ((RANK : ACE) (COLOR : LONG) 1)
+     ((RANK : KING) (COLOR : ROUND) 14)     ((RANK : QUEEN) (COLOR : ROUND) 13)
+     ((RANK : CAVALIER) (COLOR : ROUND) 13) ((RANK : KNAVE) (COLOR : ROUND) 11)
+     ((RANK : TEN) (COLOR : ROUND) 1)       ((RANK : NINE) (COLOR : ROUND) 2)
+     ((RANK : EIGHT) (COLOR : ROUND) 3)     ((RANK : SEVEN) (COLOR : ROUND) 4)
+     ((RANK : SIX) (COLOR : ROUND) 5)       ((RANK : FIVE) (COLOR : ROUND) 6)
+     ((RANK : FOUR) (COLOR : ROUND) 7)      ((RANK : THREE) (COLOR : ROUND) 8)
+     ((RANK : TWO) (COLOR : ROUND) 9)       ((RANK : ACE) (COLOR : ROUND) 10)
+     ((RANK : PAGAT)   1) ((RANK : POPESS)      2) ((RANK : EMPERESS) 3)
+     ((RANK : EMPEROR) 4) ((RANK : POPE)        5) ((RANK : LOVERS)   6)
+     ((RANK : CHARIOT) 7) ((RANK : JUSTICE)     8) ((RANK : HERMIT)   9)
+     ((RANK : WHEEL)  10) ((RANK : STRENGTH)   11) ((RANK : HANGED)  12) 
+     ((RANK : DEATH)  13) ((RANK : TEMPERANCE) 14) ((RANK : EVIL)    15)
+     ((RANK : TOWER)  16) ((RANK : STAR)       17) ((RANK : MOON)    18)
+     ((RANK : SUN)    19) ((RANK : ANGEL)      21) ((RANK : WORLD)  20)))
                     
-                    ;; THE FOOL IS TREATED DIFFERENTLY HERE!!
-                    (all player 'P 
-                        ((== (cardatt RANK (top ('P vloc TRICK))) FOOL)
-                         (move (top ('P vloc TRICK))
-                               (top ('P vloc TRICKSWON)))))
+   ;; THE FOOL IS TREATED DIFFERENTLY HERE!!
+   (all player 'P 
+    ((== (cardatt RANK (top ('P vloc TRICK))) FOOL)
+     (move (top ('P vloc TRICK))
+           (top ('P vloc TRICKSWON)))))
 
-                    ;; determine who won the hand, set them first next time, and give them a point
-                    (set (game str LEAD) NONE)
-                    (cycle next (owner (max (union (all player 'P 
-                                                        ('P vloc TRICK))) using (game points PRECEDENCE))))
+   ;; determine who won the hand, set them first next time, and give them a point
+   (set (game str LEAD) NONE)
+   (cycle next (owner (max (union (all player 'P ('P vloc TRICK)))
+                       using (game points PRECEDENCE))))
                                         
-                    ;; discard all the played cards, someone might have 0 because of the fool
-                    (all player 'P
-                         ((> (size ('P vloc TRICK)) 0)
-                         (move (top ('P vloc TRICK)) 
-                               (top ((next player) vloc TRICKSWON))))))))
-        (do (
-            (all player 'P 
-                  (repeat all
-                        (move (top ('P iloc TRICKSWON))
-                              (top ('P vloc TRICKSWON)))))
-        ))
+   ;; discard all the played cards, someone might have 0 because of the fool
+   (all player 'P
+    ((> (size ('P vloc TRICK)) 0)
+     (move (top ('P vloc TRICK)) 
+           (top ((next player) vloc TRICKSWON))))))))
+      
+ (do (
+  (all player 'P 
+   (repeat all
+    (move (top ('P iloc TRICKSWON))
+          (top ('P vloc TRICKSWON)))))))
 
+ ;; determine score
+ (stage player
+  (end (all player 'P (== (size ('P vloc TRICKSWON)) 0)))
+  (do (
 
-        ;; determine score
-        (stage player
-               (end 
-                (all player 'P (== (size ('P vloc TRICKSWON)) 0)))
-               (do (
+   (inc ((current player) sto SCORE) 
+        (sum ((current player) vloc TRICKSWON) using (game points SCORE)))
 
-                    (inc ((current player) sto SCORE) (sum ((current player) vloc TRICKSWON) using (game points SCORE)))
+   ;; Adding 1 to size accounts for the fool
+   (inc ((current player) sto SCORE) 
+        (// (+ 1 (size ((current player) vloc TRICKSWON))) 3))
 
-                  ;; Adding 1 to size accounts for the fool
-                    (inc ((current player) sto SCORE) (// (+ 1 (size ((current player) vloc TRICKSWON))) 3))
-
-                    ;; should we subtract 26 from each score? Authentic, but not important for one round.
-                    (repeat all
-                            (move (top ((current player) vloc TRICKSWON))
-                                  (top (game vloc DISCARD)))))))
+   ;; subtracting 26 from each score is more authentic, but not important for one round.
+   (repeat all
+    (move (top ((current player) vloc TRICKSWON))
+          (top (game vloc DISCARD)))))))
  
  (scoring max ((current player) sto SCORE)))
-
-
