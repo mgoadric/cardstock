@@ -26,20 +26,18 @@ namespace CardStock.FreezeFrame.Actions
             {
                 data["action"] = prefix;
                 data["origin"] = new Dictionary<string, object> {
-                        ["location"] = owner.ToJSON(),
-                        ["index"] = owner.IndexOf(cardToCopy)
-                    };
+                    ["location"] = owner.ToJSON(),
+                    ["index"] = owner.IndexOf(cardToCopy)
+                };
                 data["destination"] = new Dictionary<string, object> {
-                        ["location"] = endLocation.cardList.ToJSON(),
-                        ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid : 
-                                        endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
-                                        endLocation.cardList.Count 
-                    };
-                //script?.WriteToJSON(data);
+                    ["location"] = endLocation.cardList.ToJSON(),
+                    ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid : 
+                                    endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
+                                    endLocation.cardList.Count 
+                };
             }
 
             endLocation.Add(cardToCopy);
-            script?.WriteToFile(prefix + ":" + cardToCopy.ToString() + " " + owner.TranscriptName() + "->" + endLocation.cardList.TranscriptName());
             if (!inChoice) {
                 script?.AddToMovementFile(cardToCopy.Owner, endLocation.cardList);
             }

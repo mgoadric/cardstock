@@ -5,7 +5,8 @@ using CardStock.Players;
 static void RunExperiment(Experiment exp)
 {
     Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
-    GameSimulator engine = new(exp);
+    GameSimulator.exp = exp;
+    GameSimulator engine = new();
     engine.LoadGame();
     engine.RunExperiment();
 }

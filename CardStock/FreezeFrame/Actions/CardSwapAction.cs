@@ -57,18 +57,17 @@ namespace CardStock.FreezeFrame.Actions
                         card1 = startLocation.Get();
                         owner1 = card1.Owner;
                         data["first"] = new Dictionary<string, object> {
-                                ["card"] = card1.ToJSON(),
-                                ["location"] = owner1.ToJSON(),
-                                ["index"] = owner1.IndexOf(card1)
-                            };
+                            ["card"] = card1.ToJSON(),
+                            ["location"] = owner1.ToJSON(),
+                            ["index"] = owner1.IndexOf(card1)
+                        };
                         card2 = startLocation.Get();
                         owner2 = card2.Owner;
                         data["second"] = new Dictionary<string, object> {
-                                ["card"] = card2.ToJSON(),
-                                ["location"] = owner2.ToJSON(),
-                                ["index"] = owner2.IndexOf(card2)
-                            };
-                        //script?.WriteToJSON(data);
+                            ["card"] = card2.ToJSON(),
+                            ["location"] = owner2.ToJSON(),
+                            ["index"] = owner2.IndexOf(card2)
+                        };
                     }
 
                     card1 = startLocation.Remove();
@@ -88,13 +87,9 @@ namespace CardStock.FreezeFrame.Actions
                         owner2.Add(card1);
                     }
 
-                    var arrow = " <-> ";
-                    if (inChoice) { arrow = " ?<-> "; }
-
-                    //script?.WriteToFile(prefix + ":" + card1.ToString() + " " + owner1.TranscriptName() + arrow + card2.ToString() +  owner2.TranscriptName());
                     if (!inChoice) {
-                        //script?.AddToMovementFile(owner1, owner2);
-                        //script?.AddToMovementFile(owner2, owner1);
+                        script?.AddToMovementFile(owner1, owner2);
+                        script?.AddToMovementFile(owner2, owner1);
 
                         // Track here to see if it moved from a visible to invisible location TODO
                         // Then record the invisible as the last known location.

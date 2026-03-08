@@ -88,16 +88,18 @@
  (stage team
   (end (all player 'P (== ('P sto TRICKSWON) 0)))
   (do (
-                    
-   ;; team made their cumulative bid, score positive points
+
+   ;; Add individual points from each player on the team  
    (set ((current team) sto TRICKSWON) 0)
    (all (current team) 'TP
     (do (
      (inc ((current team) sto TRICKSWON) ('TP sto TRICKSWON))
      (set ('TP sto TRICKSWON) 0))))
-     ((> ((current team) sto TRICKSWON) 6)
-      (inc ((current team) sto SCORE) 
-           (- ((current team) sto TRICKSWON) 6))))))
+
+   ;; team made their cumulative bid, score positive points
+   ((> ((current team) sto TRICKSWON) 6)
+    (inc ((current team) sto SCORE) 
+         (- ((current team) sto TRICKSWON) 6))))))
  
  (scoring max ((team (current player)) sto SCORE)))
 

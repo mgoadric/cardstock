@@ -5,10 +5,10 @@ using CardStock.CardEngine;
 using CardStock.Players;
 
 namespace CardStock.Evaluation {
-    public partial class GameSimulator(Experiment exp)
+    public partial class GameSimulator()
     {
 
-        private readonly Experiment exp = exp;
+        public static Experiment? exp;
         private RecycleParser.GameContext tree;
         public const int MAXPLAYERS = 9; // This makes some things easier to store as arrays.
         public const int CHOICELIMIT = 500; // The upper bound on the number of moves in a game before it is called.

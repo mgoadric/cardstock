@@ -45,7 +45,6 @@ namespace CardStock.FreezeFrame.Actions
                 if (startLocation.Count() != 0)
                 {
 
-
                     var data = new Dictionary<string, object>();
                     if (script is not null)
                     {
@@ -54,16 +53,15 @@ namespace CardStock.FreezeFrame.Actions
                         data["action"] = prefix;
                         data["card"] = cardToMove.ToJSON();
                         data["origin"] = new Dictionary<string, object> {
-                                ["location"] = owner.ToJSON(),
-                                ["index"] = owner.IndexOf(cardToMove)
-                            };
+                            ["location"] = owner.ToJSON(),
+                            ["index"] = owner.IndexOf(cardToMove)
+                        };
                         data["destination"] = new Dictionary<string, object> {
-                                ["location"] = endLocation.cardList.ToJSON(),
-                                ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid : 
-                                              endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
-                                                endLocation.cardList.Count 
-                            };
-                        //script?.WriteToJSON(data);
+                            ["location"] = endLocation.cardList.ToJSON(),
+                            ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid : 
+                                            endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
+                                            endLocation.cardList.Count 
+                        };
                     }
 
                     cardToMove = startLocation.Remove();
@@ -78,7 +76,7 @@ namespace CardStock.FreezeFrame.Actions
 
                         // Track here to see if it moved from a visible to invisible location TODO
                         // Then record the invisible as the last known location.
-                        if (GameSimulator.imperfectLevel >= ImperfectLevel.TAKEN)
+                        if (GameSimulator.exp!.imperfectLevel >= ImperfectLevel.TAKEN)
                         {
                             if (owner.type == CCType.VISIBLE && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
                             {
@@ -97,9 +95,12 @@ namespace CardStock.FreezeFrame.Actions
                                     owner.ClearKnown();
                                 }
 
-                                if (GameSimulator.imperfectLevel >= ImperfectLevel.PASSED && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
+                                if (GameSimulator.exp.imperfectLevel >= ImperfectLevel.PASSED)
                                 {
-                                    //endLocation.cardList.AddPerceived(owner.owner.owner, cardToMove);
+                                    if (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN)
+                                    {
+                                        //endLocation.cardList.AddPerceived(owner.owner.owner, cardToMove);
+                                    }
                                 }
                             }
                         }

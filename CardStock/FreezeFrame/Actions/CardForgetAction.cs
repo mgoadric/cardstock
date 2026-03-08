@@ -3,7 +3,7 @@ using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions
 {
-        public class CardForgetAction : GameAction
+    public class CardForgetAction : GameAction
     {
         private readonly CardLocReference location;
         private readonly CardCollection notforgotten;
@@ -29,7 +29,6 @@ namespace CardStock.FreezeFrame.Actions
                 ["action"] = prefix,
                 ["location"] = location.cardList.ToJSON(),
             };
-            //script?.WriteToJSON(data);
             return data;
         }
         public override void Undo()

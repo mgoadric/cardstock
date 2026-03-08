@@ -52,7 +52,6 @@ namespace CardStock.FreezeFrame.Actions
                         data["action"] = prefix;
                         data["first"] = startLocation.cardList.ToJSON();
                         data["second"] = endLocation.cardList.ToJSON();
-                        //script?.WriteToJSON(data);
                     }
 
                     Queue<Card> temp = new();  
@@ -81,12 +80,12 @@ namespace CardStock.FreezeFrame.Actions
 
                     Debug.WriteLine("loc Counts " + startLocation.Count() + ", " + endLocation.Count());
 
-                    var arrow = " <-> ";
-                    if (inChoice) { arrow = " ?<-> "; }
-
-                    //script?.WriteToFile(prefix + ":" + startLocation + arrow + endLocation);
                     if (!inChoice) {
-                        //script?.AddToMovementFile(startLocation.cardList, endLocation.cardList);
+                        script?.AddToMovementFile(startLocation.cardList, endLocation.cardList);
+                        script?.AddToMovementFile(endLocation.cardList, startLocation.cardList);
+
+                        // Track here to see if it moved from a visible to invisible location TODO
+                        // Then record the invisible as the last known location.
                     }
                     Debug.WriteLine("Swapped Cards from'" + startLocation + " to " + endLocation);
 
