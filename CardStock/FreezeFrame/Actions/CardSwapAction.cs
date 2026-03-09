@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using CardStock.CardEngine;
+using CardStock.Evaluation;
 
 namespace CardStock.FreezeFrame.Actions
 {
@@ -21,6 +22,12 @@ namespace CardStock.FreezeFrame.Actions
                 Console.WriteLine("start is a mem loc " + start.name + ", " + end.name);
                 throw new NotSupportedException();
             }
+            if (end.cardList.type == CCType.MEMORY)
+            {
+                Console.WriteLine("end is a mem loc");
+                throw new NotSupportedException();
+            }
+
             if (start.cardList.type == CCType.VIRTUAL)
             {
                 Debug.WriteLine("start is a virtual loc " + start.name + ", " + end.name);
@@ -30,18 +37,9 @@ namespace CardStock.FreezeFrame.Actions
             {
                 actualloc2 = true;
             }
-            if (end.cardList.type == CCType.MEMORY)
-            {
-                Console.WriteLine("end is a mem loc");
-                throw new NotSupportedException();
-            }
+
             startLocation = start;
             endLocation = end;
-
-            if (start.cardList.type == CCType.VISIBLE && end.cardList.type != CCType.VISIBLE)
-            {
-                //Console.WriteLine("Hiding a card that is known!!! " + start.cardList.name + " -> " + end.car);
-            }
         }
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
@@ -91,8 +89,49 @@ namespace CardStock.FreezeFrame.Actions
                         script?.AddToMovementFile(owner1, owner2);
                         script?.AddToMovementFile(owner2, owner1);
 
-                        // Track here to see if it moved from a visible to invisible location TODO
+                        // Track here to see if either moved from a visible to invisible location TODO
                         // Then record the invisible as the last known location.
+                        // SHOULD THIS BE HERE, OR ANOTHER FUNCTION??
+                        if (GameSimulator.exp!.imperfectLevel >= ImperfectLevel.TAKEN)
+                        {
+                            // FIND BETTER WAY THAN COPY/PASTA
+
+                            if (owner1.type == CCType.INVISIBLE || owner1.type == CCType.HIDDEN)
+                            {
+                                if (endLocation.cardList.type == CCType.VISIBLE)
+                                {
+                                    owner1.RemoveKnown(card1);
+                                }
+                                else 
+                                {         
+                                    //Console.WriteLine("Clearing out " + startLocation.cardList.name);
+                                    owner1.ClearKnown();
+                                }
+                            }
+                            if (owner2.type == CCType.INVISIBLE || owner2.type == CCType.HIDDEN)
+                            {
+                                if (startLocation.cardList.type == CCType.VISIBLE)
+                                {
+                                    owner2.RemoveKnown(card1);
+                                }
+                                else 
+                                {         
+                                    //Console.WriteLine("Clearing out " + startLocation.cardList.name);
+                                    owner2.ClearKnown();
+                                }
+                            }
+                            if (owner1.type == CCType.VISIBLE && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
+                            {
+                                //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
+                                endLocation.cardList.AddKnown(card1);
+                            }
+                            if (owner2.type == CCType.VISIBLE && (startLocation.cardList.type == CCType.INVISIBLE || startLocation.cardList.type == CCType.HIDDEN))
+                            {
+                                //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
+                                startLocation.cardList.AddKnown(card1);
+                            }
+                            
+                        }
 
                     }
                     Debug.WriteLine("Swapped Cards '" + card1 + " to " + endLocation.locIdentifier);

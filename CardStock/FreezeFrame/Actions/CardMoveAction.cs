@@ -85,13 +85,13 @@ namespace CardStock.FreezeFrame.Actions
                             }
                             if (owner.type == CCType.INVISIBLE || owner.type == CCType.HIDDEN)
                             {
-                                //Console.WriteLine("Clearing out " + startLocation.cardList.name);
                                 if (endLocation.cardList.type == CCType.VISIBLE)
                                 {
                                     owner.RemoveKnown(cardToMove);
                                 }
                                 else 
-                                {                                
+                                {         
+                                    //Console.WriteLine("Clearing out " + startLocation.cardList.name);
                                     owner.ClearKnown();
                                 }
 

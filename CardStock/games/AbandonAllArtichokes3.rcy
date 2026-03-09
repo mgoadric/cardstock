@@ -2,11 +2,12 @@
 
 (game
  (setup
-    (create players 3)
-    (repeat 6 (create deck (game iloc STOCK) (deck (VEG (BEET, BROCCOLI, CARROT, CORN, EGGPLANT,
-                                                         LEEK, ONION, PEAS, PEPPER, POTATO)))))
-    (repeat 30 (create deck (game vloc ARTICHOKE) (deck (VEG (ARTICHOKE)))))
- )
+  (create players 3 )
+  (repeat 6 (create deck (game iloc STOCK) 
+             (deck (VEG (BEET, BROCCOLI, CARROT, CORN, EGGPLANT,
+                         LEEK, ONION, PEAS, PEPPER, POTATO)))))
+  (repeat 20 (create deck (game vloc ARTICHOKE) 
+              (deck (VEG (ARTICHOKE))))))
 
  ;; PREPARATION
  (do (
@@ -19,9 +20,7 @@
                     (top ('P hloc DECK))))
             (repeat 5
                 (move (top (game vloc ARTICHOKE))
-                    (top ('P iloc HAND))))
-        ))
-    )
+                    (top ('P iloc HAND)))))))
 
     ;; shuffle the veg cards
     (shuffle (game iloc STOCK))
@@ -29,45 +28,17 @@
     ;; Set up the Garden Row
     (repeat 5
         (move (top (game iloc STOCK))
-              (top (game vloc ROW))))
- ))
+              (top (game vloc ROW))))))
 
  (stage player 
-    (end (or (any player 'P (== ('P sto WINNER) 1))
+    (end (or (== (game str STATE) STUCK)
+             (any player 'P (== ('P sto WINNER) 1))
              (== (size (game vloc ROW)) 0)))
-
-    ;; REPLENISH the ROW up to 5 cards, if possible
-    (stage player   ;; stage necessary for looping when 4 match found
-        (end (or (== (size (game vloc ROW)) 5)
-                 (== (size (game iloc STOCK)) 0)))
-        (do (
-            ;; fill up the row to 5 cards
-            (set (game sto NEEDED) (- 5 (size (game vloc ROW))))
-            ((> (game sto NEEDED) (size (game iloc STOCK)))
-             (set (game sto NEEDED) (size (game iloc STOCK))))
-
-            (repeat (game sto NEEDED) 
-                (move (top (game iloc STOCK))
-                      (top (game vloc ROW))))
-
-            ;; if >= 4 of any veg type, put them all back and shuffle
-            ((any (partition VEG (game vloc ROW)) 'V
-                (>= (size 'V) 4))
-             (do (
-                (repeat all
-                    (move (top (game vloc ROW))
-                        (top (game iloc STOCK))))
-                (shuffle (game iloc STOCK))
-             ))
-            )
-        ))
-    )
 
     ;; HARVEST take a card from the ROW
     (choice (
         (any (game vloc ROW) 'RC
-            (move 'RC (top ((current player) iloc HAND))))
-    ))
+            (move 'RC (top ((current player) iloc HAND))))))
 
     ;; PLAY as many cards as you want from your hand
     (stage player 
@@ -78,6 +49,7 @@
             (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) BEET)) 'BC
                 (any (other player) 'OP
                     ((and (> (size 'BC) 0)
+                          (>= (size ('OP iloc HAND)) 1) ;; other player needs a card
                           (>= (size ((current player) iloc HAND)) 2)) ;; one for the Beet card, one for the random card
                      (do (
                         (move (top 'BC) (top ((current player) vloc DISCARD)))
@@ -385,6 +357,41 @@
         ((== (size (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) ARTICHOKE))) 0)
          (set ((current player) sto WINNER) 1))
     ))
+
+    ;; REPLENISH the ROW up to 5 cards, if possible
+    (stage player   ;; stage necessary for looping when 4 match found
+        (end (or (== (game str STATE) STUCK)
+                 (== (size (game vloc ROW)) 5)
+                 (== (size (game iloc STOCK)) 0)))
+        (do (
+            ;; fill up the row to 5 cards
+            (set (game sto NEEDED) (- 5 (size (game vloc ROW))))
+            ((> (game sto NEEDED) (size (game iloc STOCK)))
+             (set (game sto NEEDED) (size (game iloc STOCK))))
+
+            (repeat (game sto NEEDED) 
+                (move (top (game iloc STOCK))
+                      (top (game vloc ROW))))
+
+            ;; if >= 4 of any veg type, put them all back and shuffle
+            ((any (partition VEG (game vloc ROW)) 'V
+                (>= (size 'V) 4))
+             (do (
+                (repeat all
+                    (move (top (game vloc ROW))
+                        (top (game iloc STOCK))))
+                (shuffle (game iloc STOCK))
+
+                ;; CATCH A STUCK SITUATION!!!
+                ((and (<= (size (game iloc STOCK)) 5)
+                      (any (partition VEG (game iloc STOCK)) 'V
+                           (>= (size 'V) 4)))
+                 (set (game str STATE) STUCK)
+             ))
+            )
+        ))
+    )
+ )
  )
 
  (scoring max ((current player) sto WINNER))
