@@ -1156,9 +1156,14 @@ namespace CardStock.FreezeFrame
                 }
                 else if (boolNode.card().Length > 0)
                 {
+                    //Console.WriteLine("Comparing cards");
                     var b = boolNode.card();
                     var card1 = ProcessCard(b[0]);
                     var card2 = ProcessCard(b[1]);
+                    /*if (card1.Equals(card2))
+                    {
+                        Console.WriteLine("Same Card!" + card1 + "," + card2);
+                    }*/
                     return eq == card1.Equals(card2);
                 }
                 else if (boolNode.whop().Length > 0)

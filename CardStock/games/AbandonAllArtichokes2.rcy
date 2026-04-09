@@ -96,15 +96,15 @@
             ;; CORN
             (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) CORN)) 'CC
                 (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) ARTICHOKE)) 'AC
-                    (any (game vloc ROW) 'RC
-                        ((and (> (size 'AC) 0)
-                              (> (size 'CC) 0))
+                    ((and (> (size 'AC) 0)
+                          (> (size 'CC) 0))
+                     (any (game vloc ROW) 'RC
                          (do (
                             (move (top 'AC) (top ((current player) vloc DISCARD)))
                             (move 'RC (top ((current player) hloc DECK)))
                             (move (top 'CC) (top ((current player) vloc DISCARD)))
                          ))
-                        )
+                     )
                     )
                 )
             )
@@ -169,27 +169,27 @@
             ;; ONION
             (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) ONION)) 'OC
                 (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) ARTICHOKE)) 'AC
-                    (any (other player) 'OP
-                        ((and (> (size 'AC) 0)
-                            (> (size 'OC) 0))
+                    ((and (> (size 'AC) 0)
+                          (> (size 'OC) 0))    
+                     (any (other player) 'OP
                          (do (
                             (move (top 'AC) (top (game vloc COMPOST)))
                             (move (top 'OC) (top ('OP vloc DISCARD)))
                          ))
-                        )
+                     )
                     )
                 )
             )
 
             ;; PEPPER
             (let (filter ((current player) iloc HAND) 'FC (== (cardatt VEG 'FC) PEPPER)) 'PC
-                (any ((current player) vloc DISCARD) 'DC
-                    ((> (size 'PC) 0)
-                     (do (
+                ((> (size 'PC) 0)
+                 (any ((current player) vloc DISCARD) 'DC
+                    (do (
                         (move 'DC (top ((current player) hloc DECK)))
                         (move (top 'PC) (top ((current player) vloc DISCARD)))
-                     ))
-                    )
+                    ))
+                 )
                 )
             )
 
