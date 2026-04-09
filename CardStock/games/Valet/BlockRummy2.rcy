@@ -78,7 +78,7 @@
 
   ;; layoff to other melds.
   (stage player 
-   (end (any player 'P (== ('P str LAYOFF) DONE)))
+   (end (== ((current player) str LAYOFF) DONE))
 
    (choice (
     ;; sets
