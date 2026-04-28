@@ -1,0 +1,58 @@
+;; Partition Test
+;;
+;; Used to test the partition function in ReCYCLE v0.5
+
+(game
+    (declare 1 'NUMP)
+    (setup
+        (create players 'NUMP)
+        ;; create deck
+        (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE)) 
+                                             (COLOR (RED (SUIT (HEARTS))))))
+        (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE)) 
+                                             (COLOR (BLACK (SUIT (CLUBS))))))
+        (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE)) 
+                                             (COLOR (RED (SUIT (DIAMONDS))))))
+        (create deck (game iloc STOCK) (deck (RANK (A, TWO, TWO, THREE, FOUR, FIVE)) 
+                                             (COLOR (BLACK (SUIT (SPADES)))))))
+    
+    ;; deal
+    (do
+        (
+            (set (game points SEQUENCE)
+            (
+            ((SUIT : HEARTS) 100)
+            ((SUIT : CLUBS) 200)
+            ((SUIT : SPADES) 300)
+            ((SUIT : DIAMONDS) 400)
+            ((RANK : K) 13) 
+            ((RANK : Q) 12) 
+            ((RANK : J) 11) 
+            ((RANK : TEN) 10) 
+            ((RANK : NINE) 9) 
+            ((RANK : EIGHT) 8) 
+            ((RANK : SEVEN) 7) 
+            ((RANK : SIX) 6) 
+            ((RANK : FIVE) 5) 
+            ((RANK : FOUR) 4) 
+            ((RANK : THREE) 3) 
+            ((RANK : TWO) 2) 
+            ((RANK : A) 1) 
+            ))
+
+            (all player 'P
+                (repeat 8
+                    (move (top (game iloc STOCK))
+                          (top ('P iloc HAND)))))
+            (all player 'P
+                (set ('P sto SCORE) 0))))
+
+    
+        (do
+            (
+                (any (runs largest 3 ((current player) iloc HAND) using (game points SEQUENCE)) 'R
+                  (inc ((current player) sto SCORE) (size 'R))
+                           )))
+
+
+    (scoring max ((current player) sto SCORE)))
