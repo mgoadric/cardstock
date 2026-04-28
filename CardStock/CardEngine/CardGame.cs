@@ -246,7 +246,6 @@ namespace CardStock.CardEngine
                             foreach (var card in collection.AllKnownCards())
                             {
                                 // Look up card by index, and reference the new cloned card
-
                                 var toAdd = tempsourceDeck[card.back][card.id];
                                 tempCollection.Add(toAdd);
 

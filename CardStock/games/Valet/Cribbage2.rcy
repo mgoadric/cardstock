@@ -3,7 +3,7 @@
 
 (game
  (setup
-  ;; Set up the players, 2 players each on their own team
+  ;; Set up 2 players
   (create players 2)
 
   ;; Create the deck source - French
@@ -13,216 +13,211 @@
          (COLOR (RED (SUIT (HEARTS, DIAMONDS)))
                 (BLACK (SUIT (CLUBS, SPADES)))))))
 
- ;; each player is the dealer once
+ (do (
+  (shuffle (game iloc STOCK))
+  (set (game points PIPS)
+   (((RANK : K)    10) ((RANK : Q)    10) ((RANK : J)    10) 
+    ((RANK : TEN)  10) ((RANK : NINE)  9) ((RANK : EIGHT) 8) 
+    ((RANK : SEVEN) 7) ((RANK : SIX)   6) ((RANK : FIVE)  5) 
+    ((RANK : FOUR)  4) ((RANK : THREE) 3) ((RANK : TWO)   2) 
+    ((RANK : A)     1)))
+
+  (set (game points SEQUENCE)
+   (((RANK : K)    13) ((RANK : Q)    12) ((RANK : J)    11) 
+    ((RANK : TEN)  10) ((RANK : NINE)  9) ((RANK : EIGHT) 8) 
+    ((RANK : SEVEN) 7) ((RANK : SIX)   6) ((RANK : FIVE)  5) 
+    ((RANK : FOUR)  4) ((RANK : THREE) 3) ((RANK : TWO)   2) 
+    ((RANK : A)     1)))
+
+  ;; Deal 6 cards to each player
+  (all player 'P 
+   (repeat 6 (move (top (game iloc STOCK))
+                   (top ('P iloc HAND)))))
+  (set ((current player) str STATE) PLAY)
+  (set ((next player) str STATE) PLAY)))
+
+ ;; each player picks two for the crib
  (stage player 
-  (end (all player 'P (== ('P str DEALER) TRUE)))
+  (end (all player 'P (== (size ('P iloc HAND)) 4)))
+
+  (choice (
+   (any ((current player) iloc HAND) 'C 
+    (move 'C (top (game iloc CRIB))))))
+
+  (choice (
+   (any ((current player) iloc HAND) 'C 
+    (move 'C (top (game iloc CRIB)))))))
+
+ ;; Set up the start card
+ (do (
+  (move (top (game iloc STOCK))
+        (top (game vloc START)))
+
+  ;; Two for his heels
+  ((== (cardatt RANK (top (game vloc START))) J)
+   (inc ((current player) sto SCORE) 2))))
+
+ ;; play the cards
+ (stage player 
+  (end (all player 'P (== (size ('P iloc HAND)) 0)))
+            
+  (choice (
+
+   ;; if you can add to the pile without going over
+   ((> (size (filter ((current player) iloc HAND) 'FC 
+              (<= (+ (game sto TOTAL)  
+                     (score 'FC using (game points PIPS))) 31))) 0)
+    (any (filter ((current player) iloc HAND) 'FC 
+          (<= (+ (game sto TOTAL)  
+                 (score 'FC using (game points PIPS))) 31)) 'C 
+     (do (
+      (move 'C (top ((current player) vloc PILE)))
+      (remember 'C (top (game mem SEQUENCE)))
+      ((== ((next player) str STATE) GO)
+       (cycle next (current player)))))))
+                
+   ;; if you cannot add without going over 31, then you say GO to the other player
+   ((== (size (filter ((current player) iloc HAND) 'FC 
+               (<= (+ (game sto TOTAL)  
+                      (score 'FC using (game points PIPS))) 31))) 0)
+    (set ((current player) str STATE) GO))))
 
   (do (
-   (shuffle (game iloc STOCK))
-   (set (game points PIPS)
-    (((RANK : K)    10) ((RANK : Q)    10) ((RANK : J)    10) 
-     ((RANK : TEN)  10) ((RANK : NINE)  9) ((RANK : EIGHT) 8) 
-     ((RANK : SEVEN) 7) ((RANK : SIX)   6) ((RANK : FIVE)  5) 
-     ((RANK : FOUR)  4) ((RANK : THREE) 3) ((RANK : TWO)   2) 
-     ((RANK : A)     1)))
-
-   (set (game points SEQUENCE)
-    (((RANK : K)    13) ((RANK : Q)    12) ((RANK : J)    11) 
-     ((RANK : TEN)  10) ((RANK : NINE)  9) ((RANK : EIGHT) 8) 
-     ((RANK : SEVEN) 7) ((RANK : SIX)   6) ((RANK : FIVE)  5) 
-     ((RANK : FOUR)  4) ((RANK : THREE) 3) ((RANK : TWO)   2) 
-     ((RANK : A)     1)))
-
-    ;; Deal 6 cards to each player
-    (all player 'P 
-     (repeat 6 (move (top (game iloc STOCK))
-                     (top ('P iloc HAND)))))
-    (set ((current player) str DEALER) TRUE)
-    (set ((current player) str STATE) PLAY)
-    (set ((next player) str STATE) PLAY)))
-
-    ;; each player picks two for the crib
-    (stage player 
-     (end (all player 'P (== (size ('P iloc HAND)) 4)))
-
-     (choice (
-      (any ((current player) iloc HAND) 'C 
-       (move 'C (top (game iloc CRIB))))))
-
-     (choice (
-      (any ((current player) iloc HAND) 'C 
-       (move 'C (top (game iloc CRIB)))))))
-
-    ;; Set up the start card
+   ((!= ((current player) str STATE) GO)
     (do (
-     (move (top (game iloc STOCK))
-           (top (game vloc START)))
+     ;; reset the total, so calculations take less time
+     (set (game sto TOTAL) (sum (game mem SEQUENCE) using (game points PIPS)))
 
-     ;; Two for his heels
-     ((== (cardatt RANK (top (game vloc START))) J)
-      (inc ((current player) sto SCORE) 2))))
-
-    ;; play the cards
-    (stage player 
-     (end (all player 'P (== (size ('P iloc HAND)) 0)))
-            
-     (choice (
-
-      ;; if you can add to the pile without going over
-      ((> (size (filter ((current player) iloc HAND) 'FC 
-                 (<= (+ (game sto TOTAL)  
-                        (score 'FC using (game points PIPS))) 31))) 0)
-       (any (filter ((current player) iloc HAND) 'FC 
-             (<= (+ (game sto TOTAL)  
-                    (score 'FC using (game points PIPS))) 31)) 'C 
-        (do (
-         (move 'C (top ((current player) vloc PILE)))
-         (remember 'C (top (game mem SEQUENCE)))
-         ((== ((next player) str STATE) GO)
-          (cycle next (current player)))))))
-                
-      ;; if you cannot add without going over 31, then you say GO to the other player
-      ((== (size (filter ((current player) iloc HAND) 'FC 
-                  (<= (+ (game sto TOTAL)  
-                         (score 'FC using (game points PIPS))) 31))) 0)
-       (set ((current player) str STATE) GO))))
-
-     (do (
-      ((!= ((current player) str STATE) GO)
-       (do (
-        ;; reset the total, so calculations take less time
-        (set (game sto TOTAL) (sum (game mem SEQUENCE) using (game points PIPS)))
-
-        ;; fifteen for two
-        ((== (game sto TOTAL) 15)
-         (inc ((current player) sto SCORE)))
+     ;; fifteen for two
+     ((== (game sto TOTAL) 15)
+      (inc ((current player) sto SCORE)))
                         
-        ;; thirty-one for two, end the round
-        ((== (game sto TOTAL) 31)
-         (do (
-          (inc ((current player) sto SCORE) 2)
-          (all player 'P (set ('P str STATE) GO)))))
+     ;; thirty-one for two, end the round
+     ((== (game sto TOTAL) 31)
+      (do (
+       (inc ((current player) sto SCORE) 2)
+       (all player 'P (set ('P str STATE) GO)))))
 
-        ;; Looking for pairs in sequence
-        ((and (>= (size (game mem SEQUENCE)) 2)      
-              (all (top 2 (game mem SEQUENCE)) 'C 
-               (== (cardatt RANK 'C)
-                   (cardatt RANK (top (game mem SEQUENCE))))))
-         (do (
-          (inc ((current player) sto SCORE) 2)
-          ((and (>= (size (game mem SEQUENCE)) 3)      
-                (all (top 3 (game mem SEQUENCE)) 'C 
-                 (== (cardatt RANK 'C)
-                     (cardatt RANK (top (game mem SEQUENCE))))))
-           (do (
-            (inc ((current player) sto SCORE) 4)
-            ((and (>= (size (game mem SEQUENCE)) 4)      
-                  (all (top 4 (game mem SEQUENCE)) 'C 
-                   (== (cardatt RANK 'C)
-                       (cardatt RANK (top (game mem SEQUENCE))))))
-             (inc ((current player) sto SCORE) 6))))))))
+     ;; Looking for pairs in sequence
+     ((and (>= (size (game mem SEQUENCE)) 2)      
+           (all (top 2 (game mem SEQUENCE)) 'C 
+            (== (cardatt RANK 'C)
+                (cardatt RANK (top (game mem SEQUENCE))))))
+      (do (
+       (inc ((current player) sto SCORE) 2)
+       ((and (>= (size (game mem SEQUENCE)) 3)      
+             (all (top 3 (game mem SEQUENCE)) 'C 
+              (== (cardatt RANK 'C)
+                  (cardatt RANK (top (game mem SEQUENCE))))))
+        (do (
+         (inc ((current player) sto SCORE) 4)
+         ((and (>= (size (game mem SEQUENCE)) 4)      
+               (all (top 4 (game mem SEQUENCE)) 'C 
+                (== (cardatt RANK 'C)
+                    (cardatt RANK (top (game mem SEQUENCE))))))
+          (inc ((current player) sto SCORE) 6))))))))
 
-        ;; find longest run in sequence starting at and including the top
-        (inc ((current player) sto SCORE) 
-             (size (run top 3 (game mem SEQUENCE) using (game points SEQUENCE)))))))
+     ;; find longest run in sequence starting at and including the top
+     (inc ((current player) sto SCORE) 
+          (size (run top 3 (game mem SEQUENCE) using (game points SEQUENCE)))))))
                           
-        ;; neither player can play a card?
-        ((or (all player 'P (== ('P str STATE) GO))
-             (all player 'P (== (size ('P iloc HAND)) 0)))
-         (do (
-
-          ;; Point for last card
-          ((!= (game sto TOTAL) 31)
-           (inc ((current player) sto SCORE) 1))
-
-          ;; move cards to PLAYED for later scoring
-          (all player 'P 
-           (repeat all (move (top ('P vloc PILE))
-                             (top ('P vloc PLAYED)))))          
-
-          (repeat all (forget (top (game mem SEQUENCE))))
-          (set ((current player) str STATE) PLAY)
-          (set ((next player) str STATE) PLAY)
-          (set (game sto TOTAL) 0)))))))
-
-    ;; non-dealer scores first
+   ;; neither player can play a card?
+   ((or (all player 'P (== ('P str STATE) GO))
+        (all player 'P (== (size ('P iloc HAND)) 0)))
     (do (
-     (cycle current (next player))))
 
-    ;; now we score the players cards
-    (stage player 
-     (end (all player 'P (== (size ('P vloc PLAYED)) 0)))
-     (do (
+     ;; Point for last card
+     ((!= (game sto TOTAL) 31)
+      (inc ((current player) sto SCORE) 1))
 
-      ;; fifteen for two
-      (all (subsets (union (game vloc START)
-                           ((current player) vloc PLAYED))) 'CC
-       ((== (sum 'CC using (game points PIPS)) 15)
-        (inc ((current player) sto SCORE) 2)))
+     ;; move cards to PLAYED for later scoring
+     (all player 'P 
+      (repeat all (move (top ('P vloc PILE))
+                        (top ('P vloc PLAYED)))))          
 
-      ;; Pair scoring
-      (all (partition RANK (union (game vloc START)
-                                  ((current player) vloc PLAYED))) 'CC
-       (do (
-        ((== (size 'CC) 2) ;; Pair
-         (inc ((current player) sto SCORE) 2))
-        ((== (size 'CC) 3) ;; Pair Royal
-         (inc ((current player) sto SCORE) 6))
-        ((== (size 'CC) 4) ;; Double Pair Royal
-         (inc ((current player) sto SCORE) 12)))))
+     (repeat all (forget (top (game mem SEQUENCE))))
+     (set ((current player) str STATE) PLAY)
+     (set ((next player) str STATE) PLAY)
+     (set (game sto TOTAL) 0)))))))
 
-      ;; RUN SCORING
-      ;; Three cards of consecutive rank (irrespective of suit), such as ace-2-3, score 3 points for a run. 
-      ;; A hand such as 6-7-7-8 contains two runs of 3 (as well as two fifteens and a pair) and so would score 
-      ;; 12 altogether. A run of four cards, such as 9-10-J-Q scores 4 points (this is slightly illogical - you 
-      ;; might expect it to score 6 because it contains two runs of 3, but it doesn't. The runs of 3 within it 
-      ;; don't count - you just get 4), and a run of five cards scores 5.
-      (all (runs largest 3 ((current player) vloc PLAYED) 
-            using (game points SEQUENCE)) 'PR
-       (do (
-        ((== (size 'PR) 3)
-         (inc ((current player) sto SCORE) 3))
-        ((== (size 'PR) 4)
-         (dec ((current player) sto SCORE) 4))
-        ((== (size 'PR) 5)
-         (dec ((current player) sto SCORE) 5)))))
+ ;; non-dealer scores first
+ (do (
+  (cycle current (next player))))
 
-      ;; Flush scoring
-      (all (partition SUIT ((current player) vloc PLAYED)) 'CC
-       (do (
-        ((== (size 'CC) 4) ;; all same suit in hand
-         (do (
-          (inc ((current player) sto SCORE) 4)
-          ((== (cardatt SUIT (top 'CC))
-               (cardatt SUIT (top (game vloc START)))) ;; Bonus
-           (inc ((current player) sto SCORE)))))))))
+ ;; now we score the players cards
+ (stage player 
+  (end (all player 'P (== (size ('P vloc PLAYED)) 0)))
+  (do (
+
+   ;; fifteen for two
+   (all (subsets (union (game vloc START)
+                        ((current player) vloc PLAYED))) 'CC
+    ((== (sum 'CC using (game points PIPS)) 15)
+     (inc ((current player) sto SCORE) 2)))
+
+   ;; Pair scoring
+   (all (partition RANK (union (game vloc START)
+                               ((current player) vloc PLAYED))) 'CC
+    (do (
+     ((== (size 'CC) 2) ;; Pair
+      (inc ((current player) sto SCORE) 2))
+     ((== (size 'CC) 3) ;; Pair Royal
+      (inc ((current player) sto SCORE) 6))
+     ((== (size 'CC) 4) ;; Double Pair Royal
+      (inc ((current player) sto SCORE) 12)))))
+
+   ;; RUN SCORING
+   ;; Three cards of consecutive rank (irrespective of suit), such as ace-2-3, score 3 points for a run. 
+   ;; A hand such as 6-7-7-8 contains two runs of 3 (as well as two fifteens and a pair) and so would score 
+   ;; 12 altogether. A run of four cards, such as 9-10-J-Q scores 4 points (this is slightly illogical - you 
+   ;; might expect it to score 6 because it contains two runs of 3, but it doesn't. The runs of 3 within it 
+   ;; don't count - you just get 4), and a run of five cards scores 5.
+   (all (runs largest 3 ((current player) vloc PLAYED) 
+         using (game points SEQUENCE)) 'PR
+    (do (
+     ((== (size 'PR) 3)
+      (inc ((current player) sto SCORE) 3))
+     ((== (size 'PR) 4)
+      (inc ((current player) sto SCORE) 4))
+     ((== (size 'PR) 5)
+      (inc ((current player) sto SCORE) 5)))))
+
+   ;; Flush scoring
+   (all (partition SUIT ((current player) vloc PLAYED)) 'CC
+    (do (
+     ((== (size 'CC) 4) ;; all same suit in hand
+      (do (
+       (inc ((current player) sto SCORE) 4)
+       ((== (cardatt SUIT (top 'CC))
+            (cardatt SUIT (top (game vloc START)))) ;; Bonus
+        (inc ((current player) sto SCORE)))))))))
                 
-      ;; One for His Nob
-      ((any ((current player) vloc PLAYED) 'C 
-            (and (== (cardatt RANK 'C) J)
-                 (== (cardatt SUIT 'C)
-                     (cardatt SUIT (top (game vloc START))))))
-       (inc ((current player) sto SCORE)))
+   ;; One for His Nob
+   ((any ((current player) vloc PLAYED) 'C 
+     (and (== (cardatt RANK 'C) J)
+          (== (cardatt SUIT 'C)
+              (cardatt SUIT (top (game vloc START))))))
+    (inc ((current player) sto SCORE)))
 
-      ;; Discard cards
-      (repeat all 
-       (move (top ((current player) vloc PLAYED))
-             (top (game vloc DISCARD))))
+   ;; Discard cards
+   (repeat all 
+    (move (top ((current player) vloc PLAYED))
+          (top (game vloc DISCARD))))
 
-      ;; Move crib cards if it is the end of the dealer's turn to count points
-      ((and (all player 'P (== (size ('P vloc PLAYED)) 0))
-            (> (size (game iloc CRIB)) 0))
-       (do (
-        (repeat all (move (top (game iloc CRIB))
-                          (top ((current player) vloc PLAYED))))
-        (cycle next (current player))))))))
-
-    ;; make sure turn passes correctly
+   ;; Move crib cards if it is the end of the dealer's turn to count points
+   ((and (all player 'P (== (size ('P vloc PLAYED)) 0))
+         (> (size (game iloc CRIB)) 0))
     (do (
-     (move (top (game vloc START))
-           (top (game vloc DISCARD)))
-     (repeat all (move (top (game vloc DISCARD))
-                       (top (game iloc STOCK))))
-     (cycle current (next player)))))
+     (repeat all (move (top (game iloc CRIB))
+                       (top ((current player) vloc PLAYED))))
+     (cycle next (current player))))))))
+
+ ;; make sure turn passes correctly
+ (do (
+  (move (top (game vloc START))
+        (top (game vloc DISCARD)))
+  (repeat all (move (top (game vloc DISCARD))
+                    (top (game iloc STOCK))))
+  (cycle current (next player))))
 
  (scoring max ((current player) sto SCORE)))
