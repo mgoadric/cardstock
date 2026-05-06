@@ -323,6 +323,11 @@
    ((== ((current team) sto TRICKS) 8)
     (inc ((current team) sto SCORE) 100)))))
 
-   ;; determine if the bidding team won - not included because only one round
+ ;; determine if the bidding team won - transfer points if lost
+ (do (
+  ((< ((current team) sto SCORE) ((next team) sto SCORE))
+   (do (
+    (inc ((next team) sto SCORE) ((current team) sto SCORE))
+    (set ((current team) sto SCORE) 0))))))
 
  (scoring max ((team (current player)) sto SCORE)))
