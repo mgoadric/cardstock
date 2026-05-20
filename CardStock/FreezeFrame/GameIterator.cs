@@ -110,7 +110,7 @@ namespace CardStock.FreezeFrame
                 {
                     Console.WriteLine("Game stuck in loop");
                     throw new Exception();
-                    return true; // game stuck in loop
+                    // game stuck in loop
                 }
             }
             if (iterStack.Count == 0)

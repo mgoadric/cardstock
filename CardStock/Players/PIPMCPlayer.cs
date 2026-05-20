@@ -10,8 +10,8 @@ namespace CardStock.Players
 
         private int[] completed;
 
-        private readonly double[][] rankSum = new double[perspective.NumberOfPlayers()][];
-        private readonly double[][] scoreSum = new double[perspective.NumberOfPlayers()][];
+        private readonly double[][] moveRanks = new double[perspective.NumberOfPlayers()][];
+        private readonly double[][] moveScores = new double[perspective.NumberOfPlayers()][];
 
         private readonly Tuple<CardGame, GameIterator>[] determinizations = new Tuple<CardGame, GameIterator>[dc.exp.numSamples];
 
@@ -19,10 +19,10 @@ namespace CardStock.Players
         {
             completed = new int[numChoices];
 
-            for (int i = 0; i < perspective.NumberOfPlayers(); i++)
+            for (int i = 0; i < numPlayers; i++)
             {
-                rankSum[i] = new double[numChoices];
-                scoreSum[i] = new double[numChoices];
+                moveRanks[i] = new double[numChoices];
+                moveScores[i] = new double[numChoices];
             }
 
             // MAKE THIS MANY DETERMINIZATIONS
@@ -54,19 +54,19 @@ namespace CardStock.Players
             {
                 for (int m = 0; m < numChoices; m++)
                 {
-                    scoreSum[i][m] /= completed[m];
-                    rankSum[i][m] /= completed[m];
+                    moveScores[i][m] /= completed[m];
+                    moveRanks[i][m] /= completed[m];
                 }
             }
 
             // FIND BEST (and worst) MOVE TO MAKE
-            var (_, max) = MinMaxIdx(scoreSum[perspective.GetIdx()]);
+            var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()]);
 
             //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
             //Console.WriteLine("{0}", string.Join(", ", scoreSum[perspective.GetIdx()]));
 
             // Record info for heuristic evaluation
-            dc.RecordHeuristics(scoreSum, rankSum, perspective.GetIdx());
+            dc.RecordHeuristics(moveScores, moveRanks, perspective.GetIdx());
 
             // NEW SCORE (highest is best)
             return max;
@@ -112,10 +112,10 @@ namespace CardStock.Players
                 for (int j = 0; j < numPlayers; ++j)
                 {
                     // OLD RANK BASED 
-                    rankSum[j][move] += ranks[j,0];
+                    moveRanks[j][move] += ranks[j,0];
 
                     // NEW VALUE BASED
-                    scoreSum[j][move] += results[j] * mult;
+                    moveScores[j][move] += results[j] * mult;
 
                 }
                 completed[move]++;

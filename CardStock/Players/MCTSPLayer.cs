@@ -5,10 +5,11 @@ using CardStock.FreezeFrame.Actions;
 
 namespace CardStock.Players
 {
-    public record NodeStats
+    public record NodeStats(int numPlayers)
     {
         public int plays;
-        public double wins;
+        public double[] scores = new double[numPlayers];
+        public double[] ranks = new double[numPlayers];
     }
 
     //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
@@ -43,31 +44,43 @@ namespace CardStock.Players
         public override int ChooseOption()
         {
 
-            double[] movescores = new double[numChoices];
-            int[] choiceplays = new int[numChoices];
+            double[][] moveScores = new double[numPlayers][];
+            double[][] moveRanks = new double[numPlayers][];
+            for (int i = 0; i < perspective.NumberOfPlayers(); i++)
+            {
+                moveScores[i] = new double[numChoices];
+                moveRanks[i] = new double[numChoices];
+            }            
+            //int[] choiceplays = new int[numChoices];
 
             for (int m = 0; m < numChoices; m++)
             {
-                for (int det = 0; det < dc.exp.numSamples; det++)
+                for (int i = 0; i < numPlayers; i++)
                 {
-                    // check for small sample numbers, some moves might be 0
-                    if (choiceStats[det][m] is not null)
+                    for (int det = 0; det < dc.exp.numSamples; det++)
                     {
-                        movescores[m] += choiceStats[det][m].wins / choiceStats[det][m].plays;
-                        choiceplays[m] += choiceStats[det][m].plays;
+                        // check for small sample numbers, some moves might be 0
+                        if (choiceStats[det][m] is not null)
+                        {
+                            moveScores[i][m] += choiceStats[det][m].scores[i] / choiceStats[det][m].plays;
+                            moveRanks[i][m] += choiceStats[det][m].ranks[i] / choiceStats[det][m].plays;
+                        }
+                        //choiceplays[m] += choiceStats[det][m].plays;
                     }
+                    moveScores[i][m] /= dc.exp.numSamples;
+                    moveRanks[i][m] /= dc.exp.numSamples;
                 }
-                movescores[m] /= dc.exp.numSamples;
             }
 
-            var (min, max) = MinMaxIdx(movescores);
+            var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()]);
 
             // TODO THIS IS MISSING LEAD HISTORY RECORDING!!
-            // Record info for heuristic evaluation
-            //RecordHeuristics(rankSum);
             //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
             //Console.WriteLine("{0}", string.Join(", ", movescores));
             //Console.WriteLine("{0}", string.Join(", ", choiceplays));
+
+            // Record info for heuristic evaluation
+            dc.RecordHeuristics(moveScores, moveRanks, perspective.GetIdx());
 
             return max;
         }
@@ -137,7 +150,7 @@ namespace CardStock.Players
                             int n = child.plays;
 
                             // c parameter is the sqrt(2) part
-                            double temp = (child.wins / n) + Math.Sqrt(2 * totalplays / n);
+                            double temp = (child.scores[idx] / n) + Math.Sqrt(2 * totalplays / n);
 
                             // does this still work if recording score, not 1--0 win record?
                             if (temp > bestscore)
@@ -185,7 +198,7 @@ namespace CardStock.Players
                             }
                         }
                         expand = false;
-                        NodeStats cstats = new();
+                        NodeStats cstats = new(numPlayers);
                         stats[det][chosen] = cstats;
                         movelist[choice] = cstats;
                     }
@@ -202,6 +215,7 @@ namespace CardStock.Players
 
             // ProcessScore returns the score for each player and a mult for min/max games
             var (results, mult) = gameIterator.ProcessScore();
+            int[,] ranks = DataCollector.FindRanks(results, mult);
 
             // GO THROUGH VISITED STATES
             foreach (Tuple<CardGame, int, int> stateandplayer in visitedstates)
@@ -210,10 +224,8 @@ namespace CardStock.Players
                 node.plays += 1;
                 for (int j = 0; j < numPlayers; j++)
                 {
-                    if (j == stateandplayer.Item2)
-                    {
-                        node.wins += results[j] * mult;//inverseRankSum[stateandplayer.Item2];
-                    }
+                    node.ranks[j] += ranks[j, 0];
+                    node.scores[j] += results[j] * mult;
                 }
             }
         }

@@ -80,6 +80,11 @@ namespace CardStock.Players
             }
             return (minIdx, maxIdx);
         }
+
+        public static double Normalize(double value, double min, double max)
+        {
+            return (value - min) / (max - min);
+        }
 	}
 }
 
