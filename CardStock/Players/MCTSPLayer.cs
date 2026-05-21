@@ -2,6 +2,7 @@
 using CardStock.FreezeFrame;
 using CardStock.Evaluation;
 using CardStock.FreezeFrame.Actions;
+using System.Linq.Expressions;
 
 namespace CardStock.Players
 {
@@ -19,6 +20,9 @@ namespace CardStock.Players
         private readonly Dictionary<Tuple<CardGame, int, int>, NodeStats[]>[] movestatetree = new Dictionary<Tuple<CardGame, int, int>, NodeStats[]>[dc.exp.numSamples];
         private readonly Tuple<CardGame, GameIterator>[] determinizations = new Tuple<CardGame, GameIterator>[dc.exp.numSamples];
         private readonly NodeStats[][] choiceStats = new NodeStats[dc.exp.numSamples][];
+
+        private double scoreMin = double.MaxValue;
+        private double scoreMax = double.MinValue;
 
         public override void Explore()
         {
@@ -51,7 +55,7 @@ namespace CardStock.Players
                 moveScores[i] = new double[numChoices];
                 moveRanks[i] = new double[numChoices];
             }            
-            //int[] choiceplays = new int[numChoices];
+            int[] choiceplays = new int[numChoices];
 
             for (int m = 0; m < numChoices; m++)
             {
@@ -65,7 +69,12 @@ namespace CardStock.Players
                             moveScores[i][m] += choiceStats[det][m].scores[i] / choiceStats[det][m].plays;
                             moveRanks[i][m] += choiceStats[det][m].ranks[i] / choiceStats[det][m].plays;
                         }
-                        //choiceplays[m] += choiceStats[det][m].plays;
+                        choiceplays[m] += choiceStats[det][m].plays;
+
+                        if (i == perspective.GetIdx())
+                        {
+                            Console.WriteLine(det + "\t" + m + "\t" + choiceStats[det][m].plays + "\t" + choiceStats[det][m].scores[i] / choiceStats[det][m].plays);
+                        }
                     }
                     moveScores[i][m] /= dc.exp.numSamples;
                     moveRanks[i][m] /= dc.exp.numSamples;
@@ -75,8 +84,8 @@ namespace CardStock.Players
             var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()]);
 
             // TODO THIS IS MISSING LEAD HISTORY RECORDING!!
-            //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
-            //Console.WriteLine("{0}", string.Join(", ", movescores));
+            Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
+            //Console.WriteLine("{0}", string.Join(", ", moveScores[perspective.GetIdx()]));
             //Console.WriteLine("{0}", string.Join(", ", choiceplays));
 
             // Record info for heuristic evaluation
@@ -150,7 +159,11 @@ namespace CardStock.Players
                             int n = child.plays;
 
                             // c parameter is the sqrt(2) part
-                            double temp = (child.scores[idx] / n) + Math.Sqrt(2 * totalplays / n);
+                            double normscore = (child.scores[idx] / n - scoreMin) / (scoreMax - scoreMin);
+                            //Console.WriteLine(normscore);
+                            double temp = normscore + Math.Sqrt(2 * totalplays / n);
+                            // old method with raw scores -> no exploration!!
+                            //double temp = child.scores[idx] / n + Math.Sqrt(2 * totalplays / n);
 
                             // does this still work if recording score, not 1--0 win record?
                             if (temp > bestscore)
@@ -228,6 +241,13 @@ namespace CardStock.Players
                     node.scores[j] += results[j] * mult;
                 }
             }
+
+            for (int j = 0; j < numPlayers; j++)
+            {
+                scoreMin = double.Min(scoreMin, results[j]);
+                scoreMax = double.Max(scoreMax, results[j]);
+            }
+            //Console.WriteLine(scoreMin + " -- " + scoreMax);
         }
     }
 }
