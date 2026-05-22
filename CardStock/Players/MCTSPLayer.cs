@@ -71,10 +71,10 @@ namespace CardStock.Players
                         }
                         choiceplays[m] += choiceStats[det][m].plays;
 
-                        if (i == perspective.GetIdx())
-                        {
-                            Console.WriteLine(det + "\t" + m + "\t" + choiceStats[det][m].plays + "\t" + choiceStats[det][m].scores[i] / choiceStats[det][m].plays);
-                        }
+                        //if (i == perspective.GetIdx())
+                        //{
+                        //    Console.WriteLine(det + "\t" + m + "\t" + choiceStats[det][m].plays + "\t" + choiceStats[det][m].scores[i] / choiceStats[det][m].plays);
+                        //}
                     }
                     moveScores[i][m] /= dc.exp.numSamples;
                     moveRanks[i][m] /= dc.exp.numSamples;
@@ -84,7 +84,7 @@ namespace CardStock.Players
             var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()]);
 
             // TODO THIS IS MISSING LEAD HISTORY RECORDING!!
-            Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
+            //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
             //Console.WriteLine("{0}", string.Join(", ", moveScores[perspective.GetIdx()]));
             //Console.WriteLine("{0}", string.Join(", ", choiceplays));
 

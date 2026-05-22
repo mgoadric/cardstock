@@ -1,0 +1,174 @@
+;; Hachi Hachi Simple in Recycle
+;; https://drive.google.com/file/d/1JFroOGVg9unvIvVkbsgE22nXVJct2Oqb/view
+(game
+ (setup  
+  ;; Set up the players, 3 players each on their own team
+  (create players 3)
+  
+  ;; Create the deck source
+  (repeat 2 (create deck (game iloc STOCK) 
+   (deck (FLOWER (PINE, PLUM, CHERRY, WISTERIA, IRIS, PEONY, CLOVER, GRASS, CHRYSANTHEMUM, MAPLE))
+         (CATEGORY (BASIC)))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (WILLOW)) (CATEGORY (BASIC))))
+  (repeat 3 (create deck (game iloc STOCK) 
+   (deck (FLOWER (PAULOWNIA)) (CATEGORY (BASIC)))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (PINE)) (CATEGORY (LIGHT)) (NAME (CRANE))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (CHERRY)) (CATEGORY (LIGHT)) (NAME (CURTAIN))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (GRASS)) (CATEGORY (LIGHT)) (NAME (MOON))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (PAULOWNIA)) (CATEGORY (LIGHT)) (NAME (PHOENIX))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (WILLOW)) (CATEGORY (LIGHT)) (NAME (RAINMAN))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (PLUM)) (CATEGORY (EARTH)) (NAME (WARBLER))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (WISTERIA)) (CATEGORY (EARTH)) (NAME (CUCKOO))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (IRIS)) (CATEGORY (EARTH)) (NAME (BRIDGE))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (PEONY)) (CATEGORY (EARTH)) (NAME (BUTTERFLIES))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (CLOVER)) (CATEGORY (EARTH)) (NAME (BOAR))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (GRASS)) (CATEGORY (EARTH)) (NAME (GEESE))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (CHRYSANTHEMUM)) (CATEGORY (EARTH)) (NAME (CUP))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (MAPLE)) (CATEGORY (EARTH)) (NAME (DEER))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (WILLOW)) (CATEGORY (EARTH)) (NAME (SWALLOW))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (PINE, PLUM, CHERRY)) (CATEGORY (SCROLL)) (NAME (POETRY))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (PEONY, CHRYSANTHEMUM, MAPLE)) (CATEGORY (SCROLL)) (NAME (BLUE))))
+  (create deck (game iloc STOCK) 
+   (deck (FLOWER (WISTERIA, IRIS, CLOVER, WILLOW)) (CATEGORY (SCROLL)) (NAME (PLAIN)))))
+  
+ (do (
+  (set (game points SCORE)
+   (((CATEGORY : LIGHT)      20) 
+    ((CATEGORY : EARTH)      10) 
+    ((CATEGORY : SCROLL)      5) 
+    ((CATEGORY : BASIC)       1)))
+ ))
+
+ ;; Deal until the pool does not have 4 of a single suit
+ (stage player
+  (end (!= (size (game iloc STOCK)) 48))
+  (do (
+    (shuffle (game iloc STOCK))
+    (repeat 6 (move (top (game iloc STOCK))
+                    (top (game vloc POOL))))
+    ;; Deal the players 7 cards each
+    (all player 'P
+      (repeat 7 (move (top (game iloc STOCK))
+                      (top ('P iloc HAND)))))
+                      
+    ((any (partition FLOWER (game vloc POOL)) 'PP
+      (== (size 'PP) 4))
+    (do (
+      (repeat all (move (top (game vloc POOL))
+                        (top (game iloc STOCK))))
+      (all player 'P
+        (repeat 7 (move (top ('P iloc HAND))
+                        (top (game iloc STOCK)))))))))))
+  
+ ;; Stages of the game
+ (stage player
+  (end (== (size (game iloc STOCK)) 0))
+                
+               
+   ;; Pick a card to play to the pool
+   (choice (
+    (any ((current player) iloc HAND) 'AC
+     (do (
+      (move 'AC (top ((current player) vloc TRICK)))
+
+      (let (filter (game vloc POOL) 'PC 
+                   (== (cardatt FLOWER 'PC)
+                       (cardatt FLOWER (top ((current player) vloc TRICK))))) 'PM 
+
+       (do (
+       ;; at least one match in the pool, take one of the matches
+       ((and (> (size 'PM) 0)
+             (< (size 'PM) 3))
+        (any 'PM 'PCF
+          (do (
+            (move 'PCF (top ((current player) vloc BUNDLE)))
+            (set ((current player) sto MOVED) 1)))))
+
+       ;; all three other in pool, take them all                
+       ((== (size 'PM) 3)
+          (do (
+            (repeat all (move (top 'PM) (top ((current player) vloc BUNDLE))))
+            (set ((current player) sto MOVED) 1))))))))))
+   ))
+            
+   (do (
+            
+    ;; move trick card to pool
+    ((== ((current player) sto MOVED) 0)
+     (move (top ((current player) vloc TRICK))
+           (top (game vloc POOL))))
+
+    ;; or move trick card to bundle              
+    ((== ((current player) sto MOVED) 1)
+     (move (top ((current player) vloc TRICK))
+           (top ((current player) vloc BUNDLE))))
+                           
+    (set ((current player) sto MOVED) 0)))
+
+   ;; REPEAT FOR RANDOM CARD FROM STOCK
+   (choice (
+     (do (
+      (move (top (game iloc STOCK))
+            (top (game vloc TRICK)))
+
+      (let (filter (game vloc POOL) 'PC 
+                   (== (cardatt FLOWER 'PC)
+                       (cardatt FLOWER (top (game vloc TRICK))))) 'PM 
+
+       (do (
+       ;; at least one match in the pool, take one of the matches
+       ((and (> (size 'PM) 0)
+             (< (size 'PM) 3))
+        (any 'PM 'PCF
+          (do (
+            (move 'PCF (top ((current player) vloc BUNDLE)))
+            (set ((current player) sto MOVED) 1)))))
+
+       ;; all three other in pool, take them all                
+       ((== (size 'PM) 3)
+          (do (
+            (repeat all (move (top 'PM) (top ((current player) vloc BUNDLE))))
+            (set ((current player) sto MOVED) 1)))))))))))
+            
+   (do (
+            
+    ;; move trick card to pool
+    ((== ((current player) sto MOVED) 0)
+     (move (top (game vloc TRICK))
+           (top (game vloc POOL))))
+
+    ;; or move trick card to bundle              
+    ((== ((current player) sto MOVED) 1)
+     (move (top (game vloc TRICK))
+           (top ((current player) vloc BUNDLE))))
+                           
+    (set ((current player) sto MOVED) 0)))
+  )
+
+ ;; Final scoring
+ (stage player 
+  (end (all player 'P (== (size ('P vloc BUNDLE)) 0))) 
+  (do (
+    (set ((current player) sto SCORE) (- 88 (sum ((current player) vloc BUNDLE) using (game points SCORE))))
+    (repeat all (move (top ((current player) vloc BUNDLE))
+                      (top (game vloc DISCARD))))
+   )))
+
+ (scoring max ((current player) sto SCORE)))
