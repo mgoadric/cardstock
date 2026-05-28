@@ -101,14 +101,14 @@
       ;; so they always beat high card
       ((== (cardatt RANK (top ('P vloc REVEAL))) 
            (cardatt RANK (top (game vloc FACEUP))))
-       (set ((current player) sto POINTS) 
+       (set ('P sto POINTS) 
             (+ 10 (score (top ('P vloc REVEAL)) 
                    using (game points PRECEDENCE)))))
 
       ;; otherwise just score the high card
       ((!= (cardatt RANK (top ('P vloc REVEAL))) 
            (cardatt RANK (top (game vloc FACEUP))))
-       (set ((current player) sto POINTS) 
+       (set ('P sto POINTS) 
             (scoremax (union ('P vloc REVEAL) (game vloc FACEUP)) 
              using (game points PRECEDENCE))))
 
