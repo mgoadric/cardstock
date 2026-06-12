@@ -79,92 +79,154 @@
   
  ;; Stages of the game
  (stage player
-  (end (== (size (game iloc STOCK)) 0))
-                
-               
+  (end (or (== (size (game iloc STOCK)) 0)
+           (== (game str SET) YES)))
+                    
    ;; Pick a card to play to the pool
    (choice (
     (any ((current player) iloc HAND) 'AC
-     (do (
-      (move 'AC (top ((current player) vloc TRICK)))
+     (move 'AC (top ((current player) vloc TRICK))))))
 
-      (let (filter (game vloc POOL) 'PC 
+   ;; take zero, one, or all matches from the pool
+   (choice (
+    (let (filter (game vloc POOL) 'PC 
                    (== (cardatt FLOWER 'PC)
                        (cardatt FLOWER (top ((current player) vloc TRICK))))) 'PM 
 
-       (do (
+      (do (
+       ;; no match, pass
+       ((== (size 'PM) 0)
+        (move (top ((current player) vloc TRICK))
+              (top (game vloc POOL))))
+
        ;; at least one match in the pool, take one of the matches
        ((and (> (size 'PM) 0)
              (< (size 'PM) 3))
         (any 'PM 'PCF
           (do (
             (move 'PCF (top ((current player) vloc BUNDLE)))
-            (set ((current player) sto MOVED) 1)))))
+            (move (top ((current player) vloc TRICK))
+                  (top ((current player) vloc BUNDLE)))))))
 
        ;; all three other in pool, take them all                
        ((== (size 'PM) 3)
           (do (
             (repeat all (move (top 'PM) (top ((current player) vloc BUNDLE))))
-            (set ((current player) sto MOVED) 1))))))))))
-   ))
-            
-   (do (
-            
-    ;; move trick card to pool
-    ((== ((current player) sto MOVED) 0)
-     (move (top ((current player) vloc TRICK))
-           (top (game vloc POOL))))
+            (move (top ((current player) vloc TRICK))
+                  (top ((current player) vloc BUNDLE)))))))))))
 
-    ;; or move trick card to bundle              
-    ((== ((current player) sto MOVED) 1)
-     (move (top ((current player) vloc TRICK))
-           (top ((current player) vloc BUNDLE))))
-                           
-    (set ((current player) sto MOVED) 0)))
+   ;; flip random card from stock  
+   (do (
+    (move (top (game iloc STOCK))
+          (top (game vloc TRICK)))
+   ))
 
    ;; REPEAT FOR RANDOM CARD FROM STOCK
    (choice (
-     (do (
-      (move (top (game iloc STOCK))
-            (top (game vloc TRICK)))
-
-      (let (filter (game vloc POOL) 'PC 
+     (let (filter (game vloc POOL) 'PC 
                    (== (cardatt FLOWER 'PC)
                        (cardatt FLOWER (top (game vloc TRICK))))) 'PM 
 
-       (do (
+      (do (
+       ;; no match, pass
+       ((== (size 'PM) 0)
+        (move (top (game vloc TRICK))
+           (top (game vloc POOL))))
+
        ;; at least one match in the pool, take one of the matches
        ((and (> (size 'PM) 0)
              (< (size 'PM) 3))
         (any 'PM 'PCF
           (do (
             (move 'PCF (top ((current player) vloc BUNDLE)))
-            (set ((current player) sto MOVED) 1)))))
+            (move (top (game vloc TRICK))
+                  (top ((current player) vloc BUNDLE)))))))
 
        ;; all three other in pool, take them all                
        ((== (size 'PM) 3)
           (do (
             (repeat all (move (top 'PM) (top ((current player) vloc BUNDLE))))
-            (set ((current player) sto MOVED) 1)))))))))))
-            
-   (do (
-            
-    ;; move trick card to pool
-    ((== ((current player) sto MOVED) 0)
-     (move (top (game vloc TRICK))
-           (top (game vloc POOL))))
+            (move (top (game vloc TRICK))
+                  (top ((current player) vloc BUNDLE)))))))))))
 
-    ;; or move trick card to bundle              
-    ((== ((current player) sto MOVED) 1)
-     (move (top (game vloc TRICK))
-           (top ((current player) vloc BUNDLE))))
-                           
-    (set ((current player) sto MOVED) 0)))
+   ;; check for sets          
+   (do (
+    ;; BASIC
+    (let (filter ((current player) vloc BUNDLE) 'BC
+                 (or (== (cardatt CATEGORY 'BC) BASIC)
+                     (== (cardatt FLOWER 'BC) WILLOW))) 'BASIC
+      ((>= (size 'BASIC) 16)
+        (do (
+          (inc ((current player) sto SCORE) 50)
+          ((>= (size 'BASIC) 17)
+            (inc ((current player) sto SCORE) 10))
+          ((>= (size 'BASIC) 18)
+            (inc ((current player) sto SCORE) 15))
+          ((>= (size 'BASIC) 19)
+            (inc ((current player) sto SCORE) 25))
+          (all (other player) 'OP 
+            (dec ('OP sto SCORE) ((current player) sto SCORE)))
+          (inc ((current player) sto SCORE) ((current player) sto SCORE))
+          (set (game str SET) YES)
+        ))
+      )
+    )
+
+    ;; LIGHT
+    (let (filter ((current player) vloc BUNDLE) 'BC
+                 (== (cardatt CATEGORY 'BC) LIGHT)) 'LIGHT
+      ((or (== (size 'LIGHT) 5)
+           (and (== (size 'LIGHT) 4)
+                (== (size (filter 'LIGHT 'LC (== (cardatt NAME 'LC) RAINMAN))) 0)))
+        (do (
+          (inc ((current player) sto SCORE) 50)
+          ((== (size 'LIGHT) 5)
+            (inc ((current player) sto SCORE) 25))
+          (all (other player) 'OP 
+            (dec ('OP sto SCORE) ((current player) sto SCORE)))
+          (inc ((current player) sto SCORE) ((current player) sto SCORE))
+          (set (game str SET) YES)
+        ))
+      )
+    )
+
+    ;; SEVEN SCROLLS (NOT WILLOW)
+    ((== (size (filter ((current player) vloc BUNDLE) 'BC
+                       (and (== (cardatt CATEGORY 'BC) SCROLL)
+                            (!= (cardatt FLOWER 'BC) WILLOW)))) 7)
+     (do (
+      (inc ((current player) sto SCORE) 50)
+      (all (other player) 'OP 
+       (dec ('OP sto SCORE) 50))
+      (inc ((current player) sto SCORE) ((current player) sto SCORE))
+      (set (game str SET) YES)
+     ))
+    )
+
+    ;; POETRY SCROLLS, BLUE SCROLLS, or BOAR, DEER, BUTTERFLY
+    ((or (== (size (filter ((current player) vloc BUNDLE) 'BC
+                           (== (cardatt NAME 'BC) POETRY))) 3)
+         (== (size (filter ((current player) vloc BUNDLE) 'BC
+                           (== (cardatt NAME 'BC) BLUE))) 3)
+         (== (size (filter ((current player) vloc BUNDLE) 'BC
+                           (or (== (cardatt NAME 'BC) BOAR)
+                               (== (cardatt NAME 'BC) DEER)
+                               (== (cardatt NAME 'BC) BUTTERFLY)))) 3))
+     (do (
+      (inc ((current player) sto SCORE) 35)
+      (all (other player) 'OP 
+       (dec ('OP sto SCORE) 35))
+      (inc ((current player) sto SCORE) ((current player) sto SCORE))
+      (set (game str SET) YES)
+     ))
+    )
+   ))
   )
 
  ;; Final scoring
  (stage player 
-  (end (all player 'P (== (size ('P vloc BUNDLE)) 0))) 
+  (end (or (all player 'P (== (size ('P vloc BUNDLE)) 0))
+           (== (game str SET) YES)))
   (do (
     (set ((current player) sto SCORE) (- 88 (sum ((current player) vloc BUNDLE) using (game points SCORE))))
     (repeat all (move (top ((current player) vloc BUNDLE))

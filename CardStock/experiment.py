@@ -1,7 +1,7 @@
 import os
 
 runs = 100
-ai = "ONE"
+ai = "ALL"
 mypath = "./games/Valet"
 
 for (dirpath, dirnames, filenames) in os.walk(mypath):
@@ -13,7 +13,7 @@ for (dirpath, dirnames, filenames) in os.walk(mypath):
             acount = 1
         else:
             acount = nump
-        ais = "P" * acount + "R" * (nump - acount)
+        ais = "M" * acount + "R" * (nump - acount)
         exp = ("dotnet run --configuration Release Valet/" + name[:-5], name[-5], str(runs), ais)
         os.system(" ".join(exp))
 #os.system("dotnet run --configuration Release Valet/Klaverjassen 4 100 MRRR")
