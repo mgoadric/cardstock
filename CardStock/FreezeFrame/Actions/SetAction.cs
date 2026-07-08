@@ -20,12 +20,24 @@ namespace CardStock.FreezeFrame.Actions {
                 ["owner"] = bins.owner.name,
                 ["key"] = key,
             };
+
             if (value is int || value is string) 
             {
+                if (value is int) {
+                    data["type"] = "int";
+                } else
+                {
+                    data["type"] = "string";
+                }
                 data["value"] = value;
             } else if (value is PointMap pm)
             {
+                data["type"] = "pointmap";
                 data["value"] = pm.ToJSON();
+            } else
+            {
+                Console.WriteLine("THIS IS WEIRD!");
+                throw new Exception();
             }
 
             //script?.WriteToJSON(data);
