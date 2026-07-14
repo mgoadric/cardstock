@@ -156,6 +156,18 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitVarcard([NotNull] RecycleParser.VarcardContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.vart"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterVart([NotNull] RecycleParser.VartContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.vart"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitVart([NotNull] RecycleParser.VartContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.game"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -791,18 +803,6 @@ public partial class RecycleBaseListener : IRecycleListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitBasecstorage([NotNull] RecycleParser.BasecstorageContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.sortof"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterSortof([NotNull] RecycleParser.SortofContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.sortof"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitSortof([NotNull] RecycleParser.SortofContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.unionof"/>.
 	/// <para>The default implementation does nothing.</para>

@@ -131,6 +131,16 @@ public interface IRecycleListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitVarcard([NotNull] RecycleParser.VarcardContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="RecycleParser.vart"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterVart([NotNull] RecycleParser.VartContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="RecycleParser.vart"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitVart([NotNull] RecycleParser.VartContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.game"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -660,16 +670,6 @@ public interface IRecycleListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitBasecstorage([NotNull] RecycleParser.BasecstorageContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="RecycleParser.sortof"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSortof([NotNull] RecycleParser.SortofContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="RecycleParser.sortof"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSortof([NotNull] RecycleParser.SortofContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="RecycleParser.unionof"/>.
 	/// </summary>

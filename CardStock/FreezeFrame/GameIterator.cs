@@ -1755,49 +1755,6 @@ namespace CardStock.FreezeFrame
                     _ => resultingSet[int.Parse(identifier)],
                 };
             }
-            // This should really be an ACTION, not a vitrual card loc
-            else if (loc.sortof() is not null)
-            {
-                var locs = ProcessLocation(loc.sortof().cstorage());
-                var points = ProcessPointStorage(loc.sortof().pointstorage()).Get();
-
-                // HACK FOR NOW
-                locs.cardList.Sort(points);
-                /*
-                // Sort the cards here, be efficient! TODO
-                List<Card> cards = [];
-                foreach (Card card in locs.cardList.AllCards())
-                {
-                    cards.Add(card);
-                }
-
-                // Sort cards.
-
-                cards.Sort(delegate (Card a, Card b)
-                {
-                    if (points.GetScore(a) == points.GetScore(b)) return 0;
-                    else if (points.GetScore(a) > points.GetScore(b)) return -1;
-                    else return 1;
-                });
-
-                CardCollection temp = new(CCType.VIRTUAL);
-                foreach (Card card in cards)
-                {
-                    temp.Add(card);
-                }
-
-                var fancy = new CardLocReference()
-                {
-                    cardList = temp,
-                    name = name + "{SORTED}"
-                };
-                //Console.WriteLine("Sorting not implemented yet");
-                //throw new NotImplementedException();
-                return fancy;
-                */
-                return locs;
-                
-            }
             else if (loc.sequence() is not null)
             {
                 CardCollection temp = new(CCType.VIRTUAL);
@@ -1955,7 +1912,7 @@ namespace CardStock.FreezeFrame
             }
             else
             {
-                return ProcessPlayerVar(locpre.varp());
+                return ProcessOwnerVar(locpre.varo());
             }
         }
 
@@ -1965,9 +1922,10 @@ namespace CardStock.FreezeFrame
             Owner player = ProcessLocPre(stor.locpre());
 
             string name = ProcessString(stor.str()) + CardStorage.delimiter;
-            if (stor.@int() is not null)
+            if (stor.@int().Length > 0)
             {
-                name += ProcessInt(stor.@int());
+                // TODO CHANGE FOR 2D COORDINATE SYSTEM
+                name += ProcessInt(stor.@int()[0]);
             }
             else
             {

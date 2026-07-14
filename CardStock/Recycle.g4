@@ -1,5 +1,15 @@
-// Version 0.6.4 of our REcursive CYclic Card game LanguagE
+// Version 0.7.0 of our REcursive CYclic Card game LanguagE
 
+// new in. version 0.7.0
+//  added varp for pid
+//  ** Not implemnted in CardStock yet **
+//  top is default location for cards
+//  teams can have cards
+//  counterclockwise stages based on boolean (default false)
+//  commented out sortof
+//  2D reference possible for card locations
+
+ 
 // new in version 0.6.4
 //  adding aggi for int
 
@@ -98,6 +108,7 @@ varc : '\'' namegr ;
 varcs : '\'' namegr ;
 varcsc : '\'' namegr ;
 varcard : '\'' namegr ;
+vart : '\'' namegr ;
 
 // Game Setup
 game : OPEN 'game' declare*? setup (multiaction | stage)+? scoring CLOSE ;
@@ -106,7 +117,7 @@ setup : OPEN 'setup' playercreate teamcreate? (OPEN (deckcreate | repeat) CLOSE)
 scoring : OPEN 'scoring' ('min' | 'max') int CLOSE ;
 
 // Game Components
-stage : OPEN 'stage' ('player' | 'team') (endcondition | 'simultaneous' | 'once') (multiaction | stage)+? CLOSE ;
+stage : OPEN 'stage' ('player' | 'team') boolean? (endcondition | 'simultaneous' | 'once') (multiaction | stage)+? CLOSE ;
   endcondition : OPEN 'end' boolean CLOSE ;
 multiaction : OPEN 'choice' OPEN (condact)+? CLOSE CLOSE | OPEN 'do' OPEN (condact)+? CLOSE CLOSE | agg | let ;
 multiaction2 : OPEN 'do' OPEN (condact)+? CLOSE CLOSE | agg | let ;
@@ -141,17 +152,17 @@ turnaction : 'turn' 'pass' ;
 repeat : 'repeat' int action | 'repeat' 'all' OPEN (moveaction | removeaction ) CLOSE ;
 
 // Point Map
-pointstorage : OPEN (varo | 'game' | who) 'points' str CLOSE ;
+pointstorage : OPEN (varo | 'game' | who ) 'points' str CLOSE ;
 
 // Cards
-card : varcard | maxof | minof | OPEN ('top' | 'bottom' | int ) cstorage CLOSE ;
+card : varcard | maxof | minof | OPEN ('top' | 'bottom' | int )? cstorage CLOSE ;
 maxof : OPEN 'max' cstorage 'using' pointstorage CLOSE ;
 minof : OPEN 'min' cstorage 'using' pointstorage CLOSE ;
 
 // Owners
-locpre : 'game' | varp | whop ;
+locpre : 'game' | whot | varo | whop ;
 locdesc : 'vloc'|'iloc'|'hloc'|'oloc'|'mem' ;
-who : whot | whop ;
+who : whop | whot ;
 whop : OPEN whodesc 'player' CLOSE | owner ;
 whot : OPEN whodesc 'team' CLOSE | teamp ;
 whodesc : int | 'previous' | 'next' | 'current' ;
@@ -169,9 +180,9 @@ range : OPEN 'range' int '..' int CLOSE ;
 other : OPEN 'other' ('player' | 'team') CLOSE ;
 
 // CardCollections
-cstorage : varcs | unionof | intersectof | disjunctionof | sortof | filter | basecstorage | memstorage | sequence | runsequence ;
-basecstorage : OPEN locpre locdesc str int? CLOSE ;
-sortof : OPEN 'sort' cstorage 'using' pointstorage CLOSE ;
+cstorage : varcs | unionof | intersectof | disjunctionof | /*sortof |*/ filter | basecstorage | memstorage | sequence | runsequence ;
+basecstorage : OPEN locpre locdesc str (int int?)? CLOSE ;
+//sortof : OPEN 'sort' cstorage 'using' pointstorage CLOSE ;
 unionof : OPEN 'union' (aggcs | cstorage+?) CLOSE ;
 intersectof : OPEN 'intersect' (aggcs | cstorage+?) CLOSE ;
 disjunctionof : OPEN 'disjunction' (aggcs | cstorage+?) CLOSE ;
@@ -218,8 +229,8 @@ random : OPEN 'random' int ('..' int)? CLOSE ;
 sizeof : OPEN 'size' collection CLOSE ;
 aggi : OPEN 'all' collection var rawstorage CLOSE ;
 rawstorage : OPEN (varo | 'game' | who) 'sto' str CLOSE ;
-pid : OPEN 'pid' whop CLOSE ;
-tid : OPEN 'tid' whot CLOSE ;
+pid : OPEN 'pid' (varp | whop) CLOSE ;
+tid : OPEN 'tid' (vart | whot) CLOSE ;
 
 // Strings
 str : namegr | strstorage | vars | cardatt ;
