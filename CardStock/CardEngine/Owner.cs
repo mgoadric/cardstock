@@ -62,6 +62,7 @@ namespace CardStock.CardEngine
             ret.Append("Listing Storages...\r\n");
             ret.Append(cardBins.ToString());
             ret.Append(intBins.ToString());
+            ret.Append(stringBins.ToString());
             ret.Append(pointBins.ToString());
             return ret.ToString();
         }

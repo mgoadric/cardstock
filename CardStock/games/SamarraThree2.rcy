@@ -1,0 +1,129 @@
+;; Appointment in Samarra
+;; Original by Mark Goadrich - Based on Rummy
+
+(game
+ (setup
+  (create players 2)
+  (repeat 2 (create deck (game iloc STOCK) 
+   (deck (RANK (THREE, FOUR, FIVE, SIX, SEVEN, EIGHT))
+         (LOC (SAMARRA, BAGHDAD, MOSUL, TIKRIT))))))
+ (do (
+  ;; set sequence points for the cards
+  (set (game points SEQUENCE)
+   (((LOC : SAMARRA)   100) ((LOC : BAGHDAD) 200) ((LOC : MOSUL) 300)
+    ((LOC : TIKRIT)    400)
+    ((RANK : EIGHT)      8) ((RANK : SEVEN)   7) ((RANK : SIX)      6) 
+    ((RANK : FIVE)       5) ((RANK : FOUR)    4) ((RANK : THREE)    3)))
+
+  ;; Shuffle the deck, give each player 9 cards
+  (shuffle (game iloc STOCK))
+  (set (game sto TIME) 9)    
+  (all player 'P
+   (repeat 8 (move (top (game iloc STOCK)) (top ('P iloc HAND)))))
+  (set ((current player) str ROLE) DEATH)
+  (set ((next player) str ROLE) MERCHANT)
+  (move (top (game iloc STOCK)) (top (game vloc LOCATION)))
+  (move (top (game iloc STOCK)) (top ((current player) iloc FATE)))
+))
+
+ ;; play the game TIME rounds
+ (stage player
+  (end (or (== (game sto ROUND) (game sto TIME))
+           (any player 'P (== (size ('P vloc FOUND)) 3))))
+
+  ;; DEATH TURN FIRST
+  ;; Draw cards
+  (do (
+   (repeat 3 (move (top (game iloc STOCK)) 
+                   (top ((current player) iloc HAND))))
+   (repeat all
+    (move (top ((current player) iloc FATE))
+          (top ((current player) iloc HAND))))                   
+  ))
+
+  ;; Make a set??
+  (choice (
+   ;; set
+   (any (partition RANK ((current player) iloc HAND)) 'P 
+     ((and (>= (size 'P) 3)
+           (> (- (size ((current player) iloc HAND)) (size 'P)) 2))
+      (do (
+       (repeat all (move (top 'P)
+        (top (game vloc SET (game sto SETCOUNT)))))
+       (inc ((current player) sto SCORE) (- (size (game vloc SET (game sto SETCOUNT))) 2))
+       (inc (game sto SETCOUNT))))))
+
+   ;; do nothing
+   (turn pass)))
+
+  ;; Play the Death Location
+  (choice (
+   ;; move DEATH location
+   (any ((current player) iloc HAND) 'C 
+        (move 'C (top ((current player) iloc FATE))))
+  ))
+
+  ;; Discard 2 cards for Merchant
+  (choice (
+    (any ((current player) iloc HAND) 'C 
+     (move 'C (top (game vloc FUTURE))))
+    ((== (size ((current player) iloc HAND)) 0)
+     (turn pass))))
+
+  (choice (
+    (any ((current player) iloc HAND) 'C 
+     (move 'C (top (game vloc FUTURE))))
+    ((== (size ((current player) iloc HAND)) 0)
+     (turn pass))))
+
+  (do ((cycle current (next player))))
+
+  ;; MERCHANT TURN SECOND
+  ;; Draw cards
+  (do (
+     (repeat all (move (top (game vloc FUTURE))
+                       (top ((current player) iloc HAND))))
+  ))
+
+  ;; play a meld
+  (choice (
+   ;; run
+    (any (runs all 3 ((current player) iloc HAND) using (game points SEQUENCE)) 'R
+     ((!= (size ((current player) iloc HAND)) (size 'R))
+      (do (
+       (repeat all (move (top 'R)
+                         (top (game vloc RUN (game sto RUNCOUNT)))))
+       (inc ((current player) sto SCORE) (- (size (game vloc RUN (game sto RUNCOUNT))) 2))
+       ((== (cardatt SUIT (top (game vloc RUN (game sto RUNCOUNT)))) 
+            (cardatt SUIT (top (game vloc LOCATION))))
+        (inc ((current player) sto SCORE) 1))
+       (inc (game sto RUNCOUNT))))))
+
+   ;; do nothing
+   (turn pass)))
+
+  ;; Discard card
+  (choice (
+    (any ((current player) iloc HAND) 'C 
+     (move 'C (top (game vloc LOCATION))))
+    ))
+
+  ;; RECKONING: See if there is a match in location
+  (do (
+    ((== (cardatt LOC (top ((next player) iloc FATE)))
+         (cardatt LOC (top (game vloc LOCATION))))
+     (do (
+      (move (top (game iloc STOCK)) (top ((next player) vloc FOUND)))
+     )))
+    (inc (game sto ROUND))
+  ))
+ )
+
+ (do (
+  ((== (size ((current player) vloc FOUND)) 3)
+   (set ((current player) sto SCORE) 15))
+  ((!= (size ((current player) vloc FOUND)) 3)
+   (inc ((current player) sto SCORE) (size ((current player) vloc FOUND))))
+ ))
+
+ (scoring max ((current player) sto SCORE)))
