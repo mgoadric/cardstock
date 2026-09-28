@@ -90,7 +90,7 @@
 
      ;; fifteen for two
      ((== (game sto TOTAL) 15)
-      (inc ((current player) sto SCORE)))
+      (inc ((current player) sto SCORE) 2))
                         
      ;; thirty-one for two, end the round
      ((== (game sto TOTAL) 31)
@@ -172,7 +172,8 @@
    ;; 12 altogether. A run of four cards, such as 9-10-J-Q scores 4 points (this is slightly illogical - you 
    ;; might expect it to score 6 because it contains two runs of 3, but it doesn't. The runs of 3 within it 
    ;; don't count - you just get 4), and a run of five cards scores 5.
-   (all (runs largest 3 ((current player) vloc PLAYED) 
+   (all (runs largest 3 (union (game vloc START)
+                               ((current player) vloc PLAYED)) 
          using (game points SEQUENCE)) 'PR
     (do (
      ((== (size 'PR) 3)
