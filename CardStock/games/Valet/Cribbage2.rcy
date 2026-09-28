@@ -144,7 +144,7 @@
  (do (
   (cycle current (next player))))
 
- ;; now we score the players cards
+ ;; now we score the players cards (and the crib)
  (stage player 
   (end (all player 'P (== (size ('P vloc PLAYED)) 0)))
   (do (
@@ -183,16 +183,22 @@
      ((== (size 'PR) 5)
       (inc ((current player) sto SCORE) 5)))))
 
-   ;; Flush scoring
-   (all (partition SUIT ((current player) vloc PLAYED)) 'CC
-    (do (
+   ;; Flush scoring (different for crib and players)
+   ((> (size (game iloc CRIB)) 0) ;; player scoring
+    (all (partition SUIT ((current player) vloc PLAYED)) 'CC
      ((== (size 'CC) 4) ;; all same suit in hand
       (do (
        (inc ((current player) sto SCORE) 4)
        ((== (cardatt SUIT (top 'CC))
             (cardatt SUIT (top (game vloc START)))) ;; Bonus
-        (inc ((current player) sto SCORE)))))))))
-                
+        (inc ((current player) sto SCORE))))))))
+
+   ((== (size (game iloc CRIB)) 0) ;; crib flush scoring, needs all 5
+    (all (partition SUIT (union (game vloc START)
+                                ((current player) vloc PLAYED))) 'CC
+     ((== (size 'CC) 5) ;; all same suit in hand
+      (inc ((current player) sto SCORE) 5))))
+
    ;; One for His Nob
    ((any ((current player) vloc PLAYED) 'C 
      (and (== (cardatt RANK 'C) J)
