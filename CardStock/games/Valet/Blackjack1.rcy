@@ -13,7 +13,7 @@
          (COLOR (RED   (SUIT (HEARTS, DIAMONDS)))
                 (BLACK (SUIT (SPADES, CLUBS)))))))          
  
- ;; Set up the game with 100 chips per person and 2 cards
+ ;; Set up the game with 15 chips per person and 2 cards
  (do (
   (shuffle (game iloc STOCK))
   (set (game points HARD) 
@@ -27,7 +27,7 @@
         ((RANK : FOUR)  4) ((RANK : THREE) 3) ((RANK : TWO)   2)))
   (set ((current player) sto CHIPS) 15)))
 
- ;; player makes a bet
+ ;; player makes a bet (even from 2-10 so insurance can be made an integer)
  (choice (
   (any (range 2..10) 'B
    ((== (% 'B 2) 0)
@@ -45,7 +45,7 @@
                   (top ((current player) vloc HAND))))))
  
  (choice (
-  ;; Buy insurance when total is 10 or 11? It is half your original bid  
+  ;; Buy insurance when total is 10 or 11? It is half your original bet  
   ((or (== (score (top (game vloc HAND)) using (game points OTHER)) 10)
        (== (score (top (game vloc HAND)) using (game points SOFT)) 11))
    (do (
@@ -58,17 +58,19 @@
  ;; determine what happens if the dealer has blackjack
  (do (
   ((== (+ (sum (union (game vloc HAND) (game iloc HAND)) using (game points OTHER)) 
-          (sum (union (game iloc HAND) (game iloc HAND)) using (game points SOFT))) 21)
+          (sum (union (game vloc HAND) (game iloc HAND)) using (game points SOFT))) 21)
    (do (
     (set (game str STATE) END)
 
     ;; reveal the dealer's hand
     (move (top (game iloc HAND)) (top (game vloc HAND)))
 
-    ;; if player also has blackjack, they regain their bid
-    ((== (+ (sum ((current player) iloc HAND) using (game points OTHER)) 
-            (sum ((current player) iloc HAND) using (game points SOFT))) 21)
-     (inc ((current player) sto CHIPS) ((current player) sto BID)))
+    ;; if player also has blackjack, they regain their bet
+    ((== (+ (sum (union ((current player) vloc HAND) 
+                        ((current player) iloc HAND)) using (game points OTHER)) 
+            (sum (union ((current player) vloc HAND) 
+                        ((current player) iloc HAND)) using (game points SOFT))) 21)
+     (inc ((current player) sto CHIPS) ((current player) sto BET)))
 
     ;; if the player bought insurance, they get the money back payout 2:1
     (inc ((current player) sto CHIPS) (* 3 ((current player) sto INSURANCE))))))))

@@ -51,9 +51,11 @@
       ((and (== (size 'S) (game sto SIZE))
             (> (score (top 'S) using (game points PRECEDENCE))
                (score (top (game vloc PLAY)) using (game points PRECEDENCE))))
-       (repeat all 
-        (move (top 'S) 
-              (top (game vloc PLAY))))))))
+       (do (
+        (set (game sto PASSING) 0)
+        (repeat all 
+         (move (top 'S)
+               (top (game vloc PLAY))))))))))
 
    ;; you can always pass if you are not the first player
    ((or (> (size (game vloc PLAY)) 0)
