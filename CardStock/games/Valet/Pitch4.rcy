@@ -130,17 +130,20 @@
     ;; add in HIGH, LOW, JACK from TRUMP
     (let (filter (union (all player 'MP ('MP vloc TRICKSWON))) 'UC 
           (== (cardatt SUIT 'UC) (game str TRUMP))) 'ONLYTRUMP
-     (inc ((team 'P) sto TEMPSCORE) 
-          (size (filter ('P vloc TRICKSWON) 'C 
-                 (and (== (cardatt SUIT 'C)
-                          (game str TRUMP))
-                      (or (== (cardatt RANK 'C) ;; HIGH
-                              (cardatt RANK (max 'ONLYTRUMP 
-                                             using (game points PRECEDENCE))))
-                          (== (cardatt RANK 'C) ;; LOW
-                              (cardatt RANK (min 'ONLYTRUMP 
-                                             using (game points PRECEDENCE))))
-                          (== (cardatt RANK 'C) JACK))))))))))))
+     (let (filter ('P vloc TRICKSWON) 'C 
+           (== (cardatt SUIT 'C) (game str TRUMP))) 'MYTRUMP
+      (all 'MYTRUMP 'TC
+       (do (
+        ((== (cardatt RANK 'TC) ;; HIGH
+             (cardatt RANK (max 'ONLYTRUMP 
+                            using (game points PRECEDENCE))))
+         (inc ((team 'P) sto TEMPSCORE)))
+        ((== (cardatt RANK 'TC) ;; LOW
+             (cardatt RANK (min 'ONLYTRUMP 
+                            using (game points PRECEDENCE))))
+         (inc ((team 'P) sto TEMPSCORE)))
+        ((== (cardatt RANK 'TC) JACK) ;; JACK
+         (inc ((team 'P) sto TEMPSCORE)))))))))))))
 
  ;; Calculate team scores         
  (stage team
