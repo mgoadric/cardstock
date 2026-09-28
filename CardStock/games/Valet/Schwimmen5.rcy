@@ -110,9 +110,9 @@
 
    ;; best score in one suit is kept
    (all (partition SUIT ((current player) iloc HAND)) 'RP 
-    (let (sum 'RP using (game points SCORE)) 'RS 
+    (let (* 2 (sum 'RP using (game points SCORE))) 'RS 
      ((> 'RS ((current player) sto SCORE))
-      (set ((current player) sto SCORE) (* 2 'RS)))))
+      (set ((current player) sto SCORE) 'RS))))
 
    ;; Feuer (fire): a hand of three aces is only 32
    ((any (partition RANK ((current player) iloc HAND)) 'RP

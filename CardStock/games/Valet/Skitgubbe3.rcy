@@ -39,7 +39,7 @@
    (choice (
     ;; if cards are left in the stock
     ;; players can use that as their play to trick
-    ((> (size (game iloc STOCK)) 0)
+    ((> (size (game iloc STOCK)) 1)
      (move (top (game iloc STOCK)) 
            (top ((current player) vloc TRICK))))
 
@@ -50,13 +50,11 @@
     ;; then draw a card back into your hand
     (do (
      ((and (== (size (game iloc STOCK)) 1)
-           (> (size (game iloc STOCK)) 0)
            (< (size ((current player) iloc HAND)) 3))
       (move (top (game iloc STOCK))
             (top ((current player) iloc TRUMP))))
 
-     ((and (!= (size (game iloc STOCK)) 1)
-           (> (size (game iloc STOCK)) 0)
+     ((and (> (size (game iloc STOCK)) 1)
            (< (size ((current player) iloc HAND)) 3))
       (move (top (game iloc STOCK))
             (top ((current player) iloc HAND)))))))
@@ -111,8 +109,8 @@
       (move (top ('P iloc TRUMP)) 
             (top ('P vloc TRICKSWON)))
       (cycle current 'P)))))))
-      (set (game sto NUMP) 
-           (size (filter player 'P (> (size ('P vloc TRICKSWON)) 0))))))
+  (set (game sto NUMP) 
+       (size (filter player 'P (> (size ('P vloc TRICKSWON)) 0))))))
 
  ;; PHASE 2: Play the tricks, last out of cards loses
  (stage player 

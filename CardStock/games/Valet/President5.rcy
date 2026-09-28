@@ -39,6 +39,7 @@
     (any (partition RANK ((current player) iloc HAND)) 'PAR
      (any (subsets 'PAR) 'S 
       (do (
+       (set (game sto PASSING) 0)
        (set (game sto SIZE) (size 'S))
        (repeat all
         (move (top 'S) 
