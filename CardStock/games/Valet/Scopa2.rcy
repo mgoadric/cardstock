@@ -69,13 +69,6 @@
          (set (game sto LAST) (pid (current player))))))))))))
                
    (do (
-    ;; CHECK FOR SCOPA (SWEEP OF THE POOL)
-    ;; all turns except the last one
-    ((and (== (size (game vloc POOL)) 0)
-          (or (!= (size (game iloc STOCK)) 0)
-              (any player 'P (> (size ('P iloc HAND)) 0))))
-     (inc ((current player) sto SCORE)))
-            
     ;; move trick card to bundle or pool
     ((== ((current player) sto MOVED) 0)
      (move (top ((current player) vloc TRICK))
@@ -85,6 +78,13 @@
      (move (top ((current player) vloc TRICK))
            (top ((current player) vloc BUNDLE))))
                            
+    ;; CHECK FOR SCOPA (SWEEP OF THE POOL)
+    ;; all turns except the last one
+    ((and (== (size (game vloc POOL)) 0)
+          (or (!= (size (game iloc STOCK)) 0)
+              (any player 'P (> (size ('P iloc HAND)) 0))))
+     (inc ((current player) sto SCORE)))
+            
     (set ((current player) sto MOVED) 0))))
 
   ;; Make sure player cycle is consistent over the rounds
