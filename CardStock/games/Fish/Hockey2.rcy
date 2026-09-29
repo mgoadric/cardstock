@@ -20,14 +20,7 @@
 
     ;; player 1 deals, player 2 plays first.
     (do (
-        (set (game sto DEALER) 1)
-        (set (game sto FIRST) 2)
-        (set (game sto BREAK) 0)
-        (all player 'P
-            (set ('P sto SCORE) 0))
-        (set (game str LAST) NONE)
         (shuffle (game iloc STOCK))
-        (cycle current ((game sto FIRST) player))
     ))
 
     (stage player
