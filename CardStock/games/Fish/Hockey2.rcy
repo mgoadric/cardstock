@@ -1,0 +1,114 @@
+;; Hockey
+;;
+;; https://www.pagat.com/combat/hockey.html
+
+(game
+    (setup
+        (create players 2)
+        (create deck (game iloc STOCK)
+            (deck
+                (RANK
+                    (ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
+                     EIGHT, NINE, TEN, JACK, QUEEN, KING)
+                )
+                (SUIT
+                    (HEARTS, DIAMONDS, CLUBS, SPADES)
+                )
+            )
+        )
+    )
+
+    ;; player 1 deals, player 2 plays first.
+    (do (
+        (set (game sto DEALER) 1)
+        (set (game sto FIRST) 2)
+        (set (game sto BREAK) 0)
+        (all player 'P
+            (set ('P sto SCORE) 0))
+        (set (game str LAST) NONE)
+        (shuffle (game iloc STOCK))
+        (cycle current ((game sto FIRST) player))
+    ))
+
+    (stage player
+        (end
+            (== (size (game iloc STOCK)) 0)
+        )
+
+        (do (
+            (
+                (== (size (game iloc STOCK)) 12)
+                (all player 'P
+                    (repeat 6
+                        (move (top (game iloc STOCK))
+                            (top ('P iloc HAND)))))
+            )
+            (
+                (> (size (game iloc STOCK)) 12)
+                (all player 'P
+                    (repeat 5
+                        (move (top (game iloc STOCK))
+                            (top ('P iloc HAND)))))
+            )
+        ))
+
+        (stage player
+            (end
+                (all player 'P
+                    (== (size ('P iloc HAND)) 0)
+                )
+            )
+
+            (choice (
+                (any ((current player) iloc HAND) 'C
+                    (move 'C (top (game vloc TABLE))))
+            ))
+
+            (do (
+                (set
+                    (game str PLAYED)
+                    (cardatt RANK (top (game vloc TABLE)))
+                )
+
+                (
+                    (== (game str PLAYED) JACK)
+                    (set (game sto BREAK) (pid (current player)))
+                )
+
+                (
+                    (and
+                        (!= (game str PLAYED) JACK)
+                        (== (game str PLAYED) (game str LAST))
+                    )
+                    (do (
+                        (
+                            (== (game sto BREAK) (pid (current player)))
+                            (do (
+                                (inc ((current player) sto SCORE))
+                                (set (game sto BREAK) 0)
+                            ))
+                        )
+                        (
+                            (!= (game sto BREAK) (pid (current player)))
+                            (set (game sto BREAK) (pid (current player)))
+                        )
+                    ))
+                )
+
+                (
+                    (and
+                        (!= (game str PLAYED) JACK)
+                        (!= (game str PLAYED) (game str LAST))
+                    )
+                    (set (game sto BREAK) 0)
+                )
+
+                (set (game str LAST) (game str PLAYED))
+            ))
+        )
+    )
+
+    (scoring max
+        ((current player) sto SCORE)
+    )
+)
