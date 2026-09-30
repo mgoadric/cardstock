@@ -17,6 +17,7 @@ namespace CardStock.Players
 
         public override void Explore()
         {
+            // Is this neccesary?
             completed = new int[numChoices];
 
             for (int i = 0; i < numPlayers; i++)
