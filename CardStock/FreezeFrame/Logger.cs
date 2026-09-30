@@ -226,6 +226,7 @@ namespace CardStock.FreezeFrame
 
         public static void Finish()
         {
+            // This is a HACK to ensure queue is not empty at finalize;
             queue.Add(() => { });
             queue.CompleteAdding();
             writeThread.Wait();
