@@ -20,18 +20,12 @@ namespace CardStock.Players
             // Is this neccesary?
             if (completed?.Length >= numChoices)
             {
-                for (int i = 0; i < numChoices; i++)
-                {
-                    completed[i] = 0;
-                }
+                Array.Clear(completed, 0, numChoices);
 
                 for (int i = 0; i < numPlayers; i++)
                 {
-                    for (int j = 0; j < numChoices; j++)
-                    {
-                        moveRanks[i][j] = 0;
-                        moveScores[i][j] = 0;
-                    }
+                    Array.Clear(moveRanks[i], 0, numChoices);
+                    Array.Clear(moveScores[i], 0, numChoices);
                 }
             }
             else
