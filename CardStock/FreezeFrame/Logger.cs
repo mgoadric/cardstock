@@ -16,9 +16,16 @@ namespace CardStock.FreezeFrame
         {
             while (!queue.IsCompleted)
             {
-                var task = queue.Take();
+                try
+                {
+                    var task = queue.Take();
 
-                task.Invoke();
+                    task.Invoke();
+                }
+                catch (InvalidOperationException e)
+                {
+                    Console.WriteLine(e);
+                }
             }
         });
 
@@ -219,6 +226,7 @@ namespace CardStock.FreezeFrame
 
         public static void Finish()
         {
+            queue.Add(() => { });
             queue.CompleteAdding();
             writeThread.Wait();
         }
