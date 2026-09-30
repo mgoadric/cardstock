@@ -18,7 +18,7 @@ namespace CardStock.Players
         public override void Explore()
         {
             // Is this neccesary?
-            if (completed.Length >= numChoices)
+            if (completed?.Length >= numChoices)
             {
                 for (int i = 0; i < numChoices; i++)
                 {
@@ -103,7 +103,7 @@ namespace CardStock.Players
             }
 
             // FIND BEST (and worst) MOVE TO MAKE
-            var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()]);
+            var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()], numChoices);
 
             //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
             //Console.WriteLine("{0}", string.Join(", ", scoreSum[perspective.GetIdx()]));
