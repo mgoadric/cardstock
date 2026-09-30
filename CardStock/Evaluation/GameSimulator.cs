@@ -80,7 +80,7 @@ namespace CardStock.Evaluation
 
             for (int i = 0; i < exp.NumGames; i++)
             {
-                GC.Collect();
+                //GC.Collect();
 
                 stopwatch.Restart();
                 try
