@@ -78,6 +78,8 @@ namespace CardStock.Evaluation
             DirectoryInfo? directoryInfo = file.Directory;
             directoryInfo?.Create();
 
+            long allocatedBefore = GC.GetTotalAllocatedBytes(true);
+
             for (int i = 0; i < exp.NumGames; i++)
             {
                 //GC.Collect();
@@ -158,9 +160,13 @@ namespace CardStock.Evaluation
             //);
             Logger.Finish();
 
+            long allocatedAfter = GC.GetTotalAllocatedBytes(true);
+            double megabytesAllocated = (allocatedAfter - allocatedBefore) / (1024 * 1024);
 
             dc.Close();
             Console.WriteLine("Total Time: " + totalTime);
+            Console.WriteLine("Allocation Count: " + megabytesAllocated + "MB");
+            Console.WriteLine("Allocation Rate: " + (megabytesAllocated / (totalTime / 1000)) + "MB/s");
 
             return true;
         }
