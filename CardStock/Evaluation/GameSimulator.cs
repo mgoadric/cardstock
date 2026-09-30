@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 using System.Diagnostics;
 using CardStock.CardEngine;
 using CardStock.Players;
+using CardStock.FreezeFrame;
 
-namespace CardStock.Evaluation {
+namespace CardStock.Evaluation
+{
     public partial class GameSimulator()
     {
 
@@ -16,7 +18,8 @@ namespace CardStock.Evaluation {
 
         public const ImperfectLevel imperfectLevel = ImperfectLevel.TAKEN;
 
-        public void LoadGame() {
+        public void LoadGame()
+        {
 
             Debug.AutoFlush = true;
 
@@ -49,7 +52,8 @@ namespace CardStock.Evaluation {
             DotVisualization.DOTMakerTop(tree, "output/" + exp.Game + "/" + exp.PlayerCount + "/parsetree");
         }
 
-        public bool RunExperiment() {
+        public bool RunExperiment()
+        {
 
             Stopwatch stopwatch = new();
             double totalTime = 0;
@@ -66,6 +70,9 @@ namespace CardStock.Evaluation {
             * Run the experiments
             ***********/
             //Parallel.For(0, exp.NumGames, i =>
+
+            Logger.Start();
+
             for (int i = 0; i < exp.NumGames; i++)
             {
                 GC.Collect();
@@ -138,8 +145,8 @@ namespace CardStock.Evaluation {
                     return false;
                 }
             }
-        //);
-        
+            //);
+
 
             dc.Close();
             Console.WriteLine("Total Time: " + totalTime);

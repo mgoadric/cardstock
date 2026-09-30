@@ -205,5 +205,16 @@ namespace CardStock.FreezeFrame
                 file.WriteLine("}");
             });
         }
+
+        public static void Start()
+        {
+            writeThread.Start();
+        }
+
+        public static void Finish()
+        {
+            queue.CompleteAdding();
+            writeThread.Wait();
+        }
     }
 }
