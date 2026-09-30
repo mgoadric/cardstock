@@ -129,7 +129,16 @@ namespace CardStock.Evaluation
                     /************
                      * WRITE OUT STATS
                      *************/
-                    dc.RecordGameStatistics(i, results, mult, stopwatch.Elapsed.TotalMilliseconds);
+
+                    // if script, then we queue because performance?
+                    if (gamePlay.script != null)
+                    {
+                        gamePlay.script.Queue(() => dc.RecordGameStatistics(i, results, mult, stopwatch.Elapsed.TotalMilliseconds));
+                    }
+                    else
+                    {
+                        dc.RecordGameStatistics(i, results, mult, stopwatch.Elapsed.TotalMilliseconds);
+                    }
                     totalTime += stopwatch.Elapsed.TotalMilliseconds;
 
                     numFinished++;
@@ -146,6 +155,7 @@ namespace CardStock.Evaluation
                 }
             }
             //);
+            Logger.Finish();
 
 
             dc.Close();
