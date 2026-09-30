@@ -73,6 +73,11 @@ namespace CardStock.Evaluation
 
             Logger.Start();
 
+            string path = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.PlayerAbv() + "/simulation/";
+            FileInfo file = new(path);
+            DirectoryInfo? directoryInfo = file.Directory;
+            directoryInfo?.Create();
+
             for (int i = 0; i < exp.NumGames; i++)
             {
                 GC.Collect();
@@ -80,11 +85,6 @@ namespace CardStock.Evaluation
                 stopwatch.Restart();
                 try
                 {
-                    string path = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.PlayerAbv() + "/simulation/";
-                    FileInfo file = new(path);
-                    DirectoryInfo? directoryInfo = file.Directory;
-                    directoryInfo?.Create();
-
                     CardGame game = new(exp);
                     var gamePlay = new FreezeFrame.GameIterator(tree, game, path + (i + 1), exp);
                     if (game.players.Length > MAXPLAYERS)
