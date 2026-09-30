@@ -18,12 +18,31 @@ namespace CardStock.Players
         public override void Explore()
         {
             // Is this neccesary?
-            completed = new int[numChoices];
-
-            for (int i = 0; i < numPlayers; i++)
+            if (completed.Length >= numChoices)
             {
-                moveRanks[i] = new double[numChoices];
-                moveScores[i] = new double[numChoices];
+                for (int i = 0; i < numChoices; i++)
+                {
+                    completed[i] = 0;
+                }
+
+                for (int i = 0; i < numPlayers; i++)
+                {
+                    for (int j = 0; j < numChoices; j++)
+                    {
+                        moveRanks[i][j] = 0;
+                        moveScores[i][j] = 0;
+                    }
+                }
+            }
+            else
+            {
+                completed = new int[numChoices];
+
+                for (int i = 0; i < numPlayers; i++)
+                {
+                    moveRanks[i] = new double[numChoices];
+                    moveScores[i] = new double[numChoices];
+                }
             }
 
             // MAKE THIS MANY DETERMINIZATIONS
