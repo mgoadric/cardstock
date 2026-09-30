@@ -32,7 +32,7 @@ namespace CardStock.FreezeFrame
         private readonly Dictionary<Tuple<string, string>, int> edges = [];
         private readonly HashSet<Tuple<string, CCType, string>> locations = [];
         private readonly HashSet<string> starting = [];
-        private readonly StreamWriter writer;
+        private StreamWriter writer;
 
         // For writing the game transcript
         private readonly string? fileName;
@@ -44,10 +44,10 @@ namespace CardStock.FreezeFrame
             this.fileName = fileName;
             this.fileJSON = this.fileName + ".json";
             this.exp = exp;
-            this.writer = new(fileJSON);
 
             Queue(() =>
             {
+                this.writer = new(fileJSON);
                 writer.WriteLine("{\"name\":\"" + exp.Game + "\",\"actions\":[");
             });
         }
@@ -215,8 +215,12 @@ namespace CardStock.FreezeFrame
 
         public void Close()
         {
-            writer.Flush();
-            writer.Close();
+            // Queue this instead!
+            Queue(() =>
+            {
+                writer.Flush();
+                writer.Close();
+            });
         }
 
         public static void Start()
