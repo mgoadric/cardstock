@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.IO.Compression;
 using System.Text.Json;
@@ -10,42 +11,65 @@ namespace CardStock.FreezeFrame
 {
     public class Logger
     {
+        private static readonly BlockingCollection<Action> queue = new BlockingCollection<Action>();
+        private static Task processTask = new Task(() =>
+        {
+            while (queue.IsCompleted)
+            {
+                var item = queue.Take();
+                item.Invoke();
+            }
+        });
+
         private readonly Dictionary<Tuple<string, string>, int> edges = [];
         private readonly HashSet<Tuple<string, CCType, string>> locations = [];
         private readonly HashSet<string> starting = [];
+        private readonly StreamWriter file;
 
         // For writing the game transcript
         private readonly string? fileName;
         private readonly string fileJSON;
         private readonly Experiment exp;
 
+        public static void Start()
+        {
+            processTask.Start();
+        }
+
         public Logger(string? fileName, Experiment exp)
         {
             this.fileName = fileName;
             this.fileJSON = this.fileName + ".json";
             this.exp = exp;
-            using StreamWriter file = new(fileJSON);
-            file.WriteLine("{\"name\":\"" + exp.Game + "\",\"actions\":[");
+            file = new(fileJSON, true);
         }
 
         public void WriteToFile(string text)
         {
-            using StreamWriter file = new(fileJSON, true);
-            file.WriteLine(text);
+            Queue(() =>
+            {
+                file.WriteLine(text);
+            });
         }
 
         public void WriteToJSON(Dictionary<string, object> data, string end = ",")
         {
-            using StreamWriter file = new(fileJSON, true);
-            file.WriteLine(JsonSerializer.Serialize(data) + end);
+            Queue(() =>
+            {
+                using StreamWriter file = new(fileJSON, true);
+                file.WriteLine(JsonSerializer.Serialize(data) + end);
+            });
         }
 
         public void WriteToJSON(List<Dictionary<string, object>> data, string end = ",")
         {
-            using StreamWriter file = new(fileJSON, true);
-            foreach (var d in data) {
-                file.WriteLine(JsonSerializer.Serialize(d) + end);
-            }
+            Queue(() =>
+            {
+                using StreamWriter file = new(fileJSON, true);
+                foreach (var d in data) {
+                    file.WriteLine(JsonSerializer.Serialize(d) + end);
+                }
+            });
         }
 
         private void AddLocation(CardCollection cc)
@@ -76,99 +100,122 @@ namespace CardStock.FreezeFrame
 
         public void WriteMovementFile()
         {
-            var gs = exp.Game.Split("/");
-            string name = gs.Length == 1 ? gs[0] : gs[1];
-            using StreamWriter file = new(fileName + ".dot");
-            file.WriteLine("digraph {");
-            file.WriteLine("overlap=scale;");
-            file.WriteLine("labelloc=\"t\";");
-            file.WriteLine("label=\"" + name + "\";");
-            file.WriteLine("fontname=\"Futura\";");
-
-
-            Dictionary<string, List<Tuple<string, CCType, string>>> who = [];
-            foreach (var cc in locations)
+            queue.Add(() =>
             {
-                if (!who.TryGetValue(cc.Item1, out List<Tuple<string, CCType, string>>? value))
+                var gs = exp.Game.Split("/");
+                string name = gs.Length == 1 ? gs[0] : gs[1];
+                using StreamWriter file = new(fileName + ".dot");
+                file.WriteLine("digraph {");
+                file.WriteLine("overlap=scale;");
+                file.WriteLine("labelloc=\"t\";");
+                file.WriteLine("label=\"" + name + "\";");
+                file.WriteLine("fontname=\"Futura\";");
+
+
+                Dictionary<string, List<Tuple<string, CCType, string>>> who = [];
+                foreach (var cc in locations)
                 {
-                    value = [];
-                    who[cc.Item1] = value;
+                    if (!who.TryGetValue(cc.Item1, out List<Tuple<string, CCType, string>>? value))
+                    {
+                        value = [];
+                        who[cc.Item1] = value;
+                    }
+
+                    value.Add(cc);
                 }
 
-                value.Add(cc);
-            }
-
-            foreach (var w in who)
-            {
-                file.WriteLine("subgraph cluster_" + w.Key + " {");
-                file.WriteLine("style=filled;fillcolor=ghostwhite;label=\"" + w.Key + "\"");
-                foreach (var loc in w.Value)
+                foreach (var w in who)
                 {
-                    string color = "blue";
-                    string style = "filled,rounded";
-                    switch (loc.Item2)
+                    file.WriteLine("subgraph cluster_" + w.Key + " {");
+                    file.WriteLine("style=filled;fillcolor=ghostwhite;label=\"" + w.Key + "\"");
+                    foreach (var loc in w.Value)
                     {
-                        case CCType.INVISIBLE:
-                            color = "lightblue";
-                            if (w.Key.Equals("table"))
-                            {
+                        string color = "blue";
+                        string style = "filled,rounded";
+                        switch (loc.Item2)
+                        {
+                            case CCType.INVISIBLE:
+                                color = "lightblue";
+                                if (w.Key.Equals("table"))
+                                {
+                                    color = "khaki";
+                                }
+                                break;
+                            case CCType.HIDDEN:
                                 color = "khaki";
-                            }
-                            break;
-                        case CCType.HIDDEN:
-                            color = "khaki";
-                            break;
-                        case CCType.OTHERS:
-                            color = "plum1";
-                            if (w.Key.Equals("table"))
-                            {
+                                break;
+                            case CCType.OTHERS:
+                                color = "plum1";
+                                if (w.Key.Equals("table"))
+                                {
+                                    color = "lightgreen";
+                                }
+                                break;
+                            case CCType.VISIBLE:
                                 color = "lightgreen";
-                            }
-                            break;
-                        case CCType.VISIBLE:
-                            color = "lightgreen";
-                            break;
-                        case CCType.MEMORY:
-                            color = "grey90";
-                            style += ",dotted";
-                            break;
+                                break;
+                            case CCType.MEMORY:
+                                color = "grey90";
+                                style += ",dotted";
+                                break;
+                        }
+                        var node = w.Key + "_" + loc.Item2 + "_" + loc.Item3;
+                        string border = "";
+                        if (starting.Contains(node))
+                        {
+                            border = "penwidth=3,";
+                        }
+                        var s = loc.Item3.Split("_");
+                        string label = s[0];
+                        if (s[1] != "0")
+                        {
+                            label = "<" + s[0] + "<SUB>" + s[1] + "</SUB>>";
+                        }
+                        file.WriteLine(node + " [fontname=Futura," + border + "fillcolor=" + color + ",style=\"" +
+                                        style + "\",shape=box,label=" + label + "];");
+                        
                     }
-                    var node = w.Key + "_" + loc.Item2 + "_" + loc.Item3;
-                    string border = "";
-                    if (starting.Contains(node))
-                    {
-                        border = "penwidth=3,";
+                    file.WriteLine("}");
+                }
+
+                foreach (var kvp in edges)
+                {
+                    string edgecolor = "black";
+                    if (!kvp.Key.Item1.Contains("INVISIBLE") && kvp.Key.Item1.Contains("VISIBLE") &&
+                    (kvp.Key.Item2.Contains("INVISIBLE") || kvp.Key.Item2.Contains("HIDDEN"))) {
+                        edgecolor = "red,penwidth=3,";
                     }
-                    var s = loc.Item3.Split("_");
-                    string label = s[0];
-                    if (s[1] != "0")
-                    {
-                        label = "<" + s[0] + "<SUB>" + s[1] + "</SUB>>";
+                    if (kvp.Key.Item1.Contains("INVISIBLE") && (kvp.Key.Item1[1] != 'a') && (kvp.Key.Item1[1] != kvp.Key.Item2[1]) &&
+                    (kvp.Key.Item2.Contains("INVISIBLE") || kvp.Key.Item2.Contains("HIDDEN"))) {
+                        edgecolor = "blue,penwidth=3";
                     }
-                    file.WriteLine(node + " [fontname=Futura," + border + "fillcolor=" + color + ",style=\"" +
-                                    style + "\",shape=box,label=" + label + "];");
-                    
+                    if (!kvp.Key.Item2.Contains("INVISIBLE") && kvp.Key.Item2.Contains("VISIBLE")) {
+                        edgecolor = "green,penwidth=3,";
+                    }
+                    file.WriteLine(kvp.Key.Item1 + " -> " + kvp.Key.Item2 + " [fontname=Futura,fontsize=11,color=" + edgecolor + "];");
                 }
                 file.WriteLine("}");
-            }
+            });
+        }
 
-            foreach (var kvp in edges)
+        public void End()
+        {
+            Queue(() =>
             {
-                string edgecolor = "black";
-                if (!kvp.Key.Item1.Contains("INVISIBLE") && kvp.Key.Item1.Contains("VISIBLE") &&
-                   (kvp.Key.Item2.Contains("INVISIBLE") || kvp.Key.Item2.Contains("HIDDEN"))) {
-                    edgecolor = "red,penwidth=3,";
-                }
-                if (kvp.Key.Item1.Contains("INVISIBLE") && (kvp.Key.Item1[1] != 'a') && (kvp.Key.Item1[1] != kvp.Key.Item2[1]) &&
-                   (kvp.Key.Item2.Contains("INVISIBLE") || kvp.Key.Item2.Contains("HIDDEN"))) {
-                    edgecolor = "blue,penwidth=3";
-                }
-                if (!kvp.Key.Item2.Contains("INVISIBLE") && kvp.Key.Item2.Contains("VISIBLE")) {
-                    edgecolor = "green,penwidth=3,";
-                }
-                file.WriteLine(kvp.Key.Item1 + " -> " + kvp.Key.Item2 + " [fontname=Futura,fontsize=11,color=" + edgecolor + "];");
-            }
-            file.WriteLine("}");
+                file.Flush();
+                file.Close();  
+            });
+        }
+
+        public void Queue(Action action)
+        {
+            queue.Add(action);
+        }
+
+        public static void Finish()
+        {
+            queue.CompleteAdding();
+            processTask.Wait();
         }
     }
 }
