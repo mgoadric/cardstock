@@ -145,6 +145,7 @@ namespace CardStock.Evaluation
                     Console.WriteLine("Finished game " + numFinished + " of " + exp.NumGames);
 
                     gamePlay.script?.WriteMovementFile();
+                    gamePlay.script?.Close();
 
                 }
                 catch (Exception e)
