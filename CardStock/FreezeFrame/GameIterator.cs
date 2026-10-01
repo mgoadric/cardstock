@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Text.Json;
+using System.Numerics;
 
 namespace CardStock.FreezeFrame
 {
@@ -1401,11 +1402,13 @@ namespace CardStock.FreezeFrame
             return lst;
         }
 
+        public static long itemsTotal = 0;
+
         private CardLocReference[] ProcessCStorageCollection(RecycleParser.CstoragecollectionContext cstoragecoll)
         {
             if (cstoragecoll.subset() is not null)
             {
-                Debug.WriteLine("Found a subset");
+                /*Debug.WriteLine("Found a subset");
                 var stor = ProcessLocation(cstoragecoll.subset().cstorage());
                 Debug.WriteLine("There are " + stor.cardList.AllCards().Count() + " cards here");
 
@@ -1441,6 +1444,40 @@ namespace CardStock.FreezeFrame
                         name = "{subset " + j + " from " + stor.name + "}"
                     };
                 }
+                return returnList;*/
+
+                var stor = ProcessLocation(cstoragecoll.subset().cstorage());
+                var cards = stor.cardList.AllCardsList();
+
+                int cardCount = cards.Count();
+
+                // every non-empty subset;
+                // 2^n - 1 subset size
+                uint subsetCount = (uint)(1 << cardCount) - 1;
+                itemsTotal += cardCount * (1L << (cardCount - 1));
+
+                var returnList = new CardLocReference[subsetCount];
+
+                for (uint i = 1; i <= subsetCount; i++)
+                {
+                    int count = BitOperations.PopCount(i);
+                    var subset = new List<Card>(count);
+
+                    for (int j = 0; j < cardCount; j++)
+                    {
+                        if ((i & (1u << j)) != 0)
+                        {
+                            subset.Add(cards[j]);
+                        }
+                    }
+
+                    returnList[i - 1] = new CardLocReference()
+                    {
+                        cardList = new CardCollection(CCType.VIRTUAL, subset),
+                        name = "{subset " + i + " from " + stor.name + "}"
+                    };
+                }
+
                 return returnList;
             }
 

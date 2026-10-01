@@ -41,6 +41,11 @@ namespace CardStock.CardEngine
             return cards;
         }
 
+        public List<Card> AllCardsList()
+        {
+            return cards;
+        }
+
         public void Add(Card c)
         {
             cards.Add(c);
@@ -189,7 +194,7 @@ namespace CardStock.CardEngine
                 else return 1;
             });
         }
- 
+
         public string TranscriptName()
         {
             return owner.owner.name + ":" + type + ":" + name;
@@ -250,17 +255,17 @@ namespace CardStock.CardEngine
             return ret.ToString();
         }
 
-        public override bool Equals(object? obj) 
+        public override bool Equals(object? obj)
         {
             if (obj is null)
             { return false; }
-         
+
             if (obj is not CardCollection othercardcollection)
             { return false; }
-          
+
             if (type != othercardcollection.type)
             { return false; }
-                        
+
             if (owner.owner.id != othercardcollection.owner.owner.id)
             { return false; }
 

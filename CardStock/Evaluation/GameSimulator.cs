@@ -167,6 +167,7 @@ namespace CardStock.Evaluation
             Console.WriteLine("Total Time: " + totalTime);
             Console.WriteLine("Allocation Count: " + megabytesAllocated + "MB");
             Console.WriteLine("Allocation Rate: " + (megabytesAllocated / (totalTime / 1000)) + "MB/s");
+            Console.WriteLine("Amount of pointers needed: " + GameIterator.itemsTotal);
 
             return true;
         }
