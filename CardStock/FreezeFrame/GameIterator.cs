@@ -66,7 +66,6 @@ namespace CardStock.FreezeFrame
 
         public GameIterator Clone(CardGame newgame)
         {
-
             var ret = new GameIterator(rules, newgame, "clone", exp, false)
             {
                 iteratingSet = [.. iteratingSet],
@@ -188,7 +187,8 @@ namespace CardStock.FreezeFrame
             game.PushPlayer();
             game.CurrentPlayer().SetMember(0);
             var r = new List<Dictionary<string, object>>();
-            var data = new Dictionary<string, object> {
+            var data = new Dictionary<string, object>
+            {
                 ["results"] = r
             };
             for (int i = 0; i < results.Length; i++)
@@ -245,7 +245,7 @@ namespace CardStock.FreezeFrame
                         ["action"] = "cycle",
                         ["type"] = "now",
                         ["who"] = game.currentPlayer.Peek().CurrentName(),
-                    };                    
+                    };
                     script?.WriteToJSON(data);
                 }
                 else
@@ -834,7 +834,7 @@ namespace CardStock.FreezeFrame
                                     ["action"] = "cycle",
                                     ["type"] = "now",
                                     ["who"] = game.CurrentPlayer().CurrentName(),
-                                };                    
+                                };
                                 script?.WriteToJSON(data);
                                 break;
 
@@ -845,7 +845,7 @@ namespace CardStock.FreezeFrame
                                     ["action"] = "cycle",
                                     ["type"] = "now",
                                     ["who"] = game.CurrentTeam().CurrentName(),
-                                };    
+                                };
                                 script?.WriteToJSON(data);
                                 break;
                         }
@@ -990,7 +990,8 @@ namespace CardStock.FreezeFrame
                 idx = ProcessPlayerVar(cycle.varp()).id;
             }
 
-            switch (cycle.GetChild(1).GetText()) {
+            switch (cycle.GetChild(1).GetText())
+            {
                 case "next": return new PlayerNextAction(game.CurrentPlayer(), idx, script);
                 case "current": return new PlayerNowAction(idx, game, script);
             }
@@ -1024,7 +1025,8 @@ namespace CardStock.FreezeFrame
                 foreach (var act in actions)
                 {
                     //Console.WriteLine(act);
-                    if (act is not null) {
+                    if (act is not null)
+                    {
                         var data = act.ExecuteAll();
                         script?.WriteToJSON(data);
                     }
@@ -1433,7 +1435,7 @@ namespace CardStock.FreezeFrame
                     var cardlist = subsets[j];
                     var cctemp = new CardCollection(CCType.VIRTUAL, cardlist);
 
-                    returnList[j-1] = new CardLocReference()
+                    returnList[j - 1] = new CardLocReference()
                     {
                         cardList = cctemp,
                         name = "{subset " + j + " from " + stor.name + "}"
@@ -1607,7 +1609,7 @@ namespace CardStock.FreezeFrame
             }
             else
             {
-                Console.WriteLine("Error, "+ cstoragecollvar.GetText() + " is not a CardStorageCollection, type is: " + temp.GetType());
+                Console.WriteLine("Error, " + cstoragecollvar.GetText() + " is not a CardStorageCollection, type is: " + temp.GetType());
                 throw new NotImplementedException();
             }
         }
@@ -1854,7 +1856,7 @@ namespace CardStock.FreezeFrame
             // Splitting on a card attribute?
             var partition = new Dictionary<string, CardCollection>();
             int count = 0;
-            
+
             // Split up the cards
             foreach (var stor in allLocs)
             {
@@ -1922,6 +1924,7 @@ namespace CardStock.FreezeFrame
             Owner player = ProcessLocPre(stor.locpre());
 
             string name = ProcessString(stor.str()) + CardStorage.delimiter;
+
             if (stor.@int().Length > 0)
             {
                 // TODO CHANGE FOR 2D COORDINATE SYSTEM
@@ -2929,7 +2932,7 @@ namespace CardStock.FreezeFrame
             else if (ret is Card c)
             {
                 CardCollection cardl = c.Owner.ShallowCopy();
-                CardLocReference clr = new() { cardList = cardl, name = "manufactured variable"};
+                CardLocReference clr = new() { cardList = cardl, name = "manufactured variable" };
                 clr.SetLocId(c);
                 return clr;
             }
@@ -3052,4 +3055,3 @@ namespace CardStock.FreezeFrame
 }
 
 
-              
