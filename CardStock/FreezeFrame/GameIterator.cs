@@ -1489,7 +1489,7 @@ namespace CardStock.FreezeFrame
 
             else if (cstoragecoll.run() is not null)
             {
-                var locs = ProcessLocation(cstoragecoll.run().cstorage());
+                /*var locs = ProcessLocation(cstoragecoll.run().cstorage());
                 var points = ProcessPointStorage(cstoragecoll.run().pointstorage());
                 var scoring = points.Get();
                 int minsize = ProcessInt(cstoragecoll.run().@int());
@@ -1603,8 +1603,129 @@ namespace CardStock.FreezeFrame
                         });
                     }
                 }
-                return [.. returnList];
+                return [.. returnList];*/
 
+                var run = cstoragecoll.run();
+
+                var locs = ProcessLocation(run.cstorage());
+                var points = ProcessPointStorage(run.pointstorage());
+                var scoring = points.Get();
+                int minsize = ProcessInt(run.@int());
+
+                var returnList = new List<CardLocReference>();
+                var sortcards = locs.cardList.AllCards().ToArray();
+                Array.Sort(sortcards, new CardComparer()
+                {
+                    scoring = points.Get(),
+                });
+
+                var mode = run.GetChild(2).GetText();
+                bool all = mode == "all";
+                bool largest = mode == "largest";
+
+                var current = new List<CardCollection>(4)
+                {
+                    new(CCType.VIRTUAL)
+                };
+
+                current[0].Add(sortcards[0]);
+
+                for (int j = 1; j < sortcards.Length; j++)
+                {
+                    Card card = sortcards[j];
+                    Card previous = sortcards[j - 1];
+
+                    int score = scoring.GetScore(card);
+                    int previousScore = scoring.GetScore(previous);
+
+                    if (score == previousScore)
+                    {
+                        int currentCount = current.Count;
+
+                        for (int i = 0; i < currentCount; i++)
+                        {
+                            var c = current[i];
+
+                            if (c.Peek() != previous)
+                                continue;
+
+                            var other = c.DeepCopy();
+                            other.Remove();
+                            other.Add(card);
+                            current.Add(other);
+                        }
+                    }
+                    else if (score == previousScore + 1)
+                    {
+                        if (all)
+                        {
+                            for (int i = 0; i < current.Count; i++)
+                            {
+                                var c = current[i];
+
+                                if (c.Count < minsize)
+                                    continue;
+
+                                returnList.Add(new CardLocReference
+                                {
+                                    cardList = c.DeepCopy(),
+                                    name = "{all runs}" + j
+                                });
+                            }
+                        }
+
+                        for (int i = 0; i < current.Count; i++)
+                            current[i].Add(card);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < current.Count; i++)
+                        {
+                            var c = current[i];
+
+                            if (c.Count < minsize)
+                                continue;
+
+                            returnList.Add(new CardLocReference
+                            {
+                                cardList = c,
+                                name = "{all runs}" + j
+                            });
+                        }
+
+                        current.Clear();
+
+                        if (largest)
+                        {
+                            var collection = new CardCollection(CCType.VIRTUAL);
+                            collection.Add(card);
+                            current.Add(collection);
+                        }
+                    }
+
+                    if (all)
+                    {
+                        var collection = new CardCollection(CCType.VIRTUAL);
+                        collection.Add(card);
+                        current.Add(collection);
+                    }
+                }
+
+                for (int i = 0; i < current.Count; i++)
+                {
+                    var c = current[i];
+
+                    if (c.Count < minsize)
+                        continue;
+
+                    returnList.Add(new CardLocReference
+                    {
+                        cardList = c,
+                        name = "{all runs end}"
+                    });
+                }
+
+                return returnList.ToArray();
             }
             else if (cstoragecoll.aggcs() is not null)
             {
