@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Text.Json;
+using System.Numerics;
 
 namespace CardStock.FreezeFrame
 {
@@ -66,7 +67,6 @@ namespace CardStock.FreezeFrame
 
         public GameIterator Clone(CardGame newgame)
         {
-
             var ret = new GameIterator(rules, newgame, "clone", exp, false)
             {
                 iteratingSet = [.. iteratingSet],
@@ -188,7 +188,8 @@ namespace CardStock.FreezeFrame
             game.PushPlayer();
             game.CurrentPlayer().SetMember(0);
             var r = new List<Dictionary<string, object>>();
-            var data = new Dictionary<string, object> {
+            var data = new Dictionary<string, object>
+            {
                 ["results"] = r
             };
             for (int i = 0; i < results.Length; i++)
@@ -245,7 +246,7 @@ namespace CardStock.FreezeFrame
                         ["action"] = "cycle",
                         ["type"] = "now",
                         ["who"] = game.currentPlayer.Peek().CurrentName(),
-                    };                    
+                    };
                     script?.WriteToJSON(data);
                 }
                 else
@@ -834,7 +835,7 @@ namespace CardStock.FreezeFrame
                                     ["action"] = "cycle",
                                     ["type"] = "now",
                                     ["who"] = game.CurrentPlayer().CurrentName(),
-                                };                    
+                                };
                                 script?.WriteToJSON(data);
                                 break;
 
@@ -845,7 +846,7 @@ namespace CardStock.FreezeFrame
                                     ["action"] = "cycle",
                                     ["type"] = "now",
                                     ["who"] = game.CurrentTeam().CurrentName(),
-                                };    
+                                };
                                 script?.WriteToJSON(data);
                                 break;
                         }
@@ -990,7 +991,8 @@ namespace CardStock.FreezeFrame
                 idx = ProcessPlayerVar(cycle.varp()).id;
             }
 
-            switch (cycle.GetChild(1).GetText()) {
+            switch (cycle.GetChild(1).GetText())
+            {
                 case "next": return new PlayerNextAction(game.CurrentPlayer(), idx, script);
                 case "current": return new PlayerNowAction(idx, game, script);
             }
@@ -1024,7 +1026,8 @@ namespace CardStock.FreezeFrame
                 foreach (var act in actions)
                 {
                     //Console.WriteLine(act);
-                    if (act is not null) {
+                    if (act is not null)
+                    {
                         var data = act.ExecuteAll();
                         script?.WriteToJSON(data);
                     }
@@ -1399,11 +1402,13 @@ namespace CardStock.FreezeFrame
             return lst;
         }
 
+        public static long itemsTotal = 0;
+
         private CardLocReference[] ProcessCStorageCollection(RecycleParser.CstoragecollectionContext cstoragecoll)
         {
             if (cstoragecoll.subset() is not null)
             {
-                Debug.WriteLine("Found a subset");
+                /*Debug.WriteLine("Found a subset");
                 var stor = ProcessLocation(cstoragecoll.subset().cstorage());
                 Debug.WriteLine("There are " + stor.cardList.AllCards().Count() + " cards here");
 
@@ -1433,12 +1438,46 @@ namespace CardStock.FreezeFrame
                     var cardlist = subsets[j];
                     var cctemp = new CardCollection(CCType.VIRTUAL, cardlist);
 
-                    returnList[j-1] = new CardLocReference()
+                    returnList[j - 1] = new CardLocReference()
                     {
                         cardList = cctemp,
                         name = "{subset " + j + " from " + stor.name + "}"
                     };
                 }
+                return returnList;*/
+
+                var stor = ProcessLocation(cstoragecoll.subset().cstorage());
+                var cards = stor.cardList.AllCardsList();
+
+                int cardCount = cards.Count();
+
+                // every non-empty subset;
+                // 2^n - 1 subset size
+                uint subsetCount = (uint)(1 << cardCount) - 1;
+                itemsTotal += cardCount * (1L << (cardCount - 1));
+
+                var returnList = new CardLocReference[subsetCount];
+
+                for (uint i = 1; i <= subsetCount; i++)
+                {
+                    int count = BitOperations.PopCount(i);
+                    var subset = new List<Card>(count);
+
+                    for (int j = 0; j < cardCount; j++)
+                    {
+                        if ((i & (1u << j)) != 0)
+                        {
+                            subset.Add(cards[j]);
+                        }
+                    }
+
+                    returnList[i - 1] = new CardLocReference()
+                    {
+                        cardList = new CardCollection(CCType.VIRTUAL, subset),
+                        name = "{subset " + i + " from " + stor.name + "}"
+                    };
+                }
+
                 return returnList;
             }
 
@@ -1450,7 +1489,7 @@ namespace CardStock.FreezeFrame
 
             else if (cstoragecoll.run() is not null)
             {
-                var locs = ProcessLocation(cstoragecoll.run().cstorage());
+                /*var locs = ProcessLocation(cstoragecoll.run().cstorage());
                 var points = ProcessPointStorage(cstoragecoll.run().pointstorage());
                 var scoring = points.Get();
                 int minsize = ProcessInt(cstoragecoll.run().@int());
@@ -1564,8 +1603,129 @@ namespace CardStock.FreezeFrame
                         });
                     }
                 }
-                return [.. returnList];
+                return [.. returnList];*/
 
+                var run = cstoragecoll.run();
+
+                var locs = ProcessLocation(run.cstorage());
+                var points = ProcessPointStorage(run.pointstorage());
+                var scoring = points.Get();
+                int minsize = ProcessInt(run.@int());
+
+                var returnList = new List<CardLocReference>();
+                var sortcards = locs.cardList.AllCards().ToArray();
+                Array.Sort(sortcards, new CardComparer()
+                {
+                    scoring = points.Get(),
+                });
+
+                var mode = run.GetChild(2).GetText();
+                bool all = mode == "all";
+                bool largest = mode == "largest";
+
+                var current = new List<CardCollection>(4)
+                {
+                    new(CCType.VIRTUAL)
+                };
+
+                current[0].Add(sortcards[0]);
+
+                for (int j = 1; j < sortcards.Length; j++)
+                {
+                    Card card = sortcards[j];
+                    Card previous = sortcards[j - 1];
+
+                    int score = scoring.GetScore(card);
+                    int previousScore = scoring.GetScore(previous);
+
+                    if (score == previousScore)
+                    {
+                        int currentCount = current.Count;
+
+                        for (int i = 0; i < currentCount; i++)
+                        {
+                            var c = current[i];
+
+                            if (c.Peek() != previous)
+                                continue;
+
+                            var other = c.DeepCopy();
+                            other.Remove();
+                            other.Add(card);
+                            current.Add(other);
+                        }
+                    }
+                    else if (score == previousScore + 1)
+                    {
+                        if (all)
+                        {
+                            for (int i = 0; i < current.Count; i++)
+                            {
+                                var c = current[i];
+
+                                if (c.Count < minsize)
+                                    continue;
+
+                                returnList.Add(new CardLocReference
+                                {
+                                    cardList = c.DeepCopy(),
+                                    name = "{all runs}" + j
+                                });
+                            }
+                        }
+
+                        for (int i = 0; i < current.Count; i++)
+                            current[i].Add(card);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < current.Count; i++)
+                        {
+                            var c = current[i];
+
+                            if (c.Count < minsize)
+                                continue;
+
+                            returnList.Add(new CardLocReference
+                            {
+                                cardList = c,
+                                name = "{all runs}" + j
+                            });
+                        }
+
+                        current.Clear();
+
+                        if (largest)
+                        {
+                            var collection = new CardCollection(CCType.VIRTUAL);
+                            collection.Add(card);
+                            current.Add(collection);
+                        }
+                    }
+
+                    if (all)
+                    {
+                        var collection = new CardCollection(CCType.VIRTUAL);
+                        collection.Add(card);
+                        current.Add(collection);
+                    }
+                }
+
+                for (int i = 0; i < current.Count; i++)
+                {
+                    var c = current[i];
+
+                    if (c.Count < minsize)
+                        continue;
+
+                    returnList.Add(new CardLocReference
+                    {
+                        cardList = c,
+                        name = "{all runs end}"
+                    });
+                }
+
+                return returnList.ToArray();
             }
             else if (cstoragecoll.aggcs() is not null)
             {
@@ -1607,7 +1767,7 @@ namespace CardStock.FreezeFrame
             }
             else
             {
-                Console.WriteLine("Error, "+ cstoragecollvar.GetText() + " is not a CardStorageCollection, type is: " + temp.GetType());
+                Console.WriteLine("Error, " + cstoragecollvar.GetText() + " is not a CardStorageCollection, type is: " + temp.GetType());
                 throw new NotImplementedException();
             }
         }
@@ -1854,7 +2014,7 @@ namespace CardStock.FreezeFrame
             // Splitting on a card attribute?
             var partition = new Dictionary<string, CardCollection>();
             int count = 0;
-            
+
             // Split up the cards
             foreach (var stor in allLocs)
             {
@@ -1922,6 +2082,7 @@ namespace CardStock.FreezeFrame
             Owner player = ProcessLocPre(stor.locpre());
 
             string name = ProcessString(stor.str()) + CardStorage.delimiter;
+
             if (stor.@int().Length > 0)
             {
                 // TODO CHANGE FOR 2D COORDINATE SYSTEM
@@ -2929,7 +3090,7 @@ namespace CardStock.FreezeFrame
             else if (ret is Card c)
             {
                 CardCollection cardl = c.Owner.ShallowCopy();
-                CardLocReference clr = new() { cardList = cardl, name = "manufactured variable"};
+                CardLocReference clr = new() { cardList = cardl, name = "manufactured variable" };
                 clr.SetLocId(c);
                 return clr;
             }
@@ -3052,4 +3213,3 @@ namespace CardStock.FreezeFrame
 }
 
 
-              
