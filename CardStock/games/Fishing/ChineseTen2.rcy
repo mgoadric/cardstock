@@ -28,10 +28,10 @@
         ;; score to see if move captures
         (set (game points VALUE) 
         (
-            ((RANK : KING) -437)
-            ((RANK : QUEEN) -337)
-            ((RANK : JACK) -237)
-            ((RANK : TEN) -137)
+            ((RANK : KING) -4)
+            ((RANK : QUEEN) -3)
+            ((RANK : JACK) -2)
+            ((RANK : TEN) -1)
             ((RANK : NINE) 9)
             ((RANK : EIGHT) 8)
             ((RANK : SEVEN) 7)
@@ -77,7 +77,9 @@
                 (cardatt RANK (top (game vloc TABLE)))
             )
 
-            
+            (set
+                ()
+            )
         ))
     )
 
