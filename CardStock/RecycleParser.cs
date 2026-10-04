@@ -850,15 +850,6 @@ public partial class RecycleParser : Parser
 
 	public partial class GameContext : ParserRuleContext
 	{
-		private string cache;
-		public override string GetText()
-		{
-			if (cache is null)
-			{
-				cache = base.GetText();
-			}
-			return cache;
-		}
 		private MultiactionContext[] macs;
 		private StageContext[] stages;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
