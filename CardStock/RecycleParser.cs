@@ -850,6 +850,17 @@ public partial class RecycleParser : Parser
 
 	public partial class GameContext : ParserRuleContext
 	{
+		private string cache;
+
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+
 		private MultiactionContext[] macs;
 		private StageContext[] stages;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
@@ -8090,17 +8101,28 @@ public partial class RecycleParser : Parser
 
 	public partial class IntContext : ParserRuleContext
 	{
-		private int cache;
+		private string cache;
+
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+
+		private int numCache;
 		private bool empty = true;
 
 		public int GetInt()
 		{
 			if (empty)
 			{
-				cache = int.Parse(GetText());
+				numCache = int.Parse(GetText());
 				empty = false;
 			}
-			return cache;
+			return numCache;
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public VariContext vari()
