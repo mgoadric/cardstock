@@ -18,6 +18,7 @@
         )
     )
 
+    ;; player 1 deals, player 2 plays first.
     (do (
         (shuffle (game iloc STOCK))
     ))

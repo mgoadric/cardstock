@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 using System.Diagnostics;
 using CardStock.CardEngine;
 using CardStock.Players;
-using CardStock.FreezeFrame;
 
 namespace CardStock.Evaluation {
     public partial class GameSimulator()
@@ -62,8 +61,6 @@ namespace CardStock.Evaluation {
             DataCollector dc = new(exp);
 
             int numFinished = 0;
-
-            Logger.Start();
 
             /***********
             * Run the experiments
@@ -125,16 +122,14 @@ namespace CardStock.Evaluation {
                     /************
                      * WRITE OUT STATS
                      *************/
-
-                    gamePlay.script?.Queue(() => dc.RecordGameStatistics(i, results, mult, stopwatch.Elapsed.TotalMilliseconds));
-
+                    dc.RecordGameStatistics(i, results, mult, stopwatch.Elapsed.TotalMilliseconds);
                     totalTime += stopwatch.Elapsed.TotalMilliseconds;
 
                     numFinished++;
                     Console.WriteLine("Finished game " + numFinished + " of " + exp.NumGames);
 
                     gamePlay.script?.WriteMovementFile();
-                    gamePlay.script?.End();
+
                 }
                 catch (Exception e)
                 {
@@ -143,8 +138,8 @@ namespace CardStock.Evaluation {
                     return false;
                 }
             }
+        //);
         
-            Logger.Finish();
 
             dc.Close();
             Console.WriteLine("Total Time: " + totalTime);
