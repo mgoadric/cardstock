@@ -1,0 +1,168 @@
+;; Scopa in the GDL
+;; https://www.pagat.com/fishing/scopa.html
+(game
+ (setup  
+  ;; Set up the players, 2 players each on their own team
+  (create players 2)
+  
+  ;; Create the deck source
+  (create deck (game iloc STOCK) (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, J, H, K))
+                                       (SUIT (SWORDS, CUPS, COINS, BATONS)))))        
+ (do (
+       (set (game points POINTS)
+           (((RANK : K) 10) 
+            ((RANK : H) 9)
+            ((RANK : J) 8)
+            ((RANK : SEVEN) 7)
+            ((RANK : SIX) 6)
+            ((RANK : FIVE) 5)
+            ((RANK : FOUR) 4)
+            ((RANK : THREE) 3)
+            ((RANK : TWO) 2)
+            ((RANK : A) 1)))
+
+       (set (game points PRIMIERA)
+           (((RANK : K) 10) 
+            ((RANK : H) 10)
+            ((RANK : J) 10)
+            ((RANK : SEVEN) 21)
+            ((RANK : SIX) 18)
+            ((RANK : FIVE) 15)
+            ((RANK : FOUR) 14)
+            ((RANK : THREE) 13)
+            ((RANK : TWO) 12)
+            ((RANK : A) 16)))
+
+      (shuffle (game iloc STOCK))
+      (repeat 4
+              (move (top (game iloc STOCK))
+                    (top (game vloc POOL))))))
+  
+ ;; Stages of the game
+ (stage player
+        (end 
+         (== (size (game iloc STOCK)) 0))
+        
+        ;; Deal the players 3 cards each
+        (do (
+             (all player 'P
+                  (repeat 3
+                          (move (top (game iloc STOCK))
+                                (top ('P iloc HAND)))))))
+        
+        ;; Players play their cards one at a time until their hand is empty
+        (stage player
+               (end 
+                (all player 'P 
+                     (== (size ('P iloc HAND)) 0)))
+               
+               ;; Pick a card to play to the pool
+               (choice (
+                 (any ((current player) iloc HAND) 'AC
+                      (do (
+                        (move 'AC 
+                            (top ((current player) vloc TRICK)))
+
+                        ;; match one card in pool
+                        (any (filter (game vloc POOL) 'PC 
+                                 (== (cardatt RANK 'PC)
+                                     (cardatt RANK (top ((current player) vloc TRICK)))))
+                                   'PCF
+                                   (do (
+                                        (move 'PCF 
+                                              (top ((current player) vloc BUNDLE)))
+                                        (set ((current player) sto MOVED) 1)
+                                        (set (game sto LAST) (pid (current player))))))    
+
+                        ;; match subsets of cards IF NO SINGLES???
+                        ((!= ((current player) sto MOVED) 1)
+                         (any (filter (subsets (game vloc POOL)) 'SUB 
+                            (and 
+                                (> (size 'SUB) 1)
+                                (== (sum 'SUB using (game points POINTS))
+                                    (score (top ((current player) vloc TRICK))
+                                        using (game points POINTS))))) 'SUBMATCH
+                                            (do (
+                                                (all 'SUBMATCH 'MCARD  
+                                                    (move 'MCARD 
+                                                        (top ((current player) vloc BUNDLE))))
+                                                    (set ((current player) sto MOVED) 1)
+                                                    (set (game sto LAST) (pid (current player))))))  
+                        )
+                      ))  
+                 )
+                ))
+               
+               (do (
+                    ;; CHECK FOR SCOPA (SWEEP OF THE POOL)
+                    ;; all turns except the last one
+                    ((and (== (size (game vloc POOL)) 0)
+                          (or (!= (size (game iloc STOCK)) 0)
+                              (any player 'P (> (size ('P iloc HAND)) 0))))
+                     (inc ((current player) sto SCORE)))
+            
+                    ;; move trick card to bundle or pool depending 
+                    ((== ((current player) sto MOVED) 0)
+                     (move (top ((current player) vloc TRICK))
+                           (top (game vloc POOL))))
+                    
+                    ((== ((current player) sto MOVED) 1)
+                     (move (top ((current player) vloc TRICK))
+                           (top ((current player) vloc BUNDLE))))
+                           
+                    (set ((current player) sto MOVED) 0)))))
+
+ ;; Move remaining cards to the last player to make a capture
+ (do (
+    ((> (size (game vloc POOL)) 0)
+     (repeat all (move (top (game vloc POOL))
+                       (top (((game sto LAST) player) vloc BUNDLE)))))
+ ))
+
+ ;; First pass through scoring
+ (stage player (end (all player 'P (== ('P str SCORING) MID))) 
+    (do (
+
+      ;; most cards worth one point
+      ((> (size ((current player) vloc BUNDLE))
+          (size ((next player) vloc BUNDLE)))
+         (inc ((current player) sto SCORE))
+      )
+
+      ;; Most coins worth one point
+      ((> (size (filter ((current player) vloc BUNDLE) 'C (== (cardatt SUIT 'C) COINS)))
+          (size (filter ((next player) vloc BUNDLE) 'C (== (cardatt SUIT 'C) COINS))))
+         (inc ((current player) sto SCORE))
+      )
+
+      ;; 7 of coins worth one point
+      ((any ((current player) vloc BUNDLE) 'C (and (== (cardatt SUIT 'C) COINS)
+                                                   (== (cardatt RANK 'C) SEVEN))) 
+         (inc ((current player) sto SCORE)))
+
+      ;; best primiera scores 1 point, this gets a potential prime score
+      (let (partition SUIT ((current player) vloc BUNDLE)) 'PART  ;; split up by suit
+            ((== (size 'PART) 4)  ;; if at least one card in each suit
+             (all 'PART 'PP (inc ((current player) sto PRIMIERA) ;; add up the scores
+                (scoremax 'PP using (game points PRIMIERA)) ))) ;; find the highest, get the score
+      )
+
+      ;; mid scoring turn is done
+      (set ((current player) str SCORING) MID)
+  )))
+
+ ;; second scoring pass, after aggregation of Primera values
+ (stage player (end (all player 'P (== ('P str SCORING) END))) 
+   (do (
+
+      ;; highest primiera scores one point
+      ((> ((current player) sto PRIMIERA)
+          ((next player) sto PRIMIERA))
+         (inc ((current player) sto SCORE))
+      )
+
+      ;; scoring turn is done
+      (set ((current player) str SCORING) END)
+  )))  
+
+ (scoring max ((current player) sto SCORE)))
