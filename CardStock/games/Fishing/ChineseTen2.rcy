@@ -26,12 +26,11 @@
         (shuffle (game iloc STOCK))
 
         ;; score to see if move captures
-        (set (game points VALUE) 
-        (
-            ((RANK : KING) -4)
-            ((RANK : QUEEN) -3)
-            ((RANK : JACK) -2)
-            ((RANK : TEN) -1)
+        (set (game points VALUE) (
+            ((RANK : KING) 400)
+            ((RANK : QUEEN) 300)
+            ((RANK : JACK) 200)
+            ((RANK : TEN) 100)
             ((RANK : NINE) 9)
             ((RANK : EIGHT) 8)
             ((RANK : SEVEN) 7)
@@ -67,23 +66,69 @@
         )
 
         (choice (
-            (any ((current player) iloc HAND) 'C)
-                (move 'C (top (game vloc CENTER)))
+            (any ((current player) iloc HAND) 'C
+                (move 'C (top (game vloc TABLE))))
         ))
 
         (do (
+            (set
+                (game sto MOVED)
+                FALSE
+            )
             (set
                 (game str PLAYED)
                 (cardatt RANK (top (game vloc TABLE)))
             )
 
             (set
-                ()
+                (game sto PLAYEDVALUE)
+                (score (top (game vloc TABLE)) using (game points VALUE))
+            )
+
+            ;; if value is less than 10, check
+            (
+                (<= (game sto PLAYEDVALUE) 10)
+                (do (
+                    (any (filter (game vloc CENTER) 'J
+                        (== (+ (game sto PLAYEDVALUE) (score 'J using (game points VALUE))) 10))
+                        'J
+                        (do (
+                            (move 'J (top ((current player) iloc PILE)))
+                            (move (top (game vloc TABLE)) (top ((current player) iloc PILE)))
+                            (set
+                                (game sto MOVED) TRUE
+                            )
+                        ))
+                    )
+                ))
+            )
+
+            ;; if value is more than 10
+            (
+                (>= (game sto PLAYEDVALUE) 10)
+                (do (
+                    (any (filter (game vloc CENTER) 'J
+                        (== (+ (game sto PLAYEDVALUE) (score 'J using (game points VALUE))) 10))
+                        'J
+                        (do (
+                            (move 'J (top ((current player) iloc PILE)))
+                            (move (top (game vloc TABLE)) (top ((current player) iloc PILE)))
+                            (set
+                                (game sto MOVED) TRUE
+                            )
+                        ))
+                    )
+                ))
+            )
+
+            (
+                (== (game sto MOVED) FALSE)
+                (move (top (game vloc TABLE)) (top (game vloc)))
             )
         ))
     )
 
     (scoring max
-        ((curent player) sto SCORE)
+        ((current player) sto SCORE)
     )
 )
