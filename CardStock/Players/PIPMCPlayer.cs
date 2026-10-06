@@ -17,12 +17,26 @@ namespace CardStock.Players
 
         public override void Explore()
         {
-            completed = new int[numChoices];
-
-            for (int i = 0; i < numPlayers; i++)
+            // Is this neccesary?
+            if (completed?.Length >= numChoices)
             {
-                moveRanks[i] = new double[numChoices];
-                moveScores[i] = new double[numChoices];
+                Array.Clear(completed, 0, numChoices);
+
+                for (int i = 0; i < numPlayers; i++)
+                {
+                    Array.Clear(moveRanks[i], 0, numChoices);
+                    Array.Clear(moveScores[i], 0, numChoices);
+                }
+            }
+            else
+            {
+                completed = new int[numChoices];
+
+                for (int i = 0; i < numPlayers; i++)
+                {
+                    moveRanks[i] = new double[numChoices];
+                    moveScores[i] = new double[numChoices];
+                }
             }
 
             // MAKE THIS MANY DETERMINIZATIONS
@@ -32,6 +46,7 @@ namespace CardStock.Players
             }
 
             // FOR EACH POSSIBLE MOVE
+            /*
             for (int i = 0; i < dc.exp.numTests / dc.exp.numSamples; i++)
             {
                 // USE THIS MANY DETERMINIZATIONS
@@ -46,6 +61,28 @@ namespace CardStock.Players
                     });
                 }
             }
+
+            ==
+            
+            for (int i = 0; i < dc.exp.numSamples; i++)
+            {
+                int det = i % dc.exp.numSamples;
+
+                for (int j = 0; j < numChoices; j++)
+                {
+                }
+            }
+            */
+
+            // Flatten array into single Parallel call. Use math to unflatten. This allows a single Parallel.For call.
+            int total = dc.exp.numTests / dc.exp.numSamples * dc.exp.numSamples * numChoices;
+            Parallel.For(0, total, i =>
+            {
+                int det = i / numChoices % dc.exp.numSamples;
+                int move = i % numChoices;
+
+                RunSimulation(det, move);
+            });
         }
 
         public override int ChooseOption()
@@ -60,7 +97,7 @@ namespace CardStock.Players
             }
 
             // FIND BEST (and worst) MOVE TO MAKE
-            var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()]);
+            var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()], numChoices);
 
             //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
             //Console.WriteLine("{0}", string.Join(", ", scoreSum[perspective.GetIdx()]));
@@ -112,7 +149,7 @@ namespace CardStock.Players
                 for (int j = 0; j < numPlayers; ++j)
                 {
                     // OLD RANK BASED 
-                    moveRanks[j][move] += ranks[j,0];
+                    moveRanks[j][move] += ranks[j, 0];
 
                     // NEW VALUE BASED
                     moveScores[j][move] += results[j] * mult;

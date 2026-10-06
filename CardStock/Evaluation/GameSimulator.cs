@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 using System.Diagnostics;
 using CardStock.CardEngine;
 using CardStock.Players;
+using CardStock.FreezeFrame;
 
-namespace CardStock.Evaluation {
+namespace CardStock.Evaluation
+{
     public partial class GameSimulator()
     {
 
@@ -16,7 +18,8 @@ namespace CardStock.Evaluation {
 
         public const ImperfectLevel imperfectLevel = ImperfectLevel.TAKEN;
 
-        public void LoadGame() {
+        public void LoadGame()
+        {
 
             Debug.AutoFlush = true;
 
@@ -49,7 +52,8 @@ namespace CardStock.Evaluation {
             DotVisualization.DOTMakerTop(tree, "output/" + exp.Game + "/" + exp.PlayerCount + "/parsetree");
         }
 
-        public bool RunExperiment() {
+        public bool RunExperiment()
+        {
 
             Stopwatch stopwatch = new();
             double totalTime = 0;
@@ -66,18 +70,23 @@ namespace CardStock.Evaluation {
             * Run the experiments
             ***********/
             //Parallel.For(0, exp.NumGames, i =>
+
+            Logger.Start();
+
+            string path = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.PlayerAbv() + "/simulation/";
+            FileInfo file = new(path);
+            DirectoryInfo? directoryInfo = file.Directory;
+            directoryInfo?.Create();
+
+            long allocatedBefore = GC.GetTotalAllocatedBytes(true);
+
             for (int i = 0; i < exp.NumGames; i++)
             {
-                GC.Collect();
+                //GC.Collect();
 
                 stopwatch.Restart();
                 try
                 {
-                    string path = "output/" + exp.Game + "/" + exp.PlayerCount + "/" + exp.PlayerAbv() + "/simulation/";
-                    FileInfo file = new(path);
-                    DirectoryInfo? directoryInfo = file.Directory;
-                    directoryInfo?.Create();
-
                     CardGame game = new(exp);
                     var gamePlay = new FreezeFrame.GameIterator(tree, game, path + (i + 1), exp);
                     if (game.players.Length > MAXPLAYERS)
@@ -122,13 +131,23 @@ namespace CardStock.Evaluation {
                     /************
                      * WRITE OUT STATS
                      *************/
-                    dc.RecordGameStatistics(i, results, mult, stopwatch.Elapsed.TotalMilliseconds);
+
+                    // if script, then we queue because performance?
+                    if (gamePlay.script != null)
+                    {
+                        gamePlay.script.Queue(() => dc.RecordGameStatistics(i, results, mult, stopwatch.Elapsed.TotalMilliseconds));
+                    }
+                    else
+                    {
+                        dc.RecordGameStatistics(i, results, mult, stopwatch.Elapsed.TotalMilliseconds);
+                    }
                     totalTime += stopwatch.Elapsed.TotalMilliseconds;
 
                     numFinished++;
                     Console.WriteLine("Finished game " + numFinished + " of " + exp.NumGames);
 
                     gamePlay.script?.WriteMovementFile();
+                    gamePlay.script?.Close();
 
                 }
                 catch (Exception e)
@@ -138,11 +157,17 @@ namespace CardStock.Evaluation {
                     return false;
                 }
             }
-        //);
-        
+            //);
+            Logger.Finish();
+
+            long allocatedAfter = GC.GetTotalAllocatedBytes(true);
+            double megabytesAllocated = (allocatedAfter - allocatedBefore) / (1024 * 1024);
 
             dc.Close();
             Console.WriteLine("Total Time: " + totalTime);
+            Console.WriteLine("Allocation Count: " + megabytesAllocated + "MB");
+            Console.WriteLine("Allocation Rate: " + (megabytesAllocated / (totalTime / 1000)) + "MB/s");
+            Console.WriteLine("Amount of pointers needed: " + GameIterator.itemsTotal);
 
             return true;
         }

@@ -32,91 +32,92 @@ using DFA = Antlr4.Runtime.Dfa.DFA;
 
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.13.1")]
 [System.CLSCompliant(false)]
-public partial class RecycleParser : Parser {
+public partial class RecycleParser : Parser
+{
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, 
-		T__31=32, T__32=33, T__33=34, T__34=35, T__35=36, T__36=37, T__37=38, 
-		T__38=39, T__39=40, T__40=41, T__41=42, T__42=43, T__43=44, T__44=45, 
-		T__45=46, T__46=47, T__47=48, T__48=49, T__49=50, T__50=51, T__51=52, 
-		T__52=53, T__53=54, T__54=55, T__55=56, T__56=57, T__57=58, T__58=59, 
-		T__59=60, T__60=61, T__61=62, T__62=63, T__63=64, T__64=65, T__65=66, 
-		T__66=67, T__67=68, T__68=69, T__69=70, T__70=71, T__71=72, T__72=73, 
-		T__73=74, T__74=75, T__75=76, T__76=77, T__77=78, T__78=79, T__79=80, 
-		T__80=81, T__81=82, T__82=83, BOOLOP=84, COMPOP=85, EQOP=86, UNOP=87, 
-		INTNUM=88, LETT=89, OPEN=90, CLOSE=91, WS=92, ANY=93;
+		T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, T__7 = 8, T__8 = 9,
+		T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, T__14 = 15, T__15 = 16, T__16 = 17,
+		T__17 = 18, T__18 = 19, T__19 = 20, T__20 = 21, T__21 = 22, T__22 = 23, T__23 = 24,
+		T__24 = 25, T__25 = 26, T__26 = 27, T__27 = 28, T__28 = 29, T__29 = 30, T__30 = 31,
+		T__31 = 32, T__32 = 33, T__33 = 34, T__34 = 35, T__35 = 36, T__36 = 37, T__37 = 38,
+		T__38 = 39, T__39 = 40, T__40 = 41, T__41 = 42, T__42 = 43, T__43 = 44, T__44 = 45,
+		T__45 = 46, T__46 = 47, T__47 = 48, T__48 = 49, T__49 = 50, T__50 = 51, T__51 = 52,
+		T__52 = 53, T__53 = 54, T__54 = 55, T__55 = 56, T__56 = 57, T__57 = 58, T__58 = 59,
+		T__59 = 60, T__60 = 61, T__61 = 62, T__62 = 63, T__63 = 64, T__64 = 65, T__65 = 66,
+		T__66 = 67, T__67 = 68, T__68 = 69, T__69 = 70, T__70 = 71, T__71 = 72, T__72 = 73,
+		T__73 = 74, T__74 = 75, T__75 = 76, T__76 = 77, T__77 = 78, T__78 = 79, T__79 = 80,
+		T__80 = 81, T__81 = 82, T__82 = 83, BOOLOP = 84, COMPOP = 85, EQOP = 86, UNOP = 87,
+		INTNUM = 88, LETT = 89, OPEN = 90, CLOSE = 91, WS = 92, ANY = 93;
 	public const int
-		RULE_var = 0, RULE_vars = 1, RULE_varo = 2, RULE_varp = 3, RULE_vari = 4, 
-		RULE_varb = 5, RULE_varc = 6, RULE_varcs = 7, RULE_varcsc = 8, RULE_varcard = 9, 
-		RULE_vart = 10, RULE_game = 11, RULE_declare = 12, RULE_setup = 13, RULE_scoring = 14, 
-		RULE_stage = 15, RULE_endcondition = 16, RULE_multiaction = 17, RULE_multiaction2 = 18, 
-		RULE_condact = 19, RULE_agg = 20, RULE_let = 21, RULE_action = 22, RULE_playercreate = 23, 
-		RULE_teamcreate = 24, RULE_teams = 25, RULE_deckcreate = 26, RULE_deck = 27, 
-		RULE_attribute = 28, RULE_initpoints = 29, RULE_updatepoints = 30, RULE_awards = 31, 
-		RULE_subaward = 32, RULE_cycleaction = 33, RULE_setaction = 34, RULE_setstraction = 35, 
-		RULE_incaction = 36, RULE_decaction = 37, RULE_moveaction = 38, RULE_swapaction = 39, 
-		RULE_copyaction = 40, RULE_removeaction = 41, RULE_shuffleaction = 42, 
-		RULE_turnaction = 43, RULE_repeat = 44, RULE_pointstorage = 45, RULE_card = 46, 
-		RULE_maxof = 47, RULE_minof = 48, RULE_locpre = 49, RULE_locdesc = 50, 
-		RULE_who = 51, RULE_whop = 52, RULE_whot = 53, RULE_whodesc = 54, RULE_owner = 55, 
-		RULE_teamp = 56, RULE_typed = 57, RULE_collection = 58, RULE_strcollection = 59, 
-		RULE_range = 60, RULE_other = 61, RULE_cstorage = 62, RULE_basecstorage = 63, 
-		RULE_unionof = 64, RULE_intersectof = 65, RULE_disjunctionof = 66, RULE_filter = 67, 
-		RULE_memstorage = 68, RULE_sequence = 69, RULE_runsequence = 70, RULE_cstoragecollection = 71, 
-		RULE_run = 72, RULE_subset = 73, RULE_partition = 74, RULE_aggcs = 75, 
-		RULE_indexed = 76, RULE_boolean = 77, RULE_intop = 78, RULE_aggb = 79, 
-		RULE_int = 80, RULE_intgr = 81, RULE_sum = 82, RULE_scoremax = 83, RULE_scoremin = 84, 
-		RULE_score = 85, RULE_add = 86, RULE_mult = 87, RULE_subtract = 88, RULE_mod = 89, 
-		RULE_divide = 90, RULE_exponent = 91, RULE_triangular = 92, RULE_fibonacci = 93, 
-		RULE_random = 94, RULE_sizeof = 95, RULE_aggi = 96, RULE_rawstorage = 97, 
-		RULE_pid = 98, RULE_tid = 99, RULE_str = 100, RULE_strstorage = 101, RULE_cardatt = 102, 
+		RULE_var = 0, RULE_vars = 1, RULE_varo = 2, RULE_varp = 3, RULE_vari = 4,
+		RULE_varb = 5, RULE_varc = 6, RULE_varcs = 7, RULE_varcsc = 8, RULE_varcard = 9,
+		RULE_vart = 10, RULE_game = 11, RULE_declare = 12, RULE_setup = 13, RULE_scoring = 14,
+		RULE_stage = 15, RULE_endcondition = 16, RULE_multiaction = 17, RULE_multiaction2 = 18,
+		RULE_condact = 19, RULE_agg = 20, RULE_let = 21, RULE_action = 22, RULE_playercreate = 23,
+		RULE_teamcreate = 24, RULE_teams = 25, RULE_deckcreate = 26, RULE_deck = 27,
+		RULE_attribute = 28, RULE_initpoints = 29, RULE_updatepoints = 30, RULE_awards = 31,
+		RULE_subaward = 32, RULE_cycleaction = 33, RULE_setaction = 34, RULE_setstraction = 35,
+		RULE_incaction = 36, RULE_decaction = 37, RULE_moveaction = 38, RULE_swapaction = 39,
+		RULE_copyaction = 40, RULE_removeaction = 41, RULE_shuffleaction = 42,
+		RULE_turnaction = 43, RULE_repeat = 44, RULE_pointstorage = 45, RULE_card = 46,
+		RULE_maxof = 47, RULE_minof = 48, RULE_locpre = 49, RULE_locdesc = 50,
+		RULE_who = 51, RULE_whop = 52, RULE_whot = 53, RULE_whodesc = 54, RULE_owner = 55,
+		RULE_teamp = 56, RULE_typed = 57, RULE_collection = 58, RULE_strcollection = 59,
+		RULE_range = 60, RULE_other = 61, RULE_cstorage = 62, RULE_basecstorage = 63,
+		RULE_unionof = 64, RULE_intersectof = 65, RULE_disjunctionof = 66, RULE_filter = 67,
+		RULE_memstorage = 68, RULE_sequence = 69, RULE_runsequence = 70, RULE_cstoragecollection = 71,
+		RULE_run = 72, RULE_subset = 73, RULE_partition = 74, RULE_aggcs = 75,
+		RULE_indexed = 76, RULE_boolean = 77, RULE_intop = 78, RULE_aggb = 79,
+		RULE_int = 80, RULE_intgr = 81, RULE_sum = 82, RULE_scoremax = 83, RULE_scoremin = 84,
+		RULE_score = 85, RULE_add = 86, RULE_mult = 87, RULE_subtract = 88, RULE_mod = 89,
+		RULE_divide = 90, RULE_exponent = 91, RULE_triangular = 92, RULE_fibonacci = 93,
+		RULE_random = 94, RULE_sizeof = 95, RULE_aggi = 96, RULE_rawstorage = 97,
+		RULE_pid = 98, RULE_tid = 99, RULE_str = 100, RULE_strstorage = 101, RULE_cardatt = 102,
 		RULE_namegr = 103;
 	public static readonly string[] ruleNames = {
-		"var", "vars", "varo", "varp", "vari", "varb", "varc", "varcs", "varcsc", 
-		"varcard", "vart", "game", "declare", "setup", "scoring", "stage", "endcondition", 
-		"multiaction", "multiaction2", "condact", "agg", "let", "action", "playercreate", 
-		"teamcreate", "teams", "deckcreate", "deck", "attribute", "initpoints", 
-		"updatepoints", "awards", "subaward", "cycleaction", "setaction", "setstraction", 
-		"incaction", "decaction", "moveaction", "swapaction", "copyaction", "removeaction", 
-		"shuffleaction", "turnaction", "repeat", "pointstorage", "card", "maxof", 
-		"minof", "locpre", "locdesc", "who", "whop", "whot", "whodesc", "owner", 
-		"teamp", "typed", "collection", "strcollection", "range", "other", "cstorage", 
-		"basecstorage", "unionof", "intersectof", "disjunctionof", "filter", "memstorage", 
-		"sequence", "runsequence", "cstoragecollection", "run", "subset", "partition", 
-		"aggcs", "indexed", "boolean", "intop", "aggb", "int", "intgr", "sum", 
-		"scoremax", "scoremin", "score", "add", "mult", "subtract", "mod", "divide", 
-		"exponent", "triangular", "fibonacci", "random", "sizeof", "aggi", "rawstorage", 
+		"var", "vars", "varo", "varp", "vari", "varb", "varc", "varcs", "varcsc",
+		"varcard", "vart", "game", "declare", "setup", "scoring", "stage", "endcondition",
+		"multiaction", "multiaction2", "condact", "agg", "let", "action", "playercreate",
+		"teamcreate", "teams", "deckcreate", "deck", "attribute", "initpoints",
+		"updatepoints", "awards", "subaward", "cycleaction", "setaction", "setstraction",
+		"incaction", "decaction", "moveaction", "swapaction", "copyaction", "removeaction",
+		"shuffleaction", "turnaction", "repeat", "pointstorage", "card", "maxof",
+		"minof", "locpre", "locdesc", "who", "whop", "whot", "whodesc", "owner",
+		"teamp", "typed", "collection", "strcollection", "range", "other", "cstorage",
+		"basecstorage", "unionof", "intersectof", "disjunctionof", "filter", "memstorage",
+		"sequence", "runsequence", "cstoragecollection", "run", "subset", "partition",
+		"aggcs", "indexed", "boolean", "intop", "aggb", "int", "intgr", "sum",
+		"scoremax", "scoremin", "score", "add", "mult", "subtract", "mod", "divide",
+		"exponent", "triangular", "fibonacci", "random", "sizeof", "aggi", "rawstorage",
 		"pid", "tid", "str", "strstorage", "cardatt", "namegr"
 	};
 
 	private static readonly string[] _LiteralNames = {
-		null, "'''", "'game'", "'declare'", "'setup'", "'scoring'", "'min'", "'max'", 
-		"'stage'", "'player'", "'team'", "'simultaneous'", "'once'", "'end'", 
-		"'choice'", "'do'", "'any'", "'all'", "'let'", "'create'", "'players'", 
-		"'teams'", "','", "'deck'", "'set'", "'update'", "':'", "'cycle'", "'next'", 
-		"'current'", "'inc'", "'dec'", "'move'", "'swap'", "'remember'", "'forget'", 
-		"'shuffle'", "'faro'", "'turn'", "'pass'", "'repeat'", "'points'", "'top'", 
-		"'bottom'", "'using'", "'vloc'", "'iloc'", "'hloc'", "'oloc'", "'mem'", 
-		"'previous'", "'owner'", "'range'", "'..'", "'other'", "'union'", "'intersect'", 
-		"'disjunction'", "'filter'", "'run'", "'runs'", "'largest'", "'subsets'", 
-		"'partition'", "'indexed'", "'sum'", "'scoremax'", "'scoremin'", "'score'", 
-		"'+'", "'*'", "'-'", "'%'", "'//'", "'^'", "'tri'", "'fib'", "'random'", 
-		"'size'", "'sto'", "'pid'", "'tid'", "'str'", "'cardatt'", null, null, 
+		null, "'''", "'game'", "'declare'", "'setup'", "'scoring'", "'min'", "'max'",
+		"'stage'", "'player'", "'team'", "'simultaneous'", "'once'", "'end'",
+		"'choice'", "'do'", "'any'", "'all'", "'let'", "'create'", "'players'",
+		"'teams'", "','", "'deck'", "'set'", "'update'", "':'", "'cycle'", "'next'",
+		"'current'", "'inc'", "'dec'", "'move'", "'swap'", "'remember'", "'forget'",
+		"'shuffle'", "'faro'", "'turn'", "'pass'", "'repeat'", "'points'", "'top'",
+		"'bottom'", "'using'", "'vloc'", "'iloc'", "'hloc'", "'oloc'", "'mem'",
+		"'previous'", "'owner'", "'range'", "'..'", "'other'", "'union'", "'intersect'",
+		"'disjunction'", "'filter'", "'run'", "'runs'", "'largest'", "'subsets'",
+		"'partition'", "'indexed'", "'sum'", "'scoremax'", "'scoremin'", "'score'",
+		"'+'", "'*'", "'-'", "'%'", "'//'", "'^'", "'tri'", "'fib'", "'random'",
+		"'size'", "'sto'", "'pid'", "'tid'", "'str'", "'cardatt'", null, null,
 		null, "'not'", null, null, "'('", "')'"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		"BOOLOP", "COMPOP", "EQOP", "UNOP", "INTNUM", "LETT", "OPEN", "CLOSE", 
+		null, null, null, null, null, null, null, null, null, null, null, null,
+		null, null, null, null, null, null, null, null, null, null, null, null,
+		null, null, null, null, null, null, null, null, null, null, null, null,
+		null, null, null, null, null, null, null, null, null, null, null, null,
+		null, null, null, null, null, null, null, null, null, null, null, null,
+		null, null, null, null, null, null, null, null, null, null, null, null,
+		null, null, null, null, null, null, null, null, null, null, null, null,
+		"BOOLOP", "COMPOP", "EQOP", "UNOP", "INTNUM", "LETT", "OPEN", "CLOSE",
 		"WS", "ANY"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
@@ -136,22 +137,25 @@ public partial class RecycleParser : Parser {
 
 	public override int[] SerializedAtn { get { return _serializedATN; } }
 
-	static RecycleParser() {
+	static RecycleParser()
+	{
 		decisionToDFA = new DFA[_ATN.NumberOfDecisions];
-		for (int i = 0; i < _ATN.NumberOfDecisions; i++) {
+		for (int i = 0; i < _ATN.NumberOfDecisions; i++)
+		{
 			decisionToDFA[i] = new DFA(_ATN.GetDecisionState(i), i);
 		}
 	}
 
-		public RecycleParser(ITokenStream input) : this(input, Console.Out, Console.Error) { }
+	public RecycleParser(ITokenStream input) : this(input, Console.Out, Console.Error) { }
 
-		public RecycleParser(ITokenStream input, TextWriter output, TextWriter errorOutput)
-		: base(input, output, errorOutput)
+	public RecycleParser(ITokenStream input, TextWriter output, TextWriter errorOutput)
+	: base(input, output, errorOutput)
 	{
 		Interpreter = new ParserATNSimulator(this, _ATN, decisionToDFA, sharedContextCache);
 	}
 
-	public partial class VarContext : ParserRuleContext {
+	public partial class VarContext : ParserRuleContext
+	{
 		private string cache;
 		public override string GetText()
 		{
@@ -161,7 +165,9 @@ public partial class RecycleParser : Parser {
 			}
 			return cache;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext namegr() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext namegr()
+		{
 			return GetRuleContext<NamegrContext>(0);
 		}
 		public VarContext(ParserRuleContext parent, int invokingState)
@@ -170,42 +176,49 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_var; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterVar(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitVar(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public VarContext var() {
+	public VarContext var()
+	{
 		VarContext _localctx = new VarContext(Context, State);
 		EnterRule(_localctx, 0, RULE_var);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 208;
-			Match(T__0);
-			State = 209;
-			namegr();
+				State = 208;
+				Match(T__0);
+				State = 209;
+				namegr();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class VarsContext : ParserRuleContext {
+	public partial class VarsContext : ParserRuleContext
+	{
 		private string cache;
 		public override string GetText()
 		{
@@ -215,7 +228,9 @@ public partial class RecycleParser : Parser {
 			}
 			return cache;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext namegr() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext namegr()
+		{
 			return GetRuleContext<NamegrContext>(0);
 		}
 		public VarsContext(ParserRuleContext parent, int invokingState)
@@ -224,42 +239,49 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_vars; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterVars(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitVars(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public VarsContext vars() {
+	public VarsContext vars()
+	{
 		VarsContext _localctx = new VarsContext(Context, State);
 		EnterRule(_localctx, 2, RULE_vars);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 211;
-			Match(T__0);
-			State = 212;
-			namegr();
+				State = 211;
+				Match(T__0);
+				State = 212;
+				namegr();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class VaroContext : ParserRuleContext {
+	public partial class VaroContext : ParserRuleContext
+	{
 		private string cache;
 		public override string GetText()
 		{
@@ -269,7 +291,9 @@ public partial class RecycleParser : Parser {
 			}
 			return cache;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext namegr() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext namegr()
+		{
 			return GetRuleContext<NamegrContext>(0);
 		}
 		public VaroContext(ParserRuleContext parent, int invokingState)
@@ -278,42 +302,49 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_varo; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterVaro(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitVaro(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public VaroContext varo() {
+	public VaroContext varo()
+	{
 		VaroContext _localctx = new VaroContext(Context, State);
 		EnterRule(_localctx, 4, RULE_varo);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 214;
-			Match(T__0);
-			State = 215;
-			namegr();
+				State = 214;
+				Match(T__0);
+				State = 215;
+				namegr();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class VarpContext : ParserRuleContext {
+	public partial class VarpContext : ParserRuleContext
+	{
 		private string cache;
 		public override string GetText()
 		{
@@ -323,7 +354,9 @@ public partial class RecycleParser : Parser {
 			}
 			return cache;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext namegr() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext namegr()
+		{
 			return GetRuleContext<NamegrContext>(0);
 		}
 		public VarpContext(ParserRuleContext parent, int invokingState)
@@ -332,42 +365,49 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_varp; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterVarp(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitVarp(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public VarpContext varp() {
+	public VarpContext varp()
+	{
 		VarpContext _localctx = new VarpContext(Context, State);
 		EnterRule(_localctx, 6, RULE_varp);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 217;
-			Match(T__0);
-			State = 218;
-			namegr();
+				State = 217;
+				Match(T__0);
+				State = 218;
+				namegr();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class VariContext : ParserRuleContext {
+	public partial class VariContext : ParserRuleContext
+	{
 		private string cache;
 		public override string GetText()
 		{
@@ -377,7 +417,9 @@ public partial class RecycleParser : Parser {
 			}
 			return cache;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext namegr() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext namegr()
+		{
 			return GetRuleContext<NamegrContext>(0);
 		}
 		public VariContext(ParserRuleContext parent, int invokingState)
@@ -386,42 +428,49 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_vari; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterVari(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitVari(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public VariContext vari() {
+	public VariContext vari()
+	{
 		VariContext _localctx = new VariContext(Context, State);
 		EnterRule(_localctx, 8, RULE_vari);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 220;
-			Match(T__0);
-			State = 221;
-			namegr();
+				State = 220;
+				Match(T__0);
+				State = 221;
+				namegr();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class VarbContext : ParserRuleContext {
+	public partial class VarbContext : ParserRuleContext
+	{
 		private string cache;
 		public override string GetText()
 		{
@@ -431,7 +480,9 @@ public partial class RecycleParser : Parser {
 			}
 			return cache;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext namegr() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext namegr()
+		{
 			return GetRuleContext<NamegrContext>(0);
 		}
 		public VarbContext(ParserRuleContext parent, int invokingState)
@@ -440,42 +491,49 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_varb; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterVarb(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitVarb(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public VarbContext varb() {
+	public VarbContext varb()
+	{
 		VarbContext _localctx = new VarbContext(Context, State);
 		EnterRule(_localctx, 10, RULE_varb);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 223;
-			Match(T__0);
-			State = 224;
-			namegr();
+				State = 223;
+				Match(T__0);
+				State = 224;
+				namegr();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class VarcContext : ParserRuleContext {
+	public partial class VarcContext : ParserRuleContext
+	{
 		private string cache;
 		public override string GetText()
 		{
@@ -485,7 +543,9 @@ public partial class RecycleParser : Parser {
 			}
 			return cache;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext namegr() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext namegr()
+		{
 			return GetRuleContext<NamegrContext>(0);
 		}
 		public VarcContext(ParserRuleContext parent, int invokingState)
@@ -494,42 +554,49 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_varc; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterVarc(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitVarc(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public VarcContext varc() {
+	public VarcContext varc()
+	{
 		VarcContext _localctx = new VarcContext(Context, State);
 		EnterRule(_localctx, 12, RULE_varc);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 226;
-			Match(T__0);
-			State = 227;
-			namegr();
+				State = 226;
+				Match(T__0);
+				State = 227;
+				namegr();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class VarcsContext : ParserRuleContext {
+	public partial class VarcsContext : ParserRuleContext
+	{
 		private string cache;
 		public override string GetText()
 		{
@@ -539,7 +606,9 @@ public partial class RecycleParser : Parser {
 			}
 			return cache;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext namegr() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext namegr()
+		{
 			return GetRuleContext<NamegrContext>(0);
 		}
 		public VarcsContext(ParserRuleContext parent, int invokingState)
@@ -548,42 +617,49 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_varcs; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterVarcs(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitVarcs(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public VarcsContext varcs() {
+	public VarcsContext varcs()
+	{
 		VarcsContext _localctx = new VarcsContext(Context, State);
 		EnterRule(_localctx, 14, RULE_varcs);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 229;
-			Match(T__0);
-			State = 230;
-			namegr();
+				State = 229;
+				Match(T__0);
+				State = 230;
+				namegr();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class VarcscContext : ParserRuleContext {
+	public partial class VarcscContext : ParserRuleContext
+	{
 		private string cache;
 		public override string GetText()
 		{
@@ -593,7 +669,9 @@ public partial class RecycleParser : Parser {
 			}
 			return cache;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext namegr() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext namegr()
+		{
 			return GetRuleContext<NamegrContext>(0);
 		}
 		public VarcscContext(ParserRuleContext parent, int invokingState)
@@ -602,42 +680,49 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_varcsc; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterVarcsc(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitVarcsc(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public VarcscContext varcsc() {
+	public VarcscContext varcsc()
+	{
 		VarcscContext _localctx = new VarcscContext(Context, State);
 		EnterRule(_localctx, 16, RULE_varcsc);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 232;
-			Match(T__0);
-			State = 233;
-			namegr();
+				State = 232;
+				Match(T__0);
+				State = 233;
+				namegr();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class VarcardContext : ParserRuleContext {
+	public partial class VarcardContext : ParserRuleContext
+	{
 		private string cache;
 		public override string GetText()
 		{
@@ -647,7 +732,9 @@ public partial class RecycleParser : Parser {
 			}
 			return cache;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext namegr() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext namegr()
+		{
 			return GetRuleContext<NamegrContext>(0);
 		}
 		public VarcardContext(ParserRuleContext parent, int invokingState)
@@ -656,42 +743,49 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_varcard; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterVarcard(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitVarcard(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public VarcardContext varcard() {
+	public VarcardContext varcard()
+	{
 		VarcardContext _localctx = new VarcardContext(Context, State);
 		EnterRule(_localctx, 18, RULE_varcard);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 235;
-			Match(T__0);
-			State = 236;
-			namegr();
+				State = 235;
+				Match(T__0);
+				State = 236;
+				namegr();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class VartContext : ParserRuleContext {
+	public partial class VartContext : ParserRuleContext
+	{
 
 		private string cache;
 		public override string GetText()
@@ -702,7 +796,9 @@ public partial class RecycleParser : Parser {
 			}
 			return cache;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext namegr() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext namegr()
+		{
 			return GetRuleContext<NamegrContext>(0);
 		}
 		public VartContext(ParserRuleContext parent, int invokingState)
@@ -711,76 +807,110 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_vart; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterVart(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitVart(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public VartContext vart() {
+	public VartContext vart()
+	{
 		VartContext _localctx = new VartContext(Context, State);
 		EnterRule(_localctx, 20, RULE_vart);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 238;
-			Match(T__0);
-			State = 239;
-			namegr();
+				State = 238;
+				Match(T__0);
+				State = 239;
+				namegr();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class GameContext : ParserRuleContext {
+	public partial class GameContext : ParserRuleContext
+	{
+		private string cache;
+
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+
 		private MultiactionContext[] macs;
 		private StageContext[] stages;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public SetupContext setup() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public SetupContext setup()
+		{
 			return GetRuleContext<SetupContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ScoringContext scoring() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ScoringContext scoring()
+		{
 			return GetRuleContext<ScoringContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public DeclareContext[] declare() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public DeclareContext[] declare()
+		{
 			return GetRuleContexts<DeclareContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public DeclareContext declare(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public DeclareContext declare(int i)
+		{
 			return GetRuleContext<DeclareContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public MultiactionContext[] multiaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public MultiactionContext[] multiaction()
+		{
 			if (macs is null)
 			{
 				macs = GetRuleContexts<MultiactionContext>();
 			}
 			return macs;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public MultiactionContext multiaction(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public MultiactionContext multiaction(int i)
+		{
 			return GetRuleContext<MultiactionContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public StageContext[] stage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StageContext[] stage()
+		{
 			if (stages is null)
 			{
 				stages = GetRuleContexts<StageContext>();
 			}
 			return stages;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public StageContext stage(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StageContext stage(int i)
+		{
 			return GetRuleContext<StageContext>(i);
 		}
 		public GameContext(ParserRuleContext parent, int invokingState)
@@ -789,102 +919,127 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_game; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterGame(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitGame(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public GameContext game() {
+	public GameContext game()
+	{
 		GameContext _localctx = new GameContext(Context, State);
 		EnterRule(_localctx, 22, RULE_game);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 241;
-			Match(OPEN);
-			State = 242;
-			Match(T__1);
-			State = 246;
-			ErrorHandler.Sync(this);
-			_alt = Interpreter.AdaptivePredict(TokenStream,0,Context);
-			while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1+1 ) {
-					{
-					{
-					State = 243;
-					declare();
-					}
-					} 
-				}
-				State = 248;
+				State = 241;
+				Match(OPEN);
+				State = 242;
+				Match(T__1);
+				State = 246;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,0,Context);
-			}
-			State = 249;
-			setup();
-			State = 252;
-			ErrorHandler.Sync(this);
-			_alt = 1+1;
-			do {
-				switch (_alt) {
-				case 1+1:
+				_alt = Interpreter.AdaptivePredict(TokenStream, 0, Context);
+				while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER)
+				{
+					if (_alt == 1 + 1)
 					{
-					State = 252;
+						{
+							{
+								State = 243;
+								declare();
+							}
+						}
+					}
+					State = 248;
 					ErrorHandler.Sync(this);
-					switch ( Interpreter.AdaptivePredict(TokenStream,1,Context) ) {
-					case 1:
-						{
-						State = 250;
-						multiaction();
-						}
-						break;
-					case 2:
-						{
-						State = 251;
-						stage();
-						}
-						break;
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 0, Context);
 				}
-				State = 254;
+				State = 249;
+				setup();
+				State = 252;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,2,Context);
-			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 256;
-			scoring();
-			State = 257;
-			Match(CLOSE);
+				_alt = 1 + 1;
+				do
+				{
+					switch (_alt)
+					{
+						case 1 + 1:
+							{
+								State = 252;
+								ErrorHandler.Sync(this);
+								switch (Interpreter.AdaptivePredict(TokenStream, 1, Context))
+								{
+									case 1:
+										{
+											State = 250;
+											multiaction();
+										}
+										break;
+									case 2:
+										{
+											State = 251;
+											stage();
+										}
+										break;
+								}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+					}
+					State = 254;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 2, Context);
+				} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+				State = 256;
+				scoring();
+				State = 257;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class DeclareContext : ParserRuleContext {
+	public partial class DeclareContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public TypedContext typed() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public TypedContext typed()
+		{
 			return GetRuleContext<TypedContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public VarContext var() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarContext var()
+		{
 			return GetRuleContext<VarContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -894,72 +1049,104 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_declare; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterDeclare(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitDeclare(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public DeclareContext declare() {
+	public DeclareContext declare()
+	{
 		DeclareContext _localctx = new DeclareContext(Context, State);
 		EnterRule(_localctx, 24, RULE_declare);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 259;
-			Match(OPEN);
-			State = 260;
-			Match(T__2);
-			State = 261;
-			typed();
-			State = 262;
-			var();
-			State = 263;
-			Match(CLOSE);
+				State = 259;
+				Match(OPEN);
+				State = 260;
+				Match(T__2);
+				State = 261;
+				typed();
+				State = 262;
+				var();
+				State = 263;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class SetupContext : ParserRuleContext {
+	public partial class SetupContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] OPEN() { return GetTokens(RecycleParser.OPEN); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ITerminalNode OPEN(int i)
+		{
 			return GetToken(RecycleParser.OPEN, i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public PlayercreateContext playercreate() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public PlayercreateContext playercreate()
+		{
 			return GetRuleContext<PlayercreateContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] CLOSE() { return GetTokens(RecycleParser.CLOSE); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ITerminalNode CLOSE(int i)
+		{
 			return GetToken(RecycleParser.CLOSE, i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public TeamcreateContext teamcreate() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public TeamcreateContext teamcreate()
+		{
 			return GetRuleContext<TeamcreateContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public DeckcreateContext[] deckcreate() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public DeckcreateContext[] deckcreate()
+		{
 			return GetRuleContexts<DeckcreateContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public DeckcreateContext deckcreate(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public DeckcreateContext deckcreate(int i)
+		{
 			return GetRuleContext<DeckcreateContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public RepeatContext[] repeat() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public RepeatContext[] repeat()
+		{
 			return GetRuleContexts<RepeatContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public RepeatContext repeat(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public RepeatContext repeat(int i)
+		{
 			return GetRuleContext<RepeatContext>(i);
 		}
 		public SetupContext(ParserRuleContext parent, int invokingState)
@@ -968,99 +1155,121 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_setup; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterSetup(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitSetup(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public SetupContext setup() {
+	public SetupContext setup()
+	{
 		SetupContext _localctx = new SetupContext(Context, State);
 		EnterRule(_localctx, 26, RULE_setup);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 265;
-			Match(OPEN);
-			State = 266;
-			Match(T__3);
-			State = 267;
-			playercreate();
-			State = 269;
-			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,3,Context) ) {
-			case 1:
-				{
-				State = 268;
-				teamcreate();
-				}
-				break;
-			}
-			State = 278;
-			ErrorHandler.Sync(this);
-			_alt = 1+1;
-			do {
-				switch (_alt) {
-				case 1+1:
-					{
-					{
-					State = 271;
-					Match(OPEN);
-					State = 274;
-					ErrorHandler.Sync(this);
-					switch (TokenStream.LA(1)) {
-					case T__18:
-						{
-						State = 272;
-						deckcreate();
-						}
-						break;
-					case T__39:
-						{
-						State = 273;
-						repeat();
-						}
-						break;
-					default:
-						throw new NoViableAltException(this);
-					}
-					State = 276;
-					Match(CLOSE);
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				State = 280;
+				State = 265;
+				Match(OPEN);
+				State = 266;
+				Match(T__3);
+				State = 267;
+				playercreate();
+				State = 269;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,5,Context);
-			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 282;
-			Match(CLOSE);
+				switch (Interpreter.AdaptivePredict(TokenStream, 3, Context))
+				{
+					case 1:
+						{
+							State = 268;
+							teamcreate();
+						}
+						break;
+				}
+				State = 278;
+				ErrorHandler.Sync(this);
+				_alt = 1 + 1;
+				do
+				{
+					switch (_alt)
+					{
+						case 1 + 1:
+							{
+								{
+									State = 271;
+									Match(OPEN);
+									State = 274;
+									ErrorHandler.Sync(this);
+									switch (TokenStream.LA(1))
+									{
+										case T__18:
+											{
+												State = 272;
+												deckcreate();
+											}
+											break;
+										case T__39:
+											{
+												State = 273;
+												repeat();
+											}
+											break;
+										default:
+											throw new NoViableAltException(this);
+									}
+									State = 276;
+									Match(CLOSE);
+								}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+					}
+					State = 280;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 5, Context);
+				} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+				State = 282;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class ScoringContext : ParserRuleContext {
+	public partial class ScoringContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -1070,86 +1279,115 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_scoring; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterScoring(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitScoring(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public ScoringContext scoring() {
+	public ScoringContext scoring()
+	{
 		ScoringContext _localctx = new ScoringContext(Context, State);
 		EnterRule(_localctx, 28, RULE_scoring);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 284;
-			Match(OPEN);
-			State = 285;
-			Match(T__4);
-			State = 286;
-			_la = TokenStream.LA(1);
-			if ( !(_la==T__5 || _la==T__6) ) {
-			ErrorHandler.RecoverInline(this);
-			}
-			else {
-				ErrorHandler.ReportMatch(this);
-			    Consume();
-			}
-			State = 287;
-			@int();
-			State = 288;
-			Match(CLOSE);
+				State = 284;
+				Match(OPEN);
+				State = 285;
+				Match(T__4);
+				State = 286;
+				_la = TokenStream.LA(1);
+				if (!(_la == T__5 || _la == T__6))
+				{
+					ErrorHandler.RecoverInline(this);
+				}
+				else
+				{
+					ErrorHandler.ReportMatch(this);
+					Consume();
+				}
+				State = 287;
+				@int();
+				State = 288;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class StageContext : ParserRuleContext {
-
+	public partial class StageContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		private MultiactionContext[] macs;
 		private StageContext[] stages;
 
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public EndconditionContext endcondition() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public EndconditionContext endcondition()
+		{
 			return GetRuleContext<EndconditionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public BooleanContext boolean() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public BooleanContext boolean()
+		{
 			return GetRuleContext<BooleanContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public MultiactionContext[] multiaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public MultiactionContext[] multiaction()
+		{
 			if (macs is null)
 			{
 				macs = GetRuleContexts<MultiactionContext>();
 			}
 			return macs;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public MultiactionContext multiaction(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public MultiactionContext multiaction(int i)
+		{
 			return GetRuleContext<MultiactionContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public StageContext[] stage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StageContext[] stage()
+		{
 			if (stages is null)
 			{
 				stages = GetRuleContexts<StageContext>();
 			}
 			return stages;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public StageContext stage(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StageContext stage(int i)
+		{
 			return GetRuleContext<StageContext>(i);
 		}
 		public StageContext(ParserRuleContext parent, int invokingState)
@@ -1158,123 +1396,148 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_stage; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterStage(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitStage(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public StageContext stage() {
+	public StageContext stage()
+	{
 		StageContext _localctx = new StageContext(Context, State);
 		EnterRule(_localctx, 30, RULE_stage);
 		int _la;
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 290;
-			Match(OPEN);
-			State = 291;
-			Match(T__7);
-			State = 292;
-			_la = TokenStream.LA(1);
-			if ( !(_la==T__8 || _la==T__9) ) {
-			ErrorHandler.RecoverInline(this);
-			}
-			else {
-				ErrorHandler.ReportMatch(this);
-			    Consume();
-			}
-			State = 294;
-			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,6,Context) ) {
-			case 1:
+				State = 290;
+				Match(OPEN);
+				State = 291;
+				Match(T__7);
+				State = 292;
+				_la = TokenStream.LA(1);
+				if (!(_la == T__8 || _la == T__9))
 				{
-				State = 293;
-				boolean();
+					ErrorHandler.RecoverInline(this);
 				}
-				break;
-			}
-			State = 299;
-			ErrorHandler.Sync(this);
-			switch (TokenStream.LA(1)) {
-			case OPEN:
+				else
 				{
-				State = 296;
-				endcondition();
+					ErrorHandler.ReportMatch(this);
+					Consume();
 				}
-				break;
-			case T__10:
+				State = 294;
+				ErrorHandler.Sync(this);
+				switch (Interpreter.AdaptivePredict(TokenStream, 6, Context))
 				{
-				State = 297;
-				Match(T__10);
-				}
-				break;
-			case T__11:
-				{
-				State = 298;
-				Match(T__11);
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-			State = 303;
-			ErrorHandler.Sync(this);
-			_alt = 1+1;
-			do {
-				switch (_alt) {
-				case 1+1:
-					{
-					State = 303;
-					ErrorHandler.Sync(this);
-					switch ( Interpreter.AdaptivePredict(TokenStream,8,Context) ) {
 					case 1:
 						{
-						State = 301;
-						multiaction();
+							State = 293;
+							boolean();
 						}
 						break;
-					case 2:
-						{
-						State = 302;
-						stage();
-						}
-						break;
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
 				}
-				State = 305;
+				State = 299;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,9,Context);
-			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 307;
-			Match(CLOSE);
+				switch (TokenStream.LA(1))
+				{
+					case OPEN:
+						{
+							State = 296;
+							endcondition();
+						}
+						break;
+					case T__10:
+						{
+							State = 297;
+							Match(T__10);
+						}
+						break;
+					case T__11:
+						{
+							State = 298;
+							Match(T__11);
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+				}
+				State = 303;
+				ErrorHandler.Sync(this);
+				_alt = 1 + 1;
+				do
+				{
+					switch (_alt)
+					{
+						case 1 + 1:
+							{
+								State = 303;
+								ErrorHandler.Sync(this);
+								switch (Interpreter.AdaptivePredict(TokenStream, 8, Context))
+								{
+									case 1:
+										{
+											State = 301;
+											multiaction();
+										}
+										break;
+									case 2:
+										{
+											State = 302;
+											stage();
+										}
+										break;
+								}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+					}
+					State = 305;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 9, Context);
+				} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+				State = 307;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class EndconditionContext : ParserRuleContext {
+	public partial class EndconditionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public BooleanContext boolean() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public BooleanContext boolean()
+		{
 			return GetRuleContext<BooleanContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -1284,70 +1547,97 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_endcondition; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterEndcondition(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitEndcondition(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public EndconditionContext endcondition() {
+	public EndconditionContext endcondition()
+	{
 		EndconditionContext _localctx = new EndconditionContext(Context, State);
 		EnterRule(_localctx, 32, RULE_endcondition);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 309;
-			Match(OPEN);
-			State = 310;
-			Match(T__12);
-			State = 311;
-			boolean();
-			State = 312;
-			Match(CLOSE);
+				State = 309;
+				Match(OPEN);
+				State = 310;
+				Match(T__12);
+				State = 311;
+				boolean();
+				State = 312;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class MultiactionContext : ParserRuleContext {
-
+	public partial class MultiactionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		private CondactContext[] conds;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] OPEN() { return GetTokens(RecycleParser.OPEN); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ITerminalNode OPEN(int i)
+		{
 			return GetToken(RecycleParser.OPEN, i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] CLOSE() { return GetTokens(RecycleParser.CLOSE); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ITerminalNode CLOSE(int i)
+		{
 			return GetToken(RecycleParser.CLOSE, i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CondactContext[] condact() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CondactContext[] condact()
+		{
 			if (conds is null)
 			{
 				conds = GetRuleContexts<CondactContext>();
 			}
 			return conds;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CondactContext condact(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CondactContext condact(int i)
+		{
 			return GetRuleContext<CondactContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public AggContext agg() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AggContext agg()
+		{
 			return GetRuleContext<AggContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public LetContext let() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public LetContext let()
+		{
 			return GetRuleContext<LetContext>(0);
 		}
 		public MultiactionContext(ParserRuleContext parent, int invokingState)
@@ -1356,147 +1646,180 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_multiaction; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterMultiaction(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitMultiaction(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public MultiactionContext multiaction() {
+	public MultiactionContext multiaction()
+	{
 		MultiactionContext _localctx = new MultiactionContext(Context, State);
 		EnterRule(_localctx, 34, RULE_multiaction);
-		try {
+		try
+		{
 			int _alt;
 			State = 338;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,12,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 314;
-				Match(OPEN);
-				State = 315;
-				Match(T__13);
-				State = 316;
-				Match(OPEN);
-				State = 318;
-				ErrorHandler.Sync(this);
-				_alt = 1+1;
-				do {
-					switch (_alt) {
-					case 1+1:
+			switch (Interpreter.AdaptivePredict(TokenStream, 12, Context))
+			{
+				case 1:
+					EnterOuterAlt(_localctx, 1);
+					{
+						State = 314;
+						Match(OPEN);
+						State = 315;
+						Match(T__13);
+						State = 316;
+						Match(OPEN);
+						State = 318;
+						ErrorHandler.Sync(this);
+						_alt = 1 + 1;
+						do
 						{
-						{
-						State = 317;
-						condact();
-						}
-						}
-						break;
-					default:
-						throw new NoViableAltException(this);
+							switch (_alt)
+							{
+								case 1 + 1:
+									{
+										{
+											State = 317;
+											condact();
+										}
+									}
+									break;
+								default:
+									throw new NoViableAltException(this);
+							}
+							State = 320;
+							ErrorHandler.Sync(this);
+							_alt = Interpreter.AdaptivePredict(TokenStream, 10, Context);
+						} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+						State = 322;
+						Match(CLOSE);
+						State = 323;
+						Match(CLOSE);
 					}
-					State = 320;
-					ErrorHandler.Sync(this);
-					_alt = Interpreter.AdaptivePredict(TokenStream,10,Context);
-				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-				State = 322;
-				Match(CLOSE);
-				State = 323;
-				Match(CLOSE);
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 325;
-				Match(OPEN);
-				State = 326;
-				Match(T__14);
-				State = 327;
-				Match(OPEN);
-				State = 329;
-				ErrorHandler.Sync(this);
-				_alt = 1+1;
-				do {
-					switch (_alt) {
-					case 1+1:
+					break;
+				case 2:
+					EnterOuterAlt(_localctx, 2);
+					{
+						State = 325;
+						Match(OPEN);
+						State = 326;
+						Match(T__14);
+						State = 327;
+						Match(OPEN);
+						State = 329;
+						ErrorHandler.Sync(this);
+						_alt = 1 + 1;
+						do
 						{
-						{
-						State = 328;
-						condact();
-						}
-						}
-						break;
-					default:
-						throw new NoViableAltException(this);
+							switch (_alt)
+							{
+								case 1 + 1:
+									{
+										{
+											State = 328;
+											condact();
+										}
+									}
+									break;
+								default:
+									throw new NoViableAltException(this);
+							}
+							State = 331;
+							ErrorHandler.Sync(this);
+							_alt = Interpreter.AdaptivePredict(TokenStream, 11, Context);
+						} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+						State = 333;
+						Match(CLOSE);
+						State = 334;
+						Match(CLOSE);
 					}
-					State = 331;
-					ErrorHandler.Sync(this);
-					_alt = Interpreter.AdaptivePredict(TokenStream,11,Context);
-				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-				State = 333;
-				Match(CLOSE);
-				State = 334;
-				Match(CLOSE);
-				}
-				break;
-			case 3:
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 336;
-				agg();
-				}
-				break;
-			case 4:
-				EnterOuterAlt(_localctx, 4);
-				{
-				State = 337;
-				let();
-				}
-				break;
+					break;
+				case 3:
+					EnterOuterAlt(_localctx, 3);
+					{
+						State = 336;
+						agg();
+					}
+					break;
+				case 4:
+					EnterOuterAlt(_localctx, 4);
+					{
+						State = 337;
+						let();
+					}
+					break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class Multiaction2Context : ParserRuleContext {
+	public partial class Multiaction2Context : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		private CondactContext[] conds;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] OPEN() { return GetTokens(RecycleParser.OPEN); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ITerminalNode OPEN(int i)
+		{
 			return GetToken(RecycleParser.OPEN, i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] CLOSE() { return GetTokens(RecycleParser.CLOSE); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ITerminalNode CLOSE(int i)
+		{
 			return GetToken(RecycleParser.CLOSE, i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CondactContext[] condact() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CondactContext[] condact()
+		{
 			if (conds is null)
 			{
 				conds = GetRuleContexts<CondactContext>();
 			}
 			return conds;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CondactContext condact(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CondactContext condact(int i)
+		{
 			return GetRuleContext<CondactContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public AggContext agg() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AggContext agg()
+		{
 			return GetRuleContext<AggContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public LetContext let() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public LetContext let()
+		{
 			return GetRuleContext<LetContext>(0);
 		}
 		public Multiaction2Context(ParserRuleContext parent, int invokingState)
@@ -1505,98 +1828,123 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_multiaction2; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterMultiaction2(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitMultiaction2(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public Multiaction2Context multiaction2() {
+	public Multiaction2Context multiaction2()
+	{
 		Multiaction2Context _localctx = new Multiaction2Context(Context, State);
 		EnterRule(_localctx, 36, RULE_multiaction2);
-		try {
+		try
+		{
 			int _alt;
 			State = 353;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,14,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 340;
-				Match(OPEN);
-				State = 341;
-				Match(T__14);
-				State = 342;
-				Match(OPEN);
-				State = 344;
-				ErrorHandler.Sync(this);
-				_alt = 1+1;
-				do {
-					switch (_alt) {
-					case 1+1:
+			switch (Interpreter.AdaptivePredict(TokenStream, 14, Context))
+			{
+				case 1:
+					EnterOuterAlt(_localctx, 1);
+					{
+						State = 340;
+						Match(OPEN);
+						State = 341;
+						Match(T__14);
+						State = 342;
+						Match(OPEN);
+						State = 344;
+						ErrorHandler.Sync(this);
+						_alt = 1 + 1;
+						do
 						{
-						{
-						State = 343;
-						condact();
-						}
-						}
-						break;
-					default:
-						throw new NoViableAltException(this);
+							switch (_alt)
+							{
+								case 1 + 1:
+									{
+										{
+											State = 343;
+											condact();
+										}
+									}
+									break;
+								default:
+									throw new NoViableAltException(this);
+							}
+							State = 346;
+							ErrorHandler.Sync(this);
+							_alt = Interpreter.AdaptivePredict(TokenStream, 13, Context);
+						} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+						State = 348;
+						Match(CLOSE);
+						State = 349;
+						Match(CLOSE);
 					}
-					State = 346;
-					ErrorHandler.Sync(this);
-					_alt = Interpreter.AdaptivePredict(TokenStream,13,Context);
-				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-				State = 348;
-				Match(CLOSE);
-				State = 349;
-				Match(CLOSE);
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 351;
-				agg();
-				}
-				break;
-			case 3:
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 352;
-				let();
-				}
-				break;
+					break;
+				case 2:
+					EnterOuterAlt(_localctx, 2);
+					{
+						State = 351;
+						agg();
+					}
+					break;
+				case 3:
+					EnterOuterAlt(_localctx, 3);
+					{
+						State = 352;
+						let();
+					}
+					break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class CondactContext : ParserRuleContext {
+	public partial class CondactContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public BooleanContext boolean() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public BooleanContext boolean()
+		{
 			return GetRuleContext<BooleanContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public Multiaction2Context multiaction2() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public Multiaction2Context multiaction2()
+		{
 			return GetRuleContext<Multiaction2Context>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ActionContext action() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ActionContext action()
+		{
 			return GetRuleContext<ActionContext>(0);
 		}
 		public CondactContext(ParserRuleContext parent, int invokingState)
@@ -1605,87 +1953,110 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_condact; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterCondact(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitCondact(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public CondactContext condact() {
+	public CondactContext condact()
+	{
 		CondactContext _localctx = new CondactContext(Context, State);
 		EnterRule(_localctx, 38, RULE_condact);
-		try {
+		try
+		{
 			State = 367;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,15,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 355;
-				Match(OPEN);
-				State = 356;
-				boolean();
-				State = 357;
-				multiaction2();
-				State = 358;
-				Match(CLOSE);
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 360;
-				multiaction2();
-				}
-				break;
-			case 3:
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 361;
-				Match(OPEN);
-				State = 362;
-				boolean();
-				State = 363;
-				action();
-				State = 364;
-				Match(CLOSE);
-				}
-				break;
-			case 4:
-				EnterOuterAlt(_localctx, 4);
-				{
-				State = 366;
-				action();
-				}
-				break;
+			switch (Interpreter.AdaptivePredict(TokenStream, 15, Context))
+			{
+				case 1:
+					EnterOuterAlt(_localctx, 1);
+					{
+						State = 355;
+						Match(OPEN);
+						State = 356;
+						boolean();
+						State = 357;
+						multiaction2();
+						State = 358;
+						Match(CLOSE);
+					}
+					break;
+				case 2:
+					EnterOuterAlt(_localctx, 2);
+					{
+						State = 360;
+						multiaction2();
+					}
+					break;
+				case 3:
+					EnterOuterAlt(_localctx, 3);
+					{
+						State = 361;
+						Match(OPEN);
+						State = 362;
+						boolean();
+						State = 363;
+						action();
+						State = 364;
+						Match(CLOSE);
+					}
+					break;
+				case 4:
+					EnterOuterAlt(_localctx, 4);
+					{
+						State = 366;
+						action();
+					}
+					break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class AggContext : ParserRuleContext {
+	public partial class AggContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CollectionContext collection() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CollectionContext collection()
+		{
 			return GetRuleContext<CollectionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public VarContext var() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarContext var()
+		{
 			return GetRuleContext<VarContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CondactContext condact() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CondactContext condact()
+		{
 			return GetRuleContext<CondactContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -1695,73 +2066,101 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_agg; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterAgg(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitAgg(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public AggContext agg() {
+	public AggContext agg()
+	{
 		AggContext _localctx = new AggContext(Context, State);
 		EnterRule(_localctx, 40, RULE_agg);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 369;
-			Match(OPEN);
-			State = 370;
-			_la = TokenStream.LA(1);
-			if ( !(_la==T__15 || _la==T__16) ) {
-			ErrorHandler.RecoverInline(this);
-			}
-			else {
-				ErrorHandler.ReportMatch(this);
-			    Consume();
-			}
-			State = 371;
-			collection();
-			State = 372;
-			var();
-			State = 373;
-			condact();
-			State = 374;
-			Match(CLOSE);
+				State = 369;
+				Match(OPEN);
+				State = 370;
+				_la = TokenStream.LA(1);
+				if (!(_la == T__15 || _la == T__16))
+				{
+					ErrorHandler.RecoverInline(this);
+				}
+				else
+				{
+					ErrorHandler.ReportMatch(this);
+					Consume();
+				}
+				State = 371;
+				collection();
+				State = 372;
+				var();
+				State = 373;
+				condact();
+				State = 374;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class LetContext : ParserRuleContext {
+	public partial class LetContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public TypedContext typed() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public TypedContext typed()
+		{
 			return GetRuleContext<TypedContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public VarContext var() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarContext var()
+		{
 			return GetRuleContext<VarContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public MultiactionContext multiaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public MultiactionContext multiaction()
+		{
 			return GetRuleContext<MultiactionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ActionContext action() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ActionContext action()
+		{
 			return GetRuleContext<ActionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CondactContext condact() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CondactContext condact()
+		{
 			return GetRuleContext<CondactContext>(0);
 		}
 		public LetContext(ParserRuleContext parent, int invokingState)
@@ -1770,121 +2169,172 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_let; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterLet(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitLet(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public LetContext let() {
+	public LetContext let()
+	{
 		LetContext _localctx = new LetContext(Context, State);
 		EnterRule(_localctx, 42, RULE_let);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 376;
-			Match(OPEN);
-			State = 377;
-			Match(T__17);
-			State = 378;
-			typed();
-			State = 379;
-			var();
-			State = 383;
-			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,16,Context) ) {
-			case 1:
+				State = 376;
+				Match(OPEN);
+				State = 377;
+				Match(T__17);
+				State = 378;
+				typed();
+				State = 379;
+				var();
+				State = 383;
+				ErrorHandler.Sync(this);
+				switch (Interpreter.AdaptivePredict(TokenStream, 16, Context))
 				{
-				State = 380;
-				multiaction();
+					case 1:
+						{
+							State = 380;
+							multiaction();
+						}
+						break;
+					case 2:
+						{
+							State = 381;
+							action();
+						}
+						break;
+					case 3:
+						{
+							State = 382;
+							condact();
+						}
+						break;
 				}
-				break;
-			case 2:
-				{
-				State = 381;
-				action();
-				}
-				break;
-			case 3:
-				{
-				State = 382;
-				condact();
-				}
-				break;
-			}
-			State = 385;
-			Match(CLOSE);
+				State = 385;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class ActionContext : ParserRuleContext {
+	public partial class ActionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public InitpointsContext initpoints() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public InitpointsContext initpoints()
+		{
 			return GetRuleContext<InitpointsContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public TeamcreateContext teamcreate() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public TeamcreateContext teamcreate()
+		{
 			return GetRuleContext<TeamcreateContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public DeckcreateContext deckcreate() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public DeckcreateContext deckcreate()
+		{
 			return GetRuleContext<DeckcreateContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CycleactionContext cycleaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CycleactionContext cycleaction()
+		{
 			return GetRuleContext<CycleactionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public SetactionContext setaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public SetactionContext setaction()
+		{
 			return GetRuleContext<SetactionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public MoveactionContext moveaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public MoveactionContext moveaction()
+		{
 			return GetRuleContext<MoveactionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CopyactionContext copyaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CopyactionContext copyaction()
+		{
 			return GetRuleContext<CopyactionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public SwapactionContext swapaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public SwapactionContext swapaction()
+		{
 			return GetRuleContext<SwapactionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public UpdatepointsContext updatepoints() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public UpdatepointsContext updatepoints()
+		{
 			return GetRuleContext<UpdatepointsContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IncactionContext incaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IncactionContext incaction()
+		{
 			return GetRuleContext<IncactionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public SetstractionContext setstraction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public SetstractionContext setstraction()
+		{
 			return GetRuleContext<SetstractionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public DecactionContext decaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public DecactionContext decaction()
+		{
 			return GetRuleContext<DecactionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public RemoveactionContext removeaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public RemoveactionContext removeaction()
+		{
 			return GetRuleContext<RemoveactionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public TurnactionContext turnaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public TurnactionContext turnaction()
+		{
 			return GetRuleContext<TurnactionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ShuffleactionContext shuffleaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ShuffleactionContext shuffleaction()
+		{
 			return GetRuleContext<ShuffleactionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public RepeatContext repeat() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public RepeatContext repeat()
+		{
 			return GetRuleContext<RepeatContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public AggContext agg() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AggContext agg()
+		{
 			return GetRuleContext<AggContext>(0);
 		}
 		public ActionContext(ParserRuleContext parent, int invokingState)
@@ -1893,157 +2343,177 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_action; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterAction(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitAction(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public ActionContext action() {
+	public ActionContext action()
+	{
 		ActionContext _localctx = new ActionContext(Context, State);
 		EnterRule(_localctx, 44, RULE_action);
-		try {
+		try
+		{
 			State = 409;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,18,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 387;
-				Match(OPEN);
-				State = 404;
-				ErrorHandler.Sync(this);
-				switch ( Interpreter.AdaptivePredict(TokenStream,17,Context) ) {
+			switch (Interpreter.AdaptivePredict(TokenStream, 18, Context))
+			{
 				case 1:
+					EnterOuterAlt(_localctx, 1);
 					{
-					State = 388;
-					initpoints();
+						State = 387;
+						Match(OPEN);
+						State = 404;
+						ErrorHandler.Sync(this);
+						switch (Interpreter.AdaptivePredict(TokenStream, 17, Context))
+						{
+							case 1:
+								{
+									State = 388;
+									initpoints();
+								}
+								break;
+							case 2:
+								{
+									State = 389;
+									teamcreate();
+								}
+								break;
+							case 3:
+								{
+									State = 390;
+									deckcreate();
+								}
+								break;
+							case 4:
+								{
+									State = 391;
+									cycleaction();
+								}
+								break;
+							case 5:
+								{
+									State = 392;
+									setaction();
+								}
+								break;
+							case 6:
+								{
+									State = 393;
+									moveaction();
+								}
+								break;
+							case 7:
+								{
+									State = 394;
+									copyaction();
+								}
+								break;
+							case 8:
+								{
+									State = 395;
+									swapaction();
+								}
+								break;
+							case 9:
+								{
+									State = 396;
+									updatepoints();
+								}
+								break;
+							case 10:
+								{
+									State = 397;
+									incaction();
+								}
+								break;
+							case 11:
+								{
+									State = 398;
+									setstraction();
+								}
+								break;
+							case 12:
+								{
+									State = 399;
+									decaction();
+								}
+								break;
+							case 13:
+								{
+									State = 400;
+									removeaction();
+								}
+								break;
+							case 14:
+								{
+									State = 401;
+									turnaction();
+								}
+								break;
+							case 15:
+								{
+									State = 402;
+									shuffleaction();
+								}
+								break;
+							case 16:
+								{
+									State = 403;
+									repeat();
+								}
+								break;
+						}
+						State = 406;
+						Match(CLOSE);
 					}
 					break;
 				case 2:
+					EnterOuterAlt(_localctx, 2);
 					{
-					State = 389;
-					teamcreate();
+						State = 408;
+						agg();
 					}
 					break;
-				case 3:
-					{
-					State = 390;
-					deckcreate();
-					}
-					break;
-				case 4:
-					{
-					State = 391;
-					cycleaction();
-					}
-					break;
-				case 5:
-					{
-					State = 392;
-					setaction();
-					}
-					break;
-				case 6:
-					{
-					State = 393;
-					moveaction();
-					}
-					break;
-				case 7:
-					{
-					State = 394;
-					copyaction();
-					}
-					break;
-				case 8:
-					{
-					State = 395;
-					swapaction();
-					}
-					break;
-				case 9:
-					{
-					State = 396;
-					updatepoints();
-					}
-					break;
-				case 10:
-					{
-					State = 397;
-					incaction();
-					}
-					break;
-				case 11:
-					{
-					State = 398;
-					setstraction();
-					}
-					break;
-				case 12:
-					{
-					State = 399;
-					decaction();
-					}
-					break;
-				case 13:
-					{
-					State = 400;
-					removeaction();
-					}
-					break;
-				case 14:
-					{
-					State = 401;
-					turnaction();
-					}
-					break;
-				case 15:
-					{
-					State = 402;
-					shuffleaction();
-					}
-					break;
-				case 16:
-					{
-					State = 403;
-					repeat();
-					}
-					break;
-				}
-				State = 406;
-				Match(CLOSE);
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 408;
-				agg();
-				}
-				break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class PlayercreateContext : ParserRuleContext {
+	public partial class PlayercreateContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -2053,54 +2523,74 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_playercreate; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterPlayercreate(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitPlayercreate(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public PlayercreateContext playercreate() {
+	public PlayercreateContext playercreate()
+	{
 		PlayercreateContext _localctx = new PlayercreateContext(Context, State);
 		EnterRule(_localctx, 46, RULE_playercreate);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 411;
-			Match(OPEN);
-			State = 412;
-			Match(T__18);
-			State = 413;
-			Match(T__19);
-			State = 414;
-			@int();
-			State = 415;
-			Match(CLOSE);
+				State = 411;
+				Match(OPEN);
+				State = 412;
+				Match(T__18);
+				State = 413;
+				Match(T__19);
+				State = 414;
+				@int();
+				State = 415;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class TeamcreateContext : ParserRuleContext {
+	public partial class TeamcreateContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public TeamsContext[] teams() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public TeamsContext[] teams()
+		{
 			return GetRuleContexts<TeamsContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public TeamsContext teams(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public TeamsContext teams(int i)
+		{
 			return GetRuleContext<TeamsContext>(i);
 		}
 		public TeamcreateContext(ParserRuleContext parent, int invokingState)
@@ -2109,77 +2599,101 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_teamcreate; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterTeamcreate(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitTeamcreate(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public TeamcreateContext teamcreate() {
+	public TeamcreateContext teamcreate()
+	{
 		TeamcreateContext _localctx = new TeamcreateContext(Context, State);
 		EnterRule(_localctx, 48, RULE_teamcreate);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 417;
-			Match(OPEN);
-			State = 418;
-			Match(T__18);
-			State = 419;
-			Match(T__20);
-			State = 421;
-			ErrorHandler.Sync(this);
-			_alt = 1+1;
-			do {
-				switch (_alt) {
-				case 1+1:
-					{
-					{
-					State = 420;
-					teams();
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				State = 423;
+				State = 417;
+				Match(OPEN);
+				State = 418;
+				Match(T__18);
+				State = 419;
+				Match(T__20);
+				State = 421;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,19,Context);
-			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 425;
-			Match(CLOSE);
+				_alt = 1 + 1;
+				do
+				{
+					switch (_alt)
+					{
+						case 1 + 1:
+							{
+								{
+									State = 420;
+									teams();
+								}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+					}
+					State = 423;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 19, Context);
+				} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+				State = 425;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class TeamsContext : ParserRuleContext {
+	public partial class TeamsContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] INTNUM() { return GetTokens(RecycleParser.INTNUM); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INTNUM(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ITerminalNode INTNUM(int i)
+		{
 			return GetToken(RecycleParser.INTNUM, i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public TeamsContext[] teams() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public TeamsContext[] teams()
+		{
 			return GetRuleContexts<TeamsContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public TeamsContext teams(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public TeamsContext teams(int i)
+		{
 			return GetRuleContext<TeamsContext>(i);
 		}
 		public TeamsContext(ParserRuleContext parent, int invokingState)
@@ -2188,86 +2702,112 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_teams; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterTeams(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitTeams(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public TeamsContext teams() {
+	public TeamsContext teams()
+	{
 		TeamsContext _localctx = new TeamsContext(Context, State);
 		EnterRule(_localctx, 50, RULE_teams);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 427;
-			Match(OPEN);
-			State = 432;
-			ErrorHandler.Sync(this);
-			_alt = Interpreter.AdaptivePredict(TokenStream,20,Context);
-			while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1+1 ) {
-					{
-					{
-					State = 428;
-					Match(INTNUM);
-					State = 429;
-					Match(T__21);
-					}
-					} 
-				}
-				State = 434;
+				State = 427;
+				Match(OPEN);
+				State = 432;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,20,Context);
-			}
-			State = 435;
-			Match(INTNUM);
-			State = 439;
-			ErrorHandler.Sync(this);
-			_alt = Interpreter.AdaptivePredict(TokenStream,21,Context);
-			while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1+1 ) {
+				_alt = Interpreter.AdaptivePredict(TokenStream, 20, Context);
+				while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER)
+				{
+					if (_alt == 1 + 1)
 					{
-					{
-					State = 436;
-					teams();
+						{
+							{
+								State = 428;
+								Match(INTNUM);
+								State = 429;
+								Match(T__21);
+							}
+						}
 					}
-					} 
+					State = 434;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 20, Context);
 				}
-				State = 441;
+				State = 435;
+				Match(INTNUM);
+				State = 439;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,21,Context);
-			}
-			State = 442;
-			Match(CLOSE);
+				_alt = Interpreter.AdaptivePredict(TokenStream, 21, Context);
+				while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER)
+				{
+					if (_alt == 1 + 1)
+					{
+						{
+							{
+								State = 436;
+								teams();
+							}
+						}
+					}
+					State = 441;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 21, Context);
+				}
+				State = 442;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class DeckcreateContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
+	public partial class DeckcreateContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage()
+		{
 			return GetRuleContext<CstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public DeckContext deck() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public DeckContext deck()
+		{
 			return GetRuleContext<DeckContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public StrContext str() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrContext str()
+		{
 			return GetRuleContext<StrContext>(0);
 		}
 		public DeckcreateContext(ParserRuleContext parent, int invokingState)
@@ -2276,62 +2816,83 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_deckcreate; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterDeckcreate(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitDeckcreate(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public DeckcreateContext deckcreate() {
+	public DeckcreateContext deckcreate()
+	{
 		DeckcreateContext _localctx = new DeckcreateContext(Context, State);
 		EnterRule(_localctx, 52, RULE_deckcreate);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 444;
-			Match(T__18);
-			State = 445;
-			Match(T__22);
-			State = 447;
-			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,22,Context) ) {
-			case 1:
+				State = 444;
+				Match(T__18);
+				State = 445;
+				Match(T__22);
+				State = 447;
+				ErrorHandler.Sync(this);
+				switch (Interpreter.AdaptivePredict(TokenStream, 22, Context))
 				{
-				State = 446;
-				str();
+					case 1:
+						{
+							State = 446;
+							str();
+						}
+						break;
 				}
-				break;
-			}
-			State = 449;
-			cstorage();
-			State = 450;
-			deck();
+				State = 449;
+				cstorage();
+				State = 450;
+				deck();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class DeckContext : ParserRuleContext {
+	public partial class DeckContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public AttributeContext[] attribute() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AttributeContext[] attribute()
+		{
 			return GetRuleContexts<AttributeContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public AttributeContext attribute(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AttributeContext attribute(int i)
+		{
 			return GetRuleContext<AttributeContext>(i);
 		}
 		public DeckContext(ParserRuleContext parent, int invokingState)
@@ -2340,77 +2901,103 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_deck; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterDeck(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitDeck(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public DeckContext deck() {
+	public DeckContext deck()
+	{
 		DeckContext _localctx = new DeckContext(Context, State);
 		EnterRule(_localctx, 54, RULE_deck);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 452;
-			Match(OPEN);
-			State = 453;
-			Match(T__22);
-			State = 455;
-			ErrorHandler.Sync(this);
-			_alt = 1+1;
-			do {
-				switch (_alt) {
-				case 1+1:
-					{
-					{
-					State = 454;
-					attribute();
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				State = 457;
+				State = 452;
+				Match(OPEN);
+				State = 453;
+				Match(T__22);
+				State = 455;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,23,Context);
-			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 459;
-			Match(CLOSE);
+				_alt = 1 + 1;
+				do
+				{
+					switch (_alt)
+					{
+						case 1 + 1:
+							{
+								{
+									State = 454;
+									attribute();
+								}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+					}
+					State = 457;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 23, Context);
+				} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+				State = 459;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class AttributeContext : ParserRuleContext {
+	public partial class AttributeContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext[] namegr() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext[] namegr()
+		{
 			return GetRuleContexts<NamegrContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext namegr(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext namegr(int i)
+		{
 			return GetRuleContext<NamegrContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public AttributeContext[] attribute() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AttributeContext[] attribute()
+		{
 			return GetRuleContexts<AttributeContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public AttributeContext attribute(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AttributeContext attribute(int i)
+		{
 			return GetRuleContext<AttributeContext>(i);
 		}
 		public AttributeContext(ParserRuleContext parent, int invokingState)
@@ -2419,94 +3006,120 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_attribute; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterAttribute(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitAttribute(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public AttributeContext attribute() {
+	public AttributeContext attribute()
+	{
 		AttributeContext _localctx = new AttributeContext(Context, State);
 		EnterRule(_localctx, 56, RULE_attribute);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 461;
-			Match(OPEN);
-			State = 467;
-			ErrorHandler.Sync(this);
-			_alt = Interpreter.AdaptivePredict(TokenStream,24,Context);
-			while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1+1 ) {
-					{
-					{
-					State = 462;
-					namegr();
-					State = 463;
-					Match(T__21);
-					}
-					} 
-				}
-				State = 469;
+				State = 461;
+				Match(OPEN);
+				State = 467;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,24,Context);
-			}
-			State = 470;
-			namegr();
-			State = 474;
-			ErrorHandler.Sync(this);
-			_alt = Interpreter.AdaptivePredict(TokenStream,25,Context);
-			while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1+1 ) {
+				_alt = Interpreter.AdaptivePredict(TokenStream, 24, Context);
+				while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER)
+				{
+					if (_alt == 1 + 1)
 					{
-					{
-					State = 471;
-					attribute();
+						{
+							{
+								State = 462;
+								namegr();
+								State = 463;
+								Match(T__21);
+							}
+						}
 					}
-					} 
+					State = 469;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 24, Context);
 				}
-				State = 476;
+				State = 470;
+				namegr();
+				State = 474;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,25,Context);
-			}
-			State = 477;
-			Match(CLOSE);
+				_alt = Interpreter.AdaptivePredict(TokenStream, 25, Context);
+				while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER)
+				{
+					if (_alt == 1 + 1)
+					{
+						{
+							{
+								State = 471;
+								attribute();
+							}
+						}
+					}
+					State = 476;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 25, Context);
+				}
+				State = 477;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class InitpointsContext : ParserRuleContext {
+	public partial class InitpointsContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		private AwardsContext[] aws;
 
-		[System.Diagnostics.DebuggerNonUserCode] public PointstorageContext pointstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public PointstorageContext pointstorage()
+		{
 			return GetRuleContext<PointstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public AwardsContext[] awards() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AwardsContext[] awards()
+		{
 			if (aws is null)
 			{
 				aws = GetRuleContexts<AwardsContext>();
 			}
 			return aws;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public AwardsContext awards(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AwardsContext awards(int i)
+		{
 			return GetRuleContext<AwardsContext>(i);
 		}
 		public InitpointsContext(ParserRuleContext parent, int invokingState)
@@ -2515,76 +3128,100 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_initpoints; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterInitpoints(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitInitpoints(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public InitpointsContext initpoints() {
+	public InitpointsContext initpoints()
+	{
 		InitpointsContext _localctx = new InitpointsContext(Context, State);
 		EnterRule(_localctx, 58, RULE_initpoints);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 479;
-			Match(T__23);
-			State = 480;
-			pointstorage();
-			State = 481;
-			Match(OPEN);
-			State = 483;
-			ErrorHandler.Sync(this);
-			_alt = 1+1;
-			do {
-				switch (_alt) {
-				case 1+1:
-					{
-					{
-					State = 482;
-					awards();
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				State = 485;
+				State = 479;
+				Match(T__23);
+				State = 480;
+				pointstorage();
+				State = 481;
+				Match(OPEN);
+				State = 483;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,26,Context);
-			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 487;
-			Match(CLOSE);
+				_alt = 1 + 1;
+				do
+				{
+					switch (_alt)
+					{
+						case 1 + 1:
+							{
+								{
+									State = 482;
+									awards();
+								}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+					}
+					State = 485;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 26, Context);
+				} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+				State = 487;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class UpdatepointsContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public PointstorageContext pointstorage() {
+	public partial class UpdatepointsContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public PointstorageContext pointstorage()
+		{
 			return GetRuleContext<PointstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public AwardsContext[] awards() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AwardsContext[] awards()
+		{
 			return GetRuleContexts<AwardsContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public AwardsContext awards(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AwardsContext awards(int i)
+		{
 			return GetRuleContext<AwardsContext>(i);
 		}
 		public UpdatepointsContext(ParserRuleContext parent, int invokingState)
@@ -2593,81 +3230,105 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_updatepoints; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterUpdatepoints(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitUpdatepoints(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public UpdatepointsContext updatepoints() {
+	public UpdatepointsContext updatepoints()
+	{
 		UpdatepointsContext _localctx = new UpdatepointsContext(Context, State);
 		EnterRule(_localctx, 60, RULE_updatepoints);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 489;
-			Match(T__24);
-			State = 490;
-			pointstorage();
-			State = 491;
-			Match(OPEN);
-			State = 493;
-			ErrorHandler.Sync(this);
-			_alt = 1+1;
-			do {
-				switch (_alt) {
-				case 1+1:
-					{
-					{
-					State = 492;
-					awards();
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				State = 495;
+				State = 489;
+				Match(T__24);
+				State = 490;
+				pointstorage();
+				State = 491;
+				Match(OPEN);
+				State = 493;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,27,Context);
-			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 497;
-			Match(CLOSE);
+				_alt = 1 + 1;
+				do
+				{
+					switch (_alt)
+					{
+						case 1 + 1:
+							{
+								{
+									State = 492;
+									awards();
+								}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+					}
+					State = 495;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 27, Context);
+				} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+				State = 497;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class AwardsContext : ParserRuleContext {
+	public partial class AwardsContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		private SubawardContext[] subs;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public SubawardContext[] subaward() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public SubawardContext[] subaward()
+		{
 			if (subs is null)
 			{
 				subs = GetRuleContexts<SubawardContext>();
 			}
 			return subs;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public SubawardContext subaward(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public SubawardContext subaward(int i)
+		{
 			return GetRuleContext<SubawardContext>(i);
 		}
 		public AwardsContext(ParserRuleContext parent, int invokingState)
@@ -2676,76 +3337,98 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_awards; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterAwards(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitAwards(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public AwardsContext awards() {
+	public AwardsContext awards()
+	{
 		AwardsContext _localctx = new AwardsContext(Context, State);
 		EnterRule(_localctx, 62, RULE_awards);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 499;
-			Match(OPEN);
-			State = 501;
-			ErrorHandler.Sync(this);
-			_alt = 1+1;
-			do {
-				switch (_alt) {
-				case 1+1:
-					{
-					{
-					State = 500;
-					subaward();
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				State = 503;
+				State = 499;
+				Match(OPEN);
+				State = 501;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,28,Context);
-			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 505;
-			@int();
-			State = 506;
-			Match(CLOSE);
+				_alt = 1 + 1;
+				do
+				{
+					switch (_alt)
+					{
+						case 1 + 1:
+							{
+								{
+									State = 500;
+									subaward();
+								}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+					}
+					State = 503;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 28, Context);
+				} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+				State = 505;
+				@int();
+				State = 506;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class SubawardContext : ParserRuleContext {
+	public partial class SubawardContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		private StrContext[] strs;
 
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public StrContext[] str() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrContext[] str()
+		{
 			if (strs is null)
 			{
 				strs = GetRuleContexts<StrContext>();
 			}
 			return strs;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public StrContext str(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrContext str(int i)
+		{
 			return GetRuleContext<StrContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -2755,52 +3438,72 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_subaward; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterSubaward(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitSubaward(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public SubawardContext subaward() {
+	public SubawardContext subaward()
+	{
 		SubawardContext _localctx = new SubawardContext(Context, State);
 		EnterRule(_localctx, 64, RULE_subaward);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 508;
-			Match(OPEN);
-			State = 509;
-			str();
-			State = 510;
-			Match(T__25);
-			State = 511;
-			str();
-			State = 512;
-			Match(CLOSE);
+				State = 508;
+				Match(OPEN);
+				State = 509;
+				str();
+				State = 510;
+				Match(T__25);
+				State = 511;
+				str();
+				State = 512;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class CycleactionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public WhopContext whop() {
+	public partial class CycleactionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhopContext whop()
+		{
 			return GetRuleContext<WhopContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public VarpContext varp() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarpContext varp()
+		{
 			return GetRuleContext<VarpContext>(0);
 		}
 		public CycleactionContext(ParserRuleContext parent, int invokingState)
@@ -2809,72 +3512,95 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_cycleaction; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterCycleaction(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitCycleaction(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public CycleactionContext cycleaction() {
+	public CycleactionContext cycleaction()
+	{
 		CycleactionContext _localctx = new CycleactionContext(Context, State);
 		EnterRule(_localctx, 66, RULE_cycleaction);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 514;
-			Match(T__26);
-			State = 515;
-			_la = TokenStream.LA(1);
-			if ( !(_la==T__27 || _la==T__28) ) {
-			ErrorHandler.RecoverInline(this);
-			}
-			else {
-				ErrorHandler.ReportMatch(this);
-			    Consume();
-			}
-			State = 518;
-			ErrorHandler.Sync(this);
-			switch (TokenStream.LA(1)) {
-			case OPEN:
+				State = 514;
+				Match(T__26);
+				State = 515;
+				_la = TokenStream.LA(1);
+				if (!(_la == T__27 || _la == T__28))
 				{
-				State = 516;
-				whop();
+					ErrorHandler.RecoverInline(this);
 				}
-				break;
-			case T__0:
+				else
 				{
-				State = 517;
-				varp();
+					ErrorHandler.ReportMatch(this);
+					Consume();
 				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
+				State = 518;
+				ErrorHandler.Sync(this);
+				switch (TokenStream.LA(1))
+				{
+					case OPEN:
+						{
+							State = 516;
+							whop();
+						}
+						break;
+					case T__0:
+						{
+							State = 517;
+							varp();
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+				}
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class SetactionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public RawstorageContext rawstorage() {
+	public partial class SetactionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public RawstorageContext rawstorage()
+		{
 			return GetRuleContext<RawstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
 		public SetactionContext(ParserRuleContext parent, int invokingState)
@@ -2883,48 +3609,68 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_setaction; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterSetaction(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitSetaction(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public SetactionContext setaction() {
+	public SetactionContext setaction()
+	{
 		SetactionContext _localctx = new SetactionContext(Context, State);
 		EnterRule(_localctx, 68, RULE_setaction);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 520;
-			Match(T__23);
-			State = 521;
-			rawstorage();
-			State = 522;
-			@int();
+				State = 520;
+				Match(T__23);
+				State = 521;
+				rawstorage();
+				State = 522;
+				@int();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class SetstractionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public StrstorageContext strstorage() {
+	public partial class SetstractionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrstorageContext strstorage()
+		{
 			return GetRuleContext<StrstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public StrContext str() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrContext str()
+		{
 			return GetRuleContext<StrContext>(0);
 		}
 		public SetstractionContext(ParserRuleContext parent, int invokingState)
@@ -2933,48 +3679,68 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_setstraction; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterSetstraction(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitSetstraction(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public SetstractionContext setstraction() {
+	public SetstractionContext setstraction()
+	{
 		SetstractionContext _localctx = new SetstractionContext(Context, State);
 		EnterRule(_localctx, 70, RULE_setstraction);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 524;
-			Match(T__23);
-			State = 525;
-			strstorage();
-			State = 526;
-			str();
+				State = 524;
+				Match(T__23);
+				State = 525;
+				strstorage();
+				State = 526;
+				str();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class IncactionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public RawstorageContext rawstorage() {
+	public partial class IncactionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public RawstorageContext rawstorage()
+		{
 			return GetRuleContext<RawstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
 		public IncactionContext(ParserRuleContext parent, int invokingState)
@@ -2983,57 +3749,78 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_incaction; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterIncaction(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitIncaction(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public IncactionContext incaction() {
+	public IncactionContext incaction()
+	{
 		IncactionContext _localctx = new IncactionContext(Context, State);
 		EnterRule(_localctx, 72, RULE_incaction);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 528;
-			Match(T__29);
-			State = 529;
-			rawstorage();
-			State = 531;
-			ErrorHandler.Sync(this);
-			_la = TokenStream.LA(1);
-			if (_la==T__0 || _la==INTNUM || _la==OPEN) {
+				State = 528;
+				Match(T__29);
+				State = 529;
+				rawstorage();
+				State = 531;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+				if (_la == T__0 || _la == INTNUM || _la == OPEN)
 				{
-				State = 530;
-				@int();
+					{
+						State = 530;
+						@int();
+					}
 				}
-			}
 
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class DecactionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public RawstorageContext rawstorage() {
+	public partial class DecactionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public RawstorageContext rawstorage()
+		{
 			return GetRuleContext<RawstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
 		public DecactionContext(ParserRuleContext parent, int invokingState)
@@ -3042,62 +3829,83 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_decaction; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterDecaction(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitDecaction(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public DecactionContext decaction() {
+	public DecactionContext decaction()
+	{
 		DecactionContext _localctx = new DecactionContext(Context, State);
 		EnterRule(_localctx, 74, RULE_decaction);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 533;
-			Match(T__30);
-			State = 534;
-			rawstorage();
-			State = 536;
-			ErrorHandler.Sync(this);
-			_la = TokenStream.LA(1);
-			if (_la==T__0 || _la==INTNUM || _la==OPEN) {
+				State = 533;
+				Match(T__30);
+				State = 534;
+				rawstorage();
+				State = 536;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+				if (_la == T__0 || _la == INTNUM || _la == OPEN)
 				{
-				State = 535;
-				@int();
+					{
+						State = 535;
+						@int();
+					}
 				}
-			}
 
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class MoveactionContext : ParserRuleContext {
+	public partial class MoveactionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		private CardContext[] cards;
-		[System.Diagnostics.DebuggerNonUserCode] public CardContext[] card() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CardContext[] card()
+		{
 			if (cards is null)
 			{
 				cards = GetRuleContexts<CardContext>();
 			}
 			return cards;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CardContext card(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CardContext card(int i)
+		{
 			return GetRuleContext<CardContext>(i);
 		}
 		public MoveactionContext(ParserRuleContext parent, int invokingState)
@@ -3106,64 +3914,88 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_moveaction; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterMoveaction(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitMoveaction(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public MoveactionContext moveaction() {
+	public MoveactionContext moveaction()
+	{
 		MoveactionContext _localctx = new MoveactionContext(Context, State);
 		EnterRule(_localctx, 76, RULE_moveaction);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 538;
-			Match(T__31);
-			State = 539;
-			card();
-			State = 540;
-			card();
+				State = 538;
+				Match(T__31);
+				State = 539;
+				card();
+				State = 540;
+				card();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class SwapactionContext : ParserRuleContext {
+	public partial class SwapactionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		private CardContext[] cards;
 		private BasecstorageContext[] bases;
-		[System.Diagnostics.DebuggerNonUserCode] public CardContext[] card() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CardContext[] card()
+		{
 			if (cards is null)
 			{
 				cards = GetRuleContexts<CardContext>();
 			}
 			return cards;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CardContext card(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CardContext card(int i)
+		{
 			return GetRuleContext<CardContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public BasecstorageContext[] basecstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public BasecstorageContext[] basecstorage()
+		{
 			if (bases is null)
 			{
 				bases = GetRuleContexts<BasecstorageContext>();
 			}
 			return bases;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public BasecstorageContext basecstorage(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public BasecstorageContext basecstorage(int i)
+		{
 			return GetRuleContext<BasecstorageContext>(i);
 		}
 		public SwapactionContext(ParserRuleContext parent, int invokingState)
@@ -3172,68 +4004,89 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_swapaction; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterSwapaction(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitSwapaction(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public SwapactionContext swapaction() {
+	public SwapactionContext swapaction()
+	{
 		SwapactionContext _localctx = new SwapactionContext(Context, State);
 		EnterRule(_localctx, 78, RULE_swapaction);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 542;
-			Match(T__32);
-			State = 549;
-			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,32,Context) ) {
-			case 1:
+				State = 542;
+				Match(T__32);
+				State = 549;
+				ErrorHandler.Sync(this);
+				switch (Interpreter.AdaptivePredict(TokenStream, 32, Context))
 				{
-				{
-				State = 543;
-				card();
-				State = 544;
-				card();
+					case 1:
+						{
+							{
+								State = 543;
+								card();
+								State = 544;
+								card();
+							}
+						}
+						break;
+					case 2:
+						{
+							{
+								State = 546;
+								basecstorage();
+								State = 547;
+								basecstorage();
+							}
+						}
+						break;
 				}
-				}
-				break;
-			case 2:
-				{
-				{
-				State = 546;
-				basecstorage();
-				State = 547;
-				basecstorage();
-				}
-				}
-				break;
-			}
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class CopyactionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public CardContext[] card() {
+	public partial class CopyactionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CardContext[] card()
+		{
 			return GetRuleContexts<CardContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CardContext card(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CardContext card(int i)
+		{
 			return GetRuleContext<CardContext>(i);
 		}
 		public CopyactionContext(ParserRuleContext parent, int invokingState)
@@ -3242,45 +4095,63 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_copyaction; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterCopyaction(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitCopyaction(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public CopyactionContext copyaction() {
+	public CopyactionContext copyaction()
+	{
 		CopyactionContext _localctx = new CopyactionContext(Context, State);
 		EnterRule(_localctx, 80, RULE_copyaction);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 551;
-			Match(T__33);
-			State = 552;
-			card();
-			State = 553;
-			card();
+				State = 551;
+				Match(T__33);
+				State = 552;
+				card();
+				State = 553;
+				card();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class RemoveactionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public CardContext card() {
+	public partial class RemoveactionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CardContext card()
+		{
 			return GetRuleContext<CardContext>(0);
 		}
 		public RemoveactionContext(ParserRuleContext parent, int invokingState)
@@ -3289,46 +4160,66 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_removeaction; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterRemoveaction(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitRemoveaction(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public RemoveactionContext removeaction() {
+	public RemoveactionContext removeaction()
+	{
 		RemoveactionContext _localctx = new RemoveactionContext(Context, State);
 		EnterRule(_localctx, 82, RULE_removeaction);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 555;
-			Match(T__34);
-			State = 556;
-			card();
+				State = 555;
+				Match(T__34);
+				State = 556;
+				card();
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class ShuffleactionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext[] cstorage() {
+	public partial class ShuffleactionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext[] cstorage()
+		{
 			return GetRuleContexts<CstorageContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage(int i)
+		{
 			return GetRuleContext<CstorageContext>(i);
 		}
 		public ShuffleactionContext(ParserRuleContext parent, int invokingState)
@@ -3337,117 +4228,158 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_shuffleaction; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterShuffleaction(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitShuffleaction(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public ShuffleactionContext shuffleaction() {
+	public ShuffleactionContext shuffleaction()
+	{
 		ShuffleactionContext _localctx = new ShuffleactionContext(Context, State);
 		EnterRule(_localctx, 84, RULE_shuffleaction);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 558;
-			Match(T__35);
-			State = 564;
-			ErrorHandler.Sync(this);
-			switch (TokenStream.LA(1)) {
-			case T__0:
-			case OPEN:
+				State = 558;
+				Match(T__35);
+				State = 564;
+				ErrorHandler.Sync(this);
+				switch (TokenStream.LA(1))
 				{
-				State = 559;
-				cstorage();
+					case T__0:
+					case OPEN:
+						{
+							State = 559;
+							cstorage();
+						}
+						break;
+					case T__36:
+						{
+							State = 560;
+							Match(T__36);
+							State = 561;
+							cstorage();
+							State = 562;
+							cstorage();
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
 				}
-				break;
-			case T__36:
-				{
-				State = 560;
-				Match(T__36);
-				State = 561;
-				cstorage();
-				State = 562;
-				cstorage();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class TurnactionContext : ParserRuleContext {
+	public partial class TurnactionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		public TurnactionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
 		public override int RuleIndex { get { return RULE_turnaction; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterTurnaction(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitTurnaction(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public TurnactionContext turnaction() {
+	public TurnactionContext turnaction()
+	{
 		TurnactionContext _localctx = new TurnactionContext(Context, State);
 		EnterRule(_localctx, 86, RULE_turnaction);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 566;
-			Match(T__37);
-			State = 567;
-			Match(T__38);
+				State = 566;
+				Match(T__37);
+				State = 567;
+				Match(T__38);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class RepeatContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+	public partial class RepeatContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ActionContext action() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ActionContext action()
+		{
 			return GetRuleContext<ActionContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public MoveactionContext moveaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public MoveactionContext moveaction()
+		{
 			return GetRuleContext<MoveactionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public RemoveactionContext removeaction() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public RemoveactionContext removeaction()
+		{
 			return GetRuleContext<RemoveactionContext>(0);
 		}
 		public RepeatContext(ParserRuleContext parent, int invokingState)
@@ -3456,90 +4388,114 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_repeat; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterRepeat(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitRepeat(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public RepeatContext repeat() {
+	public RepeatContext repeat()
+	{
 		RepeatContext _localctx = new RepeatContext(Context, State);
 		EnterRule(_localctx, 88, RULE_repeat);
-		try {
+		try
+		{
 			State = 582;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,35,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 569;
-				Match(T__39);
-				State = 570;
-				@int();
-				State = 571;
-				action();
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 573;
-				Match(T__39);
-				State = 574;
-				Match(T__16);
-				State = 575;
-				Match(OPEN);
-				State = 578;
-				ErrorHandler.Sync(this);
-				switch (TokenStream.LA(1)) {
-				case T__31:
+			switch (Interpreter.AdaptivePredict(TokenStream, 35, Context))
+			{
+				case 1:
+					EnterOuterAlt(_localctx, 1);
 					{
-					State = 576;
-					moveaction();
+						State = 569;
+						Match(T__39);
+						State = 570;
+						@int();
+						State = 571;
+						action();
 					}
 					break;
-				case T__34:
+				case 2:
+					EnterOuterAlt(_localctx, 2);
 					{
-					State = 577;
-					removeaction();
+						State = 573;
+						Match(T__39);
+						State = 574;
+						Match(T__16);
+						State = 575;
+						Match(OPEN);
+						State = 578;
+						ErrorHandler.Sync(this);
+						switch (TokenStream.LA(1))
+						{
+							case T__31:
+								{
+									State = 576;
+									moveaction();
+								}
+								break;
+							case T__34:
+								{
+									State = 577;
+									removeaction();
+								}
+								break;
+							default:
+								throw new NoViableAltException(this);
+						}
+						State = 580;
+						Match(CLOSE);
 					}
 					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				State = 580;
-				Match(CLOSE);
-				}
-				break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class PointstorageContext : ParserRuleContext {
+	public partial class PointstorageContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public StrContext str() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrContext str()
+		{
 			return GetRuleContext<StrContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public VaroContext varo() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VaroContext varo()
+		{
 			return GetRuleContext<VaroContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public WhoContext who() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhoContext who()
+		{
 			return GetRuleContext<WhoContext>(0);
 		}
 		public PointstorageContext(ParserRuleContext parent, int invokingState)
@@ -3548,85 +4504,112 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_pointstorage; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterPointstorage(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitPointstorage(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public PointstorageContext pointstorage() {
+	public PointstorageContext pointstorage()
+	{
 		PointstorageContext _localctx = new PointstorageContext(Context, State);
 		EnterRule(_localctx, 90, RULE_pointstorage);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 584;
-			Match(OPEN);
-			State = 588;
-			ErrorHandler.Sync(this);
-			switch (TokenStream.LA(1)) {
-			case T__0:
+				State = 584;
+				Match(OPEN);
+				State = 588;
+				ErrorHandler.Sync(this);
+				switch (TokenStream.LA(1))
 				{
-				State = 585;
-				varo();
+					case T__0:
+						{
+							State = 585;
+							varo();
+						}
+						break;
+					case T__1:
+						{
+							State = 586;
+							Match(T__1);
+						}
+						break;
+					case OPEN:
+						{
+							State = 587;
+							who();
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
 				}
-				break;
-			case T__1:
-				{
-				State = 586;
-				Match(T__1);
-				}
-				break;
-			case OPEN:
-				{
-				State = 587;
-				who();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-			State = 590;
-			Match(T__40);
-			State = 591;
-			str();
-			State = 592;
-			Match(CLOSE);
+				State = 590;
+				Match(T__40);
+				State = 591;
+				str();
+				State = 592;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class CardContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public VarcardContext varcard() {
+	public partial class CardContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarcardContext varcard()
+		{
 			return GetRuleContext<VarcardContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public MaxofContext maxof() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public MaxofContext maxof()
+		{
 			return GetRuleContext<MaxofContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public MinofContext minof() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public MinofContext minof()
+		{
 			return GetRuleContext<MinofContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage()
+		{
 			return GetRuleContext<CstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
 		public CardContext(ParserRuleContext parent, int invokingState)
@@ -3635,98 +4618,120 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_card; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterCard(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitCard(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public CardContext card() {
+	public CardContext card()
+	{
 		CardContext _localctx = new CardContext(Context, State);
 		EnterRule(_localctx, 92, RULE_card);
-		try {
+		try
+		{
 			State = 606;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,38,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 594;
-				varcard();
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 595;
-				maxof();
-				}
-				break;
-			case 3:
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 596;
-				minof();
-				}
-				break;
-			case 4:
-				EnterOuterAlt(_localctx, 4);
-				{
-				State = 597;
-				Match(OPEN);
-				State = 601;
-				ErrorHandler.Sync(this);
-				switch ( Interpreter.AdaptivePredict(TokenStream,37,Context) ) {
+			switch (Interpreter.AdaptivePredict(TokenStream, 38, Context))
+			{
 				case 1:
+					EnterOuterAlt(_localctx, 1);
 					{
-					State = 598;
-					Match(T__41);
+						State = 594;
+						varcard();
 					}
 					break;
 				case 2:
+					EnterOuterAlt(_localctx, 2);
 					{
-					State = 599;
-					Match(T__42);
+						State = 595;
+						maxof();
 					}
 					break;
 				case 3:
+					EnterOuterAlt(_localctx, 3);
 					{
-					State = 600;
-					@int();
+						State = 596;
+						minof();
 					}
 					break;
-				}
-				State = 603;
-				cstorage();
-				State = 604;
-				Match(CLOSE);
-				}
-				break;
+				case 4:
+					EnterOuterAlt(_localctx, 4);
+					{
+						State = 597;
+						Match(OPEN);
+						State = 601;
+						ErrorHandler.Sync(this);
+						switch (Interpreter.AdaptivePredict(TokenStream, 37, Context))
+						{
+							case 1:
+								{
+									State = 598;
+									Match(T__41);
+								}
+								break;
+							case 2:
+								{
+									State = 599;
+									Match(T__42);
+								}
+								break;
+							case 3:
+								{
+									State = 600;
+									@int();
+								}
+								break;
+						}
+						State = 603;
+						cstorage();
+						State = 604;
+						Match(CLOSE);
+					}
+					break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class MaxofContext : ParserRuleContext {
+	public partial class MaxofContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage()
+		{
 			return GetRuleContext<CstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public PointstorageContext pointstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public PointstorageContext pointstorage()
+		{
 			return GetRuleContext<PointstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -3736,55 +4741,75 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_maxof; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterMaxof(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitMaxof(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public MaxofContext maxof() {
+	public MaxofContext maxof()
+	{
 		MaxofContext _localctx = new MaxofContext(Context, State);
 		EnterRule(_localctx, 94, RULE_maxof);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 608;
-			Match(OPEN);
-			State = 609;
-			Match(T__6);
-			State = 610;
-			cstorage();
-			State = 611;
-			Match(T__43);
-			State = 612;
-			pointstorage();
-			State = 613;
-			Match(CLOSE);
+				State = 608;
+				Match(OPEN);
+				State = 609;
+				Match(T__6);
+				State = 610;
+				cstorage();
+				State = 611;
+				Match(T__43);
+				State = 612;
+				pointstorage();
+				State = 613;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class MinofContext : ParserRuleContext {
+	public partial class MinofContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage()
+		{
 			return GetRuleContext<CstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public PointstorageContext pointstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public PointstorageContext pointstorage()
+		{
 			return GetRuleContext<PointstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -3794,57 +4819,79 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_minof; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterMinof(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitMinof(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public MinofContext minof() {
+	public MinofContext minof()
+	{
 		MinofContext _localctx = new MinofContext(Context, State);
 		EnterRule(_localctx, 96, RULE_minof);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 615;
-			Match(OPEN);
-			State = 616;
-			Match(T__5);
-			State = 617;
-			cstorage();
-			State = 618;
-			Match(T__43);
-			State = 619;
-			pointstorage();
-			State = 620;
-			Match(CLOSE);
+				State = 615;
+				Match(OPEN);
+				State = 616;
+				Match(T__5);
+				State = 617;
+				cstorage();
+				State = 618;
+				Match(T__43);
+				State = 619;
+				pointstorage();
+				State = 620;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class LocpreContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public WhotContext whot() {
+	public partial class LocpreContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhotContext whot()
+		{
 			return GetRuleContext<WhotContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public VaroContext varo() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VaroContext varo()
+		{
 			return GetRuleContext<VaroContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public WhopContext whop() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhopContext whop()
+		{
 			return GetRuleContext<WhopContext>(0);
 		}
 		public LocpreContext(ParserRuleContext parent, int invokingState)
@@ -3853,119 +4900,158 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_locpre; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterLocpre(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitLocpre(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public LocpreContext locpre() {
+	public LocpreContext locpre()
+	{
 		LocpreContext _localctx = new LocpreContext(Context, State);
 		EnterRule(_localctx, 98, RULE_locpre);
-		try {
+		try
+		{
 			State = 626;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,39,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 622;
-				Match(T__1);
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 623;
-				whot();
-				}
-				break;
-			case 3:
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 624;
-				varo();
-				}
-				break;
-			case 4:
-				EnterOuterAlt(_localctx, 4);
-				{
-				State = 625;
-				whop();
-				}
-				break;
+			switch (Interpreter.AdaptivePredict(TokenStream, 39, Context))
+			{
+				case 1:
+					EnterOuterAlt(_localctx, 1);
+					{
+						State = 622;
+						Match(T__1);
+					}
+					break;
+				case 2:
+					EnterOuterAlt(_localctx, 2);
+					{
+						State = 623;
+						whot();
+					}
+					break;
+				case 3:
+					EnterOuterAlt(_localctx, 3);
+					{
+						State = 624;
+						varo();
+					}
+					break;
+				case 4:
+					EnterOuterAlt(_localctx, 4);
+					{
+						State = 625;
+						whop();
+					}
+					break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class LocdescContext : ParserRuleContext {
+	public partial class LocdescContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		public LocdescContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
 		public override int RuleIndex { get { return RULE_locdesc; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterLocdesc(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitLocdesc(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public LocdescContext locdesc() {
+	public LocdescContext locdesc()
+	{
 		LocdescContext _localctx = new LocdescContext(Context, State);
 		EnterRule(_localctx, 100, RULE_locdesc);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 628;
-			_la = TokenStream.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 1090715534753792L) != 0)) ) {
-			ErrorHandler.RecoverInline(this);
-			}
-			else {
-				ErrorHandler.ReportMatch(this);
-			    Consume();
-			}
+				State = 628;
+				_la = TokenStream.LA(1);
+				if (!((((_la) & ~0x3f) == 0 && ((1L << _la) & 1090715534753792L) != 0)))
+				{
+					ErrorHandler.RecoverInline(this);
+				}
+				else
+				{
+					ErrorHandler.ReportMatch(this);
+					Consume();
+				}
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class WhoContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public WhopContext whop() {
+	public partial class WhoContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhopContext whop()
+		{
 			return GetRuleContext<WhopContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public WhotContext whot() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhotContext whot()
+		{
 			return GetRuleContext<WhotContext>(0);
 		}
 		public WhoContext(ParserRuleContext parent, int invokingState)
@@ -3974,59 +5060,80 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_who; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterWho(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitWho(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public WhoContext who() {
+	public WhoContext who()
+	{
 		WhoContext _localctx = new WhoContext(Context, State);
 		EnterRule(_localctx, 102, RULE_who);
-		try {
+		try
+		{
 			State = 632;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,40,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 630;
-				whop();
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 631;
-				whot();
-				}
-				break;
+			switch (Interpreter.AdaptivePredict(TokenStream, 40, Context))
+			{
+				case 1:
+					EnterOuterAlt(_localctx, 1);
+					{
+						State = 630;
+						whop();
+					}
+					break;
+				case 2:
+					EnterOuterAlt(_localctx, 2);
+					{
+						State = 631;
+						whot();
+					}
+					break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class WhopContext : ParserRuleContext {
+	public partial class WhopContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public WhodescContext whodesc() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhodescContext whodesc()
+		{
 			return GetRuleContext<WhodescContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public OwnerContext owner() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public OwnerContext owner()
+		{
 			return GetRuleContext<OwnerContext>(0);
 		}
 		public WhopContext(ParserRuleContext parent, int invokingState)
@@ -4035,65 +5142,86 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_whop; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterWhop(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitWhop(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public WhopContext whop() {
+	public WhopContext whop()
+	{
 		WhopContext _localctx = new WhopContext(Context, State);
 		EnterRule(_localctx, 104, RULE_whop);
-		try {
+		try
+		{
 			State = 640;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,41,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 634;
-				Match(OPEN);
-				State = 635;
-				whodesc();
-				State = 636;
-				Match(T__8);
-				State = 637;
-				Match(CLOSE);
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 639;
-				owner();
-				}
-				break;
+			switch (Interpreter.AdaptivePredict(TokenStream, 41, Context))
+			{
+				case 1:
+					EnterOuterAlt(_localctx, 1);
+					{
+						State = 634;
+						Match(OPEN);
+						State = 635;
+						whodesc();
+						State = 636;
+						Match(T__8);
+						State = 637;
+						Match(CLOSE);
+					}
+					break;
+				case 2:
+					EnterOuterAlt(_localctx, 2);
+					{
+						State = 639;
+						owner();
+					}
+					break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class WhotContext : ParserRuleContext {
+	public partial class WhotContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public WhodescContext whodesc() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhodescContext whodesc()
+		{
 			return GetRuleContext<WhodescContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public TeampContext teamp() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public TeampContext teamp()
+		{
 			return GetRuleContext<TeampContext>(0);
 		}
 		public WhotContext(ParserRuleContext parent, int invokingState)
@@ -4102,60 +5230,79 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_whot; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterWhot(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitWhot(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public WhotContext whot() {
+	public WhotContext whot()
+	{
 		WhotContext _localctx = new WhotContext(Context, State);
 		EnterRule(_localctx, 106, RULE_whot);
-		try {
+		try
+		{
 			State = 648;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,42,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 642;
-				Match(OPEN);
-				State = 643;
-				whodesc();
-				State = 644;
-				Match(T__9);
-				State = 645;
-				Match(CLOSE);
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 647;
-				teamp();
-				}
-				break;
+			switch (Interpreter.AdaptivePredict(TokenStream, 42, Context))
+			{
+				case 1:
+					EnterOuterAlt(_localctx, 1);
+					{
+						State = 642;
+						Match(OPEN);
+						State = 643;
+						whodesc();
+						State = 644;
+						Match(T__9);
+						State = 645;
+						Match(CLOSE);
+					}
+					break;
+				case 2:
+					EnterOuterAlt(_localctx, 2);
+					{
+						State = 647;
+						teamp();
+					}
+					break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class WhodescContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+	public partial class WhodescContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
 		public WhodescContext(ParserRuleContext parent, int invokingState)
@@ -4164,73 +5311,92 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_whodesc; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterWhodesc(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitWhodesc(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public WhodescContext whodesc() {
+	public WhodescContext whodesc()
+	{
 		WhodescContext _localctx = new WhodescContext(Context, State);
 		EnterRule(_localctx, 108, RULE_whodesc);
-		try {
+		try
+		{
 			State = 654;
 			ErrorHandler.Sync(this);
-			switch (TokenStream.LA(1)) {
-			case T__0:
-			case INTNUM:
-			case OPEN:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 650;
-				@int();
-				}
-				break;
-			case T__49:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 651;
-				Match(T__49);
-				}
-				break;
-			case T__27:
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 652;
-				Match(T__27);
-				}
-				break;
-			case T__28:
-				EnterOuterAlt(_localctx, 4);
-				{
-				State = 653;
-				Match(T__28);
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
+			switch (TokenStream.LA(1))
+			{
+				case T__0:
+				case INTNUM:
+				case OPEN:
+					EnterOuterAlt(_localctx, 1);
+					{
+						State = 650;
+						@int();
+					}
+					break;
+				case T__49:
+					EnterOuterAlt(_localctx, 2);
+					{
+						State = 651;
+						Match(T__49);
+					}
+					break;
+				case T__27:
+					EnterOuterAlt(_localctx, 3);
+					{
+						State = 652;
+						Match(T__27);
+					}
+					break;
+				case T__28:
+					EnterOuterAlt(_localctx, 4);
+					{
+						State = 653;
+						Match(T__28);
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class OwnerContext : ParserRuleContext {
+	public partial class OwnerContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CardContext card() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CardContext card()
+		{
 			return GetRuleContext<CardContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -4240,52 +5406,72 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_owner; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterOwner(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitOwner(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public OwnerContext owner() {
+	public OwnerContext owner()
+	{
 		OwnerContext _localctx = new OwnerContext(Context, State);
 		EnterRule(_localctx, 110, RULE_owner);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 656;
-			Match(OPEN);
-			State = 657;
-			Match(T__50);
-			State = 658;
-			card();
-			State = 659;
-			Match(CLOSE);
+				State = 656;
+				Match(OPEN);
+				State = 657;
+				Match(T__50);
+				State = 658;
+				card();
+				State = 659;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class TeampContext : ParserRuleContext {
+	public partial class TeampContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public VarpContext varp() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarpContext varp()
+		{
 			return GetRuleContext<VarpContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public WhopContext whop() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhopContext whop()
+		{
 			return GetRuleContext<WhopContext>(0);
 		}
 		public TeampContext(ParserRuleContext parent, int invokingState)
@@ -4294,72 +5480,97 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_teamp; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterTeamp(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitTeamp(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public TeampContext teamp() {
+	public TeampContext teamp()
+	{
 		TeampContext _localctx = new TeampContext(Context, State);
 		EnterRule(_localctx, 112, RULE_teamp);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 661;
-			Match(OPEN);
-			State = 662;
-			Match(T__9);
-			State = 665;
-			ErrorHandler.Sync(this);
-			switch (TokenStream.LA(1)) {
-			case T__0:
+				State = 661;
+				Match(OPEN);
+				State = 662;
+				Match(T__9);
+				State = 665;
+				ErrorHandler.Sync(this);
+				switch (TokenStream.LA(1))
 				{
-				State = 663;
-				varp();
+					case T__0:
+						{
+							State = 663;
+							varp();
+						}
+						break;
+					case OPEN:
+						{
+							State = 664;
+							whop();
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
 				}
-				break;
-			case OPEN:
-				{
-				State = 664;
-				whop();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-			State = 667;
-			Match(CLOSE);
+				State = 667;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class TypedContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+	public partial class TypedContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public BooleanContext boolean() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public BooleanContext boolean()
+		{
 			return GetRuleContext<BooleanContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public StrContext str() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrContext str()
+		{
 			return GetRuleContext<StrContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CollectionContext collection() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CollectionContext collection()
+		{
 			return GetRuleContext<CollectionContext>(0);
 		}
 		public TypedContext(ParserRuleContext parent, int invokingState)
@@ -4368,89 +5579,122 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_typed; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterTyped(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitTyped(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public TypedContext typed() {
+	public TypedContext typed()
+	{
 		TypedContext _localctx = new TypedContext(Context, State);
 		EnterRule(_localctx, 114, RULE_typed);
-		try {
+		try
+		{
 			State = 673;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,45,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 669;
-				@int();
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 670;
-				boolean();
-				}
-				break;
-			case 3:
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 671;
-				str();
-				}
-				break;
-			case 4:
-				EnterOuterAlt(_localctx, 4);
-				{
-				State = 672;
-				collection();
-				}
-				break;
+			switch (Interpreter.AdaptivePredict(TokenStream, 45, Context))
+			{
+				case 1:
+					EnterOuterAlt(_localctx, 1);
+					{
+						State = 669;
+						@int();
+					}
+					break;
+				case 2:
+					EnterOuterAlt(_localctx, 2);
+					{
+						State = 670;
+						boolean();
+					}
+					break;
+				case 3:
+					EnterOuterAlt(_localctx, 3);
+					{
+						State = 671;
+						str();
+					}
+					break;
+				case 4:
+					EnterOuterAlt(_localctx, 4);
+					{
+						State = 672;
+						collection();
+					}
+					break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class CollectionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public VarcContext varc() {
+	public partial class CollectionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarcContext varc()
+		{
 			return GetRuleContext<VarcContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public FilterContext filter() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public FilterContext filter()
+		{
 			return GetRuleContext<FilterContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage()
+		{
 			return GetRuleContext<CstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public StrcollectionContext strcollection() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrcollectionContext strcollection()
+		{
 			return GetRuleContext<StrcollectionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstoragecollectionContext cstoragecollection() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstoragecollectionContext cstoragecollection()
+		{
 			return GetRuleContext<CstoragecollectionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public WhotContext whot() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhotContext whot()
+		{
 			return GetRuleContext<WhotContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public OtherContext other() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public OtherContext other()
+		{
 			return GetRuleContext<OtherContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public RangeContext range() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public RangeContext range()
+		{
 			return GetRuleContext<RangeContext>(0);
 		}
 		public CollectionContext(ParserRuleContext parent, int invokingState)
@@ -4459,114 +5703,135 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_collection; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterCollection(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitCollection(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public CollectionContext collection() {
+	public CollectionContext collection()
+	{
 		CollectionContext _localctx = new CollectionContext(Context, State);
 		EnterRule(_localctx, 116, RULE_collection);
-		try {
+		try
+		{
 			State = 685;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,46,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 675;
-				varc();
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 676;
-				filter();
-				}
-				break;
-			case 3:
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 677;
-				cstorage();
-				}
-				break;
-			case 4:
-				EnterOuterAlt(_localctx, 4);
-				{
-				State = 678;
-				strcollection();
-				}
-				break;
-			case 5:
-				EnterOuterAlt(_localctx, 5);
-				{
-				State = 679;
-				cstoragecollection();
-				}
-				break;
-			case 6:
-				EnterOuterAlt(_localctx, 6);
-				{
-				State = 680;
-				Match(T__8);
-				}
-				break;
-			case 7:
-				EnterOuterAlt(_localctx, 7);
-				{
-				State = 681;
-				Match(T__9);
-				}
-				break;
-			case 8:
-				EnterOuterAlt(_localctx, 8);
-				{
-				State = 682;
-				whot();
-				}
-				break;
-			case 9:
-				EnterOuterAlt(_localctx, 9);
-				{
-				State = 683;
-				other();
-				}
-				break;
-			case 10:
-				EnterOuterAlt(_localctx, 10);
-				{
-				State = 684;
-				range();
-				}
-				break;
+			switch (Interpreter.AdaptivePredict(TokenStream, 46, Context))
+			{
+				case 1:
+					EnterOuterAlt(_localctx, 1);
+					{
+						State = 675;
+						varc();
+					}
+					break;
+				case 2:
+					EnterOuterAlt(_localctx, 2);
+					{
+						State = 676;
+						filter();
+					}
+					break;
+				case 3:
+					EnterOuterAlt(_localctx, 3);
+					{
+						State = 677;
+						cstorage();
+					}
+					break;
+				case 4:
+					EnterOuterAlt(_localctx, 4);
+					{
+						State = 678;
+						strcollection();
+					}
+					break;
+				case 5:
+					EnterOuterAlt(_localctx, 5);
+					{
+						State = 679;
+						cstoragecollection();
+					}
+					break;
+				case 6:
+					EnterOuterAlt(_localctx, 6);
+					{
+						State = 680;
+						Match(T__8);
+					}
+					break;
+				case 7:
+					EnterOuterAlt(_localctx, 7);
+					{
+						State = 681;
+						Match(T__9);
+					}
+					break;
+				case 8:
+					EnterOuterAlt(_localctx, 8);
+					{
+						State = 682;
+						whot();
+					}
+					break;
+				case 9:
+					EnterOuterAlt(_localctx, 9);
+					{
+						State = 683;
+						other();
+					}
+					break;
+				case 10:
+					EnterOuterAlt(_localctx, 10);
+					{
+						State = 684;
+						range();
+					}
+					break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class StrcollectionContext : ParserRuleContext {
+	public partial class StrcollectionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext[] namegr() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext[] namegr()
+		{
 			return GetRuleContexts<NamegrContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext namegr(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext namegr(int i)
+		{
 			return GetRuleContext<NamegrContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -4576,73 +5841,95 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_strcollection; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterStrcollection(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitStrcollection(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public StrcollectionContext strcollection() {
+	public StrcollectionContext strcollection()
+	{
 		StrcollectionContext _localctx = new StrcollectionContext(Context, State);
 		EnterRule(_localctx, 118, RULE_strcollection);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 687;
-			Match(OPEN);
-			State = 693;
-			ErrorHandler.Sync(this);
-			_alt = Interpreter.AdaptivePredict(TokenStream,47,Context);
-			while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1+1 ) {
-					{
-					{
-					State = 688;
-					namegr();
-					State = 689;
-					Match(T__21);
-					}
-					} 
-				}
-				State = 695;
+				State = 687;
+				Match(OPEN);
+				State = 693;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,47,Context);
-			}
-			State = 696;
-			namegr();
-			State = 697;
-			Match(CLOSE);
+				_alt = Interpreter.AdaptivePredict(TokenStream, 47, Context);
+				while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER)
+				{
+					if (_alt == 1 + 1)
+					{
+						{
+							{
+								State = 688;
+								namegr();
+								State = 689;
+								Match(T__21);
+							}
+						}
+					}
+					State = 695;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 47, Context);
+				}
+				State = 696;
+				namegr();
+				State = 697;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class RangeContext : ParserRuleContext {
+	public partial class RangeContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		private IntContext[] ints;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext[] @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext[] @int()
+		{
 			if (ints is null)
 			{
 				ints = GetRuleContexts<IntContext>();
 			}
 			return ints;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int(int i)
+		{
 			return GetRuleContext<IntContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -4652,50 +5939,66 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_range; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterRange(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitRange(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public RangeContext range() {
+	public RangeContext range()
+	{
 		RangeContext _localctx = new RangeContext(Context, State);
 		EnterRule(_localctx, 120, RULE_range);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 699;
-			Match(OPEN);
-			State = 700;
-			Match(T__51);
-			State = 701;
-			@int();
-			State = 702;
-			Match(T__52);
-			State = 703;
-			@int();
-			State = 704;
-			Match(CLOSE);
+				State = 699;
+				Match(OPEN);
+				State = 700;
+				Match(T__51);
+				State = 701;
+				@int();
+				State = 702;
+				Match(T__52);
+				State = 703;
+				@int();
+				State = 704;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class OtherContext : ParserRuleContext {
+	public partial class OtherContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
 		public OtherContext(ParserRuleContext parent, int invokingState)
@@ -4704,79 +6007,115 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_other; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterOther(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitOther(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public OtherContext other() {
+	public OtherContext other()
+	{
 		OtherContext _localctx = new OtherContext(Context, State);
 		EnterRule(_localctx, 122, RULE_other);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 706;
-			Match(OPEN);
-			State = 707;
-			Match(T__53);
-			State = 708;
-			_la = TokenStream.LA(1);
-			if ( !(_la==T__8 || _la==T__9) ) {
-			ErrorHandler.RecoverInline(this);
-			}
-			else {
-				ErrorHandler.ReportMatch(this);
-			    Consume();
-			}
-			State = 709;
-			Match(CLOSE);
+				State = 706;
+				Match(OPEN);
+				State = 707;
+				Match(T__53);
+				State = 708;
+				_la = TokenStream.LA(1);
+				if (!(_la == T__8 || _la == T__9))
+				{
+					ErrorHandler.RecoverInline(this);
+				}
+				else
+				{
+					ErrorHandler.ReportMatch(this);
+					Consume();
+				}
+				State = 709;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class CstorageContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public VarcsContext varcs() {
+	public partial class CstorageContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarcsContext varcs()
+		{
 			return GetRuleContext<VarcsContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public UnionofContext unionof() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public UnionofContext unionof()
+		{
 			return GetRuleContext<UnionofContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntersectofContext intersectof() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntersectofContext intersectof()
+		{
 			return GetRuleContext<IntersectofContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public DisjunctionofContext disjunctionof() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public DisjunctionofContext disjunctionof()
+		{
 			return GetRuleContext<DisjunctionofContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public FilterContext filter() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public FilterContext filter()
+		{
 			return GetRuleContext<FilterContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public BasecstorageContext basecstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public BasecstorageContext basecstorage()
+		{
 			return GetRuleContext<BasecstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public MemstorageContext memstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public MemstorageContext memstorage()
+		{
 			return GetRuleContext<MemstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public SequenceContext sequence() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public SequenceContext sequence()
+		{
 			return GetRuleContext<SequenceContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public RunsequenceContext runsequence() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public RunsequenceContext runsequence()
+		{
 			return GetRuleContext<RunsequenceContext>(0);
 		}
 		public CstorageContext(ParserRuleContext parent, int invokingState)
@@ -4785,117 +6124,144 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_cstorage; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterCstorage(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitCstorage(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public CstorageContext cstorage() {
+	public CstorageContext cstorage()
+	{
 		CstorageContext _localctx = new CstorageContext(Context, State);
 		EnterRule(_localctx, 124, RULE_cstorage);
-		try {
+		try
+		{
 			State = 720;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,48,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 711;
-				varcs();
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 712;
-				unionof();
-				}
-				break;
-			case 3:
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 713;
-				intersectof();
-				}
-				break;
-			case 4:
-				EnterOuterAlt(_localctx, 4);
-				{
-				State = 714;
-				disjunctionof();
-				}
-				break;
-			case 5:
-				EnterOuterAlt(_localctx, 5);
-				{
-				State = 715;
-				filter();
-				}
-				break;
-			case 6:
-				EnterOuterAlt(_localctx, 6);
-				{
-				State = 716;
-				basecstorage();
-				}
-				break;
-			case 7:
-				EnterOuterAlt(_localctx, 7);
-				{
-				State = 717;
-				memstorage();
-				}
-				break;
-			case 8:
-				EnterOuterAlt(_localctx, 8);
-				{
-				State = 718;
-				sequence();
-				}
-				break;
-			case 9:
-				EnterOuterAlt(_localctx, 9);
-				{
-				State = 719;
-				runsequence();
-				}
-				break;
+			switch (Interpreter.AdaptivePredict(TokenStream, 48, Context))
+			{
+				case 1:
+					EnterOuterAlt(_localctx, 1);
+					{
+						State = 711;
+						varcs();
+					}
+					break;
+				case 2:
+					EnterOuterAlt(_localctx, 2);
+					{
+						State = 712;
+						unionof();
+					}
+					break;
+				case 3:
+					EnterOuterAlt(_localctx, 3);
+					{
+						State = 713;
+						intersectof();
+					}
+					break;
+				case 4:
+					EnterOuterAlt(_localctx, 4);
+					{
+						State = 714;
+						disjunctionof();
+					}
+					break;
+				case 5:
+					EnterOuterAlt(_localctx, 5);
+					{
+						State = 715;
+						filter();
+					}
+					break;
+				case 6:
+					EnterOuterAlt(_localctx, 6);
+					{
+						State = 716;
+						basecstorage();
+					}
+					break;
+				case 7:
+					EnterOuterAlt(_localctx, 7);
+					{
+						State = 717;
+						memstorage();
+					}
+					break;
+				case 8:
+					EnterOuterAlt(_localctx, 8);
+					{
+						State = 718;
+						sequence();
+					}
+					break;
+				case 9:
+					EnterOuterAlt(_localctx, 9);
+					{
+						State = 719;
+						runsequence();
+					}
+					break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class BasecstorageContext : ParserRuleContext {
+	public partial class BasecstorageContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public LocpreContext locpre() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public LocpreContext locpre()
+		{
 			return GetRuleContext<LocpreContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public LocdescContext locdesc() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public LocdescContext locdesc()
+		{
 			return GetRuleContext<LocdescContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public StrContext str() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrContext str()
+		{
 			return GetRuleContext<StrContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext[] @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext[] @int()
+		{
 			return GetRuleContexts<IntContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int(int i)
+		{
 			return GetRuleContext<IntContext>(i);
 		}
 		public BasecstorageContext(ParserRuleContext parent, int invokingState)
@@ -4904,83 +6270,107 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_basecstorage; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterBasecstorage(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitBasecstorage(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public BasecstorageContext basecstorage() {
+	public BasecstorageContext basecstorage()
+	{
 		BasecstorageContext _localctx = new BasecstorageContext(Context, State);
 		EnterRule(_localctx, 126, RULE_basecstorage);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 722;
-			Match(OPEN);
-			State = 723;
-			locpre();
-			State = 724;
-			locdesc();
-			State = 725;
-			str();
-			State = 730;
-			ErrorHandler.Sync(this);
-			_la = TokenStream.LA(1);
-			if (_la==T__0 || _la==INTNUM || _la==OPEN) {
-				{
-				State = 726;
-				@int();
-				State = 728;
+				State = 722;
+				Match(OPEN);
+				State = 723;
+				locpre();
+				State = 724;
+				locdesc();
+				State = 725;
+				str();
+				State = 730;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
-				if (_la==T__0 || _la==INTNUM || _la==OPEN) {
+				if (_la == T__0 || _la == INTNUM || _la == OPEN)
+				{
 					{
-					State = 727;
-					@int();
+						State = 726;
+						@int();
+						State = 728;
+						ErrorHandler.Sync(this);
+						_la = TokenStream.LA(1);
+						if (_la == T__0 || _la == INTNUM || _la == OPEN)
+						{
+							{
+								State = 727;
+								@int();
+							}
+						}
+
 					}
 				}
 
-				}
-			}
-
-			State = 732;
-			Match(CLOSE);
+				State = 732;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class UnionofContext : ParserRuleContext {
+	public partial class UnionofContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		private CstorageContext[] stors;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public AggcsContext aggcs() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AggcsContext aggcs()
+		{
 			return GetRuleContext<AggcsContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext[] cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext[] cstorage()
+		{
 			if (stors is null)
 			{
 				stors = GetRuleContexts<CstorageContext>();
 			}
 			return stors;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage(int i)
+		{
 			return GetRuleContext<CstorageContext>(i);
 		}
 		public UnionofContext(ParserRuleContext parent, int invokingState)
@@ -4989,88 +6379,113 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_unionof; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterUnionof(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitUnionof(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public UnionofContext unionof() {
+	public UnionofContext unionof()
+	{
 		UnionofContext _localctx = new UnionofContext(Context, State);
 		EnterRule(_localctx, 128, RULE_unionof);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 734;
-			Match(OPEN);
-			State = 735;
-			Match(T__54);
-			State = 742;
-			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,52,Context) ) {
-			case 1:
-				{
-				State = 736;
-				aggcs();
-				}
-				break;
-			case 2:
-				{
-				State = 738;
+				State = 734;
+				Match(OPEN);
+				State = 735;
+				Match(T__54);
+				State = 742;
 				ErrorHandler.Sync(this);
-				_alt = 1+1;
-				do {
-					switch (_alt) {
-					case 1+1:
+				switch (Interpreter.AdaptivePredict(TokenStream, 52, Context))
+				{
+					case 1:
 						{
-						{
-						State = 737;
-						cstorage();
-						}
+							State = 736;
+							aggcs();
 						}
 						break;
-					default:
-						throw new NoViableAltException(this);
-					}
-					State = 740;
-					ErrorHandler.Sync(this);
-					_alt = Interpreter.AdaptivePredict(TokenStream,51,Context);
-				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
+					case 2:
+						{
+							State = 738;
+							ErrorHandler.Sync(this);
+							_alt = 1 + 1;
+							do
+							{
+								switch (_alt)
+								{
+									case 1 + 1:
+										{
+											{
+												State = 737;
+												cstorage();
+											}
+										}
+										break;
+									default:
+										throw new NoViableAltException(this);
+								}
+								State = 740;
+								ErrorHandler.Sync(this);
+								_alt = Interpreter.AdaptivePredict(TokenStream, 51, Context);
+							} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+						}
+						break;
 				}
-				break;
-			}
-			State = 744;
-			Match(CLOSE);
+				State = 744;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class IntersectofContext : ParserRuleContext {
+	public partial class IntersectofContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public AggcsContext aggcs() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AggcsContext aggcs()
+		{
 			return GetRuleContext<AggcsContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext[] cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext[] cstorage()
+		{
 			return GetRuleContexts<CstorageContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage(int i)
+		{
 			return GetRuleContext<CstorageContext>(i);
 		}
 		public IntersectofContext(ParserRuleContext parent, int invokingState)
@@ -5079,88 +6494,113 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_intersectof; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterIntersectof(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitIntersectof(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public IntersectofContext intersectof() {
+	public IntersectofContext intersectof()
+	{
 		IntersectofContext _localctx = new IntersectofContext(Context, State);
 		EnterRule(_localctx, 130, RULE_intersectof);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 746;
-			Match(OPEN);
-			State = 747;
-			Match(T__55);
-			State = 754;
-			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,54,Context) ) {
-			case 1:
-				{
-				State = 748;
-				aggcs();
-				}
-				break;
-			case 2:
-				{
-				State = 750;
+				State = 746;
+				Match(OPEN);
+				State = 747;
+				Match(T__55);
+				State = 754;
 				ErrorHandler.Sync(this);
-				_alt = 1+1;
-				do {
-					switch (_alt) {
-					case 1+1:
+				switch (Interpreter.AdaptivePredict(TokenStream, 54, Context))
+				{
+					case 1:
 						{
-						{
-						State = 749;
-						cstorage();
-						}
+							State = 748;
+							aggcs();
 						}
 						break;
-					default:
-						throw new NoViableAltException(this);
-					}
-					State = 752;
-					ErrorHandler.Sync(this);
-					_alt = Interpreter.AdaptivePredict(TokenStream,53,Context);
-				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
+					case 2:
+						{
+							State = 750;
+							ErrorHandler.Sync(this);
+							_alt = 1 + 1;
+							do
+							{
+								switch (_alt)
+								{
+									case 1 + 1:
+										{
+											{
+												State = 749;
+												cstorage();
+											}
+										}
+										break;
+									default:
+										throw new NoViableAltException(this);
+								}
+								State = 752;
+								ErrorHandler.Sync(this);
+								_alt = Interpreter.AdaptivePredict(TokenStream, 53, Context);
+							} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+						}
+						break;
 				}
-				break;
-			}
-			State = 756;
-			Match(CLOSE);
+				State = 756;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class DisjunctionofContext : ParserRuleContext {
+	public partial class DisjunctionofContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public AggcsContext aggcs() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AggcsContext aggcs()
+		{
 			return GetRuleContext<AggcsContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext[] cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext[] cstorage()
+		{
 			return GetRuleContexts<CstorageContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage(int i)
+		{
 			return GetRuleContext<CstorageContext>(i);
 		}
 		public DisjunctionofContext(ParserRuleContext parent, int invokingState)
@@ -5169,87 +6609,112 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_disjunctionof; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterDisjunctionof(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitDisjunctionof(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public DisjunctionofContext disjunctionof() {
+	public DisjunctionofContext disjunctionof()
+	{
 		DisjunctionofContext _localctx = new DisjunctionofContext(Context, State);
 		EnterRule(_localctx, 132, RULE_disjunctionof);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 758;
-			Match(OPEN);
-			State = 759;
-			Match(T__56);
-			State = 766;
-			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,56,Context) ) {
-			case 1:
-				{
-				State = 760;
-				aggcs();
-				}
-				break;
-			case 2:
-				{
-				State = 762;
+				State = 758;
+				Match(OPEN);
+				State = 759;
+				Match(T__56);
+				State = 766;
 				ErrorHandler.Sync(this);
-				_alt = 1+1;
-				do {
-					switch (_alt) {
-					case 1+1:
+				switch (Interpreter.AdaptivePredict(TokenStream, 56, Context))
+				{
+					case 1:
 						{
-						{
-						State = 761;
-						cstorage();
-						}
+							State = 760;
+							aggcs();
 						}
 						break;
-					default:
-						throw new NoViableAltException(this);
-					}
-					State = 764;
-					ErrorHandler.Sync(this);
-					_alt = Interpreter.AdaptivePredict(TokenStream,55,Context);
-				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
+					case 2:
+						{
+							State = 762;
+							ErrorHandler.Sync(this);
+							_alt = 1 + 1;
+							do
+							{
+								switch (_alt)
+								{
+									case 1 + 1:
+										{
+											{
+												State = 761;
+												cstorage();
+											}
+										}
+										break;
+									default:
+										throw new NoViableAltException(this);
+								}
+								State = 764;
+								ErrorHandler.Sync(this);
+								_alt = Interpreter.AdaptivePredict(TokenStream, 55, Context);
+							} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+						}
+						break;
 				}
-				break;
-			}
-			State = 768;
-			Match(CLOSE);
+				State = 768;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class FilterContext : ParserRuleContext {
+	public partial class FilterContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CollectionContext collection() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CollectionContext collection()
+		{
 			return GetRuleContext<CollectionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public VarContext var() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarContext var()
+		{
 			return GetRuleContext<VarContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public BooleanContext boolean() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public BooleanContext boolean()
+		{
 			return GetRuleContext<BooleanContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -5259,56 +6724,76 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_filter; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterFilter(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitFilter(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public FilterContext filter() {
+	public FilterContext filter()
+	{
 		FilterContext _localctx = new FilterContext(Context, State);
 		EnterRule(_localctx, 134, RULE_filter);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 770;
-			Match(OPEN);
-			State = 771;
-			Match(T__57);
-			State = 772;
-			collection();
-			State = 773;
-			var();
-			State = 774;
-			boolean();
-			State = 775;
-			Match(CLOSE);
+				State = 770;
+				Match(OPEN);
+				State = 771;
+				Match(T__57);
+				State = 772;
+				collection();
+				State = 773;
+				var();
+				State = 774;
+				boolean();
+				State = 775;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class MemstorageContext : ParserRuleContext {
+	public partial class MemstorageContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CstoragecollectionContext cstoragecollection() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstoragecollectionContext cstoragecollection()
+		{
 			return GetRuleContext<CstoragecollectionContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
 		public MemstorageContext(ParserRuleContext parent, int invokingState)
@@ -5317,75 +6802,96 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_memstorage; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterMemstorage(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitMemstorage(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public MemstorageContext memstorage() {
+	public MemstorageContext memstorage()
+	{
 		MemstorageContext _localctx = new MemstorageContext(Context, State);
 		EnterRule(_localctx, 136, RULE_memstorage);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 777;
-			Match(OPEN);
-			State = 781;
-			ErrorHandler.Sync(this);
-			switch (TokenStream.LA(1)) {
-			case T__41:
+				State = 777;
+				Match(OPEN);
+				State = 781;
+				ErrorHandler.Sync(this);
+				switch (TokenStream.LA(1))
 				{
-				State = 778;
-				Match(T__41);
+					case T__41:
+						{
+							State = 778;
+							Match(T__41);
+						}
+						break;
+					case T__42:
+						{
+							State = 779;
+							Match(T__42);
+						}
+						break;
+					case T__0:
+					case INTNUM:
+					case OPEN:
+						{
+							State = 780;
+							@int();
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
 				}
-				break;
-			case T__42:
-				{
-				State = 779;
-				Match(T__42);
-				}
-				break;
-			case T__0:
-			case INTNUM:
-			case OPEN:
-				{
-				State = 780;
-				@int();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-			State = 783;
-			cstoragecollection();
-			State = 784;
-			Match(CLOSE);
+				State = 783;
+				cstoragecollection();
+				State = 784;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class SequenceContext : ParserRuleContext {
+	public partial class SequenceContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage()
+		{
 			return GetRuleContext<CstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -5395,64 +6901,88 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_sequence; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterSequence(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitSequence(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public SequenceContext sequence() {
+	public SequenceContext sequence()
+	{
 		SequenceContext _localctx = new SequenceContext(Context, State);
 		EnterRule(_localctx, 138, RULE_sequence);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 786;
-			Match(OPEN);
-			State = 787;
-			_la = TokenStream.LA(1);
-			if ( !(_la==T__41 || _la==T__42) ) {
-			ErrorHandler.RecoverInline(this);
-			}
-			else {
-				ErrorHandler.ReportMatch(this);
-			    Consume();
-			}
-			State = 788;
-			@int();
-			State = 789;
-			cstorage();
-			State = 790;
-			Match(CLOSE);
+				State = 786;
+				Match(OPEN);
+				State = 787;
+				_la = TokenStream.LA(1);
+				if (!(_la == T__41 || _la == T__42))
+				{
+					ErrorHandler.RecoverInline(this);
+				}
+				else
+				{
+					ErrorHandler.ReportMatch(this);
+					Consume();
+				}
+				State = 788;
+				@int();
+				State = 789;
+				cstorage();
+				State = 790;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class RunsequenceContext : ParserRuleContext {
+	public partial class RunsequenceContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage()
+		{
 			return GetRuleContext<CstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public PointstorageContext pointstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public PointstorageContext pointstorage()
+		{
 			return GetRuleContext<PointstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -5462,78 +6992,108 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_runsequence; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterRunsequence(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitRunsequence(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public RunsequenceContext runsequence() {
+	public RunsequenceContext runsequence()
+	{
 		RunsequenceContext _localctx = new RunsequenceContext(Context, State);
 		EnterRule(_localctx, 140, RULE_runsequence);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 792;
-			Match(OPEN);
-			State = 793;
-			Match(T__58);
-			State = 794;
-			_la = TokenStream.LA(1);
-			if ( !(_la==T__41 || _la==T__42) ) {
-			ErrorHandler.RecoverInline(this);
-			}
-			else {
-				ErrorHandler.ReportMatch(this);
-			    Consume();
-			}
-			State = 795;
-			@int();
-			State = 796;
-			cstorage();
-			State = 797;
-			Match(T__43);
-			State = 798;
-			pointstorage();
-			State = 799;
-			Match(CLOSE);
+				State = 792;
+				Match(OPEN);
+				State = 793;
+				Match(T__58);
+				State = 794;
+				_la = TokenStream.LA(1);
+				if (!(_la == T__41 || _la == T__42))
+				{
+					ErrorHandler.RecoverInline(this);
+				}
+				else
+				{
+					ErrorHandler.ReportMatch(this);
+					Consume();
+				}
+				State = 795;
+				@int();
+				State = 796;
+				cstorage();
+				State = 797;
+				Match(T__43);
+				State = 798;
+				pointstorage();
+				State = 799;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class CstoragecollectionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public PartitionContext partition() {
+	public partial class CstoragecollectionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public PartitionContext partition()
+		{
 			return GetRuleContext<PartitionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public SubsetContext subset() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public SubsetContext subset()
+		{
 			return GetRuleContext<SubsetContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public RunContext run() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public RunContext run()
+		{
 			return GetRuleContext<RunContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public AggcsContext aggcs() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AggcsContext aggcs()
+		{
 			return GetRuleContext<AggcsContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public VarcscContext varcsc() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarcscContext varcsc()
+		{
 			return GetRuleContext<VarcscContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IndexedContext indexed() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IndexedContext indexed()
+		{
 			return GetRuleContext<IndexedContext>(0);
 		}
 		public CstoragecollectionContext(ParserRuleContext parent, int invokingState)
@@ -5542,89 +7102,112 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_cstoragecollection; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterCstoragecollection(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitCstoragecollection(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public CstoragecollectionContext cstoragecollection() {
+	public CstoragecollectionContext cstoragecollection()
+	{
 		CstoragecollectionContext _localctx = new CstoragecollectionContext(Context, State);
 		EnterRule(_localctx, 142, RULE_cstoragecollection);
-		try {
+		try
+		{
 			State = 807;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,58,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 801;
-				partition();
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 802;
-				subset();
-				}
-				break;
-			case 3:
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 803;
-				run();
-				}
-				break;
-			case 4:
-				EnterOuterAlt(_localctx, 4);
-				{
-				State = 804;
-				aggcs();
-				}
-				break;
-			case 5:
-				EnterOuterAlt(_localctx, 5);
-				{
-				State = 805;
-				varcsc();
-				}
-				break;
-			case 6:
-				EnterOuterAlt(_localctx, 6);
-				{
-				State = 806;
-				indexed();
-				}
-				break;
+			switch (Interpreter.AdaptivePredict(TokenStream, 58, Context))
+			{
+				case 1:
+					EnterOuterAlt(_localctx, 1);
+					{
+						State = 801;
+						partition();
+					}
+					break;
+				case 2:
+					EnterOuterAlt(_localctx, 2);
+					{
+						State = 802;
+						subset();
+					}
+					break;
+				case 3:
+					EnterOuterAlt(_localctx, 3);
+					{
+						State = 803;
+						run();
+					}
+					break;
+				case 4:
+					EnterOuterAlt(_localctx, 4);
+					{
+						State = 804;
+						aggcs();
+					}
+					break;
+				case 5:
+					EnterOuterAlt(_localctx, 5);
+					{
+						State = 805;
+						varcsc();
+					}
+					break;
+				case 6:
+					EnterOuterAlt(_localctx, 6);
+					{
+						State = 806;
+						indexed();
+					}
+					break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class RunContext : ParserRuleContext {
+	public partial class RunContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage()
+		{
 			return GetRuleContext<CstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public PointstorageContext pointstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public PointstorageContext pointstorage()
+		{
 			return GetRuleContext<PointstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -5634,71 +7217,95 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_run; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterRun(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitRun(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public RunContext run() {
+	public RunContext run()
+	{
 		RunContext _localctx = new RunContext(Context, State);
 		EnterRule(_localctx, 144, RULE_run);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 809;
-			Match(OPEN);
-			State = 810;
-			Match(T__59);
-			State = 811;
-			_la = TokenStream.LA(1);
-			if ( !(_la==T__16 || _la==T__60) ) {
-			ErrorHandler.RecoverInline(this);
-			}
-			else {
-				ErrorHandler.ReportMatch(this);
-			    Consume();
-			}
-			State = 812;
-			@int();
-			State = 813;
-			cstorage();
-			State = 814;
-			Match(T__43);
-			State = 815;
-			pointstorage();
-			State = 816;
-			Match(CLOSE);
+				State = 809;
+				Match(OPEN);
+				State = 810;
+				Match(T__59);
+				State = 811;
+				_la = TokenStream.LA(1);
+				if (!(_la == T__16 || _la == T__60))
+				{
+					ErrorHandler.RecoverInline(this);
+				}
+				else
+				{
+					ErrorHandler.ReportMatch(this);
+					Consume();
+				}
+				State = 812;
+				@int();
+				State = 813;
+				cstorage();
+				State = 814;
+				Match(T__43);
+				State = 815;
+				pointstorage();
+				State = 816;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class SubsetContext : ParserRuleContext {
+	public partial class SubsetContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage()
+		{
 			return GetRuleContext<CstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntopContext intop() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntopContext intop()
+		{
 			return GetRuleContext<IntopContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
 		public SubsetContext(ParserRuleContext parent, int invokingState)
@@ -5707,76 +7314,101 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_subset; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterSubset(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitSubset(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public SubsetContext subset() {
+	public SubsetContext subset()
+	{
 		SubsetContext _localctx = new SubsetContext(Context, State);
 		EnterRule(_localctx, 146, RULE_subset);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 818;
-			Match(OPEN);
-			State = 819;
-			Match(T__61);
-			State = 820;
-			cstorage();
-			State = 824;
-			ErrorHandler.Sync(this);
-			_la = TokenStream.LA(1);
-			if (_la==COMPOP || _la==EQOP) {
+				State = 818;
+				Match(OPEN);
+				State = 819;
+				Match(T__61);
+				State = 820;
+				cstorage();
+				State = 824;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+				if (_la == COMPOP || _la == EQOP)
 				{
-				State = 821;
-				intop();
-				State = 822;
-				@int();
+					{
+						State = 821;
+						intop();
+						State = 822;
+						@int();
+					}
 				}
-			}
 
-			State = 826;
-			Match(CLOSE);
+				State = 826;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class PartitionContext : ParserRuleContext {
+	public partial class PartitionContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		private CstorageContext[] stors;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public StrContext str() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrContext str()
+		{
 			return GetRuleContext<StrContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public AggcsContext aggcs() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AggcsContext aggcs()
+		{
 			return GetRuleContext<AggcsContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext[] cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext[] cstorage()
+		{
 			if (stors == null)
 			{
 				stors = GetRuleContexts<CstorageContext>();
 			}
 			return stors;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage(int i)
+		{
 			return GetRuleContext<CstorageContext>(i);
 		}
 		public PartitionContext(ParserRuleContext parent, int invokingState)
@@ -5785,89 +7417,114 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_partition; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterPartition(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitPartition(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public PartitionContext partition() {
+	public PartitionContext partition()
+	{
 		PartitionContext _localctx = new PartitionContext(Context, State);
 		EnterRule(_localctx, 148, RULE_partition);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 828;
-			Match(OPEN);
-			State = 829;
-			Match(T__62);
-			State = 830;
-			str();
-			State = 837;
-			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,61,Context) ) {
-			case 1:
-				{
-				State = 831;
-				aggcs();
-				}
-				break;
-			case 2:
-				{
-				State = 833;
+				State = 828;
+				Match(OPEN);
+				State = 829;
+				Match(T__62);
+				State = 830;
+				str();
+				State = 837;
 				ErrorHandler.Sync(this);
-				_alt = 1+1;
-				do {
-					switch (_alt) {
-					case 1+1:
+				switch (Interpreter.AdaptivePredict(TokenStream, 61, Context))
+				{
+					case 1:
 						{
-						{
-						State = 832;
-						cstorage();
-						}
+							State = 831;
+							aggcs();
 						}
 						break;
-					default:
-						throw new NoViableAltException(this);
-					}
-					State = 835;
-					ErrorHandler.Sync(this);
-					_alt = Interpreter.AdaptivePredict(TokenStream,60,Context);
-				} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
+					case 2:
+						{
+							State = 833;
+							ErrorHandler.Sync(this);
+							_alt = 1 + 1;
+							do
+							{
+								switch (_alt)
+								{
+									case 1 + 1:
+										{
+											{
+												State = 832;
+												cstorage();
+											}
+										}
+										break;
+									default:
+										throw new NoViableAltException(this);
+								}
+								State = 835;
+								ErrorHandler.Sync(this);
+								_alt = Interpreter.AdaptivePredict(TokenStream, 60, Context);
+							} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+						}
+						break;
 				}
-				break;
-			}
-			State = 839;
-			Match(CLOSE);
+				State = 839;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class AggcsContext : ParserRuleContext {
+	public partial class AggcsContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CollectionContext collection() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CollectionContext collection()
+		{
 			return GetRuleContext<CollectionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public VarContext var() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarContext var()
+		{
 			return GetRuleContext<VarContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage()
+		{
 			return GetRuleContext<CstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -5877,58 +7534,80 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_aggcs; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterAggcs(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitAggcs(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public AggcsContext aggcs() {
+	public AggcsContext aggcs()
+	{
 		AggcsContext _localctx = new AggcsContext(Context, State);
 		EnterRule(_localctx, 150, RULE_aggcs);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 841;
-			Match(OPEN);
-			State = 842;
-			Match(T__16);
-			State = 843;
-			collection();
-			State = 844;
-			var();
-			State = 845;
-			cstorage();
-			State = 846;
-			Match(CLOSE);
+				State = 841;
+				Match(OPEN);
+				State = 842;
+				Match(T__16);
+				State = 843;
+				collection();
+				State = 844;
+				var();
+				State = 845;
+				cstorage();
+				State = 846;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class IndexedContext : ParserRuleContext {
+	public partial class IndexedContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public LocpreContext locpre() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public LocpreContext locpre()
+		{
 			return GetRuleContext<LocpreContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public LocdescContext locdesc() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public LocdescContext locdesc()
+		{
 			return GetRuleContext<LocdescContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public StrContext str() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrContext str()
+		{
 			return GetRuleContext<StrContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -5938,50 +7617,58 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_indexed; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterIndexed(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitIndexed(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public IndexedContext indexed() {
+	public IndexedContext indexed()
+	{
 		IndexedContext _localctx = new IndexedContext(Context, State);
 		EnterRule(_localctx, 152, RULE_indexed);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 848;
-			Match(OPEN);
-			State = 849;
-			Match(T__63);
-			State = 850;
-			locpre();
-			State = 851;
-			locdesc();
-			State = 852;
-			str();
-			State = 853;
-			Match(CLOSE);
+				State = 848;
+				Match(OPEN);
+				State = 849;
+				Match(T__63);
+				State = 850;
+				locpre();
+				State = 851;
+				locdesc();
+				State = 852;
+				str();
+				State = 853;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class BooleanContext : ParserRuleContext {
+	public partial class BooleanContext : ParserRuleContext
+	{
+
 		private BooleanContext[] bs;
 		private IntContext[] iis;
 		private StrContext[] strs;
@@ -6000,71 +7687,100 @@ public partial class RecycleParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode BOOLOP() { return GetToken(RecycleParser.BOOLOP, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public BooleanContext[] boolean() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public BooleanContext[] boolean()
+		{
 			if (bs is null)
 			{
 				bs = GetRuleContexts<BooleanContext>();
 			}
 			return bs;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public BooleanContext boolean(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public BooleanContext boolean(int i)
+		{
 			return GetRuleContext<BooleanContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntopContext intop() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntopContext intop()
+		{
 			return GetRuleContext<IntopContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext[] @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext[] @int()
+		{
 			if (iis is null)
 			{
 				iis = GetRuleContexts<IntContext>();
 			}
 			return iis;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int(int i)
+		{
 			return GetRuleContext<IntContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode EQOP() { return GetToken(RecycleParser.EQOP, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public StrContext[] str() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrContext[] str()
+		{
 			if (strs is null)
 			{
 				strs = GetRuleContexts<StrContext>();
 			}
 			return strs;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public StrContext str(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrContext str(int i)
+		{
 			return GetRuleContext<StrContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CardContext[] card() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CardContext[] card()
+		{
 			if (cards is null)
 			{
 				cards = GetRuleContexts<CardContext>();
 			}
 			return cards;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CardContext card(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CardContext card(int i)
+		{
 			return GetRuleContext<CardContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNOP() { return GetToken(RecycleParser.UNOP, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public WhopContext[] whop() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhopContext[] whop()
+		{
 			if (whops is null)
 			{
 				whops = GetRuleContexts<WhopContext>();
 			}
-			return whops;		}
-		[System.Diagnostics.DebuggerNonUserCode] public WhopContext whop(int i) {
+			return whops;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhopContext whop(int i)
+		{
 			return GetRuleContext<WhopContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public WhotContext[] whot() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhotContext[] whot()
+		{
 			if (whots is null)
 			{
 				whots = GetRuleContexts<WhotContext>();
 			}
 			return whots;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public WhotContext whot(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhotContext whot(int i)
+		{
 			return GetRuleContext<WhotContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public AggbContext aggb() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AggbContext aggb()
+		{
 			return GetRuleContext<AggbContext>(0);
 		}
 		public BooleanContext(ParserRuleContext parent, int invokingState)
@@ -6073,146 +7789,166 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_boolean; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterBoolean(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitBoolean(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public BooleanContext boolean() {
+	public BooleanContext boolean()
+	{
 		BooleanContext _localctx = new BooleanContext(Context, State);
 		EnterRule(_localctx, 154, RULE_boolean);
-		try {
+		try
+		{
 			int _alt;
 			State = 890;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,64,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 855;
-				Match(OPEN);
-				State = 885;
-				ErrorHandler.Sync(this);
-				switch ( Interpreter.AdaptivePredict(TokenStream,63,Context) ) {
+			switch (Interpreter.AdaptivePredict(TokenStream, 64, Context))
+			{
 				case 1:
+					EnterOuterAlt(_localctx, 1);
 					{
-					State = 856;
-					Match(BOOLOP);
-					State = 857;
-					boolean();
-					State = 859;
-					ErrorHandler.Sync(this);
-					_alt = 1+1;
-					do {
-						switch (_alt) {
-						case 1+1:
-							{
-							{
-							State = 858;
-							boolean();
-							}
-							}
-							break;
-						default:
-							throw new NoViableAltException(this);
-						}
-						State = 861;
+						State = 855;
+						Match(OPEN);
+						State = 885;
 						ErrorHandler.Sync(this);
-						_alt = Interpreter.AdaptivePredict(TokenStream,62,Context);
-					} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
+						switch (Interpreter.AdaptivePredict(TokenStream, 63, Context))
+						{
+							case 1:
+								{
+									State = 856;
+									Match(BOOLOP);
+									State = 857;
+									boolean();
+									State = 859;
+									ErrorHandler.Sync(this);
+									_alt = 1 + 1;
+									do
+									{
+										switch (_alt)
+										{
+											case 1 + 1:
+												{
+													{
+														State = 858;
+														boolean();
+													}
+												}
+												break;
+											default:
+												throw new NoViableAltException(this);
+										}
+										State = 861;
+										ErrorHandler.Sync(this);
+										_alt = Interpreter.AdaptivePredict(TokenStream, 62, Context);
+									} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+								}
+								break;
+							case 2:
+								{
+									State = 863;
+									intop();
+									State = 864;
+									@int();
+									State = 865;
+									@int();
+								}
+								break;
+							case 3:
+								{
+									State = 867;
+									Match(EQOP);
+									State = 868;
+									str();
+									State = 869;
+									str();
+								}
+								break;
+							case 4:
+								{
+									State = 871;
+									Match(EQOP);
+									State = 872;
+									card();
+									State = 873;
+									card();
+								}
+								break;
+							case 5:
+								{
+									State = 875;
+									Match(UNOP);
+									State = 876;
+									boolean();
+								}
+								break;
+							case 6:
+								{
+									State = 877;
+									Match(EQOP);
+									State = 878;
+									whop();
+									State = 879;
+									whop();
+								}
+								break;
+							case 7:
+								{
+									State = 881;
+									Match(EQOP);
+									State = 882;
+									whot();
+									State = 883;
+									whot();
+								}
+								break;
+						}
+						State = 887;
+						Match(CLOSE);
 					}
 					break;
 				case 2:
+					EnterOuterAlt(_localctx, 2);
 					{
-					State = 863;
-					intop();
-					State = 864;
-					@int();
-					State = 865;
-					@int();
+						State = 889;
+						aggb();
 					}
 					break;
-				case 3:
-					{
-					State = 867;
-					Match(EQOP);
-					State = 868;
-					str();
-					State = 869;
-					str();
-					}
-					break;
-				case 4:
-					{
-					State = 871;
-					Match(EQOP);
-					State = 872;
-					card();
-					State = 873;
-					card();
-					}
-					break;
-				case 5:
-					{
-					State = 875;
-					Match(UNOP);
-					State = 876;
-					boolean();
-					}
-					break;
-				case 6:
-					{
-					State = 877;
-					Match(EQOP);
-					State = 878;
-					whop();
-					State = 879;
-					whop();
-					}
-					break;
-				case 7:
-					{
-					State = 881;
-					Match(EQOP);
-					State = 882;
-					whot();
-					State = 883;
-					whot();
-					}
-					break;
-				}
-				State = 887;
-				Match(CLOSE);
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 889;
-				aggb();
-				}
-				break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class IntopContext : ParserRuleContext {
+	public partial class IntopContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode COMPOP() { return GetToken(RecycleParser.COMPOP, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode EQOP() { return GetToken(RecycleParser.EQOP, 0); }
 		public IntopContext(ParserRuleContext parent, int invokingState)
@@ -6221,56 +7957,80 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_intop; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterIntop(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitIntop(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public IntopContext intop() {
+	public IntopContext intop()
+	{
 		IntopContext _localctx = new IntopContext(Context, State);
 		EnterRule(_localctx, 156, RULE_intop);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 892;
-			_la = TokenStream.LA(1);
-			if ( !(_la==COMPOP || _la==EQOP) ) {
-			ErrorHandler.RecoverInline(this);
-			}
-			else {
-				ErrorHandler.ReportMatch(this);
-			    Consume();
-			}
+				State = 892;
+				_la = TokenStream.LA(1);
+				if (!(_la == COMPOP || _la == EQOP))
+				{
+					ErrorHandler.RecoverInline(this);
+				}
+				else
+				{
+					ErrorHandler.ReportMatch(this);
+					Consume();
+				}
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class AggbContext : ParserRuleContext {
+	public partial class AggbContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CollectionContext collection() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CollectionContext collection()
+		{
 			return GetRuleContext<CollectionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public VarContext var() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarContext var()
+		{
 			return GetRuleContext<VarContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public BooleanContext boolean() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public BooleanContext boolean()
+		{
 			return GetRuleContext<BooleanContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -6280,128 +8040,188 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_aggb; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterAggb(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitAggb(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public AggbContext aggb() {
+	public AggbContext aggb()
+	{
 		AggbContext _localctx = new AggbContext(Context, State);
 		EnterRule(_localctx, 158, RULE_aggb);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 894;
-			Match(OPEN);
-			State = 895;
-			_la = TokenStream.LA(1);
-			if ( !(_la==T__15 || _la==T__16) ) {
-			ErrorHandler.RecoverInline(this);
-			}
-			else {
-				ErrorHandler.ReportMatch(this);
-			    Consume();
-			}
-			State = 896;
-			collection();
-			State = 897;
-			var();
-			State = 898;
-			boolean();
-			State = 899;
-			Match(CLOSE);
+				State = 894;
+				Match(OPEN);
+				State = 895;
+				_la = TokenStream.LA(1);
+				if (!(_la == T__15 || _la == T__16))
+				{
+					ErrorHandler.RecoverInline(this);
+				}
+				else
+				{
+					ErrorHandler.ReportMatch(this);
+					Consume();
+				}
+				State = 896;
+				collection();
+				State = 897;
+				var();
+				State = 898;
+				boolean();
+				State = 899;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class IntContext : ParserRuleContext {
-		private int cache;
+	public partial class IntContext : ParserRuleContext
+	{
+		private string cache;
+
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+
+		private int numCache;
 		private bool empty = true;
 
 		public int GetInt()
 		{
 			if (empty)
 			{
-				cache = int.Parse(GetText());
+				numCache = int.Parse(GetText());
 				empty = false;
 			}
-			return cache;
+			return numCache;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public VariContext vari() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VariContext vari()
+		{
 			return GetRuleContext<VariContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public SizeofContext @sizeof() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public SizeofContext @sizeof()
+		{
 			return GetRuleContext<SizeofContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public MultContext mult() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public MultContext mult()
+		{
 			return GetRuleContext<MultContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public SubtractContext subtract() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public SubtractContext subtract()
+		{
 			return GetRuleContext<SubtractContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ModContext mod() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ModContext mod()
+		{
 			return GetRuleContext<ModContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public AddContext add() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AddContext add()
+		{
 			return GetRuleContext<AddContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public DivideContext divide() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public DivideContext divide()
+		{
 			return GetRuleContext<DivideContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ExponentContext exponent() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ExponentContext exponent()
+		{
 			return GetRuleContext<ExponentContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public TriangularContext triangular() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public TriangularContext triangular()
+		{
 			return GetRuleContext<TriangularContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public FibonacciContext fibonacci() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public FibonacciContext fibonacci()
+		{
 			return GetRuleContext<FibonacciContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public RandomContext random() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public RandomContext random()
+		{
 			return GetRuleContext<RandomContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public SumContext sum() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public SumContext sum()
+		{
 			return GetRuleContext<SumContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public RawstorageContext rawstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public RawstorageContext rawstorage()
+		{
 			return GetRuleContext<RawstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ScoreContext score() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ScoreContext score()
+		{
 			return GetRuleContext<ScoreContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public PidContext pid() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public PidContext pid()
+		{
 			return GetRuleContext<PidContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public TidContext tid() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public TidContext tid()
+		{
 			return GetRuleContext<TidContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public AggiContext aggi() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public AggiContext aggi()
+		{
 			return GetRuleContext<AggiContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ScoremaxContext scoremax() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ScoremaxContext scoremax()
+		{
 			return GetRuleContext<ScoremaxContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ScoreminContext scoremin() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ScoreminContext scoremin()
+		{
 			return GetRuleContext<ScoreminContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntgrContext intgr() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntgrContext intgr()
+		{
 			return GetRuleContext<IntgrContext>(0);
 		}
 		public IntContext(ParserRuleContext parent, int invokingState)
@@ -6410,181 +8230,200 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_int; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterInt(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitInt(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public IntContext @int() {
+	public IntContext @int()
+	{
 		IntContext _localctx = new IntContext(Context, State);
 		EnterRule(_localctx, 160, RULE_int);
-		try {
+		try
+		{
 			State = 921;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,65,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 901;
-				vari();
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 902;
-				@sizeof();
-				}
-				break;
-			case 3:
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 903;
-				mult();
-				}
-				break;
-			case 4:
-				EnterOuterAlt(_localctx, 4);
-				{
-				State = 904;
-				subtract();
-				}
-				break;
-			case 5:
-				EnterOuterAlt(_localctx, 5);
-				{
-				State = 905;
-				mod();
-				}
-				break;
-			case 6:
-				EnterOuterAlt(_localctx, 6);
-				{
-				State = 906;
-				add();
-				}
-				break;
-			case 7:
-				EnterOuterAlt(_localctx, 7);
-				{
-				State = 907;
-				divide();
-				}
-				break;
-			case 8:
-				EnterOuterAlt(_localctx, 8);
-				{
-				State = 908;
-				exponent();
-				}
-				break;
-			case 9:
-				EnterOuterAlt(_localctx, 9);
-				{
-				State = 909;
-				triangular();
-				}
-				break;
-			case 10:
-				EnterOuterAlt(_localctx, 10);
-				{
-				State = 910;
-				fibonacci();
-				}
-				break;
-			case 11:
-				EnterOuterAlt(_localctx, 11);
-				{
-				State = 911;
-				random();
-				}
-				break;
-			case 12:
-				EnterOuterAlt(_localctx, 12);
-				{
-				State = 912;
-				sum();
-				}
-				break;
-			case 13:
-				EnterOuterAlt(_localctx, 13);
-				{
-				State = 913;
-				rawstorage();
-				}
-				break;
-			case 14:
-				EnterOuterAlt(_localctx, 14);
-				{
-				State = 914;
-				score();
-				}
-				break;
-			case 15:
-				EnterOuterAlt(_localctx, 15);
-				{
-				State = 915;
-				pid();
-				}
-				break;
-			case 16:
-				EnterOuterAlt(_localctx, 16);
-				{
-				State = 916;
-				tid();
-				}
-				break;
-			case 17:
-				EnterOuterAlt(_localctx, 17);
-				{
-				State = 917;
-				aggi();
-				}
-				break;
-			case 18:
-				EnterOuterAlt(_localctx, 18);
-				{
-				State = 918;
-				scoremax();
-				}
-				break;
-			case 19:
-				EnterOuterAlt(_localctx, 19);
-				{
-				State = 919;
-				scoremin();
-				}
-				break;
-			case 20:
-				EnterOuterAlt(_localctx, 20);
-				{
-				State = 920;
-				intgr();
-				}
-				break;
+			switch (Interpreter.AdaptivePredict(TokenStream, 65, Context))
+			{
+				case 1:
+					EnterOuterAlt(_localctx, 1);
+					{
+						State = 901;
+						vari();
+					}
+					break;
+				case 2:
+					EnterOuterAlt(_localctx, 2);
+					{
+						State = 902;
+						@sizeof();
+					}
+					break;
+				case 3:
+					EnterOuterAlt(_localctx, 3);
+					{
+						State = 903;
+						mult();
+					}
+					break;
+				case 4:
+					EnterOuterAlt(_localctx, 4);
+					{
+						State = 904;
+						subtract();
+					}
+					break;
+				case 5:
+					EnterOuterAlt(_localctx, 5);
+					{
+						State = 905;
+						mod();
+					}
+					break;
+				case 6:
+					EnterOuterAlt(_localctx, 6);
+					{
+						State = 906;
+						add();
+					}
+					break;
+				case 7:
+					EnterOuterAlt(_localctx, 7);
+					{
+						State = 907;
+						divide();
+					}
+					break;
+				case 8:
+					EnterOuterAlt(_localctx, 8);
+					{
+						State = 908;
+						exponent();
+					}
+					break;
+				case 9:
+					EnterOuterAlt(_localctx, 9);
+					{
+						State = 909;
+						triangular();
+					}
+					break;
+				case 10:
+					EnterOuterAlt(_localctx, 10);
+					{
+						State = 910;
+						fibonacci();
+					}
+					break;
+				case 11:
+					EnterOuterAlt(_localctx, 11);
+					{
+						State = 911;
+						random();
+					}
+					break;
+				case 12:
+					EnterOuterAlt(_localctx, 12);
+					{
+						State = 912;
+						sum();
+					}
+					break;
+				case 13:
+					EnterOuterAlt(_localctx, 13);
+					{
+						State = 913;
+						rawstorage();
+					}
+					break;
+				case 14:
+					EnterOuterAlt(_localctx, 14);
+					{
+						State = 914;
+						score();
+					}
+					break;
+				case 15:
+					EnterOuterAlt(_localctx, 15);
+					{
+						State = 915;
+						pid();
+					}
+					break;
+				case 16:
+					EnterOuterAlt(_localctx, 16);
+					{
+						State = 916;
+						tid();
+					}
+					break;
+				case 17:
+					EnterOuterAlt(_localctx, 17);
+					{
+						State = 917;
+						aggi();
+					}
+					break;
+				case 18:
+					EnterOuterAlt(_localctx, 18);
+					{
+						State = 918;
+						scoremax();
+					}
+					break;
+				case 19:
+					EnterOuterAlt(_localctx, 19);
+					{
+						State = 919;
+						scoremin();
+					}
+					break;
+				case 20:
+					EnterOuterAlt(_localctx, 20);
+					{
+						State = 920;
+						intgr();
+					}
+					break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class IntgrContext : ParserRuleContext {
+	public partial class IntgrContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] INTNUM() { return GetTokens(RecycleParser.INTNUM); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INTNUM(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ITerminalNode INTNUM(int i)
+		{
 			return GetToken(RecycleParser.INTNUM, i);
 		}
 		public IntgrContext(ParserRuleContext parent, int invokingState)
@@ -6593,64 +8432,86 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_intgr; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterIntgr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitIntgr(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public IntgrContext intgr() {
+	public IntgrContext intgr()
+	{
 		IntgrContext _localctx = new IntgrContext(Context, State);
 		EnterRule(_localctx, 162, RULE_intgr);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 924;
-			ErrorHandler.Sync(this);
-			_alt = 1;
-			do {
-				switch (_alt) {
-				case 1:
-					{
-					{
-					State = 923;
-					Match(INTNUM);
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				State = 926;
+				State = 924;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,66,Context);
-			} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
+				_alt = 1;
+				do
+				{
+					switch (_alt)
+					{
+						case 1:
+							{
+								{
+									State = 923;
+									Match(INTNUM);
+								}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+					}
+					State = 926;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 66, Context);
+				} while (_alt != 2 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class SumContext : ParserRuleContext {
+	public partial class SumContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage()
+		{
 			return GetRuleContext<CstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public PointstorageContext pointstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public PointstorageContext pointstorage()
+		{
 			return GetRuleContext<PointstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -6660,55 +8521,75 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_sum; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterSum(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitSum(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public SumContext sum() {
+	public SumContext sum()
+	{
 		SumContext _localctx = new SumContext(Context, State);
 		EnterRule(_localctx, 164, RULE_sum);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 928;
-			Match(OPEN);
-			State = 929;
-			Match(T__64);
-			State = 930;
-			cstorage();
-			State = 931;
-			Match(T__43);
-			State = 932;
-			pointstorage();
-			State = 933;
-			Match(CLOSE);
+				State = 928;
+				Match(OPEN);
+				State = 929;
+				Match(T__64);
+				State = 930;
+				cstorage();
+				State = 931;
+				Match(T__43);
+				State = 932;
+				pointstorage();
+				State = 933;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class ScoremaxContext : ParserRuleContext {
+	public partial class ScoremaxContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage()
+		{
 			return GetRuleContext<CstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public PointstorageContext pointstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public PointstorageContext pointstorage()
+		{
 			return GetRuleContext<PointstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -6718,55 +8599,75 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_scoremax; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterScoremax(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitScoremax(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public ScoremaxContext scoremax() {
+	public ScoremaxContext scoremax()
+	{
 		ScoremaxContext _localctx = new ScoremaxContext(Context, State);
 		EnterRule(_localctx, 166, RULE_scoremax);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 935;
-			Match(OPEN);
-			State = 936;
-			Match(T__65);
-			State = 937;
-			cstorage();
-			State = 938;
-			Match(T__43);
-			State = 939;
-			pointstorage();
-			State = 940;
-			Match(CLOSE);
+				State = 935;
+				Match(OPEN);
+				State = 936;
+				Match(T__65);
+				State = 937;
+				cstorage();
+				State = 938;
+				Match(T__43);
+				State = 939;
+				pointstorage();
+				State = 940;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class ScoreminContext : ParserRuleContext {
+	public partial class ScoreminContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CstorageContext cstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CstorageContext cstorage()
+		{
 			return GetRuleContext<CstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public PointstorageContext pointstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public PointstorageContext pointstorage()
+		{
 			return GetRuleContext<PointstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -6776,55 +8677,75 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_scoremin; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterScoremin(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitScoremin(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public ScoreminContext scoremin() {
+	public ScoreminContext scoremin()
+	{
 		ScoreminContext _localctx = new ScoreminContext(Context, State);
 		EnterRule(_localctx, 168, RULE_scoremin);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 942;
-			Match(OPEN);
-			State = 943;
-			Match(T__66);
-			State = 944;
-			cstorage();
-			State = 945;
-			Match(T__43);
-			State = 946;
-			pointstorage();
-			State = 947;
-			Match(CLOSE);
+				State = 942;
+				Match(OPEN);
+				State = 943;
+				Match(T__66);
+				State = 944;
+				cstorage();
+				State = 945;
+				Match(T__43);
+				State = 946;
+				pointstorage();
+				State = 947;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class ScoreContext : ParserRuleContext {
+	public partial class ScoreContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CardContext card() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CardContext card()
+		{
 			return GetRuleContext<CardContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public PointstorageContext pointstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public PointstorageContext pointstorage()
+		{
 			return GetRuleContext<PointstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -6834,60 +8755,80 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_score; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterScore(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitScore(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public ScoreContext score() {
+	public ScoreContext score()
+	{
 		ScoreContext _localctx = new ScoreContext(Context, State);
 		EnterRule(_localctx, 170, RULE_score);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 949;
-			Match(OPEN);
-			State = 950;
-			Match(T__67);
-			State = 951;
-			card();
-			State = 952;
-			Match(T__43);
-			State = 953;
-			pointstorage();
-			State = 954;
-			Match(CLOSE);
+				State = 949;
+				Match(OPEN);
+				State = 950;
+				Match(T__67);
+				State = 951;
+				card();
+				State = 952;
+				Match(T__43);
+				State = 953;
+				pointstorage();
+				State = 954;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class AddContext : ParserRuleContext {
+	public partial class AddContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		private IntContext[] ints;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext[] @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext[] @int()
+		{
 			if (ints is null)
 			{
 				ints = GetRuleContexts<IntContext>();
 			}
 			return ints;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int(int i)
+		{
 			return GetRuleContext<IntContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -6897,67 +8838,85 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_add; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterAdd(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitAdd(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public AddContext add() {
+	public AddContext add()
+	{
 		AddContext _localctx = new AddContext(Context, State);
 		EnterRule(_localctx, 172, RULE_add);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 956;
-			Match(OPEN);
-			State = 957;
-			Match(T__68);
-			State = 958;
-			@int();
-			State = 960;
-			ErrorHandler.Sync(this);
-			_alt = 1+1;
-			do {
-				switch (_alt) {
-				case 1+1:
-					{
-					{
-					State = 959;
-					@int();
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				State = 962;
+				State = 956;
+				Match(OPEN);
+				State = 957;
+				Match(T__68);
+				State = 958;
+				@int();
+				State = 960;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,67,Context);
-			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 964;
-			Match(CLOSE);
+				_alt = 1 + 1;
+				do
+				{
+					switch (_alt)
+					{
+						case 1 + 1:
+							{
+								{
+									State = 959;
+									@int();
+								}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+					}
+					State = 962;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 67, Context);
+				} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+				State = 964;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class MultContext : ParserRuleContext {
+	public partial class MultContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		private IntContext[] ints;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode]
@@ -6969,7 +8928,9 @@ public partial class RecycleParser : Parser {
 			}
 			return ints;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int(int i)
+		{
 			return GetRuleContext<IntContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -6979,67 +8940,85 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_mult; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterMult(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitMult(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public MultContext mult() {
+	public MultContext mult()
+	{
 		MultContext _localctx = new MultContext(Context, State);
 		EnterRule(_localctx, 174, RULE_mult);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 966;
-			Match(OPEN);
-			State = 967;
-			Match(T__69);
-			State = 968;
-			@int();
-			State = 970;
-			ErrorHandler.Sync(this);
-			_alt = 1+1;
-			do {
-				switch (_alt) {
-				case 1+1:
-					{
-					{
-					State = 969;
-					@int();
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				State = 972;
+				State = 966;
+				Match(OPEN);
+				State = 967;
+				Match(T__69);
+				State = 968;
+				@int();
+				State = 970;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,68,Context);
-			} while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
-			State = 974;
-			Match(CLOSE);
+				_alt = 1 + 1;
+				do
+				{
+					switch (_alt)
+					{
+						case 1 + 1:
+							{
+								{
+									State = 969;
+									@int();
+								}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+					}
+					State = 972;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 68, Context);
+				} while (_alt != 1 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
+				State = 974;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class SubtractContext : ParserRuleContext {
+	public partial class SubtractContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		private IntContext[] ints;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode]
@@ -7051,7 +9030,9 @@ public partial class RecycleParser : Parser {
 			}
 			return ints;
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int(int i)
+		{
 			return GetRuleContext<IntContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -7061,53 +9042,73 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_subtract; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterSubtract(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitSubtract(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public SubtractContext subtract() {
+	public SubtractContext subtract()
+	{
 		SubtractContext _localctx = new SubtractContext(Context, State);
 		EnterRule(_localctx, 176, RULE_subtract);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 976;
-			Match(OPEN);
-			State = 977;
-			Match(T__70);
-			State = 978;
-			@int();
-			State = 979;
-			@int();
-			State = 980;
-			Match(CLOSE);
+				State = 976;
+				Match(OPEN);
+				State = 977;
+				Match(T__70);
+				State = 978;
+				@int();
+				State = 979;
+				@int();
+				State = 980;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class ModContext : ParserRuleContext {
+	public partial class ModContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext[] @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext[] @int()
+		{
 			return GetRuleContexts<IntContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int(int i)
+		{
 			return GetRuleContext<IntContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -7117,53 +9118,73 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_mod; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterMod(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitMod(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public ModContext mod() {
+	public ModContext mod()
+	{
 		ModContext _localctx = new ModContext(Context, State);
 		EnterRule(_localctx, 178, RULE_mod);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 982;
-			Match(OPEN);
-			State = 983;
-			Match(T__71);
-			State = 984;
-			@int();
-			State = 985;
-			@int();
-			State = 986;
-			Match(CLOSE);
+				State = 982;
+				Match(OPEN);
+				State = 983;
+				Match(T__71);
+				State = 984;
+				@int();
+				State = 985;
+				@int();
+				State = 986;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class DivideContext : ParserRuleContext {
+	public partial class DivideContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext[] @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext[] @int()
+		{
 			return GetRuleContexts<IntContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int(int i)
+		{
 			return GetRuleContext<IntContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -7173,53 +9194,73 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_divide; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterDivide(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitDivide(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public DivideContext divide() {
+	public DivideContext divide()
+	{
 		DivideContext _localctx = new DivideContext(Context, State);
 		EnterRule(_localctx, 180, RULE_divide);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 988;
-			Match(OPEN);
-			State = 989;
-			Match(T__72);
-			State = 990;
-			@int();
-			State = 991;
-			@int();
-			State = 992;
-			Match(CLOSE);
+				State = 988;
+				Match(OPEN);
+				State = 989;
+				Match(T__72);
+				State = 990;
+				@int();
+				State = 991;
+				@int();
+				State = 992;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class ExponentContext : ParserRuleContext {
+	public partial class ExponentContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext[] @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext[] @int()
+		{
 			return GetRuleContexts<IntContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int(int i)
+		{
 			return GetRuleContext<IntContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -7229,50 +9270,68 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_exponent; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterExponent(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitExponent(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public ExponentContext exponent() {
+	public ExponentContext exponent()
+	{
 		ExponentContext _localctx = new ExponentContext(Context, State);
 		EnterRule(_localctx, 182, RULE_exponent);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 994;
-			Match(OPEN);
-			State = 995;
-			Match(T__73);
-			State = 996;
-			@int();
-			State = 997;
-			@int();
-			State = 998;
-			Match(CLOSE);
+				State = 994;
+				Match(OPEN);
+				State = 995;
+				Match(T__73);
+				State = 996;
+				@int();
+				State = 997;
+				@int();
+				State = 998;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class TriangularContext : ParserRuleContext {
+	public partial class TriangularContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -7282,48 +9341,66 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_triangular; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterTriangular(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitTriangular(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public TriangularContext triangular() {
+	public TriangularContext triangular()
+	{
 		TriangularContext _localctx = new TriangularContext(Context, State);
 		EnterRule(_localctx, 184, RULE_triangular);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1000;
-			Match(OPEN);
-			State = 1001;
-			Match(T__74);
-			State = 1002;
-			@int();
-			State = 1003;
-			Match(CLOSE);
+				State = 1000;
+				Match(OPEN);
+				State = 1001;
+				Match(T__74);
+				State = 1002;
+				@int();
+				State = 1003;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class FibonacciContext : ParserRuleContext {
+	public partial class FibonacciContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int()
+		{
 			return GetRuleContext<IntContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -7333,51 +9410,71 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_fibonacci; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterFibonacci(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitFibonacci(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public FibonacciContext fibonacci() {
+	public FibonacciContext fibonacci()
+	{
 		FibonacciContext _localctx = new FibonacciContext(Context, State);
 		EnterRule(_localctx, 186, RULE_fibonacci);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1005;
-			Match(OPEN);
-			State = 1006;
-			Match(T__75);
-			State = 1007;
-			@int();
-			State = 1008;
-			Match(CLOSE);
+				State = 1005;
+				Match(OPEN);
+				State = 1006;
+				Match(T__75);
+				State = 1007;
+				@int();
+				State = 1008;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class RandomContext : ParserRuleContext {
+	public partial class RandomContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext[] @int() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext[] @int()
+		{
 			return GetRuleContexts<IntContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public IntContext @int(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public IntContext @int(int i)
+		{
 			return GetRuleContext<IntContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -7387,61 +9484,80 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_random; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterRandom(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitRandom(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public RandomContext random() {
+	public RandomContext random()
+	{
 		RandomContext _localctx = new RandomContext(Context, State);
 		EnterRule(_localctx, 188, RULE_random);
 		int _la;
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1010;
-			Match(OPEN);
-			State = 1011;
-			Match(T__76);
-			State = 1012;
-			@int();
-			State = 1015;
-			ErrorHandler.Sync(this);
-			_la = TokenStream.LA(1);
-			if (_la==T__52) {
-				{
-				State = 1013;
-				Match(T__52);
-				State = 1014;
+				State = 1010;
+				Match(OPEN);
+				State = 1011;
+				Match(T__76);
+				State = 1012;
 				@int();
+				State = 1015;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+				if (_la == T__52)
+				{
+					{
+						State = 1013;
+						Match(T__52);
+						State = 1014;
+						@int();
+					}
 				}
-			}
 
-			State = 1017;
-			Match(CLOSE);
+				State = 1017;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class SizeofContext : ParserRuleContext {
+	public partial class SizeofContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CollectionContext collection() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CollectionContext collection()
+		{
 			return GetRuleContext<CollectionContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -7451,54 +9567,76 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_sizeof; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterSizeof(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitSizeof(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public SizeofContext @sizeof() {
+	public SizeofContext @sizeof()
+	{
 		SizeofContext _localctx = new SizeofContext(Context, State);
 		EnterRule(_localctx, 190, RULE_sizeof);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1019;
-			Match(OPEN);
-			State = 1020;
-			Match(T__77);
-			State = 1021;
-			collection();
-			State = 1022;
-			Match(CLOSE);
+				State = 1019;
+				Match(OPEN);
+				State = 1020;
+				Match(T__77);
+				State = 1021;
+				collection();
+				State = 1022;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class AggiContext : ParserRuleContext {
+	public partial class AggiContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public CollectionContext collection() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CollectionContext collection()
+		{
 			return GetRuleContext<CollectionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public VarContext var() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarContext var()
+		{
 			return GetRuleContext<VarContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public RawstorageContext rawstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public RawstorageContext rawstorage()
+		{
 			return GetRuleContext<RawstorageContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -7508,59 +9646,81 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_aggi; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterAggi(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitAggi(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public AggiContext aggi() {
+	public AggiContext aggi()
+	{
 		AggiContext _localctx = new AggiContext(Context, State);
 		EnterRule(_localctx, 192, RULE_aggi);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1024;
-			Match(OPEN);
-			State = 1025;
-			Match(T__16);
-			State = 1026;
-			collection();
-			State = 1027;
-			var();
-			State = 1028;
-			rawstorage();
-			State = 1029;
-			Match(CLOSE);
+				State = 1024;
+				Match(OPEN);
+				State = 1025;
+				Match(T__16);
+				State = 1026;
+				collection();
+				State = 1027;
+				var();
+				State = 1028;
+				rawstorage();
+				State = 1029;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class RawstorageContext : ParserRuleContext {
+	public partial class RawstorageContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public StrContext str() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrContext str()
+		{
 			return GetRuleContext<StrContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public VaroContext varo() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VaroContext varo()
+		{
 			return GetRuleContext<VaroContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public WhoContext who() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhoContext who()
+		{
 			return GetRuleContext<WhoContext>(0);
 		}
 		public RawstorageContext(ParserRuleContext parent, int invokingState)
@@ -7569,76 +9729,97 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_rawstorage; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterRawstorage(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitRawstorage(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public RawstorageContext rawstorage() {
+	public RawstorageContext rawstorage()
+	{
 		RawstorageContext _localctx = new RawstorageContext(Context, State);
 		EnterRule(_localctx, 194, RULE_rawstorage);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1031;
-			Match(OPEN);
-			State = 1035;
-			ErrorHandler.Sync(this);
-			switch (TokenStream.LA(1)) {
-			case T__0:
+				State = 1031;
+				Match(OPEN);
+				State = 1035;
+				ErrorHandler.Sync(this);
+				switch (TokenStream.LA(1))
 				{
-				State = 1032;
-				varo();
+					case T__0:
+						{
+							State = 1032;
+							varo();
+						}
+						break;
+					case T__1:
+						{
+							State = 1033;
+							Match(T__1);
+						}
+						break;
+					case OPEN:
+						{
+							State = 1034;
+							who();
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
 				}
-				break;
-			case T__1:
-				{
-				State = 1033;
-				Match(T__1);
-				}
-				break;
-			case OPEN:
-				{
-				State = 1034;
-				who();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-			State = 1037;
-			Match(T__78);
-			State = 1038;
-			str();
-			State = 1039;
-			Match(CLOSE);
+				State = 1037;
+				Match(T__78);
+				State = 1038;
+				str();
+				State = 1039;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class PidContext : ParserRuleContext {
+	public partial class PidContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public VarpContext varp() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarpContext varp()
+		{
 			return GetRuleContext<VarpContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public WhopContext whop() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhopContext whop()
+		{
 			return GetRuleContext<WhopContext>(0);
 		}
 		public PidContext(ParserRuleContext parent, int invokingState)
@@ -7647,68 +9828,89 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_pid; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterPid(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitPid(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public PidContext pid() {
+	public PidContext pid()
+	{
 		PidContext _localctx = new PidContext(Context, State);
 		EnterRule(_localctx, 196, RULE_pid);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1041;
-			Match(OPEN);
-			State = 1042;
-			Match(T__79);
-			State = 1045;
-			ErrorHandler.Sync(this);
-			switch (TokenStream.LA(1)) {
-			case T__0:
+				State = 1041;
+				Match(OPEN);
+				State = 1042;
+				Match(T__79);
+				State = 1045;
+				ErrorHandler.Sync(this);
+				switch (TokenStream.LA(1))
 				{
-				State = 1043;
-				varp();
+					case T__0:
+						{
+							State = 1043;
+							varp();
+						}
+						break;
+					case OPEN:
+						{
+							State = 1044;
+							whop();
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
 				}
-				break;
-			case OPEN:
-				{
-				State = 1044;
-				whop();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-			State = 1047;
-			Match(CLOSE);
+				State = 1047;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class TidContext : ParserRuleContext {
+	public partial class TidContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public VartContext vart() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VartContext vart()
+		{
 			return GetRuleContext<VartContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public WhotContext whot() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhotContext whot()
+		{
 			return GetRuleContext<WhotContext>(0);
 		}
 		public TidContext(ParserRuleContext parent, int invokingState)
@@ -7717,72 +9919,97 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_tid; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterTid(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitTid(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public TidContext tid() {
+	public TidContext tid()
+	{
 		TidContext _localctx = new TidContext(Context, State);
 		EnterRule(_localctx, 198, RULE_tid);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1049;
-			Match(OPEN);
-			State = 1050;
-			Match(T__80);
-			State = 1053;
-			ErrorHandler.Sync(this);
-			switch (TokenStream.LA(1)) {
-			case T__0:
+				State = 1049;
+				Match(OPEN);
+				State = 1050;
+				Match(T__80);
+				State = 1053;
+				ErrorHandler.Sync(this);
+				switch (TokenStream.LA(1))
 				{
-				State = 1051;
-				vart();
+					case T__0:
+						{
+							State = 1051;
+							vart();
+						}
+						break;
+					case OPEN:
+						{
+							State = 1052;
+							whot();
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
 				}
-				break;
-			case OPEN:
-				{
-				State = 1052;
-				whot();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-			State = 1055;
-			Match(CLOSE);
+				State = 1055;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class StrContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public NamegrContext namegr() {
+	public partial class StrContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public NamegrContext namegr()
+		{
 			return GetRuleContext<NamegrContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public StrstorageContext strstorage() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrstorageContext strstorage()
+		{
 			return GetRuleContext<StrstorageContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public VarsContext vars() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VarsContext vars()
+		{
 			return GetRuleContext<VarsContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CardattContext cardatt() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CardattContext cardatt()
+		{
 			return GetRuleContext<CardattContext>(0);
 		}
 		public StrContext(ParserRuleContext parent, int invokingState)
@@ -7791,76 +10018,99 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_str; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterStr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitStr(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public StrContext str() {
+	public StrContext str()
+	{
 		StrContext _localctx = new StrContext(Context, State);
 		EnterRule(_localctx, 200, RULE_str);
-		try {
+		try
+		{
 			State = 1061;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,73,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 1057;
-				namegr();
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 1058;
-				strstorage();
-				}
-				break;
-			case 3:
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 1059;
-				vars();
-				}
-				break;
-			case 4:
-				EnterOuterAlt(_localctx, 4);
-				{
-				State = 1060;
-				cardatt();
-				}
-				break;
+			switch (Interpreter.AdaptivePredict(TokenStream, 73, Context))
+			{
+				case 1:
+					EnterOuterAlt(_localctx, 1);
+					{
+						State = 1057;
+						namegr();
+					}
+					break;
+				case 2:
+					EnterOuterAlt(_localctx, 2);
+					{
+						State = 1058;
+						strstorage();
+					}
+					break;
+				case 3:
+					EnterOuterAlt(_localctx, 3);
+					{
+						State = 1059;
+						vars();
+					}
+					break;
+				case 4:
+					EnterOuterAlt(_localctx, 4);
+					{
+						State = 1060;
+						cardatt();
+					}
+					break;
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class StrstorageContext : ParserRuleContext {
+	public partial class StrstorageContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public StrContext str() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrContext str()
+		{
 			return GetRuleContext<StrContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public VaroContext varo() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public VaroContext varo()
+		{
 			return GetRuleContext<VaroContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public WhoContext who() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public WhoContext who()
+		{
 			return GetRuleContext<WhoContext>(0);
 		}
 		public StrstorageContext(ParserRuleContext parent, int invokingState)
@@ -7869,75 +10119,96 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_strstorage; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterStrstorage(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitStrstorage(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public StrstorageContext strstorage() {
+	public StrstorageContext strstorage()
+	{
 		StrstorageContext _localctx = new StrstorageContext(Context, State);
 		EnterRule(_localctx, 202, RULE_strstorage);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1063;
-			Match(OPEN);
-			State = 1067;
-			ErrorHandler.Sync(this);
-			switch (TokenStream.LA(1)) {
-			case T__0:
+				State = 1063;
+				Match(OPEN);
+				State = 1067;
+				ErrorHandler.Sync(this);
+				switch (TokenStream.LA(1))
 				{
-				State = 1064;
-				varo();
+					case T__0:
+						{
+							State = 1064;
+							varo();
+						}
+						break;
+					case T__1:
+						{
+							State = 1065;
+							Match(T__1);
+						}
+						break;
+					case OPEN:
+						{
+							State = 1066;
+							who();
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
 				}
-				break;
-			case T__1:
-				{
-				State = 1065;
-				Match(T__1);
-				}
-				break;
-			case OPEN:
-				{
-				State = 1066;
-				who();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-			State = 1069;
-			Match(T__81);
-			State = 1070;
-			str();
-			State = 1071;
-			Match(CLOSE);
+				State = 1069;
+				Match(T__81);
+				State = 1070;
+				str();
+				State = 1071;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class CardattContext : ParserRuleContext {
+	public partial class CardattContext : ParserRuleContext
+	{
+		private string cache;
+		public override string GetText()
+		{
+			if (cache is null)
+			{
+				cache = base.GetText();
+			}
+			return cache;
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN() { return GetToken(RecycleParser.OPEN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public StrContext str() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public StrContext str()
+		{
 			return GetRuleContext<StrContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CardContext card() {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public CardContext card()
+		{
 			return GetRuleContext<CardContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE() { return GetToken(RecycleParser.CLOSE, 0); }
@@ -7947,48 +10218,55 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_cardatt; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterCardatt(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitCardatt(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public CardattContext cardatt() {
+	public CardattContext cardatt()
+	{
 		CardattContext _localctx = new CardattContext(Context, State);
 		EnterRule(_localctx, 204, RULE_cardatt);
-		try {
+		try
+		{
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1073;
-			Match(OPEN);
-			State = 1074;
-			Match(T__82);
-			State = 1075;
-			str();
-			State = 1076;
-			card();
-			State = 1077;
-			Match(CLOSE);
+				State = 1073;
+				Match(OPEN);
+				State = 1074;
+				Match(T__82);
+				State = 1075;
+				str();
+				State = 1076;
+				card();
+				State = 1077;
+				Match(CLOSE);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
 	}
 
-	public partial class NamegrContext : ParserRuleContext {
+	public partial class NamegrContext : ParserRuleContext
+	{
 		private string cache;
 		public override string GetText()
 		{
@@ -8000,7 +10278,9 @@ public partial class RecycleParser : Parser {
 		}
 
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] LETT() { return GetTokens(RecycleParser.LETT); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LETT(int i) {
+		[System.Diagnostics.DebuggerNonUserCode]
+		public ITerminalNode LETT(int i)
+		{
 			return GetToken(RecycleParser.LETT, i);
 		}
 		public NamegrContext(ParserRuleContext parent, int invokingState)
@@ -8009,53 +10289,61 @@ public partial class RecycleParser : Parser {
 		}
 		public override int RuleIndex { get { return RULE_namegr; } }
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
+		public override void EnterRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.EnterNamegr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
+		public override void ExitRule(IParseTreeListener listener)
+		{
 			IRecycleListener typedListener = listener as IRecycleListener;
 			if (typedListener != null) typedListener.ExitNamegr(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public NamegrContext namegr() {
+	public NamegrContext namegr()
+	{
 		NamegrContext _localctx = new NamegrContext(Context, State);
 		EnterRule(_localctx, 206, RULE_namegr);
-		try {
+		try
+		{
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 1080;
-			ErrorHandler.Sync(this);
-			_alt = 1;
-			do {
-				switch (_alt) {
-				case 1:
-					{
-					{
-					State = 1079;
-					Match(LETT);
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				State = 1082;
+				State = 1080;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,75,Context);
-			} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER );
+				_alt = 1;
+				do
+				{
+					switch (_alt)
+					{
+						case 1:
+							{
+								{
+									State = 1079;
+									Match(LETT);
+								}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+					}
+					State = 1082;
+					ErrorHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(TokenStream, 75, Context);
+				} while (_alt != 2 && _alt != global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER);
 			}
 		}
-		catch (RecognitionException re) {
+		catch (RecognitionException re)
+		{
 			_localctx.exception = re;
 			ErrorHandler.ReportError(this, re);
 			ErrorHandler.Recover(this, re);
 		}
-		finally {
+		finally
+		{
 			ExitRule();
 		}
 		return _localctx;
