@@ -26,6 +26,35 @@
         (shuffle (game iloc STOCK))
 
         ;; score to see if move captures
+        (set (game points SCORING) (
+            ((RANK : ACE) (SUIT : HEARTS) 20)
+            ((RANK : ACE) (SUIT : DIAMONDS) 20)
+            ((RANK : TWO) (SUIT : HEARTS) 2)
+            ((RANK : TWO) (SUIT : DIAMONDS) 2)
+            ((RANK : THREE) (SUIT : HEARTS) 3)
+            ((RANK : THREE) (SUIT : DIAMONDS) 3)
+            ((RANK : FOUR) (SUIT : HEARTS) 4)
+            ((RANK : FOUR) (SUIT : DIAMONDS) 4)
+            ((RANK : FIVE) (SUIT : HEARTS) 5)
+            ((RANK : FIVE) (SUIT : DIAMONDS) 5)
+            ((RANK : SIX) (SUIT : HEARTS) 6)
+            ((RANK : SIX) (SUIT : DIAMONDS) 6)
+            ((RANK : SEVEN) (SUIT : HEARTS) 7)
+            ((RANK : SEVEN) (SUIT : DIAMONDS) 7)
+            ((RANK : EIGHT) (SUIT : HEARTS) 8)
+            ((RANK : EIGHT) (SUIT : DIAMONDS) 8)
+            ((RANK : NINE) (SUIT : HEARTS) 10)
+            ((RANK : NINE) (SUIT : DIAMONDS) 10)
+            ((RANK : TEN) (SUIT : HEARTS) 10)
+            ((RANK : TEN) (SUIT : DIAMONDS) 10)
+            ((RANK : JACK) (SUIT : HEARTS) 10)
+            ((RANK : JACK) (SUIT : DIAMONDS) 10)
+            ((RANK : QUEEN) (SUIT : HEARTS) 10)
+            ((RANK : QUEEN) (SUIT : DIAMONDS) 10)
+            ((RANK : KING) (SUIT : DIAMONDS) 10)
+            ((RANK : KING) (SUIT : DIAMONDS) 10)
+        ))
+
         (set (game points VALUE) (
             ((RANK : KING) 400)
             ((RANK : QUEEN) 300)
@@ -71,13 +100,64 @@
         ))
 
         (do (
+            ;; i have a hack in mind
+            ;; the principal is to move the top of STOCK to the bottom of TABLE,
+            ;; then use a repeat 2 to go over both.
+            (move (top (game iloc STOCK)) (bottom (game vloc TABLE))) ;; 2 cards on table
             (set
                 (game sto MOVED)
-                FALSE
+                0
             )
+
             (set
-                (game str PLAYED)
-                (cardatt RANK (top (game vloc TABLE)))
+                (game sto PLAYEDVALUE)
+                (score (top (game vloc TABLE)) using (game points VALUE))
+            )
+
+            ;; if value is less than 10, check
+            (
+                (<= (game sto PLAYEDVALUE) 10)
+                (do (
+                    (top (filter (game vloc CENTER) 'J
+                        (== (+ (game sto PLAYEDVALUE) (score 'J using (game points VALUE))) 10))
+                        'J
+                        (do (
+                            (move 'J (top ((current player) iloc PILE)))
+                            (move (top (game vloc TABLE)) (top ((current player) iloc PILE))) ;; 1 card left on TABLE
+                            (set
+                                (game sto MOVED) 1
+                            )
+                        ))
+                    )
+                ))
+            )
+
+            ;; if value is more than 10
+            (
+                (>= (game sto PLAYEDVALUE) 10)
+                (do (
+                    (top (filter (game vloc CENTER) 'J
+                        (== (+ (game sto PLAYEDVALUE) (score 'J using (game points VALUE))) 10))
+                        'J
+                        (do (
+                            (move 'J (top ((current player) iloc PILE)))
+                            (move (top (game vloc TABLE)) (top ((current player) iloc PILE))) ;; 1 card left on table
+                            (set
+                                (game sto MOVED) 1
+                            )
+                        ))
+                    )
+                ))
+            )
+
+            (
+                (== (game sto MOVED) 0)
+                (move (top (game vloc TABLE)) (top (game vloc CENTER)))
+            )
+
+            (set
+                (game sto SECONDMOVE)
+                0
             )
 
             (set
@@ -96,7 +176,7 @@
                             (move 'J (top ((current player) iloc PILE)))
                             (move (top (game vloc TABLE)) (top ((current player) iloc PILE)))
                             (set
-                                (game sto MOVED) TRUE
+                                (game sto SECONDMOVE) 1
                             )
                         ))
                     )
@@ -114,7 +194,7 @@
                             (move 'J (top ((current player) iloc PILE)))
                             (move (top (game vloc TABLE)) (top ((current player) iloc PILE)))
                             (set
-                                (game sto MOVED) TRUE
+                                (game sto SECONDMOVE) 1
                             )
                         ))
                     )
@@ -122,13 +202,13 @@
             )
 
             (
-                (== (game sto MOVED) FALSE)
-                (move (top (game vloc TABLE)) (top (game vloc)))
+                (== (game sto SECONDMOVE) 0)
+                (move (top (game vloc TABLE)) (top (game vloc CENTER)))
             )
         ))
     )
 
     (scoring max
-        ((current player) sto SCORE)
+        (sum ((current player) iloc PILE) using (game points SCORING))
     )
 )
