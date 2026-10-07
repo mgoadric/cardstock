@@ -54,6 +54,7 @@ categorized by genre:
     * [Cuckoo](https://www.pagat.com/cuckoo/cuckoo.html) (6p)
     * [Schwimmen](https://www.pagat.com/commerce/schwimmen.html) (5p)
 * Fishing
+    * [Chinese Ten](https://www.pagat.com/fishing/chinten.html) (2p)
     * [Escoba](https://www.pagat.com/fishing/escoba.html) (2p)
     * [Hockey](https://www.pagat.com/fishing/hockey.html) (2p)
     * [Scopa](https://www.pagat.com/fishing/scopa.html) (2p)
