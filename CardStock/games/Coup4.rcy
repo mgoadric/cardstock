@@ -51,9 +51,12 @@
   (end (any player 'P 
     (== ('P sto WON) 1)))    
  
+    ;; TODO This should clear out the LIED field, either at the beginning or the end.
+
    (choice (
 
-    ;; Accuse 	
+    ;; Accuse 	TODO This only lets the current player challenge as an action
+    ;; it should be an action that happens after every choice. How to let each player decide??
     
     (any player 'P (do (
      ((== ('P sto LIED) 1) 
@@ -97,6 +100,7 @@
   	   (dec ((current player) sto HUNDREDMILLIONDOLLARS) 7))))))
 
     ;; Win (if you're the last one left)
+    ;; TODO, this should happen naturally, not a choice.
      
      ((== (sum         ((current player) iloc HAND)   using (game points BASIC)) 
           (sum (union (all player 'P ('P iloc HAND))) using (game points BASIC))) 

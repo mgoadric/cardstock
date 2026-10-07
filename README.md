@@ -55,6 +55,7 @@ categorized by genre:
     * [Schwimmen](https://www.pagat.com/commerce/schwimmen.html) (5p)
 * Fishing
     * [Escoba](https://www.pagat.com/fishing/escoba.html) (2p)
+    * [Hockey](https://www.pagat.com/fishing/hockey.html) (2p)
     * [Scopa](https://www.pagat.com/fishing/scopa.html) (2p)
     * [Stealing Bundles](https://www.pagat.com/fishing/bundle.html) (2-4p)
 * Poker
@@ -112,7 +113,7 @@ categorized by genre:
        * [The Bottle Imp](https://tesera.ru/images/items/11335/Bottle_Imp_Rules_EN.pdf) (3-4p)
 * Unique
     * [Coloretto](https://www.riograndegames.com/wp-content/uploads/2013/02/Coloretto-Rules.pdf) (4p)
-    * [Coup](http://boardgame.bg/coup%20rules%20pdf.pdf) (4p)
+    * [Coup](http://boardgame.bg/coup%20rules%20pdf.pdf) (4p) (needs revision)
 
 Please check the [wishlist](https://github.com/mgoadric/cardstock/issues/44) for games that we would love 
 to have implemented in Recycle. Pull requests are welcome and encouraged!
@@ -158,6 +159,7 @@ For example "dotnet run --configuration Release Scopa 2 100 MP true" would run 1
 * [ReadTheDocs.io](http://cardstock.readthedocs.io)
 * [Automated Playtesting with RECYCLEd CardStock](http://mark.goadrich.com/articles/issue-2-1-09-recycled.pdf), Connor Bell and Mark Goadrich, *Game & Puzzle Design Journal*, Vol 2, Issue 1, July 2016
 * [Quantifying the Space of Hearts Variants](http://mark.goadrich.com/articles/Hearts_ACS_2021.pdf), Mark Goadrich and Collin Shaddox, *Advances in Computer Games 2021*, November 2021
+* [Valet: A Standardized Testbed of Traditional Imperfect-Information Card Games](https://arxiv.org/pdf/2603.03252), Mark Goadrich, Achille Morenville, Éric Piette, *Computers and Games* 2026
 
 ## Citation
 
