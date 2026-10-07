@@ -11,7 +11,7 @@ namespace CardStock.Players
      * a List that can track the player's estimates of their current
      * game position
      */
-	public abstract class AIPlayer(Perspective perspective, DataCollector dc)
+    public abstract class AIPlayer(Perspective perspective, DataCollector dc)
     {
         // SHOULD WE ABSTRACT EVEN MORE, A PLAYER vs AN AI PLAYER, SO WE CAN HAVE RANDOM, OR HUMAN, NOT AI???
         protected int numPlayers = perspective.NumberOfPlayers();
@@ -61,11 +61,18 @@ namespace CardStock.Players
 
         public static (int min, int max) MinMaxIdx(double[] input)
         {
+            return MinMaxIdx(input, input.Length);
+        }
+
+        public static (int min, int max) MinMaxIdx(double[] input, int length)
+        {
             double min = double.MaxValue;
             double max = double.MinValue;
+
             int minIdx = -1;
             int maxIdx = -1;
-            for (int i = 0; i < input.Length; ++i)
+
+            for (int i = 0; i < length; ++i)
             {
                 if (input[i] > max)
                 {
@@ -85,6 +92,6 @@ namespace CardStock.Players
         {
             return (value - min) / (max - min);
         }
-	}
+    }
 }
 
