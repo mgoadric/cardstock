@@ -15,8 +15,13 @@
                     (ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
                      EIGHT, NINE, TEN, JACK, QUEEN, KING)
                 )
-                (SUIT
-                    (HEARTS, DIAMONDS, CLUBS, SPADES)
+                (COLOR
+                    (RED 
+                        (SUIT (HEARTS, DIAMONDS))
+                    )
+                    (BLACK
+                        (SUIT (CLUBS, SPADES))
+                    )
                 )
             )
         )
@@ -27,32 +32,19 @@
 
         ;; score to see if move captures
         (set (game points SCORING) (
-            ((RANK : ACE) (SUIT : HEARTS) 20)
-            ((RANK : ACE) (SUIT : DIAMONDS) 20)
-            ((RANK : TWO) (SUIT : HEARTS) 2)
-            ((RANK : TWO) (SUIT : DIAMONDS) 2)
-            ((RANK : THREE) (SUIT : HEARTS) 3)
-            ((RANK : THREE) (SUIT : DIAMONDS) 3)
-            ((RANK : FOUR) (SUIT : HEARTS) 4)
-            ((RANK : FOUR) (SUIT : DIAMONDS) 4)
-            ((RANK : FIVE) (SUIT : HEARTS) 5)
-            ((RANK : FIVE) (SUIT : DIAMONDS) 5)
-            ((RANK : SIX) (SUIT : HEARTS) 6)
-            ((RANK : SIX) (SUIT : DIAMONDS) 6)
-            ((RANK : SEVEN) (SUIT : HEARTS) 7)
-            ((RANK : SEVEN) (SUIT : DIAMONDS) 7)
-            ((RANK : EIGHT) (SUIT : HEARTS) 8)
-            ((RANK : EIGHT) (SUIT : DIAMONDS) 8)
-            ((RANK : NINE) (SUIT : HEARTS) 10)
-            ((RANK : NINE) (SUIT : DIAMONDS) 10)
-            ((RANK : TEN) (SUIT : HEARTS) 10)
-            ((RANK : TEN) (SUIT : DIAMONDS) 10)
-            ((RANK : JACK) (SUIT : HEARTS) 10)
-            ((RANK : JACK) (SUIT : DIAMONDS) 10)
-            ((RANK : QUEEN) (SUIT : HEARTS) 10)
-            ((RANK : QUEEN) (SUIT : DIAMONDS) 10)
-            ((RANK : KING) (SUIT : DIAMONDS) 10)
-            ((RANK : KING) (SUIT : DIAMONDS) 10)
+            ((RANK : ACE) (COLOR : RED) 20)
+            ((RANK : TWO) (COLOR : RED) 2)
+            ((RANK : THREE) (COLOR : RED) 3)
+            ((RANK : FOUR) (COLOR : RED) 4)
+            ((RANK : FIVE) (COLOR : RED) 5)
+            ((RANK : SIX) (COLOR : RED) 6)
+            ((RANK : SEVEN) (COLOR : RED) 7)
+            ((RANK : EIGHT) (COLOR : RED) 8)
+            ((RANK : NINE) (COLOR : RED) 10)
+            ((RANK : TEN) (COLOR : RED) 10)
+            ((RANK : JACK) (COLOR : RED) 10)
+            ((RANK : QUEEN) (COLOR : RED) 10)
+            ((RANK : KING) (COLOR : RED) 10)
         ))
 
         (set (game points VALUE) (
@@ -85,12 +77,8 @@
 
     (stage player
         (end
-            (and
-                (== (size (game iloc STOCK)) 0)
-                (all player 'P
-                    (== (size ('P iloc HAND)) 0)
-                )
-                (== (size (game vloc CENTER)) 0)
+            (all player 'P
+                (== (size ('P iloc HAND)) 0)
             )
         )
 
@@ -100,110 +88,78 @@
         ))
 
         (do (
-            ;; i have a hack in mind
-            ;; the principal is to move the top of STOCK to the bottom of TABLE,
-            ;; then use a repeat 2 to go over both.
-            (move (top (game iloc STOCK)) (bottom (game vloc TABLE))) ;; 2 cards on table
-            (set
-                (game sto MOVED)
-                0
-            )
-
-            (set
-                (game sto PLAYEDVALUE)
-                (score (top (game vloc TABLE)) using (game points VALUE))
-            )
-
-            ;; if value is less than 10, check
+            (set (game sto MOVED) 0)
+            (set (game sto PLAYEDVALUE) (score (top (game vloc TABLE)) using (game points VALUE)))
             (
-                (<= (game sto PLAYEDVALUE) 10)
+                (< (game sto PLAYEDVALUE) 10)
                 (do (
-                    (top (filter (game vloc CENTER) 'J
-                        (== (+ (game sto PLAYEDVALUE) (score 'J using (game points VALUE))) 10))
-                        'J
+                    (set (game sto MATCH) (- 10 (game sto PLAYEDVALUE)))
+                ))
+            )
+            (
+                (> (game sto PLAYEDVALUE) 10)
+                (set (game sto MATCH) (game sto PLAYEDVALUE))
+            )
+        ))
+
+        ;; this choice block is purely for >= 10
+        (choice (
+            (let (filter (game vloc CENTER) 'F (== (game sto MATCH) (score 'F using (game points VALUE))))
+                'FC
+                (do (
+                    (
+                        (> (size 'FC) 0)
                         (do (
-                            (move 'J (top ((current player) iloc PILE)))
-                            (move (top (game vloc TABLE)) (top ((current player) iloc PILE))) ;; 1 card left on TABLE
-                            (set
-                                (game sto MOVED) 1
-                            )
+                            (set (game sto MOVED) 1)
+                            (any 'FC 'C (move 'C (top ((current player) iloc PILE))))
+                            (move (top (game vloc TABLE)) (top ((current player) iloc PILE)))
                         ))
+                    )
+                    (
+                        (== (size 'FC) 0)
+                        (turn pass)
                     )
                 ))
             )
+        ))
 
-            ;; if value is more than 10
-            (
-                (>= (game sto PLAYEDVALUE) 10)
-                (do (
-                    (top (filter (game vloc CENTER) 'J
-                        (== (+ (game sto PLAYEDVALUE) (score 'J using (game points VALUE))) 10))
-                        'J
-                        (do (
-                            (move 'J (top ((current player) iloc PILE)))
-                            (move (top (game vloc TABLE)) (top ((current player) iloc PILE))) ;; 1 card left on table
-                            (set
-                                (game sto MOVED) 1
-                            )
-                        ))
-                    )
-                ))
-            )
-
+        (do (
             (
                 (== (game sto MOVED) 0)
                 (move (top (game vloc TABLE)) (top (game vloc CENTER)))
             )
 
-            (set
-                (game sto SECONDMOVE)
-                0
-            )
+            (move (top (game iloc STOCK)) (top (game vloc TABLE)))
+            (set (game sto MOVED) 0)
+            (set (game sto PLAYEDVALUE) (score (top (game vloc TABLE)) using (game points VALUE)))
+        ))
 
-            (set
-                (game sto PLAYEDVALUE)
-                (score (top (game vloc TABLE)) using (game points VALUE))
-            )
-
-            ;; if value is less than 10, check
-            (
-                (<= (game sto PLAYEDVALUE) 10)
+        (choice (
+            (let (filter (game vloc CENTER) 'F (== (game sto MATCH) (score 'F using (game points VALUE))))
+                'FC
                 (do (
-                    (any (filter (game vloc CENTER) 'J
-                        (== (+ (game sto PLAYEDVALUE) (score 'J using (game points VALUE))) 10))
-                        'J
+                    (
+                        (> (size 'FC) 0)
                         (do (
-                            (move 'J (top ((current player) iloc PILE)))
+                            (set (game sto MOVED) 1)
+                            (any 'FC 'C (move 'C (top ((current player) iloc PILE))))
                             (move (top (game vloc TABLE)) (top ((current player) iloc PILE)))
-                            (set
-                                (game sto SECONDMOVE) 1
-                            )
                         ))
+                    )
+                    (
+                        (== (size 'FC) 0)
+                        (turn pass)
                     )
                 ))
             )
+        ))
 
-            ;; if value is more than 10
+        (do (
             (
-                (>= (game sto PLAYEDVALUE) 10)
+                (== (game sto MOVED) 0)
                 (do (
-                    (any (filter (game vloc CENTER) 'J
-                        (== (+ (game sto PLAYEDVALUE) (score 'J using (game points VALUE))) 10))
-                        'J
-                        (do (
-                            (move 'J (top ((current player) iloc PILE)))
-                            (move (top (game vloc TABLE)) (top ((current player) iloc PILE)))
-                            (set
-                                (game sto SECONDMOVE) 1
-                            )
-                        ))
-                    )
+                    (move (top (game vloc TABLE)) (top (game vloc CENTER)))
                 ))
-            )
-
-            (
-                (== (game sto SECONDMOVE) 0)
-                (move (top (game vloc TABLE)) (top (game vloc CENTER)))
             )
         ))
     )
