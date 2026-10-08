@@ -5,7 +5,7 @@ namespace CardStock.FreezeFrame.Tree.Operation;
 
 public class AdditionNode : OperationNode
 {
-    public override Value Operate(GameStack stack, GameContext context)
+    public override void Operate(GameStack stack, GameContext context)
     {
         Value first = stack.Pop();
         Value second = stack.Peek();
