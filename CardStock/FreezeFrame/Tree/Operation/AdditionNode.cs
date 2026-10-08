@@ -13,6 +13,6 @@ public class AdditionNode : OperationNode
         context.Assert(first.ValueType == Values.ValueType.Int, "Addition requires value to be integer.");
         context.Assert(first.ValueType == second.ValueType, "Addition requires both values must be the same type integer.");
 
-        second.Data = first.Int() + second.Int();
+        second.Data = second.Int() + first.Int();
     }
 }
