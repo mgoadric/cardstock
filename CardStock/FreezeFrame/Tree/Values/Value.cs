@@ -1,6 +1,6 @@
 namespace CardStock.FreezeFrame.Tree.Values;
 
-public enum ValueType
+public enum ValueTypes
 {
     Int,
     Boolean,
@@ -11,17 +11,23 @@ public enum ValueType
 
 public struct Value
 {
-    public readonly ValueType ValueType;
-    public object Data;
+    public readonly ValueTypes ValueType;
+    public readonly int IntData;
+    public readonly object? ReferenceData;
 
-    public Value(ValueType valueType, object data)
+    public Value(int value)
     {
-        this.ValueType = valueType;
-        this.Data = data;
+        ValueType = ValueTypes.Int;
+        IntData = value;
+        ReferenceData = null;
     }
 
-    public int Int()
+    public Value(ValueTypes valueType, object? data)
     {
-        return (int)Data;
+        ValueType = valueType;
+        IntData = 0;
+        ReferenceData = data;
     }
+
+    public int Int() => IntData;
 }

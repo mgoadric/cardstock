@@ -14,10 +14,12 @@ public abstract class OperationNode : IGameNode
         context.Assert(stack.Size() >= 2, "Ensure stack has childs to operate on.");
         GameStack local = context.Local();
 
-        // operate, then push the result to the top of the stack.
-        Operate(stack, context);
-        local.Push(stack.Pop());
+        Operate(stack, local, context);
     }
 
-    public abstract void Operate(GameStack stack, GameContext context);
+    public abstract void Operate(
+        GameStack stack,
+        GameStack local,
+        GameContext context
+    );
 }

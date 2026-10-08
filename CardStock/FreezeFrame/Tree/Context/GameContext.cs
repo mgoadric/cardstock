@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using CardStock.FreezeFrame.Tree.Storage;
+using CardStock.FreezeFrame.Tree.Values;
 
 namespace CardStock.FreezeFrame;
 
@@ -10,8 +12,8 @@ public class GameContext
 
     public GameContext()
     {
-        _stack = new GameStack(64);
-        _local = new GameStack(16);
+        _stack = new(64);
+        _local = new(16);
     }
 
     public void Advance(int n)
@@ -26,9 +28,12 @@ public class GameContext
 
     public void Cancel(string description = "No description provided.")
     {
-
+        Console.WriteLine(description);
     }
 
+    // function no exist if not debug.
+    // speed!
+    [Conditional("DEBUG")]
     public void Assert(bool statement, string description)
     {
         if (!statement)

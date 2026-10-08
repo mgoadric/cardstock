@@ -18,8 +18,6 @@ public class GameStack
         this._stack = new Value[size];
     }
 
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Push(Value value)
     {
         if (_sp == _stack.Length)
@@ -28,16 +26,14 @@ public class GameStack
         _stack[_sp++] = value;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Value Pop()
     {
-        return _stack[_sp--];
+        return _stack[--_sp];
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public ref Value Peek()
+    public Value Peek()
     {
-        return ref _stack[_sp - 1];
+        return _stack[_sp - 1];
     }
 
     public int Size()

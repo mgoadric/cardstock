@@ -1,5 +1,12 @@
+using System.Diagnostics;
 using CardStock.CardEngine;
 using CardStock.Evaluation;
+using CardStock.FreezeFrame;
+using CardStock.FreezeFrame.Tree;
+using CardStock.FreezeFrame.Tree.Operation;
+using CardStock.FreezeFrame.Tree.State;
+using CardStock.FreezeFrame.Tree.Storage;
+using CardStock.FreezeFrame.Tree.Values;
 using CardStock.Players;
 
 static void RunExperiment(Experiment exp)
@@ -41,5 +48,47 @@ Experiment exp = new()
     imperfectLevel = args.Length > 7 ? Enum.Parse<ImperfectLevel>(args[7]) : ImperfectLevel.PRIVATE,
 };
 
-RunExperiment(exp);
+static void RunBenchmark()
+{
+    IGameNode[] node = {
+        new PushNode(new(10)),
+        new PushNode(new(20)),
+        new AdditionNode()
+    };
+
+    GameContext context = new();
+    int passes = 100_000_000;
+    Stopwatch watch = new();
+
+    watch.Start();
+    long store = 0;
+
+    for (int i = 0; i < passes; i++)
+    {
+        for (int j = 0; j < node.Length; j++)
+        {
+            node[j].Process(context);
+        }
+
+        store += context.Local().Pop().Int();
+    }
+
+    /*Stack<int> stack = new(4);
+
+    for (int i = 0; i < passes; i++)
+    {
+        stack.Push(10);
+        stack.Push(20);
+
+        store += stack.Pop() + stack.Pop();
+    }*/
+
+    watch.Stop();
+
+    Console.WriteLine("took " + (watch.Elapsed.TotalMilliseconds) + " ms");
+    Console.WriteLine("store: " + store);
+}
+
+RunBenchmark();
+//RunExperiment(exp);
 

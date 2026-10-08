@@ -1,3 +1,4 @@
 {
-    "dotnet.defaultSolution": "MAUI.sln"
+    "dotnet.defaultSolution": "MAUI.sln",
+    "dotnet.preferCSharpExtension": true
 }
