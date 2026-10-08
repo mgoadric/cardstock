@@ -6,7 +6,6 @@ namespace CardStock.FreezeFrame.Tree.Storage;
 public class GameStack
 {
     private Value[] _stack;
-    private Value[] _locals;
     private int _sp = 0;
 
     public GameStack() : this(64)
@@ -17,7 +16,6 @@ public class GameStack
     public GameStack(int size)
     {
         this._stack = new Value[size];
-        this._locals = new Value[size / 4];
     }
 
 
@@ -37,9 +35,14 @@ public class GameStack
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ref Value Peek()
+    public ref Value Peek()
     {
         return ref _stack[_sp - 1];
+    }
+
+    public int Size()
+    {
+        return _sp;
     }
 
     public void Clear()

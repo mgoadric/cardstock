@@ -168,14 +168,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_var; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVar(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVar(this);
-		}
 	}
 
 	public final VarContext var() throws RecognitionException {
@@ -210,14 +202,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_vars; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVars(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVars(this);
-		}
 	}
 
 	public final VarsContext vars() throws RecognitionException {
@@ -252,14 +236,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varo; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVaro(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVaro(this);
-		}
 	}
 
 	public final VaroContext varo() throws RecognitionException {
@@ -294,14 +270,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varp; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVarp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVarp(this);
-		}
 	}
 
 	public final VarpContext varp() throws RecognitionException {
@@ -336,14 +304,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_vari; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVari(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVari(this);
-		}
 	}
 
 	public final VariContext vari() throws RecognitionException {
@@ -378,14 +338,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varb; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVarb(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVarb(this);
-		}
 	}
 
 	public final VarbContext varb() throws RecognitionException {
@@ -420,14 +372,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varc; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVarc(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVarc(this);
-		}
 	}
 
 	public final VarcContext varc() throws RecognitionException {
@@ -462,14 +406,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varcs; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVarcs(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVarcs(this);
-		}
 	}
 
 	public final VarcsContext varcs() throws RecognitionException {
@@ -504,14 +440,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varcsc; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVarcsc(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVarcsc(this);
-		}
 	}
 
 	public final VarcscContext varcsc() throws RecognitionException {
@@ -546,14 +474,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varcard; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVarcard(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVarcard(this);
-		}
 	}
 
 	public final VarcardContext varcard() throws RecognitionException {
@@ -588,14 +508,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_vart; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterVart(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitVart(this);
-		}
 	}
 
 	public final VartContext vart() throws RecognitionException {
@@ -653,14 +565,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_game; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterGame(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitGame(this);
-		}
 	}
 
 	public final GameContext game() throws RecognitionException {
@@ -755,14 +659,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_declare; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterDeclare(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitDeclare(this);
-		}
 	}
 
 	public final DeclareContext declare() throws RecognitionException {
@@ -826,14 +722,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_setup; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSetup(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSetup(this);
-		}
 	}
 
 	public final SetupContext setup() throws RecognitionException {
@@ -925,14 +813,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_scoring; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterScoring(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitScoring(this);
-		}
 	}
 
 	public final ScoringContext scoring() throws RecognitionException {
@@ -999,14 +879,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_stage; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterStage(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitStage(this);
-		}
 	}
 
 	public final StageContext stage() throws RecognitionException {
@@ -1123,14 +995,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_endcondition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterEndcondition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitEndcondition(this);
-		}
 	}
 
 	public final EndconditionContext endcondition() throws RecognitionException {
@@ -1186,14 +1050,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multiaction; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMultiaction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMultiaction(this);
-		}
 	}
 
 	public final MultiactionContext multiaction() throws RecognitionException {
@@ -1327,14 +1183,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multiaction2; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMultiaction2(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMultiaction2(this);
-		}
 	}
 
 	public final Multiaction2Context multiaction2() throws RecognitionException {
@@ -1424,14 +1272,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_condact; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCondact(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCondact(this);
-		}
 	}
 
 	public final CondactContext condact() throws RecognitionException {
@@ -1511,14 +1351,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_agg; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAgg(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAgg(this);
-		}
 	}
 
 	public final AggContext agg() throws RecognitionException {
@@ -1584,14 +1416,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_let; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterLet(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitLet(this);
-		}
 	}
 
 	public final LetContext let() throws RecognitionException {
@@ -1704,14 +1528,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_action; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAction(this);
-		}
 	}
 
 	public final ActionContext action() throws RecognitionException {
@@ -1861,14 +1677,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_playercreate; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterPlayercreate(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitPlayercreate(this);
-		}
 	}
 
 	public final PlayercreateContext playercreate() throws RecognitionException {
@@ -1914,14 +1722,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_teamcreate; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterTeamcreate(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitTeamcreate(this);
-		}
 	}
 
 	public final TeamcreateContext teamcreate() throws RecognitionException {
@@ -1990,14 +1790,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_teams; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterTeams(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitTeams(this);
-		}
 	}
 
 	public final TeamsContext teams() throws RecognitionException {
@@ -2075,14 +1867,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_deckcreate; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterDeckcreate(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitDeckcreate(this);
-		}
 	}
 
 	public final DeckcreateContext deckcreate() throws RecognitionException {
@@ -2136,14 +1920,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_deck; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterDeck(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitDeck(this);
-		}
 	}
 
 	public final DeckContext deck() throws RecognitionException {
@@ -2212,14 +1988,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_attribute; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAttribute(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAttribute(this);
-		}
 	}
 
 	public final AttributeContext attribute() throws RecognitionException {
@@ -2299,14 +2067,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_initpoints; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterInitpoints(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitInitpoints(this);
-		}
 	}
 
 	public final InitpointsContext initpoints() throws RecognitionException {
@@ -2374,14 +2134,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_updatepoints; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterUpdatepoints(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitUpdatepoints(this);
-		}
 	}
 
 	public final UpdatepointsContext updatepoints() throws RecognitionException {
@@ -2449,14 +2201,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_awards; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAwards(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAwards(this);
-		}
 	}
 
 	public final AwardsContext awards() throws RecognitionException {
@@ -2519,14 +2263,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_subaward; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSubaward(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSubaward(this);
-		}
 	}
 
 	public final SubawardContext subaward() throws RecognitionException {
@@ -2570,14 +2306,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_cycleaction; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCycleaction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCycleaction(this);
-		}
 	}
 
 	public final CycleactionContext cycleaction() throws RecognitionException {
@@ -2642,14 +2370,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_setaction; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSetaction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSetaction(this);
-		}
 	}
 
 	public final SetactionContext setaction() throws RecognitionException {
@@ -2689,14 +2409,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_setstraction; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSetstraction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSetstraction(this);
-		}
 	}
 
 	public final SetstractionContext setstraction() throws RecognitionException {
@@ -2736,14 +2448,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_incaction; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterIncaction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitIncaction(this);
-		}
 	}
 
 	public final IncactionContext incaction() throws RecognitionException {
@@ -2792,14 +2496,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_decaction; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterDecaction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitDecaction(this);
-		}
 	}
 
 	public final DecactionContext decaction() throws RecognitionException {
@@ -2848,14 +2544,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_moveaction; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMoveaction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMoveaction(this);
-		}
 	}
 
 	public final MoveactionContext moveaction() throws RecognitionException {
@@ -2901,14 +2589,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_swapaction; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSwapaction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSwapaction(this);
-		}
 	}
 
 	public final SwapactionContext swapaction() throws RecognitionException {
@@ -2968,14 +2648,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_copyaction; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCopyaction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCopyaction(this);
-		}
 	}
 
 	public final CopyactionContext copyaction() throws RecognitionException {
@@ -3012,14 +2684,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_removeaction; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterRemoveaction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitRemoveaction(this);
-		}
 	}
 
 	public final RemoveactionContext removeaction() throws RecognitionException {
@@ -3057,14 +2721,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_shuffleaction; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterShuffleaction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitShuffleaction(this);
-		}
 	}
 
 	public final ShuffleactionContext shuffleaction() throws RecognitionException {
@@ -3117,14 +2773,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_turnaction; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterTurnaction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitTurnaction(this);
-		}
 	}
 
 	public final TurnactionContext turnaction() throws RecognitionException {
@@ -3170,14 +2818,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_repeat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterRepeat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitRepeat(this);
-		}
 	}
 
 	public final RepeatContext repeat() throws RecognitionException {
@@ -3259,14 +2899,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_pointstorage; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterPointstorage(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitPointstorage(this);
-		}
 	}
 
 	public final PointstorageContext pointstorage() throws RecognitionException {
@@ -3343,14 +2975,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_card; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCard(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCard(this);
-		}
 	}
 
 	public final CardContext card() throws RecognitionException {
@@ -3441,14 +3065,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_maxof; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMaxof(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMaxof(this);
-		}
 	}
 
 	public final MaxofContext maxof() throws RecognitionException {
@@ -3496,14 +3112,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_minof; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMinof(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMinof(this);
-		}
 	}
 
 	public final MinofContext minof() throws RecognitionException {
@@ -3552,14 +3160,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_locpre; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterLocpre(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitLocpre(this);
-		}
 	}
 
 	public final LocpreContext locpre() throws RecognitionException {
@@ -3616,14 +3216,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_locdesc; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterLocdesc(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitLocdesc(this);
-		}
 	}
 
 	public final LocdescContext locdesc() throws RecognitionException {
@@ -3668,14 +3260,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_who; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterWho(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitWho(this);
-		}
 	}
 
 	public final WhoContext who() throws RecognitionException {
@@ -3726,14 +3310,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_whop; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterWhop(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitWhop(this);
-		}
 	}
 
 	public final WhopContext whop() throws RecognitionException {
@@ -3790,14 +3366,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_whot; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterWhot(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitWhot(this);
-		}
 	}
 
 	public final WhotContext whot() throws RecognitionException {
@@ -3849,14 +3417,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_whodesc; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterWhodesc(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitWhodesc(this);
-		}
 	}
 
 	public final WhodescContext whodesc() throws RecognitionException {
@@ -3922,14 +3482,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_owner; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterOwner(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitOwner(this);
-		}
 	}
 
 	public final OwnerContext owner() throws RecognitionException {
@@ -3973,14 +3525,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_teamp; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterTeamp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitTeamp(this);
-		}
 	}
 
 	public final TeampContext teamp() throws RecognitionException {
@@ -4044,14 +3588,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_typed; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterTyped(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitTyped(this);
-		}
 	}
 
 	public final TypedContext typed() throws RecognitionException {
@@ -4132,14 +3668,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_collection; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCollection(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCollection(this);
-		}
 	}
 
 	public final CollectionContext collection() throws RecognitionException {
@@ -4246,14 +3774,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_strcollection; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterStrcollection(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitStrcollection(this);
-		}
 	}
 
 	public final StrcollectionContext strcollection() throws RecognitionException {
@@ -4314,14 +3834,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_range; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterRange(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitRange(this);
-		}
 	}
 
 	public final RangeContext range() throws RecognitionException {
@@ -4363,14 +3875,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_other; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterOther(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitOther(this);
-		}
 	}
 
 	public final OtherContext other() throws RecognitionException {
@@ -4442,14 +3946,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_cstorage; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCstorage(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCstorage(this);
-		}
 	}
 
 	public final CstorageContext cstorage() throws RecognitionException {
@@ -4558,14 +4054,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_basecstorage; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterBasecstorage(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitBasecstorage(this);
-		}
 	}
 
 	public final BasecstorageContext basecstorage() throws RecognitionException {
@@ -4635,14 +4123,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_unionof; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterUnionof(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitUnionof(this);
-		}
 	}
 
 	public final UnionofContext unionof() throws RecognitionException {
@@ -4722,14 +4202,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_intersectof; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterIntersectof(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitIntersectof(this);
-		}
 	}
 
 	public final IntersectofContext intersectof() throws RecognitionException {
@@ -4809,14 +4281,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_disjunctionof; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterDisjunctionof(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitDisjunctionof(this);
-		}
 	}
 
 	public final DisjunctionofContext disjunctionof() throws RecognitionException {
@@ -4896,14 +4360,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_filter; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterFilter(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitFilter(this);
-		}
 	}
 
 	public final FilterContext filter() throws RecognitionException {
@@ -4951,14 +4407,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_memstorage; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMemstorage(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMemstorage(this);
-		}
 	}
 
 	public final MemstorageContext memstorage() throws RecognitionException {
@@ -5026,14 +4474,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_sequence; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSequence(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSequence(this);
-		}
 	}
 
 	public final SequenceContext sequence() throws RecognitionException {
@@ -5091,14 +4531,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_runsequence; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterRunsequence(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitRunsequence(this);
-		}
 	}
 
 	public final RunsequenceContext runsequence() throws RecognitionException {
@@ -5169,14 +4601,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_cstoragecollection; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCstoragecollection(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCstoragecollection(this);
-		}
 	}
 
 	public final CstoragecollectionContext cstoragecollection() throws RecognitionException {
@@ -5258,14 +4682,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_run; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterRun(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitRun(this);
-		}
 	}
 
 	public final RunContext run() throws RecognitionException {
@@ -5329,14 +4745,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_subset; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSubset(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSubset(this);
-		}
 	}
 
 	public final SubsetContext subset() throws RecognitionException {
@@ -5399,14 +4807,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_partition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterPartition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitPartition(this);
-		}
 	}
 
 	public final PartitionContext partition() throws RecognitionException {
@@ -5488,14 +4888,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_aggcs; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAggcs(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAggcs(this);
-		}
 	}
 
 	public final AggcsContext aggcs() throws RecognitionException {
@@ -5546,14 +4938,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_indexed; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterIndexed(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitIndexed(this);
-		}
 	}
 
 	public final IndexedContext indexed() throws RecognitionException {
@@ -5640,14 +5024,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_boolean; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterBoolean(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitBoolean(this);
-		}
 	}
 
 	public final BooleanContext boolean_() throws RecognitionException {
@@ -5785,14 +5161,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_intop; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterIntop(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitIntop(this);
-		}
 	}
 
 	public final IntopContext intop() throws RecognitionException {
@@ -5842,14 +5210,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_aggb; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAggb(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAggb(this);
-		}
 	}
 
 	public final AggbContext aggb() throws RecognitionException {
@@ -5958,14 +5318,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_int; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterInt(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitInt(this);
-		}
 	}
 
 	public final IntContext int_() throws RecognitionException {
@@ -6138,14 +5490,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_intgr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterIntgr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitIntgr(this);
-		}
 	}
 
 	public final IntgrContext intgr() throws RecognitionException {
@@ -6202,14 +5546,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_sum; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSum(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSum(this);
-		}
 	}
 
 	public final SumContext sum() throws RecognitionException {
@@ -6257,14 +5593,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_scoremax; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterScoremax(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitScoremax(this);
-		}
 	}
 
 	public final ScoremaxContext scoremax() throws RecognitionException {
@@ -6312,14 +5640,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_scoremin; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterScoremin(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitScoremin(this);
-		}
 	}
 
 	public final ScoreminContext scoremin() throws RecognitionException {
@@ -6367,14 +5687,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_score; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterScore(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitScore(this);
-		}
 	}
 
 	public final ScoreContext score() throws RecognitionException {
@@ -6422,14 +5734,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_add; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAdd(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAdd(this);
-		}
 	}
 
 	public final AddContext add() throws RecognitionException {
@@ -6494,14 +5798,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_mult; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMult(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMult(this);
-		}
 	}
 
 	public final MultContext mult() throws RecognitionException {
@@ -6566,14 +5862,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_subtract; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSubtract(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSubtract(this);
-		}
 	}
 
 	public final SubtractContext subtract() throws RecognitionException {
@@ -6619,14 +5907,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_mod; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterMod(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitMod(this);
-		}
 	}
 
 	public final ModContext mod() throws RecognitionException {
@@ -6672,14 +5952,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_divide; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterDivide(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitDivide(this);
-		}
 	}
 
 	public final DivideContext divide() throws RecognitionException {
@@ -6725,14 +5997,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_exponent; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterExponent(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitExponent(this);
-		}
 	}
 
 	public final ExponentContext exponent() throws RecognitionException {
@@ -6775,14 +6039,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_triangular; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterTriangular(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitTriangular(this);
-		}
 	}
 
 	public final TriangularContext triangular() throws RecognitionException {
@@ -6823,14 +6079,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_fibonacci; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterFibonacci(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitFibonacci(this);
-		}
 	}
 
 	public final FibonacciContext fibonacci() throws RecognitionException {
@@ -6874,14 +6122,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_random; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterRandom(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitRandom(this);
-		}
 	}
 
 	public final RandomContext random() throws RecognitionException {
@@ -6935,14 +6175,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_sizeof; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterSizeof(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitSizeof(this);
-		}
 	}
 
 	public final SizeofContext sizeof() throws RecognitionException {
@@ -6989,14 +6221,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_aggi; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterAggi(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitAggi(this);
-		}
 	}
 
 	public final AggiContext aggi() throws RecognitionException {
@@ -7047,14 +6271,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_rawstorage; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterRawstorage(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitRawstorage(this);
-		}
 	}
 
 	public final RawstorageContext rawstorage() throws RecognitionException {
@@ -7122,14 +6338,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_pid; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterPid(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitPid(this);
-		}
 	}
 
 	public final PidContext pid() throws RecognitionException {
@@ -7189,14 +6397,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_tid; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterTid(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitTid(this);
-		}
 	}
 
 	public final TidContext tid() throws RecognitionException {
@@ -7260,14 +6460,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_str; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterStr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitStr(this);
-		}
 	}
 
 	public final StrContext str() throws RecognitionException {
@@ -7335,14 +6527,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_strstorage; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterStrstorage(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitStrstorage(this);
-		}
 	}
 
 	public final StrstorageContext strstorage() throws RecognitionException {
@@ -7410,14 +6594,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_cardatt; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterCardatt(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitCardatt(this);
-		}
 	}
 
 	public final CardattContext cardatt() throws RecognitionException {
@@ -7459,14 +6635,6 @@ public class RecycleParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_namegr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).enterNamegr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RecycleListener ) ((RecycleListener)listener).exitNamegr(this);
-		}
 	}
 
 	public final NamegrContext namegr() throws RecognitionException {
