@@ -1,4 +1,4 @@
-// Generated from /Users/markgoadrich/Github/cardstock/CardStock/Recycle.g4 by ANTLR 4.13.1
+// Generated from /Users/lukespeer/Documents/projects/cardstock/CardStock/Recycle.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -106,6 +106,16 @@ public interface RecycleListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVarcard(RecycleParser.VarcardContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link RecycleParser#vart}.
+	 * @param ctx the parse tree
+	 */
+	void enterVart(RecycleParser.VartContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link RecycleParser#vart}.
+	 * @param ctx the parse tree
+	 */
+	void exitVart(RecycleParser.VartContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link RecycleParser#game}.
 	 * @param ctx the parse tree
@@ -297,6 +307,16 @@ public interface RecycleListener extends ParseTreeListener {
 	 */
 	void exitInitpoints(RecycleParser.InitpointsContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link RecycleParser#updatepoints}.
+	 * @param ctx the parse tree
+	 */
+	void enterUpdatepoints(RecycleParser.UpdatepointsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link RecycleParser#updatepoints}.
+	 * @param ctx the parse tree
+	 */
+	void exitUpdatepoints(RecycleParser.UpdatepointsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link RecycleParser#awards}.
 	 * @param ctx the parse tree
 	 */
@@ -377,6 +397,16 @@ public interface RecycleListener extends ParseTreeListener {
 	 */
 	void exitMoveaction(RecycleParser.MoveactionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link RecycleParser#swapaction}.
+	 * @param ctx the parse tree
+	 */
+	void enterSwapaction(RecycleParser.SwapactionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link RecycleParser#swapaction}.
+	 * @param ctx the parse tree
+	 */
+	void exitSwapaction(RecycleParser.SwapactionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link RecycleParser#copyaction}.
 	 * @param ctx the parse tree
 	 */
@@ -446,16 +476,6 @@ public interface RecycleListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCard(RecycleParser.CardContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link RecycleParser#actual}.
-	 * @param ctx the parse tree
-	 */
-	void enterActual(RecycleParser.ActualContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link RecycleParser#actual}.
-	 * @param ctx the parse tree
-	 */
-	void exitActual(RecycleParser.ActualContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link RecycleParser#maxof}.
 	 * @param ctx the parse tree
@@ -617,15 +637,15 @@ public interface RecycleListener extends ParseTreeListener {
 	 */
 	void exitCstorage(RecycleParser.CstorageContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RecycleParser#sortof}.
+	 * Enter a parse tree produced by {@link RecycleParser#basecstorage}.
 	 * @param ctx the parse tree
 	 */
-	void enterSortof(RecycleParser.SortofContext ctx);
+	void enterBasecstorage(RecycleParser.BasecstorageContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link RecycleParser#sortof}.
+	 * Exit a parse tree produced by {@link RecycleParser#basecstorage}.
 	 * @param ctx the parse tree
 	 */
-	void exitSortof(RecycleParser.SortofContext ctx);
+	void exitBasecstorage(RecycleParser.BasecstorageContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link RecycleParser#unionof}.
 	 * @param ctx the parse tree
@@ -727,16 +747,6 @@ public interface RecycleListener extends ParseTreeListener {
 	 */
 	void exitSubset(RecycleParser.SubsetContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RecycleParser#tuple}.
-	 * @param ctx the parse tree
-	 */
-	void enterTuple(RecycleParser.TupleContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link RecycleParser#tuple}.
-	 * @param ctx the parse tree
-	 */
-	void exitTuple(RecycleParser.TupleContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link RecycleParser#partition}.
 	 * @param ctx the parse tree
 	 */
@@ -807,6 +817,16 @@ public interface RecycleListener extends ParseTreeListener {
 	 */
 	void exitInt(RecycleParser.IntContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link RecycleParser#intgr}.
+	 * @param ctx the parse tree
+	 */
+	void enterIntgr(RecycleParser.IntgrContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link RecycleParser#intgr}.
+	 * @param ctx the parse tree
+	 */
+	void exitIntgr(RecycleParser.IntgrContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link RecycleParser#sum}.
 	 * @param ctx the parse tree
 	 */
@@ -816,6 +836,26 @@ public interface RecycleListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSum(RecycleParser.SumContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link RecycleParser#scoremax}.
+	 * @param ctx the parse tree
+	 */
+	void enterScoremax(RecycleParser.ScoremaxContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link RecycleParser#scoremax}.
+	 * @param ctx the parse tree
+	 */
+	void exitScoremax(RecycleParser.ScoremaxContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link RecycleParser#scoremin}.
+	 * @param ctx the parse tree
+	 */
+	void enterScoremin(RecycleParser.ScoreminContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link RecycleParser#scoremin}.
+	 * @param ctx the parse tree
+	 */
+	void exitScoremin(RecycleParser.ScoreminContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link RecycleParser#score}.
 	 * @param ctx the parse tree
@@ -946,6 +986,26 @@ public interface RecycleListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitRawstorage(RecycleParser.RawstorageContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link RecycleParser#pid}.
+	 * @param ctx the parse tree
+	 */
+	void enterPid(RecycleParser.PidContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link RecycleParser#pid}.
+	 * @param ctx the parse tree
+	 */
+	void exitPid(RecycleParser.PidContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link RecycleParser#tid}.
+	 * @param ctx the parse tree
+	 */
+	void enterTid(RecycleParser.TidContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link RecycleParser#tid}.
+	 * @param ctx the parse tree
+	 */
+	void exitTid(RecycleParser.TidContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link RecycleParser#str}.
 	 * @param ctx the parse tree

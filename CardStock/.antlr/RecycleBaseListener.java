@@ -1,4 +1,4 @@
-// Generated from /Users/markgoadrich/Github/cardstock/CardStock/Recycle.g4 by ANTLR 4.13.1
+// Generated from /Users/lukespeer/Documents/projects/cardstock/CardStock/Recycle.g4 by ANTLR 4.13.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -131,6 +131,18 @@ public class RecycleBaseListener implements RecycleListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVarcard(RecycleParser.VarcardContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVart(RecycleParser.VartContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVart(RecycleParser.VartContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -364,6 +376,18 @@ public class RecycleBaseListener implements RecycleListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterUpdatepoints(RecycleParser.UpdatepointsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUpdatepoints(RecycleParser.UpdatepointsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterAwards(RecycleParser.AwardsContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -460,6 +484,18 @@ public class RecycleBaseListener implements RecycleListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSwapaction(RecycleParser.SwapactionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSwapaction(RecycleParser.SwapactionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCopyaction(RecycleParser.CopyactionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -539,18 +575,6 @@ public class RecycleBaseListener implements RecycleListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCard(RecycleParser.CardContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterActual(RecycleParser.ActualContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitActual(RecycleParser.ActualContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -748,13 +772,13 @@ public class RecycleBaseListener implements RecycleListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSortof(RecycleParser.SortofContext ctx) { }
+	@Override public void enterBasecstorage(RecycleParser.BasecstorageContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSortof(RecycleParser.SortofContext ctx) { }
+	@Override public void exitBasecstorage(RecycleParser.BasecstorageContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -880,18 +904,6 @@ public class RecycleBaseListener implements RecycleListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTuple(RecycleParser.TupleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTuple(RecycleParser.TupleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterPartition(RecycleParser.PartitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -976,6 +988,18 @@ public class RecycleBaseListener implements RecycleListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterIntgr(RecycleParser.IntgrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIntgr(RecycleParser.IntgrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSum(RecycleParser.SumContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -983,6 +1007,30 @@ public class RecycleBaseListener implements RecycleListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSum(RecycleParser.SumContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterScoremax(RecycleParser.ScoremaxContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitScoremax(RecycleParser.ScoremaxContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterScoremin(RecycleParser.ScoreminContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitScoremin(RecycleParser.ScoreminContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1139,6 +1187,30 @@ public class RecycleBaseListener implements RecycleListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitRawstorage(RecycleParser.RawstorageContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPid(RecycleParser.PidContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPid(RecycleParser.PidContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTid(RecycleParser.TidContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTid(RecycleParser.TidContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
