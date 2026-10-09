@@ -3,6 +3,7 @@ using CardStock.CardEngine;
 using CardStock.Evaluation;
 using CardStock.FreezeFrame;
 using CardStock.FreezeFrame.Tree;
+using CardStock.FreezeFrame.Tree.Deck;
 using CardStock.FreezeFrame.Tree.Operation;
 using CardStock.FreezeFrame.Tree.State;
 using CardStock.FreezeFrame.Tree.Storage;
@@ -48,7 +49,7 @@ Experiment exp = new()
     imperfectLevel = args.Length > 7 ? Enum.Parse<ImperfectLevel>(args[7]) : ImperfectLevel.PRIVATE,
 };
 
-static void RunBenchmark()
+static void RunBenchmark(Experiment experiment)
 {
     /*IGameNode[] node = {
         new PushValueNode(new(40)),
@@ -77,7 +78,7 @@ static void RunBenchmark()
         new MoveValueNode("TEST_STORE")
     };
 
-    GameContext context = new();
+    GameContext context = new(experiment);
     int passes = 10_000_000;
     Stopwatch watch = new();
 
@@ -110,6 +111,64 @@ static void RunBenchmark()
     Console.WriteLine("store: " + store);
 }
 
-RunBenchmark();
+static void RunDeckTest(Experiment experiment)
+{
+    IGameNode[] nodes =
+    {
+        new BeginDeckNode("STOCK", CCType.INVISIBLE),
+        new BeginDeckDimension("RANK"),
+        new CardAttributeDefinition("ACE"),
+        new CardAttributeDefinition("TWO"),
+        new CardAttributeDefinition("THREE"),
+        new CardAttributeDefinition("FOUR"),
+        new CardAttributeDefinition("FIVE"),
+        new CardAttributeDefinition("SIX"),
+        new CardAttributeDefinition("SEVEN"),
+        new CardAttributeDefinition("EIGHT"),
+        new CardAttributeDefinition("NINE"),
+        new CardAttributeDefinition("TEN"),
+        new CardAttributeDefinition("JACK"),
+        new CardAttributeDefinition("QUEEN"),
+        new CardAttributeDefinition("KING"),
+        new EndDeckDimension(),
+        new BeginDeckDimension("COLOR"),
+        new BeginDeckBranch("RED"),
+        new BeginDeckDimension("SUIT"),
+        new CardAttributeDefinition("HEARTS"),
+        new CardAttributeDefinition("DIAMONDS"),
+        new EndDeckDimension(),
+        new EndDeckBranch(),
+        new BeginDeckBranch("BLACK"),
+        new BeginDeckDimension("SUIT"),
+        new CardAttributeDefinition("CLUBS"),
+        new CardAttributeDefinition("SPADES"),
+        new EndDeckDimension(),
+        new EndDeckBranch(),
+        new EndDeckDimension(),
+        new EndDeckNode()
+    };
+
+    GameContext context = new(experiment);
+
+    long passes = 1_000_000;
+    Stopwatch watch = new();
+    watch.Start();
+
+    for (int pass = 0; pass < passes; pass++)
+    {
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            nodes[i].Process(context);
+        }
+    }
+
+    watch.Stop();
+
+    Console.WriteLine("Took " + watch.ElapsedMilliseconds + "ms");
+}
+
+
+RunDeckTest(exp);
+//RunBenchmark(exp);
 //RunExperiment(exp);
 

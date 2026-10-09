@@ -8,7 +8,10 @@ public enum ValueTypes
     Boolean,
     String,
     Card,
-    Player
+    CardCollection,
+    CardAttribute,
+    Player,
+    Unknown
 }
 
 /*public struct Value
@@ -50,13 +53,17 @@ public readonly struct Value
     {
         this.Data = data;
         this.ValueType = ValueTypes.Int;
+        this.Reference = data;
     }
 
     public Value(bool value)
     {
         this.Data = value ? 1 : 0;
         this.ValueType = ValueTypes.Boolean;
+        this.Reference = value;
     }
 
     public int Int() => Data;
+
+    public bool Bool() => Data == 1;
 }

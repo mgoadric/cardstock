@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using CardStock.CardEngine;
 using CardStock.FreezeFrame.Tree.Storage;
 using CardStock.FreezeFrame.Tree.Values;
 
@@ -10,12 +11,14 @@ public class GameContext
     private GameStack _stack;
     private GameStack _local;
     private GameVariables _variables;
+    private CardGame _game;
 
-    public GameContext()
+    public GameContext(Evaluation.Experiment experiment)
     {
         _stack = new(64);
         _local = new(16);
         _variables = new();
+        _game = new(experiment);
     }
 
     public void Advance(int n)
@@ -57,5 +60,15 @@ public class GameContext
     public GameVariables Variables()
     {
         return _variables;
+    }
+
+    public CardGame Game()
+    {
+        return _game;
+    }
+
+    public CardCollection CreateCardCollection(CCType visibility)
+    {
+        return new CardCollection(visibility);
     }
 }
