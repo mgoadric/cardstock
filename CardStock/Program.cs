@@ -50,14 +50,35 @@ Experiment exp = new()
 
 static void RunBenchmark()
 {
-    IGameNode[] node = {
+    /*IGameNode[] node = {
+        new PushValueNode(new(40)),
+        new PushValueNode(new(100)),
+        new PushValueNode(new(100)),
+        new PushValueNode(new(50)),
         new PushValueNode(new(10)),
+        new AdditionNode(),
+        new MultiplicationNode(),
+        new DivisionNode(),
+        new SubtractionNode(),
+        new MoveStackLocalNode(),
+        new StoreValueNode("TEST_STORE"),
+        new MoveValueNode("TEST_STORE"),
+        new MoveLocalStackNode(),
         new PushValueNode(new(20)),
-        new AdditionNode()
+        new AdditionNode(),
+        new MoveStackLocalNode()
+    };*/
+
+    IGameNode[] node =
+    {
+        new PushValueNode(new(1000)),
+        new MoveStackLocalNode(),
+        new StoreValueNode("TEST_STORE"),
+        new MoveValueNode("TEST_STORE")
     };
 
     GameContext context = new();
-    int passes = 100_000_000;
+    int passes = 10_000_000;
     Stopwatch watch = new();
 
     watch.Start();

@@ -3,6 +3,9 @@ using CardStock.FreezeFrame.Tree.Values;
 
 namespace CardStock.FreezeFrame.Tree.Operation;
 
+/*
+    Addition operand on top 2 values on stack.
+*/
 public class AdditionNode : OperationNode
 {
     public override void Operate(GameStack stack, GameStack local, GameContext context)
@@ -12,6 +15,6 @@ public class AdditionNode : OperationNode
 
         context.Assert(first.ValueType == ValueTypes.Int && second.ValueType == ValueTypes.Int, "Addition requires values to be integers.");
 
-        local.Push(new(second.Int() + first.Int()));
+        stack.Push(new(second.Int() + first.Int()));
     }
 }

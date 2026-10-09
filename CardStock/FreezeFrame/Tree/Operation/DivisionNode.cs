@@ -3,6 +3,9 @@ using CardStock.FreezeFrame.Tree.Values;
 
 namespace CardStock.FreezeFrame.Tree.Operation;
 
+/*
+    Division operand on top 2 values on stack.
+*/
 public class DivisionNode : OperationNode
 {
     public override void Operate(GameStack stack, GameStack local, GameContext context)
@@ -10,8 +13,8 @@ public class DivisionNode : OperationNode
         Value first = stack.Pop();
         Value second = stack.Pop();
 
-        context.Assert(first.ValueType == ValueTypes.Int && second.ValueType == ValueTypes.Int, "Multiplication requires values to be integers.");
+        context.Assert(first.ValueType == ValueTypes.Int && second.ValueType == ValueTypes.Int, "Division requires values to be integers.");
 
-        local.Push(new(second.Int() / first.Int()));
+        stack.Push(new(second.Int() / first.Int()));
     }
 }
