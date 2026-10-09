@@ -10,9 +10,8 @@ public class SubtractionNode : OperationNode
         Value first = stack.Pop();
         Value second = stack.Pop();
 
-        context.Assert(first.ValueType == Values.ValueTypes.Int, "Subtraction requires value to be integer.");
-        context.Assert(first.ValueType == second.ValueType, "Subtraction requires both values must be the same type integer.");
+        context.Assert(first.ValueType == ValueTypes.Int && second.ValueType == ValueTypes.Int, "Subtraction requires values to be integers.");
 
-        //second.Data = second.Int() - first.Int();
+        local.Push(new(second.Int() - first.Int()));
     }
 }

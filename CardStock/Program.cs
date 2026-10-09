@@ -51,8 +51,8 @@ Experiment exp = new()
 static void RunBenchmark()
 {
     IGameNode[] node = {
-        new PushNode(new(10)),
-        new PushNode(new(20)),
+        new PushValueNode(new(10)),
+        new PushValueNode(new(20)),
         new AdditionNode()
     };
 

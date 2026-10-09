@@ -9,11 +9,13 @@ public class GameContext
     private int _pointer = 0;
     private GameStack _stack;
     private GameStack _local;
+    private GameVariables _variables;
 
     public GameContext()
     {
         _stack = new(64);
         _local = new(16);
+        _variables = new();
     }
 
     public void Advance(int n)
@@ -50,5 +52,10 @@ public class GameContext
     public GameStack Local()
     {
         return _local;
+    }
+
+    public GameVariables Variables()
+    {
+        return _variables;
     }
 }
