@@ -1,0 +1,116 @@
+;; Kontsina in the GDL
+;; https://www.pagat.com/fishing/kontsina.html
+(game
+ (setup  
+  ;; Set up the players, 2 players each on their own team
+  (create players 2)
+  
+  ;; Create the deck source
+  (create deck (game iloc STOCK) 
+   (deck (RANK (A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K))
+         (SUIT (HEARTS, SPADES, DIAMONDS, CLUBS)))))        
+ (do (
+  (set (game points POINTS)
+   (((RANK : K)   10000) ((RANK : Q)   1000) ((RANK : J)  100)
+    ((RANK : TEN) 10) ((RANK : NINE)   9) ((RANK : EIGHT) 8)
+    ((RANK : SEVEN) 7) ((RANK : SIX)   6) ((RANK : FIVE) 5)
+    ((RANK : FOUR)  4) ((RANK : THREE) 3) ((RANK : TWO)  2)
+    ((RANK : A)     1)))
+
+  (set (game points GOOD)
+   (((RANK : TWO) (SUIT : CLUBS) 1)
+    ((RANK : TEN) (SUIT : DIAMONDS) 1)))
+
+  (shuffle (game iloc STOCK))
+  (repeat 4 (move (top (game iloc STOCK))
+                  (top (game vloc POOL))))))
+  
+ ;; Stages of the game
+ (stage player
+  (end (== (size (game iloc STOCK)) 0))
+        
+  ;; Deal the players 4 cards each
+  (do (
+   (all player 'P
+    (repeat 4 (move (top (game iloc STOCK))
+                    (top ('P iloc HAND)))))))
+        
+  ;; Players play their cards one at a time until their hand is empty
+  (stage player
+   (end (all player 'P (== (size ('P iloc HAND)) 0)))
+               
+   ;; Pick a card to play to the pool
+   (choice (
+    (any ((current player) iloc HAND) 'AC
+     (do (
+      (move 'AC (top ((current player) vloc TRICK)))
+
+      ;; match one card in pool?
+      (any (filter (game vloc POOL) 'PC 
+                   (== (cardatt RANK 'PC)
+                       (cardatt RANK (top ((current player) vloc TRICK))))) 'PCF
+       (do (
+        (move 'PCF (top ((current player) vloc BUNDLE)))
+        (set ((current player) sto MOVED) 1)
+        (set (game sto LAST) (pid (current player))))))    
+
+      ;; IF NO SINGLES, match subsets of cards?
+      ((!= ((current player) sto MOVED) 1)
+       (any (filter (subsets (game vloc POOL)) 'SUB 
+                    (and (> (size 'SUB) 1)
+                         (== (sum 'SUB using (game points POINTS))
+                             (score (top ((current player) vloc TRICK))
+                                    using (game points POINTS))))) 'SUBMATCH
+        (do (
+         (all 'SUBMATCH 'MCARD  
+          (move 'MCARD (top ((current player) vloc BUNDLE))))
+         (set ((current player) sto MOVED) 1)
+         (set (game sto LAST) (pid (current player))))))))))))
+               
+   (do (
+    ;; move trick card to bundle or pool
+    ((== ((current player) sto MOVED) 0)
+     (move (top ((current player) vloc TRICK))
+           (top (game vloc POOL))))
+                    
+    ((== ((current player) sto MOVED) 1)
+     (move (top ((current player) vloc TRICK))
+           (top ((current player) vloc BUNDLE))))
+            
+    (set ((current player) sto MOVED) 0))))
+
+  ;; Make sure player cycle is consistent over the rounds
+  (do (
+   (cycle next (current player)))))
+
+ ;; Move remaining cards to the last player to make a capture
+ (do (
+  ((> (size (game vloc POOL)) 0)
+   (repeat all (move (top (game vloc POOL))
+                     (top (((game sto LAST) player) vloc BUNDLE)))))))
+
+ ;; scoring
+ (stage player 
+  (end (all player 'P (== ('P str SCORING) END))) 
+  (do (
+
+   ;; most cards worth two points
+   ((> (size ((current player) vloc BUNDLE))
+       (size ((next player) vloc BUNDLE)))
+    (inc ((current player) sto SCORE) 2))
+
+   ;; Most clubs worth one point
+   ((> (size (filter ((current player) vloc BUNDLE) 'C (== (cardatt SUIT 'C) CLUBS)))
+       (size (filter ((next player) vloc BUNDLE) 'C (== (cardatt SUIT 'C) CLUBS))))
+    (inc ((current player) sto SCORE)))
+
+   ;; 2 of clubs worth one point
+   ;; 10 of diamonds worth one point
+   (inc ((current player) sto SCORE) 
+        (sum ((current player) vloc BUNDLE) using
+             (game points GOOD)))
+
+   ;; scoring turn is done
+   (set ((current player) str SCORING) END))))  
+
+ (scoring max ((current player) sto SCORE)))
