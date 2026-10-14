@@ -2268,8 +2268,14 @@ namespace CardStock.FreezeFrame
             }
             else if (intNode.pid() is not null)
             {
-                var player = ProcessWhop(intNode.pid().whop());
-                return player.id + 1;
+                if (intNode.pid().varp() is not null)
+                {
+                    var p = ProcessPlayerVar(intNode.pid().varp());
+                    return p.id + 1;
+                } else {
+                    var player = ProcessWhop(intNode.pid().whop());
+                    return player.id + 1;
+                }
             }
             else if (intNode.tid() is not null)
             {
