@@ -49,7 +49,7 @@
       (all (filter (other player) 'OP 
                   (== (tid (team 'OP))
                       (tid (team (current player))))) 'MATE
-           (set (game sto WHICH) (pid (next player)))) ;; TODO should be (pid 'MATE)
+           (set (game sto WHICH) (pid 'MATE))) ;; TODO should be (pid 'MATE)
       (set (game str DUMMY) TRUE)
       (set (game sto DUMMY) (pid (current player)))
       (cycle current ((game sto WHICH) player))

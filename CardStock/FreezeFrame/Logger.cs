@@ -11,8 +11,8 @@ namespace CardStock.FreezeFrame
 {
     public class Logger
     {
-        private static readonly BlockingCollection<Action> queue = new();
-        private static readonly Task writeThread = new Task(() =>
+        private static readonly BlockingCollection<Action> queue = [];
+        private static readonly Task writeThread = new(() =>
         {
             while (!queue.IsCompleted)
             {
