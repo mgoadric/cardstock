@@ -25,7 +25,9 @@
     (set ('P sto TRICKSWON) 0))))
   (set (game str LEAD) NONE)
 
-  ;; HACK TO TEST DUMMY PLAYER
+  ;; Need a bidding stage here
+  
+  ;; HACK TO TEST DUMMY PLAYER AS FIRST PLAYER
   (set ((current player) str DUMMY) TRUE)
   (repeat all
    (move (top ((current player) iloc HAND))

@@ -17,7 +17,7 @@ tournament of AI players. Please post any issues you find.
 
 ## Games
 
-There are currently 70+ games coded in RECYCLE, a mixture of classic and modern games, 
+There are currently 80+ games coded in RECYCLE, a mixture of classic and modern games, 
 categorized by genre:
 
 * Adding
@@ -57,6 +57,8 @@ categorized by genre:
     * [Chinese Ten](https://www.pagat.com/fishing/chinten.html) (2p)
     * [Escoba](https://www.pagat.com/fishing/escoba.html) (2p)
     * [Hockey](https://www.pagat.com/fishing/hockey.html) (2p)
+    * [Hurrikan](https://www.pagat.com/fishing/scopa.html#hurrikan) (2p)
+    * [Kontsina](https://www.pagat.com/fishing/kontsina.html) (2p)
     * [Scopa](https://www.pagat.com/fishing/scopa.html) (2p)
     * [Stealing Bundles](https://www.pagat.com/fishing/bundle.html) (2-4p)
 * Poker
