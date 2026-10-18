@@ -18,6 +18,6 @@ public class EndDeckNode : IGameNode
 
         tree.rootNode = (value.Reference as AttributeNode)!;
 
-        // Console.WriteLine(tree.ToString());
+        Console.WriteLine(tree.ToString());
     }
 }

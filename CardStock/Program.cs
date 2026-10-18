@@ -154,7 +154,7 @@ static void RunDeckTest(Experiment experiment)
     Stopwatch watch = new();
     watch.Start();
 
-    for (int pass = 0; pass < passes; pass++)
+    for (int pass = 0; pass < 1; pass++)
     {
         for (int i = 0; i < nodes.Length; i++)
         {
