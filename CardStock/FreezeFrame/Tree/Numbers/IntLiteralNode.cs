@@ -9,5 +9,5 @@ public class IntLiteralNode : IntNode
         _value = value;
     }
 
-    public override int GetInt() => _value;
+    public int GetInt(GameContext context) => _value;
 }

@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace CardStock.FreezeFrame
 {
-    class RecycleVariables
+    public class RecycleVariables
     {
         private Dictionary<string, object> vars;
 
@@ -276,7 +276,7 @@ namespace CardStock.FreezeFrame
 
             return true;
         }
-        
+
         public override int GetHashCode() { return 0; }
     }
 }

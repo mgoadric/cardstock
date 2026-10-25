@@ -16,7 +16,7 @@ namespace CardStock.FreezeFrame
     {
         private readonly Stack<Queue<IParseTree>> iterStack;
         private HashSet<IParseTree> iteratingSet; // could this be a stack??
-        private RecycleVariables variables;
+        public RecycleVariables variables;
         public readonly Logger script;
 
         public RecycleParser.GameContext rules;

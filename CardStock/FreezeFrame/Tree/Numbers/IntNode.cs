@@ -1,6 +1,6 @@
 namespace CardStock.FreezeFrame.Tree.Numbers;
 
-public abstract class IntNode : IGameNode
+public interface IntNode : IGameNode
 {
-    public abstract int GetInt();
+    public abstract int GetInt(GameContext context);
 }
