@@ -38,7 +38,7 @@ Experiment exp = new()
     Logging = args.Length > 4 ? Boolean.Parse(args[4]) : false,
     numTests = args.Length > 5 ? Int32.Parse(args[5]) : 1000,
     numSamples = args.Length > 6 ? Int32.Parse(args[6]) : 10,
-    imperfectLevel = args.Length > 7 ? Enum.Parse<ImperfectLevel>(args[7]) : ImperfectLevel.PRIVATE,
+    imperfectLevel = args.Length > 7 ? Enum.Parse<ImperfectLevel>(args[7]) : ImperfectLevel.TAKEN,
 };
 
 RunExperiment(exp);

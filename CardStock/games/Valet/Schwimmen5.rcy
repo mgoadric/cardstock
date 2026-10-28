@@ -42,7 +42,7 @@
  ;; play the game until there are no more cards, 
  ;; someone closes and all have a turn, or someone has high score
  (stage player 
-  (end (or (< (size (game iloc STOCK)) 3)
+  (end (or (== (game str OVER) TRUE)
            (> (game sto CLOSE) 'NUMP)
            (any player 'P 
             (or (any (partition RANK ('P iloc HAND)) 'RP 
@@ -96,6 +96,8 @@
    ;; and deal out 3 more cards
    (do (
     (set (game sto PASS) 0)
+    ((< (size (game iloc STOCK)) 3)
+     (set (game str OVER) TRUE))
     ((>= (size (game iloc STOCK)) 3)
      (do (
       (repeat all (move (top (game vloc MIDDLE))

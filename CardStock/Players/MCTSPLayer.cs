@@ -2,15 +2,14 @@
 using CardStock.FreezeFrame;
 using CardStock.Evaluation;
 using CardStock.FreezeFrame.Actions;
-using System.Linq.Expressions;
 
 namespace CardStock.Players
 {
-    public record NodeStats(int numPlayers)
+    public record NodeStats(int NumPlayers)
     {
         public int plays;
-        public double[] scores = new double[numPlayers];
-        public double[] ranks = new double[numPlayers];
+        public double[] scores = new double[NumPlayers];
+        public double[] ranks = new double[NumPlayers];
     }
 
     //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
@@ -38,7 +37,7 @@ namespace CardStock.Players
             // GAME SIMULATIONS
             Parallel.For(0, dc.exp.numSamples, det =>
             {
-                for (int i = 0; i < dc.exp.numTests / dc.exp.numSamples * numChoices; i++)
+                for (int i = 0; i < dc.exp.numTests / dc.exp.numSamples; i++)
                 {
                     RunSimulation(det, i);
                 }
@@ -83,7 +82,6 @@ namespace CardStock.Players
 
             var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()]);
 
-            // TODO THIS IS MISSING LEAD HISTORY RECORDING!!
             //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
             //Console.WriteLine("{0}", string.Join(", ", moveScores[perspective.GetIdx()]));
             //Console.WriteLine("{0}", string.Join(", ", choiceplays));
