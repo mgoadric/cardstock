@@ -67,8 +67,8 @@ namespace CardStock.Players
                         {
                             moveScores[i][m] += choiceStats[det][m].scores[i] / choiceStats[det][m].plays;
                             moveRanks[i][m] += choiceStats[det][m].ranks[i] / choiceStats[det][m].plays;
+                            choiceplays[m] += choiceStats[det][m].plays;
                         }
-                        choiceplays[m] += choiceStats[det][m].plays;
 
                         //if (i == perspective.GetIdx())
                         //{
