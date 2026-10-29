@@ -152,7 +152,7 @@ to have implemented in Recycle. Pull requests are welcome and encouraged!
 | 4 | Logging | true/false | false |
 | 5 | Number of Tests | 1-1000 | 1000 | 
 | 6 | Number of Samples | 1-100 | 10 |
-| 7 | Level of Imperfection | NONE, BACK, HIDDEN, PRIVATE, OTHERS, TAKEN, PASSED, ATTRIBUTE | PRIVATE | 
+| 7 | Level of Imperfection | NONE, BACK, HIDDEN, PRIVATE, OTHERS, TAKEN, PASSED, ATTRIBUTE | TAKEN | 
 
 For example "dotnet run --configuration Release Scopa 2 100 MP true" would run 100 simulations of Scopa for 2 players, with the first player using Monte Carlo Tree Search, and the second player using Pure Monte Carlo. The individual choices and a transcript of each simulation would be logged.
 

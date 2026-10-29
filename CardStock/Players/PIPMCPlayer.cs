@@ -45,38 +45,8 @@ namespace CardStock.Players
                 determinizations[det] = perspective.GetPrivateGame();
             }
 
-            // FOR EACH POSSIBLE MOVE
-            /*
-            for (int i = 0; i < dc.exp.numTests / dc.exp.numSamples; i++)
-            {
-                // USE THIS MANY DETERMINIZATIONS
-                for (int det = 0; det < dc.exp.numSamples; det++)
-                {
-                    // AND RUN THIS MANY ROLLOUTS
-                    Parallel.For(0, numChoices, move =>   //number of tests for certain decision
-                    {
-
-                        RunSimulation(det, move);
-
-                    });
-                }
-            }
-
-            ==
-            
-            for (int i = 0; i < dc.exp.numSamples; i++)
-            {
-                int det = i % dc.exp.numSamples;
-
-                for (int j = 0; j < numChoices; j++)
-                {
-                }
-            }
-            */
-
             // Flatten array into single Parallel call. Use math to unflatten. This allows a single Parallel.For call.
-            int total = dc.exp.numTests / dc.exp.numSamples * dc.exp.numSamples * numChoices;
-            Parallel.For(0, total, i =>
+            Parallel.For(0, dc.exp.numTests, i =>
             {
                 int det = i / numChoices % dc.exp.numSamples;
                 int move = i % numChoices;
@@ -126,9 +96,7 @@ namespace CardStock.Players
                 cg.players[j].decision = null;
             }
 
-            // Play the game until termination  WHAT ABOUT NONTERMINAL GAMES???
-            // Do a cutoff like ParseEngine does at 200???
-            // WHO WINS IN THOSE GAMES??
+            // Play the game until termination or CHOICELIMIT reached
             int count = 0;
             while (!cloneContext.AdvanceToChoice())
             {
@@ -160,4 +128,3 @@ namespace CardStock.Players
         }
     }
 }
-
