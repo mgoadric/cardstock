@@ -119,17 +119,12 @@
            (cycle next (current player))))))
  (do (
      (all player 'P
-          ((or (== (size (filter ('P vloc TRIOS) 'TC (== (cardatt RANK 'TC) SEVEN))) 3)
-               (!= (size (partition RANK ('P vloc TRIOS))) 3))
-           (set ('P sto SCORE) 3))
+          (do (
+              (set ('P sto SCORE) (size (partition RANK ('P vloc TRIOS))))
+              ((== (size (filter ('P vloc TRIOS) 'TC (== (cardatt RANK 'TC) SEVEN))) 3)
+               (set ('P sto SCORE) 3))
+          ))
      )
-
-     (all player 'P
-          ((or (== (size (filter ('P vloc TRIOS) 'TC (== (cardatt RANK 'TC) SEVEN))) 3)
-               (!= (size (partition RANK ('P vloc TRIOS))) 3))
-           (set ('P sto SCORE) 3))
-     )
-
  ))
 
- (scoring max (size (partition RANK ((current player) vloc TRIOS)))))
+ (scoring max ((current player) sto SCORE)))

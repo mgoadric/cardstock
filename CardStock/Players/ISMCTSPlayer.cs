@@ -13,8 +13,7 @@ namespace CardStock.Players
         public Dictionary<Tuple<CardGame, int>, double> wins;
         public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree;
         private CardGame privategame;
-        private GameIterator privateiterator;
-        private int playeridx;
+        private readonly int playeridx;
 
         public ISMCTSPlayer(Perspective perspective, DataCollector dc) : base(perspective, dc)
         {
@@ -27,55 +26,16 @@ namespace CardStock.Players
 
         public override void Explore()
         {
-            // GAME SIMULATIONS TEST
-            // TEST ()
-            /*(privategame, privateiterator) = perspective.GetPrivateGame();
-            plays.Add(new Tuple<CardGame, int>(privategame, myidx), 1);
-            CardGame infotest = privategame.CloneSecret(myidx);
-            
-            if (infotest.Equals(privategame))
-            { Console.WriteLine("?"); }
-            if (plays.ContainsKey(new Tuple<CardGame, int>(infotest, myidx)))
+            for (int i = 0; i < dc.exp.numTests * dc.exp.numSamples; i++)
             {
-                plays[new Tuple<CardGame, int>(infotest, myidx)] += 1;
-                Console.WriteLine(infotest.ToString());
-                Console.WriteLine(privategame.ToString());
+                RunSimulation();
             }
-            else
-            {
-                foreach (Tuple<CardGame, int> k in plays.Keys)
-                {
-                    Console.WriteLine(k.Item2);
-                    Console.WriteLine(k.Item2.ToString());
-                }
-            }
-            Console.ReadLine();
-            Environment.Exit(0);*/
-
-            for (int d = 1; d <= dc.exp.numSamples; d++)
-            {
-                (privategame, privateiterator) = perspective.GetPrivateGame();
-                //Console.WriteLine("Deal: " + d + " Play Count: " + plays.Count + "\r\n");
-                for (int i = 0; i < dc.exp.numTests * numChoices; i++)
-                {
-                    RunSimulation();
-                }
-            }
-            //Console.WriteLine("Game after: " + cardGamesx[0]);
-
-            //int j = 0;
-            //foreach(var k in plays.Keys)
-            //{
-            //Console.WriteLine(j + " --> " + plays[k] + " --> " + wins[k]);
-            //     j++;
-            // }
         }
 
         public override int ChooseOption()
         {
-            int myidx = perspective.GetIdx();
             double[] moverankingarray = new double[numChoices];
-            Tuple<CardGame, int>[] movestates = movestatetree[new Tuple<CardGame, int>(privategame, myidx)];
+            Tuple<CardGame, int>[] movestates = movestatetree[new Tuple<CardGame, int>(privategame, playeridx)];
             for (int x = 0; x < numChoices; x++)
             {
 
@@ -104,14 +64,12 @@ namespace CardStock.Players
             // Its key should be a state and the idx of the player in charge
 
             // Which equality should this use?
-            HashSet<Tuple<CardGame, int>> visitedstates = new HashSet<Tuple<CardGame, int>>(new InfoSetComparison(playeridx));
-            CardGame cg = privategame.Clone();
-            GameIterator gameIterator = privateiterator.Clone(cg);
+            HashSet<Tuple<CardGame, int>> visitedstates = new(new InfoSetComparison(playeridx));
+            (CardGame cg, GameIterator gameIterator) = perspective.GetPrivateGame();
             for (int j = 0; j < numPlayers; j++)
             {
                 cg.players[j].decision = null;
             }
-
 
             bool expand = true;
 

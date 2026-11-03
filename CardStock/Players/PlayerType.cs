@@ -7,7 +7,7 @@ namespace CardStock.Players
 {
     public enum PlayerType
     {
-        RANDOM, PIPMC, MCTS, ISMCTS, PIPMCOLD, ONESECMCTS, NONE
+        RANDOM, PIPMC, MCTS, ISMCTS, ONESECMCTS, NONE
     }
 
     public static class Extensions
@@ -19,7 +19,6 @@ namespace CardStock.Players
                 PlayerType.PIPMC => new PIPMCPlayer(perspective, dc),
                 PlayerType.MCTS => new MCTSPLayer(perspective, dc),
                 PlayerType.ISMCTS => new ISMCTSPlayer(perspective, dc),
-                PlayerType.PIPMCOLD => new PIPMCPlayerOld(perspective, dc),
                 PlayerType.ONESECMCTS => new OneSecondMCTS(perspective, dc),
                 _ => new RandomPlayer(perspective, dc),
             };

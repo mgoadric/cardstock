@@ -5,13 +5,6 @@ using CardStock.FreezeFrame.Actions;
 
 namespace CardStock.Players
 {
-    public record NodeStats(int NumPlayers)
-    {
-        public int plays;
-        public double[] scores = new double[NumPlayers];
-        public double[] ranks = new double[NumPlayers];
-    }
-
     //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
     public class MCTSPLayer(Perspective perspective, DataCollector dc) : AIPlayer(perspective, dc)
     {
@@ -159,7 +152,7 @@ namespace CardStock.Players
                             // c parameter is the sqrt(2) part
                             double normscore = (child.scores[idx] / n - scoreMin) / (scoreMax - scoreMin);
                             //Console.WriteLine(normscore);
-                            double temp = normscore + Math.Sqrt(2 * totalplays / n);
+                            double temp = normscore + Math.Sqrt(totalplays / n); // Used to be 2 * for the sqrt(2) part
                             // old method with raw scores -> no exploration!!
                             //double temp = child.scores[idx] / n + Math.Sqrt(2 * totalplays / n);
 
