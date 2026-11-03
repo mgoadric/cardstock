@@ -91,6 +91,10 @@
                     (== (cardatt RANK 'SC)
                         (cardatt RANK (top (game mem SEEN))))))
            (do (
+               (inc ((current player) sto SCORE))
+               ((all (game mem SEEN) 'SC
+                     (== (cardatt RANK 'SC) SEVEN))
+                (set ((current player) sto SCORE) 3))
                (all player 'P
                     (repeat all (move (top ('P vloc FLIPPED)) (top ((current player) vloc TRIOS)))))
                (all (range 1..'NUMMIDDLE) 'LOC 
@@ -117,14 +121,5 @@
                     (== (cardatt RANK 'SC)
                         (cardatt RANK (top (game mem SEEN))))))
            (cycle next (current player))))))
- (do (
-     (all player 'P
-          (do (
-              (set ('P sto SCORE) (size (partition RANK ('P vloc TRIOS))))
-              ((== (size (filter ('P vloc TRIOS) 'TC (== (cardatt RANK 'TC) SEVEN))) 3)
-               (set ('P sto SCORE) 3))
-          ))
-     )
- ))
 
  (scoring max ((current player) sto SCORE)))
