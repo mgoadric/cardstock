@@ -21,4 +21,9 @@ public class GameContext
     {
         return _iterator.game;
     }
+
+    public Logger? Script()
+    {
+        return _iterator.script;
+    }
 }

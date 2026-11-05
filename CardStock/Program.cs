@@ -55,7 +55,7 @@ static void RunDeckTest(Experiment experiment)
 }
 
 
-RunDeckTest(exp);
+//RunDeckTest(exp);
 //RunBenchmark(exp);
-//RunExperiment(exp);
+RunExperiment(exp);
 

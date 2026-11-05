@@ -403,7 +403,7 @@ namespace CardStock.FreezeFrame
                 if (multiaction.agg() is not null)
                 {
                     Debug.WriteLine("Processing multiaction aggregation.");
-                    lst.Add(ProcessAgg(multiaction.agg()));
+                    ProcessAgg(multiaction.agg());
                 }
                 else if (multiaction.let() is not null)
                 {
@@ -434,7 +434,7 @@ namespace CardStock.FreezeFrame
                 if (multi.agg() is not null)
                 {
                     Debug.WriteLine("Processing multiaction2 aggregation.");
-                    lst.Add(ProcessAgg(multi.agg()));
+                    ProcessAgg(multi.agg());
                 }
                 else if (multi.let() is not null)
                 {
@@ -2638,6 +2638,10 @@ namespace CardStock.FreezeFrame
                 var post = ProcessAggPost(tree);
                 if (post is not null)
                 {
+                    if (post is GameAction ga)
+                    {
+                        Console.WriteLine("game action...");
+                    }
                     ret.Add(post);
                 }
                 variables.Remove(var.GetText());
@@ -2645,24 +2649,31 @@ namespace CardStock.FreezeFrame
             return ret;
         }
 
-        private GameActionCollection ProcessAgg(RecycleParser.AggContext agg)
+        private void ProcessAgg(RecycleParser.AggContext agg)
         {
-            var ret = IterateAgg(agg.collection(), agg.var(), agg.GetChild(4));
-            Debug.WriteLine(ret.Count);
-            GameActionCollection ret2 = [];
-            foreach (var item in ret)
+            //var ret = IterateAgg(agg.collection(), agg.var(), agg.GetChild(4));
+
+            var var = agg.var();
+            var tree = agg.GetChild(4);
+            var coll = agg.collection();
+
+            var stor = ProcessCollection(coll);
+            foreach (var t in stor)
             {
-                if (item is GameAction ga)
+                Debug.WriteLine("Iterating over aggregation of: " + t.GetType());
+                variables.Put(var.GetText(), t);
+
+                if (tree is RecycleParser.CondactContext context)
                 {
-                    ret2.Add(ga);
+                    ProcessSingleDo(context);
                 }
                 else
                 {
-                    Console.WriteLine("What is this???");
-                    throw new Exception();
+                    throw new Exception("what!!!");
                 }
             }
-            return ret2;
+
+            variables.Remove(var.GetText());
         }
 
         private CardLocReference[] ProcessAggCStorage(RecycleParser.AggcsContext agg)
