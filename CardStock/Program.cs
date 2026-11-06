@@ -22,6 +22,7 @@ static List<PlayerType> MakePlayers(string players)
         switch (c)
         {
             case 'P': { ps.Add(PlayerType.PIPMC); break; }
+            case 'I': { ps.Add(PlayerType.ISMCTS); break; }
             case 'M': { ps.Add(PlayerType.MCTS); break; }
             default: { ps.Add(PlayerType.RANDOM); break; }
         }
