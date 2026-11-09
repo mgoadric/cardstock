@@ -125,7 +125,8 @@ namespace CardStock.CardEngine
                 return false;
             }
 
-            if (infoset) {
+            if (infoset) 
+            {
                 if (!cardBins.InfoSetEqual(otherowner.cardBins, playeridx))
                     { return false; } 
             } else if (!cardBins.Equals(otherowner.cardBins))

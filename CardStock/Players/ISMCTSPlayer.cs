@@ -1,183 +1,230 @@
 ﻿using CardStock.CardEngine;
 using CardStock.FreezeFrame;
-using CardStock.FreezeFrame.Actions;
 using CardStock.Evaluation;
-using System.Globalization;
+using CardStock.FreezeFrame.Actions;
 
 namespace CardStock.Players
 {
-    //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/ // ADD OTHER PAPER
-    public class ISMCTSPlayer : AIPlayer
+    //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
+    public class ISMCTSPLayer(Perspective perspective, DataCollector dc) : AIPlayer(perspective, dc)
     {
-        public Dictionary<Tuple<CardGame, int>, int> plays;
-        public Dictionary<Tuple<CardGame, int>, double> wins;
-        public Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]> movestatetree;
-        private CardGame privategame;
-        private readonly int playeridx;
+        private readonly Dictionary<Tuple<CardGame, int, int>, NodeStats> stats = new(new InfoSetComparison(perspective.GetIdx()));
+        private readonly Dictionary<Tuple<CardGame, int, int>, NodeStats[]> movestatetree = new(new InfoSetComparison(perspective.GetIdx()));
+        private NodeStats[] choiceStats;
 
-        public ISMCTSPlayer(Perspective perspective, DataCollector dc) : base(perspective, dc)
-        {
-            playeridx = perspective.GetIdx();
-            plays = new Dictionary<Tuple<CardGame, int>, int>(new InfoSetComparison(playeridx));
-            wins = new Dictionary<Tuple<CardGame, int>, double>(new InfoSetComparison(playeridx));
-            movestatetree = new Dictionary<Tuple<CardGame, int>, Tuple<CardGame, int>[]>(new InfoSetComparison(playeridx));
-        }
-
+        private double scoreMin = double.MaxValue;
+        private double scoreMax = double.MinValue;
 
         public override void Explore()
         {
-            for (int i = 0; i < dc.exp.numTests * dc.exp.numSamples; i++)
+            choiceStats = new NodeStats[numChoices];
+
+            // GAME SIMULATIONS
+            Parallel.For(0, dc.exp.numTests, i =>
             {
-                RunSimulation();
-            }
+                RunSimulation(i);
+            });
         }
 
         public override int ChooseOption()
         {
-            double[] moverankingarray = new double[numChoices];
-            Tuple<CardGame, int>[] movestates = movestatetree[new Tuple<CardGame, int>(privategame, playeridx)];
-            for (int x = 0; x < numChoices; x++)
-            {
 
-                if (movestates[x] != null)
+            double[][] moveScores = new double[numPlayers][];
+            double[][] moveRanks = new double[numPlayers][];
+            for (int i = 0; i < perspective.NumberOfPlayers(); i++)
+            {
+                moveScores[i] = new double[numChoices];
+                moveRanks[i] = new double[numChoices];
+            }            
+            int[] choiceplays = new int[numChoices];
+
+            for (int m = 0; m < numChoices; m++)
+            {
+                for (int i = 0; i < numPlayers; i++)
                 {
-                    Tuple<CardGame, int> stateandplayer = movestates[x];
-                    //Console.WriteLine("Choice " + x + ":\t" + "Plays: " + plays[stateandplayer] + " Wins: " + wins[stateandplayer]);
-                    moverankingarray[x] = wins[stateandplayer] / plays[stateandplayer];
+                    for (int det = 0; det < dc.exp.numSamples; det++)
+                    {
+                        // check for small sample numbers, some moves might be 0
+                        if (choiceStats[m] is not null)
+                        {
+                            moveScores[i][m] += choiceStats[m].scores[i] / choiceStats[m].plays;
+                            moveRanks[i][m] += choiceStats[m].ranks[i] / choiceStats[m].plays;
+                            choiceplays[m] += choiceStats[m].plays;
+                        }
+
+                        //if (i == perspective.GetIdx())
+                        //{
+                        //    Console.WriteLine(det + "\t" + m + "\t" + choiceStats[det][m].plays + "\t" + choiceStats[det][m].scores[i] / choiceStats[det][m].plays);
+                        //}
+                    }
+                    moveScores[i][m] /= dc.exp.numSamples;
+                    moveRanks[i][m] /= dc.exp.numSamples;
                 }
             }
-        
-            var (min, max) = MinMaxIdx(moverankingarray);
-            // TODO THIS IS MISSING LEAD HISTORY RECORDING!!
+
+            var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()]);
+
+            //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
+            //Console.WriteLine("{0}", string.Join(", ", moveScores[perspective.GetIdx()]));
+            //Console.WriteLine("{0}", string.Join(", ", choiceplays));
+
             // Record info for heuristic evaluation
-            //RecordHeuristics(rankSum);
+            dc.RecordHeuristics(moveScores, moveRanks, perspective.GetIdx());
 
             return max;
         }
 
-        public void RunSimulation()
+        public void RunSimulation(int sim)
         {
-            // Each turn, need to check to see if we have enough information to make move using UCB
-            // If we do (movelist.count() == choicenum), and we check the stats of each move
-            // A predictable player is set for the currentplayers idx which wil chose the move determined by 
-            // Movelist should be tuple array with each entry a state and a who played it
-            // Its key should be a state and the idx of the player in charge
+            HashSet<Tuple<CardGame, int, int>> visitedstates = [];
 
-            // Which equality should this use?
-            HashSet<Tuple<CardGame, int>> visitedstates = new(new InfoSetComparison(playeridx));
             (CardGame cg, GameIterator gameIterator) = perspective.GetPrivateGame();
-            for (int j = 0; j < numPlayers; j++)
-            {
-                cg.players[j].decision = null;
-            }
+            
+            cg.WipePlayers();
 
             bool expand = true;
+            bool first = true;
+            int previdx = -1;
+            int depth = 0;
+            Tuple<CardGame, int, int> parent = Tuple.Create(cg.Clone(), previdx, depth);
+
 
             // "Playing a simulated game"
             while (!gameIterator.AdvanceToChoice())
             {
-
-                int idx = cg.currentPlayer.Peek().idx;
-
-                Tuple<CardGame, int>[] movelist = null;
-                int c = 0;
-
+                // Should be loop that stops when you hit GameSimulator.CHOICELIMIT
+                if (depth > GameSimulator.CHOICELIMIT)
+                {
+                    break;
+                }
+                
                 if (expand)
                 {
+                    // Each turn, need to check to see if we have enough information to make a move using UCB
+                    // If we do (movelist.count() == choicenum), and we check the stats of each move
                     List<GameActionCollection> allOptions = gameIterator.BuildOptions();
                     int choicenum = allOptions.Count;
-                  
-                    Tuple<CardGame, int> deliberator = Tuple.Create<CardGame, int>(cg.Clone(), idx);
 
-                    if (!movestatetree.ContainsKey(deliberator))
+                    NodeStats[]? movelist = null;
+                    if (!movestatetree.TryGetValue(parent, out NodeStats[]? value))
                     {
-                        movestatetree[deliberator] = new Tuple<CardGame, int>[choicenum];
+                        value = new NodeStats[choicenum];
+                        movestatetree[parent] = value;
                     }
-                    else if (movestatetree[deliberator].Length != choicenum)
+                    movelist = value;
+                    if (choicenum != movelist.Length)
                     {
-                        movestatetree[deliberator] = new Tuple<CardGame, int>[choicenum];
+                        Console.WriteLine("What is this weirdness? cl = " + choicenum + ",mvl = " + movelist.Length);
+                        Console.WriteLine("Depth = " + depth);
+                        Console.WriteLine(parent);
                     }
 
-                    movelist = movestatetree[deliberator];
-                    //Console.WriteLine("Choice num: " + choicenum + " Movelist Count: " + movelist.Count(s => s != null));
-                    if (movelist.Count(s => s != null) == choicenum)
+                    int idx = cg.currentPlayer.Peek().idx;
+
+                    int choice = 0;
+                    bool boop = true;
+                    if (movelist.Count(s => s is not null) == choicenum)
                     {
                         // USE UCB
-                        double bestscore = 0;
-                        c = 0;
-                        double totalplays = 0;
-                        foreach (Tuple<CardGame, int> stateandplay in (movelist))
-                        {
-                            totalplays += plays[stateandplay];
-                        }
+                        double bestscore = int.MinValue;
+                        double totalplays = depth == 0 ? sim + 1 : stats[parent].plays;
+
                         totalplays = Math.Log(totalplays);
                         for (int i = 0; i < movelist.Length; i++)
                         {
-                            Tuple<CardGame, int> stateandplay = movelist[i];
-                            double temp = wins[stateandplay] / plays[stateandplay];
-                            temp += Math.Sqrt(2 * totalplays / plays[stateandplay]);
+                            NodeStats child = movelist[i];  // How could this be null????
+                            int n = child.plays;
+
+                            // c parameter is the sqrt(2) part
+                            double normscore = (child.scores[idx] / n - scoreMin) / (scoreMax - scoreMin);
+                            //Console.WriteLine(normscore);
+                            double temp = normscore + Math.Sqrt(totalplays / n); // Used to be 2 * for the sqrt(2) part
+                            // old method with raw scores -> no exploration!!
+                            //double temp = child.scores[idx] / n + Math.Sqrt(2 * totalplays / n);
+
+                            // does this still work if recording score, not 1--0 win record?
                             if (temp > bestscore)
                             {
                                 bestscore = temp;
-                                c = i;
+                                choice = i;
                             }
                         }
-
-                        allOptions[c].ExecuteAll();
+                        allOptions[choice].ExecuteAll();
                         gameIterator.PopCurrentNode();
                     }
                     else
                     {
-                        c = gameIterator.ProcessChoice();
+                        choice = gameIterator.ProcessChoice();
+                        boop = false;
+                    }
+
+                    // Chosen is Tuple with state after move, and the idx of the player who made the move
+                    CardGame savestate = gameIterator.game.Clone();
+                    depth++;
+                    Tuple<CardGame, int, int> chosen = Tuple.Create(savestate, idx, depth);
+                    previdx = idx;
+                    var oldparent = parent;
+                    parent = chosen;
+
+                    visitedstates.Add(chosen);
+
+                    // IF THIS IS THE FIRST SIMULATION WHICH HAS ARRIVED AT THIS STATE
+                    if (!stats.ContainsKey(chosen))
+                    {
+                        if (choice >= movelist.Length)
+                        {
+                            Console.WriteLine("AUGH! Choice is " + choice + ", numMoves is " + movelist.Length);
+                            Console.WriteLine("Depth = " + depth);
+                            Console.WriteLine("Old Choice = " + boop);
+                            Console.WriteLine(oldparent);
+                            Console.WriteLine("The match is with...");
+                            foreach (var b in movestatetree.Keys)
+                            {
+                                if (b.Equals(oldparent))
+                                {
+                                    Console.WriteLine("A MATCH!!");
+                                    Console.WriteLine(b);
+                                }
+                            }
+                        }
+                        expand = false;
+                        NodeStats cstats = new(numPlayers);
+                        stats[chosen] = cstats;
+                        movelist[choice] = cstats;
+                    }
+
+                    // IF AT THE ROOT
+                    if (first)
+                    {
+                        choiceStats[choice] = stats[chosen];
+                        first = false;
                     }
                 }
-                else { c = gameIterator.ProcessChoice(); }
-
-                CardGame savestate = gameIterator.game.Clone();
-
-                // Stateandplayer is Tuple with state after move, and the idx of the player who made the move
-                Tuple<CardGame, int> stateandplayer = Tuple.Create<CardGame, int>(savestate, idx);
-
-                // IF THIS IS THE FIRST SIMULATION WHICH HAS ARRIVED AT THIS STATE::
-                if (expand && (!plays.Keys.Contains(stateandplayer)))
-                {
-                    expand = false;
-                    plays[stateandplayer] = 0;
-                    wins[stateandplayer] = 0;
-                    movelist[c] = stateandplayer;
-                }
-                visitedstates.Add(stateandplayer);
+                else { gameIterator.ProcessChoice(); }
             }
 
-            // ProcessScore returns a sorted list 
-            // where the winner is rank 0 for either min/max games.
-
-            // NEED TO FIX ALL THIS NEXT
+            // ProcessScore returns the score for each player and a mult for min/max games
             var (results, mult) = gameIterator.ProcessScore();
-            double[] inverseRankSum = new double[numPlayers];
+            int[,] ranks = DataCollector.FindRanks(results, mult);
 
-            for (int j = 0; j < results.Length; j++)
-            {
-                inverseRankSum[j] = results[j] * mult;
-            }
             // GO THROUGH VISITED STATES
-
-
-            //SOMETHING FAILING HERE
-
-            foreach (Tuple<CardGame, int> stateandplayer in visitedstates)
+            foreach (Tuple<CardGame, int, int> stateandplayer in visitedstates)
             {
-                if (plays.Keys.Contains(stateandplayer))
+                NodeStats node = stats[stateandplayer];
+                node.plays += 1;
+                for (int j = 0; j < numPlayers; j++)
                 {
-                    plays[stateandplayer] += 1;
-                    //Console.WriteLine(inverseRankSum.Length);
-                    //Console.WriteLine(stateandplayer.Item2);
-                    wins[stateandplayer] += inverseRankSum[stateandplayer.Item2];
+                    node.ranks[j] += ranks[j, 0];
+                    node.scores[j] += results[j] * mult;
                 }
-
             }
-        } 
+
+            for (int j = 0; j < numPlayers; j++)
+            {
+                scoreMin = double.Min(scoreMin, results[j]);
+                scoreMax = double.Max(scoreMax, results[j]);
+            }
+            //Console.WriteLine(scoreMin + " -- " + scoreMax);
+        }
     }
 }
-
-

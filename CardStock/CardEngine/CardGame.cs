@@ -431,6 +431,14 @@ namespace CardStock.CardEngine
             }
         }
 
+        public void WipePlayers()
+        {
+            for (int j = 0; j < players.Length; j++)
+            {
+                players[j].decision = null;
+            }
+        }
+
         public int PlayerMakeChoice(int numChoices, int playerIdx)
         {
             Debug.WriteLine("In player make choice");
@@ -527,11 +535,11 @@ namespace CardStock.CardEngine
 
     }
         
-    public class InfoSetComparison(int playeridx) : IEqualityComparer<Tuple<CardGame, int>>
+    public class InfoSetComparison(int playeridx) : IEqualityComparer<Tuple<CardGame, int, int>>
     {
         private readonly int playeridx = playeridx;
 
-        public bool Equals(Tuple<CardGame, int>? g1, Tuple<CardGame, int>? g2)
+        public bool Equals(Tuple<CardGame, int, int>? g1, Tuple<CardGame, int, int>? g2)
         {
             if (g1 is null || g2 is null)
             {
@@ -542,8 +550,8 @@ namespace CardStock.CardEngine
             if (g1.Item2 != g2.Item2)
             { return false; }
 
-            (CardGame game1, _) = g1;
-            (CardGame game2, _) = g2;
+            (CardGame game1, _, _) = g1;
+            (CardGame game2, _, _) = g2;
 
 
             if (game1.teams.Count != game2.teams.Count)
@@ -572,10 +580,10 @@ namespace CardStock.CardEngine
 
             return true;
         }
-        public int GetHashCode(Tuple<CardGame, int> tuple)
+        public int GetHashCode(Tuple<CardGame, int, int> tuple)
         {
             int hash = 0;
-            (CardGame game, _) = tuple;
+            (CardGame game, _, _) = tuple;
             foreach (var player in game.players) { hash ^= player.GetBetterHashCode(true, playeridx); }
             foreach (var team in game.teams) { hash ^= team.GetBetterHashCode(true, playeridx); }
             hash ^= game.table[0].GetBetterHashCode(true, playeridx);

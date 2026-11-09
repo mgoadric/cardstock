@@ -91,10 +91,7 @@ namespace CardStock.Players
 
             CardGame cg = determinizations[det].Item1.Clone();
             GameIterator gameIterator = determinizations[det].Item2.Clone(cg);
-            for (int j = 0; j < numPlayers; j++)
-            {
-                cg.players[j].decision = null;
-            }
+            cg.WipePlayers();
 
             bool expand = true;
             bool first = true;
