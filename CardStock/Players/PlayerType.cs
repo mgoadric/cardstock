@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using CardStock.Evaluation;
-using CardStock.Players;
 
 namespace CardStock.Players
 {

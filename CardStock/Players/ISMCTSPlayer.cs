@@ -6,7 +6,7 @@ using CardStock.FreezeFrame.Actions;
 namespace CardStock.Players
 {
     //https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/
-    public class ISMCTSPLayer(Perspective perspective, DataCollector dc) : AIPlayer(perspective, dc)
+    public class ISMCTSPlayer(Perspective perspective, DataCollector dc) : AIPlayer(perspective, dc)
     {
         private readonly Dictionary<Tuple<CardGame, int, int>, NodeStats> stats = new(new InfoSetComparison(perspective.GetIdx()));
         private readonly Dictionary<Tuple<CardGame, int, int>, NodeStats[]> movestatetree = new(new InfoSetComparison(perspective.GetIdx()));
@@ -20,10 +20,11 @@ namespace CardStock.Players
             choiceStats = new NodeStats[numChoices];
 
             // GAME SIMULATIONS
-            Parallel.For(0, dc.exp.numTests, i =>
+            //Parallel.For(0, dc.exp.numTests, i =>
+            for (int i = 0; i < dc.exp.numTests; i++)
             {
                 RunSimulation(i);
-            });
+            }
         }
 
         public override int ChooseOption()
