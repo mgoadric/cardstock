@@ -29,42 +29,38 @@ namespace CardStock.Players
 
         public override int ChooseOption()
         {
-
             double[][] moveScores = new double[numPlayers][];
             double[][] moveRanks = new double[numPlayers][];
             for (int i = 0; i < perspective.NumberOfPlayers(); i++)
             {
                 moveScores[i] = new double[numChoices];
                 moveRanks[i] = new double[numChoices];
-            }            
-            int[] choiceplays = new int[numChoices];
+            }        
+            // FOR DEBUGGING    
+            //int[] choiceplays = new int[numChoices];
 
             for (int m = 0; m < numChoices; m++)
             {
                 for (int i = 0; i < numPlayers; i++)
                 {
-                    for (int det = 0; det < dc.exp.numSamples; det++)
+                    // check for small sample numbers, some moves might be 0
+                    if (choiceStats[m] is not null)
                     {
-                        // check for small sample numbers, some moves might be 0
-                        if (choiceStats[m] is not null)
-                        {
-                            moveScores[i][m] += choiceStats[m].scores[i] / choiceStats[m].plays;
-                            moveRanks[i][m] += choiceStats[m].ranks[i] / choiceStats[m].plays;
-                            choiceplays[m] += choiceStats[m].plays;
-                        }
-
-                        //if (i == perspective.GetIdx())
-                        //{
-                        //    Console.WriteLine(det + "\t" + m + "\t" + choiceStats[det][m].plays + "\t" + choiceStats[det][m].scores[i] / choiceStats[det][m].plays);
-                        //}
+                        moveScores[i][m] += choiceStats[m].scores[i] / choiceStats[m].plays;
+                        moveRanks[i][m] += choiceStats[m].ranks[i] / choiceStats[m].plays;
+                        //choiceplays[m] += choiceStats[m].plays;
                     }
-                    moveScores[i][m] /= dc.exp.numSamples;
-                    moveRanks[i][m] /= dc.exp.numSamples;
+
+                    //if (i == perspective.GetIdx())
+                    //{
+                    //    Console.WriteLine(det + "\t" + m + "\t" + choiceStats[det][m].plays + "\t" + choiceStats[det][m].scores[i] / choiceStats[det][m].plays);
+                    //}
                 }
             }
 
             var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()]);
 
+            // FOR DEBUGGING
             //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
             //Console.WriteLine("{0}", string.Join(", ", moveScores[perspective.GetIdx()]));
             //Console.WriteLine("{0}", string.Join(", ", choiceplays));
@@ -77,7 +73,7 @@ namespace CardStock.Players
 
         public void RunSimulation(int sim)
         {
-            HashSet<Tuple<CardGame, int, int>> visitedstates = [];
+            HashSet<Tuple<CardGame, int, int>> visitedstates = new(new InfoSetComparison(perspective.GetIdx()));
 
             (CardGame cg, GameIterator gameIterator) = perspective.GetPrivateGame();
             
@@ -88,7 +84,6 @@ namespace CardStock.Players
             int previdx = -1;
             int depth = 0;
             Tuple<CardGame, int, int> parent = Tuple.Create(cg.Clone(), previdx, depth);
-
 
             // "Playing a simulated game"
             while (!gameIterator.AdvanceToChoice())
@@ -205,7 +200,8 @@ namespace CardStock.Players
             }
 
             // ProcessScore returns the score for each player and a mult for min/max games
-            var (results, mult) = gameIterator.ProcessScore();
+            var results = gameIterator.ProcessScore();
+            var mult = gameIterator.ProcessDirection();
             int[,] ranks = DataCollector.FindRanks(results, mult);
 
             // GO THROUGH VISITED STATES
@@ -222,8 +218,8 @@ namespace CardStock.Players
 
             for (int j = 0; j < numPlayers; j++)
             {
-                scoreMin = double.Min(scoreMin, results[j]);
-                scoreMax = double.Max(scoreMax, results[j]);
+                scoreMin = double.Min(scoreMin, results[j] * mult);
+                scoreMax = double.Max(scoreMax, results[j] * mult);
             }
             //Console.WriteLine(scoreMin + " -- " + scoreMax);
         }

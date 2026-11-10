@@ -180,40 +180,54 @@ namespace CardStock.FreezeFrame
             throw new Exception();
         }
 
-        public (int[] results, int mult) ProcessScore()
+        public int ProcessDirection()
+        {
+            var scoreMethod = rules.scoring();
+            // Is this a maximum or minimum score wins game?
+            int mult = 1;
+            if (scoreMethod.GetChild(2).GetText() == "min")
+            {
+                mult = -1;
+            }
+            return mult;
+        }
+
+        public int[] ProcessScore()
         {
             var results = new int[game.players.Length];
             var scoreMethod = rules.scoring();
 
-            game.PushPlayer();
-            game.CurrentPlayer().SetMember(0);
+            // output for JSON
             var r = new List<Dictionary<string, object>>();
             var data = new Dictionary<string, object>
             {
                 ["results"] = r
             };
+
+            // Iterate through the players
+            // Start with the current player
+            game.PushPlayer();
+            game.CurrentPlayer().SetMember(0);
             for (int i = 0; i < results.Length; i++)
             {
                 var score = ProcessInt(scoreMethod.@int());
+                results[i] = score;
+
+                // More JSON stuff
                 var s = new Dictionary<string, object>
                 {
                     ["player"] = "p" + (i + 1),
                     ["score"] = score
                 };
                 r.Add(s);
-                results[i] = score;
+
                 game.CurrentPlayer().Next();
             }
             game.PopPlayer();
+
             script?.WriteToJSON(data, "]}");
 
-            int mult = 1;
-            if (scoreMethod.GetChild(2).GetText() == "min")
-            {
-                mult = -1;
-            }
-
-            return (results, mult);
+            return results;
         }
 
         /************

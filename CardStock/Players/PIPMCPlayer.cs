@@ -17,6 +17,7 @@ namespace CardStock.Players
 
         public override void Explore()
         {
+
             // Is this neccesary?
             if (completed?.Length >= numChoices)
             {
@@ -110,7 +111,8 @@ namespace CardStock.Players
 
             // ProcessScore returns a sorted list 
             // where the winner is rank 0 for either min/max games.
-            var (results, mult) = cloneContext.ProcessScore();
+            var results = cloneContext.ProcessScore();
+            var mult = cloneContext.ProcessDirection();
             int[,] ranks = DataCollector.FindRanks(results, mult);
             lock (this)
             {

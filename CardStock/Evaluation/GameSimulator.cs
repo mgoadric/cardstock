@@ -125,7 +125,8 @@ namespace CardStock.Evaluation
                         }
                     }
 
-                    var (results, mult) = gamePlay.ProcessScore();
+                    var results = gamePlay.ProcessScore();
+                    var mult = gamePlay.ProcessDirection();
                     stopwatch.Stop();
 
                     /************

@@ -81,7 +81,7 @@ namespace CardStock.Evaluation
                     Tuple<int, double[]> allScores = allScoresList[move];
                     for (int k = 0; k < exp.PlayerCount; k++)
                     {
-                        CSVOutput("lead", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, move + 1, allLeads.Item1 + 1, k + 1, allScores.Item2[k], ranks[k, 1] + 1, allLeads.Item2[k]);
+                        CSVOutput("lead", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, move + 1, allLeads.Item1 + 1, k + 1, allScores.Item2[k] * mult, ranks[k, 1] + 1, allLeads.Item2[k]);
                     }
                 }
                 

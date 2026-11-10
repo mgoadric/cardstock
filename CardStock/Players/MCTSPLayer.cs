@@ -47,7 +47,7 @@ namespace CardStock.Players
                 moveScores[i] = new double[numChoices];
                 moveRanks[i] = new double[numChoices];
             }            
-            int[] choiceplays = new int[numChoices];
+            //int[] choiceplays = new int[numChoices];
 
             for (int m = 0; m < numChoices; m++)
             {
@@ -60,7 +60,7 @@ namespace CardStock.Players
                         {
                             moveScores[i][m] += choiceStats[det][m].scores[i] / choiceStats[det][m].plays;
                             moveRanks[i][m] += choiceStats[det][m].ranks[i] / choiceStats[det][m].plays;
-                            choiceplays[m] += choiceStats[det][m].plays;
+                            //choiceplays[m] += choiceStats[det][m].plays;
                         }
 
                         //if (i == perspective.GetIdx())
@@ -98,7 +98,6 @@ namespace CardStock.Players
             int previdx = -1;
             int depth = 0;
             Tuple<CardGame, int, int> parent = Tuple.Create(cg.Clone(), previdx, depth);
-
 
             // "Playing a simulated game"
             while (!gameIterator.AdvanceToChoice())
@@ -146,7 +145,8 @@ namespace CardStock.Players
                             NodeStats child = movelist[i];  // How could this be null????
                             int n = child.plays;
 
-                            // c parameter is the sqrt(2) part
+                            // c parameter is the sqrt(2) 
+                            // c changed to 1.0, easier math, James is happier
                             double normscore = (child.scores[idx] / n - scoreMin) / (scoreMax - scoreMin);
                             //Console.WriteLine(normscore);
                             double temp = normscore + Math.Sqrt(totalplays / n); // Used to be 2 * for the sqrt(2) part
@@ -215,7 +215,8 @@ namespace CardStock.Players
             }
 
             // ProcessScore returns the score for each player and a mult for min/max games
-            var (results, mult) = gameIterator.ProcessScore();
+            var results = gameIterator.ProcessScore();
+            var mult = gameIterator.ProcessDirection();
             int[,] ranks = DataCollector.FindRanks(results, mult);
 
             // GO THROUGH VISITED STATES
@@ -232,8 +233,8 @@ namespace CardStock.Players
 
             for (int j = 0; j < numPlayers; j++)
             {
-                scoreMin = double.Min(scoreMin, results[j]);
-                scoreMax = double.Max(scoreMax, results[j]);
+                scoreMin = double.Min(scoreMin, results[j] * mult);
+                scoreMax = double.Max(scoreMax, results[j] * mult);
             }
             //Console.WriteLine(scoreMin + " -- " + scoreMax);
         }
