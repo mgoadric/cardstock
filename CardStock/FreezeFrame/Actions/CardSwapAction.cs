@@ -158,11 +158,11 @@ namespace CardStock.FreezeFrame.Actions
                 card2.Owner = owner1;
                 if (actualloc1)
                 {
-                    owner1.Add(card2, startLocIndex);
+                    owner1.Add(card2, endLocIndex);
                 }
                 if (actualloc2)
                 {
-                    owner2.Add(card1, endLocIndex);
+                    owner2.Add(card1, startLocIndex);
                 }
             }
             else
