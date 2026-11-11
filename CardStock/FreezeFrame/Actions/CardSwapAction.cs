@@ -15,6 +15,8 @@ namespace CardStock.FreezeFrame.Actions
         public Card card2;
         public bool actualloc1;
         public bool actualloc2;
+        public int startLocIndex;
+        public int endLocIndex;
         public CardSwapAction(CardLocReference start, CardLocReference end, Logger script) : base("swap", script)
         {
             if (start.cardList.type == CCType.MEMORY)
@@ -56,6 +58,7 @@ namespace CardStock.FreezeFrame.Actions
                 ["location"] = owner1.ToJSON(),
                 ["index"] = owner1.IndexOf(card1)
             };
+            startLocIndex = owner1.IndexOf(card1);
             card2 = startLocation.Get();
             owner2 = card2.Owner;
             data["second"] = new Dictionary<string, object> {
@@ -63,6 +66,7 @@ namespace CardStock.FreezeFrame.Actions
                 ["location"] = owner2.ToJSON(),
                 ["index"] = owner2.IndexOf(card2)
             };
+            endLocIndex = owner2.IndexOf(card2);
         }
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
@@ -154,11 +158,11 @@ namespace CardStock.FreezeFrame.Actions
                 card2.Owner = owner1;
                 if (actualloc1)
                 {
-                    owner1.Add(card2);
+                    owner1.Add(card2, startLocIndex);
                 }
                 if (actualloc2)
                 {
-                    owner2.Add(card1);
+                    owner2.Add(card1, endLocIndex);
                 }
             }
             else
