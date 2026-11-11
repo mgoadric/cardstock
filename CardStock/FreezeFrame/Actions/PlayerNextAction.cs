@@ -3,11 +3,21 @@ using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions
 {
-    public class PlayerNextAction(StageCycle<Player> playerCycle, int idx, Logger script) : GameAction("cycle", script)
+    public class PlayerNextAction : GameAction
     {
-        private readonly StageCycle<Player> playerCycle = playerCycle;
-        private readonly int idx = idx;
+        private readonly StageCycle<Player> playerCycle;
+        private readonly int idx;
         private int former = -1;
+
+        public PlayerNextAction(StageCycle<Player> playerCycle, int idx, Logger script) : base("cycle", script)
+        {
+            this.playerCycle = playerCycle;
+            this.idx = idx;
+
+            data["action"] = prefix;
+            data["type"] = "next";
+            data["who"] = "p" + (idx + 1);
+        }
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
@@ -16,13 +26,6 @@ namespace CardStock.FreezeFrame.Actions
                 former = playerCycle.queuedNext;
 			}
             playerCycle.SetNext(idx);
-            var data = new Dictionary<string, object>
-            {
-                ["action"] = prefix,
-                ["type"] = "next",
-                ["who"] = "p" + (idx + 1),
-            };
-            //script?.WriteToJSON(data);
             return data;
         }
 
@@ -34,12 +37,6 @@ namespace CardStock.FreezeFrame.Actions
             } else {
                 playerCycle.RevertNext();
             }
-            //Console.WriteLine("Reverting: " + former);
-
         }
-		public override string ToString()
-		{
-            return "PlayerNextAction: Next player: " + idx.ToString();
-		}
     }
 }

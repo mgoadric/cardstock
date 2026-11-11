@@ -20,25 +20,18 @@ namespace CardStock.FreezeFrame.Actions
                 Debug.WriteLine(loc.name);
                 throw new InvalidOperationException();
             }
+
+            data["action"] = prefix;
+            data["location"] = location.cardList.ToJSON();
         }
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
             notforgotten.Add(location.Remove());
-            var data = new Dictionary<string, object>
-            {
-                ["action"] = prefix,
-                ["location"] = location.cardList.ToJSON(),
-            };
-            return data;
+            return ToJSON();
         }
         public override void Undo()
         {
             location.Add(notforgotten.Remove());
         }
-        public override string ToString()
-        {
-            return "CardForgetAction: To be removed: " + location.name;
-        }
     }
-
 }

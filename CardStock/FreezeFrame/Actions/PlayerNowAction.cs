@@ -11,19 +11,16 @@ namespace CardStock.FreezeFrame.Actions
         {
             this.idx = idx;
             this.cg = cg;
+
+            data["action"] = prefix;
+            data["type"] = "now";
+            data["who"] = "p" + (idx + 1);
         }
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
             former = cg.CurrentPlayer().Current().id;
             cg.CurrentPlayer().SetMember(idx);
-            var data = new Dictionary<string, object>
-            {
-                ["action"] = prefix,
-                ["type"] = "now",
-                ["who"] = "p" + (idx + 1),
-            };
-            //cript?.WriteToJSON(data);
             return data;
         }
 

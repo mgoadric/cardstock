@@ -35,97 +35,80 @@ namespace CardStock.FreezeFrame.Actions
             }
             startLocation = start;
             endLocation = end;
+
+            if (startLocation.Count() == 0)
+            {
+                Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
+                Console.WriteLine("moving to " + endLocation.ToString());
+                throw new Exception();
+            }
+
+            cardToMove = startLocation.Get();
+            owner = cardToMove.Owner;
+            data["action"] = prefix;
+            data["card"] = cardToMove.ToJSON();
+            data["origin"] = new Dictionary<string, object> {
+                ["location"] = owner.ToJSON(),
+                ["index"] = owner.IndexOf(cardToMove)
+            };
+            data["destination"] = new Dictionary<string, object> {
+                ["location"] = endLocation.cardList.ToJSON(),
+                ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid : 
+                                endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
+                                endLocation.cardList.Count 
+            };
         }
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
+            cardToMove = startLocation.Remove();
+            owner = cardToMove.Owner;
+            endLocation.Add(cardToMove);
+            cardToMove.Owner = endLocation.cardList;
 
-            try
-            {
-                if (startLocation.Count() != 0)
+            Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation);
+
+            if (!inChoice) {
+                script?.AddToMovementFile(owner, endLocation.cardList);
+
+                // Track here to see if it moved from a visible to invisible location TODO
+                // Then record the invisible as the last known location.
+                if (GameSimulator.exp!.imperfectLevel >= ImperfectLevel.TAKEN)
                 {
-
-                    var data = new Dictionary<string, object>();
-                    if (script is not null)
+                    if (owner.type == CCType.VISIBLE && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
                     {
-                        cardToMove = startLocation.Get();
-                        owner = cardToMove.Owner;
-                        data["action"] = prefix;
-                        data["card"] = cardToMove.ToJSON();
-                        data["origin"] = new Dictionary<string, object> {
-                            ["location"] = owner.ToJSON(),
-                            ["index"] = owner.IndexOf(cardToMove)
-                        };
-                        data["destination"] = new Dictionary<string, object> {
-                            ["location"] = endLocation.cardList.ToJSON(),
-                            ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid : 
-                                            endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
-                                            endLocation.cardList.Count 
-                        };
+                        //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
+                        endLocation.cardList.AddKnown(cardToMove);
                     }
-
-                    cardToMove = startLocation.Remove();
-                    owner = cardToMove.Owner;
-                    endLocation.Add(cardToMove);
-                    cardToMove.Owner = endLocation.cardList;
-
-                    Debug.WriteLine("Moved Card '" + cardToMove + " to " + endLocation);
-
-                    if (!inChoice) {
-                        script?.AddToMovementFile(owner, endLocation.cardList);
-
-                        // Track here to see if it moved from a visible to invisible location TODO
-                        // Then record the invisible as the last known location.
-                        if (GameSimulator.exp!.imperfectLevel >= ImperfectLevel.TAKEN)
+                    if (owner.type == CCType.INVISIBLE || owner.type == CCType.HIDDEN)
+                    {
+                        if (endLocation.cardList.type == CCType.VISIBLE)
                         {
-                            if (owner.type == CCType.VISIBLE && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
-                            {
-                                //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
-                                endLocation.cardList.AddKnown(cardToMove);
-                            }
-                            if (owner.type == CCType.INVISIBLE || owner.type == CCType.HIDDEN)
-                            {
-                                if (endLocation.cardList.type == CCType.VISIBLE)
-                                {
-                                    owner.RemoveKnown(cardToMove);
-                                }
-                                else 
-                                {         
-                                    //Console.WriteLine("Clearing out " + startLocation.cardList.name);
-                                    owner.ClearKnown();
-                                }
+                            owner.RemoveKnown(cardToMove);
+                        }
+                        else 
+                        {         
+                            //Console.WriteLine("Clearing out " + startLocation.cardList.name);
+                            owner.ClearKnown();
+                        }
 
-                                if (GameSimulator.exp.imperfectLevel >= ImperfectLevel.PASSED)
-                                {
-                                    if (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN)
-                                    {
-                                        //endLocation.cardList.AddPerceived(owner.owner.owner, cardToMove);
-                                    }
-                                }
+                        if (GameSimulator.exp.imperfectLevel >= ImperfectLevel.PASSED)
+                        {
+                            if (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN)
+                            {
+                                //endLocation.cardList.AddPerceived(owner.owner.owner, cardToMove);
                             }
                         }
                     }
-                
-                    complete = true;
-                    return data;
-
                 }
-                else
-                {
-                    Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
-                    Console.WriteLine("moving to " + endLocation.ToString());
-                    throw new Exception();
-                }
-
             }
-            catch
+        
+            complete = true;
+            if (script is not null) {
+                return data;
+            } else
             {
-                Debug.WriteLine(startLocation.name);
-                foreach (var card in startLocation.cardList.AllCards())
-                {
-                    Debug.WriteLine(card);
-                }
-                throw;
+                return [];
             }
         }
 
@@ -159,10 +142,6 @@ namespace CardStock.FreezeFrame.Actions
                 Debug.WriteLine("move has not been executed yet");
                 throw new NotSupportedException();
             }
-        }
-        public override string ToString()
-        {
-            return "CardMoveAction: StartLocation: " + startLocation.name + "; EndLocation: " + endLocation.name;
         }
     }
 

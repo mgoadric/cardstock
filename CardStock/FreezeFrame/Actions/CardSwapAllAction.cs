@@ -33,105 +33,84 @@ namespace CardStock.FreezeFrame.Actions
             }
             startLocation = start;
             endLocation = end;
+
+            if (startLocation.Count() == 0 || endLocation.Count() == 0)
+            {
+                    Console.WriteLine("error: attempting to swap from empty location " + startLocation.ToString()); //TODO debug here
+                    Console.WriteLine("swapping to " + endLocation.ToString());
+                    throw new Exception();                
+            }
+
+            data["action"] = prefix;
+            data["first"] = startLocation.cardList.ToJSON();
+            data["second"] = endLocation.cardList.ToJSON();
         }
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
-            try
+            Queue<Card> temp = new();  
+            foreach (var card in startLocation.cardList.AllCards())
             {
-                if (startLocation.Count() != 0 && endLocation.Count() != 0)
-                {
-
-                    var data = new Dictionary<string, object>();
-                    if (script is not null)
-                    {
-                        data["action"] = prefix;
-                        data["first"] = startLocation.cardList.ToJSON();
-                        data["second"] = endLocation.cardList.ToJSON();
-                    }
-
-                    Queue<Card> temp = new();  
-                    foreach (var card in startLocation.cardList.AllCards())
-                    {
-                        temp.Enqueue(card);
-                    }
-                    startLocation.cardList.Clear();
-                    foreach (var card in endLocation.cardList.AllCards())
-                    {
-                        startLocation.cardList.Add(card);
-                        card.Owner = startLocation.cardList;
-                        if (!inChoice) {
-                            script?.AddToMovementFile(endLocation.cardList, startLocation.cardList);
-                        }
-                    }
-                    endLocation.cardList.Clear();
-                    foreach (var card in temp)
-                    {
-                        endLocation.cardList.Add(card);
-                        card.Owner = endLocation.cardList;
-                        if (!inChoice) {
-                            script?.AddToMovementFile(startLocation.cardList, endLocation.cardList);
-                        }
-                    }
-
-                    Debug.WriteLine("loc Counts " + startLocation.Count() + ", " + endLocation.Count());
-
-                    if (!inChoice) {
-                        script?.AddToMovementFile(startLocation.cardList, endLocation.cardList);
-                        script?.AddToMovementFile(endLocation.cardList, startLocation.cardList);
-
-                        // Track here to see if it moved from a visible to invisible location TODO
-                        // Then record the invisible as the last known location.
-                        if (GameSimulator.exp!.imperfectLevel >= ImperfectLevel.TAKEN)
-                        {
-
-                            if (startLocation.cardList.type == CCType.INVISIBLE || startLocation.cardList.type == CCType.HIDDEN)
-                            {
-                                startLocation.cardList.ClearKnown();
-                            }
-                            if (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN)
-                            {
-                                endLocation.cardList.ClearKnown();
-                            }
-
-                            if (startLocation.cardList.type == CCType.VISIBLE && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
-                            {
-                                //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
-                                foreach (var card in endLocation.cardList.AllCards()) {
-                                    endLocation.cardList.AddKnown(card);
-                                }
-                            }
-                            if (endLocation.cardList.type == CCType.VISIBLE && (startLocation.cardList.type == CCType.INVISIBLE || startLocation.cardList.type == CCType.HIDDEN))
-                            {
-                                //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
-                                foreach (var card in startLocation.cardList.AllCards()) {
-                                    startLocation.cardList.AddKnown(card);
-                                }
-                            }                        }
-                    }
-                    Debug.WriteLine("Swapped Cards from'" + startLocation + " to " + endLocation);
-
-                    // Track here to see if it moved from a visible to invisible location TODO
-                    // Then record the invisible as the last known location.
-                    complete = true;
-                    return data;
-                }
-                else
-                {
-                    Console.WriteLine("error: attempting to swap from empty location " + startLocation.ToString()); //TODO debug here
-                    Console.WriteLine("swapping to " + endLocation.ToString());
-                    throw new Exception();
+                temp.Enqueue(card);
+            }
+            startLocation.cardList.Clear();
+            foreach (var card in endLocation.cardList.AllCards())
+            {
+                startLocation.cardList.Add(card);
+                card.Owner = startLocation.cardList;
+                if (!inChoice) {
+                    script?.AddToMovementFile(endLocation.cardList, startLocation.cardList);
                 }
             }
-            catch
+            endLocation.cardList.Clear();
+            foreach (var card in temp)
             {
-                Debug.WriteLine(startLocation.name);
-                foreach (var card in startLocation.cardList.AllCards())
-                {
-                    Debug.WriteLine(card);
+                endLocation.cardList.Add(card);
+                card.Owner = endLocation.cardList;
+                if (!inChoice) {
+                    script?.AddToMovementFile(startLocation.cardList, endLocation.cardList);
                 }
-                throw;
             }
+
+            Debug.WriteLine("loc Counts " + startLocation.Count() + ", " + endLocation.Count());
+
+            if (!inChoice) {
+                script?.AddToMovementFile(startLocation.cardList, endLocation.cardList);
+                script?.AddToMovementFile(endLocation.cardList, startLocation.cardList);
+
+                // Track here to see if it moved from a visible to invisible location TODO
+                // Then record the invisible as the last known location.
+                if (GameSimulator.exp!.imperfectLevel >= ImperfectLevel.TAKEN)
+                {
+
+                    if (startLocation.cardList.type == CCType.INVISIBLE || startLocation.cardList.type == CCType.HIDDEN)
+                    {
+                        startLocation.cardList.ClearKnown();
+                    }
+                    if (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN)
+                    {
+                        endLocation.cardList.ClearKnown();
+                    }
+
+                    if (startLocation.cardList.type == CCType.VISIBLE && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
+                    {
+                        //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
+                        foreach (var card in endLocation.cardList.AllCards()) {
+                            endLocation.cardList.AddKnown(card);
+                        }
+                    }
+                    if (endLocation.cardList.type == CCType.VISIBLE && (startLocation.cardList.type == CCType.INVISIBLE || startLocation.cardList.type == CCType.HIDDEN))
+                    {
+                        //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
+                        foreach (var card in startLocation.cardList.AllCards()) {
+                            startLocation.cardList.AddKnown(card);
+                        }
+                    }                        }
+            }
+            Debug.WriteLine("Swapped Cards from'" + startLocation + " to " + endLocation);
+
+            complete = true;
+            return data;
         }
 
         public override void Undo()
@@ -161,10 +140,6 @@ namespace CardStock.FreezeFrame.Actions
                 Debug.WriteLine("swap has not been executed yet");
                 throw new NotSupportedException();
             }
-        }
-        public override string ToString()
-        {
-            return "CardSwapAllAction: StartLocation: " + startLocation.name + "; EndLocation: " + endLocation.name;
         }
     }
 }

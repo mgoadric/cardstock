@@ -15,27 +15,26 @@ namespace CardStock.FreezeFrame.Actions
             {
                 throw new InvalidOperationException();
             }
+
+            var cardToCopy = startLocation.Get();
+            var owner = cardToCopy.Owner;
+
+            data["action"] = prefix;
+            data["origin"] = new Dictionary<string, object> {
+                ["location"] = owner.ToJSON(),
+                ["index"] = owner.IndexOf(cardToCopy)
+            };
+            data["destination"] = new Dictionary<string, object> {
+                ["location"] = endLocation.cardList.ToJSON(),
+                ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid : 
+                                endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
+                                endLocation.cardList.Count 
+            };
+        
         }
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
             var cardToCopy = startLocation.Get();
-            var owner = cardToCopy.Owner;
-
-            var data = new Dictionary<string, object>();
-            if (script is not null)
-            {
-                data["action"] = prefix;
-                data["origin"] = new Dictionary<string, object> {
-                    ["location"] = owner.ToJSON(),
-                    ["index"] = owner.IndexOf(cardToCopy)
-                };
-                data["destination"] = new Dictionary<string, object> {
-                    ["location"] = endLocation.cardList.ToJSON(),
-                    ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid : 
-                                    endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
-                                    endLocation.cardList.Count 
-                };
-            }
 
             endLocation.Add(cardToCopy);
             if (!inChoice) {
@@ -47,11 +46,5 @@ namespace CardStock.FreezeFrame.Actions
         {
             endLocation.Remove();
         }
-        public override string ToString()
-        {
-            return "CardRememberAction: Starting loaction: " + startLocation.name + "; Ending location: " + endLocation.name;
-        }
     }
-
-
 }

@@ -2,24 +2,21 @@ using System.Text.Json;
 using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions {
-    public class SetAction<T>(DefaultStorage<T> storage, string bKey, T v, Logger? script) : GameAction("set", script) {
+    public class SetAction<T> : GameAction {
 
-        readonly DefaultStorage<T> bins = storage;
-        readonly string key = bKey;
-        readonly T value = v;
-        T oldValue;
+        private readonly DefaultStorage<T> bins;
+        private readonly string key;
+        private readonly T value;
+        private T oldValue;
 
-        public override Dictionary<string, object> Execute(bool inChoice = false) {
-            oldValue = bins[key];
-            bins[key] = value;
-            complete = true;
+        public SetAction(DefaultStorage<T> storage, string bKey, T v, Logger? script) : base("set", script) {
+            bins = storage;
+            key = bKey;
+            value = v;
 
-            var data = new Dictionary<string, object>
-            {
-                ["action"] = prefix,
-                ["owner"] = bins.owner.name,
-                ["key"] = key,
-            };
+            data["action"] = prefix;
+            data["owner"] = bins.owner.name;
+            data["key"] = key;
 
             if (value is int || value is string) 
             {
@@ -39,8 +36,12 @@ namespace CardStock.FreezeFrame.Actions {
                 Console.WriteLine("THIS IS WEIRD!");
                 throw new Exception();
             }
+        }
 
-            //script?.WriteToJSON(data);
+        public override Dictionary<string, object> Execute(bool inChoice = false) {
+            oldValue = bins[key];
+            bins[key] = value;
+            complete = true;
             return data;
         }
         public override void Undo() {
@@ -53,9 +54,5 @@ namespace CardStock.FreezeFrame.Actions {
                 throw new UnauthorizedAccessException();
             }
         }
-		public override string ToString()
-		{
-            return value.GetType() + "Action: value: " + value.ToString();
-		}
     }
 }

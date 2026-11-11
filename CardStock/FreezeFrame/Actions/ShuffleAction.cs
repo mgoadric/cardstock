@@ -3,10 +3,18 @@ using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions
 {
-    public class ShuffleAction(CardLocReference location, Logger script) : GameAction("shuffle", script)
+    public class ShuffleAction : GameAction
     {
-        private readonly CardLocReference location = location;
+        private readonly CardLocReference location;
         private readonly CardCollection unshuffled = new(CCType.VIRTUAL);
+
+        public ShuffleAction(CardLocReference location, Logger script) : base("shuffle", script)
+        {
+            this.location = location;
+
+            data["action"] = prefix;
+            data["location"] = location.cardList.ToJSON();
+        }
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
@@ -16,12 +24,6 @@ namespace CardStock.FreezeFrame.Actions
             }
             location.cardList.Shuffle();
 
-            var data = new Dictionary<string, object>
-            {
-                ["action"] = prefix,
-                ["location"] = location.cardList.ToJSON(),
-            };
-            //script?.WriteToJSON(data);
             return data;
         }
         public override void Undo()
@@ -31,10 +33,6 @@ namespace CardStock.FreezeFrame.Actions
             {
                 location.Add(c);
             }
-        }
-        public override string ToString()
-        {
-            return "ShuffleAction. Location: " + location.name;
         }
     }
 }

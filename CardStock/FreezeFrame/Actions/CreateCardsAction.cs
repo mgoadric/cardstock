@@ -27,7 +27,6 @@ namespace CardStock.FreezeFrame.Actions
                 ["cards"] = cg.SetDeck(deck, location, name, script),
                 ["location"] = location.ToJSON()
             };
-            //script?.WriteToJSON(data);
                     
             script?.AddStart(location.MovementName());
             return data;
@@ -40,9 +39,5 @@ namespace CardStock.FreezeFrame.Actions
                 location.Add(c);
             }
         }
-		public override string ToString()
-		{
-            return "CreateCardsAction: " + "Location: " + location.name + "; Cards: " + location.AllCards();
-		}
     }
 }
