@@ -12,7 +12,7 @@ namespace CardStock.CardEngine
         public readonly int id = id;
         public int idX = id;
         // a card should have a back, separate from the last known place, per player.
-        public string back = back;
+        public readonly string back = back;
 
         public Card Clone()
         {

@@ -45,6 +45,7 @@ namespace CardStock.FreezeFrame.Actions
 
             cardToMove = startLocation.Get();
             owner = cardToMove.Owner;
+            ownerIndex = owner.IndexOf(cardToMove);
             data["action"] = prefix;
             data["card"] = cardToMove.ToJSON(); // THIS LEAKS INFORMATION, BUT IS NEEDED FOR ACCURATE TRANSCRIPT
             data["origin"] = new Dictionary<string, object> {
@@ -126,9 +127,10 @@ namespace CardStock.FreezeFrame.Actions
                 // Does it matter? I THINK SO
                 // WHAT? Testing and they are equal before and after??? Weird.
                 // Then what is causing the problems??
+                // I THINK THE ownerIndex FIXED IT!
                 if (actualloc)
                 {
-                    owner.Add(cardToMove);
+                    owner.Add(cardToMove, ownerIndex);
                 }
                 cardToMove.Owner = owner;
             }
@@ -139,5 +141,4 @@ namespace CardStock.FreezeFrame.Actions
             }
         }
     }
-
 }
