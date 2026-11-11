@@ -18,11 +18,6 @@ namespace CardStock.FreezeFrame.Actions {
         {
             return JsonSerializer.Serialize(data);
         }
-
-        public Dictionary<string, object> ToJSON()
-        {
-            return data;
-        }
     }
     
     // NOT A REAL GAME ACTION, USED IN RECURSEDO FOR GENERATING CHOICES...

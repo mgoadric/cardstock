@@ -22,7 +22,8 @@ namespace CardStock.FreezeFrame.Actions
             data["action"] = prefix;
             data["origin"] = new Dictionary<string, object> {
                 ["location"] = owner.ToJSON(),
-                ["index"] = owner.IndexOf(cardToCopy)
+                ["index"] = owner.IndexOf(cardToCopy),
+                ["card"] = cardToCopy.ToJSON() // THIS LEAKS INFORMATION, BUT IS NEEDED FOR ACCURATE TRANSCRIPT
             };
             data["destination"] = new Dictionary<string, object> {
                 ["location"] = endLocation.cardList.ToJSON(),
@@ -30,7 +31,6 @@ namespace CardStock.FreezeFrame.Actions
                                 endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
                                 endLocation.cardList.Count 
             };
-        
         }
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {

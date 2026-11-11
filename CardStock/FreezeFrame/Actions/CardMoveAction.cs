@@ -46,7 +46,7 @@ namespace CardStock.FreezeFrame.Actions
             cardToMove = startLocation.Get();
             owner = cardToMove.Owner;
             data["action"] = prefix;
-            data["card"] = cardToMove.ToJSON();
+            data["card"] = cardToMove.ToJSON(); // THIS LEAKS INFORMATION, BUT IS NEEDED FOR ACCURATE TRANSCRIPT
             data["origin"] = new Dictionary<string, object> {
                 ["location"] = owner.ToJSON(),
                 ["index"] = owner.IndexOf(cardToMove)
@@ -104,12 +104,7 @@ namespace CardStock.FreezeFrame.Actions
             }
         
             complete = true;
-            if (script is not null) {
-                return data;
-            } else
-            {
-                return [];
-            }
+            return data;
         }
 
         public override void Undo()

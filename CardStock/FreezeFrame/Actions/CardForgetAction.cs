@@ -27,7 +27,7 @@ namespace CardStock.FreezeFrame.Actions
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
             notforgotten.Add(location.Remove());
-            return ToJSON();
+            return data;
         }
         public override void Undo()
         {

@@ -167,10 +167,5 @@ namespace CardStock.FreezeFrame.Actions
                 throw new NotSupportedException();
             }
         }
-        public override string ToString()
-        {
-            return "CardSwapAction: StartLocation: " + startLocation.name + "; EndLocation: " + endLocation.name;
-        }
     }
-
 }

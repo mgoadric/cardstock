@@ -29,10 +29,5 @@ namespace CardStock.FreezeFrame.Actions
             cg.CurrentPlayer().SetMember(former);
             //script.WriteToFile(prefix + ": " + cg.CurrentPlayer().CurrentName());
         }
-
-		public override string ToString()
-		{
-            return "PlayerNowAction: Set player: " + idx.ToString();
-		}
     }
 }
