@@ -10,14 +10,16 @@ namespace CardStock.Players
     {
         private readonly Dictionary<Tuple<CardGame, int, int>, NodeStats> stats = new(new InfoSetComparison(perspective.GetIdx()));
         private readonly Dictionary<Tuple<CardGame, int, int>, NodeStats[]> movestatetree = new(new InfoSetComparison(perspective.GetIdx()));
-        private NodeStats[] choiceStats;
+        private Dictionary<string, NodeStats> choiceStats;
+        private List<string> allData;
 
         private double scoreMin = double.MaxValue;
         private double scoreMax = double.MinValue;
 
-        public override void Explore(List<string> data)
+        public override void Explore(List<string> allData)
         {
-            choiceStats = new NodeStats[numChoices];
+            this.allData = allData;
+            choiceStats = [];
 
             // GAME SIMULATIONS
             for (int i = 0; i < dc.exp.numTests; i++)
@@ -43,10 +45,10 @@ namespace CardStock.Players
                 for (int i = 0; i < numPlayers; i++)
                 {
                     // check for small sample numbers, some moves might be 0
-                    if (choiceStats[m] is not null)
+                    if (choiceStats[allData[m]] is not null)
                     {
-                        moveScores[i][m] += choiceStats[m].scores[i] / choiceStats[m].plays;
-                        moveRanks[i][m] += choiceStats[m].ranks[i] / choiceStats[m].plays;
+                        moveScores[i][m] += choiceStats[allData[m]].scores[i] / choiceStats[allData[m]].plays;
+                        moveRanks[i][m] += choiceStats[allData[m]].ranks[i] / choiceStats[allData[m]].plays;
                         //choiceplays[m] += choiceStats[m].plays;
                     }
 
@@ -191,7 +193,7 @@ namespace CardStock.Players
                     // IF AT THE ROOT
                     if (first)
                     {
-                        choiceStats[choice] = stats[chosen];
+                        choiceStats[allData[choice]] = stats[chosen];
                         first = false;
                     }
                 }
