@@ -1,6 +1,8 @@
 using System.Diagnostics;
+using System.Runtime.ExceptionServices;
 using CardStock.CardEngine;
 using CardStock.Evaluation;
+using CardStock.Players;
 
 namespace CardStock.FreezeFrame.Actions
 {
@@ -60,19 +62,24 @@ namespace CardStock.FreezeFrame.Actions
                 startCard = startLocation.Get();
                 startOwner = startCard.Owner;
                 startIdx = startOwner.IndexOf(startCard);
-                data["first"] = new Dictionary<string, object> {
-                    ["card"] = startCard.ToJSON(),
-                    ["location"] = startOwner.ToJSON(),
-                    ["index"] = startIdx
-                };
+                var first = new Dictionary<string, object>();
+                if (!inChoice) {
+                    first["card"] = startCard.ToJSON();
+                }
+                first["location"] = startOwner.ToJSON();
+                first["index"] = startIdx;
+                data["first"] = first;
                 endCard = startLocation.Get();
                 endOwner = endCard.Owner;
                 endIdx = endOwner.IndexOf(endCard);
-                data["second"] = new Dictionary<string, object> {
-                    ["card"] = endCard.ToJSON(),
-                    ["location"] = endOwner.ToJSON(),
-                    ["index"] = endIdx
-                };
+
+                var second = new Dictionary<string, object>();
+                if (!inChoice) {
+                    second["card"] = endCard.ToJSON();
+                }
+                second["location"] = endOwner.ToJSON();
+                second["index"] = endIdx;
+                data["second"] = second;
             }
 
             startCard = startLocation.Remove();
