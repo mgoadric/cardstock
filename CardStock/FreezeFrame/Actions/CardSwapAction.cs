@@ -9,12 +9,14 @@ namespace CardStock.FreezeFrame.Actions
     {
         public CardLocReference startLocation;
         public CardLocReference endLocation;
-        public CardCollection owner1;
-        public CardCollection owner2;
-        public Card card1;
-        public Card card2;
-        public bool actualloc1;
-        public bool actualloc2;
+        public CardCollection startOwner;
+        public CardCollection endOwner;
+        public Card startCard;
+        public Card endCard;
+        public int startIdx;
+        public int endIdx;
+        public bool actuallocStart;
+        public bool actuallocEnd;
         public CardSwapAction(CardLocReference start, CardLocReference end, Logger script) : base("swap", script)
         {
             if (start.cardList.type == CCType.MEMORY)
@@ -31,130 +33,118 @@ namespace CardStock.FreezeFrame.Actions
             if (start.cardList.type == CCType.VIRTUAL)
             {
                 Debug.WriteLine("start is a virtual loc " + start.name + ", " + end.name);
-                actualloc1 = true;
+                actuallocStart = true;
             }
             if (end.cardList.type == CCType.VIRTUAL)
             {
-                actualloc2 = true;
+                actuallocEnd = true;
             }
 
             startLocation = start;
             endLocation = end;
+
+            if (startLocation.Count() == 0 || endLocation.Count() == 0) {
+
+                Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
+                Console.WriteLine("swapping to " + endLocation.ToString());
+                throw new Exception();
+            }
         }
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
-            try
+            var data = new Dictionary<string, object>();
+            if (script is not null)
             {
-                if (startLocation.Count() != 0 && endLocation.Count() != 0)
+                data["action"] = prefix;
+                startCard = startLocation.Get();
+                startOwner = startCard.Owner;
+                startIdx = startOwner.IndexOf(startCard);
+                data["first"] = new Dictionary<string, object> {
+                    ["card"] = startCard.ToJSON(),
+                    ["location"] = startOwner.ToJSON(),
+                    ["index"] = startIdx
+                };
+                endCard = startLocation.Get();
+                endOwner = endCard.Owner;
+                endIdx = endOwner.IndexOf(endCard);
+                data["second"] = new Dictionary<string, object> {
+                    ["card"] = endCard.ToJSON(),
+                    ["location"] = endOwner.ToJSON(),
+                    ["index"] = endIdx
+                };
+            }
+
+            startCard = startLocation.Remove();
+            endCard = endLocation.Remove();
+            startLocation.Add(endCard);
+            endLocation.Add(startCard);
+            startOwner = startCard.Owner;
+            endOwner = endCard.Owner;
+            startCard.Owner = endOwner;
+            endCard.Owner = startOwner;
+            if (actuallocStart)
+            {
+                startOwner.Add(endCard);
+            }
+            if (actuallocEnd)
+            {
+                endOwner.Add(startCard);
+            }
+
+            if (!inChoice) {
+                script?.AddToMovementFile(startOwner, endOwner);
+                script?.AddToMovementFile(endOwner, startOwner);
+
+                // Track here to see if either moved from a visible to invisible location TODO
+                // Then record the invisible as the last known location.
+                // SHOULD THIS BE HERE, OR ANOTHER FUNCTION??
+                if (GameSimulator.exp!.imperfectLevel >= ImperfectLevel.TAKEN)
                 {
-                    var data = new Dictionary<string, object>();
-                    if (script is not null)
-                    {
-                        data["action"] = prefix;
-                        card1 = startLocation.Get();
-                        owner1 = card1.Owner;
-                        data["first"] = new Dictionary<string, object> {
-                            ["card"] = card1.ToJSON(),
-                            ["location"] = owner1.ToJSON(),
-                            ["index"] = owner1.IndexOf(card1)
-                        };
-                        card2 = startLocation.Get();
-                        owner2 = card2.Owner;
-                        data["second"] = new Dictionary<string, object> {
-                            ["card"] = card2.ToJSON(),
-                            ["location"] = owner2.ToJSON(),
-                            ["index"] = owner2.IndexOf(card2)
-                        };
-                    }
+                    // FIND BETTER WAY THAN COPY/PASTA
 
-                    card1 = startLocation.Remove();
-                    card2 = endLocation.Remove();
-                    startLocation.Add(card2);
-                    endLocation.Add(card1);
-                    owner1 = card1.Owner;
-                    owner2 = card2.Owner;
-                    card1.Owner = owner2;
-                    card2.Owner = owner1;
-                    if (actualloc1)
+                    if (startOwner.type == CCType.INVISIBLE || startOwner.type == CCType.HIDDEN)
                     {
-                        owner1.Add(card2);
-                    }
-                    if (actualloc2)
-                    {
-                        owner2.Add(card1);
-                    }
-
-                    if (!inChoice) {
-                        script?.AddToMovementFile(owner1, owner2);
-                        script?.AddToMovementFile(owner2, owner1);
-
-                        // Track here to see if either moved from a visible to invisible location TODO
-                        // Then record the invisible as the last known location.
-                        // SHOULD THIS BE HERE, OR ANOTHER FUNCTION??
-                        if (GameSimulator.exp!.imperfectLevel >= ImperfectLevel.TAKEN)
+                        if (endLocation.cardList.type == CCType.VISIBLE)
                         {
-                            // FIND BETTER WAY THAN COPY/PASTA
-
-                            if (owner1.type == CCType.INVISIBLE || owner1.type == CCType.HIDDEN)
-                            {
-                                if (endLocation.cardList.type == CCType.VISIBLE)
-                                {
-                                    owner1.RemoveKnown(card1);
-                                }
-                                else 
-                                {         
-                                    //Console.WriteLine("Clearing out " + startLocation.cardList.name);
-                                    owner1.ClearKnown();
-                                }
-                            }
-                            if (owner2.type == CCType.INVISIBLE || owner2.type == CCType.HIDDEN)
-                            {
-                                if (startLocation.cardList.type == CCType.VISIBLE)
-                                {
-                                    owner2.RemoveKnown(card1);
-                                }
-                                else 
-                                {         
-                                    //Console.WriteLine("Clearing out " + startLocation.cardList.name);
-                                    owner2.ClearKnown();
-                                }
-                            }
-                            if (owner1.type == CCType.VISIBLE && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
-                            {
-                                //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
-                                endLocation.cardList.AddKnown(card1);
-                            }
-                            if (owner2.type == CCType.VISIBLE && (startLocation.cardList.type == CCType.INVISIBLE || startLocation.cardList.type == CCType.HIDDEN))
-                            {
-                                //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
-                                startLocation.cardList.AddKnown(card1);
-                            }
-                            
+                            startOwner.RemoveKnown(startCard);
                         }
-
+                        else 
+                        {         
+                            //Console.WriteLine("Clearing out " + startLocation.cardList.name);
+                            startOwner.ClearKnown();
+                        }
                     }
-                    Debug.WriteLine("Swapped Cards '" + card1 + " to " + endLocation.locIdentifier);
+                    if (endOwner.type == CCType.INVISIBLE || endOwner.type == CCType.HIDDEN)
+                    {
+                        if (startLocation.cardList.type == CCType.VISIBLE)
+                        {
+                            endOwner.RemoveKnown(startCard);
+                        }
+                        else 
+                        {         
+                            //Console.WriteLine("Clearing out " + startLocation.cardList.name);
+                            endOwner.ClearKnown();
+                        }
+                    }
+                    if (startOwner.type == CCType.VISIBLE && (endLocation.cardList.type == CCType.INVISIBLE || endLocation.cardList.type == CCType.HIDDEN))
+                    {
+                        //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
+                        endLocation.cardList.AddKnown(startCard);
+                    }
+                    if (endOwner.type == CCType.VISIBLE && (startLocation.cardList.type == CCType.INVISIBLE || startLocation.cardList.type == CCType.HIDDEN))
+                    {
+                        //Console.WriteLine("Hiding a card that is known!!! " + startLocation.cardList.name + " -> " + endLocation.cardList.name);
+                        startLocation.cardList.AddKnown(startCard);
+                    }
+                    
+                }
 
-                    complete = true;
-                    return data;
-                }
-                else
-                {
-                    Console.WriteLine("error: attempting to move from empty location " + startLocation.ToString()); //TODO debug here
-                    Console.WriteLine("swapping to " + endLocation.ToString());
-                    throw new Exception();
-                }
             }
-            catch
-            {
-                Debug.WriteLine(startLocation.name);
-                foreach (var card in startLocation.cardList.AllCards())
-                {
-                    Debug.WriteLine(card);
-                }
-                throw;
-            }
+            Debug.WriteLine("Swapped Cards '" + startCard + " to " + endLocation.locIdentifier);
+
+            complete = true;
+            return data;
         }
 
         public override void Undo()
@@ -162,21 +152,19 @@ namespace CardStock.FreezeFrame.Actions
             if (complete)
             {
                 Debug.WriteLine("Undoing FancyCardSwapAction. Putting them back.");
-                card1 = startLocation.Remove();
-                card2 = endLocation.Remove();
-                startLocation.Add(card2);
-                endLocation.Add(card1);
-                owner1 = card1.Owner;
-                owner2 = card2.Owner;
-                card1.Owner = owner2;
-                card2.Owner = owner1;
-                if (actualloc1)
+                startLocation.Remove();
+                endLocation.Remove();
+                startLocation.Add(startCard);
+                endLocation.Add(endCard);
+                startCard.Owner = startOwner;
+                endCard.Owner = endOwner;
+                if (actuallocStart)
                 {
-                    owner1.Add(card2);
+                    startOwner.Add(startCard, startIdx);
                 }
-                if (actualloc2)
+                if (actuallocEnd)
                 {
-                    owner2.Add(card1);
+                    endOwner.Add(endCard, endIdx);
                 }
             }
             else

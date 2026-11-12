@@ -174,6 +174,7 @@ namespace CardStock.FreezeFrame
                     }
                 };
                 script?.WriteToJSON(data3);
+                // Can we use the allData here as the names for the options???
                 return allOptions;
             }
             Console.WriteLine("Not a choice, why are we in BuildOptions???");
