@@ -2,6 +2,7 @@ using System.Diagnostics;
 using CardStock.CardEngine;
 using CardStock.FreezeFrame;
 using CardStock.Evaluation;
+using CardStock.FreezeFrame.Actions;
 
 namespace CardStock.Players
 {
@@ -15,7 +16,7 @@ namespace CardStock.Players
 
         private readonly Tuple<CardGame, GameIterator>[] determinizations = new Tuple<CardGame, GameIterator>[dc.exp.numSamples];
 
-        public override void Explore()
+        public override void Explore(List<string> allData)
         {
 
             // Is this neccesary?
@@ -87,7 +88,8 @@ namespace CardStock.Players
             GameIterator cloneContext = determinizations[det].Item2.Clone(cg);
 
             // Make the chosen move
-            cloneContext.BuildOptions()[move].ExecuteAll();
+            (List<GameActionCollection> allOptions, _) = cloneContext.BuildOptions();
+            allOptions[move].ExecuteAll();
             cloneContext.PopCurrentNode();
 
             // Assign the AI players for rollout game, with the 

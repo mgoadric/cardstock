@@ -439,7 +439,7 @@ namespace CardStock.CardEngine
             }
         }
 
-        public int PlayerMakeChoice(int numChoices, int playerIdx)
+        public int PlayerMakeChoice(int numChoices, List<string> allData, int playerIdx)
         {
             Debug.WriteLine("In player make choice");
             Debug.WriteLine("Player turn: " + CurrentPlayer().idx);
@@ -455,7 +455,7 @@ namespace CardStock.CardEngine
                 //thread.Join();
                 // THREADING SEEMS TO ADD TIME!!! BOOO!
 
-                d.ExploreOptions();
+                d.ExploreOptions(allData);
                 var choice = d.Choose();
 
                 Debug.WriteLine("Choice: " + choice);

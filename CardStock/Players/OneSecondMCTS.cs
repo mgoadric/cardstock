@@ -18,7 +18,7 @@ namespace CardStock.Players
         private CardGame privategame;
         private GameIterator privateiterator;
 
-        public override void Explore()
+        public override void Explore(List<string> allData)
         {
             // GAME SIMULATIONS TEST
             (privategame, privateiterator) = perspective.GetPrivateGame();
@@ -92,7 +92,7 @@ namespace CardStock.Players
             // "Playing a simulated game"
             while (!gameIterator.AdvanceToChoice())
             {
-                List<GameActionCollection> allOptions = gameIterator.BuildOptions();
+                (List<GameActionCollection> allOptions, _) = gameIterator.BuildOptions();
                 int idx = cg.currentPlayer.Peek().idx;
                 Tuple<CardGame, int>[] movelist = null;
                 int c = 0;

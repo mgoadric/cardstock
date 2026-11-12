@@ -123,7 +123,7 @@ namespace CardStock.FreezeFrame
 
         public int ProcessChoice()
         {
-            var allOptions = BuildOptions();
+            var (allOptions, allData) = BuildOptions();
 
             if (allOptions.Count == 0)
             {
@@ -133,7 +133,7 @@ namespace CardStock.FreezeFrame
 
             Debug.WriteLine("processed choices");
             Debug.WriteLine("Choice count for P" + game.CurrentPlayer().idx + ":" + allOptions.Count);
-            int choice = game.PlayerMakeChoice(allOptions.Count, game.CurrentPlayer().idx);
+            int choice = game.PlayerMakeChoice(allOptions.Count, allData, game.CurrentPlayer().idx);
             var data = allOptions[choice].ExecuteAll();
             script?.WriteToJSON(data);
             PopCurrentNode();
@@ -141,7 +141,7 @@ namespace CardStock.FreezeFrame
             return choice;
         }
 
-        public List<GameActionCollection> BuildOptions()
+        public (List<GameActionCollection> allOptions, List<string> allData) BuildOptions()
         {
             Debug.WriteLine("trying to process choice (in processchoice)");
             Debug.WriteLine("Player turn: " + game.CurrentPlayer().idx);
@@ -151,6 +151,7 @@ namespace CardStock.FreezeFrame
                 var choices = choice.condact();
                 var allOptions = new List<GameActionCollection>(16);
                 var allData = new List<List<Dictionary<string, object>>>(16);
+                var allChoices = new List<string>(16);
                 for (int i = 0; i < choices.Length; i++)
                 {
                     Debug.WriteLine("choice info: " + choices[i].GetType() + choices[i].GetText());
@@ -163,6 +164,7 @@ namespace CardStock.FreezeFrame
                         Debug.WriteLine("gacs.count > 0");
                         allOptions.AddRange(gacs);
                         allData.AddRange(temp);
+                        allChoices.Add(JsonSerializer.Serialize(temp));
                     }
                 }
                 var data3 = new Dictionary<string, object>
@@ -175,7 +177,7 @@ namespace CardStock.FreezeFrame
                 };
                 script?.WriteToJSON(data3);
                 // Can we use the allData here as the names for the options???
-                return allOptions;
+                return (allOptions, allChoices);
             }
             Console.WriteLine("Not a choice, why are we in BuildOptions???");
             throw new Exception();

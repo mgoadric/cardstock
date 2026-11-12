@@ -16,7 +16,7 @@ namespace CardStock.Players
         private double scoreMin = double.MaxValue;
         private double scoreMax = double.MinValue;
 
-        public override void Explore()
+        public override void Explore(List<string> allData)
         {
             // MAKE THIS MANY DETERMINIZATIONS
             for (int det = 0; det < dc.exp.numSamples; det++)
@@ -112,7 +112,7 @@ namespace CardStock.Players
                 {
                     // Each turn, need to check to see if we have enough information to make a move using UCB
                     // If we do (movelist.count() == choicenum), and we check the stats of each move
-                    List<GameActionCollection> allOptions = gameIterator.BuildOptions();
+                    (List<GameActionCollection> allOptions, _) = gameIterator.BuildOptions();
                     int choicenum = allOptions.Count;
 
                     NodeStats[]? movelist = null;

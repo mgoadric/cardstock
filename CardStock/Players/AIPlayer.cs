@@ -27,22 +27,22 @@ namespace CardStock.Players
          * GameActions will be passed in to Explore. This method could be stopped early
          * based on a time budget.
          */
-        public abstract void Explore();
+        public abstract void Explore(List<string> allData);
 
-        public void ExploreOptions()
+        public void ExploreOptions(List<string> allData)
         {
             if (dc is not null)
             {
                 // https://stackoverflow.com/questions/16376191/measuring-code-execution-time-in-this-code
                 stopwatch.Restart();
-                Explore();
+                Explore(allData);
                 stopwatch.Stop();
                 dc.AddTime(stopwatch.ElapsedMilliseconds);
                 //Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
             }
             else
             {
-                Explore();
+                Explore(allData);
             }
         }
 

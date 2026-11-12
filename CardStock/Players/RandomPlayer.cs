@@ -10,7 +10,7 @@ namespace CardStock.Players
     public class RandomPlayer(Perspective perspective, DataCollector dc) : AIPlayer(perspective, dc)
     {
 
-        public override void Explore()
+        public override void Explore(List<string> allData)
         {
             
         }

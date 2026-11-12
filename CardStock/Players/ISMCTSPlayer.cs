@@ -15,12 +15,11 @@ namespace CardStock.Players
         private double scoreMin = double.MaxValue;
         private double scoreMax = double.MinValue;
 
-        public override void Explore()
+        public override void Explore(List<string> data)
         {
             choiceStats = new NodeStats[numChoices];
 
             // GAME SIMULATIONS
-            //Parallel.For(0, dc.exp.numTests, i =>
             for (int i = 0; i < dc.exp.numTests; i++)
             {
                 RunSimulation(i);
@@ -98,7 +97,7 @@ namespace CardStock.Players
                 {
                     // Each turn, need to check to see if we have enough information to make a move using UCB
                     // If we do (movelist.count() == choicenum), and we check the stats of each move
-                    List<GameActionCollection> allOptions = gameIterator.BuildOptions();
+                    (List<GameActionCollection> allOptions, List<string> localData) = gameIterator.BuildOptions();
                     int choicenum = allOptions.Count;
 
                     NodeStats[]? movelist = null;
