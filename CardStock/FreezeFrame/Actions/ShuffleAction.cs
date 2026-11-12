@@ -11,9 +11,6 @@ namespace CardStock.FreezeFrame.Actions
         public ShuffleAction(CardLocReference location, Logger script) : base("shuffle", script)
         {
             this.location = location;
-
-            data["action"] = prefix;
-            data["location"] = location.cardList.ToJSON();
         }
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
@@ -24,8 +21,17 @@ namespace CardStock.FreezeFrame.Actions
             }
             location.cardList.Shuffle();
 
+            return Data();
+        }
+
+        public override Dictionary<string, object> Data(bool inChoice = false)
+        {
+            Dictionary<string, object> data = [];
+            data["action"] = prefix;
+            data["location"] = location.cardList.ToJSON();
             return data;
         }
+
         public override void Undo()
         {
             location.cardList.Clear();

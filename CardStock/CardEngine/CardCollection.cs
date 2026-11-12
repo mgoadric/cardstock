@@ -113,6 +113,11 @@ namespace CardStock.CardEngine
 
         public void Add(Card c, int idx)
         {
+            if (idx > cards.Count)
+            {
+                Console.WriteLine(idx + "," + cards.Count);
+                Console.WriteLine(this);
+            }
             cards.Insert(idx, c);
         }
 

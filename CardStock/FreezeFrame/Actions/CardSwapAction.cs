@@ -50,27 +50,17 @@ namespace CardStock.FreezeFrame.Actions
                 throw new Exception();
             }
 
-            data["action"] = prefix;
             card1 = startLocation.Get();
             owner1 = card1.Owner;
-            data["first"] = new Dictionary<string, object> {
-                ["card"] = card1.ToJSON(),
-                ["location"] = owner1.ToJSON(),
-                ["index"] = owner1.IndexOf(card1)
-            };
-            startLocIndex = owner1.IndexOf(card1);
             card2 = startLocation.Get();
             owner2 = card2.Owner;
-            data["second"] = new Dictionary<string, object> {
-                ["card"] = card2.ToJSON(),
-                ["location"] = owner2.ToJSON(),
-                ["index"] = owner2.IndexOf(card2)
-            };
+            startLocIndex = owner1.IndexOf(card1);
             endLocIndex = owner2.IndexOf(card2);
         }
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
+            var data = Data(inChoice);
             card1 = startLocation.Remove();
             card2 = endLocation.Remove();
             startLocation.Add(card2);
@@ -142,7 +132,32 @@ namespace CardStock.FreezeFrame.Actions
             complete = true;
             return data;
         }
-
+        public override Dictionary<string, object> Data(bool inChoice = false)
+        {
+            var data = new Dictionary<string, object>
+            {
+                ["action"] = prefix,
+                ["first"] = new Dictionary<string, object>
+                {
+                    ["location"] = owner1.ToJSON(),
+                    ["index"] = owner1.IndexOf(card1)
+                },
+                ["second"] = new Dictionary<string, object>
+                {
+                    ["card"] = card2.ToJSON(),
+                    ["location"] = owner2.ToJSON(),
+                    ["index"] = owner2.IndexOf(card2)
+                }
+            };
+            if (!inChoice)
+            {
+                var d = (Dictionary<string, object>)data["first"];
+                d["card"] = card1.ToJSON();
+                d = (Dictionary<string, object>)data["second"];
+                d["card"] = card2.ToJSON();
+            }
+            return data;
+        }
         public override void Undo()
         {
             if (complete)

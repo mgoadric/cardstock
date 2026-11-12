@@ -46,22 +46,11 @@ namespace CardStock.FreezeFrame.Actions
             cardToMove = startLocation.Get();
             owner = cardToMove.Owner;
             ownerIndex = owner.IndexOf(cardToMove);
-            data["action"] = prefix;
-            data["card"] = cardToMove.ToJSON(); // THIS LEAKS INFORMATION, BUT IS NEEDED FOR ACCURATE TRANSCRIPT
-            data["origin"] = new Dictionary<string, object> {
-                ["location"] = owner.ToJSON(),
-                ["index"] = owner.IndexOf(cardToMove)
-            };
-            data["destination"] = new Dictionary<string, object> {
-                ["location"] = endLocation.cardList.ToJSON(),
-                ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid : 
-                                endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
-                                endLocation.cardList.Count 
-            };
         }
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
+            var data = Data(inChoice);
             cardToMove = startLocation.Remove();
             owner = cardToMove.Owner;
             endLocation.Add(cardToMove);
@@ -105,6 +94,32 @@ namespace CardStock.FreezeFrame.Actions
             }
         
             complete = true;
+            return data;
+        }
+
+        public override Dictionary<string, object> Data(bool inChoice = false)
+        {
+            var data = new Dictionary<string, object>
+            {
+                ["action"] = prefix,
+                ["origin"] = new Dictionary<string, object>
+                {
+                    ["location"] = owner.ToJSON(),
+                    ["index"] = owner.IndexOf(cardToMove)
+                },
+                ["destination"] = new Dictionary<string, object>
+                {
+                    ["location"] = endLocation.cardList.ToJSON(),
+                    ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid :
+                                endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
+                                endLocation.cardList.Count
+                }
+            };
+            if (!inChoice)
+            {
+                // THIS LEAKS INFORMATION, BUT IS NEEDED FOR ACCURATE TRANSCRIPT
+                data["card"] = cardToMove.ToJSON(); 
+            }
             return data;
         }
 

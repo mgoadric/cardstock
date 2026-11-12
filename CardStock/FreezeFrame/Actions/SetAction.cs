@@ -2,18 +2,23 @@ using System.Text.Json;
 using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions {
-    public class SetAction<T> : GameAction {
+    public class SetAction<T>(DefaultStorage<T> storage, string bKey, T v, Logger? script) : GameAction("set", script) {
 
-        private readonly DefaultStorage<T> bins;
-        private readonly string key;
-        private readonly T value;
+        private readonly DefaultStorage<T> bins = storage;
+        private readonly string key = bKey;
+        private readonly T value = v;
         private T oldValue;
 
-        public SetAction(DefaultStorage<T> storage, string bKey, T v, Logger? script) : base("set", script) {
-            bins = storage;
-            key = bKey;
-            value = v;
+        public override Dictionary<string, object> Execute(bool inChoice = false) {
+            oldValue = bins[key];
+            bins[key] = value;
+            complete = true;
+            return Data();
+        }
 
+        public override Dictionary<string, object> Data(bool inChoice = false)
+        {
+            Dictionary<string, object> data = [];
             data["action"] = prefix;
             data["owner"] = bins.owner.name;
             data["key"] = key;
@@ -36,14 +41,9 @@ namespace CardStock.FreezeFrame.Actions {
                 Console.WriteLine("THIS IS WEIRD!");
                 throw new Exception();
             }
-        }
-
-        public override Dictionary<string, object> Execute(bool inChoice = false) {
-            oldValue = bins[key];
-            bins[key] = value;
-            complete = true;
             return data;
         }
+
         public override void Undo() {
             if (complete)
             {

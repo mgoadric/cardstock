@@ -11,23 +11,27 @@ namespace CardStock.FreezeFrame.Actions
         {
             this.idx = idx;
             this.cg = cg;
-
-            data["action"] = prefix;
-            data["type"] = "now";
-            data["who"] = "p" + (idx + 1);
         }
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
             former = cg.CurrentPlayer().Current().id;
             cg.CurrentPlayer().SetMember(idx);
+            return Data();
+        }
+
+        public override Dictionary<string, object> Data(bool inChoice = false)
+        {
+            Dictionary<string, object> data = [];
+            data["action"] = prefix;
+            data["type"] = "now";
+            data["who"] = "p" + (idx + 1);
             return data;
         }
 
         public override void Undo()
         {
             cg.CurrentPlayer().SetMember(former);
-            //script.WriteToFile(prefix + ": " + cg.CurrentPlayer().CurrentName());
         }
     }
 }

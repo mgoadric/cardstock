@@ -40,10 +40,6 @@ namespace CardStock.FreezeFrame.Actions
                     Console.WriteLine("swapping to " + endLocation.ToString());
                     throw new Exception();                
             }
-
-            data["action"] = prefix;
-            data["first"] = startLocation.cardList.ToJSON();
-            data["second"] = endLocation.cardList.ToJSON();
         }
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
@@ -110,9 +106,18 @@ namespace CardStock.FreezeFrame.Actions
             Debug.WriteLine("Swapped Cards from'" + startLocation + " to " + endLocation);
 
             complete = true;
+            return Data();
+        }
+        public override Dictionary<string, object> Data(bool inChoice = false)
+        {
+            var data = new Dictionary<string, object>
+            {
+                ["action"] = prefix,
+                ["first"] = startLocation.cardList.ToJSON(),
+                ["second"] = endLocation.cardList.ToJSON()
+            };
             return data;
         }
-
         public override void Undo()
         {
             if (complete)

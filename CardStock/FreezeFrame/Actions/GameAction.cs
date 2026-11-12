@@ -6,17 +6,18 @@ using CardStock.CardEngine;
 namespace CardStock.FreezeFrame.Actions {
 
     public abstract class GameAction(string prefix, Logger? script) {
-        public bool complete;
-        public CardGame cg;
-        public Logger? script = script;
-        public string prefix = prefix;
-        protected readonly Dictionary<string, object> data = [];
+        protected bool complete;
+        protected CardGame cg;
+        protected Logger? script = script;
+        protected string prefix = prefix;
 
         public abstract Dictionary<string, object> Execute(bool inChoice = false);
         public abstract void Undo();
+
+        public abstract Dictionary<string, object> Data(bool inChoice = false);
         public override string ToString()
         {
-            return JsonSerializer.Serialize(data);
+            return JsonSerializer.Serialize(Data());
         }
     }
     
@@ -29,6 +30,12 @@ namespace CardStock.FreezeFrame.Actions {
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
             throw new Exception();
+        }
+
+        public override Dictionary<string, object> Data(bool inChoice = false)
+        {
+            throw new Exception();
+            return null;
         }
 
         public override void Undo()
