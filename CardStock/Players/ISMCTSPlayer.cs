@@ -9,7 +9,7 @@ namespace CardStock.Players
     public class ISMCTSPlayer(Perspective perspective, DataCollector dc) : AIPlayer(perspective, dc)
     {
         private readonly Dictionary<Tuple<CardGame, int, int>, NodeStats> stats = new(new InfoSetComparison(perspective.GetIdx()));
-        private readonly Dictionary<Tuple<CardGame, int, int>, NodeStats[]> movestatetree = new(new InfoSetComparison(perspective.GetIdx()));
+        private readonly Dictionary<Tuple<CardGame, int, int>, Dictionary<string, NodeStats>> movestatetree = new(new InfoSetComparison(perspective.GetIdx()));
         private Dictionary<string, NodeStats> choiceStats;
         private List<string> allData;
 
@@ -75,21 +75,94 @@ namespace CardStock.Players
         public void RunSimulation(int sim)
         {
             HashSet<Tuple<CardGame, int, int>> visitedstates = new(new InfoSetComparison(perspective.GetIdx()));
-
-            (CardGame cg, GameIterator gameIterator) = perspective.GetPrivateGame();
-            
-            cg.WipePlayers();
-
+ 
             bool expand = true;
             bool first = true;
             int previdx = -1;
             int depth = 0;
-            Tuple<CardGame, int, int> parent = Tuple.Create(cg.Clone(), previdx, depth);
+
+            // Determinization
+            (CardGame cg, GameIterator gameIterator) = perspective.GetPrivateGame();
+            cg.WipePlayers();           
+            Tuple<CardGame, int, int> current = Tuple.Create(cg.Clone(), previdx, depth);
+            int idx = cg.currentPlayer.Peek().idx;
+
+            // Selection
+            bool descend = true;
+            bool terminal = false;
+            while (descend)
+            {
+                if (!stats.ContainsKey(current))
+                {
+                    descend = false;
+                } 
+                else 
+                {
+                    terminal = gameIterator.AdvanceToChoice();
+                    if (terminal)
+                    {
+                        descend = false;
+                    } else
+                    {
+                        // Find the next by UCB...
+                        (List<GameActionCollection> allOptions, List<string> localData) = gameIterator.BuildOptions();
+                        
+                        bool UCBtime = true;
+                        var children = movestatetree[current];
+                        foreach (string action in localData)
+                        {
+                            if (!children.ContainsKey(action))
+                            {
+                                UCBtime = false;
+                            }
+                        }
+
+                        if (UCBtime)
+                        {
+                            
+                        } else
+                        {
+                            // RANDOM CHOICE
+                        }
+
+                        Tuple<CardGame, int, int> chosen = Tuple.Create(savestate, idx, depth);
+                        current = chosen;
+                    }
+                }
+            }
+
+            // Expansion
+            if (!terminal)
+            {
+                (List<GameActionCollection> allOptions, List<string> localData) = gameIterator.BuildOptions();
+                int choice = ThreadSafeRandom.Next(0, allOptions.Count);
+                allOptions[choice].ExecuteAll();
+                gameIterator.PopCurrentNode();
+
+                CardGame savestate = gameIterator.game.Clone();
+                depth++;
+                Tuple<CardGame, int, int> chosen = Tuple.Create(savestate, idx, depth);
+
+                NodeStats cstats = new(numPlayers);
+                stats[chosen] = cstats;
+            }
+
+            // Simulation RUN TO THE END
+            while (!terminal && !gameIterator.AdvanceToChoice())
+            {
+                // Stops when you hit GameSimulator.CHOICELIMIT
+                if (depth > GameSimulator.CHOICELIMIT)
+                {
+                    break;
+                }
+                gameIterator.ProcessChoice(); 
+            }
+
 
             // "Playing a simulated game"
             while (!gameIterator.AdvanceToChoice())
             {
-                // Should be loop that stops when you hit GameSimulator.CHOICELIMIT
+                // Stops when you hit GameSimulator.CHOICELIMIT
                 if (depth > GameSimulator.CHOICELIMIT)
                 {
                     break;
@@ -97,47 +170,34 @@ namespace CardStock.Players
                 
                 if (expand)
                 {
-                    // Each turn, need to check to see if we have enough information to make a move using UCB
-                    // If we do (movelist.count() == choicenum), and we check the stats of each move
                     (List<GameActionCollection> allOptions, List<string> localData) = gameIterator.BuildOptions();
-                    int choicenum = allOptions.Count;
 
-                    NodeStats[]? movelist = null;
-                    if (!movestatetree.TryGetValue(parent, out NodeStats[]? value))
+                    Dictionary<string, NodeStats>? moveDict;
+                    if (!movestatetree.TryGetValue(parent, out Dictionary<string, NodeStats>? value))
                     {
-                        value = new NodeStats[choicenum];
+                        value = [];
                         movestatetree[parent] = value;
                     }
-                    movelist = value;
-                    if (choicenum != movelist.Length)
-                    {
-                        Console.WriteLine("What is this weirdness? cl = " + choicenum + ",mvl = " + movelist.Length);
-                        Console.WriteLine("Depth = " + depth);
-                        Console.WriteLine(parent);
-                    }
+                    moveDict = value;
 
                     int idx = cg.currentPlayer.Peek().idx;
-
                     int choice = 0;
-                    bool boop = true;
-                    if (movelist.Count(s => s is not null) == choicenum)
-                    {
-                        // USE UCB
+
+
+                        // USE UCB 
                         double bestscore = int.MinValue;
-                        double totalplays = depth == 0 ? sim + 1 : stats[parent].plays;
+                        // TODO NEED TO USE AVAILABLE INSTEAD OF PARENT PLAYS???
+                        double totalplays = depth == 0 ? sim + 1 : stats[parent].available;
 
                         totalplays = Math.Log(totalplays);
-                        for (int i = 0; i < movelist.Length; i++)
+                        for (int i = 0; i < localData.Count; i++)
                         {
-                            NodeStats child = movelist[i];  // How could this be null????
+                            NodeStats child = moveDict[localData[i]]; 
                             int n = child.plays;
 
                             // c parameter is the sqrt(2) part
                             double normscore = (child.scores[idx] / n - scoreMin) / (scoreMax - scoreMin);
-                            //Console.WriteLine(normscore);
                             double temp = normscore + Math.Sqrt(totalplays / n); // Used to be 2 * for the sqrt(2) part
-                            // old method with raw scores -> no exploration!!
-                            //double temp = child.scores[idx] / n + Math.Sqrt(2 * totalplays / n);
 
                             // does this still work if recording score, not 1--0 win record?
                             if (temp > bestscore)
@@ -148,19 +208,12 @@ namespace CardStock.Players
                         }
                         allOptions[choice].ExecuteAll();
                         gameIterator.PopCurrentNode();
-                    }
-                    else
-                    {
-                        choice = gameIterator.ProcessChoice();
-                        boop = false;
-                    }
+                    
 
                     // Chosen is Tuple with state after move, and the idx of the player who made the move
                     CardGame savestate = gameIterator.game.Clone();
                     depth++;
                     Tuple<CardGame, int, int> chosen = Tuple.Create(savestate, idx, depth);
-                    previdx = idx;
-                    var oldparent = parent;
                     parent = chosen;
 
                     visitedstates.Add(chosen);
@@ -168,26 +221,10 @@ namespace CardStock.Players
                     // IF THIS IS THE FIRST SIMULATION WHICH HAS ARRIVED AT THIS STATE
                     if (!stats.ContainsKey(chosen))
                     {
-                        if (choice >= movelist.Length)
-                        {
-                            Console.WriteLine("AUGH! Choice is " + choice + ", numMoves is " + movelist.Length);
-                            Console.WriteLine("Depth = " + depth);
-                            Console.WriteLine("Old Choice = " + boop);
-                            Console.WriteLine(oldparent);
-                            Console.WriteLine("The match is with...");
-                            foreach (var b in movestatetree.Keys)
-                            {
-                                if (b.Equals(oldparent))
-                                {
-                                    Console.WriteLine("A MATCH!!");
-                                    Console.WriteLine(b);
-                                }
-                            }
-                        }
                         expand = false;
                         NodeStats cstats = new(numPlayers);
                         stats[chosen] = cstats;
-                        movelist[choice] = cstats;
+                        moveDict[allData[choice]] = cstats;
                     }
 
                     // IF AT THE ROOT
@@ -197,19 +234,27 @@ namespace CardStock.Players
                         first = false;
                     }
                 }
+
+                // Simulation
                 else { gameIterator.ProcessChoice(); }
             }
+
+
+
+
 
             // ProcessScore returns the score for each player and a mult for min/max games
             var results = gameIterator.ProcessScore();
             var mult = gameIterator.ProcessDirection();
             int[,] ranks = DataCollector.FindRanks(results, mult);
 
-            // GO THROUGH VISITED STATES
+            // Backpropagation GO THROUGH VISITED STATES
             foreach (Tuple<CardGame, int, int> stateandplayer in visitedstates)
             {
                 NodeStats node = stats[stateandplayer];
                 node.plays += 1;
+                // TODO Record availability for siblings???
+                // or do that when we are selecting??
                 for (int j = 0; j < numPlayers; j++)
                 {
                     node.ranks[j] += ranks[j, 0];
@@ -222,7 +267,6 @@ namespace CardStock.Players
                 scoreMin = double.Min(scoreMin, results[j] * mult);
                 scoreMax = double.Max(scoreMax, results[j] * mult);
             }
-            //Console.WriteLine(scoreMin + " -- " + scoreMax);
         }
     }
 }
