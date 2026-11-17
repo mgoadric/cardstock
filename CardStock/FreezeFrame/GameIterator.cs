@@ -164,7 +164,9 @@ namespace CardStock.FreezeFrame
                         Debug.WriteLine("gacs.count > 0");
                         allOptions.AddRange(gacs);
                         allData.AddRange(temp);
-                        allChoices.Add(JsonSerializer.Serialize(temp));
+                        foreach (var t in temp) {
+                            allChoices.Add(JsonSerializer.Serialize(t));
+                        }
                     }
                 }
                 var data3 = new Dictionary<string, object>

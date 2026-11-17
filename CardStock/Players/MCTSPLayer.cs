@@ -42,10 +42,12 @@ namespace CardStock.Players
 
             double[][] moveScores = new double[numPlayers][];
             double[][] moveRanks = new double[numPlayers][];
+            double[][] moveWins = new double[numPlayers][];
             for (int i = 0; i < perspective.NumberOfPlayers(); i++)
             {
                 moveScores[i] = new double[numChoices];
                 moveRanks[i] = new double[numChoices];
+                moveWins[i] = new double[numChoices];
             }            
             //int[] choiceplays = new int[numChoices];
 
@@ -60,6 +62,7 @@ namespace CardStock.Players
                         {
                             moveScores[i][m] += choiceStats[det][m].scores[i] / choiceStats[det][m].plays;
                             moveRanks[i][m] += choiceStats[det][m].ranks[i] / choiceStats[det][m].plays;
+                            moveWins[i][m] += choiceStats[det][m].wins[i] / choiceStats[det][m].plays;
                             //choiceplays[m] += choiceStats[det][m].plays;
                         }
 
@@ -70,10 +73,12 @@ namespace CardStock.Players
                     }
                     moveScores[i][m] /= dc.exp.numSamples;
                     moveRanks[i][m] /= dc.exp.numSamples;
+                    moveWins[i][m] /= dc.exp.numSamples;
                 }
             }
 
-            var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()]);
+            //var (_, max) = MinMaxIdx(moveWins[perspective.GetIdx()]);
+            var (_, max) = MinMaxIdx(moveWins[perspective.GetIdx()]);
 
             //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
             //Console.WriteLine("{0}", string.Join(", ", moveScores[perspective.GetIdx()]));
@@ -136,7 +141,8 @@ namespace CardStock.Players
                     if (movelist.Count(s => s is not null) == choicenum)
                     {
                         // USE UCB
-                        double bestscore = int.MinValue;
+                        //double bestscore = int.MinValue;
+                        double bestscore = 0;
                         double totalplays = depth == 0 ? sim + 1 : stats[det][parent].plays;
 
                         totalplays = Math.Log(totalplays);
@@ -147,7 +153,8 @@ namespace CardStock.Players
 
                             // c parameter is the sqrt(2) 
                             // c changed to 1.0, easier math, James is happier
-                            double normscore = (child.scores[idx] / n - scoreMin) / (scoreMax - scoreMin);
+                            //double normscore = (child.scores[idx] / n - scoreMin) / (scoreMax - scoreMin);
+                            double normscore = child.wins[idx] / n;
                             //Console.WriteLine(normscore);
                             double temp = normscore + Math.Sqrt(totalplays / n); // Used to be 2 * for the sqrt(2) part
                             // old method with raw scores -> no exploration!!
@@ -228,6 +235,7 @@ namespace CardStock.Players
                 {
                     node.ranks[j] += ranks[j, 0];
                     node.scores[j] += results[j] * mult;
+                    node.wins[j] += ranks[j, 0] == 0 ? 1 : 0;
                 }
             }
 

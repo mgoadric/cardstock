@@ -13,6 +13,7 @@ namespace CardStock.Players
 
         private readonly double[][] moveRanks = new double[perspective.NumberOfPlayers()][];
         private readonly double[][] moveScores = new double[perspective.NumberOfPlayers()][];
+        private readonly double[][] moveWins = new double[perspective.NumberOfPlayers()][];
 
         private readonly Tuple<CardGame, GameIterator>[] determinizations = new Tuple<CardGame, GameIterator>[dc.exp.numSamples];
 
@@ -28,6 +29,7 @@ namespace CardStock.Players
                 {
                     Array.Clear(moveRanks[i], 0, numChoices);
                     Array.Clear(moveScores[i], 0, numChoices);
+                    Array.Clear(moveWins[i], 0, numChoices);
                 }
             }
             else
@@ -38,6 +40,7 @@ namespace CardStock.Players
                 {
                     moveRanks[i] = new double[numChoices];
                     moveScores[i] = new double[numChoices];
+                    moveWins[i] = new double[numChoices];
                 }
             }
 
@@ -65,14 +68,16 @@ namespace CardStock.Players
                 {
                     moveScores[i][m] /= completed[m];
                     moveRanks[i][m] /= completed[m];
+                    moveWins[i][m] /= completed[m];
                 }
             }
 
             // FIND BEST (and worst) MOVE TO MAKE
-            var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()], numChoices);
+            //var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()], numChoices);
+            var (_, max) = MinMaxIdx(moveWins[perspective.GetIdx()], numChoices);
 
-            //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
-            //Console.WriteLine("{0}", string.Join(", ", scoreSum[perspective.GetIdx()]));
+            Console.WriteLine("{0}", string.Join(", ", moveWins[perspective.GetIdx()][..numChoices]));
+            Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
 
             // Record info for heuristic evaluation
             dc.RecordHeuristics(moveScores, moveRanks, perspective.GetIdx());
@@ -126,6 +131,8 @@ namespace CardStock.Players
                     // NEW VALUE BASED
                     moveScores[j][move] += results[j] * mult;
 
+                    // EVEN NEWER WIN BASED
+                    moveWins[j][move] += ranks[j, 0] == 0 ? 1 : 0;
                 }
                 completed[move]++;
             }
