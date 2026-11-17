@@ -6,5 +6,6 @@ namespace CardStock.Players
         public int available;
         public double[] scores = new double[NumPlayers];
         public double[] ranks = new double[NumPlayers];
+        public double[] wins = new double[NumPlayers];
     }
 }
