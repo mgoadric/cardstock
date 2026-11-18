@@ -55,32 +55,32 @@ namespace CardStock.FreezeFrame.Actions
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
-            var data = new Dictionary<string, object>();
-            if (script is not null)
+            var data = new Dictionary<string, object>
             {
-                data["action"] = prefix;
-                startCard = startLocation.Get();
-                startOwner = startCard.Owner;
-                startIdx = startOwner.IndexOf(startCard);
-                var first = new Dictionary<string, object>();
-                if (!inChoice) {
-                    first["card"] = startCard.ToJSON();
-                }
-                first["location"] = startOwner.ToJSON();
-                first["index"] = startIdx;
-                data["first"] = first;
-                endCard = startLocation.Get();
-                endOwner = endCard.Owner;
-                endIdx = endOwner.IndexOf(endCard);
-
-                var second = new Dictionary<string, object>();
-                if (!inChoice) {
-                    second["card"] = endCard.ToJSON();
-                }
-                second["location"] = endOwner.ToJSON();
-                second["index"] = endIdx;
-                data["second"] = second;
+                ["action"] = prefix
+            };
+            startCard = startLocation.Get();
+            startOwner = startCard.Owner;
+            startIdx = startOwner.IndexOf(startCard);
+            var first = new Dictionary<string, object>();
+            if (!inChoice) {
+                first["card"] = startCard.ToJSON();
             }
+            first["location"] = startOwner.ToJSON();
+            first["index"] = startIdx;
+            data["first"] = first;
+            endCard = startLocation.Get();
+            endOwner = endCard.Owner;
+            endIdx = endOwner.IndexOf(endCard);
+
+            var second = new Dictionary<string, object>();
+            if (!inChoice) {
+                second["card"] = endCard.ToJSON();
+            }
+            second["location"] = endOwner.ToJSON();
+            second["index"] = endIdx;
+            data["second"] = second;
+            
 
             startCard = startLocation.Remove();
             endCard = endLocation.Remove();

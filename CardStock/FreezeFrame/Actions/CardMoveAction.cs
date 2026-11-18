@@ -46,27 +46,26 @@ namespace CardStock.FreezeFrame.Actions
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
-            var data = new Dictionary<string, object>();
-            if (script is not null)
+            var data = new Dictionary<string, object>
             {
-                cardToMove = startLocation.Get();
-                owner = cardToMove.Owner;
-                ownerIndex = owner.IndexOf(cardToMove);
-                data["action"] = prefix;
-                if (!inChoice) {
-                    data["card"] = cardToMove.ToJSON();
-                }
-                data["origin"] = new Dictionary<string, object> {
-                    ["location"] = owner.ToJSON(),
-                    ["index"] = owner.IndexOf(cardToMove)
-                };
-                data["destination"] = new Dictionary<string, object> {
-                    ["location"] = endLocation.cardList.ToJSON(),
-                    ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid : 
-                                    endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
-                                    endLocation.cardList.Count 
-                };
+                ["action"] = prefix
+            };
+            cardToMove = startLocation.Get();
+            owner = cardToMove.Owner;
+            ownerIndex = owner.IndexOf(cardToMove);
+            if (!inChoice) {
+                data["card"] = cardToMove.ToJSON();
             }
+            data["origin"] = new Dictionary<string, object> {
+                ["location"] = owner.ToJSON(),
+                ["index"] = owner.IndexOf(cardToMove)
+            };
+            data["destination"] = new Dictionary<string, object> {
+                ["location"] = endLocation.cardList.ToJSON(),
+                ["index"] = endLocation.locIdentifier == CardLocTypes.NUMBER ? endLocation.locid : 
+                                endLocation.locIdentifier == CardLocTypes.BOTTOM ? 0 :
+                                endLocation.cardList.Count 
+            };
 
             cardToMove = startLocation.Remove();
             owner = cardToMove.Owner;

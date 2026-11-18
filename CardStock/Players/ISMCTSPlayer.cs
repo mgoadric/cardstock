@@ -41,17 +41,23 @@ namespace CardStock.Players
             }        
             // FOR DEBUGGING    
             //int[] choiceplays = new int[numChoices];
+            /*Console.WriteLine("Choices explored...");
+            foreach (string s in choiceStats.Keys)
+            {
+                Console.WriteLine(s);
+            }
+            */
 
             for (int m = 0; m < numChoices; m++)
             {
                 for (int i = 0; i < numPlayers; i++)
                 {
                     // check for small sample numbers, some moves might be 0
-                    if (choiceStats[allData[m]] is not null)
+                    if (choiceStats.TryGetValue(allData[m], out NodeStats? value))
                     {
-                        moveScores[i][m] += choiceStats[allData[m]].scores[i] / choiceStats[allData[m]].plays;
-                        moveRanks[i][m] += choiceStats[allData[m]].ranks[i] / choiceStats[allData[m]].plays;
-                        moveWins[i][m] += choiceStats[allData[m]].wins[i] / choiceStats[allData[m]].plays;
+                        moveScores[i][m] += value.scores[i] / value.plays;
+                        moveRanks[i][m] += value.ranks[i] / value.plays;
+                        moveWins[i][m] += value.wins[i] / value.plays;
                         //choiceplays[m] += choiceStats[m].plays;
                     }
 
@@ -77,6 +83,7 @@ namespace CardStock.Players
 
         public void RunSimulation(int sim)
         {
+            //Console.WriteLine("******Sim:" + sim);
             HashSet<Tuple<CardGame, int, int>> visitedstates = [];
 
             (CardGame cg, GameIterator gameIterator) = perspective.GetPrivateGame();
@@ -99,14 +106,18 @@ namespace CardStock.Players
                 
                 if (expand)
                 {
-                    Console.WriteLine("Expanding");
+                    //Console.WriteLine("Expanding");
                     // Each turn, need to check to see if we have enough information to make a move using UCB
                     // If we do (movelist.count() == choicenum), and we check the stats of each move
                     (List<GameActionCollection> allOptions, List<string> gameActions) = gameIterator.BuildOptions();
                     int choicenum = allOptions.Count;
                     int actnum = gameActions.Count;
-                    Console.WriteLine("Number of GameActions is " + choicenum);
-                    Console.WriteLine("Number of GameActionStrings is " + actnum);
+                    //Console.WriteLine("Number of GameActions is " + choicenum);
+                    //Console.WriteLine("Number of GameActionStrings is " + actnum);
+                    //foreach (string s in gameActions)
+                    //{
+                    //    Console.WriteLine(s);
+                    //}
 
                     Dictionary<string, NodeStats>? moveDict; 
                     if (!movestatetree.TryGetValue(parent, out Dictionary<string, NodeStats>? value))
@@ -124,7 +135,7 @@ namespace CardStock.Players
                     if (gameActions.Count(children.ContainsKey) == choicenum)
                     {
                         // USE UCB
-                        Console.WriteLine("In UCB");
+                        //Console.WriteLine("In UCB");
                         //double bestscore = int.MinValue;
                         double bestscore = 0;
                         double totalplays = depth == 0 ? sim + 1 : stats[parent].available;
@@ -157,7 +168,7 @@ namespace CardStock.Players
                     }
                     else
                     {
-                        Console.WriteLine("Making a random choice!");
+                        //Console.WriteLine("Making a random choice!");
                         choice = gameIterator.ProcessChoice();
                         boop = false;
                     }
@@ -189,6 +200,7 @@ namespace CardStock.Players
                     if (first)
                     {
                         choiceStats[gameActions[choice]] = stats[chosen];
+                        //Console.WriteLine("chosing " + choice + ", explored=" + choiceStats.Count);
                         first = false;
                     }
                 }
