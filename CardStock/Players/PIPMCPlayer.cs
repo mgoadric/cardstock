@@ -76,8 +76,8 @@ namespace CardStock.Players
             //var (_, max) = MinMaxIdx(moveScores[perspective.GetIdx()], numChoices);
             var (_, max) = MinMaxIdx(moveWins[perspective.GetIdx()], numChoices);
 
-            Console.WriteLine("{0}", string.Join(", ", moveWins[perspective.GetIdx()][..numChoices]));
-            Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
+            //Console.WriteLine("{0}", string.Join(", ", moveWins[perspective.GetIdx()][..numChoices]));
+            //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
 
             // Record info for heuristic evaluation
             dc.RecordHeuristics(moveScores, moveRanks, perspective.GetIdx());
@@ -99,10 +99,7 @@ namespace CardStock.Players
 
             // Assign the AI players for rollout game, with the 
             // selected item chosen first when you get your turn
-            for (int j = 0; j < numPlayers; j++)
-            {
-                cg.players[j].decision = null;
-            }
+            cg.WipePlayers();
 
             // Play the game until termination or CHOICELIMIT reached
             int count = 0;
