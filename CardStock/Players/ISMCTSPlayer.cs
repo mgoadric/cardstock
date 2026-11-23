@@ -47,6 +47,7 @@ namespace CardStock.Players
                 Console.WriteLine(s);
             }
             */
+            double[] choiceplays = new double[numChoices];
 
             for (int m = 0; m < numChoices; m++)
             {
@@ -58,7 +59,7 @@ namespace CardStock.Players
                         moveScores[i][m] += value.scores[i] / value.plays;
                         moveRanks[i][m] += value.ranks[i] / value.plays;
                         moveWins[i][m] += value.wins[i] / value.plays;
-                        //choiceplays[m] += choiceStats[m].plays;
+                        choiceplays[m] += value.plays;
                     }
 
                     //if (i == perspective.GetIdx())
@@ -68,7 +69,8 @@ namespace CardStock.Players
                 }
             }
 
-            var (_, max) = MinMaxIdx(moveWins[perspective.GetIdx()]);
+            //var (_, max) = MinMaxIdx(moveWins[perspective.GetIdx()]);
+            var (_, max) = MinMaxIdx(choiceplays);
 
             // FOR DEBUGGING
             //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
@@ -171,6 +173,7 @@ namespace CardStock.Players
                         //Console.WriteLine("Making a random choice!");
                         choice = gameIterator.ProcessChoice();
                         boop = false;
+                        // SHOULD THE SIBLINGS ALSO BE MARKED AVAILABLE HERE???
                     }
 
                     // Chosen is Tuple with state after move, and the idx of the player who made the move

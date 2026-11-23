@@ -20,28 +20,13 @@ namespace CardStock.Players
         public override void Explore(List<string> allData)
         {
 
-            // Is this neccesary?
-            if (completed?.Length >= numChoices)
-            {
-                Array.Clear(completed, 0, numChoices);
+            completed = new int[numChoices];
 
-                for (int i = 0; i < numPlayers; i++)
-                {
-                    Array.Clear(moveRanks[i], 0, numChoices);
-                    Array.Clear(moveScores[i], 0, numChoices);
-                    Array.Clear(moveWins[i], 0, numChoices);
-                }
-            }
-            else
+            for (int i = 0; i < numPlayers; i++)
             {
-                completed = new int[numChoices];
-
-                for (int i = 0; i < numPlayers; i++)
-                {
-                    moveRanks[i] = new double[numChoices];
-                    moveScores[i] = new double[numChoices];
-                    moveWins[i] = new double[numChoices];
-                }
+                moveRanks[i] = new double[numChoices];
+                moveScores[i] = new double[numChoices];
+                moveWins[i] = new double[numChoices];
             }
 
             // MAKE THIS MANY DETERMINIZATIONS

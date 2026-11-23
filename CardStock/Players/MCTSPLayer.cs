@@ -49,7 +49,7 @@ namespace CardStock.Players
                 moveRanks[i] = new double[numChoices];
                 moveWins[i] = new double[numChoices];
             }            
-            //int[] choiceplays = new int[numChoices];
+            double[] choiceplays = new double[numChoices];
 
             for (int m = 0; m < numChoices; m++)
             {
@@ -63,7 +63,7 @@ namespace CardStock.Players
                             moveScores[i][m] += choiceStats[det][m].scores[i] / choiceStats[det][m].plays;
                             moveRanks[i][m] += choiceStats[det][m].ranks[i] / choiceStats[det][m].plays;
                             moveWins[i][m] += choiceStats[det][m].wins[i] / choiceStats[det][m].plays;
-                            //choiceplays[m] += choiceStats[det][m].plays;
+                            choiceplays[m] += choiceStats[det][m].plays;
                         }
 
                         //if (i == perspective.GetIdx())
@@ -78,12 +78,14 @@ namespace CardStock.Players
             }
 
             //var (_, max) = MinMaxIdx(moveWins[perspective.GetIdx()]);
-            var (_, max) = MinMaxIdx(moveWins[perspective.GetIdx()]);
+            var (_, wmax) = MinMaxIdx(moveWins[perspective.GetIdx()]);
+            var (_, max) = MinMaxIdx(choiceplays);
 
-            //Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
-            //Console.WriteLine("{0}", string.Join(", ", moveScores[perspective.GetIdx()]));
-            //Console.WriteLine("{0}", string.Join(", ", choiceplays));
-
+            if (max != wmax) {
+                Console.WriteLine("{0}", string.Join(", ", moveWins[perspective.GetIdx()]));
+                Console.WriteLine("{0}", string.Join(", ", choiceplays));
+                Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
+            }
             // Record info for heuristic evaluation
             dc.RecordHeuristics(moveScores, moveRanks, perspective.GetIdx());
 
