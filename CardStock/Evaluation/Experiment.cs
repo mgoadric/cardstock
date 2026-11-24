@@ -12,6 +12,7 @@ namespace CardStock.Evaluation
         public bool Logging = true;
         public int numSamples = 1000; // rollouts per move
         public int numTests = 10; // determinizations
+        public long Seed = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
         public ImperfectLevel imperfectLevel = ImperfectLevel.PRIVATE;
 

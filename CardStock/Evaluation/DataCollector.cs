@@ -104,10 +104,10 @@ namespace CardStock.Evaluation
                     move++;
                 }
 
-                choiceList = [];
-                allLeadList = [];
-                allScoresList = [];
-                spreadList = [];
+                choiceList.Clear();
+                allLeadList.Clear();
+                allScoresList.Clear();
+                spreadList.Clear();
             }
         }
 

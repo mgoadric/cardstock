@@ -38,8 +38,9 @@ Experiment exp = new()
     Players = args.Length > 3 ? MakePlayers(args[3]) : [],
     Logging = args.Length > 4 ? Boolean.Parse(args[4]) : false,
     numTests = args.Length > 5 ? Int32.Parse(args[5]) : 1000,
-    numSamples = args.Length > 6 ? Int32.Parse(args[6]) : 10,
-    imperfectLevel = args.Length > 7 ? Enum.Parse<ImperfectLevel>(args[7]) : ImperfectLevel.TAKEN,
+    Seed = args.Length > 6 ? Int64.Parse(args[6]) : DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
+    numSamples = args.Length > 7 ? Int32.Parse(args[7]) : 10,
+    imperfectLevel = args.Length > 8 ? Enum.Parse<ImperfectLevel>(args[8]) : ImperfectLevel.TAKEN,
 };
 
 RunExperiment(exp);
