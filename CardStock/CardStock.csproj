@@ -10,9 +10,17 @@
   <ItemGroup>
     <PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.1" />
   </ItemGroup>
-<ItemGroup>
+
+  <ItemGroup>
     <Content Include="games\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>  
+    </Content>
   </ItemGroup>
+
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.GC.Server" Value="true" Type="System.Boolean" />
+    <RuntimeHostConfigurationOption Include="System.GC.ConserveMemory" Value="0" Type="System.Int32" />
+    <RuntimeHostConfigurationOption Include="System.GC.RetainVM" Value="true" Type="System.Boolean" />
+  </ItemGroup>
+
 </Project>

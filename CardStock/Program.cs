@@ -2,13 +2,13 @@ using CardStock.CardEngine;
 using CardStock.Evaluation;
 using CardStock.Players;
 
-static void RunExperiment(Experiment exp)
+static async Task RunExperiment(Experiment exp)
 {
     Console.WriteLine(exp.Game + ", " + exp.PlayerCount);
     GameSimulator.exp = exp;
     GameSimulator engine = new();
     engine.LoadGame();
-    engine.RunExperiment();
+    bool result = await engine.RunExperiment();
 }
 
 /***
@@ -43,5 +43,5 @@ Experiment exp = new()
     imperfectLevel = args.Length > 8 ? Enum.Parse<ImperfectLevel>(args[8]) : ImperfectLevel.TAKEN,
 };
 
-RunExperiment(exp);
+await RunExperiment(exp);
 

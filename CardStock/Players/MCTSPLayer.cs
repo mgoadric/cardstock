@@ -28,13 +28,13 @@ namespace CardStock.Players
             }
 
             // GAME SIMULATIONS
-            Parallel.For(0, dc.exp.numSamples, det =>
+            for (int det = 0; det < dc.exp.numSamples; det++)
             {
                 for (int i = 0; i < dc.exp.numTests / dc.exp.numSamples; i++)
                 {
                     RunSimulation(det, i);
                 }
-            });
+            }
         }
 
         public override int ChooseOption()
@@ -48,7 +48,7 @@ namespace CardStock.Players
                 moveScores[i] = new double[numChoices];
                 moveRanks[i] = new double[numChoices];
                 moveWins[i] = new double[numChoices];
-            }            
+            }
             double[] choiceplays = new double[numChoices];
 
             for (int m = 0; m < numChoices; m++)
@@ -81,7 +81,8 @@ namespace CardStock.Players
             var (_, wmax) = MinMaxIdx(moveWins[perspective.GetIdx()]);
             var (_, max) = MinMaxIdx(choiceplays);
 
-            if (max != wmax) {
+            if (max != wmax)
+            {
                 Console.WriteLine("{0}", string.Join(", ", moveWins[perspective.GetIdx()]));
                 Console.WriteLine("{0}", string.Join(", ", choiceplays));
                 Console.WriteLine(perspective.GetIdx() + " choosing move " + max);
@@ -114,7 +115,7 @@ namespace CardStock.Players
                 {
                     break;
                 }
-                
+
                 if (expand)
                 {
                     // Each turn, need to check to see if we have enough information to make a move using UCB

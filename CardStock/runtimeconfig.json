@@ -1,0 +1,9 @@
+{
+    "runtimeOptions": {
+        "configProperties": {
+            "System.GC.Server": true,
+            "System.GC.ConserveMemory": 0,
+            "System.GC.RetainVM": true
+        }
+    }
+}

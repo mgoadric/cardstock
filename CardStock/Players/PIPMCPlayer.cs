@@ -35,14 +35,13 @@ namespace CardStock.Players
                 determinizations[det] = perspective.GetPrivateGame();
             }
 
-            // Flatten array into single Parallel call. Use math to unflatten. This allows a single Parallel.For call.
-            Parallel.For(0, dc.exp.numTests, i =>
+            for (int i = 0; i < dc.exp.numSamples; i++)
             {
                 int det = i / numChoices % dc.exp.numSamples;
                 int move = i % numChoices;
 
                 RunSimulation(det, move);
-            });
+            }
         }
 
         public override int ChooseOption()

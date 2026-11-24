@@ -7,7 +7,6 @@ namespace CardStock.Evaluation
 {
     public class DataCollector
     {
-        private readonly Dictionary<string, StreamWriter> dataFiles = [];
         public readonly Experiment exp;
         private readonly string ai;
 
@@ -16,39 +15,32 @@ namespace CardStock.Evaluation
         public List<Tuple<int, double[]>> allScoresList = [];
         public List<Tuple<int, double>> spreadList = [];
         public List<long> timeList = [];
+        private readonly int run;
+        private int mult = 0;
+        private double time = 0;
+        private int[] results;
 
-        public DataCollector(Experiment exp)
+        public DataCollector(Experiment exp, int run)
         {
             this.exp = exp;
+            this.run = run;
+
             ai = exp.PlayerAbv();
-
-            /***********
-            * Set up the data recording files
-            * THIS SHOULD ALL BE TIDY DATA
-            ***********/
-            string path = string.Join("/", ["output", exp.Game, exp.PlayerCount, ai]) + "/";
-            FileInfo file = new(path);
-            DirectoryInfo? directoryInfo = file.Directory;
-            directoryInfo?.Create(); // If the directory already exists, this method does nothing.
-
-            List<String> fileStrings = ["lead", "choice", "results", "spread"];
-            foreach (string f in fileStrings)
-            {
-                dataFiles[f] = new(path + f + ".csv");
-            }
-
-            CSVOutput("lead", "game", "numPlayers", "ai", "imperfect", "samples", "tests", "run", "move", "recorder", "player", "score", "rank", "rankestimate");
-            CSVOutput("choice", "game", "numPlayers", "ai", "imperfect", "samples", "tests", "run", "move", "player", "choices", "choice", "time");
-            CSVOutput("results", "game", "numPlayers", "ai", "imperfect", "samples", "tests", "run", "player", "score", "rank", "time");
-            CSVOutput("spread", "game", "numPlayers", "ai", "imperfect", "samples", "tests", "run", "pmove", "player", "spread");
         }
 
-        private void CSVOutput(string file, params object[] values)
+        private void CSVOutput(Dictionary<string, StreamWriter> dataFiles, string file, params object[] values)
         {
             dataFiles[file].WriteLine(string.Join(",", values));
         }
 
-        public void RecordGameStatistics(int run, int[] results, int mult, double time)
+        public void FinishGameStatistics(int[] results, int mult, double time)
+        {
+            this.results = results;
+            this.mult = mult;
+            this.time = time;
+        }
+
+        public void RecordGameStatistics(Dictionary<string, StreamWriter> dataFiles)
         {
             lock (this)
             {
@@ -59,7 +51,7 @@ namespace CardStock.Evaluation
                 int[,] ranks = FindRanks(results, mult);
                 for (int j = 0; j < results.Length; ++j)
                 {
-                    CSVOutput("results", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, j + 1, results[j], ranks[j, 0] + 1, time);
+                    CSVOutput(dataFiles, "results", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, j + 1, results[j], ranks[j, 0] + 1, time);
                 }
 
                 /******
@@ -68,7 +60,7 @@ namespace CardStock.Evaluation
                 int move = 0;
                 foreach (Tuple<int, int, int> t in choiceList)
                 {
-                    CSVOutput("choice", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, move + 1, t.Item1 + 1, t.Item2, t.Item3 + 1, timeList[move]);
+                    CSVOutput(dataFiles, "choice", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, move + 1, t.Item1 + 1, t.Item2, t.Item3 + 1, timeList[move]);
                     move++;
                 }
 
@@ -81,16 +73,16 @@ namespace CardStock.Evaluation
                     Tuple<int, double[]> allScores = allScoresList[move];
                     for (int k = 0; k < exp.PlayerCount; k++)
                     {
-                        CSVOutput("lead", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, move + 1, allLeads.Item1 + 1, k + 1, allScores.Item2[k] * mult, ranks[k, 1] + 1, allLeads.Item2[k]);
+                        CSVOutput(dataFiles, "lead", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, move + 1, allLeads.Item1 + 1, k + 1, allScores.Item2[k] * mult, ranks[k, 1] + 1, allLeads.Item2[k]);
                     }
                 }
-                
+
                 // tack on the final results at the end of the lead list
                 for (int k = 0; k < exp.PlayerCount; k++)
                 {
                     double r = (exp.PlayerCount - 1 - ranks[k, 0]) /
                         (double)(exp.PlayerCount - 1);
-                    CSVOutput("lead", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, move + 1, k + 1, k + 1, results[k], ranks[k, 1] + 1, r);
+                    CSVOutput(dataFiles, "lead", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, move + 1, k + 1, k + 1, results[k], ranks[k, 1] + 1, r);
 
                 }
 
@@ -100,14 +92,14 @@ namespace CardStock.Evaluation
                 move = 0;
                 foreach (Tuple<int, double> s in spreadList)
                 {
-                    CSVOutput("spread", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, move + 1, s.Item1, s.Item2);
+                    CSVOutput(dataFiles, "spread", exp.Game, exp.PlayerCount, ai, exp.imperfectLevel, exp.numSamples, exp.numTests, run + 1, move + 1, s.Item1, s.Item2);
                     move++;
                 }
 
-                choiceList.Clear();
-                allLeadList.Clear();
-                allScoresList.Clear();
-                spreadList.Clear();
+                choiceList = [];
+                allLeadList = [];
+                allScoresList = [];
+                spreadList = [];
             }
         }
 
@@ -127,7 +119,7 @@ namespace CardStock.Evaluation
 
             int topRank = 0;
             int tie = 0;
-            int[,] ranks = new int[results.Length,2];
+            int[,] ranks = new int[results.Length, 2];
             for (int j = 0; j < results.Length; j++)
             {
                 if (j != 0 && resultsList[j].Item1 != resultsList[j - 1].Item1)
@@ -180,14 +172,6 @@ namespace CardStock.Evaluation
         public void AddTime(long time)
         {
             timeList.Add(time);
-        }
-
-        public void Close()
-        {
-            foreach (StreamWriter file in dataFiles.Values)
-            {
-                file.Close();
-            }
         }
     }
 }
