@@ -56,10 +56,10 @@ namespace CardStock.Players
                     // check for small sample numbers, some moves might be 0
                     if (choiceStats.TryGetValue(allData[m], out NodeStats? value))
                     {
-                        moveScores[i][m] += value.scores[i] / value.plays;
-                        moveRanks[i][m] += value.ranks[i] / value.plays;
-                        moveWins[i][m] += value.wins[i] / value.plays;
-                        choiceplays[m] += value.plays;
+                        moveScores[i][m] += value.scores[i] / value.visits;
+                        moveRanks[i][m] += value.ranks[i] / value.visits;
+                        moveWins[i][m] += value.wins[i] / value.visits;
+                        choiceplays[m] += value.visits;
                     }
 
                     //if (i == perspective.GetIdx())
@@ -146,7 +146,7 @@ namespace CardStock.Players
                         for (int i = 0; i < gameActions.Count; i++)
                         {
                             NodeStats child = children[gameActions[i]];  // How could this be null????
-                            int n = child.plays;
+                            int n = child.visits;
 
                             // c parameter is the sqrt(2) 
                             // c changed to 1.0, easier math, James is happier
@@ -219,7 +219,7 @@ namespace CardStock.Players
             foreach (Tuple<CardGame, int, int> stateandplayer in visitedstates)
             {
                 NodeStats node = stats[stateandplayer];
-                node.plays += 1;
+                node.visits += 1;
                 for (int j = 0; j < numPlayers; j++)
                 {
                     node.ranks[j] += ranks[j, 0];

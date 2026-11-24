@@ -26,6 +26,7 @@ namespace CardStock.CardEngine
             }
             set
             {
+                // WHY ARE YOU CHECKING???
                 KeyCheck(key);
                 dict[key] = value;
             }
@@ -55,6 +56,7 @@ namespace CardStock.CardEngine
             }
             else if (DefaultT is ICloneable dt)
             {
+                // WHY IS THIS HERE???
                 return (T)dt.Clone();
             }
             else

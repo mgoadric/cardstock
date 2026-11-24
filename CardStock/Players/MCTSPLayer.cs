@@ -60,10 +60,10 @@ namespace CardStock.Players
                         // check for small sample numbers, some moves might be 0
                         if (choiceStats[det][m] is not null)
                         {
-                            moveScores[i][m] += choiceStats[det][m].scores[i] / choiceStats[det][m].plays;
-                            moveRanks[i][m] += choiceStats[det][m].ranks[i] / choiceStats[det][m].plays;
-                            moveWins[i][m] += choiceStats[det][m].wins[i] / choiceStats[det][m].plays;
-                            choiceplays[m] += choiceStats[det][m].plays;
+                            moveScores[i][m] += choiceStats[det][m].scores[i] / choiceStats[det][m].visits;
+                            moveRanks[i][m] += choiceStats[det][m].ranks[i] / choiceStats[det][m].visits;
+                            moveWins[i][m] += choiceStats[det][m].wins[i] / choiceStats[det][m].visits;
+                            choiceplays[m] += choiceStats[det][m].visits;
                         }
 
                         //if (i == perspective.GetIdx())
@@ -145,13 +145,13 @@ namespace CardStock.Players
                         // USE UCB
                         //double bestscore = int.MinValue;
                         double bestscore = 0;
-                        double totalplays = depth == 0 ? sim + 1 : stats[det][parent].plays;
+                        double totalplays = depth == 0 ? sim + 1 : stats[det][parent].visits;
 
                         totalplays = Math.Log(totalplays);
                         for (int i = 0; i < movelist.Length; i++)
                         {
                             NodeStats child = movelist[i];  // How could this be null????
-                            int n = child.plays;
+                            int n = child.visits;
 
                             // c parameter is the sqrt(2) 
                             // c changed to 1.0, easier math, James is happier
@@ -232,7 +232,7 @@ namespace CardStock.Players
             foreach (Tuple<CardGame, int, int> stateandplayer in visitedstates)
             {
                 NodeStats node = stats[det][stateandplayer];
-                node.plays += 1;
+                node.visits += 1;
                 for (int j = 0; j < numPlayers; j++)
                 {
                     node.ranks[j] += ranks[j, 0];
