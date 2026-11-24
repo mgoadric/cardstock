@@ -22,6 +22,10 @@ public class DataCollectorManager
         string path = string.Join("/", ["output", exp.Game, exp.PlayerCount, ai]) + "/";
         List<String> fileStrings = ["lead", "choice", "results", "spread"];
 
+        FileInfo _file = new(path);
+        DirectoryInfo? directoryInfo = _file.Directory;
+        directoryInfo?.Create(); // If the directory already exists, this method does nothing.
+
         foreach (string f in fileStrings)
         {
             dataFiles[f] = new(path + f + ".csv");
