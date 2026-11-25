@@ -35,7 +35,7 @@ namespace CardStock.Players
                 determinizations[det] = perspective.GetPrivateGame();
             }
 
-            for (int i = 0; i < dc.exp.numSamples; i++)
+            for (int i = 0; i < dc.exp.numTests; i++)
             {
                 int det = i / numChoices % dc.exp.numSamples;
                 int move = i % numChoices;

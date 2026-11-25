@@ -83,6 +83,7 @@ public class GameThreadPool
 
         Console.WriteLine("Finalizing Writing...");
         _dc.Write();
+        Logger.Finish();
         Console.WriteLine("Finished Writing!");
 
         stopwatch.Stop();
