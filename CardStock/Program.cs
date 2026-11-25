@@ -9,6 +9,9 @@ static async Task RunExperiment(Experiment exp)
     GameSimulator engine = new();
     engine.LoadGame();
     bool result = await engine.RunExperiment();
+
+    Console.WriteLine("Explored " + PIPMCPlayer.explored + " choices");
+    Console.WriteLine("But only saw " + PIPMCPlayer.choicesTotal + " in total");
 }
 
 /***

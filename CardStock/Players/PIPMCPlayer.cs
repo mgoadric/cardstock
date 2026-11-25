@@ -8,6 +8,8 @@ namespace CardStock.Players
 {
     public class PIPMCPlayer(Perspective perspective, DataCollector dc) : AIPlayer(perspective, dc)
     {
+        public static int explored = 0;
+        public static int choicesTotal = 0;
 
         private int[] completed;
 
@@ -35,7 +37,11 @@ namespace CardStock.Players
                 determinizations[det] = perspective.GetPrivateGame();
             }
 
-            for (int i = 0; i < dc.exp.numTests; i++)
+            int times = dc.exp.numTests;
+
+            Interlocked.Add(ref choicesTotal, numChoices);
+
+            for (int i = 0; i < times; i++)
             {
                 int det = i / numChoices % dc.exp.numSamples;
                 int move = i % numChoices;
@@ -73,6 +79,8 @@ namespace CardStock.Players
 
         public void RunSimulation(int det, int move)
         {
+            Interlocked.Increment(ref explored);
+
             CardGame cg = determinizations[det].Item1.Clone();
             GameIterator cloneContext = determinizations[det].Item2.Clone(cg);
 
