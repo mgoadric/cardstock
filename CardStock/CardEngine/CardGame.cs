@@ -21,19 +21,20 @@ namespace CardStock.CardEngine
         public List<Team> teams = [];
         public Stack<StageCycle<Team>> currentTeam = new();
         public Experiment exp;
+        public Random random;
 
-        public CardGame(Experiment exp)
+        public CardGame(Experiment exp, Random random)
         {
             table[0] = new Owner("table", 0);
             // ADDING HERE TO MAKE HASHCODE NOT FAIL
             players = [];
             this.exp = exp;
-
+            this.random = random;
         }
 
         private CardGame CloneCommon()
         {
-            var temp = new CardGame(exp); //here, players is being initialzed as an empty list of players
+            var temp = new CardGame(exp, random); //here, players is being initialzed as an empty list of players
 
             // Clone Source Deck and Index Cards
             //*****************
@@ -142,7 +143,7 @@ namespace CardStock.CardEngine
                 while (n > 1)
                 {
                     n--;
-                    int k = ThreadSafeRandom.Next(n + 1);
+                    int k = random.Next(n + 1);
                     (vals[kvp.Key][n], vals[kvp.Key][k]) = (vals[kvp.Key][k], vals[kvp.Key][n]);
                 }
                 cardsLeft[kvp.Key] = vals[kvp.Key].GetEnumerator();
@@ -238,7 +239,8 @@ namespace CardStock.CardEngine
                     }
 
                     // For watched known cards.
-                    if (exp.imperfectLevel >= ImperfectLevel.TAKEN) {
+                    if (exp.imperfectLevel >= ImperfectLevel.TAKEN)
+                    {
                         if ((collection.type == CCType.INVISIBLE &&
                                 (owner.GetType() != typeof(Player) || owner.id != playerIdx)) || collection.type == CCType.HIDDEN)
                         {
@@ -422,7 +424,7 @@ namespace CardStock.CardEngine
                 }
                 for (int i = 0; i < cc; i++)
                 {
-                    int dest = i + ThreadSafeRandom.Next(cc - i);
+                    int dest = i + random.Next(cc - i);
                     (cardMask[key][i], cardMask[key][dest]) = (cardMask[key][dest], cardMask[key][i]);
                     Debug.Write(cardMask[key][i] + ",");
                     sourceDeck[key][i].idX = cardMask[key][i];
@@ -464,8 +466,8 @@ namespace CardStock.CardEngine
             else
             {
                 // in a clone, doing a random rollout
-                return ThreadSafeRandom.Next(0, numChoices);
-            } 
+                return random.Next(0, numChoices);
+            }
         }
 
         public override string ToString()
@@ -501,11 +503,13 @@ namespace CardStock.CardEngine
 
             if (!table[0].Equals(othergame.table[0]))
             { //Console.WriteLine("Tables are not equal.");
-                return false; }
+                return false;
+            }
 
             if (!players.SequenceEqual(othergame.players))
             { //Console.WriteLine("Player list not equal");
-                return false; }
+                return false;
+            }
 
             if (!teams.SequenceEqual(othergame.teams))
             { Console.WriteLine("Team List not equal"); return false; }
@@ -534,7 +538,7 @@ namespace CardStock.CardEngine
         }
 
     }
-        
+
     public class InfoSetComparison(int playeridx) : IEqualityComparer<Tuple<CardGame, int, int>>
     {
         private readonly int playeridx = playeridx;

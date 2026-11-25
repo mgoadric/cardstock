@@ -19,7 +19,7 @@ namespace CardStock.CardEngine
 
         // Anyone can have their own pointmaps to localize card scoring. 
         // TODO Add this to Recycle
-        public DefaultStorage<PointMap> pointBins; 
+        public DefaultStorage<PointMap> pointBins;
 
         // Set up four default dictionaries, one for each type of card
         // an Owner can have, VISIBLE, INVISIBLE, HIDDEN, and MEMORY
@@ -33,7 +33,7 @@ namespace CardStock.CardEngine
             // Use 0, "", and an empty PointMap for defaults
             intBins = new DefaultStorage<int>(0, this);
             stringBins = new DefaultStorage<string>("", this);
-            pointBins = new DefaultStorage<PointMap>(new PointMap([]), this); 
+            pointBins = new DefaultStorage<PointMap>(new PointMap([]), this);
             cardBins = new CardStorage(this);
 
             // Record the name and id
@@ -76,10 +76,11 @@ namespace CardStock.CardEngine
             return false;
         }
 
-        public bool BetterEquals(object obj, bool infoset, int playeridx) { 
+        public bool BetterEquals(object obj, bool infoset, int playeridx)
+        {
             if (obj is null)
             { Console.WriteLine("owner is null"); return false; }
-           
+
             if (obj is not Owner otherowner)
             { Console.WriteLine("owner as owner is null"); return false; }
 
@@ -88,11 +89,13 @@ namespace CardStock.CardEngine
 
             if (name != otherowner.name)
             { //Console.WriteLine("owner names not equal");
-                return false; }
-            
+                return false;
+            }
+
             if (id != otherowner.id)
             { //Console.WriteLine("owner ids not equal");
-                return false; }
+                return false;
+            }
 
             if (this is Player thisplayer && otherowner is Player otherplayer)
             {
@@ -118,35 +121,38 @@ namespace CardStock.CardEngine
 
             if (!intBins.Equals(otherowner.intBins))
             { //Console.WriteLine("owner intBins not equal");
-                return false; }
-            
+                return false;
+            }
+
             if (!stringBins.Equals(otherowner.stringBins))
             { //Console.WriteLine("owner stringbins not equal");
                 return false;
             }
 
-            if (infoset) 
+            if (infoset)
             {
                 if (!cardBins.InfoSetEqual(otherowner.cardBins, playeridx))
-                    { return false; } 
-            } else if (!cardBins.Equals(otherowner.cardBins))
+                { return false; }
+            }
+            else if (!cardBins.Equals(otherowner.cardBins))
             { //Console.WriteLine("owner stringbins not equal");
                 return false;
             }
 
             if (!pointBins.Equals(otherowner.pointBins))
             { //Console.WriteLine("owner pointbins not equal");
-                return false; }
-            
+                return false;
+            }
+
             //Console.WriteLine("Passed all team equality checks.");
             return true;
         }
 
-        public override int GetHashCode() 
+        public override int GetHashCode()
         {
             return GetBetterHashCode(false, -1);
-        } 
-        
+        }
+
         public int GetBetterHashCode(bool infoset, int playeridx)
         {
             int hash = 0;

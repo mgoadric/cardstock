@@ -38,7 +38,7 @@ namespace CardStock.Players
                 moveScores[i] = new double[numChoices];
                 moveRanks[i] = new double[numChoices];
                 moveWins[i] = new double[numChoices];
-            }        
+            }
             // FOR DEBUGGING    
             //int[] choiceplays = new int[numChoices];
             /*Console.WriteLine("Choices explored...");
@@ -101,11 +101,11 @@ namespace CardStock.Players
             while (!gameIterator.AdvanceToChoice())
             {
                 // Should be loop that stops when you hit GameSimulator.CHOICELIMIT
-                if (depth > GameSimulator.CHOICELIMIT)
+                if (depth > GameThreadPool.CHOICELIMIT)
                 {
                     break;
                 }
-                
+
                 if (expand)
                 {
                     //Console.WriteLine("Expanding");
@@ -121,7 +121,7 @@ namespace CardStock.Players
                     //    Console.WriteLine(s);
                     //}
 
-                    Dictionary<string, NodeStats>? moveDict; 
+                    Dictionary<string, NodeStats>? moveDict;
                     if (!movestatetree.TryGetValue(parent, out Dictionary<string, NodeStats>? value))
                     {
                         value = [];

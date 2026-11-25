@@ -25,6 +25,7 @@ namespace CardStock.FreezeFrame
         public int run;
 
         public Experiment exp;
+        public Random random;
 
         public GameIterator(RecycleParser.GameContext context, CardGame mygame, string fileName, Experiment exp, bool fresh = true)
         {
@@ -33,6 +34,7 @@ namespace CardStock.FreezeFrame
             iterStack = new Stack<Queue<IParseTree>>();
             iteratingSet = [];
             variables = new RecycleVariables();
+            random = game.random;
 
             if (fresh)
             {
@@ -106,7 +108,7 @@ namespace CardStock.FreezeFrame
             while (iterStack.Count != 0 && !ProcessSubStage())
             {
                 count++;
-                if (count > GameSimulator.LOOPLIMIT)
+                if (count > GameThreadPool.LOOPLIMIT)
                 {
                     Console.WriteLine("Game stuck in loop");
                     throw new Exception();
@@ -164,7 +166,8 @@ namespace CardStock.FreezeFrame
                         Debug.WriteLine("gacs.count > 0");
                         allOptions.AddRange(gacs);
                         allData.AddRange(temp);
-                        foreach (var t in temp) {
+                        foreach (var t in temp)
+                        {
                             allChoices.Add(JsonSerializer.Serialize(t));
                         }
                     }
@@ -1279,7 +1282,7 @@ namespace CardStock.FreezeFrame
 
         private ShuffleAction ProcessShuffle(CardLocReference locations)
         {
-            return new ShuffleAction(locations, script);
+            return new ShuffleAction(locations, script, random);
         }
 
         private CardLocReference ProcessCard(RecycleParser.CardContext card)
@@ -1302,7 +1305,7 @@ namespace CardStock.FreezeFrame
                 {
                     int score = scoring.GetScore(c);
                     //MHG when equal, pick randomly
-                    if (score > max || (score == max && ThreadSafeRandom.Next(0, 2) == 0))
+                    if (score > max || (score == max && random.Next(0, 2) == 0))
                     {
                         //if (scoring.GetScore(c) > max){
                         max = scoring.GetScore(c);
@@ -1336,7 +1339,7 @@ namespace CardStock.FreezeFrame
                 {
                     //MHG when equal, pick randomly
                     int score = scoring.GetScore(c);
-                    if (score < min || (score == min && ThreadSafeRandom.Next(0, 2) == 0))
+                    if (score < min || (score == min && random.Next(0, 2) == 0))
                     {
                         //if (scoring.GetScore(c) < min) {
                         min = score;
@@ -2291,7 +2294,9 @@ namespace CardStock.FreezeFrame
                 {
                     var p = ProcessPlayerVar(intNode.pid().varp());
                     return p.id + 1;
-                } else {
+                }
+                else
+                {
                     var player = ProcessWhop(intNode.pid().whop());
                     return player.id + 1;
                 }
@@ -2452,12 +2457,12 @@ namespace CardStock.FreezeFrame
             {
                 // Console.WriteLine("Second variable included.");
                 int int2 = ProcessInt(i[1]);
-                return ThreadSafeRandom.Next(int1, int2 + 1);
+                return this.random.Next(int1, int2 + 1);
             }
             else // if no second integer
             {
                 // Console.WriteLine("Second variable not included.");
-                return ThreadSafeRandom.Next(0, int1 + 1);
+                return this.random.Next(0, int1 + 1);
             }
         }
 

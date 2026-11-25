@@ -12,7 +12,7 @@ namespace CardStock.Players
 
         public override void Explore(List<string> allData)
         {
-            
+
         }
 
         /*****
@@ -20,7 +20,7 @@ namespace CardStock.Players
          */
         public override int ChooseOption()
         {
-            return ThreadSafeRandom.Next(0, numChoices);
+            return perspective.GetRandom().Next(0, numChoices);
         }
     }
 }

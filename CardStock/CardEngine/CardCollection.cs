@@ -174,13 +174,14 @@ namespace CardStock.CardEngine
             };
         }
 
-        public void Shuffle()
+        public void Shuffle(Random random)
         {
             int n = cards.Count;
+            
             while (n > 1)
             {
                 n--;
-                int k = ThreadSafeRandom.Next(n + 1);
+                int k = random.Next(n + 1);
                 (cards[n], cards[k]) = (cards[k], cards[n]);
             }
         }

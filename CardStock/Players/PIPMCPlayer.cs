@@ -40,6 +40,7 @@ namespace CardStock.Players
             int times = dc.exp.numTests;
 
             Interlocked.Add(ref choicesTotal, numChoices);
+            Interlocked.Add(ref explored, times);
 
             for (int i = 0; i < times; i++)
             {
@@ -79,8 +80,6 @@ namespace CardStock.Players
 
         public void RunSimulation(int det, int move)
         {
-            Interlocked.Increment(ref explored);
-
             CardGame cg = determinizations[det].Item1.Clone();
             GameIterator cloneContext = determinizations[det].Item2.Clone(cg);
 
@@ -99,7 +98,7 @@ namespace CardStock.Players
             {
                 cloneContext.ProcessChoice();
                 count++;
-                if (count > GameSimulator.CHOICELIMIT)
+                if (count > GameThreadPool.CHOICELIMIT)
                 {
                     break;
                 }

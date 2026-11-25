@@ -29,6 +29,7 @@ public class GameThreadPool
         _tree = tree;
         _path = "output/" + _experiment.Game + "/" + _experiment.PlayerCount + "/" + _experiment.PlayerAbv() + "/simulation/";
         _random = new Random((int)experiment.Seed);
+        Console.WriteLine("seed is " + experiment.Seed);
         _dc = new DataCollectorManager(_experiment);
 
         _channel = Channel.CreateUnbounded<Tuple<int, GameIterator>>();
@@ -100,7 +101,7 @@ public class GameThreadPool
 
     private GameIterator CreateGame(int index)
     {
-        CardGame game = new(_experiment);
+        CardGame game = new(_experiment, new Random(_random.Next()));
         var gamePlay = new FreezeFrame.GameIterator(_tree, game, _path + (index + 1), _experiment);
         var dc = _dc.GetCollector(index);
 
@@ -127,9 +128,8 @@ public class GameThreadPool
         stopwatch.Start();
 
         int i = iterator.Item1;
-        Console.WriteLine("Starting game " + (i + 1));
-
         var gamePlay = iterator.Item2;
+        Console.WriteLine($"Starting game {i + 1} with seed ({gamePlay.random.Next()})");
 
         while (!gamePlay.AdvanceToChoice())
         {

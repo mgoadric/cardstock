@@ -111,7 +111,7 @@ namespace CardStock.Players
             while (!gameIterator.AdvanceToChoice())
             {
                 // Should be loop that stops when you hit GameSimulator.CHOICELIMIT
-                if (depth > GameSimulator.CHOICELIMIT)
+                if (depth > GameThreadPool.CHOICELIMIT)
                 {
                     break;
                 }

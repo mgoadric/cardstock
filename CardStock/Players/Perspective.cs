@@ -23,6 +23,11 @@ namespace CardStock.Players
             return new Tuple<CardGame, GameIterator>(privategame, privategameiterator);
         }
 
+        public Random GetRandom()
+        {
+            return actualgameiterator.game.random;
+        }
+
         public int NumberOfPlayers()
         { return actualgameiterator.game.players.Length; }
 

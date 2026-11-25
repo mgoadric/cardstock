@@ -3,10 +3,11 @@ using CardStock.CardEngine;
 
 namespace CardStock.FreezeFrame.Actions
 {
-    public class ShuffleAction(CardLocReference location, Logger script) : GameAction("shuffle", script)
+    public class ShuffleAction(CardLocReference location, Logger script, Random random) : GameAction("shuffle", script)
     {
         private readonly CardLocReference location = location;
         private readonly CardCollection unshuffled = new(CCType.VIRTUAL);
+        private readonly Random random = random;
 
         public override Dictionary<string, object> Execute(bool inChoice = false)
         {
@@ -14,7 +15,7 @@ namespace CardStock.FreezeFrame.Actions
             {
                 unshuffled.Add(c);
             }
-            location.cardList.Shuffle();
+            location.cardList.Shuffle(random);
 
             var data = new Dictionary<string, object>
             {
