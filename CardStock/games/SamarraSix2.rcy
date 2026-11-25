@@ -24,8 +24,8 @@
   (all player 'P
    (repeat 9 (move (top (game iloc STOCK)) (top ('P iloc HAND)))))
   ;; deal starting locations
-  (repeat 3 (move (top (game iloc DLOC)) 
-                  (top ((current player) iloc DLOC))))
+  (repeat all (move (top (game iloc DLOC)) 
+                    (top ((current player) iloc DLOC))))
   (move (top (game iloc STOCK)) (top (game vloc LOCATION)))
 ))
 

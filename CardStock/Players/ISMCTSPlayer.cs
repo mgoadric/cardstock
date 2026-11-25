@@ -121,20 +121,17 @@ namespace CardStock.Players
                     //    Console.WriteLine(s);
                     //}
 
-                    Dictionary<string, NodeStats>? moveDict; 
-                    if (!movestatetree.TryGetValue(parent, out Dictionary<string, NodeStats>? value))
+                    if (!movestatetree.TryGetValue(parent, out Dictionary<string, NodeStats>? moveDict))
                     {
-                        value = [];
-                        movestatetree[parent] = value;
+                        moveDict = [];
+                        movestatetree[parent] = moveDict;
                     }
-                    moveDict = value;
 
                     int idx = cg.currentPlayer.Peek().idx;
 
                     int choice = 0;
                     bool boop = true;
-                    var children = movestatetree[parent];
-                    if (gameActions.Count(children.ContainsKey) == choicenum)
+                    if (gameActions.Count(moveDict.ContainsKey) == choicenum)
                     {
                         // USE UCB
                         //Console.WriteLine("In UCB");
@@ -145,7 +142,7 @@ namespace CardStock.Players
                         totalplays = Math.Log(totalplays);
                         for (int i = 0; i < gameActions.Count; i++)
                         {
-                            NodeStats child = children[gameActions[i]];  // How could this be null????
+                            NodeStats child = moveDict[gameActions[i]];  // How could this be null????
                             int n = child.visits;
 
                             // c parameter is the sqrt(2) 
